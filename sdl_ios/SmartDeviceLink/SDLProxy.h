@@ -43,6 +43,7 @@
 -(NSObject<SDLTransport>*)getTransport;
 -(NSObject<SDLInterfaceProtocol>*)getProtocol;
 
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest;
+- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
+- (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest;
 
 @end
