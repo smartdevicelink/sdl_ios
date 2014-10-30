@@ -505,8 +505,8 @@
 		59A031D01978FBB1003E8ECF /* SDLTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A02FED1978FBA1003E8ECF /* SDLTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59A031D11978FBB1003E8ECF /* SDLTransportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A02FEE1978FBA1003E8ECF /* SDLTransportDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59BF0A7019790C56008C6783 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59A02FE41978FBA1003E8ECF /* InfoPlist.strings */; };
-		D00B41F01A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.h in Headers */ = {isa = PBXBuildFile; fileRef = D00B41EE1A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.h */; };
-		D00B41F11A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B41EF1A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.m */; };
+		D00B41F01A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.h in Headers */ = {isa = PBXBuildFile; fileRef = D00B41EE1A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.h */; };
+		D00B41F11A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = D00B41EF1A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.m */; };
 		E932AD8B19A26CCF00D8155B /* SDLPolicyDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E932AD8919A26CCF00D8155B /* SDLPolicyDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E932AD8C19A26CCF00D8155B /* SDLPolicyDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E932AD8A19A26CCF00D8155B /* SDLPolicyDataParser.m */; };
 		E98A9C8719C74C7400C84B3F /* SDLObjectWithPriority.h in Headers */ = {isa = PBXBuildFile; fileRef = E98A9C8519C74C7400C84B3F /* SDLObjectWithPriority.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1009,8 +1009,8 @@
 		59A02FED1978FBA1003E8ECF /* SDLTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransport.h; sourceTree = "<group>"; };
 		59A02FEE1978FBA1003E8ECF /* SDLTransportDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransportDelegate.h; sourceTree = "<group>"; };
 		59E5A3D4194E318200B908AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D00B41EE1A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+setOrRemove.h"; sourceTree = "<group>"; };
-		D00B41EF1A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+setOrRemove.m"; sourceTree = "<group>"; };
+		D00B41EE1A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SetOrRemove.h"; sourceTree = "<group>"; };
+		D00B41EF1A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SetOrRemove.m"; sourceTree = "<group>"; };
 		E932AD8919A26CCF00D8155B /* SDLPolicyDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPolicyDataParser.h; sourceTree = "<group>"; };
 		E932AD8A19A26CCF00D8155B /* SDLPolicyDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPolicyDataParser.m; sourceTree = "<group>"; };
 		E98A9C8519C74C7400C84B3F /* SDLObjectWithPriority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLObjectWithPriority.h; sourceTree = "<group>"; };
@@ -1654,8 +1654,8 @@
 		D00B41F21A01DD4800E340A5 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				D00B41EE1A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.h */,
-				D00B41EF1A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.m */,
+				D00B41EE1A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.h */,
+				D00B41EF1A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1822,7 +1822,7 @@
 				59A030DD1978FBA4003E8ECF /* SDLAlert.h in Headers */,
 				59A031B71978FBAF003E8ECF /* SDLTouchCoord.h in Headers */,
 				59A0303B1978FBA1003E8ECF /* SDLButtonEventMode.h in Headers */,
-				D00B41F01A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.h in Headers */,
+				D00B41F01A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.h in Headers */,
 				59A030491978FBA1003E8ECF /* SDLDeviceLevelStatus.h in Headers */,
 				59A031551978FBA9003E8ECF /* SDLScrollableMessageResponse.h in Headers */,
 				59A0309F1978FBA2003E8ECF /* SDLTouchType.h in Headers */,
@@ -2019,7 +2019,7 @@
 				59A0314E1978FBA9003E8ECF /* SDLPutFileResponse.m in Sources */,
 				59A030E01978FBA4003E8ECF /* SDLAlertManeuver.m in Sources */,
 				59A030051978FBA1003E8ECF /* SDLV1ProtocolHeader.m in Sources */,
-				D00B41F11A01DC0600E340A5 /* NSMutableDictionary+setOrRemove.m in Sources */,
+				D00B41F11A01DC0600E340A5 /* NSMutableDictionary+SetOrRemove.m in Sources */,
 				59A030B41978FBA3003E8ECF /* SDLWarningLightStatus.m in Sources */,
 				59A030BC1978FBA3003E8ECF /* SDLOnButtonEvent.m in Sources */,
 				59A0307E1978FBA2003E8ECF /* SDLPredefinedLayout.m in Sources */,

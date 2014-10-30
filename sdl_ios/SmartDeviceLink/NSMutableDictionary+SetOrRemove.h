@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSMutableDictionary (setOrRemove)
+@interface NSMutableDictionary (SetOrRemove)
+
+/**
+ *  Calls setObject:forKey: if the object is not nil, calls removeObjectForKey: if the object is nil
+ *
+ *  @param object The object to be set or nil if it should be removed
+ *  @param key    The key
+ */
 - (void)setOrRemoveObject:(id)object forKey:(id <NSCopying>)key;
 @end

@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 FMC. All rights reserved.
 //
 
-#import "NSMutableDictionary+setOrRemove.h"
+#import "NSMutableDictionary+SetOrRemove.h"
 
-@implementation NSMutableDictionary (setOrRemove)
+@implementation NSMutableDictionary (SetOrRemove)
 - (void)setOrRemoveObject:(id)object forKey:(id <NSCopying>)key {
-    if (nil != object) {
+    if (object != nil) {
         [self setObject:object forKey:key];
     } else {
         [self removeObjectForKey:key];
