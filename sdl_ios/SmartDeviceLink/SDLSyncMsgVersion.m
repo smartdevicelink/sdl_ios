@@ -19,11 +19,7 @@
 }
 
 -(void) setMajorVersion:(NSNumber*) majorVersion {
-    if (majorVersion != nil) {
-        [store setObject:majorVersion forKey:NAMES_majorVersion];
-    } else {
-        [store removeObjectForKey:NAMES_majorVersion];
-    }
+    [store setOrRemoveObject:majorVersion forKey:NAMES_majorVersion];
 }
 
 -(NSNumber*) majorVersion {
@@ -31,11 +27,7 @@
 }
 
 -(void) setMinorVersion:(NSNumber*) minorVersion {
-    if (minorVersion != nil) {
-        [store setObject:minorVersion forKey:NAMES_minorVersion];
-    } else {
-        [store removeObjectForKey:NAMES_minorVersion];
-    }
+    [store setOrRemoveObject:minorVersion forKey:NAMES_minorVersion];
 }
 
 -(NSNumber*) minorVersion {

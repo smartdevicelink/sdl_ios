@@ -19,11 +19,7 @@
 }
 
 -(void) setEmergencyEventType:(SDLEmergencyEventType*) emergencyEventType {
-    if (emergencyEventType != nil) {
-        [store setObject:emergencyEventType forKey:NAMES_emergencyEventType];
-    } else {
-        [store removeObjectForKey:NAMES_emergencyEventType];
-    }
+    [store setOrRemoveObject:emergencyEventType forKey:NAMES_emergencyEventType];
 }
 
 -(SDLEmergencyEventType*) emergencyEventType {
@@ -36,11 +32,7 @@
 }
 
 -(void) setFuelCutoffStatus:(SDLFuelCutoffStatus*) fuelCutoffStatus {
-    if (fuelCutoffStatus != nil) {
-        [store setObject:fuelCutoffStatus forKey:NAMES_fuelCutoffStatus];
-    } else {
-        [store removeObjectForKey:NAMES_fuelCutoffStatus];
-    }
+    [store setOrRemoveObject:fuelCutoffStatus forKey:NAMES_fuelCutoffStatus];
 }
 
 -(SDLFuelCutoffStatus*) fuelCutoffStatus {
@@ -53,11 +45,7 @@
 }
 
 -(void) setRolloverEvent:(SDLVehicleDataEventStatus*) rolloverEvent {
-    if (rolloverEvent != nil) {
-        [store setObject:rolloverEvent forKey:NAMES_rolloverEvent];
-    } else {
-        [store removeObjectForKey:NAMES_rolloverEvent];
-    }
+    [store setOrRemoveObject:rolloverEvent forKey:NAMES_rolloverEvent];
 }
 
 -(SDLVehicleDataEventStatus*) rolloverEvent {
@@ -70,11 +58,7 @@
 }
 
 -(void) setMaximumChangeVelocity:(NSNumber*) maximumChangeVelocity {
-    if (maximumChangeVelocity != nil) {
-        [store setObject:maximumChangeVelocity forKey:NAMES_maximumChangeVelocity];
-    } else {
-        [store removeObjectForKey:NAMES_maximumChangeVelocity];
-    }
+    [store setOrRemoveObject:maximumChangeVelocity forKey:NAMES_maximumChangeVelocity];
 }
 
 -(NSNumber*) maximumChangeVelocity {
@@ -82,11 +66,7 @@
 }
 
 -(void) setMultipleEvents:(SDLVehicleDataEventStatus*) multipleEvents {
-    if (multipleEvents != nil) {
-        [store setObject:multipleEvents forKey:NAMES_multipleEvents];
-    } else {
-        [store removeObjectForKey:NAMES_multipleEvents];
-    }
+    [store setOrRemoveObject:multipleEvents forKey:NAMES_multipleEvents];
 }
 
 -(SDLVehicleDataEventStatus*) multipleEvents {

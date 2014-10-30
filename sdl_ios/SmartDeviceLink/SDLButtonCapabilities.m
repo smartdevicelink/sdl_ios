@@ -19,11 +19,7 @@
 }
 
 -(void) setName:(SDLButtonName*) name {
-    if (name != nil) {
-        [store setObject:name forKey:NAMES_name];
-    } else {
-        [store removeObjectForKey:NAMES_name];
-    }
+    [store setOrRemoveObject:name forKey:NAMES_name];
 }
 
 -(SDLButtonName*) name {
@@ -36,11 +32,7 @@
 }
 
 -(void) setShortPressAvailable:(NSNumber*) shortPressAvailable {
-    if (shortPressAvailable != nil) {
-        [store setObject:shortPressAvailable forKey:NAMES_shortPressAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_shortPressAvailable];
-    }
+    [store setOrRemoveObject:shortPressAvailable forKey:NAMES_shortPressAvailable];
 }
 
 -(NSNumber*) shortPressAvailable {
@@ -48,11 +40,7 @@
 }
 
 -(void) setLongPressAvailable:(NSNumber*) longPressAvailable {
-    if (longPressAvailable != nil) {
-        [store setObject:longPressAvailable forKey:NAMES_longPressAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_longPressAvailable];
-    }
+    [store setOrRemoveObject:longPressAvailable forKey:NAMES_longPressAvailable];
 }
 
 -(NSNumber*) longPressAvailable {
@@ -60,11 +48,7 @@
 }
 
 -(void) setUpDownAvailable:(NSNumber*) upDownAvailable {
-    if (upDownAvailable != nil) {
-        [store setObject:upDownAvailable forKey:NAMES_upDownAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_upDownAvailable];
-    }
+    [store setOrRemoveObject:upDownAvailable forKey:NAMES_upDownAvailable];
 }
 
 -(NSNumber*) upDownAvailable {

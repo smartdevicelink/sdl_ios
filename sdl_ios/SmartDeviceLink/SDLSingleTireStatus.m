@@ -19,11 +19,7 @@
 }
 
 -(void) setStatus:(SDLComponentVolumeStatus*) status {
-    if (status != nil) {
-        [store setObject:status forKey:NAMES_status];
-    } else {
-        [store removeObjectForKey:NAMES_status];
-    }
+    [store setOrRemoveObject:status forKey:NAMES_status];
 }
 
 -(SDLComponentVolumeStatus*) status {

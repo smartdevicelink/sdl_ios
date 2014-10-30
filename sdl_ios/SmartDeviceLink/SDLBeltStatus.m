@@ -19,11 +19,7 @@
 }
 
 -(void) setDriverBeltDeployed:(SDLVehicleDataEventStatus*) driverBeltDeployed {
-    if (driverBeltDeployed != nil) {
-        [store setObject:driverBeltDeployed forKey:NAMES_driverBeltDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_driverBeltDeployed];
-    }
+    [store setOrRemoveObject:driverBeltDeployed forKey:NAMES_driverBeltDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) driverBeltDeployed {
@@ -36,11 +32,7 @@
 }
 
 -(void) setPassengerBeltDeployed:(SDLVehicleDataEventStatus*) passengerBeltDeployed {
-    if (passengerBeltDeployed != nil) {
-        [store setObject:passengerBeltDeployed forKey:NAMES_passengerBeltDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_passengerBeltDeployed];
-    }
+    [store setOrRemoveObject:passengerBeltDeployed forKey:NAMES_passengerBeltDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) passengerBeltDeployed {
@@ -53,11 +45,7 @@
 }
 
 -(void) setPassengerBuckleBelted:(SDLVehicleDataEventStatus*) passengerBuckleBelted {
-    if (passengerBuckleBelted != nil) {
-        [store setObject:passengerBuckleBelted forKey:NAMES_passengerBuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_passengerBuckleBelted];
-    }
+    [store setOrRemoveObject:passengerBuckleBelted forKey:NAMES_passengerBuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) passengerBuckleBelted {
@@ -70,11 +58,7 @@
 }
 
 -(void) setDriverBuckleBelted:(SDLVehicleDataEventStatus*) driverBuckleBelted {
-    if (driverBuckleBelted != nil) {
-        [store setObject:driverBuckleBelted forKey:NAMES_driverBuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_driverBuckleBelted];
-    }
+    [store setOrRemoveObject:driverBuckleBelted forKey:NAMES_driverBuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) driverBuckleBelted {
@@ -87,11 +71,7 @@
 }
 
 -(void) setLeftRow2BuckleBelted:(SDLVehicleDataEventStatus*) leftRow2BuckleBelted {
-    if (leftRow2BuckleBelted != nil) {
-        [store setObject:leftRow2BuckleBelted forKey:NAMES_leftRow2BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_leftRow2BuckleBelted];
-    }
+    [store setOrRemoveObject:leftRow2BuckleBelted forKey:NAMES_leftRow2BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) leftRow2BuckleBelted {
@@ -104,11 +84,7 @@
 }
 
 -(void) setPassengerChildDetected:(SDLVehicleDataEventStatus*) passengerChildDetected {
-    if (passengerChildDetected != nil) {
-        [store setObject:passengerChildDetected forKey:NAMES_passengerChildDetected];
-    } else {
-        [store removeObjectForKey:NAMES_passengerChildDetected];
-    }
+    [store setOrRemoveObject:passengerChildDetected forKey:NAMES_passengerChildDetected];
 }
 
 -(SDLVehicleDataEventStatus*) passengerChildDetected {
@@ -121,11 +97,7 @@
 }
 
 -(void) setRightRow2BuckleBelted:(SDLVehicleDataEventStatus*) rightRow2BuckleBelted {
-    if (rightRow2BuckleBelted != nil) {
-        [store setObject:rightRow2BuckleBelted forKey:NAMES_rightRow2BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_rightRow2BuckleBelted];
-    }
+    [store setOrRemoveObject:rightRow2BuckleBelted forKey:NAMES_rightRow2BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) rightRow2BuckleBelted {
@@ -138,11 +110,7 @@
 }
 
 -(void) setMiddleRow2BuckleBelted:(SDLVehicleDataEventStatus*) middleRow2BuckleBelted {
-    if (middleRow2BuckleBelted != nil) {
-        [store setObject:middleRow2BuckleBelted forKey:NAMES_middleRow2BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_middleRow2BuckleBelted];
-    }
+    [store setOrRemoveObject:middleRow2BuckleBelted forKey:NAMES_middleRow2BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) middleRow2BuckleBelted {
@@ -155,11 +123,7 @@
 }
 
 -(void) setMiddleRow3BuckleBelted:(SDLVehicleDataEventStatus*) middleRow3BuckleBelted {
-    if (middleRow3BuckleBelted != nil) {
-        [store setObject:middleRow3BuckleBelted forKey:NAMES_middleRow3BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_middleRow3BuckleBelted];
-    }
+    [store setOrRemoveObject:middleRow3BuckleBelted forKey:NAMES_middleRow3BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) middleRow3BuckleBelted {
@@ -172,11 +136,7 @@
 }
 
 -(void) setLeftRow3BuckleBelted:(SDLVehicleDataEventStatus*) leftRow3BuckleBelted {
-    if (leftRow3BuckleBelted != nil) {
-        [store setObject:leftRow3BuckleBelted forKey:NAMES_leftRow3BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_leftRow3BuckleBelted];
-    }
+    [store setOrRemoveObject:leftRow3BuckleBelted forKey:NAMES_leftRow3BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) leftRow3BuckleBelted {
@@ -189,11 +149,7 @@
 }
 
 -(void) setRightRow3BuckleBelted:(SDLVehicleDataEventStatus*) rightRow3BuckleBelted {
-    if (rightRow3BuckleBelted != nil) {
-        [store setObject:rightRow3BuckleBelted forKey:NAMES_rightRow3BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_rightRow3BuckleBelted];
-    }
+    [store setOrRemoveObject:rightRow3BuckleBelted forKey:NAMES_rightRow3BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) rightRow3BuckleBelted {
@@ -206,11 +162,7 @@
 }
 
 -(void) setLeftRearInflatableBelted:(SDLVehicleDataEventStatus*) leftRearInflatableBelted {
-    if (leftRearInflatableBelted != nil) {
-        [store setObject:leftRearInflatableBelted forKey:NAMES_leftRearInflatableBelted];
-    } else {
-        [store removeObjectForKey:NAMES_leftRearInflatableBelted];
-    }
+    [store setOrRemoveObject:leftRearInflatableBelted forKey:NAMES_leftRearInflatableBelted];
 }
 
 -(SDLVehicleDataEventStatus*) leftRearInflatableBelted {
@@ -223,11 +175,7 @@
 }
 
 -(void) setRightRearInflatableBelted:(SDLVehicleDataEventStatus*) rightRearInflatableBelted {
-    if (rightRearInflatableBelted != nil) {
-        [store setObject:rightRearInflatableBelted forKey:NAMES_rightRearInflatableBelted];
-    } else {
-        [store removeObjectForKey:NAMES_rightRearInflatableBelted];
-    }
+    [store setOrRemoveObject:rightRearInflatableBelted forKey:NAMES_rightRearInflatableBelted];
 }
 
 -(SDLVehicleDataEventStatus*) rightRearInflatableBelted {
@@ -240,11 +188,7 @@
 }
 
 -(void) setMiddleRow1BeltDeployed:(SDLVehicleDataEventStatus*) middleRow1BeltDeployed {
-    if (middleRow1BeltDeployed != nil) {
-        [store setObject:middleRow1BeltDeployed forKey:NAMES_middleRow1BeltDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_middleRow1BeltDeployed];
-    }
+    [store setOrRemoveObject:middleRow1BeltDeployed forKey:NAMES_middleRow1BeltDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) middleRow1BeltDeployed {
@@ -257,11 +201,7 @@
 }
 
 -(void) setMiddleRow1BuckleBelted:(SDLVehicleDataEventStatus*) middleRow1BuckleBelted {
-    if (middleRow1BuckleBelted != nil) {
-        [store setObject:middleRow1BuckleBelted forKey:NAMES_middleRow1BuckleBelted];
-    } else {
-        [store removeObjectForKey:NAMES_middleRow1BuckleBelted];
-    }
+    [store setOrRemoveObject:middleRow1BuckleBelted forKey:NAMES_middleRow1BuckleBelted];
 }
 
 -(SDLVehicleDataEventStatus*) middleRow1BuckleBelted {

@@ -19,11 +19,7 @@
 }
 
 -(void) setNavigationText:(NSString*) navigationText {
-    if (navigationText != nil) {
-        [store setObject:navigationText forKey:NAMES_navigationText];
-    } else {
-        [store removeObjectForKey:NAMES_navigationText];
-    }
+    [store setOrRemoveObject:navigationText forKey:NAMES_navigationText];
 }
 
 -(NSString*) navigationText {
@@ -31,11 +27,7 @@
 }
 
 -(void) setTurnIcon:(SDLImage*) turnIcon {
-    if (turnIcon != nil) {
-        [store setObject:turnIcon forKey:NAMES_turnIcon];
-    } else {
-        [store removeObjectForKey:NAMES_turnIcon];
-    }
+    [store setOrRemoveObject:turnIcon forKey:NAMES_turnIcon];
 }
 
 -(SDLImage*) turnIcon {

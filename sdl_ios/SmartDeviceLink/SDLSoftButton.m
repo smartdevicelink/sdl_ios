@@ -19,11 +19,7 @@
 }
 
 -(void) setType:(SDLSoftButtonType*) type {
-    if (type != nil) {
-        [store setObject:type forKey:NAMES_type];
-    } else {
-        [store removeObjectForKey:NAMES_type];
-    }
+    [store setOrRemoveObject:type forKey:NAMES_type];
 }
 
 -(SDLSoftButtonType*) type {
@@ -36,11 +32,7 @@
 }
 
 -(void) setText:(NSString*) text {
-    if (text != nil) {
-        [store setObject:text forKey:NAMES_text];
-    } else {
-        [store removeObjectForKey:NAMES_text];
-    }
+    [store setOrRemoveObject:text forKey:NAMES_text];
 }
 
 -(NSString*) text {
@@ -48,11 +40,7 @@
 }
 
 -(void) setImage:(SDLImage*) image {
-    if (image != nil) {
-        [store setObject:image forKey:NAMES_image];
-    } else {
-        [store removeObjectForKey:NAMES_image];
-    }
+    [store setOrRemoveObject:image forKey:NAMES_image];
 }
 
 -(SDLImage*) image {
@@ -65,11 +53,7 @@
 }
 
 -(void) setIsHighlighted:(NSNumber*) isHighlighted {
-    if (isHighlighted != nil) {
-        [store setObject:isHighlighted forKey:NAMES_isHighlighted];
-    } else {
-        [store removeObjectForKey:NAMES_isHighlighted];
-    }
+    [store setOrRemoveObject:isHighlighted forKey:NAMES_isHighlighted];
 }
 
 -(NSNumber*) isHighlighted {
@@ -77,11 +61,7 @@
 }
 
 -(void) setSoftButtonID:(NSNumber*) softButtonID {
-    if (softButtonID != nil) {
-        [store setObject:softButtonID forKey:NAMES_softButtonID];
-    } else {
-        [store removeObjectForKey:NAMES_softButtonID];
-    }
+    [store setOrRemoveObject:softButtonID forKey:NAMES_softButtonID];
 }
 
 -(NSNumber*) softButtonID {
@@ -89,11 +69,7 @@
 }
 
 -(void) setSystemAction:(SDLSystemAction*) systemAction {
-    if (systemAction != nil) {
-        [store setObject:systemAction forKey:NAMES_systemAction];
-    } else {
-        [store removeObjectForKey:NAMES_systemAction];
-    }
+    [store setOrRemoveObject:systemAction forKey:NAMES_systemAction];
 }
 
 -(SDLSystemAction*) systemAction {

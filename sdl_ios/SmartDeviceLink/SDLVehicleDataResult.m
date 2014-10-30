@@ -19,11 +19,7 @@
 }
 
 -(void) setDataType:(SDLVehicleDataType*) dataType {
-    if (dataType != nil) {
-        [store setObject:dataType forKey:NAMES_dataType];
-    } else {
-        [store removeObjectForKey:NAMES_dataType];
-    }
+    [store setOrRemoveObject:dataType forKey:NAMES_dataType];
 }
 
 -(SDLVehicleDataType*) dataType {
@@ -36,11 +32,7 @@
 }
 
 -(void) setResultCode:(SDLVehicleDataResultCode*) resultCode {
-    if (resultCode != nil) {
-        [store setObject:resultCode forKey:NAMES_resultCode];
-    } else {
-        [store removeObjectForKey:NAMES_resultCode];
-    }
+    [store setOrRemoveObject:resultCode forKey:NAMES_resultCode];
 }
 
 -(SDLVehicleDataResultCode*) resultCode {

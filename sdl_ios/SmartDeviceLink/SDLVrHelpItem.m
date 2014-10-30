@@ -19,11 +19,7 @@
 }
 
 -(void) setText:(NSString*) text {
-    if (text != nil) {
-        [store setObject:text forKey:NAMES_text];
-    } else {
-        [store removeObjectForKey:NAMES_text];
-    }
+    [store setOrRemoveObject:text forKey:NAMES_text];
 }
 
 -(NSString*) text {
@@ -31,11 +27,7 @@
 }
 
 -(void) setImage:(SDLImage*) image {
-    if (image != nil) {
-        [store setObject:image forKey:NAMES_image];
-    } else {
-        [store removeObjectForKey:NAMES_image];
-    }
+    [store setOrRemoveObject:image forKey:NAMES_image];
 }
 
 -(SDLImage*) image {
@@ -48,11 +40,7 @@
 }
 
 -(void) setPosition:(NSNumber*) position {
-    if (position != nil) {
-        [store setObject:position forKey:NAMES_position];
-    } else {
-        [store removeObjectForKey:NAMES_position];
-    }
+    [store setOrRemoveObject:position forKey:NAMES_position];
 }
 
 -(NSNumber*) position {

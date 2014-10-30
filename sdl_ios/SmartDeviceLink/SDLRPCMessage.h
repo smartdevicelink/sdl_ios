@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
+#import "NSMutableDictionary+setOrRemove.h"
 
 @interface SDLRPCStruct : NSObject {
 	NSMutableDictionary* store;
