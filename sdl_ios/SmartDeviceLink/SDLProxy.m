@@ -518,10 +518,15 @@ const int POLICIES_CORRELATION_ID = 65535;
 #pragma mark - PutFile Streaming
 - (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest
 {
+    [self putFileStream:inputStream withRequest:putFileRPCRequest];
+}
+
+- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest
+{
     inputStream.delegate = self;
     objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject(inputStream, @"BaseOffset", [putFileRPCRequest offset], OBJC_ASSOCIATION_RETAIN);
-
+    
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
 }
