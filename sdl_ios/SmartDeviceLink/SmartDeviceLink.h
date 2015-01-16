@@ -177,7 +177,7 @@
 #import <SmartDeviceLink/SDLFuelCutoffStatus.h>
 #import <SmartDeviceLink/SDLGlobalProperty.h>
 #import <SmartDeviceLink/SDLHMILevel.h>
-#import <SmartDeviceLink/SDLHmiZoneCapabilities.h>
+#import <SmartDeviceLink/SDLHMIZoneCapabilities.h>
 #import <SmartDeviceLink/SDLIgnitionStableStatus.h>
 #import <SmartDeviceLink/SDLIgnitionStatus.h>
 #import <SmartDeviceLink/SDLImageType.h>
