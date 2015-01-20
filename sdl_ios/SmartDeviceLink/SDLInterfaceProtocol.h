@@ -17,6 +17,7 @@
 - (void)handleBytesFromTransport:(NSData *)receivedData;
 - (void)sendStartSessionWithType:(SDLServiceType)sessionType;
 - (void)sendEndSessionWithType:(SDLServiceType)sessionType sessionID:(Byte)sessionID;
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest;
+- (void)sendRPC:(SDLRPCMessage *)message;
+- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg("use sendRPC: instead");
 
 @end

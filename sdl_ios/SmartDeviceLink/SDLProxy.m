@@ -209,6 +209,15 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Message sending and recieving
+- (void)sendRPC:(SDLRPCMessage *)message {
+    @try {
+        [self.protocol sendRPC:message];
+    } @catch (NSException *exception) {
+        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to send RPC message: %@", message.name];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    }
+}
+
 -(void) sendRPCRequest:(SDLRPCMessage*) msg {
     if ([msg isKindOfClass:SDLRPCRequest.class]) {
         [self sendRPCRequestPrivate:(SDLRPCRequest *)msg];
