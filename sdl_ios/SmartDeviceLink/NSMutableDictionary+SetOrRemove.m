@@ -9,7 +9,7 @@
 #import "NSMutableDictionary+SetOrRemove.h"
 
 @implementation NSMutableDictionary (SetOrRemove)
-- (void)setOrRemoveObject:(id)object forKey:(id <NSCopying>)key {
+- (void)setOrRemoveObject:(id)object forKey:(id<NSCopying>)key {
     if (object != nil) {
         [self setObject:object forKey:key];
     } else {
