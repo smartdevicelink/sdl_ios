@@ -1104,7 +1104,6 @@
 		59A02E231978FBA0003E8ECF /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
-				D00B41F21A01DD4800E340A5 /* Categories */,
 				5948760B1979089600D94C36 /* SDLProxy.h */,
 				5948760C1979089600D94C36 /* SDLProxy.m */,
 				59A02E241978FBA0003E8ECF /* SDLDecoder.h */,
@@ -1663,6 +1662,7 @@
 		E9AF74A919A2805C00A97348 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				D00B41F21A01DD4800E340A5 /* Categories */,
 				59279FEE19AC394200025CD2 /* SDLHexUtility.h */,
 				59279FEF19AC394200025CD2 /* SDLHexUtility.m */,
 				E932AD8919A26CCF00D8155B /* SDLPolicyDataParser.h */,
