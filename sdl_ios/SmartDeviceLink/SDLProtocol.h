@@ -10,11 +10,11 @@
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType;
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID;
-- (void)sendRPC:(SDLRPCMessage *)message withType:(SDLRPCMessageType)type;
+- (void)sendRPC:(SDLRPCMessage *)message;
 - (void)handleBytesFromTransport:(NSData *)receivedData;
 - (void)sendHeartbeat;
 
 #pragma mark - Deprecated
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg("use -sendRPC:withType: instead");
+- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg("use -sendRPC: instead");
 
 @end

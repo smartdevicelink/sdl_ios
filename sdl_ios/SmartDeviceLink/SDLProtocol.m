@@ -84,7 +84,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 }
 
-- (void)sendRPC:(SDLRPCMessage *)message withType:(SDLRPCMessageType)type {
+- (void)sendRPC:(SDLRPCMessage *)message {
     NSParameterAssert(message != nil);
     
     NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:self.version]];
@@ -110,15 +110,10 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
             rpcPayload.binaryData = message.bulkData;
             
             // If it's a request or a response, we need to pull out the correlation ID, so we'll upcast
-            switch (type) {
-                case SDLRPCMessageTypeRequest: {
-                    rpcPayload.correlationID = [((SDLRPCRequest *)message).correlationID intValue];
-                } break;
-                case SDLRPCMessageTypeResponse: {
-                    rpcPayload.correlationID = [((SDLRPCResponse *)message).correlationID intValue];
-                }
-                case SDLRPCMessageTypeNotification: // Fallthrough
-                default: break;
+            if ([message isKindOfClass:SDLRPCRequest.class]) {
+                rpcPayload.correlationID = [((SDLRPCRequest *)message).correlationID intValue];
+            } else if ([message isKindOfClass:SDLRPCResponse.class]) {
+                rpcPayload.correlationID = [((SDLRPCResponse *)message).correlationID intValue];
             }
             
             messagePayload = rpcPayload.data;
@@ -143,10 +138,8 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
     
-    //
     // See if the message is small enough to send in one transmission.
     // If not, break it up into smaller messages and send.
-    //
     if (protocolMessage.size < MAX_TRANSMISSION_SIZE)
     {
         [self logRPCSend:protocolMessage];
