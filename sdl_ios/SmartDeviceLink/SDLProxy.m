@@ -452,15 +452,12 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
-    NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
-    if (JSONDictionary == nil) {
+    NSURL *URLScheme = [NSURL URLWithString:request.url];
+    if (URLScheme == nil) {
         return;
     }
     
-    NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // TODO
-    }];
-    [task resume];
+    [[UIApplication sharedApplication] openURL:URLScheme];
 }
 
 /**
