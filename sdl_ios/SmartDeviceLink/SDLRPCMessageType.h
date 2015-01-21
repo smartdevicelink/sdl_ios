@@ -3,12 +3,15 @@
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import <Foundation/Foundation.h>
+#import <SmartDeviceLink/SDLEnum.h>
 
-/**
- *  Enumeration linking message types with function types.
- */
-typedef NS_ENUM(Byte, SDLRPCMessageType){
-    SDLRPCMessageTypeRequest = 0,
-    SDLRPCMessageTypeResponse,
-    SDLRPCMessageTypeNotification
-};
+@interface SDLRPCMessageType : SDLEnum {}
+
++(SDLRPCMessageType*) valueOf:(NSString*) value;
++(NSMutableArray*) values;
+
++(SDLRPCMessageType*) request;
++(SDLRPCMessageType*) response;
++(SDLRPCMessageType*) notification;
+
+@end
