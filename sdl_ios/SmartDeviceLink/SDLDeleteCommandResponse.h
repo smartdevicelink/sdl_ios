@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * SDLDeleteCommandResponse is sent, when SDLDeleteCommand has been called
+ *
+ * Since <b>AppLink 1.0</b><br>
+ */
 @interface SDLDeleteCommandResponse : SDLRPCResponse {}
 
 -(id) init;

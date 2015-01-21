@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * Delete File Response is sent, when DeleteFile has been called
+ *
+ * Since <b>AppLink 2.0</b><br>
+ */
 @interface SDLDeleteFileResponse : SDLRPCResponse {}
 
 -(id) init;

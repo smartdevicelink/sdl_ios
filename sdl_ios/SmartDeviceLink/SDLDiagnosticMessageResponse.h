@@ -5,6 +5,9 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/** SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
+ * Since<b>AppLink 3.0</b>
+ */
 @interface SDLDiagnosticMessageResponse : SDLRPCResponse {}
 
 -(id) init;

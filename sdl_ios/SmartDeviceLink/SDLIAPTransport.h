@@ -10,4 +10,6 @@
 
 @property (assign) BOOL forceLegacy;
 
+- (void)unregister;
+
 @end

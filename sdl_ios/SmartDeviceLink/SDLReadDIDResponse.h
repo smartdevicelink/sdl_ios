@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * Read DID Response is sent, when ReadDID has been called
+ *
+ * Since AppLink 2.0
+ */
 @interface SDLReadDIDResponse : SDLRPCResponse {}
 
 -(id) init;

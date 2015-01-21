@@ -7,6 +7,13 @@
 
 #import <SmartDeviceLink/SDLImage.h>
 
+/** This RPC is used to update the user with navigation information<br>
+ *  for the constantly shown screen (base screen),but also for the<br>
+ *  alert type screen.
+ *<p>
+ * @Since AppLink 2.0
+ */
+
 @interface SDLShowConstantTBT : SDLRPCRequest {}
 
 -(id) init;

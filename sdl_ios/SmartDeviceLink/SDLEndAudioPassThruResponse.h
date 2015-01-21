@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * SDLEndAudioPassThruResponse is sent, when SDLEndAudioPassThru has been called
+ *
+ * Since <b>AppLink 2.0</b>
+ */
 @interface SDLEndAudioPassThruResponse : SDLRPCResponse {}
 
 -(id) init;

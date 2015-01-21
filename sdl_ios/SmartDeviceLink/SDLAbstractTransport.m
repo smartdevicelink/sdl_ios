@@ -42,4 +42,8 @@
 	[self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)unregister {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 @end

@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * SDLListFilesResponse is sent, when SDLListFiles has been called
+ *
+ * Since <b>AppLink 2.0</b>
+ */
 @interface SDLListFilesResponse : SDLRPCResponse {}
 
 -(id) init;

@@ -5,6 +5,9 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/** SDLShowConstantTBTResponse is sent, when SDLShowConstantTBT has been called.
+ * Since<b>AppLink 2.0</b>
+ */
 @interface SDLShowConstantTBTResponse : SDLRPCResponse {}
 
 -(id) init;

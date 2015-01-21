@@ -5,6 +5,9 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/** SDLSetAppIconResponse is sent, when SDLSetAppIcon has been called.
+ * Since<b>AppLink 2.0</b>
+ */
 @interface SDLSetAppIconResponse : SDLRPCResponse {}
 
 -(id) init;

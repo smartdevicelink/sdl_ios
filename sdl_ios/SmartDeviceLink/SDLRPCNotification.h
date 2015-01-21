@@ -7,4 +7,7 @@
 
 @interface SDLRPCNotification : SDLRPCMessage {}
 
+- (id)initWithName:(NSString *)name;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
+
 @end

@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * SDLGetDTCsResponse is sent, when SDLGetDTCs has been called
+ *
+ * Since <b>AppLink 2.0</b>
+ */
 @interface SDLGetDTCsResponse : SDLRPCResponse {}
 
 -(id) init;

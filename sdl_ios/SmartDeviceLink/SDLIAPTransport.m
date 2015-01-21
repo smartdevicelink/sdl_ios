@@ -79,7 +79,6 @@
         if (!self.onControlProtocol) {
             [SDLDebugTool logInfo:@"Transport Not Ready" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
             self.transportReady = NO;
-            [self notifyTransportDisconnected];
         }
     }
 }
@@ -100,7 +99,12 @@
 
 - (void)accessoryDisconnected:(NSNotification*) notification {
     [SDLDebugTool logInfo:@"Accessory Disconnected" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    [self disconnect];
+    
+    EAAccessory* accessory = [notification.userInfo objectForKey:EAAccessoryKey];
+    if (accessory.connectionID == self.session.accessory.connectionID) {
+        [self disconnect];
+        [self notifyTransportDisconnected];
+    }
 }
 
 -(void)applicationWillEnterForeground:(NSNotification *)notification {
@@ -108,8 +112,10 @@
     //TODO:DEBUG
     //    [self.backgroundedTimer invalidate];
     
-    [self setupControllerForAccessory:nil withProtocolString:nil];
-    [self connect];
+    if (!self.session) {
+        [self setupControllerForAccessory:nil withProtocolString:nil];
+        [self connect];
+    }
 }
 
 -(void)applicationDidEnterBackground:(NSNotification *)notification {
@@ -133,7 +139,7 @@
         [self closeSession];
         [self connect];
     }
-        
+    
 }
 
 
@@ -201,7 +207,13 @@
             if (!self.isOutputStreamReady && !self.isInputStreamReady) {
                 [SDLDebugTool logInfo:@"Streams Event End" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
                 [self disconnect];
-                [self connect];
+                
+                if (!self.useLegacyProtocol) {
+                    float randomNumber = (float)arc4random() / UINT_MAX; // between 0 and 1
+                    float randomMinMax = 0.0f + (0.5f-0.0f)*randomNumber; // between Min (0.0) and Max (0.5)
+                    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Wait: %f", randomMinMax] withType:SDLDebugType_Transport_iAP];
+                    [self performSelector:@selector(connect) withObject:nil afterDelay:randomMinMax];
+                }
             }
             break;
         }
@@ -257,16 +269,20 @@
 	}
 }
 
-- (void)dealloc {
-    [SDLDebugTool logInfo:@"Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+- (void)unregister {
     
     [self closeSession];
-    [self setupControllerForAccessory:nil withProtocolString:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EAAccessoryDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EAAccessoryDidDisconnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)dealloc {
+    [self unregister];
+    [self closeSession];
+    [self setupControllerForAccessory:nil withProtocolString:nil];
 }
 
 
@@ -295,16 +311,15 @@
         } else {
             if ([self.protocolString isEqualToString:CONTROL_PROTOCOL_STRING]) {
                 [SDLDebugTool logInfo:@"Session Not Opened (Control Protocol)" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-                
-                //Begin Connection Retry
-                float randomNumber = (float)arc4random() / UINT_MAX; // between 0 and 1
-                float randomMinMax = 0.0f + (0.5f-0.0f)*randomNumber; // between Min (0.0) and Max (0.5)
-                
-                [SDLDebugTool logInfo:[NSString stringWithFormat:@"Wait: %f", randomMinMax] withType:SDLDebugType_Transport_iAP];
-                [self performSelector:@selector(openSession) withObject:nil afterDelay:randomNumber];
             } else {
                 [SDLDebugTool logInfo:@"Session Not Opened" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
             }
+            //Begin Connection Retry
+            float randomNumber = (float)arc4random() / UINT_MAX; // between 0 and 1
+            float randomMinMax = 0.0f + (0.5f-0.0f)*randomNumber; // between Min (0.0) and Max (0.5)
+            
+            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Wait: %f", randomMinMax] withType:SDLDebugType_Transport_iAP];
+            [self performSelector:@selector(connect) withObject:nil afterDelay:randomMinMax];
         }
     } else {
         [SDLDebugTool logInfo:@"Accessory Or Protocol String Not Set" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];

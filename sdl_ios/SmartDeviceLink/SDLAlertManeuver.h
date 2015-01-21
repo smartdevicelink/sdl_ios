@@ -5,6 +5,9 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
+/**
+ @Since AppLink 1.0
+ */
 @interface SDLAlertManeuver : SDLRPCRequest {}
 
 -(id) init;

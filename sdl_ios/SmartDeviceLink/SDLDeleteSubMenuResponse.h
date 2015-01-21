@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * SDLDeleteSubMenuResponse is sent, when SDLDeleteSubMenu has been called
+ *
+ * Since <b>AppLink 1.0</b>
+ */
 @interface SDLDeleteSubMenuResponse : SDLRPCResponse {}
 
 -(id) init;

@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
+/**
+ * SDLAddCommandResponse is sent, when SDLAddCommand has been called
+ *
+ * Since <b>AppLink 1.0</b>
+ */
 @interface SDLAddCommandResponse : SDLRPCResponse {}
 
 -(id) init;

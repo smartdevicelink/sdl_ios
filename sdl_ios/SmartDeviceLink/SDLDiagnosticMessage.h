@@ -5,6 +5,11 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
+/** Non periodic vehicle diagnostic request
+ *
+ * @Since AppLink 3.0
+ *
+ */
 @interface SDLDiagnosticMessage : SDLRPCRequest {}
 
 -(id) init;

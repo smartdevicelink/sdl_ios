@@ -151,7 +151,7 @@
 }
 
 - (NSString *)description {
-    NSMutableString *description = [NSMutableString stringWithFormat:@"%@ %@\n%@", self.name, self.messageType, self->parameters];
+    NSMutableString *description = [NSMutableString stringWithFormat:@"%@ (%@)\n%@", self.name, self.messageType, self->parameters];
 
     return description;
 }
