@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setURL:(NSString*) URL {
-    if (URL != nil) {
-        [parameters setObject:URL forKey:NAMES_URL];
-    } else {
-        [parameters removeObjectForKey:NAMES_URL];
-    }
+- (void)setURL:(NSString *)URL {
+    [parameters setOrRemoveObject:URL forKey:NAMES_URL];
 }
 
 -(NSString*) URL {
     return [parameters objectForKey:NAMES_URL];
 }
 
--(void) setTimeout:(NSNumber*) Timeout {
-    if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:NAMES_Timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_Timeout];
-    }
+- (void)setTimeout:(NSNumber *)Timeout {
+    [parameters setOrRemoveObject:Timeout forKey:NAMES_Timeout];
 }
 
 -(NSNumber*) Timeout {
