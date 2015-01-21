@@ -18,36 +18,24 @@
     return self;
 }
 
--(void) setTargetID:(NSNumber*) targetID {
-    if (targetID != nil) {
-        [parameters setObject:targetID forKey:NAMES_targetID];
-    } else {
-        [parameters removeObjectForKey:NAMES_targetID];
-    }
+- (void)setTargetID:(NSNumber *)targetID {
+    [parameters setOrRemoveObject:targetID forKey:NAMES_targetID];
 }
 
 -(NSNumber*) targetID {
     return [parameters objectForKey:NAMES_targetID];
 }
 
--(void) setMessageLength:(NSNumber*) messageLength {
-    if (messageLength != nil) {
-        [parameters setObject:messageLength forKey:NAMES_messageLength];
-    } else {
-        [parameters removeObjectForKey:NAMES_messageLength];
-    }
+- (void)setMessageLength:(NSNumber *)messageLength {
+    [parameters setOrRemoveObject:messageLength forKey:NAMES_messageLength];
 }
 
 -(NSNumber*) messageLength {
     return [parameters objectForKey:NAMES_messageLength];
 }
 
--(void) setMessageData:(NSMutableArray*) messageData {
-    if (messageData != nil) {
-        [parameters setObject:messageData forKey:NAMES_messageData];
-    } else {
-        [parameters removeObjectForKey:NAMES_messageData];
-    }
+- (void)setMessageData:(NSMutableArray *)messageData {
+    [parameters setOrRemoveObject:messageData forKey:NAMES_messageData];
 }
 
 -(NSMutableArray*) messageData {

@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setEcuName:(NSNumber*) ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:NAMES_ecuName];
-    } else {
-        [parameters removeObjectForKey:NAMES_ecuName];
-    }
+- (void)setEcuName:(NSNumber *)ecuName {
+    [parameters setOrRemoveObject:ecuName forKey:NAMES_ecuName];
 }
 
 -(NSNumber*) ecuName {
     return [parameters objectForKey:NAMES_ecuName];
 }
 
--(void) setDtcMask:(NSNumber*) dtcMask {
-    if (dtcMask != nil) {
-        [parameters setObject:dtcMask forKey:NAMES_dtcMask];
-    } else {
-        [parameters removeObjectForKey:NAMES_dtcMask];
-    }
+- (void)setDtcMask:(NSNumber *)dtcMask {
+    [parameters setOrRemoveObject:dtcMask forKey:NAMES_dtcMask];
 }
 
 -(NSNumber*) dtcMask {

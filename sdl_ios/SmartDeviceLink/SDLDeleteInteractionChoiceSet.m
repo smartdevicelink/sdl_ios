@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setInteractionChoiceSetID:(NSNumber*) interactionChoiceSetID {
-    if (interactionChoiceSetID != nil) {
-        [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
-    } else {
-        [parameters removeObjectForKey:NAMES_interactionChoiceSetID];
-    }
+- (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
+    [parameters setOrRemoveObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
 }
 
 -(NSNumber*) interactionChoiceSetID {

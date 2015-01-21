@@ -19,36 +19,24 @@
     return self;
 }
 
--(void) setScrollableMessageBody:(NSString*) scrollableMessageBody {
-    if (scrollableMessageBody != nil) {
-        [parameters setObject:scrollableMessageBody forKey:NAMES_scrollableMessageBody];
-    } else {
-        [parameters removeObjectForKey:NAMES_scrollableMessageBody];
-    }
+- (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
+    [parameters setOrRemoveObject:scrollableMessageBody forKey:NAMES_scrollableMessageBody];
 }
 
 -(NSString*) scrollableMessageBody {
     return [parameters objectForKey:NAMES_scrollableMessageBody];
 }
 
--(void) setTimeout:(NSNumber*) timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:NAMES_timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeout];
-    }
+- (void)setTimeout:(NSNumber *)timeout {
+    [parameters setOrRemoveObject:timeout forKey:NAMES_timeout];
 }
 
 -(NSNumber*) timeout {
     return [parameters objectForKey:NAMES_timeout];
 }
 
--(void) setSoftButtons:(NSMutableArray*) softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
-    } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
-    }
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
+    [parameters setOrRemoveObject:softButtons forKey:NAMES_softButtons];
 }
 
 -(NSMutableArray*) softButtons {

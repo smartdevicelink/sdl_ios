@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setCmdID:(NSNumber*) cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:NAMES_cmdID];
-    } else {
-        [parameters removeObjectForKey:NAMES_cmdID];
-    }
+- (void)setCmdID:(NSNumber *)cmdID {
+    [parameters setOrRemoveObject:cmdID forKey:NAMES_cmdID];
 }
 
 -(NSNumber*) cmdID {
     return [parameters objectForKey:NAMES_cmdID];
 }
 
--(void) setMenuParams:(SDLMenuParams*) menuParams {
-    if (menuParams != nil) {
-        [parameters setObject:menuParams forKey:NAMES_menuParams];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuParams];
-    }
+- (void)setMenuParams:(SDLMenuParams *)menuParams {
+    [parameters setOrRemoveObject:menuParams forKey:NAMES_menuParams];
 }
 
 -(SDLMenuParams*) menuParams {
@@ -47,24 +39,16 @@
     }
 }
 
--(void) setVrCommands:(NSMutableArray*) vrCommands {
-    if (vrCommands != nil) {
-        [parameters setObject:vrCommands forKey:NAMES_vrCommands];
-    } else {
-        [parameters removeObjectForKey:NAMES_vrCommands];
-    }
+- (void)setVrCommands:(NSMutableArray *)vrCommands {
+    [parameters setOrRemoveObject:vrCommands forKey:NAMES_vrCommands];
 }
 
 -(NSMutableArray*) vrCommands {
     return [parameters objectForKey:NAMES_vrCommands];
 }
 
--(void) setCmdIcon:(SDLImage*) cmdIcon {
-    if (cmdIcon != nil) {
-        [parameters setObject:cmdIcon forKey:NAMES_cmdIcon];
-    } else {
-        [parameters removeObjectForKey:NAMES_cmdIcon];
-    }
+- (void)setCmdIcon:(SDLImage *)cmdIcon {
+    [parameters setOrRemoveObject:cmdIcon forKey:NAMES_cmdIcon];
 }
 
 -(SDLImage*) cmdIcon {

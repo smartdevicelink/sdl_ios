@@ -19,12 +19,8 @@
     return self;
 }
 
--(void) setProperties:(NSMutableArray*) properties {
-    if (properties != nil) {
-        [parameters setObject:properties forKey:NAMES_properties];
-    } else {
-        [parameters removeObjectForKey:NAMES_properties];
-    }
+- (void)setProperties:(NSMutableArray *)properties {
+    [parameters setOrRemoveObject:properties forKey:NAMES_properties];
 }
 
 -(NSMutableArray*) properties {

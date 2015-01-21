@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setStartTime:(SDLStartTime*) startTime {
-    if (startTime != nil) {
-        [parameters setObject:startTime forKey:NAMES_startTime];
-    } else {
-        [parameters removeObjectForKey:NAMES_startTime];
-    }
+- (void)setStartTime:(SDLStartTime *)startTime {
+    [parameters setOrRemoveObject:startTime forKey:NAMES_startTime];
 }
 
 -(SDLStartTime*) startTime {
@@ -35,12 +31,8 @@
     }
 }
 
--(void) setEndTime:(SDLStartTime*) endTime {
-    if (endTime != nil) {
-        [parameters setObject:endTime forKey:NAMES_endTime];
-    } else {
-        [parameters removeObjectForKey:NAMES_endTime];
-    }
+- (void)setEndTime:(SDLStartTime *)endTime {
+    [parameters setOrRemoveObject:endTime forKey:NAMES_endTime];
 }
 
 -(SDLStartTime*) endTime {
@@ -52,12 +44,8 @@
     }
 }
 
--(void) setUpdateMode:(SDLUpdateMode*) updateMode {
-    if (updateMode != nil) {
-        [parameters setObject:updateMode forKey:NAMES_updateMode];
-    } else {
-        [parameters removeObjectForKey:NAMES_updateMode];
-    }
+- (void)setUpdateMode:(SDLUpdateMode *)updateMode {
+    [parameters setOrRemoveObject:updateMode forKey:NAMES_updateMode];
 }
 
 -(SDLUpdateMode*) updateMode {

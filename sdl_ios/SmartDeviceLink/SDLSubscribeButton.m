@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setButtonName:(SDLButtonName*) buttonName {
-    if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:NAMES_buttonName];
-    } else {
-        [parameters removeObjectForKey:NAMES_buttonName];
-    }
+- (void)setButtonName:(SDLButtonName *)buttonName {
+    [parameters setOrRemoveObject:buttonName forKey:NAMES_buttonName];
 }
 
 -(SDLButtonName*) buttonName {
