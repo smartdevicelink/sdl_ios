@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setEcuHeader:(NSNumber*) ecuHeader {
-    if (ecuHeader != nil) {
-        [parameters setObject:ecuHeader forKey:NAMES_ecuHeader];
-    } else {
-        [parameters removeObjectForKey:NAMES_ecuHeader];
-    }
+- (void)setEcuHeader:(NSNumber *)ecuHeader {
+    [parameters setOrRemoveObject:ecuHeader forKey:NAMES_ecuHeader];
 }
 
 -(NSNumber*) ecuHeader {
     return [parameters objectForKey:NAMES_ecuHeader];
 }
 
--(void) setDtc:(NSMutableArray*) dtc {
-    if (dtc != nil) {
-        [parameters setObject:dtc forKey:NAMES_dtc];
-    } else {
-        [parameters removeObjectForKey:NAMES_dtc];
-    }
+- (void)setDtc:(NSMutableArray *)dtc {
+    [parameters setOrRemoveObject:dtc forKey:NAMES_dtc];
 }
 
 -(NSMutableArray*) dtc {

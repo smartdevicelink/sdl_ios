@@ -18,36 +18,24 @@
     return self;
 }
 
--(void) setChoiceID:(NSNumber*) choiceID {
-    if (choiceID != nil) {
-        [parameters setObject:choiceID forKey:NAMES_choiceID];
-    } else {
-        [parameters removeObjectForKey:NAMES_choiceID];
-    }
+- (void)setChoiceID:(NSNumber *)choiceID {
+    [parameters setOrRemoveObject:choiceID forKey:NAMES_choiceID];
 }
 
 -(NSNumber*) choiceID {
     return [parameters objectForKey:NAMES_choiceID];
 }
 
--(void) setManualTextEntry:(NSString*) manualTextEntry {
-    if (manualTextEntry != nil) {
-        [parameters setObject:manualTextEntry forKey:NAMES_manualTextEntry];
-    } else {
-        [parameters removeObjectForKey:NAMES_manualTextEntry];
-    }
+- (void)setManualTextEntry:(NSString *)manualTextEntry {
+    [parameters setOrRemoveObject:manualTextEntry forKey:NAMES_manualTextEntry];
 }
 
 -(NSString*) manualTextEntry {
     return [parameters objectForKey:NAMES_manualTextEntry];
 }
 
--(void) setTriggerSource:(SDLTriggerSource*) triggerSource {
-    if (triggerSource != nil) {
-        [parameters setObject:triggerSource forKey:NAMES_triggerSource];
-    } else {
-        [parameters removeObjectForKey:NAMES_triggerSource];
-    }
+- (void)setTriggerSource:(SDLTriggerSource *)triggerSource {
+    [parameters setOrRemoveObject:triggerSource forKey:NAMES_triggerSource];
 }
 
 -(SDLTriggerSource*) triggerSource {

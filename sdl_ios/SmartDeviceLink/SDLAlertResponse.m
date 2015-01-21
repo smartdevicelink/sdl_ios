@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setTryAgainTime:(NSNumber*) tryAgainTime {
-    if (tryAgainTime != nil) {
-        [parameters setObject:tryAgainTime forKey:NAMES_tryAgainTime];
-    } else {
-        [parameters removeObjectForKey:NAMES_tryAgainTime];
-    }
+- (void)setTryAgainTime:(NSNumber *)tryAgainTime {
+    [parameters setOrRemoveObject:tryAgainTime forKey:NAMES_tryAgainTime];
 }
 
 -(NSNumber*) tryAgainTime {
