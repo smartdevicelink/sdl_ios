@@ -4,7 +4,6 @@
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
-#import "NSMutableDictionary+SetOrRemove.h"
 
 #import <SmartDeviceLink/SDLResult.h>
 
