@@ -254,22 +254,12 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
     if ([functionName isEqualToString:@"OnHMIStatus"]) {
-        NSString *statusString = (NSString *)[newMessage getParameters:NAMES_hmiLevel];
-        SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
-        lsm.hmiLevel = hmiLevel;
-        
-        SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
-        [self invokeMethodOnDelegates:callbackSelector withObject:lsm.lockScreenStatusNotification];
+        [self handleAfterHMIStatus:newMessage];
     }
     
     // When an OnDriverDistraction notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
     if ([functionName isEqualToString:@"OnDriverDistraction"]) {
-        NSString *stateString = (NSString *)[newMessage getParameters:NAMES_state];
-        BOOL bState = [stateString isEqualToString:@"DD_ON"]?YES:NO;
-        lsm.bDriverDistractionStatus = bState;
-        
-        SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
-        [self invokeMethodOnDelegates:callbackSelector withObject:lsm.lockScreenStatusNotification];
+        [self handleAfterDriverDistraction:message];
     }
 }
 
@@ -319,12 +309,36 @@ const int POLICIES_CORRELATION_ID = 65535;
     // Handle the various OnSystemRequest types
     if (requestType == [SDLRequestType PROPRIETARY]) {
         [self handleSystemRequestProprietary:systemRequest];
+    } else if (requestType == [SDLRequestType QUERY_APPS]) {
+        [self handleSystemRequestQueryApps:systemRequest];
+    } else if (requestType == [SDLRequestType LAUNCH_APP]) {
+        [self handleSystemRequestLaunchApp:systemRequest];
     }
 }
 
 - (void)handleSystemRequestResponse:(SDLRPCMessage *)message {
     NSString *logMessage = [NSString stringWithFormat:@"SystemRequest (response)\n%@", msg];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+}
+
+
+#pragma mark Handle Post-Invoke of Delegate Methods
+- (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
+    NSString *statusString = (NSString *)[message getParameters:NAMES_hmiLevel];
+    SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
+    lsm.hmiLevel = hmiLevel;
+    
+    SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
+    [self invokeMethodOnDelegates:callbackSelector withObject:lsm.lockScreenStatusNotification];
+}
+
+- (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
+    NSString *stateString = (NSString *)[message getParameters:NAMES_state];
+    BOOL state = [stateString isEqualToString:@"DD_ON"]?YES:NO;
+    lsm.bDriverDistractionStatus = state;
+    
+    SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
+    [self invokeMethodOnDelegates:callbackSelector withObject:lsm.lockScreenStatusNotification];
 }
 
 
