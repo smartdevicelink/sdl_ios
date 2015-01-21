@@ -29,8 +29,11 @@
 -(void) dispose;
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;
 
--(void) sendRPCRequest:(SDLRPCMessage*) msg;
--(void) handleRpcMessage:(NSDictionary*) msg;
+-(void) sendRPC:(SDLRPCMessage *)message;
+-(void) sendRPCRequest:(SDLRPCMessage*) msg __deprecated_msg("use sendRPC: instead");
+
+-(void) handleRPCMessage:(SDLRPCMessage *)message;
+-(void) handleRpcMessage:(NSDictionary*) msg __deprecated_msg("use handleRPCMessage: instead");
 
 -(NSString*) getProxyVersion;
 
@@ -43,7 +46,7 @@
 -(NSObject<SDLTransport>*)getTransport;
 -(NSObject<SDLInterfaceProtocol>*)getProtocol;
 
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
 - (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest;
+- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
 
 @end
