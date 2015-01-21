@@ -29,7 +29,9 @@
 -(void) dispose;
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;
 
--(void) sendRPCRequest:(SDLRPCMessage*) msg;
+-(void) sendRPCRequest:(SDLRPCMessage*) msg __deprecated_msg("use sendRPC: instead");
+-(void) sendRPC:(SDLRPCMessage *)message;
+
 -(void) handleRpcMessage:(NSDictionary*) msg;
 
 -(NSString*) getProxyVersion;

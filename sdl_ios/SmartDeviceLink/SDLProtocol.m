@@ -14,6 +14,8 @@
 #import "SDLRPCPayload.h"
 #import "SDLDebugTool.h"
 #import "SDLPrioritizedObjectCollection.h"
+#import "SDLRPCNotification.h"
+#import "SDLRPCResponse.h"
 
 
 const NSUInteger MAX_TRANSMISSION_SIZE = 512;
@@ -82,67 +84,81 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 }
 
-// SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-
-    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[rpcRequest serializeAsDictionary:self.version]];
+- (void)sendRPC:(SDLRPCMessage *)message {
+    NSParameterAssert(message != nil);
+    
+    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:self.version]];
     NSData* messagePayload = nil;
-
-    NSString *logMessage = [NSString stringWithFormat:@"%@", rpcRequest];
+    
+    NSString *logMessage = [NSString stringWithFormat:@"%@", message];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
-
-    if(self.version == 1) {
-        messagePayload = jsonData;
-    } else if (self.version == 2) {
-        // Serialize the RPC data into an NSData
-        SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
-        rpcPayload.rpcType = 0;
-        rpcPayload.functionID = [[[[SDLFunctionID alloc] init] getFunctionID:[rpcRequest getFunctionName]] intValue];
-        rpcPayload.correlationID = [rpcRequest.correlationID intValue];
-        rpcPayload.jsonData = jsonData;
-        rpcPayload.binaryData = rpcRequest.bulkData;
-        messagePayload = rpcPayload.data;
+    
+    // Build the message payload. Include the binary header if necessary
+    switch (self.version) {
+        case 1: {
+            // No binary header in version 1
+            messagePayload = jsonData;
+        } break;
+        case 2: // Fallthrough
+        case 3: {
+            // Build a binary header
+            // Serialize the RPC data into an NSData
+            SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
+            rpcPayload.rpcType = type;
+            rpcPayload.functionID = [[[[SDLFunctionID alloc] init] getFunctionID:[message getFunctionName]] intValue];
+            rpcPayload.jsonData = jsonData;
+            rpcPayload.binaryData = message.bulkData;
+            
+            // If it's a request or a response, we need to pull out the correlation ID, so we'll upcast
+            if ([message isKindOfClass:SDLRPCRequest.class]) {
+                rpcPayload.correlationID = [((SDLRPCRequest *)message).correlationID intValue];
+            } else if ([message isKindOfClass:SDLRPCResponse.class]) {
+                rpcPayload.correlationID = [((SDLRPCResponse *)message).correlationID intValue];
+            }
+            
+            messagePayload = rpcPayload.data;
+        } break;
+        default: {
+            NSAssert(NO, @"sendRPCMessage:withType: must handle additional versions");
+        } break;
     }
-
-    //
+    
     // Build the protocol level header & message
-    //
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Single;
     header.serviceType = SDLServiceType_RPC;
     header.frameData = SDLFrameData_SingleFrame;
     header.sessionID = self.sessionID;
     header.bytesInPayload = (UInt32)messagePayload.length;
-
+    
     // V2+ messages need to have message ID property set.
     if (self.version >= 2) {
         [((SDLV2ProtocolHeader*)header) setMessageID:++_messageID];
     }
-
-
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
-
-
-    //
+    
+    SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
+    
     // See if the message is small enough to send in one transmission.
     // If not, break it up into smaller messages and send.
-    //
-    if (message.size < MAX_TRANSMISSION_SIZE)
+    if (protocolMessage.size < MAX_TRANSMISSION_SIZE)
     {
-        [self logRPCSend:message];
-        [self sendDataToTransport:message.data withPriority:SDLServiceType_RPC];
+        [self logRPCSend:protocolMessage];
+        [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
     }
     else
     {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:MAX_TRANSMISSION_SIZE];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
         }
-
+        
     }
+}
 
+// SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
+- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
+    [self sendRPC:rpcRequest withType:SDLRPCMessageTypeRequest];
 }
 
 - (void)logRPCSend:(SDLProtocolMessage *)message {

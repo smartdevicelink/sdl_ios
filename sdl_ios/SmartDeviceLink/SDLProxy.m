@@ -66,7 +66,6 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self.transport connect];
 
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
-
     }
 
     return self;
@@ -99,6 +98,26 @@ const int POLICIES_CORRELATION_ID = 65535;
 		isConnected = NO;
         [self invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
 	}
+}
+
+- (void)sendMobileHMIState {
+    UIApplicationState appState = [UIApplication sharedApplication].applicationState;
+    SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
+    
+    switch (appState) {
+        case UIApplicationStateActive: {
+            HMIStatusRPC.hmiLevel = [SDLHMILevel HMI_FULL];
+        } break;
+        case UIApplicationStateInactive: // Fallthrough
+        case UIApplicationStateBackground: {
+            HMIStatusRPC.hmiLevel = [SDLHMILevel HMI_BACKGROUND];
+        } break;
+        default:
+            break;
+    }
+    
+    // TODO: This won't work, there are runtime checks to make sure only requests are sent...
+    [self sendRPCRequest:HMIStatusRPC];
 }
 
 
@@ -140,7 +159,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void) onProtocolOpened {
     isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+    
     [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
 
     [self destroyHandshakeTimer];
@@ -169,6 +188,13 @@ const int POLICIES_CORRELATION_ID = 65535;
         rpcSessionID = sessionID;
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
+    
+    if (_version >= 4) {
+        // Send the Mobile HMI state and register handlers for changing state
+        [self sendMobileHMIState];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationWillResignActiveNotification object:nil];
+    }
 }
 
 - (void) onProtocolMessageReceived:(SDLProtocolMessage*) msgData {
@@ -183,6 +209,15 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Message sending and recieving
+- (void)sendRPC:(SDLRPCMessage *)message {
+    @try {
+        [self.protocol sendRPC:message];
+    } @catch (NSException *exception) {
+        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to send RPC message: %@", message.name];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    }
+}
+
 -(void) sendRPCRequest:(SDLRPCMessage*) msg {
     if ([msg isKindOfClass:SDLRPCRequest.class]) {
         [self sendRPCRequestPrivate:(SDLRPCRequest *)msg];
