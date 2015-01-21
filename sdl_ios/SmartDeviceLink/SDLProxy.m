@@ -265,8 +265,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
         SDLOnSystemRequest* sysRpcMsg = [[SDLOnSystemRequest alloc] initWithDictionary:(NSMutableDictionary*) msg];
         SDLRequestType *requestType = sysRpcMsg.requestType;
-        NSString       *urlString   = sysRpcMsg.url;
-        SDLFileType    *fileType    = sysRpcMsg.fileType;
+        NSString *urlString = sysRpcMsg.url;
+        SDLFileType *fileType = sysRpcMsg.fileType;
 
         if (requestType == [SDLRequestType PROPRIETARY])
         {
