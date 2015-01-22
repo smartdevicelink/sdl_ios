@@ -1,6 +1,6 @@
 //  SDLProxy.m
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <ExternalAccessory/ExternalAccessory.h>
@@ -18,9 +18,10 @@
 #import "SDLRPCPayload.h"
 #import "SDLPolicyDataParser.h"
 #import "SDLLockScreenManager.h"
+#import "SDLProtocolMessage.h"
 
 
-#define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
+#define VERSION_STRING @"##Version##"
 typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 
@@ -29,11 +30,13 @@ typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *respo
 {
     SDLLockScreenManager *lsm;
 }
+- (void)startRPCSession;
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object;
 - (void)notifyProxyClosed;
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 - (void)OESPHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
 - (void)OSRHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
+- (void)sendDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType;
 
 @end
 
@@ -41,22 +44,21 @@ typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *respo
 
 @implementation SDLProxy
 
-const float handshakeTime = 30.0;
+const float handshakeTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Object lifecycle
-- (id)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
+- (id)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(SDLAbstractProtocol *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
 	if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         
 
         lsm = [SDLLockScreenManager new];
 
-        rpcSessionID = 0;
         alreadyDestructed = NO;
-                
+        
         self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
         self.protocol = theProtocol;
         self.transport = theTransport;
@@ -107,7 +109,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     return self.transport;// not needed except for backwards compatability?
 }
 
-- (NSObject<SDLInterfaceProtocol> *)getProtocol {
+- (SDLAbstractProtocol *)getProtocol {
     return self.protocol;// not needed except for backwards compatability?
 }
 
@@ -122,7 +124,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - Handshake Timer
 - (void)handshakeTimerFired {
-    [SDLDebugTool logInfo:@"RPC Initial Handshake Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    [SDLDebugTool logInfo:@"Initial Handshake Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     [self destroyHandshakeTimer];
     [self performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:notifyProxyClosedDelay];
@@ -135,13 +137,16 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
+- (void)startRPCSession {
+    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+}
 
 #pragma mark - SDLProtocolListener Implementation
 - (void) onProtocolOpened {
     isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+    [self startRPCSession];
 
     [self destroyHandshakeTimer];
     self.handshakeTimer = [NSTimer scheduledTimerWithTimeInterval:handshakeTime target:self selector:@selector(handshakeTimerFired) userInfo:nil repeats:NO];
@@ -155,8 +160,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d", sessionID];
+- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
+    // Turn off the timer, the handshake has succeeded
+    [self destroyHandshakeTimer];
+    
+    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     if (_version <= 1) {
@@ -165,8 +173,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         }
     }
 
-    if (sessionType == SDLServiceType_RPC || _version == 2) {
-        rpcSessionID = sessionID;
+    if (serviceType == SDLServiceType_RPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
@@ -228,9 +235,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
-        // Turn off the timer, the handshake has succeeded
-        [self destroyHandshakeTimer];
-        
         //Print Proxy Version To Console
         logMessage = [NSString stringWithFormat:@"Framework Version: %@", [self getProxyVersion]];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
@@ -359,9 +363,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     // From the function name, create the corresponding RPCObject and initialize it
 	NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *functionObject = [[NSClassFromString(functionClassName) alloc] initWithDictionary:msg];
-//	SDLRPCMessage *functionObject = [[NSClassFromString(functionClassName) alloc] init];
-//    NSObject* rpcCallbackObject = [functionObject initWithDictionary:[msg mutableCopy]];
-
+    
     logMessage = [NSString stringWithFormat:@"%@", functionObject];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
@@ -507,18 +509,16 @@ const int POLICIES_CORRELATION_ID = 65535;
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
 
-    // Send and log RPC Request
-    logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length ];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    // Send RPC Request
     [self sendRPCRequestPrivate:request];
 
 }
 
 
 #pragma mark - PutFile Streaming
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest
-{
-    [self putFileStream:inputStream withRequest:putFileRPCRequest];
+- (void)sendDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
+    
+    [self.protocol sendRawDataStream:inputStream withServiceType:serviceType];
 }
 
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest
