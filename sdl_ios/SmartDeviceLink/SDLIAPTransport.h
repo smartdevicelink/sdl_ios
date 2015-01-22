@@ -1,6 +1,6 @@
 //  SDLIAPTransport.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <ExternalAccessory/ExternalAccessory.h>
@@ -9,5 +9,7 @@
 @interface SDLIAPTransport : SDLAbstractTransport <NSStreamDelegate> {}
 
 @property (assign) BOOL forceLegacy;
+
+- (void)unregister;
 
 @end
