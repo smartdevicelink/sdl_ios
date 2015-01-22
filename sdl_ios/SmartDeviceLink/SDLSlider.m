@@ -18,60 +18,40 @@
     return self;
 }
 
--(void) setNumTicks:(NSNumber*) numTicks {
-    if (numTicks != nil) {
-        [parameters setObject:numTicks forKey:NAMES_numTicks];
-    } else {
-        [parameters removeObjectForKey:NAMES_numTicks];
-    }
+- (void)setNumTicks:(NSNumber *)numTicks {
+    [parameters setOrRemoveObject:numTicks forKey:NAMES_numTicks];
 }
 
 -(NSNumber*) numTicks {
     return [parameters objectForKey:NAMES_numTicks];
 }
 
--(void) setPosition:(NSNumber*) position {
-    if (position != nil) {
-        [parameters setObject:position forKey:NAMES_position];
-    } else {
-        [parameters removeObjectForKey:NAMES_position];
-    }
+- (void)setPosition:(NSNumber *)position {
+    [parameters setOrRemoveObject:position forKey:NAMES_position];
 }
 
 -(NSNumber*) position {
     return [parameters objectForKey:NAMES_position];
 }
 
--(void) setSliderHeader:(NSString*) sliderHeader {
-    if (sliderHeader != nil) {
-        [parameters setObject:sliderHeader forKey:NAMES_sliderHeader];
-    } else {
-        [parameters removeObjectForKey:NAMES_sliderHeader];
-    }
+- (void)setSliderHeader:(NSString *)sliderHeader {
+    [parameters setOrRemoveObject:sliderHeader forKey:NAMES_sliderHeader];
 }
 
 -(NSString*) sliderHeader {
     return [parameters objectForKey:NAMES_sliderHeader];
 }
 
--(void) setSliderFooter:(NSMutableArray*) sliderFooter {
-    if (sliderFooter != nil) {
-        [parameters setObject:sliderFooter forKey:NAMES_sliderFooter];
-    } else {
-        [parameters removeObjectForKey:NAMES_sliderFooter];
-    }
+- (void)setSliderFooter:(NSMutableArray *)sliderFooter {
+    [parameters setOrRemoveObject:sliderFooter forKey:NAMES_sliderFooter];
 }
 
 -(NSMutableArray*) sliderFooter {
     return [parameters objectForKey:NAMES_sliderFooter];
 }
 
--(void) setTimeout:(NSNumber*) timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:NAMES_timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeout];
-    }
+- (void)setTimeout:(NSNumber *)timeout {
+    [parameters setOrRemoveObject:timeout forKey:NAMES_timeout];
 }
 
 -(NSNumber*) timeout {

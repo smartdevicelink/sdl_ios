@@ -20,24 +20,16 @@
     return self;
 }
 
--(void) setInitialText:(NSString*) initialText {
-    if (initialText != nil) {
-        [parameters setObject:initialText forKey:NAMES_initialText];
-    } else {
-        [parameters removeObjectForKey:NAMES_initialText];
-    }
+- (void)setInitialText:(NSString *)initialText {
+    [parameters setOrRemoveObject:initialText forKey:NAMES_initialText];
 }
 
 -(NSString*) initialText {
     return [parameters objectForKey:NAMES_initialText];
 }
 
--(void) setInitialPrompt:(NSMutableArray*) initialPrompt {
-    if (initialPrompt != nil) {
-        [parameters setObject:initialPrompt forKey:NAMES_initialPrompt];
-    } else {
-        [parameters removeObjectForKey:NAMES_initialPrompt];
-    }
+- (void)setInitialPrompt:(NSMutableArray *)initialPrompt {
+    [parameters setOrRemoveObject:initialPrompt forKey:NAMES_initialPrompt];
 }
 
 -(NSMutableArray*) initialPrompt {
@@ -53,12 +45,8 @@
     }
 }
 
--(void) setInteractionMode:(SDLInteractionMode*) interactionMode {
-    if (interactionMode != nil) {
-        [parameters setObject:interactionMode forKey:NAMES_interactionMode];
-    } else {
-        [parameters removeObjectForKey:NAMES_interactionMode];
-    }
+- (void)setInteractionMode:(SDLInteractionMode *)interactionMode {
+    [parameters setOrRemoveObject:interactionMode forKey:NAMES_interactionMode];
 }
 
 -(SDLInteractionMode*) interactionMode {
@@ -70,24 +58,16 @@
     }
 }
 
--(void) setInteractionChoiceSetIDList:(NSMutableArray*) interactionChoiceSetIDList {
-    if (interactionChoiceSetIDList != nil) {
-        [parameters setObject:interactionChoiceSetIDList forKey:NAMES_interactionChoiceSetIDList];
-    } else {
-        [parameters removeObjectForKey:NAMES_interactionChoiceSetIDList];
-    }
+- (void)setInteractionChoiceSetIDList:(NSMutableArray *)interactionChoiceSetIDList {
+    [parameters setObject:interactionChoiceSetIDList forKey:NAMES_interactionChoiceSetIDList];
 }
 
 -(NSMutableArray*) interactionChoiceSetIDList {
     return [parameters objectForKey:NAMES_interactionChoiceSetIDList];
 }
 
--(void) setHelpPrompt:(NSMutableArray*) helpPrompt {
-    if (helpPrompt != nil) {
-        [parameters setObject:helpPrompt forKey:NAMES_helpPrompt];
-    } else {
-        [parameters removeObjectForKey:NAMES_helpPrompt];
-    }
+- (void)setHelpPrompt:(NSMutableArray *)helpPrompt {
+    [parameters setOrRemoveObject:helpPrompt forKey:NAMES_helpPrompt];
 }
 
 -(NSMutableArray*) helpPrompt {
@@ -103,12 +83,8 @@
     }
 }
 
--(void) setTimeoutPrompt:(NSMutableArray*) timeoutPrompt {
-    if (timeoutPrompt != nil) {
-        [parameters setObject:timeoutPrompt forKey:NAMES_timeoutPrompt];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeoutPrompt];
-    }
+- (void)setTimeoutPrompt:(NSMutableArray *)timeoutPrompt {
+    [parameters setOrRemoveObject:timeoutPrompt forKey:NAMES_timeoutPrompt];
 }
 
 -(NSMutableArray*) timeoutPrompt {
@@ -124,24 +100,16 @@
     }
 }
 
--(void) setTimeout:(NSNumber*) timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:NAMES_timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeout];
-    }
+- (void)setTimeout:(NSNumber *)timeout {
+    [parameters setOrRemoveObject:timeout forKey:NAMES_timeout];
 }
 
 -(NSNumber*) timeout {
     return [parameters objectForKey:NAMES_timeout];
 }
 
--(void) setVrHelp:(NSMutableArray*) vrHelp {
-    if (vrHelp != nil) {
-        [parameters setObject:vrHelp forKey:NAMES_vrHelp];
-    } else {
-        [parameters removeObjectForKey:NAMES_vrHelp];
-    }
+- (void)setVrHelp:(NSMutableArray *)vrHelp {
+    [parameters setOrRemoveObject:vrHelp forKey:NAMES_vrHelp];
 }
 
 -(NSMutableArray*) vrHelp {
@@ -157,12 +125,8 @@
     }
 }
 
--(void) setInteractionLayout:(SDLLayoutMode*) interactionLayout {
-    if (interactionLayout != nil) {
-        [parameters setObject:interactionLayout forKey:NAMES_interactionLayout];
-    } else {
-        [parameters removeObjectForKey:NAMES_interactionLayout];
-    }
+- (void)setInteractionLayout:(SDLLayoutMode *)interactionLayout {
+    [parameters setOrRemoveObject:interactionLayout forKey:NAMES_interactionLayout];
 }
 
 -(SDLLayoutMode*) interactionLayout {

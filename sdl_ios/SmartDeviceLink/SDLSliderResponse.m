@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setSliderPosition:(NSNumber*) sliderPosition {
-    if (sliderPosition != nil) {
-        [parameters setObject:sliderPosition forKey:NAMES_sliderPosition];
-    } else {
-        [parameters removeObjectForKey:NAMES_sliderPosition];
-    }
+- (void)setSliderPosition:(NSNumber *)sliderPosition {
+    [parameters setOrRemoveObject:sliderPosition forKey:NAMES_sliderPosition];
 }
 
 -(NSNumber*) sliderPosition {

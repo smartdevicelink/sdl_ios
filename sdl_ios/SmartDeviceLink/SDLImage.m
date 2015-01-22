@@ -19,11 +19,7 @@
 }
 
 -(void) setValue:(NSString*) value {
-    if (value != nil) {
-        [store setObject:value forKey:NAMES_value];
-    } else {
-        [store removeObjectForKey:NAMES_value];
-    }
+    [store setOrRemoveObject:value forKey:NAMES_value];
 }
 
 -(NSString*) value {
@@ -31,11 +27,7 @@
 }
 
 -(void) setImageType:(SDLImageType*) imageType {
-    if (imageType != nil) {
-        [store setObject:imageType forKey:NAMES_imageType];
-    } else {
-        [store removeObjectForKey:NAMES_imageType];
-    }
+    [store setOrRemoveObject:imageType forKey:NAMES_imageType];
 }
 
 -(SDLImageType*) imageType {

@@ -19,12 +19,8 @@
     return self;
 }
 
--(void) setTtsChunks:(NSMutableArray*) ttsChunks {
-    if (ttsChunks != nil) {
-        [parameters setObject:ttsChunks forKey:NAMES_ttsChunks];
-    } else {
-        [parameters removeObjectForKey:NAMES_ttsChunks];
-    }
+- (void)setTtsChunks:(NSMutableArray *)ttsChunks {
+    [parameters setOrRemoveObject:ttsChunks forKey:NAMES_ttsChunks];
 }
 
 -(NSMutableArray*) ttsChunks {

@@ -18,36 +18,24 @@
     return self;
 }
 
--(void) setData:(NSMutableArray*) data {
-    if (data != nil) {
-        [parameters setObject:data forKey:NAMES_data];
-    } else {
-        [parameters removeObjectForKey:NAMES_data];
-    }
+- (void)setData:(NSMutableArray *)data {
+    [parameters setOrRemoveObject:data forKey:NAMES_data];
 }
 
 -(NSMutableArray*) data {
     return [parameters objectForKey:NAMES_data];
 }
 
--(void) setURL:(NSString*) URL {
-    if (URL != nil) {
-        [parameters setObject:URL forKey:NAMES_URL];
-    } else {
-        [parameters removeObjectForKey:NAMES_URL];
-    }
+- (void)setURL:(NSString *)URL {
+    [parameters setOrRemoveObject:URL forKey:NAMES_URL];
 }
 
 -(NSString*) URL {
     return [parameters objectForKey:NAMES_URL];
 }
 
--(void) setTimeout:(NSNumber*) Timeout {
-    if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:NAMES_Timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_Timeout];
-    }
+- (void)setTimeout:(NSNumber *)Timeout {
+    [parameters setOrRemoveObject:Timeout forKey:NAMES_Timeout];
 }
 
 -(NSNumber*) Timeout {

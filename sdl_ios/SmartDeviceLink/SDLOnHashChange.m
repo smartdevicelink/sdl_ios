@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setHashID:(NSString*) hashID {
-    if (hashID != nil) {
-        [parameters setObject:hashID forKey:NAMES_hashID];
-    } else {
-        [parameters removeObjectForKey:NAMES_hashID];
-    }
+- (void)setHashID:(NSString *)hashID {
+    [parameters setOrRemoveObject:hashID forKey:NAMES_hashID];
 }
 
 -(NSString*) hashID {

@@ -20,12 +20,8 @@
     return self;
 }
 
--(void) setHelpPrompt:(NSMutableArray*) helpPrompt {
-    if (helpPrompt != nil) {
-        [parameters setObject:helpPrompt forKey:NAMES_helpPrompt];
-    } else {
-        [parameters removeObjectForKey:NAMES_helpPrompt];
-    }
+- (void)setHelpPrompt:(NSMutableArray *)helpPrompt {
+    [parameters setOrRemoveObject:helpPrompt forKey:NAMES_helpPrompt];
 }
 
 -(NSMutableArray*) helpPrompt {
@@ -41,12 +37,8 @@
     }
 }
 
--(void) setTimeoutPrompt:(NSMutableArray*) timeoutPrompt {
-    if (timeoutPrompt != nil) {
-        [parameters setObject:timeoutPrompt forKey:NAMES_timeoutPrompt];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeoutPrompt];
-    }
+- (void)setTimeoutPrompt:(NSMutableArray *)timeoutPrompt {
+    [parameters setOrRemoveObject:timeoutPrompt forKey:NAMES_timeoutPrompt];
 }
 
 -(NSMutableArray*) timeoutPrompt {
@@ -62,24 +54,16 @@
     }
 }
 
--(void) setVrHelpTitle:(NSString*) vrHelpTitle {
-    if (vrHelpTitle != nil) {
-        [parameters setObject:vrHelpTitle forKey:NAMES_vrHelpTitle];
-    } else {
-        [parameters removeObjectForKey:NAMES_vrHelpTitle];
-    }
+- (void)setVrHelpTitle:(NSString *)vrHelpTitle {
+    [parameters setOrRemoveObject:vrHelpTitle forKey:NAMES_vrHelpTitle];
 }
 
 -(NSString*) vrHelpTitle {
     return [parameters objectForKey:NAMES_vrHelpTitle];
 }
 
--(void) setVrHelp:(NSMutableArray*) vrHelp {
-    if (vrHelp != nil) {
-        [parameters setObject:vrHelp forKey:NAMES_vrHelp];
-    } else {
-        [parameters removeObjectForKey:NAMES_vrHelp];
-    }
+- (void)setVrHelp:(NSMutableArray *)vrHelp {
+    [parameters setOrRemoveObject:vrHelp forKey:NAMES_vrHelp];
 }
 
 -(NSMutableArray*) vrHelp {
@@ -95,24 +79,16 @@
     }
 }
 
--(void) setMenuTitle:(NSString*) menuTitle {
-    if (menuTitle != nil) {
-        [parameters setObject:menuTitle forKey:NAMES_menuTitle];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuTitle];
-    }
+- (void)setMenuTitle:(NSString *)menuTitle {
+    [parameters setOrRemoveObject:menuTitle forKey:NAMES_menuTitle];
 }
 
 -(NSString*) menuTitle {
     return [parameters objectForKey:NAMES_menuTitle];
 }
 
--(void) setMenuIcon:(SDLImage*) menuIcon {
-    if (menuIcon != nil) {
-        [parameters setObject:menuIcon forKey:NAMES_menuIcon];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuIcon];
-    }
+- (void)setMenuIcon:(SDLImage *)menuIcon {
+    [parameters setOrRemoveObject:menuIcon forKey:NAMES_menuIcon];
 }
 
 -(SDLImage*) menuIcon {
@@ -124,12 +100,8 @@
     }
 }
 
--(void) setKeyboardProperties:(SDLKeyboardProperties*) keyboardProperties {
-    if (keyboardProperties != nil) {
-        [parameters setObject:keyboardProperties forKey:NAMES_keyboardProperties];
-    } else {
-        [parameters removeObjectForKey:NAMES_keyboardProperties];
-    }
+- (void)setKeyboardProperties:(SDLKeyboardProperties *)keyboardProperties {
+    [parameters setOrRemoveObject:keyboardProperties forKey:NAMES_keyboardProperties];
 }
 
 -(SDLKeyboardProperties*) keyboardProperties {

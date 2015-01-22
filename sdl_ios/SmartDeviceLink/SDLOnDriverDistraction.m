@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setState:(SDLDriverDistractionState*) state {
-    if (state != nil) {
-        [parameters setObject:state forKey:NAMES_state];
-    } else {
-        [parameters removeObjectForKey:NAMES_state];
-    }
+- (void)setState:(SDLDriverDistractionState *)state {
+    [parameters setOrRemoveObject:state forKey:NAMES_state];
 }
 
 -(SDLDriverDistractionState*) state {

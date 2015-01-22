@@ -19,11 +19,7 @@
 }
 
 -(void) setLongitudeDegrees:(NSNumber*) longitudeDegrees {
-    if (longitudeDegrees != nil) {
-        [store setObject:longitudeDegrees forKey:NAMES_longitudeDegrees];
-    } else {
-        [store removeObjectForKey:NAMES_longitudeDegrees];
-    }
+    [store setOrRemoveObject:longitudeDegrees forKey:NAMES_longitudeDegrees];
 }
 
 -(NSNumber*) longitudeDegrees {
@@ -31,11 +27,7 @@
 }
 
 -(void) setLatitudeDegrees:(NSNumber*) latitudeDegrees {
-    if (latitudeDegrees != nil) {
-        [store setObject:latitudeDegrees forKey:NAMES_latitudeDegrees];
-    } else {
-        [store removeObjectForKey:NAMES_latitudeDegrees];
-    }
+    [store setOrRemoveObject:latitudeDegrees forKey:NAMES_latitudeDegrees];
 }
 
 -(NSNumber*) latitudeDegrees {
@@ -43,11 +35,7 @@
 }
 
 -(void) setUtcYear:(NSNumber*) utcYear {
-    if (utcYear != nil) {
-        [store setObject:utcYear forKey:NAMES_utcYear];
-    } else {
-        [store removeObjectForKey:NAMES_utcYear];
-    }
+    [store setOrRemoveObject:utcYear forKey:NAMES_utcYear];
 }
 
 -(NSNumber*) utcYear {
@@ -55,11 +43,7 @@
 }
 
 -(void) setUtcMonth:(NSNumber*) utcMonth {
-    if (utcMonth != nil) {
-        [store setObject:utcMonth forKey:NAMES_utcMonth];
-    } else {
-        [store removeObjectForKey:NAMES_utcMonth];
-    }
+    [store setOrRemoveObject:utcMonth forKey:NAMES_utcMonth];
 }
 
 -(NSNumber*) utcMonth {
@@ -67,11 +51,7 @@
 }
 
 -(void) setUtcDay:(NSNumber*) utcDay {
-    if (utcDay != nil) {
-        [store setObject:utcDay forKey:NAMES_utcDay];
-    } else {
-        [store removeObjectForKey:NAMES_utcDay];
-    }
+    [store setOrRemoveObject:utcDay forKey:NAMES_utcDay];
 }
 
 -(NSNumber*) utcDay {
@@ -79,11 +59,7 @@
 }
 
 -(void) setUtcHours:(NSNumber*) utcHours {
-    if (utcHours != nil) {
-        [store setObject:utcHours forKey:NAMES_utcHours];
-    } else {
-        [store removeObjectForKey:NAMES_utcHours];
-    }
+    [store setOrRemoveObject:utcHours forKey:NAMES_utcHours];
 }
 
 -(NSNumber*) utcHours {
@@ -91,11 +67,7 @@
 }
 
 -(void) setUtcMinutes:(NSNumber*) utcMinutes {
-    if (utcMinutes != nil) {
-        [store setObject:utcMinutes forKey:NAMES_utcMinutes];
-    } else {
-        [store removeObjectForKey:NAMES_utcMinutes];
-    }
+    [store setOrRemoveObject:utcMinutes forKey:NAMES_utcMinutes];
 }
 
 -(NSNumber*) utcMinutes {
@@ -103,11 +75,7 @@
 }
 
 -(void) setUtcSeconds:(NSNumber*) utcSeconds {
-    if (utcSeconds != nil) {
-        [store setObject:utcSeconds forKey:NAMES_utcSeconds];
-    } else {
-        [store removeObjectForKey:NAMES_utcSeconds];
-    }
+    [store setOrRemoveObject:utcSeconds forKey:NAMES_utcSeconds];
 }
 
 -(NSNumber*) utcSeconds {
@@ -115,11 +83,7 @@
 }
 
 -(void) setCompassDirection:(SDLCompassDirection*) compassDirection {
-    if (compassDirection != nil) {
-        [store setObject:compassDirection forKey:NAMES_compassDirection];
-    } else {
-        [store removeObjectForKey:NAMES_compassDirection];
-    }
+    [store setOrRemoveObject:compassDirection forKey:NAMES_compassDirection];
 }
 
 -(SDLCompassDirection*) compassDirection {
@@ -132,11 +96,7 @@
 }
 
 -(void) setPdop:(NSNumber*) pdop {
-    if (pdop != nil) {
-        [store setObject:pdop forKey:NAMES_pdop];
-    } else {
-        [store removeObjectForKey:NAMES_pdop];
-    }
+    [store setOrRemoveObject:pdop forKey:NAMES_pdop];
 }
 
 -(NSNumber*) pdop {
@@ -144,11 +104,7 @@
 }
 
 -(void) setHdop:(NSNumber*) hdop {
-    if (hdop != nil) {
-        [store setObject:hdop forKey:NAMES_hdop];
-    } else {
-        [store removeObjectForKey:NAMES_hdop];
-    }
+    [store setOrRemoveObject:hdop forKey:NAMES_hdop];
 }
 
 -(NSNumber*) hdop {
@@ -156,11 +112,7 @@
 }
 
 -(void) setVdop:(NSNumber*) vdop {
-    if (vdop != nil) {
-        [store setObject:vdop forKey:NAMES_vdop];
-    } else {
-        [store removeObjectForKey:NAMES_vdop];
-    }
+    [store setOrRemoveObject:vdop forKey:NAMES_vdop];
 }
 
 -(NSNumber*) vdop {
@@ -168,11 +120,7 @@
 }
 
 -(void) setActual:(NSNumber*) actual {
-    if (actual != nil) {
-        [store setObject:actual forKey:NAMES_actual];
-    } else {
-        [store removeObjectForKey:NAMES_actual];
-    }
+    [store setOrRemoveObject:actual forKey:NAMES_actual];
 }
 
 -(NSNumber*) actual {
@@ -180,11 +128,7 @@
 }
 
 -(void) setSatellites:(NSNumber*) satellites {
-    if (satellites != nil) {
-        [store setObject:satellites forKey:NAMES_satellites];
-    } else {
-        [store removeObjectForKey:NAMES_satellites];
-    }
+    [store setOrRemoveObject:satellites forKey:NAMES_satellites];
 }
 
 -(NSNumber*) satellites {
@@ -192,11 +136,7 @@
 }
 
 -(void) setDimension:(SDLDimension*) dimension {
-    if (dimension != nil) {
-        [store setObject:dimension forKey:NAMES_dimension];
-    } else {
-        [store removeObjectForKey:NAMES_dimension];
-    }
+    [store setOrRemoveObject:dimension forKey:NAMES_dimension];
 }
 
 -(SDLDimension*) dimension {
@@ -209,11 +149,7 @@
 }
 
 -(void) setAltitude:(NSNumber*) altitude {
-    if (altitude != nil) {
-        [store setObject:altitude forKey:NAMES_altitude];
-    } else {
-        [store removeObjectForKey:NAMES_altitude];
-    }
+    [store setOrRemoveObject:altitude forKey:NAMES_altitude];
 }
 
 -(NSNumber*) altitude {
@@ -221,11 +157,7 @@
 }
 
 -(void) setHeading:(NSNumber*) heading {
-    if (heading != nil) {
-        [store setObject:heading forKey:NAMES_heading];
-    } else {
-        [store removeObjectForKey:NAMES_heading];
-    }
+    [store setOrRemoveObject:heading forKey:NAMES_heading];
 }
 
 -(NSNumber*) heading {
@@ -233,11 +165,7 @@
 }
 
 -(void) setSpeed:(NSNumber*) speed {
-    if (speed != nil) {
-        [store setObject:speed forKey:NAMES_speed];
-    } else {
-        [store removeObjectForKey:NAMES_speed];
-    }
+    [store setOrRemoveObject:speed forKey:NAMES_speed];
 }
 
 -(NSNumber*) speed {

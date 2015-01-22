@@ -19,11 +19,7 @@
 }
 
 -(void) setPowerModeActive:(NSNumber*) powerModeActive {
-    if (powerModeActive != nil) {
-        [store setObject:powerModeActive forKey:NAMES_powerModeActive];
-    } else {
-        [store removeObjectForKey:NAMES_powerModeActive];
-    }
+    [store setOrRemoveObject:powerModeActive forKey:NAMES_powerModeActive];
 }
 
 -(NSNumber*) powerModeActive {
@@ -31,11 +27,7 @@
 }
 
 -(void) setPowerModeQualificationStatus:(SDLPowerModeQualificationStatus*) powerModeQualificationStatus {
-    if (powerModeQualificationStatus != nil) {
-        [store setObject:powerModeQualificationStatus forKey:NAMES_powerModeQualificationStatus];
-    } else {
-        [store removeObjectForKey:NAMES_powerModeQualificationStatus];
-    }
+    [store setOrRemoveObject:powerModeQualificationStatus forKey:NAMES_powerModeQualificationStatus];
 }
 
 -(SDLPowerModeQualificationStatus*) powerModeQualificationStatus {
@@ -48,11 +40,7 @@
 }
 
 -(void) setCarModeStatus:(SDLCarModeStatus*) carModeStatus {
-    if (carModeStatus != nil) {
-        [store setObject:carModeStatus forKey:NAMES_carModeStatus];
-    } else {
-        [store removeObjectForKey:NAMES_carModeStatus];
-    }
+    [store setOrRemoveObject:carModeStatus forKey:NAMES_carModeStatus];
 }
 
 -(SDLCarModeStatus*) carModeStatus {
@@ -65,11 +53,7 @@
 }
 
 -(void) setPowerModeStatus:(SDLPowerModeStatus*) powerModeStatus {
-    if (powerModeStatus != nil) {
-        [store setObject:powerModeStatus forKey:NAMES_powerModeStatus];
-    } else {
-        [store removeObjectForKey:NAMES_powerModeStatus];
-    }
+    [store setOrRemoveObject:powerModeStatus forKey:NAMES_powerModeStatus];
 }
 
 -(SDLPowerModeStatus*) powerModeStatus {

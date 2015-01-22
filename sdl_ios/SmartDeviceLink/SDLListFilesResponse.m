@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setFilenames:(NSMutableArray*) filenames {
-    if (filenames != nil) {
-        [parameters setObject:filenames forKey:NAMES_filenames];
-    } else {
-        [parameters removeObjectForKey:NAMES_filenames];
-    }
+- (void)setFilenames:(NSMutableArray *)filenames {
+    [parameters setOrRemoveObject:filenames forKey:NAMES_filenames];
 }
 
 -(NSMutableArray*) filenames {
     return [parameters objectForKey:NAMES_filenames];
 }
 
--(void) setSpaceAvailable:(NSNumber*) spaceAvailable {
-    if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
-    } else {
-        [parameters removeObjectForKey:NAMES_spaceAvailable];
-    }
+- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
+    [parameters setOrRemoveObject:spaceAvailable forKey:NAMES_spaceAvailable];
 }
 
 -(NSNumber*) spaceAvailable {

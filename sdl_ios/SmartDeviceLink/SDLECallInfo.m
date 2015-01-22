@@ -19,11 +19,7 @@
 }
 
 -(void) setECallNotificationStatus:(SDLVehicleDataNotificationStatus*) eCallNotificationStatus {
-    if (eCallNotificationStatus != nil) {
-        [store setObject:eCallNotificationStatus forKey:NAMES_eCallNotificationStatus];
-    } else {
-        [store removeObjectForKey:NAMES_eCallNotificationStatus];
-    }
+    [store setOrRemoveObject:eCallNotificationStatus forKey:NAMES_eCallNotificationStatus];
 }
 
 -(SDLVehicleDataNotificationStatus*) eCallNotificationStatus {
@@ -36,11 +32,7 @@
 }
 
 -(void) setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus*) auxECallNotificationStatus {
-    if (auxECallNotificationStatus != nil) {
-        [store setObject:auxECallNotificationStatus forKey:NAMES_auxECallNotificationStatus];
-    } else {
-        [store removeObjectForKey:NAMES_auxECallNotificationStatus];
-    }
+    [store setOrRemoveObject:auxECallNotificationStatus forKey:NAMES_auxECallNotificationStatus];
 }
 
 -(SDLVehicleDataNotificationStatus*) auxECallNotificationStatus {
@@ -53,11 +45,7 @@
 }
 
 -(void) setECallConfirmationStatus:(SDLECallConfirmationStatus*) eCallConfirmationStatus {
-    if (eCallConfirmationStatus != nil) {
-        [store setObject:eCallConfirmationStatus forKey:NAMES_eCallConfirmationStatus];
-    } else {
-        [store removeObjectForKey:NAMES_eCallConfirmationStatus];
-    }
+    [store setOrRemoveObject:eCallConfirmationStatus forKey:NAMES_eCallConfirmationStatus];
 }
 
 -(SDLECallConfirmationStatus*) eCallConfirmationStatus {

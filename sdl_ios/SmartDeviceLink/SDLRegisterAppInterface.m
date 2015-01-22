@@ -20,12 +20,8 @@
     return self;
 }
 
--(void) setSyncMsgVersion:(SDLSyncMsgVersion*) syncMsgVersion {
-    if (syncMsgVersion != nil) {
-        [parameters setObject:syncMsgVersion forKey:NAMES_syncMsgVersion];
-    } else {
-        [parameters removeObjectForKey:NAMES_syncMsgVersion];
-    }
+- (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
+    [parameters setOrRemoveObject:syncMsgVersion forKey:NAMES_syncMsgVersion];
 }
 
 -(SDLSyncMsgVersion*) syncMsgVersion {
@@ -37,24 +33,16 @@
     }
 }
 
--(void) setAppName:(NSString*) appName {
-    if (appName != nil) {
-        [parameters setObject:appName forKey:NAMES_appName];
-    } else {
-        [parameters removeObjectForKey:NAMES_appName];
-    }
+- (void)setAppName:(NSString *)appName {
+    [parameters setOrRemoveObject:appName forKey:NAMES_appName];
 }
 
 -(NSString*) appName {
     return [parameters objectForKey:NAMES_appName];
 }
 
--(void) setTtsName:(NSMutableArray*) ttsName {
-    if (ttsName != nil) {
-        [parameters setObject:ttsName forKey:NAMES_ttsName];
-    } else {
-        [parameters removeObjectForKey:NAMES_ttsName];
-    }
+- (void)setTtsName:(NSMutableArray *)ttsName {
+    [parameters setOrRemoveObject:ttsName forKey:NAMES_ttsName];
 }
 
 -(NSMutableArray*) ttsName {
@@ -70,48 +58,32 @@
     }
 }
 
--(void) setNgnMediaScreenAppName:(NSString*) ngnMediaScreenAppName {
-    if (ngnMediaScreenAppName != nil) {
-        [parameters setObject:ngnMediaScreenAppName forKey:NAMES_ngnMediaScreenAppName];
-    } else {
-        [parameters removeObjectForKey:NAMES_ngnMediaScreenAppName];
-    }
+- (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
+    [parameters setOrRemoveObject:ngnMediaScreenAppName forKey:NAMES_ngnMediaScreenAppName];
 }
 
 -(NSString*) ngnMediaScreenAppName {
     return [parameters objectForKey:NAMES_ngnMediaScreenAppName];
 }
 
--(void) setVrSynonyms:(NSMutableArray*) vrSynonyms {
-    if (vrSynonyms != nil) {
-        [parameters setObject:vrSynonyms forKey:NAMES_vrSynonyms];
-    } else {
-        [parameters removeObjectForKey:NAMES_vrSynonyms];
-    }
+- (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
+    [parameters setOrRemoveObject:vrSynonyms forKey:NAMES_vrSynonyms];
 }
 
 -(NSMutableArray*) vrSynonyms {
     return [parameters objectForKey:NAMES_vrSynonyms];
 }
 
--(void) setIsMediaApplication:(NSNumber*) isMediaApplication {
-    if (isMediaApplication != nil) {
-        [parameters setObject:isMediaApplication forKey:NAMES_isMediaApplication];
-    } else {
-        [parameters removeObjectForKey:NAMES_isMediaApplication];
-    }
+- (void)setIsMediaApplication:(NSNumber *)isMediaApplication {
+    [parameters setOrRemoveObject:isMediaApplication forKey:NAMES_isMediaApplication];
 }
 
 -(NSNumber*) isMediaApplication {
     return [parameters objectForKey:NAMES_isMediaApplication];
 }
 
--(void) setLanguageDesired:(SDLLanguage*) languageDesired {
-    if (languageDesired != nil) {
-        [parameters setObject:languageDesired forKey:NAMES_languageDesired];
-    } else {
-        [parameters removeObjectForKey:NAMES_languageDesired];
-    }
+- (void)setLanguageDesired:(SDLLanguage *)languageDesired {
+    [parameters setOrRemoveObject:languageDesired forKey:NAMES_languageDesired];
 }
 
 -(SDLLanguage*) languageDesired {
@@ -123,12 +95,8 @@
     }
 }
 
--(void) setHmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired {
-    if (hmiDisplayLanguageDesired != nil) {
-        [parameters setObject:hmiDisplayLanguageDesired forKey:NAMES_hmiDisplayLanguageDesired];
-    } else {
-        [parameters removeObjectForKey:NAMES_hmiDisplayLanguageDesired];
-    }
+- (void)setHmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
+    [parameters setOrRemoveObject:hmiDisplayLanguageDesired forKey:NAMES_hmiDisplayLanguageDesired];
 }
 
 -(SDLLanguage*) hmiDisplayLanguageDesired {
@@ -140,12 +108,8 @@
     }
 }
 
--(void) setAppHMIType:(NSMutableArray*) appHMIType {
-    if (appHMIType != nil) {
-        [parameters setObject:appHMIType forKey:NAMES_appHMIType];
-    } else {
-        [parameters removeObjectForKey:NAMES_appHMIType];
-    }
+- (void)setAppHMIType:(NSMutableArray *)appHMIType {
+    [parameters setOrRemoveObject:appHMIType forKey:NAMES_appHMIType];
 }
 
 -(NSMutableArray*) appHMIType {
@@ -161,24 +125,16 @@
     }
 }
 
--(void) setHashID:(NSString*) hashID {
-    if (hashID != nil) {
-        [parameters setObject:hashID forKey:NAMES_hashID];
-    } else {
-        [parameters removeObjectForKey:NAMES_hashID];
-    }
+- (void)setHashID:(NSString *)hashID {
+    [parameters setOrRemoveObject:hashID forKey:NAMES_hashID];
 }
 
 -(NSString*) hashID {
     return [parameters objectForKey:NAMES_hashID];
 }
 
--(void) setDeviceInfo:(SDLDeviceInfo*) deviceInfo {
-    if (deviceInfo != nil) {
-        [parameters setObject:deviceInfo forKey:NAMES_deviceInfo];
-    } else {
-        [parameters removeObjectForKey:NAMES_deviceInfo];
-    }
+- (void)setDeviceInfo:(SDLDeviceInfo *)deviceInfo {
+    [parameters setOrRemoveObject:deviceInfo forKey:NAMES_deviceInfo];
 }
 
 -(SDLDeviceInfo*) deviceInfo {
@@ -190,12 +146,8 @@
     }
 }
 
--(void) setAppID:(NSString*) appID {
-    if (appID != nil) {
-        [parameters setObject:appID forKey:NAMES_appID];
-    } else {
-        [parameters removeObjectForKey:NAMES_appID];
-    }
+- (void)setAppID:(NSString *)appID {
+    [parameters setOrRemoveObject:appID forKey:NAMES_appID];
 }
 
 -(NSString*) appID {

@@ -19,12 +19,8 @@
     return self;
 }
 
--(void) setType:(SDLTouchType*) type {
-    if (type != nil) {
-        [parameters setObject:type forKey:NAMES_type];
-    } else {
-        [parameters removeObjectForKey:NAMES_type];
-    }
+- (void)setType:(SDLTouchType *)type {
+    [parameters setOrRemoveObject:type forKey:NAMES_type];
 }
 
 -(SDLTouchType*) type {
@@ -36,12 +32,8 @@
     }
 }
 
--(void) setEvent:(NSMutableArray*) event {
-    if (event != nil) {
-        [parameters setObject:event forKey:NAMES_event];
-    } else {
-        [parameters removeObjectForKey:NAMES_event];
-    }
+- (void)setEvent:(NSMutableArray *)event {
+    [parameters setOrRemoveObject:event forKey:NAMES_event];
 }
 
 -(NSMutableArray*) event {

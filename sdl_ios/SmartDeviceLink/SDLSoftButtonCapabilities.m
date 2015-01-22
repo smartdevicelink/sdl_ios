@@ -19,11 +19,7 @@
 }
 
 -(void) setShortPressAvailable:(NSNumber*) shortPressAvailable {
-    if (shortPressAvailable != nil) {
-        [store setObject:shortPressAvailable forKey:NAMES_shortPressAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_shortPressAvailable];
-    }
+    [store setOrRemoveObject:shortPressAvailable forKey:NAMES_shortPressAvailable];
 }
 
 -(NSNumber*) shortPressAvailable {
@@ -31,11 +27,7 @@
 }
 
 -(void) setLongPressAvailable:(NSNumber*) longPressAvailable {
-    if (longPressAvailable != nil) {
-        [store setObject:longPressAvailable forKey:NAMES_longPressAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_longPressAvailable];
-    }
+    [store setOrRemoveObject:longPressAvailable forKey:NAMES_longPressAvailable];
 }
 
 -(NSNumber*) longPressAvailable {
@@ -43,11 +35,7 @@
 }
 
 -(void) setUpDownAvailable:(NSNumber*) upDownAvailable {
-    if (upDownAvailable != nil) {
-        [store setObject:upDownAvailable forKey:NAMES_upDownAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_upDownAvailable];
-    }
+    [store setOrRemoveObject:upDownAvailable forKey:NAMES_upDownAvailable];
 }
 
 -(NSNumber*) upDownAvailable {
@@ -55,11 +43,7 @@
 }
 
 -(void) setImageSupported:(NSNumber*) imageSupported {
-    if (imageSupported != nil) {
-        [store setObject:imageSupported forKey:NAMES_imageSupported];
-    } else {
-        [store removeObjectForKey:NAMES_imageSupported];
-    }
+    [store setOrRemoveObject:imageSupported forKey:NAMES_imageSupported];
 }
 
 -(NSNumber*) imageSupported {

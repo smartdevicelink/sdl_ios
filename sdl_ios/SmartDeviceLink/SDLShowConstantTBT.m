@@ -19,72 +19,48 @@
     return self;
 }
 
--(void) setNavigationText1:(NSString*) navigationText1 {
-    if (navigationText1 != nil) {
-        [parameters setObject:navigationText1 forKey:NAMES_navigationText1];
-    } else {
-        [parameters removeObjectForKey:NAMES_navigationText1];
-    }
+- (void)setNavigationText1:(NSString *)navigationText1 {
+    [parameters setOrRemoveObject:navigationText1 forKey:NAMES_navigationText1];
 }
 
 -(NSString*) navigationText1 {
     return [parameters objectForKey:NAMES_navigationText1];
 }
 
--(void) setNavigationText2:(NSString*) navigationText2 {
-    if (navigationText2 != nil) {
-        [parameters setObject:navigationText2 forKey:NAMES_navigationText2];
-    } else {
-        [parameters removeObjectForKey:NAMES_navigationText2];
-    }
+- (void)setNavigationText2:(NSString *)navigationText2 {
+    [parameters setOrRemoveObject:navigationText2 forKey:NAMES_navigationText2];
 }
 
 -(NSString*) navigationText2 {
     return [parameters objectForKey:NAMES_navigationText2];
 }
 
--(void) setEta:(NSString*) eta {
-    if (eta != nil) {
-        [parameters setObject:eta forKey:NAMES_eta];
-    } else {
-        [parameters removeObjectForKey:NAMES_eta];
-    }
+- (void)setEta:(NSString *)eta {
+    [parameters setOrRemoveObject:eta forKey:NAMES_eta];
 }
 
 -(NSString*) eta {
     return [parameters objectForKey:NAMES_eta];
 }
 
--(void) setTimeToDestination:(NSString*) timeToDestination {
-    if (timeToDestination != nil) {
-        [parameters setObject:timeToDestination forKey:NAMES_timeToDestination];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeToDestination];
-    }
+- (void)setTimeToDestination:(NSString *)timeToDestination {
+    [parameters setOrRemoveObject:timeToDestination forKey:NAMES_timeToDestination];
 }
 
 -(NSString*) timeToDestination {
     return [parameters objectForKey:NAMES_timeToDestination];
 }
 
--(void) setTotalDistance:(NSString*) totalDistance {
-    if (totalDistance != nil) {
-        [parameters setObject:totalDistance forKey:NAMES_totalDistance];
-    } else {
-        [parameters removeObjectForKey:NAMES_totalDistance];
-    }
+- (void)setTotalDistance:(NSString *)totalDistance {
+    [parameters setOrRemoveObject:totalDistance forKey:NAMES_totalDistance];
 }
 
 -(NSString*) totalDistance {
     return [parameters objectForKey:NAMES_totalDistance];
 }
 
--(void) setTurnIcon:(SDLImage*) turnIcon {
-    if (turnIcon != nil) {
-        [parameters setObject:turnIcon forKey:NAMES_turnIcon];
-    } else {
-        [parameters removeObjectForKey:NAMES_turnIcon];
-    }
+- (void)setTurnIcon:(SDLImage *)turnIcon {
+    [parameters setOrRemoveObject:turnIcon forKey:NAMES_turnIcon];
 }
 
 -(SDLImage*) turnIcon {
@@ -96,12 +72,8 @@
     }
 }
 
--(void) setNextTurnIcon:(SDLImage*) nextTurnIcon {
-    if (nextTurnIcon != nil) {
-        [parameters setObject:nextTurnIcon forKey:NAMES_nextTurnIcon];
-    } else {
-        [parameters removeObjectForKey:NAMES_nextTurnIcon];
-    }
+- (void)setNextTurnIcon:(SDLImage *)nextTurnIcon {
+    [parameters setOrRemoveObject:nextTurnIcon forKey:NAMES_nextTurnIcon];
 }
 
 -(SDLImage*) nextTurnIcon {
@@ -113,48 +85,32 @@
     }
 }
 
--(void) setDistanceToManeuver:(NSNumber*) distanceToManeuver {
-    if (distanceToManeuver != nil) {
-        [parameters setObject:distanceToManeuver forKey:NAMES_distanceToManeuver];
-    } else {
-        [parameters removeObjectForKey:NAMES_distanceToManeuver];
-    }
+- (void)setDistanceToManeuver:(NSNumber *)distanceToManeuver {
+    [parameters setOrRemoveObject:distanceToManeuver forKey:NAMES_distanceToManeuver];
 }
 
 -(NSNumber*) distanceToManeuver {
     return [parameters objectForKey:NAMES_distanceToManeuver];
 }
 
--(void) setDistanceToManeuverScale:(NSNumber*) distanceToManeuverScale {
-    if (distanceToManeuverScale != nil) {
-        [parameters setObject:distanceToManeuverScale forKey:NAMES_distanceToManeuverScale];
-    } else {
-        [parameters removeObjectForKey:NAMES_distanceToManeuverScale];
-    }
+- (void)setDistanceToManeuverScale:(NSNumber *)distanceToManeuverScale {
+    [parameters setOrRemoveObject:distanceToManeuverScale forKey:NAMES_distanceToManeuverScale];
 }
 
 -(NSNumber*) distanceToManeuverScale {
     return [parameters objectForKey:NAMES_distanceToManeuverScale];
 }
 
--(void) setManeuverComplete:(NSNumber*) maneuverComplete {
-    if (maneuverComplete != nil) {
-        [parameters setObject:maneuverComplete forKey:NAMES_maneuverComplete];
-    } else {
-        [parameters removeObjectForKey:NAMES_maneuverComplete];
-    }
+- (void)setManeuverComplete:(NSNumber *)maneuverComplete {
+    [parameters setOrRemoveObject:maneuverComplete forKey:NAMES_maneuverComplete];
 }
 
 -(NSNumber*) maneuverComplete {
     return [parameters objectForKey:NAMES_maneuverComplete];
 }
 
--(void) setSoftButtons:(NSMutableArray*) softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
-    } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
-    }
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
+    [parameters setOrRemoveObject:softButtons forKey:NAMES_softButtons];
 }
 
 -(NSMutableArray*) softButtons {

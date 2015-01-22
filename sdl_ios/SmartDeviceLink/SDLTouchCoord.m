@@ -19,11 +19,7 @@
 }
 
 -(void) setX:(NSNumber*) x {
-    if (x != nil) {
-        [store setObject:x forKey:NAMES_x];
-    } else {
-        [store removeObjectForKey:NAMES_x];
-    }
+    [store setOrRemoveObject:x forKey:NAMES_x];
 }
 
 -(NSNumber*) x {
@@ -31,11 +27,7 @@
 }
 
 -(void) setY:(NSNumber*) y {
-    if (y != nil) {
-        [store setObject:y forKey:NAMES_y];
-    } else {
-        [store removeObjectForKey:NAMES_y];
-    }
+    [store setOrRemoveObject:y forKey:NAMES_y];
 }
 
 -(NSNumber*) y {

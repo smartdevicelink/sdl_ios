@@ -20,12 +20,8 @@
     return self;
 }
 
--(void) setDisplayCapabilities:(SDLDisplayCapabilities*) displayCapabilities {
-    if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:NAMES_displayCapabilities];
-    } else {
-        [parameters removeObjectForKey:NAMES_displayCapabilities];
-    }
+- (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+    [parameters setOrRemoveObject:displayCapabilities forKey:NAMES_displayCapabilities];
 }
 
 -(SDLDisplayCapabilities*) displayCapabilities {
@@ -37,12 +33,8 @@
     }
 }
 
--(void) setButtonCapabilities:(NSMutableArray*) buttonCapabilities {
-    if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:NAMES_buttonCapabilities];
-    } else {
-        [parameters removeObjectForKey:NAMES_buttonCapabilities];
-    }
+- (void)setButtonCapabilities:(NSMutableArray *)buttonCapabilities {
+    [parameters setOrRemoveObject:buttonCapabilities forKey:NAMES_buttonCapabilities];
 }
 
 -(NSMutableArray*) buttonCapabilities {
@@ -58,12 +50,8 @@
     }
 }
 
--(void) setSoftButtonCapabilities:(NSMutableArray*) softButtonCapabilities {
-    if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:NAMES_softButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:NAMES_softButtonCapabilities];
-    }
+- (void)setSoftButtonCapabilities:(NSMutableArray *)softButtonCapabilities {
+    [parameters setOrRemoveObject:softButtonCapabilities forKey:NAMES_softButtonCapabilities];
 }
 
 -(NSMutableArray*) softButtonCapabilities {
@@ -79,12 +67,8 @@
     }
 }
 
--(void) setPresetBankCapabilities:(SDLPresetBankCapabilities*) presetBankCapabilities {
-    if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:NAMES_presetBankCapabilities];
-    } else {
-        [parameters removeObjectForKey:NAMES_presetBankCapabilities];
-    }
+- (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
+    [parameters setOrRemoveObject:presetBankCapabilities forKey:NAMES_presetBankCapabilities];
 }
 
 -(SDLPresetBankCapabilities*) presetBankCapabilities {

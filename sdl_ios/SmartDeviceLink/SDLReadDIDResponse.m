@@ -19,12 +19,8 @@
     return self;
 }
 
--(void) setDidResult:(NSMutableArray*) didResult {
-    if (didResult != nil) {
-        [parameters setObject:didResult forKey:NAMES_didResult];
-    } else {
-        [parameters removeObjectForKey:NAMES_didResult];
-    }
+- (void)setDidResult:(NSMutableArray *)didResult {
+    [parameters setOrRemoveObject:didResult forKey:NAMES_didResult];
 }
 
 -(NSMutableArray*) didResult {

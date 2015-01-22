@@ -19,11 +19,7 @@
 }
 
 -(void) setName:(SDLTextFieldName*) name {
-    if (name != nil) {
-        [store setObject:name forKey:NAMES_name];
-    } else {
-        [store removeObjectForKey:NAMES_name];
-    }
+    [store setOrRemoveObject:name forKey:NAMES_name];
 }
 
 -(SDLTextFieldName*) name {
@@ -36,11 +32,7 @@
 }
 
 -(void) setCharacterSet:(SDLCharacterSet*) characterSet {
-    if (characterSet != nil) {
-        [store setObject:characterSet forKey:NAMES_characterSet];
-    } else {
-        [store removeObjectForKey:NAMES_characterSet];
-    }
+    [store setOrRemoveObject:characterSet forKey:NAMES_characterSet];
 }
 
 -(SDLCharacterSet*) characterSet {
@@ -53,11 +45,7 @@
 }
 
 -(void) setWidth:(NSNumber*) width {
-    if (width != nil) {
-        [store setObject:width forKey:NAMES_width];
-    } else {
-        [store removeObjectForKey:NAMES_width];
-    }
+    [store setOrRemoveObject:width forKey:NAMES_width];
 }
 
 -(NSNumber*) width {
@@ -65,11 +53,7 @@
 }
 
 -(void) setRows:(NSNumber*) rows {
-    if (rows != nil) {
-        [store setObject:rows forKey:NAMES_rows];
-    } else {
-        [store removeObjectForKey:NAMES_rows];
-    }
+    [store setOrRemoveObject:rows forKey:NAMES_rows];
 }
 
 -(NSNumber*) rows {

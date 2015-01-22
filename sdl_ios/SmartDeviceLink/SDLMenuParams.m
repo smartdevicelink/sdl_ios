@@ -19,11 +19,7 @@
 }
 
 -(void) setParentID:(NSNumber*) parentID {
-    if (parentID != nil) {
-        [store setObject:parentID forKey:NAMES_parentID];
-    } else {
-        [store removeObjectForKey:NAMES_parentID];
-    }
+    [store setOrRemoveObject:parentID forKey:NAMES_parentID];
 }
 
 -(NSNumber*) parentID {
@@ -31,11 +27,7 @@
 }
 
 -(void) setPosition:(NSNumber*) position {
-    if (position != nil) {
-        [store setObject:position forKey:NAMES_position];
-    } else {
-        [store removeObjectForKey:NAMES_position];
-    }
+    [store setOrRemoveObject:position forKey:NAMES_position];
 }
 
 -(NSNumber*) position {
@@ -43,11 +35,7 @@
 }
 
 -(void) setMenuName:(NSString*) menuName {
-    if (menuName != nil) {
-        [store setObject:menuName forKey:NAMES_menuName];
-    } else {
-        [store removeObjectForKey:NAMES_menuName];
-    }
+    [store setOrRemoveObject:menuName forKey:NAMES_menuName];
 }
 
 -(NSString*) menuName {

@@ -21,12 +21,8 @@
     return self;
 }
 
-- (void)setLockScreenStatus:(SDLLockScreenStatus*)lockScreenStatus {
-    if (lockScreenStatus != nil) {
-        [parameters setObject:lockScreenStatus forKey:@"OnLockScreenStatus"];
-    } else {
-        [parameters removeObjectForKey:@"OnLockScreenStatus"];
-    }
+- (void)setLockScreenStatus:(SDLLockScreenStatus *)lockScreenStatus {
+    [parameters setOrRemoveObject:lockScreenStatus forKey:@"OnLockScreenStatus"];
 }
 
 - (SDLLockScreenStatus *)lockScreenStatus {
@@ -39,11 +35,7 @@
 }
 
 - (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
-    if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:@"hmilevel"];
-    } else {
-        [parameters removeObjectForKey:@"hmilevel"];
-    }
+    [parameters setOrRemoveObject:hmiLevel forKey:@"hmilevel"];
 }
 
 - (SDLHMILevel *)hmiLevel {
@@ -56,11 +48,7 @@
 }
 
 - (void)setUserSelected:(NSNumber *)userSelected {
-    if (userSelected != nil) {
-        [parameters setObject:userSelected forKey:@"userselected"];
-    } else {
-        [parameters removeObjectForKey:@"userselected"];
-    }
+    [parameters setOrRemoveObject:userSelected forKey:@"userselected"];
 }
 
 - (NSNumber *)userSelected {
@@ -68,11 +56,7 @@
 }
 
 - (void)setDriverDistractionStatus:(NSNumber *)driverDistractionStatus {
-    if (driverDistractionStatus != nil) {
-        [parameters setObject:driverDistractionStatus forKey:@"driverdistractionstatus"];
-    } else {
-        [parameters removeObjectForKey:@"driverdistractionstatus"];
-    }
+    [parameters setOrRemoveObject:driverDistractionStatus forKey:@"driverdistractionstatus"];
 }
 
 - (NSNumber *)driverDistractionStatus {

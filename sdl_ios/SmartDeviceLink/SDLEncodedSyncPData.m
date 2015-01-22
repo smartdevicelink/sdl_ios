@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setData:(NSMutableArray*) data {
-    if (data != nil) {
-        [parameters setObject:data forKey:NAMES_data];
-    } else {
-        [parameters removeObjectForKey:NAMES_data];
-    }
+- (void)setData:(NSMutableArray *)data {
+    [parameters setOrRemoveObject:data forKey:NAMES_data];
 }
 
 -(NSMutableArray*) data {

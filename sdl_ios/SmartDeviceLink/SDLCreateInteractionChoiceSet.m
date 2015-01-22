@@ -19,24 +19,16 @@
     return self;
 }
 
--(void) setInteractionChoiceSetID:(NSNumber*) interactionChoiceSetID {
-    if (interactionChoiceSetID != nil) {
-        [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
-    } else {
-        [parameters removeObjectForKey:NAMES_interactionChoiceSetID];
-    }
+- (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
+    [parameters setOrRemoveObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
 }
 
 -(NSNumber*) interactionChoiceSetID {
     return [parameters objectForKey:NAMES_interactionChoiceSetID];
 }
 
--(void) setChoiceSet:(NSMutableArray*) choiceSet {
-    if (choiceSet != nil) {
-        [parameters setObject:choiceSet forKey:NAMES_choiceSet];
-    } else {
-        [parameters removeObjectForKey:NAMES_choiceSet];
-    }
+- (void)setChoiceSet:(NSMutableArray *)choiceSet {
+    [parameters setOrRemoveObject:choiceSet forKey:NAMES_choiceSet];
 }
 
 -(NSMutableArray*) choiceSet {

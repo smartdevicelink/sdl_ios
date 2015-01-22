@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setEcuName:(NSNumber*) ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:NAMES_ecuName];
-    } else {
-        [parameters removeObjectForKey:NAMES_ecuName];
-    }
+- (void)setEcuName:(NSNumber *)ecuName {
+    [parameters setOrRemoveObject:ecuName forKey:NAMES_ecuName];
 }
 
 -(NSNumber*) ecuName {
     return [parameters objectForKey:NAMES_ecuName];
 }
 
--(void) setDidLocation:(NSMutableArray*) didLocation {
-    if (didLocation != nil) {
-        [parameters setObject:didLocation forKey:NAMES_didLocation];
-    } else {
-        [parameters removeObjectForKey:NAMES_didLocation];
-    }
+- (void)setDidLocation:(NSMutableArray *)didLocation {
+    [parameters setOrRemoveObject:didLocation forKey:NAMES_didLocation];
 }
 
 -(NSMutableArray*) didLocation {

@@ -19,11 +19,7 @@
 }
 
 -(void) setLanguage:(SDLLanguage*) language {
-    if (language != nil) {
-        [store setObject:language forKey:NAMES_language];
-    } else {
-        [store removeObjectForKey:NAMES_language];
-    }
+    [store setOrRemoveObject:language forKey:NAMES_language];
 }
 
 -(SDLLanguage*) language {
@@ -36,11 +32,7 @@
 }
 
 -(void) setKeyboardLayout:(SDLKeyboardLayout*) keyboardLayout {
-    if (keyboardLayout != nil) {
-        [store setObject:keyboardLayout forKey:NAMES_keyboardLayout];
-    } else {
-        [store removeObjectForKey:NAMES_keyboardLayout];
-    }
+    [store setOrRemoveObject:keyboardLayout forKey:NAMES_keyboardLayout];
 }
 
 -(SDLKeyboardLayout*) keyboardLayout {
@@ -53,11 +45,7 @@
 }
 
 -(void) setKeypressMode:(SDLKeypressMode*) keypressMode {
-    if (keypressMode != nil) {
-        [store setObject:keypressMode forKey:NAMES_keypressMode];
-    } else {
-        [store removeObjectForKey:NAMES_keypressMode];
-    }
+    [store setOrRemoveObject:keypressMode forKey:NAMES_keypressMode];
 }
 
 -(SDLKeypressMode*) keypressMode {
@@ -70,11 +58,7 @@
 }
 
 -(void) setLimitedCharacterList:(NSMutableArray*) limitedCharacterList {
-    if (limitedCharacterList != nil) {
-        [store setObject:limitedCharacterList forKey:NAMES_limitedCharacterList];
-    } else {
-        [store removeObjectForKey:NAMES_limitedCharacterList];
-    }
+    [store setOrRemoveObject:limitedCharacterList forKey:NAMES_limitedCharacterList];
 }
 
 -(NSMutableArray*) limitedCharacterList {
@@ -82,11 +66,7 @@
 }
 
 -(void) setAutoCompleteText:(NSString*) autoCompleteText {
-    if (autoCompleteText != nil) {
-        [store setObject:autoCompleteText forKey:NAMES_autoCompleteText];
-    } else {
-        [store removeObjectForKey:NAMES_autoCompleteText];
-    }
+    [store setOrRemoveObject:autoCompleteText forKey:NAMES_autoCompleteText];
 }
 
 -(NSString*) autoCompleteText {

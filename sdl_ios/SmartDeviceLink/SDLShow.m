@@ -19,60 +19,40 @@
     return self;
 }
 
--(void) setMainField1:(NSString*) mainField1 {
-    if (mainField1 != nil) {
-        [parameters setObject:mainField1 forKey:NAMES_mainField1];
-    } else {
-        [parameters removeObjectForKey:NAMES_mainField1];
-    }
+- (void)setMainField1:(NSString *)mainField1 {
+    [parameters setOrRemoveObject:mainField1 forKey:NAMES_mainField1];
 }
 
 -(NSString*) mainField1 {
     return [parameters objectForKey:NAMES_mainField1];
 }
 
--(void) setMainField2:(NSString*) mainField2 {
-    if (mainField2 != nil) {
-        [parameters setObject:mainField2 forKey:NAMES_mainField2];
-    } else {
-        [parameters removeObjectForKey:NAMES_mainField2];
-    }
+- (void)setMainField2:(NSString *)mainField2 {
+    [parameters setOrRemoveObject:mainField2 forKey:NAMES_mainField2];
 }
 
 -(NSString*) mainField2 {
     return [parameters objectForKey:NAMES_mainField2];
 }
 
--(void) setMainField3:(NSString*) mainField3 {
-    if (mainField3 != nil) {
-        [parameters setObject:mainField3 forKey:NAMES_mainField3];
-    } else {
-        [parameters removeObjectForKey:NAMES_mainField3];
-    }
+- (void)setMainField3:(NSString *)mainField3 {
+    [parameters setOrRemoveObject:mainField3 forKey:NAMES_mainField3];
 }
 
 -(NSString*) mainField3 {
     return [parameters objectForKey:NAMES_mainField3];
 }
 
--(void) setMainField4:(NSString*) mainField4 {
-    if (mainField4 != nil) {
-        [parameters setObject:mainField4 forKey:NAMES_mainField4];
-    } else {
-        [parameters removeObjectForKey:NAMES_mainField4];
-    }
+- (void)setMainField4:(NSString *)mainField4 {
+    [parameters setOrRemoveObject:mainField4 forKey:NAMES_mainField4];
 }
 
 -(NSString*) mainField4 {
     return [parameters objectForKey:NAMES_mainField4];
 }
 
--(void) setAlignment:(SDLTextAlignment*) alignment {
-    if (alignment != nil) {
-        [parameters setObject:alignment forKey:NAMES_alignment];
-    } else {
-        [parameters removeObjectForKey:NAMES_alignment];
-    }
+- (void)setAlignment:(SDLTextAlignment *)alignment {
+    [parameters setOrRemoveObject:alignment forKey:NAMES_alignment];
 }
 
 -(SDLTextAlignment*) alignment {
@@ -84,48 +64,32 @@
     }
 }
 
--(void) setStatusBar:(NSString*) statusBar {
-    if (statusBar != nil) {
-        [parameters setObject:statusBar forKey:NAMES_statusBar];
-    } else {
-        [parameters removeObjectForKey:NAMES_statusBar];
-    }
+- (void)setStatusBar:(NSString *)statusBar {
+    [parameters setOrRemoveObject:statusBar forKey:NAMES_statusBar];
 }
 
 -(NSString*) statusBar {
     return [parameters objectForKey:NAMES_statusBar];
 }
 
--(void) setMediaClock:(NSString*) mediaClock {
-    if (mediaClock != nil) {
-        [parameters setObject:mediaClock forKey:NAMES_mediaClock];
-    } else {
-        [parameters removeObjectForKey:NAMES_mediaClock];
-    }
+- (void)setMediaClock:(NSString *)mediaClock {
+    [parameters setOrRemoveObject:mediaClock forKey:NAMES_mediaClock];
 }
 
 -(NSString*) mediaClock {
     return [parameters objectForKey:NAMES_mediaClock];
 }
 
--(void) setMediaTrack:(NSString*) mediaTrack {
-    if (mediaTrack != nil) {
-        [parameters setObject:mediaTrack forKey:NAMES_mediaTrack];
-    } else {
-        [parameters removeObjectForKey:NAMES_mediaTrack];
-    }
+- (void)setMediaTrack:(NSString *)mediaTrack {
+    [parameters setOrRemoveObject:mediaTrack forKey:NAMES_mediaTrack];
 }
 
 -(NSString*) mediaTrack {
     return [parameters objectForKey:NAMES_mediaTrack];
 }
 
--(void) setGraphic:(SDLImage*) graphic {
-    if (graphic != nil) {
-        [parameters setObject:graphic forKey:NAMES_graphic];
-    } else {
-        [parameters removeObjectForKey:NAMES_graphic];
-    }
+- (void)setGraphic:(SDLImage *)graphic {
+    [parameters setOrRemoveObject:graphic forKey:NAMES_graphic];
 }
 
 -(SDLImage*) graphic {
@@ -137,12 +101,8 @@
     }
 }
 
--(void) setSecondaryGraphic:(SDLImage*) secondaryGraphic {
-    if (secondaryGraphic != nil) {
-        [parameters setObject:secondaryGraphic forKey:NAMES_secondaryGraphic];
-    } else {
-        [parameters removeObjectForKey:NAMES_secondaryGraphic];
-    }
+- (void)setSecondaryGraphic:(SDLImage *)secondaryGraphic {
+    [parameters setOrRemoveObject:secondaryGraphic forKey:NAMES_secondaryGraphic];
 }
 
 -(SDLImage*) secondaryGraphic {
@@ -154,12 +114,8 @@
     }
 }
 
--(void) setSoftButtons:(NSMutableArray*) softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
-    } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
-    }
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
+    [parameters setOrRemoveObject:softButtons forKey:NAMES_softButtons];
 }
 
 -(NSMutableArray*) softButtons {
@@ -175,12 +131,8 @@
     }
 }
 
--(void) setCustomPresets:(NSMutableArray*) customPresets {
-    if (customPresets != nil) {
-        [parameters setObject:customPresets forKey:NAMES_customPresets];
-    } else {
-        [parameters removeObjectForKey:NAMES_customPresets];
-    }
+- (void)setCustomPresets:(NSMutableArray *)customPresets {
+    [parameters setOrRemoveObject:customPresets forKey:NAMES_customPresets];
 }
 
 -(NSMutableArray*) customPresets {

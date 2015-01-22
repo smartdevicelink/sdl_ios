@@ -19,11 +19,7 @@
 }
 
 -(void) setChoiceID:(NSNumber*) choiceID {
-    if (choiceID != nil) {
-        [store setObject:choiceID forKey:NAMES_choiceID];
-    } else {
-        [store removeObjectForKey:NAMES_choiceID];
-    }
+    [store setOrRemoveObject:choiceID forKey:NAMES_choiceID];
 }
 
 -(NSNumber*) choiceID {
@@ -31,11 +27,7 @@
 }
 
 -(void) setMenuName:(NSString*) menuName {
-    if (menuName != nil) {
-        [store setObject:menuName forKey:NAMES_menuName];
-    } else {
-        [store removeObjectForKey:NAMES_menuName];
-    }
+    [store setOrRemoveObject:menuName forKey:NAMES_menuName];
 }
 
 -(NSString*) menuName {
@@ -43,11 +35,7 @@
 }
 
 -(void) setVrCommands:(NSMutableArray*) vrCommands {
-    if (vrCommands != nil) {
-        [store setObject:vrCommands forKey:NAMES_vrCommands];
-    } else {
-        [store removeObjectForKey:NAMES_vrCommands];
-    }
+    [store setOrRemoveObject:vrCommands forKey:NAMES_vrCommands];
 }
 
 -(NSMutableArray*) vrCommands {
@@ -55,11 +43,7 @@
 }
 
 -(void) setImage:(SDLImage*) image {
-    if (image != nil) {
-        [store setObject:image forKey:NAMES_image];
-    } else {
-        [store removeObjectForKey:NAMES_image];
-    }
+    [store setOrRemoveObject:image forKey:NAMES_image];
 }
 
 -(SDLImage*) image {
@@ -72,11 +56,7 @@
 }
 
 -(void) setSecondaryText:(NSString*) secondaryText {
-    if (secondaryText != nil) {
-        [store setObject:secondaryText forKey:NAMES_secondaryText];
-    } else {
-        [store removeObjectForKey:NAMES_secondaryText];
-    }
+    [store setOrRemoveObject:secondaryText forKey:NAMES_secondaryText];
 }
 
 -(NSString*) secondaryText {
@@ -84,11 +64,7 @@
 }
 
 -(void) setTertiaryText:(NSString*) tertiaryText {
-    if (tertiaryText != nil) {
-        [store setObject:tertiaryText forKey:NAMES_tertiaryText];
-    } else {
-        [store removeObjectForKey:NAMES_tertiaryText];
-    }
+    [store setOrRemoveObject:tertiaryText forKey:NAMES_tertiaryText];
 }
 
 -(NSString*) tertiaryText {
@@ -96,11 +72,7 @@
 }
 
 -(void) setSecondaryImage:(SDLImage*) secondaryImage {
-    if (secondaryImage != nil) {
-        [store setObject:secondaryImage forKey:NAMES_secondaryImage];
-    } else {
-        [store removeObjectForKey:NAMES_secondaryImage];
-    }
+    [store setOrRemoveObject:secondaryImage forKey:NAMES_secondaryImage];
 }
 
 -(SDLImage*) secondaryImage {
