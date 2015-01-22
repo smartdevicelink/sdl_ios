@@ -5,13 +5,9 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
-@interface SDLRPCMessageType : SDLEnum {}
 
-+(SDLRPCMessageType*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
-
-+(SDLRPCMessageType*) request;
-+(SDLRPCMessageType*) response;
-+(SDLRPCMessageType*) notification;
-
-@end
+typedef NS_ENUM(Byte, SDLRPCMessageType) {
+    SDLRPCMessageTypeRequest,
+    SDLRPCMessageTypeResponse,
+    SDLRPCMessageTypeNotification
+};
