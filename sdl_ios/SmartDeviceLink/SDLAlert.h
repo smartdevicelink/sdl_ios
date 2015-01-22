@@ -1,6 +1,6 @@
 //  SDLAlert.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -12,9 +12,9 @@
  * <ul>
  * <li>The displayed portion of the SDLAlert, if any, will persist until the
  * specified timeout has elapsed, or the SDLAlert is preempted</li>
- * <li>An SDLAlert will preempt (abort) any AppLink Operation that is in-progress,
+ * <li>An SDLAlert will preempt (abort) any SmartDeviceLink Operation that is in-progress,
  * except an already-in-progress SDLAlert</li>
- * <li>An SDLAlert cannot be preempted by any AppLink Operation</li>
+ * <li>An SDLAlert cannot be preempted by any SmartDeviceLink Operation</li>
  * <li>An SDLAlert can be preempted by a user action (button push)</li>
  * <li>An SDLAlert will fail if it is issued while another SDLAlert is in progress</li>
  * <li>Although each Alert parameter is optional, in fact each SDLAlert request
@@ -32,7 +32,7 @@
  * <b>If the app has been granted function group Notification the SDLHMILevel can
  * also be BACKGROUND</b><br/>
  *
- * Since <b>AppLink 1.0<b><br>
+ * Since <b>SmartDeviceLink 1.0<b><br>
  * see SDLShow SDLSpeak
  */
 @interface SDLAlert : SDLRPCRequest {}
@@ -127,7 +127,7 @@
  *            <li>ArrayMin: 0</li>
  *            <li>ArrayMax: 4</li>
  *            </ul>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSNumber* progressIndicator;
 @property(strong) NSMutableArray* softButtons;

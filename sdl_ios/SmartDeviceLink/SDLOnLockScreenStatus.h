@@ -7,7 +7,7 @@
 #import "SDLLockScreenStatus.h"
 
 /**
- * 	As per Ford Motor Company’s driver distraction rules, any AppLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
+ * 	To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
  *
  *	This lockscreen must perform the following:
  *	Limit all application control usability from the mobile device with a full-screen static image overlay or separate view.

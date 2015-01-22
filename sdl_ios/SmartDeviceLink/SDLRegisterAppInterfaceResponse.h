@@ -1,6 +1,6 @@
 //  SDLRegisterAppInterfaceResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -14,7 +14,7 @@
 /**
  * @abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called
  *
- * Since AppLink 1.0
+ * Since SmartDeviceLink 1.0
  */
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse {}
 
@@ -30,21 +30,21 @@
 -(id) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
- * @abstract The version of the SYNC&reg; AppLink interface
- * @discussion a SyncMsgVersion object representing version of the SYNC&reg;
- *            AppLink interface
+ * @abstract The version of the SDL&reg; SmartDeviceLink interface
+ * @discussion a SDLMsgVersion object representing version of the SDL&reg;
+ *            SmartDeviceLink interface
  *            <p>
  *            <b>Notes: </b>To be compatible, app msg major version number
- *            must be less than or equal to SYNC&reg; major version number.
+ *            must be less than or equal to SDL&reg; major version number.
  *            If msg versions are incompatible, app has 20 seconds to
  *            attempt successful RegisterAppInterface (w.r.t. msg version)
  *            on underlying protocol session, else will be terminated. Major
  *            version number is a compatibility declaration. Minor version
  *            number indicates minor functional variations (e.g. features,
- *            capabilities, bug fixes) when sent from SYNC&reg; to app (in
+ *            capabilities, bug fixes) when sent from SDL&reg; to app (in
  *            RegisterAppInterface response). However, the minor version
- *            number sent from the app to SYNC&reg; (in RegisterAppInterface
- *            request) is ignored by SYNC&reg;
+ *            number sent from the app to SDL&reg; (in RegisterAppInterface
+ *            request) is ignored by SDL&reg;
  */
 @property(strong) SDLSyncMsgVersion* syncMsgVersion;
 /**
@@ -55,7 +55,7 @@
 /**
  * @abstract An enumeration indicating what language the application intends to
  * use for user interaction ( Display)
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) SDLLanguage* hmiDisplayLanguage;
 /**

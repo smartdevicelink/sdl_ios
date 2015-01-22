@@ -1,6 +1,6 @@
 //  SDLOnPermissionsChange.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCNotification.h>
@@ -33,7 +33,7 @@
  * <th>Description</th>
  * <th>Req</th>
  * <th>Notes</th>
- * <th>Applink Ver Available</th>
+ * <th>SmartDeviceLink Ver Available</th>
  * </tr>
  * <tr>
  * <td>permissionItem</td>
@@ -41,7 +41,7 @@
  * <td>Change in permissions for a given set of RPCs</td>
  * <td>Y</td>
  * <td>Minsize=1 Maxsize=100</td>
- * <td>AppLink 2.0</td>
+ * <td>SmartDeviceLink 2.0</td>
  * </tr>
  * </table>
  * </p>

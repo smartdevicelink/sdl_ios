@@ -1,6 +1,6 @@
 //  SDLSetDisplayLayoutResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -11,7 +11,7 @@
 /**
  * Set Display Layout Response is sent, when SetDisplayLayout has been called
  *
- * Since AppLink 2.0
+ * Since SmartDeviceLink 2.0
  */
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse {}
 

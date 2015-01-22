@@ -1,6 +1,6 @@
 //  SDLSetMediaClockTimerResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -8,7 +8,7 @@
 /**
  * Set Media Clock Timer Response is sent, when SDLSetMediaClockTimer has been called
  *
- * Since AppLink 1.0
+ * Since SmartDeviceLink 1.0
  */
 @interface SDLSetMediaClockTimerResponse : SDLRPCResponse {}
 

@@ -1,13 +1,13 @@
 //  SDLLayoutMode.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /** For touchscreen interactions, the mode of how the choices are presented.
  *
- * <b>Since:</B> AppLink 3.0
+ * <b>Since:</B> SmartDeviceLink 3.0
  *
  */
 @interface SDLLayoutMode : SDLEnum {}

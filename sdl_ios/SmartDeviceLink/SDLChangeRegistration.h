@@ -1,6 +1,6 @@
 //  SDLChangeRegistration.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -8,7 +8,7 @@
 #import <SmartDeviceLink/SDLLanguage.h>
 
 /**
- * If the app recognizes during the app registration that the Sync HMI language
+ * If the app recognizes during the app registration that the SDL HMI language
  * (voice/TTS and/or display) does not match the app language, the app will be
  * able (but does not need) to change this registration with changeRegistration
  * prior to app being brought into focus
@@ -18,7 +18,7 @@
  * <b>HMILevel can by any</b>
  * <p>
  *
- * Since <b>AppLink 2.0</b><br>
+ * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLRegisterAppInterface
  */
 @interface SDLChangeRegistration : SDLRPCRequest {}

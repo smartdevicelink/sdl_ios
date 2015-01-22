@@ -1,6 +1,6 @@
 //  SDLKeypressMode.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -9,7 +9,7 @@
  * <p>
  * <b>Note:</b> Depending on keypressMode value (from keyboardProperties structure of UI.SetGlobalProperties),<br>HMI must send the onKeyboardInput notification with the following data:<br>
  SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.
- * @Since AppLink 3.0
+ * @since SmartDeviceLink 3.0
  *
  */
 @interface SDLKeypressMode : SDLEnum {}

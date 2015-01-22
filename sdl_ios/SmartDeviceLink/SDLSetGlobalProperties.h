@@ -1,6 +1,6 @@
 //  SDLSetGlobalProperties.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -15,7 +15,7 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * </p>
  *
- * Since AppLink 1.0
+ * Since SmartDeviceLink 1.0
  * See SDLResetGlobalProperties
  */
 @interface SDLSetGlobalProperties : SDLRPCRequest {}
@@ -59,13 +59,13 @@
  *            <p>
  *            <b>Notes: </b><br/>
  *            <ul>
- *            <li>If omitted on supported displays, the default SYNC help
+ *            <li>If omitted on supported displays, the default SDL help
  *            title will be used</li>
  *            <li>If omitted and one or more vrHelp items are provided, the
  *            request will be rejected.</li>
  *            <li>String Maxlength = 500</li>
  *            </ul>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSString* vrHelpTitle;
 /**
@@ -77,7 +77,7 @@
  *            <p>
  *            <b>Notes: </b><br/>
  *            <ul>
- *            <li>If omitted on supported displays, the default AppLink VR
+ *            <li>If omitted on supported displays, the default SmartDeviceLink VR
  *            help / What Can I Say? screen will be used</li>
  *            <li>If the list of VR Help Items contains nonsequential
  *            positions (e.g. [1,2,4]), the RPC will be rejected</li>
@@ -86,7 +86,7 @@
  *            <li>Array Minsize: = 1</li>
  *            <li>Array Maxsize = 100</li>
  *            </ul>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSMutableArray* vrHelp;
 @property(strong) NSString* menuTitle;

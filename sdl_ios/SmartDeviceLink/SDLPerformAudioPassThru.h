@@ -1,6 +1,6 @@
 //  SDLPerformAudioPassThru.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -18,7 +18,7 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * </p>
  *
- * <p>Since AppLink 2.0</p>
+ * <p>Since SmartDeviceLink 2.0</p>
  * <p>See SDLEndAudioPassThru</p>
  */
 @interface SDLPerformAudioPassThru : SDLRPCRequest {}
@@ -35,11 +35,11 @@
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass
- * thru session by SYNC
+ * thru session by SDL
  * @discussion initialPrompt
  *            a Vector<TTSChunk> value represents the initial prompt which
  *            will be spoken before opening the audio pass thru session by
- *            SYNC
+ *            SDL
  *            <p>
  *            <b>Notes: </b>
  *            <ul>

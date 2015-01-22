@@ -1,16 +1,16 @@
 //  SDLSetAppIcon.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
 /**
- * Used to set existing local file on SYNC as the app's icon. Not supported on
- * first generation SYNC vehicles
+ * Used to set existing local file on SDL as the app's icon. Not supported on
+ * first generation SDL modules.
  * <p>
  *
- * Since AppLink 2.0
+ * Since SmartDeviceLink 2.0
  */
 @interface SDLSetAppIcon : SDLRPCRequest {}
 

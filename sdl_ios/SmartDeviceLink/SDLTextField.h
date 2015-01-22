@@ -1,6 +1,6 @@
 //  SDLTextField.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -16,19 +16,19 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>name</td>
  * 			<td>TextFieldName</td>
  * 			<td>Enumeration identifying the field.	</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>characterSet</td>
  * 			<td>CharacterSet</td>
  * 			<td>The character set that is supported in this field.	</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>width</td>
@@ -39,7 +39,7 @@
  *					<li>maxvalue="500"</li>
  *					</ul>
  *			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>rows</td>
@@ -50,10 +50,10 @@
  *					<li>maxvalue="3"</li>
  *					</ul>
  *			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  *  </table>
- * Since AppLink 1.0
+ * @since SmartDeviceLink 1.0
  */
 @interface SDLTextField : SDLRPCStruct {}
 

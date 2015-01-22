@@ -1,6 +1,6 @@
 //  SDLBitsPerSample.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -25,13 +25,13 @@
 
 /**
  * @abstract 8 bits per sample
- * @since <font color=red><b>AppLink 2.0</b></font>
+ * @since <font color=red><b>SmartDeviceLink 2.0</b></font>
  * @result return a SDLBitsPerSample with value of <font color=gray></i>8_bit</i></font>
  */
 +(SDLBitsPerSample*) _8_BIT;
 /**
  * @abstract 16 bits per sample
- * @since <font color=red><b>AppLink 2.0</b></font>
+ * @since <font color=red><b>SmartDeviceLink 2.0</b></font>
  * @result return a SDLBitsPerSample with value of <font color=gray></i>16_bit</i></font>
  */
 +(SDLBitsPerSample*) _16_BIT;

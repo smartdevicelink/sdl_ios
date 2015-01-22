@@ -1,6 +1,6 @@
 //  SDLPerformInteraction.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -13,14 +13,14 @@
  * {@linkplain Choice} from among the specified Choice Sets. For instance, an
  * application may use a PerformInteraction to ask a user to say the name of a
  * song to play. The user's response is only valid if it appears in the
- * specified Choice Sets and is recognized by SYNC
+ * specified Choice Sets and is recognized by SDL
  * <p>
  * Function Group: Base
  * <p>
  * <b>HMILevel needs to be FULL</b>
  * </p>
  *
- * Since AppLink 1.0<br/>
+ * Since SmartDeviceLink 1.0<br/>
  * See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet
  */
 @interface SDLPerformInteraction : SDLRPCRequest {}
@@ -70,13 +70,13 @@
 @property(strong) NSMutableArray* timeoutPrompt;
 /**
  * @abstract An Integer value representing the amount of time, in milliseconds,
- * SYNC will wait for the user to make a choice (VR or Menu)
+ * SDL will wait for the user to make a choice (VR or Menu)
  */
 @property(strong) NSNumber* timeout;
 /**
  * @abstract A Voice recognition Help, which is a suggested VR Help Items to
  * display on-screen during Perform Interaction
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSMutableArray* vrHelp;
 @property(strong) SDLLayoutMode* interactionLayout;

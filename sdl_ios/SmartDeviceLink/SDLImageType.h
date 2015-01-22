@@ -1,6 +1,6 @@
 //  SDLImageType.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -8,7 +8,7 @@
 /**
  * Contains information about the type of image.
  *
- * This enum is avaliable since <font color=red><b> AppLink 2.0 </b></font>
+ * This enum is avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  */
 @interface SDLImageType : SDLEnum {}
 

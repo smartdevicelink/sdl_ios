@@ -1,6 +1,6 @@
 //  SDLUpdateMode.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -8,7 +8,7 @@
 /**
  * Specifies what function should be performed on the media clock/counter
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
 @interface SDLUpdateMode : SDLEnum {}
 

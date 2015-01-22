@@ -1,16 +1,16 @@
 //  SDLResult.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /**
- * Defines the possible result codes returned by SYNC to the application in a
+ * Defines the possible result codes returned by SDL to the application in a
  * Response to a requested operation
  * <p>
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
 @interface SDLResult : SDLEnum {}
 
@@ -46,7 +46,7 @@
  */
 +(SDLResult*) INVALID_DATA;
 /**
- * @abstract The request is not supported by SYNC
+ * @abstract The request is not supported by SDL
  * @result return the result code of <font color=gray><i> UNSUPPORTED_REQUEST </i></font>
  */
 +(SDLResult*) UNSUPPORTED_REQUEST;
@@ -88,7 +88,7 @@
  */
 +(SDLResult*) TOO_MANY_APPLICATIONS;
 /**
- * @abstract SYNC does not support the interface version requested by the mobile
+ * @abstract SDL does not support the interface version requested by the mobile
  * application.
  * @result return the result code of <font color=gray><i> APPLICATION_REGISTERED_ALREADY </i></font>
  */
@@ -149,8 +149,8 @@
 +(SDLResult*) IGNORED;
 /**
  * @abstract A button that was requested for subscription is not supported on the
- * currently connected SYNC platform. See DisplayCapabilities for further
- * information on supported buttons on the currently connected SYNC platform
+ * currently connected SDL platform. See DisplayCapabilities for further
+ * information on supported buttons on the currently connected SDL platform
  * @result return the result code of <font color=gray><i> UNSUPPORTED_RESOURCE </i></font>
  */
 +(SDLResult*) UNSUPPORTED_RESOURCE;

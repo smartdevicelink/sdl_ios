@@ -1,6 +1,6 @@
 //  SDLSetDisplayLayout.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -9,7 +9,7 @@
  * Used to set an alternate display layout. If not sent, default screen for
  * given platform will be shown
  *
- * Since AppLink 2.0
+ * Since SmartDeviceLink 2.0
  */
 @interface SDLSetDisplayLayout : SDLRPCRequest {}
 

@@ -1,6 +1,6 @@
 //  SDLHMILevel.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -8,7 +8,7 @@
 /**
  * Specifies current level of the HMI. An HMI level indicates the degree of user interaction possible through the HMI (e.g. TTS only, display only, VR, etc.). The HMI level varies for an application based on the type of display (i.e. Nav or non-Nav) and the user directing "focus" to other applications (e.g. phone, other mobile applications, etc.)
  * <p>
- * This enum is avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * This enum is avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
 @interface SDLHMILevel : SDLEnum {}
 
@@ -25,7 +25,7 @@
 +(NSMutableArray*) values;
 
 /**
- * @abstract The application has full use of the SYNC HMI. The app may output via TTS, display, or streaming audio and may gather input via VR, Menu, and button presses
+ * @abstract The application has full use of the SDL HMI. The app may output via TTS, display, or streaming audio and may gather input via VR, Menu, and button presses
  * @result return the HMILevel with value of <font color=gray><i> HMI_FULL </i></font>
  */
 +(SDLHMILevel*) HMI_FULL;
@@ -54,8 +54,8 @@
  */
 +(SDLHMILevel*) HMI_BACKGROUND;
 /**
- * @abstract Application has been discovered by SYNC, but application cannot send any requests or receive any notifications<br/>
- * @discussion An HMILevel of NONE can also mean that the user has exited the application by saying "exit appname" or selecting "exit" from the application's menu. When this happens, the application still has an active interface registration with SYNC and all SYNC resources the application has created (e.g. Choice Sets, subscriptions, etc.) still exist. But while the HMILevel is NONE, the application cannot send any messages to SYNC, except <i>UnregisterAppInterface</i></li>
+ * @abstract Application has been discovered by SDL, but application cannot send any requests or receive any notifications<br/>
+ * @discussion An HMILevel of NONE can also mean that the user has exited the application by saying "exit appname" or selecting "exit" from the application's menu. When this happens, the application still has an active interface registration with SDL and all SDL resources the application has created (e.g. Choice Sets, subscriptions, etc.) still exist. But while the HMILevel is NONE, the application cannot send any messages to SYNC, except <i>UnregisterAppInterface</i></li>
  * @result return the HMILevel with value of <font color=gray><i> HMI_NONE </i></font>
  */
 +(SDLHMILevel*) HMI_NONE;

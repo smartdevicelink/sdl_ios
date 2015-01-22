@@ -1,6 +1,6 @@
 //  SDLButtonPressMode.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -9,7 +9,7 @@
  * Indicates whether this is a LONG or SHORT button press
  * <p>
  *
- * This enum is avaliable since <font color=red><b>AppLink 1.0</b></font>
+ * This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
 @interface SDLButtonPressMode : SDLEnum {}
 

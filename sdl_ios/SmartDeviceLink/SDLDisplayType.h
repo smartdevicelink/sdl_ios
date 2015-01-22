@@ -1,14 +1,14 @@
 //  SDLDisplayType.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /**
- * Identifies the various display types used by SYNC. See AppLink TDK and Head Unit Guide for further information regarding the displays.
+ * Identifies the various display types used by SDL.
  *
- * This enum is avaliable since <font color=red><b>AppLink 1.0</b></font>
+ * This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
 @interface SDLDisplayType : SDLEnum {}
 

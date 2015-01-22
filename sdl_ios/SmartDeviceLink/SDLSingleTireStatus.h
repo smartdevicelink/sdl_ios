@@ -1,6 +1,6 @@
 //  SDLSingleTireStatus.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -15,7 +15,7 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>status</td>
@@ -23,10 +23,10 @@
  * 			<td>Describes the volume status of a single tire
  * 					See ComponentVolumeStatus
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  *  </table>
- * Since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @interface SDLSingleTireStatus : SDLRPCStruct {}
 

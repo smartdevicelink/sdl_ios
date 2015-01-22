@@ -1,16 +1,16 @@
 //  SDLDeleteFile.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
 /**
- * Used to delete a file resident on the SYNC module in the app's local cache.
- * Not supported on first generation SYNC vehicles
+ * Used to delete a file resident on the SDL module in the app's local cache.
+ * Not supported on first generation SDL vehicles
  * <p>
  *
- * Since <b>AppLink 2.0</b><br>
+ * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLPutFile SDLListFiles
  */
 @interface SDLDeleteFile : SDLRPCRequest {}

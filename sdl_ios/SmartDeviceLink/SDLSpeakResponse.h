@@ -1,6 +1,6 @@
 //  SDLSpeakResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -8,7 +8,7 @@
 /**
  * Speak Response is sent, when Speak has been called
  *
- * Since AppLink 1.0
+ * Since SmartDeviceLink 1.0
  */
 @interface SDLSpeakResponse : SDLRPCResponse {}
 

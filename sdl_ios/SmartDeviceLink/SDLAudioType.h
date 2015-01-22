@@ -1,6 +1,6 @@
 //  SDLAudioType.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -24,7 +24,7 @@
 
 /*!
  @abstract PCM raw audio
- @since <font color=red><b>AppLink 2.0</b></font>
+ @since <font color=red><b>SmartDeviceLink 2.0</b></font>
  @result SDLAudioType with value of <font color=gray><i>PCM</i></font>
  */
 +(SDLAudioType*) PCM;

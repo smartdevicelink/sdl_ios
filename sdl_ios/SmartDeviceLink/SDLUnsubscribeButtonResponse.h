@@ -1,6 +1,6 @@
 //  SDLUnsubscribeButtonResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -8,7 +8,7 @@
 /**
  * Unsubscribe Button Response is sent, when SDLUnsubscribeButton has been called
  *
- * Since AppLink 1.0
+ * @since SmartDeviceLink 1.0
  */
 @interface SDLUnsubscribeButtonResponse : SDLRPCResponse {}
 

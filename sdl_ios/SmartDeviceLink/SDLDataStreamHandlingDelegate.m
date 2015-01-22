@@ -1,6 +1,6 @@
 //
 //  SDLDataStreamHandlingDelegate.m
-//  AppLink
+//  SmartDeviceLink
 //
 
 #import <objc/runtime.h>

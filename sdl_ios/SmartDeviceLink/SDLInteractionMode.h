@@ -1,6 +1,6 @@
 //  SDLInteractionMode.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -10,7 +10,7 @@
  * the mode by which the user is prompted and by which the user's selection is
  * indicated
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
 @interface SDLInteractionMode : SDLEnum {}
 

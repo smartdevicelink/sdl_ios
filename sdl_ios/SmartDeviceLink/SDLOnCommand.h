@@ -1,6 +1,6 @@
 //  SDLOnCommand.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCNotification.h>
@@ -31,25 +31,25 @@
  *      <th>Type</th>
  *      <th>Description</th>
  *      <th>Notes</th>
- *      <th>Applink Ver Available</th>
+ *      <th>SmartDeviceLink Ver Available</th>
  * </tr>
  * <tr>
  *      <td>cmdID</td>
  *      <td>NSNumber *</td>
  *      <td>The cmd ID of the command the user selected. This is the cmd ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.</td>
  *      <td></td>
- *      <td>AppLink 1.0</td>
+ *      <td>SmartDeviceLink 1.0</td>
  * </tr>
  * <tr>
  *      <td>triggerSource</td>
  *      <td>SDLTriggerSource *</td>
  *      <td>Indicates whether command was selected via VR or via a menu selection (using the OK button).</td>
  *      <td></td>
- *      <td>AppLink 1.0</td>
+ *      <td>SmartDeviceLink 1.0</td>
  * </tr>
  * </table>
  * </p>
- * Since <b>AppLink 1.0</b><br>
+ * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
  */
 @interface SDLOnCommand : SDLRPCNotification {}

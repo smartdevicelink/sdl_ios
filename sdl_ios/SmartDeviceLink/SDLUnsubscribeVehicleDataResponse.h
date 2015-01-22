@@ -1,6 +1,6 @@
 //  SDLUnsubscribeVehicleDataResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -10,7 +10,7 @@
 /**
  * Unsubscribe Vehicle Data Response is sent, when UnsubscribeVehicleData has been called
  *
- * Since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @interface SDLUnsubscribeVehicleDataResponse : SDLRPCResponse {}
 

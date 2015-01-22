@@ -1,6 +1,6 @@
 //  SDLEndAudioPassThru.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -12,7 +12,7 @@
  * <p>
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * </p>
- * Since <b>AppLink 2.0</b><br>
+ * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLPerformAudioPassThru
  */
 @interface SDLEndAudioPassThru : SDLRPCRequest {}

@@ -1,6 +1,6 @@
 //  SDLShow.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -15,7 +15,7 @@
  * calls to Show
  * <p>
  * The content of the application's display text area is visible to the user
- * when the application's {@linkplain com.ford.syncV4.proxy.rpc.enums.HMILevel}
+ * when the application
  * is FULL or LIMITED, and the
  * SDLSystemContext=MAIN and no
  * SDLAlert is in progress
@@ -27,7 +27,7 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * </p>
  *
- * Since AppLink 1.0
+ * Since SmartDeviceLink 1.0
  * See SDLAlert SDLSetMediaClockTimer
  */
 @interface SDLShow : SDLRPCRequest {}
@@ -92,7 +92,7 @@
  *            parameter is ignored</li>
  *            <li>Maxlength = 500</li>
  *            </ul>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSString* mainField3;
 /**
@@ -111,7 +111,7 @@
  *            parameter is ignored</li>
  *            <li>Maxlength = 500</li>
  *            </ul>
- * Since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSString* mainField4;
 /**
@@ -185,7 +185,7 @@
  *            <p>
  *            <b>Notes: </b>If omitted on supported displays, the displayed
  *            graphic shall not change<br/>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) SDLImage* graphic;
 /**
@@ -195,7 +195,7 @@
  *            <p>
  *            <b>Notes: </b>If omitted on supported displays, the displayed
  *            graphic shall not change<br/>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) SDLImage* secondaryGraphic;
 /**
@@ -212,7 +212,7 @@
  *            <li>Array Maxsize: 8</li>
  *            </ul>
  *
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSMutableArray* softButtons;
 /**
@@ -226,7 +226,7 @@
  *            <li>Array Minsize: 0</li>
  *            <li>Array Maxsize: 6</li>
  *            </ul>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 @property(strong) NSMutableArray* customPresets;
 

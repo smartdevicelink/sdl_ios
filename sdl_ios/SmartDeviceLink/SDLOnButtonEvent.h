@@ -1,6 +1,6 @@
 //  SDLOnButtonEvent.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCNotification.h>
@@ -46,7 +46,7 @@
  * <th>Description</th>
  * <th>Req</th>
  * <th>Notes</th>
- * <th>Applink Ver Available</th>
+ * <th>SmartDeviceLink Ver Available</th>
  * </tr>
  * <tr>
  * <td>buttonName</td>
@@ -54,7 +54,7 @@
  * <td>Name of the button which triggered this event</td>
  * <td></td>
  * <td></td>
- * <td>AppLink 1.0</td>
+ * <td>SmartDeviceLink 1.0</td>
  * </tr>
  * <tr>
  * <td>buttonEventMode</td>
@@ -62,7 +62,7 @@
  * <td>Indicats button was depressed (DOWN) or released (UP)</td>
  * <td></td>
  * <td></td>
- * <td>AppLink 1.0</td>
+ * <td>SmartDeviceLink 1.0</td>
  * </tr>
  * <tr>
  * <td>customButtonID</td>
@@ -71,12 +71,12 @@
  * by a custom button. (e.g. softButton ID)</td>
  * <td>N</td>
  * <td>Minvalue=0 Maxvalue=65536</td>
- * <td>AppLink 2.0</td>
+ * <td>SmartDeviceLink 2.0</td>
  * </tr>
  * </table>
  * </p>
  *
- * Since <b>AppLink 1.0</b><br>
+ * Since <b>SmartDeviceLink 1.0</b><br>
  *
  * see SDLSubscribeButton SDLUnsubscribeButton
  */

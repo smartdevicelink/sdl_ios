@@ -1,6 +1,6 @@
 //  SDLChoice.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -15,7 +15,7 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>choiceID</td>
@@ -24,7 +24,7 @@
  *             <br/>Min: 0
  *				<br/>Max: 65535
  *			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>menuName</td>
@@ -33,23 +33,23 @@
  *				<br/>Min: 1
  *				<br/>Max: 100
  * 			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  *     <tr>
  * 			<td>vrCommands</td>
  * 			<td>NSMutableArray *</td>
  * 			<td>An array of strings to be used as VR synonyms for this choice. If this array is provided, it must have at least one non-empty element</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  *     <tr>
  * 			<td>image</td>
  * 			<td>SDLImage * </td>
  * 			<td>Either a static hex icon value or a binary image file  name identifier (sent by PutFile).</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * </table>
  *
- * Since <b>AppLink 1.0</b><br>
+ * Since <b>SmartDeviceLink 1.0</b><br>
  */
 @interface SDLChoice : SDLRPCStruct {}
 

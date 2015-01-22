@@ -1,6 +1,6 @@
 //  SDLOnAppInterfaceUnregistered.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCNotification.h>
@@ -8,9 +8,9 @@
 #import <SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h>
 
 /**
- * Notifies an application that its interface registration has been terminated. This means that all SYNC resources
+ * Notifies an application that its interface registration has been terminated. This means that all SDL resources
  * associated with the application are discarded, including the Command Menu, Choice Sets, button subscriptions, etc.<br>
- * For more information about SYNC resources related to an interface registration, see <i>SDLRegisterAppInterface</i>.
+ * For more information about SDL resources related to an interface registration, see <i>SDLRegisterAppInterface</i>.
  * <p></p>
  * <b>HMI Status Requirements:</b>
  * <ul>
@@ -28,17 +28,17 @@
  * <th>Name</th>
  * <th>Type</th>
  * <th>Description</th>
- * <th>Applink Ver Available</th>
+ * <th>SmartDeviceLink Ver Available</th>
  * </tr>
  * <tr>
  * <td>reason</td>
  * <td>SDLAppInterfaceUnregisteredReason *</td>
  * <td>The reason the application's interface registration was terminated</td>
- * <td>AppLink 1.0</td>
+ * <td>SmartDeviceLink 1.0</td>
  * </tr>
  * </table>
  * </p>
- * Since <b>AppLink 1.0</b><br>
+ * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLRegisterAppInterface
  */
 @interface SDLOnAppInterfaceUnregistered : SDLRPCNotification {}

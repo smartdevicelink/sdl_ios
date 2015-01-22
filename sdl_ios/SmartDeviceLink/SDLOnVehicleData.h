@@ -1,6 +1,6 @@
 //  SDLOnVehicleData.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCNotification.h>
@@ -24,7 +24,7 @@
 /**
  * Request vehicle data.
  *
- * Since AppLink 2.0
+ * Since SmartDeviceLink 2.0
  */
 @interface SDLOnVehicleData : SDLRPCNotification {}
 

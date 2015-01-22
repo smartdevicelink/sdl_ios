@@ -1,17 +1,17 @@
 //  SDLMediaClockFormat.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /**
- * Indicates the format of the time displayed on the connected SYNC unit.
+ * Indicates the format of the time displayed on the connected SDL unit.
  *
  * Format description follows the following nomenclature:
  <br> &nbsp; &nbsp; Sp = Space<br> &nbsp;&nbsp; | = or <br>&nbsp;&nbsp; c = character
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
 @interface SDLMediaClockFormat : SDLEnum {}
 
@@ -37,7 +37,7 @@
  * <li>maxSeconds = 59</li>
  * </ul>
  *
- * @since <font color=red><b> AppLink 1.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCK1 </i></font>
  */
 +(SDLMediaClockFormat*) CLOCK1;
@@ -51,7 +51,7 @@
  * <li>maxSeconds = 59</li>
  * </ul>
  *
- * @since <font color=red><b> AppLink 1.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCK </i></font>
  */
 +(SDLMediaClockFormat*) CLOCK2;
@@ -65,7 +65,7 @@
  * <li>maxSeconds = 59</li>
  * </ul>
  *
- * @since <font color=red><b> AppLink 2.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCK3 </i></font>
  */
 +(SDLMediaClockFormat*) CLOCK3;
@@ -83,7 +83,7 @@
  * <li>used for Type II headunit</li>
  * </ul>
  *
- * @since <font color=red><b> AppLink 1.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT1 </i></font>
  */
 +(SDLMediaClockFormat*) CLOCKTEXT1;
@@ -103,7 +103,7 @@
  * difference between CLOCKTEXT1 and CLOCKTEXT2 is the supported character
  * set
  *
- * @since <font color=red><b> AppLink 1.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT2 </i></font>
  */
 +(SDLMediaClockFormat*) CLOCKTEXT2;
@@ -123,7 +123,7 @@
  * difference between CLOCKTEXT1 and CLOCKTEXT2 is the supported character
  * set
  *
- * @since <font color=red><b> AppLink 1.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT3 </i></font>
  */
 +(SDLMediaClockFormat*) CLOCKTEXT3;
@@ -139,7 +139,7 @@
  * <li>used for MFD3/4/5 headunits</li>
  * </ul>
  *
- * @since <font color=red><b> AppLink 2.0 </b></font>
+ * @since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT4 </i></font>
  */
 +(SDLMediaClockFormat*) CLOCKTEXT4;

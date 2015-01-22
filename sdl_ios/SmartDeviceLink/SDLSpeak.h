@@ -1,14 +1,14 @@
 //  SDLSpeak.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
 /**
- * Speaks a phrase over the vehicle audio system using SYNC's TTS
+ * Speaks a phrase over the vehicle audio system using SDL's TTS
  * (text-to-speech) engine. The provided text to be spoken can be simply a text
- * phrase, or it can consist of phoneme specifications to direct SYNC's TTS
+ * phrase, or it can consist of phoneme specifications to direct SDL's TTS
  * engine to speak a "speech-sculpted" phrase
  * <p>
  * Receipt of the Response indicates the completion of the Speak operation,
@@ -19,7 +19,7 @@
  * operation already in progress (i.e. no corresponding Response for that
  * in-progress Speak operation has been received yet) will terminate the
  * in-progress Speak operation (causing its corresponding Response to be sent by
- * SYNC) and begin the requested Speak operation
+ * SDL) and begin the requested Speak operation
  * <p>
  * Requesting a new Speak operation while the application has an <i>
  * SDLAlert</i> operation already in progress (i.e. no corresponding
@@ -31,7 +31,7 @@
  * has a Speak operation already in progress (i.e. no corresponding Response for
  * that in-progress Speak operation has been received yet) will terminate the
  * in-progress Speak operation (causing its corresponding Response to be sent by
- * SYNC) and begin the requested <i>SDLAlert</i> operation
+ * SDL) and begin the requested <i>SDLAlert</i> operation
  * <p>
  * Requesting a new Speak operation while the application has a <i>
  * SDLPerformInteraction</i> operation already in progress (i.e. no
@@ -44,7 +44,7 @@
  * application has a Speak operation already in progress (i.e. no corresponding
  * Response for that in-progress Speak operation has been received yet) will
  * terminate the in-progress Speak operation (causing its corresponding Response
- * to be sent by SYNC) and begin the requested <i>
+ * to be sent by SDL) and begin the requested <i>
  * SDLPerformInteraction</i> operation
  * <p>
  *
@@ -71,7 +71,7 @@
  * On Gen 1.1 there is a total character limit of 500 characters across all chunks. This could vary according to the VCA.
  * <p>
  *
- * Since AppLink 1.0<br/>
+ * Since SmartDeviceLink 1.0<br/>
  * See SDLAlert
  */
 @interface SDLSpeak : SDLRPCRequest {}

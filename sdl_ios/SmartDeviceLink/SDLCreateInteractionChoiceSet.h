@@ -1,6 +1,6 @@
 //  SDLCreateInteractionChoiceSet.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -19,7 +19,7 @@
  * is sent you MUST wait for the success from the CreateInteractionChoiceSet RPC.<br>
  * If you do not wait the system may not recognize the first utterance from the user.
  * </p>
- * Since <b>AppLink 1.0</b></br>
+ * Since <b>SmartDeviceLink 1.0</b></br>
  * see SDLDeleteInteractionChoiceSet SDLPerformInteraction
  */
 @interface SDLCreateInteractionChoiceSet : SDLRPCRequest {}

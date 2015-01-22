@@ -1,6 +1,6 @@
 //  SDLPerformAudioPassThruResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -8,7 +8,7 @@
 /**
  * Perform Audio Pass Thru Response is sent, when PerformAudioPassThru has been called
  *
- * Since AppLink 2.0
+ * Since SmartDeviceLink 2.0
  */
 @interface SDLPerformAudioPassThruResponse : SDLRPCResponse {}
 

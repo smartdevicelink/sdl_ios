@@ -1,6 +1,6 @@
 //  SDLGPSData.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -16,7 +16,7 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>longitudeDegrees</td>
@@ -24,77 +24,77 @@
  * 			<td>Minvalue: - 180
  * 					<br>Maxvalue: 180
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>latitudeDegrees</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: - 90<br>Maxvalue: 90
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>utcYear</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: 2010<br>Maxvalue: 2100
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>utcMonth</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: 1<br>Maxvalue: 12
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>utcDay</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: 1<br>Maxvalue: 31
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>utcHours</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: 1<br>Maxvalue: 23
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>utcMinutes</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: 1<br>Maxvalue: 59
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>utcSeconds</td>
  * 			<td>NSNumber * </td>
  * 			<td>Minvalue: 1<br>Maxvalue: 59
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>pdop</td>
  * 			<td>NSNumber * </td>
  * 			<td>Positional Dilution of Precision<br>Minvalue: 0<br>Maxvalue: 31
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>hdop</td>
  * 			<td>NSNumber * </td>
  * 			<td>Horizontal Dilution of Precision<br>Minvalue: 0<br>Maxvalue: 31
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>vdop</td>
  * 			<td>NSNumber * </td>
  * 			<td>Vertical  Dilution of Precision<br>Minvalue: 0<br>Maxvalue: 31
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>actual</td>
@@ -102,7 +102,7 @@
  * 			<td>True, if coordinates are based on satellites.
  *					False, if based on dead reckoning
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>satellites</td>
@@ -111,7 +111,7 @@
  *					<br>Minvalue: 0
  *					<br>Maxvalue: 31
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>altitude</td>
@@ -120,7 +120,7 @@
  *					<br>Minvalue: -10000
  *					<br>Maxvalue: 10000
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>heading</td>
@@ -130,7 +130,7 @@
  *					<br>Maxvalue: 359.99
  *					<br>Resolution is 0.01
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>speed</td>
@@ -139,10 +139,10 @@
  *					<br>Minvalue: 0
  *					<br>Maxvalue: 400
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  *  </table>
- * Since <b>AppLink 2.0</b>
+ * Since <b>SmartDeviceLink 2.0</b>
  */
 @interface SDLGPSData : SDLRPCStruct {}
 

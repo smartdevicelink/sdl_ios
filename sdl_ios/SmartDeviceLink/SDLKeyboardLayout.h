@@ -1,13 +1,13 @@
 //  SDLKeyboardLayout.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /** Enumeration listing possible keyboard layouts
  *
- *<b>Since</b> AppLink 3.0
+ *<b>Since</b> SmartDeviceLink 3.0
  *
  */
 @interface SDLKeyboardLayout : SDLEnum {}

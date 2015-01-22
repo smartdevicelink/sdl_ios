@@ -1,6 +1,6 @@
 //  SDLAudioStreamingState.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -11,7 +11,7 @@
  * relevant for applications that declare themselves as media apps in
  * RegisterAppInterface
  *
- * This enum is avaliable since <font color=red><b>AppLink 1.0</b></font>
+ * This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
 @interface SDLAudioStreamingState : SDLEnum {}
 
@@ -30,21 +30,21 @@
 /**
  * @abstract Currently streaming audio, if any, is audible to user.
  * @result SDLAudioStreamingState with value of <font color=gray><i>AUDIBLE</i></font>
- * @since AppLink 1.0
+ * @since SmartDeviceLink 1.0
  */
 +(SDLAudioStreamingState*) AUDIBLE;
 /**
  * @abstract Some kind of audio mixing is taking place. Currently streaming audio, if
  * any, is audible to the user at a lowered volume.
  * @result SDLAudioStreamingState with value of <font color=gray><i>ATTENUATED</i></font>
- * @since AppLink 2.0
+ * @since SmartDeviceLink 2.0
  */
 +(SDLAudioStreamingState*) ATTENUATED;
 /**
  * @abstract Currently streaming audio, if any, is not audible to user. made via VR
  * session.
  * @result SDLAudioStreamingState with value of <font color=gray><i>NOT_AUDIBLE</i></font>
- * @since AppLink 1.0
+ * @since SmartDeviceLink 1.0
  */
 +(SDLAudioStreamingState*) NOT_AUDIBLE;
 

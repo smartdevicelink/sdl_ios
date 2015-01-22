@@ -1,6 +1,6 @@
 //  SDLDimension.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -8,7 +8,7 @@
 /**
  * The supported dimensions of the GPS.
  *
- * This enum is avaliable since <font color=red><b>AppLink 2.0</b></font>
+ * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
  */
 @interface SDLDimension : SDLEnum {}
 

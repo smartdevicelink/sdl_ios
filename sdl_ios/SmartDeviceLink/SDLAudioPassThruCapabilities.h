@@ -1,6 +1,6 @@
 //  SDLAudioPassThruCapabilities.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -17,31 +17,31 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>samplingRate</td>
  * 			<td>SDLSamplingRate * </td>
  * 			<td>Describes the sampling rate for AudioPassThru
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>bitsPerSample</td>
  * 			<td>SDLBitsPerSample * </td>
  * 			<td>Describes the sample depth in bit for AudioPassThru
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>audioType</td>
  * 			<td>SDLAudioType * </td>
  * 			<td>Describes the audiotype for AudioPassThru
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  *  </table>
- * Since <b>AppLink 2.0</b>
+ * Since <b>SmartDeviceLink 2.0</b>
  */
 @interface SDLAudioPassThruCapabilities : SDLRPCStruct {}
 

@@ -1,6 +1,6 @@
 //  SDLSetMediaClockTimer.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -16,7 +16,7 @@
  * <b>HMILevel needs to be FULL, LIMITIED or BACKGROUND</b>
  * </p>
  *
- * Since AppLink 1.0
+ * Since SmartDeviceLink 1.0
  */
 @interface SDLSetMediaClockTimer : SDLRPCRequest {}
 

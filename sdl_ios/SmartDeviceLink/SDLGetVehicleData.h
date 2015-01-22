@@ -1,6 +1,6 @@
 //  SDLGetVehicleData.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -13,7 +13,7 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * </p>
  *
- * Since AppLink 2.0<br/>
+ * Since SmartDeviceLink 2.0<br/>
  * See SDLSubscribeVehicleData SDLUnsubscribeVehicleData
  */
 @interface SDLGetVehicleData : SDLRPCRequest {}

@@ -1,6 +1,6 @@
 //  SDLPutFileResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
@@ -8,7 +8,7 @@
 /**
  * Put File Response is sent, when SDLPutFile has been called
  *
- * Since AppLink 2.0
+ * Since SmartDeviceLink 2.0
  */
 @interface SDLPutFileResponse : SDLRPCResponse {}
 

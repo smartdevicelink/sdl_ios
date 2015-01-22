@@ -1,6 +1,6 @@
 //  SDLPutFile.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -8,11 +8,11 @@
 #import <SmartDeviceLink/SDLFileType.h>
 
 /**
- * @abstract Used to push a binary data onto the SYNC module from a mobile device, such as
+ * @abstract Used to push a binary data onto the SDL module from a mobile device, such as
  * icons and album art
  * <p>
  *
- * Since AppLink 2.0<br/>
+ * Since SmartDeviceLink 2.0<br/>
  * See DeleteFile ListFiles
  */
 @interface SDLPutFile : SDLRPCRequest {}

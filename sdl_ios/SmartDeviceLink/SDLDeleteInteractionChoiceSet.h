@@ -1,6 +1,6 @@
 //  SDLDeleteInteractionChoiceSet.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+// 
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -16,7 +16,7 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b><br/>
  * </p>
  *
- * Since <b>AppLink 1.0</b><br>
+ * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLCreateInteractionChoiceSet SDLPerformInteraction
  */
 @interface SDLDeleteInteractionChoiceSet : SDLRPCRequest {}

@@ -1,12 +1,12 @@
 //  SDLAppInterfaceUnregisteredReason.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /**
- * Indicates reason why app interface was unregistered. The application is being disconnected by SYNC.
+ * Indicates reason why app interface was unregistered. The application is being disconnected by SDL.
  *
  * This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
@@ -66,20 +66,20 @@
 +(SDLAppInterfaceUnregisteredReason*) DRIVER_DISTRACTION_VIOLATION;
 +(SDLAppInterfaceUnregisteredReason*) LANGUAGE_CHANGE;
 /**
- * @abstract  The user performed a MASTER RESET on the SYNC platform, causing removal
+ * @abstract  The user performed a MASTER RESET on the SDL platform, causing removal
  * of a necessary Bluetooth pairing.
  * @result SDLAppInterfaceUnregisteredReason with value <font color=gray><i>MASTER_RESET</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
 +(SDLAppInterfaceUnregisteredReason*) MASTER_RESET;
 /**
- * @abstract  The user restored settings to FACTORY DEFAULTS on the SYNC platform.
+ * @abstract  The user restored settings to FACTORY DEFAULTS on the SDL platform.
  * @result SDLAppInterfaceUnregisteredReason with value <font color=gray><i>FACTORY_DEFAULTS</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
 +(SDLAppInterfaceUnregisteredReason*) FACTORY_DEFAULTS;
 /**
- * @abstract  The app is not being authorized by Ford to be connected to SYNC.
+ * @abstract  The app is not being authorized to be connected to SDL.
  * @result SDLAppInterfaceUnregisteredReason with value <font color=gray><i>APP_UNAUTHORIZED</i></font>
  * @since <font color=red><b>SmartDeviceLink 2.0</b></font>
  */

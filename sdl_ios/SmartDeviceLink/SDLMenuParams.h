@@ -1,6 +1,6 @@
 //  SDLMenuParams.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -13,7 +13,7 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>parentID</td>
@@ -25,7 +25,7 @@
  *					<li>Max: 2000000000</li>
  *					</ul>
  *			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>position</td>
@@ -39,7 +39,7 @@
  * 						<li>If this element is omitted, the entry will be added at the end of the parent menu.</li>
  * 					</ul>
  * 			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  *     <tr>
  * 			<td>menuName</td>
@@ -50,10 +50,10 @@
  * 						<li>Max: 100</li>
  * 					</ul>
  * 			</td>
- * 			<td>AppLink 1.0</td>
+ * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
  * </table>
- * Since <b>AppLink 1.0</b>
+ * Since <b>SmartDeviceLink 1.0</b>
  */
 @interface SDLMenuParams : SDLRPCStruct {}
 

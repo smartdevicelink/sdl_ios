@@ -1,6 +1,6 @@
 //  SDLHMIPermissions.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
@@ -13,7 +13,7 @@
  * 			<th>Name</th>
  * 			<th>Type</th>
  * 			<th>Description</th>
- * 			<th>AppLink Ver. Available</th>
+ * 			<th>SmartDeviceLink Ver. Available</th>
  * 		</tr>
  * 		<tr>
  * 			<td>allowed</td>
@@ -24,7 +24,7 @@
  *					<li>Max: 100</li>
  *					</ul>
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>userDisallowed</td>
@@ -35,10 +35,10 @@
  *					<li>Max: 100</li>
  *					</ul>
  * 			</td>
- * 			<td>AppLink 2.0</td>
+ * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  *  </table>
- * Since <b>AppLink 2.0</b>
+ * Since <b>SmartDeviceLink 2.0</b>
  */
 @interface SDLHMIPermissions : SDLRPCStruct {}
 

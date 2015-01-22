@@ -1,14 +1,14 @@
 //  SDLSpeechCapabilities.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
-/**
- * Contains information about TTS capabilities on the SYNC platform.
+/*
+ * Contains information about TTS capabilities on the SDL platform.
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
 @interface SDLSpeechCapabilities : SDLEnum {}
 
@@ -25,9 +25,9 @@
 +(NSMutableArray*) values;
 
 /**
- * @abstract The SYNC platform can speak text phrases.
+ * @abstract The SDL platform can speak text phrases.
  * @result return SDLSpeechCapabilities of value : <font color=gray><i> TEXT </i></font>
- * @since AppLink 1.0
+ * @since SmartDeviceLink 1.0
  */
 +(SDLSpeechCapabilities*) TEXT;
 /*!

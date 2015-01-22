@@ -1,12 +1,12 @@
 //  SDLECallConfirmationStatus.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /** Reflects the status of the eCall Notification.
- *<b>Since</b> AppLink 2.0
+ *<b>Since</b> SmartDeviceLink 2.0
  <p>
  */
 

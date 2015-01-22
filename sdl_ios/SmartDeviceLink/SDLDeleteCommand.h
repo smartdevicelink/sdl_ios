@@ -1,6 +1,6 @@
 //  SDLDeleteCommand.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
@@ -14,7 +14,7 @@
  * SystemContext: Should not be attempted when VRSESSION or MENU
  * </p>
  *
- * Since <b>AppLink 1.0</b><br>
+ * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLAddSubMenu SDLDeleteSubMenu
  */
 @interface SDLDeleteCommand : SDLRPCRequest {}

@@ -1,6 +1,6 @@
 //  SDLProxy.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 //  Version: ##Version##
 
 #import <Foundation/Foundation.h>

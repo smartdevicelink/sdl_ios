@@ -1,6 +1,6 @@
 //
 //  SDLDataStreamHandlingDelegate.h
-//  AppLink
+//  SmartDeviceLink
 //
 
 #import <Foundation/Foundation.h>

@@ -1,6 +1,6 @@
 //  SDLOnDriverDistraction.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCNotification.h>
@@ -28,16 +28,16 @@
  *         <th>Name</th>
  *         <th>Type</th>
  *         <th>Description</th>
- *         <th>Applink Ver Available</th>
+ *         <th>SmartDeviceLink Ver Available</th>
  *     </tr>
  *     <tr>
  *         <td>state</td>
  *         <td>SDLDriverDistractionState* </td>
  *         <td>Current driver distraction <i>state</i>(i.e. whether driver distraction rules are in effect, or not). </td>
- *         <td>AppLink 1.0</td>
+ *         <td>SmartDeviceLink 1.0</td>
  *     </tr>
  * </table>
- * Since <b>AppLink 1.0</b>
+ * Since <b>SmartDeviceLink 1.0</b>
  */
 @interface SDLOnDriverDistraction : SDLRPCNotification {}
 

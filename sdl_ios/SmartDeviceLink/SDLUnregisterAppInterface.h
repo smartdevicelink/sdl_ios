@@ -1,12 +1,12 @@
 //  SDLUnregisterAppInterface.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
 /**
- * Terminates an application's interface registration. This causes SYNC&reg; to
+ * Terminates an application's interface registration. This causes SDL&reg; to
  * dispose of all resources associated with the application's interface
  * registration (e.g. Command Menu items, Choice Sets, button subscriptions,
  * etc.)

@@ -1,6 +1,6 @@
 //  SDLTriggerSource.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -9,7 +9,7 @@
  * Indicates whether choice/command was selected via VR or via a menu selection
  * (using SEEKRIGHT/SEEKLEFT, TUNEUP, TUNEDOWN and OK buttons)
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  *
  */
 @interface SDLTriggerSource : SDLEnum {}

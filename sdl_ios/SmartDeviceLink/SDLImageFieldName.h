@@ -1,6 +1,6 @@
 //  SDLImageFieldName.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -8,7 +8,7 @@
 /** The name that identifies the filed.
  *
  *
- * @Since AppLink 3.0
+ * @since SmartDeviceLink 3.0
  *
  */
 @interface SDLImageFieldName : SDLEnum {}

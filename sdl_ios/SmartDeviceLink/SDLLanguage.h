@@ -1,6 +1,6 @@
 //  SDLLanguage.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
@@ -9,7 +9,7 @@
  * Specifies the language to be used for TTS, VR, displayed messages/menus
  * <p>
  *
- * Avaliable since <font color=red><b> AppLink 1.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  *
  */
 @interface SDLLanguage : SDLEnum {}

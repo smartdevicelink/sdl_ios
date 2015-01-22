@@ -1,14 +1,14 @@
 //  SDLPrimaryAudioSource.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
 
 /**
- * Reflects the current primary audio source of SYNC (if selected).
+ * Reflects the current primary audio source of SDL (if selected).
  *
- * Avaliable since <font color=red><b> AppLink 2.0 </b></font>
+ * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  */
 @interface SDLPrimaryAudioSource : SDLEnum {}
 

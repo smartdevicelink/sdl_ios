@@ -1,16 +1,16 @@
 //  SDLListFiles.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
 /**
  * Requests the current list of resident filenames for the registered app. Not
- * supported on First generation SYNC vehicles
+ * supported on First generation SDL vehicles
  * <p>
  *
- * Since <b>AppLink 2.0</b>
+ * Since <b>SmartDeviceLink 2.0</b>
  */
 @interface SDLListFiles : SDLRPCRequest {}
 
