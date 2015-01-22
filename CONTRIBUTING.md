@@ -10,7 +10,7 @@ We use Gitflow as our branch management system. Please read up on it [here](http
 * All commits should involve logical units. Please do not put all changed code in one commit, unless it is a very minor change.
 * Work in progress pull requests should have "[WIP]" in front of the Pull Request title. When you are ready to merge, remove this tag and @mention `smartdevicelink/developers` to get it scheduled for review.
 * If applicable, follow [this Pull Request's format](https://github.com/smartdevicelink/SmartDeviceLink-iOS/pull/45).
-* Please document all code written. Write headerdoc style documentation for methods, and inline code where it makes sense, i.e. for non-obvious code chunks.
+* Please document all code written. Write [objective-c style documentation](http://nshipster.com/documentation/) for methods (we use [VVDocumenter](https://github.com/onevcat/VVDocumenter-Xcode) to help out, and use inline code comments where it makes sense, i.e. for non-obvious code chunks.
 
 ### Contributor's License Agreement (CLA)
 Coming Soon! We unfortunately cannot accept third party contributions until this is ready.
