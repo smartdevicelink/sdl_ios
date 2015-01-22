@@ -15,6 +15,7 @@
 #import <SmartDeviceLink/SDLSiphonServer.h>
 #import <SmartDeviceLink/SDLProxy.h>
 #import <SmartDeviceLink/SDLSystemRequest.h>
+#import <SmartDeviceLink/SDLQueryAppsManager.h>
 #import "SDLRPCPayload.h"
 #import "SDLPolicyDataParser.h"
 #import "SDLLockScreenManager.h"
@@ -27,6 +28,9 @@
 {
     SDLLockScreenManager *lsm;
 }
+
+@property (nonatomic, strong) SDLQueryAppsManager *queryAppsManager;
+
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object;
 - (void)notifyProxyClosed;
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
@@ -132,6 +136,15 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (NSString *)proxyVersion { // How it should have been named.
     return VERSION_STRING;
+}
+
+#pragma mark - Getters
+- (SDLQueryAppsManager *)queryAppsManager {
+    if (!_queryAppsManager) {
+        _queryAppsManager = [[SDLQueryAppsManager alloc] init];
+    }
+    
+    return _queryAppsManager;
 }
 
 
@@ -445,8 +458,20 @@ const int POLICIES_CORRELATION_ID = 65535;
         return;
     }
     
-    NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // TODO
+    NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *uploadError) {
+        if (uploadError != nil) {
+            // TODO
+        }
+        
+        NSError *JSONError = nil;
+        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONError];
+        if (JSONError != nil) {
+            // TODO
+        }
+        
+        [SDLQueryAppsManager filterQueryResponse:responseDictionary completionBlock:^(NSDictionary *filteredResponseData, NSError *error) {
+            // TODO: Send back to the Head Unit
+        }];
     }];
     [task resume];
 }
@@ -493,6 +518,15 @@ const int POLICIES_CORRELATION_ID = 65535;
     return JSONDicationary;
 }
 
+/**
+ *  Generate an NSURLSessionUploadTask for System Request
+ *
+ *  @param dictionary        The system request dictionary that contains the HTTP data to be sent
+ *  @param URLString         A string containing the URL to send the upload to
+ *  @param completionHandler A completion handler returning the response from the server to the upload task
+ *
+ *  @return The upload task, which can be started by calling -[resume]
+ */
 - (NSURLSessionUploadTask *)uploadTaskForSystemRequestDictionary:(NSDictionary *)dictionary URLString:(NSString *)URLString completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler {
     NSParameterAssert(dictionary != nil);
     
