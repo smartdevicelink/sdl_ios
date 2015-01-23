@@ -176,6 +176,9 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 -(void) onProtocolClosed {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    
 	[self notifyProxyClosed];
 }
 
