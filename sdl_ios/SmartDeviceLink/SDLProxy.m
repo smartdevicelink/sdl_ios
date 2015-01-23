@@ -500,7 +500,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void)handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
     NSURL *URLScheme = [NSURL URLWithString:request.url];
     if (URLScheme == nil) {
-        // TODO: Log an error
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Launch App failure: invalid URL sent from module: %@", request.url] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return;
     }
     
