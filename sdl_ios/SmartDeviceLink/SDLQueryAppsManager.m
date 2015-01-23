@@ -8,6 +8,8 @@
 
 #import "SDLQueryAppsManager.h"
 
+#import <SmartDeviceLink/SDLDebugTool.h>
+
 NSString *const SDLErrorDomainQueryApps = @"SDLErrorDomainQueryApps";
 NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.parser";
 
@@ -38,8 +40,10 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
     return queryAppsQueue;
 }
 
-+ (void)filterQueryResponse:(NSDictionary *)responseData completionBlock:(void (^)(NSDictionary *filteredResponseData, NSError *error))completionBlock {
++ (void)filterQueryResponse:(NSDictionary *)responseData completionBlock:(QueryResponseCompletionBlock)completionBlock {
     dispatch_async([self.class queryAppsQueue], ^{
+        NSError *error = nil;
+        
         // Clear and set up the filteredQueryResponse
         NSMutableDictionary *filteredQueryResponse = [[NSMutableDictionary alloc] initWithCapacity:responseData.allKeys.count];
         filteredQueryResponse[@"status"] = responseData[@"status"];
@@ -49,8 +53,10 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
         // Make sure we have data within the response. If we don't, throw an error
         NSArray *apps = responseData[@"response"];
         if (apps == nil) {
-            NSError *error = [NSError errorWithDomain:SDLErrorDomainQueryApps code:SDLErrorDomainQueryAppsCodeResponseDataInvalid userInfo:@{@"responseData": responseData}];
-            completionBlock(nil, error);
+            error = [NSError errorWithDomain:SDLErrorDomainQueryApps code:SDLErrorDomainQueryAppsCodeResponseDataInvalid userInfo:@{@"responseData": responseData}];
+            
+            [self dispatchError:error forCompletionBlock:completionBlock];
+            return;
         }
         
         // Loop through the response array, pull out all of the iOS data
@@ -68,11 +74,30 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
             }
         }
         
-        // Add the installed applications to the filtered response dictionary, pass it back on the main queue
+        // Add the installed applications to the filtered response dictionary, serialize it
         filteredQueryResponse[@"response"] = filteredResponses;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionBlock([NSDictionary dictionaryWithDictionary:filteredQueryResponse], nil);
-        });
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Query Apps data from cloud: %@", filteredQueryResponse] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All];
+        
+        NSData *filteredQueryResponseData = [NSJSONSerialization dataWithJSONObject:filteredQueryResponse options:kNilOptions error:&error];
+        if (error != nil) {
+            [self dispatchError:error forCompletionBlock:completionBlock];
+            return;
+        }
+        
+        // Send back the data through the completion block
+        [self dispatchData:filteredQueryResponseData forCompletionBlock:completionBlock];
+    });
+}
+
++ (void)dispatchError:(NSError *)error forCompletionBlock:(QueryResponseCompletionBlock)completionBlock {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        completionBlock(nil, error);
+    });
+}
+
++ (void)dispatchData:(NSData *)data forCompletionBlock:(QueryResponseCompletionBlock)completionBlock {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        completionBlock(data, nil);
     });
 }
 

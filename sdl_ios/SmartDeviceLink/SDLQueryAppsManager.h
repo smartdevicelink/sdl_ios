@@ -10,6 +10,8 @@
 
 extern NSString *const SDLErrorDomainQueryApps;
 
+typedef void (^QueryResponseCompletionBlock)(NSData *filteredResponseData, NSError *error);
+
 typedef NS_ENUM(NSInteger, SDLErrorDomainQueryAppsCode) {
     SDLErrorDomainQueryAppsCodeResponseDataInvalid
 };
@@ -24,6 +26,6 @@ typedef NS_ENUM(NSInteger, SDLErrorDomainQueryAppsCode) {
  *  @param responseData    The dictionary of data returned by the Query Apps server
  *  @param completionBlock The filtered data to be returned to the Head Unit, or an error if the method encountered an error parsing the responseData
  */
-+ (void)filterQueryResponse:(NSDictionary *)responseData completionBlock:(void (^)(NSDictionary *filteredResponseData, NSError *error))completionBlock;
++ (void)filterQueryResponse:(NSDictionary *)responseData completionBlock:(QueryResponseCompletionBlock)completionBlock;
 
 @end

@@ -458,22 +458,40 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void)handleSystemRequestQueryApps:(SDLOnSystemRequest *)request {
     NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
     if (JSONDictionary == nil) {
+        [SDLDebugTool logInfo:@"OnSystemRequest failure: invalid data received" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return;
     }
     
     NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *uploadError) {
         if (uploadError != nil) {
-            // TODO
+            NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), upload task failed: %@", uploadError.localizedDescription];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            return;
         }
         
         NSError *JSONError = nil;
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONError];
         if (JSONError != nil) {
-            // TODO
+            NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), data parsing failed: %@", JSONError.localizedDescription];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            return;
         }
         
-        [SDLQueryAppsManager filterQueryResponse:responseDictionary completionBlock:^(NSDictionary *filteredResponseData, NSError *error) {
+        [SDLQueryAppsManager filterQueryResponse:responseDictionary completionBlock:^(NSData *filteredResponseData, NSError *error) {
+            if (error != nil) {
+                NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure, filtering response failed: %@", error.localizedDescription];
+                [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                return;
+            }
+            
             // TODO: Send back to the Head Unit
+            SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
+            request.requestType = [SDLRequestType QUERY_APPS];
+            request.bulkData = filteredResponseData;
+            
+            NSString *logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            [self sendRPC:request];
         }];
     }];
     [task resume];
@@ -482,6 +500,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void)handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
     NSURL *URLScheme = [NSURL URLWithString:request.url];
     if (URLScheme == nil) {
+        // TODO: Log an error
         return;
     }
     
