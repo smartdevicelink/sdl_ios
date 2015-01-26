@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLAudioStreamingState.h>
+#import "SDLAudioStreamingState.h"
 
 SDLAudioStreamingState* SDLAudioStreamingState_AUDIBLE = nil;
 SDLAudioStreamingState* SDLAudioStreamingState_ATTENUATED = nil;

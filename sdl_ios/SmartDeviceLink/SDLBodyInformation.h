@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLIgnitionStableStatus.h>
-#import <SmartDeviceLink/SDLIgnitionStatus.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLIgnitionStableStatus.h"
+#import "SDLIgnitionStatus.h"
 
 @interface SDLBodyInformation : SDLRPCStruct {}
 

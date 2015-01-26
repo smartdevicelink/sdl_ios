@@ -2,14 +2,14 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCResponse.h>
 
-#import <SmartDeviceLink/SDLSyncMsgVersion.h>
-#import <SmartDeviceLink/SDLLanguage.h>
-#import <SmartDeviceLink/SDLDisplayCapabilities.h>
-#import <SmartDeviceLink/SDLPresetBankCapabilities.h>
-#import <SmartDeviceLink/SDLVehicleType.h>
+#import "SDLRPCResponse.h"
+
+#import "SDLSyncMsgVersion.h"
+#import "SDLLanguage.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLPresetBankCapabilities.h"
+#import "SDLVehicleType.h"
 
 @interface SDLRegisterAppInterfaceResponse : SDLRPCResponse {}
 

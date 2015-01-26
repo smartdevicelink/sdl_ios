@@ -2,9 +2,9 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDiagnosticMessageResponse.h>
+#import "SDLDiagnosticMessageResponse.h"
 
-#import <SmartDeviceLink/SDLNames.h>
+#import "SDLNames.h"
 
 @implementation SDLDiagnosticMessageResponse
 

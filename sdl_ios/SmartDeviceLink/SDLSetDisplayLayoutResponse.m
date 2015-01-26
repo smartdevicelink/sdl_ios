@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLSetDisplayLayoutResponse.h>
+#import "SDLSetDisplayLayoutResponse.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLButtonCapabilities.h>
-#import <SmartDeviceLink/SDLSoftButtonCapabilities.h>
+#import "SDLNames.h"
+#import "SDLButtonCapabilities.h"
+#import "SDLSoftButtonCapabilities.h"
 
 @implementation SDLSetDisplayLayoutResponse
 

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLButtonPressMode.h>
+#import "SDLButtonPressMode.h"
 
 SDLButtonPressMode* SDLButtonPressMode_LONG = nil;
 SDLButtonPressMode* SDLButtonPressMode_SHORT = nil;

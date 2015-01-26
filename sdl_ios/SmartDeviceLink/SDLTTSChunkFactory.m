@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTTSChunkFactory.h>
+#import "SDLTTSChunkFactory.h"
 
 @implementation SDLTTSChunkFactory
 

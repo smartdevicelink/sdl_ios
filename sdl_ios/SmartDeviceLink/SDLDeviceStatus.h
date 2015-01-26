@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLDeviceLevelStatus.h>
-#import <SmartDeviceLink/SDLPrimaryAudioSource.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLDeviceLevelStatus.h"
+#import "SDLPrimaryAudioSource.h"
 
 @interface SDLDeviceStatus : SDLRPCStruct {}
 

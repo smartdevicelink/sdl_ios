@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPrimaryAudioSource.h>
+#import "SDLPrimaryAudioSource.h"
 
 SDLPrimaryAudioSource* SDLPrimaryAudioSource_NO_SOURCE_SELECTED = nil;
 SDLPrimaryAudioSource* SDLPrimaryAudioSource_USB = nil;

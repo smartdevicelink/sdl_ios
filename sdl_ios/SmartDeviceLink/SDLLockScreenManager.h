@@ -3,7 +3,7 @@
 //  SmartDeviceLink
 //
 
-#import <Foundation/Foundation.h>
+
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLOnLockScreenStatus.h"

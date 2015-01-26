@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCRequest.h>
 
-#import <SmartDeviceLink/SDLSyncMsgVersion.h>
-#import <SmartDeviceLink/SDLLanguage.h>
-#import <SmartDeviceLink/SDLDeviceInfo.h>
+#import "SDLRPCRequest.h"
+
+#import "SDLSyncMsgVersion.h"
+#import "SDLLanguage.h"
+#import "SDLDeviceInfo.h"
 
 @interface SDLRegisterAppInterface : SDLRPCRequest {}
 

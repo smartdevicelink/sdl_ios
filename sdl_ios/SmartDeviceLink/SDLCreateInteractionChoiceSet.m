@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLCreateInteractionChoiceSet.h>
+#import "SDLCreateInteractionChoiceSet.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLChoice.h>
+#import "SDLNames.h"
+#import "SDLChoice.h"
 
 @implementation SDLCreateInteractionChoiceSet
 

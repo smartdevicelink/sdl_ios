@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLHMIPermissions.h>
+#import "SDLHMIPermissions.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLHMILevel.h>
+#import "SDLNames.h"
+#import "SDLHMILevel.h"
 
 @implementation SDLHMIPermissions
 

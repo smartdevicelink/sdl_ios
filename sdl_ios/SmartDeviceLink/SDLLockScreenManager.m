@@ -3,7 +3,7 @@
 //  SmartDeviceLink
 //
 
-#import <SmartDeviceLink/SDLLockScreenManager.h>
+#import "SDLLockScreenManager.h"
 
 @interface SDLLockScreenManager ()
 

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLResult.h>
+#import "SDLResult.h"
 
 SDLResult* SDLResult_SUCCESS = nil;
 SDLResult* SDLResult_INVALID_DATA = nil;

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLWiperStatus.h>
+#import "SDLWiperStatus.h"
 
 SDLWiperStatus* SDLWiperStatus_OFF = nil;
 SDLWiperStatus* SDLWiperStatus_AUTO_OFF = nil;

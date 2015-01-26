@@ -2,24 +2,24 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCResponse.h>
 
-#import <SmartDeviceLink/SDLGPSData.h>
-#import <SmartDeviceLink/SDLComponentVolumeStatus.h>
-#import <SmartDeviceLink/SDLPRNDL.h>
-#import <SmartDeviceLink/SDLTireStatus.h>
-#import <SmartDeviceLink/SDLBeltStatus.h>
-#import <SmartDeviceLink/SDLBodyInformation.h>
-#import <SmartDeviceLink/SDLDeviceStatus.h>
-#import <SmartDeviceLink/SDLVehicleDataEventStatus.h>
-#import <SmartDeviceLink/SDLWiperStatus.h>
-#import <SmartDeviceLink/SDLHeadLampStatus.h>
-#import <SmartDeviceLink/SDLECallInfo.h>
-#import <SmartDeviceLink/SDLAirbagStatus.h>
-#import <SmartDeviceLink/SDLEmergencyEvent.h>
-#import <SmartDeviceLink/SDLClusterModeStatus.h>
-#import <SmartDeviceLink/SDLMyKey.h>
+#import "SDLRPCResponse.h"
+
+#import "SDLGPSData.h"
+#import "SDLComponentVolumeStatus.h"
+#import "SDLPRNDL.h"
+#import "SDLTireStatus.h"
+#import "SDLBeltStatus.h"
+#import "SDLBodyInformation.h"
+#import "SDLDeviceStatus.h"
+#import "SDLVehicleDataEventStatus.h"
+#import "SDLWiperStatus.h"
+#import "SDLHeadLampStatus.h"
+#import "SDLECallInfo.h"
+#import "SDLAirbagStatus.h"
+#import "SDLEmergencyEvent.h"
+#import "SDLClusterModeStatus.h"
+#import "SDLMyKey.h"
 
 @interface SDLGetVehicleDataResponse : SDLRPCResponse {}
 

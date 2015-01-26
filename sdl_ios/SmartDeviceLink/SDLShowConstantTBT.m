@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLShowConstantTBT.h>
+#import "SDLShowConstantTBT.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLSoftButton.h>
+#import "SDLNames.h"
+#import "SDLSoftButton.h"
 
 @implementation SDLShowConstantTBT
 

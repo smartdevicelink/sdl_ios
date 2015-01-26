@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLCharacterSet.h>
+#import "SDLCharacterSet.h"
 
 SDLCharacterSet* SDLCharacterSet_TYPE2SET = nil;
 SDLCharacterSet* SDLCharacterSet_TYPE5SET = nil;

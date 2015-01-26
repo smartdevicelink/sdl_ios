@@ -2,8 +2,8 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLJsonEncoder.h>
-#import <SmartDeviceLink/SDLFunctionID.h>
+#import "SDLJsonEncoder.h"
+#import "SDLFunctionID.h"
 
 #import "SDLRPCRequest.h"
 #import "SDLProtocol.h"

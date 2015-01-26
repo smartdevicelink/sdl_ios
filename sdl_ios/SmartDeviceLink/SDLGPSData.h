@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLCompassDirection.h>
-#import <SmartDeviceLink/SDLDimension.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLCompassDirection.h"
+#import "SDLDimension.h"
 
 @interface SDLGPSData : SDLRPCStruct {}
 

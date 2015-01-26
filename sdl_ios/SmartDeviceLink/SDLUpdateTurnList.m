@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLUpdateTurnList.h>
+#import "SDLUpdateTurnList.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTurn.h>
-#import <SmartDeviceLink/SDLSoftButton.h>
+#import "SDLNames.h"
+#import "SDLTurn.h"
+#import "SDLSoftButton.h"
 
 @implementation SDLUpdateTurnList
 

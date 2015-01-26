@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLImage.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLImage.h"
 
 @interface SDLChoice : SDLRPCStruct {}
 

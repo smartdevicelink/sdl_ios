@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLOnPermissionsChange.h>
+#import "SDLOnPermissionsChange.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLPermissionItem.h>
+#import "SDLNames.h"
+#import "SDLPermissionItem.h"
 
 @implementation SDLOnPermissionsChange
 

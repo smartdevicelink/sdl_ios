@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLVehicleDataStatus.h>
+#import "SDLVehicleDataStatus.h"
 
 SDLVehicleDataStatus* SDLVehicleDataStatus_NO_DATA_EXISTS = nil;
 SDLVehicleDataStatus* SDLVehicleDataStatus_OFF = nil;

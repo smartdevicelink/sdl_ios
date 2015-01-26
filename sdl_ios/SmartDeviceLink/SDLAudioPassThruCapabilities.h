@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLSamplingRate.h>
-#import <SmartDeviceLink/SDLBitsPerSample.h>
-#import <SmartDeviceLink/SDLAudioType.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLSamplingRate.h"
+#import "SDLBitsPerSample.h"
+#import "SDLAudioType.h"
 
 @interface SDLAudioPassThruCapabilities : SDLRPCStruct {}
 

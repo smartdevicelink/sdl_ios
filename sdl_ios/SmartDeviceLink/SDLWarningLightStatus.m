@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLWarningLightStatus.h>
+#import "SDLWarningLightStatus.h"
 
 SDLWarningLightStatus* SDLWarningLightStatus_OFF = nil;
 SDLWarningLightStatus* SDLWarningLightStatus_ON = nil;

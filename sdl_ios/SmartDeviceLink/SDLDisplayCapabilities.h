@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLDisplayType.h>
-#import <SmartDeviceLink/SDLScreenParams.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLDisplayType.h"
+#import "SDLScreenParams.h"
 
 @interface SDLDisplayCapabilities : SDLRPCStruct {}
 

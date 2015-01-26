@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLSoftButtonType.h>
+#import "SDLSoftButtonType.h"
 
 SDLSoftButtonType* SDLSoftButtonType_TEXT = nil;
 SDLSoftButtonType* SDLSoftButtonType_IMAGE = nil;

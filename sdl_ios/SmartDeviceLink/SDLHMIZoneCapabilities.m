@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLHmiZoneCapabilities.h>
+#import "SDLHmiZoneCapabilities.h"
 
 SDLHmiZoneCapabilities* SDLHmiZoneCapabilities_FRONT = nil;
 SDLHmiZoneCapabilities* SDLHmiZoneCapabilities_BACK = nil;

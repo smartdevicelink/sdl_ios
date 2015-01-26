@@ -2,8 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <UIKit/UIKit.h>
-#import <SmartDeviceLink/SDLDebugTool.h>
+@import Foundation;
+@import UIKit;
+
+#import "SDLDebugTool.h"
 
 @interface SDLConsoleController : UITableViewController <SDLDebugToolConsole> {
 	NSMutableArray* messageList;

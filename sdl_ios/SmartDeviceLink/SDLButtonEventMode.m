@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLButtonEventMode.h>
+#import "SDLButtonEventMode.h"
 
 SDLButtonEventMode* SDLButtonEventMode_BUTTONUP = nil;
 SDLButtonEventMode* SDLButtonEventMode_BUTTONDOWN = nil;

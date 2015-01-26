@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLWarningLightStatus.h>
-#import <SmartDeviceLink/SDLSingleTireStatus.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLWarningLightStatus.h"
+#import "SDLSingleTireStatus.h"
 
 @interface SDLTireStatus : SDLRPCStruct {}
 

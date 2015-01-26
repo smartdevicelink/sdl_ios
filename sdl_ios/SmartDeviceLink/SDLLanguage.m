@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLLanguage.h>
+#import "SDLLanguage.h"
 
 SDLLanguage* SDLLanguage_EN_US = nil;
 SDLLanguage* SDLLanguage_ES_MX = nil;

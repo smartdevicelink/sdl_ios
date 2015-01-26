@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDisplayCapabilities.h>
+#import "SDLDisplayCapabilities.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTextField.h>
-#import <SmartDeviceLink/SDLImageField.h>
-#import <SmartDeviceLink/SDLMediaClockFormat.h>
+#import "SDLNames.h"
+#import "SDLTextField.h"
+#import "SDLImageField.h"
+#import "SDLMediaClockFormat.h"
 
 @implementation SDLDisplayCapabilities
 

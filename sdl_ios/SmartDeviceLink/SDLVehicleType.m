@@ -2,9 +2,9 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLVehicleType.h>
+#import "SDLVehicleType.h"
 
-#import <SmartDeviceLink/SDLNames.h>
+#import "SDLNames.h"
 
 @implementation SDLVehicleType
 

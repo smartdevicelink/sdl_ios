@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLImageFieldName.h>
-#import <SmartDeviceLink/SDLImageResolution.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLImageFieldName.h"
+#import "SDLImageResolution.h"
 
 @interface SDLImageField : SDLRPCStruct {}
 

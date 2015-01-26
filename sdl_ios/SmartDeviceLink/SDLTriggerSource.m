@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTriggerSource.h>
+#import "SDLTriggerSource.h"
 
 SDLTriggerSource* SDLTriggerSource_MENU = nil;
 SDLTriggerSource* SDLTriggerSource_VR = nil;

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLEmergencyEventType.h>
+#import "SDLEmergencyEventType.h"
 
 SDLEmergencyEventType* SDLEmergencyEventType_NO_EVENT = nil;
 SDLEmergencyEventType* SDLEmergencyEventType_FRONTAL = nil;

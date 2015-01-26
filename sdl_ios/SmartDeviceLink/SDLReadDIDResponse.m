@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLReadDIDResponse.h>
+#import "SDLReadDIDResponse.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLDIDResult.h>
+#import "SDLNames.h"
+#import "SDLDIDResult.h"
 
 @implementation SDLReadDIDResponse
 

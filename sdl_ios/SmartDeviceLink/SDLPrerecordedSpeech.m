@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPrerecordedSpeech.h>
+#import "SDLPrerecordedSpeech.h"
 
 SDLPrerecordedSpeech* SDLPrerecordedSpeech_HELP_JINGLE = nil;
 SDLPrerecordedSpeech* SDLPrerecordedSpeech_INITIAL_JINGLE = nil;

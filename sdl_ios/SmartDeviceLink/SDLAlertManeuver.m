@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLAlertManeuver.h>
+#import "SDLAlertManeuver.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTTSChunk.h>
-#import <SmartDeviceLink/SDLSoftButton.h>
+#import "SDLNames.h"
+#import "SDLTTSChunk.h"
+#import "SDLSoftButton.h"
 
 @implementation SDLAlertManeuver
 

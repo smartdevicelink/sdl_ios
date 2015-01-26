@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLImageType.h>
+#import "SDLImageType.h"
 
 SDLImageType* SDLImageType_STATIC = nil;
 SDLImageType* SDLImageType_DYNAMIC = nil;

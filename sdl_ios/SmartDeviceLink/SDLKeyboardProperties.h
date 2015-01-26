@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLLanguage.h>
-#import <SmartDeviceLink/SDLKeyboardLayout.h>
-#import <SmartDeviceLink/SDLKeypressMode.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLLanguage.h"
+#import "SDLKeyboardLayout.h"
+#import "SDLKeypressMode.h"
 
 @interface SDLKeyboardProperties : SDLRPCStruct {}
 

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLVehicleDataActiveStatus.h>
+#import "SDLVehicleDataActiveStatus.h"
 
 SDLVehicleDataActiveStatus* SDLVehicleDataActiveStatus_INACTIVE_NOT_CONFIRMED = nil;
 SDLVehicleDataActiveStatus* SDLVehicleDataActiveStatus_INACTIVE_CONFIRMED = nil;

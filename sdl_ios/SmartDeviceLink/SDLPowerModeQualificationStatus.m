@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPowerModeQualificationStatus.h>
+#import "SDLPowerModeQualificationStatus.h"
 
 SDLPowerModeQualificationStatus* SDLPowerModeQualificationStatus_POWER_MODE_UNDEFINED = nil;
 SDLPowerModeQualificationStatus* SDLPowerModeQualificationStatus_POWER_MODE_EVALUATION_IN_PROGRESS = nil;

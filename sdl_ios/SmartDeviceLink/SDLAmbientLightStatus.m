@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLAmbientLightStatus.h>
+#import "SDLAmbientLightStatus.h"
 
 SDLAmbientLightStatus* SDLAmbientLightStatus_NIGHT = nil;
 SDLAmbientLightStatus* SDLAmbientLightStatus_TWILIGHT_1 = nil;

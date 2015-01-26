@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLRPCNotification.h>
+#import "SDLRPCNotification.h"
 
 @implementation SDLRPCNotification
 

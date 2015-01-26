@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLKeypressMode.h>
+#import "SDLKeypressMode.h"
 
 SDLKeypressMode* SDLKeypressMode_SINGLE_KEYPRESS = nil;
 SDLKeypressMode* SDLKeypressMode_QUEUE_KEYPRESSES = nil;

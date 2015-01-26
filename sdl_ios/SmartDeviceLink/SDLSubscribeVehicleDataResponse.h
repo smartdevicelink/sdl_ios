@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCResponse.h>
 
-#import <SmartDeviceLink/SDLVehicleDataResult.h>
+#import "SDLRPCResponse.h"
+
+#import "SDLVehicleDataResult.h"
 
 @interface SDLSubscribeVehicleDataResponse : SDLRPCResponse {}
 

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLKeyboardLayout.h>
+#import "SDLKeyboardLayout.h"
 
 SDLKeyboardLayout* SDLKeyboardLayout_QWERTY = nil;
 SDLKeyboardLayout* SDLKeyboardLayout_QWERTZ = nil;

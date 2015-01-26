@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLImageFieldName.h>
+#import "SDLImageFieldName.h"
 
 SDLImageFieldName* SDLImageFieldName_softButtonImage = nil;
 SDLImageFieldName* SDLImageFieldName_choiceImage = nil;

@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCNotification.h>
 
-#import <SmartDeviceLink/SDLRequestType.h>
-#import <SmartDeviceLink/SDLFileType.h>
+#import "SDLRPCNotification.h"
+
+#import "SDLRequestType.h"
+#import "SDLFileType.h"
 
 @interface SDLOnSystemRequest : SDLRPCNotification {}
 

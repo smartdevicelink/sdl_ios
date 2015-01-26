@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTouchType.h>
+#import "SDLTouchType.h"
 
 SDLTouchType* SDLTouchType_BEGIN = nil;
 SDLTouchType* SDLTouchType_MOVE = nil;

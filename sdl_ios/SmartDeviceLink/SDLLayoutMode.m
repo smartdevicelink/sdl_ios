@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLLayoutMode.h>
+#import "SDLLayoutMode.h"
 
 SDLLayoutMode* SDLLayoutMode_ICON_ONLY = nil;
 SDLLayoutMode* SDLLayoutMode_ICON_WITH_SEARCH = nil;

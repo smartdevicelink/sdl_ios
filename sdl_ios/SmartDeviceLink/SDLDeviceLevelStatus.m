@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDeviceLevelStatus.h>
+#import "SDLDeviceLevelStatus.h"
 
 SDLDeviceLevelStatus* SDLDeviceLevelStatus_ZERO_LEVEL_BARS = nil;
 SDLDeviceLevelStatus* SDLDeviceLevelStatus_ONE_LEVEL_BARS = nil;

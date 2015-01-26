@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLFuelCutoffStatus.h>
+#import "SDLFuelCutoffStatus.h"
 
 SDLFuelCutoffStatus* SDLFuelCutoffStatus_TERMINATE_FUEL = nil;
 SDLFuelCutoffStatus* SDLFuelCutoffStatus_NORMAL_OPERATION = nil;

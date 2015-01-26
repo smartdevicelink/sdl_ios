@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLIgnitionStatus.h>
+#import "SDLIgnitionStatus.h"
 
 SDLIgnitionStatus* SDLIgnitionStatus_UNKNOWN = nil;
 SDLIgnitionStatus* SDLIgnitionStatus_OFF = nil;

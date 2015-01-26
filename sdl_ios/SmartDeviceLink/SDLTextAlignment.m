@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTextAlignment.h>
+#import "SDLTextAlignment.h"
 
 SDLTextAlignment* SDLTextAlignment_LEFT_ALIGNED = nil;
 SDLTextAlignment* SDLTextAlignment_RIGHT_ALIGNED = nil;

@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLImageField.h>
+#import "SDLImageField.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLFileType.h>
+#import "SDLNames.h"
+#import "SDLFileType.h"
 
 @implementation SDLImageField
 

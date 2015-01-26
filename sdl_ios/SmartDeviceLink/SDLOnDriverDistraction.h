@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCNotification.h>
 
-#import <SmartDeviceLink/SDLDriverDistractionState.h>
+#import "SDLRPCNotification.h"
+
+#import "SDLDriverDistractionState.h"
 
 @interface SDLOnDriverDistraction : SDLRPCNotification {}
 

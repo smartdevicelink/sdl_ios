@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDisplayType.h>
+#import "SDLDisplayType.h"
 
 SDLDisplayType* SDLDisplayType_CID = nil;
 SDLDisplayType* SDLDisplayType_TYPE2 = nil;

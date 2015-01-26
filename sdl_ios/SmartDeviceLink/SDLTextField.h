@@ -2,11 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
+#import "SDLRPCMessage.h"
 
-#import <SmartDeviceLink/SDLTextFieldName.h>
-#import <SmartDeviceLink/SDLCharacterSet.h>
+#import "SDLTextFieldName.h"
+#import "SDLCharacterSet.h"
 
 @interface SDLTextField : SDLRPCStruct {}
 

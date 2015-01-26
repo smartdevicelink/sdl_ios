@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLVehicleDataEventStatus.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLVehicleDataEventStatus.h"
 
 @interface SDLBeltStatus : SDLRPCStruct {}
 

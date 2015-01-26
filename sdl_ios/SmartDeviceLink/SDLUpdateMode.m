@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLUpdateMode.h>
+#import "SDLUpdateMode.h"
 
 SDLUpdateMode* SDLUpdateMode_COUNTUP = nil;
 SDLUpdateMode* SDLUpdateMode_COUNTDOWN = nil;

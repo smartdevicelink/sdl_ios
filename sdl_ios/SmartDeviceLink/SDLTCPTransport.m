@@ -4,6 +4,7 @@
 
 #import "SDLTCPTransport.h"
 #import "SDLDebugTool.h"
+#import "SDLHexUtility.h"
 #import <errno.h>
 #import <signal.h>
 #import <stdio.h>
@@ -13,7 +14,6 @@
 #import <sys/wait.h>
 #import <netinet/in.h>
 #import <netdb.h>
-#import "SDLHexUtility.h"
 
 int call_socket(const char* hostname, const char* port) { 
     

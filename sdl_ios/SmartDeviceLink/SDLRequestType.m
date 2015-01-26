@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLRequestType.h>
+#import "SDLRequestType.h"
 
 SDLRequestType* SDLRequestType_HTTP = nil;
 SDLRequestType* SDLRequestType_FILE_RESUME = nil;

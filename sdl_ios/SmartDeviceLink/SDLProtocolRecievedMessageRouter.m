@@ -8,7 +8,7 @@
 #import "SDLProtocolRecievedMessageRouter.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageAssembler.h"
-#import <SmartDeviceLink/SDLDebugTool.h>
+#import "SDLDebugTool.h"
 
 
 

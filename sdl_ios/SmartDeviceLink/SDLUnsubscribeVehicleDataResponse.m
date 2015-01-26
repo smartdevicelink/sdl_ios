@@ -2,9 +2,9 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLUnsubscribeVehicleDataResponse.h>
+#import "SDLUnsubscribeVehicleDataResponse.h"
 
-#import <SmartDeviceLink/SDLNames.h>
+#import "SDLNames.h"
 
 @implementation SDLUnsubscribeVehicleDataResponse
 

@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPerformInteraction.h>
+#import "SDLPerformInteraction.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTTSChunk.h>
-#import <SmartDeviceLink/SDLVrHelpItem.h>
+#import "SDLNames.h"
+#import "SDLTTSChunk.h"
+#import "SDLVrHelpItem.h"
 
 @implementation SDLPerformInteraction
 

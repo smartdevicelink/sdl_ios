@@ -2,19 +2,19 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
+
 #import <ExternalAccessory/ExternalAccessory.h>
 #import <objc/runtime.h>
-#import <SmartDeviceLink/SDLDebugTool.h>
-#import <SmartDeviceLink/SDLEncodedSyncPData.h>
-#import <SmartDeviceLink/SDLFunctionID.h>
-#import <SmartDeviceLink/SDLJsonDecoder.h>
-#import <SmartDeviceLink/SDLJsonEncoder.h>
-#import <SmartDeviceLink/SDLLanguage.h>
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLSiphonServer.h>
-#import <SmartDeviceLink/SDLProxy.h>
-#import <SmartDeviceLink/SDLSystemRequest.h>
+#import "SDLDebugTool.h"
+#import "SDLEncodedSyncPData.h"
+#import "SDLFunctionID.h"
+#import "SDLJsonDecoder.h"
+#import "SDLJsonEncoder.h"
+#import "SDLLanguage.h"
+#import "SDLNames.h"
+#import "SDLSiphonServer.h"
+#import "SDLProxy.h"
+#import "SDLSystemRequest.h"
 #import "SDLRPCPayload.h"
 #import "SDLPolicyDataParser.h"
 #import "SDLLockScreenManager.h"

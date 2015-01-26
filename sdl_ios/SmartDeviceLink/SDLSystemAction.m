@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLSystemAction.h>
+#import "SDLSystemAction.h"
 
 SDLSystemAction* SDLSystemAction_DEFAULT_ACTION = nil;
 SDLSystemAction* SDLSystemAction_STEAL_FOCUS = nil;

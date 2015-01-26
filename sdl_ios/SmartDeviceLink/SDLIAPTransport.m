@@ -2,7 +2,9 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <UIKit/UIKit.h>
+@import Foundation;
+@import UIKit;
+
 #import "SDLIAPTransport.h"
 #import "SDLDebugTool.h"
 #import "SDLSiphonServer.h"

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLCarModeStatus.h>
+#import "SDLCarModeStatus.h"
 
 SDLCarModeStatus* SDLCarModeStatus_NORMAL = nil;
 SDLCarModeStatus* SDLCarModeStatus_FACTORY = nil;

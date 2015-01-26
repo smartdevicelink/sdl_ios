@@ -3,8 +3,8 @@
 //  SmartDeviceLink
 //
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLEnum.h>
+
+#import "SDLEnum.h"
 
 @interface SDLLockScreenStatus : SDLEnum
 

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLComponentVolumeStatus.h>
+#import "SDLComponentVolumeStatus.h"
 
 SDLComponentVolumeStatus* SDLComponentVolumeStatus_UNKNOWN = nil;
 SDLComponentVolumeStatus* SDLComponentVolumeStatus_NORMAL = nil;

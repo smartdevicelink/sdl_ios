@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCNotification.h>
 
-#import <SmartDeviceLink/SDLTBTState.h>
+#import "SDLRPCNotification.h"
+
+#import "SDLTBTState.h"
 
 @interface SDLOnTBTClientState : SDLRPCNotification {}
 

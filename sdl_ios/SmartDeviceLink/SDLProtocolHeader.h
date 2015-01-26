@@ -2,7 +2,8 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
 
 typedef NS_ENUM(UInt8, SDLFrameType) {
 	SDLFrameType_Control = 0,

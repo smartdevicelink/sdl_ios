@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLVehicleDataEventStatus.h>
+#import "SDLVehicleDataEventStatus.h"
 
 SDLVehicleDataEventStatus* SDLVehicleDataEventStatus_NO_EVENT = nil;
 SDLVehicleDataEventStatus* SDLVehicleDataEventStatus_NO = nil;

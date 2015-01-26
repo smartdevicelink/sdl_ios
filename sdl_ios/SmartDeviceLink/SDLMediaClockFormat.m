@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLMediaClockFormat.h>
+#import "SDLMediaClockFormat.h"
 
 SDLMediaClockFormat* SDLMediaClockFormat_CLOCK1 = nil;
 SDLMediaClockFormat* SDLMediaClockFormat_CLOCK2 = nil;

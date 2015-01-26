@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDimension.h>
+#import "SDLDimension.h"
 
 SDLDimension* SDLDimension_NO_FIX = nil;
 SDLDimension* SDLDimension_2D = nil;

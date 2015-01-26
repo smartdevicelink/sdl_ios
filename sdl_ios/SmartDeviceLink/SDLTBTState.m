@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTBTState.h>
+#import "SDLTBTState.h"
 
 SDLTBTState* SDLTBTState_ROUTE_UPDATE_REQUEST = nil;
 SDLTBTState* SDLTBTState_ROUTE_ACCEPTED = nil;

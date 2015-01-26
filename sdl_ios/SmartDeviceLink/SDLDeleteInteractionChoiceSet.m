@@ -2,9 +2,9 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDeleteInteractionChoiceSet.h>
+#import "SDLDeleteInteractionChoiceSet.h"
 
-#import <SmartDeviceLink/SDLNames.h>
+#import "SDLNames.h"
 
 @implementation SDLDeleteInteractionChoiceSet
 

@@ -2,16 +2,16 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLRegisterAppInterfaceResponse.h>
+#import "SDLRegisterAppInterfaceResponse.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLButtonCapabilities.h>
-#import <SmartDeviceLink/SDLSoftButtonCapabilities.h>
-#import <SmartDeviceLink/SDLHmiZoneCapabilities.h>
-#import <SmartDeviceLink/SDLSpeechCapabilities.h>
-#import <SmartDeviceLink/SDLPrerecordedSpeech.h>
-#import <SmartDeviceLink/SDLVrCapabilities.h>
-#import <SmartDeviceLink/SDLAudioPassThruCapabilities.h>
+#import "SDLNames.h"
+#import "SDLButtonCapabilities.h"
+#import "SDLSoftButtonCapabilities.h"
+#import "SDLHmiZoneCapabilities.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLPrerecordedSpeech.h"
+#import "SDLVrCapabilities.h"
+#import "SDLAudioPassThruCapabilities.h"
 
 @implementation SDLRegisterAppInterfaceResponse
 

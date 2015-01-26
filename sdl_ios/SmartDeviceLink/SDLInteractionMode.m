@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLInteractionMode.h>
+#import "SDLInteractionMode.h"
 
 SDLInteractionMode* SDLInteractionMode_MANUAL_ONLY = nil;
 SDLInteractionMode* SDLInteractionMode_VR_ONLY = nil;

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h>
+#import "SDLAppInterfaceUnregisteredReason.h"
 
 SDLAppInterfaceUnregisteredReason* SDLAppInterfaceUnregisteredReason_IGNITION_OFF = nil;
 SDLAppInterfaceUnregisteredReason* SDLAppInterfaceUnregisteredReason_BLUETOOTH_OFF = nil;

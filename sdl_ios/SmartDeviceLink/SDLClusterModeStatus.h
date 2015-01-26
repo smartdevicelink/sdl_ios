@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLPowerModeQualificationStatus.h>
-#import <SmartDeviceLink/SDLCarModeStatus.h>
-#import <SmartDeviceLink/SDLPowerModeStatus.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLPowerModeQualificationStatus.h"
+#import "SDLCarModeStatus.h"
+#import "SDLPowerModeStatus.h"
 
 @interface SDLClusterModeStatus : SDLRPCStruct {}
 

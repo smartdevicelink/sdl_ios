@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLHMIPermissions.h>
-#import <SmartDeviceLink/SDLParameterPermissions.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLHMIPermissions.h"
+#import "SDLParameterPermissions.h"
 
 @interface SDLPermissionItem : SDLRPCStruct {}
 

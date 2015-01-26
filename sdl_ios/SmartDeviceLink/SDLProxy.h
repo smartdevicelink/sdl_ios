@@ -3,11 +3,11 @@
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 //  Version: ##Version##
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProtocol.h>
-#import <SmartDeviceLink/SDLProxyListener.h>
-#import <SmartDeviceLink/SDLRPCRequestFactory.h>
-#import <SmartDeviceLink/SDLTransport.h>
+
+#import "SDLProtocol.h"
+#import "SDLProxyListener.h"
+#import "SDLRPCRequestFactory.h"
+#import "SDLTransport.h"
 
 @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;

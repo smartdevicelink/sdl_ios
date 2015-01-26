@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCRequest.h>
 
-#import <SmartDeviceLink/SDLFileType.h>
+#import "SDLRPCRequest.h"
+
+#import "SDLFileType.h"
 
 @interface SDLPutFile : SDLRPCRequest {}
 

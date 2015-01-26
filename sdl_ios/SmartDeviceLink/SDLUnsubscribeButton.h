@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCRequest.h>
 
-#import <SmartDeviceLink/SDLButtonName.h>
+#import "SDLRPCRequest.h"
+
+#import "SDLButtonName.h"
 
 @interface SDLUnsubscribeButton : SDLRPCRequest {}
 

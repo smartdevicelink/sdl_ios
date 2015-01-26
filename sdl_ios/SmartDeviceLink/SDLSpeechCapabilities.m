@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLSpeechCapabilities.h>
+#import "SDLSpeechCapabilities.h"
 
 SDLSpeechCapabilities* SDLSpeechCapabilities_TEXT = nil;
 SDLSpeechCapabilities* SDLSpeechCapabilities_SAPI_PHONEMES = nil;

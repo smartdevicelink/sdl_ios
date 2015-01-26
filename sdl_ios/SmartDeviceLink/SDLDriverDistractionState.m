@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDriverDistractionState.h>
+#import "SDLDriverDistractionState.h"
 
 SDLDriverDistractionState* SDLDriverDistractionState_DD_ON = nil;
 SDLDriverDistractionState* SDLDriverDistractionState_DD_OFF = nil;

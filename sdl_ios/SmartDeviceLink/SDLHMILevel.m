@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLHMILevel.h>
+#import "SDLHMILevel.h"
 
 SDLHMILevel* SDLHMILevel_HMI_FULL = nil;
 SDLHMILevel* SDLHMILevel_HMI_LIMITED = nil;

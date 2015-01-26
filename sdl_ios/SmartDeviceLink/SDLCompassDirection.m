@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLCompassDirection.h>
+#import "SDLCompassDirection.h"
 
 SDLCompassDirection* SDLCompassDirection_NORTH = nil;
 SDLCompassDirection* SDLCompassDirection_NORTHWEST = nil;

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPowerModeStatus.h>
+#import "SDLPowerModeStatus.h"
 
 SDLPowerModeStatus* SDLPowerModeStatus_KEY_OUT = nil;
 SDLPowerModeStatus* SDLPowerModeStatus_KEY_RECENTLY_OUT = nil;

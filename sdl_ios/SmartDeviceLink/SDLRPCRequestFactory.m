@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLRPCRequestFactory.h>
+#import "SDLRPCRequestFactory.h"
 
-#import <SmartDeviceLink/SDLMenuParams.h>
-#import <SmartDeviceLink/SDLTTSChunkFactory.h>
+#import "SDLMenuParams.h"
+#import "SDLTTSChunkFactory.h"
 
 @implementation SDLRPCRequestFactory
 

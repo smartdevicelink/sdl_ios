@@ -3,7 +3,7 @@
 //  SmartDeviceLink
 //
 
-#import <SmartDeviceLink/SDLLockScreenStatus.h>
+#import "SDLLockScreenStatus.h"
 
 @implementation SDLLockScreenStatus
 

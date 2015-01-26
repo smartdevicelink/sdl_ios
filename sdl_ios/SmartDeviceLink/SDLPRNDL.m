@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPRNDL.h>
+#import "SDLPRNDL.h"
 
 SDLPRNDL* SDLPRNDL_PARK = nil;
 SDLPRNDL* SDLPRNDL_REVERSE = nil;

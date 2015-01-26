@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLFileType.h>
+#import "SDLFileType.h"
 
 SDLFileType* SDLFileType_GRAPHIC_BMP = nil;
 SDLFileType* SDLFileType_GRAPHIC_JPEG = nil;

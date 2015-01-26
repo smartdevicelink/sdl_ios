@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLProxyFactory.h>
+#import "SDLProxyFactory.h"
 
-#import <SmartDeviceLink/SDLDebugTool.h>
-#import <SmartDeviceLink/SDLIAPTransport.h>
-#import <SmartDeviceLink/SDLTCPTransport.h>
-#import <SmartDeviceLink/SDLProtocol.h>
+#import "SDLDebugTool.h"
+#import "SDLIAPTransport.h"
+#import "SDLTCPTransport.h"
+#import "SDLProtocol.h"
 
 @implementation SDLProxyFactory
 

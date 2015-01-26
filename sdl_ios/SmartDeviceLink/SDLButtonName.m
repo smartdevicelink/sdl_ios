@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLButtonName.h>
+#import "SDLButtonName.h"
 
 SDLButtonName* SDLButtonName_OK = nil;
 SDLButtonName* SDLButtonName_SEEKLEFT = nil;

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLSamplingRate.h>
+#import "SDLSamplingRate.h"
 
 SDLSamplingRate* SDLSamplingRate_8KHZ = nil;
 SDLSamplingRate* SDLSamplingRate_16KHZ = nil;

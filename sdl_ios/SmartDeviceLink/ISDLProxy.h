@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProtocol.h>
-#import <SmartDeviceLink/SDLProxyListener.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
-#import <SmartDeviceLink/SDLTransport.h>
+
+#import "SDLProtocol.h"
+#import "SDLProxyListener"
+#import "SDLRPCMessage"
+#import "SDLTransport"
 
 @protocol ISDLProxy
 

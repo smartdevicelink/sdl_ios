@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLAppHMIType.h>
+#import "SDLAppHMIType.h"
 
 SDLAppHMIType* SDLAppHMIType_DEFAULT = nil;
 SDLAppHMIType* SDLAppHMIType_COMMUNICATION = nil;

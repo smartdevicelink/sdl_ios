@@ -13,16 +13,14 @@
 //#define ZERO_CONFIG //Uncomment when implementing zero-config.
 //#define DEBUG_SIPHON //Uncomment to have output to NSLog.
 
-#import <SmartDeviceLink/SDLSiphonServer.h>
-#include <UIKit/UIKit.h>
+#import "SDLSiphonServer.h"
 #include <CFNetwork/CFNetwork.h>
-#include <Foundation/Foundation.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
-#import <SmartDeviceLink/SDLDebugTool.h>
+#import "SDLDebugTool.h"
 
 typedef enum {
     fromApp = 0x01

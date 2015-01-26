@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLBitsPerSample.h>
+#import "SDLBitsPerSample.h"
 
 SDLBitsPerSample* SDLBitsPerSample_8_BIT = nil;
 SDLBitsPerSample* SDLBitsPerSample_16_BIT = nil;

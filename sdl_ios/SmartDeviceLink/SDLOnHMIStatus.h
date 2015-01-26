@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCNotification.h>
 
-#import <SmartDeviceLink/SDLHMILevel.h>
-#import <SmartDeviceLink/SDLAudioStreamingState.h>
-#import <SmartDeviceLink/SDLSystemContext.h>
+#import "SDLRPCNotification.h"
+
+#import "SDLHMILevel.h"
+#import "SDLAudioStreamingState.h"
+#import "SDLSystemContext.h"
 
 @interface SDLOnHMIStatus : SDLRPCNotification {}
 

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPredefinedLayout.h>
+#import "SDLPredefinedLayout.h"
 
 SDLPredefinedLayout* SDLPredefinedLayout_DEFAULT = nil;
 SDLPredefinedLayout* SDLPredefinedLayout_MEDIA = nil;

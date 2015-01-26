@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCRequest.h>
 
-#import <SmartDeviceLink/SDLStartTime.h>
-#import <SmartDeviceLink/SDLUpdateMode.h>
+#import "SDLRPCRequest.h"
+
+#import "SDLStartTime.h"
+#import "SDLUpdateMode.h"
 
 @interface SDLSetMediaClockTimer : SDLRPCRequest {}
 

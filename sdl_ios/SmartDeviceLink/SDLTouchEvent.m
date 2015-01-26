@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTouchEvent.h>
+#import "SDLTouchEvent.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTouchCoord.h>
+#import "SDLNames.h"
+#import "SDLTouchCoord.h"
 
 @implementation SDLTouchEvent
 

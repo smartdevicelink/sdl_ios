@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLVehicleDataType.h>
+#import "SDLVehicleDataType.h"
 
 SDLVehicleDataType* SDLVehicleDataType_VEHICLEDATA_GPS = nil;
 SDLVehicleDataType* SDLVehicleDataType_VEHICLEDATA_SPEED = nil;

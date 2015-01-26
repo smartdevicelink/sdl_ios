@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLResetGlobalProperties.h>
+#import "SDLResetGlobalProperties.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLGlobalProperty.h>
+#import "SDLNames.h"
+#import "SDLGlobalProperty.h"
 
 @implementation SDLResetGlobalProperties
 

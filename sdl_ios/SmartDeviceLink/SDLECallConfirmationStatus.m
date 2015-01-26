@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLECallConfirmationStatus.h>
+#import "SDLECallConfirmationStatus.h"
 
 SDLECallConfirmationStatus* SDLECallConfirmationStatus_NORMAL = nil;
 SDLECallConfirmationStatus* SDLECallConfirmationStatus_CALL_IN_PROGRESS = nil;

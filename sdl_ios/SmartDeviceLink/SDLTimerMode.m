@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTimerMode.h>
+#import "SDLTimerMode.h"
 
 SDLTimerMode* SDLTimerMode_UP = nil;
 SDLTimerMode* SDLTimerMode_DOWN = nil;

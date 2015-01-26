@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLRPCMessageType.h>
+#import "SDLRPCMessageType.h"
 
 SDLRPCMessageType* SDLRPCMessageType_request = nil;
 SDLRPCMessageType* SDLRPCMessageType_response = nil;

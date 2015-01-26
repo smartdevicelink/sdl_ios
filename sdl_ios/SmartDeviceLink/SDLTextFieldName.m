@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLTextFieldName.h>
+#import "SDLTextFieldName.h"
 
 SDLTextFieldName* SDLTextFieldName_mainField1 = nil;
 SDLTextFieldName* SDLTextFieldName_mainField2 = nil;

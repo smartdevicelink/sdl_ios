@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLKeyboardEvent.h>
+#import "SDLKeyboardEvent.h"
 
 SDLKeyboardEvent* SDLKeyboardEvent_KEYPRESS = nil;
 SDLKeyboardEvent* SDLKeyboardEvent_ENTRY_SUBMITTED = nil;

@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLConsoleController.h"
 
-#import <SmartDeviceLink/SDLJSONEncoder.h>
-#import <SmartDeviceLink/SDLRPCResponse.h>
+#import "SDLJSONEncoder.h"
+#import "SDLRPCResponse.h"
 
 @implementation SDLConsoleController
 

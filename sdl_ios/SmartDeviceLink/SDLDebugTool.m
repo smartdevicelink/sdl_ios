@@ -2,9 +2,9 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLDebugTool.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
-#import <SmartDeviceLink/SDLSiphonServer.h>
+#import "SDLDebugTool.h"
+#import "SDLRPCMessage.h"
+#import "SDLSiphonServer.h"
 #import "SDLHexUtility.h"
 
 #define LOG_ERROR_ENABLED

@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLPermissionStatus.h>
+#import "SDLPermissionStatus.h"
 
 SDLPermissionStatus* SDLPermissionStatus_ALLOWED = nil;
 SDLPermissionStatus* SDLPermissionStatus_DISALLOWED = nil;

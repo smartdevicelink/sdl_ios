@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLVehicleDataResultCode.h>
+#import "SDLVehicleDataResultCode.h"
 
 SDLVehicleDataResultCode* SDLVehicleDataResultCode_SUCCESS = nil;
 SDLVehicleDataResultCode* SDLVehicleDataResultCode_TRUNCATED_DATA = nil;

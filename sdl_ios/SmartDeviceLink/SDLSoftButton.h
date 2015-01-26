@@ -2,12 +2,12 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
 
-#import <SmartDeviceLink/SDLSoftButtonType.h>
-#import <SmartDeviceLink/SDLImage.h>
-#import <SmartDeviceLink/SDLSystemAction.h>
+#import "SDLRPCMessage.h"
+
+#import "SDLSoftButtonType.h"
+#import "SDLImage.h"
+#import "SDLSystemAction.h"
 
 @interface SDLSoftButton : SDLRPCStruct {}
 

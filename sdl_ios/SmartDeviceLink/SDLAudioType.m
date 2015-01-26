@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLAudioType.h>
+#import "SDLAudioType.h"
 
 SDLAudioType* SDLAudioType_PCM = nil;
 

@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLRegisterAppInterface.h>
+#import "SDLRegisterAppInterface.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTTSChunk.h>
-#import <SmartDeviceLink/SDLAppHMIType.h>
+#import "SDLNames.h"
+#import "SDLTTSChunk.h"
+#import "SDLAppHMIType.h"
 
 @implementation SDLRegisterAppInterface
 

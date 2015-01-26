@@ -2,7 +2,7 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLIgnitionStableStatus.h>
+#import "SDLIgnitionStableStatus.h"
 
 SDLIgnitionStableStatus* SDLIgnitionStableStatus_IGNITION_SWITCH_NOT_STABLE = nil;
 SDLIgnitionStableStatus* SDLIgnitionStableStatus_IGNITION_SWITCH_STABLE = nil;

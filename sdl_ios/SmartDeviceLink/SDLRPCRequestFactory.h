@@ -2,41 +2,41 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
 
-#import <SmartDeviceLink/SDLAddCommand.h>
-#import <SmartDeviceLink/SDLAddSubMenu.h>
-#import <SmartDeviceLink/SDLAlert.h>
-#import <SmartDeviceLink/SDLAppHMIType.h>
-#import <SmartDeviceLink/SDLChangeRegistration.h>
-#import <SmartDeviceLink/SDLCreateInteractionChoiceSet.h>
-#import <SmartDeviceLink/SDLDeleteCommand.h>
-#import <SmartDeviceLink/SDLDeleteFile.h>
-#import <SmartDeviceLink/SDLDeleteInteractionChoiceSet.h>
-#import <SmartDeviceLink/SDLDeleteSubMenu.h>
-#import <SmartDeviceLink/SDLEndAudioPassThru.h>
-#import <SmartDeviceLink/SDLGetDTCs.h>
-#import <SmartDeviceLink/SDLGetVehicleData.h>
-#import <SmartDeviceLink/SDLListFiles.h>
-#import <SmartDeviceLink/SDLPerformAudioPassThru.h>
-#import <SmartDeviceLink/SDLPerformInteraction.h>
-#import <SmartDeviceLink/SDLPutFile.h>
-#import <SmartDeviceLink/SDLReadDID.h>
-#import <SmartDeviceLink/SDLRegisterAppInterface.h>
-#import <SmartDeviceLink/SDLResetGlobalProperties.h>
-#import <SmartDeviceLink/SDLScrollableMessage.h>
-#import <SmartDeviceLink/SDLSetAppIcon.h>
-#import <SmartDeviceLink/SDLSetDisplayLayout.h>
-#import <SmartDeviceLink/SDLSetGlobalProperties.h>
-#import <SmartDeviceLink/SDLSetMediaClockTimer.h>
-#import <SmartDeviceLink/SDLShow.h>
-#import <SmartDeviceLink/SDLSlider.h>
-#import <SmartDeviceLink/SDLSpeak.h>
-#import <SmartDeviceLink/SDLSubscribeButton.h>
-#import <SmartDeviceLink/SDLSubscribeVehicleData.h>
-#import <SmartDeviceLink/SDLUnregisterAppInterface.h>
-#import <SmartDeviceLink/SDLUnsubscribeButton.h>
-#import <SmartDeviceLink/SDLUnsubscribeVehicleData.h>
+
+#import "SDLAddCommand.h"
+#import "SDLAddSubMenu.h"
+#import "SDLAlert.h"
+#import "SDLAppHMIType.h"
+#import "SDLChangeRegistration.h"
+#import "SDLCreateInteractionChoiceSet.h"
+#import "SDLDeleteCommand.h"
+#import "SDLDeleteFile.h"
+#import "SDLDeleteInteractionChoiceSet.h"
+#import "SDLDeleteSubMenu.h"
+#import "SDLEndAudioPassThru.h"
+#import "SDLGetDTCs.h"
+#import "SDLGetVehicleData.h"
+#import "SDLListFiles.h"
+#import "SDLPerformAudioPassThru.h"
+#import "SDLPerformInteraction.h"
+#import "SDLPutFile.h"
+#import "SDLReadDID.h"
+#import "SDLRegisterAppInterface.h"
+#import "SDLResetGlobalProperties.h"
+#import "SDLScrollableMessage.h"
+#import "SDLSetAppIcon.h"
+#import "SDLSetDisplayLayout.h"
+#import "SDLSetGlobalProperties.h"
+#import "SDLSetMediaClockTimer.h"
+#import "SDLShow.h"
+#import "SDLSlider.h"
+#import "SDLSpeak.h"
+#import "SDLSubscribeButton.h"
+#import "SDLSubscribeVehicleData.h"
+#import "SDLUnregisterAppInterface.h"
+#import "SDLUnsubscribeButton.h"
+#import "SDLUnsubscribeVehicleData.h"
 
 @interface SDLRPCRequestFactory : NSObject {}
 

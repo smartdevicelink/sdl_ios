@@ -2,10 +2,10 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <SmartDeviceLink/SDLSpeak.h>
+#import "SDLSpeak.h"
 
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLTTSChunk.h>
+#import "SDLNames.h"
+#import "SDLTTSChunk.h"
 
 @implementation SDLSpeak
 

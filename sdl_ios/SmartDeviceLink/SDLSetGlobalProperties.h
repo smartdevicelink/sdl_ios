@@ -2,11 +2,11 @@
 //
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLRPCRequest.h>
 
-#import <SmartDeviceLink/SDLImage.h>
-#import <SmartDeviceLink/SDLKeyboardProperties.h>
+#import "SDLRPCRequest.h"
+
+#import "SDLImage.h"
+#import "SDLKeyboardProperties.h"
 
 @interface SDLSetGlobalProperties : SDLRPCRequest {}
 
