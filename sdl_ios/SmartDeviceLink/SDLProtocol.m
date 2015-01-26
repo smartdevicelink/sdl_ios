@@ -19,7 +19,7 @@
 
 
 const NSUInteger MAX_TRANSMISSION_SIZE = 512;
-const UInt8 MAX_VERSION_TO_SEND = 3;
+const UInt8 MAX_VERSION_TO_SEND = 4;
 
 @interface SDLProtocol () {
     UInt32 _messageID;
