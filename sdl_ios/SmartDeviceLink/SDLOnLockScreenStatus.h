@@ -3,8 +3,10 @@
 //  SmartDeviceLink
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
-#import "SDLLockScreenStatus.h"
+#import "SDLRPCNotification.h"
+
+@class SDLLockScreenStatus;
+@class SDLHMILevel;
 
 @interface SDLOnLockScreenStatus : SDLRPCNotification
 
