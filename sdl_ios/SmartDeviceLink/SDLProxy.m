@@ -116,7 +116,9 @@ const int POLICIES_CORRELATION_ID = 65535;
             break;
     }
     
-    // TODO: This won't work, there are runtime checks to make sure only requests are sent...
+    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
+    [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
     [self sendRPC:HMIStatusRPC];
 }
 
