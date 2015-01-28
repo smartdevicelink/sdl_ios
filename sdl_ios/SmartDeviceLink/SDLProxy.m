@@ -15,7 +15,7 @@
 #import <SmartDeviceLink/SDLSiphonServer.h>
 #import <SmartDeviceLink/SDLProxy.h>
 #import <SmartDeviceLink/SDLSystemRequest.h>
-#import <SmartDeviceLink/SDLQueryAppsManager.h>
+#import "SDLQueryAppsManager.h"
 #import "SDLRPCPayload.h"
 #import "SDLPolicyDataParser.h"
 #import "SDLLockScreenManager.h"
@@ -28,8 +28,6 @@
 {
     SDLLockScreenManager *lsm;
 }
-
-@property (nonatomic, strong) SDLQueryAppsManager *queryAppsManager;
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object;
 - (void)notifyProxyClosed;
@@ -138,15 +136,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (NSString *)proxyVersion { // How it should have been named.
     return VERSION_STRING;
-}
-
-#pragma mark - Getters
-- (SDLQueryAppsManager *)queryAppsManager {
-    if (!_queryAppsManager) {
-        _queryAppsManager = [[SDLQueryAppsManager alloc] init];
-    }
-    
-    return _queryAppsManager;
 }
 
 
