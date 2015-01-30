@@ -19,11 +19,7 @@
 }
 
 -(void) setE911Override:(SDLVehicleDataStatus*) e911Override {
-    if (e911Override != nil) {
-        [store setObject:e911Override forKey:NAMES_e911Override];
-    } else {
-        [store removeObjectForKey:NAMES_e911Override];
-    }
+    [store setOrRemoveObject:e911Override forKey:NAMES_e911Override];
 }
 
 -(SDLVehicleDataStatus*) e911Override {

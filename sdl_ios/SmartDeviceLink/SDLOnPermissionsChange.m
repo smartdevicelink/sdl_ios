@@ -19,12 +19,8 @@
     return self;
 }
 
--(void) setPermissionItem:(NSMutableArray*) permissionItem {
-    if (permissionItem != nil) {
-        [parameters setObject:permissionItem forKey:NAMES_permissionItem];
-    } else {
-        [parameters removeObjectForKey:NAMES_permissionItem];
-    }
+- (void)setPermissionItem:(NSMutableArray *)permissionItem {
+    [parameters setOrRemoveObject:permissionItem forKey:NAMES_permissionItem];
 }
 
 -(NSMutableArray*) permissionItem {

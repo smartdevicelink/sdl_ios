@@ -20,11 +20,7 @@
 }
 
 -(void) setTouchEventId:(NSNumber*) touchEventId {
-    if (touchEventId != nil) {
-        [store setObject:touchEventId forKey:NAMES_id];
-    } else {
-        [store removeObjectForKey:NAMES_id];
-    }
+    [store setOrRemoveObject:touchEventId forKey:NAMES_id];
 }
 
 -(NSNumber*) touchEventId {
@@ -32,11 +28,7 @@
 }
 
 -(void) setTimeStamp:(NSMutableArray*) timeStamp {
-    if (timeStamp != nil) {
-        [store setObject:timeStamp forKey:NAMES_ts];
-    } else {
-        [store removeObjectForKey:NAMES_ts];
-    }
+    [store setOrRemoveObject:timeStamp forKey:NAMES_ts];
 }
 
 -(NSMutableArray*) timeStamp {
@@ -44,11 +36,7 @@
 }
 
 -(void) setCoord:(NSMutableArray*) coord {
-    if (coord != nil) {
-        [store setObject:coord forKey:NAMES_c];
-    } else {
-        [store removeObjectForKey:NAMES_c];
-    }
+    [store setOrRemoveObject:coord forKey:NAMES_c];
 }
 
 -(NSMutableArray*) coord {

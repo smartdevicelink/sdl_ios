@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setEvent:(SDLKeyboardEvent*) event {
-    if (event != nil) {
-        [parameters setObject:event forKey:NAMES_event];
-    } else {
-        [parameters removeObjectForKey:NAMES_event];
-    }
+- (void)setEvent:(SDLKeyboardEvent *)event {
+    [parameters setOrRemoveObject:event forKey:NAMES_event];
 }
 
 -(SDLKeyboardEvent*) event {
@@ -35,12 +31,8 @@
     }
 }
 
--(void) setData:(NSString*) data {
-    if (data != nil) {
-        [parameters setObject:data forKey:NAMES_data];
-    } else {
-        [parameters removeObjectForKey:NAMES_data];
-    }
+- (void)setData:(NSString *)data {
+    [parameters setOrRemoveObject:data forKey:NAMES_data];
 }
 
 -(NSString*) data {

@@ -19,11 +19,7 @@
 }
 
 -(void) setDriverAirbagDeployed:(SDLVehicleDataEventStatus*) driverAirbagDeployed {
-    if (driverAirbagDeployed != nil) {
-        [store setObject:driverAirbagDeployed forKey:NAMES_driverAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_driverAirbagDeployed];
-    }
+    [store setOrRemoveObject:driverAirbagDeployed forKey:NAMES_driverAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) driverAirbagDeployed {
@@ -36,11 +32,7 @@
 }
 
 -(void) setDriverSideAirbagDeployed:(SDLVehicleDataEventStatus*) driverSideAirbagDeployed {
-    if (driverSideAirbagDeployed != nil) {
-        [store setObject:driverSideAirbagDeployed forKey:NAMES_driverSideAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_driverSideAirbagDeployed];
-    }
+    [store setOrRemoveObject:driverSideAirbagDeployed forKey:NAMES_driverSideAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) driverSideAirbagDeployed {
@@ -53,11 +45,7 @@
 }
 
 -(void) setDriverCurtainAirbagDeployed:(SDLVehicleDataEventStatus*) driverCurtainAirbagDeployed {
-    if (driverCurtainAirbagDeployed != nil) {
-        [store setObject:driverCurtainAirbagDeployed forKey:NAMES_driverCurtainAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_driverCurtainAirbagDeployed];
-    }
+    [store setOrRemoveObject:driverCurtainAirbagDeployed forKey:NAMES_driverCurtainAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) driverCurtainAirbagDeployed {
@@ -70,11 +58,7 @@
 }
 
 -(void) setPassengerAirbagDeployed:(SDLVehicleDataEventStatus*) passengerAirbagDeployed {
-    if (passengerAirbagDeployed != nil) {
-        [store setObject:passengerAirbagDeployed forKey:NAMES_passengerAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_passengerAirbagDeployed];
-    }
+    [store setOrRemoveObject:passengerAirbagDeployed forKey:NAMES_passengerAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) passengerAirbagDeployed {
@@ -87,11 +71,7 @@
 }
 
 -(void) setPassengerCurtainAirbagDeployed:(SDLVehicleDataEventStatus*) passengerCurtainAirbagDeployed {
-    if (passengerCurtainAirbagDeployed != nil) {
-        [store setObject:passengerCurtainAirbagDeployed forKey:NAMES_passengerCurtainAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_passengerCurtainAirbagDeployed];
-    }
+    [store setOrRemoveObject:passengerCurtainAirbagDeployed forKey:NAMES_passengerCurtainAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) passengerCurtainAirbagDeployed {
@@ -104,11 +84,7 @@
 }
 
 -(void) setDriverKneeAirbagDeployed:(SDLVehicleDataEventStatus*) driverKneeAirbagDeployed {
-    if (driverKneeAirbagDeployed != nil) {
-        [store setObject:driverKneeAirbagDeployed forKey:NAMES_driverKneeAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_driverKneeAirbagDeployed];
-    }
+    [store setOrRemoveObject:driverKneeAirbagDeployed forKey:NAMES_driverKneeAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) driverKneeAirbagDeployed {
@@ -121,11 +97,7 @@
 }
 
 -(void) setPassengerSideAirbagDeployed:(SDLVehicleDataEventStatus*) passengerSideAirbagDeployed {
-    if (passengerSideAirbagDeployed != nil) {
-        [store setObject:passengerSideAirbagDeployed forKey:NAMES_passengerSideAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_passengerSideAirbagDeployed];
-    }
+    [store setOrRemoveObject:passengerSideAirbagDeployed forKey:NAMES_passengerSideAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) passengerSideAirbagDeployed {
@@ -138,11 +110,7 @@
 }
 
 -(void) setPassengerKneeAirbagDeployed:(SDLVehicleDataEventStatus*) passengerKneeAirbagDeployed {
-    if (passengerKneeAirbagDeployed != nil) {
-        [store setObject:passengerKneeAirbagDeployed forKey:NAMES_passengerKneeAirbagDeployed];
-    } else {
-        [store removeObjectForKey:NAMES_passengerKneeAirbagDeployed];
-    }
+    [store setOrRemoveObject:passengerKneeAirbagDeployed forKey:NAMES_passengerKneeAirbagDeployed];
 }
 
 -(SDLVehicleDataEventStatus*) passengerKneeAirbagDeployed {

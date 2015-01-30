@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setCmdID:(NSNumber*) cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:NAMES_cmdID];
-    } else {
-        [parameters removeObjectForKey:NAMES_cmdID];
-    }
+- (void)setCmdID:(NSNumber *)cmdID {
+    [parameters setOrRemoveObject:cmdID forKey:NAMES_cmdID];
 }
 
 -(NSNumber*) cmdID {

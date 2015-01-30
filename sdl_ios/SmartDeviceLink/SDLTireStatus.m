@@ -19,11 +19,7 @@
 }
 
 -(void) setPressureTelltale:(SDLWarningLightStatus*) pressureTelltale {
-    if (pressureTelltale != nil) {
-        [store setObject:pressureTelltale forKey:NAMES_pressureTelltale];
-    } else {
-        [store removeObjectForKey:NAMES_pressureTelltale];
-    }
+    [store setOrRemoveObject:pressureTelltale forKey:NAMES_pressureTelltale];
 }
 
 -(SDLWarningLightStatus*) pressureTelltale {
@@ -36,11 +32,7 @@
 }
 
 -(void) setLeftFront:(SDLSingleTireStatus*) leftFront {
-    if (leftFront != nil) {
-        [store setObject:leftFront forKey:NAMES_leftFront];
-    } else {
-        [store removeObjectForKey:NAMES_leftFront];
-    }
+    [store setOrRemoveObject:leftFront forKey:NAMES_leftFront];
 }
 
 -(SDLSingleTireStatus*) leftFront {
@@ -53,11 +45,7 @@
 }
 
 -(void) setRightFront:(SDLSingleTireStatus*) rightFront {
-    if (rightFront != nil) {
-        [store setObject:rightFront forKey:NAMES_rightFront];
-    } else {
-        [store removeObjectForKey:NAMES_rightFront];
-    }
+    [store setOrRemoveObject:rightFront forKey:NAMES_rightFront];
 }
 
 -(SDLSingleTireStatus*) rightFront {
@@ -70,11 +58,7 @@
 }
 
 -(void) setLeftRear:(SDLSingleTireStatus*) leftRear {
-    if (leftRear != nil) {
-        [store setObject:leftRear forKey:NAMES_leftRear];
-    } else {
-        [store removeObjectForKey:NAMES_leftRear];
-    }
+    [store setOrRemoveObject:leftRear forKey:NAMES_leftRear];
 }
 
 -(SDLSingleTireStatus*) leftRear {
@@ -87,11 +71,7 @@
 }
 
 -(void) setRightRear:(SDLSingleTireStatus*) rightRear {
-    if (rightRear != nil) {
-        [store setObject:rightRear forKey:NAMES_rightRear];
-    } else {
-        [store removeObjectForKey:NAMES_rightRear];
-    }
+    [store setOrRemoveObject:rightRear forKey:NAMES_rightRear];
 }
 
 -(SDLSingleTireStatus*) rightRear {
@@ -104,11 +84,7 @@
 }
 
 -(void) setInnerLeftRear:(SDLSingleTireStatus*) innerLeftRear {
-    if (innerLeftRear != nil) {
-        [store setObject:innerLeftRear forKey:NAMES_innerLeftRear];
-    } else {
-        [store removeObjectForKey:NAMES_innerLeftRear];
-    }
+    [store setOrRemoveObject:innerLeftRear forKey:NAMES_innerLeftRear];
 }
 
 -(SDLSingleTireStatus*) innerLeftRear {
@@ -121,11 +97,7 @@
 }
 
 -(void) setInnerRightRear:(SDLSingleTireStatus*) innerRightRear {
-    if (innerRightRear != nil) {
-        [store setObject:innerRightRear forKey:NAMES_innerRightRear];
-    } else {
-        [store removeObjectForKey:NAMES_innerRightRear];
-    }
+    [store setOrRemoveObject:innerRightRear forKey:NAMES_innerRightRear];
 }
 
 -(SDLSingleTireStatus*) innerRightRear {

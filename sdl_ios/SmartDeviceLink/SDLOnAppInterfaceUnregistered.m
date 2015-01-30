@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setReason:(SDLAppInterfaceUnregisteredReason*) reason {
-    if (reason != nil) {
-        [parameters setObject:reason forKey:NAMES_reason];
-    } else {
-        [parameters removeObjectForKey:NAMES_reason];
-    }
+- (void)setReason:(SDLAppInterfaceUnregisteredReason *)reason {
+    [parameters setOrRemoveObject:reason forKey:NAMES_reason];
 }
 
 -(SDLAppInterfaceUnregisteredReason*) reason {

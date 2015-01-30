@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setState:(SDLTBTState*) state {
-    if (state != nil) {
-        [parameters setObject:state forKey:NAMES_state];
-    } else {
-        [parameters removeObjectForKey:NAMES_state];
-    }
+- (void)setState:(SDLTBTState *)state {
+    [parameters setOrRemoveObject:state forKey:NAMES_state];
 }
 
 -(SDLTBTState*) state {

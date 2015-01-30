@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setRequestType:(SDLRequestType*) requestType {
-    if (requestType != nil) {
-        [parameters setObject:requestType forKey:NAMES_requestType];
-    } else {
-        [parameters removeObjectForKey:NAMES_requestType];
-    }
+- (void)setRequestType:(SDLRequestType *)requestType {
+    [parameters setOrRemoveObject:requestType forKey:NAMES_requestType];
 }
 
 -(SDLRequestType*) requestType {
@@ -35,36 +31,24 @@
     }
 }
 
--(void) setUrl:(NSString*) url {
-    if (url != nil) {
-        [parameters setObject:url forKey:NAMES_url];
-    } else {
-        [parameters removeObjectForKey:NAMES_url];
-    }
+- (void)setUrl:(NSString *)url {
+    [parameters setOrRemoveObject:url forKey:NAMES_url];
 }
 
 -(NSString*) url {
     return [parameters objectForKey:NAMES_url];
 }
 
--(void) setTimeout:(NSNumber*) timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:NAMES_timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_timeout];
-    }
+- (void)setTimeout:(NSNumber *)timeout {
+    [parameters setOrRemoveObject:timeout forKey:NAMES_timeout];
 }
 
 -(NSNumber*) timeout {
     return [parameters objectForKey:NAMES_timeout];
 }
 
--(void) setFileType:(SDLFileType*) fileType {
-    if (fileType != nil) {
-        [parameters setObject:fileType forKey:NAMES_fileType];
-    } else {
-        [parameters removeObjectForKey:NAMES_fileType];
-    }
+- (void)setFileType:(SDLFileType *)fileType {
+    [parameters setOrRemoveObject:fileType forKey:NAMES_fileType];
 }
 
 -(SDLFileType*) fileType {
@@ -76,24 +60,16 @@
     }
 }
 
--(void) setOffset:(NSNumber*) offset {
-    if (offset != nil) {
-        [parameters setObject:offset forKey:NAMES_offset];
-    } else {
-        [parameters removeObjectForKey:NAMES_offset];
-    }
+- (void)setOffset:(NSNumber *)offset {
+    [parameters setOrRemoveObject:offset forKey:NAMES_offset];
 }
 
 -(NSNumber*) offset {
     return [parameters objectForKey:NAMES_offset];
 }
 
--(void) setLength:(NSNumber*) length {
-    if (length != nil) {
-        [parameters setObject:length forKey:NAMES_length];
-    } else {
-        [parameters removeObjectForKey:NAMES_length];
-    }
+- (void)setLength:(NSNumber *)length {
+    [parameters setOrRemoveObject:length forKey:NAMES_length];
 }
 
 -(NSNumber*) length {

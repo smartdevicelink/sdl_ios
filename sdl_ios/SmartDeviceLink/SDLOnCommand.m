@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setCmdID:(NSNumber*) cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:NAMES_cmdID];
-    } else {
-        [parameters removeObjectForKey:NAMES_cmdID];
-    }
+- (void)setCmdID:(NSNumber *)cmdID {
+    [parameters setOrRemoveObject:cmdID forKey:NAMES_cmdID];
 }
 
 -(NSNumber*) cmdID {
     return [parameters objectForKey:NAMES_cmdID];
 }
 
--(void) setTriggerSource:(SDLTriggerSource*) triggerSource {
-    if (triggerSource != nil) {
-        [parameters setObject:triggerSource forKey:NAMES_triggerSource];
-    } else {
-        [parameters removeObjectForKey:NAMES_triggerSource];
-    }
+- (void)setTriggerSource:(SDLTriggerSource *)triggerSource {
+    [parameters setOrRemoveObject:triggerSource forKey:NAMES_triggerSource];
 }
 
 -(SDLTriggerSource*) triggerSource {

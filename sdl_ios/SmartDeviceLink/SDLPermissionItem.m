@@ -19,11 +19,7 @@
 }
 
 -(void) setRpcName:(NSString*) rpcName {
-    if (rpcName != nil) {
-        [store setObject:rpcName forKey:NAMES_rpcName];
-    } else {
-        [store removeObjectForKey:NAMES_rpcName];
-    }
+    [store setOrRemoveObject:rpcName forKey:NAMES_rpcName];
 }
 
 -(NSString*) rpcName {
@@ -31,11 +27,7 @@
 }
 
 -(void) setHmiPermissions:(SDLHMIPermissions*) hmiPermissions {
-    if (hmiPermissions != nil) {
-        [store setObject:hmiPermissions forKey:NAMES_hmiPermissions];
-    } else {
-        [store removeObjectForKey:NAMES_hmiPermissions];
-    }
+    [store setOrRemoveObject:hmiPermissions forKey:NAMES_hmiPermissions];
 }
 
 -(SDLHMIPermissions*) hmiPermissions {
@@ -48,11 +40,7 @@
 }
 
 -(void) setParameterPermissions:(SDLParameterPermissions*) parameterPermissions {
-    if (parameterPermissions != nil) {
-        [store setObject:parameterPermissions forKey:NAMES_parameterPermissions];
-    } else {
-        [store removeObjectForKey:NAMES_parameterPermissions];
-    }
+    [store setOrRemoveObject:parameterPermissions forKey:NAMES_parameterPermissions];
 }
 
 -(SDLParameterPermissions*) parameterPermissions {

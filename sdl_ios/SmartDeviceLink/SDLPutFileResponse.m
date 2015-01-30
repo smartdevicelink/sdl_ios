@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setSpaceAvailable:(NSNumber*) spaceAvailable {
-    if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
-    } else {
-        [parameters removeObjectForKey:NAMES_spaceAvailable];
-    }
+- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
+    [parameters setOrRemoveObject:spaceAvailable forKey:NAMES_spaceAvailable];
 }
 
 -(NSNumber*) spaceAvailable {

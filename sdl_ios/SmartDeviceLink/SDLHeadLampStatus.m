@@ -19,11 +19,7 @@
 }
 
 -(void) setLowBeamsOn:(NSNumber*) lowBeamsOn {
-    if (lowBeamsOn != nil) {
-        [store setObject:lowBeamsOn forKey:NAMES_lowBeamsOn];
-    } else {
-        [store removeObjectForKey:NAMES_lowBeamsOn];
-    }
+    [store setOrRemoveObject:lowBeamsOn forKey:NAMES_lowBeamsOn];
 }
 
 -(NSNumber*) lowBeamsOn {
@@ -31,11 +27,7 @@
 }
 
 -(void) setHighBeamsOn:(NSNumber*) highBeamsOn {
-    if (highBeamsOn != nil) {
-        [store setObject:highBeamsOn forKey:NAMES_highBeamsOn];
-    } else {
-        [store removeObjectForKey:NAMES_highBeamsOn];
-    }
+    [store setOrRemoveObject:highBeamsOn forKey:NAMES_highBeamsOn];
 }
 
 -(NSNumber*) highBeamsOn {
@@ -43,11 +35,7 @@
 }
 
 -(void) setAmbientLightSensorStatus:(SDLAmbientLightStatus*) ambientLightSensorStatus {
-    if (ambientLightSensorStatus != nil) {
-        [store setObject:ambientLightSensorStatus forKey:NAMES_ambientLightSensorStatus];
-    } else {
-        [store removeObjectForKey:NAMES_ambientLightSensorStatus];
-    }
+    [store setOrRemoveObject:ambientLightSensorStatus forKey:NAMES_ambientLightSensorStatus];
 }
 
 -(SDLAmbientLightStatus*) ambientLightSensorStatus {

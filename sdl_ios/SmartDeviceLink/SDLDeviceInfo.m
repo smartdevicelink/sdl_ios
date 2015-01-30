@@ -19,11 +19,7 @@
 }
 
 -(void) setHardware:(NSString*) hardware {
-    if (hardware != nil) {
-        [store setObject:hardware forKey:NAMES_hardware];
-    } else {
-        [store removeObjectForKey:NAMES_hardware];
-    }
+    [store setOrRemoveObject:hardware forKey:NAMES_hardware];
 }
 
 -(NSString*) hardware {
@@ -31,11 +27,7 @@
 }
 
 -(void) setFirmwareRev:(NSString*) firmwareRev {
-    if (firmwareRev != nil) {
-        [store setObject:firmwareRev forKey:NAMES_firmwareRev];
-    } else {
-        [store removeObjectForKey:NAMES_firmwareRev];
-    }
+    [store setOrRemoveObject:firmwareRev forKey:NAMES_firmwareRev];
 }
 
 -(NSString*) firmwareRev {
@@ -43,11 +35,7 @@
 }
 
 -(void) setOs:(NSString*) os {
-    if (os != nil) {
-        [store setObject:os forKey:NAMES_os];
-    } else {
-        [store removeObjectForKey:NAMES_os];
-    }
+    [store setOrRemoveObject:os forKey:NAMES_os];
 }
 
 -(NSString*) os {
@@ -55,11 +43,7 @@
 }
 
 -(void) setOsVersion:(NSString*) osVersion {
-    if (osVersion != nil) {
-        [store setObject:osVersion forKey:NAMES_osVersion];
-    } else {
-        [store removeObjectForKey:NAMES_osVersion];
-    }
+    [store setOrRemoveObject:osVersion forKey:NAMES_osVersion];
 }
 
 -(NSString*) osVersion {
@@ -67,11 +51,7 @@
 }
 
 -(void) setCarrier:(NSString*) carrier {
-    if (carrier != nil) {
-        [store setObject:carrier forKey:NAMES_carrier];
-    } else {
-        [store removeObjectForKey:NAMES_carrier];
-    }
+    [store setOrRemoveObject:carrier forKey:NAMES_carrier];
 }
 
 -(NSString*) carrier {
@@ -79,11 +59,7 @@
 }
 
 -(void) setMaxNumberRFCOMMPorts:(NSNumber*) maxNumberRFCOMMPorts {
-    if (maxNumberRFCOMMPorts != nil) {
-        [store setObject:maxNumberRFCOMMPorts forKey:NAMES_maxNumberRFCOMMPorts];
-    } else {
-        [store removeObjectForKey:NAMES_maxNumberRFCOMMPorts];
-    }
+    [store setOrRemoveObject:maxNumberRFCOMMPorts forKey:NAMES_maxNumberRFCOMMPorts];
 }
 
 -(NSNumber*) maxNumberRFCOMMPorts {

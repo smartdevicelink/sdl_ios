@@ -20,12 +20,8 @@
     return self;
 }
 
--(void) setTurnList:(NSMutableArray*) turnList {
-    if (turnList != nil) {
-        [parameters setObject:turnList forKey:NAMES_turnList];
-    } else {
-        [parameters removeObjectForKey:NAMES_turnList];
-    }
+- (void)setTurnList:(NSMutableArray *)turnList {
+    [parameters setOrRemoveObject:turnList forKey:NAMES_turnList];
 }
 
 -(NSMutableArray*) turnList {
@@ -41,12 +37,8 @@
     }
 }
 
--(void) setSoftButtons:(NSMutableArray*) softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
-    } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
-    }
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
+    [parameters setOrRemoveObject:softButtons forKey:NAMES_softButtons];
 }
 
 -(NSMutableArray*) softButtons {

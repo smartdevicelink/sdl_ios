@@ -18,24 +18,16 @@
     return self;
 }
 
--(void) setSyncFileName:(NSString*) syncFileName {
-    if (syncFileName != nil) {
-        [parameters setObject:syncFileName forKey:NAMES_syncFileName];
-    } else {
-        [parameters removeObjectForKey:NAMES_syncFileName];
-    }
+- (void)setSyncFileName:(NSString *)syncFileName {
+    [parameters setOrRemoveObject:syncFileName forKey:NAMES_syncFileName];
 }
 
 -(NSString*) syncFileName {
     return [parameters objectForKey:NAMES_syncFileName];
 }
 
--(void) setFileType:(SDLFileType*) fileType {
-    if (fileType != nil) {
-        [parameters setObject:fileType forKey:NAMES_fileType];
-    } else {
-        [parameters removeObjectForKey:NAMES_fileType];
-    }
+- (void)setFileType:(SDLFileType *)fileType {
+    [parameters setOrRemoveObject:fileType forKey:NAMES_fileType];
 }
 
 -(SDLFileType*) fileType {
@@ -47,48 +39,32 @@
     }
 }
 
--(void) setPersistentFile:(NSNumber*) persistentFile {
-    if (persistentFile != nil) {
-        [parameters setObject:persistentFile forKey:NAMES_persistentFile];
-    } else {
-        [parameters removeObjectForKey:NAMES_persistentFile];
-    }
+- (void)setPersistentFile:(NSNumber *)persistentFile {
+    [parameters setOrRemoveObject:persistentFile forKey:NAMES_persistentFile];
 }
 
 -(NSNumber*) persistentFile {
     return [parameters objectForKey:NAMES_persistentFile];
 }
 
--(void) setSystemFile:(NSNumber*) systemFile {
-    if (systemFile != nil) {
-        [parameters setObject:systemFile forKey:NAMES_systemFile];
-    } else {
-        [parameters removeObjectForKey:NAMES_systemFile];
-    }
+- (void)setSystemFile:(NSNumber *)systemFile {
+    [parameters setOrRemoveObject:systemFile forKey:NAMES_systemFile];
 }
 
 -(NSNumber*) systemFile {
     return [parameters objectForKey:NAMES_systemFile];
 }
 
--(void) setOffset:(NSNumber*) offset {
-    if (offset != nil) {
-        [parameters setObject:offset forKey:NAMES_offset];
-    } else {
-        [parameters removeObjectForKey:NAMES_offset];
-    }
+- (void)setOffset:(NSNumber *)offset {
+    [parameters setOrRemoveObject:offset forKey:NAMES_offset];
 }
 
 -(NSNumber*) offset {
     return [parameters objectForKey:NAMES_offset];
 }
 
--(void) setLength:(NSNumber*) length {
-    if (length != nil) {
-        [parameters setObject:length forKey:NAMES_length];
-    } else {
-        [parameters removeObjectForKey:NAMES_length];
-    }
+- (void)setLength:(NSNumber *)length {
+    [parameters setOrRemoveObject:length forKey:NAMES_length];
 }
 
 -(NSNumber*) length {

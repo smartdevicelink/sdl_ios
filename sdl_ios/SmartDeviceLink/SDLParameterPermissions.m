@@ -19,11 +19,7 @@
 }
 
 -(void) setAllowed:(NSMutableArray*) allowed {
-    if (allowed != nil) {
-        [store setObject:allowed forKey:NAMES_allowed];
-    } else {
-        [store removeObjectForKey:NAMES_allowed];
-    }
+    [store setOrRemoveObject:allowed forKey:NAMES_allowed];
 }
 
 -(NSMutableArray*) allowed {
@@ -31,11 +27,7 @@
 }
 
 -(void) setUserDisallowed:(NSMutableArray*) userDisallowed {
-    if (userDisallowed != nil) {
-        [store setObject:userDisallowed forKey:NAMES_userDisallowed];
-    } else {
-        [store removeObjectForKey:NAMES_userDisallowed];
-    }
+    [store setOrRemoveObject:userDisallowed forKey:NAMES_userDisallowed];
 }
 
 -(NSMutableArray*) userDisallowed {

@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setMenuID:(NSNumber*) menuID {
-    if (menuID != nil) {
-        [parameters setObject:menuID forKey:NAMES_menuID];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuID];
-    }
+- (void)setMenuID:(NSNumber *)menuID {
+    [parameters setOrRemoveObject:menuID forKey:NAMES_menuID];
 }
 
 -(NSNumber*) menuID {

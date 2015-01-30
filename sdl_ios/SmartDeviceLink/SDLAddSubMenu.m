@@ -18,36 +18,24 @@
     return self;
 }
 
--(void) setMenuID:(NSNumber*) menuID {
-    if (menuID != nil) {
-        [parameters setObject:menuID forKey:NAMES_menuID];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuID];
-    }
+- (void)setMenuID:(NSNumber *)menuID {
+    [parameters setOrRemoveObject:menuID forKey:NAMES_menuID];
 }
 
 -(NSNumber*) menuID {
     return [parameters objectForKey:NAMES_menuID];
 }
 
--(void) setPosition:(NSNumber*) position {
-    if (position != nil) {
-        [parameters setObject:position forKey:NAMES_position];
-    } else {
-        [parameters removeObjectForKey:NAMES_position];
-    }
+- (void)setPosition:(NSNumber *)position {
+    [parameters setOrRemoveObject:position forKey:NAMES_position];
 }
 
 -(NSNumber*) position {
     return [parameters objectForKey:NAMES_position];
 }
 
--(void) setMenuName:(NSString*) menuName {
-    if (menuName != nil) {
-        [parameters setObject:menuName forKey:NAMES_menuName];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuName];
-    }
+- (void)setMenuName:(NSString *)menuName {
+    [parameters setOrRemoveObject:menuName forKey:NAMES_menuName];
 }
 
 -(NSString*) menuName {

@@ -19,11 +19,7 @@
 }
 
 -(void) setResultCode:(SDLVehicleDataResultCode*) resultCode {
-    if (resultCode != nil) {
-        [store setObject:resultCode forKey:NAMES_resultCode];
-    } else {
-        [store removeObjectForKey:NAMES_resultCode];
-    }
+    [store setOrRemoveObject:resultCode forKey:NAMES_resultCode];
 }
 
 -(SDLVehicleDataResultCode*) resultCode {
@@ -36,11 +32,7 @@
 }
 
 -(void) setDidLocation:(NSNumber*) didLocation {
-    if (didLocation != nil) {
-        [store setObject:didLocation forKey:NAMES_didLocation];
-    } else {
-        [store removeObjectForKey:NAMES_didLocation];
-    }
+    [store setOrRemoveObject:didLocation forKey:NAMES_didLocation];
 }
 
 -(NSNumber*) didLocation {
@@ -48,11 +40,7 @@
 }
 
 -(void) setData:(NSString*) data {
-    if (data != nil) {
-        [store setObject:data forKey:NAMES_data];
-    } else {
-        [store removeObjectForKey:NAMES_data];
-    }
+    [store setOrRemoveObject:data forKey:NAMES_data];
 }
 
 -(NSString*) data {

@@ -20,11 +20,7 @@
 }
 
 -(void) setName:(SDLImageFieldName*) name {
-    if (name != nil) {
-        [store setObject:name forKey:NAMES_name];
-    } else {
-        [store removeObjectForKey:NAMES_name];
-    }
+    [store setOrRemoveObject:name forKey:NAMES_name];
 }
 
 -(SDLImageFieldName*) name {
@@ -37,11 +33,7 @@
 }
 
 -(void) setImageTypeSupported:(NSMutableArray*) imageTypeSupported {
-    if (imageTypeSupported != nil) {
-        [store setObject:imageTypeSupported forKey:NAMES_imageTypeSupported];
-    } else {
-        [store removeObjectForKey:NAMES_imageTypeSupported];
-    }
+    [store setOrRemoveObject:imageTypeSupported forKey:NAMES_imageTypeSupported];
 }
 
 -(NSMutableArray*) imageTypeSupported {
@@ -58,11 +50,7 @@
 }
 
 -(void) setImageResolution:(SDLImageResolution*) imageResolution {
-    if (imageResolution != nil) {
-        [store setObject:imageResolution forKey:NAMES_imageResolution];
-    } else {
-        [store removeObjectForKey:NAMES_imageResolution];
-    }
+    [store setOrRemoveObject:imageResolution forKey:NAMES_imageResolution];
 }
 
 -(SDLImageResolution*) imageResolution {

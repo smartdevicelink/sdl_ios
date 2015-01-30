@@ -19,11 +19,7 @@
 }
 
 -(void) setText:(NSString*) text {
-    if (text != nil) {
-        [store setObject:text forKey:NAMES_text];
-    } else {
-        [store removeObjectForKey:NAMES_text];
-    }
+    [store setOrRemoveObject:text forKey:NAMES_text];
 }
 
 -(NSString*) text {
@@ -31,11 +27,7 @@
 }
 
 -(void) setType:(SDLSpeechCapabilities*) type {
-    if (type != nil) {
-        [store setObject:type forKey:NAMES_type];
-    } else {
-        [store removeObjectForKey:NAMES_type];
-    }
+    [store setOrRemoveObject:type forKey:NAMES_type];
 }
 
 -(SDLSpeechCapabilities*) type {

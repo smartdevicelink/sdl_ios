@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setMessageDataResult:(NSMutableArray*) messageDataResult {
-    if (messageDataResult != nil) {
-        [parameters setObject:messageDataResult forKey:NAMES_messageDataResult];
-    } else {
-        [parameters removeObjectForKey:NAMES_messageDataResult];
-    }
+- (void)setMessageDataResult:(NSMutableArray *)messageDataResult {
+    [parameters setOrRemoveObject:messageDataResult forKey:NAMES_messageDataResult];
 }
 
 -(NSMutableArray*) messageDataResult {

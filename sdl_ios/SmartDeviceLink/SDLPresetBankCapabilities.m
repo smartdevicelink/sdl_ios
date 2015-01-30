@@ -19,11 +19,7 @@
 }
 
 -(void) setOnScreenPresetsAvailable:(NSNumber*) onScreenPresetsAvailable {
-    if (onScreenPresetsAvailable != nil) {
-        [store setObject:onScreenPresetsAvailable forKey:NAMES_onScreenPresetsAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_onScreenPresetsAvailable];
-    }
+    [store setOrRemoveObject:onScreenPresetsAvailable forKey:NAMES_onScreenPresetsAvailable];
 }
 
 -(NSNumber*) onScreenPresetsAvailable {

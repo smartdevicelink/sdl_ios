@@ -19,11 +19,7 @@
 }
 
 -(void) setVoiceRecOn:(NSNumber*) voiceRecOn {
-    if (voiceRecOn != nil) {
-        [store setObject:voiceRecOn forKey:NAMES_voiceRecOn];
-    } else {
-        [store removeObjectForKey:NAMES_voiceRecOn];
-    }
+    [store setOrRemoveObject:voiceRecOn forKey:NAMES_voiceRecOn];
 }
 
 -(NSNumber*) voiceRecOn {
@@ -31,11 +27,7 @@
 }
 
 -(void) setBtIconOn:(NSNumber*) btIconOn {
-    if (btIconOn != nil) {
-        [store setObject:btIconOn forKey:NAMES_btIconOn];
-    } else {
-        [store removeObjectForKey:NAMES_btIconOn];
-    }
+    [store setOrRemoveObject:btIconOn forKey:NAMES_btIconOn];
 }
 
 -(NSNumber*) btIconOn {
@@ -43,11 +35,7 @@
 }
 
 -(void) setCallActive:(NSNumber*) callActive {
-    if (callActive != nil) {
-        [store setObject:callActive forKey:NAMES_callActive];
-    } else {
-        [store removeObjectForKey:NAMES_callActive];
-    }
+    [store setOrRemoveObject:callActive forKey:NAMES_callActive];
 }
 
 -(NSNumber*) callActive {
@@ -55,11 +43,7 @@
 }
 
 -(void) setPhoneRoaming:(NSNumber*) phoneRoaming {
-    if (phoneRoaming != nil) {
-        [store setObject:phoneRoaming forKey:NAMES_phoneRoaming];
-    } else {
-        [store removeObjectForKey:NAMES_phoneRoaming];
-    }
+    [store setOrRemoveObject:phoneRoaming forKey:NAMES_phoneRoaming];
 }
 
 -(NSNumber*) phoneRoaming {
@@ -67,11 +51,7 @@
 }
 
 -(void) setTextMsgAvailable:(NSNumber*) textMsgAvailable {
-    if (textMsgAvailable != nil) {
-        [store setObject:textMsgAvailable forKey:NAMES_textMsgAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_textMsgAvailable];
-    }
+    [store setOrRemoveObject:textMsgAvailable forKey:NAMES_textMsgAvailable];
 }
 
 -(NSNumber*) textMsgAvailable {
@@ -79,11 +59,7 @@
 }
 
 -(void) setBattLevelStatus:(SDLDeviceLevelStatus*) battLevelStatus {
-    if (battLevelStatus != nil) {
-        [store setObject:battLevelStatus forKey:NAMES_battLevelStatus];
-    } else {
-        [store removeObjectForKey:NAMES_battLevelStatus];
-    }
+    [store setOrRemoveObject:battLevelStatus forKey:NAMES_battLevelStatus];
 }
 
 -(SDLDeviceLevelStatus*) battLevelStatus {
@@ -96,11 +72,7 @@
 }
 
 -(void) setStereoAudioOutputMuted:(NSNumber*) stereoAudioOutputMuted {
-    if (stereoAudioOutputMuted != nil) {
-        [store setObject:stereoAudioOutputMuted forKey:NAMES_stereoAudioOutputMuted];
-    } else {
-        [store removeObjectForKey:NAMES_stereoAudioOutputMuted];
-    }
+    [store setOrRemoveObject:stereoAudioOutputMuted forKey:NAMES_stereoAudioOutputMuted];
 }
 
 -(NSNumber*) stereoAudioOutputMuted {
@@ -108,11 +80,7 @@
 }
 
 -(void) setMonoAudioOutputMuted:(NSNumber*) monoAudioOutputMuted {
-    if (monoAudioOutputMuted != nil) {
-        [store setObject:monoAudioOutputMuted forKey:NAMES_monoAudioOutputMuted];
-    } else {
-        [store removeObjectForKey:NAMES_monoAudioOutputMuted];
-    }
+    [store setOrRemoveObject:monoAudioOutputMuted forKey:NAMES_monoAudioOutputMuted];
 }
 
 -(NSNumber*) monoAudioOutputMuted {
@@ -120,11 +88,7 @@
 }
 
 -(void) setSignalLevelStatus:(SDLDeviceLevelStatus*) signalLevelStatus {
-    if (signalLevelStatus != nil) {
-        [store setObject:signalLevelStatus forKey:NAMES_signalLevelStatus];
-    } else {
-        [store removeObjectForKey:NAMES_signalLevelStatus];
-    }
+    [store setOrRemoveObject:signalLevelStatus forKey:NAMES_signalLevelStatus];
 }
 
 -(SDLDeviceLevelStatus*) signalLevelStatus {
@@ -137,11 +101,7 @@
 }
 
 -(void) setPrimaryAudioSource:(SDLPrimaryAudioSource*) primaryAudioSource {
-    if (primaryAudioSource != nil) {
-        [store setObject:primaryAudioSource forKey:NAMES_primaryAudioSource];
-    } else {
-        [store removeObjectForKey:NAMES_primaryAudioSource];
-    }
+    [store setOrRemoveObject:primaryAudioSource forKey:NAMES_primaryAudioSource];
 }
 
 -(SDLPrimaryAudioSource*) primaryAudioSource {
@@ -154,11 +114,7 @@
 }
 
 -(void) setECallEventActive:(NSNumber*) eCallEventActive {
-    if (eCallEventActive != nil) {
-        [store setObject:eCallEventActive forKey:NAMES_eCallEventActive];
-    } else {
-        [store removeObjectForKey:NAMES_eCallEventActive];
-    }
+    [store setOrRemoveObject:eCallEventActive forKey:NAMES_eCallEventActive];
 }
 
 -(NSNumber*) eCallEventActive {

@@ -19,11 +19,7 @@
 }
 
 -(void) setHours:(NSNumber*) hours {
-    if (hours != nil) {
-        [store setObject:hours forKey:NAMES_hours];
-    } else {
-        [store removeObjectForKey:NAMES_hours];
-    }
+    [store setOrRemoveObject:hours forKey:NAMES_hours];
 }
 
 -(NSNumber*) hours {
@@ -31,11 +27,7 @@
 }
 
 -(void) setMinutes:(NSNumber*) minutes {
-    if (minutes != nil) {
-        [store setObject:minutes forKey:NAMES_minutes];
-    } else {
-        [store removeObjectForKey:NAMES_minutes];
-    }
+    [store setOrRemoveObject:minutes forKey:NAMES_minutes];
 }
 
 -(NSNumber*) minutes {
@@ -43,11 +35,7 @@
 }
 
 -(void) setSeconds:(NSNumber*) seconds {
-    if (seconds != nil) {
-        [store setObject:seconds forKey:NAMES_seconds];
-    } else {
-        [store removeObjectForKey:NAMES_seconds];
-    }
+    [store setOrRemoveObject:seconds forKey:NAMES_seconds];
 }
 
 -(NSNumber*) seconds {

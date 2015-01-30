@@ -22,11 +22,7 @@
 }
 
 -(void) setDisplayType:(SDLDisplayType*) displayType {
-    if (displayType != nil) {
-        [store setObject:displayType forKey:NAMES_displayType];
-    } else {
-        [store removeObjectForKey:NAMES_displayType];
-    }
+    [store setOrRemoveObject:displayType forKey:NAMES_displayType];
 }
 
 -(SDLDisplayType*) displayType {
@@ -39,11 +35,7 @@
 }
 
 -(void) setTextFields:(NSMutableArray*) textFields {
-    if (textFields != nil) {
-        [store setObject:textFields forKey:NAMES_textFields];
-    } else {
-        [store removeObjectForKey:NAMES_textFields];
-    }
+    [store setOrRemoveObject:textFields forKey:NAMES_textFields];
 }
 
 -(NSMutableArray*) textFields {
@@ -60,11 +52,7 @@
 }
 
 -(void) setImageFields:(NSMutableArray*) imageFields {
-    if (imageFields != nil) {
-        [store setObject:imageFields forKey:NAMES_imageFields];
-    } else {
-        [store removeObjectForKey:NAMES_imageFields];
-    }
+    [store setOrRemoveObject:imageFields forKey:NAMES_imageFields];
 }
 
 -(NSMutableArray*) imageFields {
@@ -81,11 +69,7 @@
 }
 
 -(void) setMediaClockFormats:(NSMutableArray*) mediaClockFormats {
-    if (mediaClockFormats != nil) {
-        [store setObject:mediaClockFormats forKey:NAMES_mediaClockFormats];
-    } else {
-        [store removeObjectForKey:NAMES_mediaClockFormats];
-    }
+    [store setOrRemoveObject:mediaClockFormats forKey:NAMES_mediaClockFormats];
 }
 
 -(NSMutableArray*) mediaClockFormats {
@@ -102,11 +86,7 @@
 }
 
 -(void) setGraphicSupported:(NSNumber*) graphicSupported {
-    if (graphicSupported != nil) {
-        [store setObject:graphicSupported forKey:NAMES_graphicSupported];
-    } else {
-        [store removeObjectForKey:NAMES_graphicSupported];
-    }
+    [store setOrRemoveObject:graphicSupported forKey:NAMES_graphicSupported];
 }
 
 -(NSNumber*) graphicSupported {
@@ -114,11 +94,7 @@
 }
 
 -(void) setTemplatesAvailable:(NSMutableArray*) templatesAvailable {
-    if (templatesAvailable != nil) {
-        [store setObject:templatesAvailable forKey:NAMES_templatesAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_templatesAvailable];
-    }
+    [store setOrRemoveObject:templatesAvailable forKey:NAMES_templatesAvailable];
 }
 
 -(NSMutableArray*) templatesAvailable {
@@ -126,11 +102,7 @@
 }
 
 -(void) setScreenParams:(SDLScreenParams*) screenParams {
-    if (screenParams != nil) {
-        [store setObject:screenParams forKey:NAMES_screenParams];
-    } else {
-        [store removeObjectForKey:NAMES_screenParams];
-    }
+    [store setOrRemoveObject:screenParams forKey:NAMES_screenParams];
 }
 
 -(SDLScreenParams*) screenParams {
@@ -143,11 +115,7 @@
 }
 
 -(void) setNumCustomPresetsAvailable:(NSNumber*) numCustomPresetsAvailable {
-    if (numCustomPresetsAvailable != nil) {
-        [store setObject:numCustomPresetsAvailable forKey:NAMES_numCustomPresetsAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_numCustomPresetsAvailable];
-    }
+    [store setOrRemoveObject:numCustomPresetsAvailable forKey:NAMES_numCustomPresetsAvailable];
 }
 
 -(NSNumber*) numCustomPresetsAvailable {

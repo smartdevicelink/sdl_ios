@@ -18,12 +18,8 @@
     return self;
 }
 
--(void) setHmiLevel:(SDLHMILevel*) hmiLevel {
-    if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:NAMES_hmiLevel];
-    } else {
-        [parameters removeObjectForKey:NAMES_hmiLevel];
-    }
+- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
+    [parameters setOrRemoveObject:hmiLevel forKey:NAMES_hmiLevel];
 }
 
 -(SDLHMILevel*) hmiLevel {
@@ -35,12 +31,8 @@
     }
 }
 
--(void) setAudioStreamingState:(SDLAudioStreamingState*) audioStreamingState {
-    if (audioStreamingState != nil) {
-        [parameters setObject:audioStreamingState forKey:NAMES_audioStreamingState];
-    } else {
-        [parameters removeObjectForKey:NAMES_audioStreamingState];
-    }
+- (void)setAudioStreamingState:(SDLAudioStreamingState *)audioStreamingState {
+    [parameters setOrRemoveObject:audioStreamingState forKey:NAMES_audioStreamingState];
 }
 
 -(SDLAudioStreamingState*) audioStreamingState {
@@ -52,12 +44,8 @@
     }
 }
 
--(void) setSystemContext:(SDLSystemContext*) systemContext {
-    if (systemContext != nil) {
-        [parameters setObject:systemContext forKey:NAMES_systemContext];
-    } else {
-        [parameters removeObjectForKey:NAMES_systemContext];
-    }
+- (void)setSystemContext:(SDLSystemContext *)systemContext {
+    [parameters setOrRemoveObject:systemContext forKey:NAMES_systemContext];
 }
 
 -(SDLSystemContext*) systemContext {
