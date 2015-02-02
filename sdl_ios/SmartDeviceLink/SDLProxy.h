@@ -1,6 +1,6 @@
 //  SDLProxy.h
 //
-//  
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 //  Version: ##Version##
 
 #import <Foundation/Foundation.h>
@@ -11,19 +11,20 @@
 
 @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
+    Byte rpcSessionID;
     Byte bulkSessionID;
-	BOOL isConnected;
+    BOOL isConnected;
     BOOL alreadyDestructed;
-
+    
 }
 
-@property (strong) SDLAbstractProtocol* protocol;
+@property (strong) NSObject<SDLInterfaceProtocol>* protocol;
 @property (strong) NSObject<SDLTransport>* transport;
 @property (strong) NSMutableArray* proxyListeners;
 @property (strong) NSTimer* handshakeTimer;
 @property (strong) NSString *debugConsoleGroupName;
 
--(id) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener>*) delegate;
+-(id) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLInterfaceProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
 
 -(void) dispose;
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;
@@ -40,8 +41,9 @@
 +(void)disableSiphonDebug;
 
 -(NSObject<SDLTransport>*)getTransport;
--(SDLAbstractProtocol*)getProtocol;
+-(NSObject<SDLInterfaceProtocol>*)getProtocol;
 
+- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
 /**
  * Puts data into a file on the module
  * @abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.

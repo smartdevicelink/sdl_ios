@@ -1,8 +1,7 @@
 //  SDLSmartDeviceLinkProtocol.m
 //
-// 
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
-#import <objc/runtime.h>
 #import <SmartDeviceLink/SDLJsonEncoder.h>
 #import <SmartDeviceLink/SDLFunctionID.h>
 
@@ -15,22 +14,21 @@
 #import "SDLRPCPayload.h"
 #import "SDLDebugTool.h"
 #import "SDLPrioritizedObjectCollection.h"
-#import "SDLDataStreamHandlingDelegate.h"
 
 
-const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
+const NSUInteger MAX_TRANSMISSION_SIZE = 512;
 const UInt8 MAX_VERSION_TO_SEND = 3;
 
 @interface SDLProtocol () {
     UInt32 _messageID;
     dispatch_queue_t _recieveQueue;
     dispatch_queue_t _sendQueue;
-    SDLPrioritizedObjectCollection *_prioritizedCollection;
-    NSMutableDictionary *_sessionIDs;
+    SDLPrioritizedObjectCollection *prioritizedCollection;
 }
 
 @property (assign) UInt8 version;
 @property (assign) UInt8 maxVersionSupportedByHeadUnit;
+@property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *recieveBuffer;
 @property (strong) SDLProtocolRecievedMessageRouter *messageRouter;
 
@@ -43,71 +41,57 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 @implementation SDLProtocol
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
         _version = 1;
         _messageID = 0;
+        _sessionID = 0;
         _recieveQueue = dispatch_queue_create("com.sdl.recieve", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.send.defaultpriority", DISPATCH_QUEUE_SERIAL);
-        _prioritizedCollection = [SDLPrioritizedObjectCollection new];
-        _sessionIDs = [NSMutableDictionary new];
-
+        prioritizedCollection = [SDLPrioritizedObjectCollection new];
+        
         self.messageRouter = [[SDLProtocolRecievedMessageRouter alloc] init];
         self.messageRouter.delegate = self;
-	}
-	return self;
-}
-
-- (void)storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
-    [_sessionIDs setObject:[NSNumber numberWithUnsignedChar:sessionID] forKey:[NSNumber numberWithUnsignedChar:serviceType]];
-}
-
-- (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
-    
-    NSNumber *number = [_sessionIDs objectForKey:[NSNumber numberWithUnsignedChar:serviceType]];
-    if (!number) {
-        NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
-    
-    return number?[number unsignedIntegerValue]:0;
+    return self;
 }
+
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-
+    
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:1];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-
+    
     [self sendDataToTransport:message.data withPriority:serviceType];
 }
 
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
-
-	SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+- (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID {
+    
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-    header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
-
+    header.sessionID = self.sessionID;
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-
+    
     [self sendDataToTransport:message.data withPriority:serviceType];
-
+    
 }
 
 // SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-
+    
     NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[rpcRequest serializeAsDictionary:self.version]];
     NSData* messagePayload = nil;
-
+    
     NSString *logMessage = [NSString stringWithFormat:@"%@", rpcRequest];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
-
+    
+    
     if(self.version == 1) {
         messagePayload = jsonData;
     } else if (self.version == 2) {
@@ -120,7 +104,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         rpcPayload.binaryData = rpcRequest.bulkData;
         messagePayload = rpcPayload.data;
     }
-
+    
     //
     // Build the protocol level header & message
     //
@@ -128,18 +112,18 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     header.frameType = SDLFrameType_Single;
     header.serviceType = SDLServiceType_RPC;
     header.frameData = SDLFrameData_SingleFrame;
-    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.sessionID = self.sessionID;
     header.bytesInPayload = (UInt32)messagePayload.length;
-
+    
     // V2+ messages need to have message ID property set.
     if (self.version >= 2) {
         [((SDLV2ProtocolHeader*)header) setMessageID:++_messageID];
     }
-
-
+    
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
-
-
+    
+    
     //
     // See if the message is small enough to send in one transmission.
     // If not, break it up into smaller messages and send.
@@ -156,9 +140,9 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
         }
-
+        
     }
-
+    
 }
 
 - (void)logRPCSend:(SDLProtocolMessage *)message {
@@ -168,47 +152,47 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 // Use for normal messages
 - (void)sendDataToTransport:(NSData *)data withPriority:(NSInteger)priority {
-
-    [_prioritizedCollection addObject:data withPriority:priority];
-
+    
+    [prioritizedCollection addObject:data withPriority:priority];
+    
     dispatch_async(_sendQueue, ^{
-
+        
         NSData *dataToTransmit = nil;
-        while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject])
+        while(dataToTransmit = (NSData *)[prioritizedCollection nextObject])
         {
             [self.transport sendData:dataToTransmit];
         };
-
+        
     });
-
+    
 }
 
 //
 // Turn recieved bytes into message objects.
 //
 - (void)handleBytesFromTransport:(NSData *)recievedData {
-
+    
     NSMutableString *logMessage = [[NSMutableString alloc]init];//
     [logMessage appendFormat:@"Received: %ld", (long)recievedData.length];
-
+    
     // Initialize the recieve buffer which will contain bytes while messages are constructed.
     if (self.recieveBuffer == nil) {
         self.recieveBuffer = [NSMutableData dataWithCapacity:(4 * MAX_TRANSMISSION_SIZE)];
     }
-
+    
     // Save the data
     [self.recieveBuffer appendData:recievedData];
     [logMessage appendFormat:@"(%ld) ", (long)self.recieveBuffer.length];
-
+    
     [self processMessages];
 }
 
 - (void)processMessages {
     NSMutableString *logMessage = [[NSMutableString alloc]init];
-
+    
     // Get the version
     UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.recieveBuffer];
-
+    
     // If we have enough bytes, create the header.
     SDLProtocolHeader* header = [SDLProtocolHeader headerForVersion:incomingVersion];
     NSUInteger headerSize = header.size;
@@ -220,7 +204,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
         return;
     }
-
+    
     // If we have enough bytes, finish building the message.
     SDLProtocolMessage *message = nil;
     NSUInteger payloadSize = header.bytesInPayload;
@@ -238,15 +222,15 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
         return;
     }
-
+    
     // Need to maintain the recieveBuffer, remove the bytes from it which we just processed.
     self.recieveBuffer = [[self.recieveBuffer subdataWithRange:NSMakeRange(messageSize, self.recieveBuffer.length - messageSize)] mutableCopy];
-
+    
     // Pass on ultimate disposition of the message to the message router.
     dispatch_async(_recieveQueue, ^{
         [self.messageRouter handleRecievedMessage:message];
     });
-
+    
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.recieveBuffer.length > 0)
         [self processMessages];
@@ -257,55 +241,25 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     header.frameType = SDLFrameType_Control;
     header.serviceType = 0;
     header.frameData = SDLFrameData_Heartbeat;
+    header.sessionID = self.sessionID;
     
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-
+    
     [self sendDataToTransport:message.data withPriority:header.serviceType];
     
-}
-
-- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
-    
-    SDLDataStreamHandlingDelegate *streamDelegate = [SDLDataStreamHandlingDelegate new];
-    streamDelegate.serviceType = serviceType;
-    streamDelegate.protocol = self;
-    objc_setAssociatedObject(inputStream, @"RetainedDelegate", streamDelegate, OBJC_ASSOCIATION_RETAIN);
-    
-    
-    inputStream.delegate = streamDelegate;
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [inputStream open];
-    
-    // Stream events start getting processed and when there is data available it calls
-    // back to sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType
-    
-}
-
-- (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
-    SDLV2ProtocolHeader *header = [SDLV2ProtocolHeader new];
-    header.frameType = SDLFrameType_Single;
-    header.serviceType = serviceType;
-    header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
-    header.bytesInPayload = (UInt32)data.length;
-    header.messageID = ++_messageID;
-    
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-    [self sendDataToTransport:message.data withPriority:header.serviceType];
 }
 
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-
-    [self storeSessionID:sessionID forServiceType:serviceType];
-    
+    self.sessionID = sessionID;
     self.maxVersionSupportedByHeadUnit = version;
     self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
-
+    
     if (self.version >= 3) {
         // start hearbeat
     }
-
+    
     [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
 }
 
