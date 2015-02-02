@@ -5,9 +5,6 @@
 #import <SmartDeviceLink/SDLRPCMessage.h>
 
 #import <SmartDeviceLink/SDLNames.h>
-//#import <SmartDeviceLink/SDLDebugTool.h>
-
-#import <SmartDeviceLink/SmartDeviceLink.h>
 
 @implementation SDLRPCStruct
 

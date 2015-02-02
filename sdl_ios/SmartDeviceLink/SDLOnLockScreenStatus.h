@@ -3,8 +3,10 @@
 //  SmartDeviceLink
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
-#import "SDLLockScreenStatus.h"
+#import "SDLRPCNotification.h"
+
+@class SDLLockScreenStatus;
+@class SDLHMILevel;
 
 /**
  * 	To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.

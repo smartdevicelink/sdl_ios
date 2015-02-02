@@ -2,7 +2,7 @@
 //
 //  
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLConsoleController.h"
 
 #import <SmartDeviceLink/SDLJSONEncoder.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>

@@ -8,7 +8,7 @@
 @implementation SDLProtocolMessageAssembler
 
 - (id)initWithSessionID:(UInt8)sessionID {
-    if (self == [super init]) {
+    if (self = [super init]) {
         _sessionID = sessionID;
     }
     return self;
