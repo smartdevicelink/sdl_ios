@@ -37,9 +37,9 @@
 
 - (id)init {
     if (self = [super initWithEndpoint:nil endpointParam:nil]) {
-
+        
         [SDLDebugTool logInfo:@"Init" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accessoryConnected:) name:EAAccessoryDidConnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accessoryDisconnected:) name:EAAccessoryDidDisconnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -133,7 +133,7 @@
         [self closeSession];
         [self connect];
     }
-        
+    
 }
 
 
@@ -143,7 +143,7 @@
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)event
 {
-
+    
     switch (event) {
         case NSStreamEventNone:
             break;
@@ -162,14 +162,14 @@
                     [SDLDebugTool logInfo:@"Waiting For Protocol Index" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
                     
                     //Begin Connection Retry
-//                    float randomNumber = (float)arc4random() / UINT_MAX; // between 0 and 1
-//                    float randomMinMax = 0.0f + (0.5f-0.0f)*randomNumber; // between Min (0.0) and Max (0.5)
+                    //                    float randomNumber = (float)arc4random() / UINT_MAX; // between 0 and 1
+                    //                    float randomMinMax = 0.0f + (0.5f-0.0f)*randomNumber; // between Min (0.0) and Max (0.5)
                     
                     //[SDLDebugTool logInfo:[NSString stringWithFormat:@"Wait: %f", 1.5f] withType:SDLDebugType_Transport_iAP];
                     
                     //TODO:DEBUG
-//                    [self performSelector:@selector(protocolIndexRestart) withObject:nil afterDelay:2.5f];
-
+                    //                    [self performSelector:@selector(protocolIndexRestart) withObject:nil afterDelay:2.5f];
+                    
                 } else {
                     [SDLDebugTool logInfo:@"Transport Ready" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
                     self.transportReady = YES;
@@ -225,7 +225,7 @@
     for (EAAccessory* accessory in [[EAAccessoryManager sharedAccessoryManager] connectedAccessories]) {
         
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Check Accessory: %@", accessory] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+        
         self.useLegacyProtocol = NO;
         
         if (self.forceLegacy) {
@@ -247,14 +247,14 @@
                 }
             }
         }
-
+        
         if (self.useLegacyProtocol) {
             [SDLDebugTool logInfo:[NSString stringWithFormat:@"Legacy Sync @ %@", LEGACY_PROTOCOL_STRING] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
             
             [self setupControllerForAccessory:accessory withProtocolString:LEGACY_PROTOCOL_STRING];
             return;
         }
-	}
+    }
 }
 
 - (void)dealloc {
@@ -337,12 +337,12 @@
 
 // Write data to the accessory while there is space available and data to write
 - (void)writeDataOut:(NSData *)dataOut {
-
+    
     NSMutableData *remainder = dataOut.mutableCopy;
-
+    
     while (1) {
         if (remainder.length == 0) break;
-
+        
         if ( [[self.session outputStream] hasSpaceAvailable] ) {
             
             //TODO: Added for debug, issue with module
@@ -353,17 +353,17 @@
                 NSLog(@"Error: %@", [[self.session outputStream] streamError]);
                 break;
             }
-
+            
             NSString *logMessage = [NSString stringWithFormat:@"Outgoing: (%ld)", (long)bytesWritten];
             [SDLDebugTool logInfo:logMessage
                     andBinaryData:[remainder subdataWithRange:NSMakeRange(0, bytesWritten)]
                          withType:SDLDebugType_Transport_iAP
                          toOutput:SDLDebugOutput_File];
-
+            
             [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
         }
     }
-
+    
 }
 
 // Read data while there is data and space available in the input buffer
@@ -372,15 +372,15 @@
     while ([[self.session inputStream] hasBytesAvailable])
     {
         NSInteger bytesRead = [[self.session inputStream] read:buf maxLength:IAP_INPUT_BUFFER_SIZE];
-
+        
         NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
-
+        
         NSString *logMessage = [NSString stringWithFormat:@"Incoming: (%ld)", (long)bytesRead];
         [SDLDebugTool logInfo:logMessage
                 andBinaryData:dataIn
                      withType:SDLDebugType_Transport_iAP
                      toOutput:SDLDebugOutput_File];
-
+        
         if (bytesRead > 0) {
             // TODO: change this to ndsata parameter for consistency
             [self handleBytesReceivedFromTransport:buf length:bytesRead];
@@ -398,7 +398,7 @@
 - (void)handleBytesReceivedFromTransport:(Byte *)receivedBytes length:(NSInteger)receivedBytesLength {
     
     if (self.onControlProtocol){
-
+        
         NSNumber *dataProtocol = [NSNumber numberWithUnsignedInt:receivedBytes[0]];
         
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Moving To Protocol Index: %@", dataProtocol] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
@@ -414,7 +414,7 @@
             
             [self closeSession];
             self.onControlProtocol = NO;
-
+            
             [self setupControllerForAccessory:self.accessory withProtocolString:currentProtocolString];
             [self openSession];
         }
