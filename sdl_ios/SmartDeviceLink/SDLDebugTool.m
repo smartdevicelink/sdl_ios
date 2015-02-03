@@ -1,6 +1,6 @@
 //  SDLDebugTool.m
 //
-//  
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import <SmartDeviceLink/SDLDebugTool.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>

@@ -4,10 +4,10 @@
 //  Version: ##Version##
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProtocol.h>
 #import <SmartDeviceLink/SDLProxyListener.h>
 #import <SmartDeviceLink/SDLRPCRequestFactory.h>
 #import <SmartDeviceLink/SDLTransport.h>
+#import "SDLAbstractProtocol.h"
 
 @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
@@ -42,15 +42,6 @@
 -(NSObject<SDLTransport>*)getTransport;
 -(SDLAbstractProtocol*)getProtocol;
 
-/**
- * Puts data into a file on the module
- * @abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.
- * @param inputStream A stream containing the data to put to the module.
- * @param putFileRPCRequest A SDLPutFile object containing the parameters for the put(s)
- * @discussion  The proxy will read from the stream up to 1024 bytes at a time and send them in individual putFile requests.
- * This may result in multiple responses being recieved, one for each request.
- * Note: the length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.
- */
 - (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest;
 
 @end

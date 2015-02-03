@@ -1,18 +1,11 @@
 //  SDLShowConstantTBT.h
 //
-//  
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCRequest.h>
 
 #import <SmartDeviceLink/SDLImage.h>
-
-/** This RPC is used to update the user with navigation information<br>
- *  for the constantly shown screen (base screen),but also for the<br>
- *  alert type screen.
- *<p>
- * @since SmartDeviceLink 2.0
- */
 
 @interface SDLShowConstantTBT : SDLRPCRequest {}
 

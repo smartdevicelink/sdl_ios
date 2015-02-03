@@ -1,14 +1,10 @@
 //  SDLAddSubMenuResponse.h
 //
-//  
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLRPCResponse.h>
 
-/**
- * SDLAddSubMenuResponse is sent, when SDLAddSubMenu has been called
- * Since <b>SmartDeviceLink 1.0</b>
- */
 @interface SDLAddSubMenuResponse : SDLRPCResponse {}
 
 -(id) init;

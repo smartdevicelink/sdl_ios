@@ -1,6 +1,6 @@
 //  SDLProtocolRecievedMessageRouter.m
 //
-//  
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 //
 //  This class gets handed the SDLProtocol messages as they are recieved
 //  and decides what happens to them and where they are sent on to.
