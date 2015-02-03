@@ -1,7 +1,7 @@
 //  SDLAbstractTransport.m
 //  SDLAbstractTransport.m
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import "SDLAbstractTransport.h"
 
@@ -40,6 +40,10 @@
 
 - (void)sendData:(NSData *)dataToSend {
 	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)unregister {
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 @end
