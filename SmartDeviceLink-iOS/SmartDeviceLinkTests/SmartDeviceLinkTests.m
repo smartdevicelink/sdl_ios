@@ -1,19 +1,19 @@
 //
-//  SmartDeviceLink_FrameworkTests.m
-//  SmartDeviceLink_FrameworkTests
+//  SmartDeviceLinkTests.m
+//  SmartDeviceLinkTests
 //
-//  Created by Joel Fischer on 1/26/15.
+//  Created by Joel Fischer on 2/5/15.
 //  Copyright (c) 2015 smartdevicelink. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface SmartDeviceLink_FrameworkTests : XCTestCase
+@interface SmartDeviceLinkTests : XCTestCase
 
 @end
 
-@implementation SmartDeviceLink_FrameworkTests
+@implementation SmartDeviceLinkTests
 
 - (void)setUp {
     [super setUp];
