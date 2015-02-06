@@ -28,7 +28,26 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5D61FA251A84237100846EE7"
+               BuildableName = "SmartDeviceLinkTests.xctest"
+               BlueprintName = "SmartDeviceLinkTests"
+               ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5D61FA1B1A84237100846EE7"
+            BuildableName = "SmartDeviceLink.framework"
+            BlueprintName = "SmartDeviceLink"
+            ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
