@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
-		5D4029DC1A76F0530006B0C2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4029D81A76F0530006B0C2 /* AppDelegate.m */; };
-		5D4029DD1A76F0530006B0C2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4029D91A76F0530006B0C2 /* main.m */; };
-		5D4029DE1A76F0530006B0C2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4029DB1A76F0530006B0C2 /* ViewController.m */; };
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
 		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
+		5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350C1A855EB300687FB9 /* AppDelegate.m */; };
+		5D5935101A855EB300687FB9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350E1A855EB300687FB9 /* ViewController.m */; };
+		5D5935121A855EBE00687FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5935111A855EBE00687FB9 /* main.m */; };
 		5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA201A84237100846EE7 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FA271A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
 		5D61FA301A84237100846EE7 /* SmartDeviceLinkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FA2F1A84237100846EE7 /* SmartDeviceLinkTests.m */; };
@@ -555,13 +555,13 @@
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
-		5D4029D71A76F0530006B0C2 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SmartDeviceLink_Example/Classes/Example/AppDelegate.h; sourceTree = SOURCE_ROOT; };
-		5D4029D81A76F0530006B0C2 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SmartDeviceLink_Example/Classes/Example/AppDelegate.m; sourceTree = SOURCE_ROOT; };
-		5D4029D91A76F0530006B0C2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartDeviceLink_Example/Classes/Example/main.m; sourceTree = SOURCE_ROOT; };
-		5D4029DA1A76F0530006B0C2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = SmartDeviceLink_Example/Classes/Example/ViewController.h; sourceTree = SOURCE_ROOT; };
-		5D4029DB1A76F0530006B0C2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = SmartDeviceLink_Example/Classes/Example/ViewController.m; sourceTree = SOURCE_ROOT; };
 		5D4029E01A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = SmartDeviceLink_Example/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		5D4029E21A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		5D59350B1A855EB300687FB9 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SmartDeviceLink_Example/Classes/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		5D59350C1A855EB300687FB9 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SmartDeviceLink_Example/Classes/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		5D59350D1A855EB300687FB9 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = SmartDeviceLink_Example/Classes/ViewController.h; sourceTree = SOURCE_ROOT; };
+		5D59350E1A855EB300687FB9 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = SmartDeviceLink_Example/Classes/ViewController.m; sourceTree = SOURCE_ROOT; };
+		5D5935111A855EBE00687FB9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartDeviceLink_Example/Classes/main.m; sourceTree = SOURCE_ROOT; };
 		5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA1F1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
@@ -1113,11 +1113,11 @@
 		5D4019B11A76EC350006B0C2 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				5D59350B1A855EB300687FB9 /* AppDelegate.h */,
+				5D59350C1A855EB300687FB9 /* AppDelegate.m */,
+				5D59350D1A855EB300687FB9 /* ViewController.h */,
+				5D59350E1A855EB300687FB9 /* ViewController.m */,
 				5D4029D31A76F0340006B0C2 /* Images.xcassets */,
-				5D4029D71A76F0530006B0C2 /* AppDelegate.h */,
-				5D4029D81A76F0530006B0C2 /* AppDelegate.m */,
-				5D4029DA1A76F0530006B0C2 /* ViewController.h */,
-				5D4029DB1A76F0530006B0C2 /* ViewController.m */,
 				5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */,
 				5D4029E11A76F0760006B0C2 /* Main.storyboard */,
 				5D4019B21A76EC350006B0C2 /* Supporting Files */,
@@ -1129,7 +1129,7 @@
 		5D4019B21A76EC350006B0C2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5D4029D91A76F0530006B0C2 /* main.m */,
+				5D5935111A855EBE00687FB9 /* main.m */,
 				5D4029D51A76F0410006B0C2 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -2246,9 +2246,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D4029DE1A76F0530006B0C2 /* ViewController.m in Sources */,
-				5D4029DD1A76F0530006B0C2 /* main.m in Sources */,
-				5D4029DC1A76F0530006B0C2 /* AppDelegate.m in Sources */,
+				5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */,
+				5D5935121A855EBE00687FB9 /* main.m in Sources */,
+				5D5935101A855EB300687FB9 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
