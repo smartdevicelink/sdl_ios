@@ -29,6 +29,7 @@ static int const REGISTER_APP_INTERFACE_CORRELATION_ID = 65529;
 static int const UNREGISTER_APP_INTERFACE_CORRELATION_ID = 65530;
 static int const HEARTBEAT_CORRELATION_ID = 65531;
 static int const POLICIES_CORRELATION_ID = 65535;
+static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 @interface SDLProxyBase() <SDLConnectionDelegate>
 
@@ -74,7 +75,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
 @property (strong, nonatomic) SDLHMILevel* priorHmiLevel;
 @property (strong, nonatomic) SDLAudioStreamingState* priorAudioStreamingState;
 
-@property (weak, nonatomic) id<SDLProxyListener> delegate;//TODO:Create a ProxyListenerBase? Or just use optional methods from the protocol
+@property (weak, nonatomic) NSObject<SDLProxyListener>* delegate;//TODO:Create a ProxyListenerBase? Or just use optional methods from the protocol
 
 @property (strong, nonatomic) NSMutableArray* buttonCapabilities;
 @property (strong, nonatomic) NSMutableArray* softButtonCapabilities;
@@ -95,7 +96,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
 
 @implementation SDLProxyBase
 
--(instancetype)initWithProxyDelegate:(id<SDLProxyListener>)delegate
+-(instancetype)initWithProxyDelegate:(NSObject<SDLProxyListener>*)delegate
    enableAdvancedLifecycleManagement:(BOOL)enableAdvancedLifecycleManagement
                              appName:(NSString *)appName
                           isMediaApp:(NSNumber *)isMediaApp
@@ -346,15 +347,16 @@ static int const POLICIES_CORRELATION_ID = 65535;
         NSMutableDictionary* rpcDictionary = [NSMutableDictionary new];
         if (self.wiproVersion > 1) {
             NSMutableDictionary* rpcDictionaryTemp = [NSMutableDictionary new];
-            rpcDictionaryTemp[SDLRPCMessageCorrelationIDKey] = message.correlationID;
+            rpcDictionaryTemp[NAMES_correlationID] = message.correlationID;
             if ([message size] > 1) {//TODO:Is this the same as Android "jsonSize" implementation?
                 NSDictionary* mDictionary = [message rpcDictionary];
-                rpcDictionaryTemp[SDLRPCMessageParametersKey] = mDictionary;
+                rpcDictionaryTemp[NAMES_parameters] = mDictionary;
             }
             
             NSString* functionName = [[SDLFunctionID new] getFunctionName:[message.functionID intValue]];
             if (functionName) {
-                rpcDictionaryTemp[SDLRPCMessageFunctionNameKey] = functionName;
+                //TODO:Is this the correct key?
+                rpcDictionaryTemp[NAMES_name] = functionName;
             }
             else{
                 [SDLDebugTool logInfo:[NSString stringWithFormat:@"Dispatch Incoming Message - function name is null unknown RPC. FunctionID: %@", message.functionID]];
@@ -362,17 +364,17 @@ static int const POLICIES_CORRELATION_ID = 65535;
             }
             
             if (message.rpcType == 0x00) {
-                rpcDictionary[SDLRPCMessageRequestKey] = rpcDictionaryTemp;
+                rpcDictionary[NAMES_request] = rpcDictionaryTemp;
             }
             else if (message.rpcType == 0x01){
-                rpcDictionary[SDLRPCMessageResponseKey] = rpcDictionaryTemp;
+                rpcDictionary[NAMES_response] = rpcDictionaryTemp;
             }
             else if (message.rpcType == 0x02){
-                rpcDictionary[SDLRPCMessageNotificationKey] = rpcDictionaryTemp;
+                rpcDictionary[NAMES_notification] = rpcDictionaryTemp;
             }
             
             if (message.bulkData) {
-                rpcDictionary[SDLRPCStructBulkDataKey] = message.bulkData;
+                rpcDictionary[NAMES_bulkData] = message.bulkData;
             }
         }
         else{
@@ -460,7 +462,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
     //Headers myHeader = reaquest.header //TODO: Not yet implemented
     NSString* functionName = @"SYSTEM_REQUEST";
     
-    NSString* bodyString = request.body //TODO: Not yet implemented
+    NSString* bodyString = request.body; //TODO: Not yet implemented
     
     NSDictionary* jsonObjectToSendToServer;
     NSString* validJson;
@@ -625,7 +627,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
     
     SDLRPCResponse* response = [[SDLRPCResponse alloc] initWithDictionary:[message mutableCopy]];
     
-    if ([messageType isEqualToString:SDLRPCMessageResponseKey]) {
+    if ([messageType isEqualToString:NAMES_response]) {
         if ([self isCorrelationIDProtected:response.correlationID]) {
             if ([response.correlationID intValue] == REGISTER_APP_INTERFACE_CORRELATION_ID
                 && self.advancedLifecycleManagementEnabled
@@ -635,7 +637,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
                     self.appInterfaceRegistered = @(YES);
                 }
                 
-                self.autoActivateIdDesired = @"8675309"; //Placeholder for legacy support
+                self.autoActivateIdDesired = LEGACY_AUTO_ACTIVATE_ID_RETURNED; //Placeholder for legacy support
                 self.buttonCapabilities = msg.buttonCapabilities;
                 self.displayCapabilities = msg.displayCapabilities;
                 self.softButtonCapabilities = msg.softButtonCapabilities;
@@ -648,7 +650,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
                 self.sdlSyncMsgVersion = msg.syncMsgVersion; //TODO: Shouldn't this Sync reference be refactored out?
                 self.vrCapabilities = msg.vrCapabilities;
                 self.vehicleType = msg.vehicleType;
-                self.proxyVersionInfo = msg.proxyVersionInfo;
+                self.proxyVersionInfo = [msg proxyVersionInfo];
                 
                 if ([self.appResumeEnabled boolValue]) {
                     if (msg.resultCode == [SDLResult RESUME_FAILED]
@@ -712,7 +714,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
             if ([msg.success boolValue]) {
                 self.appInterfaceRegistered = @(YES);
             }
-            self.autoActivateIdDesired = @"8675309"; //Placeholder for legacy support
+            self.autoActivateIdDesired = LEGACY_AUTO_ACTIVATE_ID_RETURNED; //Placeholder for legacy support
             self.buttonCapabilities = msg.buttonCapabilities;
             self.displayCapabilities = msg.displayCapabilities;
             self.softButtonCapabilities = msg.softButtonCapabilities;
@@ -920,7 +922,7 @@ static int const POLICIES_CORRELATION_ID = 65535;
             }
         }
     }
-    else if ([messageType isEqualToString:SDLRPCMessageNotificationKey]){
+    else if ([messageType isEqualToString:NAMES_notification]){
         if ([functionName isEqualToString:NAMES_OnHMIStatus]) {
             SDLOnHMIStatus* msg = [[SDLOnHMIStatus alloc] initWithDictionary:[message mutableCopy]];
             

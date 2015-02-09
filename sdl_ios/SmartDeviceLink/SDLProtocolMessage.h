@@ -4,12 +4,22 @@
 
 #import "SDLProtocolHeader.h"
 
+@class SDLSessionType;
+@class SDLMessageType;
 
 @interface SDLProtocolMessage : NSObject
 
 @property (strong) SDLProtocolHeader *header;
 @property (strong) NSData *payload;
 @property (strong, readonly) NSData *data;
+@property (nonatomic) Byte sessionID;
+@property (nonatomic) Byte version;
+@property (nonatomic) Byte rpcType;
+@property (strong, nonatomic) SDLSessionType* sessionType;
+@property (strong, nonatomic) SDLMessageType* messageType;
+@property (strong, nonatomic) NSNumber* functionID;
+@property (strong, nonatomic) NSNumber* correlationID;
+@property (strong, nonatomic) NSData* bulkData;
 
 - (id)init;
 + (id)messageWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload; // Returns a V1 or V2 object

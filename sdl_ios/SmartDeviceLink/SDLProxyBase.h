@@ -21,7 +21,6 @@
  basic structure for connecting to SDL vehicles.
  
  <p>//TODO: additional information as needed
- 
  */
 
 @interface SDLProxyBase : NSObject
@@ -45,7 +44,7 @@
  *
  * @param options - An optional dictionary specifying options for the proxy.
  */
--(instancetype)initWithProxyDelegate:(id<SDLProxyListener>)delegate
+-(instancetype)initWithProxyDelegate:(NSObject<SDLProxyListener>*)delegate
    enableAdvancedLifecycleManagement:(BOOL)enableAdvancedLifecycleManagement
                              appName:(NSString*)appName
                           isMediaApp:(NSNumber*)isMediaApp

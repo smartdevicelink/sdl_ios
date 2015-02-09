@@ -9,7 +9,7 @@
 
 @implementation SDLProxyALM
 
--(instancetype)initWithProxyDelegate:(id<SDLProxyListener>)delegate
+-(instancetype)initWithProxyDelegate:(NSObject<SDLProxyListener>*)delegate
                              appName:(NSString *)appName
                           isMediaApp:(NSNumber *)isMediaApp
                                appID:(NSString *)appID

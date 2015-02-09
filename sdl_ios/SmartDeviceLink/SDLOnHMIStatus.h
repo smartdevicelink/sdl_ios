@@ -14,6 +14,7 @@
 -(id) init;
 -(id) initWithDictionary:(NSMutableDictionary*) dict;
 
+@property(nonatomic) BOOL firstRun;
 @property(strong) SDLHMILevel* hmiLevel;
 @property(strong) SDLAudioStreamingState* audioStreamingState;
 @property(strong) SDLSystemContext* systemContext;
