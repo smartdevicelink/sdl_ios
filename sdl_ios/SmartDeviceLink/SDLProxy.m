@@ -187,7 +187,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         }
     }
 
-    if (sessionType == SDLServiceType_RPC || _version == 2) {
+    if (sessionType == SDLServiceType_RPC || _version >= 2) {
         rpcSessionID = sessionID;
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }

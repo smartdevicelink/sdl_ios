@@ -44,7 +44,7 @@
         return [[SDLV1ProtocolHeader alloc] init];
     }
 
-    if (version == 2) {
+    if (version >= 2) {
         return [[SDLV2ProtocolHeader alloc] init];
     }
 
