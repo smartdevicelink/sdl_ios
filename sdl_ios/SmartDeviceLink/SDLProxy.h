@@ -32,8 +32,8 @@
 -(void) sendRPC:(SDLRPCMessage *)message;
 -(void) sendRPCRequest:(SDLRPCMessage*) msg __deprecated_msg("use sendRPC: instead");
 
--(void) handleRPCMessage:(SDLRPCMessage *)message;
--(void) handleRpcMessage:(NSDictionary*) msg __deprecated_msg("use handleRPCMessage: instead");
+-(void) handleRPCDictionary:(NSDictionary *)message;
+-(void) handleRpcMessage:(NSDictionary*) msg __deprecated_msg("use handleRPCDictionary: instead");
 
 -(NSString*) getProxyVersion;
 

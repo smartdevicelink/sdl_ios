@@ -100,7 +100,9 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             messagePayload = jsonData;
         } break;
         case 2: // Fallthrough
-        case 3: {
+        case 3:
+        case 4:
+        default: {
             // Build a binary header
             // Serialize the RPC data into an NSData
             SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
@@ -119,9 +121,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             }
             
-            messagePayload = rpcPayload.data;
-        } break;
-        default: {
             NSAssert(NO, @"sendRPCMessage:withType: must handle additional versions");
         } break;
     }
