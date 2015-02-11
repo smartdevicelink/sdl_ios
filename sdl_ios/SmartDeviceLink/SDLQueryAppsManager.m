@@ -61,22 +61,24 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
         
         // Loop through the response array, pull out all of the iOS data
         for (NSDictionary *appData in apps) {
-            NSDictionary *iOSAppData = appData[@"ios"];
-            if (iOSAppData == nil) {
-                continue;
-            }
-            
-            // Check the URL scheme to see if it is installed
-            NSString *iOSURLSchemeString = iOSAppData[@"urlScheme"];
-            NSURL *iOSURLScheme = [NSURL URLWithString:iOSURLSchemeString];
-            if ([[UIApplication sharedApplication] canOpenURL:iOSURLScheme]) {
-                [filteredResponses addObject:appData];
+            @autoreleasepool {
+                NSDictionary *iOSAppData = appData[@"ios"];
+                if (iOSAppData == nil) {
+                    continue;
+                }
+                
+                // Check the URL scheme to see if it is installed
+                NSString *iOSURLSchemeString = iOSAppData[@"urlScheme"];
+                NSURL *iOSURLScheme = [NSURL URLWithString:iOSURLSchemeString];
+                if ([[UIApplication sharedApplication] canOpenURL:iOSURLScheme]) {
+                    [filteredResponses addObject:appData];
+                }
             }
         }
         
         // Add the installed applications to the filtered response dictionary, serialize it
         filteredQueryResponse[@"response"] = filteredResponses;
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Query Apps data from cloud: %@", filteredQueryResponse] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All];
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Filtered Query Apps data from cloud: %@", filteredQueryResponse] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All];
         
         NSData *filteredQueryResponseData = [NSJSONSerialization dataWithJSONObject:filteredQueryResponse options:kNilOptions error:&error];
         if (error != nil) {

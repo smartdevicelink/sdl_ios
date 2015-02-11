@@ -35,6 +35,8 @@ NSMutableArray* SDLRequestType_values = nil;
                 SDLRequestType.AUTH_CHALLENGE,
                 SDLRequestType.AUTH_ACK,
                 SDLRequestType.PROPRIETARY,
+                SDLRequestType_QUERY_APPS,
+                SDLRequestType_LAUNCH_APP,
                 nil];
     }
     return SDLRequestType_values;

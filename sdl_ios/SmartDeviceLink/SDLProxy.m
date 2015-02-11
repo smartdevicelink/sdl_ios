@@ -29,6 +29,8 @@
     SDLLockScreenManager *lsm;
 }
 
+@property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
+
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object;
 - (void)notifyProxyClosed;
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
@@ -49,6 +51,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         
+        _activeSystemRequestTasks = [NSMutableSet set];
         
         lsm = [SDLLockScreenManager new];
         
@@ -455,7 +458,11 @@ const int POLICIES_CORRELATION_ID = 65535;
         return;
     }
     
-    NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *uploadError) {
+    __block NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *uploadError) {
+        if ([self.activeSystemRequestTasks containsObject:task]) {
+            [self.activeSystemRequestTasks removeObject:task];
+        }
+        
         if (uploadError != nil) {
             NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), upload task failed: %@", uploadError.localizedDescription];
             [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
@@ -477,7 +484,6 @@ const int POLICIES_CORRELATION_ID = 65535;
                 return;
             }
             
-            // TODO: Send back to the Head Unit
             SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
             request.requestType = [SDLRequestType QUERY_APPS];
             request.bulkData = filteredResponseData;
@@ -487,6 +493,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             [self sendRPC:request];
         }];
     }];
+    [self.activeSystemRequestTasks addObject:task];
     [task resume];
 }
 
@@ -497,7 +504,9 @@ const int POLICIES_CORRELATION_ID = 65535;
         return;
     }
     
-    [[UIApplication sharedApplication] openURL:URLScheme];
+    if ([[UIApplication sharedApplication] canOpenURL:URLScheme]) {
+        [[UIApplication sharedApplication] openURL:URLScheme];
+    }
 }
 
 /**
@@ -555,8 +564,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     
     // NSURLSession configuration
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     NSURL *URL = [NSURL URLWithString:URLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     [request setValue:contentType forHTTPHeaderField:@"content-type"];
@@ -569,7 +576,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     
     // Create the upload task
-    return [session uploadTaskWithRequest:request fromData:bodyData completionHandler:completionHandler];
+    return [[NSURLSession sharedSession] uploadTaskWithRequest:request fromData:bodyData completionHandler:completionHandler];
 }
 
 
