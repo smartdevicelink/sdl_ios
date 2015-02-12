@@ -36,6 +36,17 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLTransportDelegate.h>
 #import <SmartDeviceLink/SDLInterfaceProtocol.h>
 
+/***** Protocol *****/
+#import <SmartDeviceLink/SDLProtocolListener.h>
+#import <SmartDeviceLink/SDLAbstractProtocol.h>
+#import <SmartDeviceLink/SDLProtocol.h>
+
+// Header
+#import <SmartDeviceLink/SDLProtocolHeader.h>
+
+// Message
+#import <SmartDeviceLink/SDLProtocolMessage.h>
+
 /***** RPCs *****/
 // Superclasses
 #import <SmartDeviceLink/SDLEnum.h>
@@ -182,6 +193,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLTextField.h>
 #import <SmartDeviceLink/SDLTireStatus.h>
 #import <SmartDeviceLink/SDLTouchCoord.h>
+#import <SmartDeviceLink/SDLTouchEvent.h>
+#import <SmartDeviceLink/SDLTouchEventCapabilities.h>
 #import <SmartDeviceLink/SDLTTSChunk.h>
 #import <SmartDeviceLink/SDLTurn.h>
 #import <SmartDeviceLink/SDLVehicleDataResult.h>
