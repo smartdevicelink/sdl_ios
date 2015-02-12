@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author             = { "SmartDeviceLink Team" => "joel@livioradio.com" }
   s.platform     = :ios, "7.0"
   s.source       = { :git => "https://github.com/smartdevicelink/SmartDeviceLink-iOS.git", :tag => "3.0.0" }
-  s.source_files  = "SmartDeviceLink-iOS/Library/*.{h,m}"
+  s.source_files  = "SmartDeviceLink-iOS/SmartDeviceLink/*.{h,m}"
   s.requires_arc = true
 
 end
