@@ -1,17 +1,17 @@
-//  SDLAbstractProtocol.h
-//
-//  
+//  FMCAbstractProtocol.h
+//  SyncProxy
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import "SDLRPCRequest.h"
-#import "SDLTransport.h"
+#import "SDLAbstractTransport.h"
 #import "SDLProtocolListener.h"
 
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>
 
 @property (strong) NSString *debugConsoleGroupName;
-@property (strong) id<SDLTransport> transport;
+@property (weak) SDLAbstractTransport *transport;
 @property (weak) id<SDLProtocolListener> protocolDelegate;
 
 // Sending
@@ -24,5 +24,6 @@
 
 // Recieving
 - (void)handleBytesFromTransport:(NSData *)receivedData;
+- (void)dispose;
 
 @end

@@ -1,6 +1,6 @@
-//  SDLSmartDeviceLinkProtocol.m
-//
-// 
+//  SDLProtocol.m
+//  SyncProxy
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import <objc/runtime.h>
 #import <SmartDeviceLink/SDLJsonEncoder.h>
@@ -27,6 +27,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
     NSMutableDictionary *_sessionIDs;
+    BOOL _alreadyDestructed;
 }
 
 @property (assign) UInt8 version;
@@ -43,18 +44,19 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 @implementation SDLProtocol
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
+        _alreadyDestructed = NO;
         _version = 1;
         _messageID = 0;
-        _recieveQueue = dispatch_queue_create("com.sdl.recieve", DISPATCH_QUEUE_SERIAL);
-        _sendQueue = dispatch_queue_create("com.sdl.send.defaultpriority", DISPATCH_QUEUE_SERIAL);
+        _recieveQueue = dispatch_queue_create("com.ford.applink.protocol.recieve", DISPATCH_QUEUE_SERIAL);
+        _sendQueue = dispatch_queue_create("com.ford.applink.protocol.send", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [SDLPrioritizedObjectCollection new];
         _sessionIDs = [NSMutableDictionary new];
 
         self.messageRouter = [[SDLProtocolRecievedMessageRouter alloc] init];
         self.messageRouter.delegate = self;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void)storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
@@ -62,13 +64,13 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 }
 
 - (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
-    
+
     NSNumber *number = [_sessionIDs objectForKey:[NSNumber numberWithUnsignedChar:serviceType]];
     if (!number) {
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
-    
+
     return number?[number unsignedIntegerValue]:0;
 }
 
@@ -86,7 +88,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {
 
-	SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
@@ -204,8 +206,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 }
 
 - (void)processMessages {
-    NSMutableString *logMessage = [[NSMutableString alloc]init];
-
     // Get the version
     UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.recieveBuffer];
 
@@ -215,9 +215,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     if (self.recieveBuffer.length >= headerSize) {
         [header parse:self.recieveBuffer];
     } else {
-        // Need to wait for more bytes.
-        [logMessage appendString:@"header incomplete, waiting for more bytes."];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
         return;
     }
 
@@ -230,12 +227,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         NSUInteger payloadLength = payloadSize;
         NSData *payload = [self.recieveBuffer subdataWithRange:NSMakeRange(payloadOffset, payloadLength)];
         message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-        [logMessage appendFormat:@"message complete. %@", message];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     } else {
-        // Need to wait for more bytes.
-        [logMessage appendFormat:@"header complete. message incomplete, waiting for %ld more bytes. Header:%@", (long)(messageSize - self.recieveBuffer.length), header];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
         return;
     }
 
@@ -257,28 +249,28 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     header.frameType = SDLFrameType_Control;
     header.serviceType = 0;
     header.frameData = SDLFrameData_Heartbeat;
-    
+
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
     [self sendDataToTransport:message.data withPriority:header.serviceType];
-    
+
 }
 
 - (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
-    
+
     SDLDataStreamHandlingDelegate *streamDelegate = [SDLDataStreamHandlingDelegate new];
     streamDelegate.serviceType = serviceType;
     streamDelegate.protocol = self;
     objc_setAssociatedObject(inputStream, @"RetainedDelegate", streamDelegate, OBJC_ASSOCIATION_RETAIN);
-    
-    
+
+
     inputStream.delegate = streamDelegate;
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
-    
+
     // Stream events start getting processed and when there is data available it calls
     // back to sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType
-    
+
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
@@ -288,7 +280,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
-    
+
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
     [self sendDataToTransport:message.data withPriority:header.serviceType];
 }
@@ -298,7 +290,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
 
     [self storeSessionID:sessionID forServiceType:serviceType];
-    
+
     self.maxVersionSupportedByHeadUnit = version;
     self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
 
@@ -325,5 +317,23 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     [self.protocolDelegate onError:info exception:e];
 }
 
+- (void)destructObjects {
+    if(!_alreadyDestructed) {
+        _alreadyDestructed = YES;
+        self.messageRouter.delegate = nil;
+        self.messageRouter = nil;
+        self.transport = nil;
+        self.protocolDelegate = nil;
+    }
+}
+
+- (void)dispose {
+    [self destructObjects];
+}
+
+- (void)dealloc {
+    [self destructObjects];
+    [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+}
 
 @end

@@ -1,46 +1,40 @@
 //  SDLProxy.h
-//
-//  
-//  Version: ##Version##
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  Version: AppLink-20141001-130610-LOCAL-iOS
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProtocol.h>
 #import <SmartDeviceLink/SDLProxyListener.h>
 #import <SmartDeviceLink/SDLRPCRequestFactory.h>
-#import <SmartDeviceLink/SDLTransport.h>
+#import "SDLAbstractProtocol.h"
+#import "SDLAbstractTransport.h"
+#import "SDLTimer.h"
 
-@interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
+@interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
     Byte bulkSessionID;
-	BOOL isConnected;
-    BOOL alreadyDestructed;
+    BOOL isConnected;
+    BOOL _alreadyDestructed;
 
 }
 
-@property (strong) SDLAbstractProtocol* protocol;
-@property (strong) NSObject<SDLTransport>* transport;
-@property (strong) NSMutableArray* proxyListeners;
-@property (strong) NSTimer* handshakeTimer;
+@property (strong) SDLAbstractProtocol *protocol;
+@property (strong) SDLAbstractTransport *transport;
+@property (strong) NSMutableArray *proxyListeners;
+@property (strong) SDLTimer *startSessionTimer;
 @property (strong) NSString *debugConsoleGroupName;
+@property (readonly) NSString *proxyVersion;
 
--(id) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener>*) delegate;
+- (id)initWithTransport:(SDLAbstractTransport *)transport
+               protocol:(SDLAbstractProtocol *)protocol
+               delegate:(NSObject<SDLProxyListener> *)delegate;
 
--(void) dispose;
--(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;
+- (void)dispose;
+- (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
 
--(void) sendRPCRequest:(SDLRPCMessage*) msg;
--(void) handleRpcMessage:(NSDictionary*) msg;
+- (void)sendRPCRequest:(SDLRPCMessage *)msg;
+- (void)handleRpcMessage:(NSDictionary *)msg;
+- (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
--(NSString*) getProxyVersion;
-
--(void) destroyHandshakeTimer;
--(void) handleProtocolMessage:(SDLProtocolMessage*) msgData;
-
-+(void)enableSiphonDebug;
-+(void)disableSiphonDebug;
-
--(NSObject<SDLTransport>*)getTransport;
--(SDLAbstractProtocol*)getProtocol;
 
 /**
  * Puts data into a file on the module
@@ -51,6 +45,10 @@
  * This may result in multiple responses being recieved, one for each request.
  * Note: the length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.
  */
-- (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest;
+- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
+
++ (void)enableSiphonDebug;
++ (void)disableSiphonDebug;
+
 
 @end

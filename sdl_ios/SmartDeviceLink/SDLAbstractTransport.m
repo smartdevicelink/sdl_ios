@@ -1,49 +1,37 @@
 //  SDLAbstractTransport.m
-//  SDLAbstractTransport.m
-//
-//  
+//  SyncProxy
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import "SDLAbstractTransport.h"
 
 @implementation SDLAbstractTransport
 
-- (id) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) param {
+- (instancetype)init {
     if (self = [super init]) {
-        _endpointName = endpoint;
-        _endpointParam = param;
-        _debugConsoleGroupName = @"default";
+
     }
     return self;
 }
 
-- (void)notifyTransportConnected {
-    [self.delegate onTransportConnected];
-}
-
-- (void)notifyTransportDisconnected {
-    [self.delegate onTransportDisconnected];
-}
-
-- (void)handleDataReceivedFromTransport:(NSData *)receivedData {
-    [self.delegate onDataReceived:receivedData];
-}
-
-
-#pragma mark SDLTransport Implementation
 - (void)connect {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)disconnect {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendData:(NSData *)dataToSend {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)unregister {
+- (void)dispose {
     [self doesNotRecognizeSelector:_cmd];
+}
+
+- (double)retryDelay {
+    [self doesNotRecognizeSelector:_cmd];
+    return 0.0;
 }
 
 @end

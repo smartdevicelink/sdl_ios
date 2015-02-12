@@ -41,6 +41,11 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)dispose {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+
 #pragma - SDLTransportListener Implementation
 - (void)onTransportConnected {
 	[self.protocolDelegate onProtocolOpened];
