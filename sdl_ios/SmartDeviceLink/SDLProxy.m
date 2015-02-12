@@ -23,6 +23,9 @@
 
 #define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
 
+typedef void (^URLSessionCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
+
+
 @interface SDLProxy ()
 
 {
@@ -393,7 +396,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 #pragma mark OnSystemRequest Handlers
 - (void)handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
     NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
-    if (JSONDictionary == nil) {
+    if (JSONDictionary == nil || request.url == nil) {
         return;
     }
     
@@ -411,7 +414,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
     
     // Send the HTTP Request
-    NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionUploadTask *task = [self uploadTaskForBodyDataDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *logMessage = nil;
         
         if (error) {
@@ -452,19 +455,13 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestQueryApps:(SDLOnSystemRequest *)request {
-    NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
-    if (JSONDictionary == nil) {
-        [SDLDebugTool logInfo:@"OnSystemRequest failure: invalid data received" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-        return;
-    }
-    
-    __block NSURLSessionUploadTask *task = [self uploadTaskForSystemRequestDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *uploadError) {
+    __block NSURLSessionDataTask *task = [self dataTaskForSystemRequestURLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *requestError) {
         if ([self.activeSystemRequestTasks containsObject:task]) {
             [self.activeSystemRequestTasks removeObject:task];
         }
         
-        if (uploadError != nil) {
-            NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), upload task failed: %@", uploadError.localizedDescription];
+        if (requestError != nil) {
+            NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), upload task failed: %@", requestError.localizedDescription];
             [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
             return;
         }
@@ -551,8 +548,10 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @return The upload task, which can be started by calling -[resume]
  */
-- (NSURLSessionUploadTask *)uploadTaskForSystemRequestDictionary:(NSDictionary *)dictionary URLString:(NSString *)URLString completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler {
+- (NSURLSessionUploadTask *)uploadTaskForBodyDataDictionary:(NSDictionary *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionCompletionHandler)completionHandler {
     NSParameterAssert(dictionary != nil);
+    NSParameterAssert(urlString != nil);
+    NSParameterAssert(completionHandler != NULL);
     
     // Extract data from the dictionary
     NSDictionary *requestData = dictionary[@"HTTPRequest"];
@@ -564,19 +563,37 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     
     // NSURLSession configuration
-    NSURL *URL = [NSURL URLWithString:URLString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:contentType forHTTPHeaderField:@"content-type"];
     request.timeoutInterval = timeout;
     request.HTTPMethod = method;
     
     // Logging
-    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", URLString];
+    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", urlString];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    
     
     // Create the upload task
     return [[NSURLSession sharedSession] uploadTaskWithRequest:request fromData:bodyData completionHandler:completionHandler];
+}
+
+/**
+ *  Generate an NSURLSessionDataTask for System Requests
+ *
+ *  @param urlString         A string containing the URL to request data from
+ *  @param completionHandler A completion handler returning the response from the server to the data task
+ *
+ *  @return The data task, which can be started by calling -[resume]
+ */
+- (NSURLSessionDataTask *)dataTaskForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionCompletionHandler)completionHandler {
+    NSParameterAssert(urlString != nil);
+    NSParameterAssert(completionHandler != nil);
+    
+    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request to URL: %@", urlString];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    // Create and return the data task
+    return [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:urlString]];
 }
 
 
