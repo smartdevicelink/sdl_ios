@@ -8,7 +8,8 @@
 
 @property (assign) UInt32 messageID;
 
-- (id)init;
+- (instancetype)init;
+- (instancetype)initWithVersion:(UInt8)version;
 - (id)copyWithZone:(NSZone *)zone;
 - (NSData *)data;
 - (void)parse:(NSData *)data;

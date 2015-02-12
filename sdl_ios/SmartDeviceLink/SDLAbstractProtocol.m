@@ -20,6 +20,10 @@
 	[self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)sendRPC:(SDLRPCMessage *)message {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
     [self doesNotRecognizeSelector:_cmd];
 }

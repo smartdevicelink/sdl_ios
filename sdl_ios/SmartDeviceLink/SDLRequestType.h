@@ -16,5 +16,7 @@
 +(SDLRequestType*) AUTH_CHALLENGE;
 +(SDLRequestType*) AUTH_ACK;
 +(SDLRequestType*) PROPRIETARY;
++(SDLRequestType*) QUERY_APPS;
++(SDLRequestType*) LAUNCH_APP;
 
 @end
