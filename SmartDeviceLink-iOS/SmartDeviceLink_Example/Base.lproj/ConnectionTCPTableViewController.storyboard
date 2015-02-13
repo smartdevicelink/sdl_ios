@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="l5Q-ZP-1BO">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--ConnectionTCP Table View Controller-->
+        <scene sceneID="geJ-kX-PTm">
+            <objects>
+                <tableViewController id="l5Q-ZP-1BO" customClass="ConnectionTCPTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="7ZH-AV-Zyf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="TCP Connection" id="bF6-yi-Ial">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="pbJ-oz-jNt">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pbJ-oz-jNt" id="B7X-yY-lwJ">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="IP Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xqM-s4-9RV">
+                                                    <rect key="frame" x="8" y="8" width="584" height="29"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="xqM-s4-9RV" secondAttribute="bottom" constant="-2" id="X1E-eA-vae"/>
+                                                <constraint firstItem="xqM-s4-9RV" firstAttribute="trailing" secondItem="B7X-yY-lwJ" secondAttribute="trailingMargin" id="YF9-Uh-Yqm"/>
+                                                <constraint firstItem="xqM-s4-9RV" firstAttribute="leading" secondItem="B7X-yY-lwJ" secondAttribute="leadingMargin" id="pBt-SK-tuZ"/>
+                                                <constraint firstItem="xqM-s4-9RV" firstAttribute="top" secondItem="B7X-yY-lwJ" secondAttribute="topMargin" id="vZp-iC-E9j"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="C5b-fS-v3d">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C5b-fS-v3d" id="ZD4-xA-og5">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Port" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hsI-ld-8xY">
+                                                    <rect key="frame" x="8" y="8" width="584" height="29"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hsI-ld-8xY" firstAttribute="top" secondItem="ZD4-xA-og5" secondAttribute="topMargin" id="Khm-re-WDn"/>
+                                                <constraint firstItem="hsI-ld-8xY" firstAttribute="leading" secondItem="ZD4-xA-og5" secondAttribute="leadingMargin" id="oeB-5U-tOl"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hsI-ld-8xY" secondAttribute="bottom" constant="-2" id="oql-Nx-ugT"/>
+                                                <constraint firstItem="hsI-ld-8xY" firstAttribute="trailing" secondItem="ZD4-xA-og5" secondAttribute="trailingMargin" id="wXl-bK-7vU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="l5Q-ZP-1BO" id="kIY-aI-9y3"/>
+                            <outlet property="delegate" destination="l5Q-ZP-1BO" id="nhW-OL-xIC"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="JNL-hN-wDm">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="rXi-EW-KGG">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="TCP Debug"/>
+                                <segment title="iAP"/>
+                            </segments>
+                            <connections>
+                                <action selector="connectionTypeSegmentedControlDidChange:" destination="l5Q-ZP-1BO" eventType="valueChanged" id="uaO-bf-NQR"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="ipAddressTextField" destination="xqM-s4-9RV" id="daz-uN-Rxa"/>
+                        <outlet property="portTextField" destination="hsI-ld-8xY" id="5pF-XP-Xh3"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0fm-wO-kFd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="688" y="506"/>
+        </scene>
+    </scenes>
+</document>
