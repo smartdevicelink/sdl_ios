@@ -16,6 +16,7 @@
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
 		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
 		5D48329D1A8EA33D00252386 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D48329C1A8EA33D00252386 /* Preferences.m */; };
+		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350C1A855EB300687FB9 /* AppDelegate.m */; };
 		5D5935121A855EBE00687FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5935111A855EBE00687FB9 /* main.m */; };
 		5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA201A84237100846EE7 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -572,6 +573,8 @@
 		5D4029E21A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		5D48329B1A8EA33D00252386 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = SmartDeviceLink_Example/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
 		5D48329C1A8EA33D00252386 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = SmartDeviceLink_Example/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
+		5D48329F1A92868E00252386 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = SmartDeviceLink_Example/Classes/ProxyManager.h; sourceTree = SOURCE_ROOT; };
+		5D4832A01A92868E00252386 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = SmartDeviceLink_Example/Classes/ProxyManager.m; sourceTree = SOURCE_ROOT; };
 		5D59350B1A855EB300687FB9 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SmartDeviceLink_Example/Classes/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		5D59350C1A855EB300687FB9 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SmartDeviceLink_Example/Classes/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		5D5935111A855EBE00687FB9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartDeviceLink_Example/Classes/main.m; sourceTree = SOURCE_ROOT; };
@@ -1155,6 +1158,7 @@
 		5D4019B11A76EC350006B0C2 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				5D48329E1A92865900252386 /* SDL */,
 				5D48329A1A8EA31500252386 /* Utilities */,
 				5D0218EB1A8E795700D1BF62 /* UI */,
 				5D59350B1A855EB300687FB9 /* AppDelegate.h */,
@@ -1194,6 +1198,15 @@
 				5D48329C1A8EA33D00252386 /* Preferences.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		5D48329E1A92865900252386 /* SDL */ = {
+			isa = PBXGroup;
+			children = (
+				5D48329F1A92868E00252386 /* ProxyManager.h */,
+				5D4832A01A92868E00252386 /* ProxyManager.m */,
+			);
+			name = SDL;
 			sourceTree = "<group>";
 		};
 		5D5934ED1A85160400687FB9 /* Proxy */ = {
@@ -2317,6 +2330,7 @@
 				5D48329D1A8EA33D00252386 /* Preferences.m in Sources */,
 				5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */,
 				5D5935121A855EBE00687FB9 /* main.m in Sources */,
+				5D4832A11A92868E00252386 /* ProxyManager.m in Sources */,
 				5D0218F61A8E79C400D1BF62 /* ConnectionTCPTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
