@@ -189,6 +189,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLSingleTireStatus.h>
 #import <SmartDeviceLink/SDLSoftButton.h>
 #import <SmartDeviceLink/SDLSoftButtonCapabilities.h>
+#import <SmartDeviceLink/SDLStartTime.h>
 #import <SmartDeviceLink/SDLSyncMsgVersion.h>
 #import <SmartDeviceLink/SDLTextField.h>
 #import <SmartDeviceLink/SDLTireStatus.h>
@@ -252,7 +253,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLSamplingRate.h>
 #import <SmartDeviceLink/SDLSoftButtonType.h>
 #import <SmartDeviceLink/SDLSpeechCapabilities.h>
-#import <SmartDeviceLink/SDLStartTime.h>
 #import <SmartDeviceLink/SDLSystemAction.h>
 #import <SmartDeviceLink/SDLSystemContext.h>
 #import <SmartDeviceLink/SDLTBTState.h>

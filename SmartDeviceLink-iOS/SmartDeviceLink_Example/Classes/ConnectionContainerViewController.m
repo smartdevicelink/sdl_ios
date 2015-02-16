@@ -12,6 +12,7 @@
 #import "ConnectionIAPTableViewController.h"
 
 
+
 @interface ConnectionContainerViewController ()
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *connectionTypeSegmentedControl;
@@ -32,8 +33,8 @@
     UIStoryboard *iapControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionIAPTableViewController" bundle:[NSBundle mainBundle]];
     ConnectionTCPTableViewController *tcpController = [tcpControllerStoryboard instantiateInitialViewController];
     ConnectionIAPTableViewController *iapController = [iapControllerStoryboard instantiateInitialViewController];
-    
     self.viewControllers = @[tcpController, iapController];
+    
     self.connectionTypeSegmentedControl.selectedSegmentIndex = 0;
     [self loadViewControllerForSelectedIndex:0];
 }

@@ -1498,6 +1498,8 @@
 				5D61FBB31A84238B00846EE7 /* SDLSoftButton.m */,
 				5D61FBB41A84238B00846EE7 /* SDLSoftButtonCapabilities.h */,
 				5D61FBB51A84238B00846EE7 /* SDLSoftButtonCapabilities.m */,
+				5D61FBBE1A84238B00846EE7 /* SDLStartTime.h */,
+				5D61FBBF1A84238B00846EE7 /* SDLStartTime.m */,
 				5D61FBC81A84238B00846EE7 /* SDLSyncMsgVersion.h */,
 				5D61FBC91A84238B00846EE7 /* SDLSyncMsgVersion.m */,
 				5D61FBDC1A84238C00846EE7 /* SDLTextField.h */,
@@ -1627,8 +1629,6 @@
 				5D61FBB71A84238B00846EE7 /* SDLSoftButtonType.m */,
 				5D61FBBC1A84238B00846EE7 /* SDLSpeechCapabilities.h */,
 				5D61FBBD1A84238B00846EE7 /* SDLSpeechCapabilities.m */,
-				5D61FBBE1A84238B00846EE7 /* SDLStartTime.h */,
-				5D61FBBF1A84238B00846EE7 /* SDLStartTime.m */,
 				5D61FBCE1A84238B00846EE7 /* SDLSystemAction.h */,
 				5D61FBCF1A84238B00846EE7 /* SDLSystemAction.m */,
 				5D61FBD01A84238B00846EE7 /* SDLSystemContext.h */,
@@ -2748,7 +2748,7 @@
 				);
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2768,7 +2768,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

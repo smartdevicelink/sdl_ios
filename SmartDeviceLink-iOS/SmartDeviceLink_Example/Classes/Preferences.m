@@ -82,15 +82,19 @@ NSString *const DefaultPortValue = @"12345";
 #pragma mark - Private User Defaults Helpers
 
 - (void)setString:(NSString *)aString forKey:(NSString *)aKey {
+    NSParameterAssert(aKey != nil);
+    
     dispatch_async(self.class.preferencesQueue, ^{
         [[NSUserDefaults standardUserDefaults] setObject:aString forKey:aKey];
     });
 }
 
-- (NSString *)stringForKey:(NSString *)key {
+- (NSString *)stringForKey:(NSString *)aKey {
+    NSParameterAssert(aKey != nil);
+    
     __block NSString *retVal = nil;
     dispatch_sync(self.class.preferencesQueue, ^{
-        retVal = [[NSUserDefaults standardUserDefaults] stringForKey:key];
+        retVal = [[NSUserDefaults standardUserDefaults] stringForKey:aKey];
     });
     
     return retVal;
