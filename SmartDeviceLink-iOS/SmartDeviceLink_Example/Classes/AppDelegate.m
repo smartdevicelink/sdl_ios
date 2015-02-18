@@ -8,15 +8,20 @@
 
 #import "AppDelegate.h"
 
+#import "ProxyManager.h"
+
+
 @interface AppDelegate ()
 
 @end
+
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[ProxyManager sharedManager] startProxyWithTransportType:ProxyTransportTypeTCP];
+    
     return YES;
 }
 

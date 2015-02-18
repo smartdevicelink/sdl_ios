@@ -13,6 +13,7 @@
 #import "Preferences.h"
 
 
+
 NSString *const SDLAppName = @"SDL Test";
 NSString *const SDLAppId = @"9999";
 
@@ -74,10 +75,10 @@ NSString *const SDLAppId = @"9999";
     
     switch (transportType) {
         case ProxyTransportTypeTCP: {
-            self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+            self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:[Preferences sharedPreferences].ipAddress tcpPort:[Preferences sharedPreferences].port];
         } break;
         case ProxyTransportTypeIAP: {
-            self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:[Preferences sharedPreferences].ipAddress tcpPort:[Preferences sharedPreferences].port];
+            self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
         } break;
         default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
     }
@@ -129,7 +130,7 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-    if (notification.hmiLevel == [SDLHMILevel HMI_FULL] && self.isFirstHMIFull) {
+    if ((notification.hmiLevel == [SDLHMILevel HMI_FULL]) && self.isFirstHMIFull) {
         [self showInitialData];
         self.isFirstHMIFull = NO;
     }

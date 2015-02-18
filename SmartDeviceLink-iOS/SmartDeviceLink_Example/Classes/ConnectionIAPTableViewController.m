@@ -8,93 +8,89 @@
 
 #import "ConnectionIAPTableViewController.h"
 
+#import "ProxyManager.h"
+
+
+
 @interface ConnectionIAPTableViewController ()
 
+@property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+
 @end
+
+
 
 @implementation ConnectionIAPTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    // Observe Proxy Manager state
+    [[ProxyManager sharedManager] addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:(NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew) context:nil];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    // Tableview setup
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
-    // Configure the cell...
-    
-    return cell;
+    // Connect Button setup
+    self.connectButton.tintColor = [UIColor whiteColor];
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)dealloc {
+    @try {
+        [[ProxyManager sharedManager] removeObserver:self forKeyPath:NSStringFromSelector(@selector(state))];
+    } @catch (NSException __unused *exception) {}
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+
+#pragma mark - IBActions
+
+- (IBAction)connectButtonWasPressed:(UIButton *)sender {
+    ProxyState state = [ProxyManager sharedManager].state;
+    switch (state) {
+        case ProxyStateStopped: {
+            [[ProxyManager sharedManager] startProxyWithTransportType:ProxyTransportTypeIAP];
+        } break;
+        case ProxyStateSearchingForConnection: {
+            [[ProxyManager sharedManager] stopProxy];
+        } break;
+        case ProxyStateConnected: {
+            [[ProxyManager sharedManager] stopProxy];
+        } break;
+        default: break;
+    }
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(state))]) {
+        ProxyState newState = [change[NSKeyValueChangeNewKey] unsignedIntegerValue];
+        [self proxyManagerDidChangeState:newState];
+    }
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+
+#pragma mark - Private Methods
+
+- (void)proxyManagerDidChangeState:(ProxyState)newState {
+    switch (newState) {
+        case ProxyStateStopped: {
+            self.connectTableViewCell.backgroundColor = [UIColor redColor];
+            self.connectButton.titleLabel.text = @"Connect";
+        } break;
+        case ProxyStateSearchingForConnection: {
+            self.connectTableViewCell.backgroundColor = [UIColor blueColor];
+            self.connectButton.titleLabel.text = @"Stop Searching";
+        } break;
+        case ProxyStateConnected: {
+            self.connectTableViewCell.backgroundColor = [UIColor greenColor];
+            self.connectButton.titleLabel.text = @"Disconnect";
+        } break;
+        default: break;
+    }
 }
-*/
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
