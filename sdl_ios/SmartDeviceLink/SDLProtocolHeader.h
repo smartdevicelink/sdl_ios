@@ -13,7 +13,9 @@ typedef NS_ENUM(UInt8, SDLFrameType) {
 
 typedef NS_ENUM(UInt8, SDLServiceType) {
 	SDLServiceType_RPC = 7,
-	SDLServiceType_BulkData = 0xF,
+    FMCServiceType_Audio = 10,
+    FMCServiceType_Video = 11,
+	SDLServiceType_BulkData = 15
 };
 
 typedef NS_ENUM(UInt8, SDLFrameData) {

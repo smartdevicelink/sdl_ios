@@ -256,23 +256,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 }
 
-- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
-
-    SDLDataStreamHandlingDelegate *streamDelegate = [SDLDataStreamHandlingDelegate new];
-    streamDelegate.serviceType = serviceType;
-    streamDelegate.protocol = self;
-    objc_setAssociatedObject(inputStream, @"RetainedDelegate", streamDelegate, OBJC_ASSOCIATION_RETAIN);
-
-
-    inputStream.delegate = streamDelegate;
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [inputStream open];
-
-    // Stream events start getting processed and when there is data available it calls
-    // back to sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType
-
-}
-
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     SDLV2ProtocolHeader *header = [SDLV2ProtocolHeader new];
     header.frameType = SDLFrameType_Single;

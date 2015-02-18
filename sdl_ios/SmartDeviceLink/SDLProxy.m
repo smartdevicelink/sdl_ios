@@ -39,7 +39,7 @@ typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *respo
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 - (void)OESPHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
 - (void)OSRHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
-- (void)sendDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType;
+- (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType;
 
 @end
 
@@ -503,13 +503,28 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 }
 
-
-#pragma mark - PutFile Streaming
-- (void)sendDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
-
-    [self.protocol sendRawDataStream:inputStream withServiceType:serviceType];
+- (void)startAudioSession {
+    [self.protocol sendStartSessionWithType:FMCServiceType_Audio];
 }
 
+- (void)sendAudioData:(NSData *)data {
+    [self sendData:data withServiceType:FMCServiceType_Audio];
+}
+
+- (void)startVideoSession {
+    [self.protocol sendStartSessionWithType:FMCServiceType_Video];
+}
+
+- (void)sendVideoData:(NSData *)data {
+    [self sendData:data withServiceType:FMCServiceType_Video];
+}
+
+- (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
+
+    [self.protocol sendRawData:data withServiceType:serviceType];
+}
+
+#pragma mark - PutFile Streaming
 - (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest
 {
     inputStream.delegate = self;

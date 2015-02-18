@@ -521,7 +521,7 @@
 		E933AF7B1A8A8082006549B9 /* SDLStreamDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E933AF791A8A8082006549B9 /* SDLStreamDelegate.m */; };
 		E933AF7E1A8A8099006549B9 /* NSThread+ThreadIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = E933AF7C1A8A8099006549B9 /* NSThread+ThreadIndex.h */; };
 		E933AF7F1A8A8099006549B9 /* NSThread+ThreadIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = E933AF7D1A8A8099006549B9 /* NSThread+ThreadIndex.m */; };
-		E933AF821A8A80B3006549B9 /* SDLTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = E933AF801A8A80B3006549B9 /* SDLTimer.h */; };
+		E933AF821A8A80B3006549B9 /* SDLTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = E933AF801A8A80B3006549B9 /* SDLTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E933AF831A8A80B3006549B9 /* SDLTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = E933AF811A8A80B3006549B9 /* SDLTimer.m */; };
 		E98A9C8719C74C7400C84B3F /* SDLObjectWithPriority.h in Headers */ = {isa = PBXBuildFile; fileRef = E98A9C8519C74C7400C84B3F /* SDLObjectWithPriority.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E98A9C8819C74C7400C84B3F /* SDLObjectWithPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = E98A9C8619C74C7400C84B3F /* SDLObjectWithPriority.m */; };
@@ -1712,6 +1712,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E933AF821A8A80B3006549B9 /* SDLTimer.h in Headers */,
 				59A031AB1978FBAE003E8ECF /* SDLSoftButton.h in Headers */,
 				59A0310D1978FBA6003E8ECF /* SDLSetMediaClockTimer.h in Headers */,
 				59A0312D1978FBA7003E8ECF /* SDLAlertResponse.h in Headers */,
@@ -1811,7 +1812,6 @@
 				59A0315B1978FBA9003E8ECF /* SDLSetGlobalPropertiesResponse.h in Headers */,
 				59A030591978FBA1003E8ECF /* SDLGlobalProperty.h in Headers */,
 				59A0300A1978FBA1003E8ECF /* SDLV2ProtocolMessage.h in Headers */,
-				E933AF821A8A80B3006549B9 /* SDLTimer.h in Headers */,
 				59A031BD1978FBB0003E8ECF /* SDLTTSChunk.h in Headers */,
 				59A0315F1978FBAA003E8ECF /* SDLShowConstantTBTResponse.h in Headers */,
 				59A031691978FBAA003E8ECF /* SDLSubscribeVehicleDataResponse.h in Headers */,

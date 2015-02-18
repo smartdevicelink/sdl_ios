@@ -14,7 +14,6 @@
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType;
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest;
 - (void)sendHeartbeat;
-- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType;
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType;
 
 // Recieving
