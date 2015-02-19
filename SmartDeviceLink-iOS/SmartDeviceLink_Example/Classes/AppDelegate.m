@@ -20,7 +20,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [[ProxyManager sharedManager] startProxyWithTransportType:ProxyTransportTypeTCP];
     
     return YES;
 }

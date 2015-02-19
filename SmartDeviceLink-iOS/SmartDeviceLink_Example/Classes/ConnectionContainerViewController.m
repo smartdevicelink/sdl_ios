@@ -10,6 +10,8 @@
 
 #import "ConnectionTCPTableViewController.h"
 #import "ConnectionIAPTableViewController.h"
+#import "ConnectionTransitionContext.h"
+#import "ConnectionAnimatedTransition.h"
 
 
 
@@ -29,6 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.translucent = NO;
+    
     UIStoryboard *tcpControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionTCPTableViewController" bundle:[NSBundle mainBundle]];
     UIStoryboard *iapControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionIAPTableViewController" bundle:[NSBundle mainBundle]];
     ConnectionTCPTableViewController *tcpController = [tcpControllerStoryboard instantiateInitialViewController];
@@ -36,48 +40,71 @@
     self.viewControllers = @[tcpController, iapController];
     
     self.connectionTypeSegmentedControl.selectedSegmentIndex = 0;
-    [self loadViewControllerForSelectedIndex:0];
+    [self loadInitialChildViewController];
+}
+
+- (void)loadInitialChildViewController {
+    // On the initial load, we just add the new child VC with no animation
+    UIViewController *initialViewController = self.viewControllers[0];
+    [self addChildViewController:initialViewController];
+    [self.view addSubview:initialViewController.view];
+    [initialViewController didMoveToParentViewController:self];
+    
+    self.currentViewController = initialViewController;
 }
 
 
 #pragma mark - IBActions
 
 - (IBAction)connectionTypeSegmentedControlSelectedIndexDidChange:(UISegmentedControl *)sender {
-    [self loadViewControllerForSelectedIndex:sender.selectedSegmentIndex];
+    [self transitionToViewControllerForSelectedIndex:sender.selectedSegmentIndex];
 }
 
 
 #pragma mark - Private API
 
-- (void)loadViewControllerForSelectedIndex:(NSInteger)selectedIndex {
-    UIViewController *viewController = self.viewControllers[selectedIndex];
+- (void)transitionToViewControllerForSelectedIndex:(NSInteger)selectedIndex {
+    UIViewController *toViewController = self.viewControllers[selectedIndex];
     
-    if (viewController == nil || viewController == self.currentViewController) {
+    if (toViewController == nil || toViewController == self.currentViewController) {
         return;
     }
     
-    if (self.currentViewController != nil) {
-        [self.currentViewController willMoveToParentViewController:nil];
-        [self addChildViewController:viewController];
+    [self.currentViewController willMoveToParentViewController:nil];
+    [self addChildViewController:toViewController];
+
+    id<UIViewControllerAnimatedTransitioning> animator = [[ConnectionAnimatedTransition alloc] init];
+    NSUInteger fromIndex = [self.viewControllers indexOfObject:self.currentViewController];
+    
+    ConnectionTransitionContext *transitionContext = [[ConnectionTransitionContext alloc] initWithFromViewController:self.currentViewController toViewController:toViewController direction:((selectedIndex > fromIndex) ? ConnectionTransitionDirectionRight : ConnectionTransitionDirectionLeft) transitionComplete:^(BOOL didComplete) {
+        [self.currentViewController.view removeFromSuperview];
+        [self.currentViewController removeFromParentViewController];
+        [toViewController didMoveToParentViewController:self];
         
-        viewController.view.alpha = 0.0;
-        [self transitionFromViewController:self.currentViewController toViewController:viewController duration:0.25 options:(UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionCurveEaseOut) animations:^{
-            self.currentViewController.view.alpha = 0.0;
-            viewController.view.alpha = 1.0;
-        } completion:^(BOOL finished) {
-            NSLog(@"Transition Connection Container View Controller complete");
-            [self.currentViewController removeFromParentViewController];
-            [viewController didMoveToParentViewController:self];
-            
-            self.currentViewController = viewController;
-        }];
-    } else {
-        [self addChildViewController:viewController];
-        [self.view addSubview:viewController.view];
-        [viewController didMoveToParentViewController:self];
+        if ([animator respondsToSelector:@selector(animationEnded:)]) {
+            [animator animationEnded:didComplete];
+        }
         
-        self.currentViewController = viewController;
-    }
+        self.connectionTypeSegmentedControl.userInteractionEnabled = YES;
+        self.currentViewController = toViewController;
+    }];
+    transitionContext.animated = YES;
+    transitionContext.interactive = NO;
+    
+    self.connectionTypeSegmentedControl.userInteractionEnabled = NO;
+    [animator animateTransition:transitionContext];
+    
+//    toViewController.view.alpha = 0.0;
+//    [self transitionFromViewController:self.currentViewController toViewController:toViewController duration:0.25 options:(UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionCurveEaseOut) animations:^{
+//        self.currentViewController.view.alpha = 0.0;
+//        toViewController.view.alpha = 1.0;
+//    } completion:^(BOOL finished) {
+//        NSLog(@"Transition Connection Container View Controller complete");
+//        [self.currentViewController removeFromParentViewController];
+//        [toViewController didMoveToParentViewController:self];
+//        
+//        self.currentViewController = toViewController;
+//    }];
 }
 
 @end
