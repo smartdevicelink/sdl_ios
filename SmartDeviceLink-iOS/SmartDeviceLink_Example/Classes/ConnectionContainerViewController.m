@@ -18,9 +18,10 @@
 @interface ConnectionContainerViewController ()
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *connectionTypeSegmentedControl;
-
 @property (strong, nonatomic) NSArray *viewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
+
+@property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
 @end
 
@@ -33,12 +34,18 @@
     
     self.navigationController.navigationBar.translucent = NO;
     
+    // Setup the child VCs
     UIStoryboard *tcpControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionTCPTableViewController" bundle:[NSBundle mainBundle]];
     UIStoryboard *iapControllerStoryboard = [UIStoryboard storyboardWithName:@"ConnectionIAPTableViewController" bundle:[NSBundle mainBundle]];
     ConnectionTCPTableViewController *tcpController = [tcpControllerStoryboard instantiateInitialViewController];
     ConnectionIAPTableViewController *iapController = [iapControllerStoryboard instantiateInitialViewController];
     self.viewControllers = @[tcpController, iapController];
     
+    // Setup the pan gesture
+    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognizerDidFire:)];
+    [self.view addGestureRecognizer:self.panGestureRecognizer];
+    
+    // Setup initial view controller state
     self.connectionTypeSegmentedControl.selectedSegmentIndex = 0;
     [self loadInitialChildViewController];
 }
@@ -58,6 +65,26 @@
 
 - (IBAction)connectionTypeSegmentedControlSelectedIndexDidChange:(UISegmentedControl *)sender {
     [self transitionToViewControllerForSelectedIndex:sender.selectedSegmentIndex];
+}
+
+
+#pragma mark - Gestures
+
+- (void)panGestureRecognizerDidFire:(UIPanGestureRecognizer *)gesture {
+    BOOL goingRight = ([gesture velocityInView:gesture.view].x < 0.0f);
+    
+    NSUInteger currentSegmentIndex = self.connectionTypeSegmentedControl.selectedSegmentIndex;
+    if (goingRight && (currentSegmentIndex != self.viewControllers.count - 1)) {
+        // If we're swiping left (going right) and current segment is not all the way to the right
+        NSUInteger nextIndex = currentSegmentIndex + 1;
+        self.connectionTypeSegmentedControl.selectedSegmentIndex = nextIndex;
+        [self transitionToViewControllerForSelectedIndex:nextIndex];
+    } else if (!goingRight && (currentSegmentIndex > 0)) {
+        // If we're swiping right (going left) and the current segment is not all the way to the left
+        NSUInteger nextIndex = currentSegmentIndex - 1;
+        self.connectionTypeSegmentedControl.selectedSegmentIndex = nextIndex;
+        [self transitionToViewControllerForSelectedIndex:nextIndex];
+    }
 }
 
 
