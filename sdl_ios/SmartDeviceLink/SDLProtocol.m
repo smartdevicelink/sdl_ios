@@ -15,7 +15,6 @@
 #import "SDLRPCPayload.h"
 #import "SDLDebugTool.h"
 #import "SDLPrioritizedObjectCollection.h"
-#import "SDLDataStreamHandlingDelegate.h"
 
 
 const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
@@ -80,6 +79,10 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
+
+    if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
+        header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
@@ -260,12 +263,21 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     SDLV2ProtocolHeader *header = [SDLV2ProtocolHeader new];
     header.frameType = SDLFrameType_Single;
     header.serviceType = serviceType;
-    header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
+    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
-
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-    [self sendDataToTransport:message.data withPriority:header.serviceType];
+
+    if (message.size < MAX_TRANSMISSION_SIZE) {
+        [self logRPCSend:message];
+        [self sendDataToTransport:message.data withPriority:header.serviceType];
+    } else {
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:MAX_TRANSMISSION_SIZE];
+        for (SDLProtocolMessage *smallerMessage in messages) {
+            [self logRPCSend:smallerMessage];
+            [self sendDataToTransport:smallerMessage.data withPriority:header.serviceType];
+        }
+    }
 }
 
 
