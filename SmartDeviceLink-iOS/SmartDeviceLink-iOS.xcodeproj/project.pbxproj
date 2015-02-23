@@ -26,7 +26,6 @@
 		5D61FA301A84237100846EE7 /* SmartDeviceLinkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FA2F1A84237100846EE7 /* SmartDeviceLinkTests.m */; };
 		5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5D61FA341A84237100846EE7 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5D61FC281A84238C00846EE7 /* ISDLProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA3B1A84238A00846EE7 /* ISDLProxy.h */; };
 		5D61FC291A84238C00846EE7 /* SDLAbstractProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA3C1A84238A00846EE7 /* SDLAbstractProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FC2A1A84238C00846EE7 /* SDLAbstractProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FA3D1A84238A00846EE7 /* SDLAbstractProtocol.m */; };
 		5D61FC2B1A84238C00846EE7 /* SDLAbstractTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA3E1A84238A00846EE7 /* SDLAbstractTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -590,7 +589,6 @@
 		5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartDeviceLinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA2E1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA2F1A84237100846EE7 /* SmartDeviceLinkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SmartDeviceLinkTests.m; sourceTree = "<group>"; };
-		5D61FA3B1A84238A00846EE7 /* ISDLProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDLProxy.h; sourceTree = "<group>"; };
 		5D61FA3C1A84238A00846EE7 /* SDLAbstractProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAbstractProtocol.h; sourceTree = "<group>"; };
 		5D61FA3D1A84238A00846EE7 /* SDLAbstractProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAbstractProtocol.m; sourceTree = "<group>"; };
 		5D61FA3E1A84238A00846EE7 /* SDLAbstractTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAbstractTransport.h; sourceTree = "<group>"; };
@@ -1716,7 +1714,6 @@
 		5D5934F61A85189500687FB9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				5D5934FC1A851B0B00687FB9 /* @protocols */,
 				5D5934F71A8519A700687FB9 /* JSON */,
 				5D5934F91A851A8000687FB9 /* Prioritized Objects */,
 				5D61FAD21A84238A00846EE7 /* SDLHexUtility.h */,
@@ -1798,14 +1795,6 @@
 			isa = PBXGroup;
 			children = (
 				5D61FB5A1A84238B00846EE7 /* SDLProtocolListener.h */,
-			);
-			name = "@protocols";
-			sourceTree = "<group>";
-		};
-		5D5934FC1A851B0B00687FB9 /* @protocols */ = {
-			isa = PBXGroup;
-			children = (
-				5D61FA3B1A84238A00846EE7 /* ISDLProxy.h */,
 			);
 			name = "@protocols";
 			sourceTree = "<group>";
@@ -2176,7 +2165,6 @@
 				5D61FD691A84238C00846EE7 /* SDLRPCMessage.h in Headers */,
 				5D61FCA71A84238C00846EE7 /* SDLEnum.h in Headers */,
 				5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */,
-				5D61FC281A84238C00846EE7 /* ISDLProxy.h in Headers */,
 				5D61FDF51A84238C00846EE7 /* SDLV1ProtocolHeader.h in Headers */,
 				5D61FDF91A84238C00846EE7 /* SDLV2ProtocolHeader.h in Headers */,
 				5D61FD4A1A84238C00846EE7 /* SDLProtocolMessageAssembler.h in Headers */,
