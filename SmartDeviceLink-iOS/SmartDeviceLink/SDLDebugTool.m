@@ -4,7 +4,6 @@
 
 #import "SDLDebugTool.h"
 #import "SDLRPCMessage.h"
-#import "SDLSiphonServer.h"
 #import "SDLHexUtility.h"
 
 #define LOG_ERROR_ENABLED
@@ -113,11 +112,6 @@ bool debugToLogFile = false;
     if (output & SDLDebugOutput_File) {
         [SDLDebugTool writeToLogFile:outputString];
     }
-
-    //Output To Siphon
-    [SDLSiphonServer init];
-    [SDLSiphonServer _siphonNSLogData:outputString];
-
 }
 
 

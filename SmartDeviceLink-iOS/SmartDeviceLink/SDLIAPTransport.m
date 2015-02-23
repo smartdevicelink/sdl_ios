@@ -7,7 +7,6 @@
 
 #import "SDLIAPTransport.h"
 #import "SDLDebugTool.h"
-#import "SDLSiphonServer.h"
 
 #define LEGACY_PROTOCOL_STRING @"com.ford.sync.prot0"
 #define CONTROL_PROTOCOL_STRING @"com.smartdevicelink.prot0"
@@ -46,8 +45,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accessoryDisconnected:) name:EAAccessoryDidDisconnectNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        
-        [SDLSiphonServer init];
     }
     return self;
 }

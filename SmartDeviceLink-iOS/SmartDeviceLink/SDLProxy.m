@@ -12,7 +12,6 @@
 #import "SDLJsonEncoder.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
-#import "SDLSiphonServer.h"
 #import "SDLProxy.h"
 #import "SDLSystemRequest.h"
 #import "SDLRPCPayload.h"
@@ -579,16 +578,6 @@ const int POLICIES_CORRELATION_ID = 65535;
             break;
         }
     }
-}
-
-
-#pragma mark - Siphon management
-+(void)enableSiphonDebug {
-    [SDLSiphonServer enableSiphonDebug];
-}
-
-+(void)disableSiphonDebug {
-    [SDLSiphonServer disableSiphonDebug];
 }
 
 @end

@@ -37,9 +37,6 @@
 -(void) destroyHandshakeTimer;
 -(void) handleProtocolMessage:(SDLProtocolMessage*) msgData;
 
-+(void)enableSiphonDebug;
-+(void)disableSiphonDebug;
-
 -(NSObject<SDLTransport>*)getTransport;
 -(NSObject<SDLInterfaceProtocol>*)getProtocol;
 
