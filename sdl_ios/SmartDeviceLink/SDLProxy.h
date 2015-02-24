@@ -37,8 +37,11 @@
 
 - (void)startAudioSession;
 - (void)sendAudioData:(NSData *)data;
+- (void)stopAudioSession;
+
 - (void)startVideoSession;
 - (void)sendVideoData:(NSData *)data;
+- (void)stopVideoSession;
 
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 

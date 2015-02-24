@@ -64,7 +64,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 - (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
 
-    NSNumber *number = [_sessionIDs objectForKey:[NSNumber numberWithUnsignedChar:serviceType]];
+    NSNumber *number = _sessionIDs[@(serviceType)];
     if (!number) {
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
@@ -94,7 +94,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
-    header.frameData = SDLFrameData_StartSession;
+    header.frameData = SDLFrameData_EndSession;
     header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];

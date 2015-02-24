@@ -293,7 +293,6 @@
 
         // Data Session Has Bytes Handler
         ioStreamDelegate.streamHasBytesHandler = ^(NSInputStream *istream){
-            [SDLDebugTool logInfo:@"Receiving Data"];
             uint8_t buf[IAP_INPUT_BUFFER_SIZE];
 
             while ([istream hasBytesAvailable])

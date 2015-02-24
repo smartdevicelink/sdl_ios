@@ -511,6 +511,10 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self sendData:data withServiceType:FMCServiceType_Audio];
 }
 
+- (void)stopAudioSession {
+    [self.protocol sendEndSessionWithType:FMCServiceType_Audio];
+}
+
 - (void)startVideoSession {
     [self.protocol sendStartSessionWithType:FMCServiceType_Video];
 }
@@ -519,8 +523,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self sendData:data withServiceType:FMCServiceType_Video];
 }
 
-- (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
+- (void)stopVideoSession {
+    [self.protocol sendEndSessionWithType:FMCServiceType_Video];
+}
 
+- (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     [self.protocol sendRawData:data withServiceType:serviceType];
 }
 
