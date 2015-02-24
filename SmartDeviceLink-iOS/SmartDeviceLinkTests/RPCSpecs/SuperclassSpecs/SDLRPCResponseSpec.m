@@ -1,0 +1,34 @@
+//
+//  SDLRPCResponse.m
+//  SmartDeviceLink-iOS
+//
+//  Created by Jacob Keeler on 2/12/15.
+//  Copyright (c) 2015 Ford Motor Company. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
+#import "SDLRPCResponse.h"
+
+QuickSpecBegin(SDLRPCResponseSpec)
+
+describe(@"Getter/Setter Tests",  ^ {
+    it(@"Should set and get correctly", ^ {
+        SDLRPCResponse* response = [[SDLRPCResponse alloc] initWithName:@"A Legitimate Response"];
+        
+        response.correlationID = @14641;
+        response.success = [NSNumber numberWithBool:YES];
+        response.resultCode = [SDLResult IGNORED];
+        response.info = @"It has been done";
+        
+        expect(response.correlationID).to(equal(@14641));
+        expect(response.success).to(equal([NSNumber numberWithBool:YES]));
+        expect(response.resultCode).to(equal([SDLResult IGNORED]));
+        expect(response.info).to(equal(@"It has been done"));
+    });
+});
+
+QuickSpecEnd

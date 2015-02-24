@@ -1,0 +1,782 @@
+//
+//  SmartDeviceLinkTests.m
+//  SmartDeviceLinkTests
+//
+//  Created by Jacob Keeler on 1/15/15.
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
+//#define EXP_SHORTHAND
+
+#import <Foundation/Foundation.h>
+
+#import <Quick/Quick.h>
+#import <Nimble/Nimble.h>
+
+#import "SDLRPCRequestFactory.h"
+#import "SDLSoftButton.h"
+#import "SDLTTSChunk.h"
+#import "SDLChoice.h"
+#import "SDLVrHelpItem.h"
+#import "SDLGlobalProperty.h"
+
+QuickSpecBegin(SDLRPCRequestFactorySpec)
+
+describe(@"BuildAddCommand Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLAddCommand* message = [SDLRPCRequestFactory buildAddCommandWithID:@33 menuName:@"Menu" parentID:@4 position:@500
+                                                       vrCommands:nil iconValue:@"No" iconType:[SDLImageType STATIC] correlationID:@94];
+        expect([message menuParams].position).to(equal(@500));
+        expect([message menuParams].menuName).to(equal(@"Menu"));
+        expect([message menuParams].parentID).to(equal(@4));
+        expect([message cmdIcon].value).to(equal(@"No"));
+        expect([message cmdIcon].imageType).to(equal([SDLImageType STATIC]));
+        expect(message.vrCommands).to(beNil());
+        expect(message.cmdID).to(equal(@33));
+        expect(message.correlationID).to(equal(@94));
+    
+        NSArray* aliases = @[@"Joe1", @"Joe2", @"Joe3",
+                             @"--------------------------------ASLONGOFASTRINGASICANPOSSIBLYMAKEINASINGLELINE---------------------------------"];
+        message = [SDLRPCRequestFactory buildAddCommandWithID:@276 menuName:@"Arbitrary" vrCommands:aliases correlationID:@200];
+        
+        expect([message menuParams].position).to(beNil());
+        expect([message menuParams].menuName).to(equal(@"Arbitrary"));
+        expect([message menuParams].parentID).to(beNil());
+        expect(message.vrCommands).to(equal(aliases));
+        expect(message.cmdIcon).to(beNil());
+        expect(message.cmdID).to(equal(@276));
+        expect(message.correlationID).to(equal(@200));
+    
+        message = [SDLRPCRequestFactory buildAddCommandWithID:@9001 vrCommands:@[@"   ", @"  ", @" ", @""] correlationID:@27];
+        
+        expect(message.menuParams).to(beNil());
+        expect(message.vrCommands).to(equal(@[@"   ", @"  ", @" ", @""]));
+        expect(message.cmdIcon).to(beNil());
+        expect(message.cmdID).to(equal(@9001));
+        expect(message.correlationID).to(equal(@27));
+    });
+});
+
+describe(@"BuildAddSubMenu Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLAddSubMenu* message = [SDLRPCRequestFactory buildAddSubMenuWithID:@234234 menuName:@"QWERTY" position:@3 correlationID:@13];
+    
+        expect(message.menuName).to(equal(@"QWERTY"));
+        expect(message.position).to(equal(@3));
+        expect(message.menuID).to(equal(@234234));
+        expect(message.correlationID).to(equal(@13));
+    
+        message = [SDLRPCRequestFactory buildAddSubMenuWithID:@444 menuName:@"Words" correlationID:@423];
+    
+        expect(message.menuName).to(equal(@"Words"));
+        expect(message.position).to(beNil());
+        expect(message.menuID).to(equal(@444));
+        expect(message.correlationID).to(equal(@423));
+    });
+});
+
+describe(@"BuildAlert Tests", ^ {
+    describe(@"With Text", ^ {
+        it(@"Should build correctly", ^ {
+            NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+            SDLAlert* message = [SDLRPCRequestFactory buildAlertWithAlertText1:@"String1" alertText2:@"String2" alertText3:@"String3"
+                                                      duration:@9999 softButtons:softButtons correlationID:@41];
+            
+            expect(message.alertText1).to(equal(@"String1"));
+            expect(message.alertText2).to(equal(@"String2"));
+            expect(message.alertText3).to(equal(@"String3"));
+            expect(message.ttsChunks).to(beNil());
+            expect(message.duration).to(equal(@9999));
+            expect(message.playTone).to(beNil());
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(equal(softButtons));
+            expect(message.correlationID).to(equal(@41));
+        
+            message = [SDLRPCRequestFactory buildAlertWithAlertText1:@"Alarming" alertText2:@"Astonishing" alertText3:@"Attention"
+                                            duration:@3000 correlationID:@11234];
+        
+            expect(message.alertText1).to(equal(@"Alarming"));
+            expect(message.alertText2).to(equal(@"Astonishing"));
+            expect(message.alertText3).to(equal(@"Attention"));
+            expect(message.ttsChunks).to(beNil());
+            expect(message.duration).to(equal(@3000));
+            expect(message.playTone).to(beNil());
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(beNil());
+            expect(message.correlationID).to(equal(@11234));
+            
+            message = [SDLRPCRequestFactory buildAlertWithAlertText1:@"1" alertText2:@"2" duration:@4153 correlationID:@1432143];
+            
+            expect(message.alertText1).to(equal(@"1"));
+            expect(message.alertText2).to(equal(@"2"));
+            expect(message.alertText3).to(beNil());
+            expect(message.ttsChunks).to(beNil());
+            expect(message.duration).to(equal(@4153));
+            expect(message.playTone).to(beNil());
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(beNil());
+            expect(message.correlationID).to(equal(@1432143));
+        });
+    });
+    
+    describe(@"With TTS", ^ {
+        it(@"Should build correctly", ^ {
+            SDLAlert* message = [SDLRPCRequestFactory buildAlertWithTTS:@"Wat" alertText1:@"11" alertText2:@"12" alertText3:@"13"
+                                                      playTone:[NSNumber numberWithBool:NO] duration:@3424 correlationID:@9999999];
+            
+            expect(message.alertText1).to(equal(@"11"));
+            expect(message.alertText2).to(equal(@"12"));
+            expect(message.alertText3).to(equal(@"13"));
+            expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Wat"));
+            expect(message.duration).to(equal(@3424));
+            expect(message.playTone).to(equal([NSNumber numberWithBool:NO]));
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(beNil());
+            expect(message.correlationID).to(equal(@9999999));
+            
+            message = [SDLRPCRequestFactory buildAlertWithTTS:@"Say This" alertText1:@"hgkj" alertText2:@"bgydhgfc"
+                                            playTone:[NSNumber numberWithBool:YES]  duration:@6546 correlationID:@65436786];
+            
+            expect(message.alertText1).to(equal(@"hgkj"));
+            expect(message.alertText2).to(equal(@"bgydhgfc"));
+            expect(message.alertText3).to(beNil());
+            expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Say This"));
+            expect(message.duration).to(equal(@6546));
+            expect(message.playTone).to(equal([NSNumber numberWithBool:YES]));
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(beNil());
+            expect(message.correlationID).to(equal(@65436786));
+            
+            message = [SDLRPCRequestFactory buildAlertWithTTS:@"Surprise" playTone:[NSNumber numberWithBool:YES] correlationID:@34];
+            
+            expect(message.alertText1).to(beNil());
+            expect(message.alertText2).to(beNil());
+            expect(message.alertText3).to(beNil());
+            expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Surprise"));
+            expect(message.duration).to(beNil());
+            expect(message.playTone).to(equal([NSNumber numberWithBool:YES]));
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(beNil());
+            expect(message.correlationID).to(equal(@34));
+        });
+    });
+    
+    describe(@"With TTSChunks", ^ {
+        it(@"Should build correctly", ^ {
+            NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+            NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
+            SDLAlert* message = [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks alertText1:@"Astonish" alertText2:@"Hi" alertText3:@"Alert"
+                                                      playTone:[NSNumber numberWithBool:NO] duration:@4145 softButtons:softButtons correlationID:@19];
+            
+            expect(message.alertText1).to(equal(@"Astonish"));
+            expect(message.alertText2).to(equal(@"Hi"));
+            expect(message.alertText3).to(equal(@"Alert"));
+            expect(message.ttsChunks).to(equal(ttsChunks));
+            expect(message.duration).to(equal(@4145));
+            expect(message.playTone).to(equal([NSNumber numberWithBool:NO]));
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(equal(softButtons));
+            expect(message.correlationID).to(equal(@19));
+            
+            message = [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks playTone:[NSNumber numberWithBool:YES] correlationID:@1234321];
+            
+            expect(message.alertText1).to(beNil());
+            expect(message.alertText2).to(beNil());
+            expect(message.alertText3).to(beNil());
+            expect(message.ttsChunks).to(equal(ttsChunks));
+            expect(message.duration).to(beNil());
+            expect(message.playTone).to(equal([NSNumber numberWithBool:YES]));
+            expect(message.progressIndicator).to(beNil());
+            expect(message.softButtons).to(beNil());
+            expect(message.correlationID).to(equal(@1234321));
+        });
+    });
+});
+
+describe(@"BuildChangeRegistration Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLChangeRegistration* message = [SDLRPCRequestFactory buildChangeRegistrationWithLanguage:[SDLLanguage EN_GB] hmiDisplayLanguage:[SDLLanguage DE_DE] correlationID:@22336644];
+        
+        expect(message.language).to(equal([SDLLanguage EN_GB]));
+        expect(message.hmiDisplayLanguage).to(equal([SDLLanguage DE_DE]));
+        expect(message.correlationID).to(equal(@22336644));
+    });
+});
+
+describe(@"BuildCreateInteractionChoiceSet Tests", ^ {
+    it(@"Should build correctly", ^ {
+        NSArray* choices = @[[[SDLChoice alloc] init]];
+        SDLCreateInteractionChoiceSet* message = [SDLRPCRequestFactory buildCreateInteractionChoiceSetWithID:@4567654 choiceSet:choices correlationID:@0];
+        
+        expect(message.interactionChoiceSetID).to(equal(@4567654));
+        expect(message.choiceSet).to(equal(choices));
+        expect(message.correlationID).to(equal(@0));
+    });
+});
+
+describe(@"BuildDeleteCommand Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLDeleteCommand* message = [SDLRPCRequestFactory buildDeleteCommandWithID:@2 correlationID:@234];
+        
+        expect(message.cmdID).to(equal(@2));
+        expect(message.correlationID).to(equal(@234));
+    });
+});
+
+describe(@"BuildDeleteFile Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLDeleteFile* message = [SDLRPCRequestFactory buildDeleteFileWithName:@"CRITICAL_FILE" correlationID:@4930];
+        
+        expect(message.syncFileName).to(equal(@"CRITICAL_FILE"));
+        expect(message.correlationID).to(equal(@4930));
+    });
+});
+
+describe(@"BuildListFiles Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLListFiles* message = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@13123];
+        
+        expect(message.correlationID).to(equal(@13123));
+    });
+});
+
+describe(@"BuildDeleteInteractionChoiceSet Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLDeleteInteractionChoiceSet* message = [SDLRPCRequestFactory buildDeleteInteractionChoiceSetWithID:@46765426 correlationID:@46765426];
+        
+        expect(message.interactionChoiceSetID).to(equal(@46765426));
+        expect(message.correlationID).to(equal(@46765426));
+    });
+});
+
+describe(@"BuildDeleteSubMenu Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLDeleteSubMenu* message = [SDLRPCRequestFactory buildDeleteSubMenuWithID:@3515 correlationID:@5153];
+        
+        expect(message.menuID).to(equal(@3515));
+        expect(message.correlationID).to(equal(@5153));
+    });
+});
+
+describe(@"BuildEndAudioPassThru Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLEndAudioPassThru* message = [SDLRPCRequestFactory buildEndAudioPassThruWithCorrelationID:@13123];
+        
+        expect(message.correlationID).to(equal(@13123));
+    });
+});
+
+describe(@"BuildGetDTCs Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLGetDTCs* message = [SDLRPCRequestFactory buildGetDTCsWithECUName:@255 correlationID:@60806050];
+        
+        expect(message.ecuName).to(equal(@255));
+        expect(message.dtcMask).to(beNil());
+        expect(message.correlationID).to(equal(@60806050));
+    });
+});
+
+describe(@"BuildGetVehicleData Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLGetVehicleData* message = [SDLRPCRequestFactory buildGetVehicleDataWithGPS:[NSNumber numberWithBool:YES] speed:[NSNumber numberWithBool:NO] rpm:[NSNumber numberWithBool:NO]
+                                                           fuelLevel:[NSNumber numberWithBool:YES] fuelLevelState:[NSNumber numberWithBool:YES] instantFuelConsumption:[NSNumber numberWithBool:NO]
+                                                           externalTemperature:[NSNumber numberWithBool:YES] vin:[NSNumber numberWithBool:YES] prndl:[NSNumber numberWithBool:YES]
+                                                           tirePressure:[NSNumber numberWithBool:NO] odometer:[NSNumber numberWithBool:NO] beltStatus:[NSNumber numberWithBool:NO]
+                                                           bodyInformation:[NSNumber numberWithBool:YES] deviceStatus:[NSNumber numberWithBool:NO] driverBraking:[NSNumber numberWithBool:NO]
+                                                           wiperStatus:[NSNumber numberWithBool:NO] headLampStatus:[NSNumber numberWithBool:YES] engineTorque:[NSNumber numberWithBool:YES]
+                                                           accPedalPosition:[NSNumber numberWithBool:NO] steeringWheelAngle:[NSNumber numberWithBool:YES] correlationID:@936];
+        
+        expect(message.gps).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.speed).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.rpm).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.fuelLevel).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.fuelLevel_State).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.vin).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.prndl).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.tirePressure).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.odometer).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.beltStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.bodyInformation).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.deviceStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.driverBraking).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.wiperStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.headLampStatus).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.engineTorque).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.accPedalPosition).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.steeringWheelAngle).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.eCallInfo).to(beNil());
+        expect(message.airbagStatus).to(beNil());
+        expect(message.emergencyEvent).to(beNil());
+        expect(message.clusterModeStatus).to(beNil());
+        expect(message.myKey).to(beNil());
+        expect(message.correlationID).to(equal(@936));
+    });
+});
+
+describe(@"BuildPerformAudioPassThru Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLPerformAudioPassThru* message = [SDLRPCRequestFactory buildPerformAudioPassThruWithInitialPrompt:@"" audioPassThruDisplayText1:@"Display1" audioPassThruDisplayText2:@"Display2"
+                                                                 samplingRate:[SDLSamplingRate _44KHZ] maxDuration:@10 bitsPerSample:[SDLBitsPerSample _16_BIT] audioType:[SDLAudioType PCM]
+                                                                 muteAudio:[NSNumber numberWithBool:NO] correlationID:@2500];
+        
+        expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@""));
+        expect(message.audioPassThruDisplayText1).to(equal(@"Display1"));
+        expect(message.audioPassThruDisplayText2).to(equal(@"Display2"));
+        expect(message.samplingRate).to(equal([SDLSamplingRate _44KHZ]));
+        expect(message.maxDuration).to(equal(@10));
+        expect(message.bitsPerSample).to(equal([SDLBitsPerSample _16_BIT]));
+        expect(message.audioType).to(equal([SDLAudioType PCM]));
+        expect(message.muteAudio).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.correlationID).to(equal(@2500));
+    });
+});
+
+describe(@"BuildPerformInteraction Tests", ^ {
+    describe(@"With Initial Chunks", ^ {
+        it(@"Should build correctly", ^ {
+            NSArray* initialChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray* helpChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray* timeoutChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
+            SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:@"Start" interactionChoiceSetIDList:@[@878]
+                                                                   helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:[SDLInteractionMode MANUAL_ONLY] timeout:@7500
+                                                                   vrHelp:vrHelp correlationID:@272727];
+            
+            expect(message.initialPrompt).to(equal(initialChunks));
+            expect(message.initialText).to(equal(@"Start"));
+            expect(message.interactionChoiceSetIDList).to(equal(@[@878]));
+            expect(message.helpPrompt).to(equal(helpChunks));
+            expect(message.timeoutPrompt).to(equal(timeoutChunks));
+            expect(message.interactionMode).to(equal([SDLInteractionMode MANUAL_ONLY]));
+            expect(message.timeout).to(equal(@7500));
+            expect(message.vrHelp).to(equal(vrHelp));
+            expect(message.interactionLayout).to(beNil());
+            expect(message.correlationID).to(equal(@272727));
+        });
+    });
+    
+    describe(@"With Initial Prompt", ^ {
+        it(@"Should build correctly", ^ {
+            NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
+            SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]
+                                                                   helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:[SDLInteractionMode VR_ONLY]
+                                                                   timeout:@5600 vrHelp:vrHelp correlationID:@31564];
+            
+            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"Nothing"));
+            expect(message.initialText).to(equal(@"Still Nothing"));
+            expect(message.interactionChoiceSetIDList).to(equal(@[@4223, @1337]));
+            expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"A Whole Lot of Nothing"));
+            expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"Time Remaining"));
+            expect(message.interactionMode).to(equal([SDLInteractionMode VR_ONLY]));
+            expect(message.timeout).to(equal(@5600));
+            expect(message.vrHelp).to(equal(vrHelp));
+            expect(message.interactionLayout).to(beNil());
+            expect(message.correlationID).to(equal(@31564));
+            
+            message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"A" initialText:@"B" interactionChoiceSetIDList:@[@1, @2, @3, @4] helpPrompt:@"C" timeoutPrompt:@"D"
+                                            interactionMode:[SDLInteractionMode BOTH] timeout:@10000 correlationID:@7734];
+            
+            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"A"));
+            expect(message.initialText).to(equal(@"B"));
+            expect(message.interactionChoiceSetIDList).to(equal(@[@1, @2, @3, @4]));
+            expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"C"));
+            expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"D"));
+            expect(message.interactionMode).to(equal([SDLInteractionMode BOTH]));
+            expect(message.timeout).to(equal(@10000));
+            expect(message.vrHelp).to(beNil());
+            expect(message.interactionLayout).to(beNil());
+            expect(message.correlationID).to(equal(@7734));
+            
+            message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Initializing" initialText:@"Initialized" interactionChoiceSetID:@1456 vrHelp:vrHelp correlationID:@7056704];
+            
+            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"Initializing"));
+            expect(message.initialText).to(equal(@"Initialized"));
+            expect(message.interactionChoiceSetIDList).to(equal(@[@1456]));
+            expect(message.helpPrompt).to(beNil());
+            expect(message.timeoutPrompt).to(beNil());
+            //Don't know whether the reason for this failure is a bug...
+            expect(message.interactionMode).to(equal([SDLInteractionMode BOTH]));
+            expect(message.timeout).to(beNil());
+            expect(message.vrHelp).to(equal(vrHelp));
+            expect(message.interactionLayout).to(beNil());
+            expect(message.correlationID).to(equal(@7056704));
+            
+            message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"#$%@" initialText:@"!%%&&^$" interactionChoiceSetID:@105503 correlationID:@1454156465];
+            
+            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"#$%@"));
+            expect(message.initialText).to(equal(@"!%%&&^$"));
+            expect(message.interactionChoiceSetIDList).to(equal(@[@105503]));
+            expect(message.helpPrompt).to(beNil());
+            expect(message.timeoutPrompt).to(beNil());
+            expect(message.interactionMode).to(equal([SDLInteractionMode BOTH]));
+            expect(message.timeout).to(beNil());
+            expect(message.vrHelp).to(beNil());
+            expect(message.interactionLayout).to(beNil());
+            expect(message.correlationID).to(equal(@1454156465));
+        });
+    });
+});
+
+describe(@"BuildPutFile Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLPutFile* message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:[SDLFileType GRAPHIC_BMP] persisistentFile:@165636 correlationID:@147986];
+        
+        expect(message.syncFileName).to(equal(@"YES!?"));
+        expect(message.fileType).to(equal([SDLFileType GRAPHIC_BMP]));
+        expect(message.persistentFile).to(equal(@165636));
+        expect(message.correlationID).to(equal(@147986));
+    });
+});
+
+describe(@"BuildReadDID Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLReadDID* message = [SDLRPCRequestFactory buildReadDIDWithECUName:@12500 didLocation:@[@1, @5, @10, @10, @5, @1] correlationID:@6465678];
+        
+        expect(message.ecuName).to(equal(@12500));
+        expect(message.didLocation).to(equal(@[@1, @5, @10, @10, @5, @1]));
+        expect(message.correlationID).to(equal(@6465678));
+    });
+});
+
+describe(@"BuildRegisterAppInterface Tests", ^ {
+    it(@"Should build correctly", ^ {
+        NSArray* ttsName = @[[[SDLTTSChunk alloc] init]];
+        SDLRegisterAppInterface* message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Interface" ttsName:ttsName vrSynonyms:@[@"Q", @"W", @"E", @"R"]
+                                                                 isMediaApp:[NSNumber numberWithBool:YES] languageDesired:[SDLLanguage EN_US]
+                                                                 hmiDisplayLanguageDesired:[SDLLanguage ES_MX] appID:@"6h43g"];
+        
+        expect(message.syncMsgVersion).to(beNil());
+        expect(message.appName).to(equal(@"Interface"));
+        expect(message.ttsName).to(equal(ttsName));
+        expect(message.ngnMediaScreenAppName).to(equal(@"Interface"));
+        expect(message.vrSynonyms).to(equal(@[@"Q", @"W", @"E", @"R"]));
+        expect(message.isMediaApplication).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.languageDesired).to(equal([SDLLanguage EN_US]));
+        expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage ES_MX]));
+        expect(message.appHMIType).to(beNil());
+        expect(message.hashID).to(beNil());
+        expect(message.deviceInfo).to(beNil());
+        expect(message.appID).to(equal(@"6h43g"));
+        expect(message.correlationID).to(equal(@1));
+        
+        message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Register App Interface" isMediaApp:[NSNumber numberWithBool:NO] languageDesired:[SDLLanguage PT_BR] appID:@"36g6rsw4"];
+        
+        expect(message.syncMsgVersion).to(beNil());
+        expect(message.appName).to(equal(@"Register App Interface"));
+        expect(message.ttsName).to(beNil());
+        expect(message.ngnMediaScreenAppName).to(equal(@"Register App Interface"));
+        expect(message.vrSynonyms).to(equal(@[@"Register App Interface"]));
+        expect(message.isMediaApplication).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.languageDesired).to(equal([SDLLanguage PT_BR]));
+        expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_BR]));
+        expect(message.appHMIType).to(beNil());
+        expect(message.hashID).to(beNil());
+        expect(message.deviceInfo).to(beNil());
+        expect(message.appID).to(equal(@"36g6rsw4"));
+        expect(message.correlationID).to(equal(@1));
+        
+        message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"..." languageDesired:[SDLLanguage CS_CZ] appID:@"56ht5j"];
+        
+        expect(message.syncMsgVersion).to(beNil());
+        expect(message.appName).to(equal(@"..."));
+        expect(message.ttsName).to(beNil());
+        expect(message.ngnMediaScreenAppName).to(equal(@"..."));
+        expect(message.vrSynonyms).to(equal(@[@"..."]));
+        expect(message.isMediaApplication).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.languageDesired).to(equal([SDLLanguage CS_CZ]));
+        expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage CS_CZ]));
+        expect(message.appHMIType).to(beNil());
+        expect(message.hashID).to(beNil());
+        expect(message.deviceInfo).to(beNil());
+        expect(message.appID).to(equal(@"56ht5j"));
+        expect(message.correlationID).to(equal(@1));
+    });
+});
+
+describe(@"BuildResetGlobalProperties Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLResetGlobalProperties* message = [SDLRPCRequestFactory buildResetGlobalPropertiesWithProperties:@[[SDLGlobalProperty MENUNAME], [SDLGlobalProperty TIMEOUTPROMPT]]
+                                                                  correlationID:@906842];
+        
+        expect(message.properties).to(equal(@[[SDLGlobalProperty MENUNAME], [SDLGlobalProperty TIMEOUTPROMPT]]));
+        expect(message.correlationID).to(equal(@906842));
+    });
+});
+
+describe(@"BuildScrollableMessage Tests", ^ {
+    it(@"Should build correctly", ^ {
+        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        SDLScrollableMessage* message = [SDLRPCRequestFactory buildScrollableMessage:@"Message Box" timeout:@37821 softButtons:softButtons correlationID:@9783356];
+        
+        expect(message.scrollableMessageBody).to(equal(@"Message Box"));
+        expect(message.timeout).to(equal(@37821));
+        expect(message.softButtons).to(equal(softButtons));
+        expect(message.correlationID).to(equal(@9783356));
+    });
+});
+
+describe(@"BuildSetAppIcon Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSetAppIcon* message = [SDLRPCRequestFactory buildSetAppIconWithFileName:@"Iconic" correlationID:@465819];
+        
+        expect(message.syncFileName).to(equal(@"Iconic"));
+        expect(message.correlationID).to(equal(@465819));
+    });
+});
+
+describe(@"BuildSetDisplayLayout Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSetDisplayLayout* message = [SDLRPCRequestFactory buildSetDisplayLayout:@"NONE" correlationID:@467926];
+        
+        expect(message.displayLayout).to(equal(@"NONE"));
+        expect(message.correlationID).to(equal(@467926));
+    });
+});
+
+describe(@"BuildSetGlobalProperties Tests", ^ {
+    it(@"Should build correctly", ^ {
+        NSArray* help = @[[[SDLVrHelpItem alloc] init]];
+        SDLSetGlobalProperties* message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Beyond Help" timeoutText:@"You took too long" vrHelpTitle:@"Voice"
+                                                                vrHelp:help correlationID:@5666666];
+        
+        expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"Beyond Help"));
+        expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"You took too long"));
+        expect(message.vrHelpTitle).to(equal(@"Voice"));
+        expect(message.vrHelp).to(equal(help));
+        expect(message.menuTitle).to(beNil());
+        expect(message.menuIcon).to(beNil());
+        expect(message.keyboardProperties).to(beNil());
+        expect(message.correlationID).to(equal(@5666666));
+        
+        message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Helpful" timeoutText:@"Timed Out" correlationID:@10010100];
+        
+        expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"Helpful"));
+        expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"Timed Out"));
+        expect(message.vrHelpTitle).to(beNil());
+        expect(message.vrHelp).to(beNil());
+        expect(message.menuTitle).to(beNil());
+        expect(message.menuIcon).to(beNil());
+        expect(message.keyboardProperties).to(beNil());
+        expect(message.correlationID).to(equal(@10010100));
+    });
+});
+
+describe(@"BuildSetMediaClockTimer Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSetMediaClockTimer* message = [SDLRPCRequestFactory buildSetMediaClockTimerWithHours:@15 minutes:@36 seconds:@11 updateMode:[SDLUpdateMode COUNTDOWN] correlationID:@404];
+        
+        expect([message startTime].hours).to(equal(@15));
+        expect([message startTime].minutes).to(equal(@36));
+        expect([message startTime].seconds).to(equal(@11));
+        expect(message.endTime).to(beNil());
+        expect(message.updateMode).to(equal([SDLUpdateMode COUNTDOWN]));
+        expect(message.correlationID).to(equal(@404));
+    
+        message = [SDLRPCRequestFactory buildSetMediaClockTimerWithUpdateMode:[SDLUpdateMode RESUME] correlationID:@11213141];
+        
+        expect(message.startTime).to(beNil());
+        expect(message.endTime).to(beNil());
+        expect(message.updateMode).to(equal([SDLUpdateMode RESUME]));
+        expect(message.correlationID).to(equal(@11213141));
+    });
+});
+
+describe(@"BuildShow Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLImage* image = [[SDLImage alloc] init];
+        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        SDLShow* message = [SDLRPCRequestFactory buildShowWithMainField1:@"11" mainField2:@"22" mainField3:@"33" mainField4:@"44" statusBar:@"Bar" mediaClock:@"Time" mediaTrack:@"Crucial Line"
+                                                 alignment:[SDLTextAlignment CENTERED] graphic:image softButtons:softButtons customPresets:@[@"w", @"x", @"y", @"z"] correlationID:@3432343];
+        
+        expect(message.mainField1).to(equal(@"11"));
+        expect(message.mainField2).to(equal(@"22"));
+        expect(message.mainField3).to(equal(@"33"));
+        expect(message.mainField4).to(equal(@"44"));
+        expect(message.statusBar).to(equal(@"Bar"));
+        expect(message.mediaClock).to(equal(@"Time"));
+        expect(message.mediaTrack).to(equal(@"Crucial Line"));
+        expect(message.alignment).to(equal([SDLTextAlignment CENTERED]));
+        expect(message.graphic).to(equal(image));
+        expect(message.secondaryGraphic).to(beNil());
+        expect(message.softButtons).to(equal(softButtons));
+        expect(message.customPresets).to(equal(@[@"w", @"x", @"y", @"z"]));
+        expect(message.correlationID).to(equal(@3432343));
+        
+        message = [SDLRPCRequestFactory buildShowWithMainField1:@"A" mainField2:@"S" statusBar:@"D" mediaClock:@"F" mediaTrack:@"G" alignment:[SDLTextAlignment RIGHT_ALIGNED] correlationID:@999];
+        
+        expect(message.mainField1).to(equal(@"A"));
+        expect(message.mainField2).to(equal(@"S"));
+        expect(message.mainField3).to(beNil());
+        expect(message.mainField4).to(beNil());
+        expect(message.statusBar).to(equal(@"D"));
+        expect(message.mediaClock).to(equal(@"F"));
+        expect(message.mediaTrack).to(equal(@"G"));
+        expect(message.alignment).to(equal([SDLTextAlignment RIGHT_ALIGNED]));
+        expect(message.graphic).to(beNil());
+        expect(message.secondaryGraphic).to(beNil());
+        expect(message.softButtons).to(beNil());
+        expect(message.customPresets).to(beNil());
+        expect(message.correlationID).to(equal(@999));
+        
+        message = [SDLRPCRequestFactory buildShowWithMainField1:@"Hello" mainField2:@"World" alignment:[SDLTextAlignment LEFT_ALIGNED] correlationID:@38792607];
+        
+        expect(message.mainField1).to(equal(@"Hello"));
+        expect(message.mainField2).to(equal(@"World"));
+        expect(message.mainField3).to(beNil());
+        expect(message.mainField4).to(beNil());
+        expect(message.statusBar).to(beNil());
+        expect(message.mediaClock).to(beNil());
+        expect(message.mediaTrack).to(beNil());
+        expect(message.alignment).to(equal([SDLTextAlignment LEFT_ALIGNED]));
+        expect(message.graphic).to(beNil());
+        expect(message.secondaryGraphic).to(beNil());
+        expect(message.softButtons).to(beNil());
+        expect(message.customPresets).to(beNil());
+        expect(message.correlationID).to(equal(@38792607));
+    });
+});
+
+describe(@"BuildSlider Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSlider* message = [SDLRPCRequestFactory buildSliderDynamicFooterWithNumTicks:@3 position:@2 sliderHeader:@"HEAD" sliderFooter:@[@"FOOT1", @"FOOT2", @"FOOT3"] timeout:@32321
+                                                   correlationID:@200];
+        
+        expect(message.numTicks).to(equal(@3));
+        expect(message.position).to(equal(@2));
+        expect(message.sliderHeader).to(equal(@"HEAD"));
+        expect(message.sliderFooter).to(equal(@[@"FOOT1", @"FOOT2", @"FOOT3"]));
+        expect(message.timeout).to(equal(@32321));
+        expect(message.correlationID).to(equal(@200));
+        
+        message = [SDLRPCRequestFactory buildSliderStaticFooterWithNumTicks:@4 position:@2 sliderHeader:@"UP" sliderFooter:@"DOWN" timeout:@65535 correlationID:@1024];
+        
+        expect(message.numTicks).to(equal(@4));
+        expect(message.position).to(equal(@2));
+        expect(message.sliderHeader).to(equal(@"UP"));
+        expect(message.sliderFooter).to(equal(@[@"DOWN", @"DOWN", @"DOWN", @"DOWN"]));
+        expect(message.timeout).to(equal(@65535));
+        expect(message.correlationID).to(equal(@1024));
+    });
+});
+
+describe(@"BuildSpeak Tests", ^ {
+    it(@"Should build correctly", ^ {
+        NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
+        SDLSpeak* message = [SDLRPCRequestFactory buildSpeakWithTTS:@"GREETINGS HUMAN" correlationID:@65];
+        
+        expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"GREETINGS HUMAN"));
+        expect(message.correlationID).to(equal(@65));
+        
+        message = [SDLRPCRequestFactory buildSpeakWithTTSChunks:ttsChunks correlationID:@56];
+        
+        expect(message.ttsChunks).to(equal(ttsChunks));
+        expect(message.correlationID).to(equal(@56));
+    });
+});
+
+describe(@"BuildSubscribeButton Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSubscribeButton* message = [SDLRPCRequestFactory buildSubscribeButtonWithName:[SDLButtonName SEARCH] correlationID:@5555555];
+        
+        expect(message.buttonName).to(equal([SDLButtonName SEARCH]));
+        expect(message.correlationID).to(equal(@5555555));
+    });
+});
+
+describe(@"BuildSubscribeVehicleData Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSubscribeVehicleData* message = [SDLRPCRequestFactory buildSubscribeVehicleDataWithGPS:[NSNumber numberWithBool:YES] speed:[NSNumber numberWithBool:YES] rpm:[NSNumber numberWithBool:YES]
+                                                                 fuelLevel:[NSNumber numberWithBool:NO] fuelLevelState:[NSNumber numberWithBool:NO] instantFuelConsumption:[NSNumber numberWithBool:NO]
+                                                                 externalTemperature:[NSNumber numberWithBool:YES] prndl:[NSNumber numberWithBool:YES] tirePressure:[NSNumber numberWithBool:YES]
+                                                                 odometer:[NSNumber numberWithBool:NO] beltStatus:[NSNumber numberWithBool:NO] bodyInformation:[NSNumber numberWithBool:NO]
+                                                                 deviceStatus:[NSNumber numberWithBool:YES] driverBraking:[NSNumber numberWithBool:YES] wiperStatus:[NSNumber numberWithBool:YES]
+                                                                 headLampStatus:[NSNumber numberWithBool:NO] engineTorque:[NSNumber numberWithBool:NO] accPedalPosition:[NSNumber numberWithBool:NO]
+                                                                 steeringWheelAngle:[NSNumber numberWithBool:YES] correlationID:@3692581470];
+        
+        expect(message.gps).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.speed).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.rpm).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.fuelLevel).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.fuelLevel_State).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.prndl).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.tirePressure).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.odometer).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.beltStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.bodyInformation).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.deviceStatus).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.driverBraking).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.wiperStatus).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.headLampStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.engineTorque).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.accPedalPosition).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.steeringWheelAngle).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.eCallInfo).to(beNil());
+        expect(message.airbagStatus).to(beNil());
+        expect(message.emergencyEvent).to(beNil());
+        expect(message.clusterModeStatus).to(beNil());
+        expect(message.myKey).to(beNil());
+        expect(message.correlationID).to(equal(@3692581470));
+    });
+});
+
+describe(@"BuildUnregisterAppInterface Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLUnregisterAppInterface* message = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:@4200];
+        
+        expect(message.correlationID).to(equal(@4200));
+    });
+});
+
+describe(@"BuildUnsubscribeButton Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLUnsubscribeButton* message = [SDLRPCRequestFactory buildUnsubscribeButtonWithName:[SDLButtonName OK] correlationID:@88];
+        
+        expect(message.buttonName).to(equal([SDLButtonName OK]));
+        expect(message.correlationID).to(equal(@88));
+    });
+});
+
+describe(@"BuildSubscribeVehicleData Tests", ^ {
+    it(@"Should build correctly", ^ {
+        SDLSubscribeVehicleData* message = [SDLRPCRequestFactory buildSubscribeVehicleDataWithGPS:[NSNumber numberWithBool:YES] speed:[NSNumber numberWithBool:NO] rpm:[NSNumber numberWithBool:YES]
+                                                                 fuelLevel:[NSNumber numberWithBool:YES] fuelLevelState:[NSNumber numberWithBool:NO] instantFuelConsumption:[NSNumber numberWithBool:NO]
+                                                                 externalTemperature:[NSNumber numberWithBool:YES] prndl:[NSNumber numberWithBool:NO] tirePressure:[NSNumber numberWithBool:YES]
+                                                                 odometer:[NSNumber numberWithBool:YES] beltStatus:[NSNumber numberWithBool:NO] bodyInformation:[NSNumber numberWithBool:NO]
+                                                                 deviceStatus:[NSNumber numberWithBool:YES] driverBraking:[NSNumber numberWithBool:NO] wiperStatus:[NSNumber numberWithBool:YES]
+                                                                 headLampStatus:[NSNumber numberWithBool:YES] engineTorque:[NSNumber numberWithBool:NO] accPedalPosition:[NSNumber numberWithBool:NO]
+                                                                 steeringWheelAngle:[NSNumber numberWithBool:YES] correlationID:@1627384950];
+        
+        expect(message.gps).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.speed).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.rpm).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.fuelLevel).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.fuelLevel_State).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.prndl).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.tirePressure).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.odometer).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.beltStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.bodyInformation).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.deviceStatus).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.driverBraking).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.wiperStatus).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.headLampStatus).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.engineTorque).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.accPedalPosition).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.steeringWheelAngle).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.eCallInfo).to(beNil());
+        expect(message.airbagStatus).to(beNil());
+        expect(message.emergencyEvent).to(beNil());
+        expect(message.clusterModeStatus).to(beNil());
+        expect(message.myKey).to(beNil());
+        expect(message.correlationID).to(equal(@1627384950));
+    });
+});
+
+QuickSpecEnd
+
+
