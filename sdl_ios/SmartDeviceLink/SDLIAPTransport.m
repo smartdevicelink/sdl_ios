@@ -306,7 +306,6 @@
                 if (bytesRead > 0) {
                     [weakSelf.delegate onDataReceived:dataIn];
                 } else {
-                    //[SDLDebugTool logInfo:@"No bytes read."];
                     break;
                 }
             }
