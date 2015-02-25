@@ -50,6 +50,7 @@
 #import <SmartDeviceLink/SDLSubscribeButton.h>
 #import <SmartDeviceLink/SDLSubscribeVehicleData.h>
 #import <SmartDeviceLink/SDLSyncPData.h>
+#import <SmartDeviceLink/SDLSystemRequest.h>
 #import <SmartDeviceLink/SDLUpdateTurnList.h>
 #import <SmartDeviceLink/SDLUnregisterAppInterface.h>
 #import <SmartDeviceLink/SDLUnsubscribeButton.h>
