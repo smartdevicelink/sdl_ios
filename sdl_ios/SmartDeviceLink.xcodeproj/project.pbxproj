@@ -64,7 +64,6 @@
 		59A030131978FBA1003E8ECF /* SDLEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 59A02E271978FBA0003E8ECF /* SDLEnum.m */; };
 		59A030141978FBA1003E8ECF /* SDLFunctionID.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A02E281978FBA0003E8ECF /* SDLFunctionID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59A030151978FBA1003E8ECF /* SDLFunctionID.m in Sources */ = {isa = PBXBuildFile; fileRef = 59A02E291978FBA0003E8ECF /* SDLFunctionID.m */; };
-		59A030161978FBA1003E8ECF /* ISDLProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A02E2A1978FBA0003E8ECF /* ISDLProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59A030171978FBA1003E8ECF /* SDLJingle.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A02E2B1978FBA0003E8ECF /* SDLJingle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59A030181978FBA1003E8ECF /* SDLJingle.m in Sources */ = {isa = PBXBuildFile; fileRef = 59A02E2C1978FBA0003E8ECF /* SDLJingle.m */; };
 		59A030191978FBA1003E8ECF /* SDLJsonDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A02E2D1978FBA0003E8ECF /* SDLJsonDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -578,7 +577,6 @@
 		59A02E271978FBA0003E8ECF /* SDLEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEnum.m; sourceTree = "<group>"; };
 		59A02E281978FBA0003E8ECF /* SDLFunctionID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLFunctionID.h; sourceTree = "<group>"; };
 		59A02E291978FBA0003E8ECF /* SDLFunctionID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFunctionID.m; sourceTree = "<group>"; };
-		59A02E2A1978FBA0003E8ECF /* ISDLProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISDLProxy.h; sourceTree = "<group>"; };
 		59A02E2B1978FBA0003E8ECF /* SDLJingle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLJingle.h; sourceTree = "<group>"; };
 		59A02E2C1978FBA0003E8ECF /* SDLJingle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLJingle.m; sourceTree = "<group>"; };
 		59A02E2D1978FBA0003E8ECF /* SDLJsonDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLJsonDecoder.h; sourceTree = "<group>"; };
@@ -1138,7 +1136,6 @@
 				59A02E271978FBA0003E8ECF /* SDLEnum.m */,
 				59A02E281978FBA0003E8ECF /* SDLFunctionID.h */,
 				59A02E291978FBA0003E8ECF /* SDLFunctionID.m */,
-				59A02E2A1978FBA0003E8ECF /* ISDLProxy.h */,
 				59A02E2B1978FBA0003E8ECF /* SDLJingle.h */,
 				59A02E2C1978FBA0003E8ECF /* SDLJingle.m */,
 				59A02E2D1978FBA0003E8ECF /* SDLJsonDecoder.h */,
@@ -1892,7 +1889,6 @@
 				59A031571978FBA9003E8ECF /* SDLSetAppIconResponse.h in Headers */,
 				59A0305F1978FBA1003E8ECF /* SDLIgnitionStableStatus.h in Headers */,
 				59A031171978FBA6003E8ECF /* SDLSubscribeButton.h in Headers */,
-				59A030161978FBA1003E8ECF /* ISDLProxy.h in Headers */,
 				59A030191978FBA1003E8ECF /* SDLJsonDecoder.h in Headers */,
 				59A030F31978FBA5003E8ECF /* SDLGetDTCs.h in Headers */,
 				59A030B11978FBA3003E8ECF /* SDLVrCapabilities.h in Headers */,
