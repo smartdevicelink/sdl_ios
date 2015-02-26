@@ -1,8 +1,8 @@
 //  SDLProtocolRecievedMessageRouter.m
-//
+//  SyncProxy
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 //
-//  This class gets handed the SDLProtocol messages as they are recieved
+//  This class gets handed the SDLAppLinkProtocol messages as they are recieved
 //  and decides what happens to them and where they are sent on to.
 
 #import "SDLProtocolRecievedMessageRouter.h"
@@ -14,6 +14,7 @@
 
 @interface SDLProtocolRecievedMessageRouter ()
 
+@property (assign) BOOL alreadyDestructed;
 @property (strong) NSMutableDictionary *messageAssemblers;
 
 - (void)dispatchProtocolMessage:(SDLProtocolMessage *)message;
@@ -26,10 +27,11 @@
 @implementation SDLProtocolRecievedMessageRouter
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
+        _alreadyDestructed = NO;
         self.messageAssemblers = [NSMutableDictionary dictionaryWithCapacity:2];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void)handleRecievedMessage:(SDLProtocolMessage *)message {
@@ -89,5 +91,19 @@
 
 }
 
+- (void)destructObjects {
+    if(!self.alreadyDestructed) {
+        self.alreadyDestructed = YES;
+        self.delegate = nil;
+    }
+}
+
+- (void)dispose {
+    [self destructObjects];
+}
+
+- (void)dealloc {
+    [self destructObjects];
+}
 
 @end

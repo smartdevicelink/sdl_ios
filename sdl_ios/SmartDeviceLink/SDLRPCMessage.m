@@ -1,6 +1,6 @@
 //  SDLRPCMessage.m
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <SmartDeviceLink/SDLRPCMessage.h>
 
@@ -148,7 +148,7 @@
 }
 
 - (NSString *)description {
-    NSMutableString *description = [NSMutableString stringWithFormat:@"%@ %@\n%@", self.name, self.messageType, self->parameters];
+    NSMutableString *description = [NSMutableString stringWithFormat:@"%@ (%@)\n%@", self.name, self.messageType, self->parameters];
 
     return description;
 }

@@ -1,6 +1,6 @@
 //  SDLTransport.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import "SDLTransportDelegate.h"
@@ -12,5 +12,6 @@
 - (void)connect;
 - (void)disconnect;
 - (void)sendData:(NSData *)dataToSend;
+- (void)unregister;
 
 @end

@@ -1,6 +1,6 @@
 //  SDLProxyListener.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLAddCommandResponse.h>
@@ -30,6 +30,7 @@
 #import <SmartDeviceLink/SDLOnHashChange.h>
 #import <SmartDeviceLink/SDLOnHMIStatus.h>
 #import <SmartDeviceLink/SDLOnLanguageChange.h>
+#import <SmartDeviceLink/SDLOnLockScreenStatus.h>
 #import <SmartDeviceLink/SDLOnPermissionsChange.h>
 #import <SmartDeviceLink/SDLOnSyncPData.h>
 #import <SmartDeviceLink/SDLOnSystemRequest.h>
@@ -94,7 +95,7 @@
 -(void) onOnEncodedSyncPData:(SDLOnEncodedSyncPData*) notification;
 -(void) onOnHashChange:(SDLOnHashChange*) notification;
 -(void) onOnLanguageChange:(SDLOnLanguageChange*) notification;
--(void) onOnLockScreenNotification:(SDLLockScreenStatus*) notification;
+-(void) onOnLockScreenNotification:(SDLOnLockScreenStatus*) notification;
 -(void) onOnPermissionsChange:(SDLOnPermissionsChange*) notification;
 -(void) onOnSyncPData:(SDLOnSyncPData*) notification;
 -(void) onOnSystemRequest:(SDLOnSystemRequest*) notification;

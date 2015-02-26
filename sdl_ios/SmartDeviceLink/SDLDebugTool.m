@@ -1,11 +1,12 @@
 //  SDLDebugTool.m
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//  
 
 #import <SmartDeviceLink/SDLDebugTool.h>
 #import <SmartDeviceLink/SDLRPCMessage.h>
 #import <SmartDeviceLink/SDLSiphonServer.h>
 #import "SDLHexUtility.h"
+#import "NSThread+ThreadIndex.h"
 
 #define LOG_ERROR_ENABLED
 
@@ -86,8 +87,8 @@ bool debugToLogFile = false;
 // The designated logInfo method. All outputs should be performed here.
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output toGroup:(NSString *)consoleGroupName {
 
-    // Format the message, start with type
-    NSMutableString *outputString = [NSMutableString  stringWithFormat:@"[%@] %@", [SDLDebugTool stringForDebugType:type], info];
+    // Format the message, prepend the thread id
+    NSMutableString *outputString = [NSMutableString  stringWithFormat:@"[%li] %@", (long)[[NSThread currentThread] threadIndex] , info];
 
 
     ////////////////////////////////////////////////

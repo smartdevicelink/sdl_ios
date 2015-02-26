@@ -1,6 +1,6 @@
 //  SmartDeviceLink.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+//
 
 //Proxy
 #import <SmartDeviceLink/SDLJingle.h>
@@ -50,6 +50,7 @@
 #import <SmartDeviceLink/SDLSubscribeButton.h>
 #import <SmartDeviceLink/SDLSubscribeVehicleData.h>
 #import <SmartDeviceLink/SDLSyncPData.h>
+#import <SmartDeviceLink/SDLSystemRequest.h>
 #import <SmartDeviceLink/SDLUpdateTurnList.h>
 #import <SmartDeviceLink/SDLUnregisterAppInterface.h>
 #import <SmartDeviceLink/SDLUnsubscribeButton.h>

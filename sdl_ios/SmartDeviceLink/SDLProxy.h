@@ -1,49 +1,52 @@
 //  SDLProxy.h
-//
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 //  Version: ##Version##
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProtocol.h>
 #import <SmartDeviceLink/SDLProxyListener.h>
 #import <SmartDeviceLink/SDLRPCRequestFactory.h>
-#import <SmartDeviceLink/SDLTransport.h>
+#import "SDLAbstractProtocol.h"
+#import "SDLAbstractTransport.h"
+#import "SDLTimer.h"
 
-@interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
+@interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
-	Byte rpcSessionID;
-	Byte bulkSessionID;
-	BOOL isConnected;
-    BOOL alreadyDestructed;
+    Byte bulkSessionID;
+    BOOL isConnected;
+    BOOL _alreadyDestructed;
 
 }
 
-@property (strong) NSObject<SDLInterfaceProtocol>* protocol;
-@property (strong) NSObject<SDLTransport>* transport;
-@property (strong) NSMutableArray* proxyListeners;
-@property (strong) NSTimer* handshakeTimer;
+@property (strong) SDLAbstractProtocol *protocol;
+@property (strong) SDLAbstractTransport *transport;
+@property (strong) NSMutableArray *proxyListeners;
+@property (strong) SDLTimer *startSessionTimer;
 @property (strong) NSString *debugConsoleGroupName;
+@property (readonly) NSString *proxyVersion;
 
--(id) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLInterfaceProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
+- (id)initWithTransport:(SDLAbstractTransport *)transport
+               protocol:(SDLAbstractProtocol *)protocol
+               delegate:(NSObject<SDLProxyListener> *)delegate;
 
--(void) dispose;
--(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;
+- (void)dispose;
+- (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
 
--(void) sendRPCRequest:(SDLRPCMessage*) msg;
--(void) handleRpcMessage:(NSDictionary*) msg;
+- (void)sendRPCRequest:(SDLRPCMessage *)msg;
+- (void)handleRpcMessage:(NSDictionary *)msg;
+- (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
--(NSString*) getProxyVersion;
+- (void)startAudioSession;
+- (void)sendAudioData:(NSData *)data;
+- (void)stopAudioSession;
 
--(void) destroyHandshakeTimer;
--(void) handleProtocolMessage:(SDLProtocolMessage*) msgData;
+- (void)startVideoSession;
+- (void)sendVideoData:(NSData *)data;
+- (void)stopVideoSession;
 
-+(void)enableSiphonDebug;
-+(void)disableSiphonDebug;
+- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 
--(NSObject<SDLTransport>*)getTransport;
--(NSObject<SDLInterfaceProtocol>*)getProtocol;
++ (void)enableSiphonDebug;
++ (void)disableSiphonDebug;
 
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
-- (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest;
 
 @end
