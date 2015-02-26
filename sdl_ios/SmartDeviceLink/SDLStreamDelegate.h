@@ -1,6 +1,5 @@
 //
 //  SDLStreamDelegate.h
-//  AppLink
 //
 //  Copyright (c) 2014 SDL. All rights reserved.
 //

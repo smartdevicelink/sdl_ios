@@ -1,6 +1,6 @@
 //  SDLProxy.h
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
-//  Version: AppLink-20141001-130610-LOCAL-iOS
+//  Version: ##Version##
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLProxyListener.h>

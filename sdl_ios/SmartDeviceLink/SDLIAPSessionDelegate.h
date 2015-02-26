@@ -1,6 +1,5 @@
 //
 //  SDLIAPSessionDelegate.h
-//  AppLink
 //
 
 #import <Foundation/Foundation.h>

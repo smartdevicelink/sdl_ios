@@ -1,6 +1,5 @@
 //
 //  NSThread+ThreadIndex.m
-//  AppLink
 //
 
 #import "NSThread+ThreadIndex.h"

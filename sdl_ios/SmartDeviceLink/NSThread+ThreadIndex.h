@@ -1,6 +1,5 @@
 //
 //  NSThread+ThreadIndex.h
-//  AppLink
 //
 
 #import <Foundation/Foundation.h>

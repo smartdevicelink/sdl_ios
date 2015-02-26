@@ -1,5 +1,4 @@
-//  SDLAppLinkV2ProtocolMessage.m
-//  SyncProxy
+//  SDLV2ProtocolMessage.m
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import "SDLV2ProtocolMessage.h"

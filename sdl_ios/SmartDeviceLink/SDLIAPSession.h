@@ -1,6 +1,5 @@
 //
 //  FMCIAPSession.h
-//  AppLink
 //
 //  Copyright (c) 2014 FMC. All rights reserved.
 //
