@@ -75,7 +75,7 @@ describe(@"BuildAddSubMenu Tests", ^ {
 });
 
 describe(@"BuildAlert Tests", ^ {
-    describe(@"With Text", ^ {
+    context(@"With Text", ^ {
         it(@"Should build correctly", ^ {
             NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
             SDLAlert* message = [SDLRPCRequestFactory buildAlertWithAlertText1:@"String1" alertText2:@"String2" alertText3:@"String3"
@@ -118,7 +118,7 @@ describe(@"BuildAlert Tests", ^ {
         });
     });
     
-    describe(@"With TTS", ^ {
+    context(@"With TTS", ^ {
         it(@"Should build correctly", ^ {
             SDLAlert* message = [SDLRPCRequestFactory buildAlertWithTTS:@"Wat" alertText1:@"11" alertText2:@"12" alertText3:@"13"
                                                       playTone:[NSNumber numberWithBool:NO] duration:@3424 correlationID:@9999999];
@@ -160,7 +160,7 @@ describe(@"BuildAlert Tests", ^ {
         });
     });
     
-    describe(@"With TTSChunks", ^ {
+    context(@"With TTSChunks", ^ {
         it(@"Should build correctly", ^ {
             NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
             NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
@@ -333,7 +333,7 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
 });
 
 describe(@"BuildPerformInteraction Tests", ^ {
-    describe(@"With Initial Chunks", ^ {
+    context(@"With Initial Chunks", ^ {
         it(@"Should build correctly", ^ {
             NSArray* initialChunks = @[[[SDLTTSChunk alloc] init]];
             NSArray* helpChunks = @[[[SDLTTSChunk alloc] init]];
@@ -356,7 +356,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
         });
     });
     
-    describe(@"With Initial Prompt", ^ {
+    context(@"With Initial Prompt", ^ {
         it(@"Should build correctly", ^ {
             NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]

@@ -15,8 +15,8 @@
 
 QuickSpecBegin(SDLEnumSpec)
 
-describe(@"InitWithValue Tests",  ^ {
-    it(@"Should initialize correctly", ^ {
+describe(@"Value Tests",  ^ {
+    it(@"Should get value correctly when initialized", ^ {
         SDLEnum* enumValue = [[SDLEnum alloc] initWithValue:@"Enum"];
         
         expect(enumValue).toNot(beNil());
