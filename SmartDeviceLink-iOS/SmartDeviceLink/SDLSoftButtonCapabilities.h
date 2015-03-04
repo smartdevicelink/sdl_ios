@@ -1,0 +1,18 @@
+//  SDLSoftButtonCapabilities.h
+//
+//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
+
+#import "SDLRPCMessage.h"
+
+@interface SDLSoftButtonCapabilities : SDLRPCStruct {}
+
+-(id) init;
+-(id) initWithDictionary:(NSMutableDictionary*) dict;
+
+@property(strong) NSNumber* shortPressAvailable;
+@property(strong) NSNumber* longPressAvailable;
+@property(strong) NSNumber* upDownAvailable;
+@property(strong) NSNumber* imageSupported;
+
+@end
