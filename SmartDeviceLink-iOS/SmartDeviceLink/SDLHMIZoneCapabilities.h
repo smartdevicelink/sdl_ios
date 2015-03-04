@@ -5,12 +5,12 @@
 
 #import "SDLEnum.h"
 
-@interface SDLHmiZoneCapabilities : SDLEnum {}
+@interface SDLHMIZoneCapabilities : SDLEnum {}
 
-+(SDLHmiZoneCapabilities*) valueOf:(NSString*) value;
++(SDLHMIZoneCapabilities*) valueOf:(NSString*) value;
 +(NSMutableArray*) values;
 
-+(SDLHmiZoneCapabilities*) FRONT;
-+(SDLHmiZoneCapabilities*) BACK;
++(SDLHMIZoneCapabilities*) FRONT;
++(SDLHMIZoneCapabilities*) BACK;
 
 @end
