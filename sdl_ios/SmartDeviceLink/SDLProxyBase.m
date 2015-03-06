@@ -51,7 +51,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 @property (strong, nonatomic) NSString* autoActivateIdDesired;
 
 @property (strong, nonatomic) NSArray* vrSynonyms;
-@property (strong, nonatomic) NSArray* appType;
+@property (strong, nonatomic) NSArray* appTypes;
 @property (strong, nonatomic) NSArray* diagModes;
 
 @property (nonatomic) Byte wiproVersion;
@@ -101,7 +101,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                              appName:(NSString *)appName
                           isMediaApp:(NSNumber *)isMediaApp
                                appID:(NSString *)appID
-                             options:(NSDictionary *)options{
+                             options:(SDLProxyOptions *)options{
     self = [super init];
     if (self) {
         
@@ -123,42 +123,42 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     return self;
 }
 
--(void)performBaseCommonProxyDelegate:(id<SDLProxyListener>)delegate
+-(void)performBaseCommonProxyDelegate:(NSObject<SDLProxyListener>*)delegate
     enableAdvancedLifecycleManagement:(BOOL)enableAdvancedLifecycleManagement
                               appName:(NSString *)appName
                            isMediaApp:(NSNumber *)isMediaApp
                                 appID:(NSString *)appID
-                              options:(NSDictionary *)options
+                              options:(SDLProxyOptions *)options
                                 error:(NSError**)error{
     self.wiproVersion = PROX_PROT_VER_ONE;
     
-    NSNumber* preRegistered = options[SDLProxyALMPreRegisterKey];
+    NSNumber* preRegistered = options.preRegistered;
     
     if (preRegistered && [preRegistered boolValue]) {
         _appInterfaceRegistered = preRegistered;
         _preRegistered = preRegistered;
     }
     
-    NSNumber* appResumeEnabled = options[SDLProxyALMAppResumeEnabledKey];
+    NSNumber* appResumeEnabled = options.appResumeEnabled;
     
     if (appResumeEnabled && [appResumeEnabled boolValue]) {
         _appResumeEnabled = @(YES);
-        _lastHashID = options[SDLProxyALMHashIDKey];
+        _lastHashID = options.hashID;
     }
     
     _advancedLifecycleManagementEnabled = enableAdvancedLifecycleManagement;
     _applicationName = appName;
-    _ttsName = options[SDLProxyALMTTSNameKey];
-    _ngnMediaScreenAppName = options[SDLProxyALMNGNMediaScreenAppNameKey];
-    _mediaApp = options[SDLProxyALMIsMediaAppKey];
-    _sdlMsgVersionRequest = options[SDLProxyALMSDLMsgVersionKey];
-    _vrSynonyms = options[SDLProxyALMVrSynonymsKey];
-    _sdlLanguageDesired = options[SDLProxyALMLanguageDesiredKey];
-    _hmiDisplayLanguageDesired = options[SDLProxyALMHMIDisplayLanguageDesiredKey];
-    _appType = options[SDLProxyALMAppTypeKey];
+    _ttsName = options.ttsName;
+    _ngnMediaScreenAppName = options.ngnMediaScreenAppName;
+    _mediaApp = options.isMediaApp;
+    _sdlMsgVersionRequest = options.syncMsgVersion;
+    _vrSynonyms = options.vrSynonyms;
+    _sdlLanguageDesired = options.languageDesired;
+    _hmiDisplayLanguageDesired = options.hmiDisplayLanguageDesired;
+    _appTypes = options.appTypes;
     _applicationID = appID;
-    _autoActivateIdDesired = options[SDLProxyALMAutoActivateIDKey];
-    _transportConfig = options[SDLProxyALMTransportConfigKey];
+    _autoActivateIdDesired = options.autoActivateID;
+    _transportConfig = options.transportConfig;
     
     if (!delegate) {
         *error = [NSError new];//TODO: Set this error
@@ -558,6 +558,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             self.iFileCount = 0;
         }
     }];
+    [postTask resume];
 }
 
 -(NSMutableDictionary*)serializeJSON:(SDLRPCMessage*)msg{
@@ -1101,7 +1102,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
 }
 
--(void)queueIncomingMessage:(SDLInternalProxyMessage*)message{
+-(void)queueIncomingMessage:(SDLProtocolMessage*)message{
     [self.internalProxyMessageDispatcher queueMessage:message];
 }
 

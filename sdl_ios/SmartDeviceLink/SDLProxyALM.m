@@ -13,7 +13,7 @@
                              appName:(NSString *)appName
                           isMediaApp:(NSNumber *)isMediaApp
                                appID:(NSString *)appID
-                             options:(NSDictionary *)options{
+                             options:(SDLProxyOptions *)options{
     
     //TODO: Add SDLTrace log statement?
     return [super initWithProxyDelegate:delegate

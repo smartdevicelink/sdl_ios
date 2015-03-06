@@ -9,6 +9,8 @@
 #import <SmartDeviceLink/SDLProxyBase.h>
 #import <SmartDeviceLink/SDLProxyListener.h>
 
+@class SDLProxyOptions;
+
 @interface SDLProxyALM : SDLProxyBase
 
 -(instancetype)init NS_UNAVAILABLE;
@@ -28,15 +30,13 @@
  *
  * @param appID - Name of the application displayed on SDL.
  *
- * @param options - An optional dictionary specifying options for the proxy.
- *
- * @see SDLProxyALMConstants.h for valid options keys
+ * @param options - An optional object specifying options for the proxy.
  */
 -(instancetype)initWithProxyDelegate:(id<SDLProxyListener>)delegate
                              appName:(NSString*)appName
                           isMediaApp:(NSNumber*)isMediaApp
                                appID:(NSString*)appID
-                             options:(NSDictionary*)options NS_DESIGNATED_INITIALIZER;
+                             options:(SDLProxyOptions*)options NS_DESIGNATED_INITIALIZER;
 
 /*!
  * @brief Allow applications using ALM to reset the proxy (dispose and reinstantiate)
