@@ -10,4 +10,9 @@
 
 @implementation SDLOnError
 
+-(instancetype)initWithError:(NSError *)error{
+    self = [super init];
+    return self;
+}
+
 @end

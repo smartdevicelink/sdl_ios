@@ -16,7 +16,7 @@
 
 -(instancetype)initWithQueueName:(NSString*)queueName completionHandler:(void (^)(id dispatchedMessage, NSException* exception))completionHandler;
 
--(void)queueMessage:(SDLInternalProxyMessage*)message;
+-(void)queueMessage:(SDLProtocolMessage*)message;
 -(void)dispose;
 
 @end
