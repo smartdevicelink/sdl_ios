@@ -1,6 +1,6 @@
 //  SDLDebugTool.m
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 #import "SDLDebugTool.h"
 #import "SDLRPCMessage.h"

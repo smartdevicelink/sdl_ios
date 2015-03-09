@@ -1,10 +1,15 @@
 //  SDLDiagnosticMessage.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCRequest.h"
 
+/** Non periodic vehicle diagnostic request
+ *
+ * @Since SmartDeviceLink 3.0
+ *
+ */
 @interface SDLDiagnosticMessage : SDLRPCRequest {}
 
 -(id) init;

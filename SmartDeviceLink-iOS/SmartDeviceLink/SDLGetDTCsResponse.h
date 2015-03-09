@@ -1,10 +1,15 @@
 //  SDLGetDTCsResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+/**
+ * SDLGetDTCsResponse is sent, when SDLGetDTCs has been called
+ *
+ * Since <b>SmartDeviceLink 2.0</b>
+ */
 @interface SDLGetDTCsResponse : SDLRPCResponse {}
 
 -(id) init;
