@@ -5,7 +5,7 @@
 #import "SDLEnum.h"
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLEnum.h>
+#import "SDLEnum.h"
 
 /**
  * The supported dimensions of the GPS.
