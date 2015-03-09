@@ -15,6 +15,7 @@
     }
     
     messageType = NAMES_notification;
+    [store setObject:function forKey:messageType];
     
     return self;
 }
@@ -26,6 +27,7 @@
     }
     
     messageType = NAMES_notification;
+    [store setObject:function forKey:messageType];
     
     return self;
 }
