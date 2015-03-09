@@ -10,6 +10,8 @@ SDLRequestType* SDLRequestType_AUTH_REQUEST = nil;
 SDLRequestType* SDLRequestType_AUTH_CHALLENGE = nil;
 SDLRequestType* SDLRequestType_AUTH_ACK = nil;
 SDLRequestType* SDLRequestType_PROPRIETARY = nil;
+SDLRequestType* SDLRequestType_QUERY_APPS = nil;
+SDLRequestType* SDLRequestType_LAUNCH_APP = nil;
 
 NSMutableArray* SDLRequestType_values = nil;
 
@@ -27,13 +29,15 @@ NSMutableArray* SDLRequestType_values = nil;
 +(NSMutableArray*) values {
     if (SDLRequestType_values == nil) {
         SDLRequestType_values = [[NSMutableArray alloc] initWithObjects:
-                SDLRequestType.HTTP,
-                SDLRequestType.FILE_RESUME,
-                SDLRequestType.AUTH_REQUEST,
-                SDLRequestType.AUTH_CHALLENGE,
-                SDLRequestType.AUTH_ACK,
-                SDLRequestType.PROPRIETARY,
-                nil];
+                                 SDLRequestType.HTTP,
+                                 SDLRequestType.FILE_RESUME,
+                                 SDLRequestType.AUTH_REQUEST,
+                                 SDLRequestType.AUTH_CHALLENGE,
+                                 SDLRequestType.AUTH_ACK,
+                                 SDLRequestType.PROPRIETARY,
+                                 SDLRequestType_QUERY_APPS,
+                                 SDLRequestType_LAUNCH_APP,
+                                 nil];
     }
     return SDLRequestType_values;
 }
@@ -78,6 +82,22 @@ NSMutableArray* SDLRequestType_values = nil;
         SDLRequestType_PROPRIETARY = [[SDLRequestType alloc] initWithValue:@"PROPRIETARY"];
     }
     return SDLRequestType_PROPRIETARY;
+}
+
++(SDLRequestType*) QUERY_APPS {
+    if (SDLRequestType_QUERY_APPS == nil) {
+        SDLRequestType_QUERY_APPS = [[SDLRequestType alloc] initWithValue:@"QUERY_APPS"];
+    }
+    
+    return SDLRequestType_QUERY_APPS;
+}
+
++(SDLRequestType*) LAUNCH_APP {
+    if (SDLRequestType_LAUNCH_APP == nil) {
+        SDLRequestType_LAUNCH_APP = [[SDLRequestType alloc] initWithValue:@"LAUNCH_APP"];
+    }
+    
+    return SDLRequestType_LAUNCH_APP;
 }
 
 @end

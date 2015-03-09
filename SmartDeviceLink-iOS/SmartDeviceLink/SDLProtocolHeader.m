@@ -12,11 +12,11 @@
 @synthesize size = _size;
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
         _version = 0;
         _size = 0;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -30,7 +30,7 @@
 }
 
 - (void)parse:(NSData *)data {
-        [self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSString *)description {
@@ -38,20 +38,27 @@
     return description;
 }
 
-
 + (SDLProtocolHeader *)headerForVersion:(UInt8)version {
-    if (version == 1) {
-        return [[SDLV1ProtocolHeader alloc] init];
-    }
-
-    if (version == 2) {
-        return [[SDLV2ProtocolHeader alloc] init];
-    }
-
     // TODO: some error handling here if unknown version is asked for,
     // but that needs to be balanced against future proofing. i.e. V3.
     // Requirements around V3 are as yet undefined so give a V2 header
-    return [[SDLV2ProtocolHeader alloc] init];
+    // lol wat.
+    switch (version) {
+        case 0: {
+            return [[SDLV2ProtocolHeader alloc] initWithVersion:2];
+        } break;
+        case 1: {
+            return [[SDLV1ProtocolHeader alloc] init];
+        } break;
+        case 2:
+        case 3:
+        case 4: {
+            return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
+        } break;
+        default: {
+            return [[SDLV2ProtocolHeader alloc] initWithVersion:2];
+        } break;
+    }
 }
 
 @end
