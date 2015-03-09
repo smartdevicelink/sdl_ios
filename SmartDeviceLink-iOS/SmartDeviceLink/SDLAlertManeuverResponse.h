@@ -1,10 +1,13 @@
 //  SDLAlertManeuverResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+/** SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.
+ * @since SmartDeviceLink 1.0
+ */
 @interface SDLAlertManeuverResponse : SDLRPCResponse {}
 
 -(id) init;

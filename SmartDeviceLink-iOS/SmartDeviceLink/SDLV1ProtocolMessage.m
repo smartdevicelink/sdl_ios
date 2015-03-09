@@ -1,6 +1,6 @@
 //  SDLSmartDeviceLinkV1ProtocolMessage.m
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLV1ProtocolMessage.h"

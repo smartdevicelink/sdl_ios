@@ -1,10 +1,13 @@
 //  SDLAlertResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 
 #import "SDLRPCResponse.h"
 
+/**
+ * Sent after SDLAlert has been sent
+ * @since SDL 1.0
+ */
 @interface SDLAlertResponse : SDLRPCResponse {}
 
 -(id) init;
