@@ -455,7 +455,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestQueryApps:(SDLOnSystemRequest *)request {
-    __block NSURLSessionDataTask *task = [self dataTaskForSystemRequestURLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *requestError) {
+    NSURLSessionDataTask *task = [self dataTaskForSystemRequestURLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *requestError) {
         if ([self.activeSystemRequestTasks containsObject:task]) {
             [self.activeSystemRequestTasks removeObject:task];
         }
