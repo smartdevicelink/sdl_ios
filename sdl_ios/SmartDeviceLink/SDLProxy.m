@@ -100,6 +100,10 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 -(void) dispose {
+    if (self.transport != nil) {
+        [self.transport disconnect];
+    }
+    
     [self destructObjects];
 }
 

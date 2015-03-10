@@ -98,6 +98,10 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     }
 }
 
+- (void)disconnect {
+    [self dispose];
+}
+
 - (void)dispose {
     [self destructObjects];
 }
