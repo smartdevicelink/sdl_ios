@@ -9,7 +9,7 @@ SDLCharacterSet* SDLCharacterSet_TYPE5SET = nil;
 SDLCharacterSet* SDLCharacterSet_CID1SET = nil;
 SDLCharacterSet* SDLCharacterSet_CID2SET = nil;
 
-NSMutableArray* SDLCharacterSet_values = nil;
+NSArray* SDLCharacterSet_values = nil;
 
 @implementation SDLCharacterSet
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLCharacterSet_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLCharacterSet_values == nil) {
-        SDLCharacterSet_values = [[NSMutableArray alloc] initWithObjects:
+        SDLCharacterSet_values = @[
                 SDLCharacterSet.TYPE2SET,
                 SDLCharacterSet.TYPE5SET,
                 SDLCharacterSet.CID1SET,
                 SDLCharacterSet.CID2SET,
-                nil];
+                ];
     }
     return SDLCharacterSet_values;
 }

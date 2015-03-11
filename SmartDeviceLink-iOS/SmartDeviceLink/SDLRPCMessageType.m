@@ -8,7 +8,7 @@ SDLRPCMessageType* SDLRPCMessageType_request = nil;
 SDLRPCMessageType* SDLRPCMessageType_response = nil;
 SDLRPCMessageType* SDLRPCMessageType_notification = nil;
 
-NSMutableArray* SDLRPCMessageType_values = nil;
+NSArray* SDLRPCMessageType_values = nil;
 @implementation SDLRPCMessageType
 
 +(SDLRPCMessageType*) valueOf:(NSString*) value {
@@ -20,13 +20,13 @@ NSMutableArray* SDLRPCMessageType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLRPCMessageType_values == nil) {
-        SDLRPCMessageType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLRPCMessageType_values = @[
                 SDLRPCMessageType_request,
                 SDLRPCMessageType_response,
                 SDLRPCMessageType_notification,
-                nil];
+                ];
     }
     return SDLRPCMessageType_values;
 }

@@ -9,7 +9,7 @@ SDLWarningLightStatus* SDLWarningLightStatus_ON = nil;
 SDLWarningLightStatus* SDLWarningLightStatus_FLASH = nil;
 SDLWarningLightStatus* SDLWarningLightStatus_NOT_USED = nil;
 
-NSMutableArray* SDLWarningLightStatus_values = nil;
+NSArray* SDLWarningLightStatus_values = nil;
 
 @implementation SDLWarningLightStatus
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLWarningLightStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLWarningLightStatus_values == nil) {
-        SDLWarningLightStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLWarningLightStatus_values = @[
                 SDLWarningLightStatus.OFF,
                 SDLWarningLightStatus.ON,
                 SDLWarningLightStatus.FLASH,
                 SDLWarningLightStatus.NOT_USED,
-                nil];
+                ];
     }
     return SDLWarningLightStatus_values;
 }

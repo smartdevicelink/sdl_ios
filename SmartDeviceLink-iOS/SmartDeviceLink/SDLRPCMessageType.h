@@ -20,7 +20,7 @@
  @abstract declare an array to store all possible values of Message Types
  @result return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract SDLRPCMessageType : request

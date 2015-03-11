@@ -21,7 +21,7 @@
  @abstract Store the enumeration of all possible SDLAppInterfaceUnregisteredReason
  @result return an array that store all possible SDLAppInterfaceUnregisteredReason
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract  Vehicle ignition turned off.

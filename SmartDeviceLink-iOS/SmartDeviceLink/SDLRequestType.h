@@ -8,7 +8,7 @@
 @interface SDLRequestType : SDLEnum {}
 
 +(SDLRequestType*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLRequestType*) HTTP;
 +(SDLRequestType*) FILE_RESUME;

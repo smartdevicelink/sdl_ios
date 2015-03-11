@@ -15,7 +15,7 @@
 @interface SDLKeypressMode : SDLEnum {}
 
 +(SDLKeypressMode*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** SINGLE_KEYPRESS:<br>Each and every User`s keypress must be reported (new notification for every newly entered single symbol).
  *

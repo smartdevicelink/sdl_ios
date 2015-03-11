@@ -20,7 +20,7 @@
  @abstract Store the enumeration of all possible SDLVehicleDataResultCode
  @result return an array that store all possible SDLVehicleDataResultCode
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract return SDLVehicleDataResultCode : <font color=gray><i> SUCCESS </i></font>

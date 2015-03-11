@@ -20,7 +20,7 @@ SDLWiperStatus* SDLWiperStatus_AUTO_ADJUST = nil;
 SDLWiperStatus* SDLWiperStatus_STALLED = nil;
 SDLWiperStatus* SDLWiperStatus_NO_DATA_EXISTS = nil;
 
-NSMutableArray* SDLWiperStatus_values = nil;
+NSArray* SDLWiperStatus_values = nil;
 
 @implementation SDLWiperStatus
 
@@ -33,9 +33,9 @@ NSMutableArray* SDLWiperStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLWiperStatus_values == nil) {
-        SDLWiperStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLWiperStatus_values = @[
                 SDLWiperStatus.OFF,
                 SDLWiperStatus.AUTO_OFF,
                 SDLWiperStatus.OFF_MOVING,
@@ -51,7 +51,7 @@ NSMutableArray* SDLWiperStatus_values = nil;
                 SDLWiperStatus.AUTO_ADJUST,
                 SDLWiperStatus.STALLED,
                 SDLWiperStatus.NO_DATA_EXISTS,
-                nil];
+                ];
     }
     return SDLWiperStatus_values;
 }

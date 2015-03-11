@@ -25,7 +25,7 @@
  @abstract declare an array that store all possible Media clock formats inside
  @result return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Media clock format : Clock1

@@ -11,7 +11,7 @@ SDLRequestType* SDLRequestType_AUTH_CHALLENGE = nil;
 SDLRequestType* SDLRequestType_AUTH_ACK = nil;
 SDLRequestType* SDLRequestType_PROPRIETARY = nil;
 
-NSMutableArray* SDLRequestType_values = nil;
+NSArray* SDLRequestType_values = nil;
 
 @implementation SDLRequestType
 
@@ -24,16 +24,16 @@ NSMutableArray* SDLRequestType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLRequestType_values == nil) {
-        SDLRequestType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLRequestType_values = @[
                 SDLRequestType.HTTP,
                 SDLRequestType.FILE_RESUME,
                 SDLRequestType.AUTH_REQUEST,
                 SDLRequestType.AUTH_CHALLENGE,
                 SDLRequestType.AUTH_ACK,
                 SDLRequestType.PROPRIETARY,
-                nil];
+                ];
     }
     return SDLRequestType_values;
 }

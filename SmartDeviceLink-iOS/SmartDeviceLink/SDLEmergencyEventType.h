@@ -13,7 +13,7 @@
 @interface SDLEmergencyEventType : SDLEnum {}
 
 +(SDLEmergencyEventType*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** No emergency event has happened.
  */

@@ -12,7 +12,7 @@ SDLMediaClockFormat* SDLMediaClockFormat_CLOCKTEXT2 = nil;
 SDLMediaClockFormat* SDLMediaClockFormat_CLOCKTEXT3 = nil;
 SDLMediaClockFormat* SDLMediaClockFormat_CLOCKTEXT4 = nil;
 
-NSMutableArray* SDLMediaClockFormat_values = nil;
+NSArray* SDLMediaClockFormat_values = nil;
 
 @implementation SDLMediaClockFormat
 
@@ -25,9 +25,9 @@ NSMutableArray* SDLMediaClockFormat_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLMediaClockFormat_values == nil) {
-        SDLMediaClockFormat_values = [[NSMutableArray alloc] initWithObjects:
+        SDLMediaClockFormat_values = @[
                 SDLMediaClockFormat.CLOCK1,
                 SDLMediaClockFormat.CLOCK2,
                 SDLMediaClockFormat.CLOCK3,
@@ -35,7 +35,7 @@ NSMutableArray* SDLMediaClockFormat_values = nil;
                 SDLMediaClockFormat.CLOCKTEXT2,
                 SDLMediaClockFormat.CLOCKTEXT3,
                 SDLMediaClockFormat.CLOCKTEXT4,
-                nil];
+                ];
     }
     return SDLMediaClockFormat_values;
 }

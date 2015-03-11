@@ -8,7 +8,7 @@ SDLInteractionMode* SDLInteractionMode_MANUAL_ONLY = nil;
 SDLInteractionMode* SDLInteractionMode_VR_ONLY = nil;
 SDLInteractionMode* SDLInteractionMode_BOTH = nil;
 
-NSMutableArray* SDLInteractionMode_values = nil;
+NSArray* SDLInteractionMode_values = nil;
 
 @implementation SDLInteractionMode
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLInteractionMode_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLInteractionMode_values == nil) {
-        SDLInteractionMode_values = [[NSMutableArray alloc] initWithObjects:
+        SDLInteractionMode_values = @[
                 SDLInteractionMode.MANUAL_ONLY,
                 SDLInteractionMode.VR_ONLY,
                 SDLInteractionMode.BOTH,
-                nil];
+                ];
     }
     return SDLInteractionMode_values;
 }

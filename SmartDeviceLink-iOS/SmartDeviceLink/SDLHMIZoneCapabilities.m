@@ -7,7 +7,7 @@
 SDLHmiZoneCapabilities* SDLHmiZoneCapabilities_FRONT = nil;
 SDLHmiZoneCapabilities* SDLHmiZoneCapabilities_BACK = nil;
 
-NSMutableArray* SDLHmiZoneCapabilities_values = nil;
+NSArray* SDLHmiZoneCapabilities_values = nil;
 
 @implementation SDLHmiZoneCapabilities
 
@@ -20,12 +20,12 @@ NSMutableArray* SDLHmiZoneCapabilities_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLHmiZoneCapabilities_values == nil) {
-        SDLHmiZoneCapabilities_values = [[NSMutableArray alloc] initWithObjects:
+        SDLHmiZoneCapabilities_values = @[
                 SDLHmiZoneCapabilities.FRONT,
                 SDLHmiZoneCapabilities.BACK,
-                nil];
+                ];
     }
     return SDLHmiZoneCapabilities_values;
 }

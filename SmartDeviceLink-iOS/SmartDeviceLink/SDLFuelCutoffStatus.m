@@ -8,7 +8,7 @@ SDLFuelCutoffStatus* SDLFuelCutoffStatus_TERMINATE_FUEL = nil;
 SDLFuelCutoffStatus* SDLFuelCutoffStatus_NORMAL_OPERATION = nil;
 SDLFuelCutoffStatus* SDLFuelCutoffStatus_FAULT = nil;
 
-NSMutableArray* SDLFuelCutoffStatus_values = nil;
+NSArray* SDLFuelCutoffStatus_values = nil;
 
 @implementation SDLFuelCutoffStatus
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLFuelCutoffStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLFuelCutoffStatus_values == nil) {
-        SDLFuelCutoffStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLFuelCutoffStatus_values = @[
                 SDLFuelCutoffStatus.TERMINATE_FUEL,
                 SDLFuelCutoffStatus.NORMAL_OPERATION,
                 SDLFuelCutoffStatus.FAULT,
-                nil];
+                ];
     }
     return SDLFuelCutoffStatus_values;
 }

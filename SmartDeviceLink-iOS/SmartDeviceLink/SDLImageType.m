@@ -7,7 +7,7 @@
 SDLImageType* SDLImageType_STATIC = nil;
 SDLImageType* SDLImageType_DYNAMIC = nil;
 
-NSMutableArray* SDLImageType_values = nil;
+NSArray* SDLImageType_values = nil;
 
 @implementation SDLImageType
 
@@ -20,12 +20,12 @@ NSMutableArray* SDLImageType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLImageType_values == nil) {
-        SDLImageType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLImageType_values = @[
                 SDLImageType.STATIC,
                 SDLImageType.DYNAMIC,
-                nil];
+                ];
     }
     return SDLImageType_values;
 }

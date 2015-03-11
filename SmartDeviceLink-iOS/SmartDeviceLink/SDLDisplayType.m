@@ -15,7 +15,7 @@ SDLDisplayType* SDLDisplayType_MFD4 = nil;
 SDLDisplayType* SDLDisplayType_MFD5 = nil;
 SDLDisplayType* SDLDisplayType_GEN3_8_INCH = nil;
 
-NSMutableArray* SDLDisplayType_values = nil;
+NSArray* SDLDisplayType_values = nil;
 
 @implementation SDLDisplayType
 
@@ -28,9 +28,9 @@ NSMutableArray* SDLDisplayType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLDisplayType_values == nil) {
-        SDLDisplayType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLDisplayType_values = @[
                 SDLDisplayType.CID,
                 SDLDisplayType.TYPE2,
                 SDLDisplayType.TYPE5,
@@ -41,7 +41,7 @@ NSMutableArray* SDLDisplayType_values = nil;
                 SDLDisplayType.MFD4,
                 SDLDisplayType.MFD5,
                 SDLDisplayType.GEN3_8_INCH,
-                nil];
+                ];
     }
     return SDLDisplayType_values;
 }
