@@ -557,17 +557,17 @@ const int POLICIES_CORRELATION_ID = 65535;
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
             const int bufferSize = 1024;
-            uint8_t buf[bufferSize];
-            NSUInteger len = [(NSInputStream *)stream read:buf maxLength:bufferSize];
-            if(len > 0)
+            NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
+            NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
+            if(nBytesRead > 0)
             {
-                NSData* data = [NSData dataWithBytes:buf length:len];
+                NSData* data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
                 NSUInteger baseOffset = [(NSNumber*)objc_getAssociatedObject(stream, @"BaseOffset") unsignedIntegerValue];
                 NSUInteger newOffset = baseOffset + currentStreamOffset;
 
                 SDLPutFile* putFileRPCRequest = (SDLPutFile*)objc_getAssociatedObject(stream, @"SDLPutFile");
                 [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
-                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:len]];
+                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
 
                 [self sendRPCRequest:putFileRPCRequest];
