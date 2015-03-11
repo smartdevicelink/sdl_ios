@@ -10,7 +10,7 @@
 
 @protocol ISDLProxy
 
--(id) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
+-(instancetype) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
 
 -(void) dispose;
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;

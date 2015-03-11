@@ -32,14 +32,14 @@
 /**
  * @abstract Constructs a new SDLGetVehicleDataResponse object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLGetVehicleDataResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 
 /**

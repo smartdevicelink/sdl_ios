@@ -26,12 +26,12 @@
 /**
  * @abstract Constructs a new SDLPerformAudioPassThru object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLPerformAudioPassThru object indicated by the NSMutableDictionary
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass

@@ -8,7 +8,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 
 @implementation SDLV2ProtocolHeader
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
         _version = 2;
         _size = V2PROTOCOL_HEADERSIZE;
@@ -42,7 +42,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     return dataOut;
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (instancetype)copyWithZone:(NSZone *)zone
 {
     SDLV2ProtocolHeader *newHeader = [[SDLV2ProtocolHeader allocWithZone: zone] init];
     newHeader.compressed = self.compressed;

@@ -24,7 +24,7 @@
 @property (strong) NSTimer* handshakeTimer;
 @property (strong) NSString *debugConsoleGroupName;
 
--(id) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLInterfaceProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
+-(instancetype) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLInterfaceProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
 
 -(void) dispose;
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;

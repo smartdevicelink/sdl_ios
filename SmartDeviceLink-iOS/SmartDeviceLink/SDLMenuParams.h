@@ -60,12 +60,12 @@
 /**
  * Constructs a newly allocated SDLMenuParams object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLMenuParams object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the unique ID of an existing submenu to which a command will be added

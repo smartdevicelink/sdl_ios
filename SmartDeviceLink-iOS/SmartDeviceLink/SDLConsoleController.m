@@ -11,7 +11,7 @@
 
 @synthesize messageList;
 
--(id) initWithTableView:(UITableView*) tableView {
+-(instancetype) initWithTableView:(UITableView*) tableView {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.tableView = tableView;
         self.tableView.delegate = self;

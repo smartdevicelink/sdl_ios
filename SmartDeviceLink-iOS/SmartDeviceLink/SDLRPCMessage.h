@@ -9,8 +9,8 @@
 	NSMutableDictionary* store;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict;
--(id) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
 
 -(NSMutableDictionary*) serializeAsDictionary:(Byte) version;
 
@@ -22,8 +22,8 @@
 	NSString* messageType;
 }
 
--(id) initWithName:(NSString*) name;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithName:(NSString*) name;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 -(NSString*) getFunctionName;
 -(void) setFunctionName:(NSString*) functionName;
 -(NSObject*) getParameters:(NSString*) functionName;

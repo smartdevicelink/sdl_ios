@@ -47,7 +47,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Object lifecycle
-- (id)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
+- (instancetype)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
 	if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         

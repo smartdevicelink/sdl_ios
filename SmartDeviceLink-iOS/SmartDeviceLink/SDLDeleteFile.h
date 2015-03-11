@@ -17,14 +17,14 @@
 /**
  * Constructs a new SDLDeleteFile object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLDeleteFile object indicated by the NSMutableDictionary parameter
  * <p>
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract a file reference name

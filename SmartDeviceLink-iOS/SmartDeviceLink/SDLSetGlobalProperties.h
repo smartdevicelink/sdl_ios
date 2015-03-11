@@ -23,13 +23,13 @@
 /**
  * @abstract Constructs a new SDLSetGlobalProperties object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSetGlobalProperties object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more

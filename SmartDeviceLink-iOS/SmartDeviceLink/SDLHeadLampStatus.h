@@ -14,13 +14,13 @@
 /**
  * @abstract Constructs a new SDLHeadLampStatus object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLHeadLampStatus object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 /**
  * @abstract A boolean value. Status of the low beam lamps.
  */

@@ -40,7 +40,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 @implementation SDLProtocol
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
         _version = 1;
         _messageID = 0;

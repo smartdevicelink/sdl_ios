@@ -8,14 +8,14 @@
 
 @implementation SDLRPCStruct
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
 	if (self = [super init]) {
 		store = dict;
 	}
 	return self;
 }
 
--(id) init {
+-(instancetype) init {
 	if (self = [super init]) {
 		store = [[NSMutableDictionary alloc] init];
 	}
@@ -85,7 +85,7 @@
 
 @synthesize messageType;
 
--(id) initWithName:(NSString*) name {
+-(instancetype) initWithName:(NSString*) name {
 	if (self = [super init]) {
 		function = [[NSMutableDictionary alloc] initWithCapacity:3];
 		parameters = [[NSMutableDictionary alloc] init];
@@ -97,7 +97,7 @@
 	return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
 	if (self = [super initWithDictionary:dict]) {
 
         NSEnumerator *enumerator = [store keyEnumerator];

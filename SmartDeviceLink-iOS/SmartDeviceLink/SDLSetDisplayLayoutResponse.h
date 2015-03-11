@@ -18,8 +18,8 @@
 /**
  * @abstract Constructs a new SDLSetDisplayLayoutResponse object
  */
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLDisplayCapabilities* displayCapabilities;
 @property(strong) NSMutableArray* buttonCapabilities;

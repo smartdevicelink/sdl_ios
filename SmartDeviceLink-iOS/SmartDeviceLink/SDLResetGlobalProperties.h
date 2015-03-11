@@ -26,13 +26,13 @@
 /**
  * @abstract Constructs a new SDLResetGlobalProperties object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLResetGlobalProperties object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract An array of one or more GlobalProperty enumeration elements
