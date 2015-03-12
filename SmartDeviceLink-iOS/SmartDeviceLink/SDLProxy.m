@@ -18,9 +18,10 @@
 #import "SDLRPCPayload.h"
 #import "SDLPolicyDataParser.h"
 #import "SDLLockScreenManager.h"
+#import "SDLProtocolMessage.h"
 
 
-#define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
+#define VERSION_STRING @"##Version##"
 typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 
@@ -28,12 +29,17 @@ typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *respo
 
 {
     SDLLockScreenManager *lsm;
+    NSURLSession *systemRequestSession;
+    NSURLSession *encodedSyncPDataSession;
 }
+
+- (void)startRPCSession;
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object;
 - (void)notifyProxyClosed;
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 - (void)OESPHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
 - (void)OSRHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error;
+- (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType;
 
 @end
 
@@ -41,30 +47,31 @@ typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *respo
 
 @implementation SDLProxy
 
-const float handshakeTime = 30.0;
+const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Object lifecycle
-- (id)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
-	if (self = [super init]) {
+- (id)initWithTransport:(SDLAbstractTransport *)theTransport protocol:(SDLAbstractProtocol *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
+    if (self = [super init]) {
         _debugConsoleGroupName = @"default";
-        
+
 
         lsm = [SDLLockScreenManager new];
 
-        rpcSessionID = 0;
-        alreadyDestructed = NO;
-                
+        _alreadyDestructed = NO;
+
         self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
         self.protocol = theProtocol;
         self.transport = theTransport;
         self.transport.delegate = self.protocol;
         self.protocol.protocolDelegate = self;
         self.protocol.transport = self.transport;
-        [self.transport connect];
 
+        [self.transport performSelector:@selector(connect) withObject:nil afterDelay:0];
+
+        [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 
     }
@@ -73,112 +80,105 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 -(void) destructObjects {
-    if(!alreadyDestructed) {
-        alreadyDestructed = YES;
+    if(!_alreadyDestructed) {
+        _alreadyDestructed = YES;
 
+        if (systemRequestSession != nil) {
+            [systemRequestSession invalidateAndCancel];
+        }
+        if (encodedSyncPDataSession != nil) {
+            [encodedSyncPDataSession invalidateAndCancel];
+        }
+
+        [self.protocol dispose];
+        [self.transport dispose];
         [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-        
         self.transport = nil;
         self.protocol = nil;
         self.proxyListeners = nil;
-
-        [self destroyHandshakeTimer];
     }
 }
 
 -(void) dispose {
+    if (self.transport != nil) {
+        [self.transport disconnect];
+    }
+    
     [self destructObjects];
 }
 
 -(void) dealloc {
     [self destructObjects];
+    [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
 }
 
 -(void) notifyProxyClosed {
-	if (isConnected) {
-		isConnected = NO;
+    if (isConnected) {
+        isConnected = NO;
         [self invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
-	}
-}
-
-
-#pragma mark - Pseudo properties
-- (NSObject<SDLTransport> *)getTransport {
-    return self.transport;// not needed except for backwards compatability?
-}
-
-- (NSObject<SDLInterfaceProtocol> *)getProtocol {
-    return self.protocol;// not needed except for backwards compatability?
-}
-
-- (NSString *)getProxyVersion {
-    return VERSION_STRING;
-}
-
-- (NSString *)proxyVersion { // How it should have been named.
-    return VERSION_STRING;
-}
-
-
-#pragma mark - Handshake Timer
-- (void)handshakeTimerFired {
-    [SDLDebugTool logInfo:@"RPC Initial Handshake Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
-    [self destroyHandshakeTimer];
-    [self performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:notifyProxyClosedDelay];
-}
-
--(void)destroyHandshakeTimer {
-    if (self.handshakeTimer != nil) {
-        [self.handshakeTimer invalidate];
-        self.handshakeTimer = nil;
     }
 }
 
+- (NSString *)proxyVersion {
+    return VERSION_STRING;
+}
+
+- (void)startRPCSession {
+    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+}
 
 #pragma mark - SDLProtocolListener Implementation
 - (void) onProtocolOpened {
     isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+    [self startRPCSession];
 
-    [self destroyHandshakeTimer];
-    self.handshakeTimer = [NSTimer scheduledTimerWithTimeInterval:handshakeTime target:self selector:@selector(handshakeTimerFired) userInfo:nil repeats:NO];
+    if (self.startSessionTimer == nil) {
+        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime];
+        __weak typeof(self) weakSelf = self;
+        self.startSessionTimer.elapsedBlock = ^{
+            [SDLDebugTool logInfo:@"Start Session Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:weakSelf.debugConsoleGroupName];
+            [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:notifyProxyClosedDelay];
+        };
+    }
+    [self.startSessionTimer start];
 }
 
 -(void) onProtocolClosed {
-	[self notifyProxyClosed];
+    [self notifyProxyClosed];
 }
 
 -(void) onError:(NSString*) info exception:(NSException*) e {
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d", sessionID];
+- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
+    // Turn off the timer, the start session response came back
+    [self.startSessionTimer cancel];
+
+    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    
+
     if (_version <= 1) {
         if (maxVersionForModule == 2) {
             _version = maxVersionForModule;
         }
     }
 
-    if (sessionType == SDLServiceType_RPC || _version == 2) {
-        rpcSessionID = sessionID;
+    if (serviceType == SDLServiceType_RPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
 
 - (void) onProtocolMessageReceived:(SDLProtocolMessage*) msgData {
     @try {
-		[self handleProtocolMessage:msgData];
-	}
-	@catch (NSException * e) {
-		NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to handle protocol message %@", e];
+        [self handleProtocolMessage:msgData];
+    }
+    @catch (NSException * e) {
+        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to handle protocol message %@", e];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-	}
+    }
 }
 
 
@@ -190,12 +190,12 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)sendRPCRequestPrivate:(SDLRPCRequest *)rpcRequest {
-	@try {
+    @try {
         [self.protocol sendRPCRequest:rpcRequest];
-	} @catch (NSException * e) {
-		NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to send RPC request: %@", rpcRequest.name];
+    } @catch (NSException * e) {
+        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to send RPC request: %@", rpcRequest.name];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-	}
+    }
 }
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)incomingMessage {
@@ -213,26 +213,23 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString* functionName = [rpcMsg getFunctionName];
     NSString* messageType = [rpcMsg messageType];
 
-	if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered]
+    if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered]
         || [functionName isEqualToString:NAMES_UnregisterAppInterface]) {
         logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", msg];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC  toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-		[self notifyProxyClosed];
-		return;
-	}
-    
-	if ([messageType isEqualToString:NAMES_response]) {
-		bool notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
-		if(notGenericResponseMessage) functionName = [NSString stringWithFormat:@"%@Response", functionName];
-	}
-    
-    
+        [self notifyProxyClosed];
+        return;
+    }
+
+    if ([messageType isEqualToString:NAMES_response]) {
+        bool notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
+        if(notGenericResponseMessage) functionName = [NSString stringWithFormat:@"%@Response", functionName];
+    }
+
+
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
-        // Turn off the timer, the handshake has succeeded
-        [self destroyHandshakeTimer];
-        
         //Print Proxy Version To Console
-        logMessage = [NSString stringWithFormat:@"Framework Version: %@", [self getProxyVersion]];
+        logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
 
@@ -257,7 +254,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
         return;
     }
-    
+
     // Intercept OnSystemRequest.
     if ([functionName isEqualToString:@"OnSystemRequest"]) {
 
@@ -322,7 +319,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
             // HTTP Request configuration
             NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-            NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+            systemRequestSession = [NSURLSession sessionWithConfiguration:config];
             NSURL *url = [NSURL URLWithString:urlString];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
             [request setValue:contentType forHTTPHeaderField:@"content-type"];
@@ -340,8 +337,8 @@ const int POLICIES_CORRELATION_ID = 65535;
             {
                 [self OSRHTTPRequestCompletionHandler:data response:response error:error];
             };
-            NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:bodyData completionHandler:handler];
-            [uploadTask resume];
+            NSURLSessionUploadTask *systemRequestUploadTask = [systemRequestSession uploadTaskWithRequest:request fromData:bodyData completionHandler:handler];
+            [systemRequestUploadTask resume];
 
             return;
         }
@@ -357,18 +354,16 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
     // From the function name, create the corresponding RPCObject and initialize it
-	NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
+    NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *functionObject = [[NSClassFromString(functionClassName) alloc] initWithDictionary:msg];
-//	SDLRPCMessage *functionObject = [[NSClassFromString(functionClassName) alloc] init];
-//    NSObject* rpcCallbackObject = [functionObject initWithDictionary:[msg mutableCopy]];
 
     logMessage = [NSString stringWithFormat:@"%@", functionObject];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Formulate the name of the method to call on the listeners and call it, passing the RPC Object
-	NSString* handlerName = [NSString stringWithFormat:@"on%@:", functionName];
-	SEL handlerSelector = NSSelectorFromString(handlerName);
-	[self invokeMethodOnDelegates:handlerSelector withObject:functionObject];
+    NSString* handlerName = [NSString stringWithFormat:@"on%@:", functionName];
+    SEL handlerSelector = NSSelectorFromString(handlerName);
+    [self invokeMethodOnDelegates:handlerSelector withObject:functionObject];
 
 
     // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
@@ -396,9 +391,9 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - Delegate management
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate {
-	@synchronized(self.proxyListeners) {
-		[self.proxyListeners addObject:delegate];
-	}
+    @synchronized(self.proxyListeners) {
+        [self.proxyListeners addObject:delegate];
+    }
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
@@ -422,7 +417,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     config.HTTPAdditionalHeaders = @{@"Content-Type": @"application/json"};
     config.timeoutIntervalForRequest = 60;
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    encodedSyncPDataSession = [NSURLSession sessionWithConfiguration:config];
 
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
@@ -444,8 +439,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Send the HTTP Request
     [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:handler];
-    [uploadTask resume];
+    NSURLSessionUploadTask *encodedSyncPDataUploadTask = [encodedSyncPDataSession uploadTaskWithRequest:request fromData:data completionHandler:handler];
+    [encodedSyncPDataUploadTask resume];
 
 }
 
@@ -507,26 +502,46 @@ const int POLICIES_CORRELATION_ID = 65535;
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
 
-    // Send and log RPC Request
-    logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length ];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    // Send RPC Request
     [self sendRPCRequestPrivate:request];
 
 }
 
-
-#pragma mark - PutFile Streaming
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest
-{
-    [self putFileStream:inputStream withRequest:putFileRPCRequest];
+- (void)startAudioSession {
+    [self.protocol sendStartSessionWithType:FMCServiceType_Audio];
 }
 
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest
+- (void)sendAudioData:(NSData *)data {
+    [self sendData:data withServiceType:FMCServiceType_Audio];
+}
+
+- (void)stopAudioSession {
+    [self.protocol sendEndSessionWithType:FMCServiceType_Audio];
+}
+
+- (void)startVideoSession {
+    [self.protocol sendStartSessionWithType:FMCServiceType_Video];
+}
+
+- (void)sendVideoData:(NSData *)data {
+    [self sendData:data withServiceType:FMCServiceType_Video];
+}
+
+- (void)stopVideoSession {
+    [self.protocol sendEndSessionWithType:FMCServiceType_Video];
+}
+
+- (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
+    [self.protocol sendRawData:data withServiceType:serviceType];
+}
+
+#pragma mark - PutFile Streaming
+- (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest
 {
     inputStream.delegate = self;
     objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject(inputStream, @"BaseOffset", [putFileRPCRequest offset], OBJC_ASSOCIATION_RETAIN);
-    
+
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
 }
@@ -542,17 +557,17 @@ const int POLICIES_CORRELATION_ID = 65535;
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
             const int bufferSize = 1024;
-            uint8_t buf[bufferSize];
-            NSUInteger len = [(NSInputStream *)stream read:buf maxLength:bufferSize];
-            if(len > 0)
+            NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
+            NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
+            if(nBytesRead > 0)
             {
-                NSData* data = [NSData dataWithBytes:buf length:len];
+                NSData* data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
                 NSUInteger baseOffset = [(NSNumber*)objc_getAssociatedObject(stream, @"BaseOffset") unsignedIntegerValue];
                 NSUInteger newOffset = baseOffset + currentStreamOffset;
 
                 SDLPutFile* putFileRPCRequest = (SDLPutFile*)objc_getAssociatedObject(stream, @"SDLPutFile");
                 [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
-                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:len]];
+                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
 
                 [self sendRPCRequest:putFileRPCRequest];
@@ -566,7 +581,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             // Cleanup the stream
             [stream close];
             [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-
+            
             break;
         }
         case NSStreamEventErrorOccurred:

@@ -19,7 +19,6 @@
 #import "SDLGetDTCsResponse.h"
 #import "SDLGetVehicleDataResponse.h"
 #import "SDLListFilesResponse.h"
-#import "SDLLockScreenStatus.h"
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
@@ -30,6 +29,7 @@
 #import "SDLOnHashChange.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnLanguageChange.h"
+#import "SDLOnLockScreenStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLOnSyncPData.h"
 #import "SDLOnSystemRequest.h"
@@ -94,7 +94,7 @@
 -(void) onOnEncodedSyncPData:(SDLOnEncodedSyncPData*) notification;
 -(void) onOnHashChange:(SDLOnHashChange*) notification;
 -(void) onOnLanguageChange:(SDLOnLanguageChange*) notification;
--(void) onOnLockScreenNotification:(SDLLockScreenStatus*) notification;
+-(void) onOnLockScreenNotification:(SDLOnLockScreenStatus*) notification;
 -(void) onOnPermissionsChange:(SDLOnPermissionsChange*) notification;
 -(void) onOnSyncPData:(SDLOnSyncPData*) notification;
 -(void) onOnSystemRequest:(SDLOnSystemRequest*) notification;

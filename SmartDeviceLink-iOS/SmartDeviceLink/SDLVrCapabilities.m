@@ -12,7 +12,7 @@ NSMutableArray* SDLVrCapabilities_values = nil;
 
 +(SDLVrCapabilities*) valueOf:(NSString*) value {
     for (SDLVrCapabilities* item in SDLVrCapabilities.values) {
-        //NOTE: This was added for Sync Module Compatability, V1 module resturns "Text" and a
+        //NOTE: This was added for SDL Module Compatability, V1 module resturns "Text" and a
         //      Gen 1.1 module returns "TEXT", the new if statement makes a case insensitive
         //      check instead to accept both
         //if ([item.value isEqualToString:value]) {

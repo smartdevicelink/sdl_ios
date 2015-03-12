@@ -1,9 +1,4 @@
-//
 //  SmartDeviceLink.h
-//  SmartDeviceLink
-//
-//  Created by Joel Fischer on 2/5/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -93,6 +88,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLSubscribeButton.h>
 #import <SmartDeviceLink/SDLSubscribeVehicleData.h>
 #import <SmartDeviceLink/SDLSyncPData.h>
+<<<<<<< HEAD:sdl_ios/SmartDeviceLink/SmartDeviceLink.h
+#import <SmartDeviceLink/SDLSystemRequest.h>
+#import <SmartDeviceLink/SDLUpdateTurnList.h>
+=======
+>>>>>>> smartdevicelink/develop:SmartDeviceLink-iOS/SmartDeviceLink/SmartDeviceLink.h
 #import <SmartDeviceLink/SDLUnregisterAppInterface.h>
 #import <SmartDeviceLink/SDLUnsubscribeButton.h>
 #import <SmartDeviceLink/SDLUnsubscribeVehicleData.h>

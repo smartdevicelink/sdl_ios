@@ -13,5 +13,6 @@
 - (void)connect;
 - (void)disconnect;
 - (void)sendData:(NSData *)dataToSend;
+- (void)unregister;
 
 @end

@@ -6,7 +6,10 @@
 #import "SDLAbstractTransport.h"
 
 @interface SDLTCPTransport : SDLAbstractTransport {
-	CFSocketRef socket;
+    CFSocketRef socket;
 }
+
+@property (strong, atomic) NSString *hostName;
+@property (strong, atomic) NSString *portNumber;
 
 @end

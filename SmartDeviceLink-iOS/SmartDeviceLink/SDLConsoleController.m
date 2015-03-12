@@ -32,7 +32,7 @@
 
         [messageList addObject:dictionary];
         NSIndexPath *newIndex = [NSIndexPath indexPathForRow:(messageList.count - 1) inSection:0];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndex] withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndex] withRowAnimation:UITableViewRowAnimationNone];
 
         //If we were at the bottom, scroll to the new bottom.
         if (atBottom) {

@@ -12,11 +12,11 @@
 @implementation SDLV2ProtocolMessage
 
 - (id)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload {
-	if (self = [self init]) {
+    if (self = [self init]) {
         self.header = header;
         self.payload = payload;
-	}
-	return self;
+    }
+    return self;
 }
 
 // Convert RPC payload to dictionary (for consumption by RPC layer)
@@ -32,15 +32,19 @@
     // Parse the payload as RPC struct
     SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
 
-    // Get the json data from the struct
-    NSDictionary *jsonDictionary = [[SDLJsonDecoder instance] decode:rpcPayload.jsonData];
-
     // Create the inner dictionary with the RPC properties
     NSMutableDictionary *innerDictionary = [[NSMutableDictionary alloc] init];
     NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];
     [innerDictionary setObject:functionName forKey:NAMES_operation_name];
     [innerDictionary setObject:[NSNumber numberWithInt:rpcPayload.correlationID] forKey:NAMES_correlationID];
-    [innerDictionary setObject:jsonDictionary forKey:NAMES_parameters];
+
+    // Get the json data from the struct
+    if(rpcPayload.jsonData) {
+        NSDictionary *jsonDictionary = [[SDLJsonDecoder instance] decode:rpcPayload.jsonData];
+        if(jsonDictionary) {
+            [innerDictionary setObject:jsonDictionary forKey:NAMES_parameters];
+        }
+    }
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
@@ -53,6 +57,6 @@
     }
 
     return rpcMessageAsDictionary;
-
+    
 }
 @end
