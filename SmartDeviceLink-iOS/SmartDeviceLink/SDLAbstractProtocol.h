@@ -5,6 +5,7 @@
 
 #import "SDLInterfaceProtocol.h"
 #import "SDLTransport.h"
+#import "SDLAbstractTransport.h"
 #import "SDLProtocolListener.h"
 
 

@@ -8,6 +8,7 @@
 #import "SDLProxyListener.h"
 #import "SDLRPCRequestFactory.h"
 #import "SDLTransport.h"
+#import "SDLTimer.h"
 
 @interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
@@ -43,12 +44,8 @@
 - (void)sendVideoData:(NSData *)data;
 - (void)stopVideoSession;
 
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
-
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;
-
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
 
 /**
  * Puts data into a file on the module
