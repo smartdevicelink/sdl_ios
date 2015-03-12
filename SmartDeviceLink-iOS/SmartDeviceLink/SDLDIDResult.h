@@ -1,11 +1,10 @@
 //  SDLDIDResult.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLVehicleDataResultCode.h"
+@class SDLVehicleDataResultCode;
+
 
 @interface SDLDIDResult : SDLRPCStruct {}
 

@@ -1,12 +1,11 @@
 //  SDLShow.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLTextAlignment.h"
-#import "SDLImage.h"
+@class SDLImage;
+@class SDLTextAlignment;
+
 
 /**
  * Updates the application's display text area, regardless of whether or not

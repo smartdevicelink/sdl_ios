@@ -1,9 +1,8 @@
 //  SDLOnEncodedSyncPData.h
 //
 
-
-
 #import "SDLRPCNotification.h"
+
 
 @interface SDLOnEncodedSyncPData : SDLRPCNotification {}
 

@@ -1,10 +1,12 @@
 //  SDLTireStatus.m
 //
 
-
 #import "SDLTireStatus.h"
 
 #import "SDLNames.h"
+#import "SDLSingleTireStatus.h"
+#import "SDLWarningLightStatus.h"
+
 
 @implementation SDLTireStatus
 

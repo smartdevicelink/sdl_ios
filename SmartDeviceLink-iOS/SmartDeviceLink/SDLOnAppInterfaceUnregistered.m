@@ -1,10 +1,11 @@
 //  SDLOnAppInterfaceUnregistered.m
 //
 
-
 #import "SDLOnAppInterfaceUnregistered.h"
 
+#import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLNames.h"
+
 
 @implementation SDLOnAppInterfaceUnregistered
 

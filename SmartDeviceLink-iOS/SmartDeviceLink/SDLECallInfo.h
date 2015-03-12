@@ -1,12 +1,11 @@
 //  SDLECallInfo.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLVehicleDataNotificationStatus.h"
-#import "SDLECallConfirmationStatus.h"
+@class SDLVehicleDataNotificationStatus;
+@class SDLECallConfirmationStatus;
+
 
 @interface SDLECallInfo : SDLRPCStruct {}
 

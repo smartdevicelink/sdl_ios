@@ -5,6 +5,8 @@
 #import "SDLSubscribeVehicleDataResponse.h"
 
 #import "SDLNames.h"
+#import "SDLVehicleDataResult.h"
+
 
 @implementation SDLSubscribeVehicleDataResponse
 

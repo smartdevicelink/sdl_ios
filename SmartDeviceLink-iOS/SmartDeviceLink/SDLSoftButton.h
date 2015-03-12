@@ -1,13 +1,12 @@
 //  SDLSoftButton.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLSoftButtonType.h"
-#import "SDLImage.h"
-#import "SDLSystemAction.h"
+@class SDLImage;
+@class SDLSoftButtonType;
+@class SDLSystemAction;
+
 
 @interface SDLSoftButton : SDLRPCStruct {}
 

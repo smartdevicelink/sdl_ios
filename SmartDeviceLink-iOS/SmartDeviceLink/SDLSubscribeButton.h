@@ -5,7 +5,8 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLButtonName.h"
+@class SDLButtonName;
+
 
 /**
  * Establishes a subscription to button notifications for HMI buttons. Buttons

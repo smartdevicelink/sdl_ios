@@ -1,10 +1,10 @@
 //  SDLJsonDecoder.m
 //
 
-
 #import "SDLJsonDecoder.h"
 
 #import "SDLNames.h"
+
 
 @implementation SDLJsonDecoder
 

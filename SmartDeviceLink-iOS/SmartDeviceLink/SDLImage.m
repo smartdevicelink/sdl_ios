@@ -1,10 +1,11 @@
 //  SDLImage.m
 //
 
-
 #import "SDLImage.h"
 
+#import "SDLImageType.h"
 #import "SDLNames.h"
+
 
 @implementation SDLImage
 

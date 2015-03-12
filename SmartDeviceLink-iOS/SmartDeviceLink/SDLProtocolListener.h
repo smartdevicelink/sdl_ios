@@ -1,11 +1,10 @@
 //  SDLProtocolListener.h
 //
 
-
-
-
 #import "SDLProtocolHeader.h"
+
 @class SDLProtocolMessage;
+
 
 @protocol SDLProtocolListener
 

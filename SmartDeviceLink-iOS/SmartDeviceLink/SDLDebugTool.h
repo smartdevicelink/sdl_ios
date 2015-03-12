@@ -1,10 +1,10 @@
 //  SDLDebugTool.h
 //
 
-
 @import Foundation;
 
 @class SDLRPCMessage;
+
 
 @protocol SDLDebugToolConsole
 

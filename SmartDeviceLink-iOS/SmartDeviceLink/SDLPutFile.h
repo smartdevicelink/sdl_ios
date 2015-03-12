@@ -1,11 +1,9 @@
 //  SDLPutFile.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLFileType.h"
+@class SDLFileType;
 
 
 /**

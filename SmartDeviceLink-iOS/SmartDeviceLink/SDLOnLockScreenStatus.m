@@ -8,6 +8,7 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 
+
 @implementation SDLOnLockScreenStatus
 
 - (id)init {

@@ -1,10 +1,11 @@
 //  SDLOnKeyboardInput.m
 //
 
-
 #import "SDLOnKeyboardInput.h"
 
+#import "SDLKeyboardEvent.h"
 #import "SDLNames.h"
+
 
 @implementation SDLOnKeyboardInput
 

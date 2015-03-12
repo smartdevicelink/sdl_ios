@@ -1,11 +1,10 @@
 //  SDLOnDriverDistraction.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLDriverDistractionState.h"
+@class SDLDriverDistractionState;
+
 
 /**
  * <p>Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
@@ -22,7 +21,7 @@
  * <ul><li>Any</li></ul>
  * </ul>
  * <p></p>
- * <b>Parameter List:</b>
+ * <b>Parameter Lists:</b>
  * <table  border="1" rules="all">
  *     <tr>
  *         <th>Name</th>

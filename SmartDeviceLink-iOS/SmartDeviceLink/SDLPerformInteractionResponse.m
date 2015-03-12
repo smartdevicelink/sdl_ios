@@ -5,6 +5,8 @@
 #import "SDLPerformInteractionResponse.h"
 
 #import "SDLNames.h"
+#import "SDLTriggerSource.h"
+
 
 @implementation SDLPerformInteractionResponse
 

@@ -1,12 +1,11 @@
 //  SDLImageField.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImageFieldName.h"
-#import "SDLImageResolution.h"
+@class SDLImageFieldName;
+@class SDLImageResolution;
+
 
 @interface SDLImageField : SDLRPCStruct {}
 

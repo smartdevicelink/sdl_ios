@@ -4,6 +4,9 @@
 
 #import "SDLProtocolMessageDisassembler.h"
 
+#import "SDLProtocolMessage.h"
+
+
 @implementation SDLProtocolMessageDisassembler
 
 

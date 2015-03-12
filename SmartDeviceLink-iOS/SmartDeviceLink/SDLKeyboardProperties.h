@@ -1,13 +1,12 @@
 //  SDLKeyboardProperties.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLLanguage.h"
-#import "SDLKeyboardLayout.h"
-#import "SDLKeypressMode.h"
+@class SDLLanguage;
+@class SDLKeyboardLayout;
+@class SDLKeypressMode;
+
 
 @interface SDLKeyboardProperties : SDLRPCStruct {}
 

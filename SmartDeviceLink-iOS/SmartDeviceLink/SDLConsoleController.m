@@ -1,11 +1,11 @@
 //  SDLConsoleController.m
 //
 
-
 #import "SDLConsoleController.h"
 
 #import "SDLJSONEncoder.h"
 #import "SDLRPCResponse.h"
+
 
 @implementation SDLConsoleController
 

@@ -1,10 +1,12 @@
 //  SDLGPSData.m
 //
 
-
 #import "SDLGPSData.h"
 
+#import "SDLCompassDirection.h"
+#import "SDLDimension.h"
 #import "SDLNames.h"
+
 
 @implementation SDLGPSData
 

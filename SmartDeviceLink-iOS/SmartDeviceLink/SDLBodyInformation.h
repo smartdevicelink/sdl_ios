@@ -1,12 +1,11 @@
 //  SDLBodyInformation.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLIgnitionStableStatus.h"
-#import "SDLIgnitionStatus.h"
+@class SDLIgnitionStableStatus;
+@class SDLIgnitionStatus;
+
 
 /**
  * The body information including power modes.

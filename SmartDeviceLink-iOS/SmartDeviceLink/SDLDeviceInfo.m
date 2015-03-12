@@ -1,10 +1,10 @@
 //  SDLDeviceInfo.m
 //
 
-
 #import "SDLDeviceInfo.h"
 
 #import "SDLNames.h"
+
 
 @implementation SDLDeviceInfo
 

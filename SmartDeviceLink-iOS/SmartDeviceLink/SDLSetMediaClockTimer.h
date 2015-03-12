@@ -1,12 +1,11 @@
 //  SDLSetMediaClockTimer.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLStartTime.h"
-#import "SDLUpdateMode.h"
+@class SDLStartTime;
+@class SDLUpdateMode;
+
 
 /**
  * Sets the media clock/timer value and the update method (e.g.count-up,

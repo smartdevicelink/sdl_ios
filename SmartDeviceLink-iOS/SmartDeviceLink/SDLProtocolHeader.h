@@ -1,7 +1,6 @@
 //  SDLSmartDeviceLinkProtocolHeader.h
 //
 
-
 @import Foundation;
 
 

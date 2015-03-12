@@ -1,13 +1,12 @@
 //  SDLPerformAudioPassThru.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLSamplingRate.h"
-#import "SDLBitsPerSample.h"
-#import "SDLAudioType.h"
+@class SDLSamplingRate;
+@class SDLBitsPerSample;
+@class SDLAudioType;
+
 
 /**
  * This will open an audio pass thru session. By doing so the app can receive

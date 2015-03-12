@@ -1,10 +1,11 @@
 //  SDLOnCommand.m
 //
 
-
 #import "SDLOnCommand.h"
 
 #import "SDLNames.h"
+#import "SDLTriggerSource.h"
+
 
 @implementation SDLOnCommand
 

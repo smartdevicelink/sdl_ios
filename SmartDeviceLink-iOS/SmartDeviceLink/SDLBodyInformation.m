@@ -4,7 +4,10 @@
 
 #import "SDLBodyInformation.h"
 
+#import "SDLIgnitionStableStatus.h"
+#import "SDLIgnitionStatus.h"
 #import "SDLNames.h"
+
 
 @implementation SDLBodyInformation
 

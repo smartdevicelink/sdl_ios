@@ -1,4 +1,4 @@
-//  SDLSmartDeviceLinkProtocol.m
+//  SDLProtocol.m
 //
 
 
@@ -8,6 +8,7 @@
 #import "SDLRPCRequest.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLProtocolMessage.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLProtocolMessageDisassembler.h"
 #import "SDLProtocolRecievedMessageRouter.h"

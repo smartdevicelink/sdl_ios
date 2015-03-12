@@ -1,9 +1,10 @@
 //  SDLSmartDeviceLinkProtocolMessageAssembler.m
 //
 
-
 #import "SDLProtocolMessageAssembler.h"
+
 #import "SDLProtocolHeader.h"
+#import "SDLProtocolMessage.h"
 
 @implementation SDLProtocolMessageAssembler
 

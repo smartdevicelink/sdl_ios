@@ -1,11 +1,10 @@
 //  SDLSubscribeVehicleDataResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
-#import "SDLVehicleDataResult.h"
+@class SDLVehicleDataResult;
+
 
 /**
  * Subscribe Vehicle Data Response is sent, when SDLSubscribeVehicleData has been called

@@ -1,10 +1,12 @@
 //  SDLPermissionItem.m
 //
 
-
 #import "SDLPermissionItem.h"
 
+#import "SDLHMIPermissions.h"
 #import "SDLNames.h"
+#import "SDLParameterPermissions.h"
+
 
 @implementation SDLPermissionItem
 

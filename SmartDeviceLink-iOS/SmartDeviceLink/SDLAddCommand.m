@@ -5,6 +5,9 @@
 #import "SDLAddCommand.h"
 
 #import "SDLNames.h"
+#import "SDLMenuParams.h"
+#import "SDLImage.h"
+
 
 @implementation SDLAddCommand
 

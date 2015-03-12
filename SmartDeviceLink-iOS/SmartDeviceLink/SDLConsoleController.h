@@ -1,11 +1,11 @@
 //  SDLConsoleController.h
 //
 
-
 @import Foundation;
 @import UIKit;
 
 #import "SDLDebugTool.h"
+
 
 @interface SDLConsoleController : UITableViewController <SDLDebugToolConsole> {
 	NSMutableArray* messageList;

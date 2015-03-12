@@ -1,9 +1,7 @@
 //  SDLRPCMessage.h
 //
 
-
-
-#import "SDLEnum.h"
+@import Foundation;
 
 @interface SDLRPCStruct : NSObject {
 	NSMutableDictionary* store;

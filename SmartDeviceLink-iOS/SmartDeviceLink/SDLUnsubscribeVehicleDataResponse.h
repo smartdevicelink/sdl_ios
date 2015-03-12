@@ -1,11 +1,10 @@
 //  SDLUnsubscribeVehicleDataResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
-#import "SDLVehicleDataResult.h"
+@class SDLVehicleDataResult;
+
 
 /**
  * Unsubscribe Vehicle Data Response is sent, when UnsubscribeVehicleData has been called

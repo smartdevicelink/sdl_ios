@@ -1,10 +1,13 @@
 //  SDLEmergencyEvent.m
 //
 
-
 #import "SDLEmergencyEvent.h"
 
+#import "SDLEmergencyEventType.h"
+#import "SDLFuelCutoffStatus.h"
 #import "SDLNames.h"
+#import "SDLVehicleDataEventStatus.h"
+
 
 @implementation SDLEmergencyEvent
 

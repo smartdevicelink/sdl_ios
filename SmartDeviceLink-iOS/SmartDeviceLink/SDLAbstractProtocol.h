@@ -1,8 +1,6 @@
 //  SDLAbstractProtocol.h
 //
 
-
-
 #import "SDLInterfaceProtocol.h"
 #import "SDLTransport.h"
 #import "SDLProtocolListener.h"

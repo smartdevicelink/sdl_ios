@@ -1,13 +1,15 @@
 //  SDLDisplayCapabilities.m
 //
 
-
 #import "SDLDisplayCapabilities.h"
 
-#import "SDLNames.h"
-#import "SDLTextField.h"
+#import "SDLDisplayType.h"
 #import "SDLImageField.h"
 #import "SDLMediaClockFormat.h"
+#import "SDLNames.h"
+#import "SDLScreenParams.h"
+#import "SDLTextField.h"
+
 
 @implementation SDLDisplayCapabilities
 

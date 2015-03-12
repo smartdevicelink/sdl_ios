@@ -1,10 +1,12 @@
 //  SDLOnButtonPress.m
 //
 
-
 #import "SDLOnButtonPress.h"
 
+#import "SDLButtonName.h"
+#import "SDLButtonPressMode.h"
 #import "SDLNames.h"
+
 
 @implementation SDLOnButtonPress
 

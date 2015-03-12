@@ -1,10 +1,11 @@
 //  SDLBeltStatus.m
 //
 
-
 #import "SDLBeltStatus.h"
 
 #import "SDLNames.h"
+#import "SDLVehicleDataEventStatus.h"
+
 
 @implementation SDLBeltStatus
 

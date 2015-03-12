@@ -1,13 +1,12 @@
 //  SDLOnHMIStatus.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLHMILevel.h"
-#import "SDLAudioStreamingState.h"
-#import "SDLSystemContext.h"
+@class SDLAudioStreamingState;
+@class SDLHMILevel;
+@class SDLSystemContext;
+
 
 /**
  * <p>Notifies an application that HMI conditions have changed for the application. This indicates whether the application

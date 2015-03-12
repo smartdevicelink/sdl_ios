@@ -4,9 +4,13 @@
 
 #import "SDLRegisterAppInterface.h"
 
+#import "SDLAppHMIType.h"
+#import "SDLDeviceInfo.h"
+#import "SDLLanguage.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
-#import "SDLAppHMIType.h"
+#import "SDLSyncMsgVersion.h"
+
 
 @implementation SDLRegisterAppInterface
 

@@ -5,7 +5,7 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLLanguage.h"
+@class SDLLanguage;
 
 /**
  * If the app recognizes during the app registration that the SDL HMI language

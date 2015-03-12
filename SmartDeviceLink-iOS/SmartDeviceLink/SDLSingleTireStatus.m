@@ -1,10 +1,11 @@
 //  SDLSingleTireStatus.m
 //
 
-
 #import "SDLSingleTireStatus.h"
 
+#import "SDLComponentVolumeStatus.h"
 #import "SDLNames.h"
+
 
 @implementation SDLSingleTireStatus
 

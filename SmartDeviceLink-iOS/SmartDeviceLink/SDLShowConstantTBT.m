@@ -4,8 +4,10 @@
 
 #import "SDLShowConstantTBT.h"
 
+#import "SDLImage.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
+
 
 @implementation SDLShowConstantTBT
 

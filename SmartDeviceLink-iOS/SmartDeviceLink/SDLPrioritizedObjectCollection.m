@@ -5,7 +5,7 @@
 
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLObjectWithPriority.h"
-#import "SDLDebugTool.h"//fortesting
+
 
 @interface SDLPrioritizedObjectCollection ()
 {

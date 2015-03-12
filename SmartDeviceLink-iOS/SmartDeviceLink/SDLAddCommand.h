@@ -3,8 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLMenuParams.h"
-#import "SDLImage.h"
+@class SDLMenuParams;
+@class SDLImage;
 
 
 /**

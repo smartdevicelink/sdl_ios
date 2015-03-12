@@ -1,10 +1,13 @@
 //  SDLClusterModeStatus.m
 //
 
-
 #import "SDLClusterModeStatus.h"
 
+#import "SDLCarModeStatus.h"
 #import "SDLNames.h"
+#import "SDLPowerModeQualificationStatus.h"
+#import "SDLPowerModeStatus.h"
+
 
 @implementation SDLClusterModeStatus
 

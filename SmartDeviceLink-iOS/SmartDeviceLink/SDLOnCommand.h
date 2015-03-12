@@ -1,11 +1,10 @@
 //  SDLOnCommand.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLTriggerSource.h"
+@class SDLTriggerSource;
+
 
 /**
  * This is called when a command was selected via VR after pressing the PTT button, or selected from the menu after

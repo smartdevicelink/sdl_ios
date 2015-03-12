@@ -1,12 +1,11 @@
 //  SDLDisplayCapabilities.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLDisplayType.h"
-#import "SDLScreenParams.h"
+@class SDLDisplayType;
+@class SDLScreenParams;
+
 
 /**
  * Contains information about the display for the SDL system to which the application is currently connected.

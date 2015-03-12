@@ -1,9 +1,8 @@
 //  SDLDeviceInfo.h
 //
 
-
-
 #import "SDLRPCMessage.h"
+
 
 @interface SDLDeviceInfo : SDLRPCStruct {}
 

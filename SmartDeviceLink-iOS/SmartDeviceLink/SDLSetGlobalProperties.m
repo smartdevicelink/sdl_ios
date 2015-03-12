@@ -4,9 +4,12 @@
 
 #import "SDLSetGlobalProperties.h"
 
+#import "SDLImage.h"
+#import "SDLKeyboardProperties.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
+
 
 @implementation SDLSetGlobalProperties
 

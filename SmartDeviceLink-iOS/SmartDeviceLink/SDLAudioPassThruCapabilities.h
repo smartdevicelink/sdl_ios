@@ -1,13 +1,12 @@
 //  SDLAudioPassThruCapabilities.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLSamplingRate.h"
-#import "SDLBitsPerSample.h"
-#import "SDLAudioType.h"
+@class SDLAudioType;
+@class SDLBitsPerSample;
+@class SDLSamplingRate;
+
 
 /**
  * Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}

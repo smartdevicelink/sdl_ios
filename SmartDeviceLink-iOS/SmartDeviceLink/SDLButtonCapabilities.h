@@ -1,11 +1,10 @@
 //  SDLButtonCapabilities.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLButtonName.h"
+@class SDLButtonName;
+
 
 /**
  * Provides information about the capabilities of a SDL HMI button.

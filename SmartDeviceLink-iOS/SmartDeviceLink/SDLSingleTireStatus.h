@@ -1,11 +1,10 @@
 //  SDLSingleTireStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLComponentVolumeStatus.h"
+@class SDLComponentVolumeStatus;
+
 
 /**
  * Tire pressure status of a single tire.

@@ -1,12 +1,11 @@
 //  SDLScreenParams.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImageResolution.h"
-#import "SDLTouchEventCapabilities.h"
+@class SDLImageResolution;
+@class SDLTouchEventCapabilities;
+
 
 @interface SDLScreenParams : SDLRPCStruct {}
 

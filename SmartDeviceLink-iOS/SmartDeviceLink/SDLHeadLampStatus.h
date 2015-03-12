@@ -1,11 +1,10 @@
 //  SDLHeadLampStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLAmbientLightStatus.h"
+@class SDLAmbientLightStatus;
+
 
 /**
  * Status of the head lamps

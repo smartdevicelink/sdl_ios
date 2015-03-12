@@ -1,11 +1,10 @@
 //  SDLOnKeyboardInput.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLKeyboardEvent.h"
+@class SDLKeyboardEvent;
+
 
 @interface SDLOnKeyboardInput : SDLRPCNotification {}
 
