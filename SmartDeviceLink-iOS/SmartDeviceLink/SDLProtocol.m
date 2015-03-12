@@ -16,7 +16,7 @@
 #import "SDLPrioritizedObjectCollection.h"
 
 
-const NSUInteger MAX_TRANSMISSION_SIZE = 1500;
+const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
 const UInt8 MAX_VERSION_TO_SEND = 3;
 
 @interface SDLProtocol () {
