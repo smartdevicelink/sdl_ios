@@ -1,11 +1,7 @@
 //
 //  SDLAmbientLightStatusSpec.m
 //  SmartDeviceLink
-//
-//  Created by Jacob Keeler on 1/20/15.
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
-//
-//#define EXP_SHORTHAND
+
 
 #import <Foundation/Foundation.h>
 

@@ -1,11 +1,7 @@
 //
 //  SDLVehicleDataEventStatusSpec.m
 //  SmartDeviceLink
-//
-//  Created by Jacob Keeler on 1/21/15.
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
-//
-//#define EXP_SHORTHAND
+
 
 #import <Foundation/Foundation.h>
 

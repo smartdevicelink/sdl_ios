@@ -1,11 +1,7 @@
 //
 //  SmartDeviceLinkTests.m
 //  SmartDeviceLinkTests
-//
-//  Created by Jacob Keeler on 1/15/15.
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
-//
-//#define EXP_SHORTHAND
+
 
 #import <Foundation/Foundation.h>
 
@@ -441,8 +437,9 @@ describe(@"BuildReadDID Tests", ^ {
 
 describe(@"BuildRegisterAppInterface Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* ttsName = @[[[SDLTTSChunk alloc] init]];
-        SDLRegisterAppInterface* message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Interface" ttsName:ttsName vrSynonyms:@[@"Q", @"W", @"E", @"R"]
+        NSMutableArray *ttsName = [NSMutableArray arrayWithArray:@[[[SDLTTSChunk alloc] init]]];
+        NSMutableArray *synonyms = [NSMutableArray arrayWithArray:@[@"Q", @"W", @"E", @"R"]];
+        SDLRegisterAppInterface* message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Interface" ttsName:ttsName vrSynonyms:synonyms
                                                                  isMediaApp:[NSNumber numberWithBool:YES] languageDesired:[SDLLanguage EN_US]
                                                                  hmiDisplayLanguageDesired:[SDLLanguage ES_MX] appID:@"6h43g"];
         
@@ -460,7 +457,7 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.appID).to(equal(@"6h43g"));
         expect(message.correlationID).to(equal(@1));
         
-        message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Register App Interface" isMediaApp:[NSNumber numberWithBool:NO] languageDesired:[SDLLanguage PT_BR] appID:@"36g6rsw4"];
+        message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Register App Interface" isMediaApp:@NO languageDesired:[SDLLanguage PT_BR] appID:@"36g6rsw4"];
         
         expect(message.syncMsgVersion).to(beNil());
         expect(message.appName).to(equal(@"Register App Interface"));
