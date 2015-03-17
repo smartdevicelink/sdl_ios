@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D61FA1B1A84237100846EE7"
-            BuildableName = "SmartDeviceLink.framework"
-            BlueprintName = "SmartDeviceLink"
+            BlueprintIdentifier = "5D4019AE1A76EC350006B0C2"
+            BuildableName = "SmartDeviceLink-Example.app"
+            BlueprintName = "SmartDeviceLink-Example"
             ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -58,15 +58,16 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D61FA1B1A84237100846EE7"
-            BuildableName = "SmartDeviceLink.framework"
-            BlueprintName = "SmartDeviceLink"
+            BlueprintIdentifier = "5D4019AE1A76EC350006B0C2"
+            BuildableName = "SmartDeviceLink-Example.app"
+            BlueprintName = "SmartDeviceLink-Example"
             ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
