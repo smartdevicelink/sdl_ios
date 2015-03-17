@@ -102,15 +102,15 @@
     switch (newState) {
         case ProxyStateStopped: {
             self.connectTableViewCell.backgroundColor = [UIColor redColor];
-            self.connectButton.titleLabel.text = @"Connect";
+            [self.connectButton setTitle:@"Connect" forState:UIControlStateNormal];
         } break;
         case ProxyStateSearchingForConnection: {
             self.connectTableViewCell.backgroundColor = [UIColor blueColor];
-            self.connectButton.titleLabel.text = @"Stop Searching";
+            [self.connectButton setTitle:@"Stop Searching" forState:UIControlStateNormal];
         } break;
         case ProxyStateConnected: {
             self.connectTableViewCell.backgroundColor = [UIColor greenColor];
-            self.connectButton.titleLabel.text = @"Disconnect";
+            [self.connectButton setTitle:@"Disconnect" forState:UIControlStateNormal];
         } break;
         default: break;
     }
