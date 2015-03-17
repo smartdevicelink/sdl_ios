@@ -1,10 +1,14 @@
 //  SDLUpdateTurnListResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+
+/** SDLUpdateTurnListResponse is sent, when SDLUpdateTurnList has been called.
+ * Since<b>SmartDeviceLink 2.0</b>
+ */
 @interface SDLUpdateTurnListResponse : SDLRPCResponse {}
 
 -(id) init;

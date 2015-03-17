@@ -22,19 +22,18 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="IP Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xqM-s4-9RV">
-                                                    <rect key="frame" x="8" y="-1" width="584" height="44"/>
+                                                    <rect key="frame" x="8" y="0.0" width="584" height="44"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="zcX-uy-R0F"/>
+                                                        <constraint firstAttribute="height" constant="44" id="5Pw-mh-x83"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="xqM-s4-9RV" secondAttribute="bottom" constant="-8" id="Ffr-cr-kaP"/>
+                                                <constraint firstAttribute="centerY" secondItem="xqM-s4-9RV" secondAttribute="centerY" id="PcX-lz-oQo"/>
                                                 <constraint firstItem="xqM-s4-9RV" firstAttribute="trailing" secondItem="B7X-yY-lwJ" secondAttribute="trailingMargin" id="YF9-Uh-Yqm"/>
                                                 <constraint firstItem="xqM-s4-9RV" firstAttribute="leading" secondItem="B7X-yY-lwJ" secondAttribute="leadingMargin" id="pBt-SK-tuZ"/>
-                                                <constraint firstItem="xqM-s4-9RV" firstAttribute="top" secondItem="B7X-yY-lwJ" secondAttribute="topMargin" constant="-9" id="t8S-gg-0wi"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -44,17 +43,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Port" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hsI-ld-8xY">
-                                                    <rect key="frame" x="8" y="-1" width="584" height="44"/>
+                                                    <rect key="frame" x="8" y="0.0" width="584" height="44"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="3ax-RG-wXc"/>
+                                                        <constraint firstAttribute="height" constant="44" id="FpG-5e-MHT"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="hsI-ld-8xY" secondAttribute="bottom" constant="-8" id="NeM-t1-0P8"/>
-                                                <constraint firstItem="hsI-ld-8xY" firstAttribute="top" secondItem="ZD4-xA-og5" secondAttribute="topMargin" constant="-9" id="luU-Zg-64R"/>
+                                                <constraint firstAttribute="centerY" secondItem="hsI-ld-8xY" secondAttribute="centerY" id="X1e-g3-RJN"/>
                                                 <constraint firstItem="hsI-ld-8xY" firstAttribute="leading" secondItem="ZD4-xA-og5" secondAttribute="leadingMargin" id="oeB-5U-tOl"/>
                                                 <constraint firstItem="hsI-ld-8xY" firstAttribute="trailing" secondItem="ZD4-xA-og5" secondAttribute="trailingMargin" id="wXl-bK-7vU"/>
                                             </constraints>
@@ -71,9 +69,6 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t37-4W-6F4">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="l0i-9a-oqA"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                     <state key="normal" title="Connect">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -84,8 +79,9 @@
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="t37-4W-6F4" firstAttribute="top" secondItem="uI9-fK-205" secondAttribute="topMargin" constant="-8" id="IfU-4k-EXx"/>
+                                                <constraint firstItem="t37-4W-6F4" firstAttribute="top" secondItem="uI9-fK-205" secondAttribute="top" id="IfU-4k-EXx"/>
                                                 <constraint firstItem="t37-4W-6F4" firstAttribute="leading" secondItem="uI9-fK-205" secondAttribute="leadingMargin" constant="-8" id="cc3-uk-9fL"/>
+                                                <constraint firstAttribute="bottom" secondItem="t37-4W-6F4" secondAttribute="bottom" id="hnD-4g-xvT"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="t37-4W-6F4" secondAttribute="trailing" constant="-8" id="j4p-fi-0LP"/>
                                             </constraints>
                                         </tableViewCellContentView>

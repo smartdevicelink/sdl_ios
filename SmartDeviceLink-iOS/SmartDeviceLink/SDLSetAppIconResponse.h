@@ -1,10 +1,13 @@
 //  SDLSetAppIconResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+/** SDLSetAppIconResponse is sent, when SDLSetAppIcon has been called.
+ * Since<b>SmartDeviceLink 2.0</b>
+ */
 @interface SDLSetAppIconResponse : SDLRPCResponse {}
 
 -(id) init;

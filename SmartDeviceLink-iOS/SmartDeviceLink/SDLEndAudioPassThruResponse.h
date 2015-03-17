@@ -1,10 +1,15 @@
 //  SDLEndAudioPassThruResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+/**
+ * SDLEndAudioPassThruResponse is sent, when SDLEndAudioPassThru has been called
+ *
+ * Since <b>SmartDeviceLink 2.0</b>
+ */
 @interface SDLEndAudioPassThruResponse : SDLRPCResponse {}
 
 -(id) init;

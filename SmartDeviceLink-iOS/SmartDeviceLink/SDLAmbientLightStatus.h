@@ -1,10 +1,14 @@
 //  SDLAmbientLightStatus.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLEnum.h"
 
+/**
+ * Reflects the status of the ambient light sensor
+ * @since SDL 3.0
+ */
 @interface SDLAmbientLightStatus : SDLEnum {}
 
 +(SDLAmbientLightStatus*) valueOf:(NSString*) value;

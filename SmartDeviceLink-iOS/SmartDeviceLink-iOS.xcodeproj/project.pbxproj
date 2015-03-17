@@ -1958,6 +1958,7 @@
 		5D0218EC1A8E796100D1BF62 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
+				5D4832991A8EA27200252386 /* Storyboards */,
 				5D4832A21A94F8F100252386 /* Transition */,
 				5D0218FA1A8E7E1700D1BF62 /* ConnectionContainerViewController.h */,
 				5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */,
@@ -1965,7 +1966,6 @@
 				5D0218F51A8E79C400D1BF62 /* ConnectionTCPTableViewController.m */,
 				5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */,
 				5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */,
-				5D4832991A8EA27200252386 /* Storyboards */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -3102,7 +3102,6 @@
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = ACNGAAM3M7;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3838,7 +3837,7 @@
 				);
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3858,7 +3857,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = SmartDeviceLink/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

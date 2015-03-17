@@ -1,10 +1,15 @@
 //  SDLChangeRegistrationResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+/**
+ * SDLChangeRegistrationResponse is sent, when SDLChangeRegistration has been called
+ *
+ * Since <b>SmartDeviceLink 2.0
+ */
 @interface SDLChangeRegistrationResponse : SDLRPCResponse {}
 
 -(id) init;

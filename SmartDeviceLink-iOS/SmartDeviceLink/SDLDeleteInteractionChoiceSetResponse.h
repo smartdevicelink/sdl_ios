@@ -1,10 +1,15 @@
 //  SDLDeleteInteractionChoiceSetResponse.h
 //
-//  Copyright (c) 2014 Ford Motor Company. All rights reserved.
+
 
 
 #import "SDLRPCResponse.h"
 
+/**
+ * SDLDeleteInteractionChoiceSetResponse is sent, when SDLDeleteInteractionChoiceSet has been called
+ *
+ * Since <b>SmartDeviceLink 1.0</b>
+ */
 @interface SDLDeleteInteractionChoiceSetResponse : SDLRPCResponse {}
 
 -(id) init;
