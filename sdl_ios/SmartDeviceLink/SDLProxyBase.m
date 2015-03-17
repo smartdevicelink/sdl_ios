@@ -6,23 +6,23 @@
 //
 
 #import "SDLProxyBase.h"
-#import <SmartDeviceLink/SDLSession.h>
-#import <SmartDeviceLink/SDLConnectionState.h>
-#import <SmartDeviceLink/SDLInterfaceAvailability.h>
-#import <SmartDeviceLink/SDLConnectionDelegate.h>
-#import <SmartDeviceLink/SDLBaseTransportConfig.h>
-#import <SmartDeviceLink/SDLProxyALMConstants.h>
-#import <SmartDeviceLink/SDLNames.h>
-#import <SmartDeviceLink/SDLFunctionID.h>
-#import <SmartDeviceLink/SDLJsonEncoder.h>
-#import <SmartDeviceLink/SDLRPCMessageType.h>
-#import <SmartDeviceLink/SDLProxyMessageDispatcher.h>
-#import <SmartDeviceLink/SDLRPCMessage.h>
-#import <SmartDeviceLink/SDLSystemRequest.h>
-#import <SmartDeviceLink/SDLInternalProxyMessage.h>
-#import <SmartDeviceLink/SDLOnError.h>
-#import <SmartDeviceLink/SDLMessageType.h>
-#import <SmartDeviceLink/SDLSystemRequestResponse.h>
+#import "SDLSession.h"
+#import "SDLConnectionState.h"
+#import "SDLInterfaceAvailability.h"
+#import "SDLConnectionDelegate.h"
+#import "SDLBaseTransportConfig.h"
+#import "SDLNames.h"
+#import "SDLFunctionID.h"
+#import "SDLJsonEncoder.h"
+#import "SDLRPCMessageType.h"
+#import "SDLProxyMessageDispatcher.h"
+#import "SDLRPCMessage.h"
+#import "SDLSystemRequest.h"
+#import "SDLInternalProxyMessage.h"
+#import "SDLOnError.h"
+#import "SDLMessageType.h"
+#import "SDLSystemRequestResponse.h"
+#import "SDLHeartbeatMonitor.h"
 
 static int const PROX_PROT_VER_ONE = 1;
 static int const REGISTER_APP_INTERFACE_CORRELATION_ID = 65529;
@@ -33,6 +33,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 @interface SDLProxyBase() <SDLConnectionDelegate>
 
+//Flags
 @property (nonatomic, getter=isAdvancedLifecycleManagementEnabled) BOOL advancedLifecycleManagementEnabled;
 @property (nonatomic, getter=isAppInterfaceRegistered) NSNumber* appInterfaceRegistered;
 @property (nonatomic, getter=isCycling) BOOL cycling;
@@ -42,6 +43,8 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 @property (nonatomic) BOOL haveReceivedFirstFocusLevelFull;
 @property (nonatomic) BOOL proxyDisposed;
 @property (nonatomic) BOOL resumeSuccess;
+@property (nonatomic) BOOL navServiceResponseReceived;
+@property (nonatomic) BOOL navServiceResponse;
 
 @property (strong, nonatomic) NSNumber* preRegistered;
 @property (strong, nonatomic) NSNumber* appResumeEnabled;
@@ -67,7 +70,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 @property (strong, nonatomic) SDLProxyMessageDispatcher* incomingProxyMessageDispatcher;
 @property (strong, nonatomic) SDLProxyMessageDispatcher* internalProxyMessageDispatcher;
 
-@property (strong, nonatomic) SDLTTSChunk* ttsName;
+@property (strong, nonatomic) NSArray* ttsName;
 @property (strong, nonatomic) SDLSyncMsgVersion* sdlMsgVersionRequest;
 @property (strong, nonatomic) SDLLanguage* sdlLanguageDesired;
 @property (strong, nonatomic) SDLLanguage* hmiDisplayLanguageDesired;
@@ -101,7 +104,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                              appName:(NSString *)appName
                           isMediaApp:(NSNumber *)isMediaApp
                                appID:(NSString *)appID
-                             options:(SDLProxyOptions *)options{
+                             options:(SDLProxyALMOptions *)options{
     self = [super init];
     if (self) {
         
@@ -128,9 +131,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                               appName:(NSString *)appName
                            isMediaApp:(NSNumber *)isMediaApp
                                 appID:(NSString *)appID
-                              options:(SDLProxyOptions *)options
+                              options:(SDLProxyALMOptions *)options
                                 error:(NSError**)error{
+    
     self.wiproVersion = PROX_PROT_VER_ONE;
+    _advancedLifecycleManagementEnabled = enableAdvancedLifecycleManagement;
+    _applicationName = appName;
+    _mediaApp = isMediaApp;
+    _applicationID = appID;
     
     NSNumber* preRegistered = options.preRegistered;
     
@@ -146,19 +154,15 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         _lastHashID = options.hashID;
     }
     
-    _advancedLifecycleManagementEnabled = enableAdvancedLifecycleManagement;
-    _applicationName = appName;
     _ttsName = options.ttsName;
     _ngnMediaScreenAppName = options.ngnMediaScreenAppName;
-    _mediaApp = options.isMediaApp;
     _sdlMsgVersionRequest = options.syncMsgVersion;
     _vrSynonyms = options.vrSynonyms;
     _sdlLanguageDesired = options.languageDesired;
     _hmiDisplayLanguageDesired = options.hmiDisplayLanguageDesired;
     _appTypes = options.appTypes;
-    _applicationID = appID;
     _autoActivateIdDesired = options.autoActivateID;
-    _transportConfig = options.transportConfig;
+    _transportConfig = options.transportConfig ? options.transportConfig : [SDLBaseTransportConfig new];
     
     if (!delegate) {
         *error = [NSError new];//TODO: Set this error
@@ -177,14 +181,16 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         self.internalProxyMessageDispatcher = nil;
     }
     
+    __weak SDLProxyBase* weakSelf = self;
+    
     self.internalProxyMessageDispatcher = [[SDLProxyMessageDispatcher alloc] initWithQueueName:@"INTERNAL_MESSAGE_DISPATCHER" completionHandler:^(id dispatchedMessage, NSException* exception) {
         if (!error) {
             if ([dispatchedMessage isKindOfClass:[SDLInternalProxyMessage class]]) {
-                [self dispatchInternalMessage:dispatchedMessage];
+                [weakSelf dispatchInternalMessage:dispatchedMessage];
             }
         }
         else{
-            [self handleErrorsFromInternalMessageDispatcherWithException:exception];
+            [weakSelf handleErrorsFromInternalMessageDispatcherWithException:exception];
         }
     }];
     
@@ -195,11 +201,11 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     self.incomingProxyMessageDispatcher = [[SDLProxyMessageDispatcher alloc] initWithQueueName:@"INCOMING_MESSAGE_DISPATCHER" completionHandler:^(SDLInternalProxyMessage *dispatchedMessage, NSException* exception) {
         if (!error) {
             if ([dispatchedMessage isKindOfClass:[SDLProtocolMessage class]]) {
-                [self dispatchInternalMessage:dispatchedMessage];
+                [weakSelf dispatchInternalMessage:dispatchedMessage];
             }
         }
         else{
-            [self handleErrorsFromInternalMessageDispatcherWithException:exception];
+            [weakSelf handleErrorsFromInternalMessageDispatcherWithException:exception];
         }
     }];
     
@@ -210,11 +216,11 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     self.outgoingProxyMessageDispatcher = [[SDLProxyMessageDispatcher alloc] initWithQueueName:@"INCOMING_MESSAGE_DISPATCHER" completionHandler:^(SDLInternalProxyMessage *dispatchedMessage, NSException* exception) {
         if (!error) {
             if ([dispatchedMessage isKindOfClass:[SDLProtocolMessage class]]) {
-                [self dispatchInternalMessage:dispatchedMessage];
+                [weakSelf dispatchInternalMessage:dispatchedMessage];
             }
         }
         else{
-            [self handleErrorsFromInternalMessageDispatcherWithException:exception];
+            [weakSelf handleErrorsFromInternalMessageDispatcherWithException:exception];
         }
     }];
     
@@ -269,12 +275,28 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     [SDLDebugTool disableDebugToLogFile];
 }
 
+-(void)navServiceStarted{
+    _navServiceResponseReceived = YES;
+    _navServiceResponse = YES;
+}
+
 -(void)addCommandWithCommandID:(NSNumber *)commandID menuText:(NSString *)menuText parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)imageType correlationID:(NSNumber *)correlationID{
     //TODO:Implement
 }
 
 -(void)addSubMenuWithMenuID:(NSNumber *)menuID menuName:(NSString *)menuName correlationID:(NSNumber *)correlationID{
     //TODO:Implement
+}
+
+-(void)registerAppInterfacePrivate:(SDLSyncMsgVersion*)sdlMsgVersion appName:(NSString*)appName ttsName:(NSArray*)ttsName ngnMediaScreenAppName:(NSString*)ngnMediaScreenAppName vrSynonyms:(NSArray*)vrSynonyms isMediaApp:(NSNumber*)isMediaApp languageDesired:(SDLLanguage*)languageDesired hmiDisplayLanguageDesired:(SDLLanguage*)hmiDisplayLanguageDesired appHMITypes:(NSArray*)appHMITypes appID:(NSString*)appID autoActivateID:(NSString*)autoActivateID correlationID:(NSNumber*)correlationID{
+
+    SDLRegisterAppInterface* msg = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:[ttsName mutableCopy] vrSynonyms:[vrSynonyms mutableCopy] isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:hmiDisplayLanguageDesired appID:appID];
+    if (_appResumeEnabled) {
+        if (_lastHashID) {
+            msg.hashID = _lastHashID;
+        }
+    }
+    [self sendRPCRequestPrivate:msg];
 }
 
 //TODO:SDLDebugTool isDebugEnabled does not exist yet
@@ -337,7 +359,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)dispatchIncomingMessage:(SDLProtocolMessage*)message{
-    if ([message.sessionType isEqual:[SDLSessionType RPC]]) {
+    if (message.sessionType == SDLServiceType_RPC) {
         if (self.wiproVersion == 1) {
             if (message.version > 1) {
                 self.wiproVersion = message.version;
@@ -597,6 +619,25 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     [self sendRPCRequestPrivate:request];
 }
 
+-(void)dispatchInternalMessage:(SDLInternalProxyMessage*)message{
+    if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyError]) {
+        SDLOnError* msg = (SDLOnError*)message;
+        //TODO: Passing NSException to meeting API, but recommend transition to NSError to meet iOS practices.
+        [self.delegate onError:[NSException exceptionWithName:msg.error.domain reason:[msg.error localizedFailureReason] userInfo:msg.error.userInfo]];
+        /**************Start Legacy Specific Call-backs************/
+    } else if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyOpened]) {
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onProxyOpened];            
+        }
+    } else if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyClosed]) {
+        [self.delegate onProxyClosed];
+        /****************End Legacy Specific Call-backs************/
+    } else {
+        // Diagnostics
+        //TODO: Add logging
+    }
+}
+
 -(void)sendRPCRequestPrivate:(SDLRPCRequest *)request{
     //TODO: Trace logRPCEvent
     
@@ -608,7 +649,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         pm.sessionID = self.sdlSession.sessionID;
     }
     pm.messageType = [SDLMessageType RPC];
-    pm.sessionType = [SDLSessionType RPC];//TODO:Needs implementation
+    pm.sessionType = SDLServiceType_RPC;
     pm.functionID = [[SDLFunctionID new] getFunctionID:request.getFunctionName];
     if (!request.correlationID) {
         //TODO: Log error
@@ -618,7 +659,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     if (request.bulkData) {
         pm.bulkData = request.bulkData;
     }
-    [self.outgoingProxyMessageDispatcher queueMessage:pm];
+    //TODO: This is bypassing a message queue;
+    [self dispatchIncomingMessage:pm];
+//    [self.outgoingProxyMessageDispatcher queueMessage:pm];
 }
 
 -(void)handleRPCMessage:(NSDictionary*)message{
@@ -733,7 +776,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             if ([self.appResumeEnabled boolValue]) {
                 if (msg.resultCode == [SDLResult RESUME_FAILED]
                     || msg.resultCode != [SDLResult SUCCESS]) {
-                    self.resumeSuccess = @(NO);
+                    self.resumeSuccess = NO;
                     self.lastHashID = nil;
                 }
                 else if ([self.sdlSyncMsgVersion.majorVersion intValue] > 2 && self.lastHashID
@@ -768,154 +811,229 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         }
         else if ([functionName isEqualToString:NAMES_Speak]){
             SDLSpeakResponse* msg = [[SDLSpeakResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSpeakResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSpeakResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_Alert]){
             SDLAlertResponse* msg = [[SDLAlertResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onAlertResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onAlertResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_Show]){
             SDLShowResponse* msg = [[SDLShowResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onShowResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onShowResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_AddCommand]){
             SDLAddCommandResponse* msg = [[SDLAddCommandResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onAddCommandResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onAddCommandResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DeleteCommand]){
             SDLDeleteCommandResponse* msg = [[SDLDeleteCommandResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDeleteCommandResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDeleteCommandResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_AddSubMenu]){
             SDLAddSubMenuResponse* msg = [[SDLAddSubMenuResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onAddSubMenuResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onAddSubMenuResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DeleteSubMenu]){
             SDLDeleteSubMenuResponse* msg = [[SDLDeleteSubMenuResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDeleteSubMenuResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDeleteSubMenuResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SubscribeButton]){
             SDLSubscribeButtonResponse* msg = [[SDLSubscribeButtonResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSubscribeButtonResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSubscribeButtonResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_UnsubscribeButton]){
             SDLUnsubscribeButtonResponse* msg = [[SDLUnsubscribeButtonResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onUnsubscribeButtonResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onUnsubscribeButtonResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SetMediaClockTimer]){
             SDLSetMediaClockTimerResponse* msg = [[SDLSetMediaClockTimerResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSetMediaClockTimerResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSetMediaClockTimerResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_EncodedSyncPData]){
             SDLEncodedSyncPDataResponse* msg = [[SDLEncodedSyncPDataResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onEncodedSyncPDataRespons:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onEncodedSyncPDataRespons:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_CreateInteractionChoiceSet]){
             SDLCreateInteractionChoiceSetResponse* msg = [[SDLCreateInteractionChoiceSetResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onCreateInteractionChoiceSetResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onCreateInteractionChoiceSetResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DeleteInteractionChoiceSet]){
             SDLDeleteInteractionChoiceSetResponse* msg = [[SDLDeleteInteractionChoiceSetResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDeleteInteractionChoiceSetResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDeleteInteractionChoiceSetResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_PerformInteraction]){
             SDLPerformInteractionResponse* msg = [[SDLPerformInteractionResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onPerformInteractionResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onPerformInteractionResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SetGlobalProperties]){
             SDLSetGlobalPropertiesResponse* msg = [[SDLSetGlobalPropertiesResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSetGlobalPropertiesResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSetGlobalPropertiesResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_ResetGlobalProperties]){
             SDLResetGlobalPropertiesResponse* msg = [[SDLResetGlobalPropertiesResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onResetGlobalPropertiesResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onResetGlobalPropertiesResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_UnregisterAppInterface]){
             
             self.appInterfaceRegistered = @(NO);
             SDLUnregisterAppInterfaceResponse* msg = [[SDLUnregisterAppInterfaceResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onUnregisterAppInterfaceResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onUnregisterAppInterfaceResponse:msg];
+            }
             [self notifyProxyClosed];
         }
         else if ([functionName isEqualToString:NAMES_Slider]){
             SDLSliderResponse* msg = [[SDLSliderResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSliderResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSliderResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_PutFile]){
             SDLPutFileResponse* msg = [[SDLPutFileResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onPutFileResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onPutFileResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DeleteFile]){
             SDLDeleteFileResponse* msg = [[SDLDeleteFileResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDeleteFileResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDeleteFileResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_ListFiles]){
             SDLListFilesResponse* msg = [[SDLListFilesResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onListFilesResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onListFilesResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SetAppIcon]){
             SDLSetAppIconResponse* msg = [[SDLSetAppIconResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSetAppIconResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSetAppIconResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_ScrollableMessage]){
             SDLScrollableMessageResponse* msg = [[SDLScrollableMessageResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onScrollableMessageResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onScrollableMessageResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_ChangeRegistration]){
             SDLChangeRegistrationResponse* msg = [[SDLChangeRegistrationResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onChangeRegistrationResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onChangeRegistrationResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SetDisplayLayout]){
             SDLSetDisplayLayoutResponse* msg = [[SDLSetDisplayLayoutResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSetDisplayLayoutResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSetDisplayLayoutResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_PerformAudioPassThru]){
             SDLPerformAudioPassThruResponse* msg = [[SDLPerformAudioPassThruResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onPerformAudioPassThruResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onPerformAudioPassThruResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_EndAudioPassThru]){
             SDLEndAudioPassThruResponse* msg = [[SDLEndAudioPassThruResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onEndAudioPassThruResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onEndAudioPassThruResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SubscribeVehicleData]){
             SDLSubscribeVehicleDataResponse* msg = [[SDLSubscribeVehicleDataResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onSubscribeVehicleDataResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onSubscribeVehicleDataResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_UnsubscribeVehicleData]){
             SDLUnsubscribeVehicleDataResponse* msg = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onUnsubscribeVehicleDataResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onUnsubscribeVehicleDataResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_GetVehicleData]){
             SDLGetVehicleDataResponse* msg = [[SDLGetVehicleDataResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onGetVehicleDataResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onGetVehicleDataResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_ReadDID]){
             SDLReadDIDResponse* msg = [[SDLReadDIDResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onReadDIDResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onReadDIDResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_GetDTCs]){
             SDLGetDTCsResponse* msg = [[SDLGetDTCsResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onGetDTCsResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onGetDTCsResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DiagnosticMessage]){
             SDLDiagnosticMessageResponse* msg = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDiagnosticMessageResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDiagnosticMessageResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_SystemRequest]){
             SDLSystemRequestResponse* msg = [[SDLSystemRequestResponse alloc] initWithDictionary:[message mutableCopy]];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+
+            }
 //            [self.delegate onSystemRequestResponse:msg];//TODO: This is not implemented yet
         }
         else if ([functionName isEqualToString:NAMES_DiagnosticMessage]){
             SDLDiagnosticMessageResponse* msg = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDiagnosticMessageResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDiagnosticMessageResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DiagnosticMessage]){
             SDLDiagnosticMessageResponse* msg = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDiagnosticMessageResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDiagnosticMessageResponse:msg];
+            }
         }
         else if ([functionName isEqualToString:NAMES_DiagnosticMessage]){
             SDLDiagnosticMessageResponse* msg = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:[message mutableCopy]];
-            [self.delegate onDiagnosticMessageResponse:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onDiagnosticMessageResponse:msg];
+            }
         }
         else{
             if (self.sdlSyncMsgVersion) {
@@ -936,7 +1054,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             }
             
             if (msg.hmiLevel != self.priorHmiLevel && msg.audioStreamingState != self.priorAudioStreamingState) {
-                [self.delegate onOnHMIStatus:msg];
+                if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                    [self.delegate onOnHMIStatus:msg];
+                }
                 //TODO:Not yet implemented
 //                [self.onOnLockScreenNotification:self.sdlSession.lockScreenManager.lockScreenStatusNotification];
             }
@@ -944,7 +1064,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
     else if ([functionName isEqualToString:NAMES_OnCommand]){
         SDLOnCommand* msg = [[SDLOnCommand alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnCommand:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnCommand:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnDriverDistraction]){
         SDLOnDriverDistraction* msg = [[SDLOnDriverDistraction alloc] initWithDictionary:[message mutableCopy]];
@@ -956,7 +1078,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             }
             self.sdlSession.lockScreenManager.bDriverDistractionStatus = value;
         }
-        [self.delegate onOnDriverDistraction:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnDriverDistraction:msg];
+        }
         //TODO:Not yet implemented
         //                [self.onOnLockScreenNotification:self.sdlSession.lockScreenManager.lockScreenStatusNotification];
     }
@@ -965,7 +1089,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         SDLOnSystemRequest* msg = [[SDLOnSystemRequest alloc] initWithDictionary:[message mutableCopy]];
         
         if (!msg.url) {
-            [self.delegate onOnSystemRequest:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onOnSystemRequest:msg];
+            }
         }
         else{
             NSLog(@"send to url");
@@ -977,27 +1103,39 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
     else if ([functionName isEqualToString:NAMES_OnPermissionsChange]){
         SDLOnPermissionsChange* msg = [[SDLOnPermissionsChange alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnPermissionsChange:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnPermissionsChange:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnTBTClientState]){
         SDLOnTBTClientState* msg = [[SDLOnTBTClientState alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnTBTClientState:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnTBTClientState:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnButtonPress]){
         SDLOnButtonPress* msg = [[SDLOnButtonPress alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnButtonPress:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnButtonPress:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnButtonEvent]){
         SDLOnButtonEvent* msg = [[SDLOnButtonEvent alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnButtonEvent:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnButtonEvent:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnLanguageChange]){
         SDLOnLanguageChange* msg = [[SDLOnLanguageChange alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnLanguageChange:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnLanguageChange:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnHashChange]){
         SDLOnHashChange* msg = [[SDLOnHashChange alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnHashChange:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnHashChange:msg];
+        }
         if ([self.appResumeEnabled boolValue]) {
             self.lastHashID = msg.hashID;
         }
@@ -1008,12 +1146,15 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         if (msg.url && msg.requestType == [SDLRequestType PROPRIETARY] && msg.fileType == [SDLFileType JSON]) {
             [self sendOnSystemRequestToUrl:msg];
         }
-
-        [self.delegate onOnSystemRequest:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnSystemRequest:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnAudioPassThru]){
         SDLOnAudioPassThru* msg = [[SDLOnAudioPassThru alloc] initWithDictionary:[message mutableCopy]];
-        [self.delegate onOnAudioPassThru:msg];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onOnAudioPassThru:msg];
+        }
     }
     else if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered]){
         
@@ -1022,12 +1163,16 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         SDLOnAppInterfaceUnregistered* msg = [[SDLOnAppInterfaceUnregistered alloc] initWithDictionary:[message mutableCopy]];
         
         if (self.advancedLifecycleManagementEnabled) {
-            [self.delegate onOnAppInterfaceUnregistered:msg];
+            if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                [self.delegate onOnAppInterfaceUnregistered:msg];
+            }
             [self notifyProxyClosed];
         }
     }
     else if ([functionName isEqualToString:NAMES_OnKeyboardInput]){
         SDLOnKeyboardInput* msg = [[SDLOnKeyboardInput alloc] initWithDictionary:[message mutableCopy]];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+        }
 //        [self.delegate onOnKeyboardInput:msg];//TODO:Not yet implemented
     }
     else{
@@ -1042,6 +1187,16 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 -(void)notifyProxyClosed{//TODO:Add parameters
     
+}
+
+-(void)startRPCProtocolSession:(Byte)sessionID correlationID:(NSString*)correlationID{
+    if (_advancedLifecycleManagementEnabled) {
+        
+        [self registerAppInterfacePrivate:_sdlMsgVersionRequest appName:_applicationName ttsName:_ttsName ngnMediaScreenAppName:_ngnMediaScreenAppName vrSynonyms:_vrSynonyms isMediaApp:_mediaApp languageDesired:_sdlLanguageDesired hmiDisplayLanguageDesired:_hmiDisplayLanguageDesired appHMITypes:_appTypes appID:_applicationID autoActivateID:_autoActivateIdDesired correlationID:@(REGISTER_APP_INTERFACE_CORRELATION_ID)];
+    } else {
+        SDLInternalProxyMessage* message = [[SDLInternalProxyMessage alloc] initWithFunctionName:SDLInternalProxyMessageOnProxyOpened];
+        [self queueIncomingMessage:message];
+    }
 }
 
 -(void)unregisterAppInterfacePrivate:(NSNumber*)correlationID{//TODO:Add unregAppIntCorrID
@@ -1081,6 +1236,26 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
      
 #pragma mark SDLConnectionDelegate Methods
 
+-(void)onProtocolSessionStarted:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID{
+    self.wiproVersion = version;
+    
+    if (_transportConfig.heartBeatTimeout != NSIntegerMax && version > 2) {
+        SDLHeartbeatMonitor* heartbeatMonitor = [SDLHeartbeatMonitor new];
+        heartbeatMonitor.interval = _transportConfig.heartBeatTimeout;
+        self.sdlSession.heartbeatMonitor = heartbeatMonitor;
+    }
+    
+    if ([sessionType isEqual:[SDLSessionType RPC]]) {
+        [self startRPCProtocolSession:sessionID correlationID:correlationID];
+    }
+    else if ([sessionType isEqual:[SDLSessionType NAV]]){
+        [self navServiceStarted];
+    }
+    else if (_wiproVersion > 1){
+[self startRPCProtocolSession:sessionID correlationID:correlationID];
+    }
+}
+
 -(void)onTransportDisconnected{
     if (!self.isAdvancedLifecycleManagementEnabled) {
         [self notifyProxyClosed];//TODO:Add paramters
@@ -1104,20 +1279,6 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 -(void)queueIncomingMessage:(SDLProtocolMessage*)message{
     [self.internalProxyMessageDispatcher queueMessage:message];
-}
-
--(void)onProtocolSessionStarted:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SDLProxyBaseTransportNotification"
-                                                        object:@{@"FUNCTION_NAME": @"onProtocolSessionStarted",
-                                                                 @"COMMENT1": [NSString stringWithFormat:@"SessionID: %hhu", sessionID],
-                                                                 @"COMMENT2": [NSString stringWithFormat:@"SessionType: %@", sessionType.name]}];
-    
-    self.wiproVersion = version;
-    
-    if ((self.transportConfig.heartBeatTimeout)) {
-        
-    }
 }
 
 -(void)onProtocolSessionNACKed:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID{
@@ -1155,25 +1316,6 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     return self.sdlSession.isConnected;
 }
 
--(void)dispatchInternalMessage:(SDLInternalProxyMessage*)message{
-    if ([message.functionName isEqual:SDLInternalProxyMessageOnProxyErrorKey]) {
-        SDLOnError* msg = (SDLOnError*)message;
-        //TODO:What queue management is used here?
-        //Why is NSException used? This should be NSError to follow iOS coding practices.
-//        [self.delegate onError:<#(NSException *)#>]
-        
-    }
-    else if ([message.functionName isEqual:SDLInternalProxyMessageOnProxyOpenedKey]){
-        [self.delegate onProxyOpened];
-    }
-    else if ([message.functionName isEqual:SDLInternalProxyMessageOnProxyClosedKey]){
-        [self.delegate onProxyClosed];
-    }
-    else{
-        [SDLDebugTool logInfo:@"Unknown RPC Message encountered. Check for an updated version of the SDL Proxy"];
-    }
-}
-
 -(void)dispatchOutgoingMessage:(SDLProtocolMessage*)message{
     if (self.sdlSession) {
         [self.sdlSession sendMessage:message];
@@ -1184,7 +1326,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     //TODO: Does info string need to sent here as well?
     [SDLDebugTool logInfo:@"InternalMessageDispatcher failed."];
     [self notifyProxyClosed];
-    [self.delegate onError:exception];
+    if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+        [self.delegate onError:exception];
+    }
 }
 
 -(void)handleErrorsFromIncomingMessageDispatcher:(NSError*)error{
@@ -1201,8 +1345,5 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     
     [self queueIncomingMessage:message];
 }
-
-
-
 
 @end

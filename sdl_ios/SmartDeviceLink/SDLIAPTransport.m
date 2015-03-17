@@ -31,8 +31,6 @@
 
 @end
 
-
-
 @implementation SDLIAPTransport
 
 - (id)init {

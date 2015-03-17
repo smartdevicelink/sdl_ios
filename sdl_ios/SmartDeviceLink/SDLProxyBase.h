@@ -6,12 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProxyListener.h>
-#import <SmartDeviceLink/SDLRPCRequest.h>
-#import <SmartDeviceLink/SDLAbstractTransport.h>
-
-#import <SmartDeviceLink/SDLAddCommand.h>
-#import <SDLProxyOptions.h>
+#import "SDLProxyListener.h"
+#import "SDLRPCRequest.h"
+#import "SDLAbstractTransport.h"
+#import "SDLAddCommand.h"
+#import "SDLProxyALMOptions.h"
 
 /*!
  @header SDLProxyBase.h
@@ -50,7 +49,7 @@
                              appName:(NSString*)appName
                           isMediaApp:(NSNumber*)isMediaApp
                                appID:(NSString*)appID
-                             options:(SDLProxyOptions*)options;
+                             options:(SDLProxyALMOptions*)options;
 
 -(void)cycleProxy;//TODO:Add with SDLDisconnectedReason
 -(void)dispose;

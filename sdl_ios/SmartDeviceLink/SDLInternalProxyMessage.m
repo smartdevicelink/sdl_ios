@@ -8,9 +8,9 @@
 
 #import "SDLInternalProxyMessage.h"
 
-NSString* const SDLInternalProxyMessageOnProxyErrorKey = @"OnProxyError";
-NSString* const SDLInternalProxyMessageOnProxyOpenedKey = @"OnProxyOpened";
-NSString* const SDLInternalProxyMessageOnProxyClosedKey = @"OnProxyClosed";
+NSString* const SDLInternalProxyMessageOnProxyError = @"OnProxyError";
+NSString* const SDLInternalProxyMessageOnProxyOpened = @"OnProxyOpened";
+NSString* const SDLInternalProxyMessageOnProxyClosed = @"OnProxyClosed";
 
 @interface SDLInternalProxyMessage()
 

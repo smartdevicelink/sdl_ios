@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLProxyBase.h>
-#import <SmartDeviceLink/SDLProxyListener.h>
+#import "SDLProxyBase.h"
+#import "SDLProxyListener.h"
 
-@class SDLProxyOptions;
+@class SDLProxyALMOptions;
 
 @interface SDLProxyALM : SDLProxyBase
 
@@ -36,7 +36,7 @@
                              appName:(NSString*)appName
                           isMediaApp:(NSNumber*)isMediaApp
                                appID:(NSString*)appID
-                             options:(SDLProxyOptions*)options NS_DESIGNATED_INITIALIZER;
+                             options:(SDLProxyALMOptions*)options NS_DESIGNATED_INITIALIZER;
 
 /*!
  * @brief Allow applications using ALM to reset the proxy (dispose and reinstantiate)

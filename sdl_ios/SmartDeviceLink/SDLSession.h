@@ -7,9 +7,11 @@
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLConnectionDelegate.h>
-#import <SmartDeviceLink/SDLBaseTransportConfig.h>
 #import <SmartDeviceLink/SDLAbstractTransport.h>
-#import <SmartDeviceLink/SDLLockScreenManager.h>
+#import "SDLLockScreenManager.h"
+
+@class SDLBaseTransportConfig;
+@class SDLHeartbeatMonitor;
 
 @interface SDLSession : NSObject
 
@@ -20,8 +22,8 @@
 +(instancetype)createSessionWithWiProVersion:(Byte)wiproVersion interfaceBroker:(id<SDLConnectionDelegate>)interfaceBroker transportConfig:(SDLBaseTransportConfig*)transportConfig;
 
 @property (nonatomic) Byte sessionID;
-@property (nonatomic) SDLLockScreenManager* lockScreenManager;
-
+@property (strong, nonatomic) SDLLockScreenManager* lockScreenManager;
+@property (strong, nonatomic) SDLHeartbeatMonitor* heartbeatMonitor;
 -(void)startSession;
 -(NSString*)notificationComment;
 -(SDLTransportType)currentTransportType;

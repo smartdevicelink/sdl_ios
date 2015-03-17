@@ -6,7 +6,8 @@
 #import <SmartDeviceLink/SDLJingle.h>
 #import <SmartDeviceLink/SDLProxyListener.h>
 #import <SmartDeviceLink/SDLRPCRequestFactory.h>
-#import <SmartDeviceLink/SDLProxy.h>
+//#import <SmartDeviceLink/SDLProxy.h>
+#import <SmartDeviceLink/SDLProxyALM.h>
 #import <SmartDeviceLink/SDLProxyFactory.h>
 #import <SmartDeviceLink/SDLTTSChunkFactory.h>
 

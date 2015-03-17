@@ -15,7 +15,7 @@
 @property (nonatomic) Byte sessionID;
 @property (nonatomic) Byte version;
 @property (nonatomic) Byte rpcType;
-@property (strong, nonatomic) SDLSessionType* sessionType;
+@property (nonatomic) SDLServiceType sessionType;
 @property (strong, nonatomic) SDLMessageType* messageType;
 @property (strong, nonatomic) NSNumber* functionID;
 @property (strong, nonatomic) NSNumber* correlationID;

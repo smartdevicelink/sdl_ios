@@ -10,6 +10,10 @@
 
 @implementation SDLProxyMessageDispatcher
 
+-(instancetype)initWithQueueName:(NSString *)queueName completionHandler:(void (^)(id, NSException *))completionHandler{
+    return [super init];
+}
+
 -(void)dispose{
     
 }

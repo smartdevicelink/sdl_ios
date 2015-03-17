@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLProtocolMessage.h>
 
-extern NSString* const SDLInternalProxyMessageOnProxyErrorKey;
-extern NSString* const SDLInternalProxyMessageOnProxyOpenedKey;
-extern NSString* const SDLInternalProxyMessageOnProxyClosedKey;
+extern NSString* const SDLInternalProxyMessageOnProxyError;
+extern NSString* const SDLInternalProxyMessageOnProxyOpened;
+extern NSString* const SDLInternalProxyMessageOnProxyClosed;
 
 @interface SDLInternalProxyMessage : SDLProtocolMessage
 
