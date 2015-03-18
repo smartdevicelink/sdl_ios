@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLDeviceLevelStatus.h"
@@ -99,68 +98,69 @@
  * Since <b>SmartDeviceLink 2.0</b>
  */
 
-@interface SDLDeviceStatus : SDLRPCStruct {}
+@interface SDLDeviceStatus : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLDeviceStatus object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a newly allocated SDLDeviceStatus object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract NSNumber value indicates whether the voice recognition on or off
  * @discussion
  */
-@property(strong) NSNumber* voiceRecOn;
+@property (strong) NSNumber *voiceRecOn;
 /**
  * @abstract NSNumber value indicates whether the bluetooth connection established
  * @discussion
  */
-@property(strong) NSNumber* btIconOn;
+@property (strong) NSNumber *btIconOn;
 /**
  * @abstract NSNumber value indicates whether a call is being active
  * @discussion
  */
-@property(strong) NSNumber* callActive;
+@property (strong) NSNumber *callActive;
 /**
  * @abstract NSNumber value indicates whether the phone is in roaming mode
  * @discussion
  */
-@property(strong) NSNumber* phoneRoaming;
+@property (strong) NSNumber *phoneRoaming;
 /**
  * @abstract NSNumber value indicates whether a textmessage is available
  * @discussion
  */
-@property(strong) NSNumber* textMsgAvailable;
+@property (strong) NSNumber *textMsgAvailable;
 /**
  * @abstract battery level status
  * @discussion
  */
-@property(strong) SDLDeviceLevelStatus* battLevelStatus;
+@property (strong) SDLDeviceLevelStatus *battLevelStatus;
 /**
  * @abstract the status of the stereo audio output channel
  * @discussion
  */
-@property(strong) NSNumber* stereoAudioOutputMuted;
+@property (strong) NSNumber *stereoAudioOutputMuted;
 /**
  * @abstract the status of the mono audio output channel
  * @discussion
  */
-@property(strong) NSNumber* monoAudioOutputMuted;
+@property (strong) NSNumber *monoAudioOutputMuted;
 /**
  * @abstract signal level status
  * @discussion
  */
-@property(strong) SDLDeviceLevelStatus* signalLevelStatus;
+@property (strong) SDLDeviceLevelStatus *signalLevelStatus;
 /**
  * @abstract the current primary audio source of SDL (if selected).
  * @discussion
  */
-@property(strong) SDLPrimaryAudioSource* primaryAudioSource;
-@property(strong) NSNumber* eCallEventActive;
+@property (strong) SDLPrimaryAudioSource *primaryAudioSource;
+@property (strong) NSNumber *eCallEventActive;
 
 @end

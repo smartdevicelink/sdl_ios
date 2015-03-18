@@ -8,17 +8,19 @@
 
 @implementation SDLOnButtonPress
 
--(id) init {
-    if (self = [super initWithName:NAMES_OnButtonPress]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_OnButtonPress]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setButtonName:(SDLButtonName*) buttonName {
+- (void)setButtonName:(SDLButtonName *)buttonName {
     if (buttonName != nil) {
         [parameters setObject:buttonName forKey:NAMES_buttonName];
     } else {
@@ -26,16 +28,16 @@
     }
 }
 
--(SDLButtonName*) buttonName {
-    NSObject* obj = [parameters objectForKey:NAMES_buttonName];
+- (SDLButtonName *)buttonName {
+    NSObject *obj = [parameters objectForKey:NAMES_buttonName];
     if ([obj isKindOfClass:SDLButtonName.class]) {
-        return (SDLButtonName*)obj;
+        return (SDLButtonName *)obj;
     } else {
-        return [SDLButtonName valueOf:(NSString*)obj];
+        return [SDLButtonName valueOf:(NSString *)obj];
     }
 }
 
--(void) setButtonPressMode:(SDLButtonPressMode*) buttonPressMode {
+- (void)setButtonPressMode:(SDLButtonPressMode *)buttonPressMode {
     if (buttonPressMode != nil) {
         [parameters setObject:buttonPressMode forKey:NAMES_buttonPressMode];
     } else {
@@ -43,16 +45,16 @@
     }
 }
 
--(SDLButtonPressMode*) buttonPressMode {
-    NSObject* obj = [parameters objectForKey:NAMES_buttonPressMode];
+- (SDLButtonPressMode *)buttonPressMode {
+    NSObject *obj = [parameters objectForKey:NAMES_buttonPressMode];
     if ([obj isKindOfClass:SDLButtonPressMode.class]) {
-        return (SDLButtonPressMode*)obj;
+        return (SDLButtonPressMode *)obj;
     } else {
-        return [SDLButtonPressMode valueOf:(NSString*)obj];
+        return [SDLButtonPressMode valueOf:(NSString *)obj];
     }
 }
 
--(void) setCustomButtonID:(NSNumber*) customButtonID {
+- (void)setCustomButtonID:(NSNumber *)customButtonID {
     if (customButtonID != nil) {
         [parameters setObject:customButtonID forKey:NAMES_customButtonID];
     } else {
@@ -60,7 +62,7 @@
     }
 }
 
--(NSNumber*) customButtonID {
+- (NSNumber *)customButtonID {
     return [parameters objectForKey:NAMES_customButtonID];
 }
 

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,11 +9,12 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLReadDIDResponse : SDLRPCResponse {}
+@interface SDLReadDIDResponse : SDLRPCResponse {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSMutableArray* didResult;
+@property (strong) NSMutableArray *didResult;
 
 @end

@@ -8,17 +8,19 @@
 
 @implementation SDLDeviceInfo
 
--(id) init {
-    if (self = [super init]) {}
+- (id)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setHardware:(NSString*) hardware {
+- (void)setHardware:(NSString *)hardware {
     if (hardware != nil) {
         [store setObject:hardware forKey:NAMES_hardware];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSString*) hardware {
+- (NSString *)hardware {
     return [store objectForKey:NAMES_hardware];
 }
 
--(void) setFirmwareRev:(NSString*) firmwareRev {
+- (void)setFirmwareRev:(NSString *)firmwareRev {
     if (firmwareRev != nil) {
         [store setObject:firmwareRev forKey:NAMES_firmwareRev];
     } else {
@@ -38,11 +40,11 @@
     }
 }
 
--(NSString*) firmwareRev {
+- (NSString *)firmwareRev {
     return [store objectForKey:NAMES_firmwareRev];
 }
 
--(void) setOs:(NSString*) os {
+- (void)setOs:(NSString *)os {
     if (os != nil) {
         [store setObject:os forKey:NAMES_os];
     } else {
@@ -50,11 +52,11 @@
     }
 }
 
--(NSString*) os {
+- (NSString *)os {
     return [store objectForKey:NAMES_os];
 }
 
--(void) setOsVersion:(NSString*) osVersion {
+- (void)setOsVersion:(NSString *)osVersion {
     if (osVersion != nil) {
         [store setObject:osVersion forKey:NAMES_osVersion];
     } else {
@@ -62,11 +64,11 @@
     }
 }
 
--(NSString*) osVersion {
+- (NSString *)osVersion {
     return [store objectForKey:NAMES_osVersion];
 }
 
--(void) setCarrier:(NSString*) carrier {
+- (void)setCarrier:(NSString *)carrier {
     if (carrier != nil) {
         [store setObject:carrier forKey:NAMES_carrier];
     } else {
@@ -74,11 +76,11 @@
     }
 }
 
--(NSString*) carrier {
+- (NSString *)carrier {
     return [store objectForKey:NAMES_carrier];
 }
 
--(void) setMaxNumberRFCOMMPorts:(NSNumber*) maxNumberRFCOMMPorts {
+- (void)setMaxNumberRFCOMMPorts:(NSNumber *)maxNumberRFCOMMPorts {
     if (maxNumberRFCOMMPorts != nil) {
         [store setObject:maxNumberRFCOMMPorts forKey:NAMES_maxNumberRFCOMMPorts];
     } else {
@@ -86,7 +88,7 @@
     }
 }
 
--(NSNumber*) maxNumberRFCOMMPorts {
+- (NSNumber *)maxNumberRFCOMMPorts {
     return [store objectForKey:NAMES_maxNumberRFCOMMPorts];
 }
 

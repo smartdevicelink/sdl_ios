@@ -8,13 +8,15 @@
 
 @implementation SDLChangeRegistrationResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_ChangeRegistration]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_ChangeRegistration]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

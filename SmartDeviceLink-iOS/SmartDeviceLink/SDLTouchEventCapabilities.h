@@ -2,16 +2,16 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchEventCapabilities : SDLRPCStruct {}
+@interface SDLTouchEventCapabilities : SDLRPCStruct {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSNumber* pressAvailable;
-@property(strong) NSNumber* multiTouchAvailable;
-@property(strong) NSNumber* doublePressAvailable;
+@property (strong) NSNumber *pressAvailable;
+@property (strong) NSNumber *multiTouchAvailable;
+@property (strong) NSNumber *doublePressAvailable;
 
 @end

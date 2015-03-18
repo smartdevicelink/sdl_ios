@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 #import "SDLImage.h"
@@ -13,21 +12,22 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLShowConstantTBT : SDLRPCRequest {}
+@interface SDLShowConstantTBT : SDLRPCRequest {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* navigationText1;
-@property(strong) NSString* navigationText2;
-@property(strong) NSString* eta;
-@property(strong) NSString* timeToDestination;
-@property(strong) NSString* totalDistance;
-@property(strong) SDLImage* turnIcon;
-@property(strong) SDLImage* nextTurnIcon;
-@property(strong) NSNumber* distanceToManeuver;
-@property(strong) NSNumber* distanceToManeuverScale;
-@property(strong) NSNumber* maneuverComplete;
-@property(strong) NSMutableArray* softButtons;
+@property (strong) NSString *navigationText1;
+@property (strong) NSString *navigationText2;
+@property (strong) NSString *eta;
+@property (strong) NSString *timeToDestination;
+@property (strong) NSString *totalDistance;
+@property (strong) SDLImage *turnIcon;
+@property (strong) SDLImage *nextTurnIcon;
+@property (strong) NSNumber *distanceToManeuver;
+@property (strong) NSNumber *distanceToManeuverScale;
+@property (strong) NSNumber *maneuverComplete;
+@property (strong) NSMutableArray *softButtons;
 
 @end

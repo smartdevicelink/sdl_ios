@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLButtonName.h"
@@ -87,12 +86,13 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLSubscribeButton SDLUnsubscribeButton
  */
-@interface SDLOnButtonPress : SDLRPCNotification {}
+@interface SDLOnButtonPress : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLOnButtonPress object
  */
--(id) init;
+- (id)init;
 /**
  * <p>
  * Constructs a newly allocated SDLOnButtonPress object indicated by the
@@ -101,18 +101,18 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the button's name
  * @discussion
  */
-@property(strong) SDLButtonName* buttonName;
+@property (strong) SDLButtonName *buttonName;
 /**
  * @abstract button press mode whether this is a long or short button press event
  * @discussion
  */
-@property(strong) SDLButtonPressMode* buttonPressMode;
-@property(strong) NSNumber* customButtonID;
+@property (strong) SDLButtonPressMode *buttonPressMode;
+@property (strong) NSNumber *customButtonID;
 
 @end

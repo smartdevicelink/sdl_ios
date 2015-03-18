@@ -11,12 +11,12 @@
 
 @implementation SDLV2ProtocolMessage
 
-- (id)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload {
-	if (self = [self init]) {
+- (id)initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
+    if (self = [self init]) {
         self.header = header;
         self.payload = payload;
-	}
-	return self;
+    }
+    return self;
 }
 
 // Convert RPC payload to dictionary (for consumption by RPC layer)
@@ -27,7 +27,7 @@
     }
 
 
-    NSMutableDictionary* rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
 
     // Parse the payload as RPC struct
     SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
@@ -44,7 +44,7 @@
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
-    NSArray *rpcTypeNames = @[NAMES_request, NAMES_response, NAMES_notification];
+    NSArray *rpcTypeNames = @[ NAMES_request, NAMES_response, NAMES_notification ];
     [rpcMessageAsDictionary setObject:innerDictionary forKey:rpcTypeNames[rpcType]];
 
     // The bulk data also goes in the dictionary
@@ -53,6 +53,5 @@
     }
 
     return rpcMessageAsDictionary;
-
 }
 @end

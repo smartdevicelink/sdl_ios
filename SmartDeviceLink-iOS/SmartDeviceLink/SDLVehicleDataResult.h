@@ -2,18 +2,18 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLVehicleDataType.h"
 #import "SDLVehicleDataResultCode.h"
 
-@interface SDLVehicleDataResult : SDLRPCStruct {}
+@interface SDLVehicleDataResult : SDLRPCStruct {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLVehicleDataType* dataType;
-@property(strong) SDLVehicleDataResultCode* resultCode;
+@property (strong) SDLVehicleDataType *dataType;
+@property (strong) SDLVehicleDataResultCode *resultCode;
 
 @end

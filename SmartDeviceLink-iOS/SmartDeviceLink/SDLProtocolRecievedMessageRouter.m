@@ -11,7 +11,6 @@
 #import "SDLDebugTool.h"
 
 
-
 @interface SDLProtocolRecievedMessageRouter ()
 
 @property (strong) NSMutableDictionary *messageAssemblers;
@@ -26,14 +25,13 @@
 @implementation SDLProtocolRecievedMessageRouter
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
         self.messageAssemblers = [NSMutableDictionary dictionaryWithCapacity:2];
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void)handleRecievedMessage:(SDLProtocolMessage *)message {
-
     SDLFrameType frameType = message.header.frameType;
 
     switch (frameType) {
@@ -53,7 +51,6 @@
         default:
             break;
     }
-
 }
 
 - (void)dispatchProtocolMessage:(SDLProtocolMessage *)message {
@@ -61,7 +58,6 @@
 }
 
 - (void)dispatchControlMessage:(SDLProtocolMessage *)message {
-
     if (message.header.frameData == SDLFrameData_StartSessionACK) {
         [self.delegate handleProtocolSessionStarted:message.header.serviceType
                                           sessionID:message.header.sessionID
@@ -70,7 +66,6 @@
 }
 
 - (void)dispatchMultiPartMessage:(SDLProtocolMessage *)message {
-
     // Pass multipart messages to an assembler and call delegate when done.
     NSNumber *sessionID = [NSNumber numberWithUnsignedChar:message.header.sessionID];
 
@@ -86,7 +81,6 @@
         }
     };
     [assembler handleMessage:message withCompletionHandler:completionHandler];
-
 }
 
 

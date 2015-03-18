@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -26,20 +25,21 @@
  *
  * This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-@interface SDLButtonName : SDLEnum {}
+@interface SDLButtonName : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLButtonName
  * @param value NSString
  * @result SDLButtonName
  */
-+(SDLButtonName*) valueOf:(NSString*) value;
++ (SDLButtonName *)valueOf:(NSString *)value;
 
 /*!
  @abstract Store the enumeration of all possible SDLButtonName
  @result return an array that store all possible SDLButtonName
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /**
  * @abstract Represents the button usually labeled "OK". A typical use of this button
@@ -47,7 +47,7 @@
  * @result return a SDLButtonName with the value of <font color=gray><i>OK</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) OK;
++ (SDLButtonName *)OK;
 
 /**
  * @abstract Represents the seek-left button. A typical use of this button is for the
@@ -55,7 +55,7 @@
  * @result return a SDLButtonName with the value of <font color=gray><i>SEEKLEFT</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) SEEKLEFT;
++ (SDLButtonName *)SEEKLEFT;
 
 /**
  * @abstract Represents the seek-right button. A typical use of this button is for the
@@ -63,14 +63,14 @@
  * @result return a SDLButtonName with the value of <font color=gray><i>SEEKRIGHT</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) SEEKRIGHT;
++ (SDLButtonName *)SEEKRIGHT;
 
 /**
  * @abstract Represents a turn of the tuner knob in the clockwise direction one tick.
  * @result return a SDLButtonName with the value of <font color=gray><i>TUNEUP</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) TUNEUP;
++ (SDLButtonName *)TUNEUP;
 
 /**
  * @abstract Represents a turn of the tuner knob in the counter-clockwise direction
@@ -78,78 +78,78 @@
  * @result return a SDLButtonName with the value of <font color=gray><i>TUNEDOWN</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) TUNEDOWN;
++ (SDLButtonName *)TUNEDOWN;
 
 /**
  * @abstract Represents the preset 0 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_0</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_0;
++ (SDLButtonName *)PRESET_0;
 
 /**
  * @abstract Represents the preset 1 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_1</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_1;
++ (SDLButtonName *)PRESET_1;
 
 /**
  * @abstract Represents the preset 2 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_2</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_2;
++ (SDLButtonName *)PRESET_2;
 
 /**
  * @abstract Represents the preset 3 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_3</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_3;
++ (SDLButtonName *)PRESET_3;
 
 /**
  * @abstract Represents the preset 4 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_4</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_4;
++ (SDLButtonName *)PRESET_4;
 
 /**
  * @abstract Represents the preset 5 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_5</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_5;
++ (SDLButtonName *)PRESET_5;
 
 /**
  * @abstract Represents the preset 6 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_6</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_6;
++ (SDLButtonName *)PRESET_6;
 
 /**
  * @abstract Represents the preset 7 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_7</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_7;
++ (SDLButtonName *)PRESET_7;
 
 /**
  * @abstract Represents the preset 8 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_8</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_8;
++ (SDLButtonName *)PRESET_8;
 
 /**
  * @abstract Represents the preset 9 button.
  * @result return a SDLButtonName with the value of <font color=gray><i>PRESET_9</i></font>
  * @since <font color=red><b>SmartDeviceLink 1.0</b></font>
  */
-+(SDLButtonName*) PRESET_9;
-+(SDLButtonName*) CUSTOM_BUTTON;
-+(SDLButtonName*) SEARCH;
++ (SDLButtonName *)PRESET_9;
++ (SDLButtonName *)CUSTOM_BUTTON;
++ (SDLButtonName *)SEARCH;
 
 @end

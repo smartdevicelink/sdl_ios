@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /** Updates the list of next maneuvers, which can be requested by the user pressing the softbutton<br>
@@ -10,12 +9,13 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLUpdateTurnList : SDLRPCRequest {}
+@interface SDLUpdateTurnList : SDLRPCRequest {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSMutableArray* turnList;
-@property(strong) NSMutableArray* softButtons;
+@property (strong) NSMutableArray *turnList;
+@property (strong) NSMutableArray *softButtons;
 
 @end

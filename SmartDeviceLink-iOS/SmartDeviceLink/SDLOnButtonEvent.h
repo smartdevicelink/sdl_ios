@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLButtonName.h"
@@ -80,12 +79,13 @@
  *
  * see SDLSubscribeButton SDLUnsubscribeButton
  */
-@interface SDLOnButtonEvent : SDLRPCNotification {}
+@interface SDLOnButtonEvent : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLOnButtonEvent object
  */
--(id) init;
+- (id)init;
 /**
  * <p>
  * Constructs a newly allocated SDLOnButtonEvent object indicated by the
@@ -94,18 +94,18 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the name of the button
  * @discussion
  */
-@property(strong) SDLButtonName* buttonName;
+@property (strong) SDLButtonName *buttonName;
 /**
  * @abstract button event indicates the button was depressed or released
  * @discussion
  */
-@property(strong) SDLButtonEventMode* buttonEventMode;
-@property(strong) NSNumber* customButtonID;
+@property (strong) SDLButtonEventMode *buttonEventMode;
+@property (strong) NSNumber *customButtonID;
 
 @end

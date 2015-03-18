@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,35 +9,35 @@
  *
  * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
-@interface SDLTextAlignment : SDLEnum {}
+@interface SDLTextAlignment : SDLEnum {
+}
 
 /**
  * Convert String to SDLTextAlignment
  * @param value String
  * @return SDLTextAlignment
  */
-+(SDLTextAlignment*) valueOf:(NSString*) value;
++ (SDLTextAlignment *)valueOf:(NSString *)value;
 /*!
  @abstract Store the enumeration of all possible SDLTextAlignment
  @result return an array that store all possible SDLTextAlignment
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /**
  * @abstract Text aligned left.
  * @result return a SDLTextAlignment object with value of <font color=gray><i> LEFT_ALIGNED </i></font>
  */
-+(SDLTextAlignment*) LEFT_ALIGNED;
++ (SDLTextAlignment *)LEFT_ALIGNED;
 /**
  * @abstract Text aligned right.
  * @result return a SDLTextAlignment object with value of <font color=gray><i> RIGHT_ALIGNED </i></font>
  */
-+(SDLTextAlignment*) RIGHT_ALIGNED;
++ (SDLTextAlignment *)RIGHT_ALIGNED;
 /**
  * @abstract Text aligned centered.
  * @result return a SDLTextAlignment object with value of <font color=gray><i> CENTERED </i></font>
  */
-+(SDLTextAlignment*) CENTERED;
++ (SDLTextAlignment *)CENTERED;
 
 @end
-

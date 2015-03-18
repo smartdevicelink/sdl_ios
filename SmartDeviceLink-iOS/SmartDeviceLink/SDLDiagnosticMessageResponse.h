@@ -2,17 +2,17 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /** SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
  * Since<b>SmartDeviceLink 3.0</b>
  */
-@interface SDLDiagnosticMessageResponse : SDLRPCResponse {}
+@interface SDLDiagnosticMessageResponse : SDLRPCResponse {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSMutableArray* messageDataResult;
+@property (strong) NSMutableArray *messageDataResult;
 
 @end

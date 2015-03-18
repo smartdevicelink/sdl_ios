@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLImage.h"
@@ -51,42 +50,43 @@
  *
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLChoice : SDLRPCStruct {}
+@interface SDLChoice : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLChoice object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a newly allocated SDLChoice object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
  * @discussion <b>Note:</b>Min: 0  Max: 65535
  */
-@property(strong) NSNumber* choiceID;
+@property (strong) NSNumber *choiceID;
 /**
  * @abstract Text which appears in menu, representing this choice
  *				<br/>Min: 1
  *				<br/>Max: 100
  * @discussion
  */
-@property(strong) NSString* menuName;
+@property (strong) NSString *menuName;
 /**
  * @abstract an array of strings to be used as VR synonyms for this choice
  * @discussion if this array is provided, it must have at least one non-empty element
  */
-@property(strong) NSMutableArray* vrCommands;
+@property (strong) NSMutableArray *vrCommands;
 /**
  * @abstract the image of the choice
  * @discussion
  */
-@property(strong) SDLImage* image;
-@property(strong) NSString* secondaryText;
-@property(strong) NSString* tertiaryText;
-@property(strong) SDLImage* secondaryImage;
+@property (strong) SDLImage *image;
+@property (strong) NSString *secondaryText;
+@property (strong) NSString *tertiaryText;
+@property (strong) SDLImage *secondaryImage;
 
 @end

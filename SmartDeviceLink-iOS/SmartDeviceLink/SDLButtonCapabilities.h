@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLButtonName.h"
@@ -45,37 +44,38 @@
  * </table>
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLButtonCapabilities : SDLRPCStruct {}
+@interface SDLButtonCapabilities : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLButtonCapabilities object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a newly allocated SDLButtonCapabilities object indicated by the Hashtable parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The name of the SDL HMI button.
  * @discussion
  */
-@property(strong) SDLButtonName* name;
+@property (strong) SDLButtonName *name;
 /**
  * @abstract A NSNumber value indicates whether the button supports a SHORT press
  * @discussion
  */
-@property(strong) NSNumber* shortPressAvailable;
+@property (strong) NSNumber *shortPressAvailable;
 /**
  * @abstract A NSNumber value indicates whether the button supports a LONG press
  * @discussion
  */
-@property(strong) NSNumber* longPressAvailable;
+@property (strong) NSNumber *longPressAvailable;
 /**
  * @abstract A NSNumber value indicates whether the button supports "button down" and "button up"
  * @discussion
  */
-@property(strong) NSNumber* upDownAvailable;
+@property (strong) NSNumber *upDownAvailable;
 
 @end

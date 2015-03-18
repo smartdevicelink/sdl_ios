@@ -12,19 +12,17 @@
 
 - (id)init {
     if (self = [super initWithName:@"OnLockScreenStatus"]) {
-
     }
     return self;
 }
 
-- (id)initWithDictionary:(NSMutableDictionary*) dict {
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
-
     }
     return self;
 }
 
-- (void)setLockScreenStatus:(SDLLockScreenStatus*)lockScreenStatus {
+- (void)setLockScreenStatus:(SDLLockScreenStatus *)lockScreenStatus {
     if (lockScreenStatus != nil) {
         [parameters setObject:lockScreenStatus forKey:@"OnLockScreenStatus"];
     } else {
@@ -33,11 +31,11 @@
 }
 
 - (SDLLockScreenStatus *)lockScreenStatus {
-    NSObject* obj = [parameters objectForKey:@"OnLockScreenStatus"];
+    NSObject *obj = [parameters objectForKey:@"OnLockScreenStatus"];
     if ([obj isKindOfClass:SDLLockScreenStatus.class]) {
-        return (SDLLockScreenStatus*)obj;
+        return (SDLLockScreenStatus *)obj;
     } else {
-        return [SDLLockScreenStatus valueOf:(NSString*)obj];
+        return [SDLLockScreenStatus valueOf:(NSString *)obj];
     }
 }
 
@@ -50,11 +48,11 @@
 }
 
 - (SDLHMILevel *)hmiLevel {
-    NSObject* obj = [parameters objectForKey:@"hmilevel"];
+    NSObject *obj = [parameters objectForKey:@"hmilevel"];
     if ([obj isKindOfClass:SDLLockScreenStatus.class]) {
         return (SDLHMILevel *)obj;
     } else {
-        return [SDLHMILevel valueOf:(NSString*)obj];
+        return [SDLHMILevel valueOf:(NSString *)obj];
     }
 }
 

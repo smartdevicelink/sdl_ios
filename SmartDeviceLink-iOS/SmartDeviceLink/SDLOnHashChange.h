@@ -2,14 +2,14 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
-@interface SDLOnHashChange : SDLRPCNotification {}
+@interface SDLOnHashChange : SDLRPCNotification {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* hashID;
+@property (strong) NSString *hashID;
 
 @end

@@ -2,8 +2,6 @@
 //
 
 
-
-
 #import "SDLProtocolHeader.h"
 @class SDLProtocolMessage;
 
@@ -17,4 +15,3 @@
 - (void)onError:(NSString *)info exception:(NSException *)e;
 
 @end
-

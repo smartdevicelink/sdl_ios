@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /** Reflects the emergency event status of the vehicle.
@@ -10,44 +9,45 @@
  *<p>
  */
 
-@interface SDLEmergencyEventType : SDLEnum {}
+@interface SDLEmergencyEventType : SDLEnum {
+}
 
-+(SDLEmergencyEventType*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++ (SDLEmergencyEventType *)valueOf:(NSString *)value;
++ (NSMutableArray *)values;
 
 /** No emergency event has happened.
  */
 
-+(SDLEmergencyEventType*) NO_EVENT;
++ (SDLEmergencyEventType *)NO_EVENT;
 
 /** Frontal collision has happened.
  */
 
-+(SDLEmergencyEventType*) FRONTAL;
++ (SDLEmergencyEventType *)FRONTAL;
 
 /** Side collision has happened.
  */
 
-+(SDLEmergencyEventType*) SIDE;
++ (SDLEmergencyEventType *)SIDE;
 
 /**Rear collision has happened.
  */
 
-+(SDLEmergencyEventType*) REAR;
++ (SDLEmergencyEventType *)REAR;
 
 /** A rollover event has happened.
  */
 
-+(SDLEmergencyEventType*) ROLLOVER;
++ (SDLEmergencyEventType *)ROLLOVER;
 
 /** The signal is not supported
  */
 
-+(SDLEmergencyEventType*) NOT_SUPPORTED;
++ (SDLEmergencyEventType *)NOT_SUPPORTED;
 
 /** Emergency status cannot be determined
  */
 
-+(SDLEmergencyEventType*) FAULT;
++ (SDLEmergencyEventType *)FAULT;
 
 @end

@@ -4,7 +4,7 @@
 
 @implementation SDLAbstractTransport
 
-- (id) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) param {
+- (id)initWithEndpoint:(NSString *)endpoint endpointParam:(NSString *)param {
     if (self = [super init]) {
         _endpointName = endpoint;
         _endpointParam = param;
@@ -28,15 +28,15 @@
 
 #pragma mark SDLTransport Implementation
 - (void)connect {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)disconnect {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendData:(NSData *)dataToSend {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 @end

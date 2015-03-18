@@ -8,17 +8,19 @@
 
 @implementation SDLTireStatus
 
--(id) init {
-    if (self = [super init]) {}
+- (id)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setPressureTelltale:(SDLWarningLightStatus*) pressureTelltale {
+- (void)setPressureTelltale:(SDLWarningLightStatus *)pressureTelltale {
     if (pressureTelltale != nil) {
         [store setObject:pressureTelltale forKey:NAMES_pressureTelltale];
     } else {
@@ -26,16 +28,16 @@
     }
 }
 
--(SDLWarningLightStatus*) pressureTelltale {
-    NSObject* obj = [store objectForKey:NAMES_pressureTelltale];
+- (SDLWarningLightStatus *)pressureTelltale {
+    NSObject *obj = [store objectForKey:NAMES_pressureTelltale];
     if ([obj isKindOfClass:SDLWarningLightStatus.class]) {
-        return (SDLWarningLightStatus*)obj;
+        return (SDLWarningLightStatus *)obj;
     } else {
-        return [SDLWarningLightStatus valueOf:(NSString*)obj];
+        return [SDLWarningLightStatus valueOf:(NSString *)obj];
     }
 }
 
--(void) setLeftFront:(SDLSingleTireStatus*) leftFront {
+- (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
     if (leftFront != nil) {
         [store setObject:leftFront forKey:NAMES_leftFront];
     } else {
@@ -43,16 +45,16 @@
     }
 }
 
--(SDLSingleTireStatus*) leftFront {
-    NSObject* obj = [store objectForKey:NAMES_leftFront];
+- (SDLSingleTireStatus *)leftFront {
+    NSObject *obj = [store objectForKey:NAMES_leftFront];
     if ([obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus*)obj;
+        return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setRightFront:(SDLSingleTireStatus*) rightFront {
+- (void)setRightFront:(SDLSingleTireStatus *)rightFront {
     if (rightFront != nil) {
         [store setObject:rightFront forKey:NAMES_rightFront];
     } else {
@@ -60,16 +62,16 @@
     }
 }
 
--(SDLSingleTireStatus*) rightFront {
-    NSObject* obj = [store objectForKey:NAMES_rightFront];
+- (SDLSingleTireStatus *)rightFront {
+    NSObject *obj = [store objectForKey:NAMES_rightFront];
     if ([obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus*)obj;
+        return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setLeftRear:(SDLSingleTireStatus*) leftRear {
+- (void)setLeftRear:(SDLSingleTireStatus *)leftRear {
     if (leftRear != nil) {
         [store setObject:leftRear forKey:NAMES_leftRear];
     } else {
@@ -77,16 +79,16 @@
     }
 }
 
--(SDLSingleTireStatus*) leftRear {
-    NSObject* obj = [store objectForKey:NAMES_leftRear];
+- (SDLSingleTireStatus *)leftRear {
+    NSObject *obj = [store objectForKey:NAMES_leftRear];
     if ([obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus*)obj;
+        return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setRightRear:(SDLSingleTireStatus*) rightRear {
+- (void)setRightRear:(SDLSingleTireStatus *)rightRear {
     if (rightRear != nil) {
         [store setObject:rightRear forKey:NAMES_rightRear];
     } else {
@@ -94,16 +96,16 @@
     }
 }
 
--(SDLSingleTireStatus*) rightRear {
-    NSObject* obj = [store objectForKey:NAMES_rightRear];
+- (SDLSingleTireStatus *)rightRear {
+    NSObject *obj = [store objectForKey:NAMES_rightRear];
     if ([obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus*)obj;
+        return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setInnerLeftRear:(SDLSingleTireStatus*) innerLeftRear {
+- (void)setInnerLeftRear:(SDLSingleTireStatus *)innerLeftRear {
     if (innerLeftRear != nil) {
         [store setObject:innerLeftRear forKey:NAMES_innerLeftRear];
     } else {
@@ -111,16 +113,16 @@
     }
 }
 
--(SDLSingleTireStatus*) innerLeftRear {
-    NSObject* obj = [store objectForKey:NAMES_innerLeftRear];
+- (SDLSingleTireStatus *)innerLeftRear {
+    NSObject *obj = [store objectForKey:NAMES_innerLeftRear];
     if ([obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus*)obj;
+        return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setInnerRightRear:(SDLSingleTireStatus*) innerRightRear {
+- (void)setInnerRightRear:(SDLSingleTireStatus *)innerRightRear {
     if (innerRightRear != nil) {
         [store setObject:innerRightRear forKey:NAMES_innerRightRear];
     } else {
@@ -128,12 +130,12 @@
     }
 }
 
--(SDLSingleTireStatus*) innerRightRear {
-    NSObject* obj = [store objectForKey:NAMES_innerRightRear];
+- (SDLSingleTireStatus *)innerRightRear {
+    NSObject *obj = [store objectForKey:NAMES_innerRightRear];
     if ([obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus*)obj;
+        return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 

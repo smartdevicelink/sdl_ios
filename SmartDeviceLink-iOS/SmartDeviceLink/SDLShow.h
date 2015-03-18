@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 #import "SDLTextAlignment.h"
@@ -30,17 +29,18 @@
  * Since SmartDeviceLink 1.0
  * See SDLAlert SDLSetMediaClockTimer
  */
-@interface SDLShow : SDLRPCRequest {}
+@interface SDLShow : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLShow object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a new SDLShow object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display
@@ -57,7 +57,7 @@
  *            cleared</li>
  *            </ul>
  */
-@property(strong) NSString* mainField1;
+@property (strong) NSString *mainField1;
 /**
  * @abstract The text displayed on the second display line of a two-line display
  *
@@ -75,7 +75,7 @@
  *            <li>Maxlength = 500</li>
  *            </ul>
  */
-@property(strong) NSString* mainField2;
+@property (strong) NSString *mainField2;
 /**
  * @abstract The text displayed on the first display line of the second page
  *
@@ -94,7 +94,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSString* mainField3;
+@property (strong) NSString *mainField3;
 /**
  * @abstract The text displayed on the second display line of the second page
  *
@@ -113,7 +113,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSString* mainField4;
+@property (strong) NSString *mainField4;
 /**
  * @abstract The alignment that Specifies how mainField1 and mainField2 text
  * should be aligned on display
@@ -129,7 +129,7 @@
  *            <li>Has no effect with navigation display</li>
  *            </ul>
  */
-@property(strong) SDLTextAlignment* alignment;
+@property (strong) SDLTextAlignment *alignment;
 /**
  * @abstract Text in the Status Bar
  *
@@ -147,7 +147,7 @@
  *            parameter is ignored</li>
  *            </ul>
  */
-@property(strong) NSString* statusBar;
+@property (strong) NSString *statusBar;
 /**
  * @abstract This property is deprecated use SetMediaClockTimer instead.
  * <p> The value for the MediaClock field using a format described in the
@@ -164,7 +164,7 @@
  *            will not display anything)</li>
  *            </ul>
  */
-@property(strong) NSString* mediaClock;
+@property (strong) NSString *mediaClock;
 /**
  * @abstract The text in the track field
  *
@@ -177,7 +177,7 @@
  *            <li>This field is only valid for media applications on navigation displays</li>
  *            </ul>
  */
-@property(strong) NSString* mediaTrack;
+@property (strong) NSString *mediaTrack;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -187,7 +187,7 @@
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) SDLImage* graphic;
+@property (strong) SDLImage *graphic;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -197,7 +197,7 @@
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) SDLImage* secondaryGraphic;
+@property (strong) SDLImage *secondaryGraphic;
 /**
  * @abstract The the Soft buttons defined by the App
  *
@@ -214,7 +214,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSMutableArray* softButtons;
+@property (strong) NSMutableArray *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -228,7 +228,6 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSMutableArray* customPresets;
+@property (strong) NSMutableArray *customPresets;
 
 @end
-

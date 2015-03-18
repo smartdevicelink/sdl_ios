@@ -2,14 +2,13 @@
 //
 
 
-
-
 #import "SDLJingle.h"
 #import "SDLTTSChunk.h"
 
-@interface SDLTTSChunkFactory : NSObject {}
+@interface SDLTTSChunkFactory : NSObject {
+}
 
-+(SDLTTSChunk*) buildTTSChunkForString:(NSString*) text type:(SDLSpeechCapabilities*)type;
-+(NSMutableArray*) buildTTSChunksFromSimple:(NSString*) simple;
++ (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities *)type;
++ (NSMutableArray *)buildTTSChunksFromSimple:(NSString *)simple;
 
 @end

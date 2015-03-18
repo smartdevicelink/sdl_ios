@@ -8,17 +8,19 @@
 
 @implementation SDLGetDTCs
 
--(id) init {
-    if (self = [super initWithName:NAMES_GetDTCs]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_GetDTCs]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setEcuName:(NSNumber*) ecuName {
+- (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
         [parameters setObject:ecuName forKey:NAMES_ecuName];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSNumber*) ecuName {
+- (NSNumber *)ecuName {
     return [parameters objectForKey:NAMES_ecuName];
 }
 
--(void) setDtcMask:(NSNumber*) dtcMask {
+- (void)setDtcMask:(NSNumber *)dtcMask {
     if (dtcMask != nil) {
         [parameters setObject:dtcMask forKey:NAMES_dtcMask];
     } else {
@@ -38,7 +40,7 @@
     }
 }
 
--(NSNumber*) dtcMask {
+- (NSNumber *)dtcMask {
     return [parameters objectForKey:NAMES_dtcMask];
 }
 

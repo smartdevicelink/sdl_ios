@@ -2,13 +2,12 @@
 //
 
 
-
 #import "SDLInterfaceProtocol.h"
 #import "SDLTransport.h"
 #import "SDLProtocolListener.h"
 
 
-@interface SDLAbstractProtocol : NSObject<SDLInterfaceProtocol>
+@interface SDLAbstractProtocol : NSObject <SDLInterfaceProtocol>
 
 @property (strong) NSString *debugConsoleGroupName;
 @property (strong) id<SDLTransport> transport;

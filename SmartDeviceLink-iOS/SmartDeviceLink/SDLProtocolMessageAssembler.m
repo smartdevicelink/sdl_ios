@@ -15,7 +15,6 @@
 }
 
 - (void)handleMessage:(SDLProtocolMessage *)message withCompletionHandler:(SDLMessageAssemblyCompletionHandler)completionHandler {
-
     // Validate input
     if (message.header.sessionID != self.sessionID) {
         NSLog(@"Error: message part sent to wrong assembler.");
@@ -58,11 +57,11 @@
         // Create the payload
         NSMutableData *payload = [[NSMutableData alloc] init];
         for (unsigned int i = 1; i < self.frameCount; i++) {
-            NSData* dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:i]];
+            NSData *dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:i]];
             [payload appendData:dataToAppend];
         }
         // Append the last frame, it has a frame # of 0.
-        NSData* dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:0]];
+        NSData *dataToAppend = [self.parts objectForKey:[NSNumber numberWithUnsignedInt:0]];
         [payload appendData:dataToAppend];
 
         // Validation
@@ -70,7 +69,7 @@
         if (payload.length != self.expectedBytes) {
             NSLog(@"Warning: collected bytes size of %lu not equal to expected size of %i.", (unsigned long)payload.length, (unsigned int)self.expectedBytes);
         }
-        
+
         // Create the message.
         assembledMessage = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
 
@@ -82,14 +81,12 @@
 
         // Done with this data, release it.
         self.parts = nil;
-
     }
 
     // Not done, let caller know
     if (completionHandler != nil) {
         completionHandler(NO, nil);
     }
-
 }
 
 @end

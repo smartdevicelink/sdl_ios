@@ -2,9 +2,9 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
-@interface SDLRPCNotification : SDLRPCMessage {}
+@interface SDLRPCNotification : SDLRPCMessage {
+}
 
 @end

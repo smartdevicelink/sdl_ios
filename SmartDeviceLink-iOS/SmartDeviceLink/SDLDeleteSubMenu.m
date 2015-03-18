@@ -8,17 +8,19 @@
 
 @implementation SDLDeleteSubMenu
 
--(id) init {
-    if (self = [super initWithName:NAMES_DeleteSubMenu]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_DeleteSubMenu]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setMenuID:(NSNumber*) menuID {
+- (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:NAMES_menuID];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSNumber*) menuID {
+- (NSNumber *)menuID {
     return [parameters objectForKey:NAMES_menuID];
 }
 

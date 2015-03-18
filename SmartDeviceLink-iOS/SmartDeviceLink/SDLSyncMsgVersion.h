@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -40,17 +39,18 @@
  * </table>
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSyncMsgVersion : SDLRPCStruct {}
+@interface SDLSyncMsgVersion : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLSyncMsgVersion object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLSyncMsgVersion object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract Major version
@@ -59,7 +59,7 @@
  * 				    <li>maxvalue="10"</li>
  *					</ul>
  */
-@property(strong) NSNumber* majorVersion;
+@property (strong) NSNumber *majorVersion;
 /**
  * @abstract Minor version
  * 					<ul>
@@ -67,7 +67,6 @@
  * 				    <li>maxvalue="1000"</li>
  *					</ul>
  */
-@property(strong) NSNumber* minorVersion;
+@property (strong) NSNumber *minorVersion;
 
 @end
-

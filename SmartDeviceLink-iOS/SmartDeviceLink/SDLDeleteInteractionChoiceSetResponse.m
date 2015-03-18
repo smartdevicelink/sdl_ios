@@ -8,13 +8,15 @@
 
 @implementation SDLDeleteInteractionChoiceSetResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

@@ -2,16 +2,16 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLTBTState.h"
 
-@interface SDLOnTBTClientState : SDLRPCNotification {}
+@interface SDLOnTBTClientState : SDLRPCNotification {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLTBTState* state;
+@property (strong) SDLTBTState *state;
 
 @end

@@ -8,13 +8,15 @@
 
 @implementation SDLUnregisterAppInterfaceResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_UnregisterAppInterface]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_UnregisterAppInterface]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

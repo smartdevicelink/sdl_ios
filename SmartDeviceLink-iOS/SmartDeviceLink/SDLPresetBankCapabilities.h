@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -25,21 +24,22 @@
  *  </table>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLPresetBankCapabilities : SDLRPCStruct {}
+@interface SDLPresetBankCapabilities : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLPresetBankCapabilities object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLPresetBankCapabilities object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract if Onscreen custom presets are available.
  */
-@property(strong) NSNumber* onScreenPresetsAvailable;
+@property (strong) NSNumber *onScreenPresetsAvailable;
 
 @end

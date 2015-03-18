@@ -8,17 +8,19 @@
 
 @implementation SDLOnTBTClientState
 
--(id) init {
-    if (self = [super initWithName:NAMES_OnTBTClientState]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_OnTBTClientState]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setState:(SDLTBTState*) state {
+- (void)setState:(SDLTBTState *)state {
     if (state != nil) {
         [parameters setObject:state forKey:NAMES_state];
     } else {
@@ -26,12 +28,12 @@
     }
 }
 
--(SDLTBTState*) state {
-    NSObject* obj = [parameters objectForKey:NAMES_state];
+- (SDLTBTState *)state {
+    NSObject *obj = [parameters objectForKey:NAMES_state];
     if ([obj isKindOfClass:SDLTBTState.class]) {
-        return (SDLTBTState*)obj;
+        return (SDLTBTState *)obj;
     } else {
-        return [SDLTBTState valueOf:(NSString*)obj];
+        return [SDLTBTState valueOf:(NSString *)obj];
     }
 }
 

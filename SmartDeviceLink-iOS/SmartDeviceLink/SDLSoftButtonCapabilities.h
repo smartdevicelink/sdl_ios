@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -49,33 +48,34 @@
  *  </table>
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSoftButtonCapabilities : SDLRPCStruct {}
+@interface SDLSoftButtonCapabilities : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLSoftButtonCapabilities object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLSoftButtonCapabilities object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The button supports a short press.
  */
-@property(strong) NSNumber* shortPressAvailable;
+@property (strong) NSNumber *shortPressAvailable;
 /**
  * @abstract The button supports a LONG press.
  */
-@property(strong) NSNumber* longPressAvailable;
+@property (strong) NSNumber *longPressAvailable;
 /**
  * @abstract The button supports "button down" and "button up".
  */
-@property(strong) NSNumber* upDownAvailable;
+@property (strong) NSNumber *upDownAvailable;
 /**
  * @abstract The button supports referencing a static or dynamic image.
  */
-@property(strong) NSNumber* imageSupported;
+@property (strong) NSNumber *imageSupported;
 
 @end

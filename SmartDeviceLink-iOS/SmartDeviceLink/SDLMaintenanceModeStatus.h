@@ -2,46 +2,46 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
  *
  * The SDLMaintenanceModeStatus class.
  */
-@interface SDLMaintenanceModeStatus : SDLEnum {}
+@interface SDLMaintenanceModeStatus : SDLEnum {
+}
 
 /*!
  @abstract Maintenance Mode Status
  @param value NSString
  @result return SDLMaintenanceModeStatus
  */
-+(SDLMaintenanceModeStatus*) valueOf:(NSString*) value;
++ (SDLMaintenanceModeStatus *)valueOf:(NSString *)value;
 /*!
  @abstract declare an array that store all possible Maintenance Mode Status inside
  @result return the array
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /*!
  @abstract Maintenance Mode Status : Normal
  @result return the object with value of <font color=gray><i> NORMAL </i></font>
  */
-+(SDLMaintenanceModeStatus*) NORMAL;
++ (SDLMaintenanceModeStatus *)NORMAL;
 /*!
  @abstract Maintenance Mode Status : Near
  @result return the object with value of <font color=gray><i> NEAR </i></font>
  */
-+(SDLMaintenanceModeStatus*) NEAR;
++ (SDLMaintenanceModeStatus *)NEAR;
 /*!
  @abstract Maintenance Mode Status : Active
  @result return the object with value of <font color=gray><i> ACTIVE </i></font>
  */
-+(SDLMaintenanceModeStatus*) ACTIVE;
++ (SDLMaintenanceModeStatus *)ACTIVE;
 /*!
  @abstract Maintenance Mode Status : Feature not present
  @result return the object with value of <font color=gray><i> FEATURE_NOT_PRESENT </i></font>
  */
-+(SDLMaintenanceModeStatus*) FEATURE_NOT_PRESENT;
++ (SDLMaintenanceModeStatus *)FEATURE_NOT_PRESENT;
 
 @end

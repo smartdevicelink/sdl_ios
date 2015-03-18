@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,55 +9,56 @@
  *
  * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
  */
-@interface SDLComponentVolumeStatus : SDLEnum {}
+@interface SDLComponentVolumeStatus : SDLEnum {
+}
 /**
  * @abstract Convert String to SDLComponentVolumeStatus
  * @param value NSString
  * @result SDLComponentVolumeStatus
  *
  */
-+(SDLComponentVolumeStatus*) valueOf:(NSString*) value;
++ (SDLComponentVolumeStatus *)valueOf:(NSString *)value;
 
 /*!
  @abstract Store the enumeration of all possible SDLComponentVolumeStatus
  @result return an array that store all possible SDLComponentVolumeStatus
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /*!
  @abstract Unknown SDLComponentVolumeStatus
  @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>UNKNOWN</i></font>
  */
-+(SDLComponentVolumeStatus*) UNKNOWN;
++ (SDLComponentVolumeStatus *)UNKNOWN;
 
 /*!
  @abstract Normal SDLComponentVolumeStatus
  @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>NORMAL</i></font>
  */
-+(SDLComponentVolumeStatus*) NORMAL;
++ (SDLComponentVolumeStatus *)NORMAL;
 
 /*!
  @abstract Low SDLComponentVolumeStatus
  @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>LOW</i></font>
  */
-+(SDLComponentVolumeStatus*) LOW;
++ (SDLComponentVolumeStatus *)LOW;
 
 /*!
  @abstract Fault SDLComponentVolumeStatus
  @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>FAULT</i></font>
  */
-+(SDLComponentVolumeStatus*) FAULT;
++ (SDLComponentVolumeStatus *)FAULT;
 
 /*!
  @abstract Alert SDLComponentVolumeStatus
  @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>ALERT</i></font>
  */
-+(SDLComponentVolumeStatus*) ALERT;
++ (SDLComponentVolumeStatus *)ALERT;
 
 /*!
  @abstract Not supported SDLComponentVolumeStatus
  @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>NOT_SUPPORTED</i></font>
  */
-+(SDLComponentVolumeStatus*) NOT_SUPPORTED;
++ (SDLComponentVolumeStatus *)NOT_SUPPORTED;
 
 @end

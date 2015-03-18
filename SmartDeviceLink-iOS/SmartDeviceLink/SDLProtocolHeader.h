@@ -6,25 +6,25 @@
 
 
 typedef NS_ENUM(UInt8, SDLFrameType) {
-	SDLFrameType_Control = 0,
-	SDLFrameType_Single = 1,
-	SDLFrameType_First = 2,
-	SDLFrameType_Consecutive = 3
+    SDLFrameType_Control = 0,
+    SDLFrameType_Single = 1,
+    SDLFrameType_First = 2,
+    SDLFrameType_Consecutive = 3
 };
 
 typedef NS_ENUM(UInt8, SDLServiceType) {
-	SDLServiceType_RPC = 7,
-	SDLServiceType_BulkData = 0xF,
+    SDLServiceType_RPC = 7,
+    SDLServiceType_BulkData = 0xF,
 };
 
 typedef NS_ENUM(UInt8, SDLFrameData) {
-	SDLFrameData_Heartbeat = 0,
-	SDLFrameData_StartSession = 1,
-	SDLFrameData_StartSessionACK = 2,
-	SDLFrameData_StartSessionNACK = 3,
-	SDLFrameData_EndSession = 4,
-	SDLFrameData_SingleFrame = 0,
-	SDLFrameData_FirstFrame = 0,
+    SDLFrameData_Heartbeat = 0,
+    SDLFrameData_StartSession = 1,
+    SDLFrameData_StartSessionACK = 2,
+    SDLFrameData_StartSessionNACK = 3,
+    SDLFrameData_EndSession = 4,
+    SDLFrameData_SingleFrame = 0,
+    SDLFrameData_FirstFrame = 0,
     SDLFrameData_ConsecutiveLastFrame = 0
 };
 

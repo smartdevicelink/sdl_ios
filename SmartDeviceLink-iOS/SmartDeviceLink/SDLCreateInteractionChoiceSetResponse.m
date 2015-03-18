@@ -8,13 +8,15 @@
 
 @implementation SDLCreateInteractionChoiceSetResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_CreateInteractionChoiceSet]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_CreateInteractionChoiceSet]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

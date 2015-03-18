@@ -5,10 +5,9 @@
 
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLObjectWithPriority.h"
-#import "SDLDebugTool.h"//fortesting
+#import "SDLDebugTool.h" //fortesting
 
-@interface SDLPrioritizedObjectCollection ()
-{
+@interface SDLPrioritizedObjectCollection () {
     NSMutableArray *privateArray;
 }
 @end
@@ -16,8 +15,7 @@
 
 @implementation SDLPrioritizedObjectCollection
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         privateArray = [NSMutableArray new];
@@ -25,8 +23,7 @@
     return self;
 }
 
-- (void)addObject:(id)object withPriority:(NSInteger)priority
-{
+- (void)addObject:(id)object withPriority:(NSInteger)priority {
     if (object == nil || [[NSNull null] isEqual:object]) {
         return;
     }
@@ -35,8 +32,7 @@
     newWrapper.object = object;
     newWrapper.priority = priority;
 
-    @synchronized(privateArray)
-    {
+    @synchronized(privateArray) {
         // Find correct place to insert.
         // Sorted in descending order.
         BOOL lowerPriorityFound = NO;
@@ -52,20 +48,16 @@
         if (!lowerPriorityFound) {
             [privateArray addObject:newWrapper];
         }
-
     }
-
 }
 
-- (id)nextObject
-{
+- (id)nextObject {
     if (privateArray.count == 0) {
         return nil;
     }
 
     SDLObjectWithPriority *obj = nil;
-    @synchronized(privateArray)
-    {
+    @synchronized(privateArray) {
         obj = (SDLObjectWithPriority *)[privateArray lastObject];
         [privateArray removeLastObject];
     }

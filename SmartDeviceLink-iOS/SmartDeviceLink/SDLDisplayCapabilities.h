@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLDisplayType.h"
@@ -48,50 +47,51 @@
  * </table>
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLDisplayCapabilities : SDLRPCStruct {}
+@interface SDLDisplayCapabilities : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLDisplayCapabilities object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a newly allocated SDLDisplayCapabilities object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the type of display
  * @discussion
  */
-@property(strong) SDLDisplayType* displayType;
+@property (strong) SDLDisplayType *displayType;
 /**
  * @abstract an array of SDLTextField structures, each of which describes a field in the HMI which the application can write to using operations such as <i>SDLShow</i>, <i>SDLSetMediaClockTimer</i>, etc.
  * @discussion  This array of SDLTextField structures identify all the text fields to which the application can write on the current display (identified by SDLDisplayType ).
  */
-@property(strong) NSMutableArray* textFields;
+@property (strong) NSMutableArray *textFields;
 /**
  * @abstract an array of SDLImageField elements
  * @discussion A set of all fields that support images. See SDLImageField.
  */
-@property(strong) NSMutableArray* imageFields;
+@property (strong) NSMutableArray *imageFields;
 /**
  * @abstract an array of SDLMediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field
  * @discussion
  */
-@property(strong) NSMutableArray* mediaClockFormats;
+@property (strong) NSMutableArray *mediaClockFormats;
 /**
  * @abstract the display's persistent screen supports.
  * @discussion
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@property(strong) NSNumber* graphicSupported;
+@property (strong) NSNumber *graphicSupported;
 /**
  * @abstract Number of presets the screen supports.
  * @discussion The number of on-screen custom presets available (if any)
  */
-@property(strong) NSMutableArray* templatesAvailable;
-@property(strong) SDLScreenParams* screenParams;
-@property(strong) NSNumber* numCustomPresetsAvailable;
+@property (strong) NSMutableArray *templatesAvailable;
+@property (strong) SDLScreenParams *screenParams;
+@property (strong) NSNumber *numCustomPresetsAvailable;
 
 @end

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -38,31 +37,31 @@
  * </table>
  * Since SmartDeviceLink 1.0
  */
-@interface SDLStartTime : SDLRPCStruct {}
+@interface SDLStartTime : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLStartTime object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLStartTime object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The hour. Minvalue="0", maxvalue="59"
  *					<p><b>Note:</b>Some display types only support a max value of 19. If out of range, it will be rejected.
  */
-@property(strong) NSNumber* hours;
+@property (strong) NSNumber *hours;
 /**
  * @abstract The minute. Minvalue="0", maxvalue="59".
  */
-@property(strong) NSNumber* minutes;
+@property (strong) NSNumber *minutes;
 /**
  * @abstract The second. Minvalue="0", maxvalue="59".
  */
-@property(strong) NSNumber* seconds;
+@property (strong) NSNumber *seconds;
 
 @end
-

@@ -30,12 +30,13 @@
  * Since <b>SDL 1.0</b><br>
  * see SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
  */
-@interface SDLAddCommand : SDLRPCRequest {}
+@interface SDLAddCommand : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLAddCommand object
  */
--(id) init;
+- (id)init;
 /**
  *
  * Constructs a new SDLAddCommand object indicated by the NSMutableDictionary
@@ -44,7 +45,7 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract an Unique Command ID that identifies the command
@@ -53,7 +54,7 @@
  * <p>
  * <b>Notes:</b> Min Value: 0; Max Value: 2000000000
  */
-@property(strong) NSNumber* cmdID;
+@property (strong) NSNumber *cmdID;
 /**
  * @abstract a <I>SDLMenuParams</I> pointer which will defined the command and how
  * it is added to the Command Menu
@@ -61,7 +62,7 @@
  * Command Menu<br/>
  * If null, commands will not be accessible through the HMI application menu
  */
-@property(strong) SDLMenuParams* menuParams;
+@property (strong) SDLMenuParams *menuParams;
 /**
  * @abstract Voice Recognition Commands
  * @discussion If provided, defines one or more VR phrases the recognition of any of
@@ -70,13 +71,13 @@
  * If null, commands will not be accessible by voice commands (when the user
  * hits push-to-talk)
  */
-@property(strong) NSMutableArray* vrCommands;
+@property (strong) NSMutableArray *vrCommands;
 /**
  * @abstract an Image obj representing the Image obj shown along with a command
  * @discussion If provided, defines the image to be be shown along with a  command
  * Notes:   If omitted on supported displays, no (or the
  *            default if applicable) icon will be displayed
  */
-@property(strong) SDLImage* cmdIcon;
+@property (strong) SDLImage *cmdIcon;
 
 @end

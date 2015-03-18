@@ -8,17 +8,19 @@
 
 @implementation SDLVrHelpItem
 
--(id) init {
-    if (self = [super init]) {}
+- (id)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setText:(NSString*) text {
+- (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:NAMES_text];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSString*) text {
+- (NSString *)text {
     return [store objectForKey:NAMES_text];
 }
 
--(void) setImage:(SDLImage*) image {
+- (void)setImage:(SDLImage *)image {
     if (image != nil) {
         [store setObject:image forKey:NAMES_image];
     } else {
@@ -38,16 +40,16 @@
     }
 }
 
--(SDLImage*) image {
-    NSObject* obj = [store objectForKey:NAMES_image];
+- (SDLImage *)image {
+    NSObject *obj = [store objectForKey:NAMES_image];
     if ([obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage*)obj;
+        return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setPosition:(NSNumber*) position {
+- (void)setPosition:(NSNumber *)position {
     if (position != nil) {
         [store setObject:position forKey:NAMES_position];
     } else {
@@ -55,7 +57,7 @@
     }
 }
 
--(NSNumber*) position {
+- (NSNumber *)position {
     return [store objectForKey:NAMES_position];
 }
 

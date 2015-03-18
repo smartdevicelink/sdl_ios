@@ -8,17 +8,19 @@
 
 @implementation SDLOnDriverDistraction
 
--(id) init {
-    if (self = [super initWithName:NAMES_OnDriverDistraction]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_OnDriverDistraction]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setState:(SDLDriverDistractionState*) state {
+- (void)setState:(SDLDriverDistractionState *)state {
     if (state != nil) {
         [parameters setObject:state forKey:NAMES_state];
     } else {
@@ -26,12 +28,12 @@
     }
 }
 
--(SDLDriverDistractionState*) state {
-    NSObject* obj = [parameters objectForKey:NAMES_state];
+- (SDLDriverDistractionState *)state {
+    NSObject *obj = [parameters objectForKey:NAMES_state];
     if ([obj isKindOfClass:SDLDriverDistractionState.class]) {
-        return (SDLDriverDistractionState*)obj;
+        return (SDLDriverDistractionState *)obj;
     } else {
-        return [SDLDriverDistractionState valueOf:(NSString*)obj];
+        return [SDLDriverDistractionState valueOf:(NSString *)obj];
     }
 }
 

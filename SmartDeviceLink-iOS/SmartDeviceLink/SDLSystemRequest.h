@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 #import "SDLRequestType.h"
@@ -13,12 +12,13 @@
  * @since SmartDeviceLink 3.0
  *
  */
-@interface SDLSystemRequest : SDLRPCRequest {}
+@interface SDLSystemRequest : SDLRPCRequest {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLRequestType* requestType;
-@property(strong) NSString* fileName;
+@property (strong) SDLRequestType *requestType;
+@property (strong) NSString *fileName;
 
 @end

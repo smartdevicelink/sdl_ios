@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLHMILevel.h"
@@ -63,29 +62,30 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLRegisterAppInterface
  */
-@interface SDLOnHMIStatus : SDLRPCNotification {}
+@interface SDLOnHMIStatus : SDLRPCNotification {
+}
 /**
  *Constructs a newly allocated SDLOnHMIStatus object
  */
--(id) init;
+- (id)init;
 /**
  *<p>Constructs a newly allocated SDLOnHMIStatus object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 /**
  * @abstract SDLHMILevel in effect for the application
  * @discussion
  */
-@property(strong) SDLHMILevel* hmiLevel;
+@property (strong) SDLHMILevel *hmiLevel;
 /**
  * @abstract current state of audio streaming for the application
  * @discussion
  */
-@property(strong) SDLAudioStreamingState* audioStreamingState;
+@property (strong) SDLAudioStreamingState *audioStreamingState;
 /**
  * @abstract the System Context
  * @discussion whether a user-initiated interaction is in-progress (VRSESSION or MENU), or not (MAIN)
  */
-@property(strong) SDLSystemContext* systemContext;
+@property (strong) SDLSystemContext *systemContext;
 @end

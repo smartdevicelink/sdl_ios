@@ -6,11 +6,11 @@
 
 
 @interface SDLEnum : NSObject {
-	NSString* value;
+    NSString *value;
 }
 
--(id) initWithValue:(NSString*) value;
+- (id)initWithValue:(NSString *)value;
 
-@property(strong, readonly) NSString* value;
+@property (strong, readonly) NSString *value;
 
 @end

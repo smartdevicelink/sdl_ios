@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -40,27 +39,28 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLHMIPermissions : SDLRPCStruct {}
+@interface SDLHMIPermissions : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLHMIPermissions object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a newly allocated SDLHMIPermissions object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract a set of all HMI levels that are permitted for this given RPC
  * @discussion
  */
-@property(strong) NSMutableArray* allowed;
+@property (strong) NSMutableArray *allowed;
 /**
  * @abstract a set of all HMI levels that are prohibited for this given RPC
  * @discussion
  */
-@property(strong) NSMutableArray* userDisallowed;
+@property (strong) NSMutableArray *userDisallowed;
 
 @end

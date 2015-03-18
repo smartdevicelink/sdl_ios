@@ -12,7 +12,7 @@
 @property (strong, readonly) NSData *data;
 
 - (id)init;
-+ (id)messageWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload; // Returns a V1 or V2 object
++ (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload; // Returns a V1 or V2 object
 
 - (NSUInteger)size;
 - (NSString *)description;

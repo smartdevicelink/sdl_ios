@@ -54,26 +54,27 @@
  *  </table>
  * @since SmartDeviceLink 1.0
  */
-@interface SDLTextField : SDLRPCStruct {}
+@interface SDLTextField : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLTextField object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLTextField object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The enumeration identifying the field.
  */
-@property(strong) SDLTextFieldName* name;
+@property (strong) SDLTextFieldName *name;
 /**
  * @abstract The character set that is supported in this field.
  */
-@property(strong) SDLCharacterSet* characterSet;
+@property (strong) SDLCharacterSet *characterSet;
 /**
  * @abstract The number of characters in one row of this field.
  * 					<ul>
@@ -81,7 +82,7 @@
  *					<li>maxvalue="500"</li>
  *					</ul>
  */
-@property(strong) NSNumber* width;
+@property (strong) NSNumber *width;
 /**
  * @abstract The number of rows for this text field.
  * 					<ul>
@@ -89,7 +90,6 @@
  *					<li>maxvalue="3"</li>
  *					</ul>
  */
-@property(strong) NSNumber* rows;
+@property (strong) NSNumber *rows;
 
 @end
-

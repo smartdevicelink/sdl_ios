@@ -9,20 +9,20 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 @implementation SDLV1ProtocolHeader
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
         _version = 1;
         _size = V1PROTOCOL_HEADERSIZE;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (NSData *)data {
     // Assembles the properties in the binary header format
     Byte headerBytes[V1PROTOCOL_HEADERSIZE] = {0};
 
-    Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = self.compressed?1:0 << 3; // next 1 bit
-    Byte frameType = (self.frameType & 0x7); // last 3 bits
+    Byte version = (self.version & 0xF) << 4;       // first 4 bits
+    Byte compressed = self.compressed ? 1 : 0 << 3; // next 1 bit
+    Byte frameType = (self.frameType & 0x7);        // last 3 bits
 
     headerBytes[0] = version | compressed | frameType;
     headerBytes[1] = self.serviceType;
@@ -35,13 +35,12 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 
     // Now put it all in an NSData object.
     NSData *dataOut = [NSData dataWithBytes:headerBytes length:V1PROTOCOL_HEADERSIZE];
-    
+
     return dataOut;
 }
 
-- (id)copyWithZone:(NSZone *)zone
-{
-    SDLV1ProtocolHeader *newHeader = [[SDLV1ProtocolHeader allocWithZone: zone] init];
+- (id)copyWithZone:(NSZone *)zone {
+    SDLV1ProtocolHeader *newHeader = [[SDLV1ProtocolHeader allocWithZone:zone] init];
     newHeader.compressed = self.compressed;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
@@ -68,9 +67,15 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 }
 
 - (NSString *)description {
-    NSMutableString* description = [[NSMutableString alloc] init];
+    NSMutableString *description = [[NSMutableString alloc] init];
     [description appendFormat:@"Version:%i, compressed:%i, frameType:%i, serviceType:%i, frameData:%i, sessionID:%i, dataSize:%i",
-                              self.version, self.compressed, self.frameType, self.serviceType, self.frameData, self.sessionID, (unsigned int)self.bytesInPayload];
+                              self.version,
+                              self.compressed,
+                              self.frameType,
+                              self.serviceType,
+                              self.frameData,
+                              self.sessionID,
+                              (unsigned int)self.bytesInPayload];
     return description;
 }
 

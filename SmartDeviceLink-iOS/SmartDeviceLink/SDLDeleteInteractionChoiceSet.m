@@ -8,17 +8,19 @@
 
 @implementation SDLDeleteInteractionChoiceSet
 
--(id) init {
-    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setInteractionChoiceSetID:(NSNumber*) interactionChoiceSetID {
+- (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSNumber*) interactionChoiceSetID {
+- (NSNumber *)interactionChoiceSetID {
     return [parameters objectForKey:NAMES_interactionChoiceSetID];
 }
 

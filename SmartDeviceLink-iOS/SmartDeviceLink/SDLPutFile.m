@@ -8,17 +8,19 @@
 
 @implementation SDLPutFile
 
--(id) init {
-    if (self = [super initWithName:NAMES_PutFile]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_PutFile]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setSyncFileName:(NSString*) syncFileName {
+- (void)setSyncFileName:(NSString *)syncFileName {
     if (syncFileName != nil) {
         [parameters setObject:syncFileName forKey:NAMES_syncFileName];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSString*) syncFileName {
+- (NSString *)syncFileName {
     return [parameters objectForKey:NAMES_syncFileName];
 }
 
--(void) setFileType:(SDLFileType*) fileType {
+- (void)setFileType:(SDLFileType *)fileType {
     if (fileType != nil) {
         [parameters setObject:fileType forKey:NAMES_fileType];
     } else {
@@ -38,16 +40,16 @@
     }
 }
 
--(SDLFileType*) fileType {
-    NSObject* obj = [parameters objectForKey:NAMES_fileType];
+- (SDLFileType *)fileType {
+    NSObject *obj = [parameters objectForKey:NAMES_fileType];
     if ([obj isKindOfClass:SDLFileType.class]) {
-        return (SDLFileType*)obj;
+        return (SDLFileType *)obj;
     } else {
-        return [SDLFileType valueOf:(NSString*)obj];
+        return [SDLFileType valueOf:(NSString *)obj];
     }
 }
 
--(void) setPersistentFile:(NSNumber*) persistentFile {
+- (void)setPersistentFile:(NSNumber *)persistentFile {
     if (persistentFile != nil) {
         [parameters setObject:persistentFile forKey:NAMES_persistentFile];
     } else {
@@ -55,11 +57,11 @@
     }
 }
 
--(NSNumber*) persistentFile {
+- (NSNumber *)persistentFile {
     return [parameters objectForKey:NAMES_persistentFile];
 }
 
--(void) setSystemFile:(NSNumber*) systemFile {
+- (void)setSystemFile:(NSNumber *)systemFile {
     if (systemFile != nil) {
         [parameters setObject:systemFile forKey:NAMES_systemFile];
     } else {
@@ -67,11 +69,11 @@
     }
 }
 
--(NSNumber*) systemFile {
+- (NSNumber *)systemFile {
     return [parameters objectForKey:NAMES_systemFile];
 }
 
--(void) setOffset:(NSNumber*) offset {
+- (void)setOffset:(NSNumber *)offset {
     if (offset != nil) {
         [parameters setObject:offset forKey:NAMES_offset];
     } else {
@@ -79,11 +81,11 @@
     }
 }
 
--(NSNumber*) offset {
+- (NSNumber *)offset {
     return [parameters objectForKey:NAMES_offset];
 }
 
--(void) setLength:(NSNumber*) length {
+- (void)setLength:(NSNumber *)length {
     if (length != nil) {
         [parameters setObject:length forKey:NAMES_length];
     } else {
@@ -91,7 +93,7 @@
     }
 }
 
--(NSNumber*) length {
+- (NSNumber *)length {
     return [parameters objectForKey:NAMES_length];
 }
 

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -74,17 +73,18 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLAlert
  */
-@interface SDLSpeak : SDLRPCRequest {}
+@interface SDLSpeak : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLSpeak object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a new SDLSpeak object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A Vector<TTSChunk> representing an array of 1-100 TTSChunk structs
@@ -101,7 +101,6 @@
  *            <li>Each chunk can be no more than 500 characters</li>
  *            </ul>
  */
-@property(strong) NSMutableArray* ttsChunks;
+@property (strong) NSMutableArray *ttsChunks;
 
 @end
-

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -58,38 +57,38 @@
  *  </table>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLVehicleType : SDLRPCStruct {}
+@interface SDLVehicleType : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLVehicleType object
  */
--(id) init;
+- (id)init;
 
 /**
  * @abstract Constructs a newly allocated SDLVehicleType object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The make of the vehicle
  */
-@property(strong) NSString* make;
+@property (strong) NSString *make;
 
 /**
  * @abstract The model of the vehicle
  */
-@property(strong) NSString* model;
+@property (strong) NSString *model;
 
 /**
  * @abstract The model year of the vehicle
  */
-@property(strong) NSString* modelYear;
+@property (strong) NSString *modelYear;
 
 /**
  * @abstract The trim of the vehicle
  */
-@property(strong) NSString* trim;
+@property (strong) NSString *trim;
 
 @end
-

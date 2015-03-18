@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLSpeechCapabilities.h"
@@ -39,26 +38,26 @@
  *  </table>
  * @since SmartDeviceLink 1.0
  */
-@interface SDLTTSChunk : SDLRPCStruct {}
+@interface SDLTTSChunk : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLTTSChunk object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLTTSChunk object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.
  */
-@property(strong) NSString* text;
+@property (strong) NSString *text;
 /**
  * @abstract The type of information in the "text" field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound).
  */
-@property(strong) SDLSpeechCapabilities* type;
+@property (strong) SDLSpeechCapabilities *type;
 
 @end
-

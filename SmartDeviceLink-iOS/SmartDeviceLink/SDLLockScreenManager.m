@@ -14,8 +14,7 @@
 
 @implementation SDLLockScreenManager
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _bUserSelected = NO;
@@ -25,14 +24,12 @@
     return self;
 }
 
-- (void)setBDriverDistractionStatus:(BOOL)bDriverDistractionStatus
-{
+- (void)setBDriverDistractionStatus:(BOOL)bDriverDistractionStatus {
     _bDriverDistractionStatus = bDriverDistractionStatus;
     _bHaveDDStatus = YES;
 }
 
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel
-{
+- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
     if (_hmiLevel != hmiLevel) {
         _hmiLevel = hmiLevel;
     }
@@ -54,29 +51,21 @@
     return notification;
 }
 
-- (SDLLockScreenStatus *)lockScreenStatus
-{
+- (SDLLockScreenStatus *)lockScreenStatus {
     if (_hmiLevel == nil || _hmiLevel == [SDLHMILevel HMI_NONE]) {
         return [SDLLockScreenStatus OFF];
     } else if (_hmiLevel == [SDLHMILevel HMI_BACKGROUND]) {
-        if (!_bHaveDDStatus)
-        {
+        if (!_bHaveDDStatus) {
             //we don't have driver distraction, lockscreen is entirely based on userselection
             if (_bUserSelected)
                 return [SDLLockScreenStatus REQUIRED];
             else
                 return [SDLLockScreenStatus OFF];
-        }
-        else if (_bHaveDDStatus && _bUserSelected)
-        {
+        } else if (_bHaveDDStatus && _bUserSelected) {
             return [SDLLockScreenStatus REQUIRED];
-        }
-        else if (!_bHaveDDStatus && _bUserSelected)
-        {
+        } else if (!_bHaveDDStatus && _bUserSelected) {
             return [SDLLockScreenStatus OPTIONAL];
-        }
-        else
-        {
+        } else {
             return [SDLLockScreenStatus OFF];
         }
     } else if (_hmiLevel == [SDLHMILevel HMI_FULL] || _hmiLevel == [SDLHMILevel HMI_LIMITED]) {
