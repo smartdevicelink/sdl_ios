@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 /**
@@ -24,14 +23,15 @@
  * <li>TBD</li>
  * </ul>
  */
-@interface SDLOnAudioPassThru : SDLRPCNotification {}
+@interface SDLOnAudioPassThru : SDLRPCNotification {
+}
 /**
  *Constructs a newly allocated SDLOnAudioPassThru object
  */
--(id) init;
+- (id)init;
 /**
  *<p>Constructs a newly allocated SDLOnAudioPassThru object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 @end

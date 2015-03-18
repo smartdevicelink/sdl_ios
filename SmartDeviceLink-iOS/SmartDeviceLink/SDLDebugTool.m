@@ -9,7 +9,7 @@
 
 #define LOG_ERROR_ENABLED
 
-static NSMutableDictionary* namedConsoleSets = nil;
+static NSMutableDictionary *namedConsoleSets = nil;
 
 bool debugToLogFile = false;
 
@@ -18,7 +18,7 @@ bool debugToLogFile = false;
 
 #pragma mark - Console Management
 + (void)addConsole:(NSObject<SDLDebugToolConsole> *)console {
-	[self addConsole:console toGroup:@"default"];
+    [self addConsole:console toGroup:@"default"];
 }
 
 + (void)addConsole:(NSObject<SDLDebugToolConsole> *)console toGroup:(NSString *)groupName {
@@ -34,19 +34,18 @@ bool debugToLogFile = false;
 
     // Add the console to the set
     [[namedConsoleSets valueForKey:groupName] addObject:console];
-
 }
 
 + (void)removeConsole:(NSObject<SDLDebugToolConsole> *)console {
-	[self removeConsole:console fromGroup:@"default"];
+    [self removeConsole:console fromGroup:@"default"];
 }
 
 + (void)removeConsole:(NSObject<SDLDebugToolConsole> *)console fromGroup:(NSString *)groupName {
     [[SDLDebugTool getConsoleListenersForGroup:groupName] removeObject:console];
 }
 
-+ (NSMutableSet*)getConsoleListenersForGroup:(NSString *)groupName {
-	return [namedConsoleSets valueForKey:groupName];
++ (NSMutableSet *)getConsoleListenersForGroup:(NSString *)groupName {
+    return [namedConsoleSets valueForKey:groupName];
 }
 
 
@@ -66,7 +65,6 @@ bool debugToLogFile = false;
 }
 
 + (void)logInfo:(NSString *)info andBinaryData:(NSData *)data withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output {
-
     // convert binary data to string, append the two strings, then pass to usual log method.
     NSMutableString *outputString = [[NSMutableString alloc] init];
     if (info) {
@@ -85,9 +83,8 @@ bool debugToLogFile = false;
 
 // The designated logInfo method. All outputs should be performed here.
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output toGroup:(NSString *)consoleGroupName {
-
     // Format the message, start with type
-    NSMutableString *outputString = [NSMutableString  stringWithFormat:@"[%@] %@", [SDLDebugTool stringForDebugType:type], info];
+    NSMutableString *outputString = [NSMutableString stringWithFormat:@"[%@] %@", [SDLDebugTool stringForDebugType:type], info];
 
 
     ////////////////////////////////////////////////
@@ -104,7 +101,7 @@ bool debugToLogFile = false;
     //Output To DebugToolConsoles
     if (output & SDLDebugOutput_DebugToolConsole) {
         NSSet *consoleListeners = [self getConsoleListenersForGroup:consoleGroupName];
-        for (NSObject<SDLDebugToolConsole>* console in consoleListeners) {
+        for (NSObject<SDLDebugToolConsole> *console in consoleListeners) {
             [console logInfo:outputString];
         }
     }
@@ -117,16 +114,15 @@ bool debugToLogFile = false;
     //Output To Siphon
     [SDLSiphonServer init];
     [SDLSiphonServer _siphonNSLogData:outputString];
-
 }
 
 
 #pragma mark - file handling
-+ (void)enableDebugToLogFile{
++ (void)enableDebugToLogFile {
     debugToLogFile = true;
-    
+
     [SDLDebugTool logInfo:@"Log File Enabled" withType:SDLDebugType_Debug];
-    
+
     //Delete Log File If It Exists
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -137,7 +133,6 @@ bool debugToLogFile = false;
         [SDLDebugTool logInfo:@"Log File Exisits, Deleteing" withType:SDLDebugType_Debug];
         [manager removeItemAtPath:filePath error:nil];
     }
-    
 }
 
 + (void)disableDebugToLogFile {
@@ -145,7 +140,6 @@ bool debugToLogFile = false;
 }
 
 + (void)writeToLogFile:(NSString *)info {
-
     // Warning: do not call any logInfo method from here. recursion of death.
 
     if (!debugToLogFile || info == NULL || info.length == 0) {
@@ -157,8 +151,8 @@ bool debugToLogFile = false;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/YY HH:mm:ss.SSS"];
     NSString *dateString = [dateFormatter stringFromDate:currentDate];
-    NSString *outputString = [dateString stringByAppendingFormat:@": %@\n", info ];
-    
+    NSString *outputString = [dateString stringByAppendingFormat:@": %@\n", info];
+
     // file write takes an NSData, so convert string to data.
     NSData *dataToLog = [outputString dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -168,21 +162,18 @@ bool debugToLogFile = false;
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"smartdevicelink.log"];
 
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-    if (fileHandle){
+    if (fileHandle) {
         [fileHandle seekToEndOfFile];
         [fileHandle writeData:dataToLog];
         [fileHandle closeFile];
-    }
-    else {
+    } else {
         [dataToLog writeToFile:filePath atomically:NO];
     }
-
 }
 
 
 #pragma mark - Helper Methods
-+(NSString *) stringForDebugType:(SDLDebugType) debugType{
-    
++ (NSString *)stringForDebugType:(SDLDebugType)debugType {
     switch (debugType) {
         case SDLDebugType_Debug:
             return @"DBG";
@@ -207,7 +198,6 @@ bool debugToLogFile = false;
             return @"Invalid DebugType";
             break;
     }
-    
 }
 
 @end

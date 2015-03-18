@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,16 +9,17 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLPerformAudioPassThruResponse : SDLRPCResponse {}
+@interface SDLPerformAudioPassThruResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLPerformAudioPassThruResponse object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a new SDLPerformAudioPassThruResponse object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

@@ -7,17 +7,19 @@
 
 @implementation SDLDiagnosticMessageResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_DiagnosticMessage]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_DiagnosticMessage]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setMessageDataResult:(NSMutableArray*) messageDataResult {
+- (void)setMessageDataResult:(NSMutableArray *)messageDataResult {
     if (messageDataResult != nil) {
         [parameters setObject:messageDataResult forKey:NAMES_messageDataResult];
     } else {
@@ -25,7 +27,7 @@
     }
 }
 
--(NSMutableArray*) messageDataResult {
+- (NSMutableArray *)messageDataResult {
     return [parameters objectForKey:NAMES_messageDataResult];
 }
 

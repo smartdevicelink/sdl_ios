@@ -8,13 +8,15 @@
 
 @implementation SDLSyncPDataResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_SyncPData]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_SyncPData]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

@@ -2,17 +2,17 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLImage.h"
 
-@interface SDLTurn : SDLRPCStruct {}
+@interface SDLTurn : SDLRPCStruct {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* navigationText;
-@property(strong) SDLImage* turnIcon;
+@property (strong) NSString *navigationText;
+@property (strong) SDLImage *turnIcon;
 
 @end

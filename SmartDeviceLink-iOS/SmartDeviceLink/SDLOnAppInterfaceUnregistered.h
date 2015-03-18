@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLAppInterfaceUnregisteredReason.h"
@@ -41,22 +40,23 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLRegisterAppInterface
  */
-@interface SDLOnAppInterfaceUnregistered : SDLRPCNotification {}
+@interface SDLOnAppInterfaceUnregistered : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLOnAppInterfaceUnregistered object
  */
--(id) init;
+- (id)init;
 /**
  *<p>Constructs a newly allocated SDLOnAppInterfaceUnregistered object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the reason application's interface was terminated
  * @discussion
  */
-@property(strong) SDLAppInterfaceUnregisteredReason* reason;
+@property (strong) SDLAppInterfaceUnregisteredReason *reason;
 
 @end

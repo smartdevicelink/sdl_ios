@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 #import "SDLLanguage.h"
@@ -21,12 +20,13 @@
  * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLRegisterAppInterface
  */
-@interface SDLChangeRegistration : SDLRPCRequest {}
+@interface SDLChangeRegistration : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLChangeRegistration object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a new SDLChangeRegistration object indicated by the NSMutableDictionary
  * parameter
@@ -34,17 +34,17 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the language app want to change to
  * @discussion
  */
-@property(strong) SDLLanguage* language;
+@property (strong) SDLLanguage *language;
 /**
  * @abstract  HMI display language
  * @discussion
  */
-@property(strong) SDLLanguage* hmiDisplayLanguage;
+@property (strong) SDLLanguage *hmiDisplayLanguage;
 
 @end

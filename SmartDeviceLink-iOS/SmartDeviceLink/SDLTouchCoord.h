@@ -2,15 +2,15 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchCoord : SDLRPCStruct {}
+@interface SDLTouchCoord : SDLRPCStruct {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSNumber* x;
-@property(strong) NSNumber* y;
+@property (strong) NSNumber *x;
+@property (strong) NSNumber *y;
 
 @end

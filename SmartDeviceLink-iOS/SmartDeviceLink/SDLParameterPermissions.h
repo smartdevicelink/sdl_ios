@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -42,25 +41,26 @@
  *  </table>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLParameterPermissions : SDLRPCStruct {}
+@interface SDLParameterPermissions : SDLRPCStruct {
+}
 
 /**
  *@abstract  Constructs a newly allocated SDLParameterPermissions object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a newly allocated SDLParameterPermissions object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A set of all parameters that are permitted for this given RPC.
  */
-@property(strong) NSMutableArray* allowed;
+@property (strong) NSMutableArray *allowed;
 /**
  * @abstract A set of all parameters that are prohibited for this given RPC.
  */
-@property(strong) NSMutableArray* userDisallowed;
+@property (strong) NSMutableArray *userDisallowed;
 
 @end

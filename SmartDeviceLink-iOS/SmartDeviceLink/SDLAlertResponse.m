@@ -7,17 +7,19 @@
 
 @implementation SDLAlertResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_Alert]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_Alert]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setTryAgainTime:(NSNumber*) tryAgainTime {
+- (void)setTryAgainTime:(NSNumber *)tryAgainTime {
     if (tryAgainTime != nil) {
         [parameters setObject:tryAgainTime forKey:NAMES_tryAgainTime];
     } else {
@@ -25,7 +27,7 @@
     }
 }
 
--(NSNumber*) tryAgainTime {
+- (NSNumber *)tryAgainTime {
     return [parameters objectForKey:NAMES_tryAgainTime];
 }
 

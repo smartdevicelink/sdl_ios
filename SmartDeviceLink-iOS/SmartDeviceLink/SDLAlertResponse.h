@@ -8,11 +8,12 @@
  * Sent after SDLAlert has been sent
  * @since SDL 1.0
  */
-@interface SDLAlertResponse : SDLRPCResponse {}
+@interface SDLAlertResponse : SDLRPCResponse {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSNumber* tryAgainTime;
+@property (strong) NSNumber *tryAgainTime;
 
 @end

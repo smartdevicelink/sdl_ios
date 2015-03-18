@@ -8,17 +8,19 @@
 
 @implementation SDLPutFileResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_PutFile]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_PutFile]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setSpaceAvailable:(NSNumber*) spaceAvailable {
+- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
     if (spaceAvailable != nil) {
         [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSNumber*) spaceAvailable {
+- (NSNumber *)spaceAvailable {
     return [parameters objectForKey:NAMES_spaceAvailable];
 }
 

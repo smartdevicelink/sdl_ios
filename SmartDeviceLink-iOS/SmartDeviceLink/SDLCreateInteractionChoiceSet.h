@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -22,12 +21,13 @@
  * Since <b>SmartDeviceLink 1.0</b></br>
  * see SDLDeleteInteractionChoiceSet SDLPerformInteraction
  */
-@interface SDLCreateInteractionChoiceSet : SDLRPCRequest {}
+@interface SDLCreateInteractionChoiceSet : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLCreateInteractionChoiceSet object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a new SDLCreateInteractionChoiceSet object indicated by the
  * NSMutableDictionary parameter
@@ -35,14 +35,14 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract a unique ID that identifies the Choice Set
  * @discussion an NSNumber value representing the Choice Set ID<br>
  *            <b>Notes: </b>Min Value: 0; Max Value: 2000000000
  */
-@property(strong) NSNumber* interactionChoiceSetID;
+@property (strong) NSNumber *interactionChoiceSetID;
 /**
  * @abstract SDLChoice Array of one or more elements
  * @discussion a Array of SDLChoice representing the array of one or more
@@ -50,6 +50,6 @@
  *            <p>
  *            <b>Notes: </b>Min Value: 1; Max Value: 100
  */
-@property(strong) NSMutableArray* choiceSet;
+@property (strong) NSMutableArray *choiceSet;
 
 @end

@@ -8,13 +8,15 @@
 
 @implementation SDLPerformAudioPassThruResponse
 
--(id) init {
-    if (self = [super initWithName:NAMES_PerformAudioPassThru]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_PerformAudioPassThru]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

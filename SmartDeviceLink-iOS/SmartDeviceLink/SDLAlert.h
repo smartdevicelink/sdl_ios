@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -35,19 +34,20 @@
  * Since <b>SmartDeviceLink 1.0<b><br>
  * see SDLShow SDLSpeak
  */
-@interface SDLAlert : SDLRPCRequest {}
+@interface SDLAlert : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLAlert object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a new SDLAlert object indicated by the NSMutableDictionary parameter
  * <p>
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the String to be displayed in the first field of the display during
@@ -61,7 +61,7 @@
  *            <li>Text is always centered</li>
  *            </ul>
  */
-@property(strong) NSString* alertText1;
+@property (strong) NSString *alertText1;
 /**
  * @abstract the String to be displayed in the second field of the display during
  * the Alert
@@ -74,7 +74,7 @@
  *            <li>Text is always centered</li>
  *            </ul>
  */
-@property(strong) NSString* alertText2;
+@property (strong) NSString *alertText2;
 /**
  * @abstract the String to be displayed in the third field of the display during
  * the SDLAlert
@@ -87,13 +87,13 @@
  *            <li>Text is always centered</li>
  *            </ul>
  */
-@property(strong) NSString* alertText3;
+@property (strong) NSString *alertText3;
 /**
  * @abstract a NSMutableArray which, taken together, specify what is to be
  * spoken to the user
  * @discussion <b>Notes: </b>Array must have a least one element
  */
-@property(strong) NSMutableArray* ttsChunks;
+@property (strong) NSMutableArray *ttsChunks;
 /**
  * @abstract the duration of the displayed portion of the alert, in milliseconds.
  * After this amount of time has passed, the display fields alertText1 and
@@ -108,7 +108,7 @@
  *            <li>If omitted, the default is 5000 milliseconds</li>
  *            </ul>
  */
-@property(strong) NSNumber* duration;
+@property (strong) NSNumber *duration;
 /**
  * @abstract whether the alert tone should be played before the TTS (if any) is
  * spoken
@@ -117,7 +117,7 @@
  *            <p>
  *            <b>Notes: </b>If omitted, default is true
  */
-@property(strong) NSNumber* playTone;
+@property (strong) NSNumber *playTone;
 /**
  * @abstract the SoftButtons Array
  * @discussion <b>Notes: </b><br/>
@@ -129,7 +129,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSNumber* progressIndicator;
-@property(strong) NSMutableArray* softButtons;
+@property (strong) NSNumber *progressIndicator;
+@property (strong) NSMutableArray *softButtons;
 
 @end

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -17,22 +16,23 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLAddSubMenu SDLDeleteCommand
  */
-@interface SDLDeleteSubMenu : SDLRPCRequest {}
+@interface SDLDeleteSubMenu : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLDeleteSubMenu object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a new SDLDeleteSubMenu object indicated by the NSMutableDictionary parameter<p>
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the MenuID that identifies the SDLSubMenu to be delete
  * @discussion  <b>Notes: </b>Min Value: 0; Max Value: 2000000000
  */
-@property(strong) NSNumber* menuID;
+@property (strong) NSNumber *menuID;
 
 @end

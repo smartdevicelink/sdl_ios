@@ -2,8 +2,6 @@
 //
 
 
-
-
 @protocol SDLTransportDelegate
 
 - (void)onTransportConnected;

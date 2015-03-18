@@ -8,17 +8,19 @@
 
 @implementation SDLStartTime
 
--(id) init {
-    if (self = [super init]) {}
+- (id)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setHours:(NSNumber*) hours {
+- (void)setHours:(NSNumber *)hours {
     if (hours != nil) {
         [store setObject:hours forKey:NAMES_hours];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSNumber*) hours {
+- (NSNumber *)hours {
     return [store objectForKey:NAMES_hours];
 }
 
--(void) setMinutes:(NSNumber*) minutes {
+- (void)setMinutes:(NSNumber *)minutes {
     if (minutes != nil) {
         [store setObject:minutes forKey:NAMES_minutes];
     } else {
@@ -38,11 +40,11 @@
     }
 }
 
--(NSNumber*) minutes {
+- (NSNumber *)minutes {
     return [store objectForKey:NAMES_minutes];
 }
 
--(void) setSeconds:(NSNumber*) seconds {
+- (void)setSeconds:(NSNumber *)seconds {
     if (seconds != nil) {
         [store setObject:seconds forKey:NAMES_seconds];
     } else {
@@ -50,7 +52,7 @@
     }
 }
 
--(NSNumber*) seconds {
+- (NSNumber *)seconds {
     return [store objectForKey:NAMES_seconds];
 }
 

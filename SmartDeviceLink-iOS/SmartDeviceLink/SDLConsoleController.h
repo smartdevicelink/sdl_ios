@@ -8,14 +8,14 @@
 #import "SDLDebugTool.h"
 
 @interface SDLConsoleController : UITableViewController <SDLDebugToolConsole> {
-	NSMutableArray* messageList;
+    NSMutableArray *messageList;
     BOOL atBottom;
-    NSDateFormatter* dateFormatter;
+    NSDateFormatter *dateFormatter;
 }
 
 @property (strong, readonly) NSMutableArray *messageList;
 
--(id) initWithTableView:(UITableView*) tableView;
+- (id)initWithTableView:(UITableView *)tableView;
 
 
 @end

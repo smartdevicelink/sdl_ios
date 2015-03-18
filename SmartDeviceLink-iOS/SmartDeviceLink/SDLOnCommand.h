@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLTriggerSource.h"
@@ -52,27 +51,28 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
  */
-@interface SDLOnCommand : SDLRPCNotification {}
+@interface SDLOnCommand : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLRPCNotification object
  */
--(id) init;
+- (id)init;
 /**
  *<p>Constructs a newly allocated SDLRPCNotification object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the Command's ID
  * @discussion
  */
-@property(strong) NSNumber* cmdID;
+@property (strong) NSNumber *cmdID;
 /**
  * @abstract the object indicates the command was selected via VR or via a menu selection (using the OK button).
  * @discussion
  */
-@property(strong) SDLTriggerSource* triggerSource;
+@property (strong) SDLTriggerSource *triggerSource;
 
 @end

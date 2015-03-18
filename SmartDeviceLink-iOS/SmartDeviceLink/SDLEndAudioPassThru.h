@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -15,12 +14,13 @@
  * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLPerformAudioPassThru
  */
-@interface SDLEndAudioPassThru : SDLRPCRequest {}
+@interface SDLEndAudioPassThru : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLEndAudioPassThru object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a new SDLEndAudioPassThru object indicated by the NSMutableDictionary
  * parameter
@@ -28,6 +28,6 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

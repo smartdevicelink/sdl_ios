@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
 #import "SDLDriverDistractionState.h"
@@ -39,22 +38,23 @@
  * </table>
  * Since <b>SmartDeviceLink 1.0</b>
  */
-@interface SDLOnDriverDistraction : SDLRPCNotification {}
+@interface SDLOnDriverDistraction : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLOnDriverDistraction object
  */
--(id) init;
+- (id)init;
 /**
  *<p>Constructs a newly allocated SDLOnDriverDistraction object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the driver distraction state(i.e. whether driver distraction rules are in effect, or not)
  * @discussion
  */
-@property(strong) SDLDriverDistractionState* state;
+@property (strong) SDLDriverDistractionState *state;
 
 @end

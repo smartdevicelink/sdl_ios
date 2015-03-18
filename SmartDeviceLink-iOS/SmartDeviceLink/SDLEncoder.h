@@ -6,6 +6,6 @@
 
 @protocol SDLEncoder
 
--(NSData*) encodeDictionary:(NSDictionary*) dict;
+- (NSData *)encodeDictionary:(NSDictionary *)dict;
 
 @end

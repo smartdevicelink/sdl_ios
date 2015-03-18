@@ -9,17 +9,19 @@
 
 @implementation SDLCreateInteractionChoiceSet
 
--(id) init {
-    if (self = [super initWithName:NAMES_CreateInteractionChoiceSet]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_CreateInteractionChoiceSet]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setInteractionChoiceSetID:(NSNumber*) interactionChoiceSetID {
+- (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
     } else {
@@ -27,11 +29,11 @@
     }
 }
 
--(NSNumber*) interactionChoiceSetID {
+- (NSNumber *)interactionChoiceSetID {
     return [parameters objectForKey:NAMES_interactionChoiceSetID];
 }
 
--(void) setChoiceSet:(NSMutableArray*) choiceSet {
+- (void)setChoiceSet:(NSMutableArray *)choiceSet {
     if (choiceSet != nil) {
         [parameters setObject:choiceSet forKey:NAMES_choiceSet];
     } else {
@@ -39,14 +41,14 @@
     }
 }
 
--(NSMutableArray*) choiceSet {
-    NSMutableArray* array = [parameters objectForKey:NAMES_choiceSet];
+- (NSMutableArray *)choiceSet {
+    NSMutableArray *array = [parameters objectForKey:NAMES_choiceSet];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLChoice.class]) {
         return array;
     } else {
-        NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary* dict in array) {
-            [newList addObject:[[SDLChoice alloc] initWithDictionary:(NSMutableDictionary*)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary *dict in array) {
+            [newList addObject:[[SDLChoice alloc] initWithDictionary:(NSMutableDictionary *)dict]];
         }
         return newList;
     }

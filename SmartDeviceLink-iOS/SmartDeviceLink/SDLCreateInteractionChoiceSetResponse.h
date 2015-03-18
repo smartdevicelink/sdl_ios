@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -11,9 +10,10 @@
  *
  * Since <b>SmartDeviceLink 1.0</b>
  */
-@interface SDLCreateInteractionChoiceSetResponse : SDLRPCResponse {}
+@interface SDLCreateInteractionChoiceSetResponse : SDLRPCResponse {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

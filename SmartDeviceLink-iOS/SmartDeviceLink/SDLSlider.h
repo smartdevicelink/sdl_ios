@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -17,17 +16,18 @@
  * Since SmartDeviceLink 2.0
  *
  */
-@interface SDLSlider : SDLRPCRequest {}
+@interface SDLSlider : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLSlider object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a new SDLSlider object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A number of selectable items on a horizontal axis
@@ -36,7 +36,7 @@
  *            <p>
  *            <b>Notes: </b>Minvalue=2; Maxvalue=26
  */
-@property(strong) NSNumber* numTicks;
+@property (strong) NSNumber *numTicks;
 /**
  * @abstract An Initial position of slider control
  * @discussion An Integer value representing an Initial position of slider
@@ -44,7 +44,7 @@
  *            <p>
  *            <b>Notes: </b>Minvalue=1; Maxvalue=26
  */
-@property(strong) NSNumber* position;
+@property (strong) NSNumber *position;
 /**
  * @abstract A text header to display
  *
@@ -53,20 +53,20 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property(strong) NSString* sliderHeader;
+@property (strong) NSString *sliderHeader;
 /**
  * @abstract A text footer to display
  * @discussion A Vector<String> value representing a text footer to display
  *            <p>
  *            <b>Notes: </b>Maxlength=500; Minvalue=1; Maxvalue=26
  */
-@property(strong) NSMutableArray* sliderFooter;
+@property (strong) NSMutableArray *sliderFooter;
 /**
  * @abstract An App defined timeout
  * @discussion An Integer value representing an App defined timeout in milliseconds
  *            <p>
  *            <b>Notes: </b>Minvalue=0; Maxvalue=65535; Defvalue=10000
  */
-@property(strong) NSNumber* timeout;
+@property (strong) NSNumber *timeout;
 
 @end

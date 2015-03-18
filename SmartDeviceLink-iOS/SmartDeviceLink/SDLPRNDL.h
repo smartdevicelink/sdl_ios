@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,95 +9,96 @@
  *
  * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  */
-@interface SDLPRNDL : SDLEnum {}
+@interface SDLPRNDL : SDLEnum {
+}
 
 /*!
  @abstract get SDLPRNDL according value string
  @param value NSString
  @result SDLPRNDL object
  */
-+(SDLPRNDL*) valueOf:(NSString*) value;
++ (SDLPRNDL *)valueOf:(NSString *)value;
 /*!
  @abstract declare an array to store all possible SDLPRNDL values
  @result return the array
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /**
  * @abstract Parking
  * @result return SDLPRNDL : <font color=gray><i> PARK </i></font>
  */
-+(SDLPRNDL*) PARK;
++ (SDLPRNDL *)PARK;
 /**
  * @abstract Reverse gear
  * @result return SDLPRNDL : <font color=gray><i> REVERSE </i></font>
  */
-+(SDLPRNDL*) REVERSE;
++ (SDLPRNDL *)REVERSE;
 /**
  * @abstract No gear
  * @result return SDLPRNDL : <font color=gray><i> NEUTRAL </i></font>
  */
-+(SDLPRNDL*) NEUTRAL;
-+(SDLPRNDL*) DRIVE;
++ (SDLPRNDL *)NEUTRAL;
++ (SDLPRNDL *)DRIVE;
 /**
  * @abstract Drive Sport mode
  * @result return SDLPRNDL : <font color=gray><i> SPORT </i></font>
  */
-+(SDLPRNDL*) SPORT;
++ (SDLPRNDL *)SPORT;
 /**
  * @abstract 1st gear hold
  * @result return SDLPRNDL : <font color=gray><i> LOWGEAR </i></font>
  */
-+(SDLPRNDL*) LOWGEAR;
++ (SDLPRNDL *)LOWGEAR;
 /**
  * @abstract First gear
  * @result return SDLPRNDL : <font color=gray><i> FIRST </i></font>
  */
-+(SDLPRNDL*) FIRST;
++ (SDLPRNDL *)FIRST;
 /**
  * @abstract Second gear
  * @result return SDLPRNDL : <font color=gray><i> SECOND </i></font>
  */
-+(SDLPRNDL*) SECOND;
++ (SDLPRNDL *)SECOND;
 /**
  * @abstract Third gear
  * @result return SDLPRNDL : <font color=gray><i> THIRD </i></font>
  */
-+(SDLPRNDL*) THIRD;
++ (SDLPRNDL *)THIRD;
 /**
  * @abstract Fourth gear
  * @result return SDLPRNDL : <font color=gray><i> FOURTH </i></font>
  */
-+(SDLPRNDL*) FOURTH;
++ (SDLPRNDL *)FOURTH;
 /**
  * @abstract Fifth gear
  * @result return SDLPRNDL : <font color=gray><i> FIFTH </i></font>
  */
-+(SDLPRNDL*) FIFTH;
++ (SDLPRNDL *)FIFTH;
 /**
  * @abstract Sixth gear
  * @result return SDLPRNDL : <font color=gray><i> SIXTH </i></font>
  */
-+(SDLPRNDL*) SIXTH;
++ (SDLPRNDL *)SIXTH;
 /**
  * @abstract Seventh gear
  * @result return SDLPRNDL : <font color=gray><i> SEVENTH </i></font>
  */
-+(SDLPRNDL*) SEVENTH;
++ (SDLPRNDL *)SEVENTH;
 /**
  * @abstract Eighth gear
  * @result return SDLPRNDL : <font color=gray><i> EIGHTH </i></font>
  */
-+(SDLPRNDL*) EIGHTH;
++ (SDLPRNDL *)EIGHTH;
 /**
  * @abstract Unknown
  * @result return SDLPRNDL : <font color=gray><i> UNKNOWN </i></font>
  */
-+(SDLPRNDL*) UNKNOWN;
++ (SDLPRNDL *)UNKNOWN;
 /**
  * @abstract Fault
  * @result return SDLPRNDL : <font color=gray><i> FAULT </i></font>
  */
-+(SDLPRNDL*) FAULT;
++ (SDLPRNDL *)FAULT;
 
 @end

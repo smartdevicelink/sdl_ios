@@ -8,17 +8,19 @@
 
 @implementation SDLImageResolution
 
--(id) init {
-    if (self = [super init]) {}
+- (id)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setResolutionWidth:(NSNumber*) resolutionWidth {
+- (void)setResolutionWidth:(NSNumber *)resolutionWidth {
     if (resolutionWidth != nil) {
         [store setObject:resolutionWidth forKey:NAMES_resolutionWidth];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSNumber*) resolutionWidth {
+- (NSNumber *)resolutionWidth {
     return [store objectForKey:NAMES_resolutionWidth];
 }
 
--(void) setResolutionHeight:(NSNumber*) resolutionHeight {
+- (void)setResolutionHeight:(NSNumber *)resolutionHeight {
     if (resolutionHeight != nil) {
         [store setObject:resolutionHeight forKey:NAMES_resolutionHeight];
     } else {
@@ -38,7 +40,7 @@
     }
 }
 
--(NSNumber*) resolutionHeight {
+- (NSNumber *)resolutionHeight {
     return [store objectForKey:NAMES_resolutionHeight];
 }
 

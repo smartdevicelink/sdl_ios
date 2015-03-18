@@ -8,17 +8,19 @@
 
 @implementation SDLOnHashChange
 
--(id) init {
-    if (self = [super initWithName:NAMES_OnHashChange]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_OnHashChange]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setHashID:(NSString*) hashID {
+- (void)setHashID:(NSString *)hashID {
     if (hashID != nil) {
         [parameters setObject:hashID forKey:NAMES_hashID];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSString*) hashID {
+- (NSString *)hashID {
     return [parameters objectForKey:NAMES_hashID];
 }
 

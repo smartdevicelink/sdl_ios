@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLCompassDirection.h"
@@ -144,117 +143,118 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLGPSData : SDLRPCStruct {}
+@interface SDLGPSData : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLGPSData object
  */
--(id) init;
+- (id)init;
 
 /**
  * Constructs a newly allocated SDLGPSData object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract longitude degrees
  * @discussion
  */
-@property(strong) NSNumber* longitudeDegrees;
+@property (strong) NSNumber *longitudeDegrees;
 
 /**
  * @abstract latitude degrees
  * @discussion
  */
-@property(strong) NSNumber* latitudeDegrees;
+@property (strong) NSNumber *latitudeDegrees;
 
 /**
  * @abstract utc year
  * @discussion
  */
-@property(strong) NSNumber* utcYear;
+@property (strong) NSNumber *utcYear;
 
 /**
  * @abstract utc month
  * @discussion
  */
-@property(strong) NSNumber* utcMonth;
+@property (strong) NSNumber *utcMonth;
 
 /**
  * @abstract utc day
  * @discussion
  */
-@property(strong) NSNumber* utcDay;
+@property (strong) NSNumber *utcDay;
 
 /**
  * @abstract utc hours
  * @discussion
  */
-@property(strong) NSNumber* utcHours;
+@property (strong) NSNumber *utcHours;
 
 /**
  * @abstract utc minutes
  * @discussion
  */
-@property(strong) NSNumber* utcMinutes;
+@property (strong) NSNumber *utcMinutes;
 
 /**
  * @abstract utc seconds
  * @discussion
  */
-@property(strong) NSNumber* utcSeconds;
+@property (strong) NSNumber *utcSeconds;
 
-@property(strong) SDLCompassDirection* compassDirection;
+@property (strong) SDLCompassDirection *compassDirection;
 
 /**
  * @abstract the positional dilution of precision
  * @discussion
  */
-@property(strong) NSNumber* pdop;
+@property (strong) NSNumber *pdop;
 
 /**
  * @abstract the horizontal dilution of precision
  * @discussion
  */
-@property(strong) NSNumber* hdop;
+@property (strong) NSNumber *hdop;
 
 /**
  * @abstract the vertical dilution of precision
  * @discussion
  */
-@property(strong) NSNumber* vdop;
+@property (strong) NSNumber *vdop;
 
 /**
  * @abstract the coordinates based on
  * @discussion 1, if coordinates are based on satellites. 0, if based on dead reckoning
  */
-@property(strong) NSNumber* actual;
+@property (strong) NSNumber *actual;
 
 /**
  * @abstract the number of satellites in view
  * @discussion
  */
-@property(strong) NSNumber* satellites;
+@property (strong) NSNumber *satellites;
 
-@property(strong) SDLDimension* dimension;
+@property (strong) SDLDimension *dimension;
 
 /**
  * @abstract altitude in meters
  * @discussion
  */
-@property(strong) NSNumber* altitude;
+@property (strong) NSNumber *altitude;
 
 /**
  * @abstract  the heading.North is 0, East is 90, etc.
  * @discussion
  */
-@property(strong) NSNumber* heading;
+@property (strong) NSNumber *heading;
 
 /**
  * @abstract speed in KPH
  * @discussion
  */
-@property(strong) NSNumber* speed;
+@property (strong) NSNumber *speed;
 
 @end

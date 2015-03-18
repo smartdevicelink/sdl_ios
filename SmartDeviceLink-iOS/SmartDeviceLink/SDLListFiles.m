@@ -8,13 +8,15 @@
 
 @implementation SDLListFiles
 
--(id) init {
-    if (self = [super initWithName:NAMES_ListFiles]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_ListFiles]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

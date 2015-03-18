@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,29 +9,30 @@
 *
 * This enum is avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
 */
-@interface SDLImageType : SDLEnum {}
+@interface SDLImageType : SDLEnum {
+}
 
 /*!
  @abstract return SDLImageType (STATIC / DYNAMIC)
  @param value NSString
  @result return SDLImageType
  */
-+(SDLImageType*) valueOf:(NSString*) value;
++ (SDLImageType *)valueOf:(NSString *)value;
 /*!
  @abstract store all possible SDLImageType values
  @result return an array with all possible SDLImageType values inside
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /**
  * @abstract Just the static hex icon value to be used
  * @result return the Image Type with value <font color=gray><i> STATIC </i></font>
  */
-+(SDLImageType*) STATIC;
++ (SDLImageType *)STATIC;
 /**
  * @abstract Binary image file to be used (identifier to be sent by PutFile)
  * @result return the Image Type with value <font color=gray><i> DYNAMIC </i></font>
  */
-+(SDLImageType*) DYNAMIC;
++ (SDLImageType *)DYNAMIC;
 
 @end

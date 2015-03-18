@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -13,19 +12,20 @@
  *
  * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  */
-@interface SDLMediaClockFormat : SDLEnum {}
+@interface SDLMediaClockFormat : SDLEnum {
+}
 
 /*!
  @abstract Media Clock Format
  @param value NSString
  @result return SDLMediaClockFormat
  */
-+(SDLMediaClockFormat*) valueOf:(NSString*) value;
++ (SDLMediaClockFormat *)valueOf:(NSString *)value;
 /*!
  @abstract declare an array that store all possible Media clock formats inside
  @result return the array
  */
-+(NSMutableArray*) values;
++ (NSMutableArray *)values;
 
 /**
  * @abstract Media clock format : Clock1
@@ -40,7 +40,7 @@
  * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCK1 </i></font>
  */
-+(SDLMediaClockFormat*) CLOCK1;
++ (SDLMediaClockFormat *)CLOCK1;
 /**
  * @abstract Media clock format : Clock2
  * <p>
@@ -54,7 +54,7 @@
  * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCK </i></font>
  */
-+(SDLMediaClockFormat*) CLOCK2;
++ (SDLMediaClockFormat *)CLOCK2;
 /**
  * @abstract Media clock format : Clock3
  * <p>
@@ -68,7 +68,7 @@
  * @since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCK3 </i></font>
  */
-+(SDLMediaClockFormat*) CLOCK3;
++ (SDLMediaClockFormat *)CLOCK3;
 /**
  * @abstract Media clock format : ClockText1
  * @discussion <p>
@@ -86,7 +86,7 @@
  * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT1 </i></font>
  */
-+(SDLMediaClockFormat*) CLOCKTEXT1;
++ (SDLMediaClockFormat *)CLOCKTEXT1;
 /**
  * @abstract Media clock format : ClockText2
  * @discussion <p>
@@ -106,7 +106,7 @@
  * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT2 </i></font>
  */
-+(SDLMediaClockFormat*) CLOCKTEXT2;
++ (SDLMediaClockFormat *)CLOCKTEXT2;
 /**
  * @abstract Media clock format : ClockText3
  * @discussion <p>
@@ -126,7 +126,7 @@
  * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT3 </i></font>
  */
-+(SDLMediaClockFormat*) CLOCKTEXT3;
++ (SDLMediaClockFormat *)CLOCKTEXT3;
 /**
  * @abstract Media clock format : ClockText4
  * @discussion <p>
@@ -142,6 +142,6 @@
  * @since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  * @result return the SDLMediaClockFormat object with value <font color=gray><i> CLOCKTEXT4 </i></font>
  */
-+(SDLMediaClockFormat*) CLOCKTEXT4;
++ (SDLMediaClockFormat *)CLOCKTEXT4;
 
 @end

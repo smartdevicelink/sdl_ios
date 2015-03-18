@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,9 +9,10 @@
  * retrieved. Only used in case of an error. Currently, only resultCode
  * INVALID_DATA is used.
  */
-@interface SDLGenericResponse : SDLRPCResponse {}
+@interface SDLGenericResponse : SDLRPCResponse {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLProtocolMessage.h"
 
 @interface SDLProtocolMessageDisassembler : NSObject

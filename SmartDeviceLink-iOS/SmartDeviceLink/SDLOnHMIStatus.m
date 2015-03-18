@@ -8,17 +8,19 @@
 
 @implementation SDLOnHMIStatus
 
--(id) init {
-    if (self = [super initWithName:NAMES_OnHMIStatus]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_OnHMIStatus]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setHmiLevel:(SDLHMILevel*) hmiLevel {
+- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
     if (hmiLevel != nil) {
         [parameters setObject:hmiLevel forKey:NAMES_hmiLevel];
     } else {
@@ -26,16 +28,16 @@
     }
 }
 
--(SDLHMILevel*) hmiLevel {
-    NSObject* obj = [parameters objectForKey:NAMES_hmiLevel];
+- (SDLHMILevel *)hmiLevel {
+    NSObject *obj = [parameters objectForKey:NAMES_hmiLevel];
     if ([obj isKindOfClass:SDLHMILevel.class]) {
-        return (SDLHMILevel*)obj;
+        return (SDLHMILevel *)obj;
     } else {
-        return [SDLHMILevel valueOf:(NSString*)obj];
+        return [SDLHMILevel valueOf:(NSString *)obj];
     }
 }
 
--(void) setAudioStreamingState:(SDLAudioStreamingState*) audioStreamingState {
+- (void)setAudioStreamingState:(SDLAudioStreamingState *)audioStreamingState {
     if (audioStreamingState != nil) {
         [parameters setObject:audioStreamingState forKey:NAMES_audioStreamingState];
     } else {
@@ -43,16 +45,16 @@
     }
 }
 
--(SDLAudioStreamingState*) audioStreamingState {
-    NSObject* obj = [parameters objectForKey:NAMES_audioStreamingState];
+- (SDLAudioStreamingState *)audioStreamingState {
+    NSObject *obj = [parameters objectForKey:NAMES_audioStreamingState];
     if ([obj isKindOfClass:SDLAudioStreamingState.class]) {
-        return (SDLAudioStreamingState*)obj;
+        return (SDLAudioStreamingState *)obj;
     } else {
-        return [SDLAudioStreamingState valueOf:(NSString*)obj];
+        return [SDLAudioStreamingState valueOf:(NSString *)obj];
     }
 }
 
--(void) setSystemContext:(SDLSystemContext*) systemContext {
+- (void)setSystemContext:(SDLSystemContext *)systemContext {
     if (systemContext != nil) {
         [parameters setObject:systemContext forKey:NAMES_systemContext];
     } else {
@@ -60,12 +62,12 @@
     }
 }
 
--(SDLSystemContext*) systemContext {
-    NSObject* obj = [parameters objectForKey:NAMES_systemContext];
+- (SDLSystemContext *)systemContext {
+    NSObject *obj = [parameters objectForKey:NAMES_systemContext];
     if ([obj isKindOfClass:SDLSystemContext.class]) {
-        return (SDLSystemContext*)obj;
+        return (SDLSystemContext *)obj;
     } else {
-        return [SDLSystemContext valueOf:(NSString*)obj];
+        return [SDLSystemContext valueOf:(NSString *)obj];
     }
 }
 

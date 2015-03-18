@@ -4,16 +4,16 @@
 
 #import "SDLVehicleDataStatus.h"
 
-SDLVehicleDataStatus* SDLVehicleDataStatus_NO_DATA_EXISTS = nil;
-SDLVehicleDataStatus* SDLVehicleDataStatus_OFF = nil;
-SDLVehicleDataStatus* SDLVehicleDataStatus_ON = nil;
+SDLVehicleDataStatus *SDLVehicleDataStatus_NO_DATA_EXISTS = nil;
+SDLVehicleDataStatus *SDLVehicleDataStatus_OFF = nil;
+SDLVehicleDataStatus *SDLVehicleDataStatus_ON = nil;
 
-NSMutableArray* SDLVehicleDataStatus_values = nil;
+NSMutableArray *SDLVehicleDataStatus_values = nil;
 
 @implementation SDLVehicleDataStatus
 
-+(SDLVehicleDataStatus*) valueOf:(NSString*) value {
-    for (SDLVehicleDataStatus* item in SDLVehicleDataStatus.values) {
++ (SDLVehicleDataStatus *)valueOf:(NSString *)value {
+    for (SDLVehicleDataStatus *item in SDLVehicleDataStatus.values) {
         if ([item.value isEqualToString:value]) {
             return item;
         }
@@ -21,32 +21,32 @@ NSMutableArray* SDLVehicleDataStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++ (NSMutableArray *)values {
     if (SDLVehicleDataStatus_values == nil) {
         SDLVehicleDataStatus_values = [[NSMutableArray alloc] initWithObjects:
-                SDLVehicleDataStatus.NO_DATA_EXISTS,
-                SDLVehicleDataStatus.OFF,
-                SDLVehicleDataStatus.ON,
-                nil];
+                                                                  SDLVehicleDataStatus.NO_DATA_EXISTS,
+                                                                  SDLVehicleDataStatus.OFF,
+                                                                  SDLVehicleDataStatus.ON,
+                                                                  nil];
     }
     return SDLVehicleDataStatus_values;
 }
 
-+(SDLVehicleDataStatus*) NO_DATA_EXISTS {
++ (SDLVehicleDataStatus *)NO_DATA_EXISTS {
     if (SDLVehicleDataStatus_NO_DATA_EXISTS == nil) {
         SDLVehicleDataStatus_NO_DATA_EXISTS = [[SDLVehicleDataStatus alloc] initWithValue:@"NO_DATA_EXISTS"];
     }
     return SDLVehicleDataStatus_NO_DATA_EXISTS;
 }
 
-+(SDLVehicleDataStatus*) OFF {
++ (SDLVehicleDataStatus *)OFF {
     if (SDLVehicleDataStatus_OFF == nil) {
         SDLVehicleDataStatus_OFF = [[SDLVehicleDataStatus alloc] initWithValue:@"OFF"];
     }
     return SDLVehicleDataStatus_OFF;
 }
 
-+(SDLVehicleDataStatus*) ON {
++ (SDLVehicleDataStatus *)ON {
     if (SDLVehicleDataStatus_ON == nil) {
         SDLVehicleDataStatus_ON = [[SDLVehicleDataStatus alloc] initWithValue:@"ON"];
     }

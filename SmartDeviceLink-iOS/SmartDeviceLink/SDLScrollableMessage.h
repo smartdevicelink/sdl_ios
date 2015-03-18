@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -14,18 +13,19 @@
  * <b>HMILevel needs to be FULL</b>
  * <p>
  */
-@interface SDLScrollableMessage : SDLRPCRequest {}
+@interface SDLScrollableMessage : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLScrollableMessage object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a new SDLScrollableMessage object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A Body of text that can include newlines and tabs
@@ -34,7 +34,7 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property(strong) NSString* scrollableMessageBody;
+@property (strong) NSString *scrollableMessageBody;
 /**
  * @abstract Gets/Sets an App defined timeout. Indicates how long of a timeout in milliseconds from the
  * last action
@@ -42,7 +42,7 @@
  *            <p>
  *            <b>Notes</b>:Minval=0; Maxval=65535;Default=30000
  */
-@property(strong) NSNumber* timeout;
+@property (strong) NSNumber *timeout;
 /**
  * @abstract Gets/Sets App defined SoftButtons.If omitted on supported displays, only the
  * system defined "Close" SoftButton will be displayed
@@ -51,6 +51,6 @@
  *            <p>
  *            <b>Notes: </b>Minsize=0, Maxsize=8
  */
-@property(strong) NSMutableArray* softButtons;
+@property (strong) NSMutableArray *softButtons;
 
 @end

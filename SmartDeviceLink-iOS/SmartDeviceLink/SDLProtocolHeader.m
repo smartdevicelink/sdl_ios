@@ -12,11 +12,11 @@
 @synthesize size = _size;
 
 - (id)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
         _version = 0;
         _size = 0;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -30,11 +30,11 @@
 }
 
 - (void)parse:(NSData *)data {
-        [self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSString *)description {
-    NSString* description = [NSString stringWithFormat:@"<%@: %p>", NSStringFromClass([self class]), self];
+    NSString *description = [NSString stringWithFormat:@"<%@: %p>", NSStringFromClass([self class]), self];
     return description;
 }
 

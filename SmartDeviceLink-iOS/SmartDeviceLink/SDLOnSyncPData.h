@@ -2,15 +2,15 @@
 //
 
 
-
 #import "SDLRPCNotification.h"
 
-@interface SDLOnSyncPData : SDLRPCNotification {}
+@interface SDLOnSyncPData : SDLRPCNotification {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* URL;
-@property(strong) NSNumber* Timeout;
+@property (strong) NSString *URL;
+@property (strong) NSNumber *Timeout;
 
 @end

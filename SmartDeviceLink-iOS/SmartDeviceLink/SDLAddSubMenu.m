@@ -6,17 +6,19 @@
 
 @implementation SDLAddSubMenu
 
--(id) init {
-    if (self = [super initWithName:NAMES_AddSubMenu]) {}
+- (id)init {
+    if (self = [super initWithName:NAMES_AddSubMenu]) {
+    }
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (id)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setMenuID:(NSNumber*) menuID {
+- (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:NAMES_menuID];
     } else {
@@ -24,11 +26,11 @@
     }
 }
 
--(NSNumber*) menuID {
+- (NSNumber *)menuID {
     return [parameters objectForKey:NAMES_menuID];
 }
 
--(void) setPosition:(NSNumber*) position {
+- (void)setPosition:(NSNumber *)position {
     if (position != nil) {
         [parameters setObject:position forKey:NAMES_position];
     } else {
@@ -36,11 +38,11 @@
     }
 }
 
--(NSNumber*) position {
+- (NSNumber *)position {
     return [parameters objectForKey:NAMES_position];
 }
 
--(void) setMenuName:(NSString*) menuName {
+- (void)setMenuName:(NSString *)menuName {
     if (menuName != nil) {
         [parameters setObject:menuName forKey:NAMES_menuName];
     } else {
@@ -48,7 +50,7 @@
     }
 }
 
--(NSString*) menuName {
+- (NSString *)menuName {
     return [parameters objectForKey:NAMES_menuName];
 }
 

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLSamplingRate.h"
@@ -43,32 +42,33 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLAudioPassThruCapabilities : SDLRPCStruct {}
+@interface SDLAudioPassThruCapabilities : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object
  */
--(id) init;
+- (id)init;
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object indicated by the Hashtable parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The sampling rate for AudioPassThru<br>
  *
  */
-@property(strong) SDLSamplingRate* samplingRate;
+@property (strong) SDLSamplingRate *samplingRate;
 /**
  * @abstract The sample depth in bit for AudioPassThru<br>
  *
  */
-@property(strong) SDLBitsPerSample* bitsPerSample;
+@property (strong) SDLBitsPerSample *bitsPerSample;
 /**
  * @abstract The audiotype for AudioPassThru<br>
  *
  */
-@property(strong) SDLAudioType* audioType;
+@property (strong) SDLAudioType *audioType;
 
 @end

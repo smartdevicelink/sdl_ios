@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 #import "SDLComponentVolumeStatus.h"
@@ -28,23 +27,23 @@
  *  </table>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLSingleTireStatus : SDLRPCStruct {}
+@interface SDLSingleTireStatus : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLSingleTireStatus object
  */
--(id) init;
+- (id)init;
 
 /**
  * @abstract Constructs a newly allocated SDLSingleTireStatus object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The volume status of a single tire
  */
-@property(strong) SDLComponentVolumeStatus* status;
+@property (strong) SDLComponentVolumeStatus *status;
 
 @end
-

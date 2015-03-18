@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,9 +9,10 @@
  *
  * Since <b>SmartDeviceLink 1.0</b>
  */
-@interface SDLDeleteSubMenuResponse : SDLRPCResponse {}
+@interface SDLDeleteSubMenuResponse : SDLRPCResponse {
+}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)init;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

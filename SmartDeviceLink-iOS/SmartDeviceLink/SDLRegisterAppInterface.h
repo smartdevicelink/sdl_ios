@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 #import "SDLSyncMsgVersion.h"
@@ -79,23 +78,24 @@
  * Since SmartDeviceLink 1.0
  * See SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
  */
-@interface SDLRegisterAppInterface : SDLRPCRequest {}
+@interface SDLRegisterAppInterface : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object
  */
--(id) init;
+- (id)init;
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+- (id)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract the version of the SDL&reg; SmartDeviceLink interface
  */
-@property(strong) SDLSyncMsgVersion* syncMsgVersion;
+@property (strong) SDLSyncMsgVersion *syncMsgVersion;
 /**
  * @abstract Mobile Application's Name, This name is displayed in the SDL&reg;
  * Mobile Applications menu. It also serves as the unique identifier of the
@@ -112,12 +112,12 @@
  *            application</li>
  *            </ul>
  */
-@property(strong) NSString* appName;
+@property (strong) NSString *appName;
 /**
  * @abstract TTS string for VR recognition of the mobile application name
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSMutableArray* ttsName;
+@property (strong) NSMutableArray *ttsName;
 /**
  * @abstract a String representing an abbreviated version of the mobile
  * applincation's name (if necessary) that will be displayed on the NGN
@@ -134,7 +134,7 @@
  *            truncated to 5 characters</li>
  *            </ul>
  */
-@property(strong) NSString* ngnMediaScreenAppName;
+@property (strong) NSString *ngnMediaScreenAppName;
 /**
  * @abstract A vrSynonyms representing the an array of 1-100 elements, each
  * element containing a voice-recognition synonym
@@ -152,23 +152,23 @@
  *            application</li>
  *            </ul>
  */
-@property(strong) NSMutableArray* vrSynonyms;
+@property (strong) NSMutableArray *vrSynonyms;
 /**
  * @abstract A Boolean to indicate a mobile application that is a media
  * application or not
  */
-@property(strong) NSNumber* isMediaApplication;
+@property (strong) NSNumber *isMediaApplication;
 /**
  * @abstract A Language enumeration indicating what language the application
  * intends to use for user interaction (Display, TTS and VR)
  */
-@property(strong) SDLLanguage* languageDesired;
+@property (strong) SDLLanguage *languageDesired;
 /**
  * @abstract An enumeration indicating what language the application intends to
  * use for user interaction ( Display)
  * @since SmartDeviceLink 2.0
  */
-@property(strong) SDLLanguage* hmiDisplayLanguageDesired;
+@property (strong) SDLLanguage *hmiDisplayLanguageDesired;
 /**
  * @abstract A list of all applicable app types stating which classifications
  * to be given to the app. e.g. for platforms , like GEN2, this will
@@ -184,9 +184,9 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSMutableArray* appHMIType;
-@property(strong) NSString* hashID;
-@property(strong) SDLDeviceInfo* deviceInfo;
+@property (strong) NSMutableArray *appHMIType;
+@property (strong) NSString *hashID;
+@property (strong) SDLDeviceInfo *deviceInfo;
 /**
  * @abstract A unique ID, which an app will be given when approved
  *
@@ -197,7 +197,6 @@
  *            <b>Notes: </b>Maxlength = 100
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSString* appID;
+@property (strong) NSString *appID;
 
 @end
-
