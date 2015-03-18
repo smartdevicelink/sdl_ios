@@ -2,8 +2,6 @@
 Language: Cpp
 
 AccessModifierOffset: -2
-# AlignAfterOpenBracket: true
-# AlignEscapedNewlinesLeft: true
 AlignTrailingComments: true
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false

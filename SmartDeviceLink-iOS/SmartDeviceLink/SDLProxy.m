@@ -23,9 +23,7 @@
 typedef void (^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 
-@interface SDLProxy ()
-
-    {
+@interface SDLProxy () {
     SDLLockScreenManager *lsm;
 }
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object;
