@@ -42,7 +42,10 @@
 - (NSObject<SDLTransport> *)getTransport;
 - (NSObject<SDLInterfaceProtocol> *)getProtocol;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-selector-name"
 - (void)putFileStream:(NSInputStream *)inputStream:(SDLPutFile *)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
+#pragma clang diagnostic pop
 
 /**
  * Puts data into a file on the module

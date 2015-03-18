@@ -501,9 +501,13 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - PutFile Streaming
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-selector-name"
 - (void)putFileStream:(NSInputStream *)inputStream:(SDLPutFile *)putFileRPCRequest {
     [self putFileStream:inputStream withRequest:putFileRPCRequest];
 }
+#pragma clang diagnostic pop
 
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
     inputStream.delegate = self;
