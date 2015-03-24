@@ -49,7 +49,7 @@ describe(@"HandleMessage Tests", ^ {
         SDLMessageAssemblyCompletionHandler incompleteHandler = ^void(BOOL done, SDLProtocolMessage* assembledMessage) {
             verified = YES;
             
-            expect([NSNumber numberWithBool:done]).to(equal([NSNumber numberWithBool:NO]));
+            expect([NSNumber numberWithBool:done]).to(equal(@NO));
             expect(assembledMessage).to(beNil());
         };
         
@@ -83,7 +83,7 @@ describe(@"HandleMessage Tests", ^ {
             verified = YES;
             
             // FIXME: At the moment, this test fails because the completion handler is accidentally called twice
-            expect([NSNumber numberWithBool:done]).to(equal([NSNumber numberWithBool:YES]));
+            expect([NSNumber numberWithBool:done]).to(equal(@YES));
             
             expect(assembledMessage.payload).to(equal(payloadData));
             expect([NSNumber numberWithInteger:[assembledMessage header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));

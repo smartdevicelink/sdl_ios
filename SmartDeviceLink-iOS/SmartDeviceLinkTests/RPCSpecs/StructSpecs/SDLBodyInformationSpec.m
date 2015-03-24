@@ -17,40 +17,40 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] init];
         
-        testStruct.parkBrakeActive = [NSNumber numberWithBool:YES];
+        testStruct.parkBrakeActive = @YES;
         testStruct.ignitionStableStatus = [SDLIgnitionStableStatus IGNITION_SWITCH_STABLE];
         testStruct.ignitionStatus = [SDLIgnitionStatus START];
-        testStruct.driverDoorAjar = [NSNumber numberWithBool:NO];
-        testStruct.passengerDoorAjar = [NSNumber numberWithBool:NO];
-        testStruct.rearLeftDoorAjar = [NSNumber numberWithBool:NO];
-        testStruct.rearRightDoorAjar = [NSNumber numberWithBool:YES];
+        testStruct.driverDoorAjar = @NO;
+        testStruct.passengerDoorAjar = @NO;
+        testStruct.rearLeftDoorAjar = @NO;
+        testStruct.rearRightDoorAjar = @YES;
         
-        expect(testStruct.parkBrakeActive).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.parkBrakeActive).to(equal(@YES));
         expect(testStruct.ignitionStableStatus).to(equal([SDLIgnitionStableStatus IGNITION_SWITCH_STABLE]));
         expect(testStruct.ignitionStatus).to(equal([SDLIgnitionStatus START]));
-        expect(testStruct.driverDoorAjar).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.passengerDoorAjar).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.rearLeftDoorAjar).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.rearRightDoorAjar).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.driverDoorAjar).to(equal(@NO));
+        expect(testStruct.passengerDoorAjar).to(equal(@NO));
+        expect(testStruct.rearLeftDoorAjar).to(equal(@NO));
+        expect(testStruct.rearRightDoorAjar).to(equal(@YES));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_parkBrakeActive:[NSNumber numberWithBool:YES],
+        NSMutableDictionary* dict = [@{NAMES_parkBrakeActive:@YES,
                                        NAMES_ignitionStableStatus:[SDLIgnitionStableStatus IGNITION_SWITCH_NOT_STABLE],
                                        NAMES_ignitionStatus:[SDLIgnitionStatus START],
-                                       NAMES_driverDoorAjar:[NSNumber numberWithBool:NO],
-                                       NAMES_passengerDoorAjar:[NSNumber numberWithBool:NO],
-                                       NAMES_rearLeftDoorAjar:[NSNumber numberWithBool:NO],
-                                       NAMES_rearRightDoorAjar:[NSNumber numberWithBool:YES]} mutableCopy];
+                                       NAMES_driverDoorAjar:@NO,
+                                       NAMES_passengerDoorAjar:@NO,
+                                       NAMES_rearLeftDoorAjar:@NO,
+                                       NAMES_rearRightDoorAjar:@YES} mutableCopy];
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
         
-        expect(testStruct.parkBrakeActive).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.parkBrakeActive).to(equal(@YES));
         expect(testStruct.ignitionStableStatus).to(equal([SDLIgnitionStableStatus IGNITION_SWITCH_NOT_STABLE]));
         expect(testStruct.ignitionStatus).to(equal([SDLIgnitionStatus START]));
-        expect(testStruct.driverDoorAjar).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.passengerDoorAjar).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.rearLeftDoorAjar).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.rearRightDoorAjar).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.driverDoorAjar).to(equal(@NO));
+        expect(testStruct.passengerDoorAjar).to(equal(@NO));
+        expect(testStruct.rearLeftDoorAjar).to(equal(@NO));
+        expect(testStruct.rearRightDoorAjar).to(equal(@YES));
     });
     
     it(@"Should return nil if not set", ^ {

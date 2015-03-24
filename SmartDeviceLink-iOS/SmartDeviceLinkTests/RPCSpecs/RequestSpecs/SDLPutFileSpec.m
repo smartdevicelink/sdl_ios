@@ -19,15 +19,15 @@ describe(@"Getter/Setter Tests", ^ {
         
         testRequest.syncFileName = @"fileName";
         testRequest.fileType = [SDLFileType GRAPHIC_JPEG];
-        testRequest.persistentFile = [NSNumber numberWithBool:YES];
-        testRequest.systemFile = [NSNumber numberWithBool:NO];
+        testRequest.persistentFile = @YES;
+        testRequest.systemFile = @NO;
         testRequest.offset = @987654321;
         testRequest.length = @123456789;
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
-        expect(testRequest.persistentFile).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.systemFile).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.persistentFile).to(equal(@YES));
+        expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));
         expect(testRequest.length).to(equal(@123456789));
     });
@@ -37,8 +37,8 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{NAMES_parameters:
                                                  @{NAMES_syncFileName:@"fileName",
                                                    NAMES_fileType:[SDLFileType GRAPHIC_JPEG],
-                                                   NAMES_persistentFile:[NSNumber numberWithBool:YES],
-                                                   NAMES_systemFile:[NSNumber numberWithBool:NO],
+                                                   NAMES_persistentFile:@YES,
+                                                   NAMES_systemFile:@NO,
                                                    NAMES_offset:@987654321,
                                                    NAMES_length:@123456789},
                                              NAMES_operation_name:NAMES_PutFile}} mutableCopy];
@@ -46,8 +46,8 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
-        expect(testRequest.persistentFile).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.systemFile).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.persistentFile).to(equal(@YES));
+        expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));
         expect(testRequest.length).to(equal(@123456789));
     });

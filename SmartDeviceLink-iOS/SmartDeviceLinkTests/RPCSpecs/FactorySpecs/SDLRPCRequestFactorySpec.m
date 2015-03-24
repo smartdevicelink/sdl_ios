@@ -117,39 +117,39 @@ describe(@"BuildAlert Tests", ^ {
     context(@"With TTS", ^ {
         it(@"Should build correctly", ^ {
             SDLAlert* message = [SDLRPCRequestFactory buildAlertWithTTS:@"Wat" alertText1:@"11" alertText2:@"12" alertText3:@"13"
-                                                      playTone:[NSNumber numberWithBool:NO] duration:@3424 correlationID:@9999999];
+                                                      playTone:@NO duration:@3424 correlationID:@9999999];
             
             expect(message.alertText1).to(equal(@"11"));
             expect(message.alertText2).to(equal(@"12"));
             expect(message.alertText3).to(equal(@"13"));
             expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Wat"));
             expect(message.duration).to(equal(@3424));
-            expect(message.playTone).to(equal([NSNumber numberWithBool:NO]));
+            expect(message.playTone).to(equal(@NO));
             expect(message.progressIndicator).to(beNil());
             expect(message.softButtons).to(beNil());
             expect(message.correlationID).to(equal(@9999999));
             
             message = [SDLRPCRequestFactory buildAlertWithTTS:@"Say This" alertText1:@"hgkj" alertText2:@"bgydhgfc"
-                                            playTone:[NSNumber numberWithBool:YES]  duration:@6546 correlationID:@65436786];
+                                            playTone:@YES  duration:@6546 correlationID:@65436786];
             
             expect(message.alertText1).to(equal(@"hgkj"));
             expect(message.alertText2).to(equal(@"bgydhgfc"));
             expect(message.alertText3).to(beNil());
             expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Say This"));
             expect(message.duration).to(equal(@6546));
-            expect(message.playTone).to(equal([NSNumber numberWithBool:YES]));
+            expect(message.playTone).to(equal(@YES));
             expect(message.progressIndicator).to(beNil());
             expect(message.softButtons).to(beNil());
             expect(message.correlationID).to(equal(@65436786));
             
-            message = [SDLRPCRequestFactory buildAlertWithTTS:@"Surprise" playTone:[NSNumber numberWithBool:YES] correlationID:@34];
+            message = [SDLRPCRequestFactory buildAlertWithTTS:@"Surprise" playTone:@YES correlationID:@34];
             
             expect(message.alertText1).to(beNil());
             expect(message.alertText2).to(beNil());
             expect(message.alertText3).to(beNil());
             expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Surprise"));
             expect(message.duration).to(beNil());
-            expect(message.playTone).to(equal([NSNumber numberWithBool:YES]));
+            expect(message.playTone).to(equal(@YES));
             expect(message.progressIndicator).to(beNil());
             expect(message.softButtons).to(beNil());
             expect(message.correlationID).to(equal(@34));
@@ -161,26 +161,26 @@ describe(@"BuildAlert Tests", ^ {
             NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
             NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
             SDLAlert* message = [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks alertText1:@"Astonish" alertText2:@"Hi" alertText3:@"Alert"
-                                                      playTone:[NSNumber numberWithBool:NO] duration:@4145 softButtons:softButtons correlationID:@19];
+                                                      playTone:@NO duration:@4145 softButtons:softButtons correlationID:@19];
             
             expect(message.alertText1).to(equal(@"Astonish"));
             expect(message.alertText2).to(equal(@"Hi"));
             expect(message.alertText3).to(equal(@"Alert"));
             expect(message.ttsChunks).to(equal(ttsChunks));
             expect(message.duration).to(equal(@4145));
-            expect(message.playTone).to(equal([NSNumber numberWithBool:NO]));
+            expect(message.playTone).to(equal(@NO));
             expect(message.progressIndicator).to(beNil());
             expect(message.softButtons).to(equal(softButtons));
             expect(message.correlationID).to(equal(@19));
             
-            message = [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks playTone:[NSNumber numberWithBool:YES] correlationID:@1234321];
+            message = [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks playTone:@YES correlationID:@1234321];
             
             expect(message.alertText1).to(beNil());
             expect(message.alertText2).to(beNil());
             expect(message.alertText3).to(beNil());
             expect(message.ttsChunks).to(equal(ttsChunks));
             expect(message.duration).to(beNil());
-            expect(message.playTone).to(equal([NSNumber numberWithBool:YES]));
+            expect(message.playTone).to(equal(@YES));
             expect(message.progressIndicator).to(beNil());
             expect(message.softButtons).to(beNil());
             expect(message.correlationID).to(equal(@1234321));
@@ -273,34 +273,34 @@ describe(@"BuildGetDTCs Tests", ^ {
 
 describe(@"BuildGetVehicleData Tests", ^ {
     it(@"Should build correctly", ^ {
-        SDLGetVehicleData* message = [SDLRPCRequestFactory buildGetVehicleDataWithGPS:[NSNumber numberWithBool:YES] speed:[NSNumber numberWithBool:NO] rpm:[NSNumber numberWithBool:NO]
-                                                           fuelLevel:[NSNumber numberWithBool:YES] fuelLevelState:[NSNumber numberWithBool:YES] instantFuelConsumption:[NSNumber numberWithBool:NO]
-                                                           externalTemperature:[NSNumber numberWithBool:YES] vin:[NSNumber numberWithBool:YES] prndl:[NSNumber numberWithBool:YES]
-                                                           tirePressure:[NSNumber numberWithBool:NO] odometer:[NSNumber numberWithBool:NO] beltStatus:[NSNumber numberWithBool:NO]
-                                                           bodyInformation:[NSNumber numberWithBool:YES] deviceStatus:[NSNumber numberWithBool:NO] driverBraking:[NSNumber numberWithBool:NO]
-                                                           wiperStatus:[NSNumber numberWithBool:NO] headLampStatus:[NSNumber numberWithBool:YES] engineTorque:[NSNumber numberWithBool:YES]
-                                                           accPedalPosition:[NSNumber numberWithBool:NO] steeringWheelAngle:[NSNumber numberWithBool:YES] correlationID:@936];
+        SDLGetVehicleData* message = [SDLRPCRequestFactory buildGetVehicleDataWithGPS:@YES speed:@NO rpm:@NO
+                                                           fuelLevel:@YES fuelLevelState:@YES instantFuelConsumption:@NO
+                                                           externalTemperature:@YES vin:@YES prndl:@YES
+                                                           tirePressure:@NO odometer:@NO beltStatus:@NO
+                                                           bodyInformation:@YES deviceStatus:@NO driverBraking:@NO
+                                                           wiperStatus:@NO headLampStatus:@YES engineTorque:@YES
+                                                           accPedalPosition:@NO steeringWheelAngle:@YES correlationID:@936];
         
-        expect(message.gps).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.speed).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.rpm).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.fuelLevel).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.fuelLevel_State).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.vin).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.prndl).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.tirePressure).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.odometer).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.beltStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.bodyInformation).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.deviceStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.driverBraking).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.wiperStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.headLampStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.engineTorque).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.accPedalPosition).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.steeringWheelAngle).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.gps).to(equal(@YES));
+        expect(message.speed).to(equal(@NO));
+        expect(message.rpm).to(equal(@NO));
+        expect(message.fuelLevel).to(equal(@YES));
+        expect(message.fuelLevel_State).to(equal(@YES));
+        expect(message.instantFuelConsumption).to(equal(@NO));
+        expect(message.externalTemperature).to(equal(@YES));
+        expect(message.vin).to(equal(@YES));
+        expect(message.prndl).to(equal(@YES));
+        expect(message.tirePressure).to(equal(@NO));
+        expect(message.odometer).to(equal(@NO));
+        expect(message.beltStatus).to(equal(@NO));
+        expect(message.bodyInformation).to(equal(@YES));
+        expect(message.deviceStatus).to(equal(@NO));
+        expect(message.driverBraking).to(equal(@NO));
+        expect(message.wiperStatus).to(equal(@NO));
+        expect(message.headLampStatus).to(equal(@YES));
+        expect(message.engineTorque).to(equal(@YES));
+        expect(message.accPedalPosition).to(equal(@NO));
+        expect(message.steeringWheelAngle).to(equal(@YES));
         expect(message.eCallInfo).to(beNil());
         expect(message.airbagStatus).to(beNil());
         expect(message.emergencyEvent).to(beNil());
@@ -314,7 +314,7 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLPerformAudioPassThru* message = [SDLRPCRequestFactory buildPerformAudioPassThruWithInitialPrompt:@"" audioPassThruDisplayText1:@"Display1" audioPassThruDisplayText2:@"Display2"
                                                                  samplingRate:[SDLSamplingRate _44KHZ] maxDuration:@10 bitsPerSample:[SDLBitsPerSample _16_BIT] audioType:[SDLAudioType PCM]
-                                                                 muteAudio:[NSNumber numberWithBool:NO] correlationID:@2500];
+                                                                 muteAudio:@NO correlationID:@2500];
         
         expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@""));
         expect(message.audioPassThruDisplayText1).to(equal(@"Display1"));
@@ -323,7 +323,7 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
         expect(message.maxDuration).to(equal(@10));
         expect(message.bitsPerSample).to(equal([SDLBitsPerSample _16_BIT]));
         expect(message.audioType).to(equal([SDLAudioType PCM]));
-        expect(message.muteAudio).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.muteAudio).to(equal(@NO));
         expect(message.correlationID).to(equal(@2500));
     });
 });
@@ -440,7 +440,7 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         NSMutableArray *ttsName = [NSMutableArray arrayWithArray:@[[[SDLTTSChunk alloc] init]]];
         NSMutableArray *synonyms = [NSMutableArray arrayWithArray:@[@"Q", @"W", @"E", @"R"]];
         SDLRegisterAppInterface* message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Interface" ttsName:ttsName vrSynonyms:synonyms
-                                                                 isMediaApp:[NSNumber numberWithBool:YES] languageDesired:[SDLLanguage EN_US]
+                                                                 isMediaApp:@YES languageDesired:[SDLLanguage EN_US]
                                                                  hmiDisplayLanguageDesired:[SDLLanguage ES_MX] appID:@"6h43g"];
         
         expect(message.syncMsgVersion).to(beNil());
@@ -448,7 +448,7 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.ttsName).to(equal(ttsName));
         expect(message.ngnMediaScreenAppName).to(equal(@"Interface"));
         expect(message.vrSynonyms).to(equal(@[@"Q", @"W", @"E", @"R"]));
-        expect(message.isMediaApplication).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.isMediaApplication).to(equal(@YES));
         expect(message.languageDesired).to(equal([SDLLanguage EN_US]));
         expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage ES_MX]));
         expect(message.appHMIType).to(beNil());
@@ -464,7 +464,7 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.ttsName).to(beNil());
         expect(message.ngnMediaScreenAppName).to(equal(@"Register App Interface"));
         expect(message.vrSynonyms).to(equal(@[@"Register App Interface"]));
-        expect(message.isMediaApplication).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.isMediaApplication).to(equal(@NO));
         expect(message.languageDesired).to(equal([SDLLanguage PT_BR]));
         expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_BR]));
         expect(message.appHMIType).to(beNil());
@@ -480,7 +480,7 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.ttsName).to(beNil());
         expect(message.ngnMediaScreenAppName).to(equal(@"..."));
         expect(message.vrSynonyms).to(equal(@[@"..."]));
-        expect(message.isMediaApplication).to(equal([NSNumber numberWithBool:NO]));
+        expect(message.isMediaApplication).to(equal(@NO));
         expect(message.languageDesired).to(equal([SDLLanguage CS_CZ]));
         expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage CS_CZ]));
         expect(message.appHMIType).to(beNil());
@@ -683,33 +683,33 @@ describe(@"BuildSubscribeButton Tests", ^ {
 
 describe(@"BuildSubscribeVehicleData Tests", ^ {
     it(@"Should build correctly", ^ {
-        SDLSubscribeVehicleData* message = [SDLRPCRequestFactory buildSubscribeVehicleDataWithGPS:[NSNumber numberWithBool:YES] speed:[NSNumber numberWithBool:YES] rpm:[NSNumber numberWithBool:YES]
-                                                                 fuelLevel:[NSNumber numberWithBool:NO] fuelLevelState:[NSNumber numberWithBool:NO] instantFuelConsumption:[NSNumber numberWithBool:NO]
-                                                                 externalTemperature:[NSNumber numberWithBool:YES] prndl:[NSNumber numberWithBool:YES] tirePressure:[NSNumber numberWithBool:YES]
-                                                                 odometer:[NSNumber numberWithBool:NO] beltStatus:[NSNumber numberWithBool:NO] bodyInformation:[NSNumber numberWithBool:NO]
-                                                                 deviceStatus:[NSNumber numberWithBool:YES] driverBraking:[NSNumber numberWithBool:YES] wiperStatus:[NSNumber numberWithBool:YES]
-                                                                 headLampStatus:[NSNumber numberWithBool:NO] engineTorque:[NSNumber numberWithBool:NO] accPedalPosition:[NSNumber numberWithBool:NO]
-                                                                 steeringWheelAngle:[NSNumber numberWithBool:YES] correlationID:@3692581470];
+        SDLSubscribeVehicleData* message = [SDLRPCRequestFactory buildSubscribeVehicleDataWithGPS:@YES speed:@YES rpm:@YES
+                                                                 fuelLevel:@NO fuelLevelState:@NO instantFuelConsumption:@NO
+                                                                 externalTemperature:@YES prndl:@YES tirePressure:@YES
+                                                                 odometer:@NO beltStatus:@NO bodyInformation:@NO
+                                                                 deviceStatus:@YES driverBraking:@YES wiperStatus:@YES
+                                                                 headLampStatus:@NO engineTorque:@NO accPedalPosition:@NO
+                                                                 steeringWheelAngle:@YES correlationID:@3692581470];
         
-        expect(message.gps).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.speed).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.rpm).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.fuelLevel).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.fuelLevel_State).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.prndl).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.tirePressure).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.odometer).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.beltStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.bodyInformation).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.deviceStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.driverBraking).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.wiperStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.headLampStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.engineTorque).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.accPedalPosition).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.steeringWheelAngle).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.gps).to(equal(@YES));
+        expect(message.speed).to(equal(@YES));
+        expect(message.rpm).to(equal(@YES));
+        expect(message.fuelLevel).to(equal(@NO));
+        expect(message.fuelLevel_State).to(equal(@NO));
+        expect(message.instantFuelConsumption).to(equal(@NO));
+        expect(message.externalTemperature).to(equal(@YES));
+        expect(message.prndl).to(equal(@YES));
+        expect(message.tirePressure).to(equal(@YES));
+        expect(message.odometer).to(equal(@NO));
+        expect(message.beltStatus).to(equal(@NO));
+        expect(message.bodyInformation).to(equal(@NO));
+        expect(message.deviceStatus).to(equal(@YES));
+        expect(message.driverBraking).to(equal(@YES));
+        expect(message.wiperStatus).to(equal(@YES));
+        expect(message.headLampStatus).to(equal(@NO));
+        expect(message.engineTorque).to(equal(@NO));
+        expect(message.accPedalPosition).to(equal(@NO));
+        expect(message.steeringWheelAngle).to(equal(@YES));
         expect(message.eCallInfo).to(beNil());
         expect(message.airbagStatus).to(beNil());
         expect(message.emergencyEvent).to(beNil());
@@ -738,33 +738,33 @@ describe(@"BuildUnsubscribeButton Tests", ^ {
 
 describe(@"BuildSubscribeVehicleData Tests", ^ {
     it(@"Should build correctly", ^ {
-        SDLSubscribeVehicleData* message = [SDLRPCRequestFactory buildSubscribeVehicleDataWithGPS:[NSNumber numberWithBool:YES] speed:[NSNumber numberWithBool:NO] rpm:[NSNumber numberWithBool:YES]
-                                                                 fuelLevel:[NSNumber numberWithBool:YES] fuelLevelState:[NSNumber numberWithBool:NO] instantFuelConsumption:[NSNumber numberWithBool:NO]
-                                                                 externalTemperature:[NSNumber numberWithBool:YES] prndl:[NSNumber numberWithBool:NO] tirePressure:[NSNumber numberWithBool:YES]
-                                                                 odometer:[NSNumber numberWithBool:YES] beltStatus:[NSNumber numberWithBool:NO] bodyInformation:[NSNumber numberWithBool:NO]
-                                                                 deviceStatus:[NSNumber numberWithBool:YES] driverBraking:[NSNumber numberWithBool:NO] wiperStatus:[NSNumber numberWithBool:YES]
-                                                                 headLampStatus:[NSNumber numberWithBool:YES] engineTorque:[NSNumber numberWithBool:NO] accPedalPosition:[NSNumber numberWithBool:NO]
-                                                                 steeringWheelAngle:[NSNumber numberWithBool:YES] correlationID:@1627384950];
+        SDLSubscribeVehicleData* message = [SDLRPCRequestFactory buildSubscribeVehicleDataWithGPS:@YES speed:@NO rpm:@YES
+                                                                 fuelLevel:@YES fuelLevelState:@NO instantFuelConsumption:@NO
+                                                                 externalTemperature:@YES prndl:@NO tirePressure:@YES
+                                                                 odometer:@YES beltStatus:@NO bodyInformation:@NO
+                                                                 deviceStatus:@YES driverBraking:@NO wiperStatus:@YES
+                                                                 headLampStatus:@YES engineTorque:@NO accPedalPosition:@NO
+                                                                 steeringWheelAngle:@YES correlationID:@1627384950];
         
-        expect(message.gps).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.speed).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.rpm).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.fuelLevel).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.fuelLevel_State).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.prndl).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.tirePressure).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.odometer).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.beltStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.bodyInformation).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.deviceStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.driverBraking).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.wiperStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.headLampStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(message.engineTorque).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.accPedalPosition).to(equal([NSNumber numberWithBool:NO]));
-        expect(message.steeringWheelAngle).to(equal([NSNumber numberWithBool:YES]));
+        expect(message.gps).to(equal(@YES));
+        expect(message.speed).to(equal(@NO));
+        expect(message.rpm).to(equal(@YES));
+        expect(message.fuelLevel).to(equal(@YES));
+        expect(message.fuelLevel_State).to(equal(@NO));
+        expect(message.instantFuelConsumption).to(equal(@NO));
+        expect(message.externalTemperature).to(equal(@YES));
+        expect(message.prndl).to(equal(@NO));
+        expect(message.tirePressure).to(equal(@YES));
+        expect(message.odometer).to(equal(@YES));
+        expect(message.beltStatus).to(equal(@NO));
+        expect(message.bodyInformation).to(equal(@NO));
+        expect(message.deviceStatus).to(equal(@YES));
+        expect(message.driverBraking).to(equal(@NO));
+        expect(message.wiperStatus).to(equal(@YES));
+        expect(message.headLampStatus).to(equal(@YES));
+        expect(message.engineTorque).to(equal(@NO));
+        expect(message.accPedalPosition).to(equal(@NO));
+        expect(message.steeringWheelAngle).to(equal(@YES));
         expect(message.eCallInfo).to(beNil());
         expect(message.airbagStatus).to(beNil());
         expect(message.emergencyEvent).to(beNil());

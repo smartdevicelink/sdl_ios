@@ -17,12 +17,12 @@ describe(@"Getter/Setter Tests",  ^ {
         SDLRPCResponse* response = [[SDLRPCResponse alloc] initWithName:@"A Legitimate Response"];
         
         response.correlationID = @14641;
-        response.success = [NSNumber numberWithBool:YES];
+        response.success = @YES;
         response.resultCode = [SDLResult IGNORED];
         response.info = @"It has been done";
         
         expect(response.correlationID).to(equal(@14641));
-        expect(response.success).to(equal([NSNumber numberWithBool:YES]));
+        expect(response.success).to(equal(@YES));
         expect(response.resultCode).to(equal([SDLResult IGNORED]));
         expect(response.info).to(equal(@"It has been done"));
     });

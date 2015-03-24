@@ -353,7 +353,7 @@ correlationID{
 
 +(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID{
     
-    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:[NSNumber numberWithBool:NO] languageDesired:languageDesired appID: appID];
+    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appID: appID];
 }
 //*****
 

@@ -23,7 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.maxDuration = @34563;
         testRequest.bitsPerSample = [SDLBitsPerSample _16_BIT];
         testRequest.audioType = [SDLAudioType PCM];
-        testRequest.muteAudio = [NSNumber numberWithBool:NO];
+        testRequest.muteAudio = @NO;
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));
         expect(testRequest.audioPassThruDisplayText2).to(equal(@"passthru#2"));
@@ -31,7 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.maxDuration).to(equal(@34563));
         expect(testRequest.bitsPerSample).to(equal([SDLBitsPerSample _16_BIT]));
         expect(testRequest.audioType).to(equal([SDLAudioType PCM]));
-        expect(testRequest.muteAudio).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.muteAudio).to(equal(@NO));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -43,7 +43,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_maxDuration:@34563,
                                                    NAMES_bitsPerSample:[SDLBitsPerSample _16_BIT],
                                                    NAMES_audioType:[SDLAudioType PCM],
-                                                   NAMES_muteAudio:[NSNumber numberWithBool:NO]},
+                                                   NAMES_muteAudio:@NO},
                                              NAMES_operation_name:NAMES_PerformAudioPassThru}} mutableCopy];
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
         
@@ -53,7 +53,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.maxDuration).to(equal(@34563));
         expect(testRequest.bitsPerSample).to(equal([SDLBitsPerSample _16_BIT]));
         expect(testRequest.audioType).to(equal([SDLAudioType PCM]));
-        expect(testRequest.muteAudio).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.muteAudio).to(equal(@NO));
     });
     
     it(@"Should return nil if not set", ^ {

@@ -31,7 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.nextTurnIcon = image2;
         testRequest.distanceToManeuver = @2;
         testRequest.distanceToManeuverScale = @4;
-        testRequest.maneuverComplete = [NSNumber numberWithBool:NO];
+        testRequest.maneuverComplete = @NO;
         testRequest.softButtons = [@[button] mutableCopy];
         
         expect(testRequest.navigationText1).to(equal(@"nav1"));
@@ -43,7 +43,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.nextTurnIcon).to(equal(image2));
         expect(testRequest.distanceToManeuver).to(equal(@2));
         expect(testRequest.distanceToManeuverScale).to(equal(@4));
-        expect(testRequest.maneuverComplete).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.maneuverComplete).to(equal(@NO));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
     });
     
@@ -59,7 +59,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_nextTurnIcon:image2,
                                                    NAMES_distanceToManeuver:@2,
                                                    NAMES_distanceToManeuverScale:@4,
-                                                   NAMES_maneuverComplete:[NSNumber numberWithBool:NO],
+                                                   NAMES_maneuverComplete:@NO,
                                                    NAMES_softButtons:[@[button] mutableCopy]},
                                              NAMES_operation_name:NAMES_ShowConstantTBT}} mutableCopy];
         SDLShowConstantTBT* testRequest = [[SDLShowConstantTBT alloc] initWithDictionary:dict];
@@ -73,7 +73,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.nextTurnIcon).to(equal(image2));
         expect(testRequest.distanceToManeuver).to(equal(@2));
         expect(testRequest.distanceToManeuverScale).to(equal(@4));
-        expect(testRequest.maneuverComplete).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.maneuverComplete).to(equal(@NO));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
     });
     

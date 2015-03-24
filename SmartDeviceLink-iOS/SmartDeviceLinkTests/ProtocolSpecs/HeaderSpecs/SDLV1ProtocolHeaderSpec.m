@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should set and get correctly", ^ {
-        expect([NSNumber numberWithBool:testHeader.compressed]).to(equal([NSNumber numberWithBool:YES]));
+        expect([NSNumber numberWithBool:testHeader.compressed]).to(equal(@YES));
         expect([NSNumber numberWithInteger:testHeader.frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Control]));
         expect([NSNumber numberWithInteger:testHeader.serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
         expect([NSNumber numberWithInteger:testHeader.frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_StartSession]));
@@ -54,7 +54,7 @@ describe(@"Copy Tests", ^ {
         expect([NSNumber numberWithInteger:headerCopy.version]).to(equal(@1));
         expect([NSNumber numberWithInteger:headerCopy.size]).to(equal(@8));
         
-        expect([NSNumber numberWithBool:headerCopy.compressed]).to(equal([NSNumber numberWithBool:YES]));
+        expect([NSNumber numberWithBool:headerCopy.compressed]).to(equal(@YES));
         expect([NSNumber numberWithInteger:headerCopy.frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Control]));
         expect([NSNumber numberWithInteger:headerCopy.serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
         expect([NSNumber numberWithInteger:headerCopy.frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_StartSession]));
@@ -77,7 +77,7 @@ describe(@"RPCPayloadWithData Test", ^ {
         
         [constructedHeader parse:testData];
         
-        expect([NSNumber numberWithBool:constructedHeader.compressed]).to(equal([NSNumber numberWithBool:YES]));
+        expect([NSNumber numberWithBool:constructedHeader.compressed]).to(equal(@YES));
         expect([NSNumber numberWithInteger:constructedHeader.frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Control]));
         expect([NSNumber numberWithInteger:constructedHeader.serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
         expect([NSNumber numberWithInteger:constructedHeader.frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_StartSession]));

@@ -22,14 +22,14 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.type = [SDLSoftButtonType IMAGE];
         testStruct.text = @"Button";
         testStruct.image = image;
-        testStruct.isHighlighted = [NSNumber numberWithBool:YES];
+        testStruct.isHighlighted = @YES;
         testStruct.softButtonID = @5423;
         testStruct.systemAction = [SDLSystemAction KEEP_CONTEXT];
         
         expect(testStruct.type).to(equal([SDLSoftButtonType IMAGE]));
         expect(testStruct.text).to(equal(@"Button"));
         expect(testStruct.image).to(equal(image));
-        expect(testStruct.isHighlighted).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.isHighlighted).to(equal(@YES));
         expect(testStruct.softButtonID).to(equal(@5423));
         expect(testStruct.systemAction).to(equal([SDLSystemAction KEEP_CONTEXT]));
     });
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{NAMES_type:[SDLSoftButtonType IMAGE],
                                        NAMES_text:@"Button",
                                        NAMES_image:image,
-                                       NAMES_isHighlighted:[NSNumber numberWithBool:YES],
+                                       NAMES_isHighlighted:@YES,
                                        NAMES_softButtonID:@5423,
                                        NAMES_systemAction:[SDLSystemAction KEEP_CONTEXT]} mutableCopy];
         SDLSoftButton* testStruct = [[SDLSoftButton alloc] initWithDictionary:dict];
@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.type).to(equal([SDLSoftButtonType IMAGE]));
         expect(testStruct.text).to(equal(@"Button"));
         expect(testStruct.image).to(equal(image));
-        expect(testStruct.isHighlighted).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.isHighlighted).to(equal(@YES));
         expect(testStruct.softButtonID).to(equal(@5423));
         expect(testStruct.systemAction).to(equal([SDLSystemAction KEEP_CONTEXT]));
     });

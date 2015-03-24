@@ -17,16 +17,16 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLPresetBankCapabilities* testStruct = [[SDLPresetBankCapabilities alloc] init];
         
-        testStruct.onScreenPresetsAvailable = [NSNumber numberWithBool:NO];
+        testStruct.onScreenPresetsAvailable = @NO;
         
-        expect(testStruct.onScreenPresetsAvailable).to(equal([NSNumber numberWithBool:NO]));
+        expect(testStruct.onScreenPresetsAvailable).to(equal(@NO));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_onScreenPresetsAvailable:[NSNumber numberWithBool:YES]} mutableCopy];
+        NSMutableDictionary* dict = [@{NAMES_onScreenPresetsAvailable:@YES} mutableCopy];
         SDLPresetBankCapabilities* testStruct = [[SDLPresetBankCapabilities alloc] initWithDictionary:dict];
         
-        expect(testStruct.onScreenPresetsAvailable).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.onScreenPresetsAvailable).to(equal(@YES));
     });
     
     it(@"Should return nil if not set", ^ {

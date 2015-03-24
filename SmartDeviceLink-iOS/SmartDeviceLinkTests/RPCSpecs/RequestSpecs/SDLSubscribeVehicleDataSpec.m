@@ -17,111 +17,111 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
         
-        testRequest.gps = [NSNumber numberWithBool:YES];
-        testRequest.speed = [NSNumber numberWithBool:NO];
-        testRequest.rpm = [NSNumber numberWithBool:YES];
-        testRequest.fuelLevel = [NSNumber numberWithBool:NO];
-        testRequest.fuelLevel_State = [NSNumber numberWithBool:YES];
-        testRequest.instantFuelConsumption = [NSNumber numberWithBool:NO];
-        testRequest.externalTemperature = [NSNumber numberWithBool:YES];
-        testRequest.prndl = [NSNumber numberWithBool:YES];
-        testRequest.tirePressure = [NSNumber numberWithBool:NO];
-        testRequest.odometer = [NSNumber numberWithBool:YES];
-        testRequest.beltStatus = [NSNumber numberWithBool:NO];
-        testRequest.bodyInformation = [NSNumber numberWithBool:YES];
-        testRequest.deviceStatus = [NSNumber numberWithBool:NO];
-        testRequest.driverBraking = [NSNumber numberWithBool:YES];
-        testRequest.wiperStatus = [NSNumber numberWithBool:NO];
-        testRequest.headLampStatus = [NSNumber numberWithBool:YES];
-        testRequest.engineTorque = [NSNumber numberWithBool:NO];
-        testRequest.accPedalPosition = [NSNumber numberWithBool:YES];
-        testRequest.steeringWheelAngle = [NSNumber numberWithBool:NO];
-        testRequest.eCallInfo = [NSNumber numberWithBool:YES];
-        testRequest.airbagStatus = [NSNumber numberWithBool:NO];
-        testRequest.emergencyEvent = [NSNumber numberWithBool:YES];
-        testRequest.clusterModeStatus = [NSNumber numberWithBool:NO];
-        testRequest.myKey = [NSNumber numberWithBool:YES];
+        testRequest.gps = @YES;
+        testRequest.speed = @NO;
+        testRequest.rpm = @YES;
+        testRequest.fuelLevel = @NO;
+        testRequest.fuelLevel_State = @YES;
+        testRequest.instantFuelConsumption = @NO;
+        testRequest.externalTemperature = @YES;
+        testRequest.prndl = @YES;
+        testRequest.tirePressure = @NO;
+        testRequest.odometer = @YES;
+        testRequest.beltStatus = @NO;
+        testRequest.bodyInformation = @YES;
+        testRequest.deviceStatus = @NO;
+        testRequest.driverBraking = @YES;
+        testRequest.wiperStatus = @NO;
+        testRequest.headLampStatus = @YES;
+        testRequest.engineTorque = @NO;
+        testRequest.accPedalPosition = @YES;
+        testRequest.steeringWheelAngle = @NO;
+        testRequest.eCallInfo = @YES;
+        testRequest.airbagStatus = @NO;
+        testRequest.emergencyEvent = @YES;
+        testRequest.clusterModeStatus = @NO;
+        testRequest.myKey = @YES;
         
-        expect(testRequest.gps).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.speed).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.rpm).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.fuelLevel).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.fuelLevel_State).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.prndl).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.tirePressure).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.odometer).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.beltStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.bodyInformation).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.deviceStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.driverBraking).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.wiperStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.headLampStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.engineTorque).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.accPedalPosition).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.steeringWheelAngle).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.eCallInfo).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.airbagStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.emergencyEvent).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.clusterModeStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.myKey).to(equal([NSNumber numberWithBool:YES]));
+        expect(testRequest.gps).to(equal(@YES));
+        expect(testRequest.speed).to(equal(@NO));
+        expect(testRequest.rpm).to(equal(@YES));
+        expect(testRequest.fuelLevel).to(equal(@NO));
+        expect(testRequest.fuelLevel_State).to(equal(@YES));
+        expect(testRequest.instantFuelConsumption).to(equal(@NO));
+        expect(testRequest.externalTemperature).to(equal(@YES));
+        expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.tirePressure).to(equal(@NO));
+        expect(testRequest.odometer).to(equal(@YES));
+        expect(testRequest.beltStatus).to(equal(@NO));
+        expect(testRequest.bodyInformation).to(equal(@YES));
+        expect(testRequest.deviceStatus).to(equal(@NO));
+        expect(testRequest.driverBraking).to(equal(@YES));
+        expect(testRequest.wiperStatus).to(equal(@NO));
+        expect(testRequest.headLampStatus).to(equal(@YES));
+        expect(testRequest.engineTorque).to(equal(@NO));
+        expect(testRequest.accPedalPosition).to(equal(@YES));
+        expect(testRequest.steeringWheelAngle).to(equal(@NO));
+        expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.airbagStatus).to(equal(@NO));
+        expect(testRequest.emergencyEvent).to(equal(@YES));
+        expect(testRequest.clusterModeStatus).to(equal(@NO));
+        expect(testRequest.myKey).to(equal(@YES));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{NAMES_request:
                                            @{NAMES_parameters:
-                                                 @{NAMES_gps:[NSNumber numberWithBool:YES],
-                                                   NAMES_speed:[NSNumber numberWithBool:NO],
-                                                   NAMES_rpm:[NSNumber numberWithBool:YES],
-                                                   NAMES_fuelLevel:[NSNumber numberWithBool:NO],
-                                                   NAMES_fuelLevel_State:[NSNumber numberWithBool:YES],
-                                                   NAMES_instantFuelConsumption:[NSNumber numberWithBool:NO],
-                                                   NAMES_externalTemperature:[NSNumber numberWithBool:YES],
-                                                   NAMES_prndl:[NSNumber numberWithBool:YES],
-                                                   NAMES_tirePressure:[NSNumber numberWithBool:NO],
-                                                   NAMES_odometer:[NSNumber numberWithBool:YES],
-                                                   NAMES_beltStatus:[NSNumber numberWithBool:NO],
-                                                   NAMES_bodyInformation:[NSNumber numberWithBool:YES],
-                                                   NAMES_deviceStatus:[NSNumber numberWithBool:NO],
-                                                   NAMES_driverBraking:[NSNumber numberWithBool:YES],
-                                                   NAMES_wiperStatus:[NSNumber numberWithBool:NO],
-                                                   NAMES_headLampStatus:[NSNumber numberWithBool:YES],
-                                                   NAMES_engineTorque:[NSNumber numberWithBool:NO],
-                                                   NAMES_accPedalPosition:[NSNumber numberWithBool:YES],
-                                                   NAMES_steeringWheelAngle:[NSNumber numberWithBool:NO],
-                                                   NAMES_eCallInfo:[NSNumber numberWithBool:YES],
-                                                   NAMES_airbagStatus:[NSNumber numberWithBool:NO],
-                                                   NAMES_emergencyEvent:[NSNumber numberWithBool:YES],
-                                                   NAMES_clusterModeStatus:[NSNumber numberWithBool:NO],
-                                                   NAMES_myKey:[NSNumber numberWithBool:YES]},
+                                                 @{NAMES_gps:@YES,
+                                                   NAMES_speed:@NO,
+                                                   NAMES_rpm:@YES,
+                                                   NAMES_fuelLevel:@NO,
+                                                   NAMES_fuelLevel_State:@YES,
+                                                   NAMES_instantFuelConsumption:@NO,
+                                                   NAMES_externalTemperature:@YES,
+                                                   NAMES_prndl:@YES,
+                                                   NAMES_tirePressure:@NO,
+                                                   NAMES_odometer:@YES,
+                                                   NAMES_beltStatus:@NO,
+                                                   NAMES_bodyInformation:@YES,
+                                                   NAMES_deviceStatus:@NO,
+                                                   NAMES_driverBraking:@YES,
+                                                   NAMES_wiperStatus:@NO,
+                                                   NAMES_headLampStatus:@YES,
+                                                   NAMES_engineTorque:@NO,
+                                                   NAMES_accPedalPosition:@YES,
+                                                   NAMES_steeringWheelAngle:@NO,
+                                                   NAMES_eCallInfo:@YES,
+                                                   NAMES_airbagStatus:@NO,
+                                                   NAMES_emergencyEvent:@YES,
+                                                   NAMES_clusterModeStatus:@NO,
+                                                   NAMES_myKey:@YES},
                                              NAMES_operation_name:NAMES_SubscribeVehicleData}} mutableCopy];
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithDictionary:dict];
         
-        expect(testRequest.gps).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.speed).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.rpm).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.fuelLevel).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.fuelLevel_State).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.instantFuelConsumption).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.externalTemperature).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.prndl).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.tirePressure).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.odometer).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.beltStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.bodyInformation).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.deviceStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.driverBraking).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.wiperStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.headLampStatus).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.engineTorque).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.accPedalPosition).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.steeringWheelAngle).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.eCallInfo).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.airbagStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.emergencyEvent).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.clusterModeStatus).to(equal([NSNumber numberWithBool:NO]));
-        expect(testRequest.myKey).to(equal([NSNumber numberWithBool:YES]));
+        expect(testRequest.gps).to(equal(@YES));
+        expect(testRequest.speed).to(equal(@NO));
+        expect(testRequest.rpm).to(equal(@YES));
+        expect(testRequest.fuelLevel).to(equal(@NO));
+        expect(testRequest.fuelLevel_State).to(equal(@YES));
+        expect(testRequest.instantFuelConsumption).to(equal(@NO));
+        expect(testRequest.externalTemperature).to(equal(@YES));
+        expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.tirePressure).to(equal(@NO));
+        expect(testRequest.odometer).to(equal(@YES));
+        expect(testRequest.beltStatus).to(equal(@NO));
+        expect(testRequest.bodyInformation).to(equal(@YES));
+        expect(testRequest.deviceStatus).to(equal(@NO));
+        expect(testRequest.driverBraking).to(equal(@YES));
+        expect(testRequest.wiperStatus).to(equal(@NO));
+        expect(testRequest.headLampStatus).to(equal(@YES));
+        expect(testRequest.engineTorque).to(equal(@NO));
+        expect(testRequest.accPedalPosition).to(equal(@YES));
+        expect(testRequest.steeringWheelAngle).to(equal(@NO));
+        expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.airbagStatus).to(equal(@NO));
+        expect(testRequest.emergencyEvent).to(equal(@YES));
+        expect(testRequest.clusterModeStatus).to(equal(@NO));
+        expect(testRequest.myKey).to(equal(@YES));
     });
     
     it(@"Should return nil if not set", ^ {

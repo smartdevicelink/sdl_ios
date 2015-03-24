@@ -17,24 +17,24 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLTouchEventCapabilities* testStruct = [[SDLTouchEventCapabilities alloc] init];
         
-        testStruct.pressAvailable = [NSNumber numberWithBool:YES];
-        testStruct.multiTouchAvailable = [NSNumber numberWithBool:NO];
-        testStruct.doublePressAvailable = [NSNumber numberWithBool:YES];
+        testStruct.pressAvailable = @YES;
+        testStruct.multiTouchAvailable = @NO;
+        testStruct.doublePressAvailable = @YES;
         
-        expect(testStruct.pressAvailable).to(equal([NSNumber numberWithBool:YES]));
-        expect(testStruct.multiTouchAvailable).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.doublePressAvailable).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.pressAvailable).to(equal(@YES));
+        expect(testStruct.multiTouchAvailable).to(equal(@NO));
+        expect(testStruct.doublePressAvailable).to(equal(@YES));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_pressAvailable:[NSNumber numberWithBool:YES],
-                                       NAMES_multiTouchAvailable:[NSNumber numberWithBool:NO],
-                                       NAMES_doublePressAvailable:[NSNumber numberWithBool:NO]} mutableCopy];
+        NSMutableDictionary* dict = [@{NAMES_pressAvailable:@YES,
+                                       NAMES_multiTouchAvailable:@NO,
+                                       NAMES_doublePressAvailable:@NO} mutableCopy];
         SDLTouchEventCapabilities* testStruct = [[SDLTouchEventCapabilities alloc] initWithDictionary:dict];
         
-        expect(testStruct.pressAvailable).to(equal([NSNumber numberWithBool:YES]));
-        expect(testStruct.multiTouchAvailable).to(equal([NSNumber numberWithBool:NO]));
-        expect(testStruct.doublePressAvailable).to(equal([NSNumber numberWithBool:NO]));
+        expect(testStruct.pressAvailable).to(equal(@YES));
+        expect(testStruct.multiTouchAvailable).to(equal(@NO));
+        expect(testStruct.doublePressAvailable).to(equal(@NO));
     });
     
     it(@"Should return nil if not set", ^ {

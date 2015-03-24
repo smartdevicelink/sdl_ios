@@ -27,8 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.alertText3 = @"alert#3";
         testRequest.ttsChunks = [@[tts] mutableCopy];
         testRequest.duration = @4357;
-        testRequest.playTone = [NSNumber numberWithBool:YES];
-        testRequest.progressIndicator = [NSNumber numberWithBool:NO];
+        testRequest.playTone = @YES;
+        testRequest.progressIndicator = @NO;
         testRequest.softButtons = [@[button] mutableCopy];
         
         expect(testRequest.alertText1).to(equal(@"alert#1"));
@@ -36,8 +36,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.alertText3).to(equal(@"alert#3"));
         expect(testRequest.ttsChunks).to(equal([@[tts] mutableCopy]));
         expect(testRequest.duration).to(equal(@4357));
-        expect(testRequest.playTone).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.progressIndicator).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.playTone).to(equal(@YES));
+        expect(testRequest.progressIndicator).to(equal(@NO));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
     });
     
@@ -49,8 +49,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_alertText3:@"alert#3",
                                                    NAMES_ttsChunks:[@[tts] mutableCopy],
                                                    NAMES_duration:@4357,
-                                                   NAMES_playTone:[NSNumber numberWithBool:YES],
-                                                   NAMES_progressIndicator:[NSNumber numberWithBool:NO],
+                                                   NAMES_playTone:@YES,
+                                                   NAMES_progressIndicator:@NO,
                                                    NAMES_softButtons:[@[button] mutableCopy]},
                                              NAMES_operation_name:NAMES_Alert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
@@ -60,8 +60,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.alertText3).to(equal(@"alert#3"));
         expect(testRequest.ttsChunks).to(equal([@[tts] mutableCopy]));
         expect(testRequest.duration).to(equal(@4357));
-        expect(testRequest.playTone).to(equal([NSNumber numberWithBool:YES]));
-        expect(testRequest.progressIndicator).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.playTone).to(equal(@YES));
+        expect(testRequest.progressIndicator).to(equal(@NO));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
     });
     

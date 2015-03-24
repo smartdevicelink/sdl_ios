@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.textFields = [@[textField] mutableCopy];
         testStruct.imageFields = [@[imageField] mutableCopy];
         testStruct.mediaClockFormats = [@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy];
-        testStruct.graphicSupported = [NSNumber numberWithBool:YES];
+        testStruct.graphicSupported = @YES;
         testStruct.templatesAvailable = [@[@"String", @"String", @"String"] mutableCopy];
         testStruct.screenParams = screenParams;
         testStruct.numCustomPresetsAvailable = @43;
@@ -37,7 +37,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.textFields).to(equal([@[textField] mutableCopy]));
         expect(testStruct.imageFields).to(equal([@[imageField] mutableCopy]));
         expect(testStruct.mediaClockFormats).to(equal([@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy]));
-        expect(testStruct.graphicSupported).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.graphicSupported).to(equal(@YES));
         expect(testStruct.templatesAvailable).to(equal([@[@"String", @"String", @"String"] mutableCopy]));
         expect(testStruct.screenParams).to(equal(screenParams));
         expect(testStruct.numCustomPresetsAvailable).to(equal(@43));
@@ -48,7 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        NAMES_textFields:[@[textField] mutableCopy],
                                        NAMES_imageFields:[@[imageField] mutableCopy],
                                        NAMES_mediaClockFormats:[@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy],
-                                       NAMES_graphicSupported:[NSNumber numberWithBool:YES],
+                                       NAMES_graphicSupported:@YES,
                                        NAMES_templatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
                                        NAMES_screenParams:screenParams,
                                        NAMES_numCustomPresetsAvailable:@43} mutableCopy];
@@ -58,7 +58,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.textFields).to(equal([@[textField] mutableCopy]));
         expect(testStruct.imageFields).to(equal([@[imageField] mutableCopy]));
         expect(testStruct.mediaClockFormats).to(equal([@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy]));
-        expect(testStruct.graphicSupported).to(equal([NSNumber numberWithBool:YES]));
+        expect(testStruct.graphicSupported).to(equal(@YES));
         expect(testStruct.templatesAvailable).to(equal([@[@"String", @"String", @"String"] mutableCopy]));
         expect(testStruct.screenParams).to(equal(screenParams));
         expect(testStruct.numCustomPresetsAvailable).to(equal(@43));

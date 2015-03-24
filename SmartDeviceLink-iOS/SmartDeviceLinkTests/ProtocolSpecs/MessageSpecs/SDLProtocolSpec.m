@@ -220,7 +220,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
                 
                 expect(messageReceived.payload).to(equal(jsonTestData));
                 expect([NSNumber numberWithInteger:[messageReceived header].version]).to(equal(@1));
-                expect([NSNumber numberWithBool:[messageReceived header].compressed]).to(equal([NSNumber numberWithBool:NO]));
+                expect([NSNumber numberWithBool:[messageReceived header].compressed]).to(equal(@NO));
                 expect([NSNumber numberWithInteger:[messageReceived header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));
                 expect([NSNumber numberWithInteger:[messageReceived header].sessionID]).to(equal(@0xFF));
                 expect([NSNumber numberWithInteger:[messageReceived header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
@@ -270,7 +270,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
                 
                 expect(messageReceived.payload).to(equal(payloadData));
                 expect([NSNumber numberWithInteger:[messageReceived header].version]).to(equal(@2));
-                expect([NSNumber numberWithBool:[messageReceived header].compressed]).to(equal([NSNumber numberWithBool:NO]));
+                expect([NSNumber numberWithBool:[messageReceived header].compressed]).to(equal(@NO));
                 expect([NSNumber numberWithInteger:[messageReceived header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));
                 expect([NSNumber numberWithInteger:[messageReceived header].sessionID]).to(equal(@0x01));
                 expect([NSNumber numberWithInteger:[messageReceived header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));

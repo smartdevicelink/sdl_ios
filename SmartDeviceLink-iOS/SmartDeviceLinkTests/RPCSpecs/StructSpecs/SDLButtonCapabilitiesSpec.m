@@ -18,27 +18,27 @@ describe(@"Getter/Setter Tests", ^ {
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] init];
         
         testStruct.name = [SDLButtonName TUNEUP];
-        testStruct.shortPressAvailable = [NSNumber numberWithBool:YES];
-        testStruct.longPressAvailable = [NSNumber numberWithBool:YES];
-        testStruct.upDownAvailable = [NSNumber numberWithBool:NO];
+        testStruct.shortPressAvailable = @YES;
+        testStruct.longPressAvailable = @YES;
+        testStruct.upDownAvailable = @NO;
         
         expect(testStruct.name).to(equal([SDLButtonName TUNEUP]));
-        expect(testStruct.shortPressAvailable).to(equal([NSNumber numberWithBool:YES]));
-        expect(testStruct.longPressAvailable).to(equal([NSNumber numberWithBool:YES]));
-        expect(testStruct.upDownAvailable).to(equal([NSNumber numberWithBool:NO]));
+        expect(testStruct.shortPressAvailable).to(equal(@YES));
+        expect(testStruct.longPressAvailable).to(equal(@YES));
+        expect(testStruct.upDownAvailable).to(equal(@NO));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{NAMES_name:[SDLButtonName CUSTOM_BUTTON],
-                                       NAMES_shortPressAvailable:[NSNumber numberWithBool:YES],
-                                       NAMES_longPressAvailable:[NSNumber numberWithBool:YES],
-                                       NAMES_upDownAvailable:[NSNumber numberWithBool:NO]} mutableCopy];
+                                       NAMES_shortPressAvailable:@YES,
+                                       NAMES_longPressAvailable:@YES,
+                                       NAMES_upDownAvailable:@NO} mutableCopy];
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal([SDLButtonName CUSTOM_BUTTON]));
-        expect(testStruct.shortPressAvailable).to(equal([NSNumber numberWithBool:YES]));
-        expect(testStruct.longPressAvailable).to(equal([NSNumber numberWithBool:YES]));
-        expect(testStruct.upDownAvailable).to(equal([NSNumber numberWithBool:NO]));
+        expect(testStruct.shortPressAvailable).to(equal(@YES));
+        expect(testStruct.longPressAvailable).to(equal(@YES));
+        expect(testStruct.upDownAvailable).to(equal(@NO));
     });
     
     it(@"Should return nil if not set", ^ {

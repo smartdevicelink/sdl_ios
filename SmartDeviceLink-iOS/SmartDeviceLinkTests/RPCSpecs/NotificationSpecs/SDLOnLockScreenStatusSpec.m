@@ -19,12 +19,12 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] init];
         
-        testNotification.driverDistractionStatus = [NSNumber numberWithBool:NO];
+        testNotification.driverDistractionStatus = @NO;
         testNotification.userSelected = @3;
         testNotification.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
         testNotification.hmiLevel = [SDLHMILevel HMI_NONE];
         
-        expect(testNotification.driverDistractionStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
         expect(testNotification.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
         expect(testNotification.hmiLevel).to(equal([SDLHMILevel HMI_NONE]));
@@ -33,14 +33,14 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{NAMES_notification:
                                            @{NAMES_parameters:
-                                                 @{@"driverdistractionstatus":[NSNumber numberWithBool:NO],
+                                                 @{@"driverdistractionstatus":@NO,
                                                    @"userselected":@3,
                                                    @"OnLockScreenStatus":[SDLLockScreenStatus REQUIRED],
                                                    @"hmilevel":[SDLHMILevel HMI_NONE]},
                                              NAMES_operation_name:@"OnLockScreenStatus"}} mutableCopy];
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
         
-        expect(testNotification.driverDistractionStatus).to(equal([NSNumber numberWithBool:NO]));
+        expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
         expect(testNotification.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
         expect(testNotification.hmiLevel).to(equal([SDLHMILevel HMI_NONE]));

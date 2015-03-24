@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.ttsName = [@[chunk] mutableCopy];
         testRequest.ngnMediaScreenAppName = @"whatisanngn";
         testRequest.vrSynonyms = [@[@"paraphrase of the original name"] mutableCopy];
-        testRequest.isMediaApplication = [NSNumber numberWithBool:NO];
+        testRequest.isMediaApplication = @NO;
         testRequest.languageDesired = [SDLLanguage NO_NO];
         testRequest.hmiDisplayLanguageDesired = [SDLLanguage PT_PT];
         testRequest.appHMIType = [@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy];
@@ -41,7 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.ttsName).to(equal([@[chunk] mutableCopy]));
         expect(testRequest.ngnMediaScreenAppName).to(equal(@"whatisanngn"));
         expect(testRequest.vrSynonyms).to(equal([@[@"paraphrase of the original name"] mutableCopy]));
-        expect(testRequest.isMediaApplication).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.isMediaApplication).to(equal(@NO));
         expect(testRequest.languageDesired).to(equal([SDLLanguage NO_NO]));
         expect(testRequest.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_PT]));
         expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy]));
@@ -58,7 +58,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_ttsName:[@[chunk] mutableCopy],
                                                    NAMES_ngnMediaScreenAppName:@"whatisanngn",
                                                    NAMES_vrSynonyms:[@[@"paraphrase of the original name"] mutableCopy],
-                                                   NAMES_isMediaApplication:[NSNumber numberWithBool:NO],
+                                                   NAMES_isMediaApplication:@NO,
                                                    NAMES_languageDesired:[SDLLanguage NO_NO],
                                                    NAMES_hmiDisplayLanguageDesired:[SDLLanguage PT_PT],
                                                    NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy],
@@ -73,7 +73,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.ttsName).to(equal([@[chunk] mutableCopy]));
         expect(testRequest.ngnMediaScreenAppName).to(equal(@"whatisanngn"));
         expect(testRequest.vrSynonyms).to(equal([@[@"paraphrase of the original name"] mutableCopy]));
-        expect(testRequest.isMediaApplication).to(equal([NSNumber numberWithBool:NO]));
+        expect(testRequest.isMediaApplication).to(equal(@NO));
         expect(testRequest.languageDesired).to(equal([SDLLanguage NO_NO]));
         expect(testRequest.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_PT]));
         expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy]));
