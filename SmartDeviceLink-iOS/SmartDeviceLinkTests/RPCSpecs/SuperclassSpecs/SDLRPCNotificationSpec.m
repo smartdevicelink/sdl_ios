@@ -10,6 +10,6 @@
 
 #import "SDLRPCNotification.h"
 
-QuickSpecBegin(SDLNotificationSpec)
+QuickSpecBegin(SDLRPCNotificationSpec)
 
 QuickSpecEnd

@@ -82,7 +82,7 @@ describe(@"HandleMessage Tests", ^ {
         [assembler handleMessage:testMessage withCompletionHandler: ^void(BOOL done, SDLProtocolMessage* assembledMessage) {
             verified = YES;
             
-            //At the moment, this test fails because the completion handler is accidentally called twice
+            // FIXME: At the moment, this test fails because the completion handler is accidentally called twice
             expect([NSNumber numberWithBool:done]).to(equal([NSNumber numberWithBool:YES]));
             
             expect(assembledMessage.payload).to(equal(payloadData));
