@@ -73,7 +73,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 	SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
-    header.frameData = SDLFrameData_StartSession;
+    header.frameData = SDLFrameData_EndSession;
     header.sessionID = self.sessionID;
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
