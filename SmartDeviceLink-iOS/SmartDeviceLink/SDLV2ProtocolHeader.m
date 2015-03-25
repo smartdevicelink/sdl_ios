@@ -49,7 +49,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
     newHeader.frameData = self.frameData;
-    newHeader.compressed = self.compressed;
+    newHeader.bytesInPayload = self.bytesInPayload;
     newHeader.sessionID = self.sessionID;
     newHeader.messageID = self.messageID;
 
