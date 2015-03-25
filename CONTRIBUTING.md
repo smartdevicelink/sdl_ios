@@ -11,6 +11,7 @@ If requesting a feature, understand that we appreciate the input! However, it ma
 We use [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) as our branch management system. The main points you should know are:
 
 ### Pull Requests
+* Please follow the [SDL iOS Style Guide](https://github.com/smartdevicelink/SmartDeviceLink-iOS/wiki/Objective-C-Style-Guide)
 * All feature branches should be based on `develop` and have the format `feature/branch_name`.
 * Minor bug fixes, that is bug fixes that do not change, add, or remove any public API, should be based on `master` and have the format `hotfix/branch_name`.
 * All pull requests should involve a single change. Pull Requests that involve multiple changes (it is our discretion what precisely this means) will be rejected with a reason.
