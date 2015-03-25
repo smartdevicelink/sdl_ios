@@ -305,7 +305,7 @@ correlationID{
     SDLPutFile* msg = [[SDLPutFile alloc] init];
     msg.syncFileName = syncFileName;
     
-    msg.fileType = [fileType mutableCopy];
+    msg.fileType = fileType;
     msg.persistentFile = persistentFile;
     msg.correlationID = correlationID;
     
