@@ -751,6 +751,7 @@
 		5D61FE141A84238C00846EE7 /* SDLWiperStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC271A84238C00846EE7 /* SDLWiperStatus.m */; };
 		5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */; };
 		5DB92D261AC4836F00C15BB0 /* SDLJingleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D251AC4836F00C15BB0 /* SDLJingleSpec.m */; };
+		5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1565,6 +1566,7 @@
 		5D61FC271A84238C00846EE7 /* SDLWiperStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWiperStatus.m; sourceTree = "<group>"; };
 		5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLHexUtilitySpec.m; path = UtilitiesSpecs/SDLHexUtilitySpec.m; sourceTree = "<group>"; };
 		5DB92D251AC4836F00C15BB0 /* SDLJingleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLJingleSpec.m; path = UtilitiesSpecs/SDLJingleSpec.m; sourceTree = "<group>"; };
+		5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPrioritizedObjectCollectionSpec.m; path = "UtilitiesSpecs/Prioritized Objects/SDLPrioritizedObjectCollectionSpec.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2777,10 +2779,19 @@
 		5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */,
 				5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */,
 				5DB92D251AC4836F00C15BB0 /* SDLJingleSpec.m */,
 			);
 			name = UtilitiesSpecs;
+			sourceTree = "<group>";
+		};
+		5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */ = {
+			isa = PBXGroup;
+			children = (
+				5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */,
+			);
+			name = "Prioritized Objects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3482,6 +3493,7 @@
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
 				162E83991A9BDE8B00906325 /* SDLEnumSpec.m in Sources */,
 				162E82ED1A9BDE8B00906325 /* SDLMaintenanceModeStatusSpec.m in Sources */,
+				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
 				1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */,
 				162E83181A9BDE8B00906325 /* SDLOnKeyboardInputSpec.m in Sources */,
 				162E83701A9BDE8B00906325 /* SDLUpdateTurnListResponseSpec.m in Sources */,
