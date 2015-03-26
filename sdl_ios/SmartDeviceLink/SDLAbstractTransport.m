@@ -6,6 +6,12 @@
 #import "SDLAbstractTransport.h"
 #import "SDLBaseTransportConfig.h"
 
+@interface SDLAbstractTransport()
+
+@property (nonatomic, getter=isConnected) BOOL connected;
+
+@end
+
 @implementation SDLAbstractTransport
 
 - (instancetype) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) param {
@@ -25,10 +31,12 @@
 }
 
 - (void)notifyTransportConnected {
+    self.connected = YES;
     [self.delegate onTransportConnected];
 }
 
 - (void)notifyTransportDisconnected {
+    self.connected = YES;
     [self.delegate onTransportDisconnected];
 }
 

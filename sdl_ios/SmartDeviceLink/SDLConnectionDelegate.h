@@ -6,19 +6,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLSessionType.h>
+#import "SDLProtocolHeader.h"
 
 @class SDLProtocolMessage;
 
 @protocol SDLConnectionDelegate <NSObject>
 
--(void)onTransportDisconnected;
--(void)onTransportError:(NSError*)error;
--(void)onProtocolMessageReceived:(SDLProtocolMessage*)msg;
--(void)onProtocolSessionStarted:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID;
--(void)onProtocolSessionNACKed:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID;
--(void)onProtocolSessionEnded:(SDLSessionType*)sessionType sessionID:(Byte)sessionID correlationID:(NSString*)correlationID;
--(void)onProtocolError:(NSError*)error;
--(void)onHeartbeatTimedOut:(Byte)sessionID;
+-(void)transportDisconnected;
+-(void)transportError:(NSError*)error;
+-(void)protocolMessageReceived:(SDLProtocolMessage*)msg;
+-(void)protocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID;
+-(void)protocolSessionNACKed:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID;
+-(void)protocolSessionEnded:(SDLServiceType)sessionType sessionID:(Byte)sessionID correlationID:(NSString*)correlationID;
+-(void)protocolErrorWithInfo:(NSString*)info exception:(NSException*)e;
+-(void)heartbeatTimedOut:(Byte)sessionID;
 
 @end

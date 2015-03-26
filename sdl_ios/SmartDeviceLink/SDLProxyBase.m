@@ -14,6 +14,7 @@
 #import "SDLNames.h"
 #import "SDLFunctionID.h"
 #import "SDLJsonEncoder.h"
+#import "SDLJsonDecoder.h"
 #import "SDLRPCMessageType.h"
 #import "SDLProxyMessageDispatcher.h"
 #import "SDLRPCMessage.h"
@@ -24,6 +25,8 @@
 #import "SDLSystemRequestResponse.h"
 #import "SDLHeartbeatMonitor.h"
 
+@import ExternalAccessory;
+
 static int const PROX_PROT_VER_ONE = 1;
 static int const REGISTER_APP_INTERFACE_CORRELATION_ID = 65529;
 static int const UNREGISTER_APP_INTERFACE_CORRELATION_ID = 65530;
@@ -31,7 +34,7 @@ static int const HEARTBEAT_CORRELATION_ID = 65531;
 static int const POLICIES_CORRELATION_ID = 65535;
 static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
-@interface SDLProxyBase() <SDLConnectionDelegate>
+@interface SDLProxyBase() <SDLConnectionDelegate, SDLProtocolListener>
 
 //Flags
 @property (nonatomic, getter=isAdvancedLifecycleManagementEnabled) BOOL advancedLifecycleManagementEnabled;
@@ -158,8 +161,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     _ngnMediaScreenAppName = options.ngnMediaScreenAppName;
     _sdlMsgVersionRequest = options.syncMsgVersion;
     _vrSynonyms = options.vrSynonyms;
-    _sdlLanguageDesired = options.languageDesired;
-    _hmiDisplayLanguageDesired = options.hmiDisplayLanguageDesired;
+    //TODO: Is this ok to default to EN_US?
+    _sdlLanguageDesired = (options.languageDesired) ? options.languageDesired : [SDLLanguage EN_US];
+    _hmiDisplayLanguageDesired = (options.hmiDisplayLanguageDesired) ? options.hmiDisplayLanguageDesired : [SDLLanguage EN_US];
     _appTypes = options.appTypes;
     _autoActivateIdDesired = options.autoActivateID;
     _transportConfig = options.transportConfig ? options.transportConfig : [SDLBaseTransportConfig new];
@@ -225,6 +229,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }];
     
     [self initializeProxy];
+    [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
 
 -(void)initializeProxy{
@@ -291,6 +296,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 -(void)registerAppInterfacePrivate:(SDLSyncMsgVersion*)sdlMsgVersion appName:(NSString*)appName ttsName:(NSArray*)ttsName ngnMediaScreenAppName:(NSString*)ngnMediaScreenAppName vrSynonyms:(NSArray*)vrSynonyms isMediaApp:(NSNumber*)isMediaApp languageDesired:(SDLLanguage*)languageDesired hmiDisplayLanguageDesired:(SDLLanguage*)hmiDisplayLanguageDesired appHMITypes:(NSArray*)appHMITypes appID:(NSString*)appID autoActivateID:(NSString*)autoActivateID correlationID:(NSNumber*)correlationID{
 
     SDLRegisterAppInterface* msg = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:[ttsName mutableCopy] vrSynonyms:[vrSynonyms mutableCopy] isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:hmiDisplayLanguageDesired appID:appID];
+    msg.correlationID = @(REGISTER_APP_INTERFACE_CORRELATION_ID);
     if (_appResumeEnabled) {
         if (_lastHashID) {
             msg.hashID = _lastHashID;
@@ -359,7 +365,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)dispatchIncomingMessage:(SDLProtocolMessage*)message{
+    
     if (message.sessionType == SDLServiceType_RPC) {
+        
         if (self.wiproVersion == 1) {
             if (message.version > 1) {
                 self.wiproVersion = message.version;
@@ -368,25 +376,26 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         
         NSMutableDictionary* rpcDictionary = [NSMutableDictionary new];
         if (self.wiproVersion > 1) {
+            
             NSMutableDictionary* rpcDictionaryTemp = [NSMutableDictionary new];
             rpcDictionaryTemp[NAMES_correlationID] = message.correlationID;
             if ([message size] > 1) {//TODO:Is this the same as Android "jsonSize" implementation?
-                NSDictionary* mDictionary = [message rpcDictionary];
+                NSDictionary* mDictionary = [[SDLJsonDecoder instance] decode:message.payload];
                 rpcDictionaryTemp[NAMES_parameters] = mDictionary;
             }
-            
             NSString* functionName = [[SDLFunctionID new] getFunctionName:[message.functionID intValue]];
             if (functionName) {
                 //TODO:Is this the correct key?
                 rpcDictionaryTemp[NAMES_name] = functionName;
             }
             else{
+                
                 [SDLDebugTool logInfo:[NSString stringWithFormat:@"Dispatch Incoming Message - function name is null unknown RPC. FunctionID: %@", message.functionID]];
                 return;
             }
             
             if (message.rpcType == 0x00) {
-                rpcDictionary[NAMES_request] = rpcDictionaryTemp;
+               rpcDictionary[NAMES_request] = rpcDictionaryTemp;
             }
             else if (message.rpcType == 0x01){
                 rpcDictionary[NAMES_response] = rpcDictionaryTemp;
@@ -589,6 +598,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)sendRPCRequest:(SDLRPCRequest*)request{
+    
     if (self.proxyDisposed) {
         //TODO: Notify proxy with NSError?
         return;
@@ -597,7 +607,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         //TODO:Return NSError?
         //Return BOOL & NSError as parameter? sendRPCRequest:error
     }
-    if (!self.sdlSession || !self.sdlSession.isConnected) {
+    if (!self.sdlSession || ![self.sdlSession isConnected]) {
         //TODO:Return NSError?
         return;
     }
@@ -616,6 +626,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             //TODO:Return Error
         }
     }
+    
     [self sendRPCRequestPrivate:request];
 }
 
@@ -623,14 +634,18 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyError]) {
         SDLOnError* msg = (SDLOnError*)message;
         //TODO: Passing NSException to meeting API, but recommend transition to NSError to meet iOS practices.
-        [self.delegate onError:[NSException exceptionWithName:msg.error.domain reason:[msg.error localizedFailureReason] userInfo:msg.error.userInfo]];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onError:[NSException exceptionWithName:msg.error.domain reason:[msg.error localizedFailureReason] userInfo:msg.error.userInfo]];
+        }
         /**************Start Legacy Specific Call-backs************/
     } else if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyOpened]) {
         if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
             [self.delegate onProxyOpened];            
         }
     } else if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyClosed]) {
-        [self.delegate onProxyClosed];
+        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+            [self.delegate onProxyClosed];
+        }
         /****************End Legacy Specific Call-backs************/
     } else {
         // Diagnostics
@@ -639,6 +654,11 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)sendRPCRequestPrivate:(SDLRPCRequest *)request{
+    
+    [self dispatchOutgoingMessage:request];
+
+    //TODO: The following is needed if we pass a ProtocolMessage istead. Although, SDLRPCRequest already seems cleaner at first glance.
+    /*
     //TODO: Trace logRPCEvent
     
     NSData *msgBytes = [[SDLJsonEncoder instance] encodeDictionary:[request serializeAsDictionary:self.wiproVersion]];
@@ -648,7 +668,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     if (self.sdlSession) {
         pm.sessionID = self.sdlSession.sessionID;
     }
-    pm.messageType = [SDLMessageType RPC];
+    pm.messageType = SDLMessageType_RPC;
     pm.sessionType = SDLServiceType_RPC;
     pm.functionID = [[SDLFunctionID new] getFunctionID:request.getFunctionName];
     if (!request.correlationID) {
@@ -658,13 +678,18 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     pm.correlationID = request.correlationID;
     if (request.bulkData) {
         pm.bulkData = request.bulkData;
+        [self dispatchOutgoingMessage:request];
     }
+    
+    
+    */
     //TODO: This is bypassing a message queue;
-    [self dispatchIncomingMessage:pm];
+    
 //    [self.outgoingProxyMessageDispatcher queueMessage:pm];
 }
 
 -(void)handleRPCMessage:(NSDictionary*)message{
+    
     SDLRPCMessage* rpcMessage = [[SDLRPCMessage alloc] initWithDictionary:[message mutableCopy]];
     NSString* functionName = [rpcMessage getFunctionName];
     NSString* messageType = rpcMessage.messageType;
@@ -676,6 +701,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             if ([response.correlationID intValue] == REGISTER_APP_INTERFACE_CORRELATION_ID
                 && self.advancedLifecycleManagementEnabled
                 && [functionName isEqualToString:NAMES_RegisterAppInterface]) {
+                
                 SDLRegisterAppInterfaceResponse* msg = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:[message mutableCopy]];
                 if ([msg.success boolValue]) {
                     self.appInterfaceRegistered = @(YES);
@@ -726,7 +752,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                     [self notifyProxyClosed];//TODO: match Android comments
                 }
                 
-                if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                if (!_advancedLifecycleManagementEnabled && [self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
                     [self.delegate onRegisterAppInterfaceResponse:msg];
                 }
             }
@@ -754,6 +780,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         }
         
         if ([functionName isEqualToString:NAMES_RegisterAppInterface]) {
+            
             SDLRegisterAppInterfaceResponse* msg = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:[message mutableCopy]];
             if ([msg.success boolValue]) {
                 self.appInterfaceRegistered = @(YES);
@@ -804,7 +831,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                 }
             }
             else{
-                if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
+                if (!_advancedLifecycleManagementEnabled && [self.delegate conformsToProtocol:@protocol(SDLProxyListener)]) {
                     [self.delegate onRegisterAppInterfaceResponse:msg];
                 }
             }
@@ -1043,6 +1070,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
     else if ([messageType isEqualToString:NAMES_notification]){
         if ([functionName isEqualToString:NAMES_OnHMIStatus]) {
+            
             SDLOnHMIStatus* msg = [[SDLOnHMIStatus alloc] initWithDictionary:[message mutableCopy]];
             
             if (self.sdlSession) {
@@ -1233,10 +1261,17 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     sReturn = [[message serializeAsDictionary:self.wiproVersion] description];
     return sReturn;
 }
-     
+
 #pragma mark SDLConnectionDelegate Methods
 
--(void)onProtocolSessionStarted:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID{
+-(void)protocolMessageReceived:(SDLProtocolMessage *)msg{
+    if ((msg.payload && [msg.payload length] > 0) ||
+        (msg.bulkData && [msg.bulkData length] > 0)) {
+        [self queueIncomingMessage:msg];
+    }
+}
+
+-(void)protocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString *)correlationID{
     self.wiproVersion = version;
     
     if (_transportConfig.heartBeatTimeout != NSIntegerMax && version > 2) {
@@ -1245,14 +1280,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         self.sdlSession.heartbeatMonitor = heartbeatMonitor;
     }
     
-    if ([sessionType isEqual:[SDLSessionType RPC]]) {
+    if (sessionType==SDLServiceType_RPC) {
         [self startRPCProtocolSession:sessionID correlationID:correlationID];
     }
-    else if ([sessionType isEqual:[SDLSessionType NAV]]){
+    else if (sessionType==SDLServiceType_Nav){
         [self navServiceStarted];
     }
     else if (_wiproVersion > 1){
-[self startRPCProtocolSession:sessionID correlationID:correlationID];
+        [self startRPCProtocolSession:sessionID correlationID:correlationID];
     }
 }
 
@@ -1264,7 +1299,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 -(void)onTransportError:(NSError*)error{
     //TODO: SDLDebugTool logInfo:error: does not exist.
-    //    SDLDebugTool logInfo:<#(NSString *)#>
+    //    SDLDebugTool logInfo:
     if (self.advancedLifecycleManagementEnabled) {
         [self cycleProxy];
     }
@@ -1278,7 +1313,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)queueIncomingMessage:(SDLProtocolMessage*)message{
-    [self.internalProxyMessageDispatcher queueMessage:message];
+//    [self.internalProxyMessageDispatcher queueMessage:message];
+//    [self dispatchIncomingMessage:message];
+//    [self handleProtocolMessage:message];
+    [self handleRPCMessage:[message rpcDictionary]];
 }
 
 -(void)onProtocolSessionNACKed:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID{
@@ -1316,7 +1354,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     return self.sdlSession.isConnected;
 }
 
--(void)dispatchOutgoingMessage:(SDLProtocolMessage*)message{
+-(void)dispatchOutgoingMessage:(SDLRPCRequest*)message{
     if (self.sdlSession) {
         [self.sdlSession sendMessage:message];
     }
@@ -1344,6 +1382,33 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     SDLOnError* message = [[SDLOnError alloc] initWithError:error];
     
     [self queueIncomingMessage:message];
+}
+
+#pragma mark SDLProtocolListener Delegate Methods
+
+- (void)handleProtocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)version {
+    
+    [SDLDebugTool logInfo:@"SDLProxyBase recieved handleProtocolSessionStarted"];
+    
+    NSAssert(0==1, @"SDLProxyBase recieved handleProtocolSessionStarted");
+    
+    self.wiproVersion = version;
+    
+    if (_transportConfig.heartBeatTimeout != NSIntegerMax && version > 2) {
+        SDLHeartbeatMonitor* heartbeatMonitor = [SDLHeartbeatMonitor new];
+        heartbeatMonitor.interval = _transportConfig.heartBeatTimeout;
+        self.sdlSession.heartbeatMonitor = heartbeatMonitor;
+    }
+    
+    if (sessionType == SDLServiceType_RPC) {
+        [self startRPCProtocolSession:sessionID correlationID:nil];
+    }
+    else if (sessionType ==SDLServiceType_Nav){
+        [self navServiceStarted];
+    }
+    else if (_wiproVersion > 1){
+        [self startRPCProtocolSession:sessionID correlationID:nil];
+    }
 }
 
 @end

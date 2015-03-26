@@ -6,15 +6,8 @@
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
-
-@interface SDLMessageType : SDLEnum
-
-+(SDLMessageType*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
-
-+(SDLMessageType*) UNDEFINED;
-+(SDLMessageType*) BULK;
-+(SDLMessageType*) RPC;
-
-@end
+typedef NS_ENUM(UInt8, SDLMessageType) {
+    SDLMessageType_Undefined,
+    SDLMessageType_BulkData,
+    SDLMessageType_RPC
+};

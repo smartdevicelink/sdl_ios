@@ -7,29 +7,23 @@
 
 #import <Foundation/Foundation.h>
 #import "SDLProtocolMessage.h"
-#import "SDLSessionType.h"
-#import "SDLProtocolHeader.h"
 #import "SDLAbstractTransport.h"
-
-@protocol SDLConnectionDelegate <NSObject>
-
-- (void)transportDisconnected;
-- (void)transportDidFailWithError:(NSString *)info exception:(NSException *)e;
-- (void)protocolMessageDidReceive:(SDLProtocolMessage *)msg;
-- (void)protocolSessionDidNACK:(SDLSessionType *)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationId;
-- (void)protocolSessionDidStart:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationId;
-- (void)protocolSessionDidEnd:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationId;
-- (void)protocolDidFailWithError:(NSString *)info exception:(NSException *)e;
-- (void)heartbeatSessionDidTimeout:(Byte)sessionID;
-
-@end
+#import "SDLConnectionDelegate.h"
+#import "SDLSession.h"
+#import "SDLRPCRequest.h"
 
 @interface SDLConnection : NSObject
 
+-(instancetype)initWithTransportConfig:(SDLBaseTransportConfig*)transportConfig delegate:(id<SDLConnectionDelegate>)delegate;
+
 @property (weak, nonatomic) id<SDLConnectionDelegate> delegate;
 
+-(void)registerSession:(SDLSession*)session;
 -(SDLTransportType)currentTransportType;
 -(NSUInteger)sessionCount;
 -(NSString*)notificationComment;
+//TODO: This is a object mis-match from Android. Android sends a ProtocolMessage. However, SDLProtocol expects a SDLRPCRequest
+-(void)sendMessage:(SDLRPCRequest*)message;
+-(BOOL)isConnected;
 
 @end

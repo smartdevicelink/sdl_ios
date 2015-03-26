@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, SDLTransportType){
 @property (strong, readonly) NSString* endpointParam;
 @property (nonatomic) SDLTransportType transportType;
 @property (strong, nonatomic) NSString* notificationComment;
+@property (nonatomic, getter=isConnected, readonly) BOOL connected;
 
 -(instancetype)initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) endointParam;
 -(instancetype)initWithTransportConfig:(SDLBaseTransportConfig*)transportConfig delegate:(id<SDLTransportDelegate>)delegate;

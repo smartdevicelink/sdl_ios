@@ -84,7 +84,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 // SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-
+    
     NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[rpcRequest serializeAsDictionary:self.version]];
     NSData* messagePayload = nil;
 
@@ -156,7 +156,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     [prioritizedCollection addObject:data withPriority:priority];
 
     dispatch_async(_sendQueue, ^{
-
+        
         NSData *dataToTransmit = nil;
         while(dataToTransmit = (NSData *)[prioritizedCollection nextObject])
         {
@@ -188,6 +188,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 }
 
 - (void)processMessages {
+    
     NSMutableString *logMessage = [[NSMutableString alloc]init];
 
     // Get the version
@@ -259,7 +260,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     if (self.version >= 3) {
         // start hearbeat
     }
-
     [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
 }
 

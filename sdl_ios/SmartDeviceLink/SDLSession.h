@@ -9,13 +9,12 @@
 #import <SmartDeviceLink/SDLConnectionDelegate.h>
 #import <SmartDeviceLink/SDLAbstractTransport.h>
 #import "SDLLockScreenManager.h"
+#import "SDLRPCRequest.h"
 
 @class SDLBaseTransportConfig;
 @class SDLHeartbeatMonitor;
 
 @interface SDLSession : NSObject
-
-@property (nonatomic, getter=isConnected) BOOL connected;
 
 -(void)close;
 
@@ -27,6 +26,7 @@
 -(void)startSession;
 -(NSString*)notificationComment;
 -(SDLTransportType)currentTransportType;
--(void)sendMessage:(SDLProtocolMessage*)message;
+-(void)sendMessage:(SDLRPCRequest*)message;
+-(BOOL)isConnected;
 
 @end

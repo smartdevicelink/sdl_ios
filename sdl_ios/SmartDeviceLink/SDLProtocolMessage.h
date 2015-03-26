@@ -3,9 +3,9 @@
 //  Copyright (c) 2014 Ford Motor Company. All rights reserved.
 
 #import "SDLProtocolHeader.h"
+#import "SDLMessageType.h"
 
 @class SDLSessionType;
-@class SDLMessageType;
 
 @interface SDLProtocolMessage : NSObject
 
@@ -16,7 +16,7 @@
 @property (nonatomic) Byte version;
 @property (nonatomic) Byte rpcType;
 @property (nonatomic) SDLServiceType sessionType;
-@property (strong, nonatomic) SDLMessageType* messageType;
+@property (nonatomic) SDLMessageType messageType;
 @property (strong, nonatomic) NSNumber* functionID;
 @property (strong, nonatomic) NSNumber* correlationID;
 @property (strong, nonatomic) NSData* bulkData;
