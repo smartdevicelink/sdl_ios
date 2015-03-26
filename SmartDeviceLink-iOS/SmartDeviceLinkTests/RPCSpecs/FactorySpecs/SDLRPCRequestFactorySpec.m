@@ -122,7 +122,7 @@ describe(@"BuildAlert Tests", ^ {
             expect(message.alertText1).to(equal(@"11"));
             expect(message.alertText2).to(equal(@"12"));
             expect(message.alertText3).to(equal(@"13"));
-            expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Wat"));
+            expect(((SDLTTSChunk*)[message ttsChunks][0]).text).to(equal(@"Wat"));
             expect(message.duration).to(equal(@3424));
             expect(message.playTone).to(equal(@NO));
             expect(message.progressIndicator).to(beNil());
@@ -135,7 +135,7 @@ describe(@"BuildAlert Tests", ^ {
             expect(message.alertText1).to(equal(@"hgkj"));
             expect(message.alertText2).to(equal(@"bgydhgfc"));
             expect(message.alertText3).to(beNil());
-            expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Say This"));
+            expect(((SDLTTSChunk*)[message ttsChunks][0]).text).to(equal(@"Say This"));
             expect(message.duration).to(equal(@6546));
             expect(message.playTone).to(equal(@YES));
             expect(message.progressIndicator).to(beNil());
@@ -147,7 +147,7 @@ describe(@"BuildAlert Tests", ^ {
             expect(message.alertText1).to(beNil());
             expect(message.alertText2).to(beNil());
             expect(message.alertText3).to(beNil());
-            expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"Surprise"));
+            expect(((SDLTTSChunk*)[message ttsChunks][0]).text).to(equal(@"Surprise"));
             expect(message.duration).to(beNil());
             expect(message.playTone).to(equal(@YES));
             expect(message.progressIndicator).to(beNil());
@@ -316,7 +316,7 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
                                                                  samplingRate:[SDLSamplingRate _44KHZ] maxDuration:@10 bitsPerSample:[SDLBitsPerSample _16_BIT] audioType:[SDLAudioType PCM]
                                                                  muteAudio:@NO correlationID:@2500];
         
-        expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@""));
+        expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@""));
         expect(message.audioPassThruDisplayText1).to(equal(@"Display1"));
         expect(message.audioPassThruDisplayText2).to(equal(@"Display2"));
         expect(message.samplingRate).to(equal([SDLSamplingRate _44KHZ]));
@@ -359,11 +359,11 @@ describe(@"BuildPerformInteraction Tests", ^ {
                                                                    helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:[SDLInteractionMode VR_ONLY]
                                                                    timeout:@5600 vrHelp:vrHelp correlationID:@31564];
             
-            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"Nothing"));
+            expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@"Nothing"));
             expect(message.initialText).to(equal(@"Still Nothing"));
             expect(message.interactionChoiceSetIDList).to(equal(@[@4223, @1337]));
-            expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"A Whole Lot of Nothing"));
-            expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"Time Remaining"));
+            expect(((SDLTTSChunk*)[message helpPrompt][0]).text).to(equal(@"A Whole Lot of Nothing"));
+            expect(((SDLTTSChunk*)[message timeoutPrompt][0]).text).to(equal(@"Time Remaining"));
             expect(message.interactionMode).to(equal([SDLInteractionMode VR_ONLY]));
             expect(message.timeout).to(equal(@5600));
             expect(message.vrHelp).to(equal(vrHelp));
@@ -373,11 +373,11 @@ describe(@"BuildPerformInteraction Tests", ^ {
             message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"A" initialText:@"B" interactionChoiceSetIDList:@[@1, @2, @3, @4] helpPrompt:@"C" timeoutPrompt:@"D"
                                             interactionMode:[SDLInteractionMode BOTH] timeout:@10000 correlationID:@7734];
             
-            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"A"));
+            expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@"A"));
             expect(message.initialText).to(equal(@"B"));
             expect(message.interactionChoiceSetIDList).to(equal(@[@1, @2, @3, @4]));
-            expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"C"));
-            expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"D"));
+            expect(((SDLTTSChunk*)[message helpPrompt][0]).text).to(equal(@"C"));
+            expect(((SDLTTSChunk*)[message timeoutPrompt][0]).text).to(equal(@"D"));
             expect(message.interactionMode).to(equal([SDLInteractionMode BOTH]));
             expect(message.timeout).to(equal(@10000));
             expect(message.vrHelp).to(beNil());
@@ -386,7 +386,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
             
             message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Initializing" initialText:@"Initialized" interactionChoiceSetID:@1456 vrHelp:vrHelp correlationID:@7056704];
             
-            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"Initializing"));
+            expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@"Initializing"));
             expect(message.initialText).to(equal(@"Initialized"));
             expect(message.interactionChoiceSetIDList).to(equal(@[@1456]));
             expect(message.helpPrompt).to(beNil());
@@ -400,7 +400,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
             
             message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"#$%@" initialText:@"!%%&&^$" interactionChoiceSetID:@105503 correlationID:@1454156465];
             
-            expect(((SDLTTSChunk*)[[message initialPrompt] objectAtIndex:0]).text).to(equal(@"#$%@"));
+            expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@"#$%@"));
             expect(message.initialText).to(equal(@"!%%&&^$"));
             expect(message.interactionChoiceSetIDList).to(equal(@[@105503]));
             expect(message.helpPrompt).to(beNil());
@@ -537,8 +537,8 @@ describe(@"BuildSetGlobalProperties Tests", ^ {
         SDLSetGlobalProperties* message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Beyond Help" timeoutText:@"You took too long" vrHelpTitle:@"Voice"
                                                                 vrHelp:help correlationID:@5666666];
         
-        expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"Beyond Help"));
-        expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"You took too long"));
+        expect(((SDLTTSChunk*)[message helpPrompt][0]).text).to(equal(@"Beyond Help"));
+        expect(((SDLTTSChunk*)[message timeoutPrompt][0]).text).to(equal(@"You took too long"));
         expect(message.vrHelpTitle).to(equal(@"Voice"));
         expect(message.vrHelp).to(equal(help));
         expect(message.menuTitle).to(beNil());
@@ -548,8 +548,8 @@ describe(@"BuildSetGlobalProperties Tests", ^ {
         
         message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Helpful" timeoutText:@"Timed Out" correlationID:@10010100];
         
-        expect(((SDLTTSChunk*)[[message helpPrompt] objectAtIndex:0]).text).to(equal(@"Helpful"));
-        expect(((SDLTTSChunk*)[[message timeoutPrompt] objectAtIndex:0]).text).to(equal(@"Timed Out"));
+        expect(((SDLTTSChunk*)[message helpPrompt][0]).text).to(equal(@"Helpful"));
+        expect(((SDLTTSChunk*)[message timeoutPrompt][0]).text).to(equal(@"Timed Out"));
         expect(message.vrHelpTitle).to(beNil());
         expect(message.vrHelp).to(beNil());
         expect(message.menuTitle).to(beNil());
@@ -662,7 +662,7 @@ describe(@"BuildSpeak Tests", ^ {
         NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
         SDLSpeak* message = [SDLRPCRequestFactory buildSpeakWithTTS:@"GREETINGS HUMAN" correlationID:@65];
         
-        expect(((SDLTTSChunk*)[[message ttsChunks] objectAtIndex:0]).text).to(equal(@"GREETINGS HUMAN"));
+        expect(((SDLTTSChunk*)[message ttsChunks][0]).text).to(equal(@"GREETINGS HUMAN"));
         expect(message.correlationID).to(equal(@65));
         
         message = [SDLRPCRequestFactory buildSpeakWithTTSChunks:ttsChunks correlationID:@56];

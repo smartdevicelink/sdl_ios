@@ -34,18 +34,18 @@ beforeSuite(^ {
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should get readonly values correctly", ^ {
-        expect([NSNumber numberWithInteger:testHeader.version]).to(equal(@2));
-        expect([NSNumber numberWithInteger:testHeader.size]).to(equal(@12));
+        expect(@(testHeader.version)).to(equal(@2));
+        expect(@(testHeader.size)).to(equal(@12));
     });
     
     it(@"Should set and get correctly", ^ {
-        expect([NSNumber numberWithBool:testHeader.compressed]).to(equal(@YES));
-        expect([NSNumber numberWithInteger:testHeader.frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Control]));
-        expect([NSNumber numberWithInteger:testHeader.serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
-        expect([NSNumber numberWithInteger:testHeader.frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_StartSession]));
-        expect([NSNumber numberWithInteger:testHeader.sessionID]).to(equal(@0x53));
-        expect([NSNumber numberWithInteger:testHeader.bytesInPayload]).to(equal(@0x1234));
-        expect([NSNumber numberWithInteger:testHeader.messageID]).to(equal(@0x6DAB424F));
+        expect(@(testHeader.compressed)).to(equal(@YES));
+        expect(@(testHeader.frameType)).to(equal(@(SDLFrameType_Control)));
+        expect(@(testHeader.serviceType)).to(equal(@(SDLServiceType_RPC)));
+        expect(@(testHeader.frameData)).to(equal(@(SDLFrameData_StartSession)));
+        expect(@(testHeader.sessionID)).to(equal(@0x53));
+        expect(@(testHeader.bytesInPayload)).to(equal(@0x1234));
+        expect(@(testHeader.messageID)).to(equal(@0x6DAB424F));
     });
 });
 
@@ -53,16 +53,16 @@ describe(@"Copy Tests", ^ {
     it(@"Should copy correctly", ^ {
         SDLV2ProtocolHeader* headerCopy = [testHeader copy];
         
-        expect([NSNumber numberWithInteger:headerCopy.version]).to(equal(@2));
-        expect([NSNumber numberWithInteger:headerCopy.size]).to(equal(@12));
+        expect(@(headerCopy.version)).to(equal(@2));
+        expect(@(headerCopy.size)).to(equal(@12));
         
-        expect([NSNumber numberWithBool:headerCopy.compressed]).to(equal(@YES));
-        expect([NSNumber numberWithInteger:headerCopy.frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Control]));
-        expect([NSNumber numberWithInteger:headerCopy.serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
-        expect([NSNumber numberWithInteger:headerCopy.frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_StartSession]));
-        expect([NSNumber numberWithInteger:headerCopy.sessionID]).to(equal(@0x53));
-        expect([NSNumber numberWithInteger:headerCopy.bytesInPayload]).to(equal(@0x1234));
-        expect([NSNumber numberWithInteger:testHeader.messageID]).to(equal(@0x6DAB424F));
+        expect(@(headerCopy.compressed)).to(equal(@YES));
+        expect(@(headerCopy.frameType)).to(equal(@(SDLFrameType_Control)));
+        expect(@(headerCopy.serviceType)).to(equal(@(SDLServiceType_RPC)));
+        expect(@(headerCopy.frameData)).to(equal(@(SDLFrameData_StartSession)));
+        expect(@(headerCopy.sessionID)).to(equal(@0x53));
+        expect(@(headerCopy.bytesInPayload)).to(equal(@0x1234));
+        expect(@(testHeader.messageID)).to(equal(@0x6DAB424F));
         
         expect(headerCopy).toNot(beIdenticalTo(testHeader));
     });
@@ -80,13 +80,13 @@ describe(@"RPCPayloadWithData Test", ^ {
         
         [constructedHeader parse:testData];
         
-        expect([NSNumber numberWithBool:constructedHeader.compressed]).to(equal(@YES));
-        expect([NSNumber numberWithInteger:constructedHeader.frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Control]));
-        expect([NSNumber numberWithInteger:constructedHeader.serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
-        expect([NSNumber numberWithInteger:constructedHeader.frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_StartSession]));
-        expect([NSNumber numberWithInteger:constructedHeader.sessionID]).to(equal(@0x53));
-        expect([NSNumber numberWithInteger:constructedHeader.bytesInPayload]).to(equal(@0x1234));
-        expect([NSNumber numberWithInteger:testHeader.messageID]).to(equal(@0x6DAB424F));
+        expect(@(constructedHeader.compressed)).to(equal(@YES));
+        expect(@(constructedHeader.frameType)).to(equal(@(SDLFrameType_Control)));
+        expect(@(constructedHeader.serviceType)).to(equal(@(SDLServiceType_RPC)));
+        expect(@(constructedHeader.frameData)).to(equal(@(SDLFrameData_StartSession)));
+        expect(@(constructedHeader.sessionID)).to(equal(@0x53));
+        expect(@(constructedHeader.bytesInPayload)).to(equal(@0x1234));
+        expect(@(testHeader.messageID)).to(equal(@0x6DAB424F));
     });
 });
 

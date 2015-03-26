@@ -49,13 +49,13 @@ describe(@"HandleMessage Tests", ^ {
         SDLMessageAssemblyCompletionHandler incompleteHandler = ^void(BOOL done, SDLProtocolMessage* assembledMessage) {
             verified = YES;
             
-            expect([NSNumber numberWithBool:done]).to(equal(@NO));
+            expect(@(done)).to(equal(@NO));
             expect(assembledMessage).to(beNil());
         };
         
         [assembler handleMessage:testMessage withCompletionHandler:incompleteHandler];
         
-        expect([NSNumber numberWithBool:verified]).to(beTruthy());
+        expect(@(verified)).to(beTruthy());
         verified = NO;
         
         testMessage.header.frameType = SDLFrameType_Consecutive;
@@ -69,7 +69,7 @@ describe(@"HandleMessage Tests", ^ {
             testMessage.payload = [payloadData subdataWithRange:NSMakeRange(offset, 500)];
             [assembler handleMessage:testMessage withCompletionHandler:incompleteHandler];
             
-            expect([NSNumber numberWithBool:verified]).to(beTruthy());
+            expect(@(verified)).to(beTruthy());
             verified = NO;
             
             frameNumber++;
@@ -83,17 +83,17 @@ describe(@"HandleMessage Tests", ^ {
             verified = YES;
             
             // FIXME: At the moment, this test fails because the completion handler is accidentally called twice
-            expect([NSNumber numberWithBool:done]).to(equal(@YES));
+            expect(@(done)).to(equal(@YES));
             
             expect(assembledMessage.payload).to(equal(payloadData));
-            expect([NSNumber numberWithInteger:[assembledMessage header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));
-            expect([NSNumber numberWithInteger:[assembledMessage header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_BulkData]));
-            expect([NSNumber numberWithInteger:[assembledMessage header].frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_SingleFrame]));
-            expect([NSNumber numberWithInteger:[assembledMessage header].sessionID]).to(equal(@0x16));
-            expect([NSNumber numberWithInteger:[assembledMessage header].bytesInPayload]).to(equal([NSNumber numberWithInteger:payloadData.length]));
+            expect(@(assembledMessage.header.frameType)).to(equal(@(SDLFrameType_Single)));
+            expect(@(assembledMessage.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
+            expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+            expect(@(assembledMessage.header.sessionID)).to(equal(@0x16));
+            expect(@(assembledMessage.header.bytesInPayload)).to(equal(@(payloadData.length)));
         }];
         
-        expect([NSNumber numberWithBool:verified]).to(beTruthy());
+        expect(@(verified)).to(beTruthy());
     });
 });
 

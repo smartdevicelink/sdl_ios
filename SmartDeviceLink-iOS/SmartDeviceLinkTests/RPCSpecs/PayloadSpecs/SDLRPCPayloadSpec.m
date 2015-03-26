@@ -46,9 +46,9 @@ beforeSuite(^ {
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        expect([NSNumber numberWithInteger:testPayload.rpcType]).to(equal(@0x01));
-        expect([NSNumber numberWithInteger:testPayload.functionID]).to(equal(@0x06));
-        expect([NSNumber numberWithInteger:testPayload.correlationID]).to(equal(@0x1443));
+        expect(@(testPayload.rpcType)).to(equal(@0x01));
+        expect(@(testPayload.functionID)).to(equal(@0x06));
+        expect(@(testPayload.correlationID)).to(equal(@0x1443));
         expect([NSJSONSerialization JSONObjectWithData:testPayload.jsonData options:0 error:0]).to(equal(dict));
         expect([NSString stringWithUTF8String:[testPayload binaryData].bytes]).to(equal(@"PrimitiveString"));
     });
@@ -64,9 +64,9 @@ describe(@"RPCPayloadWithData Test", ^ {
     it (@"Should convert from byte data correctly", ^ {
         SDLRPCPayload* constructedPayload = [SDLRPCPayload rpcPayloadWithData:testData()];
         
-        expect([NSNumber numberWithInteger:constructedPayload.rpcType]).to(equal(@0x01));
-        expect([NSNumber numberWithInteger:constructedPayload.functionID]).to(equal(@0x06));
-        expect([NSNumber numberWithInteger:constructedPayload.correlationID]).to(equal(@0x1443));
+        expect(@(constructedPayload.rpcType)).to(equal(@0x01));
+        expect(@(constructedPayload.functionID)).to(equal(@0x06));
+        expect(@(constructedPayload.correlationID)).to(equal(@0x1443));
         expect([NSJSONSerialization JSONObjectWithData:constructedPayload.jsonData options:0 error:0]).to(equal(dict));
         expect([NSString stringWithUTF8String:[constructedPayload binaryData].bytes]).to(equal(@"PrimitiveString"));
     });

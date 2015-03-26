@@ -46,29 +46,29 @@ describe(@"Disassemble Tests", ^ {
         
         const char firstPayload[8] = {(payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF, (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, ceil(1.0 * payloadData.length / payloadLength)};
         
-        SDLProtocolMessage* message = [messageList objectAtIndex:0];
+        SDLProtocolMessage* message = messageList[0];
         
         //First frame
         expect(message.payload).to(equal([NSData dataWithBytes:firstPayload length:8]));
         
-        expect([NSNumber numberWithInteger:[message header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_First]));
-        expect([NSNumber numberWithInteger:[message header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_BulkData]));
-        expect([NSNumber numberWithInteger:[message header].frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_FirstFrame]));
-        expect([NSNumber numberWithInteger:[message header].sessionID]).to(equal(@0x84));
-        expect([NSNumber numberWithInteger:[message header].bytesInPayload]).to(equal(@8));
+        expect(@(message.header.frameType)).to(equal(@(SDLFrameType_First)));
+        expect(@(message.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
+        expect(@(message.header.frameData)).to(equal(@(SDLFrameData_FirstFrame)));
+        expect(@(message.header.sessionID)).to(equal(@0x84));
+        expect(@(message.header.bytesInPayload)).to(equal(@8));
         
         NSUInteger offset = 0;
         for (int i = 1; i < messageList.count - 1; i++) {
-            message = [messageList objectAtIndex:i];
+            message = messageList[i];
             
             //Consecutive frames
             expect(message.payload).to(equal([NSData dataWithData:[payloadData subdataWithRange:NSMakeRange(offset, payloadLength)]]));
             
-            expect([NSNumber numberWithInteger:[message header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Consecutive]));
-            expect([NSNumber numberWithInteger:[message header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_BulkData]));
-            expect([NSNumber numberWithInteger:[message header].frameData]).to(equal([NSNumber numberWithInteger:i]));
-            expect([NSNumber numberWithInteger:[message header].sessionID]).to(equal(@0x84));
-            expect([NSNumber numberWithInteger:[message header].bytesInPayload]).to(equal([NSNumber numberWithInteger:payloadLength]));
+            expect(@(message.header.frameType)).to(equal(@(SDLFrameType_Consecutive)));
+            expect(@(message.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
+            expect(@(message.header.frameData)).to(equal(@(i)));
+            expect(@(message.header.sessionID)).to(equal(@0x84));
+            expect(@(message.header.bytesInPayload)).to(equal(@(payloadLength)));
             
             offset += payloadLength;
         }
@@ -80,11 +80,11 @@ describe(@"Disassemble Tests", ^ {
         //Last frame
         expect(message.payload).to(equal([NSData dataWithData:[payloadData subdataWithRange:NSMakeRange(offset, remaining)]]));
         
-        expect([NSNumber numberWithInteger:[message header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Consecutive]));
-        expect([NSNumber numberWithInteger:[message header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_BulkData]));
-        expect([NSNumber numberWithInteger:[message header].frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_ConsecutiveLastFrame]));
-        expect([NSNumber numberWithInteger:[message header].sessionID]).to(equal(@0x84));
-        expect([NSNumber numberWithInteger:[message header].bytesInPayload]).to(equal([NSNumber numberWithInteger:remaining]));
+        expect(@(message.header.frameType)).to(equal(@(SDLFrameType_Consecutive)));
+        expect(@(message.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
+        expect(@(message.header.frameData)).to(equal(@(SDLFrameData_ConsecutiveLastFrame)));
+        expect(@(message.header.sessionID)).to(equal(@0x84));
+        expect(@(message.header.bytesInPayload)).to(equal(@(remaining)));
     });
 });
 

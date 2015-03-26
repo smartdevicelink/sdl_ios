@@ -41,11 +41,11 @@ describe(@"DetermineVersion Tests", ^ {
     it(@"Should return the correct version", ^ {
         const char bytesV1[8] = {0x10 | SDLFrameType_First, SDLServiceType_BulkData, SDLFrameData_StartSessionACK, 0x5E, 0x00, 0x00, 0x00, 0x00};
         NSData* messageV1 = [NSData dataWithBytes:bytesV1 length:8];
-        expect([NSNumber numberWithInteger:[SDLProtocolMessage determineVersion:messageV1]]).to(equal(@1));
+        expect(@([SDLProtocolMessage determineVersion:messageV1])).to(equal(@1));
         
         const char bytesV2[12] = {0x20 | SDLFrameType_First, SDLServiceType_BulkData, SDLFrameData_StartSessionACK, 0x5E, 0x00, 0x00, 0x00, 0x00, 0x44, 0x44, 0x44, 0x44};
         NSData* messageV2 = [NSData dataWithBytes:bytesV2 length:12];
-        expect([NSNumber numberWithInteger:[SDLProtocolMessage determineVersion:messageV2]]).to(equal(@2));
+        expect(@([SDLProtocolMessage determineVersion:messageV2])).to(equal(@2));
     });
 });
 

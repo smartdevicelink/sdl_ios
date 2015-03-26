@@ -45,9 +45,9 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 [invocation getArgument:&sessionID atIndex:3];
                 [invocation getArgument:&version atIndex:4];
                 
-                expect([NSNumber numberWithInteger:serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
-                expect([NSNumber numberWithInteger:sessionID]).to(equal(@0x93));
-                expect([NSNumber numberWithInteger:version]).to(equal(@0x02));
+                expect(@(serviceType)).to(equal(@(SDLServiceType_RPC)));
+                expect(@(sessionID)).to(equal(@0x93));
+                expect(@(version)).to(equal(@0x02));
             }] ignoringNonObjectArgs] handleProtocolSessionStarted:0 sessionID:0 version:0];
             
             SDLProtocolRecievedMessageRouter* router = [[SDLProtocolRecievedMessageRouter alloc] init];
@@ -55,7 +55,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             
             [router handleRecievedMessage:testMessage];
             
-            expect([NSNumber numberWithBool:verified]).to(beTruthy());
+            expect(@(verified)).to(beTruthy());
         });
     });
     
@@ -94,7 +94,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             
             [router handleRecievedMessage:testMessage];
             
-            expect([NSNumber numberWithBool:verified]).to(beTruthy());
+            expect(@(verified)).to(beTruthy());
         });
     });
     
@@ -159,17 +159,17 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 SDLProtocolMessage* assembledMessage = message;
                 
                 expect(assembledMessage.payload).to(equal(payloadData));
-                expect([NSNumber numberWithInteger:[assembledMessage header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));
-                expect([NSNumber numberWithInteger:[assembledMessage header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_BulkData]));
-                expect([NSNumber numberWithInteger:[assembledMessage header].frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_SingleFrame]));
-                expect([NSNumber numberWithInteger:[assembledMessage header].sessionID]).to(equal(@0x33));
-                expect([NSNumber numberWithInteger:[assembledMessage header].bytesInPayload]).to(equal([NSNumber numberWithInteger:payloadData.length]));
+                expect(@(assembledMessage.header.frameType)).to(equal(@(SDLFrameType_Single)));
+                expect(@(assembledMessage.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
+                expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+                expect(@(assembledMessage.header.sessionID)).to(equal(@0x33));
+                expect(@(assembledMessage.header.bytesInPayload)).to(equal(@(payloadData.length)));
             }] onProtocolMessageReceived:[OCMArg any]];
             
             router.delegate = delegateMock;
             [router handleRecievedMessage:testMessage];
             
-            expect([NSNumber numberWithBool:verified]).to(beTruthy());
+            expect(@(verified)).to(beTruthy());
         });
     });
 });

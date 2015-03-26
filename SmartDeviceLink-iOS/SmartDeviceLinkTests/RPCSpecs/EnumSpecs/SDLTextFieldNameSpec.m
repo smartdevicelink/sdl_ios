@@ -119,13 +119,13 @@ describe(@"Value List Tests", ^ {
     
     it(@"Should contain all defined enum values", ^ {
         for (int i = 0; i < definedValues.count; i++) {
-            expect(storedValues).to(contain([definedValues objectAtIndex:i]));
+            expect(storedValues).to(contain(definedValues[i]));
         }
     });
     
     it(@"Should contain only defined enum values", ^ {
         for (int i = 0; i < storedValues.count; i++) {
-            expect(definedValues).to(contain([storedValues objectAtIndex:i]));
+            expect(definedValues).to(contain(storedValues[i]));
         }
     });
 });

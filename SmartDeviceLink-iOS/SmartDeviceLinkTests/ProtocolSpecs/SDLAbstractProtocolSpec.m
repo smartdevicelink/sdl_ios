@@ -30,7 +30,7 @@ describe(@"OnTransportConnected Tests", ^ {
         //OCMVerify([delegateMock onProtocolOpened]);
         
         //Workaround for now
-        expect([NSNumber numberWithBool:verified]).to(beTruthy());
+        expect(@(verified)).to(beTruthy());
     });
 });
 
@@ -50,7 +50,7 @@ describe(@"OnTransportDisconnected Tests", ^ {
         //OCMVerify([delegateMock onProtocolClosed]);
         
         //Workaround for now
-        expect([NSNumber numberWithBool:verified]).to(beTruthy());
+        expect(@(verified)).to(beTruthy());
     });
 });
 

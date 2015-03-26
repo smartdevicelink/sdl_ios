@@ -49,7 +49,7 @@ describe(@"SendStartSession Tests", ^ {
         
         [testProtocol sendStartSessionWithType:SDLServiceType_BulkData];
         
-        expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+        expect(@(verified)).toEventually(beTruthy());
     });
 });
 
@@ -76,7 +76,7 @@ describe(@"SendEndSession Tests", ^ {
             
             [testProtocol sendEndSessionWithType:SDLServiceType_RPC sessionID:0x03];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
     
@@ -102,7 +102,7 @@ describe(@"SendEndSession Tests", ^ {
             
             [testProtocol sendEndSessionWithType:SDLServiceType_RPC sessionID:0x61];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
 });
@@ -143,7 +143,7 @@ describe(@"SendRPCRequest Tests", ^ {
             
             [testProtocol sendRPCRequest:mockRequest];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
     
@@ -188,7 +188,7 @@ describe(@"SendRPCRequest Tests", ^ {
             
             [testProtocol sendRPCRequest:mockRequest];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
 });
@@ -219,13 +219,13 @@ describe(@"HandleBytesFromTransport Tests", ^ {
                 SDLV1ProtocolMessage* messageReceived = message;
                 
                 expect(messageReceived.payload).to(equal(jsonTestData));
-                expect([NSNumber numberWithInteger:[messageReceived header].version]).to(equal(@1));
-                expect([NSNumber numberWithBool:[messageReceived header].compressed]).to(equal(@NO));
-                expect([NSNumber numberWithInteger:[messageReceived header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));
-                expect([NSNumber numberWithInteger:[messageReceived header].sessionID]).to(equal(@0xFF));
-                expect([NSNumber numberWithInteger:[messageReceived header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
-                expect([NSNumber numberWithInteger:[messageReceived header].frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_SingleFrame]));
-                expect([NSNumber numberWithInteger:[messageReceived header].bytesInPayload]).to(equal([NSNumber numberWithInteger:dataLength]));
+                expect(@(messageReceived.header.version)).to(equal(@1));
+                expect(@(messageReceived.header.compressed)).to(equal(@NO));
+                expect(@(messageReceived.header.frameType)).to(equal(@(SDLFrameType_Single)));
+                expect(@(messageReceived.header.sessionID)).to(equal(@0xFF));
+                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
+                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(dataLength)));
             }] handleRecievedMessage:[OCMArg any]];
             
             const char testHeader[8] = {0x10 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0xFF, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
@@ -234,7 +234,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
             
             [testProtocol handleBytesFromTransport:testData];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
     
@@ -269,14 +269,14 @@ describe(@"HandleBytesFromTransport Tests", ^ {
                 SDLV2ProtocolMessage* messageReceived = message;
                 
                 expect(messageReceived.payload).to(equal(payloadData));
-                expect([NSNumber numberWithInteger:[messageReceived header].version]).to(equal(@2));
-                expect([NSNumber numberWithBool:[messageReceived header].compressed]).to(equal(@NO));
-                expect([NSNumber numberWithInteger:[messageReceived header].frameType]).to(equal([NSNumber numberWithInteger:SDLFrameType_Single]));
-                expect([NSNumber numberWithInteger:[messageReceived header].sessionID]).to(equal(@0x01));
-                expect([NSNumber numberWithInteger:[messageReceived header].serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_RPC]));
-                expect([NSNumber numberWithInteger:[messageReceived header].frameData]).to(equal([NSNumber numberWithInteger:SDLFrameData_SingleFrame]));
-                expect([NSNumber numberWithInteger:[messageReceived header].bytesInPayload]).to(equal([NSNumber numberWithInteger:payloadData.length]));
-                expect([NSNumber numberWithInteger:((SDLV2ProtocolHeader*)[messageReceived header]).messageID]).to(equal(@1));
+                expect(@(messageReceived.header.version)).to(equal(@2));
+                expect(@(messageReceived.header.compressed)).to(equal(@NO));
+                expect(@(messageReceived.header.frameType)).to(equal(@(SDLFrameType_Single)));
+                expect(@(messageReceived.header.sessionID)).to(equal(@0x01));
+                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
+                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(payloadData.length)));
+                expect(@(((SDLV2ProtocolHeader*)messageReceived.header).messageID)).to(equal(@1));
                 
             }] handleRecievedMessage:[OCMArg any]];
             testProtocol.transport = routerMock;
@@ -289,7 +289,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
             
             [testProtocol handleBytesFromTransport:testData];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
 });
@@ -317,7 +317,7 @@ describe(@"SendHeartbeat Tests", ^ {
             
             [testProtocol sendHeartbeat];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
     
@@ -343,7 +343,7 @@ describe(@"SendHeartbeat Tests", ^ {
             
             [testProtocol sendHeartbeat];
             
-            expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+            expect(@(verified)).toEventually(beTruthy());
         });
     });
 });
@@ -365,16 +365,16 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
             [invocation getArgument:&sessionID atIndex:3];
             [invocation getArgument:&version atIndex:4];
             
-            expect([NSNumber numberWithInteger:serviceType]).to(equal([NSNumber numberWithInteger:SDLServiceType_BulkData]));
-            expect([NSNumber numberWithInteger:sessionID]).to(equal(@0x44));
-            expect([NSNumber numberWithInteger:version]).to(equal(@0x03));
+            expect(@(serviceType)).to(equal(@(SDLServiceType_BulkData)));
+            expect(@(sessionID)).to(equal(@0x44));
+            expect(@(version)).to(equal(@0x03));
         }] ignoringNonObjectArgs] handleProtocolSessionStarted:0 sessionID:0 version:0];
         
         testProtocol.protocolDelegate = delegateMock;
         
         [testProtocol handleProtocolSessionStarted:SDLServiceType_BulkData sessionID:0x44 version:0x03];
         
-        expect([NSNumber numberWithBool:verified]).to(beTruthy());
+        expect(@(verified)).to(beTruthy());
     });
 });
 
@@ -402,7 +402,7 @@ describe(@"OnProtocolMessageReceived Tests", ^ {
         
         [testProtocol onProtocolMessageReceived:testMessage];
         
-        expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+        expect(@(verified)).toEventually(beTruthy());
     });
 });
 
@@ -421,7 +421,7 @@ describe(@"OnProtocolOpened Tests", ^ {
         
         [testProtocol onProtocolOpened];
         
-        expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+        expect(@(verified)).toEventually(beTruthy());
     });
 });
 
@@ -440,7 +440,7 @@ describe(@"OnProtocolClosed Tests", ^ {
         
         [testProtocol onProtocolClosed];
         
-        expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+        expect(@(verified)).toEventually(beTruthy());
     });
 });
 
@@ -470,7 +470,7 @@ describe(@"OnError Tests", ^ {
         
         [testProtocol onError:@"Nothing actually happened" exception:testException];
         
-        expect([NSNumber numberWithBool:verified]).toEventually(beTruthy());
+        expect(@(verified)).toEventually(beTruthy());
     });
 });
 
