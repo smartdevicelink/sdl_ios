@@ -516,6 +516,9 @@
 		D127A7461A88DF740001300A /* SDLOnError.m in Sources */ = {isa = PBXBuildFile; fileRef = D127A7441A88DF740001300A /* SDLOnError.m */; };
 		D127A7491A88E5440001300A /* SDLMessageType.h in Headers */ = {isa = PBXBuildFile; fileRef = D127A7471A88E5440001300A /* SDLMessageType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D127A74C1A8925460001300A /* SDLVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = D127A74B1A89244E0001300A /* SDLVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D1410AB01AC4543300225A4B /* SDLOnProxyClosed.h in Headers */ = {isa = PBXBuildFile; fileRef = D1410AAE1AC4543300225A4B /* SDLOnProxyClosed.h */; };
+		D1410AB11AC4543300225A4B /* SDLOnProxyClosed.m in Sources */ = {isa = PBXBuildFile; fileRef = D1410AAF1AC4543300225A4B /* SDLOnProxyClosed.m */; };
+		D1410AB41AC454F000225A4B /* SDLDisconnectReason.h in Headers */ = {isa = PBXBuildFile; fileRef = D1410AB21AC454F000225A4B /* SDLDisconnectReason.h */; };
 		D1B014F61AA9EF3000A4AB34 /* SDLProxyALMOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = D1B014F41AA9EF3000A4AB34 /* SDLProxyALMOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D1B014F71AA9EF3000A4AB34 /* SDLProxyALMOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B014F51AA9EF3000A4AB34 /* SDLProxyALMOptions.m */; };
 		D1C1CCB71A7C147D0010B521 /* SDLProxyBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C1CCB51A7C147D0010B521 /* SDLProxyBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1048,6 +1051,9 @@
 		D127A7441A88DF740001300A /* SDLOnError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnError.m; sourceTree = "<group>"; };
 		D127A7471A88E5440001300A /* SDLMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMessageType.h; sourceTree = "<group>"; };
 		D127A74B1A89244E0001300A /* SDLVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLVersion.h; sourceTree = "<group>"; };
+		D1410AAE1AC4543300225A4B /* SDLOnProxyClosed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnProxyClosed.h; sourceTree = "<group>"; };
+		D1410AAF1AC4543300225A4B /* SDLOnProxyClosed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnProxyClosed.m; sourceTree = "<group>"; };
+		D1410AB21AC454F000225A4B /* SDLDisconnectReason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDisconnectReason.h; sourceTree = "<group>"; };
 		D1B014F41AA9EF3000A4AB34 /* SDLProxyALMOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyALMOptions.h; sourceTree = "<group>"; };
 		D1B014F51AA9EF3000A4AB34 /* SDLProxyALMOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyALMOptions.m; sourceTree = "<group>"; };
 		D1C1CCB51A7C147D0010B521 /* SDLProxyBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyBase.h; sourceTree = "<group>"; };
@@ -1166,6 +1172,7 @@
 		59A02E231978FBA0003E8ECF /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
+				D1410AAD1AC4541A00225A4B /* Callbacks */,
 				D1C1CCBD1A7C15FB0010B521 /* SDLProxyALM.h */,
 				D1C1CCBE1A7C15FB0010B521 /* SDLProxyALM.m */,
 				D1B014F41AA9EF3000A4AB34 /* SDLProxyALMOptions.h */,
@@ -1261,6 +1268,7 @@
 				59A02E621978FBA0003E8ECF /* SDLDimension.m */,
 				59A02E631978FBA0003E8ECF /* SDLDisplayType.h */,
 				59A02E641978FBA0003E8ECF /* SDLDisplayType.m */,
+				D1410AB21AC454F000225A4B /* SDLDisconnectReason.h */,
 				59A02E651978FBA0003E8ECF /* SDLDriverDistractionState.h */,
 				59A02E661978FBA0003E8ECF /* SDLDriverDistractionState.m */,
 				59A02E671978FBA0003E8ECF /* SDLECallConfirmationStatus.h */,
@@ -1746,6 +1754,15 @@
 			name = Callbacks;
 			sourceTree = "<group>";
 		};
+		D1410AAD1AC4541A00225A4B /* Callbacks */ = {
+			isa = PBXGroup;
+			children = (
+				D1410AAE1AC4543300225A4B /* SDLOnProxyClosed.h */,
+				D1410AAF1AC4543300225A4B /* SDLOnProxyClosed.m */,
+			);
+			name = Callbacks;
+			sourceTree = "<group>";
+		};
 		D1C2A3161A854070001325FE /* SDLConnection */ = {
 			isa = PBXGroup;
 			children = (
@@ -1882,6 +1899,7 @@
 				D1C2A3301A85444C001325FE /* SDLConnectionState.h in Headers */,
 				59A030251978FBA1003E8ECF /* SDLRPCRequestFactory.h in Headers */,
 				59A0313D1978FBA8003E8ECF /* SDLEncodedSyncPDataResponse.h in Headers */,
+				D1410AB41AC454F000225A4B /* SDLDisconnectReason.h in Headers */,
 				59A030851978FBA2003E8ECF /* SDLRequestType.h in Headers */,
 				59A031951978FBAD003E8ECF /* SDLHMIPermissions.h in Headers */,
 				59A02FF41978FBA1003E8ECF /* SDLSiphonServer.h in Headers */,
@@ -1971,6 +1989,7 @@
 				59A0319B1978FBAD003E8ECF /* SDLImageResolution.h in Headers */,
 				59A031BF1978FBB0003E8ECF /* SDLTurn.h in Headers */,
 				59A030D11978FBA4003E8ECF /* SDLOnSystemRequest.h in Headers */,
+				D1410AB01AC4543300225A4B /* SDLOnProxyClosed.h in Headers */,
 				59A030141978FBA1003E8ECF /* SDLFunctionID.h in Headers */,
 				59A030A91978FBA3003E8ECF /* SDLVehicleDataNotificationStatus.h in Headers */,
 				59A0304F1978FBA1003E8ECF /* SDLDriverDistractionState.h in Headers */,
@@ -2340,6 +2359,7 @@
 				59A030D61978FBA4003E8ECF /* SDLOnTouchEvent.m in Sources */,
 				59A031801978FBAB003E8ECF /* SDLButtonCapabilities.m in Sources */,
 				59A031861978FBAC003E8ECF /* SDLDeviceInfo.m in Sources */,
+				D1410AB11AC4543300225A4B /* SDLOnProxyClosed.m in Sources */,
 				59A030011978FBA1003E8ECF /* SDLProtocolMessageDisassembler.m in Sources */,
 				59A031341978FBA7003E8ECF /* SDLDeleteCommandResponse.m in Sources */,
 				59A030961978FBA2003E8ECF /* SDLSystemContext.m in Sources */,
@@ -2429,6 +2449,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "SmartDeviceLink/SmartDeviceLink-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
 				PRODUCT_NAME = SmartDeviceLink;
@@ -2452,6 +2473,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "SmartDeviceLink/SmartDeviceLink-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
 				PRODUCT_NAME = SmartDeviceLink;

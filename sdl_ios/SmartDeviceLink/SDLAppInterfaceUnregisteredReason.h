@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SmartDeviceLink/SDLEnum.h>
+#import "SDLDisconnectReason.h"
 
 @interface SDLAppInterfaceUnregisteredReason : SDLEnum {}
 
@@ -20,5 +21,7 @@
 +(SDLAppInterfaceUnregisteredReason*) MASTER_RESET;
 +(SDLAppInterfaceUnregisteredReason*) FACTORY_DEFAULTS;
 +(SDLAppInterfaceUnregisteredReason*) APP_UNAUTHORIZED;
+
+-(SDLDisconnectReason)disconnectReasonFromUnregisteredReason:(SDLAppInterfaceUnregisteredReason*)reason;
 
 @end

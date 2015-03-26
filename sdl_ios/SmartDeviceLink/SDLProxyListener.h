@@ -29,6 +29,7 @@
 #import <SmartDeviceLink/SDLOnEncodedSyncPData.h>
 #import <SmartDeviceLink/SDLOnHashChange.h>
 #import <SmartDeviceLink/SDLOnHMIStatus.h>
+#import <SmartDeviceLink/SDLOnKeyboardInput.h>
 #import <SmartDeviceLink/SDLOnLanguageChange.h>
 #import <SmartDeviceLink/SDLOnPermissionsChange.h>
 #import <SmartDeviceLink/SDLOnSyncPData.h>
@@ -55,6 +56,7 @@
 #import <SmartDeviceLink/SDLSubscribeButtonResponse.h>
 #import <SmartDeviceLink/SDLSubscribeVehicleDataResponse.h>
 #import <SmartDeviceLink/SDLSyncPDataResponse.h>
+#import <SmartDeviceLink/SDLSystemRequestResponse.h>
 #import <SmartDeviceLink/SDLUpdateTurnListResponse.h>
 #import <SmartDeviceLink/SDLUnregisterAppInterfaceResponse.h>
 #import <SmartDeviceLink/SDLUnsubscribeButtonResponse.h>
@@ -79,7 +81,7 @@
 -(void) onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse*) response;
 -(void) onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse*) response;
 -(void) onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse*) response;
--(void) onEncodedSyncPDataRespons:(SDLEncodedSyncPDataResponse*) response;
+-(void) onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse*) response;
 -(void) onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse*) response;
 -(void) onError:(NSException*) e;
 -(void) onGenericResponse:(SDLGenericResponse*) response;
@@ -93,6 +95,7 @@
 -(void) onOnCommand:(SDLOnCommand*) notification;
 -(void) onOnEncodedSyncPData:(SDLOnEncodedSyncPData*) notification;
 -(void) onOnHashChange:(SDLOnHashChange*) notification;
+-(void) onOnKeyboardInput:(SDLOnKeyboardInput*) notification;
 -(void) onOnLanguageChange:(SDLOnLanguageChange*) notification;
 -(void) onOnLockScreenNotification:(SDLLockScreenStatus*) notification;
 -(void) onOnPermissionsChange:(SDLOnPermissionsChange*) notification;
@@ -119,6 +122,7 @@
 -(void) onSubscribeButtonResponse:(SDLSubscribeButtonResponse*) response;
 -(void) onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse*) response;
 -(void) onSyncPDataResponse:(SDLSyncPDataResponse*) response;
+-(void) onSystemRequestResponse:(SDLSystemRequestResponse*) response;
 -(void) onUpdateTurnListResponse:(SDLUpdateTurnListResponse*) response;
 -(void) onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse*) response;
 -(void) onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse*) response;

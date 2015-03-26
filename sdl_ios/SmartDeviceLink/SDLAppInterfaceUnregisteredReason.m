@@ -116,4 +116,12 @@ NSMutableArray* SDLAppInterfaceUnregisteredReason_values = nil;
     return SDLAppInterfaceUnregisteredReason_APP_UNAUTHORIZED;
 }
 
+-(SDLDisconnectReason)disconnectReasonFromUnregisteredReason:(SDLAppInterfaceUnregisteredReason*)reason{
+//TODO: Implement
+    //    if ([reason isEqual:SDLAppInterfaceUnregisteredReason_APP_UNAUTHORIZED]) {
+//        return SDLDisconnectReasonAppInterfaceUnregistered;
+//    }
+        return SDLDisconnectReasonAppInterfaceUnregistered;
+}
+
 @end
