@@ -1046,7 +1046,6 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         }
         else{
             NSLog(@"send to url");
-            
             if (msg.url) {
                 [self sendOnSystemRequestToUrl:msg];
             }
