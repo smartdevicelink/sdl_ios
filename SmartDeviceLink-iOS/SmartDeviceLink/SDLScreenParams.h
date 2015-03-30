@@ -10,8 +10,8 @@
 
 @interface SDLScreenParams : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLImageResolution* resolution;
 @property(strong) SDLTouchEventCapabilities* touchEventAvailable;

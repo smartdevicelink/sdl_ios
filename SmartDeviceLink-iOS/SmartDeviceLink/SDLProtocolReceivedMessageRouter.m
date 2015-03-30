@@ -25,7 +25,7 @@
 
 @implementation SDLProtocolReceivedMessageRouter
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
         self.messageAssemblers = [NSMutableDictionary dictionaryWithCapacity:2];
 	}

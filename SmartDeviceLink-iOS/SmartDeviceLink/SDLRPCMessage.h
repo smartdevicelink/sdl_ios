@@ -5,15 +5,14 @@
 
 #import "SDLRPCStruct.h"
 
-
 @interface SDLRPCMessage : SDLRPCStruct {
 	NSMutableDictionary* function;
 	NSMutableDictionary* parameters;
 	NSString* messageType;
 }
 
--(id) initWithName:(NSString*) name;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithName:(NSString*) name;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 -(NSString*) getFunctionName;
 -(void) setFunctionName:(NSString*) functionName;
 -(NSObject*) getParameters:(NSString*) functionName;

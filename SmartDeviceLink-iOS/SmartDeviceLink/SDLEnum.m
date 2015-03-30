@@ -8,7 +8,7 @@
 
 @synthesize value;
 
--(id) initWithValue:(NSString*) aValue {
+-(instancetype) initWithValue:(NSString*) aValue {
 	if (self = [super init]) {
 		value = aValue;
 	}

@@ -79,12 +79,12 @@
 /**
  * @abstract Constructs a new SDLSpeak object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSpeak object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A Vector<TTSChunk> representing an array of 1-100 TTSChunk structs

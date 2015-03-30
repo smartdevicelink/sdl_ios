@@ -12,8 +12,8 @@
  */
 @interface SDLGetDTCsResponse : SDLRPCResponse {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSNumber* ecuHeader;
 @property(strong) NSMutableArray* dtc;

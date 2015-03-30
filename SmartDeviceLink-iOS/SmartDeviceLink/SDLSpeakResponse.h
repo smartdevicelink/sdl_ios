@@ -15,13 +15,13 @@
 /**
  * @abstract Constructs a new SDLSpeakResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSpeakResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @end
 

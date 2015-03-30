@@ -14,11 +14,11 @@
 /**
  * @abstract Constructs a new SDLPutFileResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLPutFileResponse object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 @property(strong) NSNumber* spaceAvailable;
 @end

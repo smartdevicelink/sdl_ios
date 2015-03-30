@@ -55,7 +55,7 @@
 
 }
 
-- (id)nextObject
+- (instancetype)nextObject
 {
     if (privateArray.count == 0) {
         return nil;

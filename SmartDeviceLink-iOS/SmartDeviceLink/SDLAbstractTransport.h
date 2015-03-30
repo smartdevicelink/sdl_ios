@@ -12,7 +12,7 @@
 @property (strong, readonly) NSString* endpointName;
 @property (strong, readonly) NSString* endpointParam;
 
-- (id) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) endointParam;
+- (instancetype) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) endointParam;
 
 - (void)notifyTransportConnected;
 - (void)notifyTransportDisconnected;

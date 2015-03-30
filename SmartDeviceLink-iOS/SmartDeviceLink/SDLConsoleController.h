@@ -15,7 +15,7 @@
 
 @property (strong, readonly) NSMutableArray *messageList;
 
--(id) initWithTableView:(UITableView*) tableView;
+-(instancetype) initWithTableView:(UITableView*) tableView;
 
 
 @end

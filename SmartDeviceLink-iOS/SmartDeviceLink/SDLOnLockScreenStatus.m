@@ -10,14 +10,14 @@
 
 @implementation SDLOnLockScreenStatus
 
-- (id)init {
+- (instancetype)init {
     if (self = [super initWithName:@"OnLockScreenStatus"]) {
 
     }
     return self;
 }
 
-- (id)initWithDictionary:(NSMutableDictionary*) dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {
 
     }
