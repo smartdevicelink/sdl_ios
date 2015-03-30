@@ -21,7 +21,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     Byte headerBytes[V1PROTOCOL_HEADERSIZE] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = self.compressed?1:0 << 3; // next 1 bit
+    Byte compressed = (self.compressed?1:0) << 3; // next 1 bit
     Byte frameType = (self.frameType & 0x7); // last 3 bits
 
     headerBytes[0] = version | compressed | frameType;
@@ -46,7 +46,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
     newHeader.frameData = self.frameData;
-    newHeader.compressed = self.compressed;
+    newHeader.bytesInPayload = self.bytesInPayload;
     newHeader.sessionID = self.sessionID;
 
     return newHeader;

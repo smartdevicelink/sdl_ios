@@ -31,9 +31,7 @@
         return;
     }
 
-    SDLObjectWithPriority *newWrapper = [SDLObjectWithPriority new];
-    newWrapper.object = object;
-    newWrapper.priority = priority;
+    SDLObjectWithPriority *newWrapper = [SDLObjectWithPriority objectWithObject:object priority:priority];
 
     @synchronized(privateArray)
     {

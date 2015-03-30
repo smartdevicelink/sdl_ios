@@ -51,7 +51,7 @@
 
 - (SDLHMILevel *)hmiLevel {
     NSObject* obj = [parameters objectForKey:@"hmilevel"];
-    if ([obj isKindOfClass:SDLLockScreenStatus.class]) {
+    if ([obj isKindOfClass:SDLHMILevel.class]) {
         return (SDLHMILevel *)obj;
     } else {
         return [SDLHMILevel valueOf:(NSString*)obj];

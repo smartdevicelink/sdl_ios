@@ -83,13 +83,12 @@
         // Done with this data, release it.
         self.parts = nil;
 
+    } else {
+        // Not done, let caller know
+        if (completionHandler != nil) {
+            completionHandler(NO, nil);
+        }
     }
-
-    // Not done, let caller know
-    if (completionHandler != nil) {
-        completionHandler(NO, nil);
-    }
-
 }
 
 @end

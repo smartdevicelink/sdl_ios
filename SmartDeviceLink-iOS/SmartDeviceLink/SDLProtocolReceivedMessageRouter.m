@@ -1,18 +1,18 @@
-//  SDLProtocolRecievedMessageRouter.m
+//  SDLProtocolReceivedMessageRouter.m
 //
 
 //
-//  This class gets handed the SDLProtocol messages as they are recieved
+//  This class gets handed the SDLProtocol messages as they are received
 //  and decides what happens to them and where they are sent on to.
 
-#import "SDLProtocolRecievedMessageRouter.h"
+#import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageAssembler.h"
 #import "SDLDebugTool.h"
 
 
 
-@interface SDLProtocolRecievedMessageRouter ()
+@interface SDLProtocolReceivedMessageRouter ()
 
 @property (strong) NSMutableDictionary *messageAssemblers;
 
@@ -23,7 +23,7 @@
 @end
 
 
-@implementation SDLProtocolRecievedMessageRouter
+@implementation SDLProtocolReceivedMessageRouter
 
 - (instancetype)init {
 	if (self = [super init]) {
@@ -32,7 +32,7 @@
 	return self;
 }
 
-- (void)handleRecievedMessage:(SDLProtocolMessage *)message {
+- (void)handleReceivedMessage:(SDLProtocolMessage *)message {
 
     SDLFrameType frameType = message.header.frameType;
 
