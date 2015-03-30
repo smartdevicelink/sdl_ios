@@ -23,9 +23,9 @@ NSMutableArray* SDLRPCMessageType_values = nil;
 +(NSMutableArray*) values {
     if (SDLRPCMessageType_values == nil) {
         SDLRPCMessageType_values = [[NSMutableArray alloc] initWithObjects:
-                SDLRPCMessageType_request,
-                SDLRPCMessageType_response,
-                SDLRPCMessageType_notification,
+                [SDLRPCMessageType request],
+                [SDLRPCMessageType response],
+                [SDLRPCMessageType notification],
                 nil];
     }
     return SDLRPCMessageType_values;
