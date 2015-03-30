@@ -244,6 +244,7 @@ correlationID{
     msg.bitsPerSample = bitsPerSample;
     msg.audioType = audioType;
     msg.muteAudio = muteAudio;
+    msg.correlationID = correlationID;
     
     return msg;
 }
