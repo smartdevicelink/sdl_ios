@@ -1,12 +1,12 @@
-//  SDLVrHelpItem.m
+//  SDLVRHelpItem.m
 //
 
 
-#import "SDLVrHelpItem.h"
+#import "SDLVRHelpItem.h"
 
 #import "SDLNames.h"
 
-@implementation SDLVrHelpItem
+@implementation SDLVRHelpItem
 
 -(id) init {
     if (self = [super init]) {}

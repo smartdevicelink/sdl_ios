@@ -1,4 +1,4 @@
-//  SDLVrHelpItem.h
+//  SDLVRHelpItem.h
 //
 
 
@@ -7,7 +7,7 @@
 
 #import "SDLImage.h"
 
-@interface SDLVrHelpItem : SDLRPCStruct {}
+@interface SDLVRHelpItem : SDLRPCStruct {}
 
 -(id) init;
 -(id) initWithDictionary:(NSMutableDictionary*) dict;

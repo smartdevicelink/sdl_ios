@@ -510,10 +510,10 @@
 		5D61FE0A1A84238C00846EE7 /* SDLVehicleDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC1D1A84238C00846EE7 /* SDLVehicleDataType.m */; };
 		5D61FE0B1A84238C00846EE7 /* SDLVehicleType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC1E1A84238C00846EE7 /* SDLVehicleType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FE0C1A84238C00846EE7 /* SDLVehicleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */; };
-		5D61FE0D1A84238C00846EE7 /* SDLVrCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC201A84238C00846EE7 /* SDLVrCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D61FE0E1A84238C00846EE7 /* SDLVrCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC211A84238C00846EE7 /* SDLVrCapabilities.m */; };
-		5D61FE0F1A84238C00846EE7 /* SDLVrHelpItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D61FE101A84238C00846EE7 /* SDLVrHelpItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */; };
+		5D61FE0D1A84238C00846EE7 /* SDLVRCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC201A84238C00846EE7 /* SDLVRCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D61FE0E1A84238C00846EE7 /* SDLVRCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC211A84238C00846EE7 /* SDLVRCapabilities.m */; };
+		5D61FE0F1A84238C00846EE7 /* SDLVRHelpItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC221A84238C00846EE7 /* SDLVRHelpItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D61FE101A84238C00846EE7 /* SDLVRHelpItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC231A84238C00846EE7 /* SDLVRHelpItem.m */; };
 		5D61FE111A84238C00846EE7 /* SDLWarningLightStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC241A84238C00846EE7 /* SDLWarningLightStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FE121A84238C00846EE7 /* SDLWarningLightStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC251A84238C00846EE7 /* SDLWarningLightStatus.m */; };
 		5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC261A84238C00846EE7 /* SDLWiperStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1075,10 +1075,10 @@
 		5D61FC1D1A84238C00846EE7 /* SDLVehicleDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVehicleDataType.m; sourceTree = "<group>"; };
 		5D61FC1E1A84238C00846EE7 /* SDLVehicleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVehicleType.h; sourceTree = "<group>"; };
 		5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVehicleType.m; sourceTree = "<group>"; };
-		5D61FC201A84238C00846EE7 /* SDLVrCapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVrCapabilities.h; sourceTree = "<group>"; };
-		5D61FC211A84238C00846EE7 /* SDLVrCapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVrCapabilities.m; sourceTree = "<group>"; };
-		5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVrHelpItem.h; sourceTree = "<group>"; };
-		5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVrHelpItem.m; sourceTree = "<group>"; };
+		5D61FC201A84238C00846EE7 /* SDLVRCapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVRCapabilities.h; sourceTree = "<group>"; };
+		5D61FC211A84238C00846EE7 /* SDLVRCapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVRCapabilities.m; sourceTree = "<group>"; };
+		5D61FC221A84238C00846EE7 /* SDLVRHelpItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVRHelpItem.h; sourceTree = "<group>"; };
+		5D61FC231A84238C00846EE7 /* SDLVRHelpItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVRHelpItem.m; sourceTree = "<group>"; };
 		5D61FC241A84238C00846EE7 /* SDLWarningLightStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWarningLightStatus.h; sourceTree = "<group>"; };
 		5D61FC251A84238C00846EE7 /* SDLWarningLightStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWarningLightStatus.m; sourceTree = "<group>"; };
 		5D61FC261A84238C00846EE7 /* SDLWiperStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWiperStatus.h; sourceTree = "<group>"; };
@@ -1553,8 +1553,8 @@
 				5D61FC171A84238C00846EE7 /* SDLVehicleDataResult.m */,
 				5D61FC1E1A84238C00846EE7 /* SDLVehicleType.h */,
 				5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */,
-				5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */,
-				5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */,
+				5D61FC221A84238C00846EE7 /* SDLVRHelpItem.h */,
+				5D61FC231A84238C00846EE7 /* SDLVRHelpItem.m */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -1692,8 +1692,8 @@
 				5D61FC1B1A84238C00846EE7 /* SDLVehicleDataStatus.m */,
 				5D61FC1C1A84238C00846EE7 /* SDLVehicleDataType.h */,
 				5D61FC1D1A84238C00846EE7 /* SDLVehicleDataType.m */,
-				5D61FC201A84238C00846EE7 /* SDLVrCapabilities.h */,
-				5D61FC211A84238C00846EE7 /* SDLVrCapabilities.m */,
+				5D61FC201A84238C00846EE7 /* SDLVRCapabilities.h */,
+				5D61FC211A84238C00846EE7 /* SDLVRCapabilities.m */,
 				5D61FC241A84238C00846EE7 /* SDLWarningLightStatus.h */,
 				5D61FC251A84238C00846EE7 /* SDLWarningLightStatus.m */,
 				5D61FC261A84238C00846EE7 /* SDLWiperStatus.h */,
@@ -1950,7 +1950,7 @@
 				5D61FD291A84238C00846EE7 /* SDLPerformInteraction.h in Headers */,
 				5D61FD521A84238C00846EE7 /* SDLProxyFactory.h in Headers */,
 				5D61FCDA1A84238C00846EE7 /* SDLJingle.h in Headers */,
-				5D61FE0D1A84238C00846EE7 /* SDLVrCapabilities.h in Headers */,
+				5D61FE0D1A84238C00846EE7 /* SDLVRCapabilities.h in Headers */,
 				5D61FC531A84238C00846EE7 /* SDLButtonEventMode.h in Headers */,
 				5D61FC781A84238C00846EE7 /* SDLDeleteFileResponse.h in Headers */,
 				5D61FC5F1A84238C00846EE7 /* SDLCharacterSet.h in Headers */,
@@ -2103,7 +2103,7 @@
 				5D61FCD11A84238C00846EE7 /* SDLImageFieldName.h in Headers */,
 				5D61FD391A84238C00846EE7 /* SDLPrerecordedSpeech.h in Headers */,
 				5D61FC671A84238C00846EE7 /* SDLComponentVolumeStatus.h in Headers */,
-				5D61FE0F1A84238C00846EE7 /* SDLVrHelpItem.h in Headers */,
+				5D61FE0F1A84238C00846EE7 /* SDLVRHelpItem.h in Headers */,
 				5D61FC721A84238C00846EE7 /* SDLDeleteCommand.h in Headers */,
 				5D61FC821A84238C00846EE7 /* SDLDeviceInfo.h in Headers */,
 				5D61FCA91A84238C00846EE7 /* SDLFileType.h in Headers */,
@@ -2398,7 +2398,7 @@
 				5D61FDE61A84238C00846EE7 /* SDLUnregisterAppInterfaceResponse.m in Sources */,
 				5D61FC481A84238C00846EE7 /* SDLAudioStreamingState.m in Sources */,
 				5D61FCC81A84238C00846EE7 /* SDLIAPTransport.m in Sources */,
-				5D61FE101A84238C00846EE7 /* SDLVrHelpItem.m in Sources */,
+				5D61FE101A84238C00846EE7 /* SDLVRHelpItem.m in Sources */,
 				5D61FCC01A84238C00846EE7 /* SDLHexUtility.m in Sources */,
 				5D61FD821A84238C00846EE7 /* SDLSetAppIconResponse.m in Sources */,
 				5D61FDF81A84238C00846EE7 /* SDLV1ProtocolMessage.m in Sources */,
@@ -2571,7 +2571,7 @@
 				5D61FD401A84238C00846EE7 /* SDLPrioritizedObjectCollection.m in Sources */,
 				5D61FD741A84238C00846EE7 /* SDLRPCRequestFactory.m in Sources */,
 				5D61FDC61A84238C00846EE7 /* SDLTCPTransport.m in Sources */,
-				5D61FE0E1A84238C00846EE7 /* SDLVrCapabilities.m in Sources */,
+				5D61FE0E1A84238C00846EE7 /* SDLVRCapabilities.m in Sources */,
 				5D61FD6C1A84238C00846EE7 /* SDLRPCMessageType.m in Sources */,
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,

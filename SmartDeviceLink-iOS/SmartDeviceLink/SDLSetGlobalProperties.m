@@ -6,7 +6,7 @@
 
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
-#import "SDLVrHelpItem.h"
+#import "SDLVRHelpItem.h"
 
 @implementation SDLSetGlobalProperties
 
@@ -84,12 +84,12 @@
 
 -(NSMutableArray*) vrHelp {
     NSMutableArray* array = [parameters objectForKey:NAMES_vrHelp];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVrHelpItem.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary* dict in array) {
-            [newList addObject:[[SDLVrHelpItem alloc] initWithDictionary:(NSMutableDictionary*)dict]];
+            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSMutableDictionary*)dict]];
         }
         return newList;
     }

@@ -10,7 +10,7 @@
 #import "SDLHmiZoneCapabilities.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLPrerecordedSpeech.h"
-#import "SDLVrCapabilities.h"
+#import "SDLVRCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
 
 @implementation SDLRegisterAppInterfaceResponse
@@ -225,12 +225,12 @@
 
 -(NSMutableArray*) vrCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_vrCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVrCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLVrCapabilities valueOf:enumString]];
+            [newList addObject:[SDLVRCapabilities valueOf:enumString]];
         }
         return newList;
     }

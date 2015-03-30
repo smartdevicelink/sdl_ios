@@ -200,7 +200,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTurn.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
-#import "SDLVrHelpItem.h"
+#import "SDLVRHelpItem.h"
 
 // Enums
 #import "SDLAmbientLightStatus.h"
@@ -268,6 +268,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataStatus.h"
 #import "SDLVehicleDataType.h"
-#import "SDLVrCapabilities.h"
+#import "SDLVRCapabilities.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"
