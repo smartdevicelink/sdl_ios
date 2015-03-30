@@ -1,20 +1,10 @@
 //  SDLRPCMessage.h
 //
 
-
-
 #import "SDLEnum.h"
 
-@interface SDLRPCStruct : NSObject {
-	NSMutableDictionary* store;
-}
+#import "SDLRPCStruct.h"
 
--(id) initWithDictionary:(NSMutableDictionary*) dict;
--(id) init;
-
--(NSMutableDictionary*) serializeAsDictionary:(Byte) version;
-
-@end
 
 @interface SDLRPCMessage : SDLRPCStruct {
 	NSMutableDictionary* function;

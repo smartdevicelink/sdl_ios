@@ -519,6 +519,8 @@
 		5D61FE121A84238C00846EE7 /* SDLWarningLightStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC251A84238C00846EE7 /* SDLWarningLightStatus.m */; };
 		5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FC261A84238C00846EE7 /* SDLWiperStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FE141A84238C00846EE7 /* SDLWiperStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC271A84238C00846EE7 /* SDLWiperStatus.m */; };
+		5D6C01511AB229B800A0845E /* SDLRPCStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D6C014F1AB229B800A0845E /* SDLRPCStruct.h */; };
+		5D6C01521AB229B800A0845E /* SDLRPCStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6C01501AB229B800A0845E /* SDLRPCStruct.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1083,6 +1085,8 @@
 		5D61FC251A84238C00846EE7 /* SDLWarningLightStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWarningLightStatus.m; sourceTree = "<group>"; };
 		5D61FC261A84238C00846EE7 /* SDLWiperStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWiperStatus.h; sourceTree = "<group>"; };
 		5D61FC271A84238C00846EE7 /* SDLWiperStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWiperStatus.m; sourceTree = "<group>"; };
+		5D6C014F1AB229B800A0845E /* SDLRPCStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCStruct.h; sourceTree = "<group>"; };
+		5D6C01501AB229B800A0845E /* SDLRPCStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCStruct.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1840,6 +1844,8 @@
 				5D61FB851A84238B00846EE7 /* SDLRPCRequest.m */,
 				5D61FB881A84238B00846EE7 /* SDLRPCResponse.h */,
 				5D61FB891A84238B00846EE7 /* SDLRPCResponse.m */,
+				5D6C014F1AB229B800A0845E /* SDLRPCStruct.h */,
+				5D6C01501AB229B800A0845E /* SDLRPCStruct.m */,
 			);
 			name = Superclasses;
 			sourceTree = "<group>";
@@ -1960,6 +1966,7 @@
 				5D61FC781A84238C00846EE7 /* SDLDeleteFileResponse.h in Headers */,
 				5D61FC5F1A84238C00846EE7 /* SDLCharacterSet.h in Headers */,
 				5D61FCFF1A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.h in Headers */,
+				5D6C01511AB229B800A0845E /* SDLRPCStruct.h in Headers */,
 				5D61FDC51A84238C00846EE7 /* SDLTCPTransport.h in Headers */,
 				5D61FCF61A84238C00846EE7 /* SDLMediaClockFormat.h in Headers */,
 				5D61FD831A84238C00846EE7 /* SDLSetDisplayLayout.h in Headers */,
@@ -2558,6 +2565,7 @@
 				5D61FD761A84238C00846EE7 /* SDLRPCResponse.m in Sources */,
 				5D61FE081A84238C00846EE7 /* SDLVehicleDataStatus.m in Sources */,
 				5D61FDA81A84238C00846EE7 /* SDLSpeakResponse.m in Sources */,
+				5D6C01521AB229B800A0845E /* SDLRPCStruct.m in Sources */,
 				5D61FCD61A84238C00846EE7 /* SDLImageType.m in Sources */,
 				5D61FD7A1A84238C00846EE7 /* SDLScreenParams.m in Sources */,
 				5D61FC831A84238C00846EE7 /* SDLDeviceInfo.m in Sources */,
