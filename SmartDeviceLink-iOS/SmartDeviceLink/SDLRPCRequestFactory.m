@@ -296,21 +296,23 @@ correlationID{
 }
 //*****
 
-
-+(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID {
-    
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) fileName fileType:(SDLFileType*) fileType persistentFile:(NSNumber*) persistentFile correlationId:(NSNumber*) correlationID {
     //TODO
     //    +(FMPutFile*) buildPutFile:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile fileData:(NSData*) fileData correlationID:(NSNumber*) correlationID {
     
     
     SDLPutFile* msg = [[SDLPutFile alloc] init];
-    msg.syncFileName = syncFileName;
+    msg.syncFileName = fileName;
     
     msg.fileType = fileType;
     msg.persistentFile = persistentFile;
     msg.correlationID = correlationID;
     
     return msg;
+}
+
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID {
+    return [self buildPutFileWithFileName:syncFileName fileType:fileType persistentFile:persistentFile correlationId:correlationID];
 }
 
 +(SDLReadDID*) buildReadDIDWithECUName:(NSNumber*) ecuName didLocation:(NSArray*) didLocation correlationID:(NSNumber*) correlationID {
