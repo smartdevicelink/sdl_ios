@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLRPCMessage.h"
+#import "SDLRPCStruct.h"
 
 QuickSpecBegin(SDLRPCStructSpec)
 

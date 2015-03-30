@@ -15,7 +15,7 @@
 #import "SDLV1ProtocolHeader.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLTransport.h"
-#import "SDLProtocolRecievedMessageRouter.h"
+#import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLProtocolSpec)
@@ -196,7 +196,7 @@ describe(@"SendRPCRequest Tests", ^ {
 describe(@"HandleBytesFromTransport Tests", ^ {
     context(@"During V1 session", ^ {
         it(@"Should parse the data correctly", ^ {
-            id routerMock = OCMClassMock(SDLProtocolRecievedMessageRouter.class);
+            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
             
             //Override initialization methods so that our protocol will use our object instead
             [[[routerMock stub] andReturn:routerMock] alloc];
@@ -226,7 +226,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
                 expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
                 expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
                 expect(@(messageReceived.header.bytesInPayload)).to(equal(@(dataLength)));
-            }] handleRecievedMessage:[OCMArg any]];
+            }] handleReceivedMessage:[OCMArg any]];
             
             const char testHeader[8] = {0x10 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0xFF, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
             NSMutableData* testData = [NSMutableData dataWithBytes:testHeader length:8];
@@ -240,7 +240,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
     
     context(@"During V2 session", ^ {
         it(@"Should parse the data correctly", ^ {
-            id routerMock = OCMClassMock(SDLProtocolRecievedMessageRouter.class);
+            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
             
             //Override initialization methods so that our protocol will use our object instead
             [[[routerMock stub] andReturn:routerMock] alloc];
@@ -278,7 +278,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
                 expect(@(messageReceived.header.bytesInPayload)).to(equal(@(payloadData.length)));
                 expect(@(((SDLV2ProtocolHeader*)messageReceived.header).messageID)).to(equal(@1));
                 
-            }] handleRecievedMessage:[OCMArg any]];
+            }] handleReceivedMessage:[OCMArg any]];
             testProtocol.transport = routerMock;
             
             const char testHeader[12] = {0x20 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,

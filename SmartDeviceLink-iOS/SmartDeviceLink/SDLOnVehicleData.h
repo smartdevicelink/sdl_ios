@@ -32,14 +32,14 @@
 /**
  * @abstract Constructs a new SDLOnVehicleData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLOnVehicleData object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A SDLGPSData* value. See GPSData.

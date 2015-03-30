@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLProtocolRecievedMessageRouter.h"
+#import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLNames.h"
@@ -31,7 +31,6 @@ describe(@"HandleReceivedMessage Tests", ^ {
             testHeader.bytesInPayload = 0;
             
             testMessage.header = testHeader;
-            
             testMessage.payload = [NSData data];
             
             __block BOOL verified = NO;
@@ -50,10 +49,10 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 expect(@(version)).to(equal(@0x02));
             }] ignoringNonObjectArgs] handleProtocolSessionStarted:0 sessionID:0 version:0];
             
-            SDLProtocolRecievedMessageRouter* router = [[SDLProtocolRecievedMessageRouter alloc] init];
+            SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;
             
-            [router handleRecievedMessage:testMessage];
+            [router handleReceivedMessage:testMessage];
             
             expect(@(verified)).to(beTruthy());
         });
@@ -89,10 +88,10 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 expect(messageReceived).to(beIdenticalTo(testMessage));
             }] ignoringNonObjectArgs] onProtocolMessageReceived:[OCMArg any]];
             
-            SDLProtocolRecievedMessageRouter* router = [[SDLProtocolRecievedMessageRouter alloc] init];
+            SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;
             
-            [router handleRecievedMessage:testMessage];
+            [router handleReceivedMessage:testMessage];
             
             expect(@(verified)).to(beTruthy());
         });
@@ -124,9 +123,9 @@ describe(@"HandleReceivedMessage Tests", ^ {
             const char firstPayload[8] = {(payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF, (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, ceil(payloadData.length / 500.0)};
             testMessage.payload = [NSData dataWithBytes:firstPayload length:8];
             
-            SDLProtocolRecievedMessageRouter* router = [[SDLProtocolRecievedMessageRouter alloc] init];
+            SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             
-            [router handleRecievedMessage:testMessage];
+            [router handleReceivedMessage:testMessage];
             
             testMessage.header.frameType = SDLFrameType_Consecutive;
             testMessage.header.bytesInPayload = 500;
@@ -137,7 +136,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 //Consectutive frames
                 testMessage.header.frameData = frameNumber;
                 testMessage.payload = [payloadData subdataWithRange:NSMakeRange(offset, 500)];
-                [router handleRecievedMessage:testMessage];
+                [router handleReceivedMessage:testMessage];
                 
                 frameNumber++;
                 offset += 500;
@@ -167,7 +166,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             }] onProtocolMessageReceived:[OCMArg any]];
             
             router.delegate = delegateMock;
-            [router handleRecievedMessage:testMessage];
+            [router handleReceivedMessage:testMessage];
             
             expect(@(verified)).to(beTruthy());
         });

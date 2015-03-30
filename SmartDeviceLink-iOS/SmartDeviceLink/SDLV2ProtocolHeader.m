@@ -8,7 +8,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 
 @implementation SDLV2ProtocolHeader
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
         _version = 2;
         _size = V2PROTOCOL_HEADERSIZE;
@@ -21,7 +21,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     Byte headerBytes[V2PROTOCOL_HEADERSIZE] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = self.compressed?1:0 << 3; // next 1 bit
+    Byte compressed = (self.compressed?1:0) << 3; // next 1 bit
     Byte frameType = (self.frameType & 0x7); // last 3 bits
 
     headerBytes[0] = version | compressed | frameType;
@@ -42,14 +42,14 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     return dataOut;
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (instancetype)copyWithZone:(NSZone *)zone
 {
     SDLV2ProtocolHeader *newHeader = [[SDLV2ProtocolHeader allocWithZone: zone] init];
     newHeader.compressed = self.compressed;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
     newHeader.frameData = self.frameData;
-    newHeader.compressed = self.compressed;
+    newHeader.bytesInPayload = self.bytesInPayload;
     newHeader.sessionID = self.sessionID;
     newHeader.messageID = self.messageID;
 

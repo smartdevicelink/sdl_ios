@@ -8,8 +8,8 @@
 
 @property (assign) UInt32 messageID;
 
-- (id)init;
-- (id)copyWithZone:(NSZone *)zone;
+- (instancetype)init;
+- (instancetype)copyWithZone:(NSZone *)zone;
 - (NSData *)data;
 - (void)parse:(NSData *)data;
 - (NSString *)description;

@@ -39,7 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.buttonCapabilities = [@[button] mutableCopy];
         testResponse.softButtonCapabilities = [@[softButton] mutableCopy];
         testResponse.presetBankCapabilities = presetBank;
-        testResponse.hmiZoneCapabilities = [@[[SDLHmiZoneCapabilities BACK], [SDLHmiZoneCapabilities FRONT]] mutableCopy];
+        testResponse.hmiZoneCapabilities = [@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy];
         testResponse.speechCapabilities = [@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy];
         testResponse.vrCapabilities = [@[[SDLVrCapabilities TEXT]] mutableCopy];
         testResponse.audioPassThruCapabilities = [@[audioPassThru] mutableCopy];
@@ -54,7 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));
         expect(testResponse.softButtonCapabilities).to(equal([@[softButton] mutableCopy]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHmiZoneCapabilities BACK], [SDLHmiZoneCapabilities FRONT]] mutableCopy]));
+        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy]));
         expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy]));
         expect(testResponse.vrCapabilities).to(equal([@[[SDLVrCapabilities TEXT]] mutableCopy]));
         expect(testResponse.audioPassThruCapabilities).to(equal([@[audioPassThru] mutableCopy]));
@@ -73,7 +73,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_buttonCapabilities:[@[button] mutableCopy],
                                                    NAMES_softButtonCapabilities:[@[softButton] mutableCopy],
                                                    NAMES_presetBankCapabilities:presetBank,
-                                                   NAMES_hmiZoneCapabilities:[@[[SDLHmiZoneCapabilities BACK], [SDLHmiZoneCapabilities FRONT]] mutableCopy],
+                                                   NAMES_hmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy],
                                                    NAMES_speechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy],
                                                    NAMES_vrCapabilities:[@[[SDLVrCapabilities TEXT]] mutableCopy],
                                                    NAMES_audioPassThruCapabilities:[@[audioPassThru] mutableCopy],
@@ -90,7 +90,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));
         expect(testResponse.softButtonCapabilities).to(equal([@[softButton] mutableCopy]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHmiZoneCapabilities BACK], [SDLHmiZoneCapabilities FRONT]] mutableCopy]));
+        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy]));
         expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy]));
         expect(testResponse.vrCapabilities).to(equal([@[[SDLVrCapabilities TEXT]] mutableCopy]));
         expect(testResponse.audioPassThruCapabilities).to(equal([@[audioPassThru] mutableCopy]));

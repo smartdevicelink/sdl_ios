@@ -14,27 +14,27 @@ QuickSpecBegin(SDLHmiZoneCapabilitiesSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect([SDLHmiZoneCapabilities FRONT].value).to(equal(@"FRONT"));
-        expect([SDLHmiZoneCapabilities BACK].value).to(equal(@"BACK"));
+        expect([SDLHMIZoneCapabilities FRONT].value).to(equal(@"FRONT"));
+        expect([SDLHMIZoneCapabilities BACK].value).to(equal(@"BACK"));
     });
 });
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
-        expect([SDLHmiZoneCapabilities valueOf:@"FRONT"]).to(equal([SDLHmiZoneCapabilities FRONT]));
-        expect([SDLHmiZoneCapabilities valueOf:@"BACK"]).to(equal([SDLHmiZoneCapabilities BACK]));
+        expect([SDLHMIZoneCapabilities valueOf:@"FRONT"]).to(equal([SDLHMIZoneCapabilities FRONT]));
+        expect([SDLHMIZoneCapabilities valueOf:@"BACK"]).to(equal([SDLHMIZoneCapabilities BACK]));
     });
     
     it(@"Should return nil when invalid", ^ {
-        expect([SDLHmiZoneCapabilities valueOf:nil]).to(beNil());
-        expect([SDLHmiZoneCapabilities valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
+        expect([SDLHMIZoneCapabilities valueOf:nil]).to(beNil());
+        expect([SDLHMIZoneCapabilities valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLHmiZoneCapabilities values];
+    NSMutableArray* storedValues = [SDLHMIZoneCapabilities values];
     __block NSMutableArray* definedValues;
     beforeSuite(^ {
-        definedValues = [@[[SDLHmiZoneCapabilities FRONT],
-                        [SDLHmiZoneCapabilities BACK]] mutableCopy];
+        definedValues = [@[[SDLHMIZoneCapabilities FRONT],
+                        [SDLHMIZoneCapabilities BACK]] mutableCopy];
     });
     
     it(@"Should contain all defined enum values", ^ {

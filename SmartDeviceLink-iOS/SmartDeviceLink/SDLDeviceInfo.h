@@ -7,8 +7,8 @@
 
 @interface SDLDeviceInfo : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSString* hardware;
 @property(strong) NSString* firmwareRev;

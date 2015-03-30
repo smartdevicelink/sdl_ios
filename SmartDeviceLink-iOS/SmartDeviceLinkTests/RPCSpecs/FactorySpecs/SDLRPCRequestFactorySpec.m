@@ -416,7 +416,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
 
 describe(@"BuildPutFile Tests", ^ {
     it(@"Should build correctly", ^ {
-        SDLPutFile* message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:[SDLFileType GRAPHIC_BMP] persisistentFile:@165636 correlationID:@147986];
+        SDLPutFile *message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:[SDLFileType GRAPHIC_BMP]  persistentFile:@165636 correlationId:@147986];
         
         expect(message.syncFileName).to(equal(@"YES!?"));
         expect(message.fileType).to(equal([SDLFileType GRAPHIC_BMP]));

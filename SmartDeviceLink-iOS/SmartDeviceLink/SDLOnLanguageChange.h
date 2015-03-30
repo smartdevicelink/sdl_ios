@@ -61,12 +61,12 @@
 /**
  *Constructs a newly allocated SDLOnLanguageChange object
  */
--(id) init;
+-(instancetype) init;
 /**
  *<p>Constructs a newly allocated SDLOnLanguageChange object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 /**
  * @abstract language that current SDL voice engine(VR+TTS) use
  * @discussion
