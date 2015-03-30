@@ -46,7 +46,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
     newHeader.frameData = self.frameData;
-    newHeader.compressed = self.compressed;
+    newHeader.bytesInPayload = self.bytesInPayload;
     newHeader.sessionID = self.sessionID;
 
     return newHeader;
