@@ -320,8 +320,8 @@
 		5D61FD4B1A84238C00846EE7 /* SDLProtocolMessageAssembler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB5E1A84238B00846EE7 /* SDLProtocolMessageAssembler.m */; };
 		5D61FD4C1A84238C00846EE7 /* SDLProtocolMessageDisassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB5F1A84238B00846EE7 /* SDLProtocolMessageDisassembler.h */; };
 		5D61FD4D1A84238C00846EE7 /* SDLProtocolMessageDisassembler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB601A84238B00846EE7 /* SDLProtocolMessageDisassembler.m */; };
-		5D61FD4E1A84238C00846EE7 /* SDLProtocolRecievedMessageRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB611A84238B00846EE7 /* SDLProtocolRecievedMessageRouter.h */; };
-		5D61FD4F1A84238C00846EE7 /* SDLProtocolRecievedMessageRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB621A84238B00846EE7 /* SDLProtocolRecievedMessageRouter.m */; };
+		5D61FD4E1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB611A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.h */; };
+		5D61FD4F1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB621A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.m */; };
 		5D61FD501A84238C00846EE7 /* SDLProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB631A84238B00846EE7 /* SDLProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD511A84238C00846EE7 /* SDLProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB641A84238B00846EE7 /* SDLProxy.m */; };
 		5D61FD521A84238C00846EE7 /* SDLProxyFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB651A84238B00846EE7 /* SDLProxyFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -886,8 +886,8 @@
 		5D61FB5E1A84238B00846EE7 /* SDLProtocolMessageAssembler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageAssembler.m; sourceTree = "<group>"; };
 		5D61FB5F1A84238B00846EE7 /* SDLProtocolMessageDisassembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProtocolMessageDisassembler.h; sourceTree = "<group>"; };
 		5D61FB601A84238B00846EE7 /* SDLProtocolMessageDisassembler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageDisassembler.m; sourceTree = "<group>"; };
-		5D61FB611A84238B00846EE7 /* SDLProtocolRecievedMessageRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProtocolRecievedMessageRouter.h; sourceTree = "<group>"; };
-		5D61FB621A84238B00846EE7 /* SDLProtocolRecievedMessageRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolRecievedMessageRouter.m; sourceTree = "<group>"; };
+		5D61FB611A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProtocolReceivedMessageRouter.h; sourceTree = "<group>"; };
+		5D61FB621A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolReceivedMessageRouter.m; sourceTree = "<group>"; };
 		5D61FB631A84238B00846EE7 /* SDLProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxy.h; sourceTree = "<group>"; };
 		5D61FB641A84238B00846EE7 /* SDLProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxy.m; sourceTree = "<group>"; };
 		5D61FB651A84238B00846EE7 /* SDLProxyFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyFactory.h; sourceTree = "<group>"; };
@@ -1265,8 +1265,8 @@
 				5D61FB5E1A84238B00846EE7 /* SDLProtocolMessageAssembler.m */,
 				5D61FB5F1A84238B00846EE7 /* SDLProtocolMessageDisassembler.h */,
 				5D61FB601A84238B00846EE7 /* SDLProtocolMessageDisassembler.m */,
-				5D61FB611A84238B00846EE7 /* SDLProtocolRecievedMessageRouter.h */,
-				5D61FB621A84238B00846EE7 /* SDLProtocolRecievedMessageRouter.m */,
+				5D61FB611A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.h */,
+				5D61FB621A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.m */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -2188,7 +2188,7 @@
 				5D61FDF91A84238C00846EE7 /* SDLV2ProtocolHeader.h in Headers */,
 				5D61FD4A1A84238C00846EE7 /* SDLProtocolMessageAssembler.h in Headers */,
 				5D61FD4C1A84238C00846EE7 /* SDLProtocolMessageDisassembler.h in Headers */,
-				5D61FD4E1A84238C00846EE7 /* SDLProtocolRecievedMessageRouter.h in Headers */,
+				5D61FD4E1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.h in Headers */,
 				5D61FDF71A84238C00846EE7 /* SDLV1ProtocolMessage.h in Headers */,
 				5D61FDFB1A84238C00846EE7 /* SDLV2ProtocolMessage.h in Headers */,
 				5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */,
@@ -2607,7 +2607,7 @@
 				5D61FD361A84238C00846EE7 /* SDLPowerModeStatus.m in Sources */,
 				5D61FD621A84238C00846EE7 /* SDLRequestType.m in Sources */,
 				5D61FCBA1A84238C00846EE7 /* SDLGlobalProperty.m in Sources */,
-				5D61FD4F1A84238C00846EE7 /* SDLProtocolRecievedMessageRouter.m in Sources */,
+				5D61FD4F1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
