@@ -253,6 +253,26 @@ describe(@"BuildDeleteSubMenu Tests", ^ {
     });
 });
 
+describe(@"BuildDialNumber", ^{
+    __block SDLDialNumber *message = nil;
+    __block NSString *someNumberString = nil;
+    
+    describe(@"when built correctly", ^{
+        beforeEach(^{
+            someNumberString = @"1234567890";
+            message = [SDLRPCRequestFactory buildDialNumberWithNumber:someNumberString];
+        });
+        
+        it(@"should not be nil", ^{
+            expect(message).toNot(beNil());
+        });
+        
+        it(@"should have number set properly", ^{
+            expect(message.number).to(equal(someNumberString));
+        });
+    });
+});
+
 describe(@"BuildEndAudioPassThru Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLEndAudioPassThru* message = [SDLRPCRequestFactory buildEndAudioPassThruWithCorrelationID:@13123];

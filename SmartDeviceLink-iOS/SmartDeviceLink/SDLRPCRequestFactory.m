@@ -160,6 +160,13 @@ correlationID{
     return msg;
 }
 
++(SDLDialNumber*) buildDialNumberWithNumber:(NSString *)phoneNumber {
+    SDLDialNumber *msg = [[SDLDialNumber alloc] init];
+    msg.number = phoneNumber;
+    
+    return msg;
+}
+
 +(SDLListFiles*) buildListFilesWithCorrelationID:(NSNumber*) correlationID {
     
     SDLListFiles* msg = [[SDLListFiles alloc] init];

@@ -57,6 +57,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID getFunctionName:38]).to(equal(NAMES_SystemRequest));
         //In Spec, but not implemented
         //expect([functionID getFunctionName:39]).to(equal(NAMES_SendLocation));
+        expect([functionID getFunctionName:40]).to(equal(NAMES_DialNumber));
         
         expect([functionID getFunctionName:32768]).to(equal(NAMES_OnHMIStatus));
         expect([functionID getFunctionName:32769]).to(equal(NAMES_OnAppInterfaceUnregistered));
@@ -125,6 +126,7 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID getFunctionID:NAMES_SystemRequest]).to(equal(@38));
         //In Spec, but not implemented
         //expect([functionID getFunctionID:NAMES_SendLocation]).to(equal(@39));
+        expect([functionID getFunctionID:NAMES_DialNumber]).to(equal(@40));
         
         expect([functionID getFunctionID:NAMES_OnHMIStatus]).to(equal(@32768));
         expect([functionID getFunctionID:NAMES_OnAppInterfaceUnregistered]).to(equal(@32769));

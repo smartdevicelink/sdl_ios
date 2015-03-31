@@ -1,9 +1,6 @@
 //  SDLRPCRequestFactory.h
 //
 
-
-
-
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLAlert.h"
@@ -14,6 +11,7 @@
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLGetDTCs.h"
 #import "SDLGetVehicleData.h"
@@ -37,6 +35,7 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
+
 
 @interface SDLRPCRequestFactory : NSObject {}
 
@@ -85,6 +84,8 @@ correlationID;
 +(SDLDeleteCommand*) buildDeleteCommandWithID:(NSNumber*) cmdID correlationID:(NSNumber*) correlationID;
 
 +(SDLDeleteFile*) buildDeleteFileWithName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID;
+
++(SDLDialNumber*) buildDialNumberWithNumber:(NSString*)phoneNumber;
 
 +(SDLListFiles*) buildListFilesWithCorrelationID:(NSNumber*) correlationID;
 
