@@ -176,6 +176,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLEmergencyEvent.h"
 #import "SDLGPSData.h"
 #import "SDLHeadLampStatus.h"
+#import "SDLHMICapabilities.h"
 #import "SDLHMIPermissions.h"
 #import "SDLImage.h"
 #import "SDLImageField.h"
