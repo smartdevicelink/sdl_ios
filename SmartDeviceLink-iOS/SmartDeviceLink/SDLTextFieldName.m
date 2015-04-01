@@ -28,6 +28,10 @@ SDLTextFieldName* SDLTextFieldName_menuName = nil;
 SDLTextFieldName* SDLTextFieldName_secondaryText = nil;
 SDLTextFieldName* SDLTextFieldName_tertiaryText = nil;
 SDLTextFieldName* SDLTextFieldName_menuTitle = nil;
+SDLTextFieldName* SDLTextFieldName_locationName = nil;
+SDLTextFieldName* SDLTextFieldName_locationDescription = nil;
+SDLTextFieldName* SDLTextFieldName_addressLines = nil;
+SDLTextFieldName* SDLTextFieldName_phoneNumber = nil;
 
 NSMutableArray* SDLTextFieldName_values = nil;
 
@@ -69,6 +73,10 @@ NSMutableArray* SDLTextFieldName_values = nil;
                 SDLTextFieldName.secondaryText,
                 SDLTextFieldName.tertiaryText,
                 SDLTextFieldName.menuTitle,
+                SDLTextFieldName.locationName,
+                SDLTextFieldName.locationDescription,
+                SDLTextFieldName.addressLines,
+                SDLTextFieldName.phoneNumber,
                 nil];
     }
     return SDLTextFieldName_values;
@@ -240,6 +248,34 @@ NSMutableArray* SDLTextFieldName_values = nil;
         SDLTextFieldName_menuTitle = [[SDLTextFieldName alloc] initWithValue:@"menuTitle"];
     }
     return SDLTextFieldName_menuTitle;
+}
+
++(SDLTextFieldName*) locationName {
+    if (SDLTextFieldName_locationName == nil) {
+        SDLTextFieldName_locationName = [[SDLTextFieldName alloc] initWithValue:@"locationName"];
+    }
+    return SDLTextFieldName_locationName;
+}
+
++(SDLTextFieldName*) locationDescription {
+    if (SDLTextFieldName_locationDescription == nil) {
+        SDLTextFieldName_locationDescription = [[SDLTextFieldName alloc] initWithValue:@"locationDescription"];
+    }
+    return SDLTextFieldName_locationDescription;
+}
+
++(SDLTextFieldName*) addressLines {
+    if (SDLTextFieldName_addressLines == nil) {
+        SDLTextFieldName_addressLines = [[SDLTextFieldName alloc] initWithValue:@"addressLines"];
+    }
+    return SDLTextFieldName_addressLines;
+}
+
++(SDLTextFieldName*) phoneNumber {
+    if (SDLTextFieldName_phoneNumber == nil) {
+        SDLTextFieldName_phoneNumber = [[SDLTextFieldName alloc] initWithValue:@"phoneNumber"];
+    }
+    return SDLTextFieldName_phoneNumber;
 }
 
 @end
