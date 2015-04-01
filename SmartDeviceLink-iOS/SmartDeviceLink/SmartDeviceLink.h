@@ -26,6 +26,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Debug *****/
 #import "SDLConsoleController.h"
 #import "SDLDebugTool.h"
+#import "SDLDebugToolConsole.h"
 #import "SDLSiphonServer.h"
 
 /***** Transport *****/
