@@ -1,11 +1,13 @@
 //  SDLImageField.m
 //
 
-
 #import "SDLImageField.h"
 
-#import "SDLNames.h"
 #import "SDLFileType.h"
+#import "SDLImageFieldName.h"
+#import "SDLImageResolution.h"
+#import "SDLNames.h"
+
 
 @implementation SDLImageField
 

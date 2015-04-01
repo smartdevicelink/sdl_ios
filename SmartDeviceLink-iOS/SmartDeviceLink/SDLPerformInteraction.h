@@ -5,8 +5,9 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLInteractionMode.h"
-#import "SDLLayoutMode.h"
+@class SDLInteractionMode;
+@class SDLLayoutMode;
+
 
 /**
  * Performs an application-initiated interaction in which the user can select a

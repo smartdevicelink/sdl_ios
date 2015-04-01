@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLOnSystemRequest.h"
+#import "SDLFileType.h"
 #import "SDLNames.h"
+#import "SDLOnSystemRequest.h"
+#import "SDLRequestType.h"
+
 
 QuickSpecBegin(SDLOnSystemRequestSpec)
 

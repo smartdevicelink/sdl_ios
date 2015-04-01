@@ -1,12 +1,11 @@
 //  SDLSetGlobalProperties.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLImage.h"
-#import "SDLKeyboardProperties.h"
+@class SDLImage;
+@class SDLKeyboardProperties;
+
 
 /**
  * Sets value(s) for the specified global property(ies)

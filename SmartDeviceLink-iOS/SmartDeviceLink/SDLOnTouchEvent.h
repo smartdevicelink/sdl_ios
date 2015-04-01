@@ -1,11 +1,10 @@
 //  SDLOnTouchEvent.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLTouchType.h"
+@class SDLTouchType;
+
 
 @interface SDLOnTouchEvent : SDLRPCNotification {}
 

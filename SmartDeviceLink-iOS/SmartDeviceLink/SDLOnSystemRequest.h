@@ -1,12 +1,11 @@
 //  SDLOnSystemRequest.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLRequestType.h"
-#import "SDLFileType.h"
+@class SDLFileType;
+@class SDLRequestType;
+
 
 @interface SDLOnSystemRequest : SDLRPCNotification {}
 

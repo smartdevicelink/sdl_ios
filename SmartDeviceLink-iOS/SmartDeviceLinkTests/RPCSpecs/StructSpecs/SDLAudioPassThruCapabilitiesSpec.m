@@ -9,7 +9,11 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAudioPassThruCapabilities.h"
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
 #import "SDLNames.h"
+#import "SDLSamplingRate.h"
+
 
 QuickSpecBegin(SDLAudioPassThruCapabilitiesSpec)
 

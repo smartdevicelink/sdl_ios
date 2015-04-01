@@ -1,8 +1,11 @@
 //  SDLTTSChunkFactory.m
 //
 
-
 #import "SDLTTSChunkFactory.h"
+
+#import "SDLSpeechCapabilities.h"
+#import "SDLTTSChunk.h"
+
 
 @implementation SDLTTSChunkFactory
 

@@ -1,11 +1,10 @@
 //  SDLOnTBTClientState.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLTBTState.h"
+@class SDLTBTState;
+
 
 @interface SDLOnTBTClientState : SDLRPCNotification {}
 

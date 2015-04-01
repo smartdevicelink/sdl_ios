@@ -1,12 +1,11 @@
 //  SDLGPSData.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLCompassDirection.h"
-#import "SDLDimension.h"
+@class SDLCompassDirection;
+@class SDLDimension;
+
 
 /**
  * Describes the GPS data. Not all data will be available on all carlines.

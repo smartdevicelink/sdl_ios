@@ -9,8 +9,10 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnTouchEvent.h"
-#import "SDLTouchEvent.h"
 #import "SDLNames.h"
+#import "SDLTouchEvent.h"
+#import "SDLTouchType.h"
+
 
 QuickSpecBegin(SDLOnTouchEventSpec)
 

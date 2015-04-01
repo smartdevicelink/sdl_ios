@@ -4,7 +4,11 @@
 
 #import "SDLAudioPassThruCapabilities.h"
 
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
 #import "SDLNames.h"
+#import "SDLSamplingRate.h"
+
 
 @implementation SDLAudioPassThruCapabilities
 

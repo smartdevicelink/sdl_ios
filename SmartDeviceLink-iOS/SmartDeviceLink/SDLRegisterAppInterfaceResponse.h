@@ -5,11 +5,12 @@
 
 #import "SDLRPCResponse.h"
 
-#import "SDLSyncMsgVersion.h"
-#import "SDLLanguage.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLPresetBankCapabilities.h"
-#import "SDLVehicleType.h"
+@class SDLSyncMsgVersion;
+@class SDLLanguage;
+@class SDLDisplayCapabilities;
+@class SDLPresetBankCapabilities;
+@class SDLVehicleType;
+
 
 /**
  * @abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called

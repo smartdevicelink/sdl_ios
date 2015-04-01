@@ -4,14 +4,20 @@
 
 #import "SDLRegisterAppInterfaceResponse.h"
 
-#import "SDLNames.h"
-#import "SDLButtonCapabilities.h"
-#import "SDLSoftButtonCapabilities.h"
-#import "SDLHmiZoneCapabilities.h"
-#import "SDLSpeechCapabilities.h"
-#import "SDLPrerecordedSpeech.h"
-#import "SDLVrCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
+#import "SDLButtonCapabilities.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLHmiZoneCapabilities.h"
+#import "SDLLanguage.h"
+#import "SDLNames.h"
+#import "SDLPrerecordedSpeech.h"
+#import "SDLPresetBankCapabilities.h"
+#import "SDLSoftButtonCapabilities.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLVrCapabilities.h"
+#import "SDLVehicleType.h"
+
 
 @implementation SDLRegisterAppInterfaceResponse
 

@@ -1,42 +1,53 @@
 //  SDLRPCRequestFactory.h
 //
 
+@import Foundation;
 
+@class SDLAddCommand;
+@class SDLAddSubMenu;
+@class SDLAlert;
+@class SDLAppHMIType;
+@class SDLAudioType;
+@class SDLBitsPerSample;
+@class SDLButtonName;
+@class SDLChangeRegistration;
+@class SDLCreateInteractionChoiceSet;
+@class SDLDeleteCommand;
+@class SDLDeleteFile;
+@class SDLDeleteInteractionChoiceSet;
+@class SDLDeleteSubMenu;
+@class SDLEndAudioPassThru;
+@class SDLFileType;
+@class SDLGetDTCs;
+@class SDLGetVehicleData;
+@class SDLImage;
+@class SDLImageType;
+@class SDLInteractionMode;
+@class SDLLanguage;
+@class SDLListFiles;
+@class SDLPerformAudioPassThru;
+@class SDLPerformInteraction;
+@class SDLPutFile;
+@class SDLReadDID;
+@class SDLRegisterAppInterface;
+@class SDLResetGlobalProperties;
+@class SDLSamplingRate;
+@class SDLScrollableMessage;
+@class SDLSetAppIcon;
+@class SDLSetDisplayLayout;
+@class SDLSetGlobalProperties;
+@class SDLSetMediaClockTimer;
+@class SDLShow;
+@class SDLSlider;
+@class SDLSpeak;
+@class SDLSubscribeButton;
+@class SDLSubscribeVehicleData;
+@class SDLTextAlignment;
+@class SDLUnregisterAppInterface;
+@class SDLUnsubscribeButton;
+@class SDLUnsubscribeVehicleData;
+@class SDLUpdateMode;
 
-
-#import "SDLAddCommand.h"
-#import "SDLAddSubMenu.h"
-#import "SDLAlert.h"
-#import "SDLAppHMIType.h"
-#import "SDLChangeRegistration.h"
-#import "SDLCreateInteractionChoiceSet.h"
-#import "SDLDeleteCommand.h"
-#import "SDLDeleteFile.h"
-#import "SDLDeleteInteractionChoiceSet.h"
-#import "SDLDeleteSubMenu.h"
-#import "SDLEndAudioPassThru.h"
-#import "SDLGetDTCs.h"
-#import "SDLGetVehicleData.h"
-#import "SDLListFiles.h"
-#import "SDLPerformAudioPassThru.h"
-#import "SDLPerformInteraction.h"
-#import "SDLPutFile.h"
-#import "SDLReadDID.h"
-#import "SDLRegisterAppInterface.h"
-#import "SDLResetGlobalProperties.h"
-#import "SDLScrollableMessage.h"
-#import "SDLSetAppIcon.h"
-#import "SDLSetDisplayLayout.h"
-#import "SDLSetGlobalProperties.h"
-#import "SDLSetMediaClockTimer.h"
-#import "SDLShow.h"
-#import "SDLSlider.h"
-#import "SDLSpeak.h"
-#import "SDLSubscribeButton.h"
-#import "SDLSubscribeVehicleData.h"
-#import "SDLUnregisterAppInterface.h"
-#import "SDLUnsubscribeButton.h"
-#import "SDLUnsubscribeVehicleData.h"
 
 @interface SDLRPCRequestFactory : NSObject {}
 

@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLVrHelpItem.h"
+#import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLVrHelpItem.h"
+
 
 QuickSpecBegin(SDLVrHelpItemSpec)
 

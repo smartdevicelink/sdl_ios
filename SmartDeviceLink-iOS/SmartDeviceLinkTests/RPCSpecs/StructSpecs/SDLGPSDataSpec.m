@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLCompassDirection.h"
+#import "SDLDimension.h"
 #import "SDLGPSData.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLGPSDataSpec)
 

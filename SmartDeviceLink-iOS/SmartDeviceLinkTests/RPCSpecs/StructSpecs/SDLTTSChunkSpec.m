@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLTTSChunk.h"
 #import "SDLNames.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLTTSChunk.h"
+
 
 QuickSpecBegin(SDLTTSChunkSpec)
 

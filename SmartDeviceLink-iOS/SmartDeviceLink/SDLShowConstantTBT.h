@@ -1,11 +1,10 @@
 //  SDLShowConstantTBT.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLImage.h"
+@class SDLImage;
+
 
 /** This RPC is used to update the user with navigation information<br>
  *  for the constantly shown screen (base screen),but also for the<br>

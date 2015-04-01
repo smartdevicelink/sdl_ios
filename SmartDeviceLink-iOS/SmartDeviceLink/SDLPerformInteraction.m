@@ -5,6 +5,8 @@
 #import "SDLPerformInteraction.h"
 
 #import "SDLNames.h"
+#import "SDLInteractionMode.h"
+#import "SDLLayoutMode.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 

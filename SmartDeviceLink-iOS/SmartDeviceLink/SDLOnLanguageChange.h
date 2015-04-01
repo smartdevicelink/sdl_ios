@@ -1,11 +1,10 @@
 //  SDLOnLanguageChange.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLLanguage.h"
+@class SDLLanguage;
+
 
 /**
  * Provides information to what language the SDL HMI language was changed

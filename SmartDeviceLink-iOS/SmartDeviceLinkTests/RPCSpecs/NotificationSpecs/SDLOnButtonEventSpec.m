@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLOnButtonEvent.h"
+#import "SDLButtonEventMode.h"
+#import "SDLButtonName.h"
 #import "SDLNames.h"
+#import "SDLOnButtonEvent.h"
+
 
 QuickSpecBegin(SDLOnButtonEventSpec)
 

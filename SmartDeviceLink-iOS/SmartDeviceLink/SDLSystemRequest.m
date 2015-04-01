@@ -5,6 +5,8 @@
 #import "SDLSystemRequest.h"
 
 #import "SDLNames.h"
+#import "SDLRequestType.h"
+
 
 @implementation SDLSystemRequest
 

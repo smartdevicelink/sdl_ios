@@ -1,12 +1,11 @@
 //  SDLSetDisplayLayoutResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
-#import "SDLDisplayCapabilities.h"
-#import "SDLPresetBankCapabilities.h"
+@class SDLDisplayCapabilities;
+@class SDLPresetBankCapabilities;
+
 
 /**
  * Set Display Layout Response is sent, when SetDisplayLayout has been called

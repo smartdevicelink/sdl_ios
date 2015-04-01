@@ -8,8 +8,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLOnCommand.h"
 #import "SDLNames.h"
+#import "SDLOnCommand.h"
+#import "SDLTriggerSource.h"
 
 QuickSpecBegin(SDLOnCommandSpec)
 

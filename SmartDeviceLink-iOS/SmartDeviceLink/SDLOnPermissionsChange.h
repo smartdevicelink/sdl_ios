@@ -1,9 +1,8 @@
 //  SDLOnPermissionsChange.h
 //
 
-
-
 #import "SDLRPCNotification.h"
+
 
 /**
  * Provides update to app of which sets of functions are available

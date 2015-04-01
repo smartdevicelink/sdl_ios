@@ -5,7 +5,8 @@
 
 #import "SDLRPCResponse.h"
 
-#import "SDLTriggerSource.h"
+@class SDLTriggerSource;
+
 
 /**
  * PerformInteraction Response is sent, when SDLPerformInteraction has been called

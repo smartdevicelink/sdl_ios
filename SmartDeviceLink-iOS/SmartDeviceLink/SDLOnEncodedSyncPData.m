@@ -1,10 +1,10 @@
 //  SDLOnEncodedSyncPData.m
 //
 
-
 #import "SDLOnEncodedSyncPData.h"
 
 #import "SDLNames.h"
+
 
 @implementation SDLOnEncodedSyncPData
 

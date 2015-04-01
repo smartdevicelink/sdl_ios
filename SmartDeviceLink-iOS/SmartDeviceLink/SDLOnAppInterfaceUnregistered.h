@@ -1,11 +1,10 @@
 //  SDLOnAppInterfaceUnregistered.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLAppInterfaceUnregisteredReason.h"
+@class SDLAppInterfaceUnregisteredReason;
+
 
 /**
  * Notifies an application that its interface registration has been terminated. This means that all SDL resources

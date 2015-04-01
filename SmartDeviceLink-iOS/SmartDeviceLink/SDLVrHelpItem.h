@@ -1,11 +1,10 @@
 //  SDLVrHelpItem.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImage.h"
+@class SDLImage;
+
 
 @interface SDLVrHelpItem : SDLRPCStruct {}
 

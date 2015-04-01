@@ -9,7 +9,9 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLButtonCapabilities.h"
+#import "SDLButtonName.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLButtonCapabilitiesSpec)
 

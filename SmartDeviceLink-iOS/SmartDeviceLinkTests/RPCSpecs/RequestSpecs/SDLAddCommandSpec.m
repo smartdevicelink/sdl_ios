@@ -9,6 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAddCommand.h"
+#import "SDLImage.h"
+#import "SDLMenuParams.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLAddCommandSpec)

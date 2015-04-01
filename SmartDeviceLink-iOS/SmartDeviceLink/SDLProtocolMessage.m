@@ -2,6 +2,7 @@
 //
 
 
+#import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"

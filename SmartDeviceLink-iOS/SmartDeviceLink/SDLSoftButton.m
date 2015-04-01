@@ -1,10 +1,13 @@
 //  SDLSoftButton.m
 //
 
-
 #import "SDLSoftButton.h"
 
+#import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLSoftButtonType.h"
+#import "SDLSystemAction.h"
+
 
 @implementation SDLSoftButton
 

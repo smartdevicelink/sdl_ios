@@ -1,11 +1,10 @@
 //  SDLMyKey.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLVehicleDataStatus.h"
+@class SDLVehicleDataStatus;
+
 
 @interface SDLMyKey : SDLRPCStruct {}
 

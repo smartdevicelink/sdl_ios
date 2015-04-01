@@ -1,10 +1,11 @@
 //  SDLMyKey.m
 //
 
-
 #import "SDLMyKey.h"
 
 #import "SDLNames.h"
+#import "SDLVehicleDataStatus.h"
+
 
 @implementation SDLMyKey
 

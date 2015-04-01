@@ -1,12 +1,11 @@
 //  SDLOnButtonEvent.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLButtonName.h"
-#import "SDLButtonEventMode.h"
+@class SDLButtonName;
+@class SDLButtonEventMode;
+
 
 /**
  * Notifies application that user has depressed or released a button to which

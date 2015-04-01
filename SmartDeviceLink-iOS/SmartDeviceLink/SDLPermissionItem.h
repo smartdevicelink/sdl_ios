@@ -1,12 +1,11 @@
 //  SDLPermissionItem.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLHMIPermissions.h"
-#import "SDLParameterPermissions.h"
+@class SDLHMIPermissions;
+@class SDLParameterPermissions;
+
 
 @interface SDLPermissionItem : SDLRPCStruct {}
 

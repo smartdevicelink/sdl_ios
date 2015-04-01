@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSubscribeVehicleDataResponse.h"
 #import "SDLNames.h"
+#import "SDLSubscribeVehicleDataResponse.h"
+#import "SDLVehicleDataResult.h"
+
 
 QuickSpecBegin(SDLSubscribeVehicleDataResponseSpec)
 

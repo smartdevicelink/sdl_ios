@@ -1,9 +1,6 @@
 //  SDLTransportDelegate.h
 //
 
-
-
-
 @protocol SDLTransportDelegate
 
 - (void)onTransportConnected;

@@ -1,11 +1,10 @@
 //  SDLTTSChunk.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLSpeechCapabilities.h"
+@class SDLSpeechCapabilities;
+
 
 /**
  * Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules.

@@ -9,6 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLTireStatus.h"
+#import "SDLSingleTireStatus.h"
+#import "SDLWarningLightStatus.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLTireStatusSpec)

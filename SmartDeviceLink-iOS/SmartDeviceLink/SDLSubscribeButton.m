@@ -4,7 +4,9 @@
 
 #import "SDLSubscribeButton.h"
 
+#import "SDLButtonName.h"
 #import "SDLNames.h"
+
 
 @implementation SDLSubscribeButton
 

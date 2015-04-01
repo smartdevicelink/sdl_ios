@@ -1,4 +1,4 @@
-//  SDLSmartDeviceLinkProtocolHeader.m
+//  SDLProtocolHeader.m
 //
 
 

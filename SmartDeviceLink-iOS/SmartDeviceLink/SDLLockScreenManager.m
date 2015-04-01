@@ -5,6 +5,11 @@
 
 #import "SDLLockScreenManager.h"
 
+#import "SDLHMILevel.h"
+#import "SDLLockScreenStatus.h"
+#import "SDLOnLockScreenStatus.h"
+
+
 @interface SDLLockScreenManager ()
 
 @property (assign, nonatomic) BOOL bHaveDDStatus;

@@ -1,10 +1,13 @@
 //  SDLKeyboardProperties.m
 //
 
-
 #import "SDLKeyboardProperties.h"
 
+#import "SDLKeyboardLayout.h"
+#import "SDLKeypressMode.h"
+#import "SDLLanguage.h"
 #import "SDLNames.h"
+
 
 @implementation SDLKeyboardProperties
 

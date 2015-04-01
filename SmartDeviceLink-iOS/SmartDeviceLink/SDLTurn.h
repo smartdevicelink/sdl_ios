@@ -1,11 +1,10 @@
 //  SDLTurn.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImage.h"
+@class SDLImage;
+
 
 @interface SDLTurn : SDLRPCStruct {}
 

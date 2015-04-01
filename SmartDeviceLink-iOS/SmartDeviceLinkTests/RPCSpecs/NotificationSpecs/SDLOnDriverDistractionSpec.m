@@ -8,6 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLDriverDistractionState.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLNames.h"
 

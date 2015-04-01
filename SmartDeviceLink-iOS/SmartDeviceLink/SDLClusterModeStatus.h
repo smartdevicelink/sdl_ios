@@ -1,13 +1,12 @@
 //  SDLClusterModeStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLPowerModeQualificationStatus.h"
-#import "SDLCarModeStatus.h"
-#import "SDLPowerModeStatus.h"
+@class SDLCarModeStatus;
+@class SDLPowerModeQualificationStatus;
+@class SDLPowerModeStatus;
+
 
 @interface SDLClusterModeStatus : SDLRPCStruct {}
 

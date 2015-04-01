@@ -10,6 +10,8 @@
 
 #import "SDLAirbagStatus.h"
 #import "SDLNames.h"
+#import "SDLVehicleDataEventStatus.h"
+
 
 QuickSpecBegin(SDLAirbagStatusSpec)
 

@@ -1,8 +1,8 @@
 //  SDLSmartDeviceLinkProtocolMessage.h
 //
 
-
-#import "SDLProtocolHeader.h"
+@import Foundation;
+@class SDLProtocolHeader;
 
 
 @interface SDLProtocolMessage : NSObject

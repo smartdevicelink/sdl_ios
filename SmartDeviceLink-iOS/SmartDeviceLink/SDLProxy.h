@@ -1,13 +1,16 @@
 //  SDLProxy.h
 //
 
-//  Version: ##Version##
+@class SDLProtocol;
+@class SDLPutFile;
+@class SDLRPCMessage;
+@class SDLRPCRequestFactory;
 
-
-#import "SDLProtocol.h"
+#import "SDLInterfaceProtocol.h"
+#import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLTransport.h"
+
 
 @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;

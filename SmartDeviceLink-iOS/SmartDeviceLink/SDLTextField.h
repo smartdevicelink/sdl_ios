@@ -1,11 +1,11 @@
 //  SDLTextField.h
 //
 
-
 #import "SDLRPCMessage.h"
 
-#import "SDLTextFieldName.h"
-#import "SDLCharacterSet.h"
+@class SDLCharacterSet;
+@class SDLTextFieldName;
+
 
 /**
  * Struct defining the characteristics of a displayed field on the HMI.

@@ -1,11 +1,10 @@
 //  SDLChoice.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImage.h"
+@class SDLImage;
+
 
 /**
  * A choice is an option which a user can select either via the menu or via voice recognition (VR) during an application initiated interaction.

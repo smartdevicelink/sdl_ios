@@ -1,10 +1,12 @@
 //  SDLECallInfo.m
 //
 
-
 #import "SDLECallInfo.h"
 
+#import "SDLECallConfirmationStatus.h"
 #import "SDLNames.h"
+#import "SDLVehicleDataNotificationStatus.h"
+
 
 @implementation SDLECallInfo
 

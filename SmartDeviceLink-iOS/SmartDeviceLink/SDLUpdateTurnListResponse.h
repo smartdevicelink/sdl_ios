@@ -1,8 +1,6 @@
 //  SDLUpdateTurnListResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
 

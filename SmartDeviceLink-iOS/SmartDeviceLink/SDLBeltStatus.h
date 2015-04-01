@@ -1,11 +1,10 @@
 //  SDLBeltStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLVehicleDataEventStatus.h"
+@class SDLVehicleDataEventStatus;
+
 
 @interface SDLBeltStatus : SDLRPCStruct {}
 

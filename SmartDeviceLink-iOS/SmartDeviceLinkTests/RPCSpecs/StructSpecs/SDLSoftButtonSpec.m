@@ -8,8 +8,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSoftButton.h"
+#import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLSoftButton.h"
+#import "SDLSoftButtonType.h"
+#import "SDLSystemAction.h"
+
 
 QuickSpecBegin(SDLSoftButtonSpec)
 

@@ -9,10 +9,13 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDisplayCapabilities.h"
-#import "SDLTextField.h"
+#import "SDLDisplayType.h"
 #import "SDLImageField.h"
 #import "SDLMediaClockFormat.h"
 #import "SDLNames.h"
+#import "SDLScreenParams.h"
+#import "SDLTextField.h"
+
 
 QuickSpecBegin(SDLDisplayCapabilitiesSpec)
 

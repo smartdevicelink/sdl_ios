@@ -1,9 +1,10 @@
 //  SDLSmartDeviceLinkProtocolMessageAssembler.h
 //
 
+@import Foundation;
 
+@class SDLProtocolMessage;
 
-#import "SDLProtocolMessage.h"
 
 typedef void(^SDLMessageAssemblyCompletionHandler)(BOOL done, SDLProtocolMessage *assembledMessage);
 

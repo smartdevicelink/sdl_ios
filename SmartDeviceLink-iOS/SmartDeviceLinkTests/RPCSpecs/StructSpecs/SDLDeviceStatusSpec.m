@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLDeviceLevelStatus.h"
 #import "SDLDeviceStatus.h"
 #import "SDLNames.h"
+#import "SDLPrimaryAudioSource.h"
+
 
 QuickSpecBegin(SDLDeviceStatusSpec)
 

@@ -1,10 +1,11 @@
 //  SDLPutFile.m
 //
 
-
 #import "SDLPutFile.h"
 
+#import "SDLFileType.h"
 #import "SDLNames.h"
+
 
 @implementation SDLPutFile
 

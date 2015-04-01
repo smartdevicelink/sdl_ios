@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAmbientLightStatus.h"
 #import "SDLHeadLampStatus.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLHeadLampStatusSpec)
 

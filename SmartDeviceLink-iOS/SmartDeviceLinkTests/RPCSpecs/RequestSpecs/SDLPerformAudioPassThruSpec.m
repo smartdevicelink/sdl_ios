@@ -8,8 +8,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLPerformAudioPassThru.h"
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
 #import "SDLNames.h"
+#import "SDLPerformAudioPassThru.h"
+#import "SDLSamplingRate.h"
+
 
 QuickSpecBegin(SDLPerformAudioPassThruSpec)
 

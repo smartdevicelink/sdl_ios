@@ -5,6 +5,7 @@
 
 @import Foundation;
 
+
 @interface SDLObjectWithPriority : NSObject
 
 @property (strong) id object;

@@ -1,12 +1,11 @@
 //  SDLOnButtonPress.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLButtonName.h"
-#import "SDLButtonPressMode.h"
+@class SDLButtonName;
+@class SDLButtonPressMode;
+
 
 /**
  * <p>

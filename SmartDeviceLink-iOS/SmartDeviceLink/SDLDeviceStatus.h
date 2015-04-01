@@ -1,12 +1,11 @@
 //  SDLDeviceStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLDeviceLevelStatus.h"
-#import "SDLPrimaryAudioSource.h"
+@class SDLDeviceLevelStatus;
+@class SDLPrimaryAudioSource;
+
 
 /**
  * Describes the status related to a connected mobile device or SDL and if or how  it is represented in the vehicle.

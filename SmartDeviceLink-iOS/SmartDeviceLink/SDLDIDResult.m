@@ -1,10 +1,11 @@
 //  SDLDIDResult.m
 //
 
-
 #import "SDLDIDResult.h"
 
 #import "SDLNames.h"
+#import "SDLVehicleDataResultCode.h"
+
 
 @implementation SDLDIDResult
 

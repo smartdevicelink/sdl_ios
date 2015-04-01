@@ -1,10 +1,11 @@
 //  SDLButtonCapabilities.m
 //
 
-
 #import "SDLButtonCapabilities.h"
 
+#import "SDLButtonName.h"
 #import "SDLNames.h"
+
 
 @implementation SDLButtonCapabilities
 

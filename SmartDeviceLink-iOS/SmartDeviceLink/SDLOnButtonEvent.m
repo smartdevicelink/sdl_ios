@@ -1,10 +1,12 @@
 //  SDLOnButtonEvent.m
 //
 
-
 #import "SDLOnButtonEvent.h"
 
+#import "SDLButtonName.h"
+#import "SDLButtonEventMode.h"
 #import "SDLNames.h"
+
 
 @implementation SDLOnButtonEvent
 

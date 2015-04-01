@@ -1,10 +1,11 @@
 //  SDLVrHelpItem.m
 //
 
-
 #import "SDLVrHelpItem.h"
 
+#import "SDLImage.h"
 #import "SDLNames.h"
+
 
 @implementation SDLVrHelpItem
 

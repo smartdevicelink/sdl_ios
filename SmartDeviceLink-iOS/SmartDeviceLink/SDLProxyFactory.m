@@ -1,13 +1,14 @@
 //  SDLSyncProxyFactory.m
 //
 
-
 #import "SDLProxyFactory.h"
 
 #import "SDLDebugTool.h"
 #import "SDLIAPTransport.h"
 #import "SDLTCPTransport.h"
 #import "SDLProtocol.h"
+#import "SDLProxy.h"
+
 
 @implementation SDLProxyFactory
 

@@ -1,10 +1,12 @@
 //  SDLOnSystemRequest.m
 //
 
-
 #import "SDLOnSystemRequest.h"
 
+#import "SDLFileType.h"
 #import "SDLNames.h"
+#import "SDLRequestType.h"
+
 
 @implementation SDLOnSystemRequest
 

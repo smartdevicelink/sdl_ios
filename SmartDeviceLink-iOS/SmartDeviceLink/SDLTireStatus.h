@@ -1,12 +1,11 @@
 //  SDLTireStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLWarningLightStatus.h"
-#import "SDLSingleTireStatus.h"
+@class SDLSingleTireStatus;
+@class SDLWarningLightStatus;
+
 
 @interface SDLTireStatus : SDLRPCStruct {}
 

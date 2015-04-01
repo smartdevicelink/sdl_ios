@@ -8,9 +8,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLImage.h"
+#import "SDLNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
-#import "SDLNames.h"
+#import "SDLTextAlignment.h"
+
 
 QuickSpecBegin(SDLShowSpec)
 

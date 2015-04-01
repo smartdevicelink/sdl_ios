@@ -1,11 +1,10 @@
 //  SDLUnsubscribeButton.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLButtonName.h"
+@class SDLButtonName;
+
 
 /**
  * Deletes a subscription to button notifications for the specified button. For

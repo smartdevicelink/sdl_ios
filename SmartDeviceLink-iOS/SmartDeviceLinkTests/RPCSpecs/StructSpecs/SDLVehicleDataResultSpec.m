@@ -9,6 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLVehicleDataResult.h"
+#import "SDLVehicleDataResultCode.h"
+#import "SDLVehicleDataType.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLVehicleDataResultSpec)

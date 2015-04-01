@@ -1,11 +1,10 @@
 //  SDLImage.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImageType.h"
+@class SDLImageType;
+
 
 /**
  *Specifies, which image shall be used, e.g. in SDLAlerts or on SDLSoftbuttons provided the display supports it.

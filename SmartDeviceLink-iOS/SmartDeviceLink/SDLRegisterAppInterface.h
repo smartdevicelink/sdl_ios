@@ -1,13 +1,12 @@
 //  SDLRegisterAppInterface.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLSyncMsgVersion.h"
-#import "SDLLanguage.h"
-#import "SDLDeviceInfo.h"
+@class SDLDeviceInfo;
+@class SDLLanguage;
+@class SDLSyncMsgVersion;
+
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of
