@@ -35,7 +35,11 @@
 /** The User has not finished entering text and the keyboard is aborted with the event of higher priority.
  *
  */
-
 +(SDLKeyboardEvent*) ENTRY_ABORTED;
+
+/**
+ * @since SDL 4.0
+ */
++(SDLKeyboardEvent*) ENTRY_VOICE;
 
 @end
