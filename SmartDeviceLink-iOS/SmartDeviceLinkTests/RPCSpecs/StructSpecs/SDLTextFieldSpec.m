@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLTextField.h"
+#import "SDLCharacterSet.h"
 #import "SDLNames.h"
+#import "SDLTextField.h"
+#import "SDLTextFieldName.h"
+
 
 QuickSpecBegin(SDLTextFieldSpec)
 

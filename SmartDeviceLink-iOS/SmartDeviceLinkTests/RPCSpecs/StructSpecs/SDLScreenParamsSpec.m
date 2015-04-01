@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLScreenParams.h"
+#import "SDLImageResolution.h"
 #import "SDLNames.h"
+#import "SDLScreenParams.h"
+#import "SDLTouchEventCapabilities.h"
+
 
 QuickSpecBegin(SDLScreenParamsSpec)
 

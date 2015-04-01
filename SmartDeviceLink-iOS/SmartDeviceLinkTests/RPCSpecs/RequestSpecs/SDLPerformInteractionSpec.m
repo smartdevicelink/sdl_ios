@@ -8,6 +8,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLInteractionMode.h"
+#import "SDLLayoutMode.h"
 #import "SDLPerformInteraction.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"

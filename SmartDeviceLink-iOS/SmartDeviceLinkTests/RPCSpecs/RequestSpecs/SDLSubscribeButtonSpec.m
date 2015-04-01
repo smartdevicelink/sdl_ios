@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSubscribeButton.h"
+#import "SDLButtonName.h"
 #import "SDLNames.h"
+#import "SDLSubscribeButton.h"
+
 
 QuickSpecBegin(SDLSubscribeButtonSpec)
 

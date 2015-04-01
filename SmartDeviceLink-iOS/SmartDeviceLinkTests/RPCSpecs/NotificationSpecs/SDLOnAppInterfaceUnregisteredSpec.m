@@ -8,6 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLNames.h"
 

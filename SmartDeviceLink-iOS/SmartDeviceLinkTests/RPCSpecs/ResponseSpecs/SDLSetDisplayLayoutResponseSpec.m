@@ -8,10 +8,13 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLButtonCapabilities.h"
-#import "SDLSoftButtonCapabilities.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLNames.h"
+#import "SDLPresetBankCapabilities.h"
+#import "SDLSetDisplayLayoutResponse.h"
+#import "SDLSoftButtonCapabilities.h"
+
 
 QuickSpecBegin(SDLSetDisplayLayoutResponseSpec)
 

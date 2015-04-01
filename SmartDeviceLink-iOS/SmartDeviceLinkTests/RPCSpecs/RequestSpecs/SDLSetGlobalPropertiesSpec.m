@@ -8,10 +8,13 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLImage.h"
+#import "SDLKeyboardProperties.h"
+#import "SDLNames.h"
 #import "SDLSetGlobalProperties.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
-#import "SDLNames.h"
+
 
 QuickSpecBegin(SDLSetGlobalPropertiesSpec)
 

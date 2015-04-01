@@ -8,7 +8,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLResult.h"
 #import "SDLRPCResponse.h"
+
 
 QuickSpecBegin(SDLRPCResponseSpec)
 

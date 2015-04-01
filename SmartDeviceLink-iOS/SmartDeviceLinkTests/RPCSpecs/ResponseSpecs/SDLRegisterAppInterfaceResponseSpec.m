@@ -8,15 +8,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLButtonCapabilities.h"
-#import "SDLSoftButtonCapabilities.h"
-#import "SDLHMIZoneCapabilities.h"
-#import "SDLSpeechCapabilities.h"
-#import "SDLVrCapabilities.h"
-#import "SDLAudioPassThruCapabilities.h"
-#import "SDLPrerecordedSpeech.h"
+#import "SmartDeviceLink.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
 

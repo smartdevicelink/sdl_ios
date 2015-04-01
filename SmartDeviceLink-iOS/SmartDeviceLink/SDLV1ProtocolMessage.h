@@ -1,8 +1,10 @@
-//  SDLSmartDeviceLinkV1ProtocolMessage.h
+//  SDLV1ProtocolMessage.h
 //
 
-
 #import "SDLProtocolMessage.h"
+
+@class SDLProtocolHeader;
+
 
 @interface SDLV1ProtocolMessage : SDLProtocolMessage
 

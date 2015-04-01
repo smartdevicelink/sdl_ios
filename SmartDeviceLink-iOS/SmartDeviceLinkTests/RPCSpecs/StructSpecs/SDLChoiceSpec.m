@@ -9,7 +9,9 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLChoice.h"
+#import "SDLImage.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLChoiceSpec)
 

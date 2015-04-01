@@ -9,7 +9,9 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImage.h"
+#import "SDLImageType.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLImageSpec)
 

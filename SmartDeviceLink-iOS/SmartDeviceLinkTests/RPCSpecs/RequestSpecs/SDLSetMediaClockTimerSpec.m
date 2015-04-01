@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLSetMediaClockTimer.h"
 #import "SDLNames.h"
+#import "SDLSetMediaClockTimer.h"
+#import "SDLStartTime.h"
+#import "SDLUpdateMode.h"
+
 
 QuickSpecBegin(SDLSetMediaClockTimerSpec)
 

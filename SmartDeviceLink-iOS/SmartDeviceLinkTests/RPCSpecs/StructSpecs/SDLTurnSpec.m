@@ -10,6 +10,7 @@
 
 #import "SDLTurn.h"
 #import "SDLNames.h"
+#import "SDLImage.h"
 
 QuickSpecBegin(SDLTurnSpec)
 

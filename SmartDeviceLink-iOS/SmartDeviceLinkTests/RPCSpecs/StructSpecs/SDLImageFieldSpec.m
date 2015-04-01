@@ -8,9 +8,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLImageField.h"
 #import "SDLFileType.h"
+#import "SDLImageField.h"
+#import "SDLImageFieldName.h"
+#import "SDLImageResolution.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLImageFieldSpec)
 

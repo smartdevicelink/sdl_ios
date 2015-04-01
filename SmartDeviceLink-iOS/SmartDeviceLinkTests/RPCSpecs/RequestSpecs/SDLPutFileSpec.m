@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLPutFile.h"
+#import "SDLFileType.h"
 #import "SDLNames.h"
+#import "SDLPutFile.h"
+
 
 QuickSpecBegin(SDLPutFileSpec)
 

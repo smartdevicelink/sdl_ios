@@ -8,8 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLLanguage.h"
 #import "SDLOnLanguageChange.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLOnLanguageChangeSpec)
 

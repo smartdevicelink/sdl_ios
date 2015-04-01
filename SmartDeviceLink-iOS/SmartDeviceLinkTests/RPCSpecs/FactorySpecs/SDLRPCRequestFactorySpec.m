@@ -8,12 +8,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLRPCRequestFactory.h"
-#import "SDLSoftButton.h"
-#import "SDLTTSChunk.h"
-#import "SDLChoice.h"
-#import "SDLVrHelpItem.h"
-#import "SDLGlobalProperty.h"
+#import "SmartDeviceLink.h"
+
 
 QuickSpecBegin(SDLRPCRequestFactorySpec)
 

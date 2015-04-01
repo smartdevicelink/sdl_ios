@@ -8,6 +8,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLHMIPermissions.h"
+#import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLNames.h"
 

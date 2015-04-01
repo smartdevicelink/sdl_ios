@@ -9,7 +9,11 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLEmergencyEvent.h"
+#import "SDLEmergencyEventType.h"
+#import "SDLFuelCutoffStatus.h"
 #import "SDLNames.h"
+#import "SDLVehicleDataEventStatus.h"
+
 
 QuickSpecBegin(SDLEmergencyEventSpec)
 

@@ -1,4 +1,4 @@
-//  SDLSmartDeviceLinkProtocolHeader.h
+//  SDLProtocolHeader.h
 //
 
 @import Foundation;

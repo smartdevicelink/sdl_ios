@@ -4,6 +4,9 @@
 
 #import "SDLProtocolMessage.h"
 
+@class SDLProtocolHeader;
+
+
 @interface SDLV2ProtocolMessage : SDLProtocolMessage
 
 - (instancetype)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload;

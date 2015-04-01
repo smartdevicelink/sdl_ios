@@ -9,6 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLBodyInformation.h"
+#import "SDLIgnitionStableStatus.h"
+#import "SDLIgnitionStatus.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLBodyInformationSpec)

@@ -8,6 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLKeyboardEvent.h"
 #import "SDLOnKeyboardInput.h"
 #import "SDLNames.h"
 

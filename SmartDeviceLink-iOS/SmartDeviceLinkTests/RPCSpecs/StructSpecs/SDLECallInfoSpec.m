@@ -8,8 +8,11 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLVehicleDataNotificationStatus.h"
+#import "SDLECallConfirmationStatus.h"
 #import "SDLECallInfo.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLECallInfoSpec)
 

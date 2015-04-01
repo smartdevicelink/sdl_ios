@@ -8,7 +8,10 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLCarModeStatus.h"
 #import "SDLClusterModeStatus.h"
+#import "SDLPowerModeQualificationStatus.h"
+#import "SDLPowerModeStatus.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLClusterModeStatusSpec)

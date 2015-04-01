@@ -8,8 +8,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLGetVehicleDataResponse.h"
+#import "SmartDeviceLink.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 

@@ -8,8 +8,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLKeyboardLayout.h"
+#import "SDLKeypressMode.h"
 #import "SDLKeyboardProperties.h"
+#import "SDLLanguage.h"
 #import "SDLNames.h"
+
 
 QuickSpecBegin(SDLKeyboardPropertiesSpec)
 

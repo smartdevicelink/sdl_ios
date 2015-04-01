@@ -8,10 +8,14 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLRegisterAppInterface.h"
-#import "SDLTTSChunk.h"
 #import "SDLAppHMIType.h"
+#import "SDLDeviceInfo.h"
+#import "SDLLanguage.h"
 #import "SDLNames.h"
+#import "SDLRegisterAppInterface.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLTTSChunk.h"
+
 
 QuickSpecBegin(SDLRegisterAppInterfaceSpec)
 

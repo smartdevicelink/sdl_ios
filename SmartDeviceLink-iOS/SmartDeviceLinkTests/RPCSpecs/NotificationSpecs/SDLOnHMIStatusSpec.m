@@ -8,8 +8,12 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAudioStreamingState.h"
+#import "SDLHMILevel.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLNames.h"
+#import "SDLSystemContext.h"
+
 
 QuickSpecBegin(SDLOnHMIStatusSpec)
 
