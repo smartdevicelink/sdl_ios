@@ -8,7 +8,7 @@
 
 @implementation SDLFunctionID
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {
     
     functionIDs = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -72,7 +72,7 @@
                       NAMES_SyncPData, @"65537",
                       
                       NAMES_OnEncodedSyncPData, @"98304",
-                      NAMES_OnSyncPData, @"98405",
+                      NAMES_OnSyncPData, @"98305",
                       nil];
         
     }

@@ -21,8 +21,8 @@
  */
 @interface SDLOnLockScreenStatus : SDLRPCNotification
 
-- (id)init;
-- (id)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * <p>Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)</p>

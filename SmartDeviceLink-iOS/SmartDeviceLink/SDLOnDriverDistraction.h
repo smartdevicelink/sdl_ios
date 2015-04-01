@@ -44,12 +44,12 @@
 /**
  *Constructs a newly allocated SDLOnDriverDistraction object
  */
--(id) init;
+-(instancetype) init;
 /**
  *<p>Constructs a newly allocated SDLOnDriverDistraction object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the driver distraction state(i.e. whether driver distraction rules are in effect, or not)

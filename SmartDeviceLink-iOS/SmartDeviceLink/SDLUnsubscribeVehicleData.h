@@ -23,14 +23,14 @@
 /**
  * @abstract Constructs a new SDLUnsubscribeVehicleData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLUnsubscribeVehicleData object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Gps data

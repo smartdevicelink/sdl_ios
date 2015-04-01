@@ -62,13 +62,13 @@
 /**
  * @abstract Constructs a new SDLSubscribeButton object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSubscribeButton object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The name of the button to subscribe to

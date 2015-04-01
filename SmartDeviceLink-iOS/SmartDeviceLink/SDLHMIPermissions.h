@@ -45,12 +45,12 @@
 /**
  * Constructs a newly allocated SDLHMIPermissions object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLHMIPermissions object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract a set of all HMI levels that are permitted for this given RPC
