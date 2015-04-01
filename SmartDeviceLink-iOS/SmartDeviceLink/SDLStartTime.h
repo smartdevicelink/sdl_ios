@@ -43,12 +43,12 @@
 /**
  * @abstract Constructs a newly allocated SDLStartTime object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a newly allocated SDLStartTime object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The hour. Minvalue="0", maxvalue="59"

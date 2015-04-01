@@ -148,13 +148,13 @@
 /**
  * Constructs a newly allocated SDLGPSData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * Constructs a newly allocated SDLGPSData object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract longitude degrees

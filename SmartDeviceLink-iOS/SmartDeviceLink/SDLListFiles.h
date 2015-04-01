@@ -16,12 +16,12 @@
 /**
  * Constructs a new SDLListFiles object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLListFiles object indicated by the NSMutableDictionary parameter
  * <p>
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 @end

@@ -10,8 +10,8 @@
 
 @interface SDLSoftButton : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLSoftButtonType* type;
 @property(strong) NSString* text;

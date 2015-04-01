@@ -8,6 +8,6 @@
 @interface SDLPrioritizedObjectCollection : NSObject
 
 - (void)addObject:(id)object withPriority:(NSInteger)priority;
-- (id)nextObject;
+- (instancetype)nextObject;
 
 @end

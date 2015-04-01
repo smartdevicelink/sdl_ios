@@ -125,8 +125,8 @@ correlationID;
 +(SDLPerformInteraction*) buildPerformInteractionWithInitialPrompt:(NSString*)initialPrompt initialText:(NSString*)initialText interactionChoiceSetID:(NSNumber*) interactionChoiceSetID correlationID:(NSNumber*) correlationID;
 //*****
 
-
-+(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID;
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) fileName fileType:(SDLFileType*) fileType persistentFile:(NSNumber*) persistentFile correlationId:(NSNumber*) correlationID;
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID __deprecated_msg("use buildPutFileWithFileName:fileType:persistentFile:correlationID: instead");
 
 +(SDLReadDID*) buildReadDIDWithECUName:(NSNumber*) ecuName didLocation:(NSArray*) didLocation correlationID:(NSNumber*) correlationID;
 

@@ -19,13 +19,13 @@
 /**
  * @abstract Constructs a new SDLScrollableMessage object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLScrollableMessage object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A Body of text that can include newlines and tabs

@@ -21,12 +21,12 @@
 
 @implementation SDLRegisterAppInterfaceResponse
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_RegisterAppInterface]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }
@@ -168,12 +168,12 @@
 
 -(NSMutableArray*) hmiZoneCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_hmiZoneCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHmiZoneCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMIZoneCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLHmiZoneCapabilities valueOf:enumString]];
+            [newList addObject:[SDLHMIZoneCapabilities valueOf:enumString]];
         }
         return newList;
     }

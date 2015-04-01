@@ -16,14 +16,14 @@
 /**
  * @abstract Constructs a new SDLUnsubscribeVehicleDataResponse object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLUnsubscribeVehicleDataResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A SDLVehicleDataResult* value. See GPSData.

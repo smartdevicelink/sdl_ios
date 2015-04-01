@@ -83,13 +83,13 @@
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the version of the SDL&reg; SmartDeviceLink interface

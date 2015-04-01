@@ -47,12 +47,12 @@
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object indicated by the Hashtable parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The sampling rate for AudioPassThru<br>

@@ -9,8 +9,8 @@
 
 @interface SDLVehicleDataResult : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLVehicleDataType* dataType;
 @property(strong) SDLVehicleDataResultCode* resultCode;

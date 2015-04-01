@@ -26,7 +26,7 @@
 /**
  * Constructs a new SDLChangeRegistration object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLChangeRegistration object indicated by the NSMutableDictionary
  * parameter
@@ -34,7 +34,7 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the language app want to change to

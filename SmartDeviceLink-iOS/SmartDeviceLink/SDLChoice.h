@@ -55,12 +55,12 @@
 /**
  * Constructs a newly allocated SDLChoice object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLChoice object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice

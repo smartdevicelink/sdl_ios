@@ -16,7 +16,7 @@ typedef void(^SDLMessageAssemblyCompletionHandler)(BOOL done, SDLProtocolMessage
 @property (assign) UInt32 expectedBytes;
 @property (strong) NSMutableDictionary *parts;
 
-- (id)initWithSessionID:(UInt8)sessionID;
+- (instancetype)initWithSessionID:(UInt8)sessionID;
 - (void)handleMessage:(SDLProtocolMessage *)message withCompletionHandler:(SDLMessageAssemblyCompletionHandler)completionHandler;
 
 @end

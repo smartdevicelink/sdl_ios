@@ -9,7 +9,7 @@
 	NSString* value;
 }
 
--(id) initWithValue:(NSString*) value;
+-(instancetype) initWithValue:(NSString*) value;
 
 @property(strong, readonly) NSString* value;
 

@@ -10,8 +10,8 @@
 
 @interface SDLEmergencyEvent : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLEmergencyEventType* emergencyEventType;
 @property(strong) SDLFuelCutoffStatus* fuelCutoffStatus;

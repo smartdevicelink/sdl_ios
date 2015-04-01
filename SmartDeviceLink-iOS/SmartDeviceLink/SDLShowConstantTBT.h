@@ -14,8 +14,8 @@
  */
 @interface SDLShowConstantTBT : SDLRPCRequest {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSString* navigationText1;
 @property(strong) NSString* navigationText2;

@@ -22,13 +22,13 @@
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A Start Time with specifying hour, minute, second values

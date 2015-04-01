@@ -9,7 +9,7 @@
  */
 @interface SDLAddSubMenuResponse : SDLRPCResponse {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @end

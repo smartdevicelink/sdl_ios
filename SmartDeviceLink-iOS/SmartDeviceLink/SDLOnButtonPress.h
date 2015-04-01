@@ -91,7 +91,7 @@
 /**
  *Constructs a newly allocated SDLOnButtonPress object
  */
--(id) init;
+-(instancetype) init;
 /**
  * <p>
  * Constructs a newly allocated SDLOnButtonPress object indicated by the
@@ -100,7 +100,7 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the button's name

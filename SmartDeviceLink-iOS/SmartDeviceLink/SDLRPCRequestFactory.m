@@ -284,6 +284,7 @@ correlationID{
     msg.bitsPerSample = bitsPerSample;
     msg.audioType = audioType;
     msg.muteAudio = muteAudio;
+    msg.correlationID = correlationID;
     
     return msg;
 }
@@ -335,21 +336,23 @@ correlationID{
 }
 //*****
 
-
-+(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID {
-    
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) fileName fileType:(SDLFileType*) fileType persistentFile:(NSNumber*) persistentFile correlationId:(NSNumber*) correlationID {
     //TODO
     //    +(FMPutFile*) buildPutFile:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile fileData:(NSData*) fileData correlationID:(NSNumber*) correlationID {
     
     
     SDLPutFile* msg = [[SDLPutFile alloc] init];
-    msg.syncFileName = syncFileName;
+    msg.syncFileName = fileName;
     
-    msg.fileType = [fileType mutableCopy];
+    msg.fileType = fileType;
     msg.persistentFile = persistentFile;
     msg.correlationID = correlationID;
     
     return msg;
+}
+
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID {
+    return [self buildPutFileWithFileName:syncFileName fileType:fileType persistentFile:persistentFile correlationId:correlationID];
 }
 
 +(SDLReadDID*) buildReadDIDWithECUName:(NSNumber*) ecuName didLocation:(NSArray*) didLocation correlationID:(NSNumber*) correlationID {
@@ -393,7 +396,7 @@ correlationID{
 
 +(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID{
     
-    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:[NSNumber numberWithBool:NO] languageDesired:languageDesired appID: appID];
+    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appID: appID];
 }
 //*****
 
