@@ -19,4 +19,8 @@
 	return value;
 }
 
+- (id)debugQuickLookObject {
+    return value;
+}
+
 @end
