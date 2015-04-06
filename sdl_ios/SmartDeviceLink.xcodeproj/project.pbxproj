@@ -518,7 +518,7 @@
 		D127A74C1A8925460001300A /* SDLVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = D127A74B1A89244E0001300A /* SDLVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D1410AB01AC4543300225A4B /* SDLOnProxyClosed.h in Headers */ = {isa = PBXBuildFile; fileRef = D1410AAE1AC4543300225A4B /* SDLOnProxyClosed.h */; };
 		D1410AB11AC4543300225A4B /* SDLOnProxyClosed.m in Sources */ = {isa = PBXBuildFile; fileRef = D1410AAF1AC4543300225A4B /* SDLOnProxyClosed.m */; };
-		D1410AB41AC454F000225A4B /* SDLDisconnectReason.h in Headers */ = {isa = PBXBuildFile; fileRef = D1410AB21AC454F000225A4B /* SDLDisconnectReason.h */; };
+		D1410AB41AC454F000225A4B /* SDLDisconnectReason.h in Headers */ = {isa = PBXBuildFile; fileRef = D1410AB21AC454F000225A4B /* SDLDisconnectReason.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D1B014F61AA9EF3000A4AB34 /* SDLProxyALMOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = D1B014F41AA9EF3000A4AB34 /* SDLProxyALMOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D1B014F71AA9EF3000A4AB34 /* SDLProxyALMOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B014F51AA9EF3000A4AB34 /* SDLProxyALMOptions.m */; };
 		D1C1CCB71A7C147D0010B521 /* SDLProxyBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C1CCB51A7C147D0010B521 /* SDLProxyBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1899,7 +1899,6 @@
 				D1C2A3301A85444C001325FE /* SDLConnectionState.h in Headers */,
 				59A030251978FBA1003E8ECF /* SDLRPCRequestFactory.h in Headers */,
 				59A0313D1978FBA8003E8ECF /* SDLEncodedSyncPDataResponse.h in Headers */,
-				D1410AB41AC454F000225A4B /* SDLDisconnectReason.h in Headers */,
 				59A030851978FBA2003E8ECF /* SDLRequestType.h in Headers */,
 				59A031951978FBAD003E8ECF /* SDLHMIPermissions.h in Headers */,
 				59A02FF41978FBA1003E8ECF /* SDLSiphonServer.h in Headers */,
@@ -2060,6 +2059,7 @@
 				59A02FF01978FBA1003E8ECF /* SDLConsoleController.h in Headers */,
 				59A0302B1978FBA1003E8ECF /* SDLProxyFactory.h in Headers */,
 				59A030731978FBA2003E8ECF /* SDLMaintenanceModeStatus.h in Headers */,
+				D1410AB41AC454F000225A4B /* SDLDisconnectReason.h in Headers */,
 				D1C2A32C1A85427F001325FE /* SDLBaseTransportConfig.h in Headers */,
 				59A031051978FBA5003E8ECF /* SDLScrollableMessage.h in Headers */,
 				59A0301E1978FBA1003E8ECF /* SDLProxyListener.h in Headers */,

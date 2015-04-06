@@ -6,6 +6,7 @@
 //
 
 #import "SDLProxyALM.h"
+#import "SDLProxyBase.h"
 
 @implementation SDLProxyALM
 

@@ -11,6 +11,8 @@
 
 @class SDLProxyALMOptions;
 
+
+
 @interface SDLProxyALM : SDLProxyBase
 
 -(instancetype)init NS_UNAVAILABLE;
@@ -31,6 +33,8 @@
  * @param appID - Name of the application displayed on SDL.
  *
  * @param options - An optional object specifying options for the proxy.
+ *
+ * @throws Throws a SDLInvalidArgumentException when required parameters or objects are not set.
  */
 -(instancetype)initWithProxyDelegate:(id<SDLProxyListener>)delegate
                              appName:(NSString*)appName

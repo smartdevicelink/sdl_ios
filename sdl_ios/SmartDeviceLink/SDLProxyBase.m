@@ -28,6 +28,7 @@
 
 @import ExternalAccessory;
 
+static NSString* SDLInvalidArgumentException = @"SDLInvalidArgumentException";
 static int const PROX_PROT_VER_ONE = 1;
 static int const REGISTER_APP_INTERFACE_CORRELATION_ID = 65529;
 static int const UNREGISTER_APP_INTERFACE_CORRELATION_ID = 65530;
@@ -138,11 +139,34 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                               options:(SDLProxyALMOptions *)options
                                 error:(NSError**)error{
     
+    NSMutableDictionary* exceptionInfo = [NSMutableDictionary new];
+    
     self.wiproVersion = PROX_PROT_VER_ONE;
+
+    _delegate = delegate;
+    if (!_delegate) {
+        [self throwNilExceptionForClass:[self class] parameterName:@"delegate"];
+    }
+
     _advancedLifecycleManagementEnabled = enableAdvancedLifecycleManagement;
+    
     _applicationName = appName;
+    if (!_applicationName) {
+        [self throwNilExceptionForClass:[self class] parameterName:@"appName"];
+    }
+    
     _mediaApp = isMediaApp;
+    if (!_mediaApp) {
+        [self throwNilExceptionForClass:[self class] parameterName:@"mediaApp"];
+    }
     _applicationID = appID;
+    if (!_applicationID) {
+        [self throwNilExceptionForClass:[self class] parameterName:@"appID"];
+    }
+    
+    if (!options) {
+        [self throwNilExceptionForClass:[SDLProxyALMOptions class] parameterName:@"options"];
+    }
     
     NSNumber* preRegistered = options.preRegistered;
     
@@ -160,26 +184,22 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     
     _ttsName = options.ttsName;
     _ngnMediaScreenAppName = options.ngnMediaScreenAppName;
+    
     _sdlMsgVersionRequest = options.syncMsgVersion;
     _vrSynonyms = options.vrSynonyms;
     //TODO: Is this ok to default to EN_US?
-    _sdlLanguageDesired = (options.languageDesired) ? options.languageDesired : [SDLLanguage EN_US];
-    _hmiDisplayLanguageDesired = (options.hmiDisplayLanguageDesired) ? options.hmiDisplayLanguageDesired : [SDLLanguage EN_US];
+    _sdlLanguageDesired = options.languageDesired;
+    if (!_sdlLanguageDesired) {
+        [self throwNilExceptionForClass:[SDLProxyALMOptions class] parameterName:@"sdlLanguageDesired"];
+    }
+    _hmiDisplayLanguageDesired = options.hmiDisplayLanguageDesired;
+    if (!_hmiDisplayLanguageDesired) {
+        [self throwNilExceptionForClass:[SDLProxyALMOptions class] parameterName:@"hmiDisplayLanguageDesired"];
+    }
+    
     _appTypes = options.appTypes;
     _autoActivateIdDesired = options.autoActivateID;
     _transportConfig = options.transportConfig ? options.transportConfig : [SDLBaseTransportConfig new];
-    
-    if (!delegate) {
-        *error = [NSError new];//TODO: Set this error
-        return;
-    }
-    if (_advancedLifecycleManagementEnabled) {
-        if (!self.isMediaApp) {
-            *error = [NSError new];//TODO: Set this error
-        }
-    }
-    
-    _delegate = delegate;
     
     if (self.internalProxyMessageDispatcher) {
         [self.internalProxyMessageDispatcher dispose];
@@ -229,6 +249,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         }
     }];
     
+    
+    
+//    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"required parameter was nil" userInfo:<#(NSDictionary *)#>
+    
     [self initializeProxy];
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
@@ -246,6 +270,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     
     [self.sdlSession startSession];
     [self sendTransportNotification];
+}
+
+-(void)throwNilExceptionForClass:(Class)class parameterName:(NSString*)name{
+    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%@ %@ cannot be nil", NSStringFromClass(class), name] userInfo:nil];
 }
 
 -(void)sendTransportNotification{
@@ -635,8 +663,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
  
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"invokeMethod" message:NSStringFromSelector(aSelector) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alertView show];
+        
         if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]
             && [self.delegate respondsToSelector:aSelector]) {
+    
+            
             
             //[self performSelector:aSelector withObject:object]; Should not be used with ARC.
             //Alternative is to explicitly call methods.
@@ -713,6 +747,11 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     SDLRPCMessage* rpcMessage = [[SDLRPCMessage alloc] initWithDictionary:[message mutableCopy]];
     NSString* functionName = [rpcMessage getFunctionName];
     NSString* messageType = rpcMessage.messageType;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Notification" message:functionName delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alertView show];        
+    }];
     
     SDLRPCResponse* response = [[SDLRPCResponse alloc] initWithDictionary:[message mutableCopy]];
     
@@ -999,6 +1038,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         }
     }
     else if ([messageType isEqualToString:NAMES_notification]){
+        
         if ([functionName isEqualToString:NAMES_OnHMIStatus]) {
             
             SDLOnHMIStatus* msg = [[SDLOnHMIStatus alloc] initWithDictionary:[message mutableCopy]];

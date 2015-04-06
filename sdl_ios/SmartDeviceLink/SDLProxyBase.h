@@ -12,16 +12,7 @@
 #import "SDLAddCommand.h"
 #import "SDLProxyALMOptions.h"
 
-/*!
- @header SDLProxyBase.h
- 
-//TODO:Add header description if needed
- 
- <p>SDLProxyBase is an abstract class which provides the
- basic structure for connecting to SDL vehicles.
- 
- <p>//TODO: additional information as needed
- */
+static NSString* SDLInvalidArgumentException;
 
 @interface SDLProxyBase : NSObject
 
@@ -43,6 +34,8 @@
  * @param appID - Name of the application displayed on SDL.
  *
  * @param options - An optional dictionary specifying options for the proxy.
+ *
+ * @exception Throws an exception when required parameters or objects are not set.
  */
 -(instancetype)initWithProxyDelegate:(NSObject<SDLProxyListener>*)delegate
    enableAdvancedLifecycleManagement:(BOOL)enableAdvancedLifecycleManagement
