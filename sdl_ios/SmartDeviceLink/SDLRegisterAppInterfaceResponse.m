@@ -12,6 +12,7 @@
 #import <SmartDeviceLink/SDLPrerecordedSpeech.h>
 #import <SmartDeviceLink/SDLVrCapabilities.h>
 #import <SmartDeviceLink/SDLAudioPassThruCapabilities.h>
+#import <SmartDeviceLink/SDLVersion.h>
 
 @implementation SDLRegisterAppInterfaceResponse
 
@@ -284,6 +285,14 @@
 
 -(NSMutableArray*) supportedDiagModes {
     return [parameters objectForKey:NAMES_supportedDiagModes];
+}
+
+-(NSString *)proxyVersionInfo{
+    //TODO: This check does nothing different than returning "SDLVersion"
+    if (SDLVersion) {
+        return SDLVersion;
+    }
+    return nil;
 }
 
 @end

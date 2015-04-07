@@ -31,4 +31,6 @@
 @property(strong) SDLVehicleType* vehicleType;
 @property(strong) NSMutableArray* supportedDiagModes;
 
+-(NSString*)proxyVersionInfo;
+
 @end

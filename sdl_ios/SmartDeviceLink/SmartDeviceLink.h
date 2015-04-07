@@ -7,8 +7,10 @@
 #import <SmartDeviceLink/SDLProxyListener.h>
 #import <SmartDeviceLink/SDLRPCRequestFactory.h>
 #import <SmartDeviceLink/SDLProxy.h>
+#import <SmartDeviceLink/SDLProxyALM.h>
 #import <SmartDeviceLink/SDLProxyFactory.h>
 #import <SmartDeviceLink/SDLTTSChunkFactory.h>
+#import <SmartDeviceLink/SDLBaseTransportConfig.h>
 
 //Debug
 #import <SmartDeviceLink/SDLConsoleController.h>
@@ -177,7 +179,7 @@
 #import <SmartDeviceLink/SDLFuelCutoffStatus.h>
 #import <SmartDeviceLink/SDLGlobalProperty.h>
 #import <SmartDeviceLink/SDLHMILevel.h>
-#import <SmartDeviceLink/SDLHmiZoneCapabilities.h>
+#import <SmartDeviceLink/SDLHMIZoneCapabilities.h>
 #import <SmartDeviceLink/SDLIgnitionStableStatus.h>
 #import <SmartDeviceLink/SDLIgnitionStatus.h>
 #import <SmartDeviceLink/SDLImageType.h>
