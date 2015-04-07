@@ -4,7 +4,7 @@
 
 @import Foundation;
 
-@protocol SDLEncoder
+@protocol SDLEncoder <NSObject>
 
 -(NSData*) encodeDictionary:(NSDictionary*) dict;
 
