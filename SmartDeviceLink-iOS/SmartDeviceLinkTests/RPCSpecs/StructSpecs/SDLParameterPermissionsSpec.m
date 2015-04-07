@@ -18,20 +18,20 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLParameterPermissions* testStruct = [[SDLParameterPermissions alloc] init];
         
-        testStruct.allowed = [@[[SDLHMILevel HMI_BACKGROUND], [SDLHMILevel HMI_FULL]] mutableCopy];
-        testStruct.userDisallowed = [@[[SDLHMILevel HMI_NONE], [SDLHMILevel HMI_LIMITED]] mutableCopy];
+        testStruct.allowed = [@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL]] mutableCopy];
+        testStruct.userDisallowed = [@[[SDLHMILevel NONE], [SDLHMILevel LIMITED]] mutableCopy];
         
-        expect(testStruct.allowed).to(equal([@[[SDLHMILevel HMI_BACKGROUND], [SDLHMILevel HMI_FULL]] mutableCopy]));
-        expect(testStruct.userDisallowed).to(equal([@[[SDLHMILevel HMI_NONE], [SDLHMILevel HMI_LIMITED]] mutableCopy]));
+        expect(testStruct.allowed).to(equal([@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL]] mutableCopy]));
+        expect(testStruct.userDisallowed).to(equal([@[[SDLHMILevel NONE], [SDLHMILevel LIMITED]] mutableCopy]));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_allowed:[@[[SDLHMILevel HMI_BACKGROUND], [SDLHMILevel HMI_FULL]] mutableCopy],
-                                       NAMES_userDisallowed:[@[[SDLHMILevel HMI_NONE], [SDLHMILevel HMI_LIMITED]] mutableCopy]} mutableCopy];
+        NSMutableDictionary* dict = [@{NAMES_allowed:[@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL]] mutableCopy],
+                                       NAMES_userDisallowed:[@[[SDLHMILevel NONE], [SDLHMILevel LIMITED]] mutableCopy]} mutableCopy];
         SDLParameterPermissions* testStruct = [[SDLParameterPermissions alloc] initWithDictionary:dict];
         
-        expect(testStruct.allowed).to(equal([@[[SDLHMILevel HMI_BACKGROUND], [SDLHMILevel HMI_FULL]] mutableCopy]));
-        expect(testStruct.userDisallowed).to(equal([@[[SDLHMILevel HMI_NONE], [SDLHMILevel HMI_LIMITED]] mutableCopy]));
+        expect(testStruct.allowed).to(equal([@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL]] mutableCopy]));
+        expect(testStruct.userDisallowed).to(equal([@[[SDLHMILevel NONE], [SDLHMILevel LIMITED]] mutableCopy]));
     });
     
     it(@"Should return nil if not set", ^ {

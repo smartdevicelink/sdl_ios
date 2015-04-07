@@ -14,18 +14,18 @@ QuickSpecBegin(SDLHMILevelSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect([SDLHMILevel HMI_FULL].value).to(equal(@"FULL"));
-        expect([SDLHMILevel HMI_LIMITED].value).to(equal(@"LIMITED"));
-        expect([SDLHMILevel HMI_BACKGROUND].value).to(equal(@"BACKGROUND"));
-        expect([SDLHMILevel HMI_NONE].value).to(equal(@"NONE"));
+        expect([SDLHMILevel FULL].value).to(equal(@"FULL"));
+        expect([SDLHMILevel LIMITED].value).to(equal(@"LIMITED"));
+        expect([SDLHMILevel BACKGROUND].value).to(equal(@"BACKGROUND"));
+        expect([SDLHMILevel NONE].value).to(equal(@"NONE"));
     });
 });
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
-        expect([SDLHMILevel valueOf:@"FULL"]).to(equal([SDLHMILevel HMI_FULL]));
-        expect([SDLHMILevel valueOf:@"LIMITED"]).to(equal([SDLHMILevel HMI_LIMITED]));
-        expect([SDLHMILevel valueOf:@"BACKGROUND"]).to(equal([SDLHMILevel HMI_BACKGROUND]));
-        expect([SDLHMILevel valueOf:@"NONE"]).to(equal([SDLHMILevel HMI_NONE]));
+        expect([SDLHMILevel valueOf:@"FULL"]).to(equal([SDLHMILevel FULL]));
+        expect([SDLHMILevel valueOf:@"LIMITED"]).to(equal([SDLHMILevel LIMITED]));
+        expect([SDLHMILevel valueOf:@"BACKGROUND"]).to(equal([SDLHMILevel BACKGROUND]));
+        expect([SDLHMILevel valueOf:@"NONE"]).to(equal([SDLHMILevel NONE]));
     });
     
     it(@"Should return nil when invalid", ^ {
@@ -37,10 +37,10 @@ describe(@"Value List Tests", ^ {
     NSMutableArray* storedValues = [SDLHMILevel values];
     __block NSMutableArray* definedValues;
     beforeSuite(^ {
-        definedValues = [@[[SDLHMILevel HMI_FULL],
-                        [SDLHMILevel HMI_LIMITED],
-                        [SDLHMILevel HMI_BACKGROUND],
-                        [SDLHMILevel HMI_NONE]] mutableCopy];
+        definedValues = [@[[SDLHMILevel FULL],
+                        [SDLHMILevel LIMITED],
+                        [SDLHMILevel BACKGROUND],
+                        [SDLHMILevel NONE]] mutableCopy];
     });
     
     it(@"Should contain all defined enum values", ^ {

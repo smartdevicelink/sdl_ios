@@ -130,7 +130,7 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-    if ((notification.hmiLevel == [SDLHMILevel HMI_FULL]) && self.isFirstHMIFull) {
+    if ((notification.hmiLevel == [SDLHMILevel FULL]) && self.isFirstHMIFull) {
         [self showInitialData];
         self.isFirstHMIFull = NO;
     }
