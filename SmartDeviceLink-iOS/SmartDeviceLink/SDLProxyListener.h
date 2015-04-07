@@ -77,7 +77,7 @@
 -(void) onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse*) response;
 -(void) onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse*) response;
 -(void) onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse*) response;
--(void) onEncodedSyncPDataRespons:(SDLEncodedSyncPDataResponse*) response;
+-(void) onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse*) response;
 -(void) onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse*) response;
 -(void) onError:(NSException*) e;
 -(void) onGenericResponse:(SDLGenericResponse*) response;
