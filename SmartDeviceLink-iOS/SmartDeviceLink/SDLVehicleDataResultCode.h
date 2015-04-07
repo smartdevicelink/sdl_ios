@@ -16,43 +16,55 @@
  * @return SDLVehicleDataResultCode
  */
 +(SDLVehicleDataResultCode*) valueOf:(NSString*) value;
+
 /*!
  @abstract Store the enumeration of all possible SDLVehicleDataResultCode
  @result return an array that store all possible SDLVehicleDataResultCode
  */
 +(NSMutableArray*) values;
 
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> SUCCESS </i></font>
+/**
+ * Individual vehicle data item / DTC / DID request or subscription successful
  */
 +(SDLVehicleDataResultCode*) SUCCESS;
+
+/**
+ * DTC / DID request successful, however, not all active DTCs or full contents of DID location available
+ */
 +(SDLVehicleDataResultCode*) TRUNCATED_DATA;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> DISALLOWED </i></font>
+
+/**
+ * This vehicle data item is not allowed for this app by SDL
  */
 +(SDLVehicleDataResultCode*) DISALLOWED;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> USER_DISALLOWED </i></font>
+
+/**
+ * The user has not granted access to this type of vehicle data item at this time
  */
 +(SDLVehicleDataResultCode*) USER_DISALLOWED;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> INVALID_ID </i></font>
+
+/**
+ * The ECU ID referenced is not a valid ID on the bus / system
  */
 +(SDLVehicleDataResultCode*) INVALID_ID;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> VEHICLE_DATA_NOT_AVAILABLE </i></font>
+
+/**
+ * The requested vehicle data item / DTC / DID is not currently available or responding on the bus / system
  */
 +(SDLVehicleDataResultCode*) VEHICLE_DATA_NOT_AVAILABLE;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> DATA_ALREADY_SUBSCRIBED </i></font>
+
+/**
+ * The vehicle data item is already subscribed
  */
 +(SDLVehicleDataResultCode*) DATA_ALREADY_SUBSCRIBED;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> DATA_NOT_SUBSCRIBED </i></font>
+
+/**
+ * The vehicle data item cannot be unsubscribed because it is not currently subscribed
  */
 +(SDLVehicleDataResultCode*) DATA_NOT_SUBSCRIBED;
-/*!
- @abstract return SDLVehicleDataResultCode : <font color=gray><i> IGNORED </i></font>
+
+/**
+ * The request for this item is ignored because it is already in progress
  */
 +(SDLVehicleDataResultCode*) IGNORED;
 
