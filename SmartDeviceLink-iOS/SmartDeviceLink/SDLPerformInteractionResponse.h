@@ -1,0 +1,43 @@
+//  SDLPerformInteractionResponse.h
+//
+
+
+
+#import "SDLRPCResponse.h"
+
+@class SDLTriggerSource;
+
+
+/**
+ * PerformInteraction Response is sent, when SDLPerformInteraction has been called
+ *
+ * Since SmartDeviceLink 1.0
+ */
+@interface SDLPerformInteractionResponse : SDLRPCResponse {}
+
+/**
+ * @abstract Constructs a new SDLPerformInteractionResponse object
+ */
+-(instancetype) init;
+/**
+ * @abstract Constructs a new SDLPerformInteractionResponse object indicated by the NSMutableDictionary parameter
+ * @param dict The NSMutableDictionary to use
+ */
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+
+/**
+ * @abstract The application-scoped identifier that uniquely identifies this choice.
+ * <br/>choiceID Min: 0  Max: 65535
+ */
+@property(strong) NSNumber* choiceID;
+/**
+ * @abstract A string containing the entered text</p>
+ */
+@property(strong) NSString* manualTextEntry;
+/**
+ * @abstract A <I>TriggerSource</I> object which will be shown in the HMI</p>
+ */
+@property(strong) SDLTriggerSource* triggerSource;
+
+
+@end

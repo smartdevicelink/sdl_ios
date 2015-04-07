@@ -43,3 +43,9 @@ profile
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
 # Pods/
+
+SmartDeviceLink-iOS/Carthage/Checkouts/
+
+sdl_ios/SmartDeviceLink.xcodeproj/project.pbxproj
+
+SmartDeviceLink-iOS/SmartDeviceLink/SDLAbstractTransport.h
