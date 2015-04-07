@@ -1,7 +1,6 @@
 //  SDLProxyListener.h
 //
 
-
 @class SDLAddCommandResponse;
 @class SDLAddSubMenuResponse;
 @class SDLAlertResponse;
@@ -92,7 +91,6 @@
 -(void) onOnCommand:(SDLOnCommand*) notification;
 -(void) onOnEncodedSyncPData:(SDLOnEncodedSyncPData*) notification;
 -(void) onOnHashChange:(SDLOnHashChange*) notification;
--(void) onOnKeyboardInput:(SDLOnKeyboardInput*) notification;
 -(void) onOnLanguageChange:(SDLOnLanguageChange*) notification;
 -(void) onOnLockScreenNotification:(SDLLockScreenStatus*) notification;
 -(void) onOnPermissionsChange:(SDLOnPermissionsChange*) notification;
@@ -119,7 +117,6 @@
 -(void) onSubscribeButtonResponse:(SDLSubscribeButtonResponse*) response;
 -(void) onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse*) response;
 -(void) onSyncPDataResponse:(SDLSyncPDataResponse*) response;
--(void) onSystemRequestResponse:(SDLSystemRequestResponse*) response;
 -(void) onUpdateTurnListResponse:(SDLUpdateTurnListResponse*) response;
 -(void) onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse*) response;
 -(void) onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse*) response;

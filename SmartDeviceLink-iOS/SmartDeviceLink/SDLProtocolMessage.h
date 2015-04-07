@@ -2,9 +2,9 @@
 //
 
 @import Foundation;
-@class SDLProtocolHeader;
 
-@class SDLSessionType;
+#import "SDLMessageType.h"
+#import "SDLProtocolHeader.h"
 
 @interface SDLProtocolMessage : NSObject
 
