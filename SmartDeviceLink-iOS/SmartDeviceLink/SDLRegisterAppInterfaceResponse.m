@@ -290,10 +290,10 @@
 }
 
 -(NSString *)proxyVersionInfo{
-    //TODO: This check does nothing different than returning "SDLVersion"
-    if (SDLVersion) {
-        return SDLVersion;
-    }
+    //TODO: Pulled from SmartDeviceLink.h, but no values stated
+//    if (SmartDeviceLinkVersionNumber) {
+//        return [NSString stringWithUTF8String:SmartDeviceLinkVersionString];
+//    }
     return nil;
 }
 
