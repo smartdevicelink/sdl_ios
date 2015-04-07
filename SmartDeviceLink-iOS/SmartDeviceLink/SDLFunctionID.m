@@ -51,6 +51,7 @@
                       NAMES_SetDisplayLayout, @"36",
                       NAMES_DiagnosticMessage, @"37",
                       NAMES_SystemRequest, @"38",
+                      NAMES_SendLocation, @"39",
 
                       NAMES_OnHMIStatus, @"32768",
                       NAMES_OnAppInterfaceUnregistered, @"32769",

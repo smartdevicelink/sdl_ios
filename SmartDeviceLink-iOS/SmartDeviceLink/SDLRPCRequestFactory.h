@@ -33,6 +33,7 @@
 @class SDLResetGlobalProperties;
 @class SDLSamplingRate;
 @class SDLScrollableMessage;
+@class SDLSendLocation;
 @class SDLSetAppIcon;
 @class SDLSetDisplayLayout;
 @class SDLSetGlobalProperties;
@@ -140,6 +141,8 @@ correlationID;
 
 
 +(SDLResetGlobalProperties*) buildResetGlobalPropertiesWithProperties:(NSArray*) properties correlationID:(NSNumber*) correlationID;
+
++(SDLSendLocation*) buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image;
 
 +(SDLScrollableMessage*) buildScrollableMessage:(NSString*) scrollableMessageBody timeout:(NSNumber*) timeout softButtons:(NSArray*) softButtons correlationID:(NSNumber*) correlationID;
 
