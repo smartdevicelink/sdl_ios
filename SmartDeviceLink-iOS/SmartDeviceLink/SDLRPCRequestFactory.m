@@ -366,7 +366,7 @@ correlationID{
 }
 
 //***** RegisterAppInterface *****
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSMutableArray*) ttsName vrSynonyms:(NSMutableArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSArray*) ttsName vrSynonyms:(NSArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
     
     SDLRegisterAppInterface* msg = [[SDLRegisterAppInterface alloc] init];
     SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] init];
@@ -374,9 +374,9 @@ correlationID{
 	version.minorVersion = [NSNumber numberWithInt:0];
     msg.syncMsgVersion = version;
 	msg.appName = appName;
-    msg.ttsName = ttsName;
+    msg.ttsName = [ttsName mutableCopy];
 	msg.ngnMediaScreenAppName = appName;
-	msg.vrSynonyms = vrSynonyms;
+	msg.vrSynonyms = [vrSynonyms mutableCopy];
 	msg.isMediaApplication = isMediaApp;
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
