@@ -25,9 +25,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLImageFieldName graphic].value).to(equal(@"graphic"));
         expect([SDLImageFieldName showConstantTBTIcon].value).to(equal(@"showConstantTBTIcon"));
         expect([SDLImageFieldName showConstantTBTNextTurnIcon].value).to(equal(@"showConstantTBTNextTurnIcon"));
-        //expect([SDLImageFieldName locationImage].value).to(equal(@"locationImage"));
+        expect([SDLImageFieldName locationImage].value).to(equal(@"locationImage"));
     });
 });
+
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
         expect([SDLImageFieldName valueOf:@"softButtonImage"]).to(equal([SDLImageFieldName softButtonImage]));
@@ -41,7 +42,7 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLImageFieldName valueOf:@"graphic"]).to(equal([SDLImageFieldName graphic]));
         expect([SDLImageFieldName valueOf:@"showConstantTBTIcon"]).to(equal([SDLImageFieldName showConstantTBTIcon]));
         expect([SDLImageFieldName valueOf:@"showConstantTBTNextTurnIcon"]).to(equal([SDLImageFieldName showConstantTBTNextTurnIcon]));
-        //expect([SDLImageFieldName valueOf:@"locationImage"]).to(equal([SDLImageFieldName locationImage]));
+        expect([SDLImageFieldName valueOf:@"locationImage"]).to(equal([SDLImageFieldName locationImage]));
     });
     
     it(@"Should return nil when invalid", ^ {
@@ -49,6 +50,7 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLImageFieldName valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
+
 describe(@"Value List Tests", ^ {
     NSMutableArray* storedValues = [SDLImageFieldName values];
     __block NSMutableArray* definedValues;
@@ -64,7 +66,7 @@ describe(@"Value List Tests", ^ {
                         [SDLImageFieldName graphic],
                         [SDLImageFieldName showConstantTBTIcon],
                         [SDLImageFieldName showConstantTBTNextTurnIcon]] mutableCopy];
-                        //[SDLImageFieldName locationImage]
+                        [SDLImageFieldName locationImage]
     });
     
     it(@"Should contain all defined enum values", ^ {

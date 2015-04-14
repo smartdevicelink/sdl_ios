@@ -73,4 +73,10 @@
  */
 +(SDLImageFieldName*) showConstantTBTNextTurnIcon;
 
+/**
+ * The optional image of a destination / location
+ * @since SDL 4.0
+ */
++(SDLImageFieldName*) locationImage;
+
 @end
