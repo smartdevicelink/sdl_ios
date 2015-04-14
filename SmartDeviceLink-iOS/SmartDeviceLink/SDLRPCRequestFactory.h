@@ -16,6 +16,7 @@
 @class SDLDeleteFile;
 @class SDLDeleteInteractionChoiceSet;
 @class SDLDeleteSubMenu;
+@class SDLDialNumber;
 @class SDLEndAudioPassThru;
 @class SDLFileType;
 @class SDLGetDTCs;
@@ -96,6 +97,8 @@ correlationID;
 +(SDLDeleteCommand*) buildDeleteCommandWithID:(NSNumber*) cmdID correlationID:(NSNumber*) correlationID;
 
 +(SDLDeleteFile*) buildDeleteFileWithName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID;
+
++(SDLDialNumber*) buildDialNumberWithNumber:(NSString*)phoneNumber;
 
 +(SDLListFiles*) buildListFilesWithCorrelationID:(NSNumber*) correlationID;
 

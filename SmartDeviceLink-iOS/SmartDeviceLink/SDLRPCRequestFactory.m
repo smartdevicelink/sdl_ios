@@ -15,6 +15,7 @@
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
 #import "SDLGetDTCs.h"
@@ -196,6 +197,13 @@ correlationID{
     SDLDeleteFile* msg = [[SDLDeleteFile alloc] init];
     msg.syncFileName = syncFileName;
     msg.correlationID = correlationID;
+    
+    return msg;
+}
+
++(SDLDialNumber*) buildDialNumberWithNumber:(NSString *)phoneNumber {
+    SDLDialNumber *msg = [[SDLDialNumber alloc] init];
+    msg.number = phoneNumber;
     
     return msg;
 }
