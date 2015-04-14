@@ -20,7 +20,7 @@ QuickSpecBegin(SDLPerformInteractionSpec)
 SDLTTSChunk* chunk1 = [[SDLTTSChunk alloc] init];
 SDLTTSChunk* chunk2 = [[SDLTTSChunk alloc] init];
 SDLTTSChunk* chunk3 = [[SDLTTSChunk alloc] init];
-SDLVrHelpItem* helpItem = [[SDLVrHelpItem alloc] init];
+SDLVRHelpItem* helpItem = [[SDLVRHelpItem alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {

@@ -14,24 +14,24 @@ QuickSpecBegin(SDLVrCapabilitiesSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect([SDLVrCapabilities TEXT].value).to(equal(@"TEXT"));
+        expect([SDLVRCapabilities TEXT].value).to(equal(@"TEXT"));
     });
 });
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
-        expect([SDLVrCapabilities valueOf:@"TEXT"]).to(equal([SDLVrCapabilities TEXT]));
+        expect([SDLVRCapabilities valueOf:@"TEXT"]).to(equal([SDLVRCapabilities TEXT]));
     });
     
     it(@"Should return nil when invalid", ^ {
-        expect([SDLVrCapabilities valueOf:nil]).to(beNil());
-        expect([SDLVrCapabilities valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
+        expect([SDLVRCapabilities valueOf:nil]).to(beNil());
+        expect([SDLVRCapabilities valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLVrCapabilities values];
+    NSMutableArray* storedValues = [SDLVRCapabilities values];
     __block NSMutableArray* definedValues;
     beforeSuite(^ {
-        definedValues = [@[[SDLVrCapabilities TEXT]] mutableCopy];
+        definedValues = [@[[SDLVRCapabilities TEXT]] mutableCopy];
     });
     
     it(@"Should contain all defined enum values", ^ {

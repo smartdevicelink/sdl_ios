@@ -350,7 +350,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
             NSArray* initialChunks = @[[[SDLTTSChunk alloc] init]];
             NSArray* helpChunks = @[[[SDLTTSChunk alloc] init]];
             NSArray* timeoutChunks = @[[[SDLTTSChunk alloc] init]];
-            NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
+            NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:@"Start" interactionChoiceSetIDList:@[@878]
                                                                    helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:[SDLInteractionMode MANUAL_ONLY] timeout:@7500
                                                                    vrHelp:vrHelp correlationID:@272727];
@@ -370,7 +370,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
     
     context(@"With Initial Prompt", ^ {
         it(@"Should build correctly", ^ {
-            NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
+            NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]
                                                                    helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:[SDLInteractionMode VR_ONLY]
                                                                    timeout:@5600 vrHelp:vrHelp correlationID:@31564];
@@ -606,7 +606,7 @@ describe(@"BuildSetDisplayLayout Tests", ^ {
 
 describe(@"BuildSetGlobalProperties Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* help = @[[[SDLVrHelpItem alloc] init]];
+        NSArray* help = @[[[SDLVRHelpItem alloc] init]];
         SDLSetGlobalProperties* message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Beyond Help" timeoutText:@"You took too long" vrHelpTitle:@"Voice"
                                                                 vrHelp:help correlationID:@5666666];
         
