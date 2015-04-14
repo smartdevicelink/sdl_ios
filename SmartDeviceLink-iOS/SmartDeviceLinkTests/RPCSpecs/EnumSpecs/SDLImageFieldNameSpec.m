@@ -65,8 +65,9 @@ describe(@"Value List Tests", ^ {
                         [SDLImageFieldName appIcon],
                         [SDLImageFieldName graphic],
                         [SDLImageFieldName showConstantTBTIcon],
+                        [SDLImageFieldName locationImage],
                         [SDLImageFieldName showConstantTBTNextTurnIcon]] mutableCopy];
-                        [SDLImageFieldName locationImage]
+        
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -517,6 +517,63 @@ describe(@"BuildResetGlobalProperties Tests", ^ {
     });
 });
 
+describe(@"BuildSendLocation", ^{
+    __block SDLSendLocation *message = nil;
+    __block NSNumber *someLongitude = nil;
+    __block NSNumber *someLatitude = nil;
+    __block NSString *someLocation = nil;
+    __block NSString *someLocationDescription = nil;
+    __block NSArray *someAddressLines = nil;
+    __block NSString *somePhoneNumber = nil;
+    __block SDLImage *someImage = nil;
+    
+    describe(@"when built correctly", ^{
+        beforeEach(^{
+            someLongitude = @123.4567;
+            someLatitude = @65.4321;
+            someLocation = @"Livio";
+            someLocationDescription = @"A great place to work";
+            someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
+            somePhoneNumber = @"248-591-0333";
+            someImage = [[SDLImage alloc] init];
+            
+            message = [SDLRPCRequestFactory buildSendLocationWithLongitude:someLongitude latitude:someLatitude locationName:someLocation locationDescription:someLocationDescription address:someAddressLines phoneNumber:somePhoneNumber image:someImage];
+        });
+        
+        it(@"should not be nil", ^{
+            expect(message).toNot(beNil());
+        });
+        
+        it(@"should properly set longitude", ^{
+            expect(message.longitudeDegrees).to(equal(someLongitude));
+        });
+        
+        it(@"should properly set latitude", ^{
+            expect(message.latitudeDegrees).to(equal(someLatitude));
+        });
+        
+        it(@"should properly set location", ^{
+            expect(message.locationName).to(equal(someLocation));
+        });
+        
+        it(@"should properly set location description", ^{
+            expect(message.locationDescription).to(equal(someLocationDescription));
+        });
+        
+        it(@"should properly set address lines", ^{
+            expect(message.addressLines).to(equal(someAddressLines));
+        });
+        
+        it(@"should properly set phone number", ^{
+            expect(message.phoneNumber).to(equal(somePhoneNumber));
+        });
+        
+        it(@"should properly set image", ^{
+            expect(message.locationImage).to(equal(someImage));
+        });
+    });
+});
+
 describe(@"BuildScrollableMessage Tests", ^ {
     it(@"Should build correctly", ^ {
         NSArray* softButtons = @[[[SDLSoftButton alloc] init]];

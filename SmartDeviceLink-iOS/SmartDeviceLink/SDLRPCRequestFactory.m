@@ -30,6 +30,7 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLResetGlobalProperties.h"
 #import "SDLScrollableMessage.h"
+#import "SDLSendLocation.h"
 #import "SDLSetAppIcon.h"
 #import "SDLSetDisplayLayout.h"
 #import "SDLSetGlobalProperties.h"
@@ -427,6 +428,19 @@ correlationID{
 	msg.correlationID = correlationID;
 	
 	return msg;
+}
+
++(SDLSendLocation *) buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+    SDLSendLocation *msg = [[SDLSendLocation alloc] init];
+    msg.longitudeDegrees = longitude;
+    msg.latitudeDegrees = latitude;
+    msg.locationName = locationName;
+    msg.locationDescription = locationDescription;
+    msg.addressLines = address;
+    msg.phoneNumber = phoneNumber;
+    msg.locationImage = image;
+    
+    return msg;
 }
 
 +(SDLSetAppIcon*) buildSetAppIconWithFileName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID {
