@@ -76,6 +76,10 @@ NIMBLE_EXPORT id<NMBMatcher> NMB_beNil(void);
 NIMBLE_SHORT(id<NMBMatcher> beNil(void),
              NMB_beNil());
 
+NIMBLE_EXPORT id<NMBMatcher> NMB_beEmpty(void);
+NIMBLE_SHORT(id<NMBMatcher> beEmpty(void),
+             NMB_beEmpty());
+
 NIMBLE_EXPORT id<NMBMatcher> NMB_contain(id itemOrSubstring);
 NIMBLE_SHORT(id<NMBMatcher> contain(id itemOrSubstring),
              NMB_contain(itemOrSubstring));
@@ -92,6 +96,10 @@ NIMBLE_EXPORT id<NMBMatcher> NMB_match(id expectedValue);
 NIMBLE_SHORT(id<NMBMatcher> match(id expectedValue),
              NMB_match(expectedValue));
 
+NIMBLE_EXPORT id<NMBMatcher> NMB_allPass(id matcher);
+NIMBLE_SHORT(id<NMBMatcher> allPass(id matcher),
+             NMB_allPass(matcher));
+
 // In order to preserve breakpoint behavior despite using macros to fill in __FILE__ and __LINE__,
 // define a builder that populates __FILE__ and __LINE__, and returns a block that takes timeout
 // and action arguments. See https://github.com/Quick/Quick/pull/185 for details.
@@ -105,8 +113,8 @@ NIMBLE_EXPORT NMBWaitUntilBlock nmb_wait_until_builder(NSString *file, NSUIntege
 #define NMB_waitUntil nmb_wait_until_builder(@(__FILE__), __LINE__)
 
 #ifndef NIMBLE_DISABLE_SHORT_SYNTAX
-#define expect(EXPR) NMB_expect(^id{ return (EXPR); }, __FILE__, __LINE__)
-#define expectAction(EXPR) NMB_expect(^id{ (EXPR); return nil; }, __FILE__, __LINE__)
+#define expect(...) NMB_expect(^id{ return (__VA_ARGS__); }, __FILE__, __LINE__)
+#define expectAction(...) NMB_expect(^id{ (__VA_ARGS__); return nil; }, __FILE__, __LINE__)
 #define waitUntilTimeout NMB_waitUntilTimeout
 #define waitUntil NMB_waitUntil
 #endif
