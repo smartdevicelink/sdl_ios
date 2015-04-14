@@ -140,10 +140,50 @@
  * @since <font color=red><b> SmartDeviceLink 2.0 </b></font>
  */
 +(SDLTextFieldName*) sliderFooter;
+
+/**
+ * Primary text for Choice
+ */
 +(SDLTextFieldName*) menuName;
+
+/**
+ * Secondary text for Choice
+ */
 +(SDLTextFieldName*) secondaryText;
+
+/**
+ * Tertiary text for Choice
+ */
 +(SDLTextFieldName*) tertiaryText;
+
+/**
+ * Optional text to label an app menu button (for certain touchscreen platforms)
+ */
 +(SDLTextFieldName*) menuTitle;
+
+/**
+ * Optional name / title of intended location for SendLocation
+ * @since SDL 4.0
+ */
++(SDLTextFieldName*) locationName;
+
+/**
+ * Optional description of intended location / establishment (if applicable) for SendLocation
+ * @since SDL 4.0
+ */
++(SDLTextFieldName*) locationDescription;
+
+/**
+ * Optional location address (if applicable) for SendLocation
+ * @since SDL 4.0
+ */
++(SDLTextFieldName*) addressLines;
+
+/**
+ * Optional hone number of intended location / establishment (if applicable) for SendLocation
+ * @since SDL 4.0
+ */
++(SDLTextFieldName*) phoneNumber;
 
 @end
 
