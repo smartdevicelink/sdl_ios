@@ -6,7 +6,7 @@
 @class SDLProtocolMessage;
 
 
-@protocol SDLProtocolListener
+@protocol SDLProtocolListener <NSObject>
 
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version;
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg;

@@ -9,7 +9,7 @@
 @class SDLRPCRequest;
 
 
-@protocol SDLInterfaceProtocol<SDLTransportDelegate>
+@protocol SDLInterfaceProtocol <SDLTransportDelegate>
 
 @property (weak) id<SDLProtocolListener> protocolDelegate;
 @property (strong) id<SDLTransport> transport;
