@@ -5,10 +5,11 @@
 
 #import "SDLRPCResponse.h"
 
-@class SDLSyncMsgVersion;
 @class SDLLanguage;
 @class SDLDisplayCapabilities;
+@class SDLHMICapabilities;
 @class SDLPresetBankCapabilities;
+@class SDLSyncMsgVersion;
 @class SDLVehicleType;
 
 
@@ -139,5 +140,27 @@
  * Optional, Array of length 1 - 100, Integer 0 - 255
  */
 @property(strong) NSMutableArray* supportedDiagModes;
+
+/**
+ * @see SDLHMICapabilities
+ *
+ * Optional
+ */
+@property(strong) SDLHMICapabilities* hmiCapabilities;
+
+/**
+ * The SmartDeviceLink version
+ *
+ * Optional, String max length 100
+ */
+@property(strong) NSString *sdlVersion;
+
+/**
+ * The software version of the system that implements the SmartDeviceLink core
+ *
+ * Optional, String max length 100
+ */
+@property(strong) NSString *systemSoftwareVersion;
+
 
 @end

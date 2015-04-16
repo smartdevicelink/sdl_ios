@@ -21,6 +21,7 @@ SDLSoftButtonCapabilities* softButton = [[SDLSoftButtonCapabilities alloc] init]
 SDLPresetBankCapabilities* presetBank = [[SDLPresetBankCapabilities alloc] init];
 SDLAudioPassThruCapabilities* audioPassThru = [[SDLAudioPassThruCapabilities alloc] init];
 SDLVehicleType* vehicle = [[SDLVehicleType alloc] init];
+SDLHMICapabilities *hmiCapabilities = [[SDLHMICapabilities alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -40,6 +41,9 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.vehicleType = vehicle;
         testResponse.prerecordedSpeech = [@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy];
         testResponse.supportedDiagModes = [@[@67, @99, @111] mutableCopy];
+        testResponse.hmiCapabilities = hmiCapabilities;
+        testResponse.sdlVersion = @"sdlVersion";
+        testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
         
         expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
@@ -55,6 +59,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.vehicleType).to(equal(vehicle));
         expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy]));
         expect(testResponse.supportedDiagModes).to(equal([@[@67, @99, @111] mutableCopy]));
+        expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
+        expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
+        expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -73,7 +80,11 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_audioPassThruCapabilities:[@[audioPassThru] mutableCopy],
                                                    NAMES_vehicleType:vehicle,
                                                    NAMES_prerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy],
-                                                   NAMES_supportedDiagModes:[@[@67, @99, @111] mutableCopy]},
+                                                   NAMES_supportedDiagModes:[@[@67, @99, @111] mutableCopy],
+                                                   NAMES_hmiCapabilities: hmiCapabilities,
+                                                   NAMES_sdlVersion: @"sdlVersion",
+                                                   NAMES_systemSoftwareVersion: @"systemSoftwareVersion"
+                                                   },
                                              NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
@@ -91,6 +102,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.vehicleType).to(equal(vehicle));
         expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy]));
         expect(testResponse.supportedDiagModes).to(equal([@[@67, @99, @111] mutableCopy]));
+        expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
+        expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
+        expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -110,6 +124,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.vehicleType).to(beNil());
         expect(testResponse.prerecordedSpeech).to(beNil());
         expect(testResponse.supportedDiagModes).to(beNil());
+        expect(testResponse.hmiCapabilities).to(beNil());
+        expect(testResponse.sdlVersion).to(beNil());
+        expect(testResponse.systemSoftwareVersion).to(beNil());
     });
 });
 
