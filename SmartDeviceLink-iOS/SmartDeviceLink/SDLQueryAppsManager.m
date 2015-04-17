@@ -59,26 +59,26 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
         }
         
         // Loop through the response array, pull out all of the iOS data
-        for (NSDictionary *appData in apps) {
-            @autoreleasepool {
-                NSDictionary *iOSAppData = appData[@"ios"];
-                if (iOSAppData == nil) {
-                    continue;
-                }
-                
-                // Check the URL scheme to see if it is installed
-                NSString *iOSURLSchemeString = iOSAppData[@"urlScheme"];
-                NSURL *iOSURLScheme = [NSURL URLWithString:iOSURLSchemeString];
-                if ([[UIApplication sharedApplication] canOpenURL:iOSURLScheme]) {
-                    [filteredResponses addObject:appData];
-                }
+        for (NSDictionary *appData in apps) { @autoreleasepool {
+            NSDictionary *iOSAppData = appData[@"ios"];
+            if (iOSAppData == nil) {
+                continue;
             }
-        }
+            
+            // Check the URL scheme to see if it is installed
+            NSString *iOSURLSchemeString = iOSAppData[@"urlScheme"];
+            NSURL *iOSURLScheme = [NSURL URLWithString:iOSURLSchemeString];
+            if ([[UIApplication sharedApplication] canOpenURL:iOSURLScheme]) {
+                // If it's an iOS app that is installed, it is part of the filtered response we want to send back
+                [filteredResponses addObject:appData];
+            }
+        }}
         
-        // Add the installed applications to the filtered response dictionary, serialize it
+        // Replace the response dictionary that contained every app with the filtered list
         filteredQueryResponse[@"response"] = filteredResponses;
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Filtered Query Apps data from cloud: %@", filteredQueryResponse] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All];
         
+        // Serialize the list and pass it to the completion block
         NSData *filteredQueryResponseData = [NSJSONSerialization dataWithJSONObject:filteredQueryResponse options:kNilOptions error:&error];
         if (error != nil) {
             [self dispatchError:error forCompletionBlock:completionBlock];
