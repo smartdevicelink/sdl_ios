@@ -26,7 +26,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLResult VEHICLE_DATA_NOT_AVAILABLE].value).to(equal(@"VEHICLE_DATA_NOT_AVAILABLE"));
         expect([SDLResult TIMED_OUT].value).to(equal(@"TIMED_OUT"));
         expect([SDLResult INVALID_DATA].value).to(equal(@"INVALID_DATA"));
-        //expect([SDLResult CHAR_LIMIT_EXCEEDED].value).to(equal(@"CHAR_LIMIT_EXCEEDED"));
+        expect([SDLResult CHAR_LIMIT_EXCEEDED].value).to(equal(@"CHAR_LIMIT_EXCEEDED"));
         expect([SDLResult INVALID_ID].value).to(equal(@"INVALID_ID"));
         expect([SDLResult DUPLICATE_NAME].value).to(equal(@"DUPLICATE_NAME"));
         expect([SDLResult APPLICATION_NOT_REGISTERED].value).to(equal(@"APPLICATION_NOT_REGISTERED"));
@@ -62,7 +62,7 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLResult valueOf:@"VEHICLE_DATA_NOT_AVAILABLE"]).to(equal([SDLResult VEHICLE_DATA_NOT_AVAILABLE]));
         expect([SDLResult valueOf:@"TIMED_OUT"]).to(equal([SDLResult TIMED_OUT]));
         expect([SDLResult valueOf:@"INVALID_DATA"]).to(equal([SDLResult INVALID_DATA]));
-        //expect([SDLResult valueOf:@"CHAR_LIMIT_EXCEEDED"]).to(equal([SDLResult CHAR_LIMIT_EXCEEDED]));
+        expect([SDLResult valueOf:@"CHAR_LIMIT_EXCEEDED"]).to(equal([SDLResult CHAR_LIMIT_EXCEEDED]));
         expect([SDLResult valueOf:@"INVALID_ID"]).to(equal([SDLResult INVALID_ID]));
         expect([SDLResult valueOf:@"DUPLICATE_NAME"]).to(equal([SDLResult DUPLICATE_NAME]));
         expect([SDLResult valueOf:@"APPLICATION_NOT_REGISTERED"]).to(equal([SDLResult APPLICATION_NOT_REGISTERED]));
@@ -106,7 +106,7 @@ describe(@"Value List Tests", ^ {
                         [SDLResult VEHICLE_DATA_NOT_AVAILABLE],
                         [SDLResult TIMED_OUT],
                         [SDLResult INVALID_DATA],
-                        //[SDLResult CHAR_LIMIT_EXCEEDED],
+                        [SDLResult CHAR_LIMIT_EXCEEDED],
                         [SDLResult INVALID_ID],
                         [SDLResult DUPLICATE_NAME],
                         [SDLResult APPLICATION_NOT_REGISTERED],

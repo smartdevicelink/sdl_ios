@@ -46,6 +46,8 @@
  */
 +(SDLResult*) INVALID_DATA;
 
++(SDLResult*) CHAR_LIMIT_EXCEEDED;
+
 /**
  * @abstract The request is not supported by SDL
  */
