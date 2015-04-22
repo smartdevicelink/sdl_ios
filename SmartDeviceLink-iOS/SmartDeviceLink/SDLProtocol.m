@@ -59,7 +59,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:1];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
@@ -71,7 +70,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID {
-    
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
