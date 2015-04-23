@@ -8,36 +8,40 @@
 /**
  * Reflects the status of a vehicle data notification.
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLVehicleDataNotificationStatus : SDLEnum {}
 
 /**
  * Convert String to SDLVehicleDataNotificationStatus
- * @param value String
+ * @param value The value of the string to get an object for
  * @return SDLVehicleDataNotificationStatus
  */
 +(SDLVehicleDataNotificationStatus*) valueOf:(NSString*) value;
-/*!
- @abstract Store the enumeration of all possible SDLVehicleDataNotificationStatus
- @result return an array that store all possible SDLVehicleDataNotificationStatus
+
+/**
+ * @abstract Store the enumeration of all possible SDLVehicleDataNotificationStatus
+ * @return an array that store all possible SDLVehicleDataNotificationStatus
  */
 +(NSMutableArray*) values;
 
-/*!
- @abstract SDLVehicleDataNotificationStatus : <font color=gray><i> NOT_SUPPORTED </i></font>
+/**
+ * @abstract SDLVehicleDataNotificationStatus: *NOT_SUPPORTED*
  */
 +(SDLVehicleDataNotificationStatus*) NOT_SUPPORTED;
-/*!
- @abstract SDLVehicleDataNotificationStatus : <font color=gray><i> NORMAL </i></font>
+
+/**
+ @abstract SDLVehicleDataNotificationStatus: *NORMAL*
  */
 +(SDLVehicleDataNotificationStatus*) NORMAL;
-/*!
- @abstract SDLVehicleDataNotificationStatus : <font color=gray><i> ACTIVE </i></font>
+
+/**
+ @abstract SDLVehicleDataNotificationStatus: *ACTIVE*
  */
 +(SDLVehicleDataNotificationStatus*) ACTIVE;
-/*!
- @abstract SDLVehicleDataNotificationStatus : <font color=gray><i> NOT_USED </i></font>
+
+/**
+ @abstract SDLVehicleDataNotificationStatus: *NOT_USED*
  */
 +(SDLVehicleDataNotificationStatus*) NOT_USED;
 

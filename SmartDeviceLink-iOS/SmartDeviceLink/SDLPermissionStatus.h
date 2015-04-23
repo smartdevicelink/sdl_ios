@@ -8,41 +8,47 @@
 /**
  * Enumeration that describes possible permission states of a policy table entry.
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLPermissionStatus : SDLEnum {}
 
-/*!
- @abstract SDLPermissionStatus
- @param value NSString
- @result return a SDLPermissionStatus object
+/**
+ * @abstract SDLPermissionStatus
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return a SDLPermissionStatus object
  */
 +(SDLPermissionStatus*) valueOf:(NSString*) value;
-/*!
- @abstract declare an array to store all possible SDLPermissionStatus values
- @result return the array
+
+/**
+ * @abstract declare an array to store all possible SDLPermissionStatus values
+ * @return the array
  */
 +(NSMutableArray*) values;
 
 
-/*!
- @abstract permission : allowed
- @result return permission status : <font color=gray><i> ALLOWED </i></font>
+/**
+ * @abstract permission: allowed
+ * @return permission status: *ALLOWED*
  */
 +(SDLPermissionStatus*) ALLOWED;
-/*!
- @abstract permission : disallowed
- @result return permission status : <font color=gray><i> DISALLOWED </i></font>
+
+/**
+ * @abstract permission: disallowed
+ * @return permission status: *DISALLOWED*
  */
 +(SDLPermissionStatus*) DISALLOWED;
-/*!
- @abstract permission : user disallowed
- @result return permission status : <font color=gray><i> USER_DISALLOWED </i></font>
+
+/**
+ * @abstract permission: user disallowed
+ * @return permission status: *USER_DISALLOWED*
  */
 +(SDLPermissionStatus*) USER_DISALLOWED;
-/*!
- @abstract permission : user consent pending
- @result return permission status : <font color=gray><i> USER_CONSENT_PENDING </i></font>
+
+/**
+ * @abstract permission: user consent pending
+ * @return permission status: *USER_CONSENT_PENDING*
  */
 +(SDLPermissionStatus*) USER_CONSENT_PENDING;
 

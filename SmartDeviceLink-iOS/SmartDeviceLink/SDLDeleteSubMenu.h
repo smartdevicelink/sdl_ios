@@ -24,8 +24,8 @@
  */
 -(instancetype) init;
 /**
- * Constructs a new SDLDeleteSubMenu object indicated by the NSMutableDictionary parameter<p>
- * @param dict The NSMutableDictionary to use
+ * Constructs a new SDLDeleteSubMenu object indicated by the dictionary parameter<p>
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 

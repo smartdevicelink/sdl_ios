@@ -9,35 +9,41 @@
 /**
  * The supported dimensions of the GPS.
  *
- * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
+ * @since SDL 2.0
  */
 @interface SDLDimension : SDLEnum {}
 
 /**
  * Convert String to SDLDimension
- * @param value String
+ *
+ * @param value The value of the string to get an object for
+ *
  * @return SDLDimension
  */
 +(SDLDimension*) valueOf:(NSString*) value;
-/*!
- @abstract Store the enumeration of all possible SDLDimension
- @result return an array that store all possible SDLDimension
+
+/**
+ * @abstract Store the enumeration of all possible SDLDimension
+ *
+ * @return An array that store all possible SDLDimension
  */
 +(NSMutableArray*) values;
 
-/*!
- @abstract No GPS at all
- @result return the dimension with value of <font color=gray><i> NO_FIX </i></font>
+/**
+ * @abstract No GPS at all
+ * @return the dimension with value of *NO_FIX*
  */
 +(SDLDimension*) NO_FIX;
-/*!
- @abstract Longitude and latitude
- @result return the dimension with value of <font color=gray><i> 2D </i></font>
+
+/**
+ * @abstract Longitude and latitude of the GPS
+ * @return the dimension with value of *2D*
  */
 +(SDLDimension*) _2D;
-/*!
- @abstract Longitude and latitude and altitude
- @result return the dimension with value of <font color=gray><i> 3D </i></font>
+
+/**
+ * @abstract Longitude and latitude and altitude of the GPS
+ * @return the dimension with value of *3D*
  */
 +(SDLDimension*) _3D;
 

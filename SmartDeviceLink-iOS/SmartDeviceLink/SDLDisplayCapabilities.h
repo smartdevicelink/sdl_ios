@@ -9,43 +9,8 @@
 
 /**
  * Contains information about the display for the SDL system to which the application is currently connected.
- * <p><b> Parameter List </b>
- * <table border="1" rules="all">
- * 		<tr>
- * 			<th>Name</th>
- * 			<th>Type</th>
- * 			<th>Description</th>
- * 			<th>SmartDeviceLink Ver. Available</th>
- * 		</tr>
- * 		<tr>
- * 			<td>displayType</td>
- * 			<td>SDLDisplayType * </td>
- * 			<td>The type of display
- *			</td>
- * 			<td>SmartDeviceLink 1.0</td>
- * 		</tr>
- * 		<tr>
- * 			<td>textFields</td>
- * 			<td>NSMutableArray * </td>
- * 			<td>An array of TextField structures, each of which describes a field in the HMI which the application can write to using operations such as <i>SDLShow</i>, <i>SDLSetMediaClockTimer</i>, etc.
- *					 This array of TextField structures identify all the text fields to which the application can write on the current display (identified by DisplayType ).
- * 			</td>
- * 			<td>SmartDeviceLink 1.0</td>
- * 		</tr>
- *     <tr>
- * 			<td>mediaClockFormats</td>
- * 			<td>NSMutableArray * </td>
- * 			<td>An array of MediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field</td>
- * 			<td>SmartDeviceLink 1.0</td>
- * 		</tr>
- *     <tr>
- * 			<td>graphicSupported</td>
- * 			<td>NSNumber * </td>
- * 			<td>The display's persistent screen supports referencing a static or dynamic image.</td>
- * 			<td>SmartDeviceLink 2.0</td>
- * 		</tr>
- * </table>
- * Since <b>SmartDeviceLink 1.0</b><br>
+ * 
+ * @since SDL 1.0
  */
 @interface SDLDisplayCapabilities : SDLRPCStruct {}
 
@@ -53,44 +18,82 @@
  * Constructs a newly allocated SDLDisplayCapabilities object
  */
 -(instancetype) init;
+
 /**
- * Constructs a newly allocated SDLDisplayCapabilities object indicated by the NSMutableDictionary parameter
- * @param dict The NSMutableDictionary to use
+ * Constructs a newly allocated SDLDisplayCapabilities object indicated by the dictionary parameter
+ *
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
- * @abstract the type of display
- * @discussion
+ * @abstract The type of display
+ *
+ * Required
  */
 @property(strong) SDLDisplayType* displayType;
+
 /**
- * @abstract an array of SDLTextField structures, each of which describes a field in the HMI which the application can write to using operations such as <i>SDLShow</i>, <i>SDLSetMediaClockTimer</i>, etc.
- * @discussion  This array of SDLTextField structures identify all the text fields to which the application can write on the current display (identified by SDLDisplayType ).
+ * @abstract An array of SDLTextField structures, each of which describes a field in the HMI which the application can write to using operations such as *SDLShow*, *SDLSetMediaClockTimer*, etc.
+ *
+ * @discussion This array of SDLTextField structures identify all the text fields to which the application can write on the current display (identified by SDLDisplayType).
+ *
+ * @see SDLTextField
+ *
+ * Required, Array of SDLTextField, 1 - 100 objects
  */
 @property(strong) NSMutableArray* textFields;
+
 /**
- * @abstract an array of SDLImageField elements
- * @discussion A set of all fields that support images. See SDLImageField.
+ * @abstract An array of SDLImageField elements
+ *
+ * @discussion A set of all fields that support images.
+ *
+ * @see SDLImageField
+ *
+ * Optional, Array of SDLImageField, 1 - 100 objects
  */
 @property(strong) NSMutableArray* imageFields;
+
 /**
- * @abstract an array of SDLMediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field
- * @discussion
+ * @abstract An array of SDLMediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field
+ *
+ * @see SDLMediaClockFormat
+ *
+ * Required, Array of SDLMediaClockFormats, 0 - 100 objects
  */
 @property(strong) NSMutableArray* mediaClockFormats;
+
 /**
- * @abstract the display's persistent screen supports.
- * @discussion
- * Since <b>SmartDeviceLink 2.0</b>
+ * @abstract The display's persistent screen supports.
+ * 
+ * @since SDL 2.0
+ *
+ * Required, Boolean
  */
 @property(strong) NSNumber* graphicSupported;
+
 /**
- * @abstract Number of presets the screen supports.
+ * @abstract Number of presets the screen supports
+ *
  * @discussion The number of on-screen custom presets available (if any)
+ *
+ * Optional, Array of String, max string size 100, 0 - 100 objects
  */
 @property(strong) NSMutableArray* templatesAvailable;
+
+/**
+ * @abstract A set of all parameters related to a prescribed screen area (e.g. for video / touch input)
+ *
+ * Optional
+ */
 @property(strong) SDLScreenParams* screenParams;
+
+/**
+ * @abstract The number of on-screen custom presets available (if any); otherwise omitted
+ *
+ * Optional, Integer 1 - 100
+ */
 @property(strong) NSNumber* numCustomPresetsAvailable;
 
 @end

@@ -6,98 +6,137 @@
 #import "SDLEnum.h"
 
 /**
- * The selected gear.
+ * The selected gear the car is in.
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLPRNDL : SDLEnum {}
 
-/*!
- @abstract get SDLPRNDL according value string
- @param value NSString
- @result SDLPRNDL object
+/**
+ * @abstract get SDLPRNDL according value string
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return SDLPRNDL object
  */
 +(SDLPRNDL*) valueOf:(NSString*) value;
-/*!
- @abstract declare an array to store all possible SDLPRNDL values
- @result return the array
+
+/**
+ * @abstract declare an array to store all possible SDLPRNDL values
+ *
+ * @return the array
  */
 +(NSMutableArray*) values;
 
 /**
- * @abstract Parking
- * @result return SDLPRNDL : <font color=gray><i> PARK </i></font>
+ *  @abstract Park
+ *
+ *  @return SDLPRNDL: *PARK*
  */
 +(SDLPRNDL*) PARK;
+
 /**
- * @abstract Reverse gear
- * @result return SDLPRNDL : <font color=gray><i> REVERSE </i></font>
+ *  @abstract Reverse gear
+ *
+ *  @return SDLPRNDL: *REVERSE*
  */
 +(SDLPRNDL*) REVERSE;
+
 /**
- * @abstract No gear
- * @result return SDLPRNDL : <font color=gray><i> NEUTRAL </i></font>
+ *  @abstract No gear
+ *
+ *  @return SDLPRNDL: *NEUTRAL*
  */
 +(SDLPRNDL*) NEUTRAL;
+
+/**
+ *  @abstract: Drive gear
+ *
+ *  @return SDLPRNDL: *DRIVE*
+ */
 +(SDLPRNDL*) DRIVE;
+
 /**
  * @abstract Drive Sport mode
- * @result return SDLPRNDL : <font color=gray><i> SPORT </i></font>
+ *
+ * @return SDLPRNDL: *SPORT*
  */
 +(SDLPRNDL*) SPORT;
+
 /**
  * @abstract 1st gear hold
- * @result return SDLPRNDL : <font color=gray><i> LOWGEAR </i></font>
+ *
+ * @return SDLPRNDL: *LOWGEAR*
  */
 +(SDLPRNDL*) LOWGEAR;
+
 /**
  * @abstract First gear
- * @result return SDLPRNDL : <font color=gray><i> FIRST </i></font>
+ *
+ * @return SDLPRNDL: *FIRST*
  */
 +(SDLPRNDL*) FIRST;
+
 /**
  * @abstract Second gear
- * @result return SDLPRNDL : <font color=gray><i> SECOND </i></font>
+ *
+ * @return SDLPRNDL: *SECOND*
  */
 +(SDLPRNDL*) SECOND;
+
 /**
  * @abstract Third gear
- * @result return SDLPRNDL : <font color=gray><i> THIRD </i></font>
+ *
+ * @return SDLPRNDL: *THIRD*
  */
 +(SDLPRNDL*) THIRD;
+
 /**
  * @abstract Fourth gear
- * @result return SDLPRNDL : <font color=gray><i> FOURTH </i></font>
+ *
+ * @return SDLPRNDL: *FOURTH*
  */
 +(SDLPRNDL*) FOURTH;
+
 /**
  * @abstract Fifth gear
- * @result return SDLPRNDL : <font color=gray><i> FIFTH </i></font>
+ *
+ * @return SDLPRNDL: *FIFTH*
  */
 +(SDLPRNDL*) FIFTH;
+
 /**
  * @abstract Sixth gear
- * @result return SDLPRNDL : <font color=gray><i> SIXTH </i></font>
+ *
+ * @return SDLPRNDL: *SIXTH*
  */
 +(SDLPRNDL*) SIXTH;
+
 /**
  * @abstract Seventh gear
- * @result return SDLPRNDL : <font color=gray><i> SEVENTH </i></font>
+ *
+ * @return SDLPRNDL: *SEVENTH*
  */
 +(SDLPRNDL*) SEVENTH;
+
 /**
  * @abstract Eighth gear
- * @result return SDLPRNDL : <font color=gray><i> EIGHTH </i></font>
+ *
+ * @return SDLPRNDL: *EIGHTH*
  */
 +(SDLPRNDL*) EIGHTH;
+
 /**
  * @abstract Unknown
- * @result return SDLPRNDL : <font color=gray><i> UNKNOWN </i></font>
+ *
+ * @return SDLPRNDL: *UNKNOWN*
  */
 +(SDLPRNDL*) UNKNOWN;
+
 /**
  * @abstract Fault
- * @result return SDLPRNDL : <font color=gray><i> FAULT </i></font>
+ *
+ * @return SDLPRNDL: *FAULT*
  */
 +(SDLPRNDL*) FAULT;
 
