@@ -60,8 +60,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLButtonName values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLButtonName values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLButtonName OK],
                         [SDLButtonName SEEKLEFT],
@@ -79,7 +79,7 @@ describe(@"Value List Tests", ^ {
                         [SDLButtonName PRESET_8],
                         [SDLButtonName PRESET_9],
                         [SDLButtonName CUSTOM_BUTTON],
-                        [SDLButtonName SEARCH]] mutableCopy];
+                        [SDLButtonName SEARCH]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -36,14 +36,14 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLUpdateMode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLUpdateMode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLUpdateMode COUNTUP],
                         [SDLUpdateMode COUNTDOWN],
                         [SDLUpdateMode PAUSE],
                         [SDLUpdateMode RESUME],
-                        [SDLUpdateMode CLEAR]] mutableCopy];
+                        [SDLUpdateMode CLEAR]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -23,7 +23,7 @@
  @abstract Store the enumeration of all possible SDLDimension
  @result return an array that store all possible SDLDimension
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract No GPS at all

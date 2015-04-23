@@ -8,7 +8,7 @@
 @interface SDLPowerModeQualificationStatus : SDLEnum {}
 
 +(SDLPowerModeQualificationStatus*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLPowerModeQualificationStatus*) POWER_MODE_UNDEFINED;
 +(SDLPowerModeQualificationStatus*) POWER_MODE_EVALUATION_IN_PROGRESS;

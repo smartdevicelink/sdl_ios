@@ -30,11 +30,11 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLButtonEventMode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLButtonEventMode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLButtonEventMode BUTTONUP],
-                        [SDLButtonEventMode BUTTONDOWN]] mutableCopy];
+                        [SDLButtonEventMode BUTTONDOWN]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

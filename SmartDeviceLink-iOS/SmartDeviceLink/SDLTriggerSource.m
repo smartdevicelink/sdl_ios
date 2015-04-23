@@ -8,7 +8,7 @@ SDLTriggerSource* SDLTriggerSource_MENU = nil;
 SDLTriggerSource* SDLTriggerSource_VR = nil;
 SDLTriggerSource* SDLTriggerSource_KEYBOARD = nil;
 
-NSMutableArray* SDLTriggerSource_values = nil;
+NSArray* SDLTriggerSource_values = nil;
 
 @implementation SDLTriggerSource
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLTriggerSource_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLTriggerSource_values == nil) {
-        SDLTriggerSource_values = [[NSMutableArray alloc] initWithObjects:
+        SDLTriggerSource_values = @[
                 SDLTriggerSource.MENU,
                 SDLTriggerSource.VR,
                 SDLTriggerSource.KEYBOARD,
-                nil];
+                ];
     }
     return SDLTriggerSource_values;
 }

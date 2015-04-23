@@ -21,7 +21,7 @@
  @abstract Store the enumeration of all possible SDLVehicleDataType
  @result return an array that store all possible SDLVehicleDataType
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract SDLVehicleDataType : <font color=gray><i> VEHICLEDATA_GPS </i></font>

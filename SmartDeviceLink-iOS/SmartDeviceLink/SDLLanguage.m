@@ -29,7 +29,7 @@ SDLLanguage* SDLLanguage_CS_CZ = nil;
 SDLLanguage* SDLLanguage_DA_DK = nil;
 SDLLanguage* SDLLanguage_NO_NO = nil;
 
-NSMutableArray* SDLLanguage_values = nil;
+NSArray* SDLLanguage_values = nil;
 
 @implementation SDLLanguage
 
@@ -42,9 +42,9 @@ NSMutableArray* SDLLanguage_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLLanguage_values == nil) {
-        SDLLanguage_values = [[NSMutableArray alloc] initWithObjects:
+        SDLLanguage_values = @[
                 SDLLanguage.EN_US,
                 SDLLanguage.ES_MX,
                 SDLLanguage.FR_CA,
@@ -69,7 +69,7 @@ NSMutableArray* SDLLanguage_values = nil;
                 SDLLanguage.CS_CZ,
                 SDLLanguage.DA_DK,
                 SDLLanguage.NO_NO,
-                nil];
+                ];
     }
     return SDLLanguage_values;
 }

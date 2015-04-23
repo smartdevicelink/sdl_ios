@@ -23,7 +23,7 @@
  @abstract Store the enumeration of all possible SDLDeviceLevelStatus
  @result return an array that store all possible SDLDeviceLevelStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Device Level Status is : <font color=green>Zero level bars</font>

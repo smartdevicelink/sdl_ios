@@ -56,8 +56,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLWiperStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLWiperStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLWiperStatus OFF],
                         [SDLWiperStatus AUTO_OFF],
@@ -73,7 +73,7 @@ describe(@"Value List Tests", ^ {
                         [SDLWiperStatus COURTESYWIPE],
                         [SDLWiperStatus AUTO_ADJUST],
                         [SDLWiperStatus STALLED],
-                        [SDLWiperStatus NO_DATA_EXISTS]] mutableCopy];
+                        [SDLWiperStatus NO_DATA_EXISTS]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

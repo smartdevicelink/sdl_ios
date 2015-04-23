@@ -8,7 +8,7 @@
 @interface SDLTimerMode : SDLEnum {}
 
 +(SDLTimerMode*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLTimerMode*) UP;
 +(SDLTimerMode*) DOWN;

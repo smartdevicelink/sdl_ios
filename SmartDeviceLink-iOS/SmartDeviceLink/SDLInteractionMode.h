@@ -24,7 +24,7 @@
  @abstract store all possible SDLInteractionMode values
  @result return an array with all possible SDLInteractionMode values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Interaction Mode : Manual Only

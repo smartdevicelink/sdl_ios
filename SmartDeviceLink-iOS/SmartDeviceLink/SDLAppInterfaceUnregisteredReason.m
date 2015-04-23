@@ -14,7 +14,7 @@ SDLAppInterfaceUnregisteredReason* SDLAppInterfaceUnregisteredReason_MASTER_RESE
 SDLAppInterfaceUnregisteredReason* SDLAppInterfaceUnregisteredReason_FACTORY_DEFAULTS = nil;
 SDLAppInterfaceUnregisteredReason* SDLAppInterfaceUnregisteredReason_APP_UNAUTHORIZED = nil;
 
-NSMutableArray* SDLAppInterfaceUnregisteredReason_values = nil;
+NSArray* SDLAppInterfaceUnregisteredReason_values = nil;
 
 @implementation SDLAppInterfaceUnregisteredReason
 
@@ -27,9 +27,9 @@ NSMutableArray* SDLAppInterfaceUnregisteredReason_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLAppInterfaceUnregisteredReason_values == nil) {
-        SDLAppInterfaceUnregisteredReason_values = [[NSMutableArray alloc] initWithObjects:
+        SDLAppInterfaceUnregisteredReason_values = @[
                 SDLAppInterfaceUnregisteredReason.IGNITION_OFF,
                 SDLAppInterfaceUnregisteredReason.BLUETOOTH_OFF,
                 SDLAppInterfaceUnregisteredReason.USB_DISCONNECTED,
@@ -40,7 +40,7 @@ NSMutableArray* SDLAppInterfaceUnregisteredReason_values = nil;
                 SDLAppInterfaceUnregisteredReason.MASTER_RESET,
                 SDLAppInterfaceUnregisteredReason.FACTORY_DEFAULTS,
                 SDLAppInterfaceUnregisteredReason.APP_UNAUTHORIZED,
-                nil];
+                ];
     }
     return SDLAppInterfaceUnregisteredReason_values;
 }

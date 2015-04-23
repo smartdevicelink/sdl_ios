@@ -39,7 +39,7 @@
  @abstract Store the enumeration of all possible SDLButtonName
  @result return an array that store all possible SDLButtonName
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Represents the button usually labeled "OK". A typical use of this button

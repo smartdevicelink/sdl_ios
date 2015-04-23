@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLAudioStreamingState values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLAudioStreamingState values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAudioStreamingState AUDIBLE],
                         [SDLAudioStreamingState ATTENUATED],
-                        [SDLAudioStreamingState NOT_AUDIBLE]] mutableCopy];
+                        [SDLAudioStreamingState NOT_AUDIBLE]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLWarningLightStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLWarningLightStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLWarningLightStatus OFF],
                         [SDLWarningLightStatus ON],
                         [SDLWarningLightStatus FLASH],
-                        [SDLWarningLightStatus NOT_USED]] mutableCopy];
+                        [SDLWarningLightStatus NOT_USED]] copy];
         
     });
     

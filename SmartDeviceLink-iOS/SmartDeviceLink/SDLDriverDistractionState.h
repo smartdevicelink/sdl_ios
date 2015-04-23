@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLDriverDistractionState
  @result return an array that store all possible SDLDriverDistractionState
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Driver distraction rules are in effect.

@@ -42,8 +42,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLCompassDirection values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLCompassDirection values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLCompassDirection NORTH],
                         [SDLCompassDirection NORTHWEST],
@@ -52,7 +52,7 @@ describe(@"Value List Tests", ^ {
                         [SDLCompassDirection SOUTH],
                         [SDLCompassDirection SOUTHEAST],
                         [SDLCompassDirection EAST],
-                        [SDLCompassDirection NORTHEAST]] mutableCopy];
+                        [SDLCompassDirection NORTHEAST]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLVehicleDataEventStatus
  @result return an array that store all possible SDLVehicleDataEventStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract No event avaliable

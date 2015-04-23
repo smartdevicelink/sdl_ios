@@ -22,7 +22,7 @@
  @abstract store all possible SDLImageType values
  @result return an array with all possible SDLImageType values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Just the static hex icon value to be used

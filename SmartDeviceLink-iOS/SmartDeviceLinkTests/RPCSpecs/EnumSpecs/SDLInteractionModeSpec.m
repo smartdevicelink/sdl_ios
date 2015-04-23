@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLInteractionMode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLInteractionMode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLInteractionMode MANUAL_ONLY],
                         [SDLInteractionMode VR_ONLY],
-                        [SDLInteractionMode BOTH]] mutableCopy];
+                        [SDLInteractionMode BOTH]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLKeypressMode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLKeypressMode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeypressMode SINGLE_KEYPRESS],
                         [SDLKeypressMode QUEUE_KEYPRESSES],
-                        [SDLKeypressMode RESEND_CURRENT_ENTRY]] mutableCopy];
+                        [SDLKeypressMode RESEND_CURRENT_ENTRY]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

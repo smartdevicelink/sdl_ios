@@ -46,8 +46,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLAppHMIType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLAppHMIType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAppHMIType DEFAULT],
                            [SDLAppHMIType COMMUNICATION],
@@ -58,7 +58,7 @@ describe(@"Value List Tests", ^ {
                            [SDLAppHMIType SOCIAL],
                            [SDLAppHMIType BACKGROUND_PROCESS],
                            [SDLAppHMIType TESTING],
-                           [SDLAppHMIType SYSTEM]] mutableCopy];
+                           [SDLAppHMIType SYSTEM]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

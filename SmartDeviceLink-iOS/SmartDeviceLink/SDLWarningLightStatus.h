@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLWarningLightStatus
  @result return an array that store all possible SDLWarningLightStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract Warninglight Off

@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLCarModeStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLCarModeStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLCarModeStatus NORMAL],
                         [SDLCarModeStatus FACTORY],
                         [SDLCarModeStatus TRANSPORT],
-                        [SDLCarModeStatus CRASH]] mutableCopy];
+                        [SDLCarModeStatus CRASH]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

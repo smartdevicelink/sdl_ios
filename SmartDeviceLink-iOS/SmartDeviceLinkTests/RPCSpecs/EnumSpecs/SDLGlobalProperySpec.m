@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLGlobalProperty values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLGlobalProperty values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLGlobalProperty HELPPROMPT],
                         [SDLGlobalProperty TIMEOUTPROMPT],
@@ -49,7 +49,7 @@ describe(@"Value List Tests", ^ {
                         [SDLGlobalProperty VRHELPITEMS],
                         [SDLGlobalProperty MENUNAME],
                         [SDLGlobalProperty MENUICON],
-                        [SDLGlobalProperty KEYBOARDPROPERTIES]] mutableCopy];
+                        [SDLGlobalProperty KEYBOARDPROPERTIES]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {
