@@ -5,6 +5,11 @@
 
 #import "SDLLockScreenManager.h"
 
+#import "SDLHMILevel.h"
+#import "SDLLockScreenStatus.h"
+#import "SDLOnLockScreenStatus.h"
+
+
 @interface SDLLockScreenManager ()
 
 @property (assign, nonatomic) BOOL bHaveDDStatus;
@@ -37,9 +42,9 @@
         _hmiLevel = hmiLevel;
     }
 
-    if ([SDLHMILevel.HMI_FULL.value isEqualToString:hmiLevel.value] || [SDLHMILevel.HMI_LIMITED.value isEqualToString:hmiLevel.value]) {
+    if ([SDLHMILevel.FULL.value isEqualToString:hmiLevel.value] || [SDLHMILevel.LIMITED.value isEqualToString:hmiLevel.value]) {
         _bUserSelected = YES;
-    } else if ([SDLHMILevel.HMI_NONE.value isEqualToString:hmiLevel.value]) {
+    } else if ([SDLHMILevel.NONE.value isEqualToString:hmiLevel.value]) {
         _bUserSelected = NO;
     }
 }
@@ -56,9 +61,9 @@
 
 - (SDLLockScreenStatus *)lockScreenStatus
 {
-    if (_hmiLevel == nil || _hmiLevel == [SDLHMILevel HMI_NONE]) {
+    if (_hmiLevel == nil || _hmiLevel == [SDLHMILevel NONE]) {
         return [SDLLockScreenStatus OFF];
-    } else if (_hmiLevel == [SDLHMILevel HMI_BACKGROUND]) {
+    } else if (_hmiLevel == [SDLHMILevel BACKGROUND]) {
         if (!_bHaveDDStatus)
         {
             //we don't have driver distraction, lockscreen is entirely based on userselection
@@ -79,7 +84,7 @@
         {
             return [SDLLockScreenStatus OFF];
         }
-    } else if (_hmiLevel == [SDLHMILevel HMI_FULL] || _hmiLevel == [SDLHMILevel HMI_LIMITED]) {
+    } else if (_hmiLevel == [SDLHMILevel FULL] || _hmiLevel == [SDLHMILevel LIMITED]) {
         if (_bHaveDDStatus && !_bDriverDistractionStatus) {
             return [SDLLockScreenStatus OPTIONAL];
         } else {

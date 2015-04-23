@@ -27,7 +27,7 @@
 /**
  * Constructs a new SDLCreateInteractionChoiceSet object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLCreateInteractionChoiceSet object indicated by the
  * NSMutableDictionary parameter
@@ -35,7 +35,7 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract a unique ID that identifies the Choice Set

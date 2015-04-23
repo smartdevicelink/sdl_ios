@@ -3,13 +3,11 @@
 //  SmartDeviceLink
 //
 
-#import "SDLLockScreenStatus.h"
-
 #import "SDLRPCNotification.h"
-
 
 @class SDLHMILevel;
 @class SDLLockScreenStatus;
+
 
 /**
  * 	To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
@@ -21,8 +19,8 @@
  */
 @interface SDLOnLockScreenStatus : SDLRPCNotification
 
-- (id)init;
-- (id)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * <p>Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)</p>

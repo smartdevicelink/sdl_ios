@@ -13,7 +13,7 @@
 @interface SDLKeyboardLayout : SDLEnum {}
 
 +(SDLKeyboardLayout*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 /** QWERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */

@@ -45,12 +45,12 @@
 /**
  * @abstract Constructs a newly allocated SDLSyncMsgVersion object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a newly allocated SDLSyncMsgVersion object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract Major version

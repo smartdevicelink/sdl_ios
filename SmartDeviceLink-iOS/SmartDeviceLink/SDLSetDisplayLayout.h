@@ -16,13 +16,13 @@
 /**
  * @abstract Constructs a new SDLSetDisplayLayout object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSetDisplayLayout object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A display layout. Predefined or dynamically created screen layout.

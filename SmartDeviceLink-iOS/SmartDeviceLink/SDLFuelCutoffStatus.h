@@ -13,7 +13,7 @@
  */
 @interface SDLFuelCutoffStatus : SDLEnum {}
 +(SDLFuelCutoffStatus*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 /** Fuel is cut off
  */
 +(SDLFuelCutoffStatus*) TERMINATE_FUEL;

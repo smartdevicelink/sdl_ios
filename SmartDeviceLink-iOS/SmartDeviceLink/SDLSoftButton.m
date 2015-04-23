@@ -1,19 +1,22 @@
 //  SDLSoftButton.m
 //
 
-
 #import "SDLSoftButton.h"
 
+#import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLSoftButtonType.h"
+#import "SDLSystemAction.h"
+
 
 @implementation SDLSoftButton
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

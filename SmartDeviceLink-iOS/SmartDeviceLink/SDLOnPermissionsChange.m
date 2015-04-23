@@ -1,20 +1,20 @@
 //  SDLOnPermissionsChange.m
 //
 
-
 #import "SDLOnPermissionsChange.h"
 
 #import "SDLNames.h"
 #import "SDLPermissionItem.h"
 
+
 @implementation SDLOnPermissionsChange
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_OnPermissionsChange]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

@@ -8,7 +8,7 @@
 @interface SDLPowerModeStatus : SDLEnum {}
 
 +(SDLPowerModeStatus*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLPowerModeStatus*) KEY_OUT;
 +(SDLPowerModeStatus*) KEY_RECENTLY_OUT;

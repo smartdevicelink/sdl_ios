@@ -1,19 +1,20 @@
 //  SDLOnLanguageChange.m
 //
 
-
 #import "SDLOnLanguageChange.h"
 
+#import "SDLLanguage.h"
 #import "SDLNames.h"
+
 
 @implementation SDLOnLanguageChange
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_OnLanguageChange]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

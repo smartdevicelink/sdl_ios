@@ -1,11 +1,10 @@
 //  SDLOnAppInterfaceUnregistered.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLAppInterfaceUnregisteredReason.h"
+@class SDLAppInterfaceUnregisteredReason;
+
 
 /**
  * Notifies an application that its interface registration has been terminated. This means that all SDL resources
@@ -46,12 +45,12 @@
 /**
  *Constructs a newly allocated SDLOnAppInterfaceUnregistered object
  */
--(id) init;
+-(instancetype) init;
 /**
  *<p>Constructs a newly allocated SDLOnAppInterfaceUnregistered object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the reason application's interface was terminated

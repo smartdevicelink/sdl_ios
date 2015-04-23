@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLBitsPerSample
  @result return an array that store all possible SDLBitsPerSample
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract 8 bits per sample

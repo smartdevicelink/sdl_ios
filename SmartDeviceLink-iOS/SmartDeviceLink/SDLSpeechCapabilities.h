@@ -22,7 +22,7 @@
  @abstract declare an array to store all possible SDLSpeechCapabilities values
  @result return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The SDL platform can speak text phrases.

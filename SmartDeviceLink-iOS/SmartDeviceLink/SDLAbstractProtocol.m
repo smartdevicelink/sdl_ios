@@ -3,7 +3,7 @@
 #import "SDLAbstractProtocol.h"
 
 @implementation SDLAbstractProtocol
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
     }

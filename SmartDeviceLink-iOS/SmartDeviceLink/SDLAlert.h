@@ -40,14 +40,14 @@
 /**
  * Constructs a new SDLAlert object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLAlert object indicated by the NSMutableDictionary parameter
  * <p>
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the String to be displayed in the first field of the display during

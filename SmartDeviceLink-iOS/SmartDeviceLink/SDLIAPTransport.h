@@ -1,10 +1,9 @@
 //  SDLIAPTransport.h
 //
 
-
-
-#import <ExternalAccessory/ExternalAccessory.h>
+@import ExternalAccessory;
 #import "SDLAbstractTransport.h"
+
 
 @interface SDLIAPTransport : SDLAbstractTransport <NSStreamDelegate> {}
 

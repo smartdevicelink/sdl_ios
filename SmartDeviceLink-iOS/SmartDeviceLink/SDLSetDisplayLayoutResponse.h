@@ -1,12 +1,11 @@
 //  SDLSetDisplayLayoutResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
-#import "SDLDisplayCapabilities.h"
-#import "SDLPresetBankCapabilities.h"
+@class SDLDisplayCapabilities;
+@class SDLPresetBankCapabilities;
+
 
 /**
  * Set Display Layout Response is sent, when SetDisplayLayout has been called
@@ -18,8 +17,8 @@
 /**
  * @abstract Constructs a new SDLSetDisplayLayoutResponse object
  */
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLDisplayCapabilities* displayCapabilities;
 @property(strong) NSMutableArray* buttonCapabilities;

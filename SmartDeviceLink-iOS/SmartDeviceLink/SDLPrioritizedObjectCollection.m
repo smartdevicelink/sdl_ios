@@ -5,7 +5,7 @@
 
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLObjectWithPriority.h"
-#import "SDLDebugTool.h"//fortesting
+
 
 @interface SDLPrioritizedObjectCollection ()
 {
@@ -31,9 +31,7 @@
         return;
     }
 
-    SDLObjectWithPriority *newWrapper = [SDLObjectWithPriority new];
-    newWrapper.object = object;
-    newWrapper.priority = priority;
+    SDLObjectWithPriority *newWrapper = [SDLObjectWithPriority objectWithObject:object priority:priority];
 
     @synchronized(privateArray)
     {
@@ -57,7 +55,7 @@
 
 }
 
-- (id)nextObject
+- (instancetype)nextObject
 {
     if (privateArray.count == 0) {
         return nil;

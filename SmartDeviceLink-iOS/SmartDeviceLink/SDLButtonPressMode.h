@@ -24,7 +24,7 @@
  @abstract Store the enumeration of all possible SDLButtonPressMode
  @result return an array that store all possible SDLButtonPressMode
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The button has been depressed for 2 seconds. The button may remain

@@ -12,8 +12,8 @@
  */
 @interface SDLListFilesResponse : SDLRPCResponse {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSMutableArray* filenames;
 @property(strong) NSNumber* spaceAvailable;

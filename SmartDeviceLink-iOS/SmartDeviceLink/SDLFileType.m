@@ -13,7 +13,7 @@ SDLFileType* SDLFileType_AUDIO_AAC = nil;
 SDLFileType* SDLFileType_BINARY = nil;
 SDLFileType* SDLFileType_JSON = nil;
 
-NSMutableArray* SDLFileType_values = nil;
+NSArray* SDLFileType_values = nil;
 
 @implementation SDLFileType
 
@@ -26,9 +26,9 @@ NSMutableArray* SDLFileType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLFileType_values == nil) {
-        SDLFileType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLFileType_values = @[
                 SDLFileType.GRAPHIC_BMP,
                 SDLFileType.GRAPHIC_JPEG,
                 SDLFileType.GRAPHIC_PNG,
@@ -37,7 +37,7 @@ NSMutableArray* SDLFileType_values = nil;
                 SDLFileType.AUDIO_AAC,
                 SDLFileType.BINARY,
                 SDLFileType.JSON,
-                nil];
+                ];
     }
     return SDLFileType_values;
 }

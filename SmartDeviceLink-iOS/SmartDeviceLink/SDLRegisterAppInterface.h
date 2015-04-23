@@ -1,13 +1,12 @@
 //  SDLRegisterAppInterface.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLSyncMsgVersion.h"
-#import "SDLLanguage.h"
-#import "SDLDeviceInfo.h"
+@class SDLDeviceInfo;
+@class SDLLanguage;
+@class SDLSyncMsgVersion;
+
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of
@@ -84,13 +83,13 @@
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the version of the SDL&reg; SmartDeviceLink interface

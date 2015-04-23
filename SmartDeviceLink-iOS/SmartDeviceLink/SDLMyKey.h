@@ -1,16 +1,15 @@
 //  SDLMyKey.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLVehicleDataStatus.h"
+@class SDLVehicleDataStatus;
+
 
 @interface SDLMyKey : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLVehicleDataStatus* e911Override;
 

@@ -5,7 +5,8 @@
 
 #import "SDLRPCResponse.h"
 
-#import "SDLTriggerSource.h"
+@class SDLTriggerSource;
+
 
 /**
  * PerformInteraction Response is sent, when SDLPerformInteraction has been called
@@ -17,12 +18,12 @@
 /**
  * @abstract Constructs a new SDLPerformInteractionResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLPerformInteractionResponse object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The application-scoped identifier that uniquely identifies this choice.

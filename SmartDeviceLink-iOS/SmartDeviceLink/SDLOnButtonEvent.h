@@ -1,12 +1,11 @@
 //  SDLOnButtonEvent.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLButtonName.h"
-#import "SDLButtonEventMode.h"
+@class SDLButtonName;
+@class SDLButtonEventMode;
+
 
 /**
  * Notifies application that user has depressed or released a button to which
@@ -85,7 +84,7 @@
 /**
  *Constructs a newly allocated SDLOnButtonEvent object
  */
--(id) init;
+-(instancetype) init;
 /**
  * <p>
  * Constructs a newly allocated SDLOnButtonEvent object indicated by the
@@ -94,7 +93,7 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the name of the button

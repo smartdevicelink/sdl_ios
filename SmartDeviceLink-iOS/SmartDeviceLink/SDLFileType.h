@@ -23,7 +23,7 @@
  @abstract Store the enumeration of all possible SDLFileType
  @result return an array that store all possible SDLFileType
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract file type : BMP

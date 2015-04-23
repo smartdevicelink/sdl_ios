@@ -5,7 +5,7 @@
 
 #import "SDLRPCMessage.h"
 
-#import "SDLResult.h"
+@class SDLResult;
 
 @interface SDLRPCResponse : SDLRPCMessage {}
 

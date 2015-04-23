@@ -13,7 +13,7 @@
 @interface SDLKeyboardEvent : SDLEnum {}
 
 +(SDLKeyboardEvent*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** The use has pressed the keyboard key (applies to both SINGLE_KEYPRESS and RESEND_CURRENT_ENTRY modes).
  *
@@ -35,7 +35,11 @@
 /** The User has not finished entering text and the keyboard is aborted with the event of higher priority.
  *
  */
-
 +(SDLKeyboardEvent*) ENTRY_ABORTED;
+
+/**
+ * @since SDL 4.0
+ */
++(SDLKeyboardEvent*) ENTRY_VOICE;
 
 @end

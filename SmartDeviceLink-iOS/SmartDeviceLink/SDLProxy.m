@@ -1,23 +1,31 @@
 //  SDLProxy.m
 //
 
+#import "SDLProxy.h"
 
-
-#import <ExternalAccessory/ExternalAccessory.h>
+@import ExternalAccessory;
 #import <objc/runtime.h>
 #import "SDLDebugTool.h"
 #import "SDLEncodedSyncPData.h"
+#import "SDLFileType.h"
 #import "SDLFunctionID.h"
+#import "SDLHMILevel.h"
 #import "SDLJsonDecoder.h"
 #import "SDLJsonEncoder.h"
 #import "SDLLanguage.h"
-#import "SDLNames.h"
-#import "SDLSiphonServer.h"
-#import "SDLProxy.h"
-#import "SDLSystemRequest.h"
-#import "SDLRPCPayload.h"
-#import "SDLPolicyDataParser.h"
+#import "SDLLayoutMode.h"
 #import "SDLLockScreenManager.h"
+#import "SDLNames.h"
+#import "SDLOnSystemRequest.h"
+#import "SDLPolicyDataParser.h"
+#import "SDLProtocol.h"
+#import "SDLProtocolMessage.h"
+#import "SDLPutFile.h"
+#import "SDLRequestType.h"
+#import "SDLRPCPayload.h"
+#import "SDLRPCRequestFactory.h"
+#import "SDLSiphonServer.h"
+#import "SDLSystemRequest.h"
 
 
 #define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
@@ -47,7 +55,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Object lifecycle
-- (id)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
+- (instancetype)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
 	if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         

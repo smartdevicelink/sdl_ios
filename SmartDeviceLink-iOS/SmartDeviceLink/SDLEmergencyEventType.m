@@ -12,7 +12,7 @@ SDLEmergencyEventType* SDLEmergencyEventType_ROLLOVER = nil;
 SDLEmergencyEventType* SDLEmergencyEventType_NOT_SUPPORTED = nil;
 SDLEmergencyEventType* SDLEmergencyEventType_FAULT = nil;
 
-NSMutableArray* SDLEmergencyEventType_values = nil;
+NSArray* SDLEmergencyEventType_values = nil;
 
 @implementation SDLEmergencyEventType
 
@@ -25,9 +25,9 @@ NSMutableArray* SDLEmergencyEventType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLEmergencyEventType_values == nil) {
-        SDLEmergencyEventType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLEmergencyEventType_values = @[
                 SDLEmergencyEventType.NO_EVENT,
                 SDLEmergencyEventType.FRONTAL,
                 SDLEmergencyEventType.SIDE,
@@ -35,7 +35,7 @@ NSMutableArray* SDLEmergencyEventType_values = nil;
                 SDLEmergencyEventType.ROLLOVER,
                 SDLEmergencyEventType.NOT_SUPPORTED,
                 SDLEmergencyEventType.FAULT,
-                nil];
+                ];
     }
     return SDLEmergencyEventType_values;
 }

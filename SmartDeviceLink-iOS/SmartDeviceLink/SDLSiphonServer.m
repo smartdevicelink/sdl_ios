@@ -46,6 +46,7 @@ bool _sendSiphonData(const void* dataBytes, int dataBytesLength, SiphonDataType 
 void _startServerOnPort(int port);
 void _stopServer(NSString *reason);
 
+
 @implementation SDLSiphonServer
 
 // Model currently counts on init being called before any apps call _siphonNSLogData()

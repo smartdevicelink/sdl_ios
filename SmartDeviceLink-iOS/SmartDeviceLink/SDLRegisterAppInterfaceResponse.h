@@ -5,11 +5,12 @@
 
 #import "SDLRPCResponse.h"
 
-#import "SDLSyncMsgVersion.h"
-#import "SDLLanguage.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLPresetBankCapabilities.h"
-#import "SDLVehicleType.h"
+@class SDLSyncMsgVersion;
+@class SDLLanguage;
+@class SDLDisplayCapabilities;
+@class SDLPresetBankCapabilities;
+@class SDLVehicleType;
+
 
 /**
  * @abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called
@@ -21,13 +22,13 @@
 /**
  * @abstract Constructs a new SDLRegisterAppInterfaceResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLRegisterAppInterfaceResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The version of the SDL&reg; SmartDeviceLink interface

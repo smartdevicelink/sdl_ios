@@ -23,7 +23,7 @@
  @abstract store all possible Language values
  @result return an array with all possible Language values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 /*!
  @abstract language English_US
  */

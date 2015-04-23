@@ -1,12 +1,11 @@
 //  SDLShow.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLTextAlignment.h"
-#import "SDLImage.h"
+@class SDLImage;
+@class SDLTextAlignment;
+
 
 /**
  * Updates the application's display text area, regardless of whether or not
@@ -35,12 +34,12 @@
 /**
  * @abstract Constructs a new SDLShow object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLShow object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display

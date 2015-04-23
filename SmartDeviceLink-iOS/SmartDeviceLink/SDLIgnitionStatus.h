@@ -22,7 +22,7 @@
  @abstract store all possible SDLIgnitionStatus values
  @result return an array with all possible SDLIgnitionStatus values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Ignition status currently unknown

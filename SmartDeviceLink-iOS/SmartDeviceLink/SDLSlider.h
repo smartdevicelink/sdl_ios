@@ -22,12 +22,12 @@
 /**
  * @abstract Constructs a new SDLSlider object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSlider object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A number of selectable items on a horizontal axis

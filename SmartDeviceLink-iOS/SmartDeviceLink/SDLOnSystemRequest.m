@@ -1,19 +1,21 @@
 //  SDLOnSystemRequest.m
 //
 
-
 #import "SDLOnSystemRequest.h"
 
+#import "SDLFileType.h"
 #import "SDLNames.h"
+#import "SDLRequestType.h"
+
 
 @implementation SDLOnSystemRequest
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_OnSystemRequest]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

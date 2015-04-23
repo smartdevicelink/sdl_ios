@@ -1,12 +1,11 @@
 //  SDLGPSData.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLCompassDirection.h"
-#import "SDLDimension.h"
+@class SDLCompassDirection;
+@class SDLDimension;
+
 
 /**
  * Describes the GPS data. Not all data will be available on all carlines.
@@ -149,13 +148,13 @@
 /**
  * Constructs a newly allocated SDLGPSData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * Constructs a newly allocated SDLGPSData object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract longitude degrees

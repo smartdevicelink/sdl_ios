@@ -21,7 +21,7 @@ SDLPRNDL* SDLPRNDL_EIGHTH = nil;
 SDLPRNDL* SDLPRNDL_UNKNOWN = nil;
 SDLPRNDL* SDLPRNDL_FAULT = nil;
 
-NSMutableArray* SDLPRNDL_values = nil;
+NSArray* SDLPRNDL_values = nil;
 
 @implementation SDLPRNDL
 
@@ -34,9 +34,9 @@ NSMutableArray* SDLPRNDL_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLPRNDL_values == nil) {
-        SDLPRNDL_values = [[NSMutableArray alloc] initWithObjects:
+        SDLPRNDL_values = @[
                 SDLPRNDL.PARK,
                 SDLPRNDL.REVERSE,
                 SDLPRNDL.NEUTRAL,
@@ -53,7 +53,7 @@ NSMutableArray* SDLPRNDL_values = nil;
                 SDLPRNDL.EIGHTH,
                 SDLPRNDL.UNKNOWN,
                 SDLPRNDL.FAULT,
-                nil];
+                ];
     }
     return SDLPRNDL_values;
 }

@@ -1,22 +1,24 @@
 //  SDLDisplayCapabilities.m
 //
 
-
 #import "SDLDisplayCapabilities.h"
 
-#import "SDLNames.h"
-#import "SDLTextField.h"
+#import "SDLDisplayType.h"
 #import "SDLImageField.h"
 #import "SDLMediaClockFormat.h"
+#import "SDLNames.h"
+#import "SDLScreenParams.h"
+#import "SDLTextField.h"
+
 
 @implementation SDLDisplayCapabilities
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

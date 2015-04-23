@@ -5,7 +5,6 @@
 #import "SDLEnum.h"
 
 #import <Foundation/Foundation.h>
-#import <SmartDeviceLink/SDLEnum.h>
 
 /**
  * The supported dimensions of the GPS.
@@ -24,7 +23,7 @@
  @abstract Store the enumeration of all possible SDLDimension
  @result return an array that store all possible SDLDimension
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract No GPS at all

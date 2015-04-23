@@ -1,11 +1,10 @@
 //  SDLTTSChunk.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLSpeechCapabilities.h"
+@class SDLSpeechCapabilities;
+
 
 /**
  * Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules.
@@ -44,12 +43,12 @@
 /**
  * @abstract Constructs a newly allocated SDLTTSChunk object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a newly allocated SDLTTSChunk object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.

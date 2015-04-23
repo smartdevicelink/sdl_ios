@@ -5,8 +5,9 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLInteractionMode.h"
-#import "SDLLayoutMode.h"
+@class SDLInteractionMode;
+@class SDLLayoutMode;
+
 
 /**
  * Performs an application-initiated interaction in which the user can select a
@@ -28,12 +29,12 @@
 /**
  * @abstract Constructs a new SDLPerformInteraction object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLPerformInteraction object indicated by the NSMutableDictionary
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The Text that Displayed when the interaction begins. This text may

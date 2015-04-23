@@ -1,12 +1,12 @@
 //  SDLTransport.h
 //
 
-
 @import Foundation;
 
 #import "SDLTransportDelegate.h"
 
-@protocol SDLTransport
+
+@protocol SDLTransport <NSObject>
 
 @property (weak) id<SDLTransportDelegate> delegate;
 

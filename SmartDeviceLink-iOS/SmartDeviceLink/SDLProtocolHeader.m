@@ -1,4 +1,4 @@
-//  SDLSmartDeviceLinkProtocolHeader.m
+//  SDLProtocolHeader.m
 //
 
 
@@ -11,7 +11,7 @@
 @synthesize version = _version;
 @synthesize size = _size;
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
         _version = 0;
         _size = 0;
@@ -19,7 +19,7 @@
 	return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(NSZone *)zone {
     [self doesNotRecognizeSelector:_cmd];
     return 0;
 }

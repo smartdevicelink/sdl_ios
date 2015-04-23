@@ -1,8 +1,6 @@
 //  SDLTCPTransport.h
 //
 
-
-
 #import "SDLAbstractTransport.h"
 
 @interface SDLTCPTransport : SDLAbstractTransport {
