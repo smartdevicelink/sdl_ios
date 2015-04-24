@@ -1,20 +1,22 @@
 //  SDLImageField.m
 //
 
-
 #import "SDLImageField.h"
 
-#import "SDLNames.h"
 #import "SDLFileType.h"
+#import "SDLImageFieldName.h"
+#import "SDLImageResolution.h"
+#import "SDLNames.h"
+
 
 @implementation SDLImageField
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

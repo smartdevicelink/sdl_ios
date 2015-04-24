@@ -4,18 +4,22 @@
 
 #import "SDLRegisterAppInterface.h"
 
+#import "SDLAppHMIType.h"
+#import "SDLDeviceInfo.h"
+#import "SDLLanguage.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
-#import "SDLAppHMIType.h"
+#import "SDLSyncMsgVersion.h"
+
 
 @implementation SDLRegisterAppInterface
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_RegisterAppInterface]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

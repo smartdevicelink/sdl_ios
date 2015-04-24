@@ -1,20 +1,21 @@
 //  SDLOnTouchEvent.m
 //
 
-
 #import "SDLOnTouchEvent.h"
 
 #import "SDLNames.h"
 #import "SDLTouchEvent.h"
+#import "SDLTouchType.h"
+
 
 @implementation SDLOnTouchEvent
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_OnTouchEvent]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

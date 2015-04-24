@@ -21,7 +21,7 @@
  @abstract Store the enumeration of all possible SDLAppHMIType
  @result return an array that store all possible SDLAppHMIType
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract  The App will have default rights.

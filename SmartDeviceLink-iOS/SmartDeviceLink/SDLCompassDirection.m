@@ -13,7 +13,7 @@ SDLCompassDirection* SDLCompassDirection_SOUTHEAST = nil;
 SDLCompassDirection* SDLCompassDirection_EAST = nil;
 SDLCompassDirection* SDLCompassDirection_NORTHEAST = nil;
 
-NSMutableArray* SDLCompassDirection_values = nil;
+NSArray* SDLCompassDirection_values = nil;
 
 @implementation SDLCompassDirection
 
@@ -26,9 +26,9 @@ NSMutableArray* SDLCompassDirection_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLCompassDirection_values == nil) {
-        SDLCompassDirection_values = [[NSMutableArray alloc] initWithObjects:
+        SDLCompassDirection_values = @[
                 SDLCompassDirection.NORTH,
                 SDLCompassDirection.NORTHWEST,
                 SDLCompassDirection.WEST,
@@ -37,7 +37,7 @@ NSMutableArray* SDLCompassDirection_values = nil;
                 SDLCompassDirection.SOUTHEAST,
                 SDLCompassDirection.EAST,
                 SDLCompassDirection.NORTHEAST,
-                nil];
+                ];
     }
     return SDLCompassDirection_values;
 }

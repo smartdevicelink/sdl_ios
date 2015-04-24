@@ -1,14 +1,14 @@
-//  SDLSmartDeviceLinkV1ProtocolMessage.m
+//  SDLV1ProtocolMessage.m
 //
 
-
-
-#import "SDLV1ProtocolMessage.h"
 #import "SDLJsonDecoder.h"
+#import "SDLProtocolHeader.h"
+#import "SDLV1ProtocolMessage.h"
+
 
 @implementation SDLV1ProtocolMessage
 
-- (id)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload {
+- (instancetype)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload {
 	if (self = [self init]) {
         self.header = header;
         self.payload = payload;

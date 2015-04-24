@@ -1,19 +1,19 @@
 //  SDLDeviceInfo.m
 //
 
-
 #import "SDLDeviceInfo.h"
 
 #import "SDLNames.h"
 
+
 @implementation SDLDeviceInfo
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

@@ -1,18 +1,35 @@
 // SDLProxy.m
 
-#import <Foundation/Foundation.h>
-@import ExternalAccessory;
+#import "SDLProxy.h"
+
 @import UIKit;
+@import ExternalAccessory;
 #import <objc/runtime.h>
+
+#import "SDLAudioStreamingState.h"
 #import "SDLDebugTool.h"
 #import "SDLEncodedSyncPData.h"
+#import "SDLFileType.h"
 #import "SDLFunctionID.h"
+#import "SDLHMILevel.h"
 #import "SDLJsonDecoder.h"
 #import "SDLJsonEncoder.h"
 #import "SDLLanguage.h"
+#import "SDLLayoutMode.h"
+#import "SDLLockScreenManager.h"
 #import "SDLNames.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLOnSystemRequest.h"
+#import "SDLPolicyDataParser.h"
+#import "SDLProtocol.h"
+#import "SDLProtocolMessage.h"
+#import "SDLPutFile.h"
+#import "SDLRequestType.h"
+#import "SDLRPCPayload.h"
+#import "SDLRPCRequestFactory.h"
+#import "SDLRPCResponse.h"
 #import "SDLSiphonServer.h"
-#import "SDLProxy.h"
+#import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLQueryAppsManager.h"
 #import "SDLRPCPayload.h"
@@ -49,8 +66,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - Object lifecycle
-- (id)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
-    if (self = [super init]) {
+- (instancetype)initWithTransport:(NSObject<SDLTransport> *)theTransport protocol:(NSObject<SDLInterfaceProtocol> *)theProtocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
+	if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         
         _activeSystemRequestTasks = [NSMutableSet set];
@@ -113,11 +130,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     switch (appState) {
         case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel HMI_FULL];
+            HMIStatusRPC.hmiLevel = [SDLHMILevel FULL];
         } break;
         case UIApplicationStateInactive: // Fallthrough
         case UIApplicationStateBackground: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel HMI_BACKGROUND];
+            HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
         } break;
         default:
             break;

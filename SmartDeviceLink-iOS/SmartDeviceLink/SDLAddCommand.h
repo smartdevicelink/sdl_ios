@@ -3,8 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLMenuParams.h"
-#import "SDLImage.h"
+@class SDLMenuParams;
+@class SDLImage;
 
 
 /**
@@ -35,7 +35,7 @@
 /**
  * Constructs a new SDLAddCommand object
  */
--(id) init;
+-(instancetype) init;
 /**
  *
  * Constructs a new SDLAddCommand object indicated by the NSMutableDictionary
@@ -44,7 +44,7 @@
  *
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract an Unique Command ID that identifies the command

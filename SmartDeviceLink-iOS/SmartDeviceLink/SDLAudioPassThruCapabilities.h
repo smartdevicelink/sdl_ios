@@ -1,13 +1,12 @@
 //  SDLAudioPassThruCapabilities.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLSamplingRate.h"
-#import "SDLBitsPerSample.h"
-#import "SDLAudioType.h"
+@class SDLAudioType;
+@class SDLBitsPerSample;
+@class SDLSamplingRate;
+
 
 /**
  * Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}
@@ -48,12 +47,12 @@
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object indicated by the Hashtable parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The sampling rate for AudioPassThru<br>

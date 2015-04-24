@@ -5,15 +5,18 @@
 #import "SDLSetMediaClockTimer.h"
 
 #import "SDLNames.h"
+#import "SDLStartTime.h"
+#import "SDLUpdateMode.h"
+
 
 @implementation SDLSetMediaClockTimer
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_SetMediaClockTimer]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

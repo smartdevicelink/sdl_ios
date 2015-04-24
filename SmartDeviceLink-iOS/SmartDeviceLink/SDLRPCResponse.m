@@ -5,6 +5,7 @@
 #import "SDLRPCResponse.h"
 
 #import "SDLNames.h"
+#import "SDLResult.h"
 
 @implementation SDLRPCResponse
 

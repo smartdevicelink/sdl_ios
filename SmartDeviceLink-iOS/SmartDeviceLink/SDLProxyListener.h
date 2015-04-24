@@ -1,66 +1,64 @@
 //  SDLProxyListener.h
 //
 
+@class SDLAddCommandResponse;
+@class SDLAddSubMenuResponse;
+@class SDLAlertResponse;
+@class SDLChangeRegistrationResponse;
+@class SDLCreateInteractionChoiceSetResponse;
+@class SDLDeleteCommandResponse;
+@class SDLDeleteFileResponse;
+@class SDLDeleteInteractionChoiceSetResponse;
+@class SDLDeleteSubMenuResponse;
+@class SDLDiagnosticMessageResponse;
+@class SDLEncodedSyncPDataResponse;
+@class SDLEndAudioPassThruResponse;
+@class SDLGenericResponse;
+@class SDLGetDTCsResponse;
+@class SDLGetVehicleDataResponse;
+@class SDLListFilesResponse;
+@class SDLLockScreenStatus;
+@class SDLOnAppInterfaceUnregistered;
+@class SDLOnAudioPassThru;
+@class SDLOnButtonEvent;
+@class SDLOnButtonPress;
+@class SDLOnCommand;
+@class SDLOnDriverDistraction;
+@class SDLOnEncodedSyncPData;
+@class SDLOnHashChange;
+@class SDLOnHMIStatus;
+@class SDLOnLanguageChange;
+@class SDLOnPermissionsChange;
+@class SDLOnSyncPData;
+@class SDLOnSystemRequest;
+@class SDLOnVehicleData;
+@class SDLOnTBTClientState;
+@class SDLOnTouchEvent;
+@class SDLOnVehicleData;
+@class SDLPerformAudioPassThruResponse;
+@class SDLPerformInteractionResponse;
+@class SDLPutFileResponse;
+@class SDLReadDIDResponse;
+@class SDLRegisterAppInterfaceResponse;
+@class SDLResetGlobalPropertiesResponse;
+@class SDLScrollableMessageResponse;
+@class SDLSetAppIconResponse;
+@class SDLSetDisplayLayoutResponse;
+@class SDLSetGlobalPropertiesResponse;
+@class SDLSetMediaClockTimerResponse;
+@class SDLShowConstantTBTResponse;
+@class SDLShowResponse;
+@class SDLSliderResponse;
+@class SDLSpeakResponse;
+@class SDLSubscribeButtonResponse;
+@class SDLSubscribeVehicleDataResponse;
+@class SDLSyncPDataResponse;
+@class SDLUpdateTurnListResponse;
+@class SDLUnregisterAppInterfaceResponse;
+@class SDLUnsubscribeButtonResponse;
+@class SDLUnsubscribeVehicleDataResponse;
 
-
-#import "SDLAddCommandResponse.h"
-#import "SDLAddSubMenuResponse.h"
-#import "SDLAlertResponse.h"
-#import "SDLChangeRegistrationResponse.h"
-#import "SDLCreateInteractionChoiceSetResponse.h"
-#import "SDLDeleteCommandResponse.h"
-#import "SDLDeleteFileResponse.h"
-#import "SDLDeleteInteractionChoiceSetResponse.h"
-#import "SDLDeleteSubMenuResponse.h"
-#import "SDLDiagnosticMessageResponse.h"
-#import "SDLEncodedSyncPDataResponse.h"
-#import "SDLEndAudioPassThruResponse.h"
-#import "SDLGenericResponse.h"
-#import "SDLGetDTCsResponse.h"
-#import "SDLGetVehicleDataResponse.h"
-#import "SDLListFilesResponse.h"
-#import "SDLLockScreenStatus.h"
-#import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnAudioPassThru.h"
-#import "SDLOnButtonEvent.h"
-#import "SDLOnButtonPress.h"
-#import "SDLOnCommand.h"
-#import "SDLOnDriverDistraction.h"
-#import "SDLOnEncodedSyncPData.h"
-#import "SDLOnHashChange.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLOnLanguageChange.h"
-#import "SDLOnPermissionsChange.h"
-#import "SDLOnSyncPData.h"
-#import "SDLOnSystemRequest.h"
-#import "SDLOnVehicleData.h"
-#import "SDLOnTBTClientState.h"
-#import "SDLOnTouchEvent.h"
-#import "SDLOnVehicleData.h"
-#import "SDLPerformAudioPassThruResponse.h"
-#import "SDLPerformInteractionResponse.h"
-#import "SDLPutFileResponse.h"
-#import "SDLReadDIDResponse.h"
-#import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLResetGlobalPropertiesResponse.h"
-#import "SDLScrollableMessageResponse.h"
-#import "SDLSetAppIconResponse.h"
-#import "SDLSetDisplayLayoutResponse.h"
-#import "SDLSetGlobalPropertiesResponse.h"
-#import "SDLSetMediaClockTimerResponse.h"
-#import "SDLShowConstantTBTResponse.h"
-#import "SDLShowResponse.h"
-#import "SDLSliderResponse.h"
-#import "SDLSpeakResponse.h"
-#import "SDLSubscribeButtonResponse.h"
-#import "SDLSubscribeVehicleDataResponse.h"
-#import "SDLSyncPDataResponse.h"
-#import "SDLUpdateTurnListResponse.h"
-#import "SDLUnregisterAppInterfaceResponse.h"
-#import "SDLUnsubscribeButtonResponse.h"
-#import "SDLUnsubscribeVehicleDataResponse.h"
-
-@protocol SDLProxyListener
+@protocol SDLProxyListener <NSObject>
 
 -(void) onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
 -(void) onOnHMIStatus:(SDLOnHMIStatus*) notification;
@@ -79,7 +77,7 @@
 -(void) onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse*) response;
 -(void) onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse*) response;
 -(void) onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse*) response;
--(void) onEncodedSyncPDataRespons:(SDLEncodedSyncPDataResponse*) response;
+-(void) onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse*) response;
 -(void) onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse*) response;
 -(void) onError:(NSException*) e;
 -(void) onGenericResponse:(SDLGenericResponse*) response;

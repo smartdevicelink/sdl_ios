@@ -1,19 +1,22 @@
 //  SDLEmergencyEvent.m
 //
 
-
 #import "SDLEmergencyEvent.h"
 
+#import "SDLEmergencyEventType.h"
+#import "SDLFuelCutoffStatus.h"
 #import "SDLNames.h"
+#import "SDLVehicleDataEventStatus.h"
+
 
 @implementation SDLEmergencyEvent
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

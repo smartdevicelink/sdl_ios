@@ -7,7 +7,7 @@
 SDLButtonPressMode* SDLButtonPressMode_LONG = nil;
 SDLButtonPressMode* SDLButtonPressMode_SHORT = nil;
 
-NSMutableArray* SDLButtonPressMode_values = nil;
+NSArray* SDLButtonPressMode_values = nil;
 
 @implementation SDLButtonPressMode
 
@@ -20,12 +20,12 @@ NSMutableArray* SDLButtonPressMode_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLButtonPressMode_values == nil) {
-        SDLButtonPressMode_values = [[NSMutableArray alloc] initWithObjects:
+        SDLButtonPressMode_values = @[
                 SDLButtonPressMode.LONG,
                 SDLButtonPressMode.SHORT,
-                nil];
+                ];
     }
     return SDLButtonPressMode_values;
 }

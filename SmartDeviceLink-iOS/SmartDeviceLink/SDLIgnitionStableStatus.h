@@ -22,7 +22,7 @@
  @abstract store all possible SDLIgnitionStableStatus values
  @result return an array with all possible SDLIgnitionStableStatus values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The current ignition switch status is considered not to be stable.

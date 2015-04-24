@@ -1,9 +1,12 @@
 //  SDLSyncProxyFactory.h
 //
 
+@import Foundation;
 
+#import "SDLProxyListener.h"
 
-#import "SDLProxy.h"
+@class SDLProxy;
+
 
 @interface SDLProxyFactory : NSObject {}
 

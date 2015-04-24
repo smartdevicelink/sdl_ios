@@ -2,9 +2,10 @@
 
 #import "SDLAbstractTransport.h"
 
+
 @implementation SDLAbstractTransport
 
-- (id) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) param {
+- (instancetype) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) param {
     if (self = [super init]) {
         _endpointName = endpoint;
         _endpointParam = param;

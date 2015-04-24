@@ -1,11 +1,53 @@
 //  SDLRPCRequestFactory.m
 //
 
-
 #import "SDLRPCRequestFactory.h"
 
 #import "SDLMenuParams.h"
 #import "SDLTTSChunkFactory.h"
+#import "SDLAddCommand.h"
+#import "SDLAddSubMenu.h"
+#import "SDLAlert.h"
+#import "SDLAppHMIType.h"
+#import "SDLChangeRegistration.h"
+#import "SDLCreateInteractionChoiceSet.h"
+#import "SDLDeleteCommand.h"
+#import "SDLDeleteFile.h"
+#import "SDLDeleteInteractionChoiceSet.h"
+#import "SDLDeleteSubMenu.h"
+#import "SDLDialNumber.h"
+#import "SDLEndAudioPassThru.h"
+#import "SDLFileType.h"
+#import "SDLGetDTCs.h"
+#import "SDLGetVehicleData.h"
+#import "SDLImage.h"
+#import "SDLInteractionMode.h"
+#import "SDLListFiles.h"
+#import "SDLPerformAudioPassThru.h"
+#import "SDLPerformInteraction.h"
+#import "SDLPutFile.h"
+#import "SDLReadDID.h"
+#import "SDLRegisterAppInterface.h"
+#import "SDLResetGlobalProperties.h"
+#import "SDLScrollableMessage.h"
+#import "SDLSendLocation.h"
+#import "SDLSetAppIcon.h"
+#import "SDLSetDisplayLayout.h"
+#import "SDLSetGlobalProperties.h"
+#import "SDLSetMediaClockTimer.h"
+#import "SDLShow.h"
+#import "SDLSlider.h"
+#import "SDLSpeak.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLStartTime.h"
+#import "SDLSubscribeButton.h"
+#import "SDLSubscribeVehicleData.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLTTSChunk.h"
+#import "SDLUnregisterAppInterface.h"
+#import "SDLUnsubscribeButton.h"
+#import "SDLUnsubscribeVehicleData.h"
+
 
 @implementation SDLRPCRequestFactory
 
@@ -160,6 +202,13 @@ correlationID{
     return msg;
 }
 
++(SDLDialNumber*) buildDialNumberWithNumber:(NSString *)phoneNumber {
+    SDLDialNumber *msg = [[SDLDialNumber alloc] init];
+    msg.number = phoneNumber;
+    
+    return msg;
+}
+
 +(SDLListFiles*) buildListFilesWithCorrelationID:(NSNumber*) correlationID {
     
     SDLListFiles* msg = [[SDLListFiles alloc] init];
@@ -244,6 +293,7 @@ correlationID{
     msg.bitsPerSample = bitsPerSample;
     msg.audioType = audioType;
     msg.muteAudio = muteAudio;
+    msg.correlationID = correlationID;
     
     return msg;
 }
@@ -295,21 +345,23 @@ correlationID{
 }
 //*****
 
-
-+(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID {
-    
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) fileName fileType:(SDLFileType*) fileType persistentFile:(NSNumber*) persistentFile correlationId:(NSNumber*) correlationID {
     //TODO
     //    +(FMPutFile*) buildPutFile:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile fileData:(NSData*) fileData correlationID:(NSNumber*) correlationID {
     
     
     SDLPutFile* msg = [[SDLPutFile alloc] init];
-    msg.syncFileName = syncFileName;
+    msg.syncFileName = fileName;
     
-    msg.fileType = [fileType mutableCopy];
+    msg.fileType = fileType;
     msg.persistentFile = persistentFile;
     msg.correlationID = correlationID;
     
     return msg;
+}
+
++(SDLPutFile*) buildPutFileWithFileName:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile correlationID:(NSNumber*) correlationID {
+    return [self buildPutFileWithFileName:syncFileName fileType:fileType persistentFile:persistentFile correlationId:correlationID];
 }
 
 +(SDLReadDID*) buildReadDIDWithECUName:(NSNumber*) ecuName didLocation:(NSArray*) didLocation correlationID:(NSNumber*) correlationID {
@@ -323,7 +375,7 @@ correlationID{
 }
 
 //***** RegisterAppInterface *****
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSMutableArray*) ttsName vrSynonyms:(NSMutableArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSArray*) ttsName vrSynonyms:(NSArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
     
     SDLRegisterAppInterface* msg = [[SDLRegisterAppInterface alloc] init];
     SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] init];
@@ -331,9 +383,9 @@ correlationID{
 	version.minorVersion = [NSNumber numberWithInt:0];
     msg.syncMsgVersion = version;
 	msg.appName = appName;
-    msg.ttsName = ttsName;
+    msg.ttsName = [ttsName mutableCopy];
 	msg.ngnMediaScreenAppName = appName;
-	msg.vrSynonyms = vrSynonyms;
+	msg.vrSynonyms = [vrSynonyms mutableCopy];
 	msg.isMediaApplication = isMediaApp;
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
@@ -353,7 +405,7 @@ correlationID{
 
 +(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID{
     
-    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:[NSNumber numberWithBool:NO] languageDesired:languageDesired appID: appID];
+    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appID: appID];
 }
 //*****
 
@@ -376,6 +428,19 @@ correlationID{
 	msg.correlationID = correlationID;
 	
 	return msg;
+}
+
++(SDLSendLocation *) buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+    SDLSendLocation *msg = [[SDLSendLocation alloc] init];
+    msg.longitudeDegrees = longitude;
+    msg.latitudeDegrees = latitude;
+    msg.locationName = locationName;
+    msg.locationDescription = locationDescription;
+    msg.addressLines = address;
+    msg.phoneNumber = phoneNumber;
+    msg.locationImage = image;
+    
+    return msg;
 }
 
 +(SDLSetAppIcon*) buildSetAppIconWithFileName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID {

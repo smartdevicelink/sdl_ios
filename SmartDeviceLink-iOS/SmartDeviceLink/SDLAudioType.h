@@ -21,7 +21,7 @@
  @abstract Store the enumeration of all possible SDLAudioType
  @result return an array that store all possible SDLAudioType
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  @abstract PCM raw audio

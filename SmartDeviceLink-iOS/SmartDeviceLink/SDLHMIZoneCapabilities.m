@@ -1,18 +1,18 @@
-//  SDLHmiZoneCapabilities.m
+//  SDLHMIZoneCapabilities.m
 //
 
 
-#import "SDLHmiZoneCapabilities.h"
+#import "SDLHMIZoneCapabilities.h"
 
-SDLHmiZoneCapabilities* SDLHmiZoneCapabilities_FRONT = nil;
-SDLHmiZoneCapabilities* SDLHmiZoneCapabilities_BACK = nil;
+SDLHMIZoneCapabilities* SDLHMIZoneCapabilities_FRONT = nil;
+SDLHMIZoneCapabilities* SDLHMIZoneCapabilities_BACK = nil;
 
-NSMutableArray* SDLHmiZoneCapabilities_values = nil;
+NSArray* SDLHMIZoneCapabilities_values = nil;
 
-@implementation SDLHmiZoneCapabilities
+@implementation SDLHMIZoneCapabilities
 
-+(SDLHmiZoneCapabilities*) valueOf:(NSString*) value {
-    for (SDLHmiZoneCapabilities* item in SDLHmiZoneCapabilities.values) {
++(SDLHMIZoneCapabilities*) valueOf:(NSString*) value {
+    for (SDLHMIZoneCapabilities* item in SDLHMIZoneCapabilities.values) {
         if ([item.value isEqualToString:value]) {
             return item;
         }
@@ -20,28 +20,28 @@ NSMutableArray* SDLHmiZoneCapabilities_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
-    if (SDLHmiZoneCapabilities_values == nil) {
-        SDLHmiZoneCapabilities_values = [[NSMutableArray alloc] initWithObjects:
-                SDLHmiZoneCapabilities.FRONT,
-                SDLHmiZoneCapabilities.BACK,
-                nil];
++(NSArray*) values {
+    if (SDLHMIZoneCapabilities_values == nil) {
+        SDLHMIZoneCapabilities_values = @[
+                SDLHMIZoneCapabilities.FRONT,
+                SDLHMIZoneCapabilities.BACK,
+                ];
     }
-    return SDLHmiZoneCapabilities_values;
+    return SDLHMIZoneCapabilities_values;
 }
 
-+(SDLHmiZoneCapabilities*) FRONT {
-    if (SDLHmiZoneCapabilities_FRONT == nil) {
-        SDLHmiZoneCapabilities_FRONT = [[SDLHmiZoneCapabilities alloc] initWithValue:@"FRONT"];
++(SDLHMIZoneCapabilities*) FRONT {
+    if (SDLHMIZoneCapabilities_FRONT == nil) {
+        SDLHMIZoneCapabilities_FRONT = [[SDLHMIZoneCapabilities alloc] initWithValue:@"FRONT"];
     }
-    return SDLHmiZoneCapabilities_FRONT;
+    return SDLHMIZoneCapabilities_FRONT;
 }
 
-+(SDLHmiZoneCapabilities*) BACK {
-    if (SDLHmiZoneCapabilities_BACK == nil) {
-        SDLHmiZoneCapabilities_BACK = [[SDLHmiZoneCapabilities alloc] initWithValue:@"BACK"];
++(SDLHMIZoneCapabilities*) BACK {
+    if (SDLHMIZoneCapabilities_BACK == nil) {
+        SDLHMIZoneCapabilities_BACK = [[SDLHMIZoneCapabilities alloc] initWithValue:@"BACK"];
     }
-    return SDLHmiZoneCapabilities_BACK;
+    return SDLHMIZoneCapabilities_BACK;
 }
 
 @end

@@ -15,12 +15,12 @@
 /**
  * @abstract Constructs a new SDLSubscribeButtonResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSubscribeButtonResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @end

@@ -12,7 +12,7 @@ SDLGlobalProperty* SDLGlobalProperty_MENUNAME = nil;
 SDLGlobalProperty* SDLGlobalProperty_MENUICON = nil;
 SDLGlobalProperty* SDLGlobalProperty_KEYBOARDPROPERTIES = nil;
 
-NSMutableArray* SDLGlobalProperty_values = nil;
+NSArray* SDLGlobalProperty_values = nil;
 
 @implementation SDLGlobalProperty
 
@@ -25,9 +25,9 @@ NSMutableArray* SDLGlobalProperty_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLGlobalProperty_values == nil) {
-        SDLGlobalProperty_values = [[NSMutableArray alloc] initWithObjects:
+        SDLGlobalProperty_values = @[
                 SDLGlobalProperty.HELPPROMPT,
                 SDLGlobalProperty.TIMEOUTPROMPT,
                 SDLGlobalProperty.VRHELPTITLE,
@@ -35,7 +35,7 @@ NSMutableArray* SDLGlobalProperty_values = nil;
                 SDLGlobalProperty.MENUNAME,
                 SDLGlobalProperty.MENUICON,
                 SDLGlobalProperty.KEYBOARDPROPERTIES,
-                nil];
+                ];
     }
     return SDLGlobalProperty_values;
 }

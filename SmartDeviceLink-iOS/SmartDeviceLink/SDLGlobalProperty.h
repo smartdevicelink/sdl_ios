@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLGlobalProperty
  @result return an array that store all possible SDLGlobalProperty
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The help prompt to be spoken if the user needs assistance during a user-initiated interaction.

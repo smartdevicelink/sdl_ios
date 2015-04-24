@@ -23,19 +23,19 @@
  @abstract store all possible SDLHMILevel values
  @result return an array with all possible HMILevel values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The application has full use of the SDL HMI. The app may output via TTS, display, or streaming audio and may gather input via VR, Menu, and button presses
- * @result return the HMILevel with value of <font color=gray><i> HMI_FULL </i></font>
+ * @result return the HMILevel with value of <font color=gray><i> FULL </i></font>
  */
-+(SDLHMILevel*) HMI_FULL;
++(SDLHMILevel*) FULL;
 
 /**
  * @abstract This HMI Level is only defined for a media application using an HMI with an 8 inch touchscreen (Nav) system. The application's <i>Show</i> text is displayed and it receives button presses from media-oriented buttons (SEEKRIGHT, SEEKLEFT, TUNEUP, TUNEDOWN, PRESET_0-9)
- * @result return the HMILevel with value of <font color=gray><i> HMI_LIMITED </i></font>
+ * @result return the HMILevel with value of <font color=gray><i> LIMITED </i></font>
  */
-+(SDLHMILevel*) HMI_LIMITED;
++(SDLHMILevel*) LIMITED;
 
 /**
  * @abstract App cannot interact with user via TTS, VR, Display or Button Presses. App can perform the following operations:<br/>
@@ -53,15 +53,15 @@
  * <li>Operation : ResetGlobalProperties</li>
  * <li>Operation : SetGlobalProperties</li>
  * </ul>
- * @result return the HMILevel with value of <font color=gray><i> HMI_BACKGROUND </i></font>
+ * @result return the HMILevel with value of <font color=gray><i> BACKGROUND </i></font>
  */
-+(SDLHMILevel*) HMI_BACKGROUND;
++(SDLHMILevel*) BACKGROUND;
 
 /**
  * @abstract Application has been discovered by SDL, but application cannot send any requests or receive any notifications<br/>
  * @discussion An HMILevel of NONE can also mean that the user has exited the application by saying "exit appname" or selecting "exit" from the application's menu. When this happens, the application still has an active interface registration with SDL and all SDL resources the application has created (e.g. Choice Sets, subscriptions, etc.) still exist. But while the HMILevel is NONE, the application cannot send any messages to SYNC, except <i>UnregisterAppInterface</i></li>
- * @result return the HMILevel with value of <font color=gray><i> HMI_NONE </i></font>
+ * @result return the HMILevel with value of <font color=gray><i> NONE </i></font>
  */
-+(SDLHMILevel*) HMI_NONE;
++(SDLHMILevel*) NONE;
 
 @end

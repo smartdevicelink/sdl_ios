@@ -24,7 +24,7 @@
  @abstract Store the enumeration of all possible SDLTriggerSource
  @result return an array that store all possible SDLTriggerSource
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Selection made via menu (i.e. using SEEKRIGHT/SEEKLEFT, TUNEUP, TUNEDOWN

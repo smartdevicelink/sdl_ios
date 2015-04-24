@@ -10,7 +10,7 @@ SDLUpdateMode* SDLUpdateMode_PAUSE = nil;
 SDLUpdateMode* SDLUpdateMode_RESUME = nil;
 SDLUpdateMode* SDLUpdateMode_CLEAR = nil;
 
-NSMutableArray* SDLUpdateMode_values = nil;
+NSArray* SDLUpdateMode_values = nil;
 
 @implementation SDLUpdateMode
 
@@ -23,15 +23,15 @@ NSMutableArray* SDLUpdateMode_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLUpdateMode_values == nil) {
-        SDLUpdateMode_values = [[NSMutableArray alloc] initWithObjects:
+        SDLUpdateMode_values = @[
                 SDLUpdateMode.COUNTUP,
                 SDLUpdateMode.COUNTDOWN,
                 SDLUpdateMode.PAUSE,
                 SDLUpdateMode.RESUME,
                 SDLUpdateMode.CLEAR,
-                nil];
+                ];
     }
     return SDLUpdateMode_values;
 }

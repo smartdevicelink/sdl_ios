@@ -1,12 +1,11 @@
 //  SDLDisplayCapabilities.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLDisplayType.h"
-#import "SDLScreenParams.h"
+@class SDLDisplayType;
+@class SDLScreenParams;
+
 
 /**
  * Contains information about the display for the SDL system to which the application is currently connected.
@@ -53,12 +52,12 @@
 /**
  * Constructs a newly allocated SDLDisplayCapabilities object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLDisplayCapabilities object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the type of display

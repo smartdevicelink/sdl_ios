@@ -1,11 +1,11 @@
 //  SDLTextField.h
 //
 
-
 #import "SDLRPCMessage.h"
 
-#import "SDLTextFieldName.h"
-#import "SDLCharacterSet.h"
+@class SDLCharacterSet;
+@class SDLTextFieldName;
+
 
 /**
  * Struct defining the characteristics of a displayed field on the HMI.
@@ -59,12 +59,12 @@
 /**
  * @abstract Constructs a newly allocated SDLTextField object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a newly allocated SDLTextField object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The enumeration identifying the field.

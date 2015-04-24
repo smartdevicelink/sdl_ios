@@ -1,17 +1,17 @@
-//  SDLVrCapabilities.m
+//  SDLVRCapabilities.m
 //
 
 
-#import "SDLVrCapabilities.h"
+#import "SDLVRCapabilities.h"
 
-SDLVrCapabilities* SDLVrCapabilities_TEXT = nil;
+SDLVRCapabilities* SDLVRCapabilities_TEXT = nil;
 
-NSMutableArray* SDLVrCapabilities_values = nil;
+NSArray* SDLVRCapabilities_values = nil;
 
-@implementation SDLVrCapabilities
+@implementation SDLVRCapabilities
 
-+(SDLVrCapabilities*) valueOf:(NSString*) value {
-    for (SDLVrCapabilities* item in SDLVrCapabilities.values) {
++(SDLVRCapabilities*) valueOf:(NSString*) value {
+    for (SDLVRCapabilities* item in SDLVRCapabilities.values) {
         //NOTE: This was added for Sync Module Compatability, V1 module resturns "Text" and a
         //      Gen 1.1 module returns "TEXT", the new if statement makes a case insensitive
         //      check instead to accept both
@@ -23,20 +23,20 @@ NSMutableArray* SDLVrCapabilities_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
-    if (SDLVrCapabilities_values == nil) {
-        SDLVrCapabilities_values = [[NSMutableArray alloc] initWithObjects:
-                SDLVrCapabilities.TEXT,
-                nil];
++(NSArray*) values {
+    if (SDLVRCapabilities_values == nil) {
+        SDLVRCapabilities_values = @[
+                                     SDLVRCapabilities.TEXT,
+                                     ];
     }
-    return SDLVrCapabilities_values;
+    return SDLVRCapabilities_values;
 }
 
-+(SDLVrCapabilities*) TEXT {
-    if (SDLVrCapabilities_TEXT == nil) {
-        SDLVrCapabilities_TEXT = [[SDLVrCapabilities alloc] initWithValue:@"TEXT"];
++(SDLVRCapabilities*) TEXT {
+    if (SDLVRCapabilities_TEXT == nil) {
+        SDLVRCapabilities_TEXT = [[SDLVRCapabilities alloc] initWithValue:@"TEXT"];
     }
-    return SDLVrCapabilities_TEXT;
+    return SDLVRCapabilities_TEXT;
 }
 
 @end

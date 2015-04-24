@@ -1,25 +1,24 @@
 //  SDLGetVehicleDataResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
-#import "SDLGPSData.h"
-#import "SDLComponentVolumeStatus.h"
-#import "SDLPRNDL.h"
-#import "SDLTireStatus.h"
-#import "SDLBeltStatus.h"
-#import "SDLBodyInformation.h"
-#import "SDLDeviceStatus.h"
-#import "SDLVehicleDataEventStatus.h"
-#import "SDLWiperStatus.h"
-#import "SDLHeadLampStatus.h"
-#import "SDLECallInfo.h"
-#import "SDLAirbagStatus.h"
-#import "SDLEmergencyEvent.h"
-#import "SDLClusterModeStatus.h"
-#import "SDLMyKey.h"
+@class SDLAirbagStatus;
+@class SDLBeltStatus;
+@class SDLBodyInformation;
+@class SDLClusterModeStatus;
+@class SDLComponentVolumeStatus;
+@class SDLDeviceStatus;
+@class SDLECallInfo;
+@class SDLEmergencyEvent;
+@class SDLGPSData;
+@class SDLHeadLampStatus;
+@class SDLMyKey;
+@class SDLPRNDL;
+@class SDLTireStatus;
+@class SDLVehicleDataEventStatus;
+@class SDLWiperStatus;
+
 
 /**
  * Get Vehicle Data Response is sent, when SDLGetVehicleData has been called
@@ -32,14 +31,14 @@
 /**
  * @abstract Constructs a new SDLGetVehicleDataResponse object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLGetVehicleDataResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 
 /**

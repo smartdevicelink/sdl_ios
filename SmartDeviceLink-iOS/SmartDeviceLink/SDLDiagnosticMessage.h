@@ -12,8 +12,8 @@
  */
 @interface SDLDiagnosticMessage : SDLRPCRequest {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSNumber* targetID;
 @property(strong) NSNumber* messageLength;

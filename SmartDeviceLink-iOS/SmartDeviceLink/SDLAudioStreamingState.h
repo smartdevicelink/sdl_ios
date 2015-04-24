@@ -24,7 +24,7 @@
  @abstract Store the enumeration of all possible SDLAudioStreamingState
  @result return an array that store all possible SDLAudioStreamingState
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 /**
  * @abstract Currently streaming audio, if any, is audible to user.
  * @result SDLAudioStreamingState with value of <font color=gray><i>AUDIBLE</i></font>

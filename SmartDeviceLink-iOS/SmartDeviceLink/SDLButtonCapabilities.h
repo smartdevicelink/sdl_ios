@@ -1,11 +1,10 @@
 //  SDLButtonCapabilities.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLButtonName.h"
+@class SDLButtonName;
+
 
 /**
  * Provides information about the capabilities of a SDL HMI button.
@@ -50,12 +49,12 @@
 /**
  * Constructs a newly allocated SDLButtonCapabilities object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLButtonCapabilities object indicated by the Hashtable parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The name of the SDL HMI button.

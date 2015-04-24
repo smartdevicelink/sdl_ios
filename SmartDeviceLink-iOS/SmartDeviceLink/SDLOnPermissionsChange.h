@@ -1,9 +1,8 @@
 //  SDLOnPermissionsChange.h
 //
 
-
-
 #import "SDLRPCNotification.h"
+
 
 /**
  * Provides update to app of which sets of functions are available
@@ -51,12 +50,12 @@
 /**
  *Constructs a newly allocated SDLOnPermissionsChange object
  */
--(id) init;
+-(instancetype) init;
 /**
  *<p>Constructs a newly allocated SDLOnPermissionsChange object indicated by the NSMutableDictionary parameter</p>
  *@param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract an Array of SDLPermissionItem object describing change in permissions for a given set of RPCs

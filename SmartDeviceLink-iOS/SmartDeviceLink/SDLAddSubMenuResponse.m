@@ -6,12 +6,12 @@
 
 @implementation SDLAddSubMenuResponse
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_AddSubMenu]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

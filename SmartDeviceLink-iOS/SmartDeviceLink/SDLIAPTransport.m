@@ -37,7 +37,7 @@
 
 @implementation SDLIAPTransport
 
-- (id)init {
+- (instancetype)init {
     if (self = [super initWithEndpoint:nil endpointParam:nil]) {
 
         [SDLDebugTool logInfo:@"Init" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];

@@ -30,12 +30,12 @@
 /**
  * @abstract Constructs a newly allocated SDLPresetBankCapabilities object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a newly allocated SDLPresetBankCapabilities object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract if Onscreen custom presets are available.

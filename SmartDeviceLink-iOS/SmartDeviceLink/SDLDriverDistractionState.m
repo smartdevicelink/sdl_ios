@@ -7,7 +7,7 @@
 SDLDriverDistractionState* SDLDriverDistractionState_DD_ON = nil;
 SDLDriverDistractionState* SDLDriverDistractionState_DD_OFF = nil;
 
-NSMutableArray* SDLDriverDistractionState_values = nil;
+NSArray* SDLDriverDistractionState_values = nil;
 
 @implementation SDLDriverDistractionState
 
@@ -20,12 +20,12 @@ NSMutableArray* SDLDriverDistractionState_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLDriverDistractionState_values == nil) {
-        SDLDriverDistractionState_values = [[NSMutableArray alloc] initWithObjects:
+        SDLDriverDistractionState_values = @[
                 SDLDriverDistractionState.DD_ON,
                 SDLDriverDistractionState.DD_OFF,
-                nil];
+                ];
     }
     return SDLDriverDistractionState_values;
 }

@@ -1,15 +1,16 @@
 //  SDLProtocol.h
 //
 
-
-
 #import "SDLProtocolListener.h"
-#import "SDLProtocolMessage.h"
-#import "SDLRPCRequest.h"
 #import "SDLTransport.h"
 #import "SDLTransportDelegate.h"
 
-@protocol SDLInterfaceProtocol<SDLTransportDelegate>
+@class SDLProtocolMessage;
+@class SDLRPCMessage;
+@class SDLRPCRequest;
+
+
+@protocol SDLInterfaceProtocol <SDLTransportDelegate>
 
 @property (weak) id<SDLProtocolListener> protocolDelegate;
 @property (strong) id<SDLTransport> transport;

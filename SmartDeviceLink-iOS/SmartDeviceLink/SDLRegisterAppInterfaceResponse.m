@@ -4,23 +4,29 @@
 
 #import "SDLRegisterAppInterfaceResponse.h"
 
-#import "SDLNames.h"
-#import "SDLButtonCapabilities.h"
-#import "SDLSoftButtonCapabilities.h"
-#import "SDLHmiZoneCapabilities.h"
-#import "SDLSpeechCapabilities.h"
-#import "SDLPrerecordedSpeech.h"
-#import "SDLVrCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
+#import "SDLButtonCapabilities.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLHmiZoneCapabilities.h"
+#import "SDLLanguage.h"
+#import "SDLNames.h"
+#import "SDLPrerecordedSpeech.h"
+#import "SDLPresetBankCapabilities.h"
+#import "SDLSoftButtonCapabilities.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLVRCapabilities.h"
+#import "SDLVehicleType.h"
+
 
 @implementation SDLRegisterAppInterfaceResponse
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_RegisterAppInterface]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }
@@ -162,12 +168,12 @@
 
 -(NSMutableArray*) hmiZoneCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_hmiZoneCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHmiZoneCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMIZoneCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLHmiZoneCapabilities valueOf:enumString]];
+            [newList addObject:[SDLHMIZoneCapabilities valueOf:enumString]];
         }
         return newList;
     }
@@ -225,12 +231,12 @@
 
 -(NSMutableArray*) vrCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_vrCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVrCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLVrCapabilities valueOf:enumString]];
+            [newList addObject:[SDLVRCapabilities valueOf:enumString]];
         }
         return newList;
     }

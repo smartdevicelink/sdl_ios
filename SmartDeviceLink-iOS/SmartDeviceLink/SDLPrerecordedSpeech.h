@@ -8,7 +8,7 @@
 @interface SDLPrerecordedSpeech : SDLEnum {}
 
 +(SDLPrerecordedSpeech*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLPrerecordedSpeech*) HELP_JINGLE;
 +(SDLPrerecordedSpeech*) INITIAL_JINGLE;

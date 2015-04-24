@@ -20,7 +20,7 @@
  @abstract Store the enumeration of all possible SDLWiperStatus
  @result return an array that store all possible SDLWiperStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /*!
  @abstract SDLWiperStatus : <font color=gray><i> OFF </i></font>

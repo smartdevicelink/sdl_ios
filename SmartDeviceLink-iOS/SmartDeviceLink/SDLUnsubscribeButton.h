@@ -1,11 +1,10 @@
 //  SDLUnsubscribeButton.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLButtonName.h"
+@class SDLButtonName;
+
 
 /**
  * Deletes a subscription to button notifications for the specified button. For
@@ -25,13 +24,13 @@
 /**
  * @abstract Constructs a new SDLUnsubscribeButton object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLUnsubscribeButton object indicated by the NSMutableDictionary
  * parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A name of the button to unsubscribe from

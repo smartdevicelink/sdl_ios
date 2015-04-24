@@ -1,0 +1,58 @@
+//
+//  SDLHMICapabilities.m
+//  SmartDeviceLink-iOS
+//
+//  Created by Joel Fischer on 3/31/15.
+//  Copyright (c) 2015 smartdevicelink. All rights reserved.
+//
+
+#import "SDLHMICapabilities.h"
+
+#import "SDLNames.h"
+
+
+@implementation SDLHMICapabilities
+
+-(instancetype) init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    return self;
+}
+
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
+    self = [super initWithDictionary:dict];
+    if (!self) {
+        return nil;
+    }
+    
+    return self;
+}
+
+-(void) setNavigation:(NSNumber *)navigation {
+    if (navigation != nil) {
+        store[NAMES_navigation] = navigation;
+    } else {
+        [store removeObjectForKey:NAMES_navigation];
+    }
+}
+
+-(NSNumber *) navigation {
+    return store[NAMES_navigation];
+}
+
+-(void) setPhoneCall:(NSNumber *)phoneCall {
+    if (phoneCall != nil) {
+        store[NAMES_phoneCall] = phoneCall;
+    } else {
+        [store removeObjectForKey:NAMES_phoneCall];
+    }
+}
+
+-(NSNumber *) phoneCall {
+    return store[NAMES_phoneCall];
+}
+
+@end

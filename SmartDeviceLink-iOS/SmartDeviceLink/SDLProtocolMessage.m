@@ -2,6 +2,7 @@
 //
 
 
+#import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
@@ -25,7 +26,7 @@
     return version;
 }
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
 
 	}

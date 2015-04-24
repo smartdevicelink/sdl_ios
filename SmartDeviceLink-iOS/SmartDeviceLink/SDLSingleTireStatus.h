@@ -1,11 +1,10 @@
 //  SDLSingleTireStatus.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLComponentVolumeStatus.h"
+@class SDLComponentVolumeStatus;
+
 
 /**
  * Tire pressure status of a single tire.
@@ -33,13 +32,13 @@
 /**
  * @abstract Constructs a newly allocated SDLSingleTireStatus object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a newly allocated SDLSingleTireStatus object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The volume status of a single tire

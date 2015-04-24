@@ -2,10 +2,12 @@
 
 #import "SDLAbstractProtocol.h"
 
+#import "SDLRPCMessage.h"
+
 
 @implementation SDLAbstractProtocol
 
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
     }

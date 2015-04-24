@@ -1,11 +1,10 @@
 //  SDLChoice.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLImage.h"
+@class SDLImage;
+
 
 /**
  * A choice is an option which a user can select either via the menu or via voice recognition (VR) during an application initiated interaction.
@@ -56,12 +55,12 @@
 /**
  * Constructs a newly allocated SDLChoice object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a newly allocated SDLChoice object indicated by the NSMutableDictionary parameter
  * @param dict The NSMutableDictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
