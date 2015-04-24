@@ -26,8 +26,7 @@
  *
  * @return an array that store all possible SDLAudioStreamingState
  */
-+(NSMutableArray*) values;
-
++(NSArray*) values;
 /**
  * @abstract Currently streaming audio, if any, is audible to user.
  *

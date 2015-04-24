@@ -26,7 +26,7 @@
  *
  * @return the array of all possible values
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The SDL platform can speak text phrases.

@@ -21,7 +21,7 @@
  @abstract Store the enumeration of all possible SDLSystemAction
  @return an array that store all possible SDLSystemAction
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  @abstract Default_Action

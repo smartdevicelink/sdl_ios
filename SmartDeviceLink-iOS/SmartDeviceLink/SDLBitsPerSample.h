@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLBitsPerSample
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract 8 bits per sample

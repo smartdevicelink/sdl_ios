@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLCompassDirection
  * @return An array that store all possible SDLCompassDirection
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Direction North

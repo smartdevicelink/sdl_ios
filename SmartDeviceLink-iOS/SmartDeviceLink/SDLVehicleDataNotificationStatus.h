@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLVehicleDataNotificationStatus
  * @return an array that store all possible SDLVehicleDataNotificationStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract SDLVehicleDataNotificationStatus: *NOT_SUPPORTED*

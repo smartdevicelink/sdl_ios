@@ -30,11 +30,11 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLImageType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLImageType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLImageType STATIC],
-                        [SDLImageType DYNAMIC]] mutableCopy];
+                        [SDLImageType DYNAMIC]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

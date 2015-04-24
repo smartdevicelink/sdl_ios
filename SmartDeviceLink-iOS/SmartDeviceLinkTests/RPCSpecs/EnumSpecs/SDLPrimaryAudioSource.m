@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLPrimaryAudioSource values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLPrimaryAudioSource values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPrimaryAudioSource NO_SOURCE_SELECTED],
                         [SDLPrimaryAudioSource USB],
@@ -49,7 +49,7 @@ describe(@"Value List Tests", ^ {
                         [SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST],
                         [SDLPrimaryAudioSource LINE_IN],
                         [SDLPrimaryAudioSource IPOD],
-                        [SDLPrimaryAudioSource MOBILE_APP]] mutableCopy];
+                        [SDLPrimaryAudioSource MOBILE_APP]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

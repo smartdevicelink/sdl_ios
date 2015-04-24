@@ -12,7 +12,7 @@ SDLAmbientLightStatus* SDLAmbientLightStatus_DAY = nil;
 SDLAmbientLightStatus* SDLAmbientLightStatus_UNKNOWN = nil;
 SDLAmbientLightStatus* SDLAmbientLightStatus_INVALID = nil;
 
-NSMutableArray* SDLAmbientLightStatus_values = nil;
+NSArray* SDLAmbientLightStatus_values = nil;
 
 @implementation SDLAmbientLightStatus
 
@@ -25,9 +25,9 @@ NSMutableArray* SDLAmbientLightStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLAmbientLightStatus_values == nil) {
-        SDLAmbientLightStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLAmbientLightStatus_values = @[
                 SDLAmbientLightStatus.NIGHT,
                 SDLAmbientLightStatus.TWILIGHT_1,
                 SDLAmbientLightStatus.TWILIGHT_2,
@@ -36,7 +36,7 @@ NSMutableArray* SDLAmbientLightStatus_values = nil;
                 SDLAmbientLightStatus.DAY,
                 SDLAmbientLightStatus.UNKNOWN,
                 SDLAmbientLightStatus.INVALID,
-                nil];
+                ];
     }
     return SDLAmbientLightStatus_values;
 }

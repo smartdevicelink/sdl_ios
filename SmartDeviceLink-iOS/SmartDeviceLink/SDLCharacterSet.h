@@ -25,7 +25,7 @@
  *
  * @return an array that store all possible SDLCharacterSet
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLCharacterSet*) TYPE2SET;
 

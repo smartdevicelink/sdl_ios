@@ -9,7 +9,7 @@ SDLPowerModeQualificationStatus* SDLPowerModeQualificationStatus_POWER_MODE_EVAL
 SDLPowerModeQualificationStatus* SDLPowerModeQualificationStatus_NOT_DEFINED = nil;
 SDLPowerModeQualificationStatus* SDLPowerModeQualificationStatus_POWER_MODE_OK = nil;
 
-NSMutableArray* SDLPowerModeQualificationStatus_values = nil;
+NSArray* SDLPowerModeQualificationStatus_values = nil;
 
 @implementation SDLPowerModeQualificationStatus
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLPowerModeQualificationStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLPowerModeQualificationStatus_values == nil) {
-        SDLPowerModeQualificationStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLPowerModeQualificationStatus_values = @[
                 SDLPowerModeQualificationStatus.POWER_MODE_UNDEFINED,
                 SDLPowerModeQualificationStatus.POWER_MODE_EVALUATION_IN_PROGRESS,
                 SDLPowerModeQualificationStatus.NOT_DEFINED,
                 SDLPowerModeQualificationStatus.POWER_MODE_OK,
-                nil];
+                ];
     }
     return SDLPowerModeQualificationStatus_values;
 }

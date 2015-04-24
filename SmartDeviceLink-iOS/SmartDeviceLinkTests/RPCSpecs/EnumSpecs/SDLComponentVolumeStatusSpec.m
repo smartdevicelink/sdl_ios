@@ -38,15 +38,15 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLComponentVolumeStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLComponentVolumeStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLComponentVolumeStatus UNKNOWN],
                         [SDLComponentVolumeStatus NORMAL],
                         [SDLComponentVolumeStatus LOW],
                         [SDLComponentVolumeStatus FAULT],
                         [SDLComponentVolumeStatus ALERT],
-                        [SDLComponentVolumeStatus NOT_SUPPORTED]] mutableCopy];
+                        [SDLComponentVolumeStatus NOT_SUPPORTED]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

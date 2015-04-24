@@ -38,14 +38,14 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLKeyboardEvent values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLKeyboardEvent values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeyboardEvent KEYPRESS],
                            [SDLKeyboardEvent ENTRY_SUBMITTED],
                            [SDLKeyboardEvent ENTRY_CANCELLED],
                            [SDLKeyboardEvent ENTRY_ABORTED],
-                           [SDLKeyboardEvent ENTRY_VOICE]] mutableCopy];
+                           [SDLKeyboardEvent ENTRY_VOICE]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

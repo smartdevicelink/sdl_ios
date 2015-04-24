@@ -26,7 +26,7 @@
  *
  * @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  *  @abstract Park

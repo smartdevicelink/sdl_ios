@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTimerMode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTimerMode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTimerMode UP],
                         [SDLTimerMode DOWN],
-                        [SDLTimerMode NONE]] mutableCopy];
+                        [SDLTimerMode NONE]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

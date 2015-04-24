@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLVehicleDataEventStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @return The SDLVehicleDataEventStatus instance with value of *NO_EVENT*

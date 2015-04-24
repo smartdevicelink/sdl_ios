@@ -26,7 +26,7 @@
  *
  * @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Sampling rate of 8 kHz

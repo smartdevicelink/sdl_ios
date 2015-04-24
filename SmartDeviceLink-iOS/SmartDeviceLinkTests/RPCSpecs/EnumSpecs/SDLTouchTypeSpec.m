@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTouchType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTouchType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTouchType BEGIN],
                         [SDLTouchType MOVE],
-                        [SDLTouchType END]] mutableCopy];
+                        [SDLTouchType END]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

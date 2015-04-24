@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLPermissionStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLPermissionStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPermissionStatus ALLOWED],
                         [SDLPermissionStatus DISALLOWED],
                         [SDLPermissionStatus USER_DISALLOWED],
-                        [SDLPermissionStatus USER_CONSENT_PENDING]] mutableCopy];
+                        [SDLPermissionStatus USER_CONSENT_PENDING]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

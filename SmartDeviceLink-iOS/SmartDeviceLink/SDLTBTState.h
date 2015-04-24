@@ -8,7 +8,7 @@
 @interface SDLTBTState : SDLEnum {}
 
 +(SDLTBTState*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLTBTState*) ROUTE_UPDATE_REQUEST;
 +(SDLTBTState*) ROUTE_ACCEPTED;

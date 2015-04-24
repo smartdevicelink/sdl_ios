@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLMediaClockFormat values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLMediaClockFormat values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLMediaClockFormat CLOCK1],
                         [SDLMediaClockFormat CLOCK2],
@@ -49,7 +49,7 @@ describe(@"Value List Tests", ^ {
                         [SDLMediaClockFormat CLOCKTEXT1],
                         [SDLMediaClockFormat CLOCKTEXT2],
                         [SDLMediaClockFormat CLOCKTEXT3],
-                        [SDLMediaClockFormat CLOCKTEXT4]] mutableCopy];
+                        [SDLMediaClockFormat CLOCKTEXT4]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

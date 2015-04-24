@@ -20,7 +20,7 @@
  @abstract declare an array to store all possible SDLSoftButtonType values
  @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  @abstract Text kind Softbutton

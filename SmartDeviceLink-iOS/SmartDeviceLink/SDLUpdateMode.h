@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLUpdateMode
  * @return an array that store all possible SDLUpdateMode
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Starts the media clock timer counting upward, in increments of 1 second.

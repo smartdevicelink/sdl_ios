@@ -13,8 +13,7 @@
 @interface SDLLayoutMode : SDLEnum {}
 
 +(SDLLayoutMode*) valueOf:(NSString*) value;
-
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** 
  * This mode causes the interaction to display the previous set of choices as icons.

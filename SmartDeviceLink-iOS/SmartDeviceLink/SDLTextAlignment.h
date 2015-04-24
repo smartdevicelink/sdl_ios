@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLTextAlignment
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Text aligned left.

@@ -84,8 +84,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTextFieldName values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTextFieldName values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTextFieldName mainField1],
                            [SDLTextFieldName mainField2],
@@ -114,7 +114,7 @@ describe(@"Value List Tests", ^ {
                            [SDLTextFieldName locationName],
                            [SDLTextFieldName locationDescription],
                            [SDLTextFieldName addressLines],
-                           [SDLTextFieldName phoneNumber]] mutableCopy];
+                           [SDLTextFieldName phoneNumber]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLButtonPressMode
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract A button was released, after it was pressed for a long time. Actual timing is defined by the head unit and may vary.

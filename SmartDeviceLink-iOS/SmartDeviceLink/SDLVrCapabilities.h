@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLVRCapabilities
  * @return an array that store all possible SDLVRCapabilities
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The SDL platform is capable of recognizing spoken text in the current language.

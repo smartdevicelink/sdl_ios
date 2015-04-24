@@ -23,7 +23,7 @@
  @abstract Store the enumeration of all possible SDLDeviceLevelStatus
  @return an array that store all possible SDLDeviceLevelStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Device battery level is zero bars

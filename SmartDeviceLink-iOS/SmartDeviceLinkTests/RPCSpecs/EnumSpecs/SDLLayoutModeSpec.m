@@ -36,14 +36,14 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLLayoutMode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLLayoutMode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLayoutMode ICON_ONLY],
                         [SDLLayoutMode ICON_WITH_SEARCH],
                         [SDLLayoutMode LIST_ONLY],
                         [SDLLayoutMode LIST_WITH_SEARCH],
-                        [SDLLayoutMode KEYBOARD]] mutableCopy];
+                        [SDLLayoutMode KEYBOARD]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

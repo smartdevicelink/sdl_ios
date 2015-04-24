@@ -8,7 +8,7 @@ SDLTimerMode* SDLTimerMode_UP = nil;
 SDLTimerMode* SDLTimerMode_DOWN = nil;
 SDLTimerMode* SDLTimerMode_NONE = nil;
 
-NSMutableArray* SDLTimerMode_values = nil;
+NSArray* SDLTimerMode_values = nil;
 
 @implementation SDLTimerMode
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLTimerMode_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLTimerMode_values == nil) {
-        SDLTimerMode_values = [[NSMutableArray alloc] initWithObjects:
+        SDLTimerMode_values = @[
                 SDLTimerMode.UP,
                 SDLTimerMode.DOWN,
                 SDLTimerMode.NONE,
-                nil];
+                ];
     }
     return SDLTimerMode_values;
 }

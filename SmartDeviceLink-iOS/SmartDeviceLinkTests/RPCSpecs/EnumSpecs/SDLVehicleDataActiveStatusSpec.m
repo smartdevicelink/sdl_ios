@@ -36,14 +36,14 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLVehicleDataActiveStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLVehicleDataActiveStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataActiveStatus INACTIVE_NOT_CONFIRMED],
                         [SDLVehicleDataActiveStatus INACTIVE_CONFIRMED],
                         [SDLVehicleDataActiveStatus ACTIVE_NOT_CONFIRMED],
                         [SDLVehicleDataActiveStatus ACTIVE_CONFIRMED],
-                        [SDLVehicleDataActiveStatus FAULT]] mutableCopy];
+                        [SDLVehicleDataActiveStatus FAULT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

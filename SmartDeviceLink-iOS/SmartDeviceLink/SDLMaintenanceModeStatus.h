@@ -21,7 +21,7 @@
  * @abstract declare an array that store all possible Maintenance Mode Status inside
  * @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Maintenance Mode Status : Normal

@@ -23,7 +23,7 @@
  * @abstract store all possible SDLHMIZoneCapabilities values
  * @return an array with all possible SDLHMIZoneCapabilities values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Indicates HMI available for front seat passengers.

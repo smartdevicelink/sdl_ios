@@ -26,9 +26,8 @@
  *
  * @return an array with all possible Language values inside
  */
-+(NSMutableArray*) values;
-
-/**
++(NSArray*) values;
+/*!
  @abstract English_US
  */
 +(SDLLanguage*) EN_US;

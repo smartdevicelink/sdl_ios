@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLButtonEventMode
  * @return an array that store all possible SDLButtonEventMode
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The button was released

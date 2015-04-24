@@ -23,7 +23,7 @@
  @abstract declare an array to store all possible SDLResult values
  @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The request succeeded

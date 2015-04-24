@@ -31,7 +31,7 @@
  *
  * @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Media clock format: Clock1

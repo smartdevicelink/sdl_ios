@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLDisplayType
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract This display type provides a 2-line x 20 character "dot matrix" display.
