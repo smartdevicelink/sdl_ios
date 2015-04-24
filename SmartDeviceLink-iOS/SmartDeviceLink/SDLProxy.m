@@ -529,7 +529,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @param systemRequest The system request to parse
  *
- *  @return A parsed JSON dicationary, or nil if it couldn't be parsed
+ *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
 - (NSDictionary *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
@@ -548,13 +548,13 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     // Get data dictionary from the bulkData
     NSError *error = nil;
-    NSDictionary *JSONDicationary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
+    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
     if (error != nil) {
         [SDLDebugTool logInfo:@"OnSystemRequest failure: notification data is not valid JSON." withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
     }
     
-    return JSONDicationary;
+    return JSONDictionary;
 }
 
 /**
