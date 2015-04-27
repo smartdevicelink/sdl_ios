@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLTextFieldName
  @result return an array that store all possible SDLTextFieldName
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The first line of the first set of main fields of the persistent display. Applies to <i>Show</i>.

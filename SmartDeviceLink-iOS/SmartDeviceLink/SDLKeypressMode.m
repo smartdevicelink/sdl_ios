@@ -8,7 +8,7 @@ SDLKeypressMode* SDLKeypressMode_SINGLE_KEYPRESS = nil;
 SDLKeypressMode* SDLKeypressMode_QUEUE_KEYPRESSES = nil;
 SDLKeypressMode* SDLKeypressMode_RESEND_CURRENT_ENTRY = nil;
 
-NSMutableArray* SDLKeypressMode_values = nil;
+NSArray* SDLKeypressMode_values = nil;
 
 @implementation SDLKeypressMode
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLKeypressMode_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLKeypressMode_values == nil) {
-        SDLKeypressMode_values = [[NSMutableArray alloc] initWithObjects:
+        SDLKeypressMode_values = @[
                 SDLKeypressMode.SINGLE_KEYPRESS,
                 SDLKeypressMode.QUEUE_KEYPRESSES,
                 SDLKeypressMode.RESEND_CURRENT_ENTRY,
-                nil];
+                ];
     }
     return SDLKeypressMode_values;
 }

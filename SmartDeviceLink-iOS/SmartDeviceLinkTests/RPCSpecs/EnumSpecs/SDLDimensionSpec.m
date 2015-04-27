@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLDimension values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLDimension values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDimension NO_FIX],
                         [SDLDimension _2D],
-                        [SDLDimension _3D]] mutableCopy];
+                        [SDLDimension _3D]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -74,8 +74,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLLanguage values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLLanguage values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLanguage EN_US],
                         [SDLLanguage ES_MX],
@@ -100,7 +100,7 @@ describe(@"Value List Tests", ^ {
                         [SDLLanguage PT_BR],
                         [SDLLanguage CS_CZ],
                         [SDLLanguage DA_DK],
-                        [SDLLanguage NO_NO]] mutableCopy];
+                        [SDLLanguage NO_NO]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

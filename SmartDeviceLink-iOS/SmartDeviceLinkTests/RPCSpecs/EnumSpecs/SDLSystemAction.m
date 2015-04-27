@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLSystemAction values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLSystemAction values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSystemAction DEFAULT_ACTION],
                         [SDLSystemAction STEAL_FOCUS],
-                        [SDLSystemAction KEEP_CONTEXT]] mutableCopy];
+                        [SDLSystemAction KEEP_CONTEXT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

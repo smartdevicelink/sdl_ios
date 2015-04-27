@@ -28,10 +28,10 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLAudioType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLAudioType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
-        definedValues = [@[[SDLAudioType PCM]] mutableCopy];
+        definedValues = [@[[SDLAudioType PCM]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

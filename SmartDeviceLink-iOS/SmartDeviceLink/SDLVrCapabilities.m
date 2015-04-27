@@ -6,7 +6,7 @@
 
 SDLVRCapabilities* SDLVRCapabilities_TEXT = nil;
 
-NSMutableArray* SDLVRCapabilities_values = nil;
+NSArray* SDLVRCapabilities_values = nil;
 
 @implementation SDLVRCapabilities
 
@@ -23,11 +23,11 @@ NSMutableArray* SDLVRCapabilities_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLVRCapabilities_values == nil) {
-        SDLVRCapabilities_values = [[NSMutableArray alloc] initWithObjects:
-                SDLVRCapabilities.TEXT,
-                nil];
+        SDLVRCapabilities_values = @[
+                                     SDLVRCapabilities.TEXT,
+                                     ];
     }
     return SDLVRCapabilities_values;
 }

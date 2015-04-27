@@ -66,8 +66,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLPredefinedLayout values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLPredefinedLayout values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPredefinedLayout DEFAULT],
                         [SDLPredefinedLayout MEDIA],
@@ -88,7 +88,7 @@ describe(@"Value List Tests", ^ {
                         [SDLPredefinedLayout TEXTBUTTONS_WITH_GRAPHIC],
                         [SDLPredefinedLayout LARGE_GRAPHIC_WITH_SOFTBUTTONS],
                         [SDLPredefinedLayout DOUBLE_GRAPHIC_WITH_SOFTBUTTONS],
-                        [SDLPredefinedLayout LARGE_GRAPHIC_ONLY]] mutableCopy];
+                        [SDLPredefinedLayout LARGE_GRAPHIC_ONLY]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

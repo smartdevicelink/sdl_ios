@@ -4,7 +4,7 @@
 
 @import Foundation;
 
-@protocol SDLDecoder
+@protocol SDLDecoder <NSObject>
 
 -(NSDictionary*) decode:(NSData*) msgBytes;
 

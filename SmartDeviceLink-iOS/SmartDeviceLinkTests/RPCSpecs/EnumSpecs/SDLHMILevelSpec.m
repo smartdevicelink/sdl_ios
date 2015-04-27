@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLHMILevel values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLHMILevel values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLHMILevel FULL],
                         [SDLHMILevel LIMITED],
                         [SDLHMILevel BACKGROUND],
-                        [SDLHMILevel NONE]] mutableCopy];
+                        [SDLHMILevel NONE]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

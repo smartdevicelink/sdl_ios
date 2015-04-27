@@ -67,8 +67,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLRequestType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLRequestType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLRequestType HTTP],
                            [SDLRequestType FILE_RESUME],
@@ -89,7 +89,7 @@ describe(@"Value List Tests", ^ {
                            [SDLRequestType VEHICLE_DIAGNOSTICS],
                            [SDLRequestType EMERGENCY],
                            [SDLRequestType MEDIA],
-                           [SDLRequestType FOTA]] mutableCopy];
+                           [SDLRequestType FOTA]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

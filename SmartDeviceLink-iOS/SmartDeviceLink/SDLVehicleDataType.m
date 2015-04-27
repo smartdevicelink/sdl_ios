@@ -31,7 +31,7 @@ SDLVehicleDataType* SDLVehicleDataType_VEHICLEDATA_ENGINETORQUE = nil;
 SDLVehicleDataType* SDLVehicleDataType_VEHICLEDATA_ACCPEDAL = nil;
 SDLVehicleDataType* SDLVehicleDataType_VEHICLEDATA_STEERINGWHEEL = nil;
 
-NSMutableArray* SDLVehicleDataType_values = nil;
+NSArray* SDLVehicleDataType_values = nil;
 
 @implementation SDLVehicleDataType
 
@@ -44,9 +44,9 @@ NSMutableArray* SDLVehicleDataType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLVehicleDataType_values == nil) {
-        SDLVehicleDataType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLVehicleDataType_values = @[
                 SDLVehicleDataType.VEHICLEDATA_GPS,
                 SDLVehicleDataType.VEHICLEDATA_SPEED,
                 SDLVehicleDataType.VEHICLEDATA_RPM,
@@ -73,7 +73,7 @@ NSMutableArray* SDLVehicleDataType_values = nil;
                 SDLVehicleDataType.VEHICLEDATA_ENGINETORQUE,
                 SDLVehicleDataType.VEHICLEDATA_ACCPEDAL,
                 SDLVehicleDataType.VEHICLEDATA_STEERINGWHEEL,
-                nil];
+                ];
     }
     return SDLVehicleDataType_values;
 }

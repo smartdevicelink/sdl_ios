@@ -12,7 +12,7 @@
 @interface SDLECallConfirmationStatus : SDLEnum {}
 
 +(SDLECallConfirmationStatus*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** No E-Call signal triggered.
  */

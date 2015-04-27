@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTextAlignment values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTextAlignment values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTextAlignment LEFT_ALIGNED],
                         [SDLTextAlignment RIGHT_ALIGNED],
-                        [SDLTextAlignment CENTERED]] mutableCopy];
+                        [SDLTextAlignment CENTERED]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

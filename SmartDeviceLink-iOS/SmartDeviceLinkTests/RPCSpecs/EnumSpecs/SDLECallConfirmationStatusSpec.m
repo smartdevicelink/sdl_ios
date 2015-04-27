@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLECallConfirmationStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLECallConfirmationStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLECallConfirmationStatus NORMAL],
                         [SDLECallConfirmationStatus CALL_IN_PROGRESS],
@@ -49,7 +49,7 @@ describe(@"Value List Tests", ^ {
                         [SDLECallConfirmationStatus CALL_COMPLETED],
                         [SDLECallConfirmationStatus CALL_UNSUCCESSFUL],
                         [SDLECallConfirmationStatus ECALL_CONFIGURED_OFF],
-                        [SDLECallConfirmationStatus CALL_COMPLETE_DTMF_TIMEOUT]] mutableCopy];
+                        [SDLECallConfirmationStatus CALL_COMPLETE_DTMF_TIMEOUT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

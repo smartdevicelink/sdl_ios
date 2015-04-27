@@ -9,7 +9,7 @@ SDLHMILevel* SDLHMILevel_LIMITED = nil;
 SDLHMILevel* SDLHMILevel_BACKGROUND = nil;
 SDLHMILevel* SDLHMILevel_NONE = nil;
 
-NSMutableArray* SDLHMILevel_values = nil;
+NSArray* SDLHMILevel_values = nil;
 
 @implementation SDLHMILevel
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLHMILevel_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLHMILevel_values == nil) {
-        SDLHMILevel_values = [[NSMutableArray alloc] initWithObjects:
+        SDLHMILevel_values = @[
                 [SDLHMILevel FULL],
                 [SDLHMILevel LIMITED],
                 [SDLHMILevel BACKGROUND],
-                [SDLHMILevel NONE],
-                nil];
+                [SDLHMILevel NONE]
+                ];
     }
     return SDLHMILevel_values;
 }

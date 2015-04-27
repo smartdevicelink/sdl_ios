@@ -48,8 +48,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLDisplayType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLDisplayType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDisplayType CID],
                         [SDLDisplayType TYPE2],
@@ -61,7 +61,7 @@ describe(@"Value List Tests", ^ {
                         [SDLDisplayType MFD4],
                         [SDLDisplayType MFD5],
                         //NOT DEFINED IN SPEC
-                        [SDLDisplayType GEN3_8_INCH]] mutableCopy];
+                        [SDLDisplayType GEN3_8_INCH]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

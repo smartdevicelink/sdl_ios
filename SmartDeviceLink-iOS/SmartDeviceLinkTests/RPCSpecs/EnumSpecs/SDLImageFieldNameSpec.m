@@ -52,8 +52,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLImageFieldName values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLImageFieldName values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLImageFieldName softButtonImage],
                         [SDLImageFieldName choiceImage],
@@ -66,7 +66,7 @@ describe(@"Value List Tests", ^ {
                         [SDLImageFieldName graphic],
                         [SDLImageFieldName showConstantTBTIcon],
                         [SDLImageFieldName locationImage],
-                        [SDLImageFieldName showConstantTBTNextTurnIcon]] mutableCopy];
+                        [SDLImageFieldName showConstantTBTNextTurnIcon]] copy];
         
     });
     

@@ -12,7 +12,7 @@ SDLECallConfirmationStatus* SDLECallConfirmationStatus_CALL_UNSUCCESSFUL = nil;
 SDLECallConfirmationStatus* SDLECallConfirmationStatus_ECALL_CONFIGURED_OFF = nil;
 SDLECallConfirmationStatus* SDLECallConfirmationStatus_CALL_COMPLETE_DTMF_TIMEOUT = nil;
 
-NSMutableArray* SDLECallConfirmationStatus_values = nil;
+NSArray* SDLECallConfirmationStatus_values = nil;
 
 @implementation SDLECallConfirmationStatus
 
@@ -25,9 +25,9 @@ NSMutableArray* SDLECallConfirmationStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLECallConfirmationStatus_values == nil) {
-        SDLECallConfirmationStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLECallConfirmationStatus_values = @[
                 SDLECallConfirmationStatus.NORMAL,
                 SDLECallConfirmationStatus.CALL_IN_PROGRESS,
                 SDLECallConfirmationStatus.CALL_CANCELLED,
@@ -35,7 +35,7 @@ NSMutableArray* SDLECallConfirmationStatus_values = nil;
                 SDLECallConfirmationStatus.CALL_UNSUCCESSFUL,
                 SDLECallConfirmationStatus.ECALL_CONFIGURED_OFF,
                 SDLECallConfirmationStatus.CALL_COMPLETE_DTMF_TIMEOUT,
-                nil];
+                ];
     }
     return SDLECallConfirmationStatus_values;
 }

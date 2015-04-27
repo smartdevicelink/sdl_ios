@@ -22,7 +22,7 @@
  @abstract Store the enumeration of all possible SDLCharacterSet
  @result return an array that store all possible SDLCharacterSet
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLCharacterSet*) TYPE2SET;
 +(SDLCharacterSet*) TYPE5SET;

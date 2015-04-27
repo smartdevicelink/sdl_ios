@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLVehicleDataNotificationStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLVehicleDataNotificationStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataNotificationStatus NOT_SUPPORTED],
                         [SDLVehicleDataNotificationStatus NORMAL],
                         [SDLVehicleDataNotificationStatus ACTIVE],
-                        [SDLVehicleDataNotificationStatus NOT_USED]] mutableCopy];
+                        [SDLVehicleDataNotificationStatus NOT_USED]] copy];
         
     });
     

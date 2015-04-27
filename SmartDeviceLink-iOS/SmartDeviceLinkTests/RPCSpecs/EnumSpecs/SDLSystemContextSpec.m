@@ -36,14 +36,14 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLSystemContext values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLSystemContext values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSystemContext MAIN],
                         [SDLSystemContext VRSESSION],
                         [SDLSystemContext MENU],
                         [SDLSystemContext HMI_OBSCURED],
-                        [SDLSystemContext ALERT]] mutableCopy];
+                        [SDLSystemContext ALERT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

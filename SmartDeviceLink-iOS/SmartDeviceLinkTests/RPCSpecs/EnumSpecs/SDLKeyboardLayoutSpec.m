@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLKeyboardLayout values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLKeyboardLayout values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeyboardLayout QWERTY],
                         [SDLKeyboardLayout QWERTZ],
-                        [SDLKeyboardLayout AZERTY]] mutableCopy];
+                        [SDLKeyboardLayout AZERTY]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

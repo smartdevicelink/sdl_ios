@@ -58,7 +58,7 @@
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
 
-@protocol SDLProxyListener
+@protocol SDLProxyListener <NSObject>
 
 -(void) onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
 -(void) onOnHMIStatus:(SDLOnHMIStatus*) notification;

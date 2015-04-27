@@ -33,7 +33,7 @@ SDLTextFieldName* SDLTextFieldName_locationDescription = nil;
 SDLTextFieldName* SDLTextFieldName_addressLines = nil;
 SDLTextFieldName* SDLTextFieldName_phoneNumber = nil;
 
-NSMutableArray* SDLTextFieldName_values = nil;
+NSArray* SDLTextFieldName_values = nil;
 
 @implementation SDLTextFieldName
 
@@ -46,9 +46,9 @@ NSMutableArray* SDLTextFieldName_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLTextFieldName_values == nil) {
-        SDLTextFieldName_values = [[NSMutableArray alloc] initWithObjects:
+        SDLTextFieldName_values = @[
                 SDLTextFieldName.mainField1,
                 SDLTextFieldName.mainField2,
                 SDLTextFieldName.mainField3,
@@ -77,7 +77,7 @@ NSMutableArray* SDLTextFieldName_values = nil;
                 SDLTextFieldName.locationDescription,
                 SDLTextFieldName.addressLines,
                 SDLTextFieldName.phoneNumber,
-                nil];
+                ];
     }
     return SDLTextFieldName_values;
 }

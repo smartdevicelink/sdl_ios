@@ -30,11 +30,11 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLHMIZoneCapabilities values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLHMIZoneCapabilities values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLHMIZoneCapabilities FRONT],
-                        [SDLHMIZoneCapabilities BACK]] mutableCopy];
+                        [SDLHMIZoneCapabilities BACK]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

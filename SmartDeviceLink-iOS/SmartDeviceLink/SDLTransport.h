@@ -6,7 +6,7 @@
 #import "SDLTransportDelegate.h"
 
 
-@protocol SDLTransport
+@protocol SDLTransport <NSObject>
 
 @property (weak) id<SDLTransportDelegate> delegate;
 

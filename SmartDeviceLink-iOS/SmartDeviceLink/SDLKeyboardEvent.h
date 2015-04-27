@@ -13,7 +13,7 @@
 @interface SDLKeyboardEvent : SDLEnum {}
 
 +(SDLKeyboardEvent*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** The use has pressed the keyboard key (applies to both SINGLE_KEYPRESS and RESEND_CURRENT_ENTRY modes).
  *

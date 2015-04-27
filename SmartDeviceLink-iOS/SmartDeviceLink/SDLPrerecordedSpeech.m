@@ -10,7 +10,7 @@ SDLPrerecordedSpeech* SDLPrerecordedSpeech_LISTEN_JINGLE = nil;
 SDLPrerecordedSpeech* SDLPrerecordedSpeech_POSITIVE_JINGLE = nil;
 SDLPrerecordedSpeech* SDLPrerecordedSpeech_NEGATIVE_JINGLE = nil;
 
-NSMutableArray* SDLPrerecordedSpeech_values = nil;
+NSArray* SDLPrerecordedSpeech_values = nil;
 
 @implementation SDLPrerecordedSpeech
 
@@ -23,15 +23,15 @@ NSMutableArray* SDLPrerecordedSpeech_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLPrerecordedSpeech_values == nil) {
-        SDLPrerecordedSpeech_values = [[NSMutableArray alloc] initWithObjects:
+        SDLPrerecordedSpeech_values = @[
                 SDLPrerecordedSpeech.HELP_JINGLE,
                 SDLPrerecordedSpeech.INITIAL_JINGLE,
                 SDLPrerecordedSpeech.LISTEN_JINGLE,
                 SDLPrerecordedSpeech.POSITIVE_JINGLE,
                 SDLPrerecordedSpeech.NEGATIVE_JINGLE,
-                nil];
+                ];
     }
     return SDLPrerecordedSpeech_values;
 }

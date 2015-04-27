@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLEmergencyEventType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLEmergencyEventType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLEmergencyEventType NO_EVENT],
                         [SDLEmergencyEventType FRONTAL],
@@ -49,7 +49,7 @@ describe(@"Value List Tests", ^ {
                         [SDLEmergencyEventType REAR],
                         [SDLEmergencyEventType ROLLOVER],
                         [SDLEmergencyEventType NOT_SUPPORTED],
-                        [SDLEmergencyEventType FAULT]] mutableCopy];
+                        [SDLEmergencyEventType FAULT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {
