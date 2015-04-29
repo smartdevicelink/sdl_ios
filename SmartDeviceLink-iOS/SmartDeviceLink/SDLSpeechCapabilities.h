@@ -8,43 +8,39 @@
 /*
  * Contains information about TTS capabilities on the SDL platform.
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
+ * @since SDL 1.0
  */
 @interface SDLSpeechCapabilities : SDLEnum {}
 
-/*!
- @abstract get SDLSpeechCapabilities according value string
- @param value NSString
- @result SDLSpeechCapabilities object
+/**
+ * @abstract get SDLSpeechCapabilities according value string
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return SDLSpeechCapabilities object
  */
 +(SDLSpeechCapabilities*) valueOf:(NSString*) value;
-/*!
- @abstract declare an array to store all possible SDLSpeechCapabilities values
- @result return the array
+
+/**
+ * @abstract declare an array to store all possible SDLSpeechCapabilities values
+ *
+ * @return the array of all possible values
  */
 +(NSArray*) values;
 
 /**
  * @abstract The SDL platform can speak text phrases.
- * @result return SDLSpeechCapabilities of value : <font color=gray><i> TEXT </i></font>
- * @since SmartDeviceLink 1.0
+ *
+ * @return SDLSpeechCapabilities of value: *TEXT*
  */
 +(SDLSpeechCapabilities*) TEXT;
-/*!
- @abstract SAPI_PHONEMES
- */
+
 +(SDLSpeechCapabilities*) SAPI_PHONEMES;
-/*!
- @abstract LHPLUS_PHONEMES
- */
+
 +(SDLSpeechCapabilities*) LHPLUS_PHONEMES;
-/*!
- @abstract PRE_RECORDED
- */
+
 +(SDLSpeechCapabilities*) PRE_RECORDED;
-/*!
- @abstract SILENCE
- */
+
 +(SDLSpeechCapabilities*) SILENCE;
 
 @end

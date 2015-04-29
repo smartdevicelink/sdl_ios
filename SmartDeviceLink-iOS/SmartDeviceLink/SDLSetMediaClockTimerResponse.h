@@ -21,7 +21,7 @@
  * parameter
  * <p>
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 

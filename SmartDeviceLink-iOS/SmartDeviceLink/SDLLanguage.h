@@ -7,117 +7,144 @@
 
 /**
  * Specifies the language to be used for TTS, VR, displayed messages/menus
- * <p>
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
- *
+ * @since SDL 1.0
  */
 @interface SDLLanguage : SDLEnum {}
-/*!
- @abstract get a Langusge according to a String
- @param value NSString
- @result return the Language
+
+/**
+ * @abstract Get a Langusge according to a String
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return The Language
  */
 +(SDLLanguage*) valueOf:(NSString*) value;
-/*!
- @abstract store all possible Language values
- @result return an array with all possible Language values inside
+
+/**
+ * @abstract store all possible Language values
+ *
+ * @return an array with all possible Language values inside
  */
 +(NSArray*) values;
 /*!
- @abstract language English_US
+ @abstract English_US
  */
 +(SDLLanguage*) EN_US;
-/*!
- @abstract language ES_MX
+
+/**
+ @abstract Spanish - Mexico
  */
 +(SDLLanguage*) ES_MX;
-/*!
- @abstract language FR_CA
+
+/**
+ * @abstract French - Canada
  */
 +(SDLLanguage*) FR_CA;
-/*!
- @abstract language DE_DE
+
+/**
+ * @abstract German - Germany
  */
 +(SDLLanguage*) DE_DE;
-/*!
- @abstract language ES_ES
+
+/**
+ * @abstract Spanish - Spain
  */
 +(SDLLanguage*) ES_ES;
-/*!
- @abstract language EN_GB
+
+/**
+ @abstract English - Great Britain
  */
 +(SDLLanguage*) EN_GB;
-/*!
- @abstract language RU_RU
+
+/**
+ * @abstract Russian - Russia
  */
 +(SDLLanguage*) RU_RU;
-/*!
- @abstract language TR_TR
+
+/**
+ * @abstract Turkish - Turkey
  */
 +(SDLLanguage*) TR_TR;
-/*!
- @abstract language PL_PL
+
+/**
+ * @abstract Polish - Poland
  */
 +(SDLLanguage*) PL_PL;
-/*!
- @abstract language FR_FR
+
+/**
+ * @abstract French - France
  */
 +(SDLLanguage*) FR_FR;
-/*!
- @abstract language IT_IT
+
+/**
+ * @abstract Italian - Italy
  */
 +(SDLLanguage*) IT_IT;
-/*!
- @abstract language SV_SE
+
+/**
+ * @abstract Swedish - Sweden
  */
 +(SDLLanguage*) SV_SE;
-/*!
- @abstract language PT_PT
+
+/**
+ * @abstract Portuguese - Portugal
  */
 +(SDLLanguage*) PT_PT;
-/*!
- @abstract language NL_NL
+
+/**
+ * @abstract Dutch (Standard) - Netherlands
  */
 +(SDLLanguage*) NL_NL;
-/*!
- @abstract language EN_AU
+
+/**
+ * @abstract English - Australia
  */
 +(SDLLanguage*) EN_AU;
-/*!
- @abstract language Chinese
+
+/**
+ * @abstract Mandarin - China
  */
 +(SDLLanguage*) ZH_CN;
-/*!
- @abstract language Chinese TaiWan
+
+/**
+ * @abstract Mandarin - Taiwan
  */
 +(SDLLanguage*) ZH_TW;
-/*!
- @abstract language JA_JP
+
+/**
+ * @abstract Japanese - Japan
  */
 +(SDLLanguage*) JA_JP;
-/*!
- @abstract language AR_SA
+
+/**
+ * @abstract Arabic - Saudi Arabia
  */
 +(SDLLanguage*) AR_SA;
-/*!
- @abstract language KO_KR
+
+/**
+ * @abstract Korean - South Korea
  */
 +(SDLLanguage*) KO_KR;
-/*!
- @abstract language PT_BR
+
+/**
+ * @abstract Portuguese - Brazil
  */
 +(SDLLanguage*) PT_BR;
-/*!
- @abstract language CS_CZ
+
+/**
+ * @abstract Czech - Czech Republic
  */
 +(SDLLanguage*) CS_CZ;
-/*!
- @abstract language DA_DK
+
+/**
+ * @abstract Danish - Denmark
  */
 +(SDLLanguage*) DA_DK;
-/*!
- @abstract language NO_NO
+
+/**
+ * @abstract Norwegian - Norway
  */
 +(SDLLanguage*) NO_NO;
+
 @end

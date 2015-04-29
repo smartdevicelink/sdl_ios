@@ -5,36 +5,36 @@
 
 #import "SDLEnum.h"
 
-/*!
+/**
  SoftButtonType (TEXT / IMAGE / BOTH)
  */
 @interface SDLSoftButtonType : SDLEnum {}
 
-/*!
+/**
  @abstract get SDLSoftButtonType according value string
  @param value NSString
- @result SDLSoftButtonType object
+ @return SDLSoftButtonType object
  */
 +(SDLSoftButtonType*) valueOf:(NSString*) value;
-/*!
+/**
  @abstract declare an array to store all possible SDLSoftButtonType values
- @result return the array
+ @return the array
  */
 +(NSArray*) values;
 
-/*!
+/**
  @abstract Text kind Softbutton
- @result SDLSoftButtonType object with string value <font color=gray><i> TEXT </i></font>
+ @return SDLSoftButtonType object with string value *TEXT*
  */
 +(SDLSoftButtonType*) TEXT;
-/*!
+/**
  @abstract Image kind Softbutton
- @result SDLSoftButtonType object with string value <font color=gray><i> IMAGE </i></font>
+ @return SDLSoftButtonType object with string value *IMAGE*
  */
 +(SDLSoftButtonType*) IMAGE;
-/*!
+/**
  @abstract Both (Text & Image) kind Softbutton
- @result SDLSoftButtonType object with string value <font color=gray><i> BOTH </i></font>
+ @return SDLSoftButtonType object with string value *BOTH*
  */
 +(SDLSoftButtonType*) BOTH;
 
