@@ -33,12 +33,12 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.buttonCapabilities = [@[button] mutableCopy];
         testResponse.softButtonCapabilities = [@[softButton] mutableCopy];
         testResponse.presetBankCapabilities = presetBank;
-        testResponse.hmiZoneCapabilities = [@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy];
-        testResponse.speechCapabilities = [@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy];
-        testResponse.vrCapabilities = [@[[SDLVRCapabilities TEXT]] mutableCopy];
+        testResponse.hmiZoneCapabilities = [@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy];
+        testResponse.speechCapabilities = [@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy];
+        testResponse.vrCapabilities = [@[[SDLVRCapabilities TEXT]] copy];
         testResponse.audioPassThruCapabilities = [@[audioPassThru] mutableCopy];
         testResponse.vehicleType = vehicle;
-        testResponse.prerecordedSpeech = [@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy];
+        testResponse.prerecordedSpeech = [@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy];
         testResponse.supportedDiagModes = [@[@67, @99, @111] mutableCopy];
         
         expect(testResponse.syncMsgVersion).to(equal(version));
@@ -48,12 +48,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));
         expect(testResponse.softButtonCapabilities).to(equal([@[softButton] mutableCopy]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy]));
-        expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy]));
-        expect(testResponse.vrCapabilities).to(equal([@[[SDLVRCapabilities TEXT]] mutableCopy]));
+        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy]));
+        expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy]));
+        expect(testResponse.vrCapabilities).to(equal([@[[SDLVRCapabilities TEXT]] copy]));
         expect(testResponse.audioPassThruCapabilities).to(equal([@[audioPassThru] mutableCopy]));
         expect(testResponse.vehicleType).to(equal(vehicle));
-        expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy]));
+        expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy]));
         expect(testResponse.supportedDiagModes).to(equal([@[@67, @99, @111] mutableCopy]));
     });
     
@@ -67,12 +67,12 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_buttonCapabilities:[@[button] mutableCopy],
                                                    NAMES_softButtonCapabilities:[@[softButton] mutableCopy],
                                                    NAMES_presetBankCapabilities:presetBank,
-                                                   NAMES_hmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy],
-                                                   NAMES_speechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy],
-                                                   NAMES_vrCapabilities:[@[[SDLVRCapabilities TEXT]] mutableCopy],
+                                                   NAMES_hmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy],
+                                                   NAMES_speechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy],
+                                                   NAMES_vrCapabilities:[@[[SDLVRCapabilities TEXT]] copy],
                                                    NAMES_audioPassThruCapabilities:[@[audioPassThru] mutableCopy],
                                                    NAMES_vehicleType:vehicle,
-                                                   NAMES_prerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy],
+                                                   NAMES_prerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy],
                                                    NAMES_supportedDiagModes:[@[@67, @99, @111] mutableCopy]},
                                              NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
@@ -84,12 +84,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));
         expect(testResponse.softButtonCapabilities).to(equal([@[softButton] mutableCopy]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] mutableCopy]));
-        expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] mutableCopy]));
-        expect(testResponse.vrCapabilities).to(equal([@[[SDLVRCapabilities TEXT]] mutableCopy]));
+        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy]));
+        expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy]));
+        expect(testResponse.vrCapabilities).to(equal([@[[SDLVRCapabilities TEXT]] copy]));
         expect(testResponse.audioPassThruCapabilities).to(equal([@[audioPassThru] mutableCopy]));
         expect(testResponse.vehicleType).to(equal(vehicle));
-        expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy]));
+        expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy]));
         expect(testResponse.supportedDiagModes).to(equal([@[@67, @99, @111] mutableCopy]));
     });
     

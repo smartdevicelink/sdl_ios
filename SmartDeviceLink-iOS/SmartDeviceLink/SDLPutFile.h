@@ -22,9 +22,9 @@
 -(instancetype) init;
 
 /**
- * Constructs a new SDLPutFile object indicated by the NSMutableDictionary parameter
+ * Constructs a new SDLPutFile object indicated by the dictionary parameter
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 

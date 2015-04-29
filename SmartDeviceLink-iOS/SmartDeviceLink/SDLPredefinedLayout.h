@@ -8,7 +8,7 @@
 @interface SDLPredefinedLayout : SDLEnum {}
 
 +(SDLPredefinedLayout*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLPredefinedLayout*) DEFAULT;
 +(SDLPredefinedLayout*) MEDIA;

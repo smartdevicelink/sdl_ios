@@ -10,7 +10,7 @@ SDLKeyboardEvent* SDLKeyboardEvent_ENTRY_CANCELLED = nil;
 SDLKeyboardEvent* SDLKeyboardEvent_ENTRY_ABORTED = nil;
 SDLKeyboardEvent* SDLKeyboardEvent_ENTRY_VOICE = nil;
 
-NSMutableArray* SDLKeyboardEvent_values = nil;
+NSArray* SDLKeyboardEvent_values = nil;
 
 @implementation SDLKeyboardEvent
 
@@ -23,15 +23,15 @@ NSMutableArray* SDLKeyboardEvent_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLKeyboardEvent_values == nil) {
-        SDLKeyboardEvent_values = [[NSMutableArray alloc] initWithObjects:
+        SDLKeyboardEvent_values = @[
                 SDLKeyboardEvent.KEYPRESS,
                 SDLKeyboardEvent.ENTRY_SUBMITTED,
                 SDLKeyboardEvent.ENTRY_CANCELLED,
                 SDLKeyboardEvent.ENTRY_ABORTED,
                 SDLKeyboardEvent.ENTRY_VOICE,
-                nil];
+                ];
     }
     return SDLKeyboardEvent_values;
 }

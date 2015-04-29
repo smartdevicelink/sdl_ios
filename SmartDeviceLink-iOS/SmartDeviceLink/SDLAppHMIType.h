@@ -7,69 +7,88 @@
 /**
  * Enumeration listing possible app hmi types.
  *
- * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
+ * @since SDL 2.0
  */
 @interface SDLAppHMIType : SDLEnum {}
 
 /**
  * @abstract Convert String to AppHMIType
- * @param value NSString
- * @result SDLAppHMIType
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return SDLAppHMIType
  */
 +(SDLAppHMIType*) valueOf:(NSString*) value;
-/*!
- @abstract Store the enumeration of all possible SDLAppHMIType
- @result return an array that store all possible SDLAppHMIType
- */
-+(NSMutableArray*) values;
 
 /**
- * @abstract  The App will have default rights.
- * @result SDLAppHMIType with value <font color=gray><i>DEFAULT</i></font>
+ * @abstract Store the enumeration of all possible SDLAppHMIType
+ *
+ * @return an array that store all possible SDLAppHMIType
+ */
++(NSArray*) values;
+
+/**
+ * @abstract The App will have default rights.
+ *
+ * @return SDLAppHMIType with value *DEFAULT*
  */
 +(SDLAppHMIType*) DEFAULT;
+
 /**
- * @abstract  Communication type of App
- * @result SDLAppHMIType with value <font color=gray><i>COMMUNICATION</i></font>
+ * @abstract Communication type of App
+ *
+ * @return SDLAppHMIType with value *COMMUNICATION*
  */
 +(SDLAppHMIType*) COMMUNICATION;
+
 /**
- * @abstract  App dealing with Media
- * @result SDLAppHMIType with value <font color=gray><i>MEDIA</i></font>
+ * @abstract App dealing with Media
+ *
+ * @return SDLAppHMIType with value *MEDIA*
  */
 +(SDLAppHMIType*) MEDIA;
+
 /**
- * @abstract  Messaging App
- * @result SDLAppHMIType with value <font color=gray><i>MESSAGING</i></font>
+ * @abstract Messaging App
+ *
+ * @return SDLAppHMIType with value *MESSAGING*
  */
 +(SDLAppHMIType*) MESSAGING;
+
 /**
- * @abstract  Navigation App
- * @result SDLAppHMIType with value <font color=gray><i>NAVIGATION</i></font>
+ * @abstract Navigation App
+ *
+ * @return SDLAppHMIType with value *NAVIGATION*
  */
 +(SDLAppHMIType*) NAVIGATION;
+
 /**
- * @abstract  Information App
- * @result SDLAppHMIType with value <font color=gray><i>INFORMATION</i></font>
+ * @abstract Information App
+ *
+ * @return SDLAppHMIType with value *INFORMATION*
  */
 +(SDLAppHMIType*) INFORMATION;
+
 /**
- * @abstract  App dealing with social media
- * @result SDLAppHMIType with value <font color=gray><i>SOCIA</i></font>
+ * @abstract App dealing with social media
+ *
+ * @return SDLAppHMIType with value *SOCIAL*
  */
 +(SDLAppHMIType*) SOCIAL;
-/*!
- @abstract  To Be Continued
- */
+
 +(SDLAppHMIType*) BACKGROUND_PROCESS;
+
 /**
- * @abstract  App only for Testing purposes
- * @result SDLAppHMIType with value <font color=gray><i>TESTING</i></font>
+ * @abstract App only for Testing purposes
+ *
+ * @return SDLAppHMIType with value *TESTING*
  */
 +(SDLAppHMIType*) TESTING;
+
 /**
- * @abstract  System App
- * @result SDLAppHMIType with value <font color=gray><i>SYSTEM</i></font>
+ * @abstract System App
+ *
+ * @return SDLAppHMIType with value *SYSTEM*
  */
 +(SDLAppHMIType*) SYSTEM;
 

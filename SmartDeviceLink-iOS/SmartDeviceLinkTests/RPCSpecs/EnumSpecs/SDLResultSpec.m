@@ -91,8 +91,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLResult values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLResult values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLResult SUCCESS],
                         [SDLResult UNSUPPORTED_REQUEST],
@@ -126,7 +126,7 @@ describe(@"Value List Tests", ^ {
                         [SDLResult SAVED],
                         [SDLResult INVALID_CERT],
                         [SDLResult EXPIRED_CERT],
-                        [SDLResult RESUME_FAILED]] mutableCopy];
+                        [SDLResult RESUME_FAILED]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

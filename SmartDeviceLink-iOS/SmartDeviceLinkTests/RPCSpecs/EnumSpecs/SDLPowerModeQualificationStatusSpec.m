@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLPowerModeQualificationStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLPowerModeQualificationStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPowerModeQualificationStatus POWER_MODE_UNDEFINED],
                         [SDLPowerModeQualificationStatus POWER_MODE_EVALUATION_IN_PROGRESS],
                         [SDLPowerModeQualificationStatus NOT_DEFINED],
-                        [SDLPowerModeQualificationStatus POWER_MODE_OK]] mutableCopy];
+                        [SDLPowerModeQualificationStatus POWER_MODE_OK]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

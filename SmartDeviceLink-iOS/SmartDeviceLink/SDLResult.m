@@ -38,7 +38,7 @@ SDLResult* SDLResult_INVALID_CERT = nil;
 SDLResult* SDLResult_EXPIRED_CERT = nil;
 SDLResult* SDLResult_RESUME_FAILED = nil;
 
-NSMutableArray* SDLResult_values = nil;
+NSArray* SDLResult_values = nil;
 
 @implementation SDLResult
 
@@ -51,9 +51,9 @@ NSMutableArray* SDLResult_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLResult_values == nil) {
-        SDLResult_values = [[NSMutableArray alloc] initWithObjects:
+        SDLResult_values = @[
                             [SDLResult SUCCESS],
                             [SDLResult INVALID_DATA],
                             [SDLResult CHAR_LIMIT_EXCEEDED],
@@ -87,7 +87,7 @@ NSMutableArray* SDLResult_values = nil;
                             [SDLResult INVALID_CERT],
                             [SDLResult EXPIRED_CERT],
                             [SDLResult RESUME_FAILED],
-                            nil];
+                            ];
     }
     return SDLResult_values;
 }

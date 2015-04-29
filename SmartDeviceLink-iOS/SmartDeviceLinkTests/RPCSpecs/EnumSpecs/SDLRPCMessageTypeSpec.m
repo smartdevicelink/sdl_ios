@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLRPCMessageType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLRPCMessageType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLRPCMessageType request],
                            [SDLRPCMessageType response],
-                           [SDLRPCMessageType notification]] mutableCopy];
+                           [SDLRPCMessageType notification]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

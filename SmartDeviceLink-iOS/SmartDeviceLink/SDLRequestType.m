@@ -25,7 +25,7 @@ SDLRequestType* SDLRequestType_EMERGENCY = nil;
 SDLRequestType* SDLRequestType_MEDIA = nil;
 SDLRequestType* SDLRequestType_FOTA = nil;
 
-NSMutableArray* SDLRequestType_values = nil;
+NSArray* SDLRequestType_values = nil;
 
 
 @implementation SDLRequestType
@@ -39,30 +39,30 @@ NSMutableArray* SDLRequestType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLRequestType_values == nil) {
-        SDLRequestType_values = [[NSMutableArray alloc] initWithObjects:
-                                 [SDLRequestType HTTP],
-                                 [SDLRequestType FILE_RESUME],
-                                 [SDLRequestType AUTH_REQUEST],
-                                 [SDLRequestType AUTH_CHALLENGE],
-                                 [SDLRequestType AUTH_ACK],
-                                 [SDLRequestType PROPRIETARY],
-                                 [SDLRequestType QUERY_APPS],
-                                 [SDLRequestType LAUNCH_APP],
-                                 [SDLRequestType LOCK_SCREEN_ICON_URL],
-                                 [SDLRequestType TRAFFIC_MESSAGE_CHANNEL],
-                                 [SDLRequestType DRIVER_PROFILE],
-                                 [SDLRequestType VOICE_SEARCH],
-                                 [SDLRequestType NAVIGATION],
-                                 [SDLRequestType PHONE],
-                                 [SDLRequestType CLIMATE],
-                                 [SDLRequestType SETTINGS],
-                                 [SDLRequestType VEHICLE_DIAGNOSTICS],
-                                 [SDLRequestType EMERGENCY],
-                                 [SDLRequestType MEDIA],
-                                 [SDLRequestType FOTA],
-                                 nil];
+        SDLRequestType_values = @[
+                                  [SDLRequestType HTTP],
+                                  [SDLRequestType FILE_RESUME],
+                                  [SDLRequestType AUTH_REQUEST],
+                                  [SDLRequestType AUTH_CHALLENGE],
+                                  [SDLRequestType AUTH_ACK],
+                                  [SDLRequestType PROPRIETARY],
+                                  [SDLRequestType QUERY_APPS],
+                                  [SDLRequestType LAUNCH_APP],
+                                  [SDLRequestType LOCK_SCREEN_ICON_URL],
+                                  [SDLRequestType TRAFFIC_MESSAGE_CHANNEL],
+                                  [SDLRequestType DRIVER_PROFILE],
+                                  [SDLRequestType VOICE_SEARCH],
+                                  [SDLRequestType NAVIGATION],
+                                  [SDLRequestType PHONE],
+                                  [SDLRequestType CLIMATE],
+                                  [SDLRequestType SETTINGS],
+                                  [SDLRequestType VEHICLE_DIAGNOSTICS],
+                                  [SDLRequestType EMERGENCY],
+                                  [SDLRequestType MEDIA],
+                                  [SDLRequestType FOTA],
+                                  ];
     }
     return SDLRequestType_values;
 }

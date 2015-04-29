@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLIgnitionStableStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLIgnitionStableStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLIgnitionStableStatus IGNITION_SWITCH_NOT_STABLE],
                         [SDLIgnitionStableStatus IGNITION_SWITCH_STABLE],
-                        [SDLIgnitionStableStatus MISSING_FROM_TRANSMITTER]] mutableCopy];
+                        [SDLIgnitionStableStatus MISSING_FROM_TRANSMITTER]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

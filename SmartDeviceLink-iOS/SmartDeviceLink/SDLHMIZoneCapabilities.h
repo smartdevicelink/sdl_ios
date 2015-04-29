@@ -8,31 +8,31 @@
 /**
  * Specifies HMI Zones in the vehicle.
  *
+ * @since SDL 1.0
  */
 @interface SDLHMIZoneCapabilities : SDLEnum {}
 
-/*!
- @abstract return SDLHMIZoneCapabilities (FRONT / BACK)
- @param value NSString
- @result return SDLHMIZoneCapabilities
+/**
+ * @abstract SDLHMIZoneCapabilities
+ * @param value The value of the string to get an object for
+ * @return SDLHMIZoneCapabilities
  */
 +(SDLHMIZoneCapabilities*) valueOf:(NSString*) value;
-/*!
- @abstract store all possible SDLHMIZoneCapabilities values
- @result return an array with all possible SDLHMIZoneCapabilities values inside
+
+/**
+ * @abstract store all possible SDLHMIZoneCapabilities values
+ * @return an array with all possible SDLHMIZoneCapabilities values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Indicates HMI available for front seat passengers.
- * @result return a SDLHMIZoneCapabilities with value of <font color=gray><i> FRONT </i></font>
- * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
+ * @return a SDLHMIZoneCapabilities with value of *FRONT*
  */
 +(SDLHMIZoneCapabilities*) FRONT;
 /**
  * @abstract Indicates HMI available for rear seat passengers.
- * @result return a SDLHMIZoneCapabilities with value of <font color=gray><i> BACK </i></font>
- * @since <font color=red><b> SmartDeviceLink 1.0 </b></font>
+ * @return a SDLHMIZoneCapabilities with value of *BACK*
  */
 +(SDLHMIZoneCapabilities*) BACK;
 

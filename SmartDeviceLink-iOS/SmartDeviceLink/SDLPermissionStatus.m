@@ -9,7 +9,7 @@ SDLPermissionStatus* SDLPermissionStatus_DISALLOWED = nil;
 SDLPermissionStatus* SDLPermissionStatus_USER_DISALLOWED = nil;
 SDLPermissionStatus* SDLPermissionStatus_USER_CONSENT_PENDING = nil;
 
-NSMutableArray* SDLPermissionStatus_values = nil;
+NSArray* SDLPermissionStatus_values = nil;
 
 @implementation SDLPermissionStatus
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLPermissionStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLPermissionStatus_values == nil) {
-        SDLPermissionStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLPermissionStatus_values = @[
                 SDLPermissionStatus.ALLOWED,
                 SDLPermissionStatus.DISALLOWED,
                 SDLPermissionStatus.USER_DISALLOWED,
                 SDLPermissionStatus.USER_CONSENT_PENDING,
-                nil];
+                ];
     }
     return SDLPermissionStatus_values;
 }

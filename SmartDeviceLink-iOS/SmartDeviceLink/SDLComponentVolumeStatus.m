@@ -11,7 +11,7 @@ SDLComponentVolumeStatus* SDLComponentVolumeStatus_FAULT = nil;
 SDLComponentVolumeStatus* SDLComponentVolumeStatus_ALERT = nil;
 SDLComponentVolumeStatus* SDLComponentVolumeStatus_NOT_SUPPORTED = nil;
 
-NSMutableArray* SDLComponentVolumeStatus_values = nil;
+NSArray* SDLComponentVolumeStatus_values = nil;
 
 @implementation SDLComponentVolumeStatus
 
@@ -24,16 +24,16 @@ NSMutableArray* SDLComponentVolumeStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLComponentVolumeStatus_values == nil) {
-        SDLComponentVolumeStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLComponentVolumeStatus_values = @[
                 SDLComponentVolumeStatus.UNKNOWN,
                 SDLComponentVolumeStatus.NORMAL,
                 SDLComponentVolumeStatus.LOW,
                 SDLComponentVolumeStatus.FAULT,
                 SDLComponentVolumeStatus.ALERT,
                 SDLComponentVolumeStatus.NOT_SUPPORTED,
-                nil];
+                ];
     }
     return SDLComponentVolumeStatus_values;
 }

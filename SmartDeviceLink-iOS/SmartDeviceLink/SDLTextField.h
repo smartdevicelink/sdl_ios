@@ -9,7 +9,8 @@
 
 /**
  * Struct defining the characteristics of a displayed field on the HMI.
- * <p><b> Parameter List
+ * 
+ * Parameter List
  * <table border="1" rules="all">
  * 		<tr>
  * 			<th>Name</th>
@@ -21,13 +22,13 @@
  * 			<td>name</td>
  * 			<td>TextFieldName</td>
  * 			<td>Enumeration identifying the field.	</td>
- * 			<td>SmartDeviceLink 1.0</td>
+ * 			<td>SDL 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>characterSet</td>
  * 			<td>CharacterSet</td>
  * 			<td>The character set that is supported in this field.	</td>
- * 			<td>SmartDeviceLink 1.0</td>
+ * 			<td>SDL 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>width</td>
@@ -38,7 +39,7 @@
  *					<li>maxvalue="500"</li>
  *					</ul>
  *			</td>
- * 			<td>SmartDeviceLink 1.0</td>
+ * 			<td>SDL 1.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>rows</td>
@@ -49,10 +50,11 @@
  *					<li>maxvalue="3"</li>
  *					</ul>
  *			</td>
- * 			<td>SmartDeviceLink 1.0</td>
+ * 			<td>SDL 1.0</td>
  * 		</tr>
- *  </table>
- * @since SmartDeviceLink 1.0
+ * </table>
+ *
+ * @since SDL 1.0
  */
 @interface SDLTextField : SDLRPCStruct {}
 
@@ -60,34 +62,43 @@
  * @abstract Constructs a newly allocated SDLTextField object
  */
 -(instancetype) init;
+
 /**
- * @abstract Constructs a newly allocated SDLTextField object indicated by the NSMutableDictionary parameter
- * @param dict The NSMutableDictionary to use
+ * @abstract Constructs a newly allocated SDLTextField object indicated by the dictionary parameter
+ *
+ * @param dict The dictionary to use to construct the object
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The enumeration identifying the field.
+ *
+ * @see SDLTextFieldName
+ *
+ * Required
  */
 @property(strong) SDLTextFieldName* name;
+
 /**
  * @abstract The character set that is supported in this field.
+ *
+ * @see SDLCharacterSet
+ *
+ * Required
  */
 @property(strong) SDLCharacterSet* characterSet;
+
 /**
  * @abstract The number of characters in one row of this field.
- * 					<ul>
- *					<li>Minvalue="1"</li>
- *					<li>maxvalue="500"</li>
- *					</ul>
+ * 
+ * Required, Integer 1 - 500
  */
 @property(strong) NSNumber* width;
+
 /**
  * @abstract The number of rows for this text field.
- * 					<ul>
- *					<li>Minvalue="1"</li>
- *					<li>maxvalue="3"</li>
- *					</ul>
+ * 
+ * Required, Integer 1 - 8
  */
 @property(strong) NSNumber* rows;
 

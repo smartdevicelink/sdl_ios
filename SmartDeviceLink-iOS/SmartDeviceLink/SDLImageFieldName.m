@@ -17,7 +17,7 @@ SDLImageFieldName* SDLImageFieldName_showConstantTBTIcon = nil;
 SDLImageFieldName* SDLImageFieldName_showConstantTBTNextTurnIcon = nil;
 SDLImageFieldName* SDLImageFieldName_locationImage = nil;
 
-NSMutableArray* SDLImageFieldName_values = nil;
+NSArray* SDLImageFieldName_values = nil;
 
 @implementation SDLImageFieldName
 
@@ -30,9 +30,9 @@ NSMutableArray* SDLImageFieldName_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLImageFieldName_values == nil) {
-        SDLImageFieldName_values = [[NSMutableArray alloc] initWithObjects:
+        SDLImageFieldName_values = @[
                 SDLImageFieldName.softButtonImage,
                 SDLImageFieldName.choiceImage,
                 SDLImageFieldName.choiceSecondaryImage,
@@ -45,7 +45,7 @@ NSMutableArray* SDLImageFieldName_values = nil;
                 SDLImageFieldName.showConstantTBTIcon,
                 SDLImageFieldName.showConstantTBTNextTurnIcon,
                 SDLImageFieldName.locationImage,
-                nil];
+                ];
     }
     return SDLImageFieldName_values;
 }

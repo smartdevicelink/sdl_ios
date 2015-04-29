@@ -44,8 +44,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLPowerModeStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLPowerModeStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPowerModeStatus KEY_OUT],
                         [SDLPowerModeStatus KEY_RECENTLY_OUT],
@@ -55,7 +55,7 @@ describe(@"Value List Tests", ^ {
                         [SDLPowerModeStatus POST_IGNITION_1],
                         [SDLPowerModeStatus IGNITION_ON_2],
                         [SDLPowerModeStatus RUNNING_2],
-                        [SDLPowerModeStatus CRANK_3]] mutableCopy];
+                        [SDLPowerModeStatus CRANK_3]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

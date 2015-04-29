@@ -30,11 +30,11 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLDriverDistractionState values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLDriverDistractionState values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDriverDistractionState DD_OFF],
-                        [SDLDriverDistractionState DD_ON]] mutableCopy];
+                        [SDLDriverDistractionState DD_ON]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

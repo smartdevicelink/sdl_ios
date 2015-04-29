@@ -52,8 +52,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLAppInterfaceUnregisteredReason values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLAppInterfaceUnregisteredReason values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[//[SDLAppInterfaceUnregisteredReason USER_EXIT],
                         [SDLAppInterfaceUnregisteredReason IGNITION_OFF],
@@ -65,7 +65,7 @@ describe(@"Value List Tests", ^ {
                         [SDLAppInterfaceUnregisteredReason LANGUAGE_CHANGE],
                         [SDLAppInterfaceUnregisteredReason MASTER_RESET],
                         [SDLAppInterfaceUnregisteredReason FACTORY_DEFAULTS],
-                        [SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]] mutableCopy];
+                        [SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]] copy];
                         //[SDLAppInterfaceUnregisteredReason PROTOCOL_VIOLATION]
     });
     

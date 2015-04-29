@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLCharacterSet values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLCharacterSet values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLCharacterSet TYPE2SET],
                         [SDLCharacterSet TYPE5SET],
                         [SDLCharacterSet CID1SET],
-                        [SDLCharacterSet CID2SET]] mutableCopy];
+                        [SDLCharacterSet CID2SET]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

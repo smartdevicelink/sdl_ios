@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLLockScreenStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLLockScreenStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLockScreenStatus OFF],
                         [SDLLockScreenStatus OPTIONAL],
-                        [SDLLockScreenStatus REQUIRED]] mutableCopy];
+                        [SDLLockScreenStatus REQUIRED]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

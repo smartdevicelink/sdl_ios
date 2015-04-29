@@ -46,8 +46,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTBTState values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTBTState values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTBTState ROUTE_UPDATE_REQUEST],
                         [SDLTBTState ROUTE_ACCEPTED],
@@ -58,7 +58,7 @@ describe(@"Value List Tests", ^ {
                         [SDLTBTState ROUTE_STATUS_REQUEST],
                         [SDLTBTState ROUTE_SUMMARY_REQUEST],
                         [SDLTBTState TRIP_STATUS_REQUEST],
-                        [SDLTBTState ROUTE_UPDATE_REQUEST_TIMEOUT]] mutableCopy];
+                        [SDLTBTState ROUTE_UPDATE_REQUEST_TIMEOUT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

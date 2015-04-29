@@ -30,11 +30,11 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLBitsPerSample values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLBitsPerSample values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLBitsPerSample _8_BIT],
-                        [SDLBitsPerSample _16_BIT]] mutableCopy];
+                        [SDLBitsPerSample _16_BIT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

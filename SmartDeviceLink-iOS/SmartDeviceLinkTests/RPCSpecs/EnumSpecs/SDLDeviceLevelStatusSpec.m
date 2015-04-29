@@ -38,15 +38,15 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLDeviceLevelStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLDeviceLevelStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDeviceLevelStatus ZERO_LEVEL_BARS],
                         [SDLDeviceLevelStatus ONE_LEVEL_BARS],
                         [SDLDeviceLevelStatus TWO_LEVEL_BARS],
                         [SDLDeviceLevelStatus THREE_LEVEL_BARS],
                         [SDLDeviceLevelStatus FOUR_LEVEL_BARS],
-                        [SDLDeviceLevelStatus NOT_PROVIDED]] mutableCopy];
+                        [SDLDeviceLevelStatus NOT_PROVIDED]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

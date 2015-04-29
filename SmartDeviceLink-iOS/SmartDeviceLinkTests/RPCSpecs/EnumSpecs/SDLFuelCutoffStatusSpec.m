@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLFuelCutoffStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLFuelCutoffStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLFuelCutoffStatus TERMINATE_FUEL],
                         [SDLFuelCutoffStatus NORMAL_OPERATION],
-                        [SDLFuelCutoffStatus FAULT]] mutableCopy];
+                        [SDLFuelCutoffStatus FAULT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -14,7 +14,7 @@ SDLPowerModeStatus* SDLPowerModeStatus_IGNITION_ON_2 = nil;
 SDLPowerModeStatus* SDLPowerModeStatus_RUNNING_2 = nil;
 SDLPowerModeStatus* SDLPowerModeStatus_CRANK_3 = nil;
 
-NSMutableArray* SDLPowerModeStatus_values = nil;
+NSArray* SDLPowerModeStatus_values = nil;
 
 @implementation SDLPowerModeStatus
 
@@ -27,9 +27,9 @@ NSMutableArray* SDLPowerModeStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLPowerModeStatus_values == nil) {
-        SDLPowerModeStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLPowerModeStatus_values = @[
                 SDLPowerModeStatus.KEY_OUT,
                 SDLPowerModeStatus.KEY_RECENTLY_OUT,
                 SDLPowerModeStatus.KEY_APPROVED_0,
@@ -39,7 +39,7 @@ NSMutableArray* SDLPowerModeStatus_values = nil;
                 SDLPowerModeStatus.IGNITION_ON_2,
                 SDLPowerModeStatus.RUNNING_2,
                 SDLPowerModeStatus.CRANK_3,
-                nil];
+                ];
     }
     return SDLPowerModeStatus_values;
 }

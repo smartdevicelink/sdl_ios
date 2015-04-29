@@ -8,7 +8,7 @@ SDLVehicleDataStatus* SDLVehicleDataStatus_NO_DATA_EXISTS = nil;
 SDLVehicleDataStatus* SDLVehicleDataStatus_OFF = nil;
 SDLVehicleDataStatus* SDLVehicleDataStatus_ON = nil;
 
-NSMutableArray* SDLVehicleDataStatus_values = nil;
+NSArray* SDLVehicleDataStatus_values = nil;
 
 @implementation SDLVehicleDataStatus
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLVehicleDataStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLVehicleDataStatus_values == nil) {
-        SDLVehicleDataStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLVehicleDataStatus_values = @[
                 SDLVehicleDataStatus.NO_DATA_EXISTS,
                 SDLVehicleDataStatus.OFF,
                 SDLVehicleDataStatus.ON,
-                nil];
+                ];
     }
     return SDLVehicleDataStatus_values;
 }

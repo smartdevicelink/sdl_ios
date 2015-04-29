@@ -35,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.isMediaApplication = @NO;
         testRequest.languageDesired = [SDLLanguage NO_NO];
         testRequest.hmiDisplayLanguageDesired = [SDLLanguage PT_PT];
-        testRequest.appHMIType = [@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy];
+        testRequest.appHMIType = [@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy];
         testRequest.hashID = @"gercd35grw2";
         testRequest.deviceInfo = info;
         testRequest.appID = @"123456789";
@@ -48,7 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.isMediaApplication).to(equal(@NO));
         expect(testRequest.languageDesired).to(equal([SDLLanguage NO_NO]));
         expect(testRequest.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_PT]));
-        expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy]));
+        expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy]));
         expect(testRequest.hashID).to(equal(@"gercd35grw2"));
         expect(testRequest.deviceInfo).to(equal(info));
         expect(testRequest.appID).to(equal(@"123456789"));
@@ -65,7 +65,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_isMediaApplication:@NO,
                                                    NAMES_languageDesired:[SDLLanguage NO_NO],
                                                    NAMES_hmiDisplayLanguageDesired:[SDLLanguage PT_PT],
-                                                   NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy],
+                                                   NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy],
                                                    NAMES_hashID:@"gercd35grw2",
                                                    NAMES_deviceInfo:info,
                                                    NAMES_appID:@"123456789"},
@@ -80,7 +80,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.isMediaApplication).to(equal(@NO));
         expect(testRequest.languageDesired).to(equal([SDLLanguage NO_NO]));
         expect(testRequest.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_PT]));
-        expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] mutableCopy]));
+        expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy]));
         expect(testRequest.hashID).to(equal(@"gercd35grw2"));
         expect(testRequest.deviceInfo).to(equal(info));
         expect(testRequest.appID).to(equal(@"123456789"));
