@@ -1,8 +1,6 @@
 //
 //  SDLtreamDelegate.m
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
 
 #import "SDLDebugTool.h"
 #import "SDLStreamDelegate.h"
@@ -26,7 +24,7 @@
         _streamErrorHandler = defaultStreamErrorHandler;
         _streamEndHandler = defaultStreamErrorHandler;
 
-        _input_stream_queue = dispatch_queue_create("com.ford.applink.session.inputreader", DISPATCH_QUEUE_SERIAL);
+        _input_stream_queue = dispatch_queue_create("com.sdl.streamdelegate.inputreader", DISPATCH_QUEUE_SERIAL);
         dispatch_queue_t high = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
         dispatch_set_target_queue(_input_stream_queue, high);
     }

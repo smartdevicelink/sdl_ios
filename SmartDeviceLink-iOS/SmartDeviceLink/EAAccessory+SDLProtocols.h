@@ -1,8 +1,6 @@
 //
 //  EAAccessory+SyncProtocols.h
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
 
 #import <ExternalAccessory/ExternalAccessory.h>
 

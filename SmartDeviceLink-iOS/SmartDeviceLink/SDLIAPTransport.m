@@ -13,6 +13,7 @@
 #import "SDLStreamDelegate.h"
 #import "EAAccessoryManager+SDLProtocols.h"
 #import "SDLTimer.h"
+#import "SDLIAPSession.h"
 #import <CommonCrypto/CommonDigest.h>
 
 @interface SDLIAPTransport () {

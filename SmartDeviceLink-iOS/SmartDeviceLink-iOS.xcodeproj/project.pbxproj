@@ -432,9 +432,9 @@
 		5D61FDBC1A84238C00846EE7 /* SDLSystemAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBCF1A84238B00846EE7 /* SDLSystemAction.m */; };
 		5D61FDBD1A84238C00846EE7 /* SDLSystemContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD01A84238B00846EE7 /* SDLSystemContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDBE1A84238C00846EE7 /* SDLSystemContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBD11A84238B00846EE7 /* SDLSystemContext.m */; };
-		5D61FDBF1A84238C00846EE7 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
+		5D61FDBF1A84238C00846EE7 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDC01A84238C00846EE7 /* SDLSystemRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBD31A84238B00846EE7 /* SDLSystemRequest.m */; };
-		5D61FDC11A84238C00846EE7 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
+		5D61FDC11A84238C00846EE7 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBD51A84238B00846EE7 /* SDLSystemRequestResponse.m */; };
 		5D61FDC31A84238C00846EE7 /* SDLTBTState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD61A84238B00846EE7 /* SDLTBTState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDC41A84238C00846EE7 /* SDLTBTState.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBD71A84238B00846EE7 /* SDLTBTState.m */; };
@@ -523,7 +523,7 @@
 		E9C32B901AB20BA200F283AF /* SDLIAPConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B881AB20BA200F283AF /* SDLIAPConfig.h */; };
 		E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B891AB20BA200F283AF /* SDLIAPSession.h */; };
 		E9C32B921AB20BA200F283AF /* SDLIAPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B8A1AB20BA200F283AF /* SDLIAPSession.m */; };
-		E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8B1AB20BA200F283AF /* SDLIAPSessionDelegate.h */; };
+		E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8B1AB20BA200F283AF /* SDLIAPSessionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C32B941AB20BA200F283AF /* SDLStreamDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8C1AB20BA200F283AF /* SDLStreamDelegate.h */; };
 		E9C32B951AB20BA200F283AF /* SDLStreamDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B8D1AB20BA200F283AF /* SDLStreamDelegate.m */; };
 		E9C32B961AB20BA200F283AF /* SDLTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8E1AB20BA200F283AF /* SDLTimer.h */; };
@@ -1992,6 +1992,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D61FDBF1A84238C00846EE7 /* SDLSystemRequest.h in Headers */,
+				E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */,
+				5D61FDC11A84238C00846EE7 /* SDLSystemRequestResponse.h in Headers */,
 				5D61FCA51A84238C00846EE7 /* SDLEndAudioPassThruResponse.h in Headers */,
 				5D61FD851A84238C00846EE7 /* SDLSetDisplayLayoutResponse.h in Headers */,
 				5D61FD751A84238C00846EE7 /* SDLRPCResponse.h in Headers */,
@@ -2112,7 +2115,6 @@
 				5D61FDE91A84238C00846EE7 /* SDLUnsubscribeButtonResponse.h in Headers */,
 				5D61FCD51A84238C00846EE7 /* SDLImageType.h in Headers */,
 				5D61FC2F1A84238C00846EE7 /* SDLAddCommandResponse.h in Headers */,
-				E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */,
 				5D61FD631A84238C00846EE7 /* SDLResetGlobalProperties.h in Headers */,
 				5D61FDD71A84238C00846EE7 /* SDLTouchType.h in Headers */,
 				5D61FDD31A84238C00846EE7 /* SDLTouchEvent.h in Headers */,
@@ -2246,8 +2248,6 @@
 				5D61FCDE1A84238C00846EE7 /* SDLJsonEncoder.h in Headers */,
 				5D61FCDC1A84238C00846EE7 /* SDLJsonDecoder.h in Headers */,
 				5D61FC711A84238C00846EE7 /* SDLDecoder.h in Headers */,
-				5D61FDBF1A84238C00846EE7 /* SDLSystemRequest.h in Headers */,
-				5D61FDC11A84238C00846EE7 /* SDLSystemRequestResponse.h in Headers */,
 				5D61FD6F1A84238C00846EE7 /* SDLRPCPayload.h in Headers */,
 				5D61FCF01A84238C00846EE7 /* SDLLockScreenManager.h in Headers */,
 				5D61FD311A84238C00846EE7 /* SDLPolicyDataParser.h in Headers */,

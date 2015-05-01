@@ -46,8 +46,8 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         _alreadyDestructed = NO;
         _version = 1;
         _messageID = 0;
-        _recieveQueue = dispatch_queue_create("com.ford.applink.protocol.recieve", DISPATCH_QUEUE_SERIAL);
-        _sendQueue = dispatch_queue_create("com.ford.applink.protocol.send", DISPATCH_QUEUE_SERIAL);
+        _recieveQueue = dispatch_queue_create("com.sdl.protocol.recieve", DISPATCH_QUEUE_SERIAL);
+        _sendQueue = dispatch_queue_create("com.sdl.protocol.send", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [SDLPrioritizedObjectCollection new];
         _sessionIDs = [NSMutableDictionary new];
 

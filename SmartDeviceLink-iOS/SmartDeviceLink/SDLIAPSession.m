@@ -1,12 +1,12 @@
 //
 //  SDLIAPSession.m
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
+
 #import "SDLDebugTool.h"
 #import "SDLIAPSession.h"
 #import "SDLTimer.h"
 #import "SDLIAPConfig.h"
+#import "SDLStreamDelegate.h"
 
 
 @interface SDLIAPSession ()

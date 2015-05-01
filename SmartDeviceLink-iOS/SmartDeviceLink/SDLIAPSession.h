@@ -1,13 +1,12 @@
 //
-//  FMCIAPSession.h
-//
-//  Copyright (c) 2014 FMC. All rights reserved.
+//  SDLIAPSession.h
 //
 
 #import <Foundation/Foundation.h>
 #import <ExternalAccessory/ExternalAccessory.h>
 #import "SDLIAPSessionDelegate.h"
-#import "SDLStreamDelegate.h"
+
+@class SDLStreamDelegate;
 
 typedef void(^SessionCompletionHandler)(BOOL success);
 

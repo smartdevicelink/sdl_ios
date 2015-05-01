@@ -1,8 +1,6 @@
 //
 //  SDLTimer.h
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

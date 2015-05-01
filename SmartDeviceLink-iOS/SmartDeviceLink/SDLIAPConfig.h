@@ -1,8 +1,6 @@
 //
 //  SDLIAPConfig.h
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
 
 #define LEGACY_PROTOCOL_STRING @"com.ford.sync.prot0"
 #define CONTROL_PROTOCOL_STRING @"com.smartdevicelink.prot0"

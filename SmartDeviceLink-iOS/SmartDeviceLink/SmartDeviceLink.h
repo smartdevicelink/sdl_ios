@@ -26,6 +26,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Transport *****/
 #import <SmartDeviceLink/SDLAbstractTransport.h>
 #import <SmartDeviceLink/SDLIAPTransport.h>
+#import <SmartDeviceLink/SDLIAPSessionDelegate.h>
 #import <SmartDeviceLink/SDLTCPTransport.h>
 #import <SmartDeviceLink/SDLTransport.h>
 #import <SmartDeviceLink/SDLTransportDelegate.h>
@@ -88,11 +89,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLSubscribeButton.h>
 #import <SmartDeviceLink/SDLSubscribeVehicleData.h>
 #import <SmartDeviceLink/SDLSyncPData.h>
-<<<<<<< HEAD:sdl_ios/SmartDeviceLink/SmartDeviceLink.h
 #import <SmartDeviceLink/SDLSystemRequest.h>
 #import <SmartDeviceLink/SDLUpdateTurnList.h>
-=======
->>>>>>> smartdevicelink/develop:SmartDeviceLink-iOS/SmartDeviceLink/SmartDeviceLink.h
 #import <SmartDeviceLink/SDLUnregisterAppInterface.h>
 #import <SmartDeviceLink/SDLUnsubscribeButton.h>
 #import <SmartDeviceLink/SDLUnsubscribeVehicleData.h>
@@ -134,6 +132,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLSubscribeButtonResponse.h>
 #import <SmartDeviceLink/SDLSubscribeVehicleDataResponse.h>
 #import <SmartDeviceLink/SDLSyncPDataResponse.h>
+#import <SmartDeviceLink/SDLSystemRequestResponse.h>
 #import <SmartDeviceLink/SDLUnregisterAppInterfaceResponse.h>
 #import <SmartDeviceLink/SDLUnsubscribeButtonResponse.h>
 #import <SmartDeviceLink/SDLUnsubscribeVehicleDataResponse.h>

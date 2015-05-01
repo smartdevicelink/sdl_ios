@@ -1,8 +1,6 @@
 //
 //  SDLTimer.m
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
 
 #import "SDLTimer.h"
 

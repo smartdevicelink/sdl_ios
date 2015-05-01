@@ -1,8 +1,6 @@
 //
 //  EAAccessory+SyncProtocols.m
 //
-//  Copyright (c) 2014 FMC. All rights reserved.
-//
 
 #import "EAAccessory+SDLProtocols.h"
 
