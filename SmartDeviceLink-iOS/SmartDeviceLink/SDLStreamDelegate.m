@@ -24,7 +24,7 @@
         _streamErrorHandler = defaultStreamErrorHandler;
         _streamEndHandler = defaultStreamErrorHandler;
 
-        _input_stream_queue = dispatch_queue_create("com.sdl.streamdelegate.inputreader", DISPATCH_QUEUE_SERIAL);
+        _input_stream_queue = dispatch_queue_create("com.sdl.streamdelegate.input", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }

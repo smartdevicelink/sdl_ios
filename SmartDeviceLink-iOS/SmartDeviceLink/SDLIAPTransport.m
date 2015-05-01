@@ -52,7 +52,7 @@ int const streamOpenTimeoutSeconds = 2;
         _retryCounter = 0;
         _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
-        _transmit_queue = dispatch_queue_create("com.smartdevicelink.transport.transmit", DISPATCH_QUEUE_SERIAL);
+        _transmit_queue = dispatch_queue_create("com.sdl.transport.transmit", DISPATCH_QUEUE_SERIAL);
 
         [self startEventListening];
         [SDLSiphonServer init];
@@ -136,11 +136,9 @@ int const streamOpenTimeoutSeconds = 2;
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
         [self establishSession];
-    }
-    else if (self.session) {
+    } else if (self.session) {
         [SDLDebugTool logInfo:@"Session already established."];
-    }
-    else {
+    } else {
         [SDLDebugTool logInfo:@"Session setup already in progress."];
     }
 }
@@ -148,40 +146,36 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)establishSession {
     [SDLDebugTool logInfo:@"Attempting To Connect"];
     if (self.retryCounter < createSessionRetries) {
+        // We should be attempting to connect
         self.retryCounter++;
         EAAccessory *accessory = nil;
-        // Multiapp session
+        
         if ((accessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
+            // Multiapp session
             [self createIAPControlSessionWithAccessory:accessory];
-        }
-        // Legacy session
-        else if ((accessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
+        } else if ((accessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
+            // Legacy session
             [self createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
-        }
-        // No compatible accessory
-        else {
+        } else {
+            // No compatible accessory
             [SDLDebugTool logInfo:@"No accessory supporting a required sync protocol was found."];
             self.sessionSetupInProgress = NO;
         }
-    }
-    else if (self.retryCounter == createSessionRetries) {
-        self.retryCounter++;
+    } else {
+        // We are beyond the number of retries allowed
         [SDLDebugTool logInfo:@"Create session retries exhausted."];
         self.sessionSetupInProgress = NO;
-    }
-    else {
-        [SDLDebugTool logInfo:@"Session attempts exhausted - Debug remove me"];
     }
 }
 
 - (void)createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
-
     [SDLDebugTool logInfo:@"Starting MultiApp Session"];
     self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:controlProtocolString];
+    
     if (self.controlSession) {
         self.controlSession.delegate = self;
-
-        // Create Protocol Index Timer
+        
+        // TODO: (Joel F.)[2015-05-01] Should the nil check be removed? If it's not nil, we are probably going to have some weirdness if it's already running and wasn't canceled. Better to start fresh?
         if (self.protocolIndexTimer == nil) {
             self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
         }
