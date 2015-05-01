@@ -132,7 +132,6 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)connect {
-    // Make sure we don't have a session setup or already in progress
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
         [self establishSession];
@@ -181,8 +180,6 @@ int const streamOpenTimeoutSeconds = 2;
         }
 
         __weak typeof(self) weakSelf = self;
-
-        // Protocol index timeout handler
         void (^elapsedBlock)(void) = ^{
             [SDLDebugTool logInfo:@"Protocol Index Timeout"];
             [weakSelf.controlSession stop];
@@ -192,34 +189,31 @@ int const streamOpenTimeoutSeconds = 2;
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
 
-        // Configure Streams Delegate
         SDLStreamDelegate *controlStreamDelegate = [SDLStreamDelegate new];
         self.controlSession.streamDelegate = controlStreamDelegate;
 
-        // Control Session Has Bytes Handler
         controlStreamDelegate.streamHasBytesHandler = ^(NSInputStream *istream) {
             [SDLDebugTool logInfo:@"Control Stream Received Data"];
 
-            // Grab a single byte from the stream
+            // Read in the stream a single byte at a time
             uint8_t buf[1];
             NSUInteger len = [istream read:buf maxLength:1];
-            if(len > 0)
-            {
+            if(len > 0) {
                 NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [[NSNumber numberWithChar:buf[0]] stringValue]];
                 [SDLDebugTool logInfo:logMessage];
-                // Done with control protocol session, destroy it.
+                
+                // Destroy the control session
                 [weakSelf.protocolIndexTimer cancel];
                 [weakSelf.controlSession stop];
                 weakSelf.controlSession.streamDelegate = nil;
                 weakSelf.controlSession = nil;
 
-                // Create session with indexed protocol
-                NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@",
-                                                   indexedProtocolStringPrefix,
-                                                   [[NSNumber numberWithChar:buf[0]] stringValue]];
-
+                // Determine protocol string of the data session
+                // TODO: (Joel F.)[2015-05-01] Determine if the [stringValue] call is necessary, 99.9% likelihood it is not
+                NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, [@(buf[0]) stringValue]];
 
                 // Create Data Session
+                // TODO: (Joel F.)[2015-05-01] Why are we 1. Dispatching sync 2. To the main queue
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [weakSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
                 });
@@ -271,7 +265,6 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-
     [SDLDebugTool logInfo:@"Starting Data Session"];
     self.session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     if (self.session) {
@@ -280,21 +273,15 @@ int const streamOpenTimeoutSeconds = 2;
         __weak typeof(self) weakSelf = self;
 
         // Configure Streams Delegate
-        SDLStreamDelegate *ioStreamDelegate = [SDLStreamDelegate new];
+        SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.session.streamDelegate = ioStreamDelegate;
-
-        // Data Session Has Bytes Handler
         ioStreamDelegate.streamHasBytesHandler = ^(NSInputStream *istream){
             uint8_t buf[iapInputBufferSize];
 
-            while ([istream hasBytesAvailable])
-            {
-                // Read bytes
+            while ([istream hasBytesAvailable]) {
                 NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
                 NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
-
-                // If we read some bytes, pass on to delegate
-                // If no bytes, quit reading.
+                
                 if (bytesRead > 0) {
                     [weakSelf.delegate onDataReceived:dataIn];
                 } else {
@@ -304,7 +291,6 @@ int const streamOpenTimeoutSeconds = 2;
 
         };
 
-        // Data Session Stream End Handler
         ioStreamDelegate.streamEndHandler = ^(NSStream *stream) {
             [SDLDebugTool logInfo:@"Data Stream Event End"];
             [weakSelf.session stop];
@@ -315,7 +301,6 @@ int const streamOpenTimeoutSeconds = 2;
             weakSelf.session = nil;
         };
 
-        // Data Session Stream Error Handler
         ioStreamDelegate.streamErrorHandler = ^(NSStream *stream) {
             [SDLDebugTool logInfo:@"Data Stream Error"];
             [weakSelf.session stop];
@@ -344,7 +329,6 @@ int const streamOpenTimeoutSeconds = 2;
 
 // This gets called after both I/O streams of the session have opened.
 - (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
-
     // Control Session Opened
     if ([controlProtocolString isEqualToString:session.protocol]) {
         [SDLDebugTool logInfo:@"Control Session Established"];
@@ -377,7 +361,6 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)sendData:(NSData *)data {
-
     dispatch_async(_transmit_queue, ^{
         NSOutputStream *ostream = self.session.easession.outputStream;
         NSMutableData *remainder = data.mutableCopy;
@@ -398,7 +381,6 @@ int const streamOpenTimeoutSeconds = 2;
             }
         }
     });
-
 }
 
 - (void)destructObjects {

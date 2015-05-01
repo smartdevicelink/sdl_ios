@@ -174,7 +174,8 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 - (void)sendDataToTransport:(NSData *)data withPriority:(NSInteger)priority {
 
     [_prioritizedCollection addObject:data withPriority:priority];
-
+    
+    // TODO: (Joel F.)[2015-05-01] Remove this dispatch (and the queue?), because the transports should handle their own queue, or we should, not both.
     dispatch_async(_sendQueue, ^{
 
         NSData *dataToTransmit = nil;
