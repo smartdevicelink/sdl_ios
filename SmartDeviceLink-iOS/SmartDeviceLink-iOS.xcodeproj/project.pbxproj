@@ -202,7 +202,6 @@
 		5D61FCD61A84238C00846EE7 /* SDLImageType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAE91A84238A00846EE7 /* SDLImageType.m */; };
 		5D61FCD71A84238C00846EE7 /* SDLInteractionMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAEA1A84238A00846EE7 /* SDLInteractionMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCD81A84238C00846EE7 /* SDLInteractionMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAEB1A84238A00846EE7 /* SDLInteractionMode.m */; };
-		5D61FCD91A84238C00846EE7 /* SDLInterfaceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAEC1A84238A00846EE7 /* SDLInterfaceProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCDA1A84238C00846EE7 /* SDLJingle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAED1A84238A00846EE7 /* SDLJingle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCDB1A84238C00846EE7 /* SDLJingle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAEE1A84238A00846EE7 /* SDLJingle.m */; };
 		5D61FCDC1A84238C00846EE7 /* SDLJsonDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAEF1A84238A00846EE7 /* SDLJsonDecoder.h */; };
@@ -458,7 +457,6 @@
 		5D61FDD61A84238C00846EE7 /* SDLTouchEventCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBE91A84238C00846EE7 /* SDLTouchEventCapabilities.m */; };
 		5D61FDD71A84238C00846EE7 /* SDLTouchType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBEA1A84238C00846EE7 /* SDLTouchType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDD81A84238C00846EE7 /* SDLTouchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBEB1A84238C00846EE7 /* SDLTouchType.m */; };
-		5D61FDD91A84238C00846EE7 /* SDLTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBEC1A84238C00846EE7 /* SDLTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDDA1A84238C00846EE7 /* SDLTransportDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBED1A84238C00846EE7 /* SDLTransportDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDDB1A84238C00846EE7 /* SDLTriggerSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBEE1A84238C00846EE7 /* SDLTriggerSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FDDC1A84238C00846EE7 /* SDLTriggerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBEF1A84238C00846EE7 /* SDLTriggerSource.m */; };
@@ -778,7 +776,6 @@
 		5D61FAE91A84238A00846EE7 /* SDLImageType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLImageType.m; sourceTree = "<group>"; };
 		5D61FAEA1A84238A00846EE7 /* SDLInteractionMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLInteractionMode.h; sourceTree = "<group>"; };
 		5D61FAEB1A84238A00846EE7 /* SDLInteractionMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLInteractionMode.m; sourceTree = "<group>"; };
-		5D61FAEC1A84238A00846EE7 /* SDLInterfaceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLInterfaceProtocol.h; sourceTree = "<group>"; };
 		5D61FAED1A84238A00846EE7 /* SDLJingle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLJingle.h; sourceTree = "<group>"; };
 		5D61FAEE1A84238A00846EE7 /* SDLJingle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLJingle.m; sourceTree = "<group>"; };
 		5D61FAEF1A84238A00846EE7 /* SDLJsonDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLJsonDecoder.h; sourceTree = "<group>"; };
@@ -1034,7 +1031,6 @@
 		5D61FBE91A84238C00846EE7 /* SDLTouchEventCapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchEventCapabilities.m; sourceTree = "<group>"; };
 		5D61FBEA1A84238C00846EE7 /* SDLTouchType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchType.h; sourceTree = "<group>"; };
 		5D61FBEB1A84238C00846EE7 /* SDLTouchType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchType.m; sourceTree = "<group>"; };
-		5D61FBEC1A84238C00846EE7 /* SDLTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransport.h; sourceTree = "<group>"; };
 		5D61FBED1A84238C00846EE7 /* SDLTransportDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTransportDelegate.h; sourceTree = "<group>"; };
 		5D61FBEE1A84238C00846EE7 /* SDLTriggerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTriggerSource.h; sourceTree = "<group>"; };
 		5D61FBEF1A84238C00846EE7 /* SDLTriggerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTriggerSource.m; sourceTree = "<group>"; };
@@ -1878,9 +1874,7 @@
 		5D5935001A851D0B00687FB9 /* @protocols */ = {
 			isa = PBXGroup;
 			children = (
-				5D61FBEC1A84238C00846EE7 /* SDLTransport.h */,
 				5D61FBED1A84238C00846EE7 /* SDLTransportDelegate.h */,
-				5D61FAEC1A84238A00846EE7 /* SDLInterfaceProtocol.h */,
 			);
 			name = "@protocols";
 			sourceTree = "<group>";
@@ -2016,7 +2010,6 @@
 				5D61FC9C1A84238C00846EE7 /* SDLEmergencyEventType.h in Headers */,
 				5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */,
 				5D61FDE71A84238C00846EE7 /* SDLUnsubscribeButton.h in Headers */,
-				5D61FDD91A84238C00846EE7 /* SDLTransport.h in Headers */,
 				5D61FC691A84238C00846EE7 /* SDLConsoleController.h in Headers */,
 				5D61FCAB1A84238C00846EE7 /* SDLFuelCutoffStatus.h in Headers */,
 				E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */,
@@ -2083,7 +2076,6 @@
 				5D61FC921A84238C00846EE7 /* SDLDisplayType.h in Headers */,
 				5D61FD0D1A84238C00846EE7 /* SDLOnHashChange.h in Headers */,
 				5D61FDDF1A84238C00846EE7 /* SDLTTSChunkFactory.h in Headers */,
-				5D61FCD91A84238C00846EE7 /* SDLInterfaceProtocol.h in Headers */,
 				5D61FC6B1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.h in Headers */,
 				5D61FCE61A84238C00846EE7 /* SDLKeypressMode.h in Headers */,
 				5D61FD871A84238C00846EE7 /* SDLSetGlobalProperties.h in Headers */,

@@ -1,12 +1,10 @@
 //  SDLAbstractProtocol.h
 //
 
-
-
-#import "SDLInterfaceProtocol.h"
-#import "SDLTransport.h"
 #import "SDLAbstractTransport.h"
 #import "SDLProtocolListener.h"
+
+@class SDLRPCRequest;
 
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>

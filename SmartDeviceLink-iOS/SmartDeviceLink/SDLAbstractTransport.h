@@ -2,7 +2,6 @@
 
 @import Foundation;
 
-#import "SDLTransport.h"
 #import "SDLTransportDelegate.h"
 
 @interface SDLAbstractTransport : NSObject
