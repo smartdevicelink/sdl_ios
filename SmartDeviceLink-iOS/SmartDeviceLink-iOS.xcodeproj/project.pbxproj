@@ -1321,8 +1321,6 @@
 				E9C32B8D1AB20BA200F283AF /* SDLStreamDelegate.m */,
 				5D61FBD81A84238B00846EE7 /* SDLTCPTransport.h */,
 				5D61FBD91A84238B00846EE7 /* SDLTCPTransport.m */,
-				E9C32B8E1AB20BA200F283AF /* SDLTimer.h */,
-				E9C32B8F1AB20BA200F283AF /* SDLTimer.m */,
 			);
 			name = Transport;
 			sourceTree = "<group>";
@@ -1755,6 +1753,8 @@
 				5D61FAD31A84238A00846EE7 /* SDLHexUtility.m */,
 				5D61FAED1A84238A00846EE7 /* SDLJingle.h */,
 				5D61FAEE1A84238A00846EE7 /* SDLJingle.m */,
+				E9C32B8E1AB20BA200F283AF /* SDLTimer.h */,
+				E9C32B8F1AB20BA200F283AF /* SDLTimer.m */,
 				5D61FB0F1A84238A00846EE7 /* SDLNames.h */,
 			);
 			name = Utilities;
