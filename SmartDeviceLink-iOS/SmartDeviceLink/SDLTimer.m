@@ -69,4 +69,8 @@
     }
 }
 
+- (void)dealloc {
+    [self cancel];
+}
+
 @end
