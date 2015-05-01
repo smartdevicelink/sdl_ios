@@ -1,9 +1,7 @@
 //  SDLProtocolRecievedMessageRouter.m
 //
 
-//
-//  This class gets handed the SDLAppLinkProtocol messages as they are recieved
-//  and decides what happens to them and where they are sent on to.
+//  This class gets handed the SDLProtocol messages as they are recieved and decides what happens to them and where they are sent on to.
 
 #import "SDLProtocolRecievedMessageRouter.h"
 #import "SDLProtocolMessage.h"
