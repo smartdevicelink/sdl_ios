@@ -8,13 +8,23 @@
 #import "SDLIAPTransport.h"
 #import "SDLDebugTool.h"
 #import "SDLSiphonServer.h"
-#import "SDLIAPConfig.h"
 #import "SDLIAPTransport.h"
 #import "SDLStreamDelegate.h"
 #import "EAAccessoryManager+SDLProtocols.h"
 #import "SDLTimer.h"
 #import "SDLIAPSession.h"
 #import <CommonCrypto/CommonDigest.h>
+
+
+NSString *const legacyProtocolString = @"com.ford.sync.prot0";
+NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
+NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
+
+int const iapInputBufferSize = 1024;
+int const createSessionRetries = 1;
+int const protocolIndexTimeoutSeconds = 20;
+int const streamOpenTimeoutSeconds = 2;
+
 
 @interface SDLIAPTransport () {
     dispatch_queue_t _transmit_queue;
@@ -29,7 +39,6 @@
 - (void)stopEventListening;
 
 @end
-
 
 
 @implementation SDLIAPTransport
@@ -153,16 +162,16 @@
 
 - (void)establishSession {
     [SDLDebugTool logInfo:@"Attempting To Connect"];
-    if (self.retryCounter < CREATE_SESSION_RETRIES) {
+    if (self.retryCounter < createSessionRetries) {
         self.retryCounter++;
         EAAccessory *accessory = nil;
         // Multiapp session
-        if ((accessory = [EAAccessoryManager findAccessoryForProtocol:CONTROL_PROTOCOL_STRING])) {
+        if ((accessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
             [self createIAPControlSessionWithAccessory:accessory];
         }
         // Legacy session
-        else if ((accessory = [EAAccessoryManager findAccessoryForProtocol:LEGACY_PROTOCOL_STRING])) {
-            [self createIAPDataSessionWithAccessory:accessory forProtocol:LEGACY_PROTOCOL_STRING];
+        else if ((accessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
+            [self createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
         }
         // No compatible accessory
         else {
@@ -170,7 +179,7 @@
             self.sessionSetupInProgress = NO;
         }
     }
-    else if (self.retryCounter == CREATE_SESSION_RETRIES) {
+    else if (self.retryCounter == createSessionRetries) {
         self.retryCounter++;
         [SDLDebugTool logInfo:@"Create session retries exhausted."];
         self.sessionSetupInProgress = NO;
@@ -183,13 +192,13 @@
 - (void)createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
 
     [SDLDebugTool logInfo:@"Starting MultiApp Session"];
-    self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:CONTROL_PROTOCOL_STRING];
+    self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:controlProtocolString];
     if (self.controlSession) {
         self.controlSession.delegate = self;
 
         // Create Protocol Index Timer
         if (self.protocolIndexTimer == nil) {
-            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:PROTOCOL_INDEX_TIMEOUT_SECONDS];
+            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
         }
 
         __weak typeof(self) weakSelf = self;
@@ -227,7 +236,7 @@
 
                 // Create session with indexed protocol
                 NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@",
-                                                   INDEXED_PROTOCOL_STRING_PREFIX,
+                                                   indexedProtocolStringPrefix,
                                                    [[NSNumber numberWithChar:buf[0]] stringValue]];
 
 
@@ -297,12 +306,12 @@
 
         // Data Session Has Bytes Handler
         ioStreamDelegate.streamHasBytesHandler = ^(NSInputStream *istream){
-            uint8_t buf[IAP_INPUT_BUFFER_SIZE];
+            uint8_t buf[iapInputBufferSize];
 
             while ([istream hasBytesAvailable])
             {
                 // Read bytes
-                NSInteger bytesRead = [istream read:buf maxLength:IAP_INPUT_BUFFER_SIZE];
+                NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
                 NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
 
                 // If we read some bytes, pass on to delegate
@@ -321,7 +330,7 @@
             [SDLDebugTool logInfo:@"Data Stream Event End"];
             [weakSelf.session stop];
             weakSelf.session.streamDelegate = nil;
-            if (![LEGACY_PROTOCOL_STRING isEqualToString:weakSelf.session.protocol]) {
+            if (![legacyProtocolString isEqualToString:weakSelf.session.protocol]) {
                 [weakSelf retryEstablishSession];
             }
             weakSelf.session = nil;
@@ -332,7 +341,7 @@
             [SDLDebugTool logInfo:@"Data Stream Error"];
             [weakSelf.session stop];
             weakSelf.session.streamDelegate = nil;
-            if (![LEGACY_PROTOCOL_STRING isEqualToString:weakSelf.session.protocol]) {
+            if (![legacyProtocolString isEqualToString:weakSelf.session.protocol]) {
                 [weakSelf retryEstablishSession];
             }
             weakSelf.session = nil;
@@ -358,13 +367,13 @@
 - (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
 
     // Control Session Opened
-    if ([CONTROL_PROTOCOL_STRING isEqualToString:session.protocol]) {
+    if ([controlProtocolString isEqualToString:session.protocol]) {
         [SDLDebugTool logInfo:@"Control Session Established"];
         [self.protocolIndexTimer start];
     }
 
     // Data Session Opened
-    if (![CONTROL_PROTOCOL_STRING isEqualToString:session.protocol]) {
+    if (![controlProtocolString isEqualToString:session.protocol]) {
         self.sessionSetupInProgress = NO;
         [SDLDebugTool logInfo:@"Data Session Established"];
         [self.delegate onTransportConnected];
@@ -373,7 +382,7 @@
 
 // Retry establishSession on Stream End events only if it was the control session and we haven't already connected on non-control protocol
 - (void)onSessionStreamsEnded:(SDLIAPSession *)session {
-    if (!self.session && [CONTROL_PROTOCOL_STRING isEqualToString:session.protocol]) {
+    if (!self.session && [controlProtocolString isEqualToString:session.protocol]) {
         [SDLDebugTool logInfo:@"onSessionStreamsEnded"];
         [session stop];
         [self retryEstablishSession];

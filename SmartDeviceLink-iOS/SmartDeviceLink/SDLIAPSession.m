@@ -5,7 +5,6 @@
 #import "SDLDebugTool.h"
 #import "SDLIAPSession.h"
 #import "SDLTimer.h"
-#import "SDLIAPConfig.h"
 #import "SDLStreamDelegate.h"
 
 
