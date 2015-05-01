@@ -34,14 +34,6 @@
 - (void)handleRpcMessage:(NSDictionary *)msg;
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
-- (void)startAudioSession;
-- (void)sendAudioData:(NSData *)data;
-- (void)stopAudioSession;
-
-- (void)startVideoSession;
-- (void)sendVideoData:(NSData *)data;
-- (void)stopVideoSession;
-
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;
 

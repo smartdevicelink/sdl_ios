@@ -508,30 +508,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 }
 
-- (void)startAudioSession {
-    [self.protocol sendStartSessionWithType:SDLServiceType_Audio];
-}
-
-- (void)sendAudioData:(NSData *)data {
-    [self sendData:data withServiceType:SDLServiceType_Audio];
-}
-
-- (void)stopAudioSession {
-    [self.protocol sendEndSessionWithType:SDLServiceType_Audio];
-}
-
-- (void)startVideoSession {
-    [self.protocol sendStartSessionWithType:SDLServiceType_Video];
-}
-
-- (void)sendVideoData:(NSData *)data {
-    [self sendData:data withServiceType:SDLServiceType_Video];
-}
-
-- (void)stopVideoSession {
-    [self.protocol sendEndSessionWithType:SDLServiceType_Video];
-}
-
 - (void)sendData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     [self.protocol sendRawData:data withServiceType:serviceType];
 }
