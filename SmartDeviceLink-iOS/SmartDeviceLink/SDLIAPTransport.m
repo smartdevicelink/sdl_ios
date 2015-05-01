@@ -89,21 +89,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)stopEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Stopped Listening For Events"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:EAAccessoryDidConnectNotification
-                                                  object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:EAAccessoryDidDisconnectNotification
-                                                  object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidEnterBackgroundNotification
-                                                  object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillEnterForegroundNotification
-                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
 
@@ -136,9 +122,8 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 -(void)applicationDidEnterBackground:(NSNotification *)notification {
-    __block UIBackgroundTaskIdentifier taskID;
-
-    taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"backgroundTaskName" expirationHandler:^{
+    __block UIBackgroundTaskIdentifier taskID = NSNotFound;
+    taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [SDLDebugTool logInfo:@"Warning: Background Task Expiring"];
         [[UIApplication sharedApplication] endBackgroundTask:taskID];
     }];
