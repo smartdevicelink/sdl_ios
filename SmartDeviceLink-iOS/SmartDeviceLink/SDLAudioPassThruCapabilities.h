@@ -50,7 +50,7 @@
 -(instancetype) init;
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object indicated by the Hashtable parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 

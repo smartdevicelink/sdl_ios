@@ -56,36 +56,60 @@
  * Constructs a newly allocated SDLChoice object
  */
 -(instancetype) init;
+
 /**
- * Constructs a newly allocated SDLChoice object indicated by the NSMutableDictionary parameter
- * @param dict The NSMutableDictionary to use
+ * Constructs a newly allocated SDLChoice object indicated by the dictionary parameter
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
- * @discussion <b>Note:</b>Min: 0  Max: 65535
+ * 
+ * Required, Integer 0 - 65535
  */
 @property(strong) NSNumber* choiceID;
+
 /**
  * @abstract Text which appears in menu, representing this choice
- *				<br/>Min: 1
- *				<br/>Max: 100
- * @discussion
+ *
+ * Required, Max string length 500 chars
  */
 @property(strong) NSString* menuName;
+
 /**
- * @abstract an array of strings to be used as VR synonyms for this choice
- * @discussion if this array is provided, it must have at least one non-empty element
+ * @abstract VR synonyms for this choice
+ *
+ * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
  */
 @property(strong) NSMutableArray* vrCommands;
+
 /**
- * @abstract the image of the choice
- * @discussion
+ * @abstract The image of the choice
+ *
+ * Optional
  */
 @property(strong) SDLImage* image;
+
+/**
+ * @abstract Optional secondary text to display; e.g. address of POI in a search result entry
+ *
+ * Optional, Max String length 500 chars
+ */
 @property(strong) NSString* secondaryText;
+
+/**
+ * @abstract Optional tertiary text to display; e.g. distance to POI for a search result entry
+ *
+ * Optional, Max String length 500 chars
+ */
 @property(strong) NSString* tertiaryText;
+
+/**
+ * @abstract Optional secondary image for choice
+ *
+ * Optional
+ */
 @property(strong) SDLImage* secondaryImage;
 
 @end

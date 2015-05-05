@@ -8,55 +8,64 @@
 /**
  * Reflects the current primary audio source of SDL (if selected).
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLPrimaryAudioSource : SDLEnum {}
 
-/*!
- @abstract get SDLPrimaryAudioSource according value string
- @param value NSString
- @result SDLPrimaryAudioSource object
+/**
+ * @abstract get SDLPrimaryAudioSource according value string
+ *
+ * @param value String value to retrieve the object enum for
+ *
+ * @return SDLPrimaryAudioSource object
  */
 +(SDLPrimaryAudioSource*) valueOf:(NSString*) value;
-/*!
- @abstract declare an array to store all possible SDLPrimaryAudioSource values
- @result return the array
+
+/**
+ * @abstract declare an array to store all possible SDLPrimaryAudioSource values
+ * @return the array
  */
 +(NSArray*) values;
 
 /**
  * @abstract Currently no source selected
- * @result return the current primary audio source : <font color=gray><i> NO_SOURCE_SELECTED </i></font>
+ * @return the current primary audio source: *NO_SOURCE_SELECTED*
  */
 +(SDLPrimaryAudioSource*) NO_SOURCE_SELECTED;
+
 /**
  * @abstract USB is current source
- * @result return the current primary audio source : <font color=gray><i> USB </i></font>
+ * @return the current primary audio source: *USB*
  */
 +(SDLPrimaryAudioSource*) USB;
+
 /**
  * @abstract USB2 is current source
- * @result return the current primary audio source : <font color=gray><i> USB2 </i></font>
+ * @return the current primary audio source: *USB2*
  */
 +(SDLPrimaryAudioSource*) USB2;
+
 /**
  * @abstract Bluetooth Stereo is current source
- * @result return the current primary audio source : <font color=gray><i> BLUETOOTH_STEREO_BTST </i></font>
+ * @return the current primary audio source: *BLUETOOTH_STEREO_BTST*
  */
 +(SDLPrimaryAudioSource*) BLUETOOTH_STEREO_BTST;
+
 /**
  * @abstract Line in is current source
- * @result return the current primary audio source : <font color=gray><i> LINE_IN </i></font>
+ * @return the current primary audio source: *LINE_IN*
  */
 +(SDLPrimaryAudioSource*) LINE_IN;
+
 /**
  * @abstract iPod is current source
- * @result return the current primary audio source : <font color=gray><i> IPOD </i></font>
+ * @return the current primary audio source: *IPOD*
  */
 +(SDLPrimaryAudioSource*) IPOD;
+
 /**
  * @abstract Mobile app is current source
- * @result return the current primary audio source : <font color=gray><i> MOBILE_APP </i></font>
+ * @return the current primary audio source: *MOBILE_APP*
  */
 +(SDLPrimaryAudioSource*) MOBILE_APP;
 

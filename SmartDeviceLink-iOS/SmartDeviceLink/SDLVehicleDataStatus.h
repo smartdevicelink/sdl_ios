@@ -8,33 +8,36 @@
 /**
  * Reflects the status of a binary vehicle data item.
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLVehicleDataStatus : SDLEnum {}
 
 /**
  * Convert String to SDLVehicleDataStatus
- * @param value String
+ * @param value The value of the string to get an object for
  * @return SDLVehicleDataStatus
  */
 +(SDLVehicleDataStatus*) valueOf:(NSString*) value;
-/*!
- @abstract Store the enumeration of all possible SDLVehicleDataStatus
- @result return an array that store all possible SDLVehicleDataStatus
+
+/**
+ * @abstract Store the enumeration of all possible SDLVehicleDataStatus
+ * @return an array that store all possible SDLVehicleDataStatus
  */
 +(NSArray*) values;
 
-/*!
- @abstract No data avaliable
- @result return SDLVehicleDataStatus : <font color=gray><i> NO_DATA_EXISTS </i></font>
+/**
+ * @abstract No data avaliable
+ * @return SDLVehicleDataStatus: *NO_DATA_EXISTS*
  */
 +(SDLVehicleDataStatus*) NO_DATA_EXISTS;
-/*!
- @abstract return SDLVehicleDataStatus : <font color=gray><i> OFF </i></font>
+
+/**
+ * @abstract return SDLVehicleDataStatus: *OFF*
  */
 +(SDLVehicleDataStatus*) OFF;
-/*!
- @abstract return SDLVehicleDataStatus : <font color=gray><i> ON </i></font>
+
+/**
+ * @abstract return SDLVehicleDataStatus: *ON*
  */
 +(SDLVehicleDataStatus*) ON;
 
