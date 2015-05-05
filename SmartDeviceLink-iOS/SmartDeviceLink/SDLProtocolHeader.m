@@ -40,24 +40,18 @@
 }
 
 + (SDLProtocolHeader *)headerForVersion:(UInt8)version {
-    // TODO: some error handling here if unknown version is asked for,
-    // but that needs to be balanced against future proofing. i.e. V3.
-    // Requirements around V3 are as yet undefined so give a V2 header
-    // lol wat.
+    // VERSION DEPENDENT CODE
     switch (version) {
-        case 0: {
-            return [[SDLV2ProtocolHeader alloc] initWithVersion:2];
-        } break;
         case 1: {
             return [[SDLV1ProtocolHeader alloc] init];
         } break;
-        case 2:
-        case 3:
+        case 2: // Fallthrough
+        case 3: // Fallthrough
         case 4: {
             return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
         } break;
         default: {
-            return [[SDLV2ProtocolHeader alloc] initWithVersion:2];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The version of header that is being created is unknown" userInfo:@{@"requestedVersion": @(version)}];
         } break;
     }
 }

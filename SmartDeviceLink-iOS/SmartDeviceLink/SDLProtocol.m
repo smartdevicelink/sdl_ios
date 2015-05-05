@@ -93,15 +93,15 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     // Build the message payload. Include the binary header if necessary
+    // VERSION DEPENDENT CODE
     switch (self.version) {
         case 1: {
             // No binary header in version 1
             messagePayload = jsonData;
         } break;
         case 2: // Fallthrough
-        case 3:
-        case 4:
-        default: {
+        case 3: // Fallthrough
+        case 4: {
             // Build a binary header
             // Serialize the RPC data into an NSData
             SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
@@ -109,7 +109,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             rpcPayload.jsonData = jsonData;
             rpcPayload.binaryData = message.bulkData;
             
-            // If it's a request or a response, we need to pull out the correlation ID, so we'll upcast
+            // If it's a request or a response, we need to pull out the correlation ID, so we'll downcast
             if ([message isKindOfClass:SDLRPCRequest.class]) {
                 rpcPayload.rpcType = SDLRPCMessageTypeRequest;
                 rpcPayload.correlationID = [((SDLRPCRequest *)message).correlationID intValue];
@@ -119,8 +119,10 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             } else {
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             }
-            
-            NSAssert(NO, @"sendRPCMessage:withType: must handle additional versions");
+        } break;
+        default: {
+            // TODO: (Joel F.)[2015-05-05] Should this be an error, or an assert?
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Attempting to send an RPC based on an unknown version number" userInfo:@{@"version": @(self.version), @"message": message}];
         } break;
     }
     
