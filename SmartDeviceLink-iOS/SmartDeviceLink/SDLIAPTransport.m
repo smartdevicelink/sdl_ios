@@ -199,7 +199,7 @@ int const streamOpenTimeoutSeconds = 2;
             uint8_t buf[1];
             NSUInteger len = [istream read:buf maxLength:1];
             if(len > 0) {
-                NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [[NSNumber numberWithChar:buf[0]] stringValue]];
+                NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
                 [SDLDebugTool logInfo:logMessage];
                 
                 // Destroy the control session

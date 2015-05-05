@@ -58,7 +58,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 }
 
 - (void)storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
-    [_sessionIDs setObject:[NSNumber numberWithUnsignedChar:sessionID] forKey:[NSNumber numberWithUnsignedChar:serviceType]];
+    [_sessionIDs setObject:@(sessionID) forKey:@(serviceType)];
 }
 
 - (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
@@ -68,8 +68,8 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
-
-    return number?[number unsignedIntegerValue]:0;
+    
+    return (number ? [number unsignedCharValue] : 0);
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
@@ -125,9 +125,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         messagePayload = rpcPayload.data;
     }
 
-    //
     // Build the protocol level header & message
-    //
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Single;
     header.serviceType = SDLServiceType_RPC;
@@ -143,26 +141,17 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
-
-    //
-    // See if the message is small enough to send in one transmission.
-    // If not, break it up into smaller messages and send.
-    //
-    if (message.size < MAX_TRANSMISSION_SIZE)
-    {
+    // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
+    if (message.size < MAX_TRANSMISSION_SIZE) {
         [self logRPCSend:message];
         [self sendDataToTransport:message.data withPriority:SDLServiceType_RPC];
-    }
-    else
-    {
+    } else {
         NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:MAX_TRANSMISSION_SIZE];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
         }
-
     }
-
 }
 
 - (void)logRPCSend:(SDLProtocolMessage *)message {
@@ -172,28 +161,21 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 // Use for normal messages
 - (void)sendDataToTransport:(NSData *)data withPriority:(NSInteger)priority {
-
     [_prioritizedCollection addObject:data withPriority:priority];
     
     // TODO: (Joel F.)[2015-05-01] Remove this dispatch (and the queue?), because the transports should handle their own queue, or we should, not both.
     dispatch_async(_sendQueue, ^{
-
         NSData *dataToTransmit = nil;
-        while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject])
-        {
+        while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
             [self.transport sendData:dataToTransmit];
         };
-
     });
 
 }
 
-//
 // Turn recieved bytes into message objects.
-//
 - (void)handleBytesFromTransport:(NSData *)recievedData {
-
-    NSMutableString *logMessage = [[NSMutableString alloc]init];//
+    NSMutableString *logMessage = [[NSMutableString alloc] init];
     [logMessage appendFormat:@"Received: %ld", (long)recievedData.length];
 
     // Initialize the recieve buffer which will contain bytes while messages are constructed.
@@ -256,7 +238,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
     [self sendDataToTransport:message.data withPriority:header.serviceType];
-
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
@@ -283,7 +264,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-
     [self storeSessionID:sessionID forServiceType:serviceType];
 
     self.maxVersionSupportedByHeadUnit = version;

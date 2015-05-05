@@ -38,7 +38,7 @@
     } else if (message.header.frameType == SDLFrameType_Consecutive) {
         // Save the frame w/ frame# as the key
         NSInteger frameNumber = message.header.frameData;
-        NSNumber *frameNumberObj = [NSNumber numberWithUnsignedInteger:frameNumber];
+        NSNumber *frameNumberObj = @(frameNumber);
         self.parts[frameNumberObj] = message.payload;
     }
 
