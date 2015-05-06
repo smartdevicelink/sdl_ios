@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(NSZone *)zone {
     [self doesNotRecognizeSelector:_cmd];
     return 0;
 }
