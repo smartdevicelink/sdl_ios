@@ -116,8 +116,11 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             } else if ([message isKindOfClass:SDLRPCResponse.class]) {
                 rpcPayload.rpcType = SDLRPCMessageTypeResponse;
                 rpcPayload.correlationID = [((SDLRPCResponse *)message).correlationID intValue];
-            } else {
+            } else if ([message isKindOfClass:[SDLRPCNotification class]]) {
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
+            } else {
+                NSAssert(NO, @"Unknown message type attempted to send. Type: %@", [message class]);
+                return;
             }
             
             messagePayload = rpcPayload.data;
@@ -231,7 +234,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         NSUInteger payloadLength = payloadSize;
         NSData *payload = [self.receiveBuffer subdataWithRange:NSMakeRange(payloadOffset, payloadLength)];
         message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-        [logMessage appendFormat:@"message complete. %@", message];
+        [logMessage appendFormat:@"Receiving: %@", message];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File|SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     } else {
         // Need to wait for more bytes.
