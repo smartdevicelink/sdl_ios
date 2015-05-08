@@ -527,7 +527,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 /**
  *  Determine if the System Request is valid and return it's JSON dictionary, if available.
  *
- *  @param systemRequest The system request to parse
+ *  @param request The system request to parse
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
@@ -561,7 +561,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  *  Generate an NSURLSessionUploadTask for System Request
  *
  *  @param dictionary        The system request dictionary that contains the HTTP data to be sent
- *  @param URLString         A string containing the URL to send the upload to
+ *  @param urlString         A string containing the URL to send the upload to
  *  @param completionHandler A completion handler returning the response from the server to the upload task
  *
  *  @return The upload task, which can be started by calling -[resume]

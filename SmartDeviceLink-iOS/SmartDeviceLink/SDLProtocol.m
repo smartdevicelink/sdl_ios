@@ -152,9 +152,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     {
         [self logRPCSend:protocolMessage];
         [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
-    }
-    else
-    {
+    } else {
         NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:MAX_TRANSMISSION_SIZE];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
