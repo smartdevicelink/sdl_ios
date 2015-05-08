@@ -119,6 +119,8 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             } else {
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             }
+            
+            messagePayload = rpcPayload.data;
         } break;
         default: {
             // TODO: (Joel F.)[2015-05-05] Should this be an error, or an assert?
