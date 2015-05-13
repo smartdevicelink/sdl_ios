@@ -22,7 +22,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 @interface SDLProtocol () {
     UInt32 _messageID;
     dispatch_queue_t _recieveQueue;
-    dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
     NSMutableDictionary *_sessionIDs;
     BOOL _alreadyDestructed;
@@ -47,7 +46,7 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
         _version = 1;
         _messageID = 0;
         _recieveQueue = dispatch_queue_create("com.sdl.protocol.recieve", DISPATCH_QUEUE_SERIAL);
-        _sendQueue = dispatch_queue_create("com.sdl.protocol.send", DISPATCH_QUEUE_SERIAL);
+        
         _prioritizedCollection = [SDLPrioritizedObjectCollection new];
         _sessionIDs = [NSMutableDictionary new];
 
@@ -163,14 +162,10 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 - (void)sendDataToTransport:(NSData *)data withPriority:(NSInteger)priority {
     [_prioritizedCollection addObject:data withPriority:priority];
     
-    // TODO: (Joel F.)[2015-05-01] Remove this dispatch (and the queue?), because the transports should handle their own queue, or we should, not both.
-    dispatch_async(_sendQueue, ^{
-        NSData *dataToTransmit = nil;
-        while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
-            [self.transport sendData:dataToTransmit];
-        };
-    });
-
+    NSData *dataToTransmit = nil;
+    while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
+        [self.transport sendData:dataToTransmit];
+    };
 }
 
 // Turn recieved bytes into message objects.

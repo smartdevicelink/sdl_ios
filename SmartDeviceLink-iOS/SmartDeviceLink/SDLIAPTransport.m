@@ -52,7 +52,7 @@ int const streamOpenTimeoutSeconds = 2;
         _retryCounter = 0;
         _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
-        _transmit_queue = dispatch_queue_create("com.sdl.transport.transmit", DISPATCH_QUEUE_SERIAL);
+        _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
 
         [self startEventListening];
         [SDLSiphonServer init];

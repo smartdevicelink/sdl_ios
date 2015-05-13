@@ -22,6 +22,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 @interface SDLTCPTransport () {
     BOOL _alreadyDestructed;
+    dispatch_queue_t _sendQueue;
 }
 
 @end
@@ -34,6 +35,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     if (self = [super init]) {
 
         _alreadyDestructed = NO;
+        _sendQueue = dispatch_queue_create("com.sdl.transport.tcp.transmit", DISPATCH_QUEUE_SERIAL);
         [SDLDebugTool logInfo:@"SDLTCPTransport Init"
                      withType:SDLDebugType_Transport_iAP
                      toOutput:SDLDebugOutput_All
@@ -65,27 +67,27 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)sendData:(NSData *)msgBytes {
-
-    NSString* byteStr = [SDLHexUtility getHexString:msgBytes];
-    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
-
-    CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
-    if (e != kCFSocketSuccess) {
-        NSString *errorCause = nil;
-        switch (e) {
-            case kCFSocketTimeout:
-                errorCause = @"Socket Timeout Error.";
-                break;
-
-            case kCFSocketError:
-            default:
-                errorCause = @"Socket Error.";
-                break;
+    dispatch_async(_sendQueue, ^{
+        NSString* byteStr = [SDLHexUtility getHexString:msgBytes];
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+        
+        CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
+        if (e != kCFSocketSuccess) {
+            NSString *errorCause = nil;
+            switch (e) {
+                case kCFSocketTimeout:
+                    errorCause = @"Socket Timeout Error.";
+                    break;
+                    
+                case kCFSocketError:
+                default:
+                    errorCause = @"Socket Error.";
+                    break;
+            }
+            
+            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
         }
-
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
-    }
-
+    });
 }
 
 - (void)destructObjects {
