@@ -70,7 +70,7 @@ NSString *const SDLAppId = @"9999";
         return;
     }
     
-    self.isFirstHMIFull = NO;
+    self.isFirstHMIFull = YES;
     self.state = ProxyStateSearchingForConnection;
     
     switch (transportType) {
