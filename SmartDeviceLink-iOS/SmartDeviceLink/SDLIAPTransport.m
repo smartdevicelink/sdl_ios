@@ -457,33 +457,13 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (double)retryDelay {
-
-    const double min_value = 0.0;
-    const double max_value = 10.0;
-    double range_length = max_value - min_value;
-
-    static double delay = 0;
-
-    if (delay == 0) {
-        NSString *appName = [[NSProcessInfo processInfo] processName];
-        if (appName == nil) {
-            appName = @"noname";
-        }
-        const char *ptr = [appName UTF8String];
-        unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-        CC_MD5(ptr, (unsigned int)strlen(ptr), md5Buffer);
-        NSMutableString *output = [NSMutableString stringWithString:@"0x"];
-        for(int i = 0; i < 8; i++)
-            [output appendFormat:@"%02X",md5Buffer[i]];
-        unsigned long long firstHalf;
-        NSScanner* pScanner = [NSScanner scannerWithString: output];
-        [pScanner scanHexLongLong:&firstHalf];
-        double hashBasedValueInRange0to1 = ((double)firstHalf)/0xffffffffffffffff;
-        delay = range_length * hashBasedValueInRange0to1 + min_value;
-        
-    }
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        srand48(time(0));
+    });
     
-    return delay;
+    // Return a random double between 0.0 - 10.0
+    return (drand48() * 10);
 }
 
 @end
