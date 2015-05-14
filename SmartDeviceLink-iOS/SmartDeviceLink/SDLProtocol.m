@@ -170,9 +170,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
 // Turn recieved bytes into message objects.
 - (void)handleBytesFromTransport:(NSData *)recievedData {
-    NSMutableString *logMessage = [[NSMutableString alloc] init];
-    [logMessage appendFormat:@"Received: %ld", (long)recievedData.length];
-
     // Initialize the recieve buffer which will contain bytes while messages are constructed.
     if (self.recieveBuffer == nil) {
         self.recieveBuffer = [NSMutableData dataWithCapacity:(4 * MAX_TRANSMISSION_SIZE)];
@@ -180,8 +177,6 @@ const UInt8 MAX_VERSION_TO_SEND = 3;
 
     // Save the data
     [self.recieveBuffer appendData:recievedData];
-    [logMessage appendFormat:@"(%ld) ", (long)self.recieveBuffer.length];
-
     [self processMessages];
 }
 
