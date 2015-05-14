@@ -368,15 +368,12 @@ int const streamOpenTimeoutSeconds = 2;
         NSOutputStream *ostream = self.session.easession.outputStream;
         NSMutableData *remainder = data.mutableCopy;
 
-        while (1) {
-            if (remainder.length == 0)
-                break;
-
+        while (remainder.length != 0) {
             if (ostream.streamStatus == NSStreamStatusOpen && ostream.hasSpaceAvailable) {
-
                 NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
+                
                 if (bytesWritten == -1) {
-                    NSLog(@"Error: %@", [ostream streamError]);
+                    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
                     break;
                 }
 
