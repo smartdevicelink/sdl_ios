@@ -14,6 +14,4 @@
 @property (strong, atomic) SDLIAPSession *controlSession;
 @property (strong, atomic) SDLIAPSession *session;
 
-- (instancetype)init;
-
 @end

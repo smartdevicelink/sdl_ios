@@ -9,7 +9,6 @@
 @property (weak) id<SDLTransportDelegate> delegate;
 @property (strong) NSString *debugConsoleGroupName;
 
-- (instancetype)init;
 - (void)connect;
 - (void)disconnect;
 - (void)sendData:(NSData *)dataToSend;
