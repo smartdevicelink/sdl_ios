@@ -4,7 +4,9 @@
 
 #import "SDLJsonDecoder.h"
 
+#import "SDLDebugTool.h"
 #import "SDLNames.h"
+
 
 @implementation SDLJsonDecoder
 
@@ -18,20 +20,18 @@ static NSObject<SDLDecoder>* jsonDecoderInstance;
 }
 
 - (NSDictionary *)decode:(NSData *)data {
-
-    if(data == nil) {
-        NSLog(@"Warning: No JSON data to decode.");
-        return nil;
-    }
-
     if(data.length == 0) {
-        NSLog(@"Warning: Cannot decode 0 length data.");
+        [SDLDebugTool logInfo:@"Warning: Decoding JSON data, no JSON to decode" withType:SDLDebugType_Protocol];
         return nil;
     }
 
-
-    NSError* error;
+    NSError* error = nil;
     NSDictionary* jsonObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    
+    if (error != nil) {
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
+        return nil;
+    }
     
     return jsonObject;
 }
