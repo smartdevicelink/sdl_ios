@@ -13,18 +13,16 @@
 @property (assign) BOOL isInputStreamOpen;
 @property (assign) BOOL isOutputStreamOpen;
 
-- (void)startStream:(NSStream *)stream ;
-- (void)stopStream:(NSStream *)stream;
-
 @end
 
 
 @implementation SDLIAPSession
 
+#pragma mark - Lifecycle
+
 - (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol{
     NSString *logMessage = [NSString stringWithFormat:@"SDLIAPSession initWithAccessory:%@ forProtocol:%@" , accessory, protocol];
     [SDLDebugTool logInfo:logMessage];
-
 
     self = [super init];
     if (self) {
@@ -40,8 +38,9 @@
 }
 
 
-- (BOOL)start {
+#pragma mark - Public Stream Lifecycle
 
+- (BOOL)start {
     __weak typeof(self) weakSelf = self;
 
     NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@" , _accessory.name, _protocol];
@@ -50,31 +49,9 @@
     if ((self.easession = [[EASession alloc] initWithAccessory:_accessory forProtocol:_protocol])) {
         [SDLDebugTool logInfo:@"Created Session Object"];
 
-        // Stream Error Handler
-        weakSelf.streamDelegate.streamErrorHandler = ^(NSStream *stream) {
-            [SDLDebugTool logInfo:@"Stream Error"];
-            [weakSelf.delegate onSessionStreamsEnded:weakSelf];
-        };
+        weakSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
+        weakSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
 
-        // Stream Open Handler
-        weakSelf.streamDelegate.streamOpenHandler = ^(NSStream *stream){
-
-            if (stream == [weakSelf.easession outputStream]) {
-                [SDLDebugTool logInfo:@"Output Stream Opened"];
-                weakSelf.isOutputStreamOpen = YES;
-            } else if (stream == [weakSelf.easession inputStream]) {
-                [SDLDebugTool logInfo:@"Input Stream Opened"];
-                weakSelf.isInputStreamOpen = YES;
-            }
-
-            // When both streams are open, session initialization is complete. Let the delegate know.
-            if (weakSelf.isInputStreamOpen && weakSelf.isOutputStreamOpen) {
-                [weakSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
-            }
-        };
-
-
-        // Start the streams.
         [weakSelf startStream:weakSelf.easession.outputStream];
         [weakSelf startStream:weakSelf.easession.inputStream];
 
@@ -92,6 +69,9 @@
     [self stopStream:self.easession.inputStream];
     self.easession = nil;
 }
+
+
+#pragma mark - Private Stream Lifecycle Helpers
 
 - (void)startStream:(NSStream *)stream {
     stream.delegate = self.streamDelegate;
@@ -126,6 +106,44 @@
         }
     }
 }
+
+
+#pragma mark - Stream Handlers
+
+- (SDLStreamOpenHandler)streamOpenedHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSStream *stream){
+        typeof(self) strongSelf = weakSelf;
+        
+        if (stream == [strongSelf.easession outputStream]) {
+            [SDLDebugTool logInfo:@"Output Stream Opened"];
+            strongSelf.isOutputStreamOpen = YES;
+        } else if (stream == [strongSelf.easession inputStream]) {
+            [SDLDebugTool logInfo:@"Input Stream Opened"];
+            strongSelf.isInputStreamOpen = YES;
+        }
+        
+        // When both streams are open, session initialization is complete. Let the delegate know.
+        if (strongSelf.isInputStreamOpen && strongSelf.isOutputStreamOpen) {
+            [strongSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
+        }
+    };
+}
+
+- (SDLStreamErrorHandler)streamErroredHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSStream *stream){
+        typeof(self) strongSelf = weakSelf;
+        
+        [SDLDebugTool logInfo:@"Stream Error"];
+        [strongSelf.delegate onSessionStreamsEnded:strongSelf];
+    };
+}
+
+
+#pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
     self.delegate = nil;

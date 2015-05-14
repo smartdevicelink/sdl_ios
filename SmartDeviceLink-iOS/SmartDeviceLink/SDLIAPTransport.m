@@ -35,9 +35,6 @@ int const streamOpenTimeoutSeconds = 2;
 @property (assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
 
-- (void)startEventListening;
-- (void)stopEventListening;
-
 @end
 
 
@@ -62,6 +59,9 @@ int const streamOpenTimeoutSeconds = 2;
 
     return self;
 }
+
+
+#pragma mark - Notification Subscriptions
 
 - (void)startEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Listening For Events"];
@@ -132,6 +132,9 @@ int const streamOpenTimeoutSeconds = 2;
     [SDLDebugTool logInfo:@"App Backgrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
+
+#pragma mark - Stream Lifecycle
+
 - (void)connect {
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
@@ -143,6 +146,19 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
+- (void)disconnect {
+    [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    // Only disconnect the data session, the control session does not stay open and is handled separately
+    if (self.session != nil) {
+        [self.session stop];
+        self.session = nil;
+    }
+}
+
+
+#pragma mark - Creating Session Streams
+
 - (void)establishSession {
     [SDLDebugTool logInfo:@"Attempting To Connect"];
     if (self.retryCounter < createSessionRetries) {
@@ -150,11 +166,10 @@ int const streamOpenTimeoutSeconds = 2;
         self.retryCounter++;
         EAAccessory *accessory = nil;
         
+        // Determine if we can start a multi-app session or a legacy (single-app) session
         if ((accessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
-            // Multiapp session
             [self createIAPControlSessionWithAccessory:accessory];
         } else if ((accessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
-            // Legacy session
             [self createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
         } else {
             // No compatible accessory
@@ -208,18 +223,12 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
-- (void)retryEstablishSession {
-    // Current strategy disallows automatic retries.
-    self.sessionSetupInProgress = NO;
-}
-
 - (void)createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
     [SDLDebugTool logInfo:@"Starting Data Session"];
     self.session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     if (self.session) {
         self.session.delegate = self;
 
-        // Configure Streams Delegate
         SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.session.streamDelegate = ioStreamDelegate;
         ioStreamDelegate.streamHasBytesHandler = [self dataStreamHasBytesHandler];
@@ -232,12 +241,16 @@ int const streamOpenTimeoutSeconds = 2;
             self.session = nil;
             [self retryEstablishSession];
         }
-
     } else {
         [SDLDebugTool logInfo:@"Failed MultiApp Data SDLIAPSession Initialization"];
         [self retryEstablishSession];
     }
 
+}
+
+- (void)retryEstablishSession {
+    // Current strategy disallows automatic retries.
+    self.sessionSetupInProgress = NO;
 }
 
 // This gets called after both I/O streams of the session have opened.
@@ -256,6 +269,9 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
+
+#pragma mark - Session End
+
 // Retry establishSession on Stream End events only if it was the control session and we haven't already connected on non-control protocol
 - (void)onSessionStreamsEnded:(SDLIAPSession *)session {
     if (!self.session && [controlProtocolString isEqualToString:session.protocol]) {
@@ -265,15 +281,8 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
-- (void)disconnect {
-    [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    
-    // Only disconnect the data session, the control session does not stay open and is handled separately
-    if (self.session != nil) {
-        [self.session stop];
-        self.session = nil;
-    }
-}
+
+#pragma mark - Data Transmission
 
 - (void)sendData:(NSData *)data {
     dispatch_async(_transmit_queue, ^{
@@ -294,6 +303,7 @@ int const streamOpenTimeoutSeconds = 2;
         }
     });
 }
+
 
 #pragma mark - Stream Handlers
 #pragma mark Control Stream
