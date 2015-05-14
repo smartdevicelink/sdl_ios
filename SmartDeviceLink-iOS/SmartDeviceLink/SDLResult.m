@@ -6,6 +6,7 @@
 
 SDLResult* SDLResult_SUCCESS = nil;
 SDLResult* SDLResult_INVALID_DATA = nil;
+SDLResult* SDLResult_CHAR_LIMIT_EXCEEDED = nil;
 SDLResult* SDLResult_UNSUPPORTED_REQUEST = nil;
 SDLResult* SDLResult_OUT_OF_MEMORY = nil;
 SDLResult* SDLResult_TOO_MANY_PENDING_REQUESTS = nil;
@@ -53,39 +54,40 @@ NSArray* SDLResult_values = nil;
 +(NSArray*) values {
     if (SDLResult_values == nil) {
         SDLResult_values = @[
-                SDLResult.SUCCESS,
-                SDLResult.INVALID_DATA,
-                SDLResult.UNSUPPORTED_REQUEST,
-                SDLResult.OUT_OF_MEMORY,
-                SDLResult.TOO_MANY_PENDING_REQUESTS,
-                SDLResult.INVALID_ID,
-                SDLResult.DUPLICATE_NAME,
-                SDLResult.TOO_MANY_APPLICATIONS,
-                SDLResult.APPLICATION_REGISTERED_ALREADY,
-                SDLResult.UNSUPPORTED_VERSION,
-                SDLResult.WRONG_LANGUAGE,
-                SDLResult.APPLICATION_NOT_REGISTERED,
-                SDLResult.IN_USE,
-                SDLResult.VEHICLE_DATA_NOT_ALLOWED,
-                SDLResult.VEHICLE_DATA_NOT_AVAILABLE,
-                SDLResult.REJECTED,
-                SDLResult.ABORTED,
-                SDLResult.IGNORED,
-                SDLResult.UNSUPPORTED_RESOURCE,
-                SDLResult.FILE_NOT_FOUND,
-                SDLResult.GENERIC_ERROR,
-                SDLResult.DISALLOWED,
-                SDLResult.USER_DISALLOWED,
-                SDLResult.TIMED_OUT,
-                SDLResult.CANCEL_ROUTE,
-                SDLResult.TRUNCATED_DATA,
-                SDLResult.RETRY,
-                SDLResult.WARNINGS,
-                SDLResult.SAVED,
-                SDLResult.INVALID_CERT,
-                SDLResult.EXPIRED_CERT,
-                SDLResult.RESUME_FAILED,
-                ];
+                            [SDLResult SUCCESS],
+                            [SDLResult INVALID_DATA],
+                            [SDLResult CHAR_LIMIT_EXCEEDED],
+                            [SDLResult UNSUPPORTED_REQUEST],
+                            [SDLResult OUT_OF_MEMORY],
+                            [SDLResult TOO_MANY_PENDING_REQUESTS],
+                            [SDLResult INVALID_ID],
+                            [SDLResult DUPLICATE_NAME],
+                            [SDLResult TOO_MANY_APPLICATIONS],
+                            [SDLResult APPLICATION_REGISTERED_ALREADY],
+                            [SDLResult UNSUPPORTED_VERSION],
+                            [SDLResult WRONG_LANGUAGE],
+                            [SDLResult APPLICATION_NOT_REGISTERED],
+                            [SDLResult IN_USE],
+                            [SDLResult VEHICLE_DATA_NOT_ALLOWED],
+                            [SDLResult VEHICLE_DATA_NOT_AVAILABLE],
+                            [SDLResult REJECTED],
+                            [SDLResult ABORTED],
+                            [SDLResult IGNORED],
+                            [SDLResult UNSUPPORTED_RESOURCE],
+                            [SDLResult FILE_NOT_FOUND],
+                            [SDLResult GENERIC_ERROR],
+                            [SDLResult DISALLOWED],
+                            [SDLResult USER_DISALLOWED],
+                            [SDLResult TIMED_OUT],
+                            [SDLResult CANCEL_ROUTE],
+                            [SDLResult TRUNCATED_DATA],
+                            [SDLResult RETRY],
+                            [SDLResult WARNINGS],
+                            [SDLResult SAVED],
+                            [SDLResult INVALID_CERT],
+                            [SDLResult EXPIRED_CERT],
+                            [SDLResult RESUME_FAILED],
+                            ];
     }
     return SDLResult_values;
 }
@@ -102,6 +104,14 @@ NSArray* SDLResult_values = nil;
         SDLResult_INVALID_DATA = [[SDLResult alloc] initWithValue:@"INVALID_DATA"];
     }
     return SDLResult_INVALID_DATA;
+}
+
++(SDLResult*) CHAR_LIMIT_EXCEEDED {
+    if (SDLResult_CHAR_LIMIT_EXCEEDED == nil) {
+        SDLResult_CHAR_LIMIT_EXCEEDED = [[SDLResult alloc] initWithValue:@"CHAR_LIMIT_EXCEEDED"];
+    }
+    
+    return SDLResult_CHAR_LIMIT_EXCEEDED;
 }
 
 +(SDLResult*) UNSUPPORTED_REQUEST {

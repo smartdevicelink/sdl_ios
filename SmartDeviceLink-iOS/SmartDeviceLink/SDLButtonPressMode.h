@@ -6,37 +6,39 @@
 #import "SDLEnum.h"
 
 /**
-* Indicates whether this is a LONG or SHORT button press
-* <p>
-*
-* This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
-*/
+ * Indicates whether this is a LONG or SHORT button press
+ *
+ * @since SDL 1.0
+ */
 @interface SDLButtonPressMode : SDLEnum {}
 
 /**
  * @abstract Convert String to SDLButtonPressMode
- * @param value NSString
- * @result SDLButtonPressMode
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return SDLButtonPressMode
  */
 +(SDLButtonPressMode*) valueOf:(NSString*) value;
 
-/*!
- @abstract Store the enumeration of all possible SDLButtonPressMode
- @result return an array that store all possible SDLButtonPressMode
+/**
+ * @abstract Store the enumeration of all possible SDLButtonPressMode
+ *
+ * @return an array that store all possible SDLButtonPressMode
  */
 +(NSArray*) values;
 
 /**
- * @abstract The button has been depressed for 2 seconds. The button may remain
- * depressed after receiving this event
- * @result return a SDLButtonPressMode with the value of <font color=gray><i>LONG</i></font>
+ * @abstract A button was released, after it was pressed for a long time. Actual timing is defined by the head unit and may vary.
+ *
+ * @return a SDLButtonPressMode with the value of *LONG*
  */
 +(SDLButtonPressMode*) LONG;
 
 /**
- * @abstract The button was released before the 2-second long-press interval had
- * elapsed
- * @result return a SDLButtonPressMode with the value of <font color=gray><i>SHORT</i></font>
+ * @abstract A button was released, after it was pressed for a short time. Actual timing is defined by the head unit and may vary.
+ *
+ * @return a SDLButtonPressMode with the value of *SHORT*
  */
 +(SDLButtonPressMode*) SHORT;
 

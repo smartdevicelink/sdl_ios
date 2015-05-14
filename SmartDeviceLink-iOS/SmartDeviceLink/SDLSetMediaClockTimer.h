@@ -26,7 +26,7 @@
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
