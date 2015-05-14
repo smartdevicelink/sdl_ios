@@ -192,59 +192,9 @@ int const streamOpenTimeoutSeconds = 2;
 
         SDLStreamDelegate *controlStreamDelegate = [SDLStreamDelegate new];
         self.controlSession.streamDelegate = controlStreamDelegate;
-
-        controlStreamDelegate.streamHasBytesHandler = ^(NSInputStream *istream) {
-            [SDLDebugTool logInfo:@"Control Stream Received Data"];
-
-            // Read in the stream a single byte at a time
-            uint8_t buf[1];
-            NSUInteger len = [istream read:buf maxLength:1];
-            if(len > 0) {
-                NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
-                [SDLDebugTool logInfo:logMessage];
-                
-                // Destroy the control session
-                [weakSelf.protocolIndexTimer cancel];
-                [weakSelf.controlSession stop];
-                weakSelf.controlSession.streamDelegate = nil;
-                weakSelf.controlSession = nil;
-
-                // Determine protocol string of the data session
-                // TODO: (Joel F.)[2015-05-01] Determine if the [stringValue] call is necessary, 99.9% likelihood it is not
-                NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, [@(buf[0]) stringValue]];
-
-                // Create Data Session
-                // TODO: (Joel F.)[2015-05-01] Why are we 1. Dispatching sync 2. To the main queue
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [weakSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
-                });
-
-            }
-        };
-
-        // Control Session Stream End Handler
-        controlStreamDelegate.streamEndHandler = ^(NSStream *stream) {
-            [SDLDebugTool logInfo:@"Control Stream Event End"];
-            if (weakSelf.controlSession != nil) { // End events come in pairs, only perform this once per set.
-                [weakSelf.protocolIndexTimer cancel];
-                [weakSelf.controlSession stop];
-                weakSelf.controlSession.streamDelegate = nil;
-                weakSelf.controlSession = nil;
-                [weakSelf retryEstablishSession];
-            }
-        };
-
-        // Control Session Stream Error Handler
-        controlStreamDelegate.streamErrorHandler = ^(NSStream *stream) {
-            [SDLDebugTool logInfo:@"Stream Error"];
-            [weakSelf.protocolIndexTimer cancel];
-            [weakSelf.controlSession stop];
-            weakSelf.controlSession.streamDelegate = nil;
-            weakSelf.controlSession = nil;
-            [weakSelf retryEstablishSession];
-        };
-
-
+        controlStreamDelegate.streamHasBytesHandler = [self controlStreamHasBytesHandlerForAccessory:accessory];
+        controlStreamDelegate.streamEndHandler = [self controlStreamEndedHandler];
+        controlStreamDelegate.streamErrorHandler = [self controlStreamErroredHandler];
 
         if (![self.controlSession start]) {
             [SDLDebugTool logInfo:@"Control Session Failed"];
@@ -252,7 +202,6 @@ int const streamOpenTimeoutSeconds = 2;
             self.controlSession = nil;
             [self retryEstablishSession];
         }
-
     } else {
         [SDLDebugTool logInfo:@"Failed MultiApp Control SDLIAPSession Initialization"];
         [self retryEstablishSession];
@@ -262,7 +211,6 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)retryEstablishSession {
     // Current strategy disallows automatic retries.
     self.sessionSetupInProgress = NO;
-    return;
 }
 
 - (void)createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
@@ -271,47 +219,12 @@ int const streamOpenTimeoutSeconds = 2;
     if (self.session) {
         self.session.delegate = self;
 
-        __weak typeof(self) weakSelf = self;
-
         // Configure Streams Delegate
         SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.session.streamDelegate = ioStreamDelegate;
-        ioStreamDelegate.streamHasBytesHandler = ^(NSInputStream *istream){
-            uint8_t buf[iapInputBufferSize];
-
-            while ([istream hasBytesAvailable]) {
-                NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
-                NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
-                
-                if (bytesRead > 0) {
-                    [weakSelf.delegate onDataReceived:dataIn];
-                } else {
-                    break;
-                }
-            }
-
-        };
-
-        ioStreamDelegate.streamEndHandler = ^(NSStream *stream) {
-            [SDLDebugTool logInfo:@"Data Stream Event End"];
-            [weakSelf.session stop];
-            weakSelf.session.streamDelegate = nil;
-            if (![legacyProtocolString isEqualToString:weakSelf.session.protocol]) {
-                [weakSelf retryEstablishSession];
-            }
-            weakSelf.session = nil;
-        };
-
-        ioStreamDelegate.streamErrorHandler = ^(NSStream *stream) {
-            [SDLDebugTool logInfo:@"Data Stream Error"];
-            [weakSelf.session stop];
-            weakSelf.session.streamDelegate = nil;
-            if (![legacyProtocolString isEqualToString:weakSelf.session.protocol]) {
-                [weakSelf retryEstablishSession];
-            }
-            weakSelf.session = nil;
-        };
-
+        ioStreamDelegate.streamHasBytesHandler = [self dataStreamHasBytesHandler];
+        ioStreamDelegate.streamEndHandler = [self dataStreamEndedHandler];
+        ioStreamDelegate.streamErrorHandler = [self dataStreamErroredHandler];
 
         if (![self.session start]) {
             [SDLDebugTool logInfo:@"Data Session Failed"];
@@ -320,8 +233,7 @@ int const streamOpenTimeoutSeconds = 2;
             [self retryEstablishSession];
         }
 
-    }
-    else {
+    } else {
         [SDLDebugTool logInfo:@"Failed MultiApp Data SDLIAPSession Initialization"];
         [self retryEstablishSession];
     }
@@ -382,6 +294,138 @@ int const streamOpenTimeoutSeconds = 2;
         }
     });
 }
+
+#pragma mark - Stream Handlers
+#pragma mark Control Stream
+
+- (SDLStreamEndHandler)controlStreamEndedHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSStream *stream) {
+        typeof(self) strongSelf = weakSelf;
+        
+        [SDLDebugTool logInfo:@"Control Stream Event End"];
+        
+        // End events come in pairs, only perform this once per set.
+        if (strongSelf.controlSession != nil) {
+            [strongSelf.protocolIndexTimer cancel];
+            [strongSelf.controlSession stop];
+            strongSelf.controlSession.streamDelegate = nil;
+            strongSelf.controlSession = nil;
+            [strongSelf retryEstablishSession];
+        }
+    };
+}
+
+- (SDLStreamHasBytesHandler)controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSInputStream *istream) {
+        typeof(self) strongSelf = weakSelf;
+        
+        [SDLDebugTool logInfo:@"Control Stream Received Data"];
+        
+        // Read in the stream a single byte at a time
+        uint8_t buf[1];
+        NSUInteger len = [istream read:buf maxLength:1];
+        if(len > 0) {
+            NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
+            [SDLDebugTool logInfo:logMessage];
+            
+            // Destroy the control session
+            [strongSelf.protocolIndexTimer cancel];
+            [strongSelf.controlSession stop];
+            strongSelf.controlSession.streamDelegate = nil;
+            strongSelf.controlSession = nil;
+            
+            // Determine protocol string of the data session, then create that data session
+            // TODO: (Joel F.)[2015-05-01] Determine if the [stringValue] call is necessary, 99.9% likelihood it is not
+            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, [@(buf[0]) stringValue]];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                // TODO: (Joel F.)[2015-05-01] Why are we 1. Dispatching sync 2. To the main queue
+                [strongSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
+            });
+            
+        }
+    };
+}
+
+- (SDLStreamErrorHandler)controlStreamErroredHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSStream *stream) {
+        typeof(self) strongSelf = weakSelf;
+        
+        [SDLDebugTool logInfo:@"Stream Error"];
+        [strongSelf.protocolIndexTimer cancel];
+        [strongSelf.controlSession stop];
+        strongSelf.controlSession.streamDelegate = nil;
+        strongSelf.controlSession = nil;
+        [strongSelf retryEstablishSession];
+    };
+}
+
+
+#pragma mark Data Stream
+
+- (SDLStreamEndHandler)dataStreamEndedHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSStream *stream) {
+        typeof(self) strongSelf = weakSelf;
+        
+        [SDLDebugTool logInfo:@"Data Stream Event End"];
+        [strongSelf.session stop];
+        strongSelf.session.streamDelegate = nil;
+        
+        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
+            [strongSelf retryEstablishSession];
+        }
+        
+        strongSelf.session = nil;
+    };
+}
+
+- (SDLStreamHasBytesHandler)dataStreamHasBytesHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSInputStream *istream) {
+        typeof(self) strongSelf = weakSelf;
+        
+        uint8_t buf[iapInputBufferSize];
+        while ([istream hasBytesAvailable]) {
+            NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
+            NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
+            
+            if (bytesRead > 0) {
+                [strongSelf.delegate onDataReceived:dataIn];
+            } else {
+                break;
+            }
+        }
+    };
+}
+
+- (SDLStreamErrorHandler)dataStreamErroredHandler {
+    __weak typeof(self) weakSelf = self;
+    
+    return ^(NSStream *stream) {
+        typeof(self) strongSelf = weakSelf;
+        
+        [SDLDebugTool logInfo:@"Data Stream Error"];
+        [strongSelf.session stop];
+        strongSelf.session.streamDelegate = nil;
+        
+        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
+            [strongSelf retryEstablishSession];
+        }
+        
+        strongSelf.session = nil;
+    };
+}
+
+
+#pragma mark - Lifecycle Destruction
 
 - (void)destructObjects {
     if(!_alreadyDestructed) {
