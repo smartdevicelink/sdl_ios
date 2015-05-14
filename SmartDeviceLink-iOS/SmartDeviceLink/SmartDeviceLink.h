@@ -28,9 +28,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import <SmartDeviceLink/SDLIAPTransport.h>
 #import <SmartDeviceLink/SDLIAPSessionDelegate.h>
 #import <SmartDeviceLink/SDLTCPTransport.h>
-#import <SmartDeviceLink/SDLTransport.h>
 #import <SmartDeviceLink/SDLTransportDelegate.h>
-#import <SmartDeviceLink/SDLInterfaceProtocol.h>
 
 /***** Protocol *****/
 #import <SmartDeviceLink/SDLProtocolListener.h>
