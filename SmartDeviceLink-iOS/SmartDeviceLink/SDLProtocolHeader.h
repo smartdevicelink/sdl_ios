@@ -43,7 +43,6 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
 @property (assign) UInt32 bytesInPayload;
 
 - (instancetype)init;
-- (instancetype)copyWithZone:(NSZone *)zone;
 - (NSData *)data;
 - (void)parse:(NSData *)data;
 - (NSString *)description;
