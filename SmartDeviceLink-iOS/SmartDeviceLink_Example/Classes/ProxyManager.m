@@ -95,7 +95,7 @@ NSString *const SDLAppId = @"9999";
 
 - (void)showInitialData {
     SDLShow *showRPC = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test" alignment:[SDLTextAlignment CENTERED] correlationID:[self nextCorrelationID]];
-    [self.proxy sendRPCRequest:showRPC];
+    [self.proxy sendRPC:showRPC];
 }
 
 
@@ -118,7 +118,7 @@ NSString *const SDLAppId = @"9999";
     self.state = ProxyStateConnected;
     
     SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
-    [self.proxy sendRPCRequest:registerRequest];
+    [self.proxy sendRPC:registerRequest];
 }
 
 - (void)onProxyClosed {

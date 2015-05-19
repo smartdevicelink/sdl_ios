@@ -11,12 +11,13 @@
 @synthesize version = _version;
 @synthesize size = _size;
 
+
 - (instancetype)init {
 	if (self = [super init]) {
         _version = 0;
         _size = 0;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -30,7 +31,7 @@
 }
 
 - (void)parse:(NSData *)data {
-        [self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (NSString *)description {
@@ -38,20 +39,21 @@
     return description;
 }
 
-
 + (SDLProtocolHeader *)headerForVersion:(UInt8)version {
-    if (version == 1) {
-        return [[SDLV1ProtocolHeader alloc] init];
+    // VERSION DEPENDENT CODE
+    switch (version) {
+        case 1: {
+            return [[SDLV1ProtocolHeader alloc] init];
+        } break;
+        case 2: // Fallthrough
+        case 3: // Fallthrough
+        case 4: {
+            return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
+        } break;
+        default: {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The version of header that is being created is unknown" userInfo:@{@"requestedVersion": @(version)}];
+        } break;
     }
-
-    if (version == 2) {
-        return [[SDLV2ProtocolHeader alloc] init];
-    }
-
-    // TODO: some error handling here if unknown version is asked for,
-    // but that needs to be balanced against future proofing. i.e. V3.
-    // Requirements around V3 are as yet undefined so give a V2 header
-    return [[SDLV2ProtocolHeader alloc] init];
 }
 
 @end

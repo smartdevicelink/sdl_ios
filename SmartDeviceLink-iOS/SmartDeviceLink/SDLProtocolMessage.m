@@ -58,7 +58,7 @@
     // If it's an RPC, provide greater detail
     if (self.header.serviceType == SDLServiceType_RPC && (self.header.frameType == SDLFrameType_Single)) {
         // version of RPC Message determines how we access the info.
-        if (self.header.version == 2) {
+        if (self.header.version >= 2) {
             SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
             if (rpcPayload) {
                 NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];

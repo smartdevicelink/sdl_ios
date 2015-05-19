@@ -57,7 +57,6 @@
 		162E82F51A9BDE8B00906325 /* SDLPRNDLSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E820D1A9BDE8A00906325 /* SDLPRNDLSpec.m */; };
 		162E82F61A9BDE8B00906325 /* SDLRequestTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E820E1A9BDE8A00906325 /* SDLRequestTypeSpec.m */; };
 		162E82F71A9BDE8B00906325 /* SDLResultSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E820F1A9BDE8A00906325 /* SDLResultSpec.m */; };
-		162E82F81A9BDE8B00906325 /* SDLRPCMessageTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82101A9BDE8A00906325 /* SDLRPCMessageTypeSpec.m */; };
 		162E82F91A9BDE8B00906325 /* SDLSamplingRateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82111A9BDE8A00906325 /* SDLSamplingRateSpec.m */; };
 		162E82FA1A9BDE8B00906325 /* SDLSoftButtonTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82121A9BDE8A00906325 /* SDLSoftButtonTypeSpec.m */; };
 		162E82FB1A9BDE8B00906325 /* SDLSpeechCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82131A9BDE8A00906325 /* SDLSpeechCapabilitiesSpec.m */; };
@@ -244,6 +243,8 @@
 		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
 		5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */; };
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
+		5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */; };
+		5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
 		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
@@ -579,7 +580,6 @@
 		5D61FD691A84238C00846EE7 /* SDLRPCMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB7C1A84238B00846EE7 /* SDLRPCMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD6A1A84238C00846EE7 /* SDLRPCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB7D1A84238B00846EE7 /* SDLRPCMessage.m */; };
 		5D61FD6B1A84238C00846EE7 /* SDLRPCMessageType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB7E1A84238B00846EE7 /* SDLRPCMessageType.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D61FD6C1A84238C00846EE7 /* SDLRPCMessageType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB7F1A84238B00846EE7 /* SDLRPCMessageType.m */; };
 		5D61FD6D1A84238C00846EE7 /* SDLRPCNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB801A84238B00846EE7 /* SDLRPCNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD6E1A84238C00846EE7 /* SDLRPCNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB811A84238B00846EE7 /* SDLRPCNotification.m */; };
 		5D61FD6F1A84238C00846EE7 /* SDLRPCPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB821A84238B00846EE7 /* SDLRPCPayload.h */; };
@@ -870,7 +870,6 @@
 		162E820D1A9BDE8A00906325 /* SDLPRNDLSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPRNDLSpec.m; sourceTree = "<group>"; };
 		162E820E1A9BDE8A00906325 /* SDLRequestTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRequestTypeSpec.m; sourceTree = "<group>"; };
 		162E820F1A9BDE8A00906325 /* SDLResultSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLResultSpec.m; sourceTree = "<group>"; };
-		162E82101A9BDE8A00906325 /* SDLRPCMessageTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCMessageTypeSpec.m; sourceTree = "<group>"; };
 		162E82111A9BDE8A00906325 /* SDLSamplingRateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSamplingRateSpec.m; sourceTree = "<group>"; };
 		162E82121A9BDE8A00906325 /* SDLSoftButtonTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonTypeSpec.m; sourceTree = "<group>"; };
 		162E82131A9BDE8A00906325 /* SDLSpeechCapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSpeechCapabilitiesSpec.m; sourceTree = "<group>"; };
@@ -1068,6 +1067,8 @@
 		5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
+		5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLQueryAppsManager.h; sourceTree = "<group>"; };
+		5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLQueryAppsManager.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -1412,7 +1413,6 @@
 		5D61FB7C1A84238B00846EE7 /* SDLRPCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCMessage.h; sourceTree = "<group>"; };
 		5D61FB7D1A84238B00846EE7 /* SDLRPCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCMessage.m; sourceTree = "<group>"; };
 		5D61FB7E1A84238B00846EE7 /* SDLRPCMessageType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCMessageType.h; sourceTree = "<group>"; };
-		5D61FB7F1A84238B00846EE7 /* SDLRPCMessageType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCMessageType.m; sourceTree = "<group>"; };
 		5D61FB801A84238B00846EE7 /* SDLRPCNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCNotification.h; sourceTree = "<group>"; };
 		5D61FB811A84238B00846EE7 /* SDLRPCNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCNotification.m; sourceTree = "<group>"; };
 		5D61FB821A84238B00846EE7 /* SDLRPCPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCPayload.h; sourceTree = "<group>"; };
@@ -1699,7 +1699,6 @@
 				162E820D1A9BDE8A00906325 /* SDLPRNDLSpec.m */,
 				162E820E1A9BDE8A00906325 /* SDLRequestTypeSpec.m */,
 				162E820F1A9BDE8A00906325 /* SDLResultSpec.m */,
-				162E82101A9BDE8A00906325 /* SDLRPCMessageTypeSpec.m */,
 				162E82111A9BDE8A00906325 /* SDLSamplingRateSpec.m */,
 				162E82121A9BDE8A00906325 /* SDLSoftButtonTypeSpec.m */,
 				162E82131A9BDE8A00906325 /* SDLSpeechCapabilitiesSpec.m */,
@@ -2117,6 +2116,8 @@
 				5D61FB661A84238B00846EE7 /* SDLProxyFactory.m */,
 				5D61FBF21A84238C00846EE7 /* SDLTTSChunkFactory.h */,
 				5D61FBF31A84238C00846EE7 /* SDLTTSChunkFactory.m */,
+				5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */,
+				5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */,
 			);
 			name = Proxy;
 			sourceTree = "<group>";
@@ -2539,7 +2540,6 @@
 				5D61FB7A1A84238B00846EE7 /* SDLResult.h */,
 				5D61FB7B1A84238B00846EE7 /* SDLResult.m */,
 				5D61FB7E1A84238B00846EE7 /* SDLRPCMessageType.h */,
-				5D61FB7F1A84238B00846EE7 /* SDLRPCMessageType.m */,
 				5D61FB8A1A84238B00846EE7 /* SDLSamplingRate.h */,
 				5D61FB8B1A84238B00846EE7 /* SDLSamplingRate.m */,
 				5D61FBB61A84238B00846EE7 /* SDLSoftButtonType.h */,
@@ -2885,6 +2885,7 @@
 				5D61FCD71A84238C00846EE7 /* SDLInteractionMode.h in Headers */,
 				5D61FC391A84238C00846EE7 /* SDLAlertManeuver.h in Headers */,
 				5D61FC861A84238C00846EE7 /* SDLDeviceStatus.h in Headers */,
+				5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */,
 				5D61FCC71A84238C00846EE7 /* SDLIAPTransport.h in Headers */,
 				5D61FC6D1A84238C00846EE7 /* SDLCreateInteractionChoiceSetResponse.h in Headers */,
 				5D61FE111A84238C00846EE7 /* SDLWarningLightStatus.h in Headers */,
@@ -3491,6 +3492,7 @@
 				5D61FD0E1A84238C00846EE7 /* SDLOnHashChange.m in Sources */,
 				5D61FDE41A84238C00846EE7 /* SDLUnregisterAppInterface.m in Sources */,
 				5D61FC361A84238C00846EE7 /* SDLAirbagStatus.m in Sources */,
+				5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */,
 				5D61FD7E1A84238C00846EE7 /* SDLScrollableMessageResponse.m in Sources */,
 				5D61FD3A1A84238C00846EE7 /* SDLPrerecordedSpeech.m in Sources */,
 				5D61FCA11A84238C00846EE7 /* SDLEncodedSyncPDataResponse.m in Sources */,
@@ -3498,7 +3500,6 @@
 				5D61FD741A84238C00846EE7 /* SDLRPCRequestFactory.m in Sources */,
 				5D61FDC61A84238C00846EE7 /* SDLTCPTransport.m in Sources */,
 				5D61FE0E1A84238C00846EE7 /* SDLVRCapabilities.m in Sources */,
-				5D61FD6C1A84238C00846EE7 /* SDLRPCMessageType.m in Sources */,
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,
 				5D61FC6C1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.m in Sources */,
@@ -3589,7 +3590,6 @@
 				162E833C1A9BDE8B00906325 /* SDLSetMediaClockTimerSpec.m in Sources */,
 				162E83061A9BDE8B00906325 /* SDLVehicleDataEventStatusSpec.m in Sources */,
 				162E83911A9BDE8B00906325 /* SDLTouchCoordSpec.m in Sources */,
-				162E82F81A9BDE8B00906325 /* SDLRPCMessageTypeSpec.m in Sources */,
 				162E832B1A9BDE8B00906325 /* SDLDeleteSubMenuSpec.m in Sources */,
 				162E83411A9BDE8B00906325 /* SDLSubscribeButtonSpec.m in Sources */,
 				162E82F31A9BDE8B00906325 /* SDLPrerecordedSpeechSpec.m in Sources */,

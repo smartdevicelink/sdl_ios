@@ -74,7 +74,10 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Read %d bytes: %@", (int)CFDataGetLength((CFDataRef)data), byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
         
-        [transport handleDataReceivedFromTransport:[NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)]];
+        NSData *incomingData = [NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)];
+        if (incomingData.length > 0) {
+            [transport handleDataReceivedFromTransport:incomingData];
+        }
     } else {
         NSString *logMessage = [NSString stringWithFormat:@"unhandled TCPCallback: %lu", type];
 		[SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
