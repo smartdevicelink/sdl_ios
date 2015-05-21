@@ -7,8 +7,8 @@
 
 @interface SDLOnSyncPData : SDLRPCNotification {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSString* URL;
 @property(strong) NSNumber* Timeout;

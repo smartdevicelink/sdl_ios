@@ -1,18 +1,17 @@
 //  SDLOnDriverDistraction.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLDriverDistractionState.h"
+@class SDLDriverDistractionState;
+
 
 /**
- * <p>Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
- * not).</p>
+ * Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
+ * not).
  *
- * <p></p>
- * <b>HMI Status Requirements:</b>
+ * HMI Status Requirements:
+ *
  * <ul>
  * HMILevel:
  * <ul><li>Can be sent with FULL, LIMITED or BACKGROUND</li></ul>
@@ -21,39 +20,25 @@
  * SystemContext:
  * <ul><li>Any</li></ul>
  * </ul>
- * <p></p>
- * <b>Parameter List:</b>
- * <table  border="1" rules="all">
- *     <tr>
- *         <th>Name</th>
- *         <th>Type</th>
- *         <th>Description</th>
- *         <th>SmartDeviceLink Ver Available</th>
- *     </tr>
- *     <tr>
- *         <td>state</td>
- *         <td>SDLDriverDistractionState* </td>
- *         <td>Current driver distraction <i>state</i>(i.e. whether driver distraction rules are in effect, or not). </td>
- *         <td>SmartDeviceLink 1.0</td>
- *     </tr>
- * </table>
- * Since <b>SmartDeviceLink 1.0</b>
+ *
+ * @since SDL 1.0
  */
 @interface SDLOnDriverDistraction : SDLRPCNotification {}
 
 /**
- *Constructs a newly allocated SDLOnDriverDistraction object
+ * Constructs a newly allocated SDLOnDriverDistraction object
  */
--(id) init;
-/**
- *<p>Constructs a newly allocated SDLOnDriverDistraction object indicated by the NSMutableDictionary parameter</p>
- *@param dict The NSMutableDictionary to use
- */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
 
 /**
- * @abstract the driver distraction state(i.e. whether driver distraction rules are in effect, or not)
- * @discussion
+ * Constructs a newly allocated SDLOnDriverDistraction object indicated by the dictionary parameter
+ *
+ * @param dict The dictionary to use
+ */
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+
+/**
+ * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
 @property(strong) SDLDriverDistractionState* state;
 

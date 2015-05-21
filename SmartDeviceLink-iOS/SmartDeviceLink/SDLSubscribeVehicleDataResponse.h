@@ -1,11 +1,10 @@
 //  SDLSubscribeVehicleDataResponse.h
 //
 
-
-
 #import "SDLRPCResponse.h"
 
-#import "SDLVehicleDataResult.h"
+@class SDLVehicleDataResult;
+
 
 /**
  * Subscribe Vehicle Data Response is sent, when SDLSubscribeVehicleData has been called
@@ -17,14 +16,14 @@
 /**
  * @abstract Constructs a new SDLSubscribeVehicleDataResponse object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLSubscribeVehicleDataResponse object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 
 /**

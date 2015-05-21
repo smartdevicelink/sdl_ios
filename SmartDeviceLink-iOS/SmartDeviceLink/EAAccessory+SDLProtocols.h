@@ -2,7 +2,7 @@
 //  EAAccessory+SyncProtocols.h
 //
 
-#import <ExternalAccessory/ExternalAccessory.h>
+@import ExternalAccessory;
 
 @interface EAAccessory (SDLProtocols)
 

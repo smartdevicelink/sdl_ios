@@ -1,19 +1,20 @@
 //  SDLOnTBTClientState.m
 //
 
-
 #import "SDLOnTBTClientState.h"
 
 #import "SDLNames.h"
+#import "SDLTBTState.h"
+
 
 @implementation SDLOnTBTClientState
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_OnTBTClientState]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

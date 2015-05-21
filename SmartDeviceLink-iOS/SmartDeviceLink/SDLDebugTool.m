@@ -1,7 +1,6 @@
 //  SDLDebugTool.m
 //
 
-
 #import "SDLDebugTool.h"
 #import "SDLRPCMessage.h"
 #import "SDLSiphonServer.h"
@@ -13,6 +12,7 @@
 static NSMutableDictionary* namedConsoleSets = nil;
 
 bool debugToLogFile = false;
+
 
 @implementation SDLDebugTool
 

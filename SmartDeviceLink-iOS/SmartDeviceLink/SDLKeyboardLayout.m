@@ -8,7 +8,7 @@ SDLKeyboardLayout* SDLKeyboardLayout_QWERTY = nil;
 SDLKeyboardLayout* SDLKeyboardLayout_QWERTZ = nil;
 SDLKeyboardLayout* SDLKeyboardLayout_AZERTY = nil;
 
-NSMutableArray* SDLKeyboardLayout_values = nil;
+NSArray* SDLKeyboardLayout_values = nil;
 
 @implementation SDLKeyboardLayout
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLKeyboardLayout_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLKeyboardLayout_values == nil) {
-        SDLKeyboardLayout_values = [[NSMutableArray alloc] initWithObjects:
+        SDLKeyboardLayout_values = @[
                 SDLKeyboardLayout.QWERTY,
                 SDLKeyboardLayout.QWERTZ,
                 SDLKeyboardLayout.AZERTY,
-                nil];
+                ];
     }
     return SDLKeyboardLayout_values;
 }

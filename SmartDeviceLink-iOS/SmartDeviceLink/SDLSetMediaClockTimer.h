@@ -1,12 +1,11 @@
 //  SDLSetMediaClockTimer.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLStartTime.h"
-#import "SDLUpdateMode.h"
+@class SDLStartTime;
+@class SDLUpdateMode;
+
 
 /**
  * Sets the media clock/timer value and the update method (e.g.count-up,
@@ -23,13 +22,13 @@
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A Start Time with specifying hour, minute, second values

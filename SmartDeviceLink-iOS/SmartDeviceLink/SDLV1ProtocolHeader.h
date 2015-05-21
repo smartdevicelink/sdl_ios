@@ -6,9 +6,8 @@
 
 @interface SDLV1ProtocolHeader : SDLProtocolHeader
 
-- (id)init;
+- (instancetype)init;
 - (NSData *)data;
-- (id)copyWithZone:(NSZone *)zone;
 - (void)parse:(NSData *)data;
 - (NSString *)description;
 

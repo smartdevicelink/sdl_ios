@@ -8,32 +8,35 @@
 /**
  * Reflects the ignition switch stability.
  *
- * This enum is avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLIgnitionStableStatus : SDLEnum {}
 
-/*!
- @abstract return SDLIgnitionStableStatus (IGNITION_SWITCH_NOT_STABLE / IGNITION_SWITCH_STABLE)
- @param value NSString
- @result return SDLIgnitionStableStatus
+/**
+ * @abstract return SDLIgnitionStableStatus
+ * @param value The value of the string to get an object for
+ * @return SDLIgnitionStableStatus
  */
 +(SDLIgnitionStableStatus*) valueOf:(NSString*) value;
-/*!
- @abstract store all possible SDLIgnitionStableStatus values
- @result return an array with all possible SDLIgnitionStableStatus values inside
+
+/**
+ * @abstract store all possible SDLIgnitionStableStatus values
+ * @return an array with all possible SDLIgnitionStableStatus values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The current ignition switch status is considered not to be stable.
- * @result return the Ignition Stable Status with value of <font color=gray><i> IGNITION_SWITCH_NOT_STABLE </i></font>
+ * @return the Ignition Stable Status with value of *IGNITION_SWITCH_NOT_STABLE*
  */
 +(SDLIgnitionStableStatus*) IGNITION_SWITCH_NOT_STABLE;
+
 /**
  * @abstract The current ignition switch status is considered to be stable.
- * @result return the Ignition Stable Status with value of <font color=gray><i> IGNITION_SWITCH_STABLE </i></font>
+ * @return the Ignition Stable Status with value of *IGNITION_SWITCH_STABLE*
  */
 +(SDLIgnitionStableStatus*) IGNITION_SWITCH_STABLE;
+
 +(SDLIgnitionStableStatus*) MISSING_FROM_TRANSMITTER;
 
 @end

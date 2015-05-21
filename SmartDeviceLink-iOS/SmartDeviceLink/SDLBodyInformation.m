@@ -4,16 +4,19 @@
 
 #import "SDLBodyInformation.h"
 
+#import "SDLIgnitionStableStatus.h"
+#import "SDLIgnitionStatus.h"
 #import "SDLNames.h"
+
 
 @implementation SDLBodyInformation
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

@@ -1,17 +1,17 @@
 //  SDLConsoleController.m
 //
 
-
 #import "SDLConsoleController.h"
 
 #import "SDLJSONEncoder.h"
 #import "SDLRPCResponse.h"
 
+
 @implementation SDLConsoleController
 
 @synthesize messageList;
 
--(id) initWithTableView:(UITableView*) tableView {
+-(instancetype) initWithTableView:(UITableView*) tableView {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.tableView = tableView;
         self.tableView.delegate = self;

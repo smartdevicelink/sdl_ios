@@ -1,17 +1,16 @@
 //  SDLOnSystemRequest.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLRequestType.h"
-#import "SDLFileType.h"
+@class SDLFileType;
+@class SDLRequestType;
+
 
 @interface SDLOnSystemRequest : SDLRPCNotification {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLRequestType* requestType;
 @property(strong) NSString* url;

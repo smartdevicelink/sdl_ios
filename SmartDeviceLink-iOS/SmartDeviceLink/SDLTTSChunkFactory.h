@@ -1,11 +1,11 @@
 //  SDLTTSChunkFactory.h
 //
 
+@import Foundation;
 
+@class SDLTTSChunk;
+@class SDLSpeechCapabilities;
 
-
-#import "SDLJingle.h"
-#import "SDLTTSChunk.h"
 
 @interface SDLTTSChunkFactory : NSObject {}
 

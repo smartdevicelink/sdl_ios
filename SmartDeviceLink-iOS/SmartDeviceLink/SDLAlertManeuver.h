@@ -9,8 +9,8 @@
  */
 @interface SDLAlertManeuver : SDLRPCRequest {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSMutableArray* ttsChunks;
 @property(strong) NSMutableArray* softButtons;

@@ -25,14 +25,14 @@
 /**
  * @abstract Constructs a new SDLSubscribeVehicleData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLSubscribeVehicleData object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A boolean value. If true, subscribes Gps data

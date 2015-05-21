@@ -1,19 +1,17 @@
 //  SDLOnButtonPress.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLButtonName.h"
-#import "SDLButtonPressMode.h"
+@class SDLButtonName;
+@class SDLButtonPressMode;
+
 
 /**
- * <p>
  * Notifies application of button press events for buttons to which the
  * application is subscribed. SDL supports two button press events defined as
  * follows:
- * </p>
+ *
  * <ul>
  * <li>SHORT - Occurs when a button is depressed, then released within two
  * seconds. The event is considered to occur immediately after the button is
@@ -45,74 +43,51 @@
  * button will cancel VR.</li>
  * </ul>
  * </ul>
- * <p>
- * <b>Parameter List:</b>
- * <table  border="1" rules="all">
- * <tr>
- * <th>Name</th>
- * <th>Type</th>
- * <th>Description</th>
- * <th>Req</th>
- * <th>Notes</th>
- * <th>SmartDeviceLink Ver Available</th>
- * </tr>
- * <tr>
- * <td>buttonName</td>
- * <td>SDLButtonName* </td>
- * <td>Name of the button which triggered this event</td>
- * <td></td>
- * <td></td>
- * <td>SmartDeviceLink 1.0</td>
- * </tr>
- * <tr>
- * <td>buttonPressMode</td>
- * <td>SDLButtonPressMode* </td>
- * <td>Indicates whether this is an SHORT or LONG button press event.</td>
- * <td></td>
- * <td></td>
- * <td>SmartDeviceLink 1.0</td>
- * </tr>
- * <tr>
- * <td>customButtonID</td>
- * <td>NSNumber* </td>
- * <td>If SDLButtonName is “CUSTOM_BUTTON", this references the integer ID passed
- * by a custom button. (e.g. softButton ID)</td>
- * <td>N</td>
- * <td>Minvalue=0 Maxvalue=65536</td>
- * <td>SmartDeviceLink 2.0</td>
- * </tr>
- * </table>
- * </p>
  *
- * Since <b>SmartDeviceLink 1.0</b><br>
- * see SDLSubscribeButton SDLUnsubscribeButton
+ * @see SDLSubscribeButton
+ * @see SDLUnsubscribeButton
+ *
+ * @since SDL 1.0
  */
 @interface SDLOnButtonPress : SDLRPCNotification {}
 
 /**
- *Constructs a newly allocated SDLOnButtonPress object
+ * Constructs a newly allocated SDLOnButtonPress object
  */
--(id) init;
+-(instancetype) init;
+
 /**
- * <p>
- * Constructs a newly allocated SDLOnButtonPress object indicated by the
- * NSMutableDictionary parameter
- * </p>
+ * Constructs a newly allocated SDLOnButtonPress object indicated by the dictionary parameter
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the button's name
- * @discussion
+ *
+ * @see SDLButtonName
+ *
+ * Required
  */
 @property(strong) SDLButtonName* buttonName;
+
 /**
- * @abstract button press mode whether this is a long or short button press event
- * @discussion
+ * @abstract Indicates whether this is a LONG or SHORT button press event
+ *
+ * @see SDLButtonPressMode
+ *
+ * Required
  */
 @property(strong) SDLButtonPressMode* buttonPressMode;
+
+/**
+ * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
+ *
+ * @since SDL 2.0
+ *
+ * Optional, Integer 0 - 65536
+ */
 @property(strong) NSNumber* customButtonID;
 
 @end

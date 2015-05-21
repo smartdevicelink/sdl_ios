@@ -2,31 +2,37 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
  * Character sets supported by SDL.
  *
- * This enum is avaliable since <font color=red><b>SmartDeviceLink 1.0</b></font>
+ * @since SDL 1.0
  */
 @interface SDLCharacterSet : SDLEnum {}
 
 /**
- @abstract Convert String to SDLCharacterSet
- @param value NSString
- @result SDLCharacterSet
+ * @abstract Convert String to SDLCharacterSet
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return SDLCharacterSet
  */
 +(SDLCharacterSet*) valueOf:(NSString*) value;
+
 /**
- @abstract Store the enumeration of all possible SDLCharacterSet
- @result return an array that store all possible SDLCharacterSet
+ * @abstract Store the enumeration of all possible SDLCharacterSet
+ *
+ * @return an array that store all possible SDLCharacterSet
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLCharacterSet*) TYPE2SET;
+
 +(SDLCharacterSet*) TYPE5SET;
+
 +(SDLCharacterSet*) CID1SET;
+
 +(SDLCharacterSet*) CID2SET;
 
 @end

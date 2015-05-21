@@ -7,7 +7,7 @@
 SDLBitsPerSample* SDLBitsPerSample_8_BIT = nil;
 SDLBitsPerSample* SDLBitsPerSample_16_BIT = nil;
 
-NSMutableArray* SDLBitsPerSample_values = nil;
+NSArray* SDLBitsPerSample_values = nil;
 
 @implementation SDLBitsPerSample
 
@@ -20,12 +20,12 @@ NSMutableArray* SDLBitsPerSample_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLBitsPerSample_values == nil) {
-        SDLBitsPerSample_values = [[NSMutableArray alloc] initWithObjects:
+        SDLBitsPerSample_values = @[
                 SDLBitsPerSample._8_BIT,
                 SDLBitsPerSample._16_BIT,
-                nil];
+                ];
     }
     return SDLBitsPerSample_values;
 }

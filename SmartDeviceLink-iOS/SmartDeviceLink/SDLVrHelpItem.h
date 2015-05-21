@@ -1,16 +1,15 @@
-//  SDLVrHelpItem.h
+//  SDLVRHelpItem.h
 //
-
-
 
 #import "SDLRPCMessage.h"
 
-#import "SDLImage.h"
+@class SDLImage;
 
-@interface SDLVrHelpItem : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+@interface SDLVRHelpItem : SDLRPCStruct {}
+
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) NSString* text;
 @property(strong) SDLImage* image;

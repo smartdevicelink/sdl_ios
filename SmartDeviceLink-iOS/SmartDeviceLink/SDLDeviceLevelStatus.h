@@ -8,7 +8,7 @@
 /**
  * Reflects the reported battery status of the connected device, if reported.
  *
- * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
+ * @since SDL 2.0
  */
 @interface SDLDeviceLevelStatus : SDLEnum {}
 
@@ -21,43 +21,43 @@
 
 /**
  @abstract Store the enumeration of all possible SDLDeviceLevelStatus
- @result return an array that store all possible SDLDeviceLevelStatus
+ @return an array that store all possible SDLDeviceLevelStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
- * @abstract Device Level Status is : <font color=green>Zero level bars</font>
- * @result return a SDLDeviceLevelStatus with value of <font color=gray><i>ZERO_LEVEL_BARS</i></font>
+ * @abstract Device battery level is zero bars
+ * @return a SDLDeviceLevelStatus with value of *ZERO_LEVEL_BARS*
  */
 +(SDLDeviceLevelStatus*) ZERO_LEVEL_BARS;
 
 /**
- * @abstract Device Level Status is : <font color=green>One level bars</font>
- * @result return a SDLDeviceLevelStatus with value of <font color=gray><i>ZERO_LEVEL_BARS</i></font>
+ * @abstract Device battery level is one bar
+ * @return a SDLDeviceLevelStatus with value of *ONE_LEVEL_BARS*
  */
 +(SDLDeviceLevelStatus*) ONE_LEVEL_BARS;
 
 /**
- * @abstract Device Level Status is : <font color=green>Two level bars</font>
- * @result return a SDLDeviceLevelStatus with value of <font color=gray><i>ZERO_LEVEL_BARS</i></font>
+ * @abstract Device battery level is two bars
+ * @return a SDLDeviceLevelStatus with value of *TWO_LEVEL_BARS*
  */
 +(SDLDeviceLevelStatus*) TWO_LEVEL_BARS;
 
 /**
- * @abstract Device Level Status is : <font color=green>Three level bars</font>
- * @result return a SDLDeviceLevelStatus with value of <font color=gray><i>ZERO_LEVEL_BARS</i></font>
+ * @abstract Device battery level is three bars
+ * @return a SDLDeviceLevelStatus with value of *THREE_LEVEL_BARS*
  */
 +(SDLDeviceLevelStatus*) THREE_LEVEL_BARS;
 
 /**
- * @abstract Device Level Status is : <font color=green>Four level bars</font>
- * @result return a SDLDeviceLevelStatus with value of <font color=gray><i>ZERO_LEVEL_BARS</i></font>
+ * @abstract Device battery level is four bars
+ * @return a SDLDeviceLevelStatus with value of *FOUR_LEVEL_BARS*
  */
 +(SDLDeviceLevelStatus*) FOUR_LEVEL_BARS;
 
 /**
- * @abstract Device Level Status is :<font color=green>Not provided</font>
- * @result return a SDLDeviceLevelStatus with value of <font color=gray><i>ZERO_LEVEL_BARS</i></font>
+ * @abstract Device battery level is unknown
+ * @return a SDLDeviceLevelStatus with value of *NOT_PROVIDED*
  */
 +(SDLDeviceLevelStatus*) NOT_PROVIDED;
 

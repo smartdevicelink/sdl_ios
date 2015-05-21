@@ -18,14 +18,14 @@
 /**
  * Constructs a new SDLGetDTCs object
  */
--(id) init;
+-(instancetype) init;
 /**
- * Constructs a new SDLGetDTCs object indicated by the NSMutableDictionary parameter
+ * Constructs a new SDLGetDTCs object indicated by the dictionary parameter
  * <p>
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 /**
  * @abstract a name of the module to receive the DTC form
  * @discussion an NSNumber value representing a name of the module to receive

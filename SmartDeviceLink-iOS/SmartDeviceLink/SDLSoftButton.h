@@ -1,18 +1,17 @@
 //  SDLSoftButton.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLSoftButtonType.h"
-#import "SDLImage.h"
-#import "SDLSystemAction.h"
+@class SDLImage;
+@class SDLSoftButtonType;
+@class SDLSystemAction;
+
 
 @interface SDLSoftButton : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLSoftButtonType* type;
 @property(strong) NSString* text;

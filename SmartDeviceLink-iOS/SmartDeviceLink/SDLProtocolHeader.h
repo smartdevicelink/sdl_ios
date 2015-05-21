@@ -1,6 +1,5 @@
-//  SDLSmartDeviceLinkProtocolHeader.h
+//  SDLProtocolHeader.h
 //
-
 
 @import Foundation;
 
@@ -45,8 +44,7 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
 @property (assign) UInt8 sessionID;
 @property (assign) UInt32 bytesInPayload;
 
-- (id)init;
-- (id)copyWithZone:(NSZone *)zone;
+- (instancetype)init;
 - (NSData *)data;
 - (void)parse:(NSData *)data;
 - (NSString *)description;

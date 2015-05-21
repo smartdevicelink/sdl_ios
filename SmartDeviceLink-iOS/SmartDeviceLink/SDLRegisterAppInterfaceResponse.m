@@ -4,23 +4,30 @@
 
 #import "SDLRegisterAppInterfaceResponse.h"
 
-#import "SDLNames.h"
-#import "SDLButtonCapabilities.h"
-#import "SDLSoftButtonCapabilities.h"
-#import "SDLHmiZoneCapabilities.h"
-#import "SDLSpeechCapabilities.h"
-#import "SDLPrerecordedSpeech.h"
-#import "SDLVrCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
+#import "SDLButtonCapabilities.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLHMICapabilities.h"
+#import "SDLHMIZoneCapabilities.h"
+#import "SDLLanguage.h"
+#import "SDLNames.h"
+#import "SDLPrerecordedSpeech.h"
+#import "SDLPresetBankCapabilities.h"
+#import "SDLSoftButtonCapabilities.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLVRCapabilities.h"
+#import "SDLVehicleType.h"
+
 
 @implementation SDLRegisterAppInterfaceResponse
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_RegisterAppInterface]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }
@@ -162,12 +169,12 @@
 
 -(NSMutableArray*) hmiZoneCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_hmiZoneCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHmiZoneCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMIZoneCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLHmiZoneCapabilities valueOf:enumString]];
+            [newList addObject:[SDLHMIZoneCapabilities valueOf:enumString]];
         }
         return newList;
     }
@@ -225,12 +232,12 @@
 
 -(NSMutableArray*) vrCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_vrCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVrCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLVrCapabilities valueOf:enumString]];
+            [newList addObject:[SDLVRCapabilities valueOf:enumString]];
         }
         return newList;
     }
@@ -284,6 +291,47 @@
 
 -(NSMutableArray*) supportedDiagModes {
     return [parameters objectForKey:NAMES_supportedDiagModes];
+}
+
+-(void)setHmiCapabilities:(SDLHMICapabilities *)hmiCapabilities {
+    if (hmiCapabilities != nil) {
+        [parameters setObject:hmiCapabilities forKey:NAMES_hmiCapabilities];
+    } else {
+        [parameters removeObjectForKey:NAMES_hmiCapabilities];
+    }
+}
+
+-(SDLHMICapabilities *)hmiCapabilities {
+    NSObject* obj = [parameters objectForKey:NAMES_hmiCapabilities];
+    if ([obj isKindOfClass:[SDLHMICapabilities class]]) {
+        return (SDLHMICapabilities*)obj;
+    } else {
+        return [[SDLHMICapabilities alloc] initWithDictionary:(NSMutableDictionary*)obj];
+    }
+}
+
+-(void)setSdlVersion:(NSString *)sdlVersion {
+    if (sdlVersion != nil) {
+        parameters[NAMES_sdlVersion] = sdlVersion;
+    } else {
+        [parameters removeObjectForKey:NAMES_sdlVersion];
+    }
+}
+
+-(NSString *)sdlVersion {
+    return parameters[NAMES_sdlVersion];
+}
+
+-(void)setSystemSoftwareVersion:(NSString *)systemSoftwareVersion {
+    if (systemSoftwareVersion != nil) {
+        parameters[NAMES_systemSoftwareVersion] = systemSoftwareVersion;
+    } else {
+        [parameters removeObjectForKey:NAMES_systemSoftwareVersion];
+    }
+}
+
+-(NSString *)systemSoftwareVersion {
+    return parameters[NAMES_systemSoftwareVersion];
 }
 
 @end

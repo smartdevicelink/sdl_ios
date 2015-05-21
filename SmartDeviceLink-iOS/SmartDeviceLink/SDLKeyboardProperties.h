@@ -1,18 +1,17 @@
 //  SDLKeyboardProperties.h
 //
 
-
-
 #import "SDLRPCMessage.h"
 
-#import "SDLLanguage.h"
-#import "SDLKeyboardLayout.h"
-#import "SDLKeypressMode.h"
+@class SDLLanguage;
+@class SDLKeyboardLayout;
+@class SDLKeypressMode;
+
 
 @interface SDLKeyboardProperties : SDLRPCStruct {}
 
--(id) init;
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @property(strong) SDLLanguage* language;
 @property(strong) SDLKeyboardLayout* keyboardLayout;

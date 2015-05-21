@@ -11,7 +11,7 @@ SDLLockScreenStatus* SDLLockScreenStatus_OFF = nil;
 SDLLockScreenStatus* SDLLockScreenStatus_OPTIONAL = nil;
 SDLLockScreenStatus* SDLLockScreenStatus_REQUIRED = nil;
 
-NSMutableArray* SDLLockScreenStatus_values = nil;
+NSArray* SDLLockScreenStatus_values = nil;
 
 
 + (SDLLockScreenStatus *)valueOf:(NSString *)value
@@ -26,15 +26,15 @@ NSMutableArray* SDLLockScreenStatus_values = nil;
     return nil;
 }
 
-+ (NSMutableArray *)values
++ (NSArray *)values
 {
     if (SDLLockScreenStatus_values == nil)
     {
-        SDLLockScreenStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLLockScreenStatus_values = @[
                                       SDLLockScreenStatus.OFF,
                                       SDLLockScreenStatus.OPTIONAL,
                                       SDLLockScreenStatus.REQUIRED,
-                                      nil];
+                                      ];
     }
     return SDLLockScreenStatus_values;
 }

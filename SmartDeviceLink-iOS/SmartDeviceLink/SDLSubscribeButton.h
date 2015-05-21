@@ -5,7 +5,8 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLButtonName.h"
+@class SDLButtonName;
+
 
 /**
  * Establishes a subscription to button notifications for HMI buttons. Buttons
@@ -62,13 +63,13 @@
 /**
  * @abstract Constructs a new SDLSubscribeButton object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSubscribeButton object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The name of the button to subscribe to

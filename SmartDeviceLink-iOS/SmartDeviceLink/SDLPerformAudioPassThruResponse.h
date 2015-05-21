@@ -15,11 +15,11 @@
 /**
  * @abstract Constructs a new SDLPerformAudioPassThruResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
- * @abstract Constructs a new SDLPerformAudioPassThruResponse object indicated by the NSMutableDictionary parameter
- * @param dict The NSMutableDictionary to use
+ * @abstract Constructs a new SDLPerformAudioPassThruResponse object indicated by the dictionary parameter
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 @end

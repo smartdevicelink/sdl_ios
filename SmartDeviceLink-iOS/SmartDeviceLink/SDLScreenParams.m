@@ -1,19 +1,21 @@
 //  SDLScreenParams.m
 //
 
-
 #import "SDLScreenParams.h"
 
+#import "SDLImageResolution.h"
 #import "SDLNames.h"
+#import "SDLTouchEventCapabilities.h"
+
 
 @implementation SDLScreenParams
 
--(id) init {
+-(instancetype) init {
     if (self = [super init]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

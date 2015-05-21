@@ -4,16 +4,32 @@
 
 #import "SDLGetVehicleDataResponse.h"
 
+#import "SDLAirbagStatus.h"
+#import "SDLBeltStatus.h"
+#import "SDLBodyInformation.h"
+#import "SDLClusterModeStatus.h"
+#import "SDLComponentVolumeStatus.h"
+#import "SDLDeviceStatus.h"
+#import "SDLECallInfo.h"
+#import "SDLEmergencyEvent.h"
+#import "SDLGPSData.h"
+#import "SDLHeadLampStatus.h"
+#import "SDLMyKey.h"
 #import "SDLNames.h"
+#import "SDLPRNDL.h"
+#import "SDLTireStatus.h"
+#import "SDLVehicleDataEventStatus.h"
+#import "SDLWiperStatus.h"
+
 
 @implementation SDLGetVehicleDataResponse
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_GetVehicleData]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

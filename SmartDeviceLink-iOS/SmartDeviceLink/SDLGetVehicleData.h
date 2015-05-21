@@ -21,14 +21,14 @@
 /**
  * @abstract Constructs a new SDLGetVehicleData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLGetVehicleData object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A boolean value. If true, requests Gps data

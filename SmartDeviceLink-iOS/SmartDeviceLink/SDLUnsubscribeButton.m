@@ -4,16 +4,18 @@
 
 #import "SDLUnsubscribeButton.h"
 
+#import "SDLButtonName.h"
 #import "SDLNames.h"
+
 
 @implementation SDLUnsubscribeButton
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_UnsubscribeButton]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

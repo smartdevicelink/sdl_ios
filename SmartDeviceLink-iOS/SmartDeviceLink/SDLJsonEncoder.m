@@ -1,7 +1,6 @@
 //  SDLJsonEncoder.m
 //
 
-
 #import "SDLJsonEncoder.h"
 
 #import "SDLDebugTool.h"

@@ -15,13 +15,13 @@
 /**
  * @abstract Constructs a new SDLSliderResponse object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSliderResponse object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract The selected position of the slider.

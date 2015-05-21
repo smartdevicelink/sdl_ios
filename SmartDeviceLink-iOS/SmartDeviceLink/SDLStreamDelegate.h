@@ -14,7 +14,6 @@ typedef void (^SDLStreamErrorHandler)(NSStream *stream);
 typedef void (^SDLStreamEndHandler)(NSStream *stream);
 
 
-
 @interface SDLStreamDelegate : NSObject<NSStreamDelegate>
 
 @property (nonatomic, copy) SDLStreamOpenHandler streamOpenHandler;

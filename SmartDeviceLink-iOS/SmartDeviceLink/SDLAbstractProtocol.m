@@ -2,8 +2,12 @@
 
 #import "SDLAbstractProtocol.h"
 
+#import "SDLRPCMessage.h"
+
+
 @implementation SDLAbstractProtocol
-- (id)init {
+
+- (instancetype)init {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
     }
@@ -17,6 +21,10 @@
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {
 	[self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)sendRPC:(SDLRPCMessage *)message {
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {

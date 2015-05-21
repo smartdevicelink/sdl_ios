@@ -15,7 +15,7 @@ SDLAppHMIType* SDLAppHMIType_BACKGROUND_PROCESS = nil;
 SDLAppHMIType* SDLAppHMIType_TESTING = nil;
 SDLAppHMIType* SDLAppHMIType_SYSTEM = nil;
 
-NSMutableArray* SDLAppHMIType_values = nil;
+NSArray* SDLAppHMIType_values = nil;
 
 @implementation SDLAppHMIType
 
@@ -28,9 +28,9 @@ NSMutableArray* SDLAppHMIType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLAppHMIType_values == nil) {
-        SDLAppHMIType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLAppHMIType_values = @[
                 SDLAppHMIType.DEFAULT,
                 SDLAppHMIType.COMMUNICATION,
                 SDLAppHMIType.MEDIA,
@@ -41,7 +41,7 @@ NSMutableArray* SDLAppHMIType_values = nil;
                 SDLAppHMIType.BACKGROUND_PROCESS,
                 SDLAppHMIType.TESTING,
                 SDLAppHMIType.SYSTEM,
-                nil];
+                ];
     }
     return SDLAppHMIType_values;
 }

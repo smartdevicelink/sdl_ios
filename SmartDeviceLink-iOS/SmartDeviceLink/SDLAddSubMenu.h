@@ -21,14 +21,14 @@
 /**
  * Constructs a new SDLAddSubMenu object
  */
--(id) init;
+-(instancetype) init;
 /**
- * Constructs a new SDLAddSubMenu object indicated by the NSMutableDictionary parameter
+ * Constructs a new SDLAddSubMenu object indicated by the dictionary parameter
  * <p>
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract a Menu ID that identifies a sub menu

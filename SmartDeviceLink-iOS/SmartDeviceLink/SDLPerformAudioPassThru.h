@@ -1,13 +1,12 @@
 //  SDLPerformAudioPassThru.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLSamplingRate.h"
-#import "SDLBitsPerSample.h"
-#import "SDLAudioType.h"
+@class SDLSamplingRate;
+@class SDLBitsPerSample;
+@class SDLAudioType;
+
 
 /**
  * This will open an audio pass thru session. By doing so the app can receive
@@ -26,12 +25,12 @@
 /**
  * @abstract Constructs a new SDLPerformAudioPassThru object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLPerformAudioPassThru object indicated by the NSMutableDictionary
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass

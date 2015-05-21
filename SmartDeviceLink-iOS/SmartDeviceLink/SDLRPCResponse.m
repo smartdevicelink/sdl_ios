@@ -5,8 +5,33 @@
 #import "SDLRPCResponse.h"
 
 #import "SDLNames.h"
+#import "SDLResult.h"
 
 @implementation SDLRPCResponse
+
+- (instancetype)initWithName:(NSString *)name {
+    self = [super initWithName:name];
+    if (!self) {
+        return nil;
+    }
+    
+    messageType = NAMES_response;
+    [store setObject:function forKey:messageType];
+    
+    return self;
+}
+
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    self = [super initWithDictionary:dict];
+    if (!self) {
+        return nil;
+    }
+    
+    messageType = NAMES_response;
+    [store setObject:function forKey:messageType];
+    
+    return self;
+}
 
 -(NSNumber*) correlationID {
 	return [function objectForKey:NAMES_correlationID];

@@ -8,16 +8,17 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 
+
 @implementation SDLOnLockScreenStatus
 
-- (id)init {
+- (instancetype)init {
     if (self = [super initWithName:@"OnLockScreenStatus"]) {
 
     }
     return self;
 }
 
-- (id)initWithDictionary:(NSMutableDictionary*) dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {
 
     }
@@ -51,7 +52,7 @@
 
 - (SDLHMILevel *)hmiLevel {
     NSObject* obj = [parameters objectForKey:@"hmilevel"];
-    if ([obj isKindOfClass:SDLLockScreenStatus.class]) {
+    if ([obj isKindOfClass:SDLHMILevel.class]) {
         return (SDLHMILevel *)obj;
     } else {
         return [SDLHMILevel valueOf:(NSString*)obj];

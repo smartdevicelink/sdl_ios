@@ -7,7 +7,7 @@
 SDLButtonEventMode* SDLButtonEventMode_BUTTONUP = nil;
 SDLButtonEventMode* SDLButtonEventMode_BUTTONDOWN = nil;
 
-NSMutableArray* SDLButtonEventMode_values = nil;
+NSArray* SDLButtonEventMode_values = nil;
 
 @implementation SDLButtonEventMode
 
@@ -20,12 +20,12 @@ NSMutableArray* SDLButtonEventMode_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLButtonEventMode_values == nil) {
-        SDLButtonEventMode_values = [[NSMutableArray alloc] initWithObjects:
+        SDLButtonEventMode_values = @[
                 SDLButtonEventMode.BUTTONUP,
                 SDLButtonEventMode.BUTTONDOWN,
-                nil];
+                ];
     }
     return SDLButtonEventMode_values;
 }

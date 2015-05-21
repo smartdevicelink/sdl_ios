@@ -1,25 +1,24 @@
 //  SDLOnVehicleData.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLGPSData.h"
-#import "SDLComponentVolumeStatus.h"
-#import "SDLPRNDL.h"
-#import "SDLTireStatus.h"
-#import "SDLBeltStatus.h"
-#import "SDLBodyInformation.h"
-#import "SDLDeviceStatus.h"
-#import "SDLVehicleDataEventStatus.h"
-#import "SDLWiperStatus.h"
-#import "SDLHeadLampStatus.h"
-#import "SDLECallInfo.h"
-#import "SDLAirbagStatus.h"
-#import "SDLEmergencyEvent.h"
-#import "SDLClusterModeStatus.h"
-#import "SDLMyKey.h"
+@class SDLAirbagStatus;
+@class SDLBeltStatus;
+@class SDLBodyInformation;
+@class SDLClusterModeStatus;
+@class SDLComponentVolumeStatus;
+@class SDLDeviceStatus;
+@class SDLECallInfo;
+@class SDLEmergencyEvent;
+@class SDLGPSData;
+@class SDLHeadLampStatus;
+@class SDLMyKey;
+@class SDLPRNDL;
+@class SDLTireStatus;
+@class SDLVehicleDataEventStatus;
+@class SDLWiperStatus;
+
 
 /**
  * Request vehicle data.
@@ -32,14 +31,14 @@
 /**
  * @abstract Constructs a new SDLOnVehicleData object
  */
--(id) init;
+-(instancetype) init;
 
 /**
  * @abstract Constructs a new SDLOnVehicleData object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract A SDLGPSData* value. See GPSData.

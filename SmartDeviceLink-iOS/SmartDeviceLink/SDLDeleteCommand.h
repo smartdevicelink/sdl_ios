@@ -21,15 +21,15 @@
 /**
  * Constructs a new SDLDeleteCommand object
  */
--(id) init;
+-(instancetype) init;
 /**
  * Constructs a new SDLDeleteCommand object indicated by the NSMutableDictionary
  * parameter
  * <p>
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract the Command ID that identifies the Command to be deleted from Command Menu

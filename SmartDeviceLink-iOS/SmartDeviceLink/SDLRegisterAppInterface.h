@@ -1,19 +1,18 @@
 //  SDLRegisterAppInterface.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLSyncMsgVersion.h"
-#import "SDLLanguage.h"
-#import "SDLDeviceInfo.h"
+@class SDLDeviceInfo;
+@class SDLLanguage;
+@class SDLSyncMsgVersion;
+
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of
  * the registration, including the messaging interface version, the app name,
  * etc. The mobile application must establish its interface registration with
- * SDL&reg; before any other interaction with SDL&reg; can take place. The
+ * SDL before any other interaction with SDL&reg; can take place. The
  * registration lasts until it is terminated either by the application calling
  * the <i> SDLUnregisterAppInterface</i> method, or by SDL&reg;
  * sending an <i> SDLOnAppInterfaceUnregistered</i> notification, or
@@ -76,126 +75,141 @@
  * <b>HMILevel is not defined before registering</b><br/>
  * </p>
  *
- * Since SmartDeviceLink 1.0
- * See SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
+ * @since SDL 1.0
+ *
+ * @see SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
  */
 @interface SDLRegisterAppInterface : SDLRPCRequest {}
 
 /**
  * @abstract Constructs a new SDLRegisterAppInterface object
  */
--(id) init;
-/**
- * @abstract Constructs a new SDLRegisterAppInterface object indicated by the NSMutableDictionary
- * parameter
- * @param dict The NSMutableDictionary to use
- */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
 
 /**
- * @abstract the version of the SDL&reg; SmartDeviceLink interface
+ * @abstract Constructs a new SDLRegisterAppInterface object indicated by the dictionary parameter
+ *
+ * @param dict The dictionary to use
+ */
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+
+/**
+ * @abstract The version of the SDL interface
+ *
+ * Required
  */
 @property(strong) SDLSyncMsgVersion* syncMsgVersion;
+
 /**
- * @abstract Mobile Application's Name, This name is displayed in the SDL&reg;
- * Mobile Applications menu. It also serves as the unique identifier of the
- * application for SmartDeviceLink
+ * @abstract The Mobile Application's Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink
  *
- * <br/>appName<br/>
- *            a String value representing the Mobile Application's Name
- *            <p>
- *            <b>Notes: </b>
- *            <ul>
- *            <li>Must be 1-100 characters in length</li>
- *            <li>May not be the same (by case insensitive comparison) as
- *            the name or any synonym of any currently-registered
- *            application</li>
- *            </ul>
+ * @discussion 
+ * <li>Needs to be unique over all applications.</li>
+ * <li>May not be empty.</li>
+ * <li>May not start with a new line character.</li>
+ * <li>May not interfere with any name or synonym of previously registered applications and any predefined blacklist of words (global commands).</li>
+ * <li>Needs to be unique over all applications. Applications with the same name will be rejected.</li>
+ *
+ * Required, Max length 100 chars
  */
 @property(strong) NSString* appName;
+
 /**
- * @abstract TTS string for VR recognition of the mobile application name
- * @since SmartDeviceLink 2.0
+ * @abstract TTS string for VR recognition of the mobile application name.
+ *
+ * @discussion Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.
+ * <li>Needs to be unique over all applications.</li>
+ * <li>May not be empty.</li>
+ * <li>May not start with a new line character.</li>
+ *
+ * Optional, Array of SDLTTSChunk, Array size 1 - 100
+ *
+ * @since SDL 2.0
+ * @see SDLTTSChunk
  */
 @property(strong) NSMutableArray* ttsName;
+
 /**
- * @abstract a String representing an abbreviated version of the mobile
- * applincation's name (if necessary) that will be displayed on the NGN
- * media screen
+ * @abstract A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
  *
- * <br/> ngnMediaScreenAppName<br/>
- *            a String value representing an abbreviated version of the
- *            mobile applincation's name
- *            <p>
- *            <b>Notes: </b>
- *            <ul>
- *            <li>Must be 1-5 characters</li>
- *            <li>If not provided, value will be derived from appName
- *            truncated to 5 characters</li>
- *            </ul>
+ * @discussion If not provided, the appName is used instead (and will be truncated if too long)
+ *
+ * Optional, Max length 100 chars
  */
 @property(strong) NSString* ngnMediaScreenAppName;
+
 /**
- * @abstract A vrSynonyms representing the an array of 1-100 elements, each
- * element containing a voice-recognition synonym
+ * @abstract Defines a additional voice recognition commands
  *
- * <br/> vrSynonyms<br/>
- *            a Vector<String> value representing the an array of 1-100
- *            elements
- *            <p>
- *            <b>Notes: </b>
- *            <ul>
- *            <li>Each vr synonym is limited to 40 characters, and there can
- *            be 1-100 synonyms in array</li>
- *            <li>May not be the same (by case insensitive comparison) as
- *            the name or any synonym of any currently-registered
- *            application</li>
- *            </ul>
+ * @discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands)
+ *
+ * Optional, Array of Strings, Array length 1 - 100, Max String length 40
  */
 @property(strong) NSMutableArray* vrSynonyms;
+
 /**
- * @abstract A Boolean to indicate a mobile application that is a media
- * application or not
+ * @abstract Indicates if the application is a media or a non-media application.
+ *
+ * @discussion Only media applications will be able to stream audio to head units that is audible outside of the BT media source.
+ *
+ * Required, Boolean
  */
 @property(strong) NSNumber* isMediaApplication;
+
 /**
- * @abstract A Language enumeration indicating what language the application
- * intends to use for user interaction (Display, TTS and VR)
+ * @abstract A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).
+ *
+ * @discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
+ *
+ * Required
  */
 @property(strong) SDLLanguage* languageDesired;
+
 /**
- * @abstract An enumeration indicating what language the application intends to
- * use for user interaction ( Display)
- * @since SmartDeviceLink 2.0
+ * @abstract An enumeration indicating what language the application intends to use for user interaction (Display).
+ *
+ * @discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
+ *
+ * Required
+ *
+ * @since SDL 2.0
  */
 @property(strong) SDLLanguage* hmiDisplayLanguageDesired;
+
 /**
- * @abstract A list of all applicable app types stating which classifications
- * to be given to the app. e.g. for platforms , like GEN2, this will
- * determine which "corner(s)" the app can populate
+ * @abstract A list of all applicable app types stating which classifications to be given to the app.
  *
- * <br/> appHMIType</br>
- *            a Vector<AppHMIType>
- *            <p>
- *            <b>Notes: </b>
- *            <ul>
- *            <li>Array Minsize: = 1</li>
- *            <li>Array Maxsize = 100</li>
- *            </ul>
- * @since SmartDeviceLink 2.0
+ * Optional, Array of SDLAppHMIType, Array size 1 - 100
+ *
+ * @since SDL 2.0
+ * @see SDLAppHMIType
  */
 @property(strong) NSMutableArray* appHMIType;
-@property(strong) NSString* hashID;
-@property(strong) SDLDeviceInfo* deviceInfo;
+
 /**
- * @abstract A unique ID, which an app will be given when approved
+ * @abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
  *
- * <br/> appID<br/>
- *            a String value representing a unique ID, which an app will be
- *            given when approved
- *            <p>
- *            <b>Notes: </b>Maxlength = 100
- * @since SmartDeviceLink 2.0
+ * @discussion This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly reregister each piece. If omitted, then the previous state of an app's commands, etc. will not be restored. 
+ *
+ * When sending hashID, all RegisterAppInterface parameters should still be provided (e.g. ttsName, etc.).
+ *
+ * Optional, max length 100 chars
+ */
+@property(strong) NSString* hashID;
+
+/**
+ * @abstract Information about the connecting device
+ *
+ * Optional
+ */
+@property(strong) SDLDeviceInfo* deviceInfo;
+
+/**
+ * @abstract ID used to validate app with policy table entries
+ *
+ * Required, max length 100
+ *
+ * @since SDL 2.0
  */
 @property(strong) NSString* appID;
 

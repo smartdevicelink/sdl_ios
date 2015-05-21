@@ -1,13 +1,11 @@
 //  SDLIAPTransport.h
 //
 
+@import ExternalAccessory;
 
-
-#import <ExternalAccessory/ExternalAccessory.h>
 #import "SDLAbstractTransport.h"
 #import "SDLIAPSessionDelegate.h"
 
-@class SDLIAPSession;
 
 @interface SDLIAPTransport : SDLAbstractTransport <SDLIAPSessionDelegate>
 

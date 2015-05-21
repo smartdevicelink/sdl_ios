@@ -1,9 +1,10 @@
 //  SDLSmartDeviceLinkProtocolMessageDisassembler.h
 //
 
+@import Foundation;
 
+@class SDLProtocolMessage;
 
-#import "SDLProtocolMessage.h"
 
 @interface SDLProtocolMessageDisassembler : NSObject
 

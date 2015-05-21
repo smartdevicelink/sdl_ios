@@ -5,45 +5,38 @@
 
 #import "SDLRPCRequest.h"
 
-#import "SDLLanguage.h"
+@class SDLLanguage;
 
 /**
- * If the app recognizes during the app registration that the SDL HMI language
- * (voice/TTS and/or display) does not match the app language, the app will be
- * able (but does not need) to change this registration with changeRegistration
- * prior to app being brought into focus
- * <p>
- * Function Group: Base
- * <p>
- * <b>HMILevel can by any</b>
- * <p>
+ * If the app recognizes during the app registration that the SDL HMI language (voice/TTS and/or display) does not match the app language, the app will be able (but does not need) to change this registration with changeRegistration prior to app being brought into focus.
  *
- * Since <b>SmartDeviceLink 2.0</b><br>
- * see SDLRegisterAppInterface
+ * Function Group: Base
+ *
+ * HMILevel can by any
+ *
+ * @since SDL 2.0
  */
 @interface SDLChangeRegistration : SDLRPCRequest {}
 
 /**
  * Constructs a new SDLChangeRegistration object
  */
--(id) init;
-/**
- * Constructs a new SDLChangeRegistration object indicated by the NSMutableDictionary
- * parameter
- * <p>
- *
- * @param dict The NSMutableDictionary to use
- */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
 
 /**
- * @abstract the language app want to change to
- * @discussion
+ * Constructs a new SDLChangeRegistration object indicated by the dictionary parameter
+ *
+ * @param dict The dictionary to use
+ */
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+
+/**
+ * @abstract The language the app wants to change to
  */
 @property(strong) SDLLanguage* language;
+
 /**
- * @abstract  HMI display language
- * @discussion
+ * @abstract HMI display language
  */
 @property(strong) SDLLanguage* hmiDisplayLanguage;
 

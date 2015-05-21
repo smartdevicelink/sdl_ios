@@ -7,9 +7,8 @@
 
 /**
  * Binary data is in binary part of hybrid msg.
- *  <p>
- * </p>
- * <b>HMI Status Requirements:</b>
+ *
+ * HMI Status Requirements:
  * <ul>
  * HMILevel:
  * <ul>
@@ -23,15 +22,18 @@
  * <ul>
  * <li>TBD</li>
  * </ul>
+ * </ul>
  */
 @interface SDLOnAudioPassThru : SDLRPCNotification {}
+
 /**
  *Constructs a newly allocated SDLOnAudioPassThru object
  */
--(id) init;
+-(instancetype) init;
+
 /**
- *<p>Constructs a newly allocated SDLOnAudioPassThru object indicated by the NSMutableDictionary parameter</p>
- *@param dict The NSMutableDictionary to use
+ * Constructs a newly allocated SDLOnAudioPassThru object indicated by the dictionary parameter
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 @end

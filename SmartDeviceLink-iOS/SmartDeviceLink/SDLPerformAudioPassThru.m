@@ -4,17 +4,21 @@
 
 #import "SDLPerformAudioPassThru.h"
 
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
 #import "SDLNames.h"
+#import "SDLSamplingRate.h"
 #import "SDLTTSChunk.h"
+
 
 @implementation SDLPerformAudioPassThru
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_PerformAudioPassThru]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

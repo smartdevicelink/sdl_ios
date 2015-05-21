@@ -3,14 +3,9 @@
 
 
 @import Foundation;
+#import "SDLDebugToolConsole.h"
 
 @class SDLRPCMessage;
-
-@protocol SDLDebugToolConsole
-
-- (void)logInfo:(NSString *)info;
-
-@end
 
 
 typedef NS_ENUM(UInt8, SDLDebugType) {
@@ -28,8 +23,6 @@ typedef NS_ENUM(UInt8, SDLDebugOutput) {
 	SDLDebugOutput_DebugToolConsole = 2,
 	SDLDebugOutput_File = 4
 };
-
-
 
 
 @interface SDLDebugTool : NSObject {}

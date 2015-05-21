@@ -14,7 +14,7 @@
 @interface SDLImageFieldName : SDLEnum {}
 
 +(SDLImageFieldName*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /** The image field for SoftButton
  *
@@ -72,5 +72,11 @@
  *
  */
 +(SDLImageFieldName*) showConstantTBTNextTurnIcon;
+
+/**
+ * The optional image of a destination / location
+ * @since SDL 4.0
+ */
++(SDLImageFieldName*) locationImage;
 
 @end

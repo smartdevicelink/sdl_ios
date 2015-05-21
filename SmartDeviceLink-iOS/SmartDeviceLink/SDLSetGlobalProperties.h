@@ -1,12 +1,11 @@
 //  SDLSetGlobalProperties.h
 //
 
-
-
 #import "SDLRPCRequest.h"
 
-#import "SDLImage.h"
-#import "SDLKeyboardProperties.h"
+@class SDLImage;
+@class SDLKeyboardProperties;
+
 
 /**
  * Sets value(s) for the specified global property(ies)
@@ -23,13 +22,13 @@
 /**
  * @abstract Constructs a new SDLSetGlobalProperties object
  */
--(id) init;
+-(instancetype) init;
 /**
  * @abstract Constructs a new SDLSetGlobalProperties object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
  * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more

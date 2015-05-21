@@ -1,17 +1,18 @@
 //  SDLOnButtonEvent.h
 //
 
-
-
 #import "SDLRPCNotification.h"
 
-#import "SDLButtonName.h"
-#import "SDLButtonEventMode.h"
+@class SDLButtonName;
+@class SDLButtonEventMode;
+
 
 /**
  * Notifies application that user has depressed or released a button to which
- * the application has subscribed.</br> Further information about button events
- * and button-presses can be found at <i>SDLSubscribeButton</i>.
+ * the application has subscribed.
+ *
+ * Further information about button events
+ * and button-presses can be found at SDLSubscribeButton.
  * <p>
  * </p>
  * <b>HMI Status Requirements:</b>
@@ -38,74 +39,42 @@
  * </ul>
  * </ul>
  * <p>
- * <b>Parameter List:</b>
- * <table  border="1" rules="all">
- * <tr>
- * <th>Name</th>
- * <th>Type</th>
- * <th>Description</th>
- * <th>Req</th>
- * <th>Notes</th>
- * <th>SmartDeviceLink Ver Available</th>
- * </tr>
- * <tr>
- * <td>buttonName</td>
- * <td>SDLButtonName* </td>
- * <td>Name of the button which triggered this event</td>
- * <td></td>
- * <td></td>
- * <td>SmartDeviceLink 1.0</td>
- * </tr>
- * <tr>
- * <td>buttonEventMode</td>
- * <td>SDLButtonEventMode* </td>
- * <td>Indicats button was depressed (DOWN) or released (UP)</td>
- * <td></td>
- * <td></td>
- * <td>SmartDeviceLink 1.0</td>
- * </tr>
- * <tr>
- * <td>customButtonID</td>
- * <td>NSNumber* </td>
- * <td>If SDLButtonName is “CUSTOM_BUTTON", this references the integer ID passed
- * by a custom button. (e.g. softButton ID)</td>
- * <td>N</td>
- * <td>Minvalue=0 Maxvalue=65536</td>
- * <td>SmartDeviceLink 2.0</td>
- * </tr>
- * </table>
- * </p>
  *
- * Since <b>SmartDeviceLink 1.0</b><br>
+ * @see SDLSubscribeButton
  *
- * see SDLSubscribeButton SDLUnsubscribeButton
+ * @since SDL 1.0
  */
 @interface SDLOnButtonEvent : SDLRPCNotification {}
 
 /**
- *Constructs a newly allocated SDLOnButtonEvent object
+ * Constructs a newly allocated SDLOnButtonEvent object
  */
--(id) init;
-/**
- * <p>
- * Constructs a newly allocated SDLOnButtonEvent object indicated by the
- * NSMutableDictionary parameter
- * </p>
- *
- * @param dict The NSMutableDictionary to use
- */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
 
 /**
- * @abstract the name of the button
- * @discussion
+ * @abstract Constructs a newly allocated SDLOnButtonEvent object indicated by the dictionary parameter
+ *
+ * @param dict The dictionary to use
+ */
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+
+/**
+ * @abstract The name of the button
  */
 @property(strong) SDLButtonName* buttonName;
+
 /**
- * @abstract button event indicates the button was depressed or released
- * @discussion
+ * @abstract Indicates whether this is an UP or DOWN event
  */
 @property(strong) SDLButtonEventMode* buttonEventMode;
+
+/**
+ * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
+ *
+ * @since SDL 2.0
+ *
+ * Optional, Integer, 0 - 65536
+ */
 @property(strong) NSNumber* customButtonID;
 
 @end

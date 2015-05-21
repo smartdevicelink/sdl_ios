@@ -1,8 +1,8 @@
 //  SDLSmartDeviceLinkProtocolMessage.h
 //
 
-
-#import "SDLProtocolHeader.h"
+@import Foundation;
+@class SDLProtocolHeader;
 
 
 @interface SDLProtocolMessage : NSObject
@@ -11,7 +11,6 @@
 @property (strong) NSData *payload;
 @property (strong, readonly) NSData *data;
 
-- (id)init;
 + (id)messageWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload; // Returns a V1 or V2 object
 
 - (NSUInteger)size;

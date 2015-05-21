@@ -22,7 +22,7 @@ SDLButtonName* SDLButtonName_PRESET_9 = nil;
 SDLButtonName* SDLButtonName_CUSTOM_BUTTON = nil;
 SDLButtonName* SDLButtonName_SEARCH = nil;
 
-NSMutableArray* SDLButtonName_values = nil;
+NSArray* SDLButtonName_values = nil;
 
 @implementation SDLButtonName
 
@@ -35,9 +35,9 @@ NSMutableArray* SDLButtonName_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLButtonName_values == nil) {
-        SDLButtonName_values = [[NSMutableArray alloc] initWithObjects:
+        SDLButtonName_values = @[
                 SDLButtonName.OK,
                 SDLButtonName.SEEKLEFT,
                 SDLButtonName.SEEKRIGHT,
@@ -55,7 +55,7 @@ NSMutableArray* SDLButtonName_values = nil;
                 SDLButtonName.PRESET_9,
                 SDLButtonName.CUSTOM_BUTTON,
                 SDLButtonName.SEARCH,
-                nil];
+                ];
     }
     return SDLButtonName_values;
 }

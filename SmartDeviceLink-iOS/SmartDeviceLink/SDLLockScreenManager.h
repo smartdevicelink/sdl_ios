@@ -3,10 +3,12 @@
 //  SmartDeviceLink
 //
 
+@import Foundation;
 
-#import "SDLHMILevel.h"
-#import "SDLLockScreenStatus.h"
-#import "SDLOnLockScreenStatus.h"
+@class SDLHMILevel;
+@class SDLLockScreenStatus;
+@class SDLOnLockScreenStatus;
+
 
 @interface SDLLockScreenManager : NSObject
 

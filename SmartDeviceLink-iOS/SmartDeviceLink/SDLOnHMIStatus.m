@@ -1,19 +1,22 @@
 //  SDLOnHMIStatus.m
 //
 
-
 #import "SDLOnHMIStatus.h"
 
+#import "SDLAudioStreamingState.h"
+#import "SDLHMILevel.h"
 #import "SDLNames.h"
+#import "SDLSystemContext.h"
+
 
 @implementation SDLOnHMIStatus
 
--(id) init {
+-(instancetype) init {
     if (self = [super initWithName:NAMES_OnHMIStatus]) {}
     return self;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict {
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
     if (self = [super initWithDictionary:dict]) {}
     return self;
 }

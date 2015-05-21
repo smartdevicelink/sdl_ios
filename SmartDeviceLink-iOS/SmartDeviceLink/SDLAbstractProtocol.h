@@ -1,10 +1,12 @@
 //  SDLAbstractProtocol.h
 //
 
-#import "SDLAbstractTransport.h"
-#import "SDLProtocolListener.h"
-
+@class SDLAbstractTransport;
+@class SDLRPCMessage;
 @class SDLRPCRequest;
+
+#import "SDLProtocolListener.h"
+#import "SDLTransportDelegate.h"
 
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>
@@ -16,7 +18,8 @@
 // Sending
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType;
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType;
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest;
+- (void)sendRPC:(SDLRPCMessage *)message;
+- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg(("Use sendRPC: instead"));
 - (void)sendHeartbeat;
 - (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType;
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType;

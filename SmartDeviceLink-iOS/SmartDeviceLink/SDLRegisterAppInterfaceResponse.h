@@ -5,11 +5,13 @@
 
 #import "SDLRPCResponse.h"
 
-#import "SDLSyncMsgVersion.h"
-#import "SDLLanguage.h"
-#import "SDLDisplayCapabilities.h"
-#import "SDLPresetBankCapabilities.h"
-#import "SDLVehicleType.h"
+@class SDLLanguage;
+@class SDLDisplayCapabilities;
+@class SDLHMICapabilities;
+@class SDLPresetBankCapabilities;
+@class SDLSyncMsgVersion;
+@class SDLVehicleType;
+
 
 /**
  * @abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called
@@ -21,83 +23,144 @@
 /**
  * @abstract Constructs a new SDLRegisterAppInterfaceResponse object
  */
--(id) init;
+-(instancetype) init;
+
 /**
  * Constructs a new SDLRegisterAppInterfaceResponse object indicated by the NSMutableDictionary
  * parameter
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
--(id) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 
 /**
- * @abstract The version of the SDL&reg; SmartDeviceLink interface
- * @discussion a SDLMsgVersion object representing version of the SDL&reg;
- *            SmartDeviceLink interface
- *            <p>
- *            <b>Notes: </b>To be compatible, app msg major version number
- *            must be less than or equal to SDL&reg; major version number.
- *            If msg versions are incompatible, app has 20 seconds to
- *            attempt successful RegisterAppInterface (w.r.t. msg version)
- *            on underlying protocol session, else will be terminated. Major
- *            version number is a compatibility declaration. Minor version
- *            number indicates minor functional variations (e.g. features,
- *            capabilities, bug fixes) when sent from SDL&reg; to app (in
- *            RegisterAppInterface response). However, the minor version
- *            number sent from the app to SDL&reg; (in RegisterAppInterface
- *            request) is ignored by SDL&reg;
+ * @see SDLSyncMsgVersion
+ *
+ * Optional
  */
 @property(strong) SDLSyncMsgVersion* syncMsgVersion;
+
 /**
- * @abstract Sets an enumeration indicating what language the application intends to
- * use for user interaction (Display, TTS and VR)
+ * The currently active VR+TTS language on Sync.
+ *
+ * @see SDLLanguage
+ *
+ * Optional
  */
 @property(strong) SDLLanguage* language;
+
 /**
- * @abstract An enumeration indicating what language the application intends to
- * use for user interaction ( Display)
+ * The currently active display language on Sync
+ *
+ * @see SDLLanguage
  * @since SmartDeviceLink 2.0
+ *
+ * Optional
  */
 @property(strong) SDLLanguage* hmiDisplayLanguage;
+
 /**
- * @abstract Display Capabilities
+ * @see SDLDisplayCapabilities
+ *
+ * Optional
  */
 @property(strong) SDLDisplayCapabilities* displayCapabilities;
+
 /**
- * @abstract Button Capabilities
+ * @see SDLButtonCapabilities
+ *
+ * Optional, Array of length 1 - 100, of SDLButtonCapabilities
  */
 @property(strong) NSMutableArray* buttonCapabilities;
+
 /**
- * @abstract SoftButton Capabilities
+ * If returned, the platform supports on-screen SoftButtons
+ *
+ * @see SDLSoftButtonCapabilities
+ *
+ * Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
  */
 @property(strong) NSMutableArray* softButtonCapabilities;
+
 /**
- * @abstract Preset BankCapabilities
+ * If returned, the platform supports custom on-screen Presets
+ *
+ * @see SDLPresetBankCapabilities
+ *
+ * Optional
  */
 @property(strong) SDLPresetBankCapabilities* presetBankCapabilities;
+
 /**
- * @abstract Gets/Sets hmiZoneCapabilities when application interface is registered.
+ * @see SDLHMIZoneCapabilities
+ *
+ * Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
  */
 @property(strong) NSMutableArray* hmiZoneCapabilities;
+
 /**
- * @abstract Gets/Sets speechCapabilities when application interface is registered.
+ * @see SDLSpeechCapabilities
+ *
+ * Optional, Array of length 1 - 100, of SDLSpeechCapabilities
  */
 @property(strong) NSMutableArray* speechCapabilities;
+
 /**
- * @abstract Gets/Sets prerecordedSpeech when application interface is registered.
+ * @see SDLPrerecordedSpeech
+ *
+ * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
  */
 @property(strong) NSMutableArray* prerecordedSpeech;
+
 /**
- * @abstract Gets/Sets vrCapabilities when application interface is registered.
+ * @see SDLVRCapabilities
+ *
+ * Optional, Array of length 1 - 100, of SDLVRCapabilities
  */
 @property(strong) NSMutableArray* vrCapabilities;
+
 /**
- * @abstract Gets/Sets AudioPassThruCapabilities when application interface is registered.
+ * @see SDLAudioPassThruCapabilities
+ *
+ * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
  */
 @property(strong) NSMutableArray* audioPassThruCapabilities;
+
 /**
- * @abstract Gets/Sets VehicleType when application interface is registered.
+ * Specifies the vehicle's type
+ *
+ * @see SDLVehicleType
+ *
+ * Optional, Array of length 1 - 100, of SDLVehicleType
  */
 @property(strong) SDLVehicleType* vehicleType;
+
+/**
+ * Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
+ *
+ * Optional, Array of length 1 - 100, Integer 0 - 255
+ */
 @property(strong) NSMutableArray* supportedDiagModes;
+
+/**
+ * @see SDLHMICapabilities
+ *
+ * Optional
+ */
+@property(strong) SDLHMICapabilities* hmiCapabilities;
+
+/**
+ * The SmartDeviceLink version
+ *
+ * Optional, String max length 100
+ */
+@property(strong) NSString *sdlVersion;
+
+/**
+ * The software version of the system that implements the SmartDeviceLink core
+ *
+ * Optional, String max length 100
+ */
+@property(strong) NSString *systemSoftwareVersion;
+
 
 @end
