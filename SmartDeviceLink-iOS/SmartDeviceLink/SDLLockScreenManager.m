@@ -62,36 +62,27 @@
 - (SDLLockScreenStatus *)lockScreenStatus
 {
     if (_hmiLevel == nil || _hmiLevel == [SDLHMILevel NONE]) {
+        // App is not active on the car
         return [SDLLockScreenStatus OFF];
     } else if (_hmiLevel == [SDLHMILevel BACKGROUND]) {
-        if (!_bHaveDDStatus)
-        {
-            //we don't have driver distraction, lockscreen is entirely based on userselection
-            if (_bUserSelected)
-                return [SDLLockScreenStatus REQUIRED];
-            else
-                return [SDLLockScreenStatus OFF];
-        }
-        else if (_bHaveDDStatus && _bUserSelected)
-        {
+        // App is in the background on the car
+        // The lockscreen depends entirely on if the user selected the app
+        if (_bUserSelected) {
             return [SDLLockScreenStatus REQUIRED];
-        }
-        else if (!_bHaveDDStatus && _bUserSelected)
-        {
-            return [SDLLockScreenStatus OPTIONAL];
-        }
-        else
-        {
+        } else {
             return [SDLLockScreenStatus OFF];
         }
     } else if (_hmiLevel == [SDLHMILevel FULL] || _hmiLevel == [SDLHMILevel LIMITED]) {
+        // App is in the foreground on the car in some manner
         if (_bHaveDDStatus && !_bDriverDistractionStatus) {
+            // We have the distraction status, and the driver is not distracted
             return [SDLLockScreenStatus OPTIONAL];
         } else {
+            // We don't have the distraction status, and/or the driver is distracted
             return [SDLLockScreenStatus REQUIRED];
         }
-
     } else {
+        // This shouldn't be possible.
         return [SDLLockScreenStatus OFF];
     }
 }
