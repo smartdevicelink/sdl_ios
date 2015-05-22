@@ -91,12 +91,14 @@ const int POLICIES_CORRELATION_ID = 65535;
 -(void) destructObjects {
     if(!_alreadyDestructed) {
         _alreadyDestructed = YES;
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
         
-	if (_systemRequestSession != nil) {
+        if (_systemRequestSession != nil) {
             [_systemRequestSession invalidateAndCancel];
         }
+        
         if (_encodedSyncPDataSession != nil) {
             [_encodedSyncPDataSession invalidateAndCancel];
         }
