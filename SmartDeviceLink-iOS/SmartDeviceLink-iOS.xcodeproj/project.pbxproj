@@ -254,6 +254,7 @@
 		5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A71A95191B00252386 /* ConnectionAnimatedTransition.m */; };
 		5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350C1A855EB300687FB9 /* AppDelegate.m */; };
 		5D5935121A855EBE00687FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5935111A855EBE00687FB9 /* main.m */; };
+		5D59DD471B14FDEE00BE744D /* SDLLockScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59DD461B14FDEE00BE744D /* SDLLockScreenManagerSpec.m */; };
 		5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA201A84237100846EE7 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5D61FA341A84237100846EE7 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1085,6 +1086,7 @@
 		5D59350B1A855EB300687FB9 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SmartDeviceLink_Example/Classes/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		5D59350C1A855EB300687FB9 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SmartDeviceLink_Example/Classes/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		5D5935111A855EBE00687FB9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartDeviceLink_Example/Classes/main.m; sourceTree = SOURCE_ROOT; };
+		5D59DD461B14FDEE00BE744D /* SDLLockScreenManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenManagerSpec.m; path = ProxySpecs/SDLLockScreenManagerSpec.m; sourceTree = "<group>"; };
 		5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA1F1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
@@ -2778,6 +2780,14 @@
 			name = Payload;
 			sourceTree = "<group>";
 		};
+		5D59DD451B14FDD000BE744D /* ProxySpecs */ = {
+			isa = PBXGroup;
+			children = (
+				5D59DD461B14FDEE00BE744D /* SDLLockScreenManagerSpec.m */,
+			);
+			name = ProxySpecs;
+			sourceTree = "<group>";
+		};
 		5D61FA1D1A84237100846EE7 /* SmartDeviceLink */ = {
 			isa = PBXGroup;
 			children = (
@@ -2804,6 +2814,7 @@
 		5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */ = {
 			isa = PBXGroup;
 			children = (
+				5D59DD451B14FDD000BE744D /* ProxySpecs */,
 				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
 				1680B1041A9CD7AD00DBD79E /* ProtocolSpecs */,
 				162E81E01A9BDE8A00906325 /* RPCSpecs */,
@@ -3592,6 +3603,7 @@
 				162E83911A9BDE8B00906325 /* SDLTouchCoordSpec.m in Sources */,
 				162E832B1A9BDE8B00906325 /* SDLDeleteSubMenuSpec.m in Sources */,
 				162E83411A9BDE8B00906325 /* SDLSubscribeButtonSpec.m in Sources */,
+				5D59DD471B14FDEE00BE744D /* SDLLockScreenManagerSpec.m in Sources */,
 				162E82F31A9BDE8B00906325 /* SDLPrerecordedSpeechSpec.m in Sources */,
 				162E83691A9BDE8B00906325 /* SDLSubscribeButtonResponseSpec.m in Sources */,
 				162E83591A9BDE8B00906325 /* SDLListFilesResponseSpec.m in Sources */,

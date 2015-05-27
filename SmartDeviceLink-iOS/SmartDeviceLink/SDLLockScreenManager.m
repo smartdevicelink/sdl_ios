@@ -41,10 +41,10 @@
     if (_hmiLevel != hmiLevel) {
         _hmiLevel = hmiLevel;
     }
-
-    if ([SDLHMILevel.FULL.value isEqualToString:hmiLevel.value] || [SDLHMILevel.LIMITED.value isEqualToString:hmiLevel.value]) {
+    
+    if ([hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
         _bUserSelected = YES;
-    } else if ([SDLHMILevel.NONE.value isEqualToString:hmiLevel.value]) {
+    } else if ([hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
         _bUserSelected = NO;
     }
 }
@@ -61,10 +61,10 @@
 
 - (SDLLockScreenStatus *)lockScreenStatus
 {
-    if (_hmiLevel == nil || _hmiLevel == [SDLHMILevel NONE]) {
+    if (_hmiLevel == nil || [_hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
         // App is not active on the car
         return [SDLLockScreenStatus OFF];
-    } else if (_hmiLevel == [SDLHMILevel BACKGROUND]) {
+    } else if ([_hmiLevel isEqualToEnum:[SDLHMILevel BACKGROUND]]) {
         // App is in the background on the car
         // The lockscreen depends entirely on if the user selected the app
         if (_bUserSelected) {
@@ -72,7 +72,7 @@
         } else {
             return [SDLLockScreenStatus OFF];
         }
-    } else if (_hmiLevel == [SDLHMILevel FULL] || _hmiLevel == [SDLHMILevel LIMITED]) {
+    } else if ([_hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [_hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
         // App is in the foreground on the car in some manner
         if (_bHaveDDStatus && !_bDriverDistractionStatus) {
             // We have the distraction status, and the driver is not distracted
