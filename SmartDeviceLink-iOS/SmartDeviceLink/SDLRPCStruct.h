@@ -8,8 +8,8 @@
     NSMutableDictionary* store;
 }
 
--(id) initWithDictionary:(NSMutableDictionary*) dict;
--(id) init;
+-(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+-(instancetype) init;
 
 -(NSMutableDictionary*) serializeAsDictionary:(Byte) version;
 

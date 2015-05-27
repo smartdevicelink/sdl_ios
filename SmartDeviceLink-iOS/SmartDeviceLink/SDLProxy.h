@@ -1,53 +1,50 @@
 //  SDLProxy.h
 //
 
+@class SDLAbstractProtocol;
+@class SDLAbstractTransport;
 @class SDLProtocol;
 @class SDLPutFile;
 @class SDLRPCMessage;
 @class SDLRPCRequestFactory;
+@class SDLTimer;
 
-#import "SDLInterfaceProtocol.h"
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
-#import "SDLTransport.h"
+#import "SDLRPCRequestFactory.h"
 
 
 @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
-	Byte rpcSessionID;
-	Byte bulkSessionID;
-	BOOL isConnected;
-    BOOL alreadyDestructed;
-
+    Byte _bulkSessionID;
+    BOOL _isConnected;
+    BOOL _alreadyDestructed;
 }
 
-@property (strong) NSObject<SDLInterfaceProtocol>* protocol;
-@property (strong) NSObject<SDLTransport>* transport;
-@property (strong) NSMutableArray* proxyListeners;
-@property (strong) NSTimer* handshakeTimer;
+@property (strong) SDLAbstractProtocol *protocol;
+@property (strong) SDLAbstractTransport *transport;
+@property (strong) NSMutableArray *proxyListeners;
+@property (strong) SDLTimer *startSessionTimer;
 @property (strong) NSString *debugConsoleGroupName;
+@property (readonly) NSString *proxyVersion;
 
--(instancetype) initWithTransport:(NSObject<SDLTransport>*) transport protocol:(NSObject<SDLInterfaceProtocol>*) protocol delegate:(NSObject<SDLProxyListener>*) delegate;
+- (id)initWithTransport:(SDLAbstractTransport *)transport
+               protocol:(SDLAbstractProtocol *)protocol
+               delegate:(NSObject<SDLProxyListener> *)delegate;
+- (void)dispose;
 
--(void) dispose;
--(void) addDelegate:(NSObject<SDLProxyListener>*) delegate;
+- (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
 
 - (void)sendRPC:(SDLRPCMessage *)message;
--(void) sendRPCRequest:(SDLRPCMessage*) msg __deprecated_msg("use -sendRPC: instead");
+- (void)sendRPCRequest:(SDLRPCMessage*) msg __deprecated_msg("use -sendRPC: instead");
 
 - (void)handleRPCDictionary:(NSDictionary *)dictionary;
--(void) handleRpcMessage:(NSDictionary*) msg __deprecated_msg("use -handleRPCDictionary: instead");
+- (void)handleRpcMessage:(NSDictionary*) msg __deprecated_msg("use -handleRPCDictionary: instead");
 
--(NSString*) getProxyVersion;
+- (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
--(void) destroyHandshakeTimer;
--(void) handleProtocolMessage:(SDLProtocolMessage*) msgData;
-
-+(void)enableSiphonDebug;
-+(void)disableSiphonDebug;
-
--(NSObject<SDLTransport>*)getTransport;
--(NSObject<SDLInterfaceProtocol>*)getProtocol;
++ (void)enableSiphonDebug;
++ (void)disableSiphonDebug;
 
 /**
  * Puts data into a file on the module
@@ -59,6 +56,5 @@
  * Note: the length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.
  */
 - (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest;
-- (void)putFileStream:(NSInputStream*)inputStream :(SDLPutFile*)putFileRPCRequest __deprecated_msg("use -putFileStream:withRequest: instead");
 
 @end

@@ -1,9 +1,4 @@
-//
 //  SmartDeviceLink.h
-//  SmartDeviceLink
-//
-//  Created by Joel Fischer on 2/5/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -32,10 +27,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
 #import "SDLIAPTransport.h"
+#import "SDLIAPSessionDelegate.h"
 #import "SDLTCPTransport.h"
-#import "SDLTransport.h"
 #import "SDLTransportDelegate.h"
-#import "SDLInterfaceProtocol.h"
 
 /***** Protocol *****/
 #import "SDLProtocolListener.h"
