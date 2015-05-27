@@ -403,7 +403,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
     NSString *stateString = (NSString *)[message getParameters:NAMES_state];
     BOOL state = [stateString isEqualToString:@"DD_ON"]?YES:NO;
-    lsm.bDriverDistractionStatus = state;
+    lsm.driverDistracted = state;
     
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
     [self invokeMethodOnDelegates:callbackSelector withObject:lsm.lockScreenStatusNotification];
