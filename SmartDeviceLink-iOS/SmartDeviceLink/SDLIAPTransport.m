@@ -486,7 +486,9 @@ int const streamOpenTimeoutSeconds = 2;
         NSScanner* pScanner = [NSScanner scannerWithString: output];
         [pScanner scanHexLongLong:&firstHalf];
         double hashBasedValueInRange0to1 = ((double)firstHalf) / 0xffffffffffffffff;
-        delay = range_length * hashBasedValueInRange0to1 + min_value;
+        
+        // Transform the number into a number between min and max
+        delay = ((range_length * hashBasedValueInRange0to1) + min_value);
     }
     
     return delay;
