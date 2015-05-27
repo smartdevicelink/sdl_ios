@@ -20,11 +20,11 @@ describe(@"the lockscreen manager", ^{
     });
     
     it(@"should properly initialize user selected app boolean to false", ^{
-        expect(@(lockScreenManager.bUserSelected)).to(beFalse());
+        expect(@(lockScreenManager.userSelected)).to(beFalse());
     });
     
     it(@"should properly initialize driver is distracted boolean to false", ^{
-        expect(@(lockScreenManager.bDriverDistractionStatus)).to(beFalse());
+        expect(@(lockScreenManager.driverDistracted)).to(beFalse());
     });
     
     it(@"should properly initialize hmi level object to nil", ^{
@@ -34,23 +34,23 @@ describe(@"the lockscreen manager", ^{
     describe(@"when setting HMI level", ^{
         context(@"to FULL", ^{
             beforeEach(^{
-                lockScreenManager.bUserSelected = NO;
+                lockScreenManager.userSelected = NO;
                 lockScreenManager.hmiLevel = [SDLHMILevel FULL];
             });
             
             it(@"should set user selected to true", ^{
-                expect(@(lockScreenManager.bUserSelected)).to(beTrue());
+                expect(@(lockScreenManager.userSelected)).to(beTrue());
             });
         });
         
         context(@"to LIMITED", ^{
             beforeEach(^{
-                lockScreenManager.bUserSelected = NO;
+                lockScreenManager.userSelected = NO;
                 lockScreenManager.hmiLevel = [SDLHMILevel LIMITED];
             });
             
             it(@"should set user selected to true", ^{
-                expect(@(lockScreenManager.bUserSelected)).to(beTrue());
+                expect(@(lockScreenManager.userSelected)).to(beTrue());
             });
         });
         
@@ -61,33 +61,33 @@ describe(@"the lockscreen manager", ^{
             
             context(@"when user selected is false", ^{
                 beforeEach(^{
-                    lockScreenManager.bUserSelected = NO;
+                    lockScreenManager.userSelected = NO;
                 });
                 
                 it(@"should not alter the value", ^{
-                    expect(@(lockScreenManager.bUserSelected)).to(beFalse());
+                    expect(@(lockScreenManager.userSelected)).to(beFalse());
                 });
             });
             
             context(@"when user selected is true", ^{
                 beforeEach(^{
-                    lockScreenManager.bUserSelected = YES;
+                    lockScreenManager.userSelected = YES;
                 });
                 
                 it(@"should not alter the value", ^{
-                    expect(@(lockScreenManager.bUserSelected)).to(beTrue());
+                    expect(@(lockScreenManager.userSelected)).to(beTrue());
                 });
             });
         });
         
         context(@"to NONE", ^{
             beforeEach(^{
-                lockScreenManager.bUserSelected = YES;
+                lockScreenManager.userSelected = YES;
                 lockScreenManager.hmiLevel = [SDLHMILevel NONE];
             });
             
             it(@"should set user selected to false", ^{
-                expect(@(lockScreenManager.bUserSelected)).to(beFalse());
+                expect(@(lockScreenManager.userSelected)).to(beFalse());
             });
         });
     });
@@ -120,7 +120,7 @@ describe(@"the lockscreen manager", ^{
             
             context(@"when user selected is true", ^{
                 beforeEach(^{
-                    lockScreenManager.bUserSelected = YES;
+                    lockScreenManager.userSelected = YES;
                 });
                 
                 it(@"should return lock screen required", ^{
@@ -130,7 +130,7 @@ describe(@"the lockscreen manager", ^{
             
             context(@"when user selected is false", ^{
                 beforeEach(^{
-                    lockScreenManager.bUserSelected = NO;
+                    lockScreenManager.userSelected = NO;
                 });
                 
                 it(@"should return lock screen off", ^{
@@ -152,7 +152,7 @@ describe(@"the lockscreen manager", ^{
             
             context(@"if we set the driver distraction state to false", ^{
                 beforeEach(^{
-                    lockScreenManager.bDriverDistractionStatus = NO;
+                    lockScreenManager.driverDistracted = NO;
                 });
                 
                 it(@"should return lock screen optional", ^{
@@ -162,7 +162,7 @@ describe(@"the lockscreen manager", ^{
             
             context(@"if we set the driver distraction state to true", ^{
                 beforeEach(^{
-                    lockScreenManager.bDriverDistractionStatus = YES;
+                    lockScreenManager.driverDistracted = YES;
                 });
                 
                 it(@"should return lock screen required", ^{
@@ -184,7 +184,7 @@ describe(@"the lockscreen manager", ^{
             
             context(@"if we set the driver distraction state to false", ^{
                 beforeEach(^{
-                    lockScreenManager.bDriverDistractionStatus = NO;
+                    lockScreenManager.driverDistracted = NO;
                 });
                 
                 it(@"should return lock screen optional", ^{
@@ -194,7 +194,7 @@ describe(@"the lockscreen manager", ^{
             
             context(@"if we set the driver distraction state to true", ^{
                 beforeEach(^{
-                    lockScreenManager.bDriverDistractionStatus = YES;
+                    lockScreenManager.driverDistracted = YES;
                 });
                 
                 it(@"should return lock screen required", ^{
@@ -207,8 +207,8 @@ describe(@"the lockscreen manager", ^{
     describe(@"when getting lock screen status notification", ^{
         __block SDLOnLockScreenStatus *onLockScreenStatusNotification = nil;
         beforeEach(^{
-            lockScreenManager.bUserSelected = YES;
-            lockScreenManager.bDriverDistractionStatus = NO;
+            lockScreenManager.userSelected = YES;
+            lockScreenManager.driverDistracted = NO;
             lockScreenManager.hmiLevel = [SDLHMILevel LIMITED];
             
             onLockScreenStatusNotification = lockScreenManager.lockScreenStatusNotification;

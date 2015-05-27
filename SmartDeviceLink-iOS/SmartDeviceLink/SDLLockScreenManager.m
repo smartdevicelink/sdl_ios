@@ -12,7 +12,7 @@
 
 @interface SDLLockScreenManager ()
 
-@property (assign, nonatomic) BOOL bHaveDDStatus;
+@property (assign, nonatomic) BOOL haveDriverDistractionStatus;
 
 @end
 
@@ -23,17 +23,17 @@
 {
     self = [super init];
     if (self) {
-        _bUserSelected = NO;
-        _bDriverDistractionStatus = NO;
-        _bHaveDDStatus = NO;
+        _userSelected = NO;
+        _driverDistracted = NO;
+        _haveDriverDistractionStatus = NO;
     }
     return self;
 }
 
-- (void)setBDriverDistractionStatus:(BOOL)bDriverDistractionStatus
+- (void)setDriverDistracted:(BOOL)driverDistracted
 {
-    _bDriverDistractionStatus = bDriverDistractionStatus;
-    _bHaveDDStatus = YES;
+    _driverDistracted = driverDistracted;
+    _haveDriverDistractionStatus = YES;
 }
 
 - (void)setHmiLevel:(SDLHMILevel *)hmiLevel
@@ -43,19 +43,21 @@
     }
     
     if ([hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
-        _bUserSelected = YES;
+        _userSelected = YES;
     } else if ([hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
-        _bUserSelected = NO;
+        _userSelected = NO;
     }
 }
 
 - (SDLOnLockScreenStatus *)lockScreenStatusNotification {
-    SDLOnLockScreenStatus *notification = [SDLOnLockScreenStatus new];
-    notification.driverDistractionStatus = [NSNumber numberWithBool:_bDriverDistractionStatus];
+    NSNumber *userSelected = @(_userSelected);
+    
+    SDLOnLockScreenStatus *notification = [[SDLOnLockScreenStatus alloc] init];
+    notification.driverDistractionStatus = @(_driverDistracted);
     notification.hmiLevel = _hmiLevel;
-    NSNumber *userSelected = [NSNumber numberWithBool:_bUserSelected];
     notification.userSelected = userSelected;
     notification.lockScreenStatus = [self lockScreenStatus];
+    
     return notification;
 }
 
@@ -67,14 +69,14 @@
     } else if ([_hmiLevel isEqualToEnum:[SDLHMILevel BACKGROUND]]) {
         // App is in the background on the car
         // The lockscreen depends entirely on if the user selected the app
-        if (_bUserSelected) {
+        if (_userSelected) {
             return [SDLLockScreenStatus REQUIRED];
         } else {
             return [SDLLockScreenStatus OFF];
         }
     } else if ([_hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [_hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
         // App is in the foreground on the car in some manner
-        if (_bHaveDDStatus && !_bDriverDistractionStatus) {
+        if (_haveDriverDistractionStatus && !_driverDistracted) {
             // We have the distraction status, and the driver is not distracted
             return [SDLLockScreenStatus OPTIONAL];
         } else {
