@@ -249,31 +249,26 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString* functionName = [message getFunctionName];
     NSString* messageType = [message messageType];
     
-    // TODO: I don't think this does anything, confirm?
+    // If it's a response, append response
+    if ([messageType isEqualToString:NAMES_response]) {
+        BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
+        if(notGenericResponseMessage) {
+            functionName = [NSString stringWithFormat:@"%@Response", functionName];
+        }
+    }
+    
     // From the function name, create the corresponding RPCObject and initialize it
     NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:dict];
     
-    // Log the RPC message out
+    // Log the RPC message
     NSString *logMessage = [NSString stringWithFormat:@"%@", newMessage];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
-    
-    // Intercept and handle ourselves a bunch of things
-    if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered]
-        || [functionName isEqualToString:NAMES_UnregisterAppInterface]) {
-        [self handleRPCUnregistered:newMessage];
+    // Intercept and handle several messages ourselves
+    if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered] || [functionName isEqualToString:NAMES_UnregisterAppInterface]) {
+        [self handleRPCUnregistered:dict];
         return;
-    }
-    
-    if ([messageType isEqualToString:NAMES_response]) {
-        BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
-        if(notGenericResponseMessage) {
-            [newMessage setFunctionName:[NSString stringWithFormat:@"%@Response", functionName]];
-            functionName = [newMessage getFunctionName];
-        } else {
-            return;
-        }
     }
     
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
@@ -323,8 +318,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - RPC Handlers
-- (void)handleRPCUnregistered:(SDLRPCMessage *)message {
-    NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", message];
+- (void)handleRPCUnregistered:(NSDictionary *)messageDictionary {
+    NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", messageDictionary];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC  toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     [self notifyProxyClosed];
 }
