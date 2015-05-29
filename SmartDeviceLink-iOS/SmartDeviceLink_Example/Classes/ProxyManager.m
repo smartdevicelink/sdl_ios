@@ -22,6 +22,7 @@ NSString *const SDLAppId = @"9999";
 @property (strong, nonatomic) SDLProxy *proxy;
 @property (assign, nonatomic, readwrite) ProxyState state;
 @property (assign, nonatomic) BOOL isFirstHMIFull;
+@property (assign, nonatomic) ProxyTransportType currentTransportType;
 
 @end
 
@@ -46,7 +47,10 @@ NSString *const SDLAppId = @"9999";
         return nil;
     }
     
+    _proxy = nil;
     _state = ProxyStateStopped;
+    _isFirstHMIFull = NO;
+    _currentTransportType = ProxyTransportTypeUnknown;
     
     return self;
 }
@@ -67,6 +71,7 @@ NSString *const SDLAppId = @"9999";
         return;
     }
     
+    self.currentTransportType = transportType;
     self.isFirstHMIFull = YES;
     self.state = ProxyStateSearchingForConnection;
     
@@ -119,7 +124,7 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)onProxyClosed {
-    [self stopProxy];
+    [self resetProxyWithTransportType:self.currentTransportType];
 }
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
