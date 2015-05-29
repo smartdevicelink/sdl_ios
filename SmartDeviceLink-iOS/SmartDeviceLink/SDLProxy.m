@@ -268,32 +268,26 @@ const int POLICIES_CORRELATION_ID = 65535;
     // Intercept and handle several messages ourselves
     if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered] || [functionName isEqualToString:NAMES_UnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];
-        return;
     }
     
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
         [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
-        return;
     }
     
     if ([functionName isEqualToString:@"EncodedSyncPDataResponse"]) {
         [SDLDebugTool logInfo:@"EncodedSyncPData (response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-        return;
     }
     
     if ([functionName isEqualToString:@"OnEncodedSyncPData"]) {
         [self handleSyncPData:newMessage];
-        return;
     }
     
     if ([functionName isEqualToString:@"OnSystemRequest"]) {
         [self handleSystemRequest:dict];
-        return;
     }
     
     if ([functionName isEqualToString:@"SystemRequestResponse"]) {
         [self handleSystemRequestResponse:newMessage];
-        return;
     }
     
     // Formulate the name of the method to call and invoke the method on the delegate(s)
