@@ -14,12 +14,13 @@
     return self;
 }
 
+// Implement in subclasses.
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID {
-    [self doesNotRecognizeSelector:_cmd];
+- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
+	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendRPC:(SDLRPCMessage *)message {
@@ -30,7 +31,23 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)sendHeartbeat {
+	[self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)handleBytesFromTransport:(NSData *)receivedData {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)dispose {
     [self doesNotRecognizeSelector:_cmd];
 }
 

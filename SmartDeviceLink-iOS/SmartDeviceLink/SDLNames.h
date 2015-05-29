@@ -2,8 +2,6 @@
 //
 
 
-
-
 #define NAMES_accPedalPosition @"accPedalPosition"
 #define NAMES_actual @"actual"
 #define NAMES_AddCommand @"AddCommand"

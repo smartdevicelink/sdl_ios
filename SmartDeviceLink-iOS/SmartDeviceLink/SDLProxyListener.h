@@ -122,6 +122,4 @@
 -(void) onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse*) response;
 -(void) onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse*) response;
 
-
-
 @end

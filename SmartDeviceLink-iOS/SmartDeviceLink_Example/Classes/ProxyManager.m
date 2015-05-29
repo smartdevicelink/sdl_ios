@@ -13,10 +13,8 @@
 #import "Preferences.h"
 
 
-
 NSString *const SDLAppName = @"SDL Test";
 NSString *const SDLAppId = @"9999";
-
 
 
 @interface ProxyManager () <SDLProxyListener>
@@ -26,7 +24,6 @@ NSString *const SDLAppId = @"9999";
 @property (assign, nonatomic) BOOL isFirstHMIFull;
 
 @end
-
 
 
 @implementation ProxyManager

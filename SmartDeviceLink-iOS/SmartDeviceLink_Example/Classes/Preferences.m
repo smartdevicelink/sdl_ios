@@ -107,7 +107,7 @@ NSString *const DefaultPortValue = @"12345";
     static dispatch_queue_t preferencesQueue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        preferencesQueue = dispatch_queue_create("com.smartdevicelink.example.preferences", DISPATCH_QUEUE_SERIAL);
+        preferencesQueue = dispatch_queue_create("com.sdl-example.preferences", DISPATCH_QUEUE_SERIAL);
     });
     
     return preferencesQueue;

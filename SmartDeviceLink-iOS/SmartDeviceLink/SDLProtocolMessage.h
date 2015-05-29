@@ -11,7 +11,6 @@
 @property (strong) NSData *payload;
 @property (strong, readonly) NSData *data;
 
-- (instancetype)init;
 + (id)messageWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload; // Returns a V1 or V2 object
 
 - (NSUInteger)size;

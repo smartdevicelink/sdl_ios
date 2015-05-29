@@ -2,11 +2,14 @@
 //
 
 @import ExternalAccessory;
+
 #import "SDLAbstractTransport.h"
+#import "SDLIAPSessionDelegate.h"
 
 
-@interface SDLIAPTransport : SDLAbstractTransport <NSStreamDelegate> {}
+@interface SDLIAPTransport : SDLAbstractTransport <SDLIAPSessionDelegate>
 
-@property (assign) BOOL forceLegacy;
+@property (strong, atomic) SDLIAPSession *controlSession;
+@property (strong, atomic) SDLIAPSession *session;
 
 @end
