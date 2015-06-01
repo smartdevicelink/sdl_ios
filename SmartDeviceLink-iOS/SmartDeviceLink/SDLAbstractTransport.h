@@ -7,6 +7,7 @@
 @interface SDLAbstractTransport : NSObject
 
 @property (weak) id<SDLTransportDelegate> delegate;
+@property (assign) NSUInteger MTU;
 @property (strong) NSString *debugConsoleGroupName;
 
 - (void)connect;

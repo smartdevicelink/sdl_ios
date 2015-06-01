@@ -20,9 +20,18 @@
     return ret;
 }
 
++ (SDLProxy *)buildSDLProxyWithListener:(NSObject<SDLProxyListener> *)delegate andMTU:(NSUInteger)MTU {
+    SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
+    transport.MTU = MTU;
+    SDLProtocol *protocol = [[SDLProtocol alloc] init];
+    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport protocol:protocol delegate:delegate];
+
+    return ret;
+}
+
 + (SDLProxy *)buildSDLProxyWithListener:(NSObject<SDLProxyListener> *)delegate
-                                tcpIPAddress:(NSString *)ipaddress
-                                     tcpPort:(NSString *)port {
+                           tcpIPAddress:(NSString *)ipaddress
+                                tcpPort:(NSString *)port {
 
     SDLTCPTransport *transport = [[SDLTCPTransport alloc] init];
     transport.hostName = ipaddress;
@@ -35,4 +44,20 @@
     return ret;
 }
 
++ (SDLProxy *)buildSDLProxyWithListener:(NSObject<SDLProxyListener> *)delegate
+                           tcpIPAddress:(NSString *)ipaddress
+                                tcpPort:(NSString *)port
+                                 andMTU:(NSUInteger)MTU {
+
+    SDLTCPTransport *transport = [[SDLTCPTransport alloc] init];
+    transport.hostName = ipaddress;
+    transport.portNumber = port;
+    transport.MTU = MTU;
+
+    SDLProtocol *protocol = [[SDLProtocol alloc] init];
+
+    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport protocol:protocol delegate:delegate];
+    
+    return ret;
+}
 @end

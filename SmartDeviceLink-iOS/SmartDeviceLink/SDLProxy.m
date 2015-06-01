@@ -702,25 +702,34 @@ const int POLICIES_CORRELATION_ID = 65535;
     switch(eventCode) {
         case NSStreamEventHasBytesAvailable:
         {
-            // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
-            NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
-            
-            const int bufferSize = 1024;
-            NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
-            NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
-            if(nBytesRead > 0)
-            {
-                NSData* data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
-                NSUInteger baseOffset = [(NSNumber*)objc_getAssociatedObject(stream, @"BaseOffset") unsignedIntegerValue];
-                NSUInteger newOffset = baseOffset + currentStreamOffset;
-                
-                SDLPutFile* putFileRPCRequest = (SDLPutFile*)objc_getAssociatedObject(stream, @"SDLPutFile");
-                [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
-                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:nBytesRead]];
-                [putFileRPCRequest setBulkData:data];
-                
-                [self sendRPC:putFileRPCRequest];
-                
+            @autoreleasepool {
+                // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
+                NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
+
+                NSUInteger bufferSize = self.transport.MTU;
+                uint8_t *buffer = malloc(bufferSize);
+                if (buffer) {
+                    NSUInteger len = [(NSInputStream *)stream read:buffer maxLength:bufferSize];
+                    if(len > 0)
+                    {
+                        NSData *data = [NSData dataWithBytes:buffer length:len];
+
+                        NSUInteger baseOffset = [(NSNumber*)objc_getAssociatedObject(stream, @"BaseOffset") unsignedIntegerValue];
+                        NSUInteger newOffset = baseOffset + currentStreamOffset;
+
+                        SDLPutFile* putFileRPCRequest = (SDLPutFile*)objc_getAssociatedObject(stream, @"SDLPutFile");
+                        [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
+                        [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:len]];
+                        [putFileRPCRequest setBulkData:data];
+
+                        [self sendRPC:putFileRPCRequest];
+                        data = nil;
+
+                    }
+                    free(buffer);
+                } else {
+                    [SDLDebugTool logInfo:@"Could not allocate stream read buffer."];
+                }
             }
             
             break;

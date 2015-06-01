@@ -2,11 +2,13 @@
 
 #import "SDLAbstractTransport.h"
 
+#define DEFAULT_MTU 1500
+
 @implementation SDLAbstractTransport
 
 - (instancetype)init {
     if (self = [super init]) {
-
+        _MTU = DEFAULT_MTU;
     }
     return self;
 }
