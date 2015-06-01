@@ -20,7 +20,6 @@
 #import "SDLAbstractTransport.h"
 
 
-const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
 const UInt8 MAX_VERSION_TO_SEND = 4;
 
 
@@ -165,12 +164,12 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < MAX_TRANSMISSION_SIZE)
+    if (protocolMessage.size < self.transport.MTU)
     {
         [self logRPCSend:protocolMessage];
         [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:self.transport.MTU];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
@@ -205,7 +204,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * MAX_TRANSMISSION_SIZE)];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * self.transport.MTU)];
     }
     
     // Save the data
@@ -279,11 +278,11 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     header.messageID = ++_messageID;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
-    if (message.size < MAX_TRANSMISSION_SIZE) {
+    if (message.size < self.transport.MTU) {
         [self logRPCSend:message];
         [self sendDataToTransport:message.data withPriority:header.serviceType];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:self.transport.MTU];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:header.serviceType];
