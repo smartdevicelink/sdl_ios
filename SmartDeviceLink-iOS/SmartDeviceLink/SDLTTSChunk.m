@@ -48,4 +48,8 @@
     }
 }
 
+-(NSString*) description {
+    return [NSString stringWithFormat:@"%@, %@", self.type, self.text];
+}
+
 @end
