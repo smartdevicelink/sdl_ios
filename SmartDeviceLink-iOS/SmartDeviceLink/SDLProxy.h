@@ -9,6 +9,7 @@
 @class SDLRPCRequestFactory;
 @class SDLTimer;
 
+#import <VideoToolbox/VideoToolbox.h>
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
 #import "SDLRPCRequestFactory.h"
@@ -51,7 +52,8 @@
 - (void)stopAudioSession;
 
 - (void)startVideoSession;
-- (void)sendVideoData:(NSData *)data;
+- (void)sendH264EncodedFrame:(CMSampleBufferRef)sampleBuffer;
+- (void)sendH264ElementaryStreamData:(NSData *)data;
 - (void)stopVideoSession;
 
 
