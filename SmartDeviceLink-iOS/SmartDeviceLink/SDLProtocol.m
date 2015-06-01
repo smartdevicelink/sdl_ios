@@ -106,8 +106,8 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:self.version]];
     NSData* messagePayload = nil;
     
-    NSString *logMessage = [NSString stringWithFormat:@"%@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+//    NSString *logMessage = [NSString stringWithFormat:@"%@", message];
+//    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE

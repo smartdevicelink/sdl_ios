@@ -158,6 +158,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnTBTClientState.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLOnVehicleData.h"
+#import "SDLRPCOnStream.h"
 
 // Structs
 #import "SDLAirbagStatus.h"

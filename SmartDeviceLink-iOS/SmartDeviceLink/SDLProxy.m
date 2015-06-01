@@ -38,9 +38,11 @@
 #import "SDLLockScreenManager.h"
 #import "SDLProtocolMessage.h"
 #import "SDLTimer.h"
+#import "SDLRPCOnStream.h"
 
 
 #define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
+#define BUFFER_SIZE 1024
 typedef void(^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 const float startSessionTime = 10.0;
@@ -56,6 +58,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
+@property (strong) NSMutableDictionary *streamingPutFilesArray;
+@property (strong) NSMutableDictionary *putFileDic;
 
 @end
 
@@ -78,6 +82,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         self.transport.delegate = protocol;
         self.protocol.protocolDelegate = self;
         self.protocol.transport = transport;
+        self.streamingPutFilesArray = [[NSMutableDictionary alloc]init];
+        self.putFileDic = [[NSMutableDictionary alloc]init];
 
         [self.transport performSelector:@selector(connect) withObject:nil afterDelay:0];
 
@@ -109,6 +115,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         self.transport = nil;
         self.protocol = nil;
         self.proxyListeners = nil;
+        self.streamingPutFilesArray = nil;
+        self.putFileDic = nil;
     }
 }
 
@@ -224,6 +232,28 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - Message sending and recieving
 - (void)sendRPC:(SDLRPCMessage *)message {
+    SDLRPCRequest *rpcRequest = (SDLRPCRequest*)message;
+    NSString *functionName =[rpcRequest getFunctionName];
+    NSString *logMessage = [NSString stringWithFormat:@"%@", rpcRequest];
+    BOOL isBulkFile = true;
+    if ([functionName isEqualToString:@"PutFile"]) {
+        if ([self.streamingPutFilesArray count] > 0) {
+            NSString *keyString = [NSString stringWithFormat:@"%@",rpcRequest.correlationID];
+            if([self.streamingPutFilesArray objectForKey:keyString]) {
+                isBulkFile = false;
+            }
+            if (isBulkFile) {
+                [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            }
+        }
+        else {
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        }
+    }
+    else {
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    }
+    
     @try {
         [self.protocol sendRPC:message];
     } @catch (NSException *exception) {
@@ -290,9 +320,16 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestResponse:newMessage];
     }
     
+    if ([functionName isEqualToString:NAMES_PutFile]) {
+        [self handleAfterPutFileRespose:dict];
+        return;
+
+    }
+    
     // Formulate the name of the method to call and invoke the method on the delegate(s)
     NSString* handlerName = [NSString stringWithFormat:@"on%@:", functionName];
     SEL handlerSelector = NSSelectorFromString(handlerName);
+
     [self invokeMethodOnDelegates:handlerSelector withObject:newMessage];
     
     // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
@@ -387,6 +424,74 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:callbackSelector withObject:_lsm.lockScreenStatusNotification];
 }
 
+-(void)handleAfterPutFileRespose:(NSDictionary *)message {
+    SDLRPCMessage* rpcMsg = [[SDLRPCMessage alloc] initWithDictionary:(NSMutableDictionary*) message];
+    NSString* functionName = [rpcMsg getFunctionName];
+    NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
+    SDLRPCMessage *functionObject = [[NSClassFromString(functionClassName) alloc] initWithDictionary:message];
+    NSString *logMessage = [NSString stringWithFormat:@"%@", functionObject];
+
+    
+        NSDictionary *putFileDic = [message objectForKey:@"response"];
+        NSNumber *responseCorrelationID = [putFileDic objectForKey:@"correlationID"];
+        NSDictionary *parameters = [putFileDic objectForKey:@"parameters"];
+        NSInteger streamingArrayCount;
+        NSInteger putfileArrayCount;
+        @synchronized(self.putFileDic) {
+            putfileArrayCount = [self.putFileDic count];
+            
+        }
+        
+        @synchronized(self.streamingPutFilesArray) {
+            streamingArrayCount = [self.streamingPutFilesArray count];
+        }
+        if (streamingArrayCount > 0) {
+            
+            if ( putfileArrayCount > 0) {
+                
+                NSString *keyString = [NSString stringWithFormat:@"%@",responseCorrelationID];
+                SDLRPCOnStream *tempMessage = [self.streamingPutFilesArray objectForKey:keyString];
+                
+                
+                if (tempMessage) {
+                    if ([self.putFileDic objectForKey:tempMessage.fileName]) {
+                        NSNumber *success = [parameters objectForKey:@"success"] ;
+                        tempMessage.isSuccess =success.floatValue ;
+                        if(success.floatValue == 1) {
+                            [self invokeMethodOnDelegates:@selector(onStreamingPutFile:) withObject:tempMessage];
+                        }
+                        else {
+                            [self invokeMethodOnDelegates:@selector(onStreamingPutFile:) withObject:tempMessage];
+                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            @synchronized(self.putFileDic) {
+                                [self.putFileDic removeObjectForKey:tempMessage.fileName];
+                            }
+                        }
+                        if (tempMessage.numberOfBytesSent.integerValue == tempMessage.totalSize.integerValue) {
+                            @synchronized(self.putFileDic) {
+                                [self.putFileDic removeObjectForKey:tempMessage.fileName];
+                            }
+                            @synchronized(self.streamingPutFilesArray) {
+                                NSString *tempKey = [NSString stringWithFormat:@"%@",tempMessage.initialCorrelationID];
+                                [self.streamingPutFilesArray removeObjectForKey:tempKey];
+                            }
+                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                        }
+                        @synchronized(self.streamingPutFilesArray) {
+                            [self.streamingPutFilesArray removeObjectForKey:keyString];
+                        }
+                    }
+                }
+                else {
+                    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                }
+            }
+            
+        }
+        else {
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        }
+}
 
 #pragma mark OnSystemRequest Handlers
 - (void)handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
@@ -679,11 +784,22 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void)putFileStream:(NSInputStream*)inputStream withRequest:(SDLPutFile*)putFileRPCRequest
 {
     inputStream.delegate = self;
+    SDLPutFile *putfileRequest = [SDLRPCRequestFactory buildPutFileWithFileName:putFileRPCRequest.syncFileName fileType:nil persistentFile:putFileRPCRequest.persistentFile correlationId:putFileRPCRequest.correlationID];
+    
+    [putfileRequest setFileType:putFileRPCRequest.fileType];
+    [putfileRequest setSystemFile:putFileRPCRequest.systemFile];
+    [putfileRequest setOffset:putFileRPCRequest.offset];
+    [putfileRequest setLength:putFileRPCRequest.length];
+
     objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject(inputStream, @"BaseOffset", [putFileRPCRequest offset], OBJC_ASSOCIATION_RETAIN);
-
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [inputStream open];
+    [self addStreamingPutFile:putFileRPCRequest];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+    dispatch_async(queue, ^ {
+        [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [inputStream open];
+        [[NSRunLoop currentRunLoop] run];
+    });
 }
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode
@@ -694,7 +810,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
             
-            const int bufferSize = 1024;
+            const int bufferSize = BUFFER_SIZE;
             NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if(nBytesRead > 0)
@@ -707,9 +823,9 @@ const int POLICIES_CORRELATION_ID = 65535;
                 [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
                 [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
-                
-                [self sendRPC:putFileRPCRequest];
-                
+                putFileRPCRequest = [self updateStreamingPutFile:putFileRPCRequest];
+                if (putFileRPCRequest != nil)
+                    [self sendRPC:putFileRPCRequest];
             }
             
             break;
@@ -732,6 +848,58 @@ const int POLICIES_CORRELATION_ID = 65535;
             break;
         }
     }
+}
+
+- (void)addStreamingPutFile:(SDLPutFile *)request{
+    
+    SDLRPCOnStream *messageSent = [[SDLRPCOnStream alloc] initWithFileName:request.syncFileName fileSize:request.length bytesSent:request.offset correlationID:request.correlationID];
+    
+    NSString *keyString = [NSString stringWithFormat:@"%@",request.correlationID];
+    
+    @synchronized(self.streamingPutFilesArray) {
+        [self.streamingPutFilesArray setValue:messageSent  forKey:keyString];
+    }
+    @synchronized(self.putFileDic) {
+        [self.putFileDic setValue:request.correlationID forKey:request.syncFileName];
+    }
+    NSString *logMessage = [NSString stringWithFormat:@"%@", request];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+}
+
+-(SDLPutFile *)updateStreamingPutFile:(SDLPutFile *)request{
+    
+    NSNumber *currentID = [NSNumber numberWithInteger:(request.correlationID.integerValue +1)];
+    NSNumber *correlationID ;
+    NSInteger countOffileStreaming;
+    @synchronized (self.putFileDic) {
+        countOffileStreaming = [self.putFileDic count];
+    }
+    if ( countOffileStreaming>0) {
+        correlationID  = [self.putFileDic objectForKey:request.syncFileName];
+        
+    }
+    
+    if (correlationID != nil){
+        NSNumber *len = [NSNumber numberWithInteger:([request.offset integerValue] + [request.length integerValue])] ;
+        
+        SDLRPCOnStream *tempObject;
+        if ([self.streamingPutFilesArray count] > 0) {
+            NSString *tempKey = [NSString stringWithFormat:@"%@",correlationID];
+            tempObject = [self.streamingPutFilesArray objectForKey:tempKey];
+        }
+        
+        SDLRPCOnStream *messageSent = [[SDLRPCOnStream alloc] initWithFileName:request.syncFileName fileSize:tempObject.totalSize bytesSent:len correlationID:correlationID];
+        
+        [request setCorrelationID:currentID];
+        NSString *keyString = [NSString stringWithFormat:@"%@",currentID];
+        @synchronized(self.streamingPutFilesArray) {
+            [self.streamingPutFilesArray setValue:messageSent  forKey:keyString];
+        }
+    }
+    else {
+        request = nil;
+    }
+    return request;
 }
 
 

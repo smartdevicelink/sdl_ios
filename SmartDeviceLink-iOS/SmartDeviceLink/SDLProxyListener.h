@@ -57,6 +57,7 @@
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
+@class SDLRPCOnStream;
 
 @protocol SDLProxyListener <NSObject>
 
@@ -121,5 +122,7 @@
 -(void) onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse*) response;
 -(void) onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse*) response;
 -(void) onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse*) response;
+-(void) onStreamingPutFile:(SDLRPCOnStream*) request;
+
 
 @end
