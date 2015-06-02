@@ -1,4 +1,4 @@
-##### Note: Please use the [develop](https://github.com/smartdevicelink/sdl_ios/tree/develop) branch of sdl_ios for the most stable versions.
+##### Note: Please use the [develop](https://github.com/smartdevicelink/sdl_ios/tree/develop) branch of sdl_ios for the most recent version. Significant changes have been made since the latest stable release and the in-progress develop branch.
 
 # SmartDeviceLink (SDL)
 
