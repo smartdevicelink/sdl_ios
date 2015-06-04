@@ -190,7 +190,6 @@ int const streamOpenTimeoutSeconds = 2;
     if (self.controlSession) {
         self.controlSession.delegate = self;
         
-        // TODO: (Joel F.)[2015-05-01] Should the nil check be removed? If it's not nil, we are probably going to have some weirdness if it's already running and wasn't canceled. Better to start fresh?
         if (self.protocolIndexTimer == nil) {
             self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
         }
@@ -349,10 +348,8 @@ int const streamOpenTimeoutSeconds = 2;
             strongSelf.controlSession = nil;
             
             // Determine protocol string of the data session, then create that data session
-            // TODO: (Joel F.)[2015-05-01] Determine if the [stringValue] call is necessary, 99.9% likelihood it is not
-            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, [@(buf[0]) stringValue]];
+            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             dispatch_sync(dispatch_get_main_queue(), ^{
-                // TODO: (Joel F.)[2015-05-01] Why are we 1. Dispatching sync 2. To the main queue
                 [strongSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });
             

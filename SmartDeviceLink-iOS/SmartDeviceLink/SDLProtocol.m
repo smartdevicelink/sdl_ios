@@ -143,8 +143,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             messagePayload = rpcPayload.data;
         } break;
         default: {
-            // TODO: (Joel F.)[2015-05-05] Should this be an error, or an assert?
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Attempting to send an RPC based on an unknown version number" userInfo:@{@"version": @(self.version), @"message": message}];
+            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @(self.version), message);
         } break;
     }
 

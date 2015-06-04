@@ -84,7 +84,7 @@
 }
 
 - (BOOL)transitionWasCancelled {
-    return NO; // TODO: If made interactive, it can be cancelled
+    return NO;
 }
 
 - (UIView *)viewForKey:(NSString *)key {
