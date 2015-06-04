@@ -77,6 +77,10 @@
     }
 }
 
+- (NSString *)description {
+    return [store description];
+}
+
 -(void) dealloc {
     store = nil;
 }
