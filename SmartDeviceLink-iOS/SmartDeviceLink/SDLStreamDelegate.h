@@ -1,8 +1,5 @@
 //
 //  SDLStreamDelegate.h
-//
-//  Copyright (c) 2014 SDL. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

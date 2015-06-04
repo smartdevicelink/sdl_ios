@@ -1,10 +1,6 @@
 //
 //  SDLObjectWithPrioritySpec.m
 //  SmartDeviceLink-iOS
-//
-//  Created by Joel Fischer on 3/27/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import <Quick/Quick.h>
