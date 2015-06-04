@@ -290,9 +290,28 @@ const int POLICIES_CORRELATION_ID = 65535;
     // From the function name, create the corresponding RPCObject and initialize it
     NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:dict];
-    
-    // Log the RPC message
     NSString *logMessage = [NSString stringWithFormat:@"%@", newMessage];
+
+    
+    if ([messageType isEqualToString:NAMES_response]) {
+        BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
+        if(notGenericResponseMessage) {
+            [newMessage setFunctionName:[NSString stringWithFormat:@"%@Response", functionName]];
+            functionName = [newMessage getFunctionName];
+        } else {
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            return;
+        }
+    }
+    
+    if ([functionName isEqualToString:@"PutFileResponse"]) {
+        [self handleAfterPutFileRespose:dict];
+        return;
+        
+    }
+
+    
+    // Log the RPC message out
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     // Intercept and handle several messages ourselves
@@ -318,12 +337,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     if ([functionName isEqualToString:@"SystemRequestResponse"]) {
         [self handleSystemRequestResponse:newMessage];
-    }
-    
-    if ([functionName isEqualToString:NAMES_PutFile]) {
-        [self handleAfterPutFileRespose:dict];
-        return;
-
     }
     
     // Formulate the name of the method to call and invoke the method on the delegate(s)
@@ -791,8 +804,8 @@ const int POLICIES_CORRELATION_ID = 65535;
     [putfileRequest setOffset:putFileRPCRequest.offset];
     [putfileRequest setLength:putFileRPCRequest.length];
 
-    objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
-    objc_setAssociatedObject(inputStream, @"BaseOffset", [putFileRPCRequest offset], OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(inputStream, @"SDLPutFile", putfileRequest, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(inputStream, @"BaseOffset", [putfileRequest offset], OBJC_ASSOCIATION_RETAIN);
     [self addStreamingPutFile:putFileRPCRequest];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
     dispatch_async(queue, ^ {

@@ -241,7 +241,7 @@
 		1E61960B1B184F2000F34CFB /* SDLRPCOnStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6196091B184F2000F34CFB /* SDLRPCOnStream.m */; };
 		1E61960C1B184F2000F34CFB /* SDLRPCOnStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6196091B184F2000F34CFB /* SDLRPCOnStream.m */; };
 		1E61960D1B184F2000F34CFB /* SDLRPCOnStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6196091B184F2000F34CFB /* SDLRPCOnStream.m */; };
-		1E61960E1B184F2000F34CFB /* SDLRPCOnStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E61960A1B184F2000F34CFB /* SDLRPCOnStream.h */; };
+		1E61960E1B184F2000F34CFB /* SDLRPCOnStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E61960A1B184F2000F34CFB /* SDLRPCOnStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0218F61A8E79C400D1BF62 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218F51A8E79C400D1BF62 /* ConnectionTCPTableViewController.m */; };
 		5D0218F91A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0218F71A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard */; };
 		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
@@ -2915,6 +2915,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E61960E1B184F2000F34CFB /* SDLRPCOnStream.h in Headers */,
 				5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */,
 				E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */,
 				5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */,
@@ -3157,7 +3158,6 @@
 				5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */,
 				5D61FD711A84238C00846EE7 /* SDLRPCRequest.h in Headers */,
 				5D61FD6D1A84238C00846EE7 /* SDLRPCNotification.h in Headers */,
-				1E61960E1B184F2000F34CFB /* SDLRPCOnStream.h in Headers */,
 				5D61FD691A84238C00846EE7 /* SDLRPCMessage.h in Headers */,
 				5D61FCA71A84238C00846EE7 /* SDLEnum.h in Headers */,
 				5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */,
