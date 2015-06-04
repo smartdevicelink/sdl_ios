@@ -279,14 +279,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString* functionName = [message getFunctionName];
     NSString* messageType = [message messageType];
     
-    // If it's a response, append response
-    if ([messageType isEqualToString:NAMES_response]) {
-        BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
-        if(notGenericResponseMessage) {
-            functionName = [NSString stringWithFormat:@"%@Response", functionName];
-        }
-    }
-    
+    // TODO: I don't think this does anything, confirm?
     // From the function name, create the corresponding RPCObject and initialize it
     NSString* functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:dict];
@@ -362,8 +355,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - RPC Handlers
-- (void)handleRPCUnregistered:(NSDictionary *)messageDictionary {
-    NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", messageDictionary];
+- (void)handleRPCUnregistered:(SDLRPCMessage *)message {
+    NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", message];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC  toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     [self notifyProxyClosed];
 }
