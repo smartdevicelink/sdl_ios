@@ -1,0 +1,4 @@
+language: objective-c
+xcode_project: SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj
+xcode_scheme: SmartDeviceLink
+xcode_sdk: iphonesimulator8.1
