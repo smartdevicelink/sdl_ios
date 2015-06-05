@@ -1,7 +1,7 @@
 language: objective-c
-osx_image: xcode6.3
+osx_image: beta-xcode6.3
 script:
-  - xctool test -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  - xctool test -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO
 
 notifications:
   email: false
