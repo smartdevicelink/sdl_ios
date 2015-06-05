@@ -252,6 +252,7 @@
 		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
 		5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A71A95191B00252386 /* ConnectionAnimatedTransition.m */; };
+		5D4AB7A21B21EC16004C1AB0 /* SmartDeviceLink.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350C1A855EB300687FB9 /* AppDelegate.m */; };
 		5D5935121A855EBE00687FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5935111A855EBE00687FB9 /* main.m */; };
 		5D59DD471B14FDEE00BE744D /* SDLLockScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59DD461B14FDEE00BE744D /* SDLLockScreenManagerSpec.m */; };
@@ -815,6 +816,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5D4AB7A21B21EC16004C1AB0 /* SmartDeviceLink.framework in CopyFiles */,
 				162E81CF1A9BDDD800906325 /* Nimble.framework in CopyFiles */,
 				162E81D01A9BDDD800906325 /* Quick.framework in CopyFiles */,
 			);
