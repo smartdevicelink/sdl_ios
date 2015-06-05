@@ -10,5 +10,3 @@ notifications:
 before_install:
   - brew update
   - brew outdated xctool || brew upgrade xctool
-  - brew upgrade clang-format || brew install clang-format
-  - clang-format -style=file
