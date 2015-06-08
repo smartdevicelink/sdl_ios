@@ -272,3 +272,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVRCapabilities.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"
+
+// Enhancements
+#import "SDLHandlers.h"
+#import "SDLAddCommandWithHandler.h"
+#import "SDLSoftButtonWithHandler.h"
+#import "SDLSubscribeButtonWithHandler.h"
+#import "SDLProxyListenerBase.h"
+#import "SDLProxyBase.h"
