@@ -9,35 +9,6 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 
 @interface SDLProxyBase : NSObject
 
-// Proxy notification and event handlers
-@property (copy) eventHandler onProxyOpenedHandler;
-@property (copy) eventHandler onProxyClosedHandler;
-@property (copy) eventHandler firstHMIFullHandler;
-@property (copy) eventHandler firstHMINotNoneHandler;
-@property (copy) errorHandler proxyErrorHandler;
-@property (copy) rpcResponseHandler appRegisteredHandler;
-
-// These handlers are required for the app to implement
-@property (copy) rpcNotificationHandler onOnLockScreenNotificationHandler;
-@property (copy) rpcNotificationHandler onOnLanguageChangeHandler;
-@property (copy) rpcNotificationHandler onOnPermissionsChangeHandler;
-
-// Optional handlers
-@property (copy) rpcNotificationHandler onOnDriverDistractionHandler;
-@property (copy) rpcNotificationHandler onOnHMIStatusHandler;
-@property (copy) rpcNotificationHandler onOnAppInterfaceUnregisteredHandler;
-@property (copy) rpcNotificationHandler onOnAudioPassThruHandler;
-@property (copy) rpcNotificationHandler onOnButtonEventHandler;
-@property (copy) rpcNotificationHandler onOnButtonPressHandler;
-@property (copy) rpcNotificationHandler onOnCommandHandler;
-@property (copy) rpcNotificationHandler onOnEncodedSyncPDataHandler;
-@property (copy) rpcNotificationHandler onOnHashChangeHandler;
-@property (copy) rpcNotificationHandler onOnSyncPDataHandler;
-@property (copy) rpcNotificationHandler onOnSystemRequestHandler;
-@property (copy) rpcNotificationHandler onOnTBTClientStateHandler;
-@property (copy) rpcNotificationHandler onOnTouchEventHandler;
-@property (copy) rpcNotificationHandler onOnVehicleDataHandler;
-
 // Proxy registration objects
 @property (strong, nonatomic) NSString *appName;
 @property (strong, nonatomic) NSString *appID;
@@ -46,9 +17,32 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 @property (strong, nonatomic) NSString *shortName;
 @property (strong, nonatomic) NSArray *vrSynonyms;
 
-- (void)runHandlerForEvent:(enum SDLEvent)sdlEvent error:(NSException *)error;
-- (void)runHandlerForResponse:(SDLRPCResponse *)response;
-- (void)runHandlerForNotification:(SDLRPCNotification *)notification;
+- (void)addOnProxyOpenedHandler:(eventHandler)handler;
+- (void)addOnProxyClosedHandler:(eventHandler)handler;
+- (void)addFirstHMIFullHandler:(eventHandler)handler;
+- (void)addFirstHMINotNoneHandler:(eventHandler)handler;
+- (void)addProxyErrorHandler:(errorHandler)handler;
+- (void)addAppRegisteredHandler:(rpcResponseHandler)handler;
+- (void)addOnOnLockScreenNotificationHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnLanguageChangeHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnPermissionsChangeHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnDriverDistractionHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnHMIStatusHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnAppInterfaceUnregisteredHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnAudioPassThruHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnButtonEventHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnButtonPressHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnCommandHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnEncodedSyncPDataHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnHashChangeHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnSyncPDataHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnSystemRequestHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnTBTClientStateHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnTouchEventHandler:(rpcNotificationHandler)handler;
+- (void)addOnOnVehicleDataHandler:(rpcNotificationHandler)handler;
+- (void)runHandlersForEvent:(enum SDLEvent)sdlEvent error:(NSException *)error;
+- (void)runHandlersForResponse:(SDLRPCResponse *)response;
+- (void)runHandlersForNotification:(SDLRPCNotification *)notification;
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(rpcResponseHandler)responseHandler;
 - (void)startProxyWithLockscreenHandler:(rpcNotificationHandler)lockscreenHandler
                   languageChangeHandler:(rpcNotificationHandler)languageChangeHandler
