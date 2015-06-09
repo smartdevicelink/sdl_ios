@@ -17,6 +17,8 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 @property (strong, nonatomic) NSString *shortName;
 @property (strong, nonatomic) NSArray *vrSynonyms;
 
+// Methods to add RPC notification handlers
+// Note: Handlers are NOT run in the main/UI thread. Apps must take this in to account if/when updating the UI from a handler.
 - (void)addOnProxyOpenedHandler:(eventHandler)handler;
 - (void)addOnProxyClosedHandler:(eventHandler)handler;
 - (void)addFirstHMIFullHandler:(eventHandler)handler;
@@ -40,9 +42,13 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 - (void)addOnOnTBTClientStateHandler:(rpcNotificationHandler)handler;
 - (void)addOnOnTouchEventHandler:(rpcNotificationHandler)handler;
 - (void)addOnOnVehicleDataHandler:(rpcNotificationHandler)handler;
+
+// Methods called by SDLProxyListenerBase in response to Events, and RPC Responses and Notifications
 - (void)runHandlersForEvent:(enum SDLEvent)sdlEvent error:(NSException *)error;
 - (void)runHandlersForResponse:(SDLRPCResponse *)response;
 - (void)runHandlersForNotification:(SDLRPCNotification *)notification;
+
+// Main proxy methods
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(rpcResponseHandler)responseHandler;
 - (void)startProxyWithLockscreenHandler:(rpcNotificationHandler)lockscreenHandler
                   languageChangeHandler:(rpcNotificationHandler)languageChangeHandler
