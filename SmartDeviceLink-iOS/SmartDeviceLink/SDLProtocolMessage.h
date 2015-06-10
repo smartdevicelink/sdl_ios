@@ -3,7 +3,6 @@
 
 @import Foundation;
 
-#import "SDLMessageType.h"
 #import "SDLProtocolHeader.h"
 
 @interface SDLProtocolMessage : NSObject
@@ -15,7 +14,6 @@
 @property (nonatomic) Byte version;
 @property (nonatomic) Byte rpcType;
 @property (nonatomic) SDLServiceType sessionType;
-@property (nonatomic) SDLMessageType messageType;
 @property (strong, nonatomic) NSNumber* functionID;
 @property (strong, nonatomic) NSNumber* correlationID;
 @property (strong, nonatomic) NSData* bulkData;
