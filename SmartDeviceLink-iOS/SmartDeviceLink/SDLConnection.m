@@ -61,7 +61,9 @@
 }
 
 -(void)startHandShake{
+    
     if (_protocol) {
+        
         [_protocol sendStartSessionWithType:SDLServiceType_RPC];
     }
 }
@@ -96,6 +98,32 @@
     return [_transport notificationComment];
 }
 
+-(void)unregisterSession:(SDLSession*)session{
+    [self.sessions removeObject:session];
+    [self closeConnection:([self.sessions count] == 0) sessionId:session.sessionID];
+}
+
+-(void)closeConnection:(BOOL)willRecycle sessionId:(Byte)sessionId{
+    if (self.protocol) {
+        if (self.transport && self.transport.isConnected) {
+            [self.protocol sendEndSessionWithType:SDLServiceType_RPC sessionID:sessionId];
+        }
+        if (willRecycle) {
+            self.protocol = nil;
+        }
+    }
+    if (willRecycle) {
+        if (self.transport) {
+            [self.transport disconnect];
+        }
+        self.transport = nil;
+    }
+}
+
+-(NSUInteger)registrationCount{
+    return [self.sessions count];
+}
+
 #pragma mark SDLProtocolListener
 
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version{
@@ -121,6 +149,7 @@
 #pragma mark SDLTransportDelegate
 
 - (void)onTransportConnected{
+    
     if (_protocol) {
         for (SDLSession* session in self.sessions) {
             if (session.sessionID == 0) {

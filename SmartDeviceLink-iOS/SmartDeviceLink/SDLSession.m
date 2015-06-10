@@ -9,8 +9,9 @@
 #import "SDLBaseTransportConfig.h"
 #import "SDLLockScreenManager.h"
 #import "SDLConnection.h"
+#import "SDLHeartbeatMonitor.h"
 
-@interface SDLSession() 
+@interface SDLSession() <SDLConnectionDelegate>
 
 @property (strong, nonatomic) SDLConnection* sdlConnection;
 @property (nonatomic) Byte wiproProtocolVersion;
@@ -63,6 +64,17 @@
     return connection;
 }
 
+-(void)close{
+    if (self.sdlConnection) {
+        [self.sdlConnection unregisterSession:self];
+        
+        if ([self.sdlConnection registrationCount] == 0) {
+            [self.shareConnections removeObject:self.sdlConnection];
+        }
+        self.sdlConnection = nil;
+    }
+}
+
 -(NSString *)notificationComment{
     SDLConnection* connection;
     if (_transportConfig.shareConnection) {
@@ -83,6 +95,47 @@
 
 -(BOOL)isConnected{
     return [self.sdlConnection isConnected];
+}
+
+-(void)initializeSession{
+    if (self.heartbeatMonitor) {
+        //TODO: Implement
+//        [self.heartbeatMonitor start];
+    }
+}
+
+#pragma mark SDLConnectionDelegate Methods
+
+-(void)transportDisconnected{
+    [self.delegate transportDisconnected];
+}
+
+-(void)transportError:(NSError *)error{
+    [self.delegate transportError:error];
+}
+
+-(void)protocolMessageReceived:(SDLProtocolMessage *)msg{
+    [self.delegate protocolMessageReceived:msg];
+}
+
+-(void)heartbeatTimedOut:(Byte)sessionID{
+    [self.delegate heartbeatTimedOut:sessionID];
+}
+
+-(void)protocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString *)correlationID{
+    self.sessionID = sessionID;
+    //TODO: Implement
+//    self.lockScreenManager.sessionId = sessionId;
+    [self.delegate protocolSessionStarted:sessionType sessionID:sessionID version:version correlationID:correlationID];
+    [self initializeSession];
+}
+
+-(void)protocolSessionEnded:(SDLServiceType)sessionType sessionID:(Byte)sessionID correlationID:(NSString *)correlationID{
+    [self.delegate protocolSessionEnded:sessionType sessionID:sessionID correlationID:correlationID];
+}
+
+-(void)protocolErrorWithInfo:(NSString *)info exception:(NSException *)e{
+    [self.delegate protocolErrorWithInfo:info exception:e];
 }
 
 @end
