@@ -21,12 +21,16 @@
 #import "SDLSystemRequest.h"
 #import "SDLInternalProxyMessage.h"
 #import "SDLOnError.h"
-#import "SDLMessageType.h"
 #import "SDLSystemRequestResponse.h"
 //#import "SDLHeartbeatMonitor.h"
 #import "SDLOnProxyClosed.h"
+#import "SDLPolicyDataParser.h"
+#import "SDLRPCPayload.h"
 
 @import ExternalAccessory;
+
+#define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
+typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 static NSString* SDLInvalidArgumentException = @"SDLInvalidArgumentException";
 static int const PROX_PROT_VER_ONE = 1;
@@ -37,7 +41,9 @@ static int const POLICIES_CORRELATION_ID = 65535;
 static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 @interface SDLProxyBase() <SDLConnectionDelegate, SDLProtocolListener>
-
+{
+    SDLLockScreenManager *lsm;
+}
 //Flags
 @property (nonatomic, getter=isAdvancedLifecycleManagementEnabled) BOOL advancedLifecycleManagementEnabled;
 @property (nonatomic, getter=isAppInterfaceRegistered) NSNumber* appInterfaceRegistered;
@@ -116,14 +122,15 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         _instanceTimeInterval = [[NSDate date] timeIntervalSince1970];
         
         NSError* error;
-        [self performBaseCommonProxyDelegate:delegate
+        
+        BOOL success = [self performBaseCommonProxyDelegate:delegate
            enableAdvancedLifecycleManagement:enableAdvancedLifecycleManagement
                                      appName:appName
                                   isMediaApp:isMediaApp
                                        appID:appID
                                      options:options
                                        error:&error];
-        if (error) {
+        if (!success && error) {
             //TODO: Log error
             return nil;
         }
@@ -131,13 +138,15 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     return self;
 }
 
--(void)performBaseCommonProxyDelegate:(NSObject<SDLProxyListener>*)delegate
+-(BOOL)performBaseCommonProxyDelegate:(NSObject<SDLProxyListener>*)delegate
     enableAdvancedLifecycleManagement:(BOOL)enableAdvancedLifecycleManagement
                               appName:(NSString *)appName
                            isMediaApp:(NSNumber *)isMediaApp
                                 appID:(NSString *)appID
                               options:(SDLProxyALMOptions *)options
                                 error:(NSError**)error{
+    
+    //TODO: set error & return NO when appropriate
     
     self.wiproVersion = PROX_PROT_VER_ONE;
 
@@ -249,6 +258,8 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     
     [self initializeProxy];
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
+    
+    return YES;
 }
 
 -(void)initializeProxy{
@@ -306,6 +317,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 -(void)navServiceStarted{
     _navServiceResponseReceived = YES;
     _navServiceResponse = YES;
+}
+
+-(NSString*)debugConsoleGroupName{
+    return @"default";
 }
 
 -(void)addCommandWithCommandID:(NSNumber *)commandID menuText:(NSString *)menuText parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)imageType correlationID:(NSNumber *)correlationID{
@@ -390,46 +405,49 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 -(void)dispatchIncomingMessage:(SDLProtocolMessage*)message{
     
-    if (message.sessionType == SDLServiceType_RPC) {
+    if (message.header.serviceType == SDLServiceType_RPC) {
+        
         
         if (self.wiproVersion == 1) {
-            if (message.version > 1) {
-                self.wiproVersion = message.version;
+            if (message.header.version > 1) {
+                self.wiproVersion = message.header.version;
             }
         }
-        
+        //TODO: This needs to be looked at after GitHub update from AppLink team.
         NSMutableDictionary* rpcDictionary = [NSMutableDictionary new];
         if (self.wiproVersion > 1) {
             
-            NSMutableDictionary* rpcDictionaryTemp = [NSMutableDictionary new];
-            rpcDictionaryTemp[NAMES_correlationID] = message.correlationID;
-            if ([message size] > 1) {//TODO:Is this the same as Android "jsonSize" implementation?
-                NSDictionary* mDictionary = [[SDLJsonDecoder instance] decode:message.payload];
+            SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:message.payload];
+            
+            NSMutableDictionary* rpcDictionaryTemp = [[NSMutableDictionary alloc] initWithDictionary:[message rpcDictionary]];
+            rpcDictionaryTemp[NAMES_correlationID] = @(rpcPayload.correlationID);
+            if ([rpcPayload.jsonData length] > 1) {//TODO:Is this the same as Android "jsonSize" implementation?
+                NSDictionary* mDictionary = [[SDLJsonDecoder instance] decode:rpcPayload.jsonData];
                 rpcDictionaryTemp[NAMES_parameters] = mDictionary;
             }
-            NSString* functionName = [[SDLFunctionID new] getFunctionName:[message.functionID intValue]];
+            NSString* functionName = [[SDLFunctionID new] getFunctionName:rpcPayload.functionID];
             if (functionName) {
                 //TODO:Is this the correct key?
                 rpcDictionaryTemp[NAMES_name] = functionName;
             }
             else{
                 
-                [SDLDebugTool logInfo:[NSString stringWithFormat:@"Dispatch Incoming Message - function name is null unknown RPC. FunctionID: %@", message.functionID]];
+                [SDLDebugTool logInfo:[NSString stringWithFormat:@"Dispatch Incoming Message - function name is null unknown RPC. FunctionID: %@", @(rpcPayload.functionID)]];
                 return;
             }
             
-            if (message.rpcType == 0x00) {
+            if (rpcPayload.rpcType == 0x00) {
                rpcDictionary[NAMES_request] = rpcDictionaryTemp;
             }
-            else if (message.rpcType == 0x01){
+            else if (rpcPayload.rpcType == 0x01){
                 rpcDictionary[NAMES_response] = rpcDictionaryTemp;
             }
-            else if (message.rpcType == 0x02){
+            else if (rpcPayload.rpcType == 0x02){
                 rpcDictionary[NAMES_notification] = rpcDictionaryTemp;
             }
             
-            if (message.bulkData) {
-                rpcDictionary[NAMES_bulkData] = message.bulkData;
+            if (rpcPayload.binaryData) {
+                rpcDictionary[NAMES_bulkData] = rpcPayload.binaryData;
             }
         }
         else{
@@ -656,48 +674,43 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
  
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]
+        && [self.delegate respondsToSelector:aSelector]) {
         
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"invokeMethod" message:NSStringFromSelector(aSelector) delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alertView show];
+        //[self performSelector:aSelector withObject:object]; Should not be used with ARC.
+        //Alternative is to explicitly call methods.
         
-        if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]
-            && [self.delegate respondsToSelector:aSelector]) {
-    
-            
-            
-            //[self performSelector:aSelector withObject:object]; Should not be used with ARC.
-            //Alternative is to explicitly call methods.
-            
-            //The following protects agains a possible leak when using "performSelector" with ARC.
-            //Reference:https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ObjCRuntimeRef/index.html#//apple_ref/c/tag/IMP
-            IMP delegateIMP = [self.delegate methodForSelector:aSelector];
-            void (*delegateMethod)(id, SEL, id) = (void *)delegateIMP;
-            delegateMethod(self.delegate, aSelector, object);
-        }
-    }];
+        //The following protects agains a possible leak when using "performSelector" with ARC.
+        //Reference:https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ObjCRuntimeRef/index.html#//apple_ref/c/tag/IMP
+        IMP delegateIMP = [self.delegate methodForSelector:aSelector];
+        void (*delegateMethod)(id, SEL, id) = (void *)delegateIMP;
+        delegateMethod(self.delegate, aSelector, object);
+    }
 }
 
--(void)dispatchInternalMessage:(SDLInternalProxyMessage*)message{
-    if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyError]) {
-        SDLOnError* msg = (SDLOnError*)message;
-        //TODO: Passing NSException to meeting API, but recommend transition to NSError to meet iOS practices.
-        
-        [self invokeMethodOnDelegates:@selector(onError:) withObject:[NSException exceptionWithName:msg.error.domain reason:[msg.error localizedFailureReason] userInfo:msg.error.userInfo]];
-        
-        /**************Start Legacy Specific Call-backs************/
-    } else if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyOpened]) {
-    
-        [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
-
-    } else if ([message.functionName isEqualToString:SDLInternalProxyMessageOnProxyClosed]) {
-        
-        [self invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
-
-        /****************End Legacy Specific Call-backs************/
-    } else {
-        // Diagnostics
-        //TODO: Add logging
+-(void)dispatchInternalMessage:(SDLProtocolMessage*)message{
+    if ([message isMemberOfClass:[SDLInternalProxyMessage class]]) {
+        SDLInternalProxyMessage* msg = (SDLInternalProxyMessage*)message;
+        if ([msg.functionName isEqualToString:SDLInternalProxyMessageOnProxyError]) {
+            SDLOnError* msg = (SDLOnError*)message;
+            //TODO: Passing NSException to meeting API, but recommend transition to NSError to meet iOS practices.
+            
+            [self invokeMethodOnDelegates:@selector(onError:) withObject:[NSException exceptionWithName:msg.error.domain reason:[msg.error localizedFailureReason] userInfo:msg.error.userInfo]];
+            
+            /**************Start Legacy Specific Call-backs************/
+        } else if ([msg.functionName isEqualToString:SDLInternalProxyMessageOnProxyOpened]) {
+            
+            [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
+            
+        } else if ([msg.functionName isEqualToString:SDLInternalProxyMessageOnProxyClosed]) {
+            
+            [self invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
+            
+            /****************End Legacy Specific Call-backs************/
+        } else {
+            // Diagnostics
+            //TODO: Add logging
+        }
     }
 }
 
@@ -741,12 +754,6 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     SDLRPCMessage* rpcMessage = [[SDLRPCMessage alloc] initWithDictionary:[message mutableCopy]];
     NSString* functionName = [rpcMessage getFunctionName];
     NSString* messageType = rpcMessage.messageType;
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Notification" message:functionName delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alertView show];        
-    }];
-    
     SDLRPCResponse* response = [[SDLRPCResponse alloc] initWithDictionary:[message mutableCopy]];
     
     if ([messageType isEqualToString:NAMES_response]) {
@@ -754,6 +761,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             if ([response.correlationID intValue] == REGISTER_APP_INTERFACE_CORRELATION_ID
                 && self.advancedLifecycleManagementEnabled
                 && [functionName isEqualToString:NAMES_RegisterAppInterface]) {
+                
+//                [SDLDebugTool logInfo:[message description]];
+                
                 
                 SDLRegisterAppInterfaceResponse* msg = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:[message mutableCopy]];
                 if ([msg.success boolValue]) {
@@ -765,13 +775,32 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                 self.displayCapabilities = msg.displayCapabilities;
                 self.softButtonCapabilities = msg.softButtonCapabilities;
                 self.presetBankCapabilities = msg.presetBankCapabilities;
-                self.hmiZoneCapabilities = msg.hmiZoneCapabilities;
-                self.speechCapabilities = msg.speechCapabilities;
+                
+                //FIXME: This is compensation code for when hmiZoneCapabilities returns as 0 from the module.
+                @try {
+                    self.hmiZoneCapabilities = msg.hmiZoneCapabilities;
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                //FIXME: This is compensation code for when speechCapabilities returns as 0 from the module.
+                @try {
+                    self.speechCapabilities = msg.speechCapabilities;
+                }
+                @catch (NSException *exception) {
+                    
+                }
                 self.prerecordedSpeech = msg.prerecordedSpeech;
                 self.sdlLanguage = msg.language;
                 self.hmiDisplayLanguage = msg.hmiDisplayLanguage;
                 self.sdlSyncMsgVersion = msg.syncMsgVersion; //TODO: Shouldn't this Sync reference be refactored out?
-                self.vrCapabilities = msg.vrCapabilities;
+                //FIXME: This is compensation code for when vrCapabilities returns as 0 from the module.
+                @try {
+                    self.vrCapabilities = msg.vrCapabilities;
+                }
+                @catch (NSException *exception) {
+                    
+                }
                 self.vehicleType = msg.vehicleType;
 //                self.proxyVersionInfo = [msg proxyVersionInfo];
                 
@@ -804,7 +833,9 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
                 if (![msg.success boolValue]) {
                     [self notifyProxyClosedWithInfo:@"Unable to register app interface. Review values passed to the SdlProxy constructor. RegisterAppInterface result code: " error:nil reason:SDLDisconnectReasonRegistrationError];
                 }
-                [self invokeMethodOnDelegates:@selector(onRegisterAppInterfaceResponse:) withObject:msg];
+                if (!self.advancedLifecycleManagementEnabled) {
+                    [self invokeMethodOnDelegates:@selector(onRegisterAppInterfaceResponse:) withObject:msg];
+                }
             }
             else if ([response.correlationID intValue] == POLICIES_CORRELATION_ID
                      && [functionName isEqualToString:NAMES_OnEncodedSyncPData]){
@@ -990,6 +1021,8 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             [self invokeMethodOnDelegates:@selector(onSetDisplayLayoutResponse:) withObject:msg];
         }
         else if ([functionName isEqualToString:NAMES_PerformAudioPassThru]){
+            [SDLDebugTool logInfo:@"Create SDLPerformAudioPassThruResponse"];
+            
             SDLPerformAudioPassThruResponse* msg = [[SDLPerformAudioPassThruResponse alloc] initWithDictionary:[message mutableCopy]];
             [self invokeMethodOnDelegates:@selector(onPerformAudioPassThruResponse:) withObject:msg];
         }
@@ -1161,6 +1194,110 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
 }
 
+#pragma mark - System Request and SyncP handling
+-(void)sendEncodedSyncPData:(NSDictionary*)encodedSyncPData toURL:(NSString*)urlString withTimeout:(NSNumber*) timeout{
+    
+    // Configure HTTP URL & Request
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    
+    // Configure HTTP Session
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.HTTPAdditionalHeaders = @{@"Content-Type": @"application/json"};
+    config.timeoutIntervalForRequest = 60;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    // Prepare the data in the required format
+    NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
+    NSArray *array = [NSArray arrayWithObject:encodedSyncPDataString];
+    NSDictionary *dictionary = @{@"data": array};
+    NSError *JSONSerializationError = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
+    if (JSONSerializationError) {
+        NSString *logMessage = [NSString stringWithFormat:@"Error formatting data for HTTP Request. %@", JSONSerializationError];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        return;
+    }
+    
+    // Create the completion handler to be executed upon response
+    SDLCustomTaskCompletionHandler handler = ^void(NSData *data, NSURLResponse *response, NSError *error)
+    {
+        [self OESPHTTPRequestCompletionHandler:data response:response error:error];
+    };
+    
+    // Send the HTTP Request
+    [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:handler];
+    [uploadTask resume];
+    
+}
+
+// Handle the OnSystemRequest HTTP Response
+- (void)OSRHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
+    
+    NSString *logMessage = nil;
+    
+    if (error) {
+        logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        return;
+    }
+    
+    if (data == nil || data.length == 0) {
+        [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        return;
+    }
+    
+    // Show the HTTP response
+    [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    // Create the SystemRequest RPC to send to module.
+    SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
+    request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
+    request.requestType = [SDLRequestType PROPRIETARY];
+    request.bulkData = data;
+    
+    // Parse and display the policy data.
+    SDLPolicyDataParser *pdp = [[SDLPolicyDataParser alloc] init];
+    NSData *policyData = [pdp unwrap:data];
+    if (policyData) {
+        [pdp parsePolicyData:policyData];
+        logMessage = [NSString stringWithFormat:@"Policy Data from Cloud\n%@", pdp];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    }
+    
+    // Send and log RPC Request
+    logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length ];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    [self sendRPCRequestPrivate:request];
+    
+}
+
+// Handle the OnEncodedSyncPData HTTP Response
+- (void)OESPHTTPRequestCompletionHandler:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
+    // Sample of response: {"data":["SDLKGLSDKFJLKSjdslkfjslkJLKDSGLKSDJFLKSDJF"]}
+    [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    // Validate response data.
+    if (data == nil || data.length == 0) {
+        [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        return;
+    }
+    
+    // Convert data to RPCRequest
+    NSError *JSONConversionError = nil;
+    NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
+    if (!JSONConversionError) {
+        SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
+        request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
+        request.data = [responseDictionary objectForKey:@"data"];
+        
+        [self sendRPCRequestPrivate:request];
+    }
+    
+}
+
 -(void)notifyProxyClosedWithInfo:(NSString*)info error:(NSError*)error reason:(SDLDisconnectReason)reason{//TODO:Add parameters
     SDLOnProxyClosed* msg = [[SDLOnProxyClosed alloc] initWithInfo:info error:error reason:reason];
     [self queueInternalMessage:msg];
@@ -1214,10 +1351,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 #pragma mark SDLConnectionDelegate Methods
 
 -(void)protocolMessageReceived:(SDLProtocolMessage *)msg{
-    if ((msg.payload && [msg.payload length] > 0) ||
-        (msg.bulkData && [msg.bulkData length] > 0)) {
-        [self queueIncomingMessage:msg];
-    }
+//    [SDLDebugTool logInfo:@"protocolMessageReceived"];
+//    
+//    if ((msg.data && [msg.data length] > 0) ||
+//        (msg.bulkData && [msg.bulkData length] > 0)) {
+//        [self queueIncomingMessage:msg];
+//    }
+    //TODO:Conflicting callback method names
+    [self onProtocolMessageReceived:msg];
 }
 
 -(void)protocolSessionStarted:(SDLServiceType)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString *)correlationID{
@@ -1240,7 +1381,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
 }
 
--(void)onTransportDisconnected{
+//-(void)onTransportDisconnected{
+//    if (!self.isAdvancedLifecycleManagementEnabled) {
+//        //TODO:Add error
+//        [self notifyProxyClosedWithInfo:NSStringFromSelector(_cmd) error:nil reason:SDLDisconnectReasonTransportDisconnected];//TODO:Add paramters
+//    }
+//}
+
+-(void)transportDisconnected{
     if (!self.isAdvancedLifecycleManagementEnabled) {
         //TODO:Add error
         [self notifyProxyClosedWithInfo:NSStringFromSelector(_cmd) error:nil reason:SDLDisconnectReasonTransportDisconnected];//TODO:Add paramters
@@ -1258,39 +1406,34 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
 }
 
--(void)onProtocolMessageReceived:(SDLProtocolMessage*)msg{
-    //TODO:msg.bulkData does not exist yet
-    if ((msg.data && msg.data.length > 0) /*|| (msg.bulkData && msg.bulkData.length > 0)*/) {
+//-(void)onProtocolMessageReceived:(SDLProtocolMessage*)msg{
+//    //TODO:msg.bulkData does not exist yet
+//    if ((msg.data && msg.data.length > 0) /*|| (msg.bulkData && msg.bulkData.length > 0)*/) {
+//        [self queueIncomingMessage:msg];
+//    }
+//}
+
+-(void)onProtocolMessageReceived:(SDLProtocolMessage *)msg{
+    if (msg.data && [msg.data length] > 0) {
         [self queueIncomingMessage:msg];
     }
 }
 
 -(void)queueInternalMessage:(SDLProtocolMessage*)message{
-    
+    [self dispatchInternalMessage:message];
 }
 
 -(void)queueIncomingMessage:(SDLProtocolMessage*)message{
-//    [self.internalProxyMessageDispatcher queueMessage:message];
-//    [self dispatchIncomingMessage:message];
-//    [self handleProtocolMessage:message];
-    [self handleRPCMessage:[message rpcDictionary]];
+    [self dispatchIncomingMessage:message];
 }
 
-//-(void)onProtocolSessionNACKed:(SDLSessionType*)sessionType sessionID:(Byte)sessionID version:(Byte)version correlationID:(NSString*)correlationID{
+//-(void)onProtocolError:(NSError*)error{
 //    
 //}
 //
-//-(void)onProtocolSessionEnded:(SDLSessionType*)sessionType sessionID:(Byte)sessionID correlationID:(NSString*)correlationID{
+//-(void)onHeartbeatTimedOut:(Byte)sessionID{
 //    
 //}
-
--(void)onProtocolError:(NSError*)error{
-    
-}
-
--(void)onHeartbeatTimedOut:(Byte)sessionID{
-    
-}
 
 -(BOOL)isCorrelationIDProtected:(NSNumber*)correlationID{
     if (correlationID &&

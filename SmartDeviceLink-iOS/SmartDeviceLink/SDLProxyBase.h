@@ -12,6 +12,7 @@
 #import "SDLAddCommand.h"
 #import "SDLProxyALMOptions.h"
 #import "SDLImageType.h"
+#import "SDLDisconnectReason.h"
 
 static NSString* SDLInvalidArgumentException;
 
@@ -45,7 +46,7 @@ static NSString* SDLInvalidArgumentException;
                                appID:(NSString*)appID
                              options:(SDLProxyALMOptions*)options;
 
--(void)cycleProxy;//TODO:Add with SDLDisconnectedReason?
+-(void)cycleProxy:(SDLDisconnectReason)reason;//TODO:Add with SDLDisconnectedReason?
 -(void)dispose;
 -(NSString*)serializeJSON:(SDLRPCMessage*)message;
 -(void)sendRPCRequest:(SDLRPCRequest*)request;

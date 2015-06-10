@@ -26,7 +26,7 @@
 }
 
 -(void)resetProxy{
-    [super cycleProxy];
+    [super cycleProxy:kNilOptions];
 }
 
 @end
