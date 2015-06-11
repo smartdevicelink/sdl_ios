@@ -500,14 +500,7 @@
     });
 }
 
-- (void)startProxyWithLockscreenHandler:(rpcNotificationHandler)lockscreenHandler
-                  languageChangeHandler:(rpcNotificationHandler)languageChangeHandler
-               permissionsChangeHandler:(rpcNotificationHandler)permissionsChangeHandler appName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
-
-    [self addOnOnLockScreenNotificationHandler:lockscreenHandler];
-    [self addOnOnLanguageChangeHandler:languageChangeHandler];
-    [self addOnOnPermissionsChangeHandler:permissionsChangeHandler];
-
+- (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
     if (appName && appID && languageDesired && [self.onOnLockScreenNotificationHandlers count] > 0 && [self.onOnLanguageChangeHandlers count] > 0 && [self.onOnPermissionsChangeHandlers count] > 0)
     {
         __weak typeof(self) weakSelf = self;
@@ -530,11 +523,7 @@
 }
 
 - (void)startProxy {
-    [self startProxyWithLockscreenHandler:nil
-                    languageChangeHandler:nil
-                 permissionsChangeHandler:nil
-                                  appName:self.appName appID:self.appID isMedia:self.isMedia
-                          languageDesired:self.languageDesired];
+    [self startProxyWithAppName:self.appName appID:self.appID isMedia:self.isMedia languageDesired:self.languageDesired];
 }
 
 - (void)stopProxy {

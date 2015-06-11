@@ -50,9 +50,7 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 
 // Main proxy methods
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(rpcResponseHandler)responseHandler;
-- (void)startProxyWithLockscreenHandler:(rpcNotificationHandler)lockscreenHandler
-                  languageChangeHandler:(rpcNotificationHandler)languageChangeHandler
-               permissionsChangeHandler:(rpcNotificationHandler)permissionsChangeHandler appName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired;
+- (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired;
 - (void)stopProxy;
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 
