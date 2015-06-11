@@ -501,10 +501,11 @@
 }
 
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
-    if (appName && appID && languageDesired && [self.onOnLockScreenNotificationHandlers count] > 0 && [self.onOnLanguageChangeHandlers count] > 0 && [self.onOnPermissionsChangeHandlers count] > 0)
-    {
-        __weak typeof(self) weakSelf = self;
-        dispatch_async(self.backgroundQueue, ^{
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_barrier_async(self.handlerQueue, ^{
+        if (appName && appID && languageDesired && [self.onOnLockScreenNotificationHandlers count] > 0 && [self.onOnLanguageChangeHandlers count] > 0 && [self.onOnPermissionsChangeHandlers count] > 0)
+        {
             [SDLDebugTool logInfo:@"Start Proxy"];
             weakSelf.appName = appName;
             weakSelf.appID = appID;
@@ -515,11 +516,11 @@
                 [SDLProxy enableSiphonDebug];
                 weakSelf.proxy = [SDLProxyFactory buildSDLProxyWithListener:listener];
             }
-        });
-    }
-    else {
-        [SDLDebugTool logInfo:@"Error: One or more parameters is nil"];
-    }
+        }
+        else {
+            [SDLDebugTool logInfo:@"Error: One or more parameters is nil"];
+        }
+    });
 }
 
 - (void)startProxy {
