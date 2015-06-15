@@ -2,7 +2,7 @@
 //
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @interface SDLSiphonServer : NSObject <NSStreamDelegate,NSNetServiceDelegate> {}
 

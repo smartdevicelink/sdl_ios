@@ -1,7 +1,7 @@
 //  SDLTTSChunkFactory.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @class SDLTTSChunk;
 @class SDLSpeechCapabilities;

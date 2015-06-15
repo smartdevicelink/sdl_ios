@@ -2,7 +2,7 @@
 //  SDLRPCStruct.h
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @interface SDLRPCStruct : NSObject {
     NSMutableDictionary* store;

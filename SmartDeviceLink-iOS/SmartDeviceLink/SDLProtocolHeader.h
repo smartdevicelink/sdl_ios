@@ -1,7 +1,7 @@
 //  SDLProtocolHeader.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 
 typedef NS_ENUM(UInt8, SDLFrameType) {

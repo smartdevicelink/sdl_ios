@@ -1,7 +1,7 @@
 //  SDLSmartDeviceLinkProtocolMessage.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 @class SDLProtocolHeader;
 
 

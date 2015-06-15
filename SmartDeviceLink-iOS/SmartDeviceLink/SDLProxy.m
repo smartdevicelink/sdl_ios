@@ -2,8 +2,8 @@
 
 #import "SDLProxy.h"
 
-@import UIKit;
-@import ExternalAccessory;
+#import <UIKit/UIKit.h>
+#import <ExternalAccessory/ExternalAccessory.h>
 #import <objc/runtime.h>
 
 #import "SDLAbstractTransport.h"

@@ -1,7 +1,7 @@
 //  SDLRPCRequestFactory.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @class SDLAddCommand;
 @class SDLAddSubMenu;

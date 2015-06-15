@@ -28,8 +28,11 @@
 }
 
 - (void)parsePolicyData:(NSData *)data {
+    if (data == nil) {
+        return;
+    }
+    
     @try {
-
         Byte *bytes = (Byte*)data.bytes;
 
         Byte firstByte = bytes[0];

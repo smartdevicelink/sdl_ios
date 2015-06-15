@@ -1,7 +1,7 @@
 //  SDLJsonDecoder.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "SDLDecoder.h"
 
