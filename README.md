@@ -1,5 +1,9 @@
 ##### Note: Please see the [develop](https://github.com/smartdevicelink/sdl_ios/tree/develop) branch of sdl_ios for the most recent version. Significant changes have been made since the latest stable release and the in-progress develop branch. When released, it will include distribution via Carthage and Cocoapods.
 
+[![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![Build Status](https://travis-ci.org/smartdevicelink/sdl_ios.svg?branch=release%2F4.0.0)](https://travis-ci.org/smartdevicelink/sdl_ios)
+
 # SmartDeviceLink (SDL)
 
 SmartDeviceLink (SDL) is a standard set of protocols and messages that connect applications on a smartphone to a vehicle head unit. This messaging enables a consumer to interact with their application using common in-vehicle interfaces such as a touch screen display, embedded voice recognition, steering wheel controls and various vehicle knobs and buttons. There are three main components that make up the SDL ecosystem.
