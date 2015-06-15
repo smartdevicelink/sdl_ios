@@ -52,8 +52,6 @@ bool debugToLogFile = false;
 
 
 #pragma mark - logging
-// TODO: Can we get rid of the "toGroup" stuff and merge it with the "toOutput" system?
-
 + (void)logInfo:(NSString *)info {
     [self logInfo:info withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:@"default"];
 }

@@ -77,6 +77,10 @@
     }
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"RPC Struct (%@) %@", [self class], [store description]];
+}
+
 -(void) dealloc {
     store = nil;
 }
