@@ -346,10 +346,6 @@ correlationID{
 //*****
 
 +(SDLPutFile*) buildPutFileWithFileName:(NSString*) fileName fileType:(SDLFileType*) fileType persistentFile:(NSNumber*) persistentFile correlationId:(NSNumber*) correlationID {
-    //TODO
-    //    +(FMPutFile*) buildPutFile:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile fileData:(NSData*) fileData correlationID:(NSNumber*) correlationID {
-    
-    
     SDLPutFile* msg = [[SDLPutFile alloc] init];
     msg.syncFileName = fileName;
     

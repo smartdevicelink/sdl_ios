@@ -43,7 +43,7 @@
         if(jsonDictionary) {
             [innerDictionary setObject:jsonDictionary forKey:NAMES_parameters];
         }
-    } // TODO: (Joel F.)[2015-05-20] Handle the error case
+    }
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
