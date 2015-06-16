@@ -39,7 +39,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     return dataOut;
 }
 
-- (instancetype)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
     SDLV1ProtocolHeader *newHeader = [[SDLV1ProtocolHeader allocWithZone: zone] init];
     newHeader.compressed = self.compressed;

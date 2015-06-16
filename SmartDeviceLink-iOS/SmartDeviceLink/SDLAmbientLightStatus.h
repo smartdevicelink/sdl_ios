@@ -12,7 +12,7 @@
 @interface SDLAmbientLightStatus : SDLEnum {}
 
 +(SDLAmbientLightStatus*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLAmbientLightStatus*) NIGHT;
 +(SDLAmbientLightStatus*) TWILIGHT_1;

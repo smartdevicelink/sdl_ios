@@ -10,7 +10,7 @@ SDLSystemContext* SDLSystemContext_MENU = nil;
 SDLSystemContext* SDLSystemContext_HMI_OBSCURED = nil;
 SDLSystemContext* SDLSystemContext_ALERT = nil;
 
-NSMutableArray* SDLSystemContext_values = nil;
+NSArray* SDLSystemContext_values = nil;
 
 @implementation SDLSystemContext
 
@@ -23,15 +23,15 @@ NSMutableArray* SDLSystemContext_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLSystemContext_values == nil) {
-        SDLSystemContext_values = [[NSMutableArray alloc] initWithObjects:
+        SDLSystemContext_values = @[
                 SDLSystemContext.MAIN,
                 SDLSystemContext.VRSESSION,
                 SDLSystemContext.MENU,
                 SDLSystemContext.HMI_OBSCURED,
                 SDLSystemContext.ALERT,
-                nil];
+                ];
     }
     return SDLSystemContext_values;
 }

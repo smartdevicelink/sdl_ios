@@ -8,50 +8,56 @@
 /**
  * Reflects the status of ignition..
  *
- * This enum is avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLIgnitionStatus : SDLEnum {}
 
-/*!
- @abstract return SDLIgnitionStatus ( UNKNOWN / OFF / ACCESSORY / RUN / START / INVALID )
- @param value NSString
- @result return SDLIgnitionStatus
+/**
+ * @abstract return SDLIgnitionStatus
+ * @param value The value of the string to get an object for
+ * @return SDLIgnitionStatus object
  */
 +(SDLIgnitionStatus*) valueOf:(NSString*) value;
-/*!
- @abstract store all possible SDLIgnitionStatus values
- @result return an array with all possible SDLIgnitionStatus values inside
+
+/**
+ * @abstract store all possible SDLIgnitionStatus values
+ * @return an array with all possible SDLIgnitionStatus values inside
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Ignition status currently unknown
- * @result return Ignition Status with value of <font color=gray><i> UNKNOWN </i></font>
+ * @return Ignition Status with value of *UNKNOWN*
  */
 +(SDLIgnitionStatus*) UNKNOWN;
+
 /**
  * @abstract Ignition is off
- * @result return Ignition Status with value of <font color=gray><i> OFF </i></font>
+ * @return Ignition Status with value of *OFF*
  */
 +(SDLIgnitionStatus*) OFF;
+
 /**
  * @abstract Ignition is in mode accessory
- * @result return Ignition Status with value of <font color=gray><i> ACCESSORY </i></font>
+ * @return Ignition Status with value of *ACCESSORY*
  */
 +(SDLIgnitionStatus*) ACCESSORY;
+
 /**
  * @abstract Ignition is in mode run
- * @result return Ignition Status with value of <font color=gray><i> RUN </i></font>
+ * @return Ignition Status with value of *RUN*
  */
 +(SDLIgnitionStatus*) RUN;
+
 /**
- * @abstract Ignition is in mode run
- * @result return Ignition Status with value of <font color=gray><i> START </i></font>
+ * @abstract Ignition is in mode start
+ * @return Ignition Status with value of *START*
  */
 +(SDLIgnitionStatus*) START;
+
 /**
  * @abstract Signal is invalid
- * @result return Ignition Status with value of <font color=gray><i> INVALID </i></font>
+ * @return Ignition Status with value of *INVALID*
  */
 +(SDLIgnitionStatus*) INVALID;
 

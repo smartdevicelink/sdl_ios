@@ -51,7 +51,8 @@
                       NAMES_SetDisplayLayout, @"36",
                       NAMES_DiagnosticMessage, @"37",
                       NAMES_SystemRequest, @"38",
-
+                      NAMES_SendLocation, @"39",
+                      NAMES_DialNumber, @"40",
                       NAMES_OnHMIStatus, @"32768",
                       NAMES_OnAppInterfaceUnregistered, @"32769",
                       NAMES_OnButtonEvent, @"32770",
@@ -80,7 +81,7 @@
 }
 
 -(NSString *)getFunctionName:(int) functionID{
-
+    
     return [functionIDs objectForKey:[NSString stringWithFormat:@"%d", functionID]];
 }
 

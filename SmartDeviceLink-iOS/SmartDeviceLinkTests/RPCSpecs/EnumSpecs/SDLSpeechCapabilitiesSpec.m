@@ -36,14 +36,14 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLSpeechCapabilities values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLSpeechCapabilities values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSpeechCapabilities TEXT],
                         [SDLSpeechCapabilities SAPI_PHONEMES],
                         [SDLSpeechCapabilities LHPLUS_PHONEMES],
                         [SDLSpeechCapabilities PRE_RECORDED],
-                        [SDLSpeechCapabilities SILENCE]] mutableCopy];
+                        [SDLSpeechCapabilities SILENCE]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

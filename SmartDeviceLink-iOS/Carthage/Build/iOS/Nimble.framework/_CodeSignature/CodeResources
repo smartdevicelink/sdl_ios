@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/DSL.h</key>
 		<data>
-		+jf76CtUVOIMokHwHEaRb3xpaAY=
+		efzUjc/0uiV6lnHEXTxaB8VcwOc=
 		</data>
 		<key>Headers/NMBExceptionCapture.h</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/Nimble-Swift.h</key>
 		<data>
-		6THk6oZQhSA+jnFlPI8MtZz/MPA=
+		fjO4IfY34SEWiYtVW06KIK/9Qso=
 		</data>
 		<key>Headers/Nimble.h</key>
 		<data>
@@ -22,23 +22,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		h+FCxMOQephtxjnv96x/+08Vjr4=
+		w/Su2RY9Eotbsi3roDAYS8a+G9I=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm.swiftdoc</key>
 		<data>
-		JHxRaO7MwaY6jBVg3q1399lTA9k=
+		8QhmkzUAQZXDoW+vJs7Ll0XjCB4=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm.swiftmodule</key>
 		<data>
-		oTaEwWEKDbPKGR8q0qroetXrLFU=
+		T9cDr7U6XEiJ958K6SkJ73XHt7U=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		JHxRaO7MwaY6jBVg3q1399lTA9k=
+		kE/P5WvprV0kaqd2/jB8TCyKBZg=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		PC97bgc7dga27kZZYlxSfPBPpc4=
+		pVmWd6yxqT8Zowv6LbJD9rr1ymY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -49,7 +49,7 @@
 	<dict>
 		<key>Headers/DSL.h</key>
 		<data>
-		+jf76CtUVOIMokHwHEaRb3xpaAY=
+		efzUjc/0uiV6lnHEXTxaB8VcwOc=
 		</data>
 		<key>Headers/NMBExceptionCapture.h</key>
 		<data>
@@ -57,7 +57,7 @@
 		</data>
 		<key>Headers/Nimble-Swift.h</key>
 		<data>
-		6THk6oZQhSA+jnFlPI8MtZz/MPA=
+		fjO4IfY34SEWiYtVW06KIK/9Qso=
 		</data>
 		<key>Headers/Nimble.h</key>
 		<data>
@@ -65,19 +65,19 @@
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm.swiftdoc</key>
 		<data>
-		JHxRaO7MwaY6jBVg3q1399lTA9k=
+		8QhmkzUAQZXDoW+vJs7Ll0XjCB4=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm.swiftmodule</key>
 		<data>
-		oTaEwWEKDbPKGR8q0qroetXrLFU=
+		T9cDr7U6XEiJ958K6SkJ73XHt7U=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		JHxRaO7MwaY6jBVg3q1399lTA9k=
+		kE/P5WvprV0kaqd2/jB8TCyKBZg=
 		</data>
 		<key>Modules/Nimble.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		PC97bgc7dga27kZZYlxSfPBPpc4=
+		pVmWd6yxqT8Zowv6LbJD9rr1ymY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>

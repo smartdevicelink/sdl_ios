@@ -5,7 +5,8 @@
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
-#import "SDLHmiZoneCapabilities.h"
+#import "SDLHMICapabilities.h"
+#import "SDLHMIZoneCapabilities.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 #import "SDLPrerecordedSpeech.h"
@@ -13,7 +14,7 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLSyncMsgVersion.h"
-#import "SDLVrCapabilities.h"
+#import "SDLVRCapabilities.h"
 #import "SDLVehicleType.h"
 
 @implementation SDLRegisterAppInterfaceResponse
@@ -228,12 +229,12 @@
 
 -(NSMutableArray*) vrCapabilities {
     NSMutableArray* array = [parameters objectForKey:NAMES_vrCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVrCapabilities.class]) {
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRCapabilities.class]) {
         return array;
     } else {
         NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString* enumString in array) {
-            [newList addObject:[SDLVrCapabilities valueOf:enumString]];
+            [newList addObject:[SDLVRCapabilities valueOf:enumString]];
         }
         return newList;
     }

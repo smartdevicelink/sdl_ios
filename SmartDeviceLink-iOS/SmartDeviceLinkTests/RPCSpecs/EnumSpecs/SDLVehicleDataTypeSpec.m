@@ -78,8 +78,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLVehicleDataType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLVehicleDataType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataType VEHICLEDATA_GPS],
                         [SDLVehicleDataType VEHICLEDATA_SPEED],
@@ -106,7 +106,7 @@ describe(@"Value List Tests", ^ {
                         [SDLVehicleDataType VEHICLEDATA_BATTVOLTAGE],
                         [SDLVehicleDataType VEHICLEDATA_ENGINETORQUE],
                         [SDLVehicleDataType VEHICLEDATA_ACCPEDAL],
-                        [SDLVehicleDataType VEHICLEDATA_STEERINGWHEEL]] mutableCopy];
+                        [SDLVehicleDataType VEHICLEDATA_STEERINGWHEEL]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -9,7 +9,7 @@ SDLSamplingRate* SDLSamplingRate_16KHZ = nil;
 SDLSamplingRate* SDLSamplingRate_22KHZ = nil;
 SDLSamplingRate* SDLSamplingRate_44KHZ = nil;
 
-NSMutableArray* SDLSamplingRate_values = nil;
+NSArray* SDLSamplingRate_values = nil;
 
 @implementation SDLSamplingRate
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLSamplingRate_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLSamplingRate_values == nil) {
-        SDLSamplingRate_values = [[NSMutableArray alloc] initWithObjects:
+        SDLSamplingRate_values = @[
                 SDLSamplingRate._8KHZ,
                 SDLSamplingRate._16KHZ,
                 SDLSamplingRate._22KHZ,
                 SDLSamplingRate._44KHZ,
-                nil];
+                ];
     }
     return SDLSamplingRate_values;
 }

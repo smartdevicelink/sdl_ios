@@ -8,56 +8,56 @@
 /**
  * The volume status of a vehicle component.
  *
- * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
+ * @since SDL 2.0
  */
 @interface SDLComponentVolumeStatus : SDLEnum {}
+
 /**
  * @abstract Convert String to SDLComponentVolumeStatus
- * @param value NSString
- * @result SDLComponentVolumeStatus
- *
+ * @param value The value of the string to get an object for
+ * @return SDLComponentVolumeStatus
  */
 +(SDLComponentVolumeStatus*) valueOf:(NSString*) value;
 
-/*!
- @abstract Store the enumeration of all possible SDLComponentVolumeStatus
- @result return an array that store all possible SDLComponentVolumeStatus
+/**
+ * @abstract Store the enumeration of all possible SDLComponentVolumeStatus
+ * @return An array that store all possible SDLComponentVolumeStatus
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
-/*!
- @abstract Unknown SDLComponentVolumeStatus
- @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>UNKNOWN</i></font>
+/**
+ * @abstract Unknown SDLComponentVolumeStatus
+ * @return a SDLComponentVolumeStatus with the value of *UNKNOWN*
  */
 +(SDLComponentVolumeStatus*) UNKNOWN;
 
-/*!
- @abstract Normal SDLComponentVolumeStatus
- @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>NORMAL</i></font>
+/**
+ * @abstract Normal SDLComponentVolumeStatus
+ * @return a SDLComponentVolumeStatus with the value of *NORMAL*
  */
 +(SDLComponentVolumeStatus*) NORMAL;
 
-/*!
- @abstract Low SDLComponentVolumeStatus
- @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>LOW</i></font>
+/**
+ * @abstract Low SDLComponentVolumeStatus
+ * @return a SDLComponentVolumeStatus with the value of *LOW*
  */
 +(SDLComponentVolumeStatus*) LOW;
 
-/*!
- @abstract Fault SDLComponentVolumeStatus
- @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>FAULT</i></font>
+/**
+ * @abstract Fault SDLComponentVolumeStatus
+ * @return a SDLComponentVolumeStatus with the value of *FAULT*
  */
 +(SDLComponentVolumeStatus*) FAULT;
 
-/*!
- @abstract Alert SDLComponentVolumeStatus
- @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>ALERT</i></font>
+/**
+ * @abstract Alert SDLComponentVolumeStatus
+ * @return a SDLComponentVolumeStatus with the value of *ALERT*
  */
 +(SDLComponentVolumeStatus*) ALERT;
 
-/*!
- @abstract Not supported SDLComponentVolumeStatus
- @result return a SDLComponentVolumeStatus with the value of <font color=gray><i>NOT_SUPPORTED</i></font>
+/**
+ * @abstract Not supported SDLComponentVolumeStatus
+ * @return a SDLComponentVolumeStatus with the value of *NOT_SUPPORTED*
  */
 +(SDLComponentVolumeStatus*) NOT_SUPPORTED;
 

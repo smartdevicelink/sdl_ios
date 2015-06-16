@@ -9,7 +9,7 @@ SDLVehicleDataNotificationStatus* SDLVehicleDataNotificationStatus_NORMAL = nil;
 SDLVehicleDataNotificationStatus* SDLVehicleDataNotificationStatus_ACTIVE = nil;
 SDLVehicleDataNotificationStatus* SDLVehicleDataNotificationStatus_NOT_USED = nil;
 
-NSMutableArray* SDLVehicleDataNotificationStatus_values = nil;
+NSArray* SDLVehicleDataNotificationStatus_values = nil;
 
 @implementation SDLVehicleDataNotificationStatus
 
@@ -22,14 +22,14 @@ NSMutableArray* SDLVehicleDataNotificationStatus_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLVehicleDataNotificationStatus_values == nil) {
-        SDLVehicleDataNotificationStatus_values = [[NSMutableArray alloc] initWithObjects:
+        SDLVehicleDataNotificationStatus_values = @[
                 SDLVehicleDataNotificationStatus.NOT_SUPPORTED,
                 SDLVehicleDataNotificationStatus.NORMAL,
                 SDLVehicleDataNotificationStatus.ACTIVE,
                 SDLVehicleDataNotificationStatus.NOT_USED,
-                nil];
+                ];
     }
     return SDLVehicleDataNotificationStatus_values;
 }

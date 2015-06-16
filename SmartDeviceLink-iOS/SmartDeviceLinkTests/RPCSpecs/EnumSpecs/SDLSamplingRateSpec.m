@@ -34,13 +34,13 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLSamplingRate values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLSamplingRate values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSamplingRate _8KHZ],
                         [SDLSamplingRate _16KHZ],
                         [SDLSamplingRate _22KHZ],
-                        [SDLSamplingRate _44KHZ]] mutableCopy];
+                        [SDLSamplingRate _44KHZ]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

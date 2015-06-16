@@ -8,7 +8,7 @@
 @interface SDLTouchType : SDLEnum {}
 
 +(SDLTouchType*) valueOf:(NSString*) value;
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 +(SDLTouchType*) BEGIN;
 +(SDLTouchType*) MOVE;

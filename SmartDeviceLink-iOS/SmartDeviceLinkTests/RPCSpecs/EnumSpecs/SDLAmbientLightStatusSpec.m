@@ -42,8 +42,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLAmbientLightStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLAmbientLightStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAmbientLightStatus NIGHT],
                            [SDLAmbientLightStatus TWILIGHT_1],
@@ -52,7 +52,7 @@ describe(@"Value List Tests", ^ {
                            [SDLAmbientLightStatus TWILIGHT_4],
                            [SDLAmbientLightStatus DAY],
                            [SDLAmbientLightStatus UNKNOWN],
-                           [SDLAmbientLightStatus INVALID]] mutableCopy];
+                           [SDLAmbientLightStatus INVALID]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

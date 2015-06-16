@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.displayType = [SDLDisplayType GEN2_6_DMA];
         testStruct.textFields = [@[textField] mutableCopy];
         testStruct.imageFields = [@[imageField] mutableCopy];
-        testStruct.mediaClockFormats = [@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy];
+        testStruct.mediaClockFormats = [@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] copy];
         testStruct.graphicSupported = @YES;
         testStruct.templatesAvailable = [@[@"String", @"String", @"String"] mutableCopy];
         testStruct.screenParams = screenParams;
@@ -39,7 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.displayType).to(equal([SDLDisplayType GEN2_6_DMA]));
         expect(testStruct.textFields).to(equal([@[textField] mutableCopy]));
         expect(testStruct.imageFields).to(equal([@[imageField] mutableCopy]));
-        expect(testStruct.mediaClockFormats).to(equal([@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy]));
+        expect(testStruct.mediaClockFormats).to(equal([@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] copy]));
         expect(testStruct.graphicSupported).to(equal(@YES));
         expect(testStruct.templatesAvailable).to(equal([@[@"String", @"String", @"String"] mutableCopy]));
         expect(testStruct.screenParams).to(equal(screenParams));
@@ -50,7 +50,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{NAMES_displayType:[SDLDisplayType GEN2_6_DMA],
                                        NAMES_textFields:[@[textField] mutableCopy],
                                        NAMES_imageFields:[@[imageField] mutableCopy],
-                                       NAMES_mediaClockFormats:[@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy],
+                                       NAMES_mediaClockFormats:[@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] copy],
                                        NAMES_graphicSupported:@YES,
                                        NAMES_templatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
                                        NAMES_screenParams:screenParams,
@@ -60,7 +60,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.displayType).to(equal([SDLDisplayType GEN2_6_DMA]));
         expect(testStruct.textFields).to(equal([@[textField] mutableCopy]));
         expect(testStruct.imageFields).to(equal([@[imageField] mutableCopy]));
-        expect(testStruct.mediaClockFormats).to(equal([@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] mutableCopy]));
+        expect(testStruct.mediaClockFormats).to(equal([@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] copy]));
         expect(testStruct.graphicSupported).to(equal(@YES));
         expect(testStruct.templatesAvailable).to(equal([@[@"String", @"String", @"String"] mutableCopy]));
         expect(testStruct.screenParams).to(equal(screenParams));

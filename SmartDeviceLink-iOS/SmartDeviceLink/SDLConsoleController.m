@@ -32,7 +32,7 @@
 
         [messageList addObject:dictionary];
         NSIndexPath *newIndex = [NSIndexPath indexPathForRow:(messageList.count - 1) inSection:0];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndex] withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndex] withRowAnimation:UITableViewRowAnimationNone];
 
         //If we were at the bottom, scroll to the new bottom.
         if (atBottom) {
@@ -146,19 +146,15 @@
     
     if ([msg isKindOfClass:SDLRPCMessage.class]) {
 		SDLRPCMessage *rpc = msg;
-		
 		NSString* title = [NSString stringWithFormat:@"%@ (%@)", rpc.name, rpc.messageType];
-		
-        //TODO: Cell Color Based On Message Type
+        
         cell.textLabel.text = title;
         
 		if ([rpc.messageType isEqualToString:@"response"]) {
 			SDLRPCResponse* response = (SDLRPCResponse*) rpc;
-//            if ([response info] == nil)
+            
             NSString* detail = [NSString stringWithFormat:@"%@ - %@", tempdetail, [response resultCode]];
             cell.detailTextLabel.text = detail;
-//            else
-//                detail = [NSString stringWithFormat:@"%@: %@", [response resultCode], [response info]];
 		}
         else {
 			cell.detailTextLabel.text = tempdetail;
@@ -183,15 +179,8 @@
 
 	NSString* alertText = nil;
 	if ([obj isKindOfClass:SDLRPCMessage.class]) {
-        //TODO:DEBUGOUTS
-//        [SDLDebugTool logInfo:@"SDLonsoleController: Class = %@",[obj class]];
-        //TODO:DEBUGOUTSEND
-        
 		SDLRPCMessage *rpc = obj;
-        
-        //TODO:Get Internal Version Of Message For Line Below
         NSDictionary* dictionary = [rpc serializeAsDictionary:2];
-        
         NSError *error = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
                                                            options:NSJSONWritingPrettyPrinted

@@ -5,7 +5,7 @@
 
 SDLAudioType* SDLAudioType_PCM = nil;
 
-NSMutableArray* SDLAudioType_values = nil;
+NSArray* SDLAudioType_values = nil;
 
 @implementation SDLAudioType
 
@@ -18,11 +18,11 @@ NSMutableArray* SDLAudioType_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLAudioType_values == nil) {
-        SDLAudioType_values = [[NSMutableArray alloc] initWithObjects:
+        SDLAudioType_values = @[
                 SDLAudioType.PCM,
-                nil];
+                ];
     }
     return SDLAudioType_values;
 }

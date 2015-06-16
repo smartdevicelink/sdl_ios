@@ -63,7 +63,7 @@
 }
 
 -(NSMutableDictionary*) serializeAsDictionary:(Byte) version {
-    if (version == 2) {
+    if (version >= 2) {
         NSString* messageType = [[store keyEnumerator] nextObject];
         NSMutableDictionary* function = [store objectForKey:messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
@@ -75,6 +75,10 @@
     } else {
         return [self serializeDictionary:store version:version];
     }
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"RPC Struct (%@) %@", [self class], [store description]];
 }
 
 -(void) dealloc {

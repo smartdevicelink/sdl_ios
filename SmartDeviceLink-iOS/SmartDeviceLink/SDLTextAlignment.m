@@ -8,7 +8,7 @@ SDLTextAlignment* SDLTextAlignment_LEFT_ALIGNED = nil;
 SDLTextAlignment* SDLTextAlignment_RIGHT_ALIGNED = nil;
 SDLTextAlignment* SDLTextAlignment_CENTERED = nil;
 
-NSMutableArray* SDLTextAlignment_values = nil;
+NSArray* SDLTextAlignment_values = nil;
 
 @implementation SDLTextAlignment
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLTextAlignment_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLTextAlignment_values == nil) {
-        SDLTextAlignment_values = [[NSMutableArray alloc] initWithObjects:
+        SDLTextAlignment_values = @[
                 SDLTextAlignment.LEFT_ALIGNED,
                 SDLTextAlignment.RIGHT_ALIGNED,
                 SDLTextAlignment.CENTERED,
-                nil];
+                ];
     }
     return SDLTextAlignment_values;
 }

@@ -42,8 +42,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLFileType values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLFileType values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLFileType GRAPHIC_BMP],
                         [SDLFileType GRAPHIC_JPEG],
@@ -52,7 +52,7 @@ describe(@"Value List Tests", ^ {
                         [SDLFileType AUDIO_MP3],
                         [SDLFileType AUDIO_AAC],
                         [SDLFileType BINARY],
-                        [SDLFileType JSON]] mutableCopy];
+                        [SDLFileType JSON]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

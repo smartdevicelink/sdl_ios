@@ -25,8 +25,6 @@ typedef NS_ENUM(UInt8, SDLDebugOutput) {
 };
 
 
-
-
 @interface SDLDebugTool : NSObject {}
 
 + (void)addConsole:(NSObject<SDLDebugToolConsole> *)console;

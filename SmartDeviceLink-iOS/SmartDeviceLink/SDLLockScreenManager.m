@@ -12,28 +12,34 @@
 
 @interface SDLLockScreenManager ()
 
-@property (assign, nonatomic) BOOL bHaveDDStatus;
+@property (assign, nonatomic) BOOL haveDriverDistractionStatus;
 
 @end
 
 
 @implementation SDLLockScreenManager
 
+#pragma mark - Lifecycle
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _bUserSelected = NO;
-        _bDriverDistractionStatus = NO;
-        _bHaveDDStatus = NO;
+        _userSelected = NO;
+        _driverDistracted = NO;
+        _haveDriverDistractionStatus = NO;
     }
     return self;
 }
 
-- (void)setBDriverDistractionStatus:(BOOL)bDriverDistractionStatus
+
+#pragma mark - Getters / Setters
+#pragma mark Custom setters
+
+- (void)setDriverDistracted:(BOOL)driverDistracted
 {
-    _bDriverDistractionStatus = bDriverDistractionStatus;
-    _bHaveDDStatus = YES;
+    _driverDistracted = driverDistracted;
+    _haveDriverDistractionStatus = YES;
 }
 
 - (void)setHmiLevel:(SDLHMILevel *)hmiLevel
@@ -41,57 +47,51 @@
     if (_hmiLevel != hmiLevel) {
         _hmiLevel = hmiLevel;
     }
-
-    if ([SDLHMILevel.HMI_FULL.value isEqualToString:hmiLevel.value] || [SDLHMILevel.HMI_LIMITED.value isEqualToString:hmiLevel.value]) {
-        _bUserSelected = YES;
-    } else if ([SDLHMILevel.HMI_NONE.value isEqualToString:hmiLevel.value]) {
-        _bUserSelected = NO;
+    
+    if ([hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
+        self.userSelected = YES;
+    } else if ([hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
+        self.userSelected = NO;
     }
 }
 
+
+#pragma mark Custom Getters
+
 - (SDLOnLockScreenStatus *)lockScreenStatusNotification {
-    SDLOnLockScreenStatus *notification = [SDLOnLockScreenStatus new];
-    notification.driverDistractionStatus = [NSNumber numberWithBool:_bDriverDistractionStatus];
-    notification.hmiLevel = _hmiLevel;
-    NSNumber *userSelected = [NSNumber numberWithBool:_bUserSelected];
-    notification.userSelected = userSelected;
-    notification.lockScreenStatus = [self lockScreenStatus];
+    SDLOnLockScreenStatus *notification = [[SDLOnLockScreenStatus alloc] init];
+    notification.driverDistractionStatus = @(self.driverDistracted);
+    notification.hmiLevel = self.hmiLevel;
+    notification.userSelected = @(self.userSelected);
+    notification.lockScreenStatus = self.lockScreenStatus;
+    
     return notification;
 }
 
 - (SDLLockScreenStatus *)lockScreenStatus
 {
-    if (_hmiLevel == nil || _hmiLevel == [SDLHMILevel HMI_NONE]) {
+    if (self.hmiLevel == nil || [self.hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
+        // App is not active on the car
         return [SDLLockScreenStatus OFF];
-    } else if (_hmiLevel == [SDLHMILevel HMI_BACKGROUND]) {
-        if (!_bHaveDDStatus)
-        {
-            //we don't have driver distraction, lockscreen is entirely based on userselection
-            if (_bUserSelected)
-                return [SDLLockScreenStatus REQUIRED];
-            else
-                return [SDLLockScreenStatus OFF];
-        }
-        else if (_bHaveDDStatus && _bUserSelected)
-        {
+    } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel BACKGROUND]]) {
+        // App is in the background on the car
+        // The lockscreen depends entirely on if the user selected the app
+        if (self.userSelected) {
             return [SDLLockScreenStatus REQUIRED];
-        }
-        else if (!_bHaveDDStatus && _bUserSelected)
-        {
-            return [SDLLockScreenStatus OPTIONAL];
-        }
-        else
-        {
+        } else {
             return [SDLLockScreenStatus OFF];
         }
-    } else if (_hmiLevel == [SDLHMILevel HMI_FULL] || _hmiLevel == [SDLHMILevel HMI_LIMITED]) {
-        if (_bHaveDDStatus && !_bDriverDistractionStatus) {
+    } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [self.hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
+        // App is in the foreground on the car in some manner
+        if (self.haveDriverDistractionStatus && !self.driverDistracted) {
+            // We have the distraction status, and the driver is not distracted
             return [SDLLockScreenStatus OPTIONAL];
         } else {
+            // We don't have the distraction status, and/or the driver is distracted
             return [SDLLockScreenStatus REQUIRED];
         }
-
     } else {
+        // This shouldn't be possible.
         return [SDLLockScreenStatus OFF];
     }
 }

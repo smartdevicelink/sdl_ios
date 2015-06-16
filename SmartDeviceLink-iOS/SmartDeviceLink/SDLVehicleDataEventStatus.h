@@ -8,42 +8,50 @@
 /**
  * Reflects the status of a vehicle data event; e.g. a seat belt event status.
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 2.0 </b></font>
+ * @since SDL 2.0
  */
 @interface SDLVehicleDataEventStatus : SDLEnum {}
 
 /**
  * Convert String to SDLVehicleDataEventStatus
- * @param value String
+ *
+ * @param value The value of the string to get an object for
+ *
  * @return SDLVehicleDataEventStatus
  */
 +(SDLVehicleDataEventStatus*) valueOf:(NSString*) value;
-/*!
- @abstract Store the enumeration of all possible SDLVehicleDataEventStatus
- @result return an array that store all possible SDLVehicleDataEventStatus
- */
-+(NSMutableArray*) values;
 
-/*!
- @abstract No event avaliable
- @result return the SDLVehicleDataEventStatus instance with value of <font color=gray><i> NO_EVENT </i></font>
+/**
+ * @abstract Store the enumeration of all possible SDLVehicleDataEventStatus
+ *
+ * @return an array that store all possible SDLVehicleDataEventStatus
+ */
++(NSArray*) values;
+
+/**
+ * @return The SDLVehicleDataEventStatus instance with value of *NO_EVENT*
  */
 +(SDLVehicleDataEventStatus*) NO_EVENT;
-/*!
- @abstract return the SDLVehicleDataEventStatus instance with value of <font color=gray><i> NO </i></font>
+
+/**
+ * @return The SDLVehicleDataEventStatus instance with value of *NO*
  */
 +(SDLVehicleDataEventStatus*) _NO;
-/*!
- @abstract return the SDLVehicleDataEventStatus instance with value of <font color=gray><i> YES </i></font>
+
+/**
+ * @return The SDLVehicleDataEventStatus instance with value of *YES*
  */
 +(SDLVehicleDataEventStatus*) _YES;
-/*!
- @abstract Vehicle data event is not support
- @result return the SDLVehicleDataEventStatus instance with value of <font color=gray><i> NOT_SUPPORTED </i></font>
+
+/**
+ * @abstract Vehicle data event is not supported
+ *
+ * @return the SDLVehicleDataEventStatus instance with value of *NOT_SUPPORTED*
  */
 +(SDLVehicleDataEventStatus*) NOT_SUPPORTED;
-/*!
- @abstract return the SDLVehicleDataEventStatus instance with value of <font color=gray><i> FAULT </i></font>
+
+/**
+ * @abstract The SDLVehicleDataEventStatus instance with value of *FAULT*
  */
 +(SDLVehicleDataEventStatus*) FAULT;
 

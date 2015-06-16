@@ -13,10 +13,8 @@
 #import "Preferences.h"
 
 
-
 NSString *const SDLAppName = @"SDL Test";
 NSString *const SDLAppId = @"9999";
-
 
 
 @interface ProxyManager () <SDLProxyListener>
@@ -24,9 +22,9 @@ NSString *const SDLAppId = @"9999";
 @property (strong, nonatomic) SDLProxy *proxy;
 @property (assign, nonatomic, readwrite) ProxyState state;
 @property (assign, nonatomic) BOOL isFirstHMIFull;
+@property (assign, nonatomic) ProxyTransportType currentTransportType;
 
 @end
-
 
 
 @implementation ProxyManager
@@ -49,7 +47,10 @@ NSString *const SDLAppId = @"9999";
         return nil;
     }
     
+    _proxy = nil;
     _state = ProxyStateStopped;
+    _isFirstHMIFull = NO;
+    _currentTransportType = ProxyTransportTypeUnknown;
     
     return self;
 }
@@ -70,7 +71,8 @@ NSString *const SDLAppId = @"9999";
         return;
     }
     
-    self.isFirstHMIFull = NO;
+    self.currentTransportType = transportType;
+    self.isFirstHMIFull = YES;
     self.state = ProxyStateSearchingForConnection;
     
     switch (transportType) {
@@ -95,7 +97,7 @@ NSString *const SDLAppId = @"9999";
 
 - (void)showInitialData {
     SDLShow *showRPC = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test" alignment:[SDLTextAlignment CENTERED] correlationID:[self nextCorrelationID]];
-    [self.proxy sendRPCRequest:showRPC];
+    [self.proxy sendRPC:showRPC];
 }
 
 
@@ -118,11 +120,11 @@ NSString *const SDLAppId = @"9999";
     self.state = ProxyStateConnected;
     
     SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
-    [self.proxy sendRPCRequest:registerRequest];
+    [self.proxy sendRPC:registerRequest];
 }
 
 - (void)onProxyClosed {
-    [self stopProxy];
+    [self resetProxyWithTransportType:self.currentTransportType];
 }
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
@@ -130,7 +132,7 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-    if ((notification.hmiLevel == [SDLHMILevel HMI_FULL]) && self.isFirstHMIFull) {
+    if ((notification.hmiLevel == [SDLHMILevel FULL]) && self.isFirstHMIFull) {
         [self showInitialData];
         self.isFirstHMIFull = NO;
     }

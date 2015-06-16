@@ -38,14 +38,13 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLTextFieldName secondaryText].value).to(equal(@"secondaryText"));
         expect([SDLTextFieldName tertiaryText].value).to(equal(@"tertiaryText"));
         expect([SDLTextFieldName menuTitle].value).to(equal(@"menuTitle"));
-        //ETA Duplicate
-        //expect([SDLTextFieldName timeToDestination].value).to(equal(@"timeToDestination"));
-        //NavigationText1 Duplication
-        //expect([SDLTextFieldName navigationText].value).to(equal(@"navigationText"));
-        //expect([SDLTextFieldName notificationText].value).to(equal(@"notificationText"));
-        //expect([SDLTextFieldName turnText].value).to(equal(@"turnText"));
+        expect([SDLTextFieldName locationName].value).to(equal(@"locationName"));
+        expect([SDLTextFieldName locationDescription].value).to(equal(@"locationDescription"));
+        expect([SDLTextFieldName addressLines].value).to(equal(@"addressLines"));
+        expect([SDLTextFieldName phoneNumber].value).to(equal(@"phoneNumber"));
     });
 });
+
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
         expect([SDLTextFieldName valueOf:@"mainField1"]).to(equal([SDLTextFieldName mainField1]));
@@ -72,10 +71,10 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLTextFieldName valueOf:@"secondaryText"]).to(equal([SDLTextFieldName secondaryText]));
         expect([SDLTextFieldName valueOf:@"tertiaryText"]).to(equal([SDLTextFieldName tertiaryText]));
         expect([SDLTextFieldName valueOf:@"menuTitle"]).to(equal([SDLTextFieldName menuTitle]));
-        //expect([SDLTextFieldName valueOf:@"timeToDestination"]).to(equal([SDLTextFieldName timeToDestination]));
-        //expect([SDLTextFieldName valueOf:@"navigationText"]).to(equal([SDLTextFieldName navigationText]));
-        //expect([SDLTextFieldName valueOf:@"notificationText"]).to(equal([SDLTextFieldName notificationText]));
-        //expect([SDLTextFieldName valueOf:@"turnText"]).to(equal([SDLTextFieldName turnText]));
+        expect([SDLTextFieldName valueOf:@"locationName"]).to(equal([SDLTextFieldName locationName]));
+        expect([SDLTextFieldName valueOf:@"locationDescription"]).to(equal([SDLTextFieldName locationDescription]));
+        expect([SDLTextFieldName valueOf:@"addressLines"]).to(equal([SDLTextFieldName addressLines]));
+        expect([SDLTextFieldName valueOf:@"phoneNumber"]).to(equal([SDLTextFieldName phoneNumber]));
     });
     
     it(@"Should return nil when invalid", ^ {
@@ -83,38 +82,39 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLTextFieldName valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
+
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTextFieldName values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTextFieldName values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTextFieldName mainField1],
-                        [SDLTextFieldName mainField2],
-                        [SDLTextFieldName mainField3],
-                        [SDLTextFieldName mainField4],
-                        [SDLTextFieldName statusBar],
-                        [SDLTextFieldName mediaClock],
-                        [SDLTextFieldName mediaTrack],
-                        [SDLTextFieldName alertText1],
-                        [SDLTextFieldName alertText2],
-                        [SDLTextFieldName alertText3],
-                        [SDLTextFieldName scrollableMessageBody],
-                        [SDLTextFieldName initialInteractionText],
-                        [SDLTextFieldName navigationText1],
-                        [SDLTextFieldName navigationText2],
-                        [SDLTextFieldName ETA],
-                        [SDLTextFieldName totalDistance],
-                        [SDLTextFieldName audioPassThruDisplayText1],
-                        [SDLTextFieldName audioPassThruDisplayText2],
-                        [SDLTextFieldName sliderHeader],
-                        [SDLTextFieldName sliderFooter],
-                        [SDLTextFieldName menuName],
-                        [SDLTextFieldName secondaryText],
-                        [SDLTextFieldName tertiaryText],
-                        [SDLTextFieldName menuTitle]] mutableCopy];
-                        //[SDLTextFieldName timeToDestination],
-                        //[SDLTextFieldName navigationText],
-                        //[SDLTextFieldName notificationText],
-                        //[SDLTextFieldName turnText]
+                           [SDLTextFieldName mainField2],
+                           [SDLTextFieldName mainField3],
+                           [SDLTextFieldName mainField4],
+                           [SDLTextFieldName statusBar],
+                           [SDLTextFieldName mediaClock],
+                           [SDLTextFieldName mediaTrack],
+                           [SDLTextFieldName alertText1],
+                           [SDLTextFieldName alertText2],
+                           [SDLTextFieldName alertText3],
+                           [SDLTextFieldName scrollableMessageBody],
+                           [SDLTextFieldName initialInteractionText],
+                           [SDLTextFieldName navigationText1],
+                           [SDLTextFieldName navigationText2],
+                           [SDLTextFieldName ETA],
+                           [SDLTextFieldName totalDistance],
+                           [SDLTextFieldName audioPassThruDisplayText1],
+                           [SDLTextFieldName audioPassThruDisplayText2],
+                           [SDLTextFieldName sliderHeader],
+                           [SDLTextFieldName sliderFooter],
+                           [SDLTextFieldName menuName],
+                           [SDLTextFieldName secondaryText],
+                           [SDLTextFieldName tertiaryText],
+                           [SDLTextFieldName menuTitle],
+                           [SDLTextFieldName locationName],
+                           [SDLTextFieldName locationDescription],
+                           [SDLTextFieldName addressLines],
+                           [SDLTextFieldName phoneNumber]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -1,4 +1,4 @@
-//  SDLSyncProxyFactory.h
+//  SDLProxyFactory.h
 //
 
 @import Foundation;

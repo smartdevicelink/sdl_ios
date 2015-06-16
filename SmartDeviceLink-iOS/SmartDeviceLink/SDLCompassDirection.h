@@ -8,69 +8,68 @@
 /**
  * The list of potential compass directions.
  *
- * This enum is avaliable since <font color=red><b>SmartDeviceLink 2.0</b></font>
+ * @since SDL 2.0
  */
 @interface SDLCompassDirection : SDLEnum {}
 
 /**
  * @abstract Convert String to SDLCompassDirection
- * @param value NSString
- * @result SDLCompassDirection
- *
+ * @param value The value of the string to get an object for
+ * @return SDLCompassDirection
  */
 +(SDLCompassDirection*) valueOf:(NSString*) value;
 
-/*!
- @abstract Store the enumeration of all possible SDLCompassDirection
- @result return an array that store all possible SDLCompassDirection
+/**
+ * @abstract Store the enumeration of all possible SDLCompassDirection
+ * @return An array that store all possible SDLCompassDirection
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Direction North
- * @result return a SDLCompassDirection with the value of <font color=gray><i>NORTH</i></font>
+ * @return A SDLCompassDirection with the value of *NORTH*
  */
 +(SDLCompassDirection*) NORTH;
 
 /**
  * @abstract Direction Northwest
- * @result return a SDLCompassDirection with the value of <font color=gray><i>NORTHWEST</i></font>
+ * @return A SDLCompassDirection with the value of *NORTHWEST*
  */
 +(SDLCompassDirection*) NORTHWEST;
 
 /**
  * @abstract Direction West
- * @result return a SDLCompassDirection with the value of <font color=gray><i>WEST</i></font>
+ * @return A SDLCompassDirection with the value of *WEST*
  */
 +(SDLCompassDirection*) WEST;
 
 /**
  * @abstract Direction Southwest
- * @result return a SDLCompassDirection with the value of <font color=gray><i>SOUTHWEST</i></font>
+ * @return A SDLCompassDirection with the value of *SOUTHWEST*
  */
 +(SDLCompassDirection*) SOUTHWEST;
 
 /**
  * @abstract Direction South
- * @result return a SDLCompassDirection with the value of <font color=gray><i>SOUTH</i></font>
+ * @return A SDLCompassDirection with the value of *SOUTH*
  */
 +(SDLCompassDirection*) SOUTH;
 
 /**
  * @abstract Direction Southeast
- * @result return a SDLCompassDirection with the value of <font color=gray><i>SOUTHEAST</i></font>
+ * @return A SDLCompassDirection with the value of *SOUTHEAST*
  */
 +(SDLCompassDirection*) SOUTHEAST;
 
 /**
  * @abstract Direction East
- * @result return a SDLCompassDirection with the value of <font color=gray><i>EAST</i></font>
+ * @return A SDLCompassDirection with the value of *EAST*
  */
 +(SDLCompassDirection*) EAST;
 
 /**
  * @abstract Direction Northeast
- * @result return a SDLCompassDirection with the value of <font color=gray><i>NORTHEAST</i></font>
+ * @return A SDLCompassDirection with the value of *NORTHEAST*
  */
 +(SDLCompassDirection*) NORTHEAST;
 

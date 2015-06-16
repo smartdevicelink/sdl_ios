@@ -8,7 +8,7 @@
 /**
  * SDLChangeRegistrationResponse is sent, when SDLChangeRegistration has been called
  *
- * Since <b>SmartDeviceLink 2.0
+ * @since SDL 2.0
  */
 @interface SDLChangeRegistrationResponse : SDLRPCResponse {}
 

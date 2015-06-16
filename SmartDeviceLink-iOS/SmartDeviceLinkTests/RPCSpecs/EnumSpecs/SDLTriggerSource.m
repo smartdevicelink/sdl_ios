@@ -32,12 +32,12 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLTriggerSource values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLTriggerSource values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTriggerSource MENU],
                         [SDLTriggerSource VR],
-                        [SDLTriggerSource KEYBOARD]] mutableCopy];
+                        [SDLTriggerSource KEYBOARD]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

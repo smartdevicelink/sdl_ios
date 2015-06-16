@@ -6,193 +6,199 @@
 #import "SDLEnum.h"
 
 /**
- * Defines the possible result codes returned by SDL to the application in a
- * Response to a requested operation
- * <p>
+ * Defines the possible result codes returned by SDL to the application in a response to a requested operation
  *
- * Avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
+ * @since SDL 1.0
  */
 @interface SDLResult : SDLEnum {}
 
-/*!
- @abstract get SDLResult according value string
- @param value NSString
- @result SDLResult object
+/**
+ * @abstract get SDLResult according value string
+ * @param value The value of the string to get an object for
+ * @return SDLResult object
  */
 +(SDLResult*) valueOf:(NSString*) value;
-/*!
+
+/**
  @abstract declare an array to store all possible SDLResult values
- @result return the array
+ @return the array
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract The request succeeded
- * @result return the result code of <font color=gray><i> SUCCESS </i></font>
  */
 +(SDLResult*) SUCCESS;
+
 /**
  * @abstract Result code : Invalid Data
- * @discussion The data sent is invalid. For example:<br/>
- * <ul>
+ *
+ * @discussion The data sent is invalid. For example:
  * <li>Invalid Json syntax</li>
  * <li>Parameters out of bounds (number or enum range)</li>
  * <li>Mandatory parameters not provided</li>
  * <li>Parameter provided with wrong type</li>
  * <li>Invalid characters</li>
  * <li>Empty string</li>
- * </ul>
- * @result return the result code of <font color=gray><i> INVALID_DATA </i></font>
  */
 +(SDLResult*) INVALID_DATA;
+
++(SDLResult*) CHAR_LIMIT_EXCEEDED;
+
 /**
  * @abstract The request is not supported by SDL
- * @result return the result code of <font color=gray><i> UNSUPPORTED_REQUEST </i></font>
  */
 +(SDLResult*) UNSUPPORTED_REQUEST;
+
 /**
- * @abstract The system could not process the request because the necessary memory
- * couldn't be allocated
- * @result return the result code of <font color=gray><i> OUT_OF_MEMORY </i></font>
+ * @abstract The system could not process the request because the necessary memory couldn't be allocated
  */
 +(SDLResult*) OUT_OF_MEMORY;
+
 /**
- * @abstract There are too many requests pending (means that the response has not been
- * delivered yet). There is a limit of 1000 pending requests at a time
- * @result return the result code of <font color=gray><i> TOO_MANY_PENDING_REQUESTS </i></font>
+ * @abstract There are too many requests pending (means that the response has not been delivered yet).
+ *
+ * @discussion There is a limit of 1000 pending requests at a time.
  */
 +(SDLResult*) TOO_MANY_PENDING_REQUESTS;
+
 /**
  * @abstract One of the provided IDs is not valid.
- * @discussion For example:<br/>
- * <ul>
+ * @discussion For example:
  * <li>CorrelationID</li>
  * <li>CommandID</li>
  * <li>MenuID</li>
- * </ul>
- * @result return the result code of <font color=gray><i> INVALID_ID </i></font>
  */
 +(SDLResult*) INVALID_ID;
+
 /**
- * @abstract The provided name or synonym is a duplicate of some already-defined name
- * or synonym.
- * @result return the result code of <font color=gray><i> DUPLICATE_NAME </i></font>
+ * @abstract The provided name or synonym is a duplicate of some already-defined name or synonym.
  */
 +(SDLResult*) DUPLICATE_NAME;
+
 /**
- * @abstract Specified application name is already associated with an active interface
- * registration. Attempts at doing a second <i>
- * RegisterAppInterface</i> on a
- * given protocol session will also cause this result.
- * @result return the result code of <font color=gray><i> TOO_MANY_APPLICATIONS </i></font>
+ * There are already too many registered applications.
  */
 +(SDLResult*) TOO_MANY_APPLICATIONS;
+
 /**
- * @abstract SDL does not support the interface version requested by the mobile
- * application.
- * @result return the result code of <font color=gray><i> APPLICATION_REGISTERED_ALREADY </i></font>
+ * RegisterApplication has been called again, after a RegisterApplication was successful before.
  */
 +(SDLResult*) APPLICATION_REGISTERED_ALREADY;
+
 /**
- * @abstract The requested language is currently not supported. Might be because of a
- * mismatch of the currently active language.
- * @result return the result code of <font color=gray><i> UNSUPPORTED_VERSION </i></font>
+ * The Head Unit doesn't support the protocol that is requested by the mobile application.
  */
 +(SDLResult*) UNSUPPORTED_VERSION;
+
 /**
- * @abstract The request cannot be executed because no application interface has been
- * registered via
- * <i>RegisterAppInterface</i>
- * @result return the result code of <font color=gray><i> WRONG_LANGUAGE </i></font>
+ * The requested language is currently not supported. Might be because of a mismatch of the currently active language on the head unit and the requested language.
  */
 +(SDLResult*) WRONG_LANGUAGE;
+
 /**
- * @abstract The request cannot be executed because no application interface has been
- * registered via <i>
- * RegisterAppInterface</i>
- * @result return the result code of <font color=gray><i> APPLICATION_NOT_REGISTERED </i></font>
+ * A command can not be executed because no application has been registered with RegisterApplication.
  */
 +(SDLResult*) APPLICATION_NOT_REGISTERED;
+
 /**
- * @abstract The data may not be changed, because it is currently in use. For example,
- * when trying to delete a Choice Set that is currently involved in an
- * interaction.
- * @result return the result code of <font color=gray><i> IN_USE </i></font>
+ * The data may not be changed, because it is currently in use. For example when trying to delete a command set that is currently involved in an interaction.
  */
 +(SDLResult*) IN_USE;
+
 /**
- * @abstract There is already an existing subscription for this item.
- * @result return the result code of <font color=gray><i> VEHICLE_DATA_NOT_ALLOWED </i></font>
+ * The user has turned off access to vehicle data, and it is globally unavailable to mobile applications.
  */
 +(SDLResult*) VEHICLE_DATA_NOT_ALLOWED;
-/*!
- @result return the result code of <font color=gray><i> VEHICLE_DATA_NOT_AVAILABLE </i></font>
+
+/**
+ * The requested vehicle data is not available on this vehicle or is not published.
  */
 +(SDLResult*) VEHICLE_DATA_NOT_AVAILABLE;
+
 /**
- * @abstract The requested operation was rejected. No attempt was made to perform the
- * operation.
- * @result return the result code of <font color=gray><i> REJECTED </i></font>
+ * The requested command was rejected, e.g. because mobile app is in background and cannot perform any HMI commands. Or an HMI command (e.g. Speak) is rejected because a higher priority HMI command (e.g. Alert) is playing.
  */
 +(SDLResult*) REJECTED;
 
-/*!
- @abstract The requested operation was aborted due to some pre-empting event (e.g. button push, <i>Alert</i>, pre-empts <i>Speak</i>, etc.)
- @result return the result code of <font color=gray><i> ABORTED </i></font>
+/**
+ * A command was aborted, for example due to user interaction (e.g. user pressed button). Or an HMI command (e.g. Speak) is aborted because a higher priority HMI command (e.g. Alert) was requested.
  */
 +(SDLResult*) ABORTED;
+
 /**
- * @abstract The requested operation was ignored because it was determined to be
- * redundant (e.g. pause media clock when already paused).
- * @result return the result code of <font color=gray><i> IGNORED </i></font>
+ * A command was ignored, because the intended result is already in effect. For example, SetMediaClockTimer was used to pause the media clock although the clock is paused already.
  */
 +(SDLResult*) IGNORED;
+
 /**
- * @abstract A button that was requested for subscription is not supported on the
- * currently connected SDL platform. See DisplayCapabilities for further
- * information on supported buttons on the currently connected SDL platform
- * @result return the result code of <font color=gray><i> UNSUPPORTED_RESOURCE </i></font>
+ *  A button that was requested for subscription is not supported under the current system.
  */
 +(SDLResult*) UNSUPPORTED_RESOURCE;
-/*!
- @result return the result code of <font color=gray><i> FILE_NOT_FOUND </i></font>
+
+/**
+ * A specified file could not be found on the head unit.
  */
 +(SDLResult*) FILE_NOT_FOUND;
-/*!
- @result return the result code of <font color=gray><i> GENERIC_ERROR </i></font>
+
+/**
+ * Provided data is valid but something went wrong in the lower layers.
  */
 +(SDLResult*) GENERIC_ERROR;
-/*!
- @result return the result code of <font color=gray><i> DISALLOWED </i></font>
+
+/**
+ * RPC is not authorized in local policy table.
  */
 +(SDLResult*) DISALLOWED;
-/*!
- @result return the result code of <font color=gray><i> USER_DISALLOWED </i></font>
+
+/**
+ * RPC is included in a functional group explicitly blocked by the user.
  */
 +(SDLResult*) USER_DISALLOWED;
-/*!
- @result return the result code of <font color=gray><i> TIMED_OUT </i></font>
+
+/**
+ * Overlay reached the maximum timeout and closed.
  */
 +(SDLResult*) TIMED_OUT;
-/*!
- @result return the result code of <font color=gray><i> CANCEL_ROUTE </i></font>
+
+/**
+ * User selected to Cancel Route.
  */
 +(SDLResult*) CANCEL_ROUTE;
-/*!
- @result return the result code of <font color=gray><i> TRUNCATED_DATA </i></font>
+
+/**
+ * The RPC (e.g. ReadDID) executed successfully but the data exceeded the platform maximum threshold and thus, only part of the data is available.
  */
 +(SDLResult*) TRUNCATED_DATA;
-/*!
- @result return the result code of <font color=gray><i> RETRY </i></font>
+
+/**
+ * The user interrupted the RPC (e.g. PerformAudioPassThru) and indicated to start over. Note, the app must issue the new RPC.
  */
 +(SDLResult*) RETRY;
-/*!
- @result return the result code of <font color=gray><i> WARNINGS </i></font>
+
+/**
+ * The RPC (e.g. SubscribeVehicleData) executed successfully but one or more items have a warning or failure.
  */
 +(SDLResult*) WARNINGS;
+
+/**
+ * The RPC (e.g. Slider) executed successfully and the user elected to save the current position / value.
+ */
 +(SDLResult*) SAVED;
+
+/**
+ * The certificate provided during authentication is invalid.
+ */
 +(SDLResult*) INVALID_CERT;
+
+/**
+ * The certificate provided during authentication is expired.
+ */
 +(SDLResult*) EXPIRED_CERT;
+
+/**
+ * The provided hash ID does not match the hash of the current set of registered data or the core could not resume the previous data.
+ */
 +(SDLResult*) RESUME_FAILED;
 
 @end

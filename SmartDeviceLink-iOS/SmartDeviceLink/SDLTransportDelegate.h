@@ -1,7 +1,7 @@
 //  SDLTransportDelegate.h
 //
 
-@protocol SDLTransportDelegate
+@protocol SDLTransportDelegate <NSObject>
 
 - (void)onTransportConnected;
 - (void)onTransportDisconnected;

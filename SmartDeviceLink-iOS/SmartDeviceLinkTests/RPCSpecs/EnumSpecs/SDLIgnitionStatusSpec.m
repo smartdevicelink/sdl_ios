@@ -38,15 +38,15 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLIgnitionStatus values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLIgnitionStatus values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLIgnitionStatus UNKNOWN],
                         [SDLIgnitionStatus OFF],
                         [SDLIgnitionStatus ACCESSORY],
                         [SDLIgnitionStatus RUN],
                         [SDLIgnitionStatus START],
-                        [SDLIgnitionStatus INVALID]] mutableCopy];
+                        [SDLIgnitionStatus INVALID]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

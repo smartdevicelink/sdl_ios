@@ -8,33 +8,37 @@
 /**
  * Describes different bit depth options for PerformAudioPassThru
  *
+ * @since SDL 2.0
  */
 @interface SDLBitsPerSample : SDLEnum {}
 
 /**
  * @abstract Convert String to SDLBitsPerSample
- * @param value NSString
- * @result SDLBitsPerSample
+ *
+ * @param value The value of the string to get an object for
+ *
+ * @return SDLBitsPerSample
  */
 +(SDLBitsPerSample*) valueOf:(NSString*) value;
 
 /**
- @abstract Store the enumeration of all possible SDLBitsPerSample
- @result return an array that store all possible SDLBitsPerSample
+ * @abstract Store the enumeration of all possible SDLBitsPerSample
+ *
+ * @return an array that store all possible SDLBitsPerSample
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract 8 bits per sample
- * @since <font color=red><b>SmartDeviceLink 2.0</b></font>
- * @result return a SDLBitsPerSample with value of <font color=gray></i>8_bit</i></font>
+ *
+ * @return a SDLBitsPerSample with value of *8_BIT*
  */
 +(SDLBitsPerSample*) _8_BIT;
 
 /**
  * @abstract 16 bits per sample
- * @since <font color=red><b>SmartDeviceLink 2.0</b></font>
- * @result return a SDLBitsPerSample with value of <font color=gray></i>16_bit</i></font>
+ *
+ * @return a SDLBitsPerSample with value of *16_BIT*
  */
 +(SDLBitsPerSample*) _16_BIT;
 

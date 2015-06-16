@@ -249,6 +249,26 @@ describe(@"BuildDeleteSubMenu Tests", ^ {
     });
 });
 
+describe(@"BuildDialNumber", ^{
+    __block SDLDialNumber *message = nil;
+    __block NSString *someNumberString = nil;
+    
+    describe(@"when built correctly", ^{
+        beforeEach(^{
+            someNumberString = @"1234567890";
+            message = [SDLRPCRequestFactory buildDialNumberWithNumber:someNumberString];
+        });
+        
+        it(@"should not be nil", ^{
+            expect(message).toNot(beNil());
+        });
+        
+        it(@"should have number set properly", ^{
+            expect(message.number).to(equal(someNumberString));
+        });
+    });
+});
+
 describe(@"BuildEndAudioPassThru Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLEndAudioPassThru* message = [SDLRPCRequestFactory buildEndAudioPassThruWithCorrelationID:@13123];
@@ -330,7 +350,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
             NSArray* initialChunks = @[[[SDLTTSChunk alloc] init]];
             NSArray* helpChunks = @[[[SDLTTSChunk alloc] init]];
             NSArray* timeoutChunks = @[[[SDLTTSChunk alloc] init]];
-            NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
+            NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:@"Start" interactionChoiceSetIDList:@[@878]
                                                                    helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:[SDLInteractionMode MANUAL_ONLY] timeout:@7500
                                                                    vrHelp:vrHelp correlationID:@272727];
@@ -350,7 +370,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
     
     context(@"With Initial Prompt", ^ {
         it(@"Should build correctly", ^ {
-            NSArray* vrHelp = @[[[SDLVrHelpItem alloc] init]];
+            NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]
                                                                    helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:[SDLInteractionMode VR_ONLY]
                                                                    timeout:@5600 vrHelp:vrHelp correlationID:@31564];
@@ -497,6 +517,63 @@ describe(@"BuildResetGlobalProperties Tests", ^ {
     });
 });
 
+describe(@"BuildSendLocation", ^{
+    __block SDLSendLocation *message = nil;
+    __block NSNumber *someLongitude = nil;
+    __block NSNumber *someLatitude = nil;
+    __block NSString *someLocation = nil;
+    __block NSString *someLocationDescription = nil;
+    __block NSArray *someAddressLines = nil;
+    __block NSString *somePhoneNumber = nil;
+    __block SDLImage *someImage = nil;
+    
+    describe(@"when built correctly", ^{
+        beforeEach(^{
+            someLongitude = @123.4567;
+            someLatitude = @65.4321;
+            someLocation = @"Livio";
+            someLocationDescription = @"A great place to work";
+            someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
+            somePhoneNumber = @"248-591-0333";
+            someImage = [[SDLImage alloc] init];
+            
+            message = [SDLRPCRequestFactory buildSendLocationWithLongitude:someLongitude latitude:someLatitude locationName:someLocation locationDescription:someLocationDescription address:someAddressLines phoneNumber:somePhoneNumber image:someImage];
+        });
+        
+        it(@"should not be nil", ^{
+            expect(message).toNot(beNil());
+        });
+        
+        it(@"should properly set longitude", ^{
+            expect(message.longitudeDegrees).to(equal(someLongitude));
+        });
+        
+        it(@"should properly set latitude", ^{
+            expect(message.latitudeDegrees).to(equal(someLatitude));
+        });
+        
+        it(@"should properly set location", ^{
+            expect(message.locationName).to(equal(someLocation));
+        });
+        
+        it(@"should properly set location description", ^{
+            expect(message.locationDescription).to(equal(someLocationDescription));
+        });
+        
+        it(@"should properly set address lines", ^{
+            expect(message.addressLines).to(equal(someAddressLines));
+        });
+        
+        it(@"should properly set phone number", ^{
+            expect(message.phoneNumber).to(equal(somePhoneNumber));
+        });
+        
+        it(@"should properly set image", ^{
+            expect(message.locationImage).to(equal(someImage));
+        });
+    });
+});
+
 describe(@"BuildScrollableMessage Tests", ^ {
     it(@"Should build correctly", ^ {
         NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
@@ -529,7 +606,7 @@ describe(@"BuildSetDisplayLayout Tests", ^ {
 
 describe(@"BuildSetGlobalProperties Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* help = @[[[SDLVrHelpItem alloc] init]];
+        NSArray* help = @[[[SDLVRHelpItem alloc] init]];
         SDLSetGlobalProperties* message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Beyond Help" timeoutText:@"You took too long" vrHelpTitle:@"Voice"
                                                                 vrHelp:help correlationID:@5666666];
         

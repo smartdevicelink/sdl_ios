@@ -15,6 +15,7 @@
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
 #import "SDLGetDTCs.h"
@@ -29,6 +30,7 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLResetGlobalProperties.h"
 #import "SDLScrollableMessage.h"
+#import "SDLSendLocation.h"
 #import "SDLSetAppIcon.h"
 #import "SDLSetDisplayLayout.h"
 #import "SDLSetGlobalProperties.h"
@@ -200,6 +202,13 @@ correlationID{
     return msg;
 }
 
++(SDLDialNumber*) buildDialNumberWithNumber:(NSString *)phoneNumber {
+    SDLDialNumber *msg = [[SDLDialNumber alloc] init];
+    msg.number = phoneNumber;
+    
+    return msg;
+}
+
 +(SDLListFiles*) buildListFilesWithCorrelationID:(NSNumber*) correlationID {
     
     SDLListFiles* msg = [[SDLListFiles alloc] init];
@@ -337,10 +346,6 @@ correlationID{
 //*****
 
 +(SDLPutFile*) buildPutFileWithFileName:(NSString*) fileName fileType:(SDLFileType*) fileType persistentFile:(NSNumber*) persistentFile correlationId:(NSNumber*) correlationID {
-    //TODO
-    //    +(FMPutFile*) buildPutFile:(NSString*) syncFileName fileType:(SDLFileType*) fileType persisistentFile:(NSNumber*) persistentFile fileData:(NSData*) fileData correlationID:(NSNumber*) correlationID {
-    
-    
     SDLPutFile* msg = [[SDLPutFile alloc] init];
     msg.syncFileName = fileName;
     
@@ -366,7 +371,7 @@ correlationID{
 }
 
 //***** RegisterAppInterface *****
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSMutableArray*) ttsName vrSynonyms:(NSMutableArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSArray*) ttsName vrSynonyms:(NSArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
     
     SDLRegisterAppInterface* msg = [[SDLRegisterAppInterface alloc] init];
     SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] init];
@@ -374,9 +379,9 @@ correlationID{
 	version.minorVersion = [NSNumber numberWithInt:0];
     msg.syncMsgVersion = version;
 	msg.appName = appName;
-    msg.ttsName = ttsName;
+    msg.ttsName = [ttsName mutableCopy];
 	msg.ngnMediaScreenAppName = appName;
-	msg.vrSynonyms = vrSynonyms;
+	msg.vrSynonyms = [vrSynonyms mutableCopy];
 	msg.isMediaApplication = isMediaApp;
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
@@ -419,6 +424,19 @@ correlationID{
 	msg.correlationID = correlationID;
 	
 	return msg;
+}
+
++(SDLSendLocation *) buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+    SDLSendLocation *msg = [[SDLSendLocation alloc] init];
+    msg.longitudeDegrees = longitude;
+    msg.latitudeDegrees = latitude;
+    msg.locationName = locationName;
+    msg.locationDescription = locationDescription;
+    msg.addressLines = address;
+    msg.phoneNumber = phoneNumber;
+    msg.locationImage = image;
+    
+    return msg;
 }
 
 +(SDLSetAppIcon*) buildSetAppIconWithFileName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID {

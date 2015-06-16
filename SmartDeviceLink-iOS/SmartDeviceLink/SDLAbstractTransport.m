@@ -9,14 +9,11 @@
 
 @end
 
-
 @implementation SDLAbstractTransport
 
-- (instancetype) initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) param {
+- (instancetype)init {
     if (self = [super init]) {
-        _endpointName = endpoint;
-        _endpointParam = param;
-        _debugConsoleGroupName = @"default";
+
     }
     return self;
 }
@@ -38,22 +35,21 @@
     [self.delegate onTransportDisconnected];
 }
 
-- (void)handleDataReceivedFromTransport:(NSData *)receivedData {
-    [self.delegate onDataReceived:receivedData];
-}
-
-
-#pragma mark SDLTransport Implementation
-- (void)connect {
-	[self doesNotRecognizeSelector:_cmd];
-}
-
 - (void)disconnect {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendData:(NSData *)dataToSend {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)dispose {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (double)retryDelay {
+    [self doesNotRecognizeSelector:_cmd];
+    return 0.0;
 }
 
 @end

@@ -18,14 +18,17 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLKeyboardEvent ENTRY_SUBMITTED].value).to(equal(@"ENTRY_SUBMITTED"));
         expect([SDLKeyboardEvent ENTRY_CANCELLED].value).to(equal(@"ENTRY_CANCELLED"));
         expect([SDLKeyboardEvent ENTRY_ABORTED].value).to(equal(@"ENTRY_ABORTED"));
+        expect([SDLKeyboardEvent ENTRY_VOICE].value).to(equal(@"ENTRY_VOICE"));
     });
 });
+
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
         expect([SDLKeyboardEvent valueOf:@"KEYPRESS"]).to(equal([SDLKeyboardEvent KEYPRESS]));
         expect([SDLKeyboardEvent valueOf:@"ENTRY_SUBMITTED"]).to(equal([SDLKeyboardEvent ENTRY_SUBMITTED]));
         expect([SDLKeyboardEvent valueOf:@"ENTRY_CANCELLED"]).to(equal([SDLKeyboardEvent ENTRY_CANCELLED]));
         expect([SDLKeyboardEvent valueOf:@"ENTRY_ABORTED"]).to(equal([SDLKeyboardEvent ENTRY_ABORTED]));
+        expect([SDLKeyboardEvent valueOf:@"ENTRY_VOICE"]).to(equal([SDLKeyboardEvent ENTRY_VOICE]));
     });
     
     it(@"Should return nil when invalid", ^ {
@@ -33,14 +36,16 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLKeyboardEvent valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
+
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLKeyboardEvent values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLKeyboardEvent values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeyboardEvent KEYPRESS],
-                        [SDLKeyboardEvent ENTRY_SUBMITTED],
-                        [SDLKeyboardEvent ENTRY_CANCELLED],
-                        [SDLKeyboardEvent ENTRY_ABORTED]] mutableCopy];
+                           [SDLKeyboardEvent ENTRY_SUBMITTED],
+                           [SDLKeyboardEvent ENTRY_CANCELLED],
+                           [SDLKeyboardEvent ENTRY_ABORTED],
+                           [SDLKeyboardEvent ENTRY_VOICE]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

@@ -44,8 +44,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLVehicleDataResultCode values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLVehicleDataResultCode values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataResultCode SUCCESS],
                         [SDLVehicleDataResultCode TRUNCATED_DATA],
@@ -55,7 +55,7 @@ describe(@"Value List Tests", ^ {
                         [SDLVehicleDataResultCode VEHICLE_DATA_NOT_AVAILABLE],
                         [SDLVehicleDataResultCode DATA_ALREADY_SUBSCRIBED],
                         [SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED],
-                        [SDLVehicleDataResultCode IGNORED]] mutableCopy];
+                        [SDLVehicleDataResultCode IGNORED]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

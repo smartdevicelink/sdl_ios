@@ -53,9 +53,14 @@
 
     // Create the middle messages (the ones carrying the actual data).
     for (int n = 0; n < numberOfMessagesRequired - 1; n++) {
+
+        // Frame # after 255 must cycle back to 1, not 0.
+        // A 0 signals last frame.
+        UInt8 frameNumber = (n % 255) + 1;
+        
         SDLProtocolHeader *nextFrameHeader = [incomingMessage.header copy];
         nextFrameHeader.frameType = SDLFrameType_Consecutive;
-        nextFrameHeader.frameData = n+1;
+        nextFrameHeader.frameData = frameNumber;
 
         NSUInteger offsetOfDataForThisFrame = headerSize + (n * numberOfDataBytesPerMessage);
         NSData *nextFramePayload = [incomingMessage.data subdataWithRange:NSMakeRange(offsetOfDataForThisFrame, numberOfDataBytesPerMessage)];

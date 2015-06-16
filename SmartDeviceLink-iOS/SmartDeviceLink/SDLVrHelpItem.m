@@ -1,13 +1,13 @@
-//  SDLVrHelpItem.m
+//  SDLVRHelpItem.m
 //
 
-#import "SDLVrHelpItem.h"
+
+#import "SDLVRHelpItem.h"
 
 #import "SDLImage.h"
 #import "SDLNames.h"
 
-
-@implementation SDLVrHelpItem
+@implementation SDLVRHelpItem
 
 -(instancetype) init {
     if (self = [super init]) {}

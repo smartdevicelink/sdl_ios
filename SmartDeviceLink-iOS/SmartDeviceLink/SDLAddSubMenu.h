@@ -23,10 +23,10 @@
  */
 -(instancetype) init;
 /**
- * Constructs a new SDLAddSubMenu object indicated by the NSMutableDictionary parameter
+ * Constructs a new SDLAddSubMenu object indicated by the dictionary parameter
  * <p>
  *
- * @param dict The NSMutableDictionary to use
+ * @param dict The dictionary to use
  */
 -(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
 

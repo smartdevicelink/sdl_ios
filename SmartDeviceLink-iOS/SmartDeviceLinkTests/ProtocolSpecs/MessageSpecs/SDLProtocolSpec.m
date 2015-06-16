@@ -9,13 +9,13 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLAbstractTransport.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCRequest.h"
 #import "SDLNames.h"
-#import "SDLTransport.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLV1ProtocolHeader.h"
@@ -37,7 +37,7 @@ describe(@"SendStartSession Tests", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
         __block BOOL verified = NO;
-        id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+        id transportMock = OCMClassMock([SDLAbstractTransport class]);
         [[[transportMock stub] andDo:^(NSInvocation* invocation) {
             verified = YES;
             
@@ -64,7 +64,7 @@ describe(@"SendEndSession Tests", ^ {
             [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x03 version:0x01];
             
             __block BOOL verified = NO;
-            id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
                 verified = YES;
                 
@@ -90,7 +90,7 @@ describe(@"SendEndSession Tests", ^ {
             [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x61 version:0x02];
             
             __block BOOL verified = NO;
-            id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
                 verified = YES;
                 
@@ -125,7 +125,7 @@ describe(@"SendRPCRequest Tests", ^ {
             [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0xFF version:0x01];
             
             __block BOOL verified = NO;
-            id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
                 verified = YES;
                 
@@ -145,7 +145,7 @@ describe(@"SendRPCRequest Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol sendRPCRequest:mockRequest];
+            [testProtocol sendRPC:mockRequest];
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -162,7 +162,7 @@ describe(@"SendRPCRequest Tests", ^ {
             [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x01 version:0x02];
             
             __block BOOL verified = NO;
-            id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
                 verified = YES;
                 
@@ -190,7 +190,7 @@ describe(@"SendRPCRequest Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol sendRPCRequest:mockRequest];
+            [testProtocol sendRPC:mockRequest];
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -305,7 +305,7 @@ describe(@"SendHeartbeat Tests", ^ {
             [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x43 version:0x01];
             
             __block BOOL verified = NO;
-            id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
                 verified = YES;
                 
@@ -331,7 +331,7 @@ describe(@"SendHeartbeat Tests", ^ {
             [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0xF5 version:0x02];
             
             __block BOOL verified = NO;
-            id transportMock = OCMProtocolMock(@protocol(SDLTransport));
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
             [[[transportMock stub] andDo:^(NSInvocation* invocation) {
                 verified = YES;
                 

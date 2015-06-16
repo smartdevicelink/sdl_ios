@@ -8,7 +8,7 @@ SDLDimension* SDLDimension_NO_FIX = nil;
 SDLDimension* SDLDimension_2D = nil;
 SDLDimension* SDLDimension_3D = nil;
 
-NSMutableArray* SDLDimension_values = nil;
+NSArray* SDLDimension_values = nil;
 
 @implementation SDLDimension
 
@@ -21,13 +21,13 @@ NSMutableArray* SDLDimension_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLDimension_values == nil) {
-        SDLDimension_values = [[NSMutableArray alloc] initWithObjects:
+        SDLDimension_values = @[
                 SDLDimension.NO_FIX,
                 SDLDimension._2D,
                 SDLDimension._3D,
-                nil];
+                ];
     }
     return SDLDimension_values;
 }

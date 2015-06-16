@@ -58,8 +58,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSMutableArray* storedValues = [SDLPRNDL values];
-    __block NSMutableArray* definedValues;
+    NSArray* storedValues = [SDLPRNDL values];
+    __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPRNDL PARK],
                         [SDLPRNDL REVERSE],
@@ -76,7 +76,7 @@ describe(@"Value List Tests", ^ {
                         [SDLPRNDL SEVENTH],
                         [SDLPRNDL EIGHTH],
                         [SDLPRNDL UNKNOWN],
-                        [SDLPRNDL FAULT]] mutableCopy];
+                        [SDLPRNDL FAULT]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {

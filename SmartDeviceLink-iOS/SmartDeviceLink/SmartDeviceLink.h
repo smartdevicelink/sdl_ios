@@ -1,9 +1,4 @@
-//
 //  SmartDeviceLink.h
-//  SmartDeviceLink
-//
-//  Created by Joel Fischer on 2/5/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -35,10 +30,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
 #import "SDLIAPTransport.h"
+#import "SDLIAPSessionDelegate.h"
 #import "SDLTCPTransport.h"
-#import "SDLTransport.h"
 #import "SDLTransportDelegate.h"
-#import "SDLInterfaceProtocol.h"
 
 /***** Protocol *****/
 #import "SDLProtocolListener.h"
@@ -75,6 +69,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
 #import "SDLDiagnosticMessage.h"
+#import "SDLDialNumber.h"
 #import "SDLEncodedSyncPData.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLGetDTCs.h"
@@ -87,6 +82,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRegisterAppInterface.h"
 #import "SDLResetGlobalProperties.h"
 #import "SDLScrollableMessage.h"
+#import "SDLSendLocation.h"
 #import "SDLSetAppIcon.h"
 #import "SDLSetDisplayLayout.h"
 #import "SDLSetGlobalProperties.h"
@@ -115,6 +111,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDeleteInteractionChoiceSetResponse.h"
 #import "SDLDeleteSubMenuResponse.h"
 #import "SDLDiagnosticMessageResponse.h"
+#import "SDLDialNumberResponse.h"
 #import "SDLEncodedSyncPDataResponse.h"
 #import "SDLEndAudioPassThruResponse.h"
 #import "SDLGenericResponse.h"
@@ -128,6 +125,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResetGlobalPropertiesResponse.h"
 #import "SDLScrollableMessageResponse.h"
+#import "SDLSendLocationResponse.h"
 #import "SDLSetAppIconResponse.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSetGlobalPropertiesResponse.h"
@@ -180,6 +178,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLEmergencyEvent.h"
 #import "SDLGPSData.h"
 #import "SDLHeadLampStatus.h"
+#import "SDLHMICapabilities.h"
 #import "SDLHMIPermissions.h"
 #import "SDLImage.h"
 #import "SDLImageField.h"
@@ -205,7 +204,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTurn.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
-#import "SDLVrHelpItem.h"
+#import "SDLVRHelpItem.h"
 
 // Enums
 #import "SDLAmbientLightStatus.h"
@@ -273,6 +272,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataStatus.h"
 #import "SDLVehicleDataType.h"
-#import "SDLVrCapabilities.h"
+#import "SDLVRCapabilities.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"

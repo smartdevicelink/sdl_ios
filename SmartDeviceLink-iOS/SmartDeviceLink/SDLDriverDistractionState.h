@@ -8,30 +8,37 @@
 /**
  * Enumeration that describes possible states of driver distraction.
  *
- * This enum is avaliable since <font color=red><b> SmartDeviceLink 1.0 </b></font>
+ * @since SDL 1.0
  */
 @interface SDLDriverDistractionState : SDLEnum {}
 
 /**
  * Convert String to SDLDisplayType
- * @param value String
+ *
+ * @param value The value of the string to get an object for
+ *
  * @return SDLDisplayType
  */
 +(SDLDriverDistractionState*) valueOf:(NSString*) value;
-/*!
- @abstract Store the enumeration of all possible SDLDriverDistractionState
- @result return an array that store all possible SDLDriverDistractionState
+
+/**
+ * @abstract Store the enumeration of all possible SDLDriverDistractionState
+ *
+ * @return an array that store all possible SDLDriverDistractionState
  */
-+(NSMutableArray*) values;
++(NSArray*) values;
 
 /**
  * @abstract Driver distraction rules are in effect.
- * @result return a SDLDriverDistractionState with value of <font color=gray><i> DD_ON </i></font>
+ *
+ * @return a SDLDriverDistractionState with value of *DD_ON*
  */
 +(SDLDriverDistractionState*) DD_ON;
+
 /**
  * @abstract Driver distraction rules are NOT in effect.
- * @result return a SDLDriverDistractionState with value of <font color=gray><i> DD_OFF </i></font>
+ *
+ * @return a SDLDriverDistractionState with value of *DD_OFF*
  */
 +(SDLDriverDistractionState*) DD_OFF;
 

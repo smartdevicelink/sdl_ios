@@ -20,7 +20,7 @@ QuickSpecBegin(SDLSetGlobalPropertiesSpec)
 
 SDLTTSChunk* chunk1 = [[SDLTTSChunk alloc] init];
 SDLTTSChunk* chunk2 = [[SDLTTSChunk alloc] init];
-SDLVrHelpItem* help = [[SDLVrHelpItem alloc] init];
+SDLVRHelpItem* help = [[SDLVRHelpItem alloc] init];
 SDLImage* image = [[SDLImage alloc] init];
 SDLKeyboardProperties* keyboard = [[SDLKeyboardProperties alloc] init];
 

@@ -22,12 +22,12 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.driverDistractionStatus = @NO;
         testNotification.userSelected = @3;
         testNotification.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
-        testNotification.hmiLevel = [SDLHMILevel HMI_NONE];
+        testNotification.hmiLevel = [SDLHMILevel NONE];
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
         expect(testNotification.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
-        expect(testNotification.hmiLevel).to(equal([SDLHMILevel HMI_NONE]));
+        expect(testNotification.hmiLevel).to(equal([SDLHMILevel NONE]));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -36,14 +36,14 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{@"driverdistractionstatus":@NO,
                                                    @"userselected":@3,
                                                    @"OnLockScreenStatus":[SDLLockScreenStatus REQUIRED],
-                                                   @"hmilevel":[SDLHMILevel HMI_NONE]},
+                                                   @"hmilevel":[SDLHMILevel NONE]},
                                              NAMES_operation_name:@"OnLockScreenStatus"}} mutableCopy];
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
         expect(testNotification.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
-        expect(testNotification.hmiLevel).to(equal([SDLHMILevel HMI_NONE]));
+        expect(testNotification.hmiLevel).to(equal([SDLHMILevel NONE]));
     });
     
     it(@"Should return nil if not set", ^ {

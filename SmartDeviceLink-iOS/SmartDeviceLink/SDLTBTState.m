@@ -15,7 +15,7 @@ SDLTBTState* SDLTBTState_ROUTE_SUMMARY_REQUEST = nil;
 SDLTBTState* SDLTBTState_TRIP_STATUS_REQUEST = nil;
 SDLTBTState* SDLTBTState_ROUTE_UPDATE_REQUEST_TIMEOUT = nil;
 
-NSMutableArray* SDLTBTState_values = nil;
+NSArray* SDLTBTState_values = nil;
 
 @implementation SDLTBTState
 
@@ -28,9 +28,9 @@ NSMutableArray* SDLTBTState_values = nil;
     return nil;
 }
 
-+(NSMutableArray*) values {
++(NSArray*) values {
     if (SDLTBTState_values == nil) {
-        SDLTBTState_values = [[NSMutableArray alloc] initWithObjects:
+        SDLTBTState_values = @[
                 SDLTBTState.ROUTE_UPDATE_REQUEST,
                 SDLTBTState.ROUTE_ACCEPTED,
                 SDLTBTState.ROUTE_REFUSED,
@@ -41,7 +41,7 @@ NSMutableArray* SDLTBTState_values = nil;
                 SDLTBTState.ROUTE_SUMMARY_REQUEST,
                 SDLTBTState.TRIP_STATUS_REQUEST,
                 SDLTBTState.ROUTE_UPDATE_REQUEST_TIMEOUT,
-                nil];
+                ];
     }
     return SDLTBTState_values;
 }

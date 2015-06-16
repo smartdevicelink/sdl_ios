@@ -19,7 +19,7 @@ SDLImage* image = [[SDLImage alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLVrHelpItem* testStruct = [[SDLVrHelpItem alloc] init];
+        SDLVRHelpItem* testStruct = [[SDLVRHelpItem alloc] init];
         
         testStruct.text = @"DON'T PANIC";
         testStruct.image = image;
@@ -34,7 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{NAMES_text:@"DON'T PANIC",
                                        NAMES_image:image,
                                        NAMES_position:@42} mutableCopy];
-        SDLVrHelpItem* testStruct = [[SDLVrHelpItem alloc] initWithDictionary:dict];
+        SDLVRHelpItem* testStruct = [[SDLVRHelpItem alloc] initWithDictionary:dict];
         
         expect(testStruct.text).to(equal(@"DON'T PANIC"));
         expect(testStruct.image).to(equal(image));
@@ -42,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLVrHelpItem* testStruct = [[SDLVrHelpItem alloc] init];
+        SDLVRHelpItem* testStruct = [[SDLVRHelpItem alloc] init];
         
         expect(testStruct.text).to(beNil());
         expect(testStruct.image).to(beNil());
