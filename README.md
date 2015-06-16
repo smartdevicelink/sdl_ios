@@ -1,9 +1,9 @@
 ##### Note: Please see the [release/4.0.0](https://github.com/smartdevicelink/sdl_ios/tree/release/4.0.0) branch of sdl_ios for the most recent version. Significant changes have been made since the latest stable release and the in-progress develop branch. When released, it will include distribution via Carthage and Cocoapods. The current alpha has Cocoapods support, see below for installation instructions.
 
-[![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
-[![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
-[![Build Status](https://travis-ci.org/smartdevicelink/sdl_ios.svg?branch=release%2F4.0.0)](https://travis-ci.org/smartdevicelink/sdl_ios)
-[![codecov.io](http://codecov.io/github/smartdevicelink/sdl_ios/coverage.svg?branch=release/4.0.0)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=release/4.0.0)
+[![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/release%2F4.0.0.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
+[![codecov.io](https://img.shields.io/codecov/c/github/codecov/smartdevicelink/sdl_ios/release%2F4.0.0.svg?style=flat)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=release/4.0.0)
 
 
 # SmartDeviceLink (SDL)
