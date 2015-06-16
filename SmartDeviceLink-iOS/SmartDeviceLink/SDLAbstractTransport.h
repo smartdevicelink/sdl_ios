@@ -4,27 +4,15 @@
 
 #import "SDLTransportDelegate.h"
 
-@class SDLBaseTransportConfig;
-
-typedef NS_ENUM(NSUInteger, SDLTransportType){
-    SDLTransportTypeiAP,
-    SDLTransportTypeTCP
-};
-
-@interface SDLAbstractTransport : NSObject<SDLTransport>
+@interface SDLAbstractTransport : NSObject
 
 @property (weak) id<SDLTransportDelegate> delegate;
 @property (strong) NSString *debugConsoleGroupName;
-@property (strong, readonly) NSString* endpointName;
-@property (strong, readonly) NSString* endpointParam;
-@property (nonatomic) SDLTransportType transportType;
-@property (strong, nonatomic) NSString* notificationComment;
-@property (nonatomic, getter=isConnected, readonly) BOOL connected;
 
--(instancetype)initWithEndpoint:(NSString*) endpoint endpointParam:(NSString*) endointParam;
--(instancetype)initWithTransportConfig:(SDLBaseTransportConfig*)transportConfig delegate:(id<SDLTransportDelegate>)delegate;
-- (void)notifyTransportConnected;
-- (void)notifyTransportDisconnected;
-- (void)handleDataReceivedFromTransport:(NSData *)receivedData;
+- (void)connect;
+- (void)disconnect;
+- (void)sendData:(NSData *)dataToSend;
+- (void)dispose;
+- (double)retryDelay;
 
 @end
