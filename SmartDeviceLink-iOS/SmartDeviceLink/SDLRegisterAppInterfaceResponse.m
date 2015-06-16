@@ -290,12 +290,45 @@
     return [parameters objectForKey:NAMES_supportedDiagModes];
 }
 
--(NSString *)proxyVersionInfo{
-    //TODO: Pulled from SmartDeviceLink.h, but no values stated
-//    if (SmartDeviceLinkVersionNumber) {
-//        return [NSString stringWithUTF8String:SmartDeviceLinkVersionString];
-//    }
-    return nil;
+-(void)setHmiCapabilities:(SDLHMICapabilities *)hmiCapabilities {
+    if (hmiCapabilities != nil) {
+        [parameters setObject:hmiCapabilities forKey:NAMES_hmiCapabilities];
+    } else {
+        [parameters removeObjectForKey:NAMES_hmiCapabilities];
+    }
+}
+
+-(SDLHMICapabilities *)hmiCapabilities {
+    NSObject* obj = [parameters objectForKey:NAMES_hmiCapabilities];
+    if ([obj isKindOfClass:[SDLHMICapabilities class]]) {
+        return (SDLHMICapabilities*)obj;
+    } else {
+        return [[SDLHMICapabilities alloc] initWithDictionary:(NSMutableDictionary*)obj];
+    }
+}
+
+-(void)setSdlVersion:(NSString *)sdlVersion {
+    if (sdlVersion != nil) {
+        parameters[NAMES_sdlVersion] = sdlVersion;
+    } else {
+        [parameters removeObjectForKey:NAMES_sdlVersion];
+    }
+}
+
+-(NSString *)sdlVersion {
+    return parameters[NAMES_sdlVersion];
+}
+
+-(void)setSystemSoftwareVersion:(NSString *)systemSoftwareVersion {
+    if (systemSoftwareVersion != nil) {
+        parameters[NAMES_systemSoftwareVersion] = systemSoftwareVersion;
+    } else {
+        [parameters removeObjectForKey:NAMES_systemSoftwareVersion];
+    }
+}
+
+-(NSString *)systemSoftwareVersion {
+    return parameters[NAMES_systemSoftwareVersion];
 }
 
 @end
