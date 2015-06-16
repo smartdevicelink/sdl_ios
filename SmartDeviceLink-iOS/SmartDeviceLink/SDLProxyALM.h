@@ -25,7 +25,7 @@
  *             the next time a SDL unit discovers applications, this application will be
  *             available.
  *
- * @param Delegate that receives callbacks from SDL.
+ * @param delegate that receives callbacks from SDL.
  *
  * @param appName - Name of the application displayed on SDL.
  *
