@@ -12,6 +12,6 @@
 
 @property (nonatomic) NSTimeInterval heartBeatTimeout;
 @property (nonatomic) BOOL shareConnection;
-@property (nonatomic) SDLTransportType transportType;
+@property (nonatomic) SDLProxyTransportType transportType;
 
 @end
