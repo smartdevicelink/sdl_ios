@@ -767,35 +767,32 @@
 		5DE372A21ACB2ED300849FAA /* SDLHMICapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE372A01ACB2ED300849FAA /* SDLHMICapabilities.m */; };
 		5DE372A41ACB336600849FAA /* SDLHMICapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */; };
 		5DE372A61ACC35B400849FAA /* SDLDebugToolConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D14D6E701AEA918B00E64C4E /* SDLHeartbeatMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = D14D6E6E1AEA918B00E64C4E /* SDLHeartbeatMonitor.h */; };
-		D14D6E711AEA918B00E64C4E /* SDLHeartbeatMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = D14D6E6F1AEA918B00E64C4E /* SDLHeartbeatMonitor.m */; };
-		D1C297281AD41D8300C8C5E7 /* SDLProxyALM.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297221AD41D8300C8C5E7 /* SDLProxyALM.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D1C297291AD41D8300C8C5E7 /* SDLProxyALM.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297231AD41D8300C8C5E7 /* SDLProxyALM.m */; };
-		D1C2972A1AD41D8300C8C5E7 /* SDLProxyALMOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297241AD41D8300C8C5E7 /* SDLProxyALMOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D1C2972B1AD41D8300C8C5E7 /* SDLProxyALMOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297251AD41D8300C8C5E7 /* SDLProxyALMOptions.m */; };
-		D1C2972C1AD41D8300C8C5E7 /* SDLProxyBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297261AD41D8300C8C5E7 /* SDLProxyBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D1C2972D1AD41D8300C8C5E7 /* SDLProxyBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297271AD41D8300C8C5E7 /* SDLProxyBase.m */; };
-		D1C297321AD4231000C8C5E7 /* SDLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297301AD4231000C8C5E7 /* SDLConnection.h */; };
-		D1C297331AD4231000C8C5E7 /* SDLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297311AD4231000C8C5E7 /* SDLConnection.m */; };
-		D1C297361AD4231F00C8C5E7 /* SDLSession.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297341AD4231F00C8C5E7 /* SDLSession.h */; };
-		D1C297371AD4231F00C8C5E7 /* SDLSession.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297351AD4231F00C8C5E7 /* SDLSession.m */; };
-		D1C297391AD4233700C8C5E7 /* SDLConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297381AD4233700C8C5E7 /* SDLConnectionDelegate.h */; };
-		D1C2973C1AD4235D00C8C5E7 /* SDLBaseTransportConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C2973A1AD4235D00C8C5E7 /* SDLBaseTransportConfig.h */; };
-		D1C2973D1AD4235D00C8C5E7 /* SDLBaseTransportConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C2973B1AD4235D00C8C5E7 /* SDLBaseTransportConfig.m */; };
-		D1C297411AD4283200C8C5E7 /* SDLConnectionState.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C2973F1AD4283200C8C5E7 /* SDLConnectionState.h */; };
-		D1C297421AD4283200C8C5E7 /* SDLConnectionState.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297401AD4283200C8C5E7 /* SDLConnectionState.m */; };
-		D1C297451AD4285A00C8C5E7 /* SDLInterfaceAvailability.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297431AD4285A00C8C5E7 /* SDLInterfaceAvailability.h */; };
-		D1C297461AD4285A00C8C5E7 /* SDLInterfaceAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297441AD4285A00C8C5E7 /* SDLInterfaceAvailability.m */; };
-		D1C297491AD4367700C8C5E7 /* SDLProxyMessageDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297471AD4367700C8C5E7 /* SDLProxyMessageDispatcher.h */; };
-		D1C2974A1AD4367700C8C5E7 /* SDLProxyMessageDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297481AD4367700C8C5E7 /* SDLProxyMessageDispatcher.m */; };
-		D1C2974C1AD436AF00C8C5E7 /* SDLDispatchingStrategyDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C2974B1AD436AF00C8C5E7 /* SDLDispatchingStrategyDelegate.h */; };
-		D1C2974F1AD436C700C8C5E7 /* SDLInternalProxyMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C2974D1AD436C700C8C5E7 /* SDLInternalProxyMessage.h */; };
-		D1C297501AD436C700C8C5E7 /* SDLInternalProxyMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C2974E1AD436C700C8C5E7 /* SDLInternalProxyMessage.m */; };
-		D1C297531AD4371500C8C5E7 /* SDLOnError.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297511AD4371500C8C5E7 /* SDLOnError.h */; };
-		D1C297541AD4371500C8C5E7 /* SDLOnError.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297521AD4371500C8C5E7 /* SDLOnError.m */; };
-		D1C297571AD4375B00C8C5E7 /* SDLOnProxyClosed.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297551AD4375B00C8C5E7 /* SDLOnProxyClosed.h */; };
-		D1C297581AD4375B00C8C5E7 /* SDLOnProxyClosed.m in Sources */ = {isa = PBXBuildFile; fileRef = D1C297561AD4375B00C8C5E7 /* SDLOnProxyClosed.m */; };
-		D1C2975A1AD437C700C8C5E7 /* SDLDisconnectReason.h in Headers */ = {isa = PBXBuildFile; fileRef = D1C297591AD437C700C8C5E7 /* SDLDisconnectReason.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
+		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
+		D15BE9571B30412200E46288 /* SDLProxyALM.h in Headers */ = {isa = PBXBuildFile; fileRef = D15BE9511B30412200E46288 /* SDLProxyALM.h */; };
+		D15BE9581B30412200E46288 /* SDLProxyALM.m in Sources */ = {isa = PBXBuildFile; fileRef = D15BE9521B30412200E46288 /* SDLProxyALM.m */; };
+		D15BE9591B30412200E46288 /* SDLProxyALMOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = D15BE9531B30412200E46288 /* SDLProxyALMOptions.h */; };
+		D15BE95A1B30412200E46288 /* SDLProxyALMOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D15BE9541B30412200E46288 /* SDLProxyALMOptions.m */; };
+		D15BE95B1B30412200E46288 /* SDLProxyBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D15BE9551B30412200E46288 /* SDLProxyBase.h */; };
+		D15BE95C1B30412200E46288 /* SDLProxyBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D15BE9561B30412200E46288 /* SDLProxyBase.m */; };
+		D15BE95E1B30427800E46288 /* SDLConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D15BE95D1B30427800E46288 /* SDLConnectionDelegate.h */; };
+		D15BE9631B3042DC00E46288 /* SDLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = D15BE95F1B3042DC00E46288 /* SDLConnection.h */; };
+		D15BE9641B3042DC00E46288 /* SDLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D15BE9601B3042DC00E46288 /* SDLConnection.m */; };
+		D15BE9651B3042DC00E46288 /* SDLSession.h in Headers */ = {isa = PBXBuildFile; fileRef = D15BE9611B3042DC00E46288 /* SDLSession.h */; };
+		D15BE9661B3042DC00E46288 /* SDLSession.m in Sources */ = {isa = PBXBuildFile; fileRef = D15BE9621B3042DC00E46288 /* SDLSession.m */; };
+		E9C32B861AB20B4300F283AF /* NSThread+ThreadIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */; };
+		E9C32B871AB20B4300F283AF /* NSThread+ThreadIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */; };
+		E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B891AB20BA200F283AF /* SDLIAPSession.h */; };
+		E9C32B921AB20BA200F283AF /* SDLIAPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B8A1AB20BA200F283AF /* SDLIAPSession.m */; };
+		E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8B1AB20BA200F283AF /* SDLIAPSessionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9C32B941AB20BA200F283AF /* SDLStreamDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8C1AB20BA200F283AF /* SDLStreamDelegate.h */; };
+		E9C32B951AB20BA200F283AF /* SDLStreamDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B8D1AB20BA200F283AF /* SDLStreamDelegate.m */; };
+		E9C32B961AB20BA200F283AF /* SDLTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B8E1AB20BA200F283AF /* SDLTimer.h */; };
+		E9C32B971AB20BA200F283AF /* SDLTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B8F1AB20BA200F283AF /* SDLTimer.m */; };
+		E9C32B9C1AB20C5900F283AF /* EAAccessory+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B981AB20C5900F283AF /* EAAccessory+SDLProtocols.h */; };
+		E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */; };
+		E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */; };
+		E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1628,35 +1625,30 @@
 		5DE372A01ACB2ED300849FAA /* SDLHMICapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilities.m; sourceTree = "<group>"; };
 		5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilitiesSpec.m; sourceTree = "<group>"; };
 		5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDebugToolConsole.h; sourceTree = "<group>"; };
-		D14D6E6E1AEA918B00E64C4E /* SDLHeartbeatMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHeartbeatMonitor.h; sourceTree = "<group>"; };
-		D14D6E6F1AEA918B00E64C4E /* SDLHeartbeatMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHeartbeatMonitor.m; sourceTree = "<group>"; };
-		D1C297221AD41D8300C8C5E7 /* SDLProxyALM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyALM.h; sourceTree = "<group>"; };
-		D1C297231AD41D8300C8C5E7 /* SDLProxyALM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyALM.m; sourceTree = "<group>"; };
-		D1C297241AD41D8300C8C5E7 /* SDLProxyALMOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyALMOptions.h; sourceTree = "<group>"; };
-		D1C297251AD41D8300C8C5E7 /* SDLProxyALMOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyALMOptions.m; sourceTree = "<group>"; };
-		D1C297261AD41D8300C8C5E7 /* SDLProxyBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyBase.h; sourceTree = "<group>"; };
-		D1C297271AD41D8300C8C5E7 /* SDLProxyBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyBase.m; sourceTree = "<group>"; };
-		D1C297301AD4231000C8C5E7 /* SDLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnection.h; sourceTree = "<group>"; };
-		D1C297311AD4231000C8C5E7 /* SDLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLConnection.m; sourceTree = "<group>"; };
-		D1C297341AD4231F00C8C5E7 /* SDLSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSession.h; sourceTree = "<group>"; };
-		D1C297351AD4231F00C8C5E7 /* SDLSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSession.m; sourceTree = "<group>"; };
-		D1C297381AD4233700C8C5E7 /* SDLConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionDelegate.h; sourceTree = "<group>"; };
-		D1C2973A1AD4235D00C8C5E7 /* SDLBaseTransportConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLBaseTransportConfig.h; sourceTree = "<group>"; };
-		D1C2973B1AD4235D00C8C5E7 /* SDLBaseTransportConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLBaseTransportConfig.m; sourceTree = "<group>"; };
-		D1C2973F1AD4283200C8C5E7 /* SDLConnectionState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionState.h; sourceTree = "<group>"; };
-		D1C297401AD4283200C8C5E7 /* SDLConnectionState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLConnectionState.m; sourceTree = "<group>"; };
-		D1C297431AD4285A00C8C5E7 /* SDLInterfaceAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLInterfaceAvailability.h; sourceTree = "<group>"; };
-		D1C297441AD4285A00C8C5E7 /* SDLInterfaceAvailability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLInterfaceAvailability.m; sourceTree = "<group>"; };
-		D1C297471AD4367700C8C5E7 /* SDLProxyMessageDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyMessageDispatcher.h; sourceTree = "<group>"; };
-		D1C297481AD4367700C8C5E7 /* SDLProxyMessageDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyMessageDispatcher.m; sourceTree = "<group>"; };
-		D1C2974B1AD436AF00C8C5E7 /* SDLDispatchingStrategyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDispatchingStrategyDelegate.h; sourceTree = "<group>"; };
-		D1C2974D1AD436C700C8C5E7 /* SDLInternalProxyMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLInternalProxyMessage.h; sourceTree = "<group>"; };
-		D1C2974E1AD436C700C8C5E7 /* SDLInternalProxyMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLInternalProxyMessage.m; sourceTree = "<group>"; };
-		D1C297511AD4371500C8C5E7 /* SDLOnError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnError.h; sourceTree = "<group>"; };
-		D1C297521AD4371500C8C5E7 /* SDLOnError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnError.m; sourceTree = "<group>"; };
-		D1C297551AD4375B00C8C5E7 /* SDLOnProxyClosed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnProxyClosed.h; sourceTree = "<group>"; };
-		D1C297561AD4375B00C8C5E7 /* SDLOnProxyClosed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnProxyClosed.m; sourceTree = "<group>"; };
-		D1C297591AD437C700C8C5E7 /* SDLDisconnectReason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDisconnectReason.h; sourceTree = "<group>"; };
+		D15BE9511B30412200E46288 /* SDLProxyALM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyALM.h; sourceTree = "<group>"; };
+		D15BE9521B30412200E46288 /* SDLProxyALM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyALM.m; sourceTree = "<group>"; };
+		D15BE9531B30412200E46288 /* SDLProxyALMOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyALMOptions.h; sourceTree = "<group>"; };
+		D15BE9541B30412200E46288 /* SDLProxyALMOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyALMOptions.m; sourceTree = "<group>"; };
+		D15BE9551B30412200E46288 /* SDLProxyBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyBase.h; sourceTree = "<group>"; };
+		D15BE9561B30412200E46288 /* SDLProxyBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyBase.m; sourceTree = "<group>"; };
+		D15BE95D1B30427800E46288 /* SDLConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionDelegate.h; sourceTree = "<group>"; };
+		D15BE95F1B3042DC00E46288 /* SDLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnection.h; sourceTree = "<group>"; };
+		D15BE9601B3042DC00E46288 /* SDLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLConnection.m; sourceTree = "<group>"; };
+		D15BE9611B3042DC00E46288 /* SDLSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSession.h; sourceTree = "<group>"; };
+		D15BE9621B3042DC00E46288 /* SDLSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSession.m; sourceTree = "<group>"; };
+		E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+ThreadIndex.h"; sourceTree = "<group>"; };
+		E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+ThreadIndex.m"; sourceTree = "<group>"; };
+		E9C32B891AB20BA200F283AF /* SDLIAPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLIAPSession.h; sourceTree = "<group>"; };
+		E9C32B8A1AB20BA200F283AF /* SDLIAPSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLIAPSession.m; sourceTree = "<group>"; };
+		E9C32B8B1AB20BA200F283AF /* SDLIAPSessionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLIAPSessionDelegate.h; sourceTree = "<group>"; };
+		E9C32B8C1AB20BA200F283AF /* SDLStreamDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStreamDelegate.h; sourceTree = "<group>"; };
+		E9C32B8D1AB20BA200F283AF /* SDLStreamDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamDelegate.m; sourceTree = "<group>"; };
+		E9C32B8E1AB20BA200F283AF /* SDLTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTimer.h; sourceTree = "<group>"; };
+		E9C32B8F1AB20BA200F283AF /* SDLTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTimer.m; sourceTree = "<group>"; };
+		E9C32B981AB20C5900F283AF /* EAAccessory+SDLProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessory+SDLProtocols.h"; sourceTree = "<group>"; };
+		E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessory+SDLProtocols.m"; sourceTree = "<group>"; };
+		E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessoryManager+SDLProtocols.h"; sourceTree = "<group>"; };
+		E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessoryManager+SDLProtocols.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2159,26 +2151,23 @@
 		5D5934ED1A85160400687FB9 /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
-				D1C2973E1AD4282600C8C5E7 /* Enums */,
 				5D5934FE1A851B2500687FB9 /* @protocols */,
 				5D61FB031A84238A00846EE7 /* SDLLockScreenManager.h */,
 				5D61FB041A84238A00846EE7 /* SDLLockScreenManager.m */,
 				5D61FB441A84238B00846EE7 /* SDLPolicyDataParser.h */,
 				5D61FB451A84238B00846EE7 /* SDLPolicyDataParser.m */,
-				D1C297301AD4231000C8C5E7 /* SDLConnection.h */,
-				D1C297311AD4231000C8C5E7 /* SDLConnection.m */,
-				D1C297341AD4231F00C8C5E7 /* SDLSession.h */,
-				D1C297351AD4231F00C8C5E7 /* SDLSession.m */,
 				5D61FB631A84238B00846EE7 /* SDLProxy.h */,
 				5D61FB641A84238B00846EE7 /* SDLProxy.m */,
-				D1C297221AD41D8300C8C5E7 /* SDLProxyALM.h */,
-				D1C297231AD41D8300C8C5E7 /* SDLProxyALM.m */,
-				D1C297241AD41D8300C8C5E7 /* SDLProxyALMOptions.h */,
-				D1C297251AD41D8300C8C5E7 /* SDLProxyALMOptions.m */,
-				D1C297261AD41D8300C8C5E7 /* SDLProxyBase.h */,
-				D1C297271AD41D8300C8C5E7 /* SDLProxyBase.m */,
-				D1C297471AD4367700C8C5E7 /* SDLProxyMessageDispatcher.h */,
-				D1C297481AD4367700C8C5E7 /* SDLProxyMessageDispatcher.m */,
+				D15BE9511B30412200E46288 /* SDLProxyALM.h */,
+				D15BE9521B30412200E46288 /* SDLProxyALM.m */,
+				D15BE9531B30412200E46288 /* SDLProxyALMOptions.h */,
+				D15BE9541B30412200E46288 /* SDLProxyALMOptions.m */,
+				D15BE95F1B3042DC00E46288 /* SDLConnection.h */,
+				D15BE9601B3042DC00E46288 /* SDLConnection.m */,
+				D15BE9611B3042DC00E46288 /* SDLSession.h */,
+				D15BE9621B3042DC00E46288 /* SDLSession.m */,
+				D15BE9551B30412200E46288 /* SDLProxyBase.h */,
+				D15BE9561B30412200E46288 /* SDLProxyBase.m */,
 				5D61FB651A84238B00846EE7 /* SDLProxyFactory.h */,
 				5D61FB661A84238B00846EE7 /* SDLProxyFactory.m */,
 				5D61FBF21A84238C00846EE7 /* SDLTTSChunkFactory.h */,
@@ -2207,10 +2196,6 @@
 				5D61FB601A84238B00846EE7 /* SDLProtocolMessageDisassembler.m */,
 				5D61FB611A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.h */,
 				5D61FB621A84238B00846EE7 /* SDLProtocolReceivedMessageRouter.m */,
-				D1C2974D1AD436C700C8C5E7 /* SDLInternalProxyMessage.h */,
-				D1C2974E1AD436C700C8C5E7 /* SDLInternalProxyMessage.m */,
-				D14D6E6E1AEA918B00E64C4E /* SDLHeartbeatMonitor.h */,
-				D14D6E6F1AEA918B00E64C4E /* SDLHeartbeatMonitor.m */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -2236,8 +2221,9 @@
 				5D5935001A851D0B00687FB9 /* @protocols */,
 				5D61FA3E1A84238A00846EE7 /* SDLAbstractTransport.h */,
 				5D61FA3F1A84238A00846EE7 /* SDLAbstractTransport.m */,
-				D1C2973A1AD4235D00C8C5E7 /* SDLBaseTransportConfig.h */,
-				D1C2973B1AD4235D00C8C5E7 /* SDLBaseTransportConfig.m */,
+				E9C32B891AB20BA200F283AF /* SDLIAPSession.h */,
+				E9C32B8A1AB20BA200F283AF /* SDLIAPSession.m */,
+				E9C32B8B1AB20BA200F283AF /* SDLIAPSessionDelegate.h */,
 				5D61FADA1A84238A00846EE7 /* SDLIAPTransport.h */,
 				5D61FADB1A84238A00846EE7 /* SDLIAPTransport.m */,
 				E9C32B8C1AB20BA200F283AF /* SDLStreamDelegate.h */,
@@ -2721,8 +2707,6 @@
 				5D61FB1D1A84238B00846EE7 /* SDLOnDriverDistraction.m */,
 				5D61FB1E1A84238B00846EE7 /* SDLOnEncodedSyncPData.h */,
 				5D61FB1F1A84238B00846EE7 /* SDLOnEncodedSyncPData.m */,
-				D1C297511AD4371500C8C5E7 /* SDLOnError.h */,
-				D1C297521AD4371500C8C5E7 /* SDLOnError.m */,
 				5D61FB201A84238B00846EE7 /* SDLOnHashChange.h */,
 				5D61FB211A84238B00846EE7 /* SDLOnHashChange.m */,
 				5D61FB221A84238B00846EE7 /* SDLOnHMIStatus.h */,
@@ -2737,8 +2721,6 @@
 				5D61FB2B1A84238B00846EE7 /* SDLOnPermissionsChange.m */,
 				5D61FB2C1A84238B00846EE7 /* SDLOnSyncPData.h */,
 				5D61FB2D1A84238B00846EE7 /* SDLOnSyncPData.m */,
-				D1C297551AD4375B00C8C5E7 /* SDLOnProxyClosed.h */,
-				D1C297561AD4375B00C8C5E7 /* SDLOnProxyClosed.m */,
 				5D61FB2E1A84238B00846EE7 /* SDLOnSystemRequest.h */,
 				5D61FB2F1A84238B00846EE7 /* SDLOnSystemRequest.m */,
 				5D61FB301A84238B00846EE7 /* SDLOnTBTClientState.h */,
@@ -2782,8 +2764,7 @@
 		5D5934FE1A851B2500687FB9 /* @protocols */ = {
 			isa = PBXGroup;
 			children = (
-				D1C2974B1AD436AF00C8C5E7 /* SDLDispatchingStrategyDelegate.h */,
-				D1C297381AD4233700C8C5E7 /* SDLConnectionDelegate.h */,
+				D15BE95D1B30427800E46288 /* SDLConnectionDelegate.h */,
 				5D61FB671A84238B00846EE7 /* SDLProxyListener.h */,
 			);
 			name = "@protocols";
@@ -2939,16 +2920,17 @@
 			name = "@protocols";
 			sourceTree = "<group>";
 		};
-		D1C2973E1AD4282600C8C5E7 /* Enums */ = {
+		E9C32B831AB20B2900F283AF /* @categories */ = {
 			isa = PBXGroup;
 			children = (
-				D1C297591AD437C700C8C5E7 /* SDLDisconnectReason.h */,
-				D1C297431AD4285A00C8C5E7 /* SDLInterfaceAvailability.h */,
-				D1C297441AD4285A00C8C5E7 /* SDLInterfaceAvailability.m */,
-				D1C2973F1AD4283200C8C5E7 /* SDLConnectionState.h */,
-				D1C297401AD4283200C8C5E7 /* SDLConnectionState.m */,
+				E9C32B981AB20C5900F283AF /* EAAccessory+SDLProtocols.h */,
+				E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */,
+				E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */,
+				E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */,
+				E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */,
+				E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */,
 			);
-			name = Enums;
+			name = "@categories";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2968,8 +2950,6 @@
 				5D61FCE81A84238C00846EE7 /* SDLLanguage.h in Headers */,
 				5D61FC841A84238C00846EE7 /* SDLDeviceLevelStatus.h in Headers */,
 				5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */,
-				D1C297411AD4283200C8C5E7 /* SDLConnectionState.h in Headers */,
-				D1C2975A1AD437C700C8C5E7 /* SDLDisconnectReason.h in Headers */,
 				5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */,
 				5D61FD291A84238C00846EE7 /* SDLPerformInteraction.h in Headers */,
 				5D61FD521A84238C00846EE7 /* SDLProxyFactory.h in Headers */,
@@ -3029,7 +3009,6 @@
 				5D61FCCB1A84238C00846EE7 /* SDLIgnitionStatus.h in Headers */,
 				5D61FCB71A84238C00846EE7 /* SDLGetVehicleDataResponse.h in Headers */,
 				5D61FDA91A84238C00846EE7 /* SDLSpeechCapabilities.h in Headers */,
-				D1C297321AD4231000C8C5E7 /* SDLConnection.h in Headers */,
 				5D61FCE01A84238C00846EE7 /* SDLKeyboardEvent.h in Headers */,
 				5D61FCEA1A84238C00846EE7 /* SDLLayoutMode.h in Headers */,
 				5D61FD7F1A84238C00846EE7 /* SDLSetAppIcon.h in Headers */,
@@ -3037,7 +3016,6 @@
 				5D61FC7E1A84238C00846EE7 /* SDLDeleteSubMenu.h in Headers */,
 				5D61FC451A84238C00846EE7 /* SDLAudioPassThruCapabilities.h in Headers */,
 				5D61FDC71A84238C00846EE7 /* SDLTextAlignment.h in Headers */,
-				D1C297361AD4231F00C8C5E7 /* SDLSession.h in Headers */,
 				5D61FD051A84238C00846EE7 /* SDLOnButtonPress.h in Headers */,
 				5D61FCC51A84238C00846EE7 /* SDLHMIZoneCapabilities.h in Headers */,
 				5D61FCAF1A84238C00846EE7 /* SDLGenericResponse.h in Headers */,
@@ -3047,10 +3025,13 @@
 				5D61FD1D1A84238C00846EE7 /* SDLOnTBTClientState.h in Headers */,
 				5D61FD9D1A84238C00846EE7 /* SDLSliderResponse.h in Headers */,
 				5D61FDF31A84238C00846EE7 /* SDLUpdateTurnListResponse.h in Headers */,
+				D15BE9571B30412200E46288 /* SDLProxyALM.h in Headers */,
 				5D61FDDA1A84238C00846EE7 /* SDLTransportDelegate.h in Headers */,
 				5D61FC411A84238C00846EE7 /* SDLAppHMIType.h in Headers */,
 				5D61FCEE1A84238C00846EE7 /* SDLListFilesResponse.h in Headers */,
+				D15BE9591B30412200E46288 /* SDLProxyALMOptions.h in Headers */,
 				5D61FC491A84238C00846EE7 /* SDLAudioType.h in Headers */,
+				D15BE95E1B30427800E46288 /* SDLConnectionDelegate.h in Headers */,
 				5D61FC761A84238C00846EE7 /* SDLDeleteFile.h in Headers */,
 				5D61FD211A84238C00846EE7 /* SDLOnVehicleData.h in Headers */,
 				5D61FD7D1A84238C00846EE7 /* SDLScrollableMessageResponse.h in Headers */,
@@ -3083,11 +3064,9 @@
 				5D61FDE11A84238C00846EE7 /* SDLTurn.h in Headers */,
 				5D61FC801A84238C00846EE7 /* SDLDeleteSubMenuResponse.h in Headers */,
 				5D61FDBD1A84238C00846EE7 /* SDLSystemContext.h in Headers */,
-				D1C2974C1AD436AF00C8C5E7 /* SDLDispatchingStrategyDelegate.h in Headers */,
 				5D61FC511A84238C00846EE7 /* SDLButtonCapabilities.h in Headers */,
 				5D61FDE91A84238C00846EE7 /* SDLUnsubscribeButtonResponse.h in Headers */,
 				5D61FCD51A84238C00846EE7 /* SDLImageType.h in Headers */,
-				D1C2972A1AD41D8300C8C5E7 /* SDLProxyALMOptions.h in Headers */,
 				5D61FC2F1A84238C00846EE7 /* SDLAddCommandResponse.h in Headers */,
 				5D61FD631A84238C00846EE7 /* SDLResetGlobalProperties.h in Headers */,
 				5D61FDD71A84238C00846EE7 /* SDLTouchType.h in Headers */,
@@ -3100,10 +3079,10 @@
 				5D61FCCD1A84238C00846EE7 /* SDLImage.h in Headers */,
 				5D61FD481A84238C00846EE7 /* SDLProtocolMessage.h in Headers */,
 				5D61FC8C1A84238C00846EE7 /* SDLDIDResult.h in Headers */,
-				D1C297491AD4367700C8C5E7 /* SDLProxyMessageDispatcher.h in Headers */,
 				5D61FD1F1A84238C00846EE7 /* SDLOnTouchEvent.h in Headers */,
 				5D61FCB31A84238C00846EE7 /* SDLGetDTCsResponse.h in Headers */,
 				5D61FC4D1A84238C00846EE7 /* SDLBitsPerSample.h in Headers */,
+				D15BE95B1B30412200E46288 /* SDLProxyBase.h in Headers */,
 				5D61FD9B1A84238C00846EE7 /* SDLSlider.h in Headers */,
 				5D61FD111A84238C00846EE7 /* SDLOnKeyboardInput.h in Headers */,
 				5D61FC941A84238C00846EE7 /* SDLDriverDistractionState.h in Headers */,
@@ -3118,7 +3097,6 @@
 				5D61FDB31A84238C00846EE7 /* SDLSubscribeVehicleDataResponse.h in Headers */,
 				5D61FD991A84238C00846EE7 /* SDLSiphonServer.h in Headers */,
 				5D61FC961A84238C00846EE7 /* SDLECallConfirmationStatus.h in Headers */,
-				D1C297451AD4285A00C8C5E7 /* SDLInterfaceAvailability.h in Headers */,
 				5D61FDA51A84238C00846EE7 /* SDLSpeak.h in Headers */,
 				5D61FD1B1A84238C00846EE7 /* SDLOnSystemRequest.h in Headers */,
 				5D61FD2F1A84238C00846EE7 /* SDLPermissionStatus.h in Headers */,
@@ -3126,6 +3104,7 @@
 				5D61FCD31A84238C00846EE7 /* SDLImageResolution.h in Headers */,
 				5D61FD541A84238C00846EE7 /* SDLProxyListener.h in Headers */,
 				5D61FD731A84238C00846EE7 /* SDLRPCRequestFactory.h in Headers */,
+				D15BE9631B3042DC00E46288 /* SDLConnection.h in Headers */,
 				5D61FC5D1A84238C00846EE7 /* SDLChangeRegistrationResponse.h in Headers */,
 				5D61FDCD1A84238C00846EE7 /* SDLTimerMode.h in Headers */,
 				E9C32B961AB20BA200F283AF /* SDLTimer.h in Headers */,
@@ -3143,7 +3122,6 @@
 				5D61FE0F1A84238C00846EE7 /* SDLVRHelpItem.h in Headers */,
 				5D61FC721A84238C00846EE7 /* SDLDeleteCommand.h in Headers */,
 				5D61FC821A84238C00846EE7 /* SDLDeviceInfo.h in Headers */,
-				D1C297531AD4371500C8C5E7 /* SDLOnError.h in Headers */,
 				5D61FCA91A84238C00846EE7 /* SDLFileType.h in Headers */,
 				5D61FD591A84238C00846EE7 /* SDLReadDID.h in Headers */,
 				5D61FC611A84238C00846EE7 /* SDLChoice.h in Headers */,
@@ -3162,10 +3140,10 @@
 				5D61FCE41A84238C00846EE7 /* SDLKeyboardProperties.h in Headers */,
 				5D61FDED1A84238C00846EE7 /* SDLUnsubscribeVehicleDataResponse.h in Headers */,
 				5D61FCCF1A84238C00846EE7 /* SDLImageField.h in Headers */,
-				D1C297571AD4375B00C8C5E7 /* SDLOnProxyClosed.h in Headers */,
 				5D61FD231A84238C00846EE7 /* SDLParameterPermissions.h in Headers */,
 				5D61FCB91A84238C00846EE7 /* SDLGlobalProperty.h in Headers */,
 				5D61FE051A84238C00846EE7 /* SDLVehicleDataResultCode.h in Headers */,
+				D15BE9651B3042DC00E46288 /* SDLSession.h in Headers */,
 				5D61FD2B1A84238C00846EE7 /* SDLPerformInteractionResponse.h in Headers */,
 				5D61FDA11A84238C00846EE7 /* SDLSoftButtonCapabilities.h in Headers */,
 				5D61FDB51A84238C00846EE7 /* SDLSyncMsgVersion.h in Headers */,
@@ -3175,7 +3153,6 @@
 				5D61FD5D1A84238C00846EE7 /* SDLRegisterAppInterface.h in Headers */,
 				5D61FC9A1A84238C00846EE7 /* SDLEmergencyEvent.h in Headers */,
 				5D61FC651A84238C00846EE7 /* SDLCompassDirection.h in Headers */,
-				D1C2972C1AD41D8300C8C5E7 /* SDLProxyBase.h in Headers */,
 				5D61FC8E1A84238C00846EE7 /* SDLDimension.h in Headers */,
 				5D61FD6B1A84238C00846EE7 /* SDLRPCMessageType.h in Headers */,
 				5D61FD501A84238C00846EE7 /* SDLProxy.h in Headers */,
@@ -3183,7 +3160,6 @@
 				5DE372A11ACB2ED300849FAA /* SDLHMICapabilities.h in Headers */,
 				E9C32B9C1AB20C5900F283AF /* EAAccessory+SDLProtocols.h in Headers */,
 				5D61FE0B1A84238C00846EE7 /* SDLVehicleType.h in Headers */,
-				D14D6E701AEA918B00E64C4E /* SDLHeartbeatMonitor.h in Headers */,
 				5D61FCC31A84238C00846EE7 /* SDLHMIPermissions.h in Headers */,
 				5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */,
 				5D61FCBD1A84238C00846EE7 /* SDLHeadLampStatus.h in Headers */,
@@ -3207,9 +3183,7 @@
 				5D61FDA71A84238C00846EE7 /* SDLSpeakResponse.h in Headers */,
 				5D61FD771A84238C00846EE7 /* SDLSamplingRate.h in Headers */,
 				5D61FCBB1A84238C00846EE7 /* SDLGPSData.h in Headers */,
-				D1C297281AD41D8300C8C5E7 /* SDLProxyALM.h in Headers */,
 				5D61FDA31A84238C00846EE7 /* SDLSoftButtonType.h in Headers */,
-				D1C297391AD4233700C8C5E7 /* SDLConnectionDelegate.h in Headers */,
 				5D61FC431A84238C00846EE7 /* SDLAppInterfaceUnregisteredReason.h in Headers */,
 				5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */,
 				5D61FD711A84238C00846EE7 /* SDLRPCRequest.h in Headers */,
@@ -3220,7 +3194,6 @@
 				5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */,
 				5D61FDF51A84238C00846EE7 /* SDLV1ProtocolHeader.h in Headers */,
 				5D61FDF91A84238C00846EE7 /* SDLV2ProtocolHeader.h in Headers */,
-				D1C2973C1AD4235D00C8C5E7 /* SDLBaseTransportConfig.h in Headers */,
 				5D61FD4A1A84238C00846EE7 /* SDLProtocolMessageAssembler.h in Headers */,
 				5D61FD4C1A84238C00846EE7 /* SDLProtocolMessageDisassembler.h in Headers */,
 				5D61FD4E1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.h in Headers */,
@@ -3234,9 +3207,6 @@
 				5D61FCDE1A84238C00846EE7 /* SDLJsonEncoder.h in Headers */,
 				5D61FCDC1A84238C00846EE7 /* SDLJsonDecoder.h in Headers */,
 				5D61FC711A84238C00846EE7 /* SDLDecoder.h in Headers */,
-				D1C2974F1AD436C700C8C5E7 /* SDLInternalProxyMessage.h in Headers */,
-				5D61FDBF1A84238C00846EE7 /* SDLSystemRequest.h in Headers */,
-				5D61FDC11A84238C00846EE7 /* SDLSystemRequestResponse.h in Headers */,
 				5D61FD6F1A84238C00846EE7 /* SDLRPCPayload.h in Headers */,
 				5D61FCF01A84238C00846EE7 /* SDLLockScreenManager.h in Headers */,
 				5D61FD311A84238C00846EE7 /* SDLPolicyDataParser.h in Headers */,
@@ -3309,8 +3279,7 @@
 		5D4019A71A76EC350006B0C2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = smartdevicelink;
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
@@ -3408,12 +3377,10 @@
 				5D61FDBE1A84238C00846EE7 /* SDLSystemContext.m in Sources */,
 				5D61FC441A84238C00846EE7 /* SDLAppInterfaceUnregisteredReason.m in Sources */,
 				5D61FD531A84238C00846EE7 /* SDLProxyFactory.m in Sources */,
-				D1C297371AD4231F00C8C5E7 /* SDLSession.m in Sources */,
 				5D61FDCA1A84238C00846EE7 /* SDLTextField.m in Sources */,
 				5D61FC9D1A84238C00846EE7 /* SDLEmergencyEventType.m in Sources */,
 				5D61FCAC1A84238C00846EE7 /* SDLFuelCutoffStatus.m in Sources */,
 				5D61FC871A84238C00846EE7 /* SDLDeviceStatus.m in Sources */,
-				D14D6E711AEA918B00E64C4E /* SDLHeartbeatMonitor.m in Sources */,
 				5D61FD561A84238C00846EE7 /* SDLPutFile.m in Sources */,
 				5D61FCE71A84238C00846EE7 /* SDLKeypressMode.m in Sources */,
 				5D61FD9A1A84238C00846EE7 /* SDLSiphonServer.m in Sources */,
@@ -3422,13 +3389,12 @@
 				5D61FE0A1A84238C00846EE7 /* SDLVehicleDataType.m in Sources */,
 				5D61FD1A1A84238C00846EE7 /* SDLOnSyncPData.m in Sources */,
 				5D61FC461A84238C00846EE7 /* SDLAudioPassThruCapabilities.m in Sources */,
-				D1C2973D1AD4235D00C8C5E7 /* SDLBaseTransportConfig.m in Sources */,
 				5D61FD301A84238C00846EE7 /* SDLPermissionStatus.m in Sources */,
 				5D61FDEE1A84238C00846EE7 /* SDLUnsubscribeVehicleDataResponse.m in Sources */,
 				5D61FCAE1A84238C00846EE7 /* SDLFunctionID.m in Sources */,
 				5D61FC421A84238C00846EE7 /* SDLAppHMIType.m in Sources */,
 				5D61FD421A84238C00846EE7 /* SDLPRNDL.m in Sources */,
-				D1C297331AD4231000C8C5E7 /* SDLConnection.m in Sources */,
+				E9C32B921AB20BA200F283AF /* SDLIAPSession.m in Sources */,
 				5D61FD0C1A84238C00846EE7 /* SDLOnEncodedSyncPData.m in Sources */,
 				5D61FCA81A84238C00846EE7 /* SDLEnum.m in Sources */,
 				5D61FDE01A84238C00846EE7 /* SDLTTSChunkFactory.m in Sources */,
@@ -3442,7 +3408,6 @@
 				5D61FCCE1A84238C00846EE7 /* SDLImage.m in Sources */,
 				5D61FD241A84238C00846EE7 /* SDLParameterPermissions.m in Sources */,
 				5D61FDD21A84238C00846EE7 /* SDLTouchCoord.m in Sources */,
-				D1C2974A1AD4367700C8C5E7 /* SDLProxyMessageDispatcher.m in Sources */,
 				5D61FCEF1A84238C00846EE7 /* SDLListFilesResponse.m in Sources */,
 				5D61FD1C1A84238C00846EE7 /* SDLOnSystemRequest.m in Sources */,
 				5D61FC911A84238C00846EE7 /* SDLDisplayCapabilities.m in Sources */,
@@ -3457,13 +3422,11 @@
 				5D61FD821A84238C00846EE7 /* SDLSetAppIconResponse.m in Sources */,
 				5D61FDF81A84238C00846EE7 /* SDLV1ProtocolMessage.m in Sources */,
 				5D61FDC81A84238C00846EE7 /* SDLTextAlignment.m in Sources */,
-				D1C297501AD436C700C8C5E7 /* SDLInternalProxyMessage.m in Sources */,
 				5D61FD5A1A84238C00846EE7 /* SDLReadDID.m in Sources */,
 				5D61FC8F1A84238C00846EE7 /* SDLDimension.m in Sources */,
 				5D61FC9B1A84238C00846EE7 /* SDLEmergencyEvent.m in Sources */,
 				5D61FDFE1A84238C00846EE7 /* SDLVehicleDataActiveStatus.m in Sources */,
 				5D61FCD01A84238C00846EE7 /* SDLImageField.m in Sources */,
-				D1C297461AD4285A00C8C5E7 /* SDLInterfaceAvailability.m in Sources */,
 				5D61FC3C1A84238C00846EE7 /* SDLAlertManeuverResponse.m in Sources */,
 				5D61FC6A1A84238C00846EE7 /* SDLConsoleController.m in Sources */,
 				5D61FD4D1A84238C00846EE7 /* SDLProtocolMessageDisassembler.m in Sources */,
@@ -3473,6 +3436,7 @@
 				5D61FE141A84238C00846EE7 /* SDLWiperStatus.m in Sources */,
 				5D61FC8B1A84238C00846EE7 /* SDLDiagnosticMessageResponse.m in Sources */,
 				5D61FD2E1A84238C00846EE7 /* SDLPermissionItem.m in Sources */,
+				D15BE9641B3042DC00E46288 /* SDLConnection.m in Sources */,
 				5D61FD041A84238C00846EE7 /* SDLOnButtonEvent.m in Sources */,
 				5D61FD201A84238C00846EE7 /* SDLOnTouchEvent.m in Sources */,
 				5D61FD781A84238C00846EE7 /* SDLSamplingRate.m in Sources */,
@@ -3494,7 +3458,7 @@
 				5D61FD341A84238C00846EE7 /* SDLPowerModeQualificationStatus.m in Sources */,
 				5D61FC891A84238C00846EE7 /* SDLDiagnosticMessage.m in Sources */,
 				5D61FD6E1A84238C00846EE7 /* SDLRPCNotification.m in Sources */,
-				D1C297581AD4375B00C8C5E7 /* SDLOnProxyClosed.m in Sources */,
+				5D8B17501AC9D266006A6E1C /* SDLDialNumber.m in Sources */,
 				5D61FDE81A84238C00846EE7 /* SDLUnsubscribeButton.m in Sources */,
 				5D61FCF71A84238C00846EE7 /* SDLMediaClockFormat.m in Sources */,
 				5D61FD8A1A84238C00846EE7 /* SDLSetGlobalPropertiesResponse.m in Sources */,
@@ -3514,11 +3478,12 @@
 				5D61FCF31A84238C00846EE7 /* SDLLockScreenStatus.m in Sources */,
 				5D61FC731A84238C00846EE7 /* SDLDeleteCommand.m in Sources */,
 				5D61FD2A1A84238C00846EE7 /* SDLPerformInteraction.m in Sources */,
+				D15BE9661B3042DC00E46288 /* SDLSession.m in Sources */,
 				5D61FC541A84238C00846EE7 /* SDLButtonEventMode.m in Sources */,
 				5D61FC8D1A84238C00846EE7 /* SDLDIDResult.m in Sources */,
 				5D61FC601A84238C00846EE7 /* SDLCharacterSet.m in Sources */,
 				5D61FCBE1A84238C00846EE7 /* SDLHeadLampStatus.m in Sources */,
-				D1C2972B1AD41D8300C8C5E7 /* SDLProxyALMOptions.m in Sources */,
+				D15BE9581B30412200E46288 /* SDLProxyALM.m in Sources */,
 				5D61FD921A84238C00846EE7 /* SDLShowConstantTBT.m in Sources */,
 				5D61FC4E1A84238C00846EE7 /* SDLBitsPerSample.m in Sources */,
 				5D61FDEA1A84238C00846EE7 /* SDLUnsubscribeButtonResponse.m in Sources */,
@@ -3530,6 +3495,7 @@
 				5DCF76FA1ACDD7CD00BB647B /* SDLSendLocationResponse.m in Sources */,
 				5D61FD661A84238C00846EE7 /* SDLResetGlobalPropertiesResponse.m in Sources */,
 				5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */,
+				D15BE95A1B30412200E46288 /* SDLProxyALMOptions.m in Sources */,
 				5D61FC401A84238C00846EE7 /* SDLAmbientLightStatus.m in Sources */,
 				5D61FC951A84238C00846EE7 /* SDLDriverDistractionState.m in Sources */,
 				5D61FD961A84238C00846EE7 /* SDLShowResponse.m in Sources */,
@@ -3548,6 +3514,7 @@
 				5D61FC7D1A84238C00846EE7 /* SDLDeleteInteractionChoiceSetResponse.m in Sources */,
 				E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */,
 				5D61FCC61A84238C00846EE7 /* SDLHMIZoneCapabilities.m in Sources */,
+				D15BE95C1B30412200E46288 /* SDLProxyBase.m in Sources */,
 				5D61FD161A84238C00846EE7 /* SDLOnLockScreenStatus.m in Sources */,
 				5D61FDAE1A84238C00846EE7 /* SDLSubscribeButton.m in Sources */,
 				5D61FC581A84238C00846EE7 /* SDLButtonPressMode.m in Sources */,
@@ -3597,14 +3564,11 @@
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
 				5D61FD1E1A84238C00846EE7 /* SDLOnTBTClientState.m in Sources */,
-				D1C297291AD41D8300C8C5E7 /* SDLProxyALM.m in Sources */,
-				D1C2972D1AD41D8300C8C5E7 /* SDLProxyBase.m in Sources */,
 				5D61FD581A84238C00846EE7 /* SDLPutFileResponse.m in Sources */,
 				5D61FCB21A84238C00846EE7 /* SDLGetDTCs.m in Sources */,
 				5D61FD441A84238C00846EE7 /* SDLProtocol.m in Sources */,
 				5D61FC341A84238C00846EE7 /* SDLAddSubMenuResponse.m in Sources */,
 				5D61FD141A84238C00846EE7 /* SDLOnLanguageChange.m in Sources */,
-				D1C297541AD4371500C8C5E7 /* SDLOnError.m in Sources */,
 				5D61FE041A84238C00846EE7 /* SDLVehicleDataResult.m in Sources */,
 				5D61FD5C1A84238C00846EE7 /* SDLReadDIDResponse.m in Sources */,
 				5D61FD321A84238C00846EE7 /* SDLPolicyDataParser.m in Sources */,
@@ -3664,7 +3628,6 @@
 				5D61FDFC1A84238C00846EE7 /* SDLV2ProtocolMessage.m in Sources */,
 				5D61FD361A84238C00846EE7 /* SDLPowerModeStatus.m in Sources */,
 				5D61FD621A84238C00846EE7 /* SDLRequestType.m in Sources */,
-				D1C297421AD4283200C8C5E7 /* SDLConnectionState.m in Sources */,
 				5D61FCBA1A84238C00846EE7 /* SDLGlobalProperty.m in Sources */,
 				5D61FD4F1A84238C00846EE7 /* SDLProtocolReceivedMessageRouter.m in Sources */,
 			);
