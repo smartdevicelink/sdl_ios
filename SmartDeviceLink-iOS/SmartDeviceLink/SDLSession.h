@@ -25,7 +25,7 @@
 @property (strong, nonatomic) SDLHeartbeatMonitor* heartbeatMonitor;
 -(void)startSession;
 -(NSString*)notificationComment;
--(SDLTransportType)currentTransportType;
+-(SDLProxyTransportType)currentTransportType;
 -(void)sendMessage:(SDLRPCRequest*)message;
 -(BOOL)isConnected;
 

@@ -19,6 +19,7 @@
 @property (strong, nonatomic) SDLProtocol* protocol;
 @property (strong, nonatomic) SDLAbstractTransport* transport;
 @property (strong, nonatomic) NSMutableArray* sessions;
+@property (nonatomic) SDLProxyTransportType currentTransportType;
 
 @end
 
@@ -29,13 +30,15 @@
     
     if (self) {
         _delegate = delegate;
+        _currentTransportType = transportConfig.transportType;
         
-        if (transportConfig.transportType == SDLTransportTypeiAP) {
+        if (transportConfig.transportType == SDLProxyTransportTypeIAP) {
             _transport = [SDLIAPTransport new];
             _transport.delegate = self;
         }
-        else if (transportConfig.transportType == SDLTransportTypeTCP){
-            _transport = [[SDLTCPTransport alloc] initWithTransportConfig:transportConfig delegate:self];
+        else if (transportConfig.transportType == SDLProxyTransportTypeTCP){
+            //TODO: This constructor does not exist.
+//            _transport = [[SDLTCPTransport alloc] initWithTransportConfig:transportConfig delegate:self];
         }
         _protocol = [SDLProtocol new];
         _protocol.protocolDelegate = self;
@@ -57,7 +60,7 @@
 
 //TODO: This is a object mis-match from Android. Android sends a ProtocolMessage
 -(void)sendMessage:(SDLRPCRequest*)message{
-    [self.protocol sendRPCRequest:message];
+    [self.protocol sendRPC:message];
 }
 
 -(void)startHandShake{
@@ -69,7 +72,9 @@
 }
 
 -(BOOL)isConnected{
-    return (_transport) ? [_transport isConnected] : NO;
+    //TODO: isConnected does not exist
+//    return (_transport) ? [_transport isConnected] : NO;
+    return (_transport) ? YES : NO;
 }
 
 -(void)registerSession:(SDLSession*)session{
@@ -87,15 +92,13 @@
     [_transport connect];
 }
 
--(SDLTransportType)currentTransportType{
-    return _transport.transportType;
-}
-
 -(NSString*)notificationComment{
     if (!_transport) {
         return @"";
     }
-    return [_transport notificationComment];
+    return nil;
+    //TODO: Transport does not implement this meathod
+//    return [_transport notificationComment];
 }
 
 -(void)unregisterSession:(SDLSession*)session{
@@ -105,7 +108,8 @@
 
 -(void)closeConnection:(BOOL)willRecycle sessionId:(Byte)sessionId{
     if (self.protocol) {
-        if (self.transport && self.transport.isConnected) {
+        //TODO: Transport does not implement isConnected
+        if (self.transport /*&& self.transport.isConnected*/) {
             [self.protocol sendEndSessionWithType:SDLServiceType_RPC sessionID:sessionId];
         }
         if (willRecycle) {

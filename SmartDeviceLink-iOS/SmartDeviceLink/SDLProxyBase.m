@@ -544,7 +544,8 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
         NSArray* jsonArrayOfSdlPPackets = request.legacyData;
         jsonObjectToSendToServer = @{@"data" : jsonArrayOfSdlPPackets};
         bLegacy = YES;
-        functionName = @"SYSTEM_REQUEST_LEGACY";
+        //TODO: Android port, but not used
+        //functionName = @"SYSTEM_REQUEST_LEGACY";
         validJson = [[jsonObjectToSendToServer description] stringByReplacingOccurrencesOfString:@"\\" withString:@""];
     }
     else{
@@ -565,11 +566,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     __block NSTimeInterval beforeTime = [[NSDate date] timeIntervalSince1970];
 
     NSURLSessionDataTask* postTask = [urlSession dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
-        NSString* responseMsg = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        //TODO: Android port, but not used
+//        NSString* responseMsg = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
         NSTimeInterval afterTime = [[NSDate date] timeIntervalSince1970];
         
-        NSTimeInterval roundtripTime = afterTime - beforeTime;
+        //TODO: Android port, but not used
+//        NSTimeInterval roundtripTime = afterTime - beforeTime;
         
         NSInteger responseCode = ((NSHTTPURLResponse*)response).statusCode;
         
@@ -604,11 +608,13 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             return;
         }
         
-        NSString* responseString = [cloudDataReceived description];
+        //TODO: Android port, but not used
+/*        NSString* responseString = [cloudDataReceived description];
         
         if ([responseString length] > 512) {
             responseString = [responseString substringToIndex:511];
         }
+*/
         
         SDLSystemRequest* systemRequest;
         
@@ -1073,7 +1079,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             if (self.sdlSession) {
                 self.sdlSession.lockScreenManager.hmiLevel = msg.hmiLevel;
             }
-            if (msg.hmiLevel == [SDLHMILevel HMI_FULL]) {
+            if (msg.hmiLevel == [SDLHMILevel FULL]) {
                 self.firstTimeFull = NO;
             }
             
@@ -1096,7 +1102,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
             if (ddState == [SDLDriverDistractionState DD_ON]) {
                 value = YES;
             }
-            self.sdlSession.lockScreenManager.bDriverDistractionStatus = value;
+            self.sdlSession.lockScreenManager.driverDistracted = value;
         }
         [self invokeMethodOnDelegates:@selector(onOnDriverDistraction:) withObject:msg];
         [self invokeMethodOnDelegates:@selector(onOnLockScreenNotification:) withObject:self.sdlSession.lockScreenManager.lockScreenStatusNotification];
@@ -1332,7 +1338,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     
 }
 
--(SDLTransportType)transportType{
+-(SDLProxyTransportType)transportType{
     return self.sdlSession.currentTransportType;
 }
 
@@ -1373,9 +1379,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     if (sessionType==SDLServiceType_RPC) {
         [self startRPCProtocolSession:sessionID correlationID:correlationID];
     }
-    else if (sessionType==SDLServiceType_Nav){
+    //TODO: SDLServiceType_Nav is not implemented
+    /*else if (sessionType== SDLServiceType_Nav){
         [self navServiceStarted];
-    }
+    }*/
     else if (_wiproVersion > 1){
         [self startRPCProtocolSession:sessionID correlationID:correlationID];
     }
@@ -1504,9 +1511,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     if (sessionType == SDLServiceType_RPC) {
         [self startRPCProtocolSession:sessionID correlationID:nil];
     }
-    else if (sessionType ==SDLServiceType_Nav){
+    //TODO: SDLServiceType_Nav is not implemented
+    /*else if (sessionType ==SDLServiceType_Nav){
         [self navServiceStarted];
-    }
+    }*/
     else if (_wiproVersion > 1){
         [self startRPCProtocolSession:sessionID correlationID:nil];
     }

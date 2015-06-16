@@ -17,9 +17,9 @@
 -(instancetype)initWithTransportConfig:(SDLBaseTransportConfig*)transportConfig delegate:(id<SDLConnectionDelegate>)delegate;
 
 @property (weak, nonatomic) id<SDLConnectionDelegate> delegate;
+@property (nonatomic, readonly) SDLProxyTransportType currentTransportType;
 
 -(void)registerSession:(SDLSession*)session;
--(SDLTransportType)currentTransportType;
 -(NSUInteger)sessionCount;
 -(NSString*)notificationComment;
 //TODO: This is a object mis-match from Android. Android sends a ProtocolMessage. However, SDLProtocol expects a SDLRPCRequest

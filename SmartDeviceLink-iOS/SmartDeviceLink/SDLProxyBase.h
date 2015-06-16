@@ -52,7 +52,7 @@ static NSString* SDLInvalidArgumentException;
 -(void)sendRPCRequest:(SDLRPCRequest*)request;
 -(NSString*)stringFromSerializeRPCMessage:(SDLRPCMessage*)message;
 -(void)endPutFileStream;
--(SDLTransportType)transportType;
+-(SDLProxyTransportType)transportType;
 -(NSTimeInterval)instanceTimeInterval;
 
 @property (strong, nonatomic) NSString* applicationName;

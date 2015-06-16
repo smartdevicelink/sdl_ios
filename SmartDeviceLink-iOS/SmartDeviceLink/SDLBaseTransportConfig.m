@@ -12,7 +12,7 @@
 -(instancetype)init{
     self = [super init];
     if (self) {
-        _transportType = SDLTransportTypeiAP;
+        _transportType = SDLProxyTransportTypeIAP;
         _shareConnection = NO;
     }
     return self;

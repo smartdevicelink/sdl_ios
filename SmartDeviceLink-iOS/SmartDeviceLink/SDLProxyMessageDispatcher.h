@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SmartDeviceLink/SDLProtocolMessage.h"
-#import "SmartDeviceLink/SDLDispatchingStrategyDelegate.h"
-#import "SmartDeviceLink/SDLRPCMessageType.h"
-#import "SmartDeviceLink/SDLInternalProxyMessage.h"
+#import "SDLProtocolMessage.h"
+#import "SDLDispatchingStrategyDelegate.h"
+#import "SDLRPCMessageType.h"
+#import "SDLInternalProxyMessage.h"
 
 @interface SDLProxyMessageDispatcher : NSObject
 
