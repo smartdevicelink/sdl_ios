@@ -65,9 +65,11 @@
 }
 
 - (void)stop {
-    [self stopStream:self.easession.outputStream];
-    [self stopStream:self.easession.inputStream];
-    self.easession = nil;
+    @autoreleasepool {
+        [self stopStream:self.easession.outputStream];
+        [self stopStream:self.easession.inputStream];
+        self.easession = nil;
+    }
 }
 
 
@@ -80,29 +82,30 @@
 }
 
 - (void)stopStream:(NSStream *)stream {
+    @autoreleasepool {
+        // Verify stream is in a state that can be closed.
+        // (N.B. Closing a stream that has not been opened has very, very bad effects.)
 
-    // Verify stream is in a state that can be closed.
-    // (N.B. Closing a stream that has not been opened has very, very bad effects.)
+        // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
+        // Still need to remove from run loop.
 
-    // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
-    // Still need to remove from run loop.
+        NSUInteger status1 = stream.streamStatus;
+        if (status1 != NSStreamStatusNotOpen &&
+            status1 != NSStreamStatusClosed) {
 
-    NSUInteger status1 = stream.streamStatus;
-    if (status1 != NSStreamStatusNotOpen &&
-        status1 != NSStreamStatusClosed) {
+            [stream close];
+        }
 
-        [stream close];
-    }
+        [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        [stream setDelegate:nil];
 
-    [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    [stream setDelegate:nil];
-
-    NSUInteger status2 = stream.streamStatus;
-    if (status2 == NSStreamStatusClosed) {
-        if (stream == [self.easession inputStream]) {
-            [SDLDebugTool logInfo:@"Input Stream Closed"];
-        } else if (stream == [self.easession outputStream]) {
-            [SDLDebugTool logInfo:@"Output Stream Closed"];
+        NSUInteger status2 = stream.streamStatus;
+        if (status2 == NSStreamStatusClosed) {
+            if (stream == [self.easession inputStream]) {
+                [SDLDebugTool logInfo:@"Input Stream Closed"];
+            } else if (stream == [self.easession outputStream]) {
+                [SDLDebugTool logInfo:@"Output Stream Closed"];
+            }
         }
     }
 }

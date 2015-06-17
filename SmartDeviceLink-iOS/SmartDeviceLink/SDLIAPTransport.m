@@ -147,12 +147,14 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)disconnect {
-    [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    
-    // Only disconnect the data session, the control session does not stay open and is handled separately
-    if (self.session != nil) {
-        [self.session stop];
-        self.session = nil;
+    @autoreleasepool {
+        [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        
+        // Only disconnect the data session, the control session does not stay open and is handled separately
+        if (self.session != nil) {
+            [self.session stop];
+            self.session = nil;
+        }
     }
 }
 

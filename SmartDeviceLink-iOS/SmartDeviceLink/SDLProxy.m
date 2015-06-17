@@ -89,35 +89,39 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 -(void) destructObjects {
-    if(!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-        
-        if (_systemRequestSession != nil) {
-            [_systemRequestSession invalidateAndCancel];
-        }
-        
-        if (_encodedSyncPDataSession != nil) {
-            [_encodedSyncPDataSession invalidateAndCancel];
-        }
+    @autoreleasepool {
+        if(!_alreadyDestructed) {
+            _alreadyDestructed = YES;
+            
+            [[NSNotificationCenter defaultCenter] removeObserver:self];
+            [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
+            
+            if (_systemRequestSession != nil) {
+                [_systemRequestSession invalidateAndCancel];
+            }
+            
+            if (_encodedSyncPDataSession != nil) {
+                [_encodedSyncPDataSession invalidateAndCancel];
+            }
 
-        [self.protocol dispose];
-        [self.transport dispose];
+            [self.protocol dispose];
+            [self.transport dispose];
 
-        self.transport = nil;
-        self.protocol = nil;
-        self.proxyListeners = nil;
+            self.transport = nil;
+            self.protocol = nil;
+            self.proxyListeners = nil;
+        }
     }
 }
 
 -(void) dispose {
-    if (self.transport != nil) {
-        [self.transport disconnect];
+    @autoreleasepool {
+        if (self.transport != nil) {
+            [self.transport disconnect];
+        }
+        
+        [self destructObjects];
     }
-    
-    [self destructObjects];
 }
 
 -(void) dealloc {
