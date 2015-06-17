@@ -530,16 +530,20 @@
 - (void)stopProxy {
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        [SDLDebugTool logInfo:@"Stop Proxy"];
-        @synchronized(weakSelf.proxyLock) {
-            [weakSelf.proxy dispose];
-            weakSelf.proxy = nil;
-        }
-        @synchronized(weakSelf.hmiStateLock) {
-            weakSelf.firstHMIFullOccurred = NO;
-            weakSelf.firstHMINotNoneOccurred = NO;
-        }
+        [weakSelf disposeProxy];
     });
+}
+
+- (void)disposeProxy {
+    [SDLDebugTool logInfo:@"Stop Proxy"];
+    @synchronized(self.proxyLock) {
+        [self.proxy dispose];
+        self.proxy = nil;
+    }
+    @synchronized(self.hmiStateLock) {
+        self.firstHMIFullOccurred = NO;
+        self.firstHMINotNoneOccurred = NO;
+    }
 }
 
 - (NSNumber *)getNextCorrelationId {
@@ -595,7 +599,7 @@
     // Already background dispatched from caller
     __weak typeof(self) weakSelf = self;
     [SDLDebugTool logInfo:@"onProxyClosed"];
-    [self stopProxy];
+    [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
     if ([self.onProxyClosedHandlers count] > 0) {
         dispatch_async(self.handlerQueue, ^{
             [weakSelf.onProxyClosedHandlers enumerateObjectsUsingBlock:^(eventHandler hand, BOOL *stop) {
