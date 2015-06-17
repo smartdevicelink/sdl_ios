@@ -47,6 +47,9 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
+#import "SDLAlertManeuver.h"
+#import "SDLShowConstantTBT.h"
+#import "SDLUpdateTurnList.h"
 
 
 @implementation SDLRPCRequestFactory
@@ -156,8 +159,18 @@
 //*****
 
 
-+ (SDLChangeRegistration *)buildChangeRegistrationWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage correlationID:(NSNumber *)correlationID {
-    SDLChangeRegistration *msg = [[SDLChangeRegistration alloc] init];
++(SDLAlertManeuver*) buildAlertManeuverwithTTSchunks:(NSMutableArray *)ttsChunks softButtons:(NSMutableArray*) softButtons correlationID:(NSNumber*) correlationID{
+    
+    SDLAlertManeuver *msg = [[SDLAlertManeuver alloc] init];
+    msg.ttsChunks = ttsChunks;
+    msg.softButtons = softButtons;
+    msg.correlationID = correlationID;
+    return msg;
+}
+
++(SDLChangeRegistration*) buildChangeRegistrationWithLanguage:(SDLLanguage*) language hmiDisplayLanguage:(SDLLanguage*) hmiDisplayLanguage correlationID:(NSNumber*) correlationID {
+	
+    SDLChangeRegistration* msg = [[SDLChangeRegistration alloc] init];
     msg.language = language;
     msg.hmiDisplayLanguage = hmiDisplayLanguage;
     msg.correlationID = correlationID;
@@ -409,8 +422,30 @@
     return msg;
 }
 
-+ (SDLSetAppIcon *)buildSetAppIconWithFileName:(NSString *)syncFileName correlationID:(NSNumber *)correlationID {
-    SDLSetAppIcon *msg = [[SDLSetAppIcon alloc] init];
++(SDLShowConstantTBT *)buildShowConstatntTBTWithString:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 etaString:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(NSNumber *)distanceToManeuver distanceToManeuverScale:(NSNumber *)distanceToManeuverScale maneuverComplete:(NSNumber *)maneuverComplete softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber*) correlationID{
+    
+    SDLShowConstantTBT *msg = [[SDLShowConstantTBT alloc] init];
+    msg.navigationText1 = navigationText1;
+    msg.navigationText2 = navigationText2;
+    msg.eta = eta;
+    msg.timeToDestination = timeToDestination;
+    msg.totalDistance = totalDistance;
+    msg.turnIcon = turnIcon;
+    msg.nextTurnIcon = nextTurnIcon;
+    msg.distanceToManeuver = distanceToManeuver;
+    msg.distanceToManeuverScale = distanceToManeuverScale;
+    msg.maneuverComplete = maneuverComplete;
+    msg.softButtons = [softButtons mutableCopy];
+    msg.correlationID = correlationID;
+    
+    return msg;
+
+}
+
+
++(SDLSetAppIcon*) buildSetAppIconWithFileName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID {
+    
+    SDLSetAppIcon* msg = [[SDLSetAppIcon alloc] init];
     msg.syncFileName = syncFileName;
     msg.correlationID = correlationID;
 
@@ -628,6 +663,16 @@
     msg.engineTorque = engineTorque;
     msg.accPedalPosition = accPedalPosition;
     msg.steeringWheelAngle = steeringWheelAngle;
+    msg.correlationID = correlationID;
+
+    return msg;
+}
+
++(SDLUpdateTurnList *)buildUpdateTurnListWithTurnList:(NSMutableArray *)turnList softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber*) correlationID {
+    
+    SDLUpdateTurnList *msg = [[SDLUpdateTurnList alloc] init];
+    msg.turnList = [turnList mutableCopy];
+    msg.softButtons = [softButtons mutableCopy];
     msg.correlationID = correlationID;
 
     return msg;
