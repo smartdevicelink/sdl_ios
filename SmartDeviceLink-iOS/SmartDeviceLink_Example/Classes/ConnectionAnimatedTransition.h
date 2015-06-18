@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 
 @interface ConnectionAnimatedTransition : NSObject <UIViewControllerAnimatedTransitioning>

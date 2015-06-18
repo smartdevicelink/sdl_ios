@@ -1,7 +1,7 @@
 //  SDLRPCMessageType.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 typedef NS_ENUM(Byte, SDLRPCMessageType) {
     SDLRPCMessageTypeRequest = 0,

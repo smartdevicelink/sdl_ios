@@ -1,7 +1,7 @@
 //  SDLSmartDeviceLinkProtocolMessageDisassembler.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @class SDLProtocolMessage;
 

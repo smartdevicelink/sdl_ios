@@ -1,7 +1,7 @@
 //  SDLProxyFactory.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "SDLProxyListener.h"
 

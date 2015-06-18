@@ -4,7 +4,7 @@
 
 #import "SDLQueryAppsManager.h"
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #import "SDLDebugTool.h"
 

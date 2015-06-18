@@ -61,6 +61,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 }
 
 - (void)parse:(NSData *)data {
+    NSParameterAssert(data != nil);
     NSAssert(data.length >= _size, @"Error: insufficient data available to parse V2 header.");
     
     Byte *bytePointer = (Byte *)data.bytes;
