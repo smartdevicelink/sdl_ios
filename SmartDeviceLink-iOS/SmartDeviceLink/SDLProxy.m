@@ -79,7 +79,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         self.protocol.protocolDelegate = self;
         self.protocol.transport = transport;
 
-        [self.transport performSelector:@selector(connect) withObject:nil afterDelay:0];
+        [self.transport connect];
 
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
