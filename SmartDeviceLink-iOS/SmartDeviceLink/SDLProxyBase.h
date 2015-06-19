@@ -17,6 +17,8 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 @property (strong, nonatomic) NSString *shortName;
 @property (strong, nonatomic) NSArray *vrSynonyms;
 
+@property (assign, nonatomic, readonly) BOOL isConnected;
+
 // Methods to add RPC notification handlers
 // Note: Handlers are NOT run in the main/UI thread. Apps must take this in to account if/when updating the UI from a handler.
 - (void)addOnProxyOpenedHandler:(eventHandler)handler;

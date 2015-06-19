@@ -30,6 +30,7 @@
 @property (nonatomic, assign) BOOL firstHMIFullOccurred;
 @property (nonatomic, assign) BOOL firstHMINotNoneOccurred;
 @property (nonatomic, strong) NSException *proxyError;
+@property (assign, nonatomic) BOOL isConnected;
 
 // Proxy notification and event handlers
 @property (nonatomic, strong) NSMutableSet *onProxyOpenedHandlers;
@@ -85,6 +86,7 @@
         _buttonHandlerDictionaryLock = [[NSObject alloc] init];
         _customButtonHandlerDictionaryLock = [[NSObject alloc] init];
         _correlationID = 1;
+        _isConnected = NO;
         _handlerQueue = dispatch_queue_create("com.sdl.proxy_base.handler_queue", DISPATCH_QUEUE_CONCURRENT);
         _backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         //_mainUIQueue = dispatch_get_main_queue();
@@ -447,67 +449,72 @@
 
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(rpcResponseHandler)responseHandler {
     __weak typeof(self) weakSelf = self;
-    dispatch_async(self.backgroundQueue, ^{
-        @autoreleasepool {
-            // Add a correlation ID
-            SDLRPCRequest *rpcWithCorrID = rpc;
-            NSNumber *corrID = [weakSelf getNextCorrelationId];
-            rpcWithCorrID.correlationID = corrID;
-            
-            // Check for RPCs that require an extra handler
-            // TODO: add SDLAlert and SDLScrollableMessage
-            if ([rpcWithCorrID isKindOfClass:[SDLShow class]]) {
-                SDLShow *show = (SDLShow *)rpcWithCorrID;
-                NSMutableArray *softButtons = show.softButtons;
-                if (softButtons && softButtons.count > 0) {
-                    for (SDLSoftButton *sb in softButtons) {
-                        if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
-                            @throw [SDLProxyBase createMissingHandlerException];
-                        }
-                        if (!sb.softButtonID) {
-                            @throw [SDLProxyBase createMissingIDException];
-                        }
-                        @synchronized(weakSelf.customButtonHandlerDictionaryLock) {
-                            weakSelf.customButtonHandlerDictionary[sb.softButtonID] = ((SDLSoftButtonWithHandler *)sb).onButtonHandler;
+    if (self.isConnected) {
+        dispatch_async(self.backgroundQueue, ^{
+            @autoreleasepool {
+                // Add a correlation ID
+                SDLRPCRequest *rpcWithCorrID = rpc;
+                NSNumber *corrID = [weakSelf getNextCorrelationId];
+                rpcWithCorrID.correlationID = corrID;
+                
+                // Check for RPCs that require an extra handler
+                // TODO: add SDLAlert and SDLScrollableMessage
+                if ([rpcWithCorrID isKindOfClass:[SDLShow class]]) {
+                    SDLShow *show = (SDLShow *)rpcWithCorrID;
+                    NSMutableArray *softButtons = show.softButtons;
+                    if (softButtons && softButtons.count > 0) {
+                        for (SDLSoftButton *sb in softButtons) {
+                            if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
+                                @throw [SDLProxyBase createMissingHandlerException];
+                            }
+                            if (!sb.softButtonID) {
+                                @throw [SDLProxyBase createMissingIDException];
+                            }
+                            @synchronized(weakSelf.customButtonHandlerDictionaryLock) {
+                                weakSelf.customButtonHandlerDictionary[sb.softButtonID] = ((SDLSoftButtonWithHandler *)sb).onButtonHandler;
+                            }
                         }
                     }
                 }
+                else if ([rpcWithCorrID isKindOfClass:[SDLAddCommand class]]) {
+                    if (![rpcWithCorrID isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler == nil) {
+                        @throw [SDLProxyBase createMissingHandlerException];
+                    }
+                    if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
+                        @throw [SDLProxyBase createMissingIDException];
+                    }
+                    @synchronized(weakSelf.commandHandlerDictionaryLock) {
+                        weakSelf.commandHandlerDictionary[((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID] = ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler;
+                    }
+                }
+                else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
+                    if (![rpcWithCorrID isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler == nil) {
+                        @throw [SDLProxyBase createMissingHandlerException];
+                    }
+                    // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
+                    NSString *buttonName = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).buttonName.value;
+                    if (!buttonName) {
+                        @throw [SDLProxyBase createMissingIDException];
+                    }
+                    @synchronized(weakSelf.buttonHandlerDictionaryLock) {
+                        weakSelf.buttonHandlerDictionary[buttonName] = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler;
+                    }
+                }
+                
+                if (responseHandler) {
+                    @synchronized(weakSelf.rpcResponseHandlerDictionaryLock) {
+                        weakSelf.rpcResponseHandlerDictionary[corrID] = responseHandler;
+                    }
+                }
+                @synchronized(weakSelf.proxyLock) {
+                    [weakSelf.proxy sendRPC:rpcWithCorrID];
+                }
             }
-            else if ([rpcWithCorrID isKindOfClass:[SDLAddCommand class]]) {
-                if (![rpcWithCorrID isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler == nil) {
-                    @throw [SDLProxyBase createMissingHandlerException];
-                }
-                if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
-                    @throw [SDLProxyBase createMissingIDException];
-                }
-                @synchronized(weakSelf.commandHandlerDictionaryLock) {
-                    weakSelf.commandHandlerDictionary[((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID] = ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler;
-                }
-            }
-            else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
-                if (![rpcWithCorrID isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler == nil) {
-                    @throw [SDLProxyBase createMissingHandlerException];
-                }
-                // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
-                NSString *buttonName = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).buttonName.value;
-                if (!buttonName) {
-                    @throw [SDLProxyBase createMissingIDException];
-                }
-                @synchronized(weakSelf.buttonHandlerDictionaryLock) {
-                    weakSelf.buttonHandlerDictionary[buttonName] = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler;
-                }
-            }
-            
-            if (responseHandler) {
-                @synchronized(weakSelf.rpcResponseHandlerDictionaryLock) {
-                    weakSelf.rpcResponseHandlerDictionary[corrID] = responseHandler;
-                }
-            }
-            @synchronized(weakSelf.proxyLock) {
-                [weakSelf.proxy sendRPC:rpcWithCorrID];
-            }
-        }
-    });
+        });
+    }
+    else {
+        [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
+    }
 }
 
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
@@ -590,6 +597,7 @@
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
         [SDLDebugTool logInfo:@"onProxyOpened"];
+        self.isConnected = YES;
         SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
         regRequest.isMediaApplication = [NSNumber numberWithBool:self.isMedia];
         regRequest.ngnMediaScreenAppName = self.shortName;
@@ -620,6 +628,7 @@
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
         [SDLDebugTool logInfo:@"onProxyClosed"];
+        self.isConnected = NO;
         [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
         if ([self.onProxyClosedHandlers count] > 0) {
             dispatch_async(self.handlerQueue, ^{
