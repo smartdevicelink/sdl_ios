@@ -56,7 +56,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
-@property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
 
 @end
 
@@ -67,21 +66,23 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
+        
+
         _lsm = [[SDLLockScreenManager alloc] init];
+
         _alreadyDestructed = NO;
                 
-        _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
-        _protocol = protocol;
-        _transport = transport;
-        _transport.delegate = protocol;
-        
-        _protocol.protocolDelegate = self;
-        _protocol.transport = transport;
+        self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
+        self.protocol = protocol;
+        self.transport = transport;
+        self.transport.delegate = protocol;
+        self.protocol.protocolDelegate = self;
+        self.protocol.transport = transport;
 
-        [self.transport connect];
-        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
-        
+        [self.transport performSelector:@selector(connect) withObject:nil afterDelay:0];
+
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
+        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
     }
     
     return self;
@@ -107,7 +108,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
         self.transport = nil;
         self.protocol = nil;
-        self.mutableProxyListeners = nil;
+        self.proxyListeners = nil;
     }
 }
 
@@ -130,14 +131,6 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
     }
 }
-
-#pragma mark - Accessors
-
-- (NSSet *)proxyListeners {
-    return [self.mutableProxyListeners copy];
-}
-
-#pragma mark - Methods
 
 - (void)sendMobileHMIState {
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
@@ -603,25 +596,16 @@ const int POLICIES_CORRELATION_ID = 65535;
 #pragma mark - Delegate management
 -(void) addDelegate:(NSObject<SDLProxyListener>*) delegate {
     @synchronized(self.proxyListeners) {
-        [self.mutableProxyListeners addObject:delegate];
-    }
-}
-
-- (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate {
-    @synchronized(self.proxyListeners) {
-        [self.mutableProxyListeners removeObject:delegate];
+        [self.proxyListeners addObject:delegate];
     }
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
-    for (id<SDLProxyListener> listener in self.proxyListeners) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([listener respondsToSelector:aSelector]) {
-                // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-                ((void (*)(id, SEL))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector);
-            }
-        });
-    }
+    [self.proxyListeners enumerateObjectsUsingBlock:^(id listener, NSUInteger idx, BOOL *stop) {
+        if ([(NSObject *)listener respondsToSelector:aSelector]) {
+            [(NSObject *)listener performSelectorOnMainThread:aSelector withObject:object waitUntilDone:NO];
+        }
+    }];
 }
 
 

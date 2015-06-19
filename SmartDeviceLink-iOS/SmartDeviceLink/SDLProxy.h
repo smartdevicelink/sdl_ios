@@ -23,10 +23,10 @@
 
 @property (strong) SDLAbstractProtocol *protocol;
 @property (strong) SDLAbstractTransport *transport;
-@property (readonly, copy) NSSet *proxyListeners;
+@property (strong) NSMutableArray *proxyListeners;
 @property (strong) SDLTimer *startSessionTimer;
-@property (readonly, copy) NSString *debugConsoleGroupName;
-@property (readonly, copy) NSString *proxyVersion;
+@property (strong) NSString *debugConsoleGroupName;
+@property (readonly) NSString *proxyVersion;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol
@@ -34,7 +34,6 @@
 - (void)dispose;
 
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
-- (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate;
 
 - (void)sendRPC:(SDLRPCMessage *)message;
 - (void)sendRPCRequest:(SDLRPCMessage*) msg __deprecated_msg("use -sendRPC: instead");
