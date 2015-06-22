@@ -42,7 +42,7 @@
 
 typedef void(^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.0.0-alpha.2";
+NSString *const SDLProxyVersion = @"4.0.0-alpha.3";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
