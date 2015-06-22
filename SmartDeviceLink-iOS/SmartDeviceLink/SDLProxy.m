@@ -69,25 +69,13 @@ const int POLICIES_CORRELATION_ID = 65535;
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenManager alloc] init];
         _alreadyDestructed = NO;
-                
-<<<<<<< HEAD
-        self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
-        self.protocol = protocol;
-        self.transport = transport;
-        self.transport.delegate = protocol;
-        self.protocol.protocolDelegate = self;
-        self.protocol.transport = transport;
-
-        [self.transport connect];
-=======
+        
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
         _protocol = protocol;
         _transport = transport;
         _transport.delegate = protocol;
-        
         _protocol.protocolDelegate = self;
         _protocol.transport = transport;
->>>>>>> parent of c15278d... Revert "Changes to SDLProxy for safety"
 
         [self.transport connect];
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
