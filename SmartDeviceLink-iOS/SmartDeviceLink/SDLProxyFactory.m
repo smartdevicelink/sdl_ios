@@ -21,9 +21,8 @@
 }
 
 + (SDLProxy *)buildSDLProxyWithListener:(NSObject<SDLProxyListener> *)delegate
-                                tcpIPAddress:(NSString *)ipaddress
-                                     tcpPort:(NSString *)port {
-
+                           tcpIPAddress:(NSString *)ipaddress
+                                tcpPort:(NSString *)port {
     SDLTCPTransport *transport = [[SDLTCPTransport alloc] init];
     transport.hostName = ipaddress;
     transport.portNumber = port;

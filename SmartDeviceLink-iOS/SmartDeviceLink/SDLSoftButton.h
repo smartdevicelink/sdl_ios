@@ -8,16 +8,17 @@
 @class SDLSystemAction;
 
 
-@interface SDLSoftButton : SDLRPCStruct {}
+@interface SDLSoftButton : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLSoftButtonType* type;
-@property(strong) NSString* text;
-@property(strong) SDLImage* image;
-@property(strong) NSNumber* isHighlighted;
-@property(strong) NSNumber* softButtonID;
-@property(strong) SDLSystemAction* systemAction;
+@property (strong) SDLSoftButtonType *type;
+@property (strong) NSString *text;
+@property (strong) SDLImage *image;
+@property (strong) NSNumber *isHighlighted;
+@property (strong) NSNumber *softButtonID;
+@property (strong) SDLSystemAction *systemAction;
 
 @end

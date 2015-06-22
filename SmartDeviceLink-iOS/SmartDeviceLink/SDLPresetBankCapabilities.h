@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -10,24 +9,25 @@
  *
  * @since SDL 2.0
  */
-@interface SDLPresetBankCapabilities : SDLRPCStruct {}
+@interface SDLPresetBankCapabilities : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLPresetBankCapabilities object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a newly allocated SDLPresetBankCapabilities object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract If Onscreen custom presets are available.
  *
  * Required, Boolean
  */
-@property(strong) NSNumber* onScreenPresetsAvailable;
+@property (strong) NSNumber *onScreenPresetsAvailable;
 
 @end

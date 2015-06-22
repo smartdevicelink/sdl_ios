@@ -13,7 +13,7 @@
 
 
 - (instancetype)init {
-	if (self = [super init]) {
+    if (self = [super init]) {
         _version = 0;
         _size = 0;
     }
@@ -35,7 +35,7 @@
 }
 
 - (NSString *)description {
-    NSString* description = [NSString stringWithFormat:@"<%@: %p>", NSStringFromClass([self class]), self];
+    NSString *description = [NSString stringWithFormat:@"<%@: %p>", NSStringFromClass([self class]), self];
     return description;
 }
 
@@ -51,7 +51,7 @@
             return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
         } break;
         default: {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The version of header that is being created is unknown" userInfo:@{@"requestedVersion": @(version)}];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The version of header that is being created is unknown" userInfo:@{ @"requestedVersion" : @(version) }];
         } break;
     }
 }

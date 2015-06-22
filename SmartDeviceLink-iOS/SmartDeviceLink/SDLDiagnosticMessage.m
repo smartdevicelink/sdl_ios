@@ -8,17 +8,19 @@
 
 @implementation SDLDiagnosticMessage
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_DiagnosticMessage]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_DiagnosticMessage]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setTargetID:(NSNumber*) targetID {
+- (void)setTargetID:(NSNumber *)targetID {
     if (targetID != nil) {
         [parameters setObject:targetID forKey:NAMES_targetID];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSNumber*) targetID {
+- (NSNumber *)targetID {
     return [parameters objectForKey:NAMES_targetID];
 }
 
--(void) setMessageLength:(NSNumber*) messageLength {
+- (void)setMessageLength:(NSNumber *)messageLength {
     if (messageLength != nil) {
         [parameters setObject:messageLength forKey:NAMES_messageLength];
     } else {
@@ -38,11 +40,11 @@
     }
 }
 
--(NSNumber*) messageLength {
+- (NSNumber *)messageLength {
     return [parameters objectForKey:NAMES_messageLength];
 }
 
--(void) setMessageData:(NSMutableArray*) messageData {
+- (void)setMessageData:(NSMutableArray *)messageData {
     if (messageData != nil) {
         [parameters setObject:messageData forKey:NAMES_messageData];
     } else {
@@ -50,7 +52,7 @@
     }
 }
 
--(NSMutableArray*) messageData {
+- (NSMutableArray *)messageData {
     return [parameters objectForKey:NAMES_messageData];
 }
 

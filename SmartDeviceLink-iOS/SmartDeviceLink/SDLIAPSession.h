@@ -8,7 +8,7 @@
 
 @class SDLStreamDelegate;
 
-typedef void(^SessionCompletionHandler)(BOOL success);
+typedef void (^SessionCompletionHandler)(BOOL success);
 
 @interface SDLIAPSession : NSObject
 

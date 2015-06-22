@@ -8,13 +8,15 @@
 
 @implementation SDLUpdateTurnListResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_UpdateTurnList]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_UpdateTurnList]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -10,18 +9,19 @@
  *
  * @since SDL 2.0
  */
-@interface SDLSoftButtonCapabilities : SDLRPCStruct {}
+@interface SDLSoftButtonCapabilities : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLSoftButtonCapabilities object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a newly allocated SDLSoftButtonCapabilities object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The button supports a short press.
@@ -30,7 +30,7 @@
  *
  * Required, Boolean
  */
-@property(strong) NSNumber* shortPressAvailable;
+@property (strong) NSNumber *shortPressAvailable;
 
 /**
  * @abstract The button supports a LONG press.
@@ -39,7 +39,7 @@
  *
  * Required, Boolean
  */
-@property(strong) NSNumber* longPressAvailable;
+@property (strong) NSNumber *longPressAvailable;
 
 /**
  * @abstract The button supports "button down" and "button up".
@@ -48,13 +48,13 @@
  *
  * Required, Boolean
  */
-@property(strong) NSNumber* upDownAvailable;
+@property (strong) NSNumber *upDownAvailable;
 
 /**
  * @abstract The button supports referencing a static or dynamic image.
  *
  * Required, Boolean
  */
-@property(strong) NSNumber* imageSupported;
+@property (strong) NSNumber *imageSupported;
 
 @end

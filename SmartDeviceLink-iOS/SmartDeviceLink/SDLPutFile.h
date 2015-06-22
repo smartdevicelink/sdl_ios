@@ -14,33 +14,34 @@
  * @see SDLDeleteFile
  * @see SDLListFiles
  */
-@interface SDLPutFile : SDLRPCRequest {}
+@interface SDLPutFile : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLPutFile object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a new SDLPutFile object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * A file reference name
  *
  * Required, maxlength 255 characters
  */
-@property(strong) NSString* syncFileName;
+@property (strong) NSString *syncFileName;
 
 /**
  * A FileType value representing a selected file type
  *
  * Required
  */
-@property(strong) SDLFileType* fileType;
+@property (strong) SDLFileType *fileType;
 
 /**
  * A value to indicates if the file is meant to persist between
@@ -53,27 +54,27 @@
  *
  * Boolean, Optional, default = NO
  */
-@property(strong) NSNumber* persistentFile;
+@property (strong) NSNumber *persistentFile;
 
 /**
  * Indicates if the file is meant to be passed through core to elsewhere on the system. If set to TRUE, then the system will instead pass the data thru as it arrives to a predetermined area outside of core.
  *
  * Boolean, Optional, default = NO
  */
-@property(strong) NSNumber* systemFile;
+@property (strong) NSNumber *systemFile;
 
 /**
  * Offset in bytes for resuming partial data chunks.
  *
  * Integer, Optional, 0 - 100,000,000,000
  */
-@property(strong) NSNumber* offset;
+@property (strong) NSNumber *offset;
 
 /**
  * Length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded
  *
  * Integer, Optional, 0 - 100,000,000,000
  */
-@property(strong) NSNumber* length;
+@property (strong) NSNumber *length;
 
 @end

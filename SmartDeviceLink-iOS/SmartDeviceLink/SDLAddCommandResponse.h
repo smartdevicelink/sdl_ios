@@ -9,9 +9,10 @@
  *
  * Since <b>SmartDeviceLink 1.0</b>
  */
-@interface SDLAddCommandResponse : SDLRPCResponse {}
+@interface SDLAddCommandResponse : SDLRPCResponse {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

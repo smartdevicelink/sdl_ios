@@ -8,17 +8,19 @@
 
 @implementation SDLPresetBankCapabilities
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setOnScreenPresetsAvailable:(NSNumber*) onScreenPresetsAvailable {
+- (void)setOnScreenPresetsAvailable:(NSNumber *)onScreenPresetsAvailable {
     if (onScreenPresetsAvailable != nil) {
         [store setObject:onScreenPresetsAvailable forKey:NAMES_onScreenPresetsAvailable];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSNumber*) onScreenPresetsAvailable {
+- (NSNumber *)onScreenPresetsAvailable {
     return [store objectForKey:NAMES_onScreenPresetsAvailable];
 }
 

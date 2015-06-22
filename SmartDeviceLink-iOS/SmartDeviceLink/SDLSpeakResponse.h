@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,18 +9,18 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSpeakResponse : SDLRPCResponse {}
+@interface SDLSpeakResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLSpeakResponse object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLSpeakResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end
-

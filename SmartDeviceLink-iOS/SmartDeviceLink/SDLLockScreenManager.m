@@ -21,8 +21,7 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _userSelected = NO;
@@ -36,18 +35,16 @@
 #pragma mark - Getters / Setters
 #pragma mark Custom setters
 
-- (void)setDriverDistracted:(BOOL)driverDistracted
-{
+- (void)setDriverDistracted:(BOOL)driverDistracted {
     _driverDistracted = driverDistracted;
     _haveDriverDistractionStatus = YES;
 }
 
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel
-{
+- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
     if (_hmiLevel != hmiLevel) {
         _hmiLevel = hmiLevel;
     }
-    
+
     if ([hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
         self.userSelected = YES;
     } else if ([hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
@@ -64,12 +61,11 @@
     notification.hmiLevel = self.hmiLevel;
     notification.userSelected = @(self.userSelected);
     notification.lockScreenStatus = self.lockScreenStatus;
-    
+
     return notification;
 }
 
-- (SDLLockScreenStatus *)lockScreenStatus
-{
+- (SDLLockScreenStatus *)lockScreenStatus {
     if (self.hmiLevel == nil || [self.hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
         // App is not active on the car
         return [SDLLockScreenStatus OFF];

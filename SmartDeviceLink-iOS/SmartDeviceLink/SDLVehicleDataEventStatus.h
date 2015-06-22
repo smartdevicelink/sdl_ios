@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataEventStatus : SDLEnum {}
+@interface SDLVehicleDataEventStatus : SDLEnum {
+}
 
 /**
  * Convert String to SDLVehicleDataEventStatus
@@ -19,41 +19,40 @@
  *
  * @return SDLVehicleDataEventStatus
  */
-+(SDLVehicleDataEventStatus*) valueOf:(NSString*) value;
++ (SDLVehicleDataEventStatus *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLVehicleDataEventStatus
  *
  * @return an array that store all possible SDLVehicleDataEventStatus
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @return The SDLVehicleDataEventStatus instance with value of *NO_EVENT*
  */
-+(SDLVehicleDataEventStatus*) NO_EVENT;
++ (SDLVehicleDataEventStatus *)NO_EVENT;
 
 /**
  * @return The SDLVehicleDataEventStatus instance with value of *NO*
  */
-+(SDLVehicleDataEventStatus*) _NO;
++ (SDLVehicleDataEventStatus *)_NO;
 
 /**
  * @return The SDLVehicleDataEventStatus instance with value of *YES*
  */
-+(SDLVehicleDataEventStatus*) _YES;
++ (SDLVehicleDataEventStatus *)_YES;
 
 /**
  * @abstract Vehicle data event is not supported
  *
  * @return the SDLVehicleDataEventStatus instance with value of *NOT_SUPPORTED*
  */
-+(SDLVehicleDataEventStatus*) NOT_SUPPORTED;
++ (SDLVehicleDataEventStatus *)NOT_SUPPORTED;
 
 /**
  * @abstract The SDLVehicleDataEventStatus instance with value of *FAULT*
  */
-+(SDLVehicleDataEventStatus*) FAULT;
++ (SDLVehicleDataEventStatus *)FAULT;
 
 @end
-

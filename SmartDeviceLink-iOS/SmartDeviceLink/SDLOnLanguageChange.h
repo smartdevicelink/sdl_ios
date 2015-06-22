@@ -11,27 +11,28 @@
  *
  * @since SDL 2.0
  */
-@interface SDLOnLanguageChange : SDLRPCNotification {}
+@interface SDLOnLanguageChange : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLOnLanguageChange object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a newly allocated SDLOnLanguageChange object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract Current SDL voice engine (VR+TTS) language
  */
-@property(strong) SDLLanguage* language;
+@property (strong) SDLLanguage *language;
 
 /**
  * @abstract Current display language
  */
-@property(strong) SDLLanguage* hmiDisplayLanguage;
+@property (strong) SDLLanguage *hmiDisplayLanguage;
 
 @end

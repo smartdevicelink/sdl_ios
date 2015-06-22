@@ -23,23 +23,24 @@
  *
  * @since SDL 1.0
  */
-@interface SDLOnDriverDistraction : SDLRPCNotification {}
+@interface SDLOnDriverDistraction : SDLRPCNotification {
+}
 
 /**
  * Constructs a newly allocated SDLOnDriverDistraction object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a newly allocated SDLOnDriverDistraction object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
-@property(strong) SDLDriverDistractionState* state;
+@property (strong) SDLDriverDistractionState *state;
 
 @end

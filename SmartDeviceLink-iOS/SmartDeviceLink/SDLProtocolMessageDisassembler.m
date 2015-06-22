@@ -26,14 +26,13 @@
 
     // How many messages do we need to create to hold that many bytes?
     // Note: this does NOT count the special first message which acts as a descriptor.
-    NSUInteger numberOfMessagesRequired = ceil((float)incomingPayloadSize/(float)(mtu - headerSize));
+    NSUInteger numberOfMessagesRequired = ceil((float)incomingPayloadSize / (float)(mtu - headerSize));
 
     // And how many data bytes go in each message?
     NSUInteger numberOfDataBytesPerMessage = mtu - headerSize;
 
     // Create the outgoing array to hold the messages we will create.
-    NSMutableArray *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired+1];
-
+    NSMutableArray *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired + 1];
 
 
     // Create the first message
@@ -50,14 +49,12 @@
     outgoingMessages[0] = firstMessage;
 
 
-
     // Create the middle messages (the ones carrying the actual data).
     for (int n = 0; n < numberOfMessagesRequired - 1; n++) {
-
         // Frame # after 255 must cycle back to 1, not 0.
         // A 0 signals last frame.
         UInt8 frameNumber = (n % 255) + 1;
-        
+
         SDLProtocolHeader *nextFrameHeader = [incomingMessage.header copy];
         nextFrameHeader.frameType = SDLFrameType_Consecutive;
         nextFrameHeader.frameData = frameNumber;
@@ -67,9 +64,8 @@
         nextFrameHeader.bytesInPayload = (UInt32)nextFramePayload.length;
 
         SDLProtocolMessage *nextMessage = [SDLProtocolMessage messageWithHeader:nextFrameHeader andPayload:nextFramePayload];
-        outgoingMessages[n+1] = nextMessage;
+        outgoingMessages[n + 1] = nextMessage;
     }
-
 
 
     // Create the last message

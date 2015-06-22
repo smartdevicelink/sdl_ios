@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 @class SDLTriggerSource;
@@ -13,18 +12,19 @@
  *
  * @since SDL 1.0
  */
-@interface SDLPerformInteractionResponse : SDLRPCResponse {}
+@interface SDLPerformInteractionResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLPerformInteractionResponse object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a new SDLPerformInteractionResponse object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract ID of the choice that was selected in response to PerformInteraction. 
@@ -33,7 +33,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property(strong) NSNumber* choiceID;
+@property (strong) NSNumber *choiceID;
 
 /**
  * @abstract Manually entered text selection, e.g. through keyboard
@@ -42,14 +42,14 @@
  *
  * Optional, Max length 500 chars
  */
-@property(strong) NSString* manualTextEntry;
+@property (strong) NSString *manualTextEntry;
 
 /**
  * @abstract A *SDLTriggerSource* object which will be shown in the HMI
  *
  * @discussion Only is valid if resultCode is SUCCESS.
  */
-@property(strong) SDLTriggerSource* triggerSource;
+@property (strong) SDLTriggerSource *triggerSource;
 
 
 @end

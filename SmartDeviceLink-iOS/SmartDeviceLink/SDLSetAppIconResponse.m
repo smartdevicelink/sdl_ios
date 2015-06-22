@@ -8,13 +8,15 @@
 
 @implementation SDLSetAppIconResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_SetAppIcon]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_SetAppIcon]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

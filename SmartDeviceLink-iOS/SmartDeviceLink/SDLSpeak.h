@@ -36,18 +36,19 @@
  * @since SmartDeviceLink 1.0
  * @see SDLAlert
  */
-@interface SDLSpeak : SDLRPCRequest {}
+@interface SDLSpeak : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLSpeak object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a new SDLSpeak object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken
@@ -58,7 +59,6 @@
  * 
  * @see SDLTTSChunk
  */
-@property(strong) NSMutableArray* ttsChunks;
+@property (strong) NSMutableArray *ttsChunks;
 
 @end
-

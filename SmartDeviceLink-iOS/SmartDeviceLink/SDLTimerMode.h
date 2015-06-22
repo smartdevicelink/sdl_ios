@@ -2,16 +2,16 @@
 //
 
 
-
 #import "SDLEnum.h"
 
-@interface SDLTimerMode : SDLEnum {}
+@interface SDLTimerMode : SDLEnum {
+}
 
-+(SDLTimerMode*) valueOf:(NSString*) value;
-+(NSArray*) values;
++ (SDLTimerMode *)valueOf:(NSString *)value;
++ (NSArray *)values;
 
-+(SDLTimerMode*) UP;
-+(SDLTimerMode*) DOWN;
-+(SDLTimerMode*) NONE;
++ (SDLTimerMode *)UP;
++ (SDLTimerMode *)DOWN;
++ (SDLTimerMode *)NONE;
 
 @end

@@ -8,15 +8,16 @@
 @class SDLKeypressMode;
 
 
-@interface SDLKeyboardProperties : SDLRPCStruct {}
+@interface SDLKeyboardProperties : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLLanguage* language;
-@property(strong) SDLKeyboardLayout* keyboardLayout;
-@property(strong) SDLKeypressMode* keypressMode;
-@property(strong) NSMutableArray* limitedCharacterList;
-@property(strong) NSString* autoCompleteText;
+@property (strong) SDLLanguage *language;
+@property (strong) SDLKeyboardLayout *keyboardLayout;
+@property (strong) SDLKeypressMode *keypressMode;
+@property (strong) NSMutableArray *limitedCharacterList;
+@property (strong) NSString *autoCompleteText;
 
 @end

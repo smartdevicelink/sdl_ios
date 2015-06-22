@@ -8,13 +8,15 @@
 
 @implementation SDLSetMediaClockTimerResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_SetMediaClockTimer]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_SetMediaClockTimer]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

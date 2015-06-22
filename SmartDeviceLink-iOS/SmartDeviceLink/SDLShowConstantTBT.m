@@ -11,17 +11,19 @@
 
 @implementation SDLShowConstantTBT
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_ShowConstantTBT]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_ShowConstantTBT]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setNavigationText1:(NSString*) navigationText1 {
+- (void)setNavigationText1:(NSString *)navigationText1 {
     if (navigationText1 != nil) {
         [parameters setObject:navigationText1 forKey:NAMES_navigationText1];
     } else {
@@ -29,11 +31,11 @@
     }
 }
 
--(NSString*) navigationText1 {
+- (NSString *)navigationText1 {
     return [parameters objectForKey:NAMES_navigationText1];
 }
 
--(void) setNavigationText2:(NSString*) navigationText2 {
+- (void)setNavigationText2:(NSString *)navigationText2 {
     if (navigationText2 != nil) {
         [parameters setObject:navigationText2 forKey:NAMES_navigationText2];
     } else {
@@ -41,11 +43,11 @@
     }
 }
 
--(NSString*) navigationText2 {
+- (NSString *)navigationText2 {
     return [parameters objectForKey:NAMES_navigationText2];
 }
 
--(void) setEta:(NSString*) eta {
+- (void)setEta:(NSString *)eta {
     if (eta != nil) {
         [parameters setObject:eta forKey:NAMES_eta];
     } else {
@@ -53,11 +55,11 @@
     }
 }
 
--(NSString*) eta {
+- (NSString *)eta {
     return [parameters objectForKey:NAMES_eta];
 }
 
--(void) setTimeToDestination:(NSString*) timeToDestination {
+- (void)setTimeToDestination:(NSString *)timeToDestination {
     if (timeToDestination != nil) {
         [parameters setObject:timeToDestination forKey:NAMES_timeToDestination];
     } else {
@@ -65,11 +67,11 @@
     }
 }
 
--(NSString*) timeToDestination {
+- (NSString *)timeToDestination {
     return [parameters objectForKey:NAMES_timeToDestination];
 }
 
--(void) setTotalDistance:(NSString*) totalDistance {
+- (void)setTotalDistance:(NSString *)totalDistance {
     if (totalDistance != nil) {
         [parameters setObject:totalDistance forKey:NAMES_totalDistance];
     } else {
@@ -77,11 +79,11 @@
     }
 }
 
--(NSString*) totalDistance {
+- (NSString *)totalDistance {
     return [parameters objectForKey:NAMES_totalDistance];
 }
 
--(void) setTurnIcon:(SDLImage*) turnIcon {
+- (void)setTurnIcon:(SDLImage *)turnIcon {
     if (turnIcon != nil) {
         [parameters setObject:turnIcon forKey:NAMES_turnIcon];
     } else {
@@ -89,16 +91,16 @@
     }
 }
 
--(SDLImage*) turnIcon {
-    NSObject* obj = [parameters objectForKey:NAMES_turnIcon];
+- (SDLImage *)turnIcon {
+    NSObject *obj = [parameters objectForKey:NAMES_turnIcon];
     if ([obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage*)obj;
+        return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setNextTurnIcon:(SDLImage*) nextTurnIcon {
+- (void)setNextTurnIcon:(SDLImage *)nextTurnIcon {
     if (nextTurnIcon != nil) {
         [parameters setObject:nextTurnIcon forKey:NAMES_nextTurnIcon];
     } else {
@@ -106,16 +108,16 @@
     }
 }
 
--(SDLImage*) nextTurnIcon {
-    NSObject* obj = [parameters objectForKey:NAMES_nextTurnIcon];
+- (SDLImage *)nextTurnIcon {
+    NSObject *obj = [parameters objectForKey:NAMES_nextTurnIcon];
     if ([obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage*)obj;
+        return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setDistanceToManeuver:(NSNumber*) distanceToManeuver {
+- (void)setDistanceToManeuver:(NSNumber *)distanceToManeuver {
     if (distanceToManeuver != nil) {
         [parameters setObject:distanceToManeuver forKey:NAMES_distanceToManeuver];
     } else {
@@ -123,11 +125,11 @@
     }
 }
 
--(NSNumber*) distanceToManeuver {
+- (NSNumber *)distanceToManeuver {
     return [parameters objectForKey:NAMES_distanceToManeuver];
 }
 
--(void) setDistanceToManeuverScale:(NSNumber*) distanceToManeuverScale {
+- (void)setDistanceToManeuverScale:(NSNumber *)distanceToManeuverScale {
     if (distanceToManeuverScale != nil) {
         [parameters setObject:distanceToManeuverScale forKey:NAMES_distanceToManeuverScale];
     } else {
@@ -135,11 +137,11 @@
     }
 }
 
--(NSNumber*) distanceToManeuverScale {
+- (NSNumber *)distanceToManeuverScale {
     return [parameters objectForKey:NAMES_distanceToManeuverScale];
 }
 
--(void) setManeuverComplete:(NSNumber*) maneuverComplete {
+- (void)setManeuverComplete:(NSNumber *)maneuverComplete {
     if (maneuverComplete != nil) {
         [parameters setObject:maneuverComplete forKey:NAMES_maneuverComplete];
     } else {
@@ -147,11 +149,11 @@
     }
 }
 
--(NSNumber*) maneuverComplete {
+- (NSNumber *)maneuverComplete {
     return [parameters objectForKey:NAMES_maneuverComplete];
 }
 
--(void) setSoftButtons:(NSMutableArray*) softButtons {
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
     if (softButtons != nil) {
         [parameters setObject:softButtons forKey:NAMES_softButtons];
     } else {
@@ -159,14 +161,14 @@
     }
 }
 
--(NSMutableArray*) softButtons {
-    NSMutableArray* array = [parameters objectForKey:NAMES_softButtons];
+- (NSMutableArray *)softButtons {
+    NSMutableArray *array = [parameters objectForKey:NAMES_softButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
-        NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary* dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary*)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary *dict in array) {
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary *)dict]];
         }
         return newList;
     }

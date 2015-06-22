@@ -6,11 +6,10 @@
 
 
 @interface SDLFunctionID : NSObject {
-
-    NSDictionary* functionIDs;
+    NSDictionary *functionIDs;
 }
 
--(NSString*) getFunctionName:(int) functionID;
--(NSNumber*) getFunctionID:(NSString*) functionName;
+- (NSString *)getFunctionName:(int)functionID;
+- (NSNumber *)getFunctionID:(NSString *)functionName;
 
 @end

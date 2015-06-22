@@ -9,17 +9,19 @@
 
 @implementation SDLDIDResult
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setResultCode:(SDLVehicleDataResultCode*) resultCode {
+- (void)setResultCode:(SDLVehicleDataResultCode *)resultCode {
     if (resultCode != nil) {
         [store setObject:resultCode forKey:NAMES_resultCode];
     } else {
@@ -27,16 +29,16 @@
     }
 }
 
--(SDLVehicleDataResultCode*) resultCode {
-    NSObject* obj = [store objectForKey:NAMES_resultCode];
+- (SDLVehicleDataResultCode *)resultCode {
+    NSObject *obj = [store objectForKey:NAMES_resultCode];
     if ([obj isKindOfClass:SDLVehicleDataResultCode.class]) {
-        return (SDLVehicleDataResultCode*)obj;
+        return (SDLVehicleDataResultCode *)obj;
     } else {
-        return [SDLVehicleDataResultCode valueOf:(NSString*)obj];
+        return [SDLVehicleDataResultCode valueOf:(NSString *)obj];
     }
 }
 
--(void) setDidLocation:(NSNumber*) didLocation {
+- (void)setDidLocation:(NSNumber *)didLocation {
     if (didLocation != nil) {
         [store setObject:didLocation forKey:NAMES_didLocation];
     } else {
@@ -44,11 +46,11 @@
     }
 }
 
--(NSNumber*) didLocation {
+- (NSNumber *)didLocation {
     return [store objectForKey:NAMES_didLocation];
 }
 
--(void) setData:(NSString*) data {
+- (void)setData:(NSString *)data {
     if (data != nil) {
         [store setObject:data forKey:NAMES_data];
     } else {
@@ -56,7 +58,7 @@
     }
 }
 
--(NSString*) data {
+- (NSString *)data {
     return [store objectForKey:NAMES_data];
 }
 

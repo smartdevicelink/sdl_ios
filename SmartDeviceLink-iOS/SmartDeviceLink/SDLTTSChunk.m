@@ -9,17 +9,19 @@
 
 @implementation SDLTTSChunk
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setText:(NSString*) text {
+- (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:NAMES_text];
     } else {
@@ -27,11 +29,11 @@
     }
 }
 
--(NSString*) text {
+- (NSString *)text {
     return [store objectForKey:NAMES_text];
 }
 
--(void) setType:(SDLSpeechCapabilities*) type {
+- (void)setType:(SDLSpeechCapabilities *)type {
     if (type != nil) {
         [store setObject:type forKey:NAMES_type];
     } else {
@@ -39,12 +41,12 @@
     }
 }
 
--(SDLSpeechCapabilities*) type {
-    NSObject* obj = [store objectForKey:NAMES_type];
+- (SDLSpeechCapabilities *)type {
+    NSObject *obj = [store objectForKey:NAMES_type];
     if ([obj isKindOfClass:SDLSpeechCapabilities.class]) {
-        return (SDLSpeechCapabilities*)obj;
+        return (SDLSpeechCapabilities *)obj;
     } else {
-        return [SDLSpeechCapabilities valueOf:(NSString*)obj];
+        return [SDLSpeechCapabilities valueOf:(NSString *)obj];
     }
 }
 

@@ -6,13 +6,15 @@
 
 @implementation SDLAddSubMenuResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_AddSubMenu]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_AddSubMenu]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

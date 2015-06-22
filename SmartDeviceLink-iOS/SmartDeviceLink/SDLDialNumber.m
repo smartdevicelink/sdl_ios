@@ -8,17 +8,19 @@
 
 @implementation SDLDialNumber
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_DialNumber]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_DialNumber]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*)dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setNumber:(NSString *)number {
+- (void)setNumber:(NSString *)number {
     if (number != nil) {
         parameters[NAMES_number] = number;
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSString*)number {
+- (NSString *)number {
     return parameters[NAMES_number];
 }
 
