@@ -1,5 +1,6 @@
 ##### Note: Please see the [release/4.0.0](https://github.com/smartdevicelink/sdl_ios/tree/release/4.0.0) branch of sdl_ios for the most recent version. Significant changes have been made since the latest stable release and the in-progress develop branch. When released, it will include distribution via Carthage and Cocoapods. The current alpha has Cocoapods support, see below for installation instructions.
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/release%2F4.0.0.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
