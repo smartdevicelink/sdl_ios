@@ -2,15 +2,15 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
-@interface SDLImageResolution : SDLRPCStruct {}
+@interface SDLImageResolution : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSNumber* resolutionWidth;
-@property(strong) NSNumber* resolutionHeight;
+@property (strong) NSNumber *resolutionWidth;
+@property (strong) NSNumber *resolutionHeight;
 
 @end

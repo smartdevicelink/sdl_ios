@@ -25,7 +25,7 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
     if (!self) {
         return nil;
     }
-    
+
     return self;
 }
 
@@ -35,7 +35,7 @@ NSString *const SDLQueryAppsQueueIdentifier = @"com.smartdevicelink.queryapps.pa
     dispatch_once(&onceToken, ^{
         queryAppsQueue = dispatch_queue_create([SDLQueryAppsQueueIdentifier cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
     });
-    
+
     return queryAppsQueue;
 }
 

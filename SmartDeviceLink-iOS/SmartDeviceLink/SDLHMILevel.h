@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLHMILevel : SDLEnum {}
+@interface SDLHMILevel : SDLEnum {
+}
 
 /**
  * Return HMILevel status (FULL, LIMITED, BACKGROUND, NONE)
@@ -19,28 +19,28 @@
  *
  * @return Current HMI level
  */
-+(SDLHMILevel*) valueOf:(NSString*) value;
++ (SDLHMILevel *)valueOf:(NSString *)value;
 
 /**
  * Store all possible SDLHMILevel values
  *
  * @return an array with all possible HMILevel values inside
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * The application has full use of the SDL HMI. The app may output via TTS, display, or streaming audio and may gather input via VR, Menu, and button presses
  *
  * @return the HMILevel with value of *FULL*
  */
-+(SDLHMILevel*) FULL;
++ (SDLHMILevel *)FULL;
 
 /**
  * This HMI Level is only defined for a media application using an HMI with an 8 inch touchscreen (Nav) system. The application's <i>Show</i> text is displayed and it receives button presses from media-oriented buttons (SEEKRIGHT, SEEKLEFT, TUNEUP, TUNEDOWN, PRESET_0-9)
  *
  * @return the HMILevel with value of *LIMITED*
  */
-+(SDLHMILevel*) LIMITED;
++ (SDLHMILevel *)LIMITED;
 
 /**
  * App cannot interact with user via TTS, VR, Display or Button Presses. App can perform the following operations:
@@ -62,7 +62,7 @@
  *
  * @return the HMILevel with value of *BACKGROUND*
  */
-+(SDLHMILevel*) BACKGROUND;
++ (SDLHMILevel *)BACKGROUND;
 
 /**
  * Application has been discovered by SDL, but it cannot send any requests or receive any notifications
@@ -71,6 +71,6 @@
  *
  * @return the HMILevel with value of *NONE*
  */
-+(SDLHMILevel*) NONE;
++ (SDLHMILevel *)NONE;
 
 @end

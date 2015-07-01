@@ -2,14 +2,14 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
-@interface SDLEncodedSyncPData : SDLRPCRequest {}
+@interface SDLEncodedSyncPData : SDLRPCRequest {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSMutableArray* data;
+@property (strong) NSMutableArray *data;
 
 @end

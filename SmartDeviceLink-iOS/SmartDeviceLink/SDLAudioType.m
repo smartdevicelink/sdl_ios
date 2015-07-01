@@ -3,14 +3,14 @@
 
 #import "SDLAudioType.h"
 
-SDLAudioType* SDLAudioType_PCM = nil;
+SDLAudioType *SDLAudioType_PCM = nil;
 
-NSArray* SDLAudioType_values = nil;
+NSArray *SDLAudioType_values = nil;
 
 @implementation SDLAudioType
 
-+(SDLAudioType*) valueOf:(NSString*) value {
-    for (SDLAudioType* item in SDLAudioType.values) {
++ (SDLAudioType *)valueOf:(NSString *)value {
+    for (SDLAudioType *item in SDLAudioType.values) {
         if ([item.value isEqualToString:value]) {
             return item;
         }
@@ -18,16 +18,16 @@ NSArray* SDLAudioType_values = nil;
     return nil;
 }
 
-+(NSArray*) values {
++ (NSArray *)values {
     if (SDLAudioType_values == nil) {
         SDLAudioType_values = @[
-                SDLAudioType.PCM,
-                ];
+            SDLAudioType.PCM,
+        ];
     }
     return SDLAudioType_values;
 }
 
-+(SDLAudioType*) PCM {
++ (SDLAudioType *)PCM {
     if (SDLAudioType_PCM == nil) {
         SDLAudioType_PCM = [[SDLAudioType alloc] initWithValue:@"PCM"];
     }

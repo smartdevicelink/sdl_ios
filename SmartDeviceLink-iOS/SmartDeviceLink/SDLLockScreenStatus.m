@@ -7,56 +7,48 @@
 
 @implementation SDLLockScreenStatus
 
-SDLLockScreenStatus* SDLLockScreenStatus_OFF = nil;
-SDLLockScreenStatus* SDLLockScreenStatus_OPTIONAL = nil;
-SDLLockScreenStatus* SDLLockScreenStatus_REQUIRED = nil;
+SDLLockScreenStatus *SDLLockScreenStatus_OFF = nil;
+SDLLockScreenStatus *SDLLockScreenStatus_OPTIONAL = nil;
+SDLLockScreenStatus *SDLLockScreenStatus_REQUIRED = nil;
 
-NSArray* SDLLockScreenStatus_values = nil;
+NSArray *SDLLockScreenStatus_values = nil;
 
 
-+ (SDLLockScreenStatus *)valueOf:(NSString *)value
-{
-    for (SDLLockScreenStatus* item in SDLLockScreenStatus.values)
-    {
-        if ([item.value isEqualToString:value])
-        {
++ (SDLLockScreenStatus *)valueOf:(NSString *)value {
+    for (SDLLockScreenStatus *item in SDLLockScreenStatus.values) {
+        if ([item.value isEqualToString:value]) {
             return item;
         }
     }
     return nil;
 }
 
-+ (NSArray *)values
-{
-    if (SDLLockScreenStatus_values == nil)
-    {
++ (NSArray *)values {
+    if (SDLLockScreenStatus_values == nil) {
         SDLLockScreenStatus_values = @[
-                                      SDLLockScreenStatus.OFF,
-                                      SDLLockScreenStatus.OPTIONAL,
-                                      SDLLockScreenStatus.REQUIRED,
-                                      ];
+            SDLLockScreenStatus.OFF,
+            SDLLockScreenStatus.OPTIONAL,
+            SDLLockScreenStatus.REQUIRED,
+        ];
     }
     return SDLLockScreenStatus_values;
 }
 
-+ (SDLLockScreenStatus *)OFF
-{
++ (SDLLockScreenStatus *)OFF {
     if (SDLLockScreenStatus_OFF == nil) {
         SDLLockScreenStatus_OFF = [[SDLLockScreenStatus alloc] initWithValue:@"OFF"];
     }
     return SDLLockScreenStatus_OFF;
 }
 
-+ (SDLLockScreenStatus *)OPTIONAL
-{
++ (SDLLockScreenStatus *)OPTIONAL {
     if (SDLLockScreenStatus_OPTIONAL == nil) {
         SDLLockScreenStatus_OPTIONAL = [[SDLLockScreenStatus alloc] initWithValue:@"OPTIONAL"];
     }
     return SDLLockScreenStatus_OPTIONAL;
 }
 
-+ (SDLLockScreenStatus *)REQUIRED
-{
++ (SDLLockScreenStatus *)REQUIRED {
     if (SDLLockScreenStatus_REQUIRED == nil) {
         SDLLockScreenStatus_REQUIRED = [[SDLLockScreenStatus alloc] initWithValue:@"REQUIRED"];
     }

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLProtocolListener.h"
 @class SDLProtocolMessage;
 

@@ -10,17 +10,19 @@
 
 @implementation SDLPermissionItem
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setRpcName:(NSString*) rpcName {
+- (void)setRpcName:(NSString *)rpcName {
     if (rpcName != nil) {
         [store setObject:rpcName forKey:NAMES_rpcName];
     } else {
@@ -28,11 +30,11 @@
     }
 }
 
--(NSString*) rpcName {
+- (NSString *)rpcName {
     return [store objectForKey:NAMES_rpcName];
 }
 
--(void) setHmiPermissions:(SDLHMIPermissions*) hmiPermissions {
+- (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
     if (hmiPermissions != nil) {
         [store setObject:hmiPermissions forKey:NAMES_hmiPermissions];
     } else {
@@ -40,16 +42,16 @@
     }
 }
 
--(SDLHMIPermissions*) hmiPermissions {
-    NSObject* obj = [store objectForKey:NAMES_hmiPermissions];
+- (SDLHMIPermissions *)hmiPermissions {
+    NSObject *obj = [store objectForKey:NAMES_hmiPermissions];
     if ([obj isKindOfClass:SDLHMIPermissions.class]) {
-        return (SDLHMIPermissions*)obj;
+        return (SDLHMIPermissions *)obj;
     } else {
-        return [[SDLHMIPermissions alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLHMIPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
--(void) setParameterPermissions:(SDLParameterPermissions*) parameterPermissions {
+- (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
     if (parameterPermissions != nil) {
         [store setObject:parameterPermissions forKey:NAMES_parameterPermissions];
     } else {
@@ -57,12 +59,12 @@
     }
 }
 
--(SDLParameterPermissions*) parameterPermissions {
-    NSObject* obj = [store objectForKey:NAMES_parameterPermissions];
+- (SDLParameterPermissions *)parameterPermissions {
+    NSObject *obj = [store objectForKey:NAMES_parameterPermissions];
     if ([obj isKindOfClass:SDLParameterPermissions.class]) {
-        return (SDLParameterPermissions*)obj;
+        return (SDLParameterPermissions *)obj;
     } else {
-        return [[SDLParameterPermissions alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLParameterPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 

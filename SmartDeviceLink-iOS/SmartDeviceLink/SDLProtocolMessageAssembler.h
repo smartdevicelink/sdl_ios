@@ -6,7 +6,7 @@
 @class SDLProtocolMessage;
 
 
-typedef void(^SDLMessageAssemblyCompletionHandler)(BOOL done, SDLProtocolMessage *assembledMessage);
+typedef void (^SDLMessageAssemblyCompletionHandler)(BOOL done, SDLProtocolMessage *assembledMessage);
 
 
 @interface SDLProtocolMessageAssembler : NSObject

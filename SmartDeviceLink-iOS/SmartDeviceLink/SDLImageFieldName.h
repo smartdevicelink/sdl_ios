@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /** The name that identifies the filed.
@@ -11,72 +10,73 @@
  * @since SmartDeviceLink 3.0
  *
  */
-@interface SDLImageFieldName : SDLEnum {}
+@interface SDLImageFieldName : SDLEnum {
+}
 
-+(SDLImageFieldName*) valueOf:(NSString*) value;
-+(NSArray*) values;
++ (SDLImageFieldName *)valueOf:(NSString *)value;
++ (NSArray *)values;
 
 /** The image field for SoftButton
  *
  */
-+(SDLImageFieldName*) softButtonImage;
++ (SDLImageFieldName *)softButtonImage;
 
 /** The first image field for Choice.
  *
  */
-+(SDLImageFieldName*) choiceImage;
++ (SDLImageFieldName *)choiceImage;
 
 /** The scondary image field for Choice.
  *
  */
-+(SDLImageFieldName*) choiceSecondaryImage;
++ (SDLImageFieldName *)choiceSecondaryImage;
 
 /** The image field for vrHelpItem.
  *
  */
-+(SDLImageFieldName*) vrHelpItem;
++ (SDLImageFieldName *)vrHelpItem;
 
 /** The image field for Turn.
  *
  */
 
-+(SDLImageFieldName*) turnIcon;
++ (SDLImageFieldName *)turnIcon;
 
 /** The image field for the menu icon in SetGlobalProperties.
  *
  */
-+(SDLImageFieldName*) menuIcon;
++ (SDLImageFieldName *)menuIcon;
 
 /** The image filed for AddCommand.
  *
  */
 
-+(SDLImageFieldName*) cmdIcon;
++ (SDLImageFieldName *)cmdIcon;
 
 /** The iamage field for the app icon ( set by setAppIcon).
  *
  */
-+(SDLImageFieldName*) appIcon;
++ (SDLImageFieldName *)appIcon;
 
 /** The image filed for Show.
  *
  */
-+(SDLImageFieldName*) graphic;
++ (SDLImageFieldName *)graphic;
 
 /** The primary image field for ShowConstant TBT.
  *
  */
-+(SDLImageFieldName*) showConstantTBTIcon;
++ (SDLImageFieldName *)showConstantTBTIcon;
 
 /** The secondary image field for ShowConstant TBT.
  *
  */
-+(SDLImageFieldName*) showConstantTBTNextTurnIcon;
++ (SDLImageFieldName *)showConstantTBTNextTurnIcon;
 
 /**
  * The optional image of a destination / location
  * @since SDL 4.0
  */
-+(SDLImageFieldName*) locationImage;
++ (SDLImageFieldName *)locationImage;
 
 @end

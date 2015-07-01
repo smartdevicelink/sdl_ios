@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLTextFieldName : SDLEnum {}
+@interface SDLTextFieldName : SDLEnum {
+}
 
 /**
  * Convert String to SDLTextFieldName
@@ -19,21 +19,21 @@
  *
  * @return SDLTextFieldName
  */
-+(SDLTextFieldName*) valueOf:(NSString*) value;
++ (SDLTextFieldName *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLTextFieldName
  * 
  * @return an array that store all possible SDLTextFieldName
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract The first line of the first set of main fields of the persistent display. Applies to SDLShow.
  *
  * @return a SDLTextFieldName with value of *mainField1*
  */
-+(SDLTextFieldName*) mainField1;
++ (SDLTextFieldName *)mainField1;
 
 /**
  * @abstract The second line of the first set of main fields of the persistent display. Applies to SDLShow.
@@ -42,7 +42,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) mainField2;
++ (SDLTextFieldName *)mainField2;
 
 /**
  * @abstract The first line of the second set of main fields of the persistent display. Applies to SDLShow.
@@ -51,21 +51,21 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) mainField3;
++ (SDLTextFieldName *)mainField3;
 
 /**
  * @abstract The second line of the second set of main fields of the persistent display. Applies to SDLShow.
  *
  * @return a SDLTextFieldName with value of *mainField4*
  */
-+(SDLTextFieldName*) mainField4;
++ (SDLTextFieldName *)mainField4;
 
 /**
  * @abstract The status bar on the NGN display. Applies to SDLShow.
  *
  * @return a SDLTextFieldName with value of *statusBar*
  */
-+(SDLTextFieldName*) statusBar;
++ (SDLTextFieldName *)statusBar;
 
 /**
  * @abstract Text value for MediaClock field. Must be properly formatted according to MediaClockFormat. Applies to SDLShow.
@@ -74,7 +74,7 @@
  *
  * @return a SDLTextFieldName with value of *mediaClock*
  */
-+(SDLTextFieldName*) mediaClock;
++ (SDLTextFieldName *)mediaClock;
 
 /**
  * @abstract The track field of NGN type ACMs. This field is only available for media applications on a NGN display. Applies to SDLShow.
@@ -83,14 +83,14 @@
  *
  * @return a SDLTextFieldName with value of *mediaTrack*
  */
-+(SDLTextFieldName*) mediaTrack;
++ (SDLTextFieldName *)mediaTrack;
 
 /**
  * @abstract The first line of the alert text field. Applies to SDLAlert.
  *
  * @return a SDLTextFieldName with value of *alertText1*
  */
-+(SDLTextFieldName*) alertText1;
++ (SDLTextFieldName *)alertText1;
 
 /**
  * @abstract The second line of the alert text field. Applies to SDLAlert.
@@ -99,7 +99,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) alertText2;
++ (SDLTextFieldName *)alertText2;
 
 /**
  * @abstract The third line of the alert text field. Applies to SDLAlert.
@@ -108,7 +108,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) alertText3;
++ (SDLTextFieldName *)alertText3;
 
 /**
  * @abstract Long form body of text that can include newlines and tabs. Applies to SDLScrollableMessage.
@@ -117,7 +117,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) scrollableMessageBody;
++ (SDLTextFieldName *)scrollableMessageBody;
 
 /**
  * @abstract First line suggestion for a user response (in the case of VR enabled interaction).
@@ -126,7 +126,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) initialInteractionText;
++ (SDLTextFieldName *)initialInteractionText;
 
 /**
  * @abstract First line of navigation text.
@@ -135,7 +135,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) navigationText1;
++ (SDLTextFieldName *)navigationText1;
 
 /**
  * @abstract Second line of navigation text.
@@ -144,7 +144,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) navigationText2;
++ (SDLTextFieldName *)navigationText2;
 
 /**
  * @abstract Estimated Time of Arrival time for navigation.
@@ -153,7 +153,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) ETA;
++ (SDLTextFieldName *)ETA;
 
 /**
  * @abstract Total distance to destination for navigation.
@@ -162,7 +162,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) totalDistance;
++ (SDLTextFieldName *)totalDistance;
 
 /**
  * @abstract First line of text for audio pass thru.
@@ -171,7 +171,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) audioPassThruDisplayText1;
++ (SDLTextFieldName *)audioPassThruDisplayText1;
 
 /**
  * @abstract Second line of text for audio pass thru.
@@ -180,7 +180,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) audioPassThruDisplayText2;
++ (SDLTextFieldName *)audioPassThruDisplayText2;
 
 /**
  * @abstract Header text for slider.
@@ -189,7 +189,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) sliderHeader;
++ (SDLTextFieldName *)sliderHeader;
 
 /**
  * @abstract Footer text for slider
@@ -198,35 +198,35 @@
  *
  * @since SDL 2.0
  */
-+(SDLTextFieldName*) sliderFooter;
++ (SDLTextFieldName *)sliderFooter;
 
 /**
  * Primary text for SDLChoice
  *
  * @return a SDLTextFieldName with value of *menuName*
  */
-+(SDLTextFieldName*) menuName;
++ (SDLTextFieldName *)menuName;
 
 /**
  * Secondary text for SDLChoice
  *
  * @return a SDLTextFieldName with value of *secondaryText*
  */
-+(SDLTextFieldName*) secondaryText;
++ (SDLTextFieldName *)secondaryText;
 
 /**
  * Tertiary text for SDLChoice
  *
  * @return a SDLTextFieldName with value of *tertiaryText*
  */
-+(SDLTextFieldName*) tertiaryText;
++ (SDLTextFieldName *)tertiaryText;
 
 /**
  * Optional text to label an app menu button (for certain touchscreen platforms)
  *
  * @return a SDLTextFieldName with value of *menuTitle*
  */
-+(SDLTextFieldName*) menuTitle;
++ (SDLTextFieldName *)menuTitle;
 
 /**
  * Optional name / title of intended location for SDLSendLocation
@@ -235,7 +235,7 @@
  *
  * @since SDL 4.0
  */
-+(SDLTextFieldName*) locationName;
++ (SDLTextFieldName *)locationName;
 
 /**
  * Optional description of intended location / establishment (if applicable) for SDLSendLocation
@@ -244,7 +244,7 @@
  *
  * @since SDL 4.0
  */
-+(SDLTextFieldName*) locationDescription;
++ (SDLTextFieldName *)locationDescription;
 
 /**
  * Optional location address (if applicable) for SDLSendLocation
@@ -253,7 +253,7 @@
  *
  * @since SDL 4.0
  */
-+(SDLTextFieldName*) addressLines;
++ (SDLTextFieldName *)addressLines;
 
 /**
  * Optional hone number of intended location / establishment (if applicable) for SDLSendLocation
@@ -262,7 +262,6 @@
  *
  * @since SDL 4.0
  */
-+(SDLTextFieldName*) phoneNumber;
++ (SDLTextFieldName *)phoneNumber;
 
 @end
-

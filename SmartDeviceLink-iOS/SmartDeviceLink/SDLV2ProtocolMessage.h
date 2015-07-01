@@ -9,7 +9,7 @@
 
 @interface SDLV2ProtocolMessage : SDLProtocolMessage
 
-- (instancetype)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload;
+- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload;
 - (NSDictionary *)rpcDictionary;
 
 @end

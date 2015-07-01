@@ -14,8 +14,7 @@
 
 @implementation SDLStreamDelegate
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _streamOpenHandler = defaultStreamOpenHandler;
@@ -29,20 +28,15 @@
     return self;
 }
 
-- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode
-{
-
-    switch(eventCode)
-    {
-        case NSStreamEventOpenCompleted:
-        {
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventOpenCompleted: {
             if (_streamOpenHandler) {
                 self.streamOpenHandler(stream);
             }
             break;
         }
-        case NSStreamEventHasBytesAvailable:
-        {
+        case NSStreamEventHasBytesAvailable: {
             if (_streamHasBytesHandler) {
                 dispatch_async(_input_stream_queue, ^{
                     self.streamHasBytesHandler((NSInputStream *)stream);
@@ -50,30 +44,26 @@
             }
             break;
         }
-        case NSStreamEventHasSpaceAvailable:
-        {
+        case NSStreamEventHasSpaceAvailable: {
             if (_streamHasSpaceHandler) {
                 self.streamHasSpaceHandler((NSOutputStream *)stream);
             }
             break;
         }
-        case NSStreamEventErrorOccurred:
-        {
+        case NSStreamEventErrorOccurred: {
             if (_streamErrorHandler) {
                 self.streamErrorHandler(stream);
             }
             break;
         }
-        case NSStreamEventEndEncountered:
-        {
+        case NSStreamEventEndEncountered: {
             if (_streamEndHandler) {
                 self.streamEndHandler(stream);
             }
             break;
         }
         case NSStreamEventNone:
-        default:
-        {
+        default: {
             break;
         }
     }
@@ -100,4 +90,3 @@ SDLStreamEndHandler defaultStreamEndHandler = ^(NSStream *stream) {
 };
 
 @end
-

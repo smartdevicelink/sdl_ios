@@ -8,17 +8,19 @@
 
 @implementation SDLSetDisplayLayout
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_SetDisplayLayout]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_SetDisplayLayout]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setDisplayLayout:(NSString*) displayLayout {
+- (void)setDisplayLayout:(NSString *)displayLayout {
     if (displayLayout != nil) {
         [parameters setObject:displayLayout forKey:NAMES_displayLayout];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSString*) displayLayout {
+- (NSString *)displayLayout {
     return [parameters objectForKey:NAMES_displayLayout];
 }
 

@@ -31,19 +31,20 @@
  *
  * @see SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
  */
-@interface SDLAddCommand : SDLRPCRequest {}
+@interface SDLAddCommand : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLAddCommand object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a new *SDLAddCommand* object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A Unique Command ID that identifies the command
@@ -52,7 +53,7 @@
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property(strong) NSNumber* cmdID;
+@property (strong) NSNumber *cmdID;
 
 /**
  * @abstract a *SDLMenuParams* pointer which will defined the command and how it is added to the Command Menu
@@ -64,7 +65,7 @@
  *
  * Optional
  */
-@property(strong) SDLMenuParams* menuParams;
+@property (strong) SDLMenuParams *menuParams;
 
 /**
  * @abstract An array of strings to be used as VR synonyms for this command.
@@ -75,7 +76,7 @@
  *
  * Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100
  */
-@property(strong) NSMutableArray* vrCommands;
+@property (strong) NSMutableArray *vrCommands;
 
 /**
  * @abstract Image struct containing a static or dynamic icon
@@ -86,6 +87,6 @@
  *
  * Optional
  */
-@property(strong) SDLImage* cmdIcon;
+@property (strong) SDLImage *cmdIcon;
 
 @end

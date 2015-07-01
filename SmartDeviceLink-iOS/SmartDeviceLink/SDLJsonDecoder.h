@@ -6,8 +6,9 @@
 #import "SDLDecoder.h"
 
 
-@interface SDLJsonDecoder : NSObject<SDLDecoder> {}
+@interface SDLJsonDecoder : NSObject <SDLDecoder> {
+}
 
-+(NSObject<SDLDecoder>*) instance;
++ (NSObject<SDLDecoder> *)instance;
 
 @end

@@ -15,8 +15,7 @@
 
 @implementation SDLTimer
 
-- (id)init
-{
+- (id)init {
     if (self = [super init]) {
         _duration = 0;
         _timerRunning = NO;
@@ -24,8 +23,7 @@
     return self;
 }
 
-- (id)initWithDuration:(float)duration
-{
+- (id)initWithDuration:(float)duration {
     if (self = [super init]) {
         _duration = duration;
         _timerRunning = NO;
@@ -33,8 +31,7 @@
     return self;
 }
 
-- (void)start
-{
+- (void)start {
     if (self.duration > 0) {
         [self stopAndDestroyTimer];
         self.timer = [NSTimer timerWithTimeInterval:self.duration target:self selector:@selector(timerElapsed) userInfo:nil repeats:NO];
@@ -43,8 +40,7 @@
     }
 }
 
-- (void)cancel
-{
+- (void)cancel {
     [self stopAndDestroyTimer];
     if (self.timerRunning && self.canceledBlock != nil) {
         self.timerRunning = NO;
@@ -53,8 +49,7 @@
     self.timerRunning = NO;
 }
 
-- (void)timerElapsed
-{
+- (void)timerElapsed {
     [self stopAndDestroyTimer];
     self.timerRunning = NO;
     if (self.elapsedBlock != nil) {
@@ -62,7 +57,7 @@
     }
 }
 
--(void)stopAndDestroyTimer {
+- (void)stopAndDestroyTimer {
     if (self.timer != nil) {
         [self.timer invalidate];
         self.timer = nil;
