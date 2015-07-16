@@ -63,10 +63,10 @@
 -(void) onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
 -(void) onOnHMIStatus:(SDLOnHMIStatus*) notification;
 -(void) onProxyClosed;
--(void) onProxyOpened;
 
 @optional
 
+-(void) onProxyOpened;
 -(void) onAddCommandResponse:(SDLAddCommandResponse*) response;
 -(void) onAddSubMenuResponse:(SDLAddSubMenuResponse*) response;
 -(void) onAlertResponse:(SDLAlertResponse*) response;

@@ -14,15 +14,22 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 /***** Proxy *****/
 #import "SDLProxy.h"
+#import "SDLProxyALM.h"
+#import "SDLProxyALMOptions.h"
+#import "SDLProxyBase.h"
 #import "SDLProxyListener.h"
 #import "SDLProxyFactory.h"
 #import "SDLTTSChunkFactory.h"
+#import "SDLProxyALM.h"
+#import "SDLProxyALMOptions.h"
+#import "SDLProxyBase.h"
 
 /***** Debug *****/
 #import "SDLConsoleController.h"
 #import "SDLDebugTool.h"
 #import "SDLDebugToolConsole.h"
 #import "SDLSiphonServer.h"
+#import "SDLNames.h"
 
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
@@ -145,6 +152,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnCommand.h"
+#import "SDLOnError.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLOnEncodedSyncPData.h"
 #import "SDLOnHashChange.h"
@@ -153,6 +161,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnLanguageChange.h"
 #import "SDLOnLockScreenStatus.h"
 #import "SDLOnPermissionsChange.h"
+#import "SDLOnProxyClosed.h"
 #import "SDLOnSyncPData.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLOnTBTClientState.h"

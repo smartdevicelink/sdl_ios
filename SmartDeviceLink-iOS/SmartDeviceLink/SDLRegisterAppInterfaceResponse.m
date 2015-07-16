@@ -1,9 +1,7 @@
 //  SDLRegisterAppInterfaceResponse.m
 //
 
-
 #import "SDLRegisterAppInterfaceResponse.h"
-
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
@@ -18,7 +16,6 @@
 #import "SDLSyncMsgVersion.h"
 #import "SDLVRCapabilities.h"
 #import "SDLVehicleType.h"
-
 
 @implementation SDLRegisterAppInterfaceResponse
 

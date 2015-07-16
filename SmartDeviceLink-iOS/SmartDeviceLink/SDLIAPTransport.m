@@ -37,7 +37,6 @@ int const streamOpenTimeoutSeconds = 2;
 
 @end
 
-
 @implementation SDLIAPTransport
 
 - (instancetype)init {

@@ -193,6 +193,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     [_prioritizedCollection addObject:data withPriority:priority];
 
     dispatch_async(_sendQueue, ^{
+        
         NSData *dataToTransmit = nil;
         while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
             [self.transport sendData:dataToTransmit];

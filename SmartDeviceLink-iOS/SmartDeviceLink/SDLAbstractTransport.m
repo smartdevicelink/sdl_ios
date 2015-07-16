@@ -6,7 +6,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-
+        
     }
     return self;
 }
@@ -30,6 +30,24 @@
 - (double)retryDelay {
     [self doesNotRecognizeSelector:_cmd];
     return 0.0;
+}
+
+- (void)notifyTransportConnected {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTransportDelegate)]) {
+        [self.delegate onTransportConnected];
+    }
+}
+
+- (void)notifyTransportDisconnected {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTransportDelegate)]) {
+        [self.delegate onTransportDisconnected];
+    }
+}
+
+- (void)handleDataReceivedFromTransport:(NSData *)receivedData {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTransportDelegate)]) {
+        [self.delegate onDataReceived:receivedData];
+    }
 }
 
 @end
