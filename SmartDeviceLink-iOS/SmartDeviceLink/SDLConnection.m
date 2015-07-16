@@ -13,6 +13,7 @@
 #import "SDLTCPTransport.h"
 #import "SDLIAPTransport.h"
 #import "SDLProtocolHeader.h"
+#import "SDLDebugTool.h"
 
 @interface SDLConnection() <SDLProtocolListener, SDLTransportDelegate>
 
@@ -20,6 +21,7 @@
 @property (strong, nonatomic) SDLAbstractTransport* transport;
 @property (strong, nonatomic) NSMutableArray* sessions;
 @property (nonatomic) SDLProxyTransportType currentTransportType;
+@property (nonatomic, getter=isConnected) BOOL connected;
 
 @end
 
@@ -60,21 +62,17 @@
 
 //TODO: This is a object mis-match from Android. Android sends a ProtocolMessage
 -(void)sendMessage:(SDLRPCRequest*)message{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     [self.protocol sendRPC:message];
 }
 
 -(void)startHandShake{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     
     if (_protocol) {
         
         [_protocol sendStartSessionWithType:SDLServiceType_RPC];
     }
-}
-
--(BOOL)isConnected{
-    //TODO: isConnected does not exist
-//    return (_transport) ? [_transport isConnected] : NO;
-    return (_transport) ? YES : NO;
 }
 
 -(void)registerSession:(SDLSession*)session{
@@ -108,8 +106,7 @@
 
 -(void)closeConnection:(BOOL)willRecycle sessionId:(Byte)sessionId{
     if (self.protocol) {
-        //TODO: Transport does not implement isConnected
-        if (self.transport /*&& self.transport.isConnected*/) {
+        if (self.transport && self.isConnected) {
             [self.protocol sendEndSessionWithType:SDLServiceType_RPC sessionID:sessionId];
         }
         if (willRecycle) {
@@ -153,7 +150,8 @@
 #pragma mark SDLTransportDelegate
 
 - (void)onTransportConnected{
-    
+    self.connected = YES;
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     if (_protocol) {
         for (SDLSession* session in self.sessions) {
             if (session.sessionID == 0) {
@@ -164,6 +162,7 @@
 }
 
 - (void)onTransportDisconnected{
+    self.connected = NO;
     [self.delegate transportDisconnected];
 }
 

@@ -10,7 +10,7 @@
 #import "SDLLockScreenManager.h"
 #import "SDLConnection.h"
 #import "SDLHeartbeatMonitor.h"
-
+#import "SDLDebugTool.h"
 @interface SDLSession() <SDLConnectionDelegate>
 
 @property (strong, nonatomic) SDLConnection* sdlConnection;
@@ -90,10 +90,12 @@
 }
 
 -(void)sendMessage:(SDLRPCRequest *)message{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     [self.sdlConnection sendMessage:message];
 }
 
 -(BOOL)isConnected{
+    [SDLDebugTool logInfo:@"check sdlSession is connected"];
     return [self.sdlConnection isConnected];
 }
 

@@ -32,4 +32,22 @@
     return 0.0;
 }
 
+- (void)notifyTransportConnected {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTransportDelegate)]) {
+        [self.delegate onTransportConnected];
+    }
+}
+
+- (void)notifyTransportDisconnected {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTransportDelegate)]) {
+        [self.delegate onTransportDisconnected];
+    }
+}
+
+- (void)handleDataReceivedFromTransport:(NSData *)receivedData {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTransportDelegate)]) {
+        [self.delegate onDataReceived:receivedData];
+    }
+}
+
 @end

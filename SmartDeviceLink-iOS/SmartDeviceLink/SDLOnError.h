@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SmartDeviceLink/SDLInternalProxyMessage.h"
+#import "SDLInternalProxyMessage.h"
 
 @interface SDLOnError : SDLInternalProxyMessage
 

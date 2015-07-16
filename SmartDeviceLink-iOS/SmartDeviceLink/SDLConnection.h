@@ -18,13 +18,13 @@
 
 @property (weak, nonatomic) id<SDLConnectionDelegate> delegate;
 @property (nonatomic, readonly) SDLProxyTransportType currentTransportType;
+@property (nonatomic, getter=isConnected, readonly) BOOL connected;
 
 -(void)registerSession:(SDLSession*)session;
 -(NSUInteger)sessionCount;
 -(NSString*)notificationComment;
 //TODO: This is a object mis-match from Android. Android sends a ProtocolMessage. However, SDLProtocol expects a SDLRPCRequest
 -(void)sendMessage:(SDLRPCRequest*)message;
--(BOOL)isConnected;
 -(void)unregisterSession:(SDLSession*)session;
 -(NSUInteger)registrationCount;
 
