@@ -28,6 +28,7 @@
 #import "SDLRPCPayload.h"
 
 @import ExternalAccessory;
+@import CoreTelephony;
 
 #define VERSION_STRING @"SmartDeviceLink-20140929-090241-LOCAL-iOS"
 typedef void(^SDLCustomTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
@@ -331,9 +332,10 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     //TODO:Implement
 }
 
--(void)registerAppInterfacePrivate:(SDLSyncMsgVersion*)sdlMsgVersion appName:(NSString*)appName ttsName:(NSArray*)ttsName ngnMediaScreenAppName:(NSString*)ngnMediaScreenAppName vrSynonyms:(NSArray*)vrSynonyms isMediaApp:(NSNumber*)isMediaApp languageDesired:(SDLLanguage*)languageDesired hmiDisplayLanguageDesired:(SDLLanguage*)hmiDisplayLanguageDesired appHMITypes:(NSArray*)appHMITypes appID:(NSString*)appID autoActivateID:(NSString*)autoActivateID correlationID:(NSNumber*)correlationID{
-
-    SDLRegisterAppInterface* msg = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:[ttsName mutableCopy] vrSynonyms:[vrSynonyms mutableCopy] isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:hmiDisplayLanguageDesired appID:appID];
+-(void)registerAppInterfacePrivate:(SDLSyncMsgVersion*)sdlMsgVersion appName:(NSString*)appName ttsName:(NSArray*)ttsName ngnMediaScreenAppName:(NSString*)ngnMediaScreenAppName vrSynonyms:(NSArray*)vrSynonyms isMediaApp:(NSNumber*)isMediaApp languageDesired:(SDLLanguage*)languageDesired hmiDisplayLanguageDesired:(SDLLanguage*)hmiDisplayLanguageDesired appHMITypes:(NSArray*)appHMITypes appID:(NSString*)appID autoActivateID:(NSString*)autoActivateID deviceInfo:(SDLDeviceInfo*)deviceInfo correlationID:(NSNumber*)correlationID{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
+    
+    SDLRegisterAppInterface* msg = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:[ttsName mutableCopy] vrSynonyms:[vrSynonyms mutableCopy] isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:hmiDisplayLanguageDesired appID:appID deviceInfo:deviceInfo];
     msg.correlationID = @(REGISTER_APP_INTERFACE_CORRELATION_ID);
     if (_appResumeEnabled) {
         if (_lastHashID) {
@@ -646,6 +648,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)sendRPCRequest:(SDLRPCRequest*)request{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     
     if (self.proxyDisposed) {
         //TODO: Notify proxy with NSError?
@@ -657,6 +660,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     }
     if (!self.sdlSession || ![self.sdlSession isConnected]) {
         //TODO:Return NSError?
+        [SDLDebugTool logInfo:@"sdlSession not connected"];
         return;
     }
     if ([self isCorrelationIDProtected:request.correlationID]) {
@@ -680,9 +684,12 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
  
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
+    
+
     if ([self.delegate conformsToProtocol:@protocol(SDLProxyListener)]
         && [self.delegate respondsToSelector:aSelector]) {
-        
+       
         //[self performSelector:aSelector withObject:object]; Should not be used with ARC.
         //Alternative is to explicitly call methods.
         
@@ -721,6 +728,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)sendRPCRequestPrivate:(SDLRPCRequest *)request{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     
     [self dispatchOutgoingMessage:request];
 
@@ -756,6 +764,7 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 }
 
 -(void)handleRPCMessage:(NSDictionary*)message{
+    [SDLDebugTool logInfo:[NSString stringWithFormat:@"%@-%@ called", NSStringFromClass([self class]), NSStringFromSelector(_cmd)]];
     
     SDLRPCMessage* rpcMessage = [[SDLRPCMessage alloc] initWithDictionary:[message mutableCopy]];
     NSString* functionName = [rpcMessage getFunctionName];
@@ -763,13 +772,14 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
     SDLRPCResponse* response = [[SDLRPCResponse alloc] initWithDictionary:[message mutableCopy]];
     
     if ([messageType isEqualToString:NAMES_response]) {
+        
         if ([self isCorrelationIDProtected:response.correlationID]) {
             if ([response.correlationID intValue] == REGISTER_APP_INTERFACE_CORRELATION_ID
                 && self.advancedLifecycleManagementEnabled
                 && [functionName isEqualToString:NAMES_RegisterAppInterface]) {
                 
 //                [SDLDebugTool logInfo:[message description]];
-                
+                [SDLDebugTool logInfo:@"Received RAI Response"];
                 
                 SDLRegisterAppInterfaceResponse* msg = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:[message mutableCopy]];
                 if ([msg.success boolValue]) {
@@ -1312,7 +1322,16 @@ static NSString* const LEGACY_AUTO_ACTIVATE_ID_RETURNED = @"8675309";
 -(void)startRPCProtocolSession:(Byte)sessionID correlationID:(NSString*)correlationID{
     if (_advancedLifecycleManagementEnabled) {
         
-        [self registerAppInterfacePrivate:_sdlMsgVersionRequest appName:_applicationName ttsName:_ttsName ngnMediaScreenAppName:_ngnMediaScreenAppName vrSynonyms:_vrSynonyms isMediaApp:_mediaApp languageDesired:_sdlLanguageDesired hmiDisplayLanguageDesired:_hmiDisplayLanguageDesired appHMITypes:_appTypes appID:_applicationID autoActivateID:_autoActivateIdDesired correlationID:@(REGISTER_APP_INTERFACE_CORRELATION_ID)];
+        SDLDeviceInfo* deviceInfo = [[SDLDeviceInfo alloc] init];
+        deviceInfo.hardware = [UIDevice currentDevice].localizedModel;
+        deviceInfo.os = [UIDevice currentDevice].systemName;
+        deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
+        CTTelephonyNetworkInfo* telNetworkInfo = [[CTTelephonyNetworkInfo alloc] init];
+        CTCarrier* carrier = [telNetworkInfo subscriberCellularProvider];
+        deviceInfo.carrier = carrier.carrierName;
+
+        
+        [self registerAppInterfacePrivate:_sdlMsgVersionRequest appName:_applicationName ttsName:_ttsName ngnMediaScreenAppName:_ngnMediaScreenAppName vrSynonyms:_vrSynonyms isMediaApp:_mediaApp languageDesired:_sdlLanguageDesired hmiDisplayLanguageDesired:_hmiDisplayLanguageDesired appHMITypes:_appTypes appID:_applicationID autoActivateID:_autoActivateIdDesired deviceInfo:deviceInfo correlationID:@(REGISTER_APP_INTERFACE_CORRELATION_ID)];
     } else {
         SDLInternalProxyMessage* message = [[SDLInternalProxyMessage alloc] initWithFunctionName:SDLInternalProxyMessageOnProxyOpened];
         [self queueIncomingMessage:message];
