@@ -15,6 +15,7 @@
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDeviceInfo.h"
 #import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
@@ -47,7 +48,6 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
-
 
 @implementation SDLRPCRequestFactory
 
@@ -371,7 +371,7 @@ correlationID{
 }
 
 //***** RegisterAppInterface *****
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSArray*) ttsName vrSynonyms:(NSArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID {
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSArray*) ttsName vrSynonyms:(NSArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID deviceInfo:(SDLDeviceInfo*)deviceInfo {
     
     SDLRegisterAppInterface* msg = [[SDLRegisterAppInterface alloc] init];
     SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] init];
@@ -386,22 +386,24 @@ correlationID{
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     msg.appID = appID;
-    
+    msg.deviceInfo = deviceInfo;
     msg.correlationID = [NSNumber numberWithInt:1];
     
 	return msg;
 }
 
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID {
+
+
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID deviceInfo:(SDLDeviceInfo*)deviceInfo{
     
 	NSMutableArray* syns = [NSMutableArray arrayWithObject:appName];
     
-    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID];
+    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID deviceInfo:deviceInfo];
 }
 
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID{
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID deviceInfo:(SDLDeviceInfo *)deviceInfo{
     
-    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appID: appID];
+    return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appID: appID deviceInfo:deviceInfo];
 }
 //*****
 

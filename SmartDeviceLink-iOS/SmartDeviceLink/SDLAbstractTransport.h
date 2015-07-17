@@ -4,6 +4,12 @@
 
 #import "SDLTransportDelegate.h"
 
+typedef NS_ENUM(NSUInteger, SDLProxyTransportType) {
+    SDLProxyTransportTypeUnknown,
+    SDLProxyTransportTypeTCP,
+    SDLProxyTransportTypeIAP
+};
+
 @interface SDLAbstractTransport : NSObject
 
 @property (weak) id<SDLTransportDelegate> delegate;

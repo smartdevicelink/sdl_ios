@@ -16,6 +16,7 @@
 @class SDLDeleteFile;
 @class SDLDeleteInteractionChoiceSet;
 @class SDLDeleteSubMenu;
+@class SDLDeviceInfo;
 @class SDLDialNumber;
 @class SDLEndAudioPassThru;
 @class SDLFileType;
@@ -49,7 +50,6 @@
 @class SDLUnsubscribeButton;
 @class SDLUnsubscribeVehicleData;
 @class SDLUpdateMode;
-
 
 @interface SDLRPCRequestFactory : NSObject {}
 
@@ -135,11 +135,11 @@ correlationID;
 +(SDLReadDID*) buildReadDIDWithECUName:(NSNumber*) ecuName didLocation:(NSArray*) didLocation correlationID:(NSNumber*) correlationID;
 
 //***** RegisterAppInterface *****
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSMutableArray*) ttsName vrSynonyms:(NSMutableArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID;
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName ttsName:(NSMutableArray*) ttsName vrSynonyms:(NSMutableArray*) vrSynonyms isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired hmiDisplayLanguageDesired:(SDLLanguage*) hmiDisplayLanguageDesired appID:(NSString*) appID deviceInfo:(SDLDeviceInfo*)deviceInfo;
 
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID;
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID deviceInfo:(SDLDeviceInfo*)deviceInfo;
 
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) laguageDesired appID:(NSString*) appID;
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName languageDesired:(SDLLanguage*) laguageDesired appID:(NSString*) appID deviceInfo:(SDLDeviceInfo*)deviceInfo;
 //*****
 
 

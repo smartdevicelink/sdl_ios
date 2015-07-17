@@ -18,5 +18,7 @@
 @property(strong) SDLFileType* fileType;
 @property(strong) NSNumber* offset;
 @property(strong) NSNumber* length;
+@property(strong) NSString* body;
+@property(strong) NSArray* legacyData;
 
 @end
