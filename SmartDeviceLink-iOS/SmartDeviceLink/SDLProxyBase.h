@@ -17,6 +17,7 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 @property (strong, nonatomic) SDLLanguage *languageDesired;
 @property (strong, nonatomic) NSString *shortName;
 @property (strong, nonatomic) NSArray *vrSynonyms;
+@property (assign, nonatomic, readonly) BOOL isConnected;
 
 // TODO: consider using notification center in the future instead of delegates
 // Methods to add event/RPC notification delegates

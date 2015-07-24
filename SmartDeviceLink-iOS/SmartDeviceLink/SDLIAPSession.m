@@ -149,11 +149,13 @@
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    self.delegate = nil;
-    self.accessory = nil;
-    self.protocol = nil;
-    self.streamDelegate = nil;
-    self.easession = nil;
+    @autoreleasepool {
+        self.delegate = nil;
+        self.accessory = nil;
+        self.protocol = nil;
+        self.streamDelegate = nil;
+        self.easession = nil;
+    }
     [SDLDebugTool logInfo:@"SDLIAPSession Dealloc"];
 }
 

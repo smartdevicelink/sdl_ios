@@ -323,12 +323,14 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)destructObjects {
-    if(!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        self.messageRouter.delegate = nil;
-        self.messageRouter = nil;
-        self.transport = nil;
-        self.protocolDelegate = nil;
+    @autoreleasepool {
+        if(!_alreadyDestructed) {
+            _alreadyDestructed = YES;
+            self.messageRouter.delegate = nil;
+            self.messageRouter = nil;
+            self.transport = nil;
+            self.protocolDelegate = nil;
+        }
     }
 }
 

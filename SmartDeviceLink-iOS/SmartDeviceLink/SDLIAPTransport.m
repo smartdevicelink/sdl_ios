@@ -108,11 +108,13 @@ int const streamOpenTimeoutSeconds = 2;
     [SDLDebugTool logInfo:@"Accessory Disconnected Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     // Only check for the data session, the control session is handled separately
-    EAAccessory* accessory = [notification.userInfo objectForKey:EAAccessoryKey];
-    if (accessory.connectionID == self.session.accessory.connectionID) {
-        self.sessionSetupInProgress = NO;
-        [self disconnect];
-        [self.delegate onTransportDisconnected];
+    @autoreleasepool {
+        EAAccessory* accessory = [notification.userInfo objectForKey:EAAccessoryKey];
+        if (accessory.connectionID == self.session.accessory.connectionID) {
+            self.sessionSetupInProgress = NO;
+            [self disconnect];
+            [self.delegate onTransportDisconnected];
+        }
     }
 }
 
@@ -123,11 +125,11 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 -(void)applicationDidEnterBackground:(NSNotification *)notification {
-    __block UIBackgroundTaskIdentifier taskID = NSNotFound;
+    /*__block UIBackgroundTaskIdentifier taskID = NSNotFound;
     taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [SDLDebugTool logInfo:@"Warning: Background Task Expiring"];
         [[UIApplication sharedApplication] endBackgroundTask:taskID];
-    }];
+    }];*/
 
     [SDLDebugTool logInfo:@"App Backgrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
@@ -288,19 +290,21 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sendData:(NSData *)data {
     dispatch_async(_transmit_queue, ^{
-        NSOutputStream *ostream = self.session.easession.outputStream;
-        NSMutableData *remainder = data.mutableCopy;
+        @autoreleasepool {
+            NSOutputStream *ostream = self.session.easession.outputStream;
+            NSMutableData *remainder = data.mutableCopy;
 
-        while (remainder.length != 0) {
-            if (ostream.streamStatus == NSStreamStatusOpen && ostream.hasSpaceAvailable) {
-                NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
-                
-                if (bytesWritten == -1) {
-                    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
-                    break;
+            while (remainder.length != 0) {
+                if (ostream.streamStatus == NSStreamStatusOpen && ostream.hasSpaceAvailable) {
+                    NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
+                    
+                    if (bytesWritten == -1) {
+                        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
+                        break;
+                    }
+
+                    [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
                 }
-
-                [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
             }
         }
     });
@@ -314,17 +318,19 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
     
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
-        
-        [SDLDebugTool logInfo:@"Control Stream Event End"];
-        
-        // End events come in pairs, only perform this once per set.
-        if (strongSelf.controlSession != nil) {
-            [strongSelf.protocolIndexTimer cancel];
-            [strongSelf.controlSession stop];
-            strongSelf.controlSession.streamDelegate = nil;
-            strongSelf.controlSession = nil;
-            [strongSelf retryEstablishSession];
+        @autoreleasepool {
+            typeof(self) strongSelf = weakSelf;
+            
+            [SDLDebugTool logInfo:@"Control Stream Event End"];
+            
+            // End events come in pairs, only perform this once per set.
+            if (strongSelf.controlSession != nil) {
+                [strongSelf.protocolIndexTimer cancel];
+                [strongSelf.controlSession stop];
+                strongSelf.controlSession.streamDelegate = nil;
+                strongSelf.controlSession = nil;
+                [strongSelf retryEstablishSession];
+            }
         }
     };
 }
@@ -333,31 +339,35 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
     
     return ^(NSInputStream *istream) {
-        typeof(self) strongSelf = weakSelf;
-        
-        [SDLDebugTool logInfo:@"Control Stream Received Data"];
-        
-        // Read in the stream a single byte at a time
-        uint8_t buf[1];
-        NSUInteger len = [istream read:buf maxLength:1];
-        if(len > 0) {
-            NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
-            [SDLDebugTool logInfo:logMessage];
+        @autoreleasepool {
+            typeof(self) strongSelf = weakSelf;
             
-            // Destroy the control session
-            [strongSelf.protocolIndexTimer cancel];
-            [strongSelf.controlSession stop];
-            strongSelf.controlSession.streamDelegate = nil;
-            strongSelf.controlSession = nil;
+            [SDLDebugTool logInfo:@"Control Stream Received Data"];
             
-            // Determine protocol string of the data session, then create that data session
-            // TODO: (Joel F.)[2015-05-01] Determine if the [stringValue] call is necessary, 99.9% likelihood it is not
-            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, [@(buf[0]) stringValue]];
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                // TODO: (Joel F.)[2015-05-01] Why are we 1. Dispatching sync 2. To the main queue
-                [strongSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
-            });
-            
+            // Read in the stream a single byte at a time
+            uint8_t buf[1];
+            NSUInteger len = [istream read:buf maxLength:1];
+            if(len > 0) {
+                NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
+                [SDLDebugTool logInfo:logMessage];
+                
+                // Destroy the control session
+                @autoreleasepool {
+                    [strongSelf.protocolIndexTimer cancel];
+                    [strongSelf.controlSession stop];
+                    strongSelf.controlSession.streamDelegate = nil;
+                    strongSelf.controlSession = nil;
+                }
+                
+                // Determine protocol string of the data session, then create that data session
+                // TODO: (Joel F.)[2015-05-01] Determine if the [stringValue] call is necessary, 99.9% likelihood it is not
+                NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, [@(buf[0]) stringValue]];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    // TODO: (Joel F.)[2015-05-01] Why are we 1. Dispatching sync 2. To the main queue
+                    [strongSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
+                });
+                
+            }
         }
     };
 }
@@ -384,17 +394,19 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
     
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
-        
-        [SDLDebugTool logInfo:@"Data Stream Event End"];
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-        
-        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf retryEstablishSession];
+        @autoreleasepool {
+            typeof(self) strongSelf = weakSelf;
+            
+            [SDLDebugTool logInfo:@"Data Stream Event End"];
+            [strongSelf.session stop];
+            strongSelf.session.streamDelegate = nil;
+            
+            if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
+                [strongSelf retryEstablishSession];
+            }
+            
+            strongSelf.session = nil;
         }
-        
-        strongSelf.session = nil;
     };
 }
 
@@ -402,17 +414,19 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
     
     return ^(NSInputStream *istream) {
-        typeof(self) strongSelf = weakSelf;
-        
-        uint8_t buf[iapInputBufferSize];
-        while ([istream hasBytesAvailable]) {
-            NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
-            NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
+        @autoreleasepool {
+            typeof(self) strongSelf = weakSelf;
             
-            if (bytesRead > 0) {
-                [strongSelf.delegate onDataReceived:dataIn];
-            } else {
-                break;
+            uint8_t buf[iapInputBufferSize];
+            while ([istream hasBytesAvailable]) {
+                NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
+                NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
+                
+                if (bytesRead > 0) {
+                    [strongSelf.delegate onDataReceived:dataIn];
+                } else {
+                    break;
+                }
             }
         }
     };
@@ -440,12 +454,14 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark - Lifecycle Destruction
 
 - (void)destructObjects {
-    if(!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        [self stopEventListening];
-        self.controlSession = nil;
-        self.session = nil;
-        self.delegate = nil;
+    @autoreleasepool {
+        if(!_alreadyDestructed) {
+            _alreadyDestructed = YES;
+            [self stopEventListening];
+            self.controlSession = nil;
+            self.session = nil;
+            self.delegate = nil;
+        }
     }
 }
 
