@@ -22,15 +22,15 @@
 }
 
 - (void)onProxyOpened {
-    [self.proxyBase runHandlersForEvent:ProxyOpened error:nil];
+    [self.proxyBase notifyDelegatesOfEvent:ProxyOpened error:nil];
 }
 
 - (void)onProxyClosed {
-    [self.proxyBase runHandlersForEvent:ProxyClosed error:nil];
+    [self.proxyBase notifyDelegatesOfEvent:ProxyClosed error:nil];
 }
 
 - (void)onError:(NSException *)e {
-    [self.proxyBase runHandlersForEvent:OnError error:e];
+    [self.proxyBase notifyDelegatesOfEvent:OnError error:e];
 }
 
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
@@ -186,71 +186,71 @@
 }
 
 - (void)onOnLockScreenNotification:(SDLLockScreenStatus *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnButtonPress:(SDLOnButtonPress *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnCommand:(SDLOnCommand *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnTBTClientState:(SDLOnTBTClientState *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification {
-    [self.proxyBase runHandlersForNotification:(SDLRPCNotification *)notification];
+    [self.proxyBase notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 @end
