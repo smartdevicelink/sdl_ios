@@ -70,7 +70,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         _lsm = [[SDLLockScreenManager alloc] init];
 
         _alreadyDestructed = NO;
-
+        
+        self.activeSystemRequestTasks = [NSMutableSet set];
         self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
         self.protocol = protocol;
         self.transport = transport;
