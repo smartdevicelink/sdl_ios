@@ -57,6 +57,7 @@
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
+@class SDLOnLockscreenStatus;
 
 @protocol SDLProxyListener <NSObject>
 
@@ -92,7 +93,7 @@
 -(void) onOnEncodedSyncPData:(SDLOnEncodedSyncPData*) notification;
 -(void) onOnHashChange:(SDLOnHashChange*) notification;
 -(void) onOnLanguageChange:(SDLOnLanguageChange*) notification;
--(void) onOnLockScreenNotification:(SDLLockScreenStatus*) notification;
+-(void) onOnLockScreenNotification:(SDLOnLockscreenStatus*) notification;
 -(void) onOnPermissionsChange:(SDLOnPermissionsChange*) notification;
 -(void) onOnSyncPData:(SDLOnSyncPData*) notification;
 -(void) onOnSystemRequest:(SDLOnSystemRequest*) notification;
@@ -121,5 +122,4 @@
 -(void) onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse*) response;
 -(void) onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse*) response;
 -(void) onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse*) response;
-
 @end
