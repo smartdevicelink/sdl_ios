@@ -1,7 +1,7 @@
 //  SDLHandlers.h
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
-@class SDLRPCResponse, SDLRPCNotification, SDLOnHMIStatus, SDLOnDriverDistraction, SDLRegisterAppInterfaceResponse, SDLOnAppInterfaceUnregistered, SDLOnAudioPassThru, SDLOnButtonEvent, SDLOnButtonPress, SDLOnCommand, SDLOnEncodedSyncPData, SDLOnHashChange, SDLOnLanguageChange, SDLLockScreenStatus, SDLOnPermissionsChange, SDLOnSyncPData, SDLOnSystemRequest, SDLOnTBTClientState, SDLOnTouchEvent, SDLOnVehicleData;
+@class SDLRPCResponse, SDLRPCNotification, SDLOnHMIStatus, SDLOnDriverDistraction, SDLRegisterAppInterfaceResponse, SDLOnAppInterfaceUnregistered, SDLOnAudioPassThru, SDLOnButtonEvent, SDLOnButtonPress, SDLOnCommand, SDLOnEncodedSyncPData, SDLOnHashChange, SDLOnLanguageChange, SDLOnLockScreenStatus, SDLOnPermissionsChange, SDLOnSyncPData, SDLOnSystemRequest, SDLOnTBTClientState, SDLOnTouchEvent, SDLOnVehicleData;
 
 typedef void (^rpcResponseHandler) (SDLRPCResponse *);
 typedef void (^rpcNotificationHandler) (SDLRPCNotification *);
@@ -120,7 +120,7 @@ typedef void (^rpcNotificationHandler) (SDLRPCNotification *);
 
 @protocol SDLOnLockScreenNotificationDelegate <NSObject>
 
-- (void)onOnLockScreenNotification:(SDLLockScreenStatus *)notification;
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
 
 @end
 

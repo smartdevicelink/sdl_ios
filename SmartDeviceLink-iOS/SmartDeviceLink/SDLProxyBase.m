@@ -345,10 +345,10 @@
                     [((id<SDLOnVehicleDataDelegate>)delegate) onOnVehicleData:((SDLOnVehicleData *)notification)];
                 };
             }
-            else if ([notification isKindOfClass:[SDLLockScreenStatus class]]) {
+            else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
                 delegateSet = weakSelf.onOnLockScreenNotificationDelegates;
                 enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                    [((id<SDLOnLockScreenNotificationDelegate>)delegate) onOnLockScreenNotification:((SDLLockScreenStatus *)notification)];
+                    [((id<SDLOnLockScreenNotificationDelegate>)delegate) onOnLockScreenNotification:((SDLOnLockScreenStatus *)notification)];
                 };
             }
             
