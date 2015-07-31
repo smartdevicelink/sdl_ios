@@ -8,160 +8,160 @@ typedef void (^rpcNotificationHandler) (SDLRPCNotification *);
 
 @protocol SDLFirstHMIFullDelegate <NSObject>
 
-- (void)onFirstHMIFull:(SDLOnHMIStatus *)notification;
+- (void)onSDLFirstHMIFull:(SDLOnHMIStatus *)notification;
 
 @end
 
 
 @protocol SDLFirstHMINotNoneDelegate <NSObject>
 
-- (void)onFirstHMINotNone:(SDLOnHMIStatus *)notification;
+- (void)onSDLFirstHMINotNone:(SDLOnHMIStatus *)notification;
 
 @end
 
 
 @protocol SDLOnDriverDistractionDelegate <NSObject>
 
-- (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification;
+- (void)onSDLDriverDistraction:(SDLOnDriverDistraction *)notification;
 
 @end
 
 
 @protocol SDLOnHMIStatusDelegate <NSObject>
 
-- (void)onOnHMIStatus:(SDLOnHMIStatus *)notification;
+- (void)onSDLHMIStatus:(SDLOnHMIStatus *)notification;
 
 @end
 
 
 @protocol SDLProxyClosedDelegate <NSObject>
 
-- (void)onProxyClosed;
+- (void)onSDLProxyClosed;
 
 @end
 
 
 @protocol SDLProxyOpenedDelegate <NSObject>
 
-- (void)onProxyOpened;
+- (void)onSDLProxyOpened;
 
 @end
 
 
 @protocol SDLAppRegisteredDelegate <NSObject>
 
-- (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
+- (void)onSDLRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
 
 @end
 
 
 @protocol SDLProxyErrorDelegate <NSObject>
 
--(void) onError:(NSException*) e;
+-(void) onSDLError:(NSException*) e;
 
 @end
 
 
 @protocol SDLAppUnregisteredDelegate <NSObject>
 
-- (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
+- (void)onSDLAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
 
 @end
 
 
 @protocol SDLOnAudioPassThruDelegate <NSObject>
 
-- (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification;
+- (void)onSDLAudioPassThru:(SDLOnAudioPassThru *)notification;
 
 @end
 
 
 @protocol SDLOnButtonEventDelegate <NSObject>
 
-- (void)onOnButtonEvent:(SDLOnButtonEvent *)notification;
+- (void)onSDLButtonEvent:(SDLOnButtonEvent *)notification;
 
 @end
 
 
 @protocol SDLOnButtonPressDelegate <NSObject>
 
-- (void)onOnButtonPress:(SDLOnButtonPress *)notification;
+- (void)onSDLButtonPress:(SDLOnButtonPress *)notification;
 
 @end
 
 
 @protocol SDLOnCommandDelegate <NSObject>
 
-- (void)onOnCommand:(SDLOnCommand *)notification;
+- (void)onSDLCommand:(SDLOnCommand *)notification;
 
 @end
 
 
 @protocol SDLOnEncodedSyncPDataDelegate <NSObject>
 
-- (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
+- (void)onSDLEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
 
 @end
 
 
 @protocol SDLOnHashChangeDelegate <NSObject>
 
-- (void)onOnHashChange:(SDLOnHashChange *)notification;
+- (void)onSDLHashChange:(SDLOnHashChange *)notification;
 
 @end
 
 
 @protocol SDLOnLanguageChangeDelegate <NSObject>
 
-- (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
+- (void)onSDLLanguageChange:(SDLOnLanguageChange *)notification;
 
 @end
 
 
 @protocol SDLOnLockScreenNotificationDelegate <NSObject>
 
-- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
+- (void)onSDLLockScreenNotification:(SDLOnLockScreenStatus *)notification;
 
 @end
 
 
 @protocol SDLOnPermissionsChangeDelegate <NSObject>
 
-- (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
+- (void)onSDLPermissionsChange:(SDLOnPermissionsChange *)notification;
 
 @end
 
 
 @protocol SDLOnSyncPDataDelegate <NSObject>
 
-- (void)onOnSyncPData:(SDLOnSyncPData *)notification;
+- (void)onSDLSyncPData:(SDLOnSyncPData *)notification;
 
 @end
 
 
 @protocol SDLOnSystemRequestDelegate <NSObject>
 
-- (void)onOnSystemRequest:(SDLOnSystemRequest *)notification;
+- (void)onSDLSystemRequest:(SDLOnSystemRequest *)notification;
 
 @end
 
 
 @protocol SDLOnTBTClientStateDelegate <NSObject>
 
-- (void)onOnTBTClientState:(SDLOnTBTClientState *)notification;
+- (void)onSDLTBTClientState:(SDLOnTBTClientState *)notification;
 
 @end
 
 
 @protocol SDLOnTouchEventDelegate <NSObject>
 
-- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification;
+- (void)onSDLTouchEvent:(SDLOnTouchEvent *)notification;
 
 @end
 
 
 @protocol SDLOnVehicleDataDelegate <NSObject>
 
-- (void)onOnVehicleData:(SDLOnVehicleData *)notification;
+- (void)onSDLVehicleData:(SDLOnVehicleData *)notification;
 
 @end
