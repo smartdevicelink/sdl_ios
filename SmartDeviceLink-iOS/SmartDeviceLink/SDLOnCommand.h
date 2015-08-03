@@ -15,27 +15,28 @@
  * @since SDL 1.0
  * @see SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
  */
-@interface SDLOnCommand : SDLRPCNotification {}
+@interface SDLOnCommand : SDLRPCNotification {
+}
 
 /**
  *Constructs a newly allocated SDLRPCNotification object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a newly allocated SDLRPCNotification object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The command ID of the command the user selected. This is the command ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.
  */
-@property(strong) NSNumber* cmdID;
+@property (strong) NSNumber *cmdID;
 
 /**
  * @abstract Indicates whether command was selected via voice or via a menu selection (using the OK button).
  */
-@property(strong) SDLTriggerSource* triggerSource;
+@property (strong) SDLTriggerSource *triggerSource;
 
 @end

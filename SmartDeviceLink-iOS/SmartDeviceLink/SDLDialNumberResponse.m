@@ -9,13 +9,15 @@
 
 @implementation SDLDialNumberResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_DialNumber]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_DialNumber]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

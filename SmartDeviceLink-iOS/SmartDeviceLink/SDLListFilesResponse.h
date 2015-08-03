@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,12 +9,13 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLListFilesResponse : SDLRPCResponse {}
+@interface SDLListFilesResponse : SDLRPCResponse {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSMutableArray* filenames;
-@property(strong) NSNumber* spaceAvailable;
+@property (strong) NSMutableArray *filenames;
+@property (strong) NSNumber *spaceAvailable;
 
 @end

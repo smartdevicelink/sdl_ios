@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLAudioStreamingState : SDLEnum {}
+@interface SDLAudioStreamingState : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLAudioStreamingState
@@ -19,20 +19,20 @@
  *
  * @return SDLAudioStreamingState
  */
-+(SDLAudioStreamingState*) valueOf:(NSString*) value;
++ (SDLAudioStreamingState *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLAudioStreamingState
  *
  * @return an array that store all possible SDLAudioStreamingState
  */
-+(NSArray*) values;
++ (NSArray *)values;
 /**
  * @abstract Currently streaming audio, if any, is audible to user.
  *
  * @return SDLAudioStreamingState with value of *AUDIBLE*
  */
-+(SDLAudioStreamingState*) AUDIBLE;
++ (SDLAudioStreamingState *)AUDIBLE;
 
 /**
  * @abstract Some kind of audio mixing is taking place. Currently streaming audio, if any, is audible to the user at a lowered volume.
@@ -41,12 +41,12 @@
  *
  * @since SDL 2.0
  */
-+(SDLAudioStreamingState*) ATTENUATED;
++ (SDLAudioStreamingState *)ATTENUATED;
 
 /**
  * @abstract Currently streaming audio, if any, is not audible to user. made via VR session.
  *
  * @return SDLAudioStreamingState with value of *NOT_AUDIBLE*
  */
-+(SDLAudioStreamingState*) NOT_AUDIBLE;
++ (SDLAudioStreamingState *)NOT_AUDIBLE;
 @end

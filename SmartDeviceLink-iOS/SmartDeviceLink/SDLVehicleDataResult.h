@@ -7,12 +7,13 @@
 @class SDLVehicleDataResultCode;
 
 
-@interface SDLVehicleDataResult : SDLRPCStruct {}
+@interface SDLVehicleDataResult : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLVehicleDataType* dataType;
-@property(strong) SDLVehicleDataResultCode* resultCode;
+@property (strong) SDLVehicleDataType *dataType;
+@property (strong) SDLVehicleDataResultCode *resultCode;
 
 @end

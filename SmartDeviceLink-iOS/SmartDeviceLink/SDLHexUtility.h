@@ -3,7 +3,7 @@
 //  SmartDeviceLink
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @interface SDLHexUtility : NSObject
 

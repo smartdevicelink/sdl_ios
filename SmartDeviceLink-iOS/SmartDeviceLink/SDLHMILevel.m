@@ -4,17 +4,17 @@
 
 #import "SDLHMILevel.h"
 
-SDLHMILevel* SDLHMILevel_FULL = nil;
-SDLHMILevel* SDLHMILevel_LIMITED = nil;
-SDLHMILevel* SDLHMILevel_BACKGROUND = nil;
-SDLHMILevel* SDLHMILevel_NONE = nil;
+SDLHMILevel *SDLHMILevel_FULL = nil;
+SDLHMILevel *SDLHMILevel_LIMITED = nil;
+SDLHMILevel *SDLHMILevel_BACKGROUND = nil;
+SDLHMILevel *SDLHMILevel_NONE = nil;
 
-NSArray* SDLHMILevel_values = nil;
+NSArray *SDLHMILevel_values = nil;
 
 @implementation SDLHMILevel
 
-+(SDLHMILevel*) valueOf:(NSString*) value {
-    for (SDLHMILevel* item in SDLHMILevel.values) {
++ (SDLHMILevel *)valueOf:(NSString *)value {
+    for (SDLHMILevel *item in SDLHMILevel.values) {
         if ([item.value isEqualToString:value]) {
             return item;
         }
@@ -22,40 +22,40 @@ NSArray* SDLHMILevel_values = nil;
     return nil;
 }
 
-+(NSArray*) values {
++ (NSArray *)values {
     if (SDLHMILevel_values == nil) {
         SDLHMILevel_values = @[
-                [SDLHMILevel FULL],
-                [SDLHMILevel LIMITED],
-                [SDLHMILevel BACKGROUND],
-                [SDLHMILevel NONE]
-                ];
+            [SDLHMILevel FULL],
+            [SDLHMILevel LIMITED],
+            [SDLHMILevel BACKGROUND],
+            [SDLHMILevel NONE]
+        ];
     }
     return SDLHMILevel_values;
 }
 
-+(SDLHMILevel*) FULL {
++ (SDLHMILevel *)FULL {
     if (SDLHMILevel_FULL == nil) {
         SDLHMILevel_FULL = [[SDLHMILevel alloc] initWithValue:@"FULL"];
     }
     return SDLHMILevel_FULL;
 }
 
-+(SDLHMILevel*) LIMITED {
++ (SDLHMILevel *)LIMITED {
     if (SDLHMILevel_LIMITED == nil) {
         SDLHMILevel_LIMITED = [[SDLHMILevel alloc] initWithValue:@"LIMITED"];
     }
     return SDLHMILevel_LIMITED;
 }
 
-+(SDLHMILevel*) BACKGROUND {
++ (SDLHMILevel *)BACKGROUND {
     if (SDLHMILevel_BACKGROUND == nil) {
         SDLHMILevel_BACKGROUND = [[SDLHMILevel alloc] initWithValue:@"BACKGROUND"];
     }
     return SDLHMILevel_BACKGROUND;
 }
 
-+(SDLHMILevel*) NONE {
++ (SDLHMILevel *)NONE {
     if (SDLHMILevel_NONE == nil) {
         SDLHMILevel_NONE = [[SDLHMILevel alloc] initWithValue:@"NONE"];
     }

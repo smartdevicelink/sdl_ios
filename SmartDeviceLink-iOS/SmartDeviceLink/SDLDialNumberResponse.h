@@ -2,7 +2,7 @@
 //  SDLDialNumberResponse.h
 //  SmartDeviceLink-iOS
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLRPCResponse.h"
 
 /**
  Indicates the result, success, or failure of the SDLDialNumber request.

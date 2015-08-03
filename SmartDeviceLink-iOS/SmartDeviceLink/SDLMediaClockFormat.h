@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -15,7 +14,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLMediaClockFormat : SDLEnum {}
+@interface SDLMediaClockFormat : SDLEnum {
+}
 
 /**
  * @abstract Media Clock Format
@@ -24,14 +24,14 @@
  *
  * @return SDLMediaClockFormat
  */
-+(SDLMediaClockFormat*) valueOf:(NSString*) value;
++ (SDLMediaClockFormat *)valueOf:(NSString *)value;
 
 /**
  * @abstract declare an array that store all possible Media clock formats inside
  *
  * @return the array
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract Media clock format: Clock1
@@ -45,7 +45,7 @@
  *
   * @return The SDLMediaClockFormat object with value *CLOCK1*
  */
-+(SDLMediaClockFormat*) CLOCK1;
++ (SDLMediaClockFormat *)CLOCK1;
 
 /**
  * @abstract Media clock format: Clock2
@@ -59,7 +59,7 @@
  *
  * @return The SDLMediaClockFormat object with value *CLOCK2*
  */
-+(SDLMediaClockFormat*) CLOCK2;
++ (SDLMediaClockFormat *)CLOCK2;
 
 /**
  * @abstract Media clock format: Clock3
@@ -74,7 +74,7 @@
  * @since SDL 2.0
  * @return The SDLMediaClockFormat object with value *CLOCK3*
  */
-+(SDLMediaClockFormat*) CLOCK3;
++ (SDLMediaClockFormat *)CLOCK3;
 
 /**
  * @abstract Media clock format: ClockText1
@@ -92,7 +92,7 @@
  *
  * @return The SDLMediaClockFormat object with value *CLOCKTEXT1*
  */
-+(SDLMediaClockFormat*) CLOCKTEXT1;
++ (SDLMediaClockFormat *)CLOCKTEXT1;
 
 /**
  * @abstract Media clock format: ClockText2
@@ -112,7 +112,7 @@
  *
  * @return The SDLMediaClockFormat object with value *CLOCKTEXT2*
  */
-+(SDLMediaClockFormat*) CLOCKTEXT2;
++ (SDLMediaClockFormat *)CLOCKTEXT2;
 
 /**
  * @abstract Media clock format: ClockText3
@@ -132,7 +132,7 @@
  *
  * @return The SDLMediaClockFormat object with value *CLOCKTEXT3*
  */
-+(SDLMediaClockFormat*) CLOCKTEXT3;
++ (SDLMediaClockFormat *)CLOCKTEXT3;
 
 /**
  * @abstract Media clock format: ClockText4
@@ -149,6 +149,6 @@
  * @since SDL 2.0
  * @return The SDLMediaClockFormat object with value *CLOCKTEXT4*
  */
-+(SDLMediaClockFormat*) CLOCKTEXT4;
++ (SDLMediaClockFormat *)CLOCKTEXT4;
 
 @end

@@ -9,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLCharacterSet : SDLEnum {}
+@interface SDLCharacterSet : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLCharacterSet
@@ -18,21 +19,21 @@
  *
  * @return SDLCharacterSet
  */
-+(SDLCharacterSet*) valueOf:(NSString*) value;
++ (SDLCharacterSet *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLCharacterSet
  *
  * @return an array that store all possible SDLCharacterSet
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
-+(SDLCharacterSet*) TYPE2SET;
++ (SDLCharacterSet *)TYPE2SET;
 
-+(SDLCharacterSet*) TYPE5SET;
++ (SDLCharacterSet *)TYPE5SET;
 
-+(SDLCharacterSet*) CID1SET;
++ (SDLCharacterSet *)CID1SET;
 
-+(SDLCharacterSet*) CID2SET;
++ (SDLCharacterSet *)CID2SET;
 
 @end

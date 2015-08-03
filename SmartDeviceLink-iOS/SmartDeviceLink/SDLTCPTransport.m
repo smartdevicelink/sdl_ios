@@ -17,7 +17,7 @@
 
 
 // C function forward declarations.
-int call_socket(const char* hostname, const char* port);
+int call_socket(const char *hostname, const char *port);
 static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info);
 
 @interface SDLTCPTransport () {
@@ -28,19 +28,16 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 @end
 
 
-
 @implementation SDLTCPTransport
 
 - (instancetype)init {
     if (self = [super init]) {
-
         _alreadyDestructed = NO;
         _sendQueue = dispatch_queue_create("com.sdl.transport.tcp.transmit", DISPATCH_QUEUE_SERIAL);
         [SDLDebugTool logInfo:@"SDLTCPTransport Init"
                      withType:SDLDebugType_Transport_iAP
                      toOutput:SDLDebugOutput_All
                       toGroup:self.debugConsoleGroupName];
-
     }
 
     return self;
@@ -48,18 +45,16 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 
 - (void)connect {
-
     [SDLDebugTool logInfo:@"Init" withType:SDLDebugType_Transport_TCP];
 
     int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
     if (sock_fd < 0) {
-
         [SDLDebugTool logInfo:@"Server Not Ready, Connection Failed" withType:SDLDebugType_Transport_TCP];
         return;
     }
 
     CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
-    socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack|kCFSocketConnectCallBack , (CFSocketCallBack) &TCPCallback, &socketCtxt);
+    socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
     CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
     CFRunLoopRef loop = CFRunLoopGetCurrent();
     CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
@@ -91,7 +86,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)destructObjects {
-    if(!_alreadyDestructed) {
+    if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
         if (socket != nil) {
             CFSocketInvalidate(socket);
@@ -115,41 +110,40 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 @end
 
 // C functions
-int call_socket(const char* hostname, const char* port) {
-
+int call_socket(const char *hostname, const char *port) {
     int status, sock;
     struct addrinfo hints;
-    struct addrinfo* servinfo;
+    struct addrinfo *servinfo;
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
     //no host name?, no problem, get local host
-    if (hostname == nil){
+    if (hostname == nil) {
         char localhost[128];
         gethostname(localhost, sizeof localhost);
-        hostname = (const char*) &localhost;
+        hostname = (const char *)&localhost;
     }
 
     //getaddrinfo setup
     if ((status = getaddrinfo(hostname, port, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
-        return(-1);
+        return (-1);
     }
 
     //get socket
     if ((sock = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol)) < 0)
-        return(-1);
+        return (-1);
 
     //connect
     if (connect(sock, servinfo->ai_addr, servinfo->ai_addrlen) < 0) {
         close(sock);
-        return(-1);
+        return (-1);
     }
 
     freeaddrinfo(servinfo); // free the linked-list
-    return(sock);
+    return (sock);
 }
 
 static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
@@ -164,9 +158,9 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     } else if (kCFSocketDataCallBack == type) {
         SDLTCPTransport *transport = (__bridge SDLTCPTransport *)info;
 
-        NSMutableString* byteStr = [NSMutableString stringWithCapacity:((int)CFDataGetLength((CFDataRef)data) * 2)];
+        NSMutableString *byteStr = [NSMutableString stringWithCapacity:((int)CFDataGetLength((CFDataRef)data) * 2)];
         for (int i = 0; i < (int)CFDataGetLength((CFDataRef)data); i++) {
-            [byteStr appendFormat:@"%02X", ((Byte*)(UInt8 *)CFDataGetBytePtr((CFDataRef)data))[i]];
+            [byteStr appendFormat:@"%02X", ((Byte *)(UInt8 *)CFDataGetBytePtr((CFDataRef)data))[i]];
         }
 
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Read %d bytes: %@", (int)CFDataGetLength((CFDataRef)data), byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
@@ -177,5 +171,3 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
     }
 }
-
-

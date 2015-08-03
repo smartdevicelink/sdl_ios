@@ -1,13 +1,14 @@
 //  SDLJsonEncoder.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "SDLEncoder.h"
 
 
-@interface SDLJsonEncoder : NSObject<SDLEncoder> {}
+@interface SDLJsonEncoder : NSObject <SDLEncoder> {
+}
 
-+(NSObject<SDLEncoder>*) instance;
++ (NSObject<SDLEncoder> *)instance;
 
 @end

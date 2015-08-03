@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 2.0
  */
-@interface SDLPermissionStatus : SDLEnum {}
+@interface SDLPermissionStatus : SDLEnum {
+}
 
 /**
  * @abstract SDLPermissionStatus
@@ -19,37 +19,37 @@
  *
  * @return a SDLPermissionStatus object
  */
-+(SDLPermissionStatus*) valueOf:(NSString*) value;
++ (SDLPermissionStatus *)valueOf:(NSString *)value;
 
 /**
  * @abstract declare an array to store all possible SDLPermissionStatus values
  * @return the array
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 
 /**
  * @abstract permission: allowed
  * @return permission status: *ALLOWED*
  */
-+(SDLPermissionStatus*) ALLOWED;
++ (SDLPermissionStatus *)ALLOWED;
 
 /**
  * @abstract permission: disallowed
  * @return permission status: *DISALLOWED*
  */
-+(SDLPermissionStatus*) DISALLOWED;
++ (SDLPermissionStatus *)DISALLOWED;
 
 /**
  * @abstract permission: user disallowed
  * @return permission status: *USER_DISALLOWED*
  */
-+(SDLPermissionStatus*) USER_DISALLOWED;
++ (SDLPermissionStatus *)USER_DISALLOWED;
 
 /**
  * @abstract permission: user consent pending
  * @return permission status: *USER_CONSENT_PENDING*
  */
-+(SDLPermissionStatus*) USER_CONSENT_PENDING;
++ (SDLPermissionStatus *)USER_CONSENT_PENDING;
 
 @end

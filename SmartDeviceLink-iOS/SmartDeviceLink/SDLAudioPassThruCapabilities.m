@@ -12,17 +12,19 @@
 
 @implementation SDLAudioPassThruCapabilities
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setSamplingRate:(SDLSamplingRate*) samplingRate {
+- (void)setSamplingRate:(SDLSamplingRate *)samplingRate {
     if (samplingRate != nil) {
         [store setObject:samplingRate forKey:NAMES_samplingRate];
     } else {
@@ -30,16 +32,16 @@
     }
 }
 
--(SDLSamplingRate*) samplingRate {
-    NSObject* obj = [store objectForKey:NAMES_samplingRate];
+- (SDLSamplingRate *)samplingRate {
+    NSObject *obj = [store objectForKey:NAMES_samplingRate];
     if ([obj isKindOfClass:SDLSamplingRate.class]) {
-        return (SDLSamplingRate*)obj;
+        return (SDLSamplingRate *)obj;
     } else {
-        return [SDLSamplingRate valueOf:(NSString*)obj];
+        return [SDLSamplingRate valueOf:(NSString *)obj];
     }
 }
 
--(void) setBitsPerSample:(SDLBitsPerSample*) bitsPerSample {
+- (void)setBitsPerSample:(SDLBitsPerSample *)bitsPerSample {
     if (bitsPerSample != nil) {
         [store setObject:bitsPerSample forKey:NAMES_bitsPerSample];
     } else {
@@ -47,16 +49,16 @@
     }
 }
 
--(SDLBitsPerSample*) bitsPerSample {
-    NSObject* obj = [store objectForKey:NAMES_bitsPerSample];
+- (SDLBitsPerSample *)bitsPerSample {
+    NSObject *obj = [store objectForKey:NAMES_bitsPerSample];
     if ([obj isKindOfClass:SDLBitsPerSample.class]) {
-        return (SDLBitsPerSample*)obj;
+        return (SDLBitsPerSample *)obj;
     } else {
-        return [SDLBitsPerSample valueOf:(NSString*)obj];
+        return [SDLBitsPerSample valueOf:(NSString *)obj];
     }
 }
 
--(void) setAudioType:(SDLAudioType*) audioType {
+- (void)setAudioType:(SDLAudioType *)audioType {
     if (audioType != nil) {
         [store setObject:audioType forKey:NAMES_audioType];
     } else {
@@ -64,12 +66,12 @@
     }
 }
 
--(SDLAudioType*) audioType {
-    NSObject* obj = [store objectForKey:NAMES_audioType];
+- (SDLAudioType *)audioType {
+    NSObject *obj = [store objectForKey:NAMES_audioType];
     if ([obj isKindOfClass:SDLAudioType.class]) {
-        return (SDLAudioType*)obj;
+        return (SDLAudioType *)obj;
     } else {
-        return [SDLAudioType valueOf:(NSString*)obj];
+        return [SDLAudioType valueOf:(NSString *)obj];
     }
 }
 

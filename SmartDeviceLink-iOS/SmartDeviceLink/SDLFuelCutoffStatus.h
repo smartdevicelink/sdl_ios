@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /** 
@@ -11,7 +10,8 @@
  *
  * @since SDL 2.0
  */
-@interface SDLFuelCutoffStatus : SDLEnum {}
+@interface SDLFuelCutoffStatus : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLFuelCutoffStatus
@@ -20,31 +20,31 @@
  *
  * @return SDLFuelCutoffStatus
  */
-+(SDLFuelCutoffStatus*) valueOf:(NSString*) value;
++ (SDLFuelCutoffStatus *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLFuelCutoffStatus
  *
  * @return an array that stores all possible SDLFuelCutoffStatus
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /** 
  * @abstract Fuel is cut off
  * @return the fuel cutoff status: *TERMINATE_FUEL*
  */
-+(SDLFuelCutoffStatus*) TERMINATE_FUEL;
++ (SDLFuelCutoffStatus *)TERMINATE_FUEL;
 
 /** 
  * @abstract Fuel is not cut off
  * @return the fuel cutoff status: *NORMAL_OPERATION*
  */
-+(SDLFuelCutoffStatus*) NORMAL_OPERATION;
++ (SDLFuelCutoffStatus *)NORMAL_OPERATION;
 
 /** 
  * @abstract Status of the fuel pump cannot be determined
  * @return the fuel cutoff status: *FAULT*
  */
-+(SDLFuelCutoffStatus*) FAULT;
++ (SDLFuelCutoffStatus *)FAULT;
 
 @end

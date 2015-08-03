@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,20 +9,21 @@
  *
  * @since SDL 1.0
  */
-@interface SDLInteractionMode : SDLEnum {}
+@interface SDLInteractionMode : SDLEnum {
+}
 
 /**
  * @abstract SDLInteractionMode
  * @param value The value of the string to get an object for
  * @return SDLInteractionMode
  */
-+(SDLInteractionMode*) valueOf:(NSString*) value;
++ (SDLInteractionMode *)valueOf:(NSString *)value;
 
 /**
  * @abstract store all possible SDLInteractionMode values
  * @return an array with all possible SDLInteractionMode values inside
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract Interaction Mode : Manual Only
@@ -31,7 +31,7 @@
  *
  * @return Current Interaction Mode with value of *MANUAL_ONLY*
  */
-+(SDLInteractionMode*) MANUAL_ONLY;
++ (SDLInteractionMode *)MANUAL_ONLY;
 
 /**
  * @abstract Interaction Mode : VR Only
@@ -39,7 +39,7 @@
  *
  * @return Current Interaction Mode with value of *VR_ONLY*
  */
-+(SDLInteractionMode*) VR_ONLY;
++ (SDLInteractionMode *)VR_ONLY;
 
 /**
  * @abstract Interaction Mode : Manual & VR
@@ -51,6 +51,6 @@
  *
  * @return Current Interaction Mode with value of *BOTH*
  */
-+(SDLInteractionMode*) BOTH;
++ (SDLInteractionMode *)BOTH;
 
 @end

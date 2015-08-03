@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -33,19 +32,20 @@
  *
  * @since SDL 1.0
  */
-@interface SDLAlert : SDLRPCRequest {}
+@interface SDLAlert : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLAlert object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a new SDLAlert object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 
 /**
@@ -59,7 +59,7 @@
  *
  * Optional, Max length 500 chars
  */
-@property(strong) NSString* alertText1;
+@property (strong) NSString *alertText1;
 
 /**
  * @abstract The String to be displayed in the second field of the display during the Alert
@@ -74,7 +74,7 @@
  *
  * Optional, Max length 500 chars
  */
-@property(strong) NSString* alertText2;
+@property (strong) NSString *alertText2;
 
 /**
  * @abstract the String to be displayed in the third field of the display during the Alert
@@ -88,7 +88,7 @@
  *
  * Optional, Max length 500 chars
  */
-@property(strong) NSString* alertText3;
+@property (strong) NSString *alertText3;
 
 /**
  * @abstract An array which, taken together, specify what is to be spoken to the user
@@ -97,7 +97,7 @@
  *
  * @see SDLTTSChunk
  */
-@property(strong) NSMutableArray* ttsChunks;
+@property (strong) NSMutableArray *ttsChunks;
 
 /**
  * @abstract The duration of the displayed portion of the alert, in milliseconds.
@@ -110,7 +110,7 @@
  * 
  * Optional, Integer, 3000 - 10000
  */
-@property(strong) NSNumber* duration;
+@property (strong) NSNumber *duration;
 
 /**
  * @abstract Whether the alert tone should be played before the TTS (if any) is spoken.
@@ -119,7 +119,7 @@
  * 
  * Optional, Boolean
  */
-@property(strong) NSNumber* playTone;
+@property (strong) NSNumber *playTone;
 
 /**
  * @abstract If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.
@@ -128,7 +128,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property(strong) NSNumber* progressIndicator;
+@property (strong) NSNumber *progressIndicator;
 
 /**
  * @abstract App defined SoftButtons.
@@ -139,6 +139,6 @@
  *
  * @see SDLSoftButton
  */
-@property(strong) NSMutableArray* softButtons;
+@property (strong) NSMutableArray *softButtons;
 
 @end

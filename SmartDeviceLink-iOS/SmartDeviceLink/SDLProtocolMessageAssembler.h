@@ -1,12 +1,12 @@
 //  SDLSmartDeviceLinkProtocolMessageAssembler.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @class SDLProtocolMessage;
 
 
-typedef void(^SDLMessageAssemblyCompletionHandler)(BOOL done, SDLProtocolMessage *assembledMessage);
+typedef void (^SDLMessageAssemblyCompletionHandler)(BOOL done, SDLProtocolMessage *assembledMessage);
 
 
 @interface SDLProtocolMessageAssembler : NSObject

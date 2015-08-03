@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -10,18 +9,19 @@
  *
  * @since SDL 1.0
  */
-@interface SDLMenuParams : SDLRPCStruct {}
+@interface SDLMenuParams : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLMenuParams object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a newly allocated SDLMenuParams object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 
 /**
@@ -30,7 +30,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property(strong) NSNumber* parentID;
+@property (strong) NSNumber *parentID;
 
 /**
  * @abstract The position within the items of the parent Command Menu
@@ -44,13 +44,13 @@
  *
  * Optional, Integer, 0 - 1000
  */
-@property(strong) NSNumber* position;
+@property (strong) NSNumber *position;
 
 /**
  * @abstract the menu name which appears in menu, representing this command
  * 
  * Required, max length 500 characters
  */
-@property(strong) NSString* menuName;
+@property (strong) NSString *menuName;
 
 @end

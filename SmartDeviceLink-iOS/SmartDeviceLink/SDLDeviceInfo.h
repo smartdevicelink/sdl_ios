@@ -4,16 +4,17 @@
 #import "SDLRPCMessage.h"
 
 
-@interface SDLDeviceInfo : SDLRPCStruct {}
+@interface SDLDeviceInfo : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* hardware;
-@property(strong) NSString* firmwareRev;
-@property(strong) NSString* os;
-@property(strong) NSString* osVersion;
-@property(strong) NSString* carrier;
-@property(strong) NSNumber* maxNumberRFCOMMPorts;
+@property (strong) NSString *hardware;
+@property (strong) NSString *firmwareRev;
+@property (strong) NSString *os;
+@property (strong) NSString *osVersion;
+@property (strong) NSString *carrier;
+@property (strong) NSNumber *maxNumberRFCOMMPorts;
 
 @end

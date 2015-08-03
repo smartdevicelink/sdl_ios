@@ -11,7 +11,7 @@
 
 @synthesize messageList;
 
--(instancetype) initWithTableView:(UITableView*) tableView {
+- (instancetype)initWithTableView:(UITableView *)tableView {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.tableView = tableView;
         self.tableView.delegate = self;
@@ -22,7 +22,7 @@
 }
 
 
--(void) append:(id) toAppend {
+- (void)append:(id)toAppend {
     dispatch_async(dispatch_get_main_queue(), ^{
         //Insert the new data
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -43,40 +43,38 @@
     });
 }
 
--(BOOL) isLastRowVisible {
+- (BOOL)isLastRowVisible {
     if (messageList.count == 0) {
-		return YES;
-	} else {
-		NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:(messageList.count - 1) inSection:0];
-		
-		NSArray* visibleRowIndexes = [self.tableView indexPathsForVisibleRows];
-		for (NSIndexPath* aPath in visibleRowIndexes) {
-			if ([aPath compare:lastIndex] == NSOrderedSame) {
-				return YES;
-			}
-		}
-	}
+        return YES;
+    } else {
+        NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:(messageList.count - 1)inSection:0];
+
+        NSArray *visibleRowIndexes = [self.tableView indexPathsForVisibleRows];
+        for (NSIndexPath *aPath in visibleRowIndexes) {
+            if ([aPath compare:lastIndex] == NSOrderedSame) {
+                return YES;
+            }
+        }
+    }
     return NO;
-    
 }
 
 
 #pragma mark -
 #pragma mark SDLDebugTool Console Delegate
 
--(void) logInfo:(NSString*) info {
-	[self append:info];
+- (void)logInfo:(NSString *)info {
+    [self append:info];
 }
 
--(void) logException:(NSException*) ex withMessage:(NSString*) message {
-	[self append:message];
-	[self append:[ex description]];
+- (void)logException:(NSException *)ex withMessage:(NSString *)message {
+    [self append:message];
+    [self append:[ex description]];
 }
 
--(void) logMessage:(SDLRPCMessage*) message{
-	[self append:message];
+- (void)logMessage:(SDLRPCMessage *)message {
+    [self append:message];
 }
-
 
 
 #pragma mark -
@@ -84,14 +82,13 @@
 
 
 - (void)viewDidLoad {
-    
     [SDLDebugTool addConsole:self];
-    
+
     [super viewDidLoad];
-    
+
     atBottom = YES;
-	
-	messageList = [[NSMutableArray alloc] initWithCapacity:100];
+
+    messageList = [[NSMutableArray alloc] initWithCapacity:100];
     dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"hh:mm:ss.SSS";
 }
@@ -99,7 +96,7 @@
 #pragma mark -
 #pragma mark Scroll View Delegate
 
--(void) updateWhetherScrolledToBottom {
+- (void)updateWhetherScrolledToBottom {
     if ([self isLastRowVisible]) {
         atBottom = YES;
     } else {
@@ -107,11 +104,11 @@
     }
 }
 
--(void) scrollViewDidEndDecelerating:(UIScrollView*) scrollView {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self updateWhetherScrolledToBottom];
 }
 
--(void) scrollViewDidEndDragging:(UIScrollView*) scrollView willDecelerate:(BOOL) willDecelerate {
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)willDecelerate {
     [self updateWhetherScrolledToBottom];
 }
 
@@ -131,44 +128,38 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString *CellIdentifier = @"Cell";
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
+
     NSDictionary *currentDictionary = [messageList objectAtIndex:indexPath.row];
     id msg = [currentDictionary objectForKey:@"object"];
 
-    NSString* tempdetail = [@"Time: " stringByAppendingString:[dateFormatter stringFromDate:[currentDictionary objectForKey:@"date"]]];
-    
+    NSString *tempdetail = [@"Time: " stringByAppendingString:[dateFormatter stringFromDate:[currentDictionary objectForKey:@"date"]]];
+
     if ([msg isKindOfClass:SDLRPCMessage.class]) {
-		SDLRPCMessage *rpc = msg;
-		
-		NSString* title = [NSString stringWithFormat:@"%@ (%@)", rpc.name, rpc.messageType];
-		
-        //TODO: Cell Color Based On Message Type
+        SDLRPCMessage *rpc = msg;
+        NSString *title = [NSString stringWithFormat:@"%@ (%@)", rpc.name, rpc.messageType];
+
         cell.textLabel.text = title;
-        
-		if ([rpc.messageType isEqualToString:@"response"]) {
-			SDLRPCResponse* response = (SDLRPCResponse*) rpc;
-//            if ([response info] == nil)
-            NSString* detail = [NSString stringWithFormat:@"%@ - %@", tempdetail, [response resultCode]];
+
+        if ([rpc.messageType isEqualToString:@"response"]) {
+            SDLRPCResponse *response = (SDLRPCResponse *)rpc;
+
+            NSString *detail = [NSString stringWithFormat:@"%@ - %@", tempdetail, [response resultCode]];
             cell.detailTextLabel.text = detail;
-//            else
-//                detail = [NSString stringWithFormat:@"%@: %@", [response resultCode], [response info]];
-		}
-        else {
-			cell.detailTextLabel.text = tempdetail;
-		}
-		
-	} else {
-		cell.textLabel.text = msg;
+        } else {
+            cell.detailTextLabel.text = tempdetail;
+        }
+
+    } else {
+        cell.textLabel.text = msg;
         cell.detailTextLabel.text = tempdetail;
-	}
-    
+    }
+
     return cell;
 }
 
@@ -177,44 +168,34 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     NSDictionary *currentDictionary = [messageList objectAtIndex:indexPath.row];
     id obj = [currentDictionary objectForKey:@"object"];
 
-	NSString* alertText = nil;
-	if ([obj isKindOfClass:SDLRPCMessage.class]) {
-        //TODO:DEBUGOUTS
-//        [SDLDebugTool logInfo:@"SDLonsoleController: Class = %@",[obj class]];
-        //TODO:DEBUGOUTSEND
-        
-		SDLRPCMessage *rpc = obj;
-        
-        //TODO:Get Internal Version Of Message For Line Below
-        NSDictionary* dictionary = [rpc serializeAsDictionary:2];
-        
+    NSString *alertText = nil;
+    if ([obj isKindOfClass:SDLRPCMessage.class]) {
+        SDLRPCMessage *rpc = obj;
+        NSDictionary *dictionary = [rpc serializeAsDictionary:2];
         NSError *error = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
                                                            options:NSJSONWritingPrettyPrinted
                                                              error:&error];
-        
+
         if (!jsonData) {
             alertText = @"Error parsing the JSON.";
         } else {
             alertText = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
-				
-	} else {
-		alertText = [NSString stringWithFormat:@"%@",[obj description]];
-	}
-	
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"RPCMessage" message:alertText delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	alertView = nil;
-    
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-}
 
+    } else {
+        alertText = [NSString stringWithFormat:@"%@", [obj description]];
+    }
+
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"RPCMessage" message:alertText delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    alertView = nil;
+
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 
 @end

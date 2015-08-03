@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -17,24 +16,25 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLReadDID : SDLRPCRequest {}
+@interface SDLReadDID : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLReadDID object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a new SDLReadDID object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract An ID of the vehicle module
  *            <br/><b>Notes: </b>Minvalue:0; Maxvalue:65535
  */
-@property(strong) NSNumber* ecuName;
+@property (strong) NSNumber *ecuName;
 
 /**
  * @abstract Raw data from vehicle data DID location(s)
@@ -47,6 +47,6 @@
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
  */
-@property(strong) NSMutableArray* didLocation;
+@property (strong) NSMutableArray *didLocation;
 
 @end

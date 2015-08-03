@@ -8,16 +8,16 @@
 
 @implementation SDLV1ProtocolMessage
 
-- (instancetype)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload {
-	if (self = [self init]) {
+- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
+    if (self = [self init]) {
         self.header = header;
         self.payload = payload;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (NSDictionary *)rpcDictionary {
-    NSDictionary* rpcMessageAsDictionary = [[SDLJsonDecoder instance] decode:self.payload];
+    NSDictionary *rpcMessageAsDictionary = [[SDLJsonDecoder instance] decode:self.payload];
     return rpcMessageAsDictionary;
 }
 

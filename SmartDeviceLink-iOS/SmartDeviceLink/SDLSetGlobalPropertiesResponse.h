@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,17 +9,18 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSetGlobalPropertiesResponse : SDLRPCResponse {}
+@interface SDLSetGlobalPropertiesResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLSetGlobalPropertiesResponse object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLSetGlobalPropertiesResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

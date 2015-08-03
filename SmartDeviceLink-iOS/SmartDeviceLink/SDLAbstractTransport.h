@@ -1,6 +1,6 @@
 //  SDLAbstractTransport.h
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "SDLTransportDelegate.h"
 

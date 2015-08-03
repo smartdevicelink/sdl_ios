@@ -8,13 +8,15 @@
 
 @implementation SDLShowResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_Show]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_Show]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

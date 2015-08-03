@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -20,18 +19,18 @@
  *
  * See SDLRegisterAppInterface SDLOnAppInterfaceUnregistered
  */
-@interface SDLUnregisterAppInterface : SDLRPCRequest {}
+@interface SDLUnregisterAppInterface : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLUnregisterAppInterface object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLUnregisterAppInterface object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end
-

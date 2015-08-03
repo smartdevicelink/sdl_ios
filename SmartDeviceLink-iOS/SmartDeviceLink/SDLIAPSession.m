@@ -20,8 +20,8 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol{
-    NSString *logMessage = [NSString stringWithFormat:@"SDLIAPSession initWithAccessory:%@ forProtocol:%@" , accessory, protocol];
+- (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
+    NSString *logMessage = [NSString stringWithFormat:@"SDLIAPSession initWithAccessory:%@ forProtocol:%@", accessory, protocol];
     [SDLDebugTool logInfo:logMessage];
 
     self = [super init];
@@ -43,7 +43,7 @@
 - (BOOL)start {
     __weak typeof(self) weakSelf = self;
 
-    NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@" , _accessory.name, _protocol];
+    NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol];
     [SDLDebugTool logInfo:logMessage];
 
     if ((self.easession = [[EASession alloc] initWithAccessory:_accessory forProtocol:_protocol])) {
@@ -61,7 +61,6 @@
         [SDLDebugTool logInfo:@"Error: Could Not Create Session Object"];
         return NO;
     }
-
 }
 
 - (void)stop {
@@ -82,19 +81,17 @@
 }
 
 - (void)stopStream:(NSStream *)stream {
-    @autoreleasepool {
-        // Verify stream is in a state that can be closed.
-        // (N.B. Closing a stream that has not been opened has very, very bad effects.)
+    // Verify stream is in a state that can be closed.
+    // (N.B. Closing a stream that has not been opened has very, very bad effects.)
 
-        // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
-        // Still need to remove from run loop.
+    // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
+    // Still need to remove from run loop.
 
-        NSUInteger status1 = stream.streamStatus;
-        if (status1 != NSStreamStatusNotOpen &&
-            status1 != NSStreamStatusClosed) {
-
-            [stream close];
-        }
+    NSUInteger status1 = stream.streamStatus;
+    if (status1 != NSStreamStatusNotOpen &&
+        status1 != NSStreamStatusClosed) {
+        [stream close];
+    }
 
         [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
         [stream setDelegate:nil];
@@ -115,8 +112,8 @@
 
 - (SDLStreamOpenHandler)streamOpenedHandler {
     __weak typeof(self) weakSelf = self;
-    
-    return ^(NSStream *stream){
+
+    return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
         
         if (stream == [strongSelf.easession outputStream]) {
@@ -136,8 +133,8 @@
 
 - (SDLStreamErrorHandler)streamErroredHandler {
     __weak typeof(self) weakSelf = self;
-    
-    return ^(NSStream *stream){
+
+    return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
         
         [SDLDebugTool logInfo:@"Stream Error"];

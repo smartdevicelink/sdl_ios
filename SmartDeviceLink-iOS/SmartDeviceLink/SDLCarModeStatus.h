@@ -2,31 +2,31 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /** Describes the carmode the vehicle is in.
  * <b>Since</b> SmartDeviceLink 2.0
  */
-@interface SDLCarModeStatus : SDLEnum {}
+@interface SDLCarModeStatus : SDLEnum {
+}
 
-+(SDLCarModeStatus*) valueOf:(NSString*) value;
++ (SDLCarModeStatus *)valueOf:(NSString *)value;
 
-+(NSArray*) values;
++ (NSArray *)values;
 /** Provides carmode NORMAL to each module.
  */
-+(SDLCarModeStatus*) NORMAL;
++ (SDLCarModeStatus *)NORMAL;
 
 /** Provides carmode FACTORY to each module.
  */
-+(SDLCarModeStatus*) FACTORY;
++ (SDLCarModeStatus *)FACTORY;
 
 /** Provides carmode TRANSPORT to each module.
  */
-+(SDLCarModeStatus*) TRANSPORT;
++ (SDLCarModeStatus *)TRANSPORT;
 
 /** Provides carmode CRASH to each module.
  */
-+(SDLCarModeStatus*) CRASH;
++ (SDLCarModeStatus *)CRASH;
 
 @end

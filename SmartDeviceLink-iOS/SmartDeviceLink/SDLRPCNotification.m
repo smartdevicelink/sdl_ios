@@ -13,10 +13,10 @@
     if (!self) {
         return nil;
     }
-    
+
     messageType = NAMES_notification;
     [store setObject:function forKey:messageType];
-    
+
     return self;
 }
 
@@ -25,10 +25,10 @@
     if (!self) {
         return nil;
     }
-    
+
     messageType = NAMES_notification;
     [store setObject:function forKey:messageType];
-    
+
     return self;
 }
 

@@ -1,10 +1,6 @@
 //
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
-//
-//  Created by Joel Fischer on 2/16/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
-//
 
 #import "ProxyManager.h"
 

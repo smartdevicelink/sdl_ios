@@ -8,17 +8,19 @@
 
 @implementation SDLSetAppIcon
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_SetAppIcon]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_SetAppIcon]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setSyncFileName:(NSString*) syncFileName {
+- (void)setSyncFileName:(NSString *)syncFileName {
     if (syncFileName != nil) {
         [parameters setObject:syncFileName forKey:NAMES_syncFileName];
     } else {
@@ -26,7 +28,7 @@
     }
 }
 
--(NSString*) syncFileName {
+- (NSString *)syncFileName {
     return [parameters objectForKey:NAMES_syncFileName];
 }
 
