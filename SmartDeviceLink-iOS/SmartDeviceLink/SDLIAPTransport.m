@@ -123,7 +123,7 @@ int const streamOpenTimeoutSeconds = 2;
     taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [SDLDebugTool logInfo:@"Warning: Background Task Expiring"];
         [[UIApplication sharedApplication] endBackgroundTask:taskID];
-    }];*/
+    }];
 
     [SDLDebugTool logInfo:@"App Backgrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }

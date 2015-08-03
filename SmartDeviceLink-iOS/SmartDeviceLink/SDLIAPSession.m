@@ -93,16 +93,15 @@
         [stream close];
     }
 
-        [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-        [stream setDelegate:nil];
+    [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [stream setDelegate:nil];
 
-        NSUInteger status2 = stream.streamStatus;
-        if (status2 == NSStreamStatusClosed) {
-            if (stream == [self.easession inputStream]) {
-                [SDLDebugTool logInfo:@"Input Stream Closed"];
-            } else if (stream == [self.easession outputStream]) {
-                [SDLDebugTool logInfo:@"Output Stream Closed"];
-            }
+    NSUInteger status2 = stream.streamStatus;
+    if (status2 == NSStreamStatusClosed) {
+        if (stream == [self.easession inputStream]) {
+            [SDLDebugTool logInfo:@"Input Stream Closed"];
+        } else if (stream == [self.easession outputStream]) {
+            [SDLDebugTool logInfo:@"Output Stream Closed"];
         }
     }
 }
