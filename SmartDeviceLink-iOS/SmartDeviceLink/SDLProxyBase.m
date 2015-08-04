@@ -87,7 +87,7 @@
         _customButtonHandlerDictionaryLock = [[NSObject alloc] init];
         _correlationID = 1;
         _isConnected = NO;
-        _handlerQueue = dispatch_queue_create("com.sdl.proxy_base.handler_queue", DISPATCH_QUEUE_CONCURRENT);
+        _handlerQueue = dispatch_queue_create("com.sdl.proxy_base.handler_queue", DISPATCH_QUEUE_SERIAL);
         _backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         //_mainUIQueue = dispatch_get_main_queue();
         _firstHMIFullOccurred = NO;
