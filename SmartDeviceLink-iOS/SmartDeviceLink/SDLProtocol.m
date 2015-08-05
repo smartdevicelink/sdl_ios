@@ -5,6 +5,7 @@
 #import "SDLJsonEncoder.h"
 #import "SDLFunctionID.h"
 
+#import "SDLGlobals.h"
 #import "SDLRPCRequest.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
@@ -20,7 +21,6 @@
 #import "SDLAbstractTransport.h"
 
 
-const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
 const UInt8 MAX_VERSION_TO_SEND = 4;
 
 
@@ -33,7 +33,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     BOOL _alreadyDestructed;
 }
 
-@property (assign) UInt8 version;
 @property (assign) UInt8 maxVersionSupportedByHeadUnit;
 @property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
@@ -46,7 +45,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _version = 1;
+        [SDLGlobals globals].protocolVersion = 1;
         _messageID = 0;
         _sessionID = 0;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
@@ -89,7 +88,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
@@ -102,7 +101,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)sendRPC:(SDLRPCMessage *)message {
     NSParameterAssert(message != nil);
 
-    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:self.version]];
+    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion]];
     NSData *messagePayload = nil;
 
     NSString *logMessage = [NSString stringWithFormat:@"%@", message];
@@ -110,7 +109,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
-    switch (self.version) {
+    switch ([SDLGlobals globals].protocolVersion) {
         case 1: {
             // No binary header in version 1
             messagePayload = jsonData;
@@ -142,12 +141,12 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             messagePayload = rpcPayload.data;
         } break;
         default: {
-            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @(self.version), message);
+            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals globals].protocolVersion), message);
         } break;
     }
 
     // Build the protocol level header & message
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
     header.serviceType = SDLServiceType_RPC;
     header.frameData = SDLFrameData_SingleFrame;
@@ -155,7 +154,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
-    if (self.version >= 2) {
+    if ([SDLGlobals globals].protocolVersion >= 2) {
         [((SDLV2ProtocolHeader *)header)setMessageID:++_messageID];
     }
 
@@ -163,11 +162,11 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < MAX_TRANSMISSION_SIZE) {
+    if (protocolMessage.size < [SDLGlobals globals].protocolVersion) {
         [self logRPCSend:protocolMessage];
         [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
@@ -201,7 +200,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * MAX_TRANSMISSION_SIZE)];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [SDLGlobals globals].maxMTUSize)];
     }
 
     // Save the data
@@ -255,7 +254,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendHeartbeat {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = 0;
     header.frameData = SDLFrameData_Heartbeat;
@@ -275,11 +274,11 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     header.messageID = ++_messageID;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
-    if (message.size < MAX_TRANSMISSION_SIZE) {
+    if (message.size < [SDLGlobals globals].maxMTUSize) {
         [self logRPCSend:message];
         [self sendDataToTransport:message.data withPriority:header.serviceType];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:header.serviceType];
@@ -293,9 +292,9 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     [self storeSessionID:sessionID forServiceType:serviceType];
 
     self.maxVersionSupportedByHeadUnit = version;
-    self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
+    [SDLGlobals globals].protocolVersion = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
 
-    if (self.version >= 3) {
+    if ([SDLGlobals globals].protocolVersion >= 3) {
         // start hearbeat
     }
 
@@ -317,6 +316,9 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)onError:(NSString *)info exception:(NSException *)e {
     [self.protocolDelegate onError:info exception:e];
 }
+
+
+#pragma mark - Lifecycle
 
 - (void)destructObjects {
     if (!_alreadyDestructed) {

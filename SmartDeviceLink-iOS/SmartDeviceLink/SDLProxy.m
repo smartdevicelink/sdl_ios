@@ -12,6 +12,7 @@
 #import "SDLEncodedSyncPData.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLJsonDecoder.h"
 #import "SDLJsonEncoder.h"
@@ -682,9 +683,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         case NSStreamEventHasBytesAvailable: {
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
-
-            const int bufferSize = 1024;
-            NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
+            
+            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals globals].protocolVersion];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
