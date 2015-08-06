@@ -55,4 +55,52 @@
     }
 }
 
+- (void)setAppName:(NSString *)appName {
+    if (appName != nil) {
+        parameters[NAMES_appName] = appName;
+    } else {
+        [parameters removeObjectForKey:NAMES_appName];
+    }
+}
+
+- (NSString *)appName {
+    return parameters[NAMES_appName];
+}
+
+- (void)setTtsName:(NSMutableArray *)ttsName {
+    if (ttsName != nil) {
+        [parameters setObject:ttsName forKey:NAMES_ttsName];
+    } else {
+        [parameters removeObjectForKey:NAMES_ttsName];
+    }
+}
+
+- (NSMutableArray *)ttsName {
+    return parameters[NAMES_ttsName];
+}
+
+- (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
+    if (ngnMediaScreenAppName != nil) {
+        parameters[NAMES_ngnMediaScreenAppName] = ngnMediaScreenAppName;
+    } else {
+        [parameters removeObjectForKey:NAMES_ngnMediaScreenAppName];
+    }
+}
+
+- (NSString *)ngnMediaScreenAppName {
+    return parameters[NAMES_ngnMediaScreenAppName];
+}
+
+- (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
+    if (vrSynonyms != nil) {
+        [parameters setObject:vrSynonyms forKey:NAMES_vrSynonyms];
+    } else {
+        [parameters removeObjectForKey:NAMES_vrSynonyms];
+    }
+}
+
+- (NSMutableArray *)vrSynonyms {
+    return parameters[NAMES_vrSynonyms];
+}
+
 @end
