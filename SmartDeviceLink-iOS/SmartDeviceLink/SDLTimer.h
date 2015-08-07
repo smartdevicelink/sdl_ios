@@ -11,7 +11,8 @@
 @property (assign) float duration;
 
 - (id)init;
-- (id)initWithDuration:(float)duration;
+- (id)initWithDuration:(float)duration __deprecated;
+- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat;
 - (void)start;
 - (void)cancel;
 

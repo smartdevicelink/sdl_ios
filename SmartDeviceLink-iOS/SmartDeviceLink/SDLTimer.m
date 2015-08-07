@@ -9,7 +9,7 @@
 
 @property (strong) NSTimer *timer;
 @property (assign) BOOL timerRunning;
-
+@property (nonatomic) BOOL repeat;
 @end
 
 
@@ -24,8 +24,14 @@
 }
 
 - (id)initWithDuration:(float)duration {
-    if (self = [super init]) {
+    return [self initWithDuration:duration repeat:NO];
+}
+
+- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat {
+    self = [super init];
+    if (self) {
         _duration = duration;
+        _repeat = repeat;
         _timerRunning = NO;
     }
     return self;
