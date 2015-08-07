@@ -257,12 +257,24 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)sendHeartbeat {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
-    header.serviceType = 0;
+    header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_Heartbeat;
     header.sessionID = self.sessionID;
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
+    [self sendDataToTransport:message.data withPriority:header.serviceType];
+}
+
+- (void)handleHeartbeat {
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    header.frameType = SDLFrameType_Control;
+    header.serviceType = SDLServiceType_Control;
+    header.frameData = SDLFrameData_HeartbeatACK;
+    header.sessionID = self.sessionID;
+    
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    
     [self sendDataToTransport:message.data withPriority:header.serviceType];
 }
 
@@ -296,7 +308,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
 
     if (self.version >= 3) {
-        // start hearbeat
+        // start heartbeat
     }
 
     [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
