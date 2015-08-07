@@ -185,10 +185,9 @@ int const streamOpenTimeoutSeconds = 2;
 
     if (self.controlSession) {
         self.controlSession.delegate = self;
-
-        if (self.protocolIndexTimer == nil) {
-            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
-        }
+        
+        // This will restart the timer if it already exists
+        self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
 
         __weak typeof(self) weakSelf = self;
         void (^elapsedBlock)(void) = ^{
