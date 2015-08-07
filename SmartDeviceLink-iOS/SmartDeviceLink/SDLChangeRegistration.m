@@ -67,7 +67,7 @@
     return parameters[NAMES_appName];
 }
 
-- (void)setTtsName:(NSMutableArray *)ttsName {
+- (void)setTtsName:(NSArray *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:ttsName forKey:NAMES_ttsName];
     } else {
@@ -75,7 +75,7 @@
     }
 }
 
-- (NSMutableArray *)ttsName {
+- (NSArray *)ttsName {
     return parameters[NAMES_ttsName];
 }
 
@@ -91,7 +91,7 @@
     return parameters[NAMES_ngnMediaScreenAppName];
 }
 
-- (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
+- (void)setVrSynonyms:(NSArray *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:vrSynonyms forKey:NAMES_vrSynonyms];
     } else {
@@ -99,7 +99,7 @@
     }
 }
 
-- (NSMutableArray *)vrSynonyms {
+- (NSArray *)vrSynonyms {
     return parameters[NAMES_vrSynonyms];
 }
 

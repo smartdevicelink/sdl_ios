@@ -32,39 +32,39 @@
 /**
  * @abstract The language the app wants to change to
  */
-@property (strong) SDLLanguage *language;
+@property (strong, nonatomic) SDLLanguage *language;
 
 /**
  * @abstract HMI display language
  */
-@property (strong) SDLLanguage *hmiDisplayLanguage;
+@property (strong, nonatomic) SDLLanguage *hmiDisplayLanguage;
 
 /**
  *  Request a new app name registration
  *
  *  Optional, Max string length 100 chars
  */
-@property (strong) NSString *appName;
+@property (copy, nonatomic) NSString *appName;
 
 /**
  *  Request a new TTSName registration.
  *
  *  Optional, Array of SDLTTSChunk, 1 - 100 elements
  */
-@property (strong) NSMutableArray *ttsName;
+@property (copy, nonatomic) NSArray *ttsName;
 
 /**
  *  Request a new app short name registration
  *
  *  Optional, Max string length 100 chars
  */
-@property (strong) NSString *ngnMediaScreenAppName;
+@property (copy, nonatomic) NSString *ngnMediaScreenAppName;
 
 /**
  *  Request a new VR synonyms registration
  *
  *  Optional, Array of NSString, 1 - 100 elements, max string length 40 chars
  */
-@property (strong) NSMutableArray *vrSynonyms;
+@property (copy, nonatomic) NSArray *vrSynonyms;
 
 @end
