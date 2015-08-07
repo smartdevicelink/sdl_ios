@@ -63,7 +63,10 @@
                                             version:message.header.version];
     }
     else if (message.header.frameData == SDLFrameData_Heartbeat) {
-        [self.delegate handleHeartbeat];
+        [self.delegate handleHeartbeatForSession:message.header.sessionID];
+    }
+    else if (message.header.frameData == SDLFrameData_HeartbeatACK) {
+        [self.delegate handleHeartbeatACK];
     }
 }
 

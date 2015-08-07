@@ -18,7 +18,7 @@
 #import "SDLRPCNotification.h"
 #import "SDLRPCResponse.h"
 #import "SDLAbstractTransport.h"
-
+#import "SDLTimer.h"
 
 const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
 const UInt8 MAX_VERSION_TO_SEND = 4;
@@ -38,7 +38,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 @property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
-
+@property (nonatomic) BOOL heartbeatACKed;
 @end
 
 
@@ -49,6 +49,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         _version = 1;
         _messageID = 0;
         _sessionID = 0;
+        _heartbeatACKed = NO;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
@@ -255,6 +256,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendHeartbeat {
+    NSLog(@"Creating header for version: %@",@(self.version) );
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
@@ -264,18 +266,34 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 
     [self sendDataToTransport:message.data withPriority:header.serviceType];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (self.heartbeatACKed) {
+            self.heartbeatACKed = NO;
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                [self sendHeartbeat];
+            });
+        } else {
+            NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            [self onProtocolClosed];
+        }
+    });
 }
 
-- (void)handleHeartbeat {
+- (void)handleHeartbeatForSession:(Byte)session {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_HeartbeatACK;
-    header.sessionID = self.sessionID;
+    header.sessionID = session;
     
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     
     [self sendDataToTransport:message.data withPriority:header.serviceType];
+}
+
+- (void)handleHeartbeatACK {
+    self.heartbeatACKed = YES;
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
@@ -302,13 +320,15 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+    NSLog(@"Handle session started for service Type: %@", @(serviceType));
+    self.sessionID = sessionID;
     [self storeSessionID:sessionID forServiceType:serviceType];
 
     self.maxVersionSupportedByHeadUnit = version;
     self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
 
     if (self.version >= 3) {
-        // start heartbeat
+        [self sendHeartbeat];
     }
 
     [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
