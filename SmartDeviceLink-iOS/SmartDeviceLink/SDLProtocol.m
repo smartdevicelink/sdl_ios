@@ -39,6 +39,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic) BOOL heartbeatACKed;
+@property (nonatomic, strong) SDLTimer *heartbeatTimer;
 @end
 
 
@@ -256,39 +257,44 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendHeartbeat {
-    NSLog(@"Creating header for version: %@",@(self.version) );
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_Heartbeat;
     header.sessionID = self.sessionID;
-
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-
     [self sendDataToTransport:message.data withPriority:header.serviceType];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (self.heartbeatACKed) {
-            self.heartbeatACKed = NO;
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                [self sendHeartbeat];
-            });
+}
+
+- (void)startHeartbeatTimerWithDuration:(float)duration {
+    self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
+    __weak typeof(self) weakSelf = self;
+    self.heartbeatTimer.elapsedBlock = ^void() {
+        __strong typeof(self) strongSelf = weakSelf;
+        if (strongSelf.heartbeatACKed) {
+            strongSelf.heartbeatACKed = NO;
+            [strongSelf sendHeartbeat];
         } else {
             NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
-            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-            [self onProtocolClosed];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+            [strongSelf onProtocolClosed];
+            [strongSelf dispose];
         }
-    });
+    };
+    // Send a first heartbeat
+    [self sendHeartbeat];
+
+    [self.heartbeatTimer start];
 }
 
 - (void)handleHeartbeatForSession:(Byte)session {
+    // Respond with a heartbeat ACK
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_HeartbeatACK;
     header.sessionID = session;
-    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    
     [self sendDataToTransport:message.data withPriority:header.serviceType];
 }
 
@@ -328,13 +334,16 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
 
     if (self.version >= 3) {
-        [self sendHeartbeat];
+        [self startHeartbeatTimerWithDuration:5.0];
     }
 
     [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
+    if (self.version >= 3 && self.heartbeatTimer != nil) {
+        [self.heartbeatTimer start];
+    }
     [self.protocolDelegate onProtocolMessageReceived:msg];
 }
 
@@ -357,6 +366,10 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         self.messageRouter = nil;
         self.transport = nil;
         self.protocolDelegate = nil;
+        if (self.heartbeatTimer != nil) {
+            [self.heartbeatTimer cancel];
+            self.heartbeatTimer = nil;
+        }
     }
 }
 
