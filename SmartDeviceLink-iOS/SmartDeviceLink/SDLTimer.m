@@ -56,8 +56,10 @@
 }
 
 - (void)timerElapsed {
-    [self stopAndDestroyTimer];
-    self.timerRunning = NO;
+    if (self.repeat == NO) {
+        [self stopAndDestroyTimer];
+        self.timerRunning = NO;
+    }
     if (self.elapsedBlock != nil) {
         self.elapsedBlock();
     }
