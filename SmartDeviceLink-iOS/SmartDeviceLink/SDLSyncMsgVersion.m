@@ -8,17 +8,19 @@
 
 @implementation SDLSyncMsgVersion
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setMajorVersion:(NSNumber*) majorVersion {
+- (void)setMajorVersion:(NSNumber *)majorVersion {
     if (majorVersion != nil) {
         [store setObject:majorVersion forKey:NAMES_majorVersion];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSNumber*) majorVersion {
+- (NSNumber *)majorVersion {
     return [store objectForKey:NAMES_majorVersion];
 }
 
--(void) setMinorVersion:(NSNumber*) minorVersion {
+- (void)setMinorVersion:(NSNumber *)minorVersion {
     if (minorVersion != nil) {
         [store setObject:minorVersion forKey:NAMES_minorVersion];
     } else {
@@ -38,7 +40,7 @@
     }
 }
 
--(NSNumber*) minorVersion {
+- (NSNumber *)minorVersion {
     return [store objectForKey:NAMES_minorVersion];
 }
 

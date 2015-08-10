@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,9 +9,10 @@
  *
  * @since SDL 2.0
  */
-@interface SDLChangeRegistrationResponse : SDLRPCResponse {}
+@interface SDLChangeRegistrationResponse : SDLRPCResponse {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

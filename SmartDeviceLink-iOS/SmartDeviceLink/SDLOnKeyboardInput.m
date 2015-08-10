@@ -9,17 +9,19 @@
 
 @implementation SDLOnKeyboardInput
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_OnKeyboardInput]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_OnKeyboardInput]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setEvent:(SDLKeyboardEvent*) event {
+- (void)setEvent:(SDLKeyboardEvent *)event {
     if (event != nil) {
         [parameters setObject:event forKey:NAMES_event];
     } else {
@@ -27,16 +29,16 @@
     }
 }
 
--(SDLKeyboardEvent*) event {
-    NSObject* obj = [parameters objectForKey:NAMES_event];
+- (SDLKeyboardEvent *)event {
+    NSObject *obj = [parameters objectForKey:NAMES_event];
     if ([obj isKindOfClass:SDLKeyboardEvent.class]) {
-        return (SDLKeyboardEvent*)obj;
+        return (SDLKeyboardEvent *)obj;
     } else {
-        return [SDLKeyboardEvent valueOf:(NSString*)obj];
+        return [SDLKeyboardEvent valueOf:(NSString *)obj];
     }
 }
 
--(void) setData:(NSString*) data {
+- (void)setData:(NSString *)data {
     if (data != nil) {
         [parameters setObject:data forKey:NAMES_data];
     } else {
@@ -44,7 +46,7 @@
     }
 }
 
--(NSString*) data {
+- (NSString *)data {
     return [parameters objectForKey:NAMES_data];
 }
 

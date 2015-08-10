@@ -44,29 +44,30 @@
  *
  * @since SDL 1.0
  */
-@interface SDLOnButtonEvent : SDLRPCNotification {}
+@interface SDLOnButtonEvent : SDLRPCNotification {
+}
 
 /**
  * Constructs a newly allocated SDLOnButtonEvent object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a newly allocated SDLOnButtonEvent object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The name of the button
  */
-@property(strong) SDLButtonName* buttonName;
+@property (strong) SDLButtonName *buttonName;
 
 /**
  * @abstract Indicates whether this is an UP or DOWN event
  */
-@property(strong) SDLButtonEventMode* buttonEventMode;
+@property (strong) SDLButtonEventMode *buttonEventMode;
 
 /**
  * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
@@ -75,6 +76,6 @@
  *
  * Optional, Integer, 0 - 65536
  */
-@property(strong) NSNumber* customButtonID;
+@property (strong) NSNumber *customButtonID;
 
 @end

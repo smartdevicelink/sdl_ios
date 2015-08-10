@@ -2,12 +2,12 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
-@interface SDLSyncPData : SDLRPCRequest {}
+@interface SDLSyncPData : SDLRPCRequest {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

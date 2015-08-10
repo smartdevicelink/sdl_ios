@@ -2,7 +2,7 @@
 //  PolicyDataParser.h
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @interface SDLPolicyDataParser : NSObject
 

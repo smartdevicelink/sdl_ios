@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,11 +9,12 @@
  *
  * Since <b>SmartDeviceLink 2.0</b><br>
  */
-@interface SDLDeleteFileResponse : SDLRPCResponse {}
+@interface SDLDeleteFileResponse : SDLRPCResponse {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSNumber* spaceAvailable;
+@property (strong) NSNumber *spaceAvailable;
 
 @end

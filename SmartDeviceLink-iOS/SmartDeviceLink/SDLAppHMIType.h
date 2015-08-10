@@ -9,7 +9,8 @@
  *
  * @since SDL 2.0
  */
-@interface SDLAppHMIType : SDLEnum {}
+@interface SDLAppHMIType : SDLEnum {
+}
 
 /**
  * @abstract Convert String to AppHMIType
@@ -18,78 +19,78 @@
  *
  * @return SDLAppHMIType
  */
-+(SDLAppHMIType*) valueOf:(NSString*) value;
++ (SDLAppHMIType *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLAppHMIType
  *
  * @return an array that store all possible SDLAppHMIType
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract The App will have default rights.
  *
  * @return SDLAppHMIType with value *DEFAULT*
  */
-+(SDLAppHMIType*) DEFAULT;
++ (SDLAppHMIType *)DEFAULT;
 
 /**
  * @abstract Communication type of App
  *
  * @return SDLAppHMIType with value *COMMUNICATION*
  */
-+(SDLAppHMIType*) COMMUNICATION;
++ (SDLAppHMIType *)COMMUNICATION;
 
 /**
  * @abstract App dealing with Media
  *
  * @return SDLAppHMIType with value *MEDIA*
  */
-+(SDLAppHMIType*) MEDIA;
++ (SDLAppHMIType *)MEDIA;
 
 /**
  * @abstract Messaging App
  *
  * @return SDLAppHMIType with value *MESSAGING*
  */
-+(SDLAppHMIType*) MESSAGING;
++ (SDLAppHMIType *)MESSAGING;
 
 /**
  * @abstract Navigation App
  *
  * @return SDLAppHMIType with value *NAVIGATION*
  */
-+(SDLAppHMIType*) NAVIGATION;
++ (SDLAppHMIType *)NAVIGATION;
 
 /**
  * @abstract Information App
  *
  * @return SDLAppHMIType with value *INFORMATION*
  */
-+(SDLAppHMIType*) INFORMATION;
++ (SDLAppHMIType *)INFORMATION;
 
 /**
  * @abstract App dealing with social media
  *
  * @return SDLAppHMIType with value *SOCIAL*
  */
-+(SDLAppHMIType*) SOCIAL;
++ (SDLAppHMIType *)SOCIAL;
 
-+(SDLAppHMIType*) BACKGROUND_PROCESS;
++ (SDLAppHMIType *)BACKGROUND_PROCESS;
 
 /**
  * @abstract App only for Testing purposes
  *
  * @return SDLAppHMIType with value *TESTING*
  */
-+(SDLAppHMIType*) TESTING;
++ (SDLAppHMIType *)TESTING;
 
 /**
  * @abstract System App
  *
  * @return SDLAppHMIType with value *SYSTEM*
  */
-+(SDLAppHMIType*) SYSTEM;
++ (SDLAppHMIType *)SYSTEM;
 
 @end

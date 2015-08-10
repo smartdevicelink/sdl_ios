@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLButtonPressMode : SDLEnum {}
+@interface SDLButtonPressMode : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLButtonPressMode
@@ -19,27 +19,27 @@
  *
  * @return SDLButtonPressMode
  */
-+(SDLButtonPressMode*) valueOf:(NSString*) value;
++ (SDLButtonPressMode *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLButtonPressMode
  *
  * @return an array that store all possible SDLButtonPressMode
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract A button was released, after it was pressed for a long time. Actual timing is defined by the head unit and may vary.
  *
  * @return a SDLButtonPressMode with the value of *LONG*
  */
-+(SDLButtonPressMode*) LONG;
++ (SDLButtonPressMode *)LONG;
 
 /**
  * @abstract A button was released, after it was pressed for a short time. Actual timing is defined by the head unit and may vary.
  *
  * @return a SDLButtonPressMode with the value of *SHORT*
  */
-+(SDLButtonPressMode*) SHORT;
++ (SDLButtonPressMode *)SHORT;
 
 @end

@@ -2,7 +2,6 @@
 //
 
 
- 
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLSystemContext : SDLEnum {}
+@interface SDLSystemContext : SDLEnum {
+}
 
 /**
  * Convert String to SDLSystemContext
@@ -19,35 +19,35 @@
  *
  * @return SDLSystemContext
  */
-+(SDLSystemContext*) valueOf:(NSString*) value;
++ (SDLSystemContext *)valueOf:(NSString *)value;
 
 /**
  *  @abstract Store the enumeration of all possible SDLSystemContext
  *
  *  @return an array that store all possible SDLSystemContext
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract No user interaction (user-initiated or app-initiated) is in progress.
  *
  * @return SDLSystemContext object of value *MAIN*
  */
-+(SDLSystemContext*) MAIN;
++ (SDLSystemContext *)MAIN;
 
 /**
  * @abstract VR-oriented, user-initiated or app-initiated interaction is in-progress.
  *
  * @return SDLSystemContext object of value *VRSESSION*
  */
-+(SDLSystemContext*) VRSESSION;
++ (SDLSystemContext *)VRSESSION;
 
 /**
  * @abstract Menu-oriented, user-initiated or app-initiated interaction is in-progress.
  *
  * @return SDLSystemContext object of value *MENU*
  */
-+(SDLSystemContext*) MENU;
++ (SDLSystemContext *)MENU;
 
 /**
  * @abstract The app's display HMI is currently being obscured by either a system or other app's overlay.
@@ -56,7 +56,7 @@
  *
  * @since SDL 2.0
  */
-+(SDLSystemContext*) HMI_OBSCURED;
++ (SDLSystemContext *)HMI_OBSCURED;
 
 /**
  * @abstract Broadcast only to whichever app has an alert currently being displayed.
@@ -65,7 +65,6 @@
  *
  * @since SDL 2.0
  */
-+(SDLSystemContext*) ALERT;
++ (SDLSystemContext *)ALERT;
 
 @end
-

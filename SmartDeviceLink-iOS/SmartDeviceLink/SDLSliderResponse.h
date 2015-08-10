@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,22 +9,23 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSliderResponse : SDLRPCResponse {}
+@interface SDLSliderResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLSliderResponse object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLSliderResponse object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The selected position of the slider.
  */
-@property(strong) NSNumber* sliderPosition;
+@property (strong) NSNumber *sliderPosition;
 
 @end

@@ -3,7 +3,7 @@
 //  SmartDeviceLink
 //
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 
 @interface SDLObjectWithPriority : NSObject
@@ -16,6 +16,3 @@
 + (instancetype)objectWithObject:(id)object priority:(NSInteger)priority;
 
 @end
-
-
-

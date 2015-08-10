@@ -2,12 +2,12 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
-@interface SDLEncodedSyncPDataResponse : SDLRPCResponse {}
+@interface SDLEncodedSyncPDataResponse : SDLRPCResponse {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

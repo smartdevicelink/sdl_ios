@@ -17,18 +17,19 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSetMediaClockTimer : SDLRPCRequest {}
+@interface SDLSetMediaClockTimer : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLSetMediaClockTimer object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A Start Time with specifying hour, minute, second values
@@ -42,13 +43,13 @@
  *            <li>Will be ignored for PAUSE/RESUME and CLEAR</li>
  *            </ul>
  */
-@property(strong) SDLStartTime* startTime;
+@property (strong) SDLStartTime *startTime;
 /**
  * @abstract An END time of type SDLStartTime, specifying hour, minute, second values
  *
  * @discussion An SDLStartTime object with specifying hour, minute, second values
  */
-@property(strong) SDLStartTime* endTime;
+@property (strong) SDLStartTime *endTime;
 /**
  * @abstract The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
  *
@@ -62,7 +63,6 @@
  *            the timer's value when it was paused</li>
  *            </ul>
  */
-@property(strong) SDLUpdateMode* updateMode;
+@property (strong) SDLUpdateMode *updateMode;
 
 @end
-

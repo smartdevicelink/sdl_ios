@@ -2,16 +2,16 @@
 //
 
 
-
 #import "SDLEnum.h"
 
-@interface SDLTouchType : SDLEnum {}
+@interface SDLTouchType : SDLEnum {
+}
 
-+(SDLTouchType*) valueOf:(NSString*) value;
-+(NSArray*) values;
++ (SDLTouchType *)valueOf:(NSString *)value;
++ (NSArray *)values;
 
-+(SDLTouchType*) BEGIN;
-+(SDLTouchType*) MOVE;
-+(SDLTouchType*) END;
++ (SDLTouchType *)BEGIN;
++ (SDLTouchType *)MOVE;
++ (SDLTouchType *)END;
 
 @end

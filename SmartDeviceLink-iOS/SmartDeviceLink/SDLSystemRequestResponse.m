@@ -8,13 +8,15 @@
 
 @implementation SDLSystemRequestResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_SystemRequest]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_SystemRequest]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

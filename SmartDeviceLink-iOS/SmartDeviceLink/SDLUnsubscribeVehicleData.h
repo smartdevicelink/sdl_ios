@@ -2,8 +2,6 @@
 //
 
 
-
-
 #import "SDLRPCRequest.h"
 
 /**
@@ -18,115 +16,115 @@
  * @since SmartDeviceLink 2.0<br/>
  * See SDLSubscribeVehicleData SDLGetVehicleData
  */
-@interface SDLUnsubscribeVehicleData : SDLRPCRequest {}
+@interface SDLUnsubscribeVehicleData : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLUnsubscribeVehicleData object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a new SDLUnsubscribeVehicleData object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Gps data
  */
-@property(strong) NSNumber* gps;
+@property (strong) NSNumber *gps;
 
 /**
  * @abstract A boolean value. If true, unsubscribes speed data
  */
-@property(strong) NSNumber* speed;
+@property (strong) NSNumber *speed;
 
 /**
  * @abstract A boolean value. If true, unsubscribe data
  */
-@property(strong) NSNumber* rpm;
+@property (strong) NSNumber *rpm;
 
 /**
  * @abstract A boolean value. If true, unsubscribes FuelLevel data
  */
-@property(strong) NSNumber* fuelLevel;
+@property (strong) NSNumber *fuelLevel;
 
 /**
  * @abstract A boolean value. If true, unsubscribes fuelLevel_State data
  */
-@property(strong) NSNumber* fuelLevel_State;
+@property (strong) NSNumber *fuelLevel_State;
 
 /**
  * @abstract A boolean value. If true, unsubscribes instantFuelConsumption data
  */
-@property(strong) NSNumber* instantFuelConsumption;
+@property (strong) NSNumber *instantFuelConsumption;
 
 /**
  * @abstract A boolean value. If true, unsubscribes externalTemperature data
  */
-@property(strong) NSNumber* externalTemperature;
+@property (strong) NSNumber *externalTemperature;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Currently selected gear data
  */
-@property(strong) NSNumber* prndl;
+@property (strong) NSNumber *prndl;
 
 /**
  * @abstract A boolean value. If true, unsubscribes tire pressure status data
  */
-@property(strong) NSNumber* tirePressure;
+@property (strong) NSNumber *tirePressure;
 
 /**
  * @abstract A boolean value. If true, unsubscribes odometer data
  */
-@property(strong) NSNumber* odometer;
+@property (strong) NSNumber *odometer;
 
 /**
  * @abstract A boolean value. If true, unsubscribes belt Status data
  */
-@property(strong) NSNumber* beltStatus;
+@property (strong) NSNumber *beltStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes body Information data
  */
-@property(strong) NSNumber* bodyInformation;
+@property (strong) NSNumber *bodyInformation;
 
 /**
  * @abstract A boolean value. If true, unsubscribes device Status data
  */
-@property(strong) NSNumber* deviceStatus;
+@property (strong) NSNumber *deviceStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes driver Braking data
  */
-@property(strong) NSNumber* driverBraking;
+@property (strong) NSNumber *driverBraking;
 
 /**
  * @abstract A boolean value. If true, unsubscribes wiper Status data
  */
-@property(strong) NSNumber* wiperStatus;
+@property (strong) NSNumber *wiperStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Head Lamp Status data
  */
-@property(strong) NSNumber* headLampStatus;
+@property (strong) NSNumber *headLampStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Engine Torque data
  */
-@property(strong) NSNumber* engineTorque;
+@property (strong) NSNumber *engineTorque;
 
 /**
  * @abstract A boolean value. If true, unsubscribes accPedalPosition data
  */
-@property(strong) NSNumber* accPedalPosition;
-@property(strong) NSNumber* steeringWheelAngle;
-@property(strong) NSNumber* eCallInfo;
-@property(strong) NSNumber* airbagStatus;
-@property(strong) NSNumber* emergencyEvent;
-@property(strong) NSNumber* clusterModeStatus;
-@property(strong) NSNumber* myKey;
+@property (strong) NSNumber *accPedalPosition;
+@property (strong) NSNumber *steeringWheelAngle;
+@property (strong) NSNumber *eCallInfo;
+@property (strong) NSNumber *airbagStatus;
+@property (strong) NSNumber *emergencyEvent;
+@property (strong) NSNumber *clusterModeStatus;
+@property (strong) NSNumber *myKey;
 
 @end
-

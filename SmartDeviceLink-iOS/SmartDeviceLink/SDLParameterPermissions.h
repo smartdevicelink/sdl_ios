@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -10,30 +9,31 @@
  *
  * @since SDL 2.0
  */
-@interface SDLParameterPermissions : SDLRPCStruct {}
+@interface SDLParameterPermissions : SDLRPCStruct {
+}
 
 /**
  * @abstract  Constructs a newly allocated SDLParameterPermissions object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a newly allocated SDLParameterPermissions object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A set of all parameters that are permitted for this given RPC.
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property(strong) NSMutableArray* allowed;
+@property (strong) NSMutableArray *allowed;
 /**
  * @abstract A set of all parameters that are prohibited for this given RPC.
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property(strong) NSMutableArray* userDisallowed;
+@property (strong) NSMutableArray *userDisallowed;
 
 @end

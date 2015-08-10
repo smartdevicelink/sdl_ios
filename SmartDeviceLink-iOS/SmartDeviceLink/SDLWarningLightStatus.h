@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,44 +9,44 @@
  *
  * @since SDL 2.0
  */
-@interface SDLWarningLightStatus : SDLEnum {}
+@interface SDLWarningLightStatus : SDLEnum {
+}
 
 /**
  * Convert String to SDLWarningLightStatus
  * @param value The value of the string to get an object for
  * @return SDLWarningLightStatus
  */
-+(SDLWarningLightStatus*) valueOf:(NSString*) value;
++ (SDLWarningLightStatus *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLWarningLightStatus
  * @return an array that store all possible SDLWarningLightStatus
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract Warninglight Off
  * @return SDLWarningLightStatus instance with value of *OFF*
  */
-+(SDLWarningLightStatus*) OFF;
++ (SDLWarningLightStatus *)OFF;
 
 /**
  * @abstract Warninglight On
  * @return SDLWarningLightStatus instance with value of *ON*
  */
-+(SDLWarningLightStatus*) ON;
++ (SDLWarningLightStatus *)ON;
 
 /**
  * @abstract Warninglight is flashing
  * @return SDLWarningLightStatus instance with value of *FLASH*
  */
-+(SDLWarningLightStatus*) FLASH;
++ (SDLWarningLightStatus *)FLASH;
 
 /**
  * @abstract Not used
  * @return SDLWarningLightStatus instance with value of *NOT_USED*
  */
-+(SDLWarningLightStatus*) NOT_USED;
++ (SDLWarningLightStatus *)NOT_USED;
 
 @end
-

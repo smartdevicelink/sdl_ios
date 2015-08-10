@@ -7,12 +7,13 @@
 @class SDLTouchEventCapabilities;
 
 
-@interface SDLScreenParams : SDLRPCStruct {}
+@interface SDLScreenParams : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLImageResolution* resolution;
-@property(strong) SDLTouchEventCapabilities* touchEventAvailable;
+@property (strong) SDLImageResolution *resolution;
+@property (strong) SDLTouchEventCapabilities *touchEventAvailable;
 
 @end

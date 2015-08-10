@@ -11,8 +11,8 @@
 
 @implementation SDLV2ProtocolMessage
 
-- (instancetype)initWithHeader:(SDLProtocolHeader*)header andPayload:(NSData *)payload {
-	if (self = [self init]) {
+- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
+    if (self = [self init]) {
         self.header = header;
         self.payload = payload;
     }
@@ -26,7 +26,7 @@
         return nil;
     }
 
-    NSMutableDictionary* rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
 
     // Parse the payload as RPC struct
     SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
@@ -38,16 +38,16 @@
     [innerDictionary setObject:[NSNumber numberWithInt:rpcPayload.correlationID] forKey:NAMES_correlationID];
 
     // Get the json data from the struct
-    if(rpcPayload.jsonData) {
+    if (rpcPayload.jsonData) {
         NSDictionary *jsonDictionary = [[SDLJsonDecoder instance] decode:rpcPayload.jsonData];
-        if(jsonDictionary) {
+        if (jsonDictionary) {
             [innerDictionary setObject:jsonDictionary forKey:NAMES_parameters];
         }
     }
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
-    NSArray *rpcTypeNames = @[NAMES_request, NAMES_response, NAMES_notification];
+    NSArray *rpcTypeNames = @[ NAMES_request, NAMES_response, NAMES_notification ];
     [rpcMessageAsDictionary setObject:innerDictionary forKey:rpcTypeNames[rpcType]];
 
     // The bulk data also goes in the dictionary
@@ -56,6 +56,5 @@
     }
 
     return rpcMessageAsDictionary;
-    
 }
 @end

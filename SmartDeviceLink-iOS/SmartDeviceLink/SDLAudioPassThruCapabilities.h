@@ -42,32 +42,33 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLAudioPassThruCapabilities : SDLRPCStruct {}
+@interface SDLAudioPassThruCapabilities : SDLRPCStruct {
+}
 
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * Constructs a newly allocated SDLAudioPassThruCapabilities object indicated by the Hashtable parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The sampling rate for AudioPassThru<br>
  *
  */
-@property(strong) SDLSamplingRate* samplingRate;
+@property (strong) SDLSamplingRate *samplingRate;
 /**
  * @abstract The sample depth in bit for AudioPassThru<br>
  *
  */
-@property(strong) SDLBitsPerSample* bitsPerSample;
+@property (strong) SDLBitsPerSample *bitsPerSample;
 /**
  * @abstract The audiotype for AudioPassThru<br>
  *
  */
-@property(strong) SDLAudioType* audioType;
+@property (strong) SDLAudioType *audioType;
 
 @end
