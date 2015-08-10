@@ -381,7 +381,7 @@
     
     CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
     CTCarrier *carrier = [netinfo subscriberCellularProvider];
-    NSString *carrierName = [NSString stringWithFormat:@"%@", [carrier carrierName]];
+    NSString *carrierName = carrier.carrierName;
     deviceInfo.carrier = carrierName;
 
     return deviceInfo;
