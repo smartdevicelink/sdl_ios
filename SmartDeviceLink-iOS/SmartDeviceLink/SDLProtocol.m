@@ -33,7 +33,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     BOOL _alreadyDestructed;
 }
 
-@property (assign) UInt8 maxVersionSupportedByHeadUnit;
 @property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
@@ -45,7 +44,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 - (instancetype)init {
     if (self = [super init]) {
-        [SDLGlobals globals].protocolVersion = 1;
         _messageID = 0;
         _sessionID = 0;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
@@ -290,9 +288,8 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     [self storeSessionID:sessionID forServiceType:serviceType];
-
-    self.maxVersionSupportedByHeadUnit = version;
-    [SDLGlobals globals].protocolVersion = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
+    
+    [SDLGlobals globals].maxHeadUnitVersion = version;
 
     if ([SDLGlobals globals].protocolVersion >= 3) {
         // start hearbeat

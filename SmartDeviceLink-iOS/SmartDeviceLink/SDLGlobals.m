@@ -8,6 +8,16 @@
 
 #import "SDLGlobals.h"
 
+static const NSUInteger maxProxyVersion = 4;
+
+
+@interface SDLGlobals ()
+
+@property (assign, nonatomic) NSUInteger protocolVersion;
+
+@end
+
+
 @implementation SDLGlobals
 
 + (instancetype)globals {
@@ -32,7 +42,13 @@
 }
 
 
-#pragma mark - Custom Getters
+#pragma mark - Custom Getters / Setters
+
+- (void)setMaxHeadUnitVersion:(NSUInteger)maxHeadUnitVersion {
+    self.protocolVersion = MIN(maxHeadUnitVersion, maxProxyVersion);
+    
+    _maxHeadUnitVersion = maxHeadUnitVersion;
+}
 
 - (NSUInteger)maxMTUSize {
     switch (self.protocolVersion) {
@@ -46,6 +62,11 @@
             return 128000;
         } break;
         default: {
+            // If the head unit isn't running v3/4, but that's the connection scheme we're using, then we have to know that they could be running an MTU that's not 128k, so we default back to the v1/2 MTU for safety.
+            if (self.maxHeadUnitVersion > maxProxyVersion) {
+                return 1024;
+            }
+            
             NSAssert(NO, @"Unknown version number: %@", @(self.protocolVersion));
             return 0;
         }

@@ -10,8 +10,9 @@
 
 @interface SDLGlobals : NSObject
 
-@property (assign, nonatomic) NSUInteger protocolVersion;
+@property (assign, nonatomic, readonly) NSUInteger protocolVersion;
 @property (assign, nonatomic, readonly) NSUInteger maxMTUSize;
+@property (assign, nonatomic) NSUInteger maxHeadUnitVersion;
 
 + (instancetype)globals;
 
