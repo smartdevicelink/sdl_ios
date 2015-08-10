@@ -49,6 +49,10 @@
 @class SDLUnsubscribeButton;
 @class SDLUnsubscribeVehicleData;
 @class SDLUpdateMode;
+@class SDLShowConstantTBT;
+@class SDLUpdateTurnList;
+@class SDLAlertManeuver;
+@class SDLDeviceInfo;
 
 
 @interface SDLRPCRequestFactory : NSObject {
@@ -142,6 +146,10 @@
 
 + (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)laguageDesired appID:(NSString *)appID;
 //*****
+
+//***** Device Info ******
++(SDLDeviceInfo*) buildDeviceInfo;
+//********
 
 
 + (SDLResetGlobalProperties *)buildResetGlobalPropertiesWithProperties:(NSArray *)properties correlationID:(NSNumber *)correlationID;

@@ -2,6 +2,9 @@
 //
 
 #import "SDLRPCRequestFactory.h"
+#import <UIKit/UIKit.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
 
 #import "SDLMenuParams.h"
 #import "SDLTTSChunkFactory.h"
@@ -43,10 +46,15 @@
 #import "SDLSubscribeButton.h"
 #import "SDLSubscribeVehicleData.h"
 #import "SDLSyncMsgVersion.h"
+#import "SDLDeviceInfo.h"
 #import "SDLTTSChunk.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
+#import "SDLAlertManeuver.h"
+#import "SDLShowConstantTBT.h"
+#import "SDLUpdateTurnList.h"
+#import "SDLDebugTool.h"
 
 
 @implementation SDLRPCRequestFactory
@@ -360,15 +368,28 @@
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     msg.appID = appID;
-
+    msg.deviceInfo = [self buildDeviceInfo];
     msg.correlationID = [NSNumber numberWithInt:1];
-
-    return msg;
+	return msg;
 }
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID {
-    NSMutableArray *syns = [NSMutableArray arrayWithObject:appName];
++(SDLDeviceInfo*) buildDeviceInfo {
+    SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc]init];
+    deviceInfo.hardware = [[UIDevice currentDevice] model];
+    deviceInfo.os = [[UIDevice currentDevice]systemName];
+    deviceInfo.osVersion = [[UIDevice currentDevice]systemVersion];
+    
+    CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = [netinfo subscriberCellularProvider];
+    NSString *carrierName = [NSString stringWithFormat:@"%@", [carrier carrierName]];
+    deviceInfo.carrier = carrierName;
 
+    return deviceInfo;
+}
+
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID {
+    
+	NSMutableArray* syns = [NSMutableArray arrayWithObject:appName];
     return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID];
 }
 
