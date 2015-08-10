@@ -507,7 +507,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
     NSURLSessionDownloadTask *task = nil;
-    task = [self downloadTasksForSystemRequestURLString:request.url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+    task = [self downloadTaskForSystemRequestURLString:request.url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
         
         if ([self.activeSystemRequestTasks containsObject:task]) {
             [self.activeSystemRequestTasks removeObject:task];
@@ -629,7 +629,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @return The download task, which can be started by calling -[resume]
  */
-- (NSURLSessionDownloadTask *)downloadTasksForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionDownloadTaskCompletionHandler)completionHandler {
+- (NSURLSessionDownloadTask *)downloadTaskForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionDownloadTaskCompletionHandler)completionHandler {
     NSParameterAssert(urlString != nil);
     NSParameterAssert(completionHandler != nil);
     
