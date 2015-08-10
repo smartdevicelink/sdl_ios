@@ -326,7 +326,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    NSLog(@"Handle session started for service Type: %@", @(serviceType));
     self.sessionID = sessionID;
     [self storeSessionID:sessionID forServiceType:serviceType];
 
