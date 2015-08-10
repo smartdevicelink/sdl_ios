@@ -9,6 +9,7 @@
 @class SDLRPCRequestFactory;
 @class SDLTimer;
 
+#import <VideoToolbox/VideoToolbox.h>
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
 #import "SDLRPCRequestFactory.h"
@@ -45,6 +46,16 @@
 
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;
+
+- (void)startAudioSession;
+- (void)sendAudioData:(NSData *)data;
+- (void)stopAudioSession;
+
+- (void)startVideoSession;
+- (void)sendH264EncodedFrame:(CMSampleBufferRef)sampleBuffer;
+- (void)sendH264ElementaryStreamData:(NSData *)data;
+- (void)stopVideoSession;
+
 
 /**
  * Puts data into a file on the module
