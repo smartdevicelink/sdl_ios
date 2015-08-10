@@ -278,7 +278,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
             [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
             [strongSelf onProtocolClosed];
-            [strongSelf dispose];
         }
     };
     // Send a first heartbeat
