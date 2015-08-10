@@ -57,6 +57,7 @@
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
+@import UIKit;
 
 @protocol SDLProxyListener <NSObject>
 
@@ -84,6 +85,7 @@
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response;
 - (void)onListFilesResponse:(SDLListFilesResponse *)response;
+- (void)onReceivedLockScreenIcon:(UIImage *)icon;
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification;
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification;
