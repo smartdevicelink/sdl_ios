@@ -41,6 +41,7 @@
 
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
+typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
 NSString *const SDLProxyVersion = @"4.0.0-alpha.3";
 const float startSessionTime = 10.0;
@@ -359,6 +360,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestQueryApps:systemRequest];
     } else if (requestType == [SDLRequestType LAUNCH_APP]) {
         [self handleSystemRequestLaunchApp:systemRequest];
+    } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
+        [self handleSystemRequestLockScreenIconURL:systemRequest];
     }
 }
 
@@ -502,6 +505,32 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
+- (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
+    NSURLSessionDownloadTask *task = nil;
+    task = [self downloadTasksForSystemRequestURLString:request.url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        
+        if ([self.activeSystemRequestTasks containsObject:task]) {
+            [self.activeSystemRequestTasks removeObject:task];
+        }
+        
+        if (error != nil) {
+            NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            return;
+        }
+        
+        UIImage *icon = [UIImage imageWithData: [NSData dataWithContentsOfURL:location]];
+        SEL selector = @selector(onReceivedLockScreenIcon:);
+        [self.proxyListeners enumerateObjectsUsingBlock:^(id listener, NSUInteger idx, BOOL *stop) {
+            if ([(NSObject *)listener respondsToSelector:selector]) {
+                [(NSObject *)listener performSelectorOnMainThread:selector withObject:icon waitUntilDone:NO];
+            }
+        }];
+    }];
+    [self.activeSystemRequestTasks addObject:task];
+    [task resume];
+}
+
 /**
  *  Determine if the System Request is valid and return it's JSON dictionary, if available.
  *
@@ -590,6 +619,25 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Create and return the data task
     return [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:urlString]];
+}
+
+/**
+ *  Generate an NSURLSessionDownloadTask for System Requests
+ *
+ *  @param urlString     A string containing the URL to download data from
+ *  @param completionHandler a completion handler returning the response from the server and location of the download
+ *
+ *  @return The download task, which can be started by calling -[resume]
+ */
+- (NSURLSessionDownloadTask *)downloadTasksForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionDownloadTaskCompletionHandler)completionHandler {
+    NSParameterAssert(urlString != nil);
+    NSParameterAssert(completionHandler != nil);
+    
+    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request to URL: %@", urlString];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    // Create and return the download task
+    return [[NSURLSession sharedSession] downloadTaskWithURL:[NSURL URLWithString:urlString] completionHandler:completionHandler];
 }
 
 
