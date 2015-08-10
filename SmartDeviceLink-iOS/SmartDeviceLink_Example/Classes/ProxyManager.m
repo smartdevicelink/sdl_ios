@@ -134,4 +134,15 @@ NSString *const SDLAppId = @"9999";
     }
 }
 
+- (void)onReceivedLockScreenIcon:(UIImage *)icon {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Lock Screen Icon" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+        [alert setValue:imageView forKey:@"accessoryView"];
+    }else{
+        [alert addSubview:imageView];
+    }
+    [alert show];
+}
+
 @end
