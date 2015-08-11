@@ -847,6 +847,68 @@ describe(@"BuildSubscribeVehicleData Tests", ^ {
     });
 });
 
+describe(@"SDLAlertManeuver Tests", ^ {
+    it(@"Should build correctly", ^ {
+
+        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
+        SDLAlertManeuver* message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunks softButtons:softButtons correlationID:@1234];
+
+        expect(message.ttsChunks).to(equal(ttsChunks));
+        expect(message.softButtons).to(equal(softButtons));
+        expect(message.correlationID).to(equal(@1234));
+
+        message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunks softButtons:softButtons correlationID:@99999];
+        expect(message.ttsChunks).to(equal(ttsChunks));
+        expect(message.softButtons).to(beNil());
+        expect(message.correlationID).to(equal(@99999));
+    });
+});
+
+describe(@"SDLUpdateTurnList Tests", ^ {
+    it(@"Should build correctly", ^ {
+
+        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
+        NSArray* turnImages = @[@"Image 1", @"Image 2", @"Image 3"];
+        SDLUpdateTurnList* message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turnList softButtons:softButtons correlationID:1234];
+
+        expect(message.turnList).to(equal(turnImages));
+        expect(message.softButtons).to(equal(softButtons));
+        expect(message.correlationID).to(equal(@1234));
+
+        message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunks softButtons:softButtons correlationID:@99999];
+        expect(message.turnList).to(equal(turnImages));
+        expect(message.softButtons).to(beNil());
+        expect(message.correlationID).to(equal(@99999));
+    });
+});
+
+describe(@"SDLShowConstantTBT Tests", ^ {
+    it(@"Should build correctly", ^ {
+
+        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        SDLImage *image1 = [[SDLImage alloc]init];
+        SDLImage *image2 = [[SDLImage alloc]init];
+        SDLShowConstantTBT* message = [SDLRPCRequestFactory buildShowConstatntTBTWithString:@"Navigation Text 1" navigationText2:@"Navigation Text 2" etaString:@"ETA String" timeToDestination:@"10:31 PM" totalDistance:@"1000 Miles" turnIcon:image1 nextTurnIcon:image2 distanceToManeuver:@"100.11" distanceToManeuverScale:@"10.20" maneuverComplete:@"23.2" softButtons:softButtons correlationID:1234];
+
+        expect(message.navigationText1).to(equal(@"Navigation Text 1"));
+        expect(message.navigationText2).to(equal(@"Navigation Text 2"));
+        expect(message.etaString).to(equal(@"ETA String"));
+        expect(message.timeToDestination).to(equal(@"10:31 PM"));
+        expect(message.totalDistance).to(equal(@"1000 Miles"));
+        expect(message.turnIcon).to(equal(@image1));
+        expect(message.nextTurnIcon).to(equal(@image2));
+        expect(message.distanceToManeuver)to(equal("100.11"));
+        expect(message.distanceToManeuverScale)to(equal("10.20"));
+        expect(message.maneuverComplete)to(equal("23.2"));
+        expect(message.softButtons).to(equal(softButtons));
+        expect(message.correlationID).to(equal(@1234));
+
+        message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunks softButtons:softButtons correlationID:@99999];
+    });
+});
+
 QuickSpecEnd
 
 
