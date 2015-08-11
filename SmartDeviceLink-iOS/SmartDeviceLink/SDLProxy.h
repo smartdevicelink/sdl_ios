@@ -46,6 +46,15 @@
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;
 
+- (void)startAudioSession;
+- (void)sendAudioData:(NSData *)data;
+- (void)stopAudioSession;
+
+- (void)startVideoSession;
+- (void)sendVideoData:(NSData *)data;
+- (void)stopVideoSession;
+
+
 /**
  * Puts data into a file on the module
  * @abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.
