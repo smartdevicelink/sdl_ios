@@ -38,6 +38,9 @@ static const NSUInteger maxProxyVersion = 4;
     
     _protocolVersion = 1;
     
+    // This will cause maxMTUSize to assert unless changed before maxMTUSize is called. This is by design.
+    _maxHeadUnitVersion = 0;
+    
     return self;
 }
 
