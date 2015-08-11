@@ -65,10 +65,10 @@ static const NSUInteger maxProxyVersion = 4;
             // If the head unit isn't running v3/4, but that's the connection scheme we're using, then we have to know that they could be running an MTU that's not 128k, so we default back to the v1/2 MTU for safety.
             if (self.maxHeadUnitVersion > maxProxyVersion) {
                 return 1024;
+            } else {
+                NSAssert(NO, @"Unknown version number: %@", @(self.protocolVersion));
+                return 0;
             }
-            
-            NSAssert(NO, @"Unknown version number: %@", @(self.protocolVersion));
-            return 0;
         }
     }
 }
