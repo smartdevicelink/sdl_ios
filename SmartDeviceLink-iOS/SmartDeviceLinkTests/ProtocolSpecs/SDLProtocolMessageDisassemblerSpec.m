@@ -9,8 +9,6 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLGlobals.h"
-#import "SDLProtocol.h"
 #import "SDLProtocolMessageDisassembler.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
