@@ -10,8 +10,8 @@
 @property (nonatomic, copy) void (^canceledBlock)(void);
 @property (assign) float duration;
 
-- (id)init;
-- (id)initWithDuration:(float)duration __deprecated;
+- (instancetype)init;
+- (instancetype)initWithDuration:(float)duration __deprecated;
 - (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat;
 - (void)start;
 - (void)cancel;

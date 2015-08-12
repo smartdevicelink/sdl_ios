@@ -15,7 +15,7 @@
 
 @implementation SDLTimer
 
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         _duration = 0;
         _timerRunning = NO;
@@ -23,7 +23,7 @@
     return self;
 }
 
-- (id)initWithDuration:(float)duration {
+- (instancetype)initWithDuration:(float)duration {
     return [self initWithDuration:duration repeat:NO];
 }
 
