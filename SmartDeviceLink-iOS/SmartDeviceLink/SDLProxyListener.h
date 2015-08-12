@@ -57,6 +57,9 @@
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
+@class SDLAlertManeuverResponse;
+@class SDLDialNumberResponse;
+@class SDLSendLocationResponse;
 
 @protocol SDLProxyListener <NSObject>
 
@@ -121,5 +124,8 @@
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response;
 - (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response;
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response;
+- (void)onAlertManeuverResponse:(SDLAlertManeuverResponse*) request;
+- (void)onDialNumberResponse:(SDLDialNumberResponse*) request;
+- (void)onSendLocationResponse:(SDLSendLocationResponse*) request;
 
 @end
