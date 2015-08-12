@@ -280,9 +280,6 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             [strongSelf onProtocolClosed];
         }
     };
-    // Send a first heartbeat
-    [self sendHeartbeat];
-
     [self.heartbeatTimer start];
 }
 
@@ -332,6 +329,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
 
     if (self.version >= 3) {
+        self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
         [self startHeartbeatTimerWithDuration:5.0];
     }
 
