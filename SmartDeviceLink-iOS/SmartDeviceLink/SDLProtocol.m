@@ -160,7 +160,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < [SDLGlobals globals].protocolVersion) {
+    if (protocolMessage.size < [SDLGlobals globals].maxMTUSize) {
         [self logRPCSend:protocolMessage];
         [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
     } else {
