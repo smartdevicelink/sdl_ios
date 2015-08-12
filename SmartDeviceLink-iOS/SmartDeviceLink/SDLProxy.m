@@ -30,6 +30,7 @@
 #import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLSiphonServer.h"
+#import "SDLStreamingDataManager.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLQueryAppsManager.h"
@@ -55,6 +56,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
+@property (strong, readwrite) SDLStreamingDataManager *streamingDataManager;
 
 @end
 
@@ -157,20 +159,28 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self sendRPC:HMIStatusRPC];
 }
 
+
+#pragma mark - Setters / Getters
+
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
 }
 
-- (void)startRPCSession {
-    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+- (SDLStreamingDataManager *)streamingDataManager {
+    if (_streamingDataManager == nil) {
+        _streamingDataManager = [[SDLStreamingDataManager alloc] initWithProtocol:self.protocol];
+    }
+    
+    return _streamingDataManager;
 }
+
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)onProtocolOpened {
     _isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    [self startRPCSession];
+    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
 
     if (self.startSessionTimer == nil) {
         self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime];
