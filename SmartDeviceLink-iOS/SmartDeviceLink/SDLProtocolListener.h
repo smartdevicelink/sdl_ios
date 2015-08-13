@@ -8,7 +8,11 @@
 
 @protocol SDLProtocolListener <NSObject>
 
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version;
+@optional
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version;
+- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType;
+- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType;
+- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType;
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg;
 - (void)onProtocolOpened;
 - (void)onProtocolClosed;

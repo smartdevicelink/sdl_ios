@@ -204,21 +204,26 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
-    // Turn off the timer, the start session response came back
-    [self.startSessionTimer cancel];
-
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
-    if (_version <= 1) {
-        if (maxVersionForModule >= 2) {
-            _version = maxVersionForModule;
-        }
-    }
-
-    if (serviceType == SDLServiceType_RPC || _version >= 2) {
-        [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+    switch (serviceType) {
+        case SDLServiceType_RPC: {
+            // Turn off the timer, the start session response came back
+            [self.startSessionTimer cancel];
+            
+            NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            
+            if (_version <= 1) {
+                if (version >= 2) {
+                    _version = version;
+                }
+            }
+            
+            if (_version >= 2) {
+                [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
+            }
+        } break;
+        default: break;
     }
 }
 

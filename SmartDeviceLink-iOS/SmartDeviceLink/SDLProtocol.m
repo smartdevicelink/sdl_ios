@@ -288,8 +288,9 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 
-#pragma mark - SDLProtocolListener Implementation
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+#pragma mark - SDLProtocolListener Protocol
+
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     [self storeSessionID:sessionID forServiceType:serviceType];
 
     self.maxVersionSupportedByHeadUnit = version;
