@@ -15,7 +15,7 @@
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
-@property (copy, nonatomic) SDLStreamingStartBlock startBlock;
+@property (copy, nonatomic) SDLStreamingLifecycleBlock startBlock;
 @property (copy, nonatomic) SDLStreamingVideoDataBlock videoDataBlock;
 @property (copy, nonatomic) SDLStreamingAudioDataBlock audioDataBlock;
 
@@ -35,18 +35,26 @@
     return self;
 }
 
-- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock {
+- (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock {
     self.startBlock = [startBlock copy];
     self.videoDataBlock = [dataBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Video];
 }
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingAudioDataBlock)dataBlock {
+- (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock dataBlock:(SDLStreamingAudioDataBlock)dataBlock {
     self.startBlock = [startBlock copy];
     self.audioDataBlock = [dataBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Audio];
+}
+
+- (void)stopVideoSessionWithEndBlock:(SDLStreamingLifecycleBlock)endBlock {
+    
+}
+
+- (void)stopAudioSessionWithEndBlock:(SDLStreamingLifecycleBlock)endBlock {
+    
 }
 
 
@@ -55,9 +63,16 @@
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     switch (serviceType) {
         case SDLServiceType_Audio: {
+            if (self.audioDataBlock == nil) {
+                return;
+            }
+            
             
         } break;
         case SDLServiceType_Video: {
+            if (self.videoDataBlock == nil) {
+                
+            }
             
         } break;
         default: break;

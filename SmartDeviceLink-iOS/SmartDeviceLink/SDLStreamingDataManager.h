@@ -14,7 +14,7 @@
 @class SDLAbstractProtocol;
 
 
-typedef void (^SDLStreamingStartBlock)(BOOL success);
+typedef void (^SDLStreamingLifecycleBlock)(BOOL success);
 
 /**
  *  This block is called when the data manager is ready for a new packet of video data to be encoded and sent to the head unit as part of an H.264 video strem
@@ -38,9 +38,10 @@ typedef NSData * (^SDLStreamingAudioDataBlock)();
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
 
-- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock;
-//- (void)stopVideoSession
+- (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock;
+- (void)stopVideoSessionWithEndBlock:(SDLStreamingLifecycleBlock)endBlock;
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingAudioDataBlock)dataBlock;
+- (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock dataBlock:(SDLStreamingAudioDataBlock)dataBlock;
+- (void)stopAudioSessionWithEndBlock:(SDLStreamingLifecycleBlock)endBlock;
 
 @end
