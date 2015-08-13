@@ -78,7 +78,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         self.protocol = protocol;
         self.transport = transport;
         self.transport.delegate = protocol;
-        self.protocol.protocolDelegate = self;
+        [self.protocol.protocolDelegateTable addObject:self];
         self.protocol.transport = transport;
 
         [self.transport connect];
@@ -169,6 +169,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (SDLStreamingDataManager *)streamingDataManager {
     if (_streamingDataManager == nil) {
         _streamingDataManager = [[SDLStreamingDataManager alloc] initWithProtocol:self.protocol];
+        [self.protocol.protocolDelegateTable addObject:_streamingDataManager];
     }
     
     return _streamingDataManager;

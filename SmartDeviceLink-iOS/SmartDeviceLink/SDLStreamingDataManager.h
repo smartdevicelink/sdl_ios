@@ -9,13 +9,10 @@
 #import <Foundation/Foundation.h>
 @import VideoToolbox;
 
+#import "SDLProtocolListener.h"
+
 @class SDLAbstractProtocol;
 
-
-NS_ENUM(NSUInteger, SDLStreamingDataType) {
-    SDLStreamingDataTypeVideo,
-    SDLStreamingDataTypePCMAudio
-};
 
 typedef void (^SDLStreamingStartBlock)(BOOL success);
 
@@ -34,7 +31,7 @@ typedef CMSampleBufferRef (^SDLStreamingVideoDataBlock)();
 typedef NSData * (^SDLStreamingAudioDataBlock)();
 
 
-@interface SDLStreamingDataManager : NSObject
+@interface SDLStreamingDataManager : NSObject <SDLProtocolListener>
 
 @property (assign, nonatomic) BOOL videoSessionConnected;
 @property (assign, nonatomic) BOOL audioSessionConnected;
@@ -44,6 +41,6 @@ typedef NSData * (^SDLStreamingAudioDataBlock)();
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock;
 //- (void)stopVideoSession
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock;
+- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock dataBlock:(SDLStreamingAudioDataBlock)dataBlock;
 
 @end

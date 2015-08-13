@@ -291,33 +291,85 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 #pragma mark - SDLProtocolListener Protocol
 
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    [self storeSessionID:sessionID forServiceType:serviceType];
-
-    self.maxVersionSupportedByHeadUnit = version;
-    self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
-
-    if (self.version >= 3) {
-        // start hearbeat
+    switch (serviceType) {
+        case SDLServiceType_RPC: {
+            self.maxVersionSupportedByHeadUnit = version;
+            self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
+            
+            if (self.version >= 3) {
+                // start heartbeat
+            }
+        } break;
+        default: break;
     }
+    
+    [self storeSessionID:sessionID forServiceType:serviceType];
+    
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
+            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
+        }
+    }
+}
 
-    [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
+- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
+            [listener handleProtocolStartSessionNACK:serviceType];
+        }
+    }
+}
+
+- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
+            [listener handleProtocolEndSessionACK:serviceType];
+        }
+    }
+}
+
+- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
+            [listener handleProtocolEndSessionNACK:serviceType];
+        }
+    }
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
-    [self.protocolDelegate onProtocolMessageReceived:msg];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
+            [listener onProtocolMessageReceived:msg];
+        }
+    }
 }
 
 - (void)onProtocolOpened {
-    [self.protocolDelegate onProtocolOpened];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
+            [listener onProtocolOpened];
+        }
+    }
 }
 
 - (void)onProtocolClosed {
-    [self.protocolDelegate onProtocolClosed];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
+            [listener onProtocolClosed];
+        }
+    }
 }
 
 - (void)onError:(NSString *)info exception:(NSException *)e {
-    [self.protocolDelegate onError:info exception:e];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(onError:exception:)]) {
+            [listener onError:info exception:e];
+        }
+    }
 }
+
+
+#pragma mark - Lifecycle
 
 - (void)destructObjects {
     if (!_alreadyDestructed) {
@@ -325,7 +377,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         self.messageRouter.delegate = nil;
         self.messageRouter = nil;
         self.transport = nil;
-        self.protocolDelegate = nil;
+        self.protocolDelegateTable = nil;
     }
 }
 
