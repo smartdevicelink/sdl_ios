@@ -10,14 +10,16 @@
 
 #import "SDLAbstractProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingDataManager ()
+
+@property (assign, nonatomic) BOOL videoSessionConnected;
+@property (assign, nonatomic) BOOL audioSessionConnected;
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
 @property (copy, nonatomic) SDLStreamingLifecycleBlock startBlock;
-@property (copy, nonatomic) SDLStreamingVideoDataBlock videoDataBlock;
-@property (copy, nonatomic) SDLStreamingAudioDataBlock audioDataBlock;
 
 @end
 
@@ -30,31 +32,52 @@
         return nil;
     }
     
+    _videoSessionConnected = NO;
+    _audioSessionConnected = NO;
     _protocol = protocol;
     
     return self;
 }
 
-- (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock dataBlock:(SDLStreamingVideoDataBlock)dataBlock {
+- (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock {
     self.startBlock = [startBlock copy];
-    self.videoDataBlock = [dataBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Video];
 }
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock dataBlock:(SDLStreamingAudioDataBlock)dataBlock {
+- (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock {
     self.startBlock = [startBlock copy];
-    self.audioDataBlock = [dataBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Audio];
 }
 
-- (void)stopVideoSessionWithEndBlock:(SDLStreamingLifecycleBlock)endBlock {
-    
+- (void)stopVideoSession {
+    [self.protocol sendEndSessionWithType:SDLServiceType_Video];
 }
 
-- (void)stopAudioSessionWithEndBlock:(SDLStreamingLifecycleBlock)endBlock {
+- (void)stopAudioSession {
+    [self.protocol sendEndSessionWithType:SDLServiceType_Audio];
+}
+
+- (void)sendVideoData:(CMSampleBufferRef)bufferRef {
+    if (!self.videoSessionConnected) {
+        return;
+    }
     
+    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
+        NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithBufferRef:bufferRef];
+        [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
+    });
+}
+
+- (void)sendAudioData:(NSData *)pcmData {
+    if (!self.audioSessionConnected) {
+        return;
+    }
+    
+    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
+        [self.protocol sendRawData:pcmData withServiceType:SDLServiceType_Audio];
+    });
 }
 
 
@@ -63,17 +86,13 @@
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     switch (serviceType) {
         case SDLServiceType_Audio: {
-            if (self.audioDataBlock == nil) {
-                return;
-            }
-            
+            self.audioSessionConnected = YES;
+            self.startBlock(YES);
             
         } break;
         case SDLServiceType_Video: {
-            if (self.videoDataBlock == nil) {
-                
-            }
-            
+            self.videoSessionConnected = YES;
+            self.startBlock(YES);
         } break;
         default: break;
     }
@@ -82,10 +101,10 @@
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
     switch (serviceType) {
         case SDLServiceType_Audio: {
-            
+            self.startBlock(NO);
         } break;
         case SDLServiceType_Video: {
-            
+            self.startBlock(NO);
         } break;
         default: break;
     }
@@ -94,10 +113,10 @@
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
     switch (serviceType) {
         case SDLServiceType_Audio: {
-            
+            self.audioSessionConnected = NO;
         } break;
         case SDLServiceType_Video: {
-            
+            self.videoSessionConnected = NO;
         } break;
         default: break;
     }
@@ -110,7 +129,7 @@
 
 #pragma mark - Encoding
 
-- (NSData *)sdl_encodeElementaryStreamWithBufferRef:(CMSampleBufferRef)bufferRef {
++ (NSData *)sdl_encodeElementaryStreamWithBufferRef:(CMSampleBufferRef)bufferRef {
     NSMutableData *elementaryStream = [NSMutableData data];
     
     
@@ -128,8 +147,7 @@
         isIFrame = !keyExists || !CFBooleanGetValue(notSync);
     }
     
-    // This is the start code that we will write to
-    // the elementary stream before every NAL unit
+    // This is the start code that we will write to the elementary stream before every NAL unit
     static const size_t startCodeLength = 4;
     static const uint8_t startCode[] = {0x00, 0x00, 0x00, 0x01};
     
@@ -161,7 +179,7 @@
     }
     
     // Get a pointer to the raw AVCC NAL unit data in the sample buffer
-    size_t blockBufferLength;
+    size_t blockBufferLength = 0;
     uint8_t *bufferDataPointer = NULL;
     CMBlockBufferGetDataPointer(CMSampleBufferGetDataBuffer(bufferRef),
                                 0,
@@ -169,9 +187,7 @@
                                 &blockBufferLength,
                                 (char **)&bufferDataPointer);
     
-    // Loop through all the NAL units in the block buffer
-    // and write them to the elementary stream with
-    // start codes instead of AVCC length headers
+    // Loop through all the NAL units in the block buffer and write them to the elementary stream with start codes instead of AVCC length headers
     size_t bufferOffset = 0;
     static const int AVCCHeaderLength = 4;
     while (bufferOffset < blockBufferLength - AVCCHeaderLength) {
@@ -180,11 +196,11 @@
         memcpy(&NALUnitLength, bufferDataPointer + bufferOffset, AVCCHeaderLength);
         // Convert the length value from Big-endian to Little-endian
         NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
-        // Write start code to the elementary stream
         [elementaryStream appendBytes:startCode length:startCodeLength];
+        
         // Write the NAL unit without the AVCC length header to the elementary stream
-        [elementaryStream appendBytes:bufferDataPointer + bufferOffset + AVCCHeaderLength
-                               length:NALUnitLength];
+        [elementaryStream appendBytes:bufferDataPointer + bufferOffset + AVCCHeaderLength length:NALUnitLength];
+        
         // Move to the next NAL unit in the block buffer
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
@@ -192,4 +208,16 @@
     return elementaryStream;
 }
 
++ (dispatch_queue_t)sdl_streamingDataSerialQueue {
+    static dispatch_queue_t streamingDataQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        streamingDataQueue = dispatch_queue_create("com.sdl.videoaudiostreaming.encoder", DISPATCH_QUEUE_SERIAL);
+    });
+    
+    return streamingDataQueue;
+}
+
 @end
+
+NS_ASSUME_NONNULL_END
