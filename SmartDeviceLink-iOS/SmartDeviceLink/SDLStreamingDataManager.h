@@ -14,7 +14,7 @@
 @class SDLAbstractProtocol;
 
 
-typedef void (^SDLStreamingLifecycleBlock)(BOOL success);
+typedef void (^SDLStreamingStartBlock)(BOOL success);
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,11 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
 
-- (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock;
+- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 - (void)stopVideoSession;
 - (BOOL)sendVideoData:(CMSampleBufferRef)bufferRef;
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock;
+- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock;
 - (void)stopAudioSession;
 - (BOOL)sendAudioData:(NSData *)pcmAudioData;
 

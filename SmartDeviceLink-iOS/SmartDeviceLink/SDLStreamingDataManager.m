@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
-@property (copy, nonatomic) SDLStreamingLifecycleBlock startBlock;
+@property (copy, nonatomic, nullable) SDLStreamingStartBlock videoStartBlock;
+@property (copy, nonatomic, nullable) SDLStreamingStartBlock audioStartBlock;
 
 @end
 
@@ -36,17 +37,20 @@ NS_ASSUME_NONNULL_BEGIN
     _audioSessionConnected = NO;
     _protocol = protocol;
     
+    _videoStartBlock = nil;
+    _audioStartBlock = nil;
+    
     return self;
 }
 
-- (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock {
-    self.startBlock = [startBlock copy];
+- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
+    self.videoStartBlock = [startBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Video];
 }
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock {
-    self.startBlock = [startBlock copy];
+- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
+    self.audioStartBlock = [startBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Audio];
 }
@@ -92,11 +96,13 @@ NS_ASSUME_NONNULL_BEGIN
     switch (serviceType) {
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
-            self.startBlock(YES);
+            self.audioStartBlock(YES);
+            self.audioStartBlock = nil;
         } break;
         case SDLServiceType_Video: {
             self.videoSessionConnected = YES;
-            self.startBlock(YES);
+            self.videoStartBlock(YES);
+            self.videoStartBlock = nil;
         } break;
         default: break;
     }
@@ -105,10 +111,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
     switch (serviceType) {
         case SDLServiceType_Audio: {
-            self.startBlock(NO);
+            self.audioStartBlock(NO);
+            self.audioStartBlock = nil;
         } break;
         case SDLServiceType_Video: {
-            self.startBlock(NO);
+            self.videoStartBlock(NO);
+            self.videoStartBlock = nil;
         } break;
         default: break;
     }
@@ -135,19 +143,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSData *)sdl_encodeElementaryStreamWithBufferRef:(CMSampleBufferRef)bufferRef {
     NSMutableData *elementaryStream = [NSMutableData data];
-    
-    
-    // Find out if the sample buffer contains an I-Frame.
-    // If so we will write the SPS and PPS NAL units to the elementary stream.
     BOOL isIFrame = NO;
     CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(bufferRef, 0);
+    
     if (CFArrayGetCount(attachmentsArray)) {
         CFBooleanRef notSync;
         CFDictionaryRef dict = CFArrayGetValueAtIndex(attachmentsArray, 0);
         BOOL keyExists = CFDictionaryGetValueIfPresent(dict,
                                                        kCMSampleAttachmentKey_NotSync,
                                                        (const void **)&notSync);
-        // An I-Frame is a sync frame
+        
+        // Find out if the sample buffer contains an I-Frame (sync frame). If so we will write the SPS and PPS NAL units to the elementary stream.
         isIFrame = !keyExists || !CFBooleanGetValue(notSync);
     }
     
@@ -198,6 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Read the NAL unit length
         uint32_t NALUnitLength = 0;
         memcpy(&NALUnitLength, bufferDataPointer + bufferOffset, AVCCHeaderLength);
+        
         // Convert the length value from Big-endian to Little-endian
         NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
         [elementaryStream appendBytes:startCode length:startCodeLength];
