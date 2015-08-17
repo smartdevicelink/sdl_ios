@@ -25,9 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingLifecycleBlock)startBlock;
 - (void)stopVideoSession;
+- (BOOL)sendVideoData:(CMSampleBufferRef)bufferRef;
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingLifecycleBlock)startBlock;
 - (void)stopAudioSession;
+- (BOOL)sendAudioData:(NSData *)pcmAudioData;
 
 @end
 

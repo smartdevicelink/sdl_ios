@@ -59,25 +59,30 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol sendEndSessionWithType:SDLServiceType_Audio];
 }
 
-- (void)sendVideoData:(CMSampleBufferRef)bufferRef {
+- (BOOL)sendVideoData:(CMSampleBufferRef)bufferRef {
     if (!self.videoSessionConnected) {
-        return;
+        return NO;
     }
     
+    // TODO (Joel F.)[2015-08-17]: Limit framerate, drop frames if necessary. Somehow monitor connection to make sure we're not clogging the data connection with data.
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithBufferRef:bufferRef];
         [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
     });
+    
+    return YES;
 }
 
-- (void)sendAudioData:(NSData *)pcmData {
+- (BOOL)sendAudioData:(NSData *)pcmAudioData {
     if (!self.audioSessionConnected) {
-        return;
+        return NO;
     }
     
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
-        [self.protocol sendRawData:pcmData withServiceType:SDLServiceType_Audio];
+        [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
     });
+    
+    return YES;
 }
 
 
@@ -88,7 +93,6 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
             self.startBlock(YES);
-            
         } break;
         case SDLServiceType_Video: {
             self.videoSessionConnected = YES;
@@ -123,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
-    
+    // TODO (Joel F.)[2015-08-17]: This really, really shouldn't ever happen. Should we assert? Do nothing? We don't have any additional info on why this failed.
 }
 
 
