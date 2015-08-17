@@ -1,0 +1,44 @@
+//
+//  SDLURLConnection.h
+//  SmartDeviceLink-iOS
+//
+//  Created by Joel Fischer on 8/17/15.
+//  Copyright (c) 2015 smartdevicelink. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLURLSession : NSObject
+
+@property (assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
+@property (assign, nonatomic) NSTimeInterval connectionTimeout;
+
++ (instancetype)sharedSession;
+
+/**
+ *  Retrieves data from a specified URL. Default settings for timeout and cache policy will be used.
+ *
+ *  @param url               An NSURLRequest will be assembled for this URL
+ *  @param completionHandler The completion handler that will be called when the request is complete
+ */
+- (void)dataFromURL:(NSURL *)url completionHandler:(void(^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+
+/**
+ *  Starts a URL request using data supplied.
+ *
+ *  @param request           An NSURLRequest that provides the URL, cache policy, request method, etc. The HTTPBody data in this request will be ignored
+ *  @param data              The data to be uploaded over HTTP
+ *  @param completionHandler The completion handler that will be called when the request is complete
+ */
+- (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(void(^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+
+/**
+ *  Tells all pending requests to cancel
+ */
+- (void)cancelAllTasks;
+
+@end
+
+NS_ASSUME_NONNULL_END
