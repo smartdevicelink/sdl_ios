@@ -38,6 +38,7 @@
 #import "SDLLockScreenManager.h"
 #import "SDLProtocolMessage.h"
 #import "SDLTimer.h"
+#import "SDLURLSession.h"
 
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
@@ -50,11 +51,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @interface SDLProxy () {
     SDLLockScreenManager *_lsm;
-    NSURLSession *_systemRequestSession;
-    NSURLSession *_encodedSyncPDataSession;
 }
-
-@property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
 
 @end
 
@@ -71,7 +68,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 
         _alreadyDestructed = NO;
         
-        self.activeSystemRequestTasks = [NSMutableSet set];
         self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
         self.protocol = protocol;
         self.transport = transport;
@@ -95,13 +91,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
 
-        if (_systemRequestSession != nil) {
-            [_systemRequestSession invalidateAndCancel];
-        }
-
-        if (_encodedSyncPDataSession != nil) {
-            [_encodedSyncPDataSession invalidateAndCancel];
-        }
+        [[SDLURLSession sharedSession] cancelAllTasks];
 
         [self.protocol dispose];
         [self.transport dispose];
@@ -409,7 +399,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 
     // Send the HTTP Request
-    NSURLSessionUploadTask *task = [self uploadTaskForBodyDataDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [self uploadForBodyDataDictionary:JSONDictionary URLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *logMessage = nil;
         
         if (error) {
@@ -446,16 +436,10 @@ const int POLICIES_CORRELATION_ID = 65535;
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         [self sendRPC:request];
     }];
-    [task resume];
 }
 
 - (void)handleSystemRequestQueryApps:(SDLOnSystemRequest *)request {
-    NSURLSessionDataTask *task = nil;
-    task = [self dataTaskForSystemRequestURLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *requestError) {
-        if ([self.activeSystemRequestTasks containsObject:task]) {
-            [self.activeSystemRequestTasks removeObject:task];
-        }
-        
+    [self fetchDataForSystemRequestURLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *requestError) {
         if (requestError != nil) {
             NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), upload task failed: %@", requestError.localizedDescription];
             [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
@@ -486,8 +470,6 @@ const int POLICIES_CORRELATION_ID = 65535;
             [self sendRPC:request];
         }];
     }];
-    [self.activeSystemRequestTasks addObject:task];
-    [task resume];
 }
 
 - (void)handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
@@ -536,15 +518,13 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 /**
- *  Generate an NSURLSessionUploadTask for System Request
+ *  Start an upload for a body data dictionary
  *
  *  @param dictionary        The system request dictionary that contains the HTTP data to be sent
  *  @param urlString         A string containing the URL to send the upload to
  *  @param completionHandler A completion handler returning the response from the server to the upload task
- *
- *  @return The upload task, which can be started by calling -[resume]
  */
-- (NSURLSessionUploadTask *)uploadTaskForBodyDataDictionary:(NSDictionary *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+- (void)uploadForBodyDataDictionary:(NSDictionary *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
     NSParameterAssert(dictionary != nil);
     NSParameterAssert(urlString != nil);
     NSParameterAssert(completionHandler != NULL);
@@ -558,7 +538,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString *bodyString = requestData[@"body"];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 
-    // NSURLSession configuration
+    // NSURLRequest configuration
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setValue:contentType forHTTPHeaderField:@"content-type"];
@@ -570,26 +550,21 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Create the upload task
-    return [[NSURLSession sharedSession] uploadTaskWithRequest:request fromData:bodyData completionHandler:completionHandler];
+    [[SDLURLSession sharedSession] uploadWithURLRequest:request data:bodyData completionHandler:completionHandler];
 }
 
 /**
- *  Generate an NSURLSessionDataTask for System Requests
+ *  Retrieve data for a specified system request URL
  *
  *  @param urlString         A string containing the URL to request data from
  *  @param completionHandler A completion handler returning the response from the server to the data task
- *
- *  @return The data task, which can be started by calling -[resume]
  */
-- (NSURLSessionDataTask *)dataTaskForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    NSParameterAssert(urlString != nil);
-    NSParameterAssert(completionHandler != nil);
-
+- (void)fetchDataForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
     NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request to URL: %@", urlString];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    // Create and return the data task
-    return [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:urlString]];
+    // Start the data session
+    [[SDLURLSession sharedSession] dataFromURL:[NSURL URLWithString:urlString] completionHandler:completionHandler];
 }
 
 
@@ -615,12 +590,8 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
-
-    // Configure HTTP Session
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.HTTPAdditionalHeaders = @{ @"Content-Type" : @"application/json" };
-    config.timeoutIntervalForRequest = 60;
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.timeoutInterval = 60;
 
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
@@ -635,16 +606,15 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 
     // Send the HTTP Request
-    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        [self SyncPDataNetworkRequestCompleteWithData:data response:response error:error];
+    [[SDLURLSession sharedSession] uploadWithURLRequest:request data:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
     }];
-    [uploadTask resume];
 
     [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
 // Handle the OnEncodedSyncPData HTTP Response
-- (void)SyncPDataNetworkRequestCompleteWithData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
+- (void)syncPDataNetworkRequestCompleteWithData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
     // Sample of response: {"data":["SDLKGLSDKFJLKSjdslkfjslkJLKDSGLKSDJFLKSDJF"]}
     [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
