@@ -66,9 +66,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    self.completionHandler(nil, self.response, error);
-    
-    self.state = SDLURLRequestTaskStateCompleted;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionHandler(nil, self.response, error);
+        
+        self.state = SDLURLRequestTaskStateCompleted;
+    });
 }
 
 
@@ -83,9 +85,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    self.completionHandler(self.data, self.response, nil);
-    
-    self.state = SDLURLRequestTaskStateCompleted;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionHandler(self.data, self.response, nil);
+        
+        self.state = SDLURLRequestTaskStateCompleted;
+    });
 }
 
 @end
