@@ -8,11 +8,22 @@
 
 #import "SDLStreamingMediaManager.h"
 
+@import UIKit;
+
 #import "SDLAbstractProtocol.h"
+
+
+NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
+NSString *const SDLErrorDomainStreamingMediaAudio = @"com.sdl.streamingmediamanager.audio";
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
+
+@property (assign, nonatomic) VTCompressionSessionRef compressionSession;
+
+@property (assign, nonatomic) NSUInteger currentFrameNumber;
 
 @property (assign, nonatomic) BOOL videoSessionConnected;
 @property (assign, nonatomic) BOOL audioSessionConnected;
@@ -33,6 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
+    _compressionSession = NULL;
+    
+    _currentFrameNumber = 0;
     _videoSessionConnected = NO;
     _audioSessionConnected = NO;
     _protocol = protocol;
@@ -44,6 +58,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+        NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
+        startBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
+        
+        return;
+    }
+    
+    
     self.videoStartBlock = [startBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Video];
@@ -63,16 +85,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol sendEndSessionWithType:SDLServiceType_Audio];
 }
 
-- (BOOL)sendVideoData:(CMSampleBufferRef)bufferRef {
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
     if (!self.videoSessionConnected) {
         return NO;
     }
     
     // TODO (Joel F.)[2015-08-17]: Somehow monitor connection to make sure we're not clogging the connection with data.
-    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
-        NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithBufferRef:bufferRef];
-        [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
-    });
+    VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, CMTimeMake(self.currentFrameNumber++, 30), kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
     
     return YES;
 }
@@ -96,12 +115,23 @@ NS_ASSUME_NONNULL_BEGIN
     switch (serviceType) {
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
-            self.audioStartBlock(YES);
+            self.audioStartBlock(YES, nil);
             self.audioStartBlock = nil;
         } break;
         case SDLServiceType_Video: {
+            NSError *error = nil;
+            BOOL success = [self.class sdl_configureVideoEncoderWithSessionRef:self.compressionSession error:&error];
+            
+            if (!success) {
+                [self sdl_teardownCompressionSession];
+                self.videoStartBlock(NO, error);
+                self.videoStartBlock = nil;
+                
+                return;
+            }
+            
             self.videoSessionConnected = YES;
-            self.videoStartBlock(YES);
+            self.videoStartBlock(YES, nil);
             self.videoStartBlock = nil;
         } break;
         default: break;
@@ -111,11 +141,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
     switch (serviceType) {
         case SDLServiceType_Audio: {
-            self.audioStartBlock(NO);
+            NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaAudio code:SDLStreamingAudioErrorHeadUnitNACK userInfo:nil];
+            
+            self.audioStartBlock(NO, error);
             self.audioStartBlock = nil;
         } break;
         case SDLServiceType_Video: {
-            self.videoStartBlock(NO);
+            NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorHeadUnitNACK userInfo:nil];
+            
+            self.videoStartBlock(NO, error);
             self.videoStartBlock = nil;
         } break;
         default: break;
@@ -129,6 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
         } break;
         case SDLServiceType_Video: {
             self.videoSessionConnected = NO;
+            [self sdl_teardownCompressionSession];
         } break;
         default: break;
     }
@@ -139,12 +174,114 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - Encoding
+#pragma mark - Video Encoding
 
-+ (NSData *)sdl_encodeElementaryStreamWithBufferRef:(CMSampleBufferRef)bufferRef {
+#pragma mark Lifecycle
+
+- (void)sdl_teardownCompressionSession {
+    VTCompressionSessionInvalidate(self.compressionSession);
+    CFRelease(self.compressionSession);
+}
+
+#pragma mark Callbacks
+void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) {
+    // If there was an error in the encoding, drop the frame
+    if (status != noErr) {
+        return;
+    }
+    
+    // Call the reference to self with the sample buffer data, this may happen on an arbitrary thread, but we immediately dispatch, so we should be okay.
+    SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
+    [mediaManager sdl_videoEncoderCallbackWithSampleBuffer:sampleBuffer];
+}
+
+- (void)sdl_videoEncoderCallbackWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
+        NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
+        [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
+    });
+}
+
+#pragma mark Configuration
+
++ (BOOL)sdl_configureVideoEncoderWithSessionRef:(VTCompressionSessionRef)sessionRef error:(NSError *__autoreleasing*)error {
+    OSStatus status;
+    
+    // Create a compression session
+    // TODO: Dimensions should be from the Head Unit
+    status = VTCompressionSessionCreate(NULL, 640, 480, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &sessionRef);
+    
+    if (status != noErr) {
+        // TODO: Log the error
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus": @(status)}];
+        return NO;
+    }
+    
+    
+    
+    // Set the bitrate of our video compression
+    int bitRate = 5000;
+    CFNumberRef bitRateNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &bitRate);
+    if (bitRateNumRef == NULL) {
+        // TODO: Log & end session
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
+        return NO;
+    }
+    
+    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_AverageBitRate, bitRateNumRef);
+    
+    // Release our bitrate number
+    CFRelease(bitRateNumRef);
+    bitRateNumRef = NULL;
+    
+    if (status != noErr) {
+        // TODO: Log & End session
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
+        return NO;
+    }
+    
+    // Set the profile level of the video stream
+    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
+    if (status != noErr) {
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
+        return NO;
+    }
+    
+    // Set the session to compress in real time
+    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
+    if (status != noErr) {
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
+        return NO;
+    }
+    
+    // Set the key-frame interval
+    // TODO: This may be unnecessary, can the encoder do a better job than us?
+    int interval = 50;
+    CFNumberRef intervalNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &interval);
+    if (intervalNumRef == NULL) {
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
+        return NO;
+    }
+    
+    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_MaxKeyFrameInterval, intervalNumRef);
+    
+    CFRelease(intervalNumRef);
+    intervalNumRef = NULL;
+    
+    if (status != noErr) {
+        *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark Elementary Stream Formatting
+
++ (NSData *)sdl_encodeElementaryStreamWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     NSMutableData *elementaryStream = [NSMutableData data];
     BOOL isIFrame = NO;
-    CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(bufferRef, 0);
+    CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, 0);
     
     if (CFArrayGetCount(attachmentsArray)) {
         CFBooleanRef notSync;
@@ -163,7 +300,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Write the SPS and PPS NAL units to the elementary stream before every I-Frame
     if (isIFrame) {
-        CMFormatDescriptionRef description = CMSampleBufferGetFormatDescription(bufferRef);
+        CMFormatDescriptionRef description = CMSampleBufferGetFormatDescription(sampleBuffer);
         
         // Find out how many parameter sets there are
         size_t numberOfParameterSets;
@@ -191,7 +328,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Get a pointer to the raw AVCC NAL unit data in the sample buffer
     size_t blockBufferLength = 0;
     uint8_t *bufferDataPointer = NULL;
-    CMBlockBufferGetDataPointer(CMSampleBufferGetDataBuffer(bufferRef),
+    CMBlockBufferGetDataPointer(CMSampleBufferGetDataBuffer(sampleBuffer),
                                 0,
                                 NULL,
                                 &blockBufferLength,
@@ -218,6 +355,9 @@ NS_ASSUME_NONNULL_BEGIN
     
     return elementaryStream;
 }
+
+
+#pragma mark - Private static singleton variables
 
 + (dispatch_queue_t)sdl_streamingDataSerialQueue {
     static dispatch_queue_t streamingDataQueue = nil;
