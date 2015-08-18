@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - URL Request Methods
 
-- (void)dataFromURL:(NSURL *)url completionHandler:(void(^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler {
+- (void)dataFromURL:(NSURL *)url completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:self.cachePolicy timeoutInterval:self.connectionTimeout];
     
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.activeTasks addObject:task];
 }
 
-- (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler {
+- (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     mutableRequest.HTTPBody = data;
     
