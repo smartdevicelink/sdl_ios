@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+
+typedef void (^SDLURLConnectionRequestCompletionHandler)(NSData *__nullable data, NSURLResponse *__nullable response, NSError *__nullable error);
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLURLSession : NSObject
@@ -23,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param url               An NSURLRequest will be assembled for this URL
  *  @param completionHandler The completion handler that will be called when the request is complete
  */
-- (void)dataFromURL:(NSURL *)url completionHandler:(void(^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+- (void)dataFromURL:(NSURL *)url completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler;
 
 /**
  *  Starts a URL request using data supplied.
@@ -32,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param data              The data to be uploaded over HTTP
  *  @param completionHandler The completion handler that will be called when the request is complete
  */
-- (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(void(^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
+- (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler;
 
 /**
  *  Tells all pending requests to cancel
