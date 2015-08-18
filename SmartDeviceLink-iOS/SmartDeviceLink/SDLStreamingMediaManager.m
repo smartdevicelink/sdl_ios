@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingMediaManager
 
+#pragma mark - Class Lifecycle
+
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
     self = [super init];
     if (!self) {
@@ -57,6 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+
+#pragma mark - Streaming media lifecycle
+
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
@@ -71,19 +76,30 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol sendStartSessionWithType:SDLServiceType_Video];
 }
 
+- (void)stopVideoSession {
+    if (!self.videoSessionConnected) {
+        return;
+    }
+    
+    [self.protocol sendEndSessionWithType:SDLServiceType_Video];
+}
+
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     
     [self.protocol sendStartSessionWithType:SDLServiceType_Audio];
 }
 
-- (void)stopVideoSession {
-    [self.protocol sendEndSessionWithType:SDLServiceType_Video];
-}
-
 - (void)stopAudioSession {
+    if (!self.audioSessionConnected) {
+        return;
+    }
+    
     [self.protocol sendEndSessionWithType:SDLServiceType_Audio];
 }
+
+
+#pragma mark - Send media data
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
     if (!self.videoSessionConnected) {
