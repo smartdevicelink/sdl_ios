@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
     
-    // TODO (Joel F.)[2015-08-17]: Limit framerate, drop frames if necessary. Somehow monitor connection to make sure we're not clogging the data connection with data.
+    // TODO (Joel F.)[2015-08-17]: Somehow monitor connection to make sure we're not clogging the connection with data.
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithBufferRef:bufferRef];
         [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
