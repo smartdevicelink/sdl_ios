@@ -117,9 +117,9 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
     
-    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
+    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{ @autoreleasepool {
         [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
-    });
+    }});
     
     return YES;
 }
@@ -212,10 +212,10 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 }
 
 - (void)sdl_videoEncoderCallbackWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
+    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{ @autoreleasepool {
         NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
         [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
-    });
+    }});
 }
 
 #pragma mark Configuration
@@ -224,7 +224,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     OSStatus status;
     
     // Create a compression session
-    // TODO: Dimensions should be from the Head Unit
+    // TODO (Joel F.)[2015-08-18]: Dimensions should be from the Head Unit
     status = VTCompressionSessionCreate(NULL, 640, 480, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &sessionRef);
     
     if (status != noErr) {
