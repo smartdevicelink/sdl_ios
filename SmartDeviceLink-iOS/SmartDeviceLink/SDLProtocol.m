@@ -362,10 +362,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         self.messageRouter = nil;
         self.transport = nil;
         self.protocolDelegate = nil;
-        if (self.heartbeatTimer != nil) {
-            [self.heartbeatTimer cancel];
-            self.heartbeatTimer = nil;
-        }
+        self.heartbeatTimer = nil;
     }
 }
 
