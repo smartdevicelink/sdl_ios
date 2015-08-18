@@ -7,7 +7,7 @@
 @class SDLPutFile;
 @class SDLRPCMessage;
 @class SDLRPCRequestFactory;
-@class SDLStreamingDataManager;
+@class SDLStreamingMediaManager;
 @class SDLTimer;
 
 #import "SDLProtocolListener.h"
@@ -27,7 +27,7 @@
 @property (strong) SDLTimer *startSessionTimer;
 @property (strong) NSString *debugConsoleGroupName;
 @property (readonly) NSString *proxyVersion;
-@property (strong, nonatomic, readonly) SDLStreamingDataManager *streamingDataManager;
+@property (strong, nonatomic, readonly) SDLStreamingMediaManager *streamingDataManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol

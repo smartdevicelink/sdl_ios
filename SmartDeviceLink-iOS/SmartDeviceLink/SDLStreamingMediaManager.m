@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 smartdevicelink. All rights reserved.
 //
 
-#import "SDLStreamingDataManager.h"
+#import "SDLStreamingMediaManager.h"
 
 #import "SDLAbstractProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingDataManager ()
+@interface SDLStreamingMediaManager ()
 
 @property (assign, nonatomic) BOOL videoSessionConnected;
 @property (assign, nonatomic) BOOL audioSessionConnected;
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@implementation SDLStreamingDataManager
+@implementation SDLStreamingMediaManager
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
     self = [super init];

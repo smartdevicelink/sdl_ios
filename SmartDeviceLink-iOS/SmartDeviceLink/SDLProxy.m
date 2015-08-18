@@ -30,7 +30,7 @@
 #import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLSiphonServer.h"
-#import "SDLStreamingDataManager.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLQueryAppsManager.h"
@@ -56,7 +56,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
-@property (strong, readwrite) SDLStreamingDataManager *streamingDataManager;
+@property (strong, readwrite) SDLStreamingMediaManager *streamingDataManager;
 
 @end
 
@@ -166,9 +166,9 @@ const int POLICIES_CORRELATION_ID = 65535;
     return SDLProxyVersion;
 }
 
-- (SDLStreamingDataManager *)streamingDataManager {
+- (SDLStreamingMediaManager *)streamingDataManager {
     if (_streamingDataManager == nil) {
-        _streamingDataManager = [[SDLStreamingDataManager alloc] initWithProtocol:self.protocol];
+        _streamingDataManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
         [self.protocol.protocolDelegateTable addObject:_streamingDataManager];
     }
     

@@ -19,7 +19,7 @@ typedef void (^SDLStreamingStartBlock)(BOOL success);
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLStreamingDataManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
 
