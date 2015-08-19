@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLURLRequestTask () <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
-@property (strong, nonatomic, readwrite) NSURLConnection *connection;
+@property (strong, nonatomic) NSURLConnection *connection;
+@property (strong, nonatomic, nullable) NSURLResponse *response;
 @property (copy, nonatomic, readwrite) SDLURLConnectionRequestCompletionHandler completionHandler;
 @property (strong, nonatomic) NSMutableData *mutableData;
 
@@ -41,10 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)dealloc {
+    [_connection cancel];
+}
+
 
 #pragma mark - Data Methods
 
-- (void)addData:(NSData *)data {
+- (void)sdl_addData:(NSData *)data {
     [self.mutableData appendData:data];
 }
 
@@ -53,13 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)cancel {
     [self.connection cancel];
-}
-
-
-#pragma mark - Setters / Getters
-
-- (NSData *)data {
-    return [self.mutableData copy];
 }
 
 
@@ -77,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSURLConnectionDataDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [self addData:data];
+    [self sdl_addData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -86,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.completionHandler(self.data, self.response, nil);
+        self.completionHandler([self.mutableData copy], self.response, nil);
         
         self.state = SDLURLRequestTaskStateCompleted;
     });

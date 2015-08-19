@@ -18,18 +18,15 @@ typedef NS_ENUM(NSUInteger, SDLURLRequestTaskState) {
     SDLURLRequestTaskStateCompleted
 };
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLURLRequestTask : NSObject
 
 @property (copy, nonatomic, readonly) SDLURLConnectionRequestCompletionHandler completionHandler;
-@property (strong, nonatomic, readonly) NSData *data;
-@property (strong, nonatomic, nullable) NSURLResponse *response;
 @property (assign, nonatomic) SDLURLRequestTaskState state;
 
 - (instancetype)initWithURLRequest:(NSURLRequest *)request completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler;
-
-- (void)addData:(NSData *)data;
 
 - (void)cancel;
 
