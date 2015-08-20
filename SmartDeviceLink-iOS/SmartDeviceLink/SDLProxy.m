@@ -12,6 +12,7 @@
 #import "SDLEncodedSyncPData.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLJsonDecoder.h"
 #import "SDLJsonEncoder.h"
@@ -191,13 +192,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    if (_version <= 1) {
-        if (maxVersionForModule >= 2) {
-            _version = maxVersionForModule;
-        }
-    }
-
-    if (serviceType == SDLServiceType_RPC || _version >= 2) {
+    if (serviceType == SDLServiceType_RPC || [SDLGlobals globals].protocolVersion >= 2) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
@@ -652,9 +647,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         case NSStreamEventHasBytesAvailable: {
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
-
-            const int bufferSize = 1024;
-            NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
+            
+            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals globals].maxMTUSize];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];

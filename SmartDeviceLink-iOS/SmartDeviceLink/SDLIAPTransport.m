@@ -7,6 +7,7 @@
 
 #import "SDLIAPTransport.h"
 #import "SDLDebugTool.h"
+#import "SDLGlobals.h"
 #import "SDLSiphonServer.h"
 #import "SDLIAPTransport.h"
 #import "SDLStreamDelegate.h"
@@ -20,7 +21,6 @@ NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
 
-int const iapInputBufferSize = 1024;
 int const createSessionRetries = 1;
 int const protocolIndexTimeoutSeconds = 20;
 int const streamOpenTimeoutSeconds = 2;
@@ -394,9 +394,9 @@ int const streamOpenTimeoutSeconds = 2;
     return ^(NSInputStream *istream) {
         typeof(self) strongSelf = weakSelf;
         
-        uint8_t buf[iapInputBufferSize];
+        uint8_t buf[[SDLGlobals globals].maxMTUSize];
         while ([istream hasBytesAvailable]) {
-            NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
+            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals globals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
             
             if (bytesRead > 0) {
