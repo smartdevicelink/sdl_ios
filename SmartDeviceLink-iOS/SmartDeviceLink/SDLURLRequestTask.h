@@ -23,10 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLURLRequestTask : NSObject
 
-@property (copy, nonatomic, readonly) SDLURLConnectionRequestCompletionHandler completionHandler;
+
 @property (assign, nonatomic) SDLURLRequestTaskState state;
 
 - (instancetype)initWithURLRequest:(NSURLRequest *)request completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler;
+
++ (instancetype)taskWithURLRequest:(NSURLRequest *)request completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler;
 
 - (void)cancel;
 

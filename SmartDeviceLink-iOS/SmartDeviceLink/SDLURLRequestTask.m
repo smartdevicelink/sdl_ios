@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSURLConnection *connection;
 @property (strong, nonatomic, nullable) NSURLResponse *response;
-@property (copy, nonatomic, readwrite) SDLURLConnectionRequestCompletionHandler completionHandler;
+@property (copy, nonatomic) SDLURLConnectionRequestCompletionHandler completionHandler;
 @property (strong, nonatomic) NSMutableData *mutableData;
 
 @end
@@ -40,6 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
     _state = SDLURLRequestTaskStateRunning;
     
     return self;
+}
+
++ (instancetype)taskWithURLRequest:(NSURLRequest *)request completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
+    return [[self alloc] initWithURLRequest:request completionHandler:completionHandler];
 }
 
 - (void)dealloc {
