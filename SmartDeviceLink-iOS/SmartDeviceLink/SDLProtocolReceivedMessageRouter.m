@@ -47,7 +47,6 @@
         case SDLFrameType_Consecutive:
             [self dispatchMultiPartMessage:message];
             break;
-
         default:
             break;
     }
@@ -62,6 +61,12 @@
         [self.delegate handleProtocolSessionStarted:message.header.serviceType
                                           sessionID:message.header.sessionID
                                             version:message.header.version];
+    }
+    else if (message.header.frameData == SDLFrameData_Heartbeat) {
+        [self.delegate handleHeartbeatForSession:message.header.sessionID];
+    }
+    else if (message.header.frameData == SDLFrameData_HeartbeatACK) {
+        [self.delegate handleHeartbeatACK];
     }
 }
 

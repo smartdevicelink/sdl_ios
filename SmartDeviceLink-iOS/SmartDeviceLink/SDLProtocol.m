@@ -19,7 +19,7 @@
 #import "SDLRPCNotification.h"
 #import "SDLRPCResponse.h"
 #import "SDLAbstractTransport.h"
-
+#import "SDLTimer.h"
 
 const UInt8 MAX_VERSION_TO_SEND = 4;
 
@@ -36,7 +36,8 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 @property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
-
+@property (nonatomic) BOOL heartbeatACKed;
+@property (nonatomic, strong) SDLTimer *heartbeatTimer;
 @end
 
 
@@ -46,6 +47,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     if (self = [super init]) {
         _messageID = 0;
         _sessionID = 0;
+        _heartbeatACKed = NO;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
@@ -254,13 +256,43 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)sendHeartbeat {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
-    header.serviceType = 0;
+    header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_Heartbeat;
     header.sessionID = self.sessionID;
-
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-
     [self sendDataToTransport:message.data withPriority:header.serviceType];
+}
+
+- (void)startHeartbeatTimerWithDuration:(float)duration {
+    self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
+    __weak typeof(self) weakSelf = self;
+    self.heartbeatTimer.elapsedBlock = ^void() {
+        __strong typeof(self) strongSelf = weakSelf;
+        if (strongSelf.heartbeatACKed) {
+            strongSelf.heartbeatACKed = NO;
+            [strongSelf sendHeartbeat];
+        } else {
+            NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+            [strongSelf onProtocolClosed];
+        }
+    };
+    [self.heartbeatTimer start];
+}
+
+- (void)handleHeartbeatForSession:(Byte)session {
+    // Respond with a heartbeat ACK
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    header.frameType = SDLFrameType_Control;
+    header.serviceType = SDLServiceType_Control;
+    header.frameData = SDLFrameData_HeartbeatACK;
+    header.sessionID = session;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sendDataToTransport:message.data withPriority:header.serviceType];
+}
+
+- (void)handleHeartbeatACK {
+    self.heartbeatACKed = YES;
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
@@ -287,18 +319,24 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+    self.sessionID = sessionID;
     [self storeSessionID:sessionID forServiceType:serviceType];
     
     [SDLGlobals globals].maxHeadUnitVersion = version;
 
     if ([SDLGlobals globals].protocolVersion >= 3) {
-        // start hearbeat
+        self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
+        [self startHeartbeatTimerWithDuration:5.0];
     }
 
     [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
+    if ([SDLGlobals globals].protocolVersion >= 3 && self.heartbeatTimer != nil) {
+        self.heartbeatACKed = YES; // All messages count as heartbeats
+        [self.heartbeatTimer start];
+    }
     [self.protocolDelegate onProtocolMessageReceived:msg];
 }
 
@@ -324,6 +362,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         self.messageRouter = nil;
         self.transport = nil;
         self.protocolDelegate = nil;
+        self.heartbeatTimer = nil;
     }
 }
 
