@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 @class SDLLanguage;
@@ -16,28 +15,29 @@
  *
  * @since SDL 2.0
  */
-@interface SDLChangeRegistration : SDLRPCRequest {}
+@interface SDLChangeRegistration : SDLRPCRequest {
+}
 
 /**
  * Constructs a new SDLChangeRegistration object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * Constructs a new SDLChangeRegistration object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The language the app wants to change to
  */
-@property(strong) SDLLanguage* language;
+@property (strong) SDLLanguage *language;
 
 /**
  * @abstract HMI display language
  */
-@property(strong) SDLLanguage* hmiDisplayLanguage;
+@property (strong) SDLLanguage *hmiDisplayLanguage;
 
 @end

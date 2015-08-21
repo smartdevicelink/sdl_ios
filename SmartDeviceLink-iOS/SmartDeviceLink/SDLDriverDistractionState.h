@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 1.0
  */
-@interface SDLDriverDistractionState : SDLEnum {}
+@interface SDLDriverDistractionState : SDLEnum {
+}
 
 /**
  * Convert String to SDLDisplayType
@@ -19,27 +19,27 @@
  *
  * @return SDLDisplayType
  */
-+(SDLDriverDistractionState*) valueOf:(NSString*) value;
++ (SDLDriverDistractionState *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLDriverDistractionState
  *
  * @return an array that store all possible SDLDriverDistractionState
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract Driver distraction rules are in effect.
  *
  * @return a SDLDriverDistractionState with value of *DD_ON*
  */
-+(SDLDriverDistractionState*) DD_ON;
++ (SDLDriverDistractionState *)DD_ON;
 
 /**
  * @abstract Driver distraction rules are NOT in effect.
  *
  * @return a SDLDriverDistractionState with value of *DD_OFF*
  */
-+(SDLDriverDistractionState*) DD_OFF;
++ (SDLDriverDistractionState *)DD_OFF;
 
 @end

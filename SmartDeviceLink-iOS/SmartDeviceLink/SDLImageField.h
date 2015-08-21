@@ -7,13 +7,14 @@
 @class SDLImageResolution;
 
 
-@interface SDLImageField : SDLRPCStruct {}
+@interface SDLImageField : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLImageFieldName* name;
-@property(strong) NSMutableArray* imageTypeSupported;
-@property(strong) SDLImageResolution* imageResolution;
+@property (strong) SDLImageFieldName *name;
+@property (strong) NSMutableArray *imageTypeSupported;
+@property (strong) SDLImageResolution *imageResolution;
 
 @end

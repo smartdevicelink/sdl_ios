@@ -20,7 +20,7 @@
 }
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendRPC:(SDLRPCMessage *)message {
@@ -32,7 +32,7 @@
 }
 
 - (void)sendHeartbeat {
-	[self doesNotRecognizeSelector:_cmd];
+    [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)handleBytesFromTransport:(NSData *)receivedData {

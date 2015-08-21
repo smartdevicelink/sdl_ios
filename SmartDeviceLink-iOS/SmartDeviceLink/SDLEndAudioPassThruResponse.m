@@ -8,13 +8,15 @@
 
 @implementation SDLEndAudioPassThruResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_EndAudioPassThru]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_EndAudioPassThru]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

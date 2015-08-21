@@ -19,25 +19,25 @@
  * @since SmartDeviceLink 1.0<br/>
  * See SDLSubscribeButton
  */
-@interface SDLUnsubscribeButton : SDLRPCRequest {}
+@interface SDLUnsubscribeButton : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLUnsubscribeButton object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLUnsubscribeButton object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract A name of the button to unsubscribe from
  * @discussion An Enumeration value, see <i>
  *         SDLButtonName</i>
  */
-@property(strong) SDLButtonName* buttonName;
+@property (strong) SDLButtonName *buttonName;
 
 @end
-

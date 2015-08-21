@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 2.0
  */
-@interface SDLFileType : SDLEnum {}
+@interface SDLFileType : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLFileType
@@ -19,69 +19,69 @@
  *
  * @return SDLFileType
  */
-+(SDLFileType*) valueOf:(NSString*) value;
++ (SDLFileType *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLFileType
  *
  * @return an array that store all possible SDLFileType
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract file type: Bitmap (BMP)
  *
  * @return SDLFileType with value of *GRAPHIC_BMP*
  */
-+(SDLFileType*) GRAPHIC_BMP;
++ (SDLFileType *)GRAPHIC_BMP;
 
 /**
  * @abstract file type: JPEG
  *
  * @return SDLFileType with value of *GRAPHIC_JPEG*
  */
-+(SDLFileType*) GRAPHIC_JPEG;
++ (SDLFileType *)GRAPHIC_JPEG;
 
 /**
  * @abstract file type: PNG
  *
  * @return SDLFileType with value of *GRAPHIC_PNG*
  */
-+(SDLFileType*) GRAPHIC_PNG;
++ (SDLFileType *)GRAPHIC_PNG;
 
 /**
  * @abstract file type: WAVE (WAV)
  *
  * @return SDLFileType with value of *AUDIO_WAVE*
  */
-+(SDLFileType*) AUDIO_WAVE;
++ (SDLFileType *)AUDIO_WAVE;
 
 /**
  * @abstract file type: MP3
  *
  * @return SDLFileType with value of *AUDIO_MP3*
  */
-+(SDLFileType*) AUDIO_MP3;
++ (SDLFileType *)AUDIO_MP3;
 
 /**
  * @abstract file type: AAC
  *
  * @return SDLFileType with value of *AUDIO_AAC*
  */
-+(SDLFileType*) AUDIO_AAC;
++ (SDLFileType *)AUDIO_AAC;
 
 /**
  * @abstract file type: BINARY
  *
  * @return SDLFileType with value of *BINARY*
  */
-+(SDLFileType*) BINARY;
++ (SDLFileType *)BINARY;
 
 /**
  * @abstract file type: JSON
  *
  * @return SDLFileType with value of *JSON*
  */
-+(SDLFileType*) JSON;
++ (SDLFileType *)JSON;
 
 @end

@@ -6,13 +6,13 @@
 
 
 @interface SDLEnum : NSObject {
-	NSString* value;
+    NSString *value;
 }
 
--(instancetype) initWithValue:(NSString*) value;
+- (instancetype)initWithValue:(NSString *)value;
 
--(BOOL) isEqualToEnum:(SDLEnum *) object;
+- (BOOL)isEqualToEnum:(SDLEnum *)object;
 
-@property(strong, readonly) NSString* value;
+@property (strong, readonly) NSString *value;
 
 @end

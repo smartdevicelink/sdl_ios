@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,12 +9,13 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSetMediaClockTimerResponse : SDLRPCResponse {}
+@interface SDLSetMediaClockTimerResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLSetMediaClockTimerResponse object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLSetMediaClockTimerResponse object indicated by the NSMutableDictionary
  * parameter
@@ -23,6 +23,6 @@
  *
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

@@ -6,12 +6,13 @@
 @class SDLImage;
 
 
-@interface SDLTurn : SDLRPCStruct {}
+@interface SDLTurn : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* navigationText;
-@property(strong) SDLImage* turnIcon;
+@property (strong) NSString *navigationText;
+@property (strong) SDLImage *turnIcon;
 
 @end

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCRequest.h"
 
 @class SDLButtonName;
@@ -58,23 +57,24 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLUnsubscribeButton
  */
-@interface SDLSubscribeButton : SDLRPCRequest {}
+@interface SDLSubscribeButton : SDLRPCRequest {
+}
 
 /**
  * @abstract Constructs a new SDLSubscribeButton object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLSubscribeButton object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The name of the button to subscribe to
  * @discussion An enum value, see <i>SDLButtonName</i>
  */
-@property(strong) SDLButtonName* buttonName;
+@property (strong) SDLButtonName *buttonName;
 
 @end

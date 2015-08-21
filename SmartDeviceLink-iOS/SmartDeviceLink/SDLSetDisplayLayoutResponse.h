@@ -12,17 +12,18 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetDisplayLayoutResponse : SDLRPCResponse {}
+@interface SDLSetDisplayLayoutResponse : SDLRPCResponse {
+}
 
 /**
  * @abstract Constructs a new SDLSetDisplayLayoutResponse object
  */
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLDisplayCapabilities* displayCapabilities;
-@property(strong) NSMutableArray* buttonCapabilities;
-@property(strong) NSMutableArray* softButtonCapabilities;
-@property(strong) SDLPresetBankCapabilities* presetBankCapabilities;
+@property (strong) SDLDisplayCapabilities *displayCapabilities;
+@property (strong) NSMutableArray *buttonCapabilities;
+@property (strong) NSMutableArray *softButtonCapabilities;
+@property (strong) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end

@@ -1,6 +1,13 @@
 # 4.0.0 Release Notes (pre-release)
 
-## API Breaking Changes
+## Alpha 3
+### Bug Fixes
+* Prevent NULL pointer calls on SDLPolicyDataParser, SDLV1ProtocolHeader, and SDLV2ProtocolHeader
+* Fix transport not connecting if the app is launched after the device is connected to a head unit.
+
+## Alpha 2
+
+### API Breaking Changes
 * 28 header files moved to 'project' scope, making them unavailable to developers.
 * Headers now use class forwarding (`@class`) instead of full imports whenever possible.
 * SDLDebugToolConsole is given its own file
@@ -14,7 +21,7 @@
 * Removed SDLTransport protocol and file
 * Removed SDLInterfaceProtocol protocol and file
 
-## Enhancements
+### Enhancements
 * Completely new project structure. This will enable future support for optional packages through Cocoapods (via subspecs) and frameworks
 * Cocoapods distribution support
 * Carthage distribution support
@@ -37,7 +44,7 @@
 * Refactor IAP transport
 * Add thread index to log format
 
-## Bugfixes
+### Bugfixes
 * Fix all SDLRPCMessages being initialized being set with 'request' type
 * Fix all instances of 'receive' being spelled incorrectly
 * Fix attempting to copy an SDLEnum in `+[SDLRPCRequestFactory buildPutFileWithFileName:fileType:persistentFile:correlationId:]`

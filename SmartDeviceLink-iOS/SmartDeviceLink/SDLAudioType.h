@@ -2,13 +2,13 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
  Describes different audio type options for PerformAudioPassThru
  */
-@interface SDLAudioType : SDLEnum {}
+@interface SDLAudioType : SDLEnum {
+}
 
 /**
  * @abstract Convert String to SDLAudioType
@@ -17,14 +17,14 @@
  *
  * @return SDLAudioType
  */
-+(SDLAudioType*) valueOf:(NSString*) value;
++ (SDLAudioType *)valueOf:(NSString *)value;
 
 /**
  * @abstract Store the enumeration of all possible SDLAudioType
  *
  * @return an array that store all possible SDLAudioType
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract PCM raw audio
@@ -33,6 +33,6 @@
  *
  * @since SDL 2.0
  */
-+(SDLAudioType*) PCM;
++ (SDLAudioType *)PCM;
 
 @end

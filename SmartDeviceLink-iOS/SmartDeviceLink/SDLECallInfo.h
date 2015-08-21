@@ -7,13 +7,14 @@
 @class SDLECallConfirmationStatus;
 
 
-@interface SDLECallInfo : SDLRPCStruct {}
+@interface SDLECallInfo : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) SDLVehicleDataNotificationStatus* eCallNotificationStatus;
-@property(strong) SDLVehicleDataNotificationStatus* auxECallNotificationStatus;
-@property(strong) SDLECallConfirmationStatus* eCallConfirmationStatus;
+@property (strong) SDLVehicleDataNotificationStatus *eCallNotificationStatus;
+@property (strong) SDLVehicleDataNotificationStatus *auxECallNotificationStatus;
+@property (strong) SDLECallConfirmationStatus *eCallConfirmationStatus;
 
 @end

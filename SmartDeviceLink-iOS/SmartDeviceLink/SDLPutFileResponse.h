@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCResponse.h"
 
 /**
@@ -10,15 +9,16 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLPutFileResponse : SDLRPCResponse {}
+@interface SDLPutFileResponse : SDLRPCResponse {
+}
 /**
  * @abstract Constructs a new SDLPutFileResponse object
  */
--(instancetype) init;
+- (instancetype)init;
 /**
  * @abstract Constructs a new SDLPutFileResponse object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
-@property(strong) NSNumber* spaceAvailable;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@property (strong) NSNumber *spaceAvailable;
 @end

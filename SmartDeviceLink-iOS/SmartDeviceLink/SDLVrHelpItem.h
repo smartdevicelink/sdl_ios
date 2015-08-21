@@ -6,13 +6,14 @@
 @class SDLImage;
 
 
-@interface SDLVRHelpItem : SDLRPCStruct {}
+@interface SDLVRHelpItem : SDLRPCStruct {
+}
 
--(instancetype) init;
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property(strong) NSString* text;
-@property(strong) SDLImage* image;
-@property(strong) NSNumber* position;
+@property (strong) NSString *text;
+@property (strong) SDLImage *image;
+@property (strong) NSNumber *position;
 
 @end

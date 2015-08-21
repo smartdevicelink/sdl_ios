@@ -8,13 +8,15 @@
 
 @implementation SDLDeleteCommandResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_DeleteCommand]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_DeleteCommand]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

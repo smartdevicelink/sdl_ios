@@ -8,17 +8,19 @@
 
 @implementation SDLListFilesResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_ListFiles]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_ListFiles]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setFilenames:(NSMutableArray*) filenames {
+- (void)setFilenames:(NSMutableArray *)filenames {
     if (filenames != nil) {
         [parameters setObject:filenames forKey:NAMES_filenames];
     } else {
@@ -26,11 +28,11 @@
     }
 }
 
--(NSMutableArray*) filenames {
+- (NSMutableArray *)filenames {
     return [parameters objectForKey:NAMES_filenames];
 }
 
--(void) setSpaceAvailable:(NSNumber*) spaceAvailable {
+- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
     if (spaceAvailable != nil) {
         [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
     } else {
@@ -38,7 +40,7 @@
     }
 }
 
--(NSNumber*) spaceAvailable {
+- (NSNumber *)spaceAvailable {
     return [parameters objectForKey:NAMES_spaceAvailable];
 }
 

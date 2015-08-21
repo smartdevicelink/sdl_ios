@@ -8,14 +8,13 @@ const NSUInteger RPC_HEADER_SIZE = 12;
 
 @implementation SDLRPCPayload
 
--(instancetype) init {
-	if (self = [super init]) {
-
-	}
-	return self;
+- (instancetype)init {
+    if (self = [super init]) {
+    }
+    return self;
 }
 
--(instancetype) initWithData:(NSData *)data {
+- (instancetype)initWithData:(NSData *)data {
     unsigned long dataLength = data.length;
 
     if (data == nil || dataLength == 0) {
@@ -28,7 +27,7 @@ const NSUInteger RPC_HEADER_SIZE = 12;
         return nil;
     }
 
-	if (self = [self init]) {
+    if (self = [self init]) {
         @try {
             // Setup our pointers for data access
             UInt8 *bytePointer = (UInt8 *)data.bytes;
@@ -52,7 +51,7 @@ const NSUInteger RPC_HEADER_SIZE = 12;
 
             NSData *jsonData = nil;
             NSUInteger offsetOfJSONData = RPC_HEADER_SIZE;
-            if (jsonDataSize > 0 && jsonDataSize <= dataLength-RPC_HEADER_SIZE ) {
+            if (jsonDataSize > 0 && jsonDataSize <= dataLength - RPC_HEADER_SIZE) {
                 jsonData = [data subdataWithRange:NSMakeRange(offsetOfJSONData, jsonDataSize)];
             }
             self.jsonData = jsonData;
@@ -67,16 +66,15 @@ const NSUInteger RPC_HEADER_SIZE = 12;
 
         } @catch (NSException *e) {
             // Print exception information
-            NSLog( @"NSException caught in SDLRPCPayload::initWithData" );
-            NSLog( @"Name: %@", e.name);
-            NSLog( @"Reason: %@", e.reason );
-            NSLog( @"Data: %@", data.debugDescription );
+            NSLog(@"NSException caught in SDLRPCPayload::initWithData");
+            NSLog(@"Name: %@", e.name);
+            NSLog(@"Reason: %@", e.reason);
+            NSLog(@"Data: %@", data.debugDescription);
             return nil;
-
         }
-	}
+    }
 
-	return self;
+    return self;
 }
 
 - (NSData *)data {

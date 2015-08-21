@@ -11,17 +11,19 @@
 
 @implementation SDLImageField
 
--(instancetype) init {
-    if (self = [super init]) {}
+- (instancetype)init {
+    if (self = [super init]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 
--(void) setName:(SDLImageFieldName*) name {
+- (void)setName:(SDLImageFieldName *)name {
     if (name != nil) {
         [store setObject:name forKey:NAMES_name];
     } else {
@@ -29,16 +31,16 @@
     }
 }
 
--(SDLImageFieldName*) name {
-    NSObject* obj = [store objectForKey:NAMES_name];
+- (SDLImageFieldName *)name {
+    NSObject *obj = [store objectForKey:NAMES_name];
     if ([obj isKindOfClass:SDLImageFieldName.class]) {
-        return (SDLImageFieldName*)obj;
+        return (SDLImageFieldName *)obj;
     } else {
-        return [SDLImageFieldName valueOf:(NSString*)obj];
+        return [SDLImageFieldName valueOf:(NSString *)obj];
     }
 }
 
--(void) setImageTypeSupported:(NSMutableArray*) imageTypeSupported {
+- (void)setImageTypeSupported:(NSMutableArray *)imageTypeSupported {
     if (imageTypeSupported != nil) {
         [store setObject:imageTypeSupported forKey:NAMES_imageTypeSupported];
     } else {
@@ -46,20 +48,20 @@
     }
 }
 
--(NSMutableArray*) imageTypeSupported {
-    NSMutableArray* array = [store objectForKey:NAMES_imageTypeSupported];
+- (NSMutableArray *)imageTypeSupported {
+    NSMutableArray *array = [store objectForKey:NAMES_imageTypeSupported];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLFileType.class]) {
         return array;
     } else {
-        NSMutableArray* newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString* enumString in array) {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSString *enumString in array) {
             [newList addObject:[SDLFileType valueOf:enumString]];
         }
         return newList;
     }
 }
 
--(void) setImageResolution:(SDLImageResolution*) imageResolution {
+- (void)setImageResolution:(SDLImageResolution *)imageResolution {
     if (imageResolution != nil) {
         [store setObject:imageResolution forKey:NAMES_imageResolution];
     } else {
@@ -67,12 +69,12 @@
     }
 }
 
--(SDLImageResolution*) imageResolution {
-    NSObject* obj = [store objectForKey:NAMES_imageResolution];
+- (SDLImageResolution *)imageResolution {
+    NSObject *obj = [store objectForKey:NAMES_imageResolution];
     if ([obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution*)obj;
+        return (SDLImageResolution *)obj;
     } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary*)obj];
+        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 

@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLRPCMessage.h"
 
 /**
@@ -10,18 +9,19 @@
  *
  * @since SDL 1.0
  */
-@interface SDLStartTime : SDLRPCStruct {}
+@interface SDLStartTime : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLStartTime object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a newly allocated SDLStartTime object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The hour of the media clock
@@ -30,21 +30,20 @@
  *
  * Required, Integer, 0 - 59
  */
-@property(strong) NSNumber* hours;
+@property (strong) NSNumber *hours;
 
 /**
  * @abstract The minute of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property(strong) NSNumber* minutes;
+@property (strong) NSNumber *minutes;
 
 /**
  * @abstract The second of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property(strong) NSNumber* seconds;
+@property (strong) NSNumber *seconds;
 
 @end
-

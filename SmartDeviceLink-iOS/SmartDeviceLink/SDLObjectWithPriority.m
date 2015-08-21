@@ -13,10 +13,10 @@
     if (self == nil) {
         return nil;
     }
-    
+
     self.object = object;
     self.priority = priority;
-    
+
     return self;
 }
 

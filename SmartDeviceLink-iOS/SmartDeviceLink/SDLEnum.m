@@ -8,15 +8,15 @@
 
 @synthesize value;
 
--(instancetype) initWithValue:(NSString*) aValue {
-	if (self = [super init]) {
-		value = aValue;
-	}
-	return self;
+- (instancetype)initWithValue:(NSString *)aValue {
+    if (self = [super init]) {
+        value = aValue;
+    }
+    return self;
 }
 
--(NSString*) description {
-	return value;
+- (NSString *)description {
+    return value;
 }
 
 - (id)debugQuickLookObject {
@@ -32,12 +32,12 @@
     if (self == object) {
         return YES;
     }
-    
+
     // Test class equality, if not equal, value equality doesn't matter
     if (![object isMemberOfClass:self.class]) {
         return NO;
     }
-    
+
     return [self isEqualToEnum:object];
 }
 
@@ -46,6 +46,7 @@
     if ([self.value isEqualToString:object.value]) {
         return YES;
     }
-    
+
     return NO;
-}@end
+}
+@end

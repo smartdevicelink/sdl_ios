@@ -8,13 +8,15 @@
 
 @implementation SDLShowConstantTBTResponse
 
--(instancetype) init {
-    if (self = [super initWithName:NAMES_ShowConstantTBT]) {}
+- (instancetype)init {
+    if (self = [super initWithName:NAMES_ShowConstantTBT]) {
+    }
     return self;
 }
 
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict {
-    if (self = [super initWithDictionary:dict]) {}
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+    if (self = [super initWithDictionary:dict]) {
+    }
     return self;
 }
 

@@ -16,6 +16,3 @@
 + (instancetype)objectWithObject:(id)object priority:(NSInteger)priority;
 
 @end
-
-
-

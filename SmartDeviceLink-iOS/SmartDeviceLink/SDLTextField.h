@@ -56,19 +56,20 @@
  *
  * @since SDL 1.0
  */
-@interface SDLTextField : SDLRPCStruct {}
+@interface SDLTextField : SDLRPCStruct {
+}
 
 /**
  * @abstract Constructs a newly allocated SDLTextField object
  */
--(instancetype) init;
+- (instancetype)init;
 
 /**
  * @abstract Constructs a newly allocated SDLTextField object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use to construct the object
  */
--(instancetype) initWithDictionary:(NSMutableDictionary*) dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  * @abstract The enumeration identifying the field.
@@ -77,7 +78,7 @@
  *
  * Required
  */
-@property(strong) SDLTextFieldName* name;
+@property (strong) SDLTextFieldName *name;
 
 /**
  * @abstract The character set that is supported in this field.
@@ -86,21 +87,20 @@
  *
  * Required
  */
-@property(strong) SDLCharacterSet* characterSet;
+@property (strong) SDLCharacterSet *characterSet;
 
 /**
  * @abstract The number of characters in one row of this field.
  * 
  * Required, Integer 1 - 500
  */
-@property(strong) NSNumber* width;
+@property (strong) NSNumber *width;
 
 /**
  * @abstract The number of rows for this text field.
  * 
  * Required, Integer 1 - 8
  */
-@property(strong) NSNumber* rows;
+@property (strong) NSNumber *rows;
 
 @end
-

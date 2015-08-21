@@ -2,7 +2,6 @@
 //
 
 
-
 #import "SDLEnum.h"
 
 /**
@@ -10,7 +9,8 @@
  *
  * @since SDL 2.0
  */
-@interface SDLPrimaryAudioSource : SDLEnum {}
+@interface SDLPrimaryAudioSource : SDLEnum {
+}
 
 /**
  * @abstract get SDLPrimaryAudioSource according value string
@@ -19,54 +19,54 @@
  *
  * @return SDLPrimaryAudioSource object
  */
-+(SDLPrimaryAudioSource*) valueOf:(NSString*) value;
++ (SDLPrimaryAudioSource *)valueOf:(NSString *)value;
 
 /**
  * @abstract declare an array to store all possible SDLPrimaryAudioSource values
  * @return the array
  */
-+(NSArray*) values;
++ (NSArray *)values;
 
 /**
  * @abstract Currently no source selected
  * @return the current primary audio source: *NO_SOURCE_SELECTED*
  */
-+(SDLPrimaryAudioSource*) NO_SOURCE_SELECTED;
++ (SDLPrimaryAudioSource *)NO_SOURCE_SELECTED;
 
 /**
  * @abstract USB is current source
  * @return the current primary audio source: *USB*
  */
-+(SDLPrimaryAudioSource*) USB;
++ (SDLPrimaryAudioSource *)USB;
 
 /**
  * @abstract USB2 is current source
  * @return the current primary audio source: *USB2*
  */
-+(SDLPrimaryAudioSource*) USB2;
++ (SDLPrimaryAudioSource *)USB2;
 
 /**
  * @abstract Bluetooth Stereo is current source
  * @return the current primary audio source: *BLUETOOTH_STEREO_BTST*
  */
-+(SDLPrimaryAudioSource*) BLUETOOTH_STEREO_BTST;
++ (SDLPrimaryAudioSource *)BLUETOOTH_STEREO_BTST;
 
 /**
  * @abstract Line in is current source
  * @return the current primary audio source: *LINE_IN*
  */
-+(SDLPrimaryAudioSource*) LINE_IN;
++ (SDLPrimaryAudioSource *)LINE_IN;
 
 /**
  * @abstract iPod is current source
  * @return the current primary audio source: *IPOD*
  */
-+(SDLPrimaryAudioSource*) IPOD;
++ (SDLPrimaryAudioSource *)IPOD;
 
 /**
  * @abstract Mobile app is current source
  * @return the current primary audio source: *MOBILE_APP*
  */
-+(SDLPrimaryAudioSource*) MOBILE_APP;
++ (SDLPrimaryAudioSource *)MOBILE_APP;
 
 @end
