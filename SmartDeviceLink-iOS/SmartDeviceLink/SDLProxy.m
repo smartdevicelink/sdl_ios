@@ -613,14 +613,14 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
-    for (id<SDLProxyListener> listener in self.proxyListeners) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{ @autoreleasepool {
+        for (id<SDLProxyListener> listener in self.proxyListeners) {
             if ([listener respondsToSelector:aSelector]) {
                 // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
                 ((void (*)(id, SEL))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector);
             }
-        });
-    }
+        }
+    }});
 }
 
 
