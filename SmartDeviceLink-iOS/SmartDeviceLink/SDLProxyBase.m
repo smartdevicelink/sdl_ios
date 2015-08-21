@@ -15,7 +15,7 @@
 // GCD variables
 @property (nonatomic, strong) dispatch_queue_t handlerQueue;
 @property (nonatomic, strong) dispatch_queue_t backgroundQueue;
-//@property (nonatomic, strong) dispatch_queue_t mainUIQueue;
+@property (nonatomic, strong) dispatch_queue_t mainUIQueue;
 @property (nonatomic, strong) NSObject *proxyLock;
 @property (nonatomic, strong) NSObject *correlationIdLock;
 @property (nonatomic, strong) NSObject *hmiStateLock;
@@ -89,7 +89,7 @@
         _isConnected = NO;
         _handlerQueue = dispatch_queue_create("com.sdl.proxy_base.handler_queue", DISPATCH_QUEUE_SERIAL);
         _backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        //_mainUIQueue = dispatch_get_main_queue();
+        _mainUIQueue = dispatch_get_main_queue();
         _firstHMIFullOccurred = NO;
         _firstHMINotNoneOccurred = NO;
         _rpcResponseHandlerDictionary = [[NSMutableDictionary alloc] init];
@@ -355,7 +355,7 @@
             }
             
             if (delegateSet && enumerationBlock) {
-                dispatch_async(strongSelf.handlerQueue, ^{
+                dispatch_async(strongSelf.mainUIQueue, ^{
                     [delegateSet enumerateObjectsUsingBlock:enumerationBlock];
                 });
             }
@@ -369,10 +369,10 @@
         @autoreleasepool {
             typeof(self) strongSelf = weakSelf;
             @synchronized(strongSelf.rpcResponseHandlerDictionaryLock) {
-                rpcResponseHandler handler = [strongSelf.rpcResponseHandlerDictionary objectForKey:response.correlationID];
+                RPCResponseHandler handler = [strongSelf.rpcResponseHandlerDictionary objectForKey:response.correlationID];
                 [strongSelf.rpcResponseHandlerDictionary removeObjectForKey:response.correlationID];
                 if (handler) {
-                    dispatch_async(strongSelf.handlerQueue, ^{
+                    dispatch_async(strongSelf.mainUIQueue, ^{
                         handler(response);
                     });
                 }
@@ -393,20 +393,20 @@
     // Already background dispatched from caller
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
-        rpcNotificationHandler handler = nil;
+        RPCNotificationHandler handler = nil;
         @synchronized(self.commandHandlerDictionaryLock) {
             handler = [self.commandHandlerDictionary objectForKey:command.cmdID];
         }
         
         if (handler) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 handler(command);
             });
         }
         
         // TODO: Should this even be a thing still?
         if ([self.onOnCommandDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.onOnCommandDelegates enumerateObjectsUsingBlock:^(id<SDLOnCommandDelegate> delegate, BOOL *stop) {
                     [delegate onSDLCommand:command];
@@ -420,7 +420,7 @@
     // Already background dispatched from caller
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
-        rpcNotificationHandler handler = nil;
+        RPCNotificationHandler handler = nil;
         SDLButtonName *name = nil;
         NSNumber *customID = nil;
         
@@ -445,14 +445,14 @@
         }
         
         if (handler) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 handler(notification);
             });
         }
         
         // TODO: Should this even be a thing still?
         if ([notification isKindOfClass:[SDLOnButtonEvent class]] && [self.onOnButtonEventDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.onOnButtonEventDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonEventDelegate> delegate, BOOL *stop) {
                     [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
@@ -460,7 +460,7 @@
             });
         }
         else if ([notification isKindOfClass:[SDLOnButtonPress class]] && [self.onOnButtonPressDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.onOnButtonPressDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonPressDelegate> delegate, BOOL *stop) {
                     [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
@@ -470,7 +470,7 @@
     }
 }
 
-- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(rpcResponseHandler)responseHandler {
+- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(RPCResponseHandler)responseHandler {
     __weak typeof(self) weakSelf = self;
     if (self.isConnected) {
         dispatch_async(self.backgroundQueue, ^{
@@ -544,7 +544,7 @@
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
     
     __weak typeof(self) weakSelf = self;
-    dispatch_barrier_async(self.handlerQueue, ^{
+    dispatch_async(self.backgroundQueue, ^{
         @autoreleasepool {
             typeof(self) strongSelf = weakSelf;
             if (appName && appID && languageDesired && [self.onOnLockScreenNotificationDelegates count] > 0 && [self.onOnLanguageChangeDelegates count] > 0 && [self.onOnPermissionsChangeDelegates count] > 0)
@@ -609,7 +609,7 @@
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
         if ([self.proxyErrorDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.proxyErrorDelegates enumerateObjectsUsingBlock:^(id<SDLProxyErrorDelegate> delegate, BOOL *stop) {
                     [delegate onSDLError:e];
@@ -633,7 +633,7 @@
         }
         [self sendRPC:regRequest responseHandler:^(SDLRPCResponse *response){
             if ([self.appRegisteredDelegates count] > 0) {
-                dispatch_async(self.handlerQueue, ^{
+                dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     [strongSelf.appRegisteredDelegates enumerateObjectsUsingBlock:^(id<SDLAppRegisteredDelegate> delegate, BOOL *stop) {
                         [delegate onSDLRegisterAppInterfaceResponse:((SDLRegisterAppInterfaceResponse *) response)];
@@ -642,7 +642,7 @@
             }
         }];
         if ([self.onProxyOpenedDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.onProxyOpenedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyOpenedDelegate> delegate, BOOL *stop) {
                     [delegate onSDLProxyOpened];
@@ -660,7 +660,7 @@
         self.isConnected = NO;
         [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
         if ([self.onProxyClosedDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.onProxyClosedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyClosedDelegate> delegate, BOOL *stop) {
                     [delegate onSDLProxyClosed];
@@ -685,7 +685,7 @@
             if (!occurred)
             {
                 if ([self.firstHMINotNoneDelegates count] > 0) {
-                    dispatch_async(self.handlerQueue, ^{
+                    dispatch_async(self.mainUIQueue, ^{
                         typeof(self) strongSelf = weakSelf;
                         [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
                             [delegate onSDLFirstHMINotNone:notification];
@@ -703,7 +703,7 @@
             if (!occurred)
             {
                 if ([self.firstHMIFullDelegates count] > 0) {
-                    dispatch_async(self.handlerQueue, ^{
+                    dispatch_async(self.mainUIQueue, ^{
                         typeof(self) strongSelf = weakSelf;
                         [strongSelf.firstHMIFullDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMIFullDelegate> delegate, BOOL *stop) {
                             [delegate onSDLFirstHMIFull:notification];
@@ -724,7 +724,7 @@
             if (!occurred)
             {
                 if ([self.firstHMINotNoneDelegates count] > 0) {
-                    dispatch_async(self.handlerQueue, ^{
+                    dispatch_async(self.mainUIQueue, ^{
                         typeof(self) strongSelf = weakSelf;
                         [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
                             [delegate onSDLFirstHMINotNone:notification];
@@ -737,7 +737,7 @@
             }
         }
         if ([self.onOnHMIStatusDelegates count] > 0) {
-            dispatch_async(self.handlerQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 typeof(self) strongSelf = weakSelf;
                 [strongSelf.onOnHMIStatusDelegates enumerateObjectsUsingBlock:^(id<SDLOnHMIStatusDelegate> delegate, BOOL *stop) {
                     [delegate onSDLHMIStatus:notification];

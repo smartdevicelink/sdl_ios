@@ -52,7 +52,7 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 - (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification;
 
 // Main proxy methods
-- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(rpcResponseHandler)responseHandler;
+- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(RPCResponseHandler)responseHandler;
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired;
 - (void)stopProxy;
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
