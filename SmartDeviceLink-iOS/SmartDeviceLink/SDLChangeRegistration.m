@@ -57,50 +57,50 @@
 
 - (void)setAppName:(NSString *)appName {
     if (appName != nil) {
-        parameters[NAMES_appName] = appName;
+        parameters[NAMES_appName] = [appName copy];
     } else {
         [parameters removeObjectForKey:NAMES_appName];
     }
 }
 
 - (NSString *)appName {
-    return parameters[NAMES_appName];
+    return [parameters[NAMES_appName] copy];
 }
 
 - (void)setTtsName:(NSArray *)ttsName {
     if (ttsName != nil) {
-        [parameters setObject:ttsName forKey:NAMES_ttsName];
+        [parameters setObject:[ttsName copy] forKey:NAMES_ttsName];
     } else {
         [parameters removeObjectForKey:NAMES_ttsName];
     }
 }
 
 - (NSArray *)ttsName {
-    return parameters[NAMES_ttsName];
+    return [parameters[NAMES_ttsName] copy];
 }
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
-        parameters[NAMES_ngnMediaScreenAppName] = ngnMediaScreenAppName;
+        parameters[NAMES_ngnMediaScreenAppName] = [ngnMediaScreenAppName copy];
     } else {
         [parameters removeObjectForKey:NAMES_ngnMediaScreenAppName];
     }
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return parameters[NAMES_ngnMediaScreenAppName];
+    return [parameters[NAMES_ngnMediaScreenAppName] copy];
 }
 
 - (void)setVrSynonyms:(NSArray *)vrSynonyms {
     if (vrSynonyms != nil) {
-        [parameters setObject:vrSynonyms forKey:NAMES_vrSynonyms];
+        [parameters setObject:[vrSynonyms copy] forKey:NAMES_vrSynonyms];
     } else {
         [parameters removeObjectForKey:NAMES_vrSynonyms];
     }
 }
 
 - (NSArray *)vrSynonyms {
-    return parameters[NAMES_vrSynonyms];
+    return [parameters[NAMES_vrSynonyms] copy];
 }
 
 @end
