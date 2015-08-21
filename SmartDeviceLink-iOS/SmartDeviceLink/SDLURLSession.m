@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-+ (instancetype)sharedSession {
++ (instancetype)defaultSession {
     static SDLURLSession *sharedSession = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _cachePolicy = NSURLRequestUseProtocolCachePolicy;
-    _connectionTimeout = 15.0;
+    _connectionTimeout = 45.0;
     
     _activeTasks = [NSMutableSet set];
     
@@ -69,6 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     mutableRequest.HTTPBody = data;
+    if (mutableRequest.timeoutInterval == 60.0) {
+        mutableRequest.timeoutInterval = self.connectionTimeout;
+    }
     
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
     task.delegate = self;

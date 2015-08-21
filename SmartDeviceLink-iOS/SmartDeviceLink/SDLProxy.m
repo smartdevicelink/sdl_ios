@@ -92,7 +92,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
 
-        [[SDLURLSession sharedSession] cancelAllTasks];
+        [[SDLURLSession defaultSession] cancelAllTasks];
 
         [self.protocol dispose];
         [self.transport dispose];
@@ -545,7 +545,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Create the upload task
-    [[SDLURLSession sharedSession] uploadWithURLRequest:request data:bodyData completionHandler:completionHandler];
+    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:bodyData completionHandler:completionHandler];
 }
 
 /**
@@ -559,7 +559,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Start the data session
-    [[SDLURLSession sharedSession] dataFromURL:[NSURL URLWithString:urlString] completionHandler:completionHandler];
+    [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:urlString] completionHandler:completionHandler];
 }
 
 
@@ -601,7 +601,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 
     // Send the HTTP Request
-    [[SDLURLSession sharedSession] uploadWithURLRequest:request data:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
     }];
 

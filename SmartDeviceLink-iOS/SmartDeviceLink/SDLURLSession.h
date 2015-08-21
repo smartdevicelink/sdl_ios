@@ -17,9 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLURLSession : NSObject
 
 @property (assign, nonatomic) NSURLRequestCachePolicy cachePolicy;
+
+/**
+ *  If any task is started with a request that is at the default timeout (60.0 sec), it will be altered to this connection timeout (by default 45.0 sec).
+ */
 @property (assign, nonatomic) NSTimeInterval connectionTimeout;
 
-+ (instancetype)sharedSession;
+/**
+ *  Get the default session, a singleton.
+ *
+ *  @return The default session
+ */
++ (instancetype)defaultSession;
 
 /**
  *  Retrieves data from a specified URL. Default settings for timeout and cache policy will be used.
