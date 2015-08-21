@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLURLSession ()
+@interface SDLURLSession () <SDLURLRequestTaskDelegate>
 
 @property (strong, nonatomic) NSMutableSet *activeTasks;
 
@@ -37,10 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dealloc {
     for (SDLURLRequestTask *task in self.activeTasks) {
         [task cancel];
-        
-        @try {
-            [task removeObserver:self forKeyPath:NSStringFromSelector(@selector(state))];
-        } @catch (NSException *__unused exception) {}
     }
 }
 
@@ -65,8 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:self.cachePolicy timeoutInterval:self.connectionTimeout];
     
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
-    
-    [task addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:NSKeyValueObservingOptionNew context:NULL];
+    task.delegate = self;
     
     [self.activeTasks addObject:task];
 }
@@ -76,8 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
     mutableRequest.HTTPBody = data;
     
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
-    
-    [task addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:NSKeyValueObservingOptionNew context:NULL];
+    task.delegate = self;
     
     [self.activeTasks addObject:task];
 }
@@ -92,17 +86,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - KVO
+#pragma mark - SDLURLRequestTaskDelegate
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"state"]) {
-        SDLURLRequestTask *task = object;
-        
-        if (task.state == SDLURLRequestTaskStateCompleted) {
-            [task removeObserver:self forKeyPath:NSStringFromSelector(@selector(state))];
-            [self.activeTasks removeObject:object];
-        }
-    }
+- (void)taskDidFinish:(SDLURLRequestTask *)task {
+    [self.activeTasks removeObject:task];
 }
 
 @end

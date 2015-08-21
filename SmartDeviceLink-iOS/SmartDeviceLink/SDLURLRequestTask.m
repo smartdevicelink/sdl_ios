@@ -72,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.completionHandler(nil, self.response, error);
         
         self.state = SDLURLRequestTaskStateCompleted;
+        [self.delegate taskDidFinish:self];
     });
 }
 
@@ -91,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.completionHandler([self.mutableData copy], self.response, nil);
         
         self.state = SDLURLRequestTaskStateCompleted;
+        [self.delegate taskDidFinish:self];
     });
 }
 
