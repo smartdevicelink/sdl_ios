@@ -12,9 +12,10 @@
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
 #import "SDLRPCRequestFactory.h"
+#import "SDLConnectionProtocol.h"
 
 
-@interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
+@interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate,SDLConnectionDelegate> {
     Byte _version;
     Byte _bulkSessionID;
     BOOL _isConnected;
