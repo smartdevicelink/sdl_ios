@@ -87,7 +87,7 @@ describe(@"a url request task", ^{
         });
         
         it(@"should return an error", ^{
-            expect(testReturnError).toEventually(equal(someNetworkError));
+            expect(@(testReturnError.code)).toEventually(equal(@(someNetworkError.code)));
         });
     });
     
