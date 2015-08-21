@@ -62,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)cancel {
     [self.connection cancel];
+    [self connection:self.connection didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorCancelled userInfo:nil]];
 }
 
 
