@@ -28,6 +28,7 @@
 @class SDLOnHashChange;
 @class SDLOnHMIStatus;
 @class SDLOnLanguageChange;
+@class SDLOnLockscreenStatus;
 @class SDLOnPermissionsChange;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;
@@ -57,7 +58,6 @@
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
-@class SDLOnLockscreenStatus;
 
 @protocol SDLProxyListener <NSObject>
 
