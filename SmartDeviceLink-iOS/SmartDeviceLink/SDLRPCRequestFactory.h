@@ -6,6 +6,7 @@
 @class SDLAddCommand;
 @class SDLAddSubMenu;
 @class SDLAlert;
+@class SDLAlertManeuver;
 @class SDLAppHMIType;
 @class SDLAudioType;
 @class SDLBitsPerSample;
@@ -40,6 +41,7 @@
 @class SDLSetGlobalProperties;
 @class SDLSetMediaClockTimer;
 @class SDLShow;
+@class SDLShowConstantTBT;
 @class SDLSlider;
 @class SDLSpeak;
 @class SDLSubscribeButton;
@@ -49,9 +51,7 @@
 @class SDLUnsubscribeButton;
 @class SDLUnsubscribeVehicleData;
 @class SDLUpdateMode;
-@class SDLShowConstantTBT;
 @class SDLUpdateTurnList;
-@class SDLAlertManeuver;
 
 
 @interface SDLRPCRequestFactory : NSObject {
@@ -199,7 +199,7 @@
 
 + (SDLSubscribeVehicleData *)buildSubscribeVehicleDataWithGPS:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel fuelLevelState:(NSNumber *)fuelLevelState instantFuelConsumption:(NSNumber *)instantFuelConsumption externalTemperature:(NSNumber *)externalTemperature prndl:(NSNumber *)prndl tirePressure:(NSNumber *)tirePressure odometer:(NSNumber *)odometer beltStatus:(NSNumber *)beltStatus bodyInformation:(NSNumber *)bodyInformation deviceStatus:(NSNumber *)deviceStatus driverBraking:(NSNumber *)driverBraking wiperStatus:(NSNumber *)wiperStatus headLampStatus:(NSNumber *)headLampStatus engineTorque:(NSNumber *)engineTorque accPedalPosition:(NSNumber *)accPedalPosition steeringWheelAngle:(NSNumber *)steeringWheelAngle correlationID:(NSNumber *)correlationID;
 
-+(SDLShowConstantTBT*) buildShowConstatntTBTWithString:(NSString*)navigationText1 navigationText2:(NSString*)navigationText2 etaString:(NSString*)eta timeToDestination:(NSString*)timeToDestination totalDistance:(NSString*)totalDistance turnIcon:(SDLImage*)turnIcon nextTurnIcon:(SDLImage*)nextTurnIcon distanceToManeuver:(NSNumber*)distanceToManeuver distanceToManeuverScale:(NSNumber*)distanceToManeuverScale maneuverComplete:(NSNumber*)maneuverComplete softButtons:(NSMutableArray*)softButtons correlationID:(NSNumber*) correlationID;
++(SDLShowConstantTBT*) buildShowConstantTBTWithString:(NSString*)navigationText1 navigationText2:(NSString*)navigationText2 eta:(NSString*)eta timeToDestination:(NSString*)timeToDestination totalDistance:(NSString*)totalDistance turnIcon:(SDLImage*)turnIcon nextTurnIcon:(SDLImage*)nextTurnIcon distanceToManeuver:(NSNumber*)distanceToManeuver distanceToManeuverScale:(NSNumber*)distanceToManeuverScale maneuverComplete:(NSNumber*)maneuverComplete softButtons:(NSMutableArray*)softButtons correlationID:(NSNumber*) correlationID;
 
 +(SDLUnregisterAppInterface*) buildUnregisterAppInterfaceWithCorrelationID:(NSNumber*) correlationID;
 

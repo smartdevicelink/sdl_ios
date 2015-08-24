@@ -8,6 +8,7 @@
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLAlert.h"
+#import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
@@ -36,6 +37,7 @@
 #import "SDLSetGlobalProperties.h"
 #import "SDLSetMediaClockTimer.h"
 #import "SDLShow.h"
+#import "SDLShowConstantTBT.h"
 #import "SDLSlider.h"
 #import "SDLSpeak.h"
 #import "SDLSpeechCapabilities.h"
@@ -47,8 +49,6 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
-#import "SDLAlertManeuver.h"
-#import "SDLShowConstantTBT.h"
 #import "SDLUpdateTurnList.h"
 
 
@@ -159,7 +159,7 @@
 //*****
 
 
-+(SDLAlertManeuver*) buildAlertManeuverwithTTSchunks:(NSMutableArray *)ttsChunks softButtons:(NSMutableArray*) softButtons correlationID:(NSNumber*) correlationID{
++(SDLAlertManeuver *)buildAlertManeuverwithTTSchunks:(NSMutableArray *)ttsChunks softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber *)correlationID{
     
     SDLAlertManeuver *msg = [[SDLAlertManeuver alloc] init];
     msg.ttsChunks = ttsChunks;
@@ -409,8 +409,8 @@
     return msg;
 }
 
-+ (SDLSendLocation *)buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
-    SDLSendLocation *msg = [[SDLSendLocation alloc] init];
++(SDLSendLocation*)buildSendLocationWithLongitude:(NSNumber*)longitude latitude:(NSNumber*)latitude locationName:(NSString*)locationName locationDescription:(NSString*)locationDescription address:(NSArray*)address phoneNumber:(NSString*)phoneNumber image:(SDLImage*)image{
+    SDLSendLocation* msg = [[SDLSendLocation alloc] init];
     msg.longitudeDegrees = longitude;
     msg.latitudeDegrees = latitude;
     msg.locationName = locationName;
@@ -418,30 +418,9 @@
     msg.addressLines = address;
     msg.phoneNumber = phoneNumber;
     msg.locationImage = image;
-
-    return msg;
-}
-
-+(SDLShowConstantTBT *)buildShowConstatntTBTWithString:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 etaString:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(NSNumber *)distanceToManeuver distanceToManeuverScale:(NSNumber *)distanceToManeuverScale maneuverComplete:(NSNumber *)maneuverComplete softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber*) correlationID{
-    
-    SDLShowConstantTBT *msg = [[SDLShowConstantTBT alloc] init];
-    msg.navigationText1 = navigationText1;
-    msg.navigationText2 = navigationText2;
-    msg.eta = eta;
-    msg.timeToDestination = timeToDestination;
-    msg.totalDistance = totalDistance;
-    msg.turnIcon = turnIcon;
-    msg.nextTurnIcon = nextTurnIcon;
-    msg.distanceToManeuver = distanceToManeuver;
-    msg.distanceToManeuverScale = distanceToManeuverScale;
-    msg.maneuverComplete = maneuverComplete;
-    msg.softButtons = [softButtons mutableCopy];
-    msg.correlationID = correlationID;
     
     return msg;
-
 }
-
 
 +(SDLSetAppIcon*) buildSetAppIconWithFileName:(NSString*) syncFileName correlationID:(NSNumber*) correlationID {
     
@@ -542,6 +521,26 @@
 
 + (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment correlationID:(NSNumber *)correlationID {
     return [SDLRPCRequestFactory buildShowWithMainField1:mainField1 mainField2:mainField2 statusBar:nil mediaClock:nil mediaTrack:nil alignment:alignment correlationID:correlationID];
+}
+
++(SDLShowConstantTBT*)buildShowConstantTBTWithString:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(NSNumber *)distanceToManeuver distanceToManeuverScale:(NSNumber *)distanceToManeuverScale maneuverComplete:(NSNumber *)maneuverComplete softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber*) correlationID{
+    
+    SDLShowConstantTBT *msg = [[SDLShowConstantTBT alloc] init];
+    msg.navigationText1 = navigationText1;
+    msg.navigationText2 = navigationText2;
+    msg.eta = eta;
+    msg.timeToDestination = timeToDestination;
+    msg.totalDistance = totalDistance;
+    msg.turnIcon = turnIcon;
+    msg.nextTurnIcon = nextTurnIcon;
+    msg.distanceToManeuver = distanceToManeuver;
+    msg.distanceToManeuverScale = distanceToManeuverScale;
+    msg.maneuverComplete = maneuverComplete;
+    msg.softButtons = [softButtons mutableCopy];
+    msg.correlationID = correlationID;
+    
+    return msg;
+    
 }
 //*****
 
