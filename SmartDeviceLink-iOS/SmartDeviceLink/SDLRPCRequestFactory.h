@@ -6,6 +6,7 @@
 @class SDLAddCommand;
 @class SDLAddSubMenu;
 @class SDLAlert;
+@class SDLAlertManeuver;
 @class SDLAppHMIType;
 @class SDLAudioType;
 @class SDLBitsPerSample;
@@ -40,6 +41,7 @@
 @class SDLSetGlobalProperties;
 @class SDLSetMediaClockTimer;
 @class SDLShow;
+@class SDLShowConstantTBT;
 @class SDLSlider;
 @class SDLSpeak;
 @class SDLSubscribeButton;
@@ -49,11 +51,7 @@
 @class SDLUnsubscribeButton;
 @class SDLUnsubscribeVehicleData;
 @class SDLUpdateMode;
-@class SDLShowConstantTBT;
 @class SDLUpdateTurnList;
-@class SDLAlertManeuver;
-@class SDLDeviceInfo;
-
 
 @interface SDLRPCRequestFactory : NSObject {
 }
@@ -146,11 +144,6 @@
 
 + (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)laguageDesired appID:(NSString *)appID;
 //*****
-
-//***** Device Info ******
-+(SDLDeviceInfo*) buildDeviceInfo;
-//********
-
 
 + (SDLResetGlobalProperties *)buildResetGlobalPropertiesWithProperties:(NSArray *)properties correlationID:(NSNumber *)correlationID;
 

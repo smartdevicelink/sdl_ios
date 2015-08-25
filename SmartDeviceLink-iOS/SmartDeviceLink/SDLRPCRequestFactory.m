@@ -11,13 +11,16 @@
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLAlert.h"
+#import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
+#import "SDLDebugTool.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDeviceInfo.h"
 #import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
@@ -39,6 +42,7 @@
 #import "SDLSetGlobalProperties.h"
 #import "SDLSetMediaClockTimer.h"
 #import "SDLShow.h"
+#import "SDLShowConstantTBT.h"
 #import "SDLSlider.h"
 #import "SDLSpeak.h"
 #import "SDLSpeechCapabilities.h"
@@ -46,15 +50,11 @@
 #import "SDLSubscribeButton.h"
 #import "SDLSubscribeVehicleData.h"
 #import "SDLSyncMsgVersion.h"
-#import "SDLDeviceInfo.h"
 #import "SDLTTSChunk.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
-#import "SDLAlertManeuver.h"
-#import "SDLShowConstantTBT.h"
 #import "SDLUpdateTurnList.h"
-#import "SDLDebugTool.h"
 
 
 @implementation SDLRPCRequestFactory
@@ -368,12 +368,12 @@
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     msg.appID = appID;
-    msg.deviceInfo = [self buildDeviceInfo];
+    msg.deviceInfo = [self sdl_buildDeviceInfo];
     msg.correlationID = [NSNumber numberWithInt:1];
 	return msg;
 }
 
-+(SDLDeviceInfo*) buildDeviceInfo {
++(SDLDeviceInfo*) sdl_buildDeviceInfo {
     SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc]init];
     deviceInfo.hardware = [[UIDevice currentDevice] model];
     deviceInfo.os = [[UIDevice currentDevice]systemName];
