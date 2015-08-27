@@ -374,16 +374,16 @@
 }
 
 +(SDLDeviceInfo*) sdl_buildDeviceInfo {
-    SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc]init];
-    deviceInfo.hardware = [[UIDevice currentDevice] model];
-    deviceInfo.os = [[UIDevice currentDevice]systemName];
-    deviceInfo.osVersion = [[UIDevice currentDevice]systemVersion];
     
+    SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc]init];
+    deviceInfo.hardware = [UIDevice currentDevice].model ;
+    deviceInfo.os = [UIDevice currentDevice].systemName;
+    deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
+  
     CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
-    CTCarrier *carrier = [netinfo subscriberCellularProvider];
+    CTCarrier *carrier = netinfo.subscriberCellularProvider;
     NSString *carrierName = carrier.carrierName;
     deviceInfo.carrier = carrierName;
-
     return deviceInfo;
 }
 
