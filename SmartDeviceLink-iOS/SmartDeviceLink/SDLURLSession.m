@@ -10,7 +10,11 @@
 
 #import "SDLURLRequestTask.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
+
+static float DefaultConnectionTimeout = 45.0;
+
 
 @interface SDLURLSession () <SDLURLRequestTaskDelegate>
 
@@ -47,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _cachePolicy = NSURLRequestUseProtocolCachePolicy;
-    _connectionTimeout = 45.0;
+    _connectionTimeout = DefaultConnectionTimeout;
     
     _activeTasks = [NSMutableSet set];
     
@@ -69,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     mutableRequest.HTTPBody = data;
-    if (mutableRequest.timeoutInterval == 60.0) {
+    if (mutableRequest.timeoutInterval == DefaultConnectionTimeout) {
         mutableRequest.timeoutInterval = self.connectionTimeout;
     }
     
