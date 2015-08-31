@@ -21,7 +21,7 @@ describe(@"a url request task", ^{
             [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
                 return [request.URL.host isEqualToString:@"www.faketest.com"];
             } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-                return [OHHTTPStubsResponse responseWithData:testData statusCode:200 headers:nil];
+                return [[OHHTTPStubsResponse responseWithData:testData statusCode:200 headers:nil] requestTime:0.5 responseTime:0];
             }];
             
             NSURLRequest *someURLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.faketest.com"]];
@@ -34,6 +34,7 @@ describe(@"a url request task", ^{
         });
         
         afterEach(^{
+            testTask = nil;
             [OHHTTPStubs removeAllStubs];
         });
         
@@ -66,7 +67,6 @@ describe(@"a url request task", ^{
             
             NSURLRequest *someURLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.faketest.com"]];
             
-            
             testTask = [[SDLURLRequestTask alloc] initWithURLRequest:someURLRequest completionHandler:^void(NSData *data, NSURLResponse *response, NSError *error) {
                 testReturnData = data;
                 testReturnResponse = response;
@@ -75,6 +75,7 @@ describe(@"a url request task", ^{
         });
         
         afterEach(^{
+            testTask = nil;
             [OHHTTPStubs removeAllStubs];
         });
         
@@ -118,6 +119,7 @@ describe(@"a url request task", ^{
         });
         
         afterEach(^{
+            testTask = nil;
             [OHHTTPStubs removeAllStubs];
         });
         
