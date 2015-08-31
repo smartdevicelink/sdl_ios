@@ -73,11 +73,9 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     mutableRequest.HTTPBody = data;
-    if (mutableRequest.timeoutInterval == DefaultConnectionTimeout) {
-        mutableRequest.timeoutInterval = self.connectionTimeout;
-    }
+    mutableRequest.HTTPMethod = @"POST";
     
-    SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
+    SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:mutableRequest completionHandler:completionHandler];
     task.delegate = self;
     
     [self.activeTasks addObject:task];
