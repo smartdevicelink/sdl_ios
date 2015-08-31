@@ -323,7 +323,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
-    // If URL != nil, perform HTTP Post and don't pass the notification to FMProxyListeners
+    // If URL != nil, perform HTTP Post and don't pass the notification to proxy listeners
     NSString *logMessage = [NSString stringWithFormat:@"OnEncodedSyncPData (notification)\n%@", message];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
