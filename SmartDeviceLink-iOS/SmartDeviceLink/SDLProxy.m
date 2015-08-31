@@ -12,6 +12,7 @@
 #import "SDLEncodedSyncPData.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLJsonDecoder.h"
 #import "SDLJsonEncoder.h"
@@ -56,7 +57,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
-@property (strong, readwrite) SDLStreamingMediaManager *streamingDataManager;
+@property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
+@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingDataManager;
 
 @end
 
@@ -67,22 +69,19 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
-
-
         _lsm = [[SDLLockScreenManager alloc] init];
-
         _alreadyDestructed = NO;
         
-        self.activeSystemRequestTasks = [NSMutableSet set];
-        self.proxyListeners = [[NSMutableArray alloc] initWithObjects:theDelegate, nil];
-        self.protocol = protocol;
-        self.transport = transport;
-        self.transport.delegate = protocol;
-        [self.protocol.protocolDelegateTable addObject:self];
-        self.protocol.transport = transport;
+        _activeSystemRequestTasks = [NSMutableSet set];
+        _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
+        _protocol = protocol;
+        _transport = transport;
+        _transport.delegate = protocol;
+        [_protocol.protocolDelegateTable addObject:self];
+        _protocol.transport = transport;
 
         [self.transport connect];
-
+        
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
     }
@@ -108,9 +107,9 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self.protocol dispose];
         [self.transport dispose];
 
-        self.transport = nil;
-        self.protocol = nil;
-        self.proxyListeners = nil;
+        _transport = nil;
+        _protocol = nil;
+        _mutableProxyListeners = nil;
     }
 }
 
@@ -134,6 +133,14 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
+#pragma mark - Accessors
+
+- (NSSet *)proxyListeners {
+    return [self.mutableProxyListeners copy];
+}
+
+#pragma mark - Methods
+
 - (void)sendMobileHMIState {
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
@@ -149,8 +156,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         case UIApplicationStateBackground: {
             HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
         } break;
-        default:
-            break;
+        default: break;
     }
 
     NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
@@ -205,26 +211,15 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    switch (serviceType) {
-        case SDLServiceType_RPC: {
-            // Turn off the timer, the start session response came back
-            [self.startSessionTimer cancel];
-            
-            NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
-            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-            
-            if (_version <= 1) {
-                if (version >= 2) {
-                    _version = version;
-                }
-            }
-            
-            if (_version >= 2) {
-                [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
-            }
-        } break;
-        default: break;
+- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
+    // Turn off the timer, the start session response came back
+    [self.startSessionTimer cancel];
+
+    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+
+    if (serviceType == SDLServiceType_RPC || [SDLGlobals globals].protocolVersion >= 2) {
+        [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
 
@@ -611,17 +606,26 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - Delegate management
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate {
-    @synchronized(self.proxyListeners) {
-        [self.proxyListeners addObject:delegate];
+    @synchronized(self.mutableProxyListeners) {
+        [self.mutableProxyListeners addObject:delegate];
+    }
+}
+
+- (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate {
+    @synchronized(self.mutableProxyListeners) {
+        [self.mutableProxyListeners removeObject:delegate];
     }
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
-    [self.proxyListeners enumerateObjectsUsingBlock:^(id listener, NSUInteger idx, BOOL *stop) {
-        if ([(NSObject *)listener respondsToSelector:aSelector]) {
-            [(NSObject *)listener performSelectorOnMainThread:aSelector withObject:object waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{ @autoreleasepool {
+        for (id<SDLProxyListener> listener in self.proxyListeners) {
+            if ([listener respondsToSelector:aSelector]) {
+                // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+                ((void (*)(id, SEL))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector);
+            }
         }
-    }];
+    }});
 }
 
 
@@ -698,9 +702,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         case NSStreamEventHasBytesAvailable: {
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
-
-            const int bufferSize = 1024;
-            NSMutableData *buffer = [NSMutableData dataWithLength:bufferSize];
+            
+            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals globals].maxMTUSize];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];

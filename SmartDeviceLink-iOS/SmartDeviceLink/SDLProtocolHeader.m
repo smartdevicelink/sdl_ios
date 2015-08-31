@@ -51,7 +51,8 @@
             return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
         } break;
         default: {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The version of header that is being created is unknown" userInfo:@{ @"requestedVersion" : @(version) }];
+            NSString *reason = [NSString stringWithFormat:@"The version of header that is being created is unknown: %@", @(version)];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:@{ @"requestedVersion" : @(version) }];
         } break;
     }
 }

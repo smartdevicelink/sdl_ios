@@ -13,7 +13,6 @@
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType;
 - (void)sendRPC:(SDLRPCMessage *)message;
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg(("Use sendRPC: instead"));
-- (void)sendHeartbeat;
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType;
 
 // Recieving
