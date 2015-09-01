@@ -622,7 +622,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         for (id<SDLProxyListener> listener in self.proxyListeners) {
             if ([listener respondsToSelector:aSelector]) {
                 // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-                ((void (*)(id, SEL))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector);
+                ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
             }
         }
     }});
