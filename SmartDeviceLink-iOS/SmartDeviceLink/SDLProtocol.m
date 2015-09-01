@@ -301,7 +301,7 @@
 
 
 #pragma mark - SDLProtocolListener Implementation
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     self.sessionID = sessionID;
     [self storeSessionID:sessionID forServiceType:serviceType];
     
