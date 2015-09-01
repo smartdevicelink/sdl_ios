@@ -229,7 +229,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     
     if (status != noErr) {
         // TODO: Log the error
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{@"OSStatus": @(status)}];
         }
         
@@ -241,7 +241,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     CFNumberRef bitRateNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &bitRate);
     if (bitRateNumRef == NULL) {
         // TODO: Log & end session
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
         }
         
@@ -256,7 +256,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     
     if (status != noErr) {
         // TODO: Log & End session
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
         }
         
@@ -266,7 +266,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     // Set the profile level of the video stream
     status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
     if (status != noErr) {
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
         }
         
@@ -276,7 +276,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     // Set the session to compress in real time
     status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
     if (status != noErr) {
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
         }
         
@@ -288,7 +288,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     int interval = 50;
     CFNumberRef intervalNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &interval);
     if (intervalNumRef == NULL) {
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
         }
         
@@ -301,7 +301,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     intervalNumRef = NULL;
     
     if (status != noErr) {
-        if (*error != NULL) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
         }
         
