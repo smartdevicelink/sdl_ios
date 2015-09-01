@@ -58,7 +58,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (strong, nonatomic) NSMutableSet *activeSystemRequestTasks;
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
-@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingDataManager;
+@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
 
 @end
 
