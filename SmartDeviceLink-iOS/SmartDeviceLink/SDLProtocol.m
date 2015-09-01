@@ -21,8 +21,6 @@
 #import "SDLAbstractTransport.h"
 #import "SDLTimer.h"
 
-const UInt8 MAX_VERSION_TO_SEND = 4;
-
 
 @interface SDLProtocol () {
     UInt32 _messageID;
