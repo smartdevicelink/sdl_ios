@@ -278,21 +278,6 @@
     [self.heartbeatTimer start];
 }
 
-- (void)handleHeartbeatForSession:(Byte)session {
-    // Respond with a heartbeat ACK
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
-    header.frameType = SDLFrameType_Control;
-    header.serviceType = SDLServiceType_Control;
-    header.frameData = SDLFrameData_HeartbeatACK;
-    header.sessionID = session;
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [self sendDataToTransport:message.data withPriority:header.serviceType];
-}
-
-- (void)handleHeartbeatACK {
-    self.heartbeatACKed = YES;
-}
-
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     SDLV2ProtocolHeader *header = [SDLV2ProtocolHeader new];
     header.frameType = SDLFrameType_Single;
@@ -356,6 +341,33 @@
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
             [listener handleProtocolEndSessionNACK:serviceType];
+        }
+    }
+}
+
+- (void)handleHeartbeatForSession:(Byte)session {
+    // Respond with a heartbeat ACK
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    header.frameType = SDLFrameType_Control;
+    header.serviceType = SDLServiceType_Control;
+    header.frameData = SDLFrameData_HeartbeatACK;
+    header.sessionID = session;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sendDataToTransport:message.data withPriority:header.serviceType];
+    
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
+            [listener handleHeartbeatForSession:session];
+        }
+    }
+}
+
+- (void)handleHeartbeatACK {
+    self.heartbeatACKed = YES;
+    
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+        if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
+            [listener handleHeartbeatACK];
         }
     }
 }
