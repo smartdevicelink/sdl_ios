@@ -13,7 +13,7 @@
 
 @property (strong) NSString *debugConsoleGroupName;
 @property (weak) SDLAbstractTransport *transport;
-@property (weak) NSHashTable *protocolDelegateTable; // table of id<SDLProtocolListener>
+@property (strong) NSHashTable *protocolDelegateTable; // table of id<SDLProtocolListener>
 
 // Sending
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType;
