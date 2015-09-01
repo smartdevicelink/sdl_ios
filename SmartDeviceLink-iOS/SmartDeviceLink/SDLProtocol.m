@@ -72,14 +72,22 @@
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:1];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    switch (serviceType) {
+        case SDLServiceType_RPC: {
+            // Need a different header for starting the RPC service
+            header = [SDLProtocolHeader headerForVersion:1];
+            if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
+                header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            }
+        } break;
+        default: {
+            header.sessionID = self.sessionID;
+        } break;
+    }
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-
-    if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
-        header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
-    }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:serviceType];
