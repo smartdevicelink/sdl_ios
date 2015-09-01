@@ -310,14 +310,18 @@
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    self.sessionID = sessionID;
-    [self storeSessionID:sessionID forServiceType:serviceType];
     
-    [SDLGlobals globals].maxHeadUnitVersion = version;
-
-    if ([SDLGlobals globals].protocolVersion >= 3) {
-        self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
-        [self startHeartbeatTimerWithDuration:5.0];
+    switch (serviceType) {
+        case SDLServiceType_RPC: {
+            self.sessionID = sessionID;
+            [SDLGlobals globals].maxHeadUnitVersion = version;
+            if ([SDLGlobals globals].protocolVersion >= 3) {
+                self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
+                [self startHeartbeatTimerWithDuration:5.0];
+            }
+        } break;
+        default:
+            break;
     }
     
     [self storeSessionID:sessionID forServiceType:serviceType];
