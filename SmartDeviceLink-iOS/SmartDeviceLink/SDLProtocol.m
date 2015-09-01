@@ -87,7 +87,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     [self sendDataToTransport:message.data withPriority:serviceType];
 }
 
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID {
+- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
