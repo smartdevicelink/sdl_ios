@@ -172,13 +172,13 @@ const int POLICIES_CORRELATION_ID = 65535;
     return SDLProxyVersion;
 }
 
-- (SDLStreamingMediaManager *)streamingDataManager {
-    if (_streamingDataManager == nil) {
-        _streamingDataManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
-        [self.protocol.protocolDelegateTable addObject:_streamingDataManager];
+- (SDLStreamingMediaManager *)streamingMediaManager {
+    if (_streamingMediaManager == nil) {
+        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
+        [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
     }
     
-    return _streamingDataManager;
+    return _streamingMediaManager;
 }
 
 
