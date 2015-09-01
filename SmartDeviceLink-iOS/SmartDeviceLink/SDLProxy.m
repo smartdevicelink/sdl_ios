@@ -211,7 +211,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
 
