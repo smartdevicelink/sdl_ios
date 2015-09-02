@@ -190,7 +190,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
 
     if (self.startSessionTimer == nil) {
-        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime];
+        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
             [SDLDebugTool logInfo:@"Start Session Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:weakSelf.debugConsoleGroupName];
