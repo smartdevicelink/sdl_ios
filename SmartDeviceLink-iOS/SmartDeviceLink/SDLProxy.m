@@ -169,7 +169,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self startRPCSession];
 
     if (self.startSessionTimer == nil) {
-        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime];
+        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
             [SDLDebugTool logInfo:@"Start Session Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:weakSelf.debugConsoleGroupName];
@@ -586,7 +586,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         for (id<SDLProxyListener> listener in self.proxyListeners) {
             if ([listener respondsToSelector:aSelector]) {
                 // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-                ((void (*)(id, SEL))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector);
+                ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
             }
         }
     }});
