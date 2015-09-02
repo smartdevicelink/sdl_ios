@@ -52,8 +52,8 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _sessionIDs = [NSMutableDictionary new];
-        self.messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
-        self.messageRouter.delegate = self;
+        _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
+        _messageRouter.delegate = self;
     }
 
     return self;
