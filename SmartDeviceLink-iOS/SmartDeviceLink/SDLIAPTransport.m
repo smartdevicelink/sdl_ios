@@ -187,7 +187,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession.delegate = self;
         
         if (self.protocolIndexTimer == nil) {
-            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
+            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds repeat:NO];
         } else {
             [self.protocolIndexTimer cancel];
             [self.protocolIndexTimer start];
