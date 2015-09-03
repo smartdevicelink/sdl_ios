@@ -2,6 +2,8 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
+@import SmartDeviceLink;
+
 #import "ProxyManager.h"
 
 #import "Preferences.h"
@@ -106,14 +108,15 @@ NSString *const SDLAppId = @"9999";
     return _messageNumber++;
 }
 
+- (SDLStreamingMediaManager *)mediaManager {
+    return self.proxy.streamingMediaManager;
+}
+
 
 #pragma mark - SDLProxyListner delegate methods
 
 - (void)onProxyOpened {
     self.state = ProxyStateConnected;
-    
-    // TODO: this is here for convenience to expose the mediaManager to the view controller that needs it.
-    self.mediaManager = self.proxy.streamingMediaManager;
     
     SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
     registerRequest.appHMIType = [NSMutableArray arrayWithObjects:[SDLAppHMIType NAVIGATION], nil];

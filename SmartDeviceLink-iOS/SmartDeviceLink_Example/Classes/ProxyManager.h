@@ -2,9 +2,10 @@
 //  ProxyManager.h
 //  SmartDeviceLink-iOS
 
-@import SmartDeviceLink;
-
 #import <Foundation/Foundation.h>
+
+@class SDLStreamingMediaManager;
+
 
 typedef NS_ENUM(NSUInteger, ProxyTransportType) {
     ProxyTransportTypeUnknown,
@@ -28,6 +29,6 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 - (void)resetProxyWithTransportType:(ProxyTransportType)transportType;
 - (void)stopProxy;
 
-@property (weak, nonatomic) SDLStreamingMediaManager *mediaManager;
+@property (strong, nonatomic, readonly) SDLStreamingMediaManager *mediaManager;
 
 @end

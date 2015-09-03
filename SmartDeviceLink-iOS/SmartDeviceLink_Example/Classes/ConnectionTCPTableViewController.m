@@ -8,6 +8,7 @@
 
 #import "Preferences.h"
 #import "ProxyManager.h"
+#import "SDLStreamingMediaManager.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 
