@@ -4,8 +4,6 @@
 
 #import "ProxyManager.h"
 
-@import SmartDeviceLink;
-
 #import "Preferences.h"
 
 
@@ -19,7 +17,6 @@ NSString *const SDLAppId = @"9999";
 @property (assign, nonatomic, readwrite) ProxyState state;
 @property (assign, nonatomic) BOOL isFirstHMIFull;
 @property (assign, nonatomic) ProxyTransportType currentTransportType;
-
 @end
 
 
@@ -66,7 +63,7 @@ NSString *const SDLAppId = @"9999";
     if (self.proxy != nil) {
         return;
     }
-    
+
     self.currentTransportType = transportType;
     self.isFirstHMIFull = YES;
     self.state = ProxyStateSearchingForConnection;
@@ -115,7 +112,11 @@ NSString *const SDLAppId = @"9999";
 - (void)onProxyOpened {
     self.state = ProxyStateConnected;
     
+    // TODO: this is here for convenience to expose the mediaManager to the view controller that needs it.
+    self.mediaManager = self.proxy.streamingMediaManager;
+    
     SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
+    registerRequest.appHMIType = [NSMutableArray arrayWithObjects:[SDLAppHMIType NAVIGATION], nil];
     [self.proxy sendRPC:registerRequest];
 }
 
@@ -133,5 +134,6 @@ NSString *const SDLAppId = @"9999";
         self.isFirstHMIFull = NO;
     }
 }
+
 
 @end
