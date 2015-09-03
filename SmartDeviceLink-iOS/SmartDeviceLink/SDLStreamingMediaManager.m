@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
         } break;
         case SDLServiceType_Video: {
             NSError *error = nil;
-            BOOL success = [self.class sdl_configureVideoEncoderWithSessionRef:self.compressionSession error:&error];
+            BOOL success = [self sdl_configureVideoEncoderWithError:&error];
             
             if (!success) {
                 [self sdl_teardownCompressionSession];
@@ -203,29 +203,24 @@ NS_ASSUME_NONNULL_BEGIN
 void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
+        NSLog(@"Error encoding video, err=%lld", (int64_t)status);
         return;
     }
     
     // Call the reference to self with the sample buffer data, this may happen on an arbitrary thread, but we immediately dispatch, so we should be okay.
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
-    [mediaManager sdl_videoEncoderCallbackWithSampleBuffer:sampleBuffer];
-}
-
-- (void)sdl_videoEncoderCallbackWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-    dispatch_async([self.class sdl_streamingDataSerialQueue], ^{ @autoreleasepool {
-        NSData *elementaryStreamData = [self.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
-        [self.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
-    }});
+    NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
+    [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
 }
 
 #pragma mark Configuration
 
-+ (BOOL)sdl_configureVideoEncoderWithSessionRef:(VTCompressionSessionRef)sessionRef error:(NSError *__autoreleasing*)error {
+- (BOOL)sdl_configureVideoEncoderWithError:(NSError *__autoreleasing*)error {
     OSStatus status;
     
     // Create a compression session
     // TODO (Joel F.)[2015-08-18]: Dimensions should be from the Head Unit
-    status = VTCompressionSessionCreate(NULL, 640, 480, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &sessionRef);
+    status = VTCompressionSessionCreate(NULL, 640, 480, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     
     if (status != noErr) {
         // TODO: Log the error
@@ -248,7 +243,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         return NO;
     }
     
-    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_AverageBitRate, bitRateNumRef);
+    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_AverageBitRate, bitRateNumRef);
     
     // Release our bitrate number
     CFRelease(bitRateNumRef);
@@ -264,7 +259,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     }
     
     // Set the profile level of the video stream
-    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
+    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
     if (status != noErr) {
         if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
@@ -274,7 +269,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     }
     
     // Set the session to compress in real time
-    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
+    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
     if (status != noErr) {
         if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{@"OSStatus": @(status)}];
@@ -295,7 +290,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         return NO;
     }
     
-    status = VTSessionSetProperty(sessionRef, kVTCompressionPropertyKey_MaxKeyFrameInterval, intervalNumRef);
+    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, intervalNumRef);
     
     CFRelease(intervalNumRef);
     intervalNumRef = NULL;
@@ -314,6 +309,9 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 #pragma mark Elementary Stream Formatting
 
 + (NSData *)sdl_encodeElementaryStreamWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    
+    // Creating an elementaryStream: http://stackoverflow.com/questions/28396622/extracting-h264-from-cmblockbuffer
+    
     NSMutableData *elementaryStream = [NSMutableData data];
     BOOL isIFrame = NO;
     CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, 0);
@@ -362,12 +360,10 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     
     // Get a pointer to the raw AVCC NAL unit data in the sample buffer
     size_t blockBufferLength = 0;
-    uint8_t *bufferDataPointer = NULL;
-    CMBlockBufferGetDataPointer(CMSampleBufferGetDataBuffer(sampleBuffer),
-                                0,
-                                NULL,
-                                &blockBufferLength,
-                                (char **)&bufferDataPointer);
+    char *bufferDataPointer = NULL;
+    CMBlockBufferRef blockBufferRef = CMSampleBufferGetDataBuffer(sampleBuffer);
+    
+    CMBlockBufferGetDataPointer(blockBufferRef, 0, NULL, &blockBufferLength, &bufferDataPointer);
     
     // Loop through all the NAL units in the block buffer and write them to the elementary stream with start codes instead of AVCC length headers
     size_t bufferOffset = 0;
@@ -388,9 +384,9 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
     
-    return elementaryStream;
+    return [elementaryStream copy];
+    
 }
-
 
 #pragma mark - Private static singleton variables
 
