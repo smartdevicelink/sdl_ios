@@ -287,14 +287,16 @@
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
-    SDLV2ProtocolHeader *header = [SDLV2ProtocolHeader new];
+    
+    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
     header.serviceType = serviceType;
-    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.sessionID = self.sessionID;
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-
+    
     if (message.size < [SDLGlobals globals].maxMTUSize) {
         [self logRPCSend:message];
         [self sendDataToTransport:message.data withPriority:header.serviceType];
