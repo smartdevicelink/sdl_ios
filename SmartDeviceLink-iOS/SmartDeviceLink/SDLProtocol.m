@@ -326,7 +326,7 @@
     
     [self storeSessionID:sessionID forServiceType:serviceType];
     
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
             [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
         }
@@ -334,7 +334,7 @@
 }
 
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
             [listener handleProtocolStartSessionNACK:serviceType];
         }
@@ -342,7 +342,7 @@
 }
 
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
             [listener handleProtocolEndSessionACK:serviceType];
         }
@@ -350,7 +350,7 @@
 }
 
 - (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
             [listener handleProtocolEndSessionNACK:serviceType];
         }
@@ -367,7 +367,7 @@
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:header.serviceType];
     
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
             [listener handleHeartbeatForSession:session];
         }
@@ -377,7 +377,7 @@
 - (void)handleHeartbeatACK {
     self.heartbeatACKed = YES;
     
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
             [listener handleHeartbeatACK];
         }
@@ -390,7 +390,7 @@
         [self.heartbeatTimer start];
     }
 
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
             [listener onProtocolMessageReceived:msg];
         }
@@ -398,7 +398,7 @@
 }
 
 - (void)onProtocolOpened {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
             [listener onProtocolOpened];
         }
@@ -406,7 +406,7 @@
 }
 
 - (void)onProtocolClosed {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
             [listener onProtocolClosed];
         }
@@ -414,7 +414,7 @@
 }
 
 - (void)onError:(NSString *)info exception:(NSException *)e {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onError:exception:)]) {
             [listener onError:info exception:e];
         }

@@ -55,7 +55,7 @@
 
 #pragma - SDLTransportListener Implementation
 - (void)onTransportConnected {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
             [listener onProtocolOpened];
         }
@@ -63,7 +63,7 @@
 }
 
 - (void)onTransportDisconnected {
-    for (id<SDLProtocolListener> listener in self.protocolDelegateTable) {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
             [listener onProtocolClosed];
         }
