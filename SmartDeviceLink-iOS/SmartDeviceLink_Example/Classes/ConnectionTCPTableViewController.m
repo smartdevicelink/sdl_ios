@@ -197,7 +197,9 @@
     
     while ((sample = [readerTrack copyNextSampleBuffer])) {
         CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sample);
-        block(imageBuffer);
+        if (imageBuffer) {
+            block(imageBuffer);
+        }
     }
 }
 @end
