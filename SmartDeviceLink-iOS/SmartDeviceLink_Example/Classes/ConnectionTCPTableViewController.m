@@ -2,12 +2,14 @@
 //  ConnectionTCPTableViewController.m
 //  SmartDeviceLink-iOS
 
+@import AVFoundation;
+
 #import "ConnectionTCPTableViewController.h"
 
 #import "Preferences.h"
 #import "ProxyManager.h"
 
-
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface ConnectionTCPTableViewController ()
 
@@ -16,6 +18,10 @@
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
+
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *videoTableViewCell;
+@property (weak, nonatomic) IBOutlet UIButton *videoButton;
 
 @end
 
@@ -36,6 +42,7 @@
     
     // Connect Button setup
     self.connectButton.tintColor = [UIColor whiteColor];
+    self.videoButton.tintColor = [UIColor whiteColor];
 }
 
 - (void)dealloc {
@@ -66,6 +73,17 @@
     }
 }
 
+- (IBAction)videoButtonPressed:(id)sender {
+    ProxyState state = [ProxyManager sharedManager].state;
+    switch (state) {
+        case ProxyStateConnected: {
+            [self showVideoPicker];
+        } break;
+        default: {
+            NSLog(@"go away");
+        }break;
+    }
+}
 
 #pragma mark - Table view delegate
 
@@ -92,6 +110,38 @@
 }
 
 
+#pragma mark - UIImagePickerControllerDelegate Methods
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSLog(@"did finish picking media");
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
+        __block NSURL *videoUrl=(NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
+        
+        [[ProxyManager sharedManager].mediaManager startVideoSessionWithStartBlock:^void (BOOL success, NSError *error) {
+            if (success) {
+                [self processImageBuffersFromURL:videoUrl withBlock:^(CVImageBufferRef bufferRef) {
+                    if ([[ProxyManager sharedManager].mediaManager sendVideoData:bufferRef]) {
+                        NSLog(@"successfully sent image buffer");
+                    }
+                    else {
+                        NSLog(@"failed to process image buffer");
+                    }
+                }];
+            } else {
+                NSLog(@"Lol it didn't start");
+            }
+        }];
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    NSLog(@"Video selection canceled");
+    // TODO: close the video session
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 #pragma mark - Private Methods
 
 - (void)proxyManagerDidChangeState:(ProxyState)newState {
@@ -99,6 +149,9 @@
         case ProxyStateStopped: {
             self.connectTableViewCell.backgroundColor = [UIColor redColor];
             self.connectButton.titleLabel.text = @"Connect";
+            
+            self.videoTableViewCell.backgroundColor = [UIColor redColor];
+            self.videoButton.titleLabel.text = @"Select Video";
         } break;
         case ProxyStateSearchingForConnection: {
             self.connectTableViewCell.backgroundColor = [UIColor blueColor];
@@ -107,9 +160,43 @@
         case ProxyStateConnected: {
             self.connectTableViewCell.backgroundColor = [UIColor greenColor];
             self.connectButton.titleLabel.text = @"Disconnect";
+            
+            self.videoTableViewCell.backgroundColor = [UIColor blueColor];
+            self.videoButton.titleLabel.text = @"Select Video";
         } break;
         default: break;
     }
 }
 
+- (void)showVideoPicker {
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+    imagePicker.delegate = self;
+    
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void)processImageBuffersFromURL:(NSURL *)url withBlock:(void (^)(CVImageBufferRef bufferRef))block {
+    AVAsset *asset = [AVAsset assetWithURL:url];
+    AVAssetTrack *track = [[asset
+                            tracksWithMediaType:AVMediaTypeVideo]
+                           objectAtIndex:0];
+    
+    AVAssetReaderTrackOutput
+    *readerTrack = [AVAssetReaderTrackOutput
+                    assetReaderTrackOutputWithTrack:track
+                    outputSettings:@{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)}];
+    AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset
+                                                          error:nil];
+    [reader addOutput:readerTrack];
+    [reader startReading];
+    
+    CMSampleBufferRef sample = NULL;
+    
+    while ((sample = [readerTrack copyNextSampleBuffer])) {
+        CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sample);
+        block(imageBuffer);
+    }
+}
 @end
