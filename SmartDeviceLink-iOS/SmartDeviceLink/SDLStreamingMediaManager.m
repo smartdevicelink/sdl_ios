@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
     // TODO (Joel F.)[2015-08-17]: Somehow monitor connection to make sure we're not clogging the connection with data.
     OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, CMTimeMake(self.currentFrameNumber++, 30), kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
     
-    return (status == noErr) ? YES : NO;
+    return (status == noErr);
 }
 
 - (BOOL)sendAudioData:(NSData *)pcmAudioData {
