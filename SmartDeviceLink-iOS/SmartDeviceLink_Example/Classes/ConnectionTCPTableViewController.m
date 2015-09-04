@@ -119,20 +119,36 @@
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         __block NSURL *videoUrl=(NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
         
-        [[ProxyManager sharedManager].mediaManager startVideoSessionWithStartBlock:^void (BOOL success, NSError *error) {
-            if (success) {
-                [self processImageBuffersFromURL:videoUrl withBlock:^(CVImageBufferRef bufferRef) {
-                    if ([[ProxyManager sharedManager].mediaManager sendVideoData:bufferRef]) {
-                        NSLog(@"successfully sent image buffer");
-                    }
-                    else {
-                        NSLog(@"failed to process image buffer");
-                    }
-                }];
-            } else {
-                NSLog(@"Lol it didn't start");
-            }
-        }];
+        BOOL videoConnected = [ProxyManager sharedManager].mediaManager.videoSessionConnected;
+        
+        if (videoConnected) {
+            [self processImageBuffersFromURL:videoUrl withBlock:^(CVImageBufferRef bufferRef) {
+                if ([[ProxyManager sharedManager].mediaManager sendVideoData:bufferRef]) {
+                    NSLog(@"successfully sent image buffer");
+                }
+                else {
+                    NSLog(@"failed to process image buffer");
+                }
+                CFRelease(bufferRef);
+            }];
+        } else {
+            // Attempt to start the video session
+            [[ProxyManager sharedManager].mediaManager startVideoSessionWithStartBlock:^void (BOOL success, NSError *error) {
+                if (success) {
+                    [self processImageBuffersFromURL:videoUrl withBlock:^(CVImageBufferRef bufferRef) {
+                        if ([[ProxyManager sharedManager].mediaManager sendVideoData:bufferRef]) {
+                            NSLog(@"successfully sent image buffer");
+                        }
+                        else {
+                            NSLog(@"failed to process image buffer");
+                        }
+                        CFRelease(bufferRef);
+                    }];
+                } else {
+                    NSLog(@"Lol it didn't start");
+                }
+            }];
+        }
     }
 }
 
@@ -179,27 +195,47 @@
 }
 
 - (void)processImageBuffersFromURL:(NSURL *)url withBlock:(void (^)(CVImageBufferRef bufferRef))block {
-    AVAsset *asset = [AVAsset assetWithURL:url];
-    AVAssetTrack *track = [[asset
-                            tracksWithMediaType:AVMediaTypeVideo]
-                           objectAtIndex:0];
-    
-    AVAssetReaderTrackOutput
-    *readerTrack = [AVAssetReaderTrackOutput
-                    assetReaderTrackOutputWithTrack:track
-                    outputSettings:@{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)}];
-    AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset
-                                                          error:nil];
-    [reader addOutput:readerTrack];
-    [reader startReading];
-    
-    CMSampleBufferRef sample = NULL;
-    
-    while ((sample = [readerTrack copyNextSampleBuffer])) {
-        CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sample);
-        if (imageBuffer) {
-            block(imageBuffer);
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        AVAsset *asset = [AVAsset assetWithURL:url];
+        AVAssetTrack *track = [[asset
+                                tracksWithMediaType:AVMediaTypeVideo]
+                               objectAtIndex:0];
+        
+        AVAssetReaderTrackOutput
+        *readerTrack = [AVAssetReaderTrackOutput
+                        assetReaderTrackOutputWithTrack:track
+                        outputSettings:@{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)}];
+        AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset
+                                                              error:nil];
+        reader.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+        [reader addOutput:readerTrack];
+        [reader startReading];
+        
+        CMSampleBufferRef sample = NULL;
+        //Background Thread
+        while ((sample = [readerTrack copyNextSampleBuffer])) {
+            CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sample);
+            if (imageBuffer && block) {
+                block(imageBuffer);
+            }
+            [NSThread sleepForTimeInterval:0.01f];
         }
-    }
+        // TODO: do something about the reader status after it stops reading
+        switch (reader.status) {
+            case AVAssetReaderStatusReading:
+            case AVAssetReaderStatusCancelled:
+            case AVAssetReaderStatusCompleted:
+            case AVAssetReaderStatusFailed:
+            case AVAssetReaderStatusUnknown:
+            default:
+                NSLog(@"AVAssetReaderStatus %@", @(reader.status));
+                break;
+        }
+    });
 }
+
+- (void)didReceiveMemoryWarning {
+    NSLog(@"lol mem warning");
+}
+
 @end
