@@ -82,6 +82,10 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  */
 - (BOOL)sendAudioData:(NSData *)pcmAudioData;
 
+@property (assign, nonatomic, readonly) BOOL videoSessionConnected;
+@property (assign, nonatomic, readonly) BOOL audioSessionConnected;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

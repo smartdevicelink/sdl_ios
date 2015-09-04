@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 
-@property (assign, nonatomic) BOOL videoSessionConnected;
-@property (assign, nonatomic) BOOL audioSessionConnected;
+@property (assign, nonatomic, readwrite) BOOL videoSessionConnected;
+@property (assign, nonatomic, readwrite) BOOL audioSessionConnected;
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
@@ -207,7 +207,6 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         return;
     }
     
-    // Call the reference to self with the sample buffer data, this may happen on an arbitrary thread, but we immediately dispatch, so we should be okay.
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
     [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
