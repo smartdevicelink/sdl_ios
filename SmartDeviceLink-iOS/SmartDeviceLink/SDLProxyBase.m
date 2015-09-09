@@ -33,33 +33,33 @@
 
 // These delegates are required for the app to implement
 // TODO: should these be required?
-@property (copy) NSSet *onOnLockScreenNotificationDelegates;
-@property (copy) NSSet *onOnLanguageChangeDelegates;
-@property (copy) NSSet *onOnPermissionsChangeDelegates;
+@property (strong) NSHashTable *onOnLockScreenNotificationDelegates;
+@property (strong) NSHashTable *onOnLanguageChangeDelegates;
+@property (strong) NSHashTable *onOnPermissionsChangeDelegates;
 
 // Proxy notification and event delegates
-@property (copy) NSSet *onProxyOpenedDelegates;
-@property (copy) NSSet *onProxyClosedDelegates;
-@property (copy) NSSet *firstHMIFullDelegates;
-@property (copy) NSSet *firstHMINotNoneDelegates;
-@property (copy) NSSet *proxyErrorDelegates;
-@property (copy) NSSet *appRegisteredDelegates;
+@property (strong) NSHashTable *onProxyOpenedDelegates;
+@property (strong) NSHashTable *onProxyClosedDelegates;
+@property (strong) NSHashTable *firstHMIFullDelegates;
+@property (strong) NSHashTable *firstHMINotNoneDelegates;
+@property (strong) NSHashTable *proxyErrorDelegates;
+@property (strong) NSHashTable *appRegisteredDelegates;
 
 // Optional delegates
-@property (copy) NSSet *onOnDriverDistractionDelegates;
-@property (copy) NSSet *onOnHMIStatusDelegates;
-@property (copy) NSSet *onOnAppInterfaceUnregisteredDelegates;
-@property (copy) NSSet *onOnAudioPassThruDelegates;
-@property (copy) NSSet *onOnButtonEventDelegates;
-@property (copy) NSSet *onOnButtonPressDelegates;
-@property (copy) NSSet *onOnCommandDelegates;
-@property (copy) NSSet *onOnEncodedSyncPDataDelegates;
-@property (copy) NSSet *onOnHashChangeDelegates;
-@property (copy) NSSet *onOnSyncPDataDelegates;
-@property (copy) NSSet *onOnSystemRequestDelegates;
-@property (copy) NSSet *onOnTBTClientStateDelegates;
-@property (copy) NSSet *onOnTouchEventDelegates;
-@property (copy) NSSet *onOnVehicleDataDelegates;
+@property (strong) NSHashTable *onOnDriverDistractionDelegates;
+@property (strong) NSHashTable *onOnHMIStatusDelegates;
+@property (strong) NSHashTable *onOnAppInterfaceUnregisteredDelegates;
+@property (strong) NSHashTable *onOnAudioPassThruDelegates;
+@property (strong) NSHashTable *onOnButtonEventDelegates;
+@property (strong) NSHashTable *onOnButtonPressDelegates;
+@property (strong) NSHashTable *onOnCommandDelegates;
+@property (strong) NSHashTable *onOnEncodedSyncPDataDelegates;
+@property (strong) NSHashTable *onOnHashChangeDelegates;
+@property (strong) NSHashTable *onOnSyncPDataDelegates;
+@property (strong) NSHashTable *onOnSystemRequestDelegates;
+@property (strong) NSHashTable *onOnTBTClientStateDelegates;
+@property (strong) NSHashTable *onOnTouchEventDelegates;
+@property (strong) NSHashTable *onOnVehicleDataDelegates;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable *rpcResponseHandlerMap;
@@ -96,29 +96,29 @@
         _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         
-        _onProxyOpenedDelegates = [[NSSet alloc] init];
-        _onProxyClosedDelegates = [[NSSet alloc] init];
-        _firstHMIFullDelegates = [[NSSet alloc] init];
-        _firstHMINotNoneDelegates = [[NSSet alloc] init];
-        _proxyErrorDelegates = [[NSSet alloc] init];
-        _appRegisteredDelegates = [[NSSet alloc] init];
-        _onOnLockScreenNotificationDelegates = [[NSSet alloc] init];
-        _onOnLanguageChangeDelegates = [[NSSet alloc] init];
-        _onOnPermissionsChangeDelegates = [[NSSet alloc] init];
-        _onOnDriverDistractionDelegates = [[NSSet alloc] init];
-        _onOnHMIStatusDelegates = [[NSSet alloc] init];
-        _onOnAppInterfaceUnregisteredDelegates = [[NSSet alloc] init];
-        _onOnAudioPassThruDelegates = [[NSSet alloc] init];
-        _onOnButtonEventDelegates = [[NSSet alloc] init];
-        _onOnButtonPressDelegates = [[NSSet alloc] init];
-        _onOnCommandDelegates = [[NSSet alloc] init];
-        _onOnEncodedSyncPDataDelegates = [[NSSet alloc] init];
-        _onOnHashChangeDelegates = [[NSSet alloc] init];
-        _onOnSyncPDataDelegates = [[NSSet alloc] init];
-        _onOnSystemRequestDelegates = [[NSSet alloc] init];
-        _onOnTBTClientStateDelegates = [[NSSet alloc] init];
-        _onOnTouchEventDelegates = [[NSSet alloc] init];
-        _onOnVehicleDataDelegates = [[NSSet alloc] init];
+        _onProxyOpenedDelegates = [NSHashTable weakObjectsHashTable];
+        _onProxyClosedDelegates = [NSHashTable weakObjectsHashTable];
+        _firstHMIFullDelegates = [NSHashTable weakObjectsHashTable];
+        _firstHMINotNoneDelegates = [NSHashTable weakObjectsHashTable];
+        _proxyErrorDelegates = [NSHashTable weakObjectsHashTable];
+        _appRegisteredDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnLockScreenNotificationDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnLanguageChangeDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnPermissionsChangeDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnDriverDistractionDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnHMIStatusDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnAppInterfaceUnregisteredDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnAudioPassThruDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnButtonEventDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnButtonPressDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnCommandDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnEncodedSyncPDataDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnHashChangeDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnSyncPDataDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnSystemRequestDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnTBTClientStateDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnTouchEventDelegates = [NSHashTable weakObjectsHashTable];
+        _onOnVehicleDataDelegates = [NSHashTable weakObjectsHashTable];
     }
     return self;
 }
@@ -145,190 +145,105 @@
 
 #pragma mark Delegates
 
-- (void)addOnProxyOpenedDelegate:(id<SDLProxyOpenedDelegate>)delegate {
-    if (delegate) {
+- (void)addDelegate:(id<NSObject>)delegate toHashTable:(NSHashTable *)table {
+    if (delegate && table) {
         @synchronized (self.delegateLock) {
-            self.onProxyOpenedDelegates = [self.onProxyOpenedDelegates setByAddingObject:delegate];
+            [table addObject:delegate];
         }
     }
+}
+
+- (void)addOnProxyOpenedDelegate:(id<SDLProxyOpenedDelegate>)delegate {
+    [self addDelegate:delegate toHashTable:self.onProxyOpenedDelegates];
 }
 
 - (void)addOnProxyClosedDelegate:(id<SDLProxyClosedDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onProxyClosedDelegates = [self.onProxyClosedDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onProxyClosedDelegates];
 }
 
 - (void)addProxyErrorDelegate:(id<SDLProxyErrorDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.proxyErrorDelegates = [self.proxyErrorDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.proxyErrorDelegates];
 }
 
 - (void)addAppRegisteredDelegate:(id<SDLAppRegisteredDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.appRegisteredDelegates = [self.appRegisteredDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.appRegisteredDelegates];
 }
 
 - (void)addFirstHMIFullDelegate:(id<SDLFirstHMIFullDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.firstHMIFullDelegates = [self.firstHMIFullDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.firstHMIFullDelegates];
 }
 
 - (void)addFirstHMINotNoneDelegate:(id<SDLFirstHMINotNoneDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.firstHMINotNoneDelegates = [self.firstHMINotNoneDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.firstHMINotNoneDelegates];
 }
 
 - (void)addOnOnLockScreenNotificationDelegate:(id<SDLOnLockScreenNotificationDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnLockScreenNotificationDelegates = [self.onOnLockScreenNotificationDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnLockScreenNotificationDelegates];
 }
 
 - (void)addOnOnLanguageChangeDelegate:(id<SDLOnLanguageChangeDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnLanguageChangeDelegates = [self.onOnLanguageChangeDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnLanguageChangeDelegates];
 }
 
 - (void)addOnOnPermissionsChangeDelegate:(id<SDLOnPermissionsChangeDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnPermissionsChangeDelegates = [self.onOnPermissionsChangeDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnPermissionsChangeDelegates];
 }
 
 - (void)addOnOnDriverDistractionDelegate:(id<SDLOnDriverDistractionDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnDriverDistractionDelegates = [self.onOnDriverDistractionDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnDriverDistractionDelegates];
 }
 
 - (void)addOnOnHMIStatusDelegate:(id<SDLOnHMIStatusDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnHMIStatusDelegates = [self.onOnHMIStatusDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnHMIStatusDelegates];
 }
 
 - (void)addOnOnAppInterfaceUnregisteredDelegate:(id<SDLAppUnregisteredDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnAppInterfaceUnregisteredDelegates = [self.onOnAppInterfaceUnregisteredDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnAppInterfaceUnregisteredDelegates];
 }
 
 - (void)addOnOnAudioPassThruDelegate:(id<SDLOnAudioPassThruDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnAudioPassThruDelegates = [self.onOnAudioPassThruDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnAudioPassThruDelegates];
 }
 
 - (void)addOnOnButtonEventDelegate:(id<SDLOnButtonEventDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnButtonEventDelegates = [self.onOnButtonEventDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnButtonEventDelegates];
 }
 
 - (void)addOnOnButtonPressDelegate:(id<SDLOnButtonPressDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnButtonPressDelegates = [self.onOnButtonPressDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnButtonPressDelegates];
 }
 
 - (void)addOnOnCommandDelegate:(id<SDLOnCommandDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnCommandDelegates = [self.onOnCommandDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnCommandDelegates];
 }
 
 - (void)addOnOnEncodedSyncPDataDelegate:(id<SDLOnEncodedSyncPDataDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnEncodedSyncPDataDelegates = [self.onOnEncodedSyncPDataDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnEncodedSyncPDataDelegates];
 }
 
 - (void)addOnOnHashChangeDelegate:(id<SDLOnHashChangeDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnHashChangeDelegates = [self.onOnHashChangeDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnHashChangeDelegates];
 }
 
 - (void)addOnOnSyncPDataDelegate:(id<SDLOnSyncPDataDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnSyncPDataDelegates = [self.onOnSyncPDataDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnSyncPDataDelegates];
 }
 
 - (void)addOnOnSystemRequestDelegate:(id<SDLOnSystemRequestDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnSystemRequestDelegates = [self.onOnSystemRequestDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnSystemRequestDelegates];
 }
 
 - (void)addOnOnTBTClientStateDelegate:(id<SDLOnTBTClientStateDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnTBTClientStateDelegates = [self.onOnTBTClientStateDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnTBTClientStateDelegates];
 }
 
 - (void)addOnOnTouchEventDelegate:(id<SDLOnTouchEventDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnTouchEventDelegates = [self.onOnTouchEventDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnTouchEventDelegates];
 }
 
 - (void)addOnOnVehicleDataDelegate:(id<SDLOnVehicleDataDelegate>)delegate {
-    if (delegate) {
-        @synchronized (self.delegateLock) {
-            self.onOnVehicleDataDelegates = [self.onOnVehicleDataDelegates setByAddingObject:delegate];
-        }
-    }
+    [self addDelegate:delegate toHashTable:self.onOnVehicleDataDelegates];
 }
-
 
 #pragma mark 
 
@@ -355,8 +270,8 @@
     dispatch_async(self.backgroundQueue, ^{
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
-            NSSet *delegateSet = nil;
-            void (^enumerationBlock)(id<NSObject> delegate, BOOL *stop) = nil;
+            NSHashTable *delegateHashTable = nil;
+            void (^enumerationBlock)(id<NSObject> delegate) = nil;
             
             if ([notification isKindOfClass:[SDLOnHMIStatus class]]) {
                 [strongSelf onHMIStatus:((SDLOnHMIStatus *)notification)];
@@ -368,87 +283,91 @@
                 [strongSelf runHandlerForButton:((SDLRPCNotification *)notification)];
             }
             else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
-                delegateSet = strongSelf.onOnDriverDistractionDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnDriverDistractionDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnDriverDistractionDelegate>)delegate) onSDLDriverDistraction:((SDLOnDriverDistraction *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
-                delegateSet = strongSelf.onOnAppInterfaceUnregisteredDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnAppInterfaceUnregisteredDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLAppUnregisteredDelegate>)delegate) onSDLAppInterfaceUnregistered:((SDLOnAppInterfaceUnregistered *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
-                delegateSet = strongSelf.onOnAudioPassThruDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnAudioPassThruDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnAudioPassThruDelegate>)delegate) onSDLAudioPassThru:((SDLOnAudioPassThru *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
-                delegateSet = strongSelf.onOnEncodedSyncPDataDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnEncodedSyncPDataDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnEncodedSyncPDataDelegate>)delegate) onSDLEncodedSyncPData:((SDLOnEncodedSyncPData *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
-                delegateSet = strongSelf.onOnHashChangeDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnHashChangeDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnHashChangeDelegate>)delegate) onSDLHashChange:((SDLOnHashChange *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
-                delegateSet = strongSelf.onOnLanguageChangeDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnLanguageChangeDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnLanguageChangeDelegate>)delegate) onSDLLanguageChange:((SDLOnLanguageChange *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
-                delegateSet = strongSelf.onOnPermissionsChangeDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnPermissionsChangeDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnPermissionsChangeDelegate>)delegate) onSDLPermissionsChange:((SDLOnPermissionsChange *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
-                delegateSet = strongSelf.onOnSyncPDataDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnSyncPDataDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnSyncPDataDelegate>)delegate) onSDLSyncPData:((SDLOnSyncPData *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
-                delegateSet = strongSelf.onOnSystemRequestDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnSystemRequestDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnSystemRequestDelegate>)delegate) onSDLSystemRequest:((SDLOnSystemRequest *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
-                delegateSet = strongSelf.onOnTBTClientStateDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnTBTClientStateDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnTBTClientStateDelegate>)delegate) onSDLTBTClientState:((SDLOnTBTClientState *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
-                delegateSet = strongSelf.onOnTouchEventDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnTouchEventDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnTouchEventDelegate>)delegate) onSDLTouchEvent:((SDLOnTouchEvent *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
-                delegateSet = strongSelf.onOnVehicleDataDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnVehicleDataDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnVehicleDataDelegate>)delegate) onSDLVehicleData:((SDLOnVehicleData *)notification)];
                 };
             }
             else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
-                delegateSet = strongSelf.onOnLockScreenNotificationDelegates;
-                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                delegateHashTable = strongSelf.onOnLockScreenNotificationDelegates;
+                enumerationBlock = ^(id<NSObject> delegate) {
                     [((id<SDLOnLockScreenNotificationDelegate>)delegate) onSDLLockScreenNotification:((SDLOnLockScreenStatus *)notification)];
                 };
             }
             
-            if (delegateSet && enumerationBlock) {
+            if (delegateHashTable && enumerationBlock) {
                 dispatch_async(strongSelf.mainUIQueue, ^{
-                    [delegateSet enumerateObjectsUsingBlock:enumerationBlock];
+                    @synchronized (strongSelf.delegateLock) {
+                        for (id<NSObject> delegate in delegateHashTable) {
+                            enumerationBlock(delegate);
+                        }
+                    }
                 });
             }
         }
@@ -501,9 +420,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.onOnCommandDelegates enumerateObjectsUsingBlock:^(id<SDLOnCommandDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLCommand:command];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLOnCommandDelegate> delegate in strongSelf.onOnCommandDelegates) {
+                        [delegate onSDLCommand:command];
+                    }
+                }
             }
         });
     }
@@ -547,9 +468,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.onOnButtonEventDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonEventDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLOnButtonEventDelegate> delegate in strongSelf.onOnButtonEventDelegates) {
+                        [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
+                    }
+                }
             }
         });
     }
@@ -557,9 +480,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.onOnButtonPressDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonPressDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLOnButtonPressDelegate> delegate in strongSelf.onOnButtonPressDelegates) {
+                        [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
+                    }
+                }
             }
         });
     }
@@ -707,9 +632,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.proxyErrorDelegates enumerateObjectsUsingBlock:^(id<SDLProxyErrorDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLError:e];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLProxyErrorDelegate> delegate in strongSelf.proxyErrorDelegates) {
+                        [delegate onSDLError:e];
+                    }
+                }
             }
         });
     }
@@ -734,9 +661,11 @@
                     dispatch_async(strongSelf.mainUIQueue, ^{
                         typeof(self) strongSelf = weakSelf;
                         if (strongSelf) {
-                            [strongSelf.appRegisteredDelegates enumerateObjectsUsingBlock:^(id<SDLAppRegisteredDelegate> delegate, BOOL *stop) {
-                                [delegate onSDLRegisterAppInterfaceResponse:((SDLRegisterAppInterfaceResponse *) response)];
-                            }];
+                            @synchronized (strongSelf.delegateLock) {
+                                for (id<SDLAppRegisteredDelegate> delegate in strongSelf.appRegisteredDelegates) {
+                                    [delegate onSDLRegisterAppInterfaceResponse:((SDLRegisterAppInterfaceResponse *) response)];
+                                }
+                            }
                         }
                     });
                 }
@@ -747,9 +676,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.onProxyOpenedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyOpenedDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLProxyOpened];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLProxyOpenedDelegate> delegate in strongSelf.onProxyOpenedDelegates) {
+                        [delegate onSDLProxyOpened];
+                    }
+                }
             }
         });
     }
@@ -765,9 +696,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.onProxyClosedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyClosedDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLProxyClosed];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLProxyClosedDelegate> delegate in strongSelf.onProxyClosedDelegates) {
+                        [delegate onSDLProxyClosed];
+                    }
+                }
             }
         });
     }
@@ -790,9 +723,11 @@
                 dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
-                        [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
-                            [delegate onSDLFirstHMINotNone:notification];
-                        }];
+                        @synchronized (strongSelf.delegateLock) {
+                            for (id<SDLFirstHMINotNoneDelegate> delegate in strongSelf.firstHMINotNoneDelegates) {
+                                [delegate onSDLFirstHMINotNone:notification];
+                            }
+                        }
                     }
                 });
             }
@@ -810,9 +745,11 @@
                 dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
-                        [strongSelf.firstHMIFullDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMIFullDelegate> delegate, BOOL *stop) {
-                            [delegate onSDLFirstHMIFull:notification];
-                        }];
+                        @synchronized (strongSelf.delegateLock) {
+                            for (id<SDLFirstHMIFullDelegate> delegate in strongSelf.firstHMIFullDelegates) {
+                                [delegate onSDLFirstHMIFull:notification];
+                            }
+                        }
                     }
                 });
             }
@@ -833,9 +770,11 @@
                 dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
-                        [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
-                            [delegate onSDLFirstHMINotNone:notification];
-                        }];
+                        @synchronized (strongSelf.delegateLock) {
+                            for (id<SDLFirstHMINotNoneDelegate> delegate in strongSelf.firstHMINotNoneDelegates) {
+                                [delegate onSDLFirstHMINotNone:notification];
+                            }
+                        }
                     }
                 });
             }
@@ -848,9 +787,11 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                [strongSelf.onOnHMIStatusDelegates enumerateObjectsUsingBlock:^(id<SDLOnHMIStatusDelegate> delegate, BOOL *stop) {
-                    [delegate onSDLHMIStatus:notification];
-                }];
+                @synchronized (strongSelf.delegateLock) {
+                    for (id<SDLOnHMIStatusDelegate> delegate in strongSelf.onOnHMIStatusDelegates) {
+                        [delegate onSDLHMIStatus:notification];
+                    }
+                }
             }
         });
     }
