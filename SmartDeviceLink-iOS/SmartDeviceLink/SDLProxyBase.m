@@ -353,105 +353,103 @@
 - (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification {
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        @autoreleasepool {
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                NSSet *delegateSet = nil;
-                void (^enumerationBlock)(id<NSObject> delegate, BOOL *stop) = nil;
-                
-                if ([notification isKindOfClass:[SDLOnHMIStatus class]]) {
-                    [strongSelf onHMIStatus:((SDLOnHMIStatus *)notification)];
-                }
-                else if ([notification isKindOfClass:[SDLOnCommand class]]) {
-                    [strongSelf runHandlerForCommand:((SDLOnCommand *)notification)];
-                }
-                else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-                    [strongSelf runHandlerForButton:((SDLRPCNotification *)notification)];
-                }
-                else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
-                    delegateSet = strongSelf.onOnDriverDistractionDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnDriverDistractionDelegate>)delegate) onSDLDriverDistraction:((SDLOnDriverDistraction *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
-                    delegateSet = strongSelf.onOnAppInterfaceUnregisteredDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLAppUnregisteredDelegate>)delegate) onSDLAppInterfaceUnregistered:((SDLOnAppInterfaceUnregistered *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
-                    delegateSet = strongSelf.onOnAudioPassThruDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnAudioPassThruDelegate>)delegate) onSDLAudioPassThru:((SDLOnAudioPassThru *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
-                    delegateSet = strongSelf.onOnEncodedSyncPDataDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnEncodedSyncPDataDelegate>)delegate) onSDLEncodedSyncPData:((SDLOnEncodedSyncPData *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
-                    delegateSet = strongSelf.onOnHashChangeDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnHashChangeDelegate>)delegate) onSDLHashChange:((SDLOnHashChange *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
-                    delegateSet = strongSelf.onOnLanguageChangeDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnLanguageChangeDelegate>)delegate) onSDLLanguageChange:((SDLOnLanguageChange *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
-                    delegateSet = strongSelf.onOnPermissionsChangeDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnPermissionsChangeDelegate>)delegate) onSDLPermissionsChange:((SDLOnPermissionsChange *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
-                    delegateSet = strongSelf.onOnSyncPDataDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnSyncPDataDelegate>)delegate) onSDLSyncPData:((SDLOnSyncPData *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
-                    delegateSet = strongSelf.onOnSystemRequestDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnSystemRequestDelegate>)delegate) onSDLSystemRequest:((SDLOnSystemRequest *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
-                    delegateSet = strongSelf.onOnTBTClientStateDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnTBTClientStateDelegate>)delegate) onSDLTBTClientState:((SDLOnTBTClientState *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
-                    delegateSet = strongSelf.onOnTouchEventDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnTouchEventDelegate>)delegate) onSDLTouchEvent:((SDLOnTouchEvent *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
-                    delegateSet = strongSelf.onOnVehicleDataDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnVehicleDataDelegate>)delegate) onSDLVehicleData:((SDLOnVehicleData *)notification)];
-                    };
-                }
-                else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
-                    delegateSet = strongSelf.onOnLockScreenNotificationDelegates;
-                    enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
-                        [((id<SDLOnLockScreenNotificationDelegate>)delegate) onSDLLockScreenNotification:((SDLOnLockScreenStatus *)notification)];
-                    };
-                }
-                
-                if (delegateSet && enumerationBlock) {
-                    dispatch_async(strongSelf.mainUIQueue, ^{
-                        [delegateSet enumerateObjectsUsingBlock:enumerationBlock];
-                    });
-                }
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            NSSet *delegateSet = nil;
+            void (^enumerationBlock)(id<NSObject> delegate, BOOL *stop) = nil;
+            
+            if ([notification isKindOfClass:[SDLOnHMIStatus class]]) {
+                [strongSelf onHMIStatus:((SDLOnHMIStatus *)notification)];
+            }
+            else if ([notification isKindOfClass:[SDLOnCommand class]]) {
+                [strongSelf runHandlerForCommand:((SDLOnCommand *)notification)];
+            }
+            else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+                [strongSelf runHandlerForButton:((SDLRPCNotification *)notification)];
+            }
+            else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
+                delegateSet = strongSelf.onOnDriverDistractionDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnDriverDistractionDelegate>)delegate) onSDLDriverDistraction:((SDLOnDriverDistraction *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+                delegateSet = strongSelf.onOnAppInterfaceUnregisteredDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLAppUnregisteredDelegate>)delegate) onSDLAppInterfaceUnregistered:((SDLOnAppInterfaceUnregistered *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
+                delegateSet = strongSelf.onOnAudioPassThruDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnAudioPassThruDelegate>)delegate) onSDLAudioPassThru:((SDLOnAudioPassThru *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
+                delegateSet = strongSelf.onOnEncodedSyncPDataDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnEncodedSyncPDataDelegate>)delegate) onSDLEncodedSyncPData:((SDLOnEncodedSyncPData *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
+                delegateSet = strongSelf.onOnHashChangeDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnHashChangeDelegate>)delegate) onSDLHashChange:((SDLOnHashChange *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
+                delegateSet = strongSelf.onOnLanguageChangeDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnLanguageChangeDelegate>)delegate) onSDLLanguageChange:((SDLOnLanguageChange *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
+                delegateSet = strongSelf.onOnPermissionsChangeDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnPermissionsChangeDelegate>)delegate) onSDLPermissionsChange:((SDLOnPermissionsChange *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
+                delegateSet = strongSelf.onOnSyncPDataDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnSyncPDataDelegate>)delegate) onSDLSyncPData:((SDLOnSyncPData *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
+                delegateSet = strongSelf.onOnSystemRequestDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnSystemRequestDelegate>)delegate) onSDLSystemRequest:((SDLOnSystemRequest *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
+                delegateSet = strongSelf.onOnTBTClientStateDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnTBTClientStateDelegate>)delegate) onSDLTBTClientState:((SDLOnTBTClientState *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
+                delegateSet = strongSelf.onOnTouchEventDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnTouchEventDelegate>)delegate) onSDLTouchEvent:((SDLOnTouchEvent *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
+                delegateSet = strongSelf.onOnVehicleDataDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnVehicleDataDelegate>)delegate) onSDLVehicleData:((SDLOnVehicleData *)notification)];
+                };
+            }
+            else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
+                delegateSet = strongSelf.onOnLockScreenNotificationDelegates;
+                enumerationBlock = ^(id<NSObject> delegate, BOOL *stop) {
+                    [((id<SDLOnLockScreenNotificationDelegate>)delegate) onSDLLockScreenNotification:((SDLOnLockScreenStatus *)notification)];
+                };
+            }
+            
+            if (delegateSet && enumerationBlock) {
+                dispatch_async(strongSelf.mainUIQueue, ^{
+                    [delegateSet enumerateObjectsUsingBlock:enumerationBlock];
+                });
             }
         }
     });
@@ -460,20 +458,19 @@
 - (void)runHandlersForResponse:(SDLRPCResponse *)response {
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        @autoreleasepool {
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                @synchronized(strongSelf.rpcResponseHandlerMapLock) {
-                    RPCResponseHandler handler = [strongSelf.rpcResponseHandlerMap objectForKey:response.correlationID];
-                    [strongSelf.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
-                    if (handler) {
-                        dispatch_async(strongSelf.mainUIQueue, ^{
-                            handler(response);
-                        });
-                    }
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            @synchronized(strongSelf.rpcResponseHandlerMapLock) {
+                RPCResponseHandler handler = [strongSelf.rpcResponseHandlerMap objectForKey:response.correlationID];
+                [strongSelf.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
+                if (handler) {
+                    dispatch_async(strongSelf.mainUIQueue, ^{
+                        handler(response);
+                    });
                 }
             }
         }
+
         // Check for UnsubscribeButton, DeleteCommand and remove handlers
         if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
             // TODO
@@ -487,88 +484,84 @@
 
 - (void)runHandlerForCommand:(SDLOnCommand *)command {
     // Already background dispatched from caller
-    @autoreleasepool {
-        __weak typeof(self) weakSelf = self;
-        RPCNotificationHandler handler = nil;
-        @synchronized(self.commandHandlerMapLock) {
-            handler = [self.commandHandlerMap objectForKey:command.cmdID];
-        }
-        
-        if (handler) {
-            dispatch_async(self.mainUIQueue, ^{
-                handler(command);
-            });
-        }
-        
-        // TODO: Should this even be a thing still?
-        if ([self.onOnCommandDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.onOnCommandDelegates enumerateObjectsUsingBlock:^(id<SDLOnCommandDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLCommand:command];
-                    }];
-                }
-            });
-        }
+    __weak typeof(self) weakSelf = self;
+    RPCNotificationHandler handler = nil;
+    @synchronized(self.commandHandlerMapLock) {
+        handler = [self.commandHandlerMap objectForKey:command.cmdID];
+    }
+    
+    if (handler) {
+        dispatch_async(self.mainUIQueue, ^{
+            handler(command);
+        });
+    }
+    
+    // TODO: Should this even be a thing still?
+    if ([self.onOnCommandDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.onOnCommandDelegates enumerateObjectsUsingBlock:^(id<SDLOnCommandDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLCommand:command];
+                }];
+            }
+        });
     }
 }
 
 - (void)runHandlerForButton:(SDLRPCNotification *)notification {
     // Already background dispatched from caller
-    @autoreleasepool {
-        __weak typeof(self) weakSelf = self;
-        RPCNotificationHandler handler = nil;
-        SDLButtonName *name = nil;
-        NSNumber *customID = nil;
-        
-        if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
-            name = ((SDLOnButtonEvent *)notification).buttonName;
-            customID = ((SDLOnButtonEvent *)notification).customButtonID;
+    __weak typeof(self) weakSelf = self;
+    RPCNotificationHandler handler = nil;
+    SDLButtonName *name = nil;
+    NSNumber *customID = nil;
+    
+    if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
+        name = ((SDLOnButtonEvent *)notification).buttonName;
+        customID = ((SDLOnButtonEvent *)notification).customButtonID;
+    }
+    else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+        name = ((SDLOnButtonPress *)notification).buttonName;
+        customID = ((SDLOnButtonPress *)notification).customButtonID;
+    }
+    
+    if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
+        @synchronized(self.customButtonHandlerMapLock) {
+            handler = [self.customButtonHandlerMap objectForKey:customID];
         }
-        else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-            name = ((SDLOnButtonPress *)notification).buttonName;
-            customID = ((SDLOnButtonPress *)notification).customButtonID;
+    }
+    else {
+        @synchronized(self.buttonHandlerMapLock) {
+            handler = [self.buttonHandlerMap objectForKey:name.value];
         }
-        
-        if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
-            @synchronized(self.customButtonHandlerMapLock) {
-                handler = [self.customButtonHandlerMap objectForKey:customID];
+    }
+    
+    if (handler) {
+        dispatch_async(self.mainUIQueue, ^{
+            handler(notification);
+        });
+    }
+    
+    // TODO: Should this even be a thing still?
+    if ([notification isKindOfClass:[SDLOnButtonEvent class]] && [self.onOnButtonEventDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.onOnButtonEventDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonEventDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
+                }];
             }
-        }
-        else {
-            @synchronized(self.buttonHandlerMapLock) {
-                handler = [self.buttonHandlerMap objectForKey:name.value];
+        });
+    }
+    else if ([notification isKindOfClass:[SDLOnButtonPress class]] && [self.onOnButtonPressDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.onOnButtonPressDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonPressDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
+                }];
             }
-        }
-        
-        if (handler) {
-            dispatch_async(self.mainUIQueue, ^{
-                handler(notification);
-            });
-        }
-        
-        // TODO: Should this even be a thing still?
-        if ([notification isKindOfClass:[SDLOnButtonEvent class]] && [self.onOnButtonEventDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.onOnButtonEventDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonEventDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
-                    }];
-                }
-            });
-        }
-        else if ([notification isKindOfClass:[SDLOnButtonPress class]] && [self.onOnButtonPressDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.onOnButtonPressDelegates enumerateObjectsUsingBlock:^(id<SDLOnButtonPressDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
-                    }];
-                }
-            });
-        }
+        });
     }
 }
 
@@ -579,66 +572,64 @@
     __weak typeof(self) weakSelf = self;
     if (self.isConnected) {
         dispatch_async(self.backgroundQueue, ^{
-            @autoreleasepool {
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    // Add a correlation ID
-                    SDLRPCRequest *rpcWithCorrID = rpc;
-                    NSNumber *corrID = [strongSelf getNextCorrelationId];
-                    rpcWithCorrID.correlationID = corrID;
-                    
-                    // Check for RPCs that require an extra handler
-                    // TODO: add SDLAlert and SDLScrollableMessage
-                    if ([rpcWithCorrID isKindOfClass:[SDLShow class]]) {
-                        SDLShow *show = (SDLShow *)rpcWithCorrID;
-                        NSMutableArray *softButtons = show.softButtons;
-                        if (softButtons && softButtons.count > 0) {
-                            for (SDLSoftButton *sb in softButtons) {
-                                if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
-                                    @throw [SDLProxyBase createMissingHandlerException];
-                                }
-                                if (!sb.softButtonID) {
-                                    @throw [SDLProxyBase createMissingIDException];
-                                }
-                                @synchronized(strongSelf.customButtonHandlerMapLock) {
-                                    [strongSelf.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
-                                }
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                // Add a correlation ID
+                SDLRPCRequest *rpcWithCorrID = rpc;
+                NSNumber *corrID = [strongSelf getNextCorrelationId];
+                rpcWithCorrID.correlationID = corrID;
+                
+                // Check for RPCs that require an extra handler
+                // TODO: add SDLAlert and SDLScrollableMessage
+                if ([rpcWithCorrID isKindOfClass:[SDLShow class]]) {
+                    SDLShow *show = (SDLShow *)rpcWithCorrID;
+                    NSMutableArray *softButtons = show.softButtons;
+                    if (softButtons && softButtons.count > 0) {
+                        for (SDLSoftButton *sb in softButtons) {
+                            if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
+                                @throw [SDLProxyBase createMissingHandlerException];
+                            }
+                            if (!sb.softButtonID) {
+                                @throw [SDLProxyBase createMissingIDException];
+                            }
+                            @synchronized(strongSelf.customButtonHandlerMapLock) {
+                                [strongSelf.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
                             }
                         }
                     }
-                    else if ([rpcWithCorrID isKindOfClass:[SDLAddCommand class]]) {
-                        if (![rpcWithCorrID isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler == nil) {
-                            @throw [SDLProxyBase createMissingHandlerException];
-                        }
-                        if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
-                            @throw [SDLProxyBase createMissingIDException];
-                        }
-                        @synchronized(strongSelf.commandHandlerMapLock) {
-                            [strongSelf.commandHandlerMap setObject:((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler forKey:((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID];
-                        }
+                }
+                else if ([rpcWithCorrID isKindOfClass:[SDLAddCommand class]]) {
+                    if (![rpcWithCorrID isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler == nil) {
+                        @throw [SDLProxyBase createMissingHandlerException];
                     }
-                    else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
-                        if (![rpcWithCorrID isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler == nil) {
-                            @throw [SDLProxyBase createMissingHandlerException];
-                        }
-                        // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
-                        NSString *buttonName = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).buttonName.value;
-                        if (!buttonName) {
-                            @throw [SDLProxyBase createMissingIDException];
-                        }
-                        @synchronized(strongSelf.buttonHandlerMapLock) {
-                            [strongSelf.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler forKey:buttonName];
-                        }
+                    if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
+                        @throw [SDLProxyBase createMissingIDException];
                     }
-                    
-                    if (responseHandler) {
-                        @synchronized(strongSelf.rpcResponseHandlerMapLock) {
-                            [strongSelf.rpcResponseHandlerMap setObject:responseHandler forKey:corrID];
-                        }
+                    @synchronized(strongSelf.commandHandlerMapLock) {
+                        [strongSelf.commandHandlerMap setObject:((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler forKey:((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID];
                     }
-                    @synchronized(strongSelf.proxyLock) {
-                        [strongSelf.proxy sendRPC:rpcWithCorrID];
+                }
+                else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
+                    if (![rpcWithCorrID isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler == nil) {
+                        @throw [SDLProxyBase createMissingHandlerException];
                     }
+                    // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
+                    NSString *buttonName = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).buttonName.value;
+                    if (!buttonName) {
+                        @throw [SDLProxyBase createMissingIDException];
+                    }
+                    @synchronized(strongSelf.buttonHandlerMapLock) {
+                        [strongSelf.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler forKey:buttonName];
+                    }
+                }
+                
+                if (responseHandler) {
+                    @synchronized(strongSelf.rpcResponseHandlerMapLock) {
+                        [strongSelf.rpcResponseHandlerMap setObject:responseHandler forKey:corrID];
+                    }
+                }
+                @synchronized(strongSelf.proxyLock) {
+                    [strongSelf.proxy sendRPC:rpcWithCorrID];
                 }
             }
         });
@@ -652,25 +643,23 @@
     
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        @autoreleasepool {
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                if (appName && appID && languageDesired && [strongSelf.onOnLockScreenNotificationDelegates count] > 0 && [strongSelf.onOnLanguageChangeDelegates count] > 0 && [strongSelf.onOnPermissionsChangeDelegates count] > 0)
-                {
-                    [SDLDebugTool logInfo:@"Start Proxy"];
-                    strongSelf.appName = appName;
-                    strongSelf.appID = appID;
-                    strongSelf.isMedia = isMedia;
-                    strongSelf.languageDesired = languageDesired;
-                    SDLProxyListenerBase *listener = [[SDLProxyListenerBase alloc] initWithProxyBase:strongSelf];
-                    @synchronized(strongSelf.proxyLock) {
-                        [SDLProxy enableSiphonDebug];
-                        strongSelf.proxy = [SDLProxyFactory buildSDLProxyWithListener:listener];
-                    }
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            if (appName && appID && languageDesired && [strongSelf.onOnLockScreenNotificationDelegates count] > 0 && [strongSelf.onOnLanguageChangeDelegates count] > 0 && [strongSelf.onOnPermissionsChangeDelegates count] > 0)
+            {
+                [SDLDebugTool logInfo:@"Start Proxy"];
+                strongSelf.appName = appName;
+                strongSelf.appID = appID;
+                strongSelf.isMedia = isMedia;
+                strongSelf.languageDesired = languageDesired;
+                SDLProxyListenerBase *listener = [[SDLProxyListenerBase alloc] initWithProxyBase:strongSelf];
+                @synchronized(strongSelf.proxyLock) {
+                    [SDLProxy enableSiphonDebug];
+                    strongSelf.proxy = [SDLProxyFactory buildSDLProxyWithListener:listener];
                 }
-                else {
-                    [SDLDebugTool logInfo:@"Error: One or more parameters is nil"];
-                }
+            }
+            else {
+                [SDLDebugTool logInfo:@"Error: One or more parameters is nil"];
             }
         }
     });
@@ -691,53 +680,47 @@
 }
 
 - (void)disposeProxy {
-    @autoreleasepool {
-        [SDLDebugTool logInfo:@"Stop Proxy"];
-        @synchronized(self.proxyLock) {
-            [self.proxy dispose];
-            self.proxy = nil;
-        }
-        @synchronized(self.hmiStateLock) {
-            self.firstHMIFullOccurred = NO;
-            self.firstHMINotNoneOccurred = NO;
-        }
+    [SDLDebugTool logInfo:@"Stop Proxy"];
+    @synchronized(self.proxyLock) {
+        [self.proxy dispose];
+        self.proxy = nil;
+    }
+    @synchronized(self.hmiStateLock) {
+        self.firstHMIFullOccurred = NO;
+        self.firstHMINotNoneOccurred = NO;
     }
 }
 
 - (NSNumber *)getNextCorrelationId {
-    @autoreleasepool {
-        NSNumber *corrId = nil;
-        @synchronized(self.correlationIdLock) {
-            self.correlationID++;
-            corrId = [NSNumber numberWithInt:self.correlationID];
-        }
-        return corrId;
+    NSNumber *corrId = nil;
+    @synchronized(self.correlationIdLock) {
+        self.correlationID++;
+        corrId = [NSNumber numberWithInt:self.correlationID];
     }
+    return corrId;
 }
 
 - (void)onError:(NSException *)e {
     // Already background dispatched from caller
-    @autoreleasepool {
-        __weak typeof(self) weakSelf = self;
-        if ([self.proxyErrorDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.proxyErrorDelegates enumerateObjectsUsingBlock:^(id<SDLProxyErrorDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLError:e];
-                    }];
-                }
-            });
-        }
+    __weak typeof(self) weakSelf = self;
+    if ([self.proxyErrorDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.proxyErrorDelegates enumerateObjectsUsingBlock:^(id<SDLProxyErrorDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLError:e];
+                }];
+            }
+        });
     }
 }
 
 - (void)onProxyOpened {
     // Already background dispatched from caller
+    __weak typeof(self) weakSelf = self;
+    [SDLDebugTool logInfo:@"onProxyOpened"];
+    self.connected = YES;
     @autoreleasepool {
-        __weak typeof(self) weakSelf = self;
-        [SDLDebugTool logInfo:@"onProxyOpened"];
-        self.connected = YES;
         SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
         regRequest.isMediaApplication = [NSNumber numberWithBool:self.isMedia];
         regRequest.ngnMediaScreenAppName = self.shortName;
@@ -759,138 +742,132 @@
                 }
             }
         }];
-        if ([self.onProxyOpenedDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.onProxyOpenedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyOpenedDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLProxyOpened];
-                    }];
-                }
-            });
-        }
+    }
+    if ([self.onProxyOpenedDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.onProxyOpenedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyOpenedDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLProxyOpened];
+                }];
+            }
+        });
     }
 }
 
 - (void)onProxyClosed {
     // Already background dispatched from caller
-    @autoreleasepool {
-        __weak typeof(self) weakSelf = self;
-        [SDLDebugTool logInfo:@"onProxyClosed"];
-        self.connected = NO;
-        [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
-        if ([self.onProxyClosedDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.onProxyClosedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyClosedDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLProxyClosed];
-                    }];
-                }
-            });
-        }
-        [self startProxy];
+    __weak typeof(self) weakSelf = self;
+    [SDLDebugTool logInfo:@"onProxyClosed"];
+    self.connected = NO;
+    [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
+    if ([self.onProxyClosedDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.onProxyClosedDelegates enumerateObjectsUsingBlock:^(id<SDLProxyClosedDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLProxyClosed];
+                }];
+            }
+        });
     }
+    [self startProxy];
 }
 
 - (void)onHMIStatus:(SDLOnHMIStatus *)notification {
     // Already background dispatched from caller
-    @autoreleasepool {
-        __weak typeof(self) weakSelf = self;
-        [SDLDebugTool logInfo:@"onOnHMIStatus"];
-        if (notification.hmiLevel == [SDLHMILevel FULL])
+    __weak typeof(self) weakSelf = self;
+    [SDLDebugTool logInfo:@"onOnHMIStatus"];
+    if (notification.hmiLevel == [SDLHMILevel FULL])
+    {
+        BOOL occurred = NO;
+        @synchronized(self.hmiStateLock) {
+            occurred = self.firstHMINotNoneOccurred;
+        }
+        if (!occurred)
         {
-            BOOL occurred = NO;
-            @synchronized(self.hmiStateLock) {
-                occurred = self.firstHMINotNoneOccurred;
+            if ([self.firstHMINotNoneDelegates count] > 0) {
+                dispatch_async(self.mainUIQueue, ^{
+                    typeof(self) strongSelf = weakSelf;
+                    if (strongSelf) {
+                        [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
+                            [delegate onSDLFirstHMINotNone:notification];
+                        }];
+                    }
+                });
             }
-            if (!occurred)
-            {
-                if ([self.firstHMINotNoneDelegates count] > 0) {
-                    dispatch_async(self.mainUIQueue, ^{
-                        typeof(self) strongSelf = weakSelf;
-                        if (strongSelf) {
-                            [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
-                                [delegate onSDLFirstHMINotNone:notification];
-                            }];
-                        }
-                    });
-                }
-            }
-            @synchronized(self.hmiStateLock) {
-                self.firstHMINotNoneOccurred = YES;
-            }
+        }
+        @synchronized(self.hmiStateLock) {
+            self.firstHMINotNoneOccurred = YES;
+        }
 
-            @synchronized(self.hmiStateLock) {
-                occurred = self.firstHMIFullOccurred;
-            }
-            if (!occurred)
-            {
-                if ([self.firstHMIFullDelegates count] > 0) {
-                    dispatch_async(self.mainUIQueue, ^{
-                        typeof(self) strongSelf = weakSelf;
-                        if (strongSelf) {
-                            [strongSelf.firstHMIFullDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMIFullDelegate> delegate, BOOL *stop) {
-                                [delegate onSDLFirstHMIFull:notification];
-                            }];
-                        }
-                    });
-                }
-            }
-            @synchronized(self.hmiStateLock) {
-                self.firstHMIFullOccurred = YES;
-            }
+        @synchronized(self.hmiStateLock) {
+            occurred = self.firstHMIFullOccurred;
         }
-        else if (notification.hmiLevel == [SDLHMILevel BACKGROUND] || notification.hmiLevel == [SDLHMILevel LIMITED])
+        if (!occurred)
         {
-            BOOL occurred = NO;
-            @synchronized(self.hmiStateLock) {
-                occurred = self.firstHMINotNoneOccurred;
-            }
-            if (!occurred)
-            {
-                if ([self.firstHMINotNoneDelegates count] > 0) {
-                    dispatch_async(self.mainUIQueue, ^{
-                        typeof(self) strongSelf = weakSelf;
-                        if (strongSelf) {
-                            [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
-                                [delegate onSDLFirstHMINotNone:notification];
-                            }];
-                        }
-                    });
-                }
-            }
-            @synchronized(self.hmiStateLock) {
-                self.firstHMINotNoneOccurred = YES;
+            if ([self.firstHMIFullDelegates count] > 0) {
+                dispatch_async(self.mainUIQueue, ^{
+                    typeof(self) strongSelf = weakSelf;
+                    if (strongSelf) {
+                        [strongSelf.firstHMIFullDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMIFullDelegate> delegate, BOOL *stop) {
+                            [delegate onSDLFirstHMIFull:notification];
+                        }];
+                    }
+                });
             }
         }
-        if ([self.onOnHMIStatusDelegates count] > 0) {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.onOnHMIStatusDelegates enumerateObjectsUsingBlock:^(id<SDLOnHMIStatusDelegate> delegate, BOOL *stop) {
-                        [delegate onSDLHMIStatus:notification];
-                    }];
-                }
-            });
+        @synchronized(self.hmiStateLock) {
+            self.firstHMIFullOccurred = YES;
         }
+    }
+    else if (notification.hmiLevel == [SDLHMILevel BACKGROUND] || notification.hmiLevel == [SDLHMILevel LIMITED])
+    {
+        BOOL occurred = NO;
+        @synchronized(self.hmiStateLock) {
+            occurred = self.firstHMINotNoneOccurred;
+        }
+        if (!occurred)
+        {
+            if ([self.firstHMINotNoneDelegates count] > 0) {
+                dispatch_async(self.mainUIQueue, ^{
+                    typeof(self) strongSelf = weakSelf;
+                    if (strongSelf) {
+                        [strongSelf.firstHMINotNoneDelegates enumerateObjectsUsingBlock:^(id<SDLFirstHMINotNoneDelegate> delegate, BOOL *stop) {
+                            [delegate onSDLFirstHMINotNone:notification];
+                        }];
+                    }
+                });
+            }
+        }
+        @synchronized(self.hmiStateLock) {
+            self.firstHMINotNoneOccurred = YES;
+        }
+    }
+    if ([self.onOnHMIStatusDelegates count] > 0) {
+        dispatch_async(self.mainUIQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.onOnHMIStatusDelegates enumerateObjectsUsingBlock:^(id<SDLOnHMIStatusDelegate> delegate, BOOL *stop) {
+                    [delegate onSDLHMIStatus:notification];
+                }];
+            }
+        });
     }
 }
 
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        @autoreleasepool {
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                // Add a correlation ID
-                SDLRPCRequest *rpcWithCorrID = putFileRPCRequest;
-                NSNumber *corrID = [strongSelf getNextCorrelationId];
-                rpcWithCorrID.correlationID = corrID;
-                
-                @synchronized(strongSelf.proxyLock) {
-                    [strongSelf.proxy putFileStream:inputStream withRequest:(SDLPutFile *)rpcWithCorrID];
-                }
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            // Add a correlation ID
+            SDLRPCRequest *rpcWithCorrID = putFileRPCRequest;
+            NSNumber *corrID = [strongSelf getNextCorrelationId];
+            rpcWithCorrID.correlationID = corrID;
+            
+            @synchronized(strongSelf.proxyLock) {
+                [strongSelf.proxy putFileStream:inputStream withRequest:(SDLPutFile *)rpcWithCorrID];
             }
         }
     });
