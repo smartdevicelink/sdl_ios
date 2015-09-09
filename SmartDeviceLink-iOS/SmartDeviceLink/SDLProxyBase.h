@@ -1,7 +1,7 @@
 //  SDLProxyBase.h
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
-#import "SDLHandlers.h"
+#import "SDLDelegates.h"
 
 enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 
@@ -11,15 +11,14 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 @interface SDLProxyBase : NSObject
 
 // Proxy registration objects
-@property (strong, nonatomic) NSString *appName;
-@property (strong, nonatomic) NSString *appID;
-@property (assign, nonatomic) BOOL isMedia;
-@property (strong, nonatomic) SDLLanguage *languageDesired;
-@property (strong, nonatomic) NSString *shortName;
-@property (strong, nonatomic) NSArray *vrSynonyms;
-@property (assign, nonatomic, readonly) BOOL isConnected;
+@property (copy) NSString *appName;
+@property (copy) NSString *appID;
+@property (assign) BOOL isMedia;
+@property (strong) SDLLanguage *languageDesired;
+@property (copy) NSString *shortName;
+@property (copy) NSArray *vrSynonyms;
+@property (assign, readonly, getter=isConnected) BOOL connected;
 
-// TODO: consider using notification center in the future instead of delegates
 // Methods to add event/RPC notification delegates
 // Note: Delegates are NOT run in the main/UI thread. Apps must take this in to account if/when updating the UI from a delegate.
 - (void)addOnProxyOpenedDelegate:(id<SDLProxyOpenedDelegate>)delegate;
@@ -45,11 +44,6 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 - (void)addOnOnTBTClientStateDelegate:(id<SDLOnTBTClientStateDelegate>)delegate;
 - (void)addOnOnTouchEventDelegate:(id<SDLOnTouchEventDelegate>)delegate;
 - (void)addOnOnVehicleDataDelegate:(id<SDLOnVehicleDataDelegate>)delegate;
-
-// Methods called by SDLProxyListenerBase in response to Events, and RPC Responses and Notifications
-- (void)notifyDelegatesOfEvent:(enum SDLEvent)sdlEvent error:(NSException *)error;
-- (void)runHandlersForResponse:(SDLRPCResponse *)response;
-- (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification;
 
 // Main proxy methods
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(RPCResponseHandler)responseHandler;

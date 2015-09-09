@@ -12,68 +12,68 @@
 
 @interface SDLProxyBase ()
 
-// GCD variables
-@property (nonatomic, strong) dispatch_queue_t handlerQueue;
-@property (nonatomic, strong) dispatch_queue_t backgroundQueue;
-@property (nonatomic, strong) dispatch_queue_t mainUIQueue;
-@property (nonatomic, strong) NSObject *proxyLock;
-@property (nonatomic, strong) NSObject *correlationIdLock;
-@property (nonatomic, strong) NSObject *hmiStateLock;
-@property (nonatomic, strong) NSObject *rpcResponseHandlerDictionaryLock;
-@property (nonatomic, strong) NSObject *commandHandlerDictionaryLock;
-@property (nonatomic, strong) NSObject *buttonHandlerDictionaryLock;
-@property (nonatomic, strong) NSObject *customButtonHandlerDictionaryLock;
+// GCD
+@property (strong, nonatomic) dispatch_queue_t handlerQueue;
+@property (strong, nonatomic) dispatch_queue_t backgroundQueue;
+@property (strong, nonatomic) dispatch_queue_t mainUIQueue;
+@property (strong, nonatomic) NSObject *proxyLock; // synchronize instantiation, sending, putfile, disposing
+@property (strong, nonatomic) NSObject *correlationIdLock; // manually handle synchronization
+@property (strong, nonatomic) NSObject *hmiStateLock;  // synchronize several HMI state variables together
+@property (strong, nonatomic) NSObject *rpcResponseHandlerDictionaryLock;
+@property (strong, nonatomic) NSObject *commandHandlerDictionaryLock;
+@property (strong, nonatomic) NSObject *buttonHandlerDictionaryLock;
+@property (strong, nonatomic) NSObject *customButtonHandlerDictionaryLock;
 
-// SDL state variables
-@property (nonatomic, strong) SDLProxy *proxy;
-@property (nonatomic, assign) int correlationID;
-@property (nonatomic, assign) BOOL firstHMIFullOccurred;
-@property (nonatomic, assign) BOOL firstHMINotNoneOccurred;
-@property (nonatomic, strong) NSException *proxyError;
-@property (assign, nonatomic) BOOL isConnected;
-
-// Proxy notification and event delegates
-@property (nonatomic, strong) NSMutableSet *onProxyOpenedDelegates;
-@property (nonatomic, strong) NSMutableSet *onProxyClosedDelegates;
-@property (nonatomic, strong) NSMutableSet *firstHMIFullDelegates;
-@property (nonatomic, strong) NSMutableSet *firstHMINotNoneDelegates;
-@property (nonatomic, strong) NSMutableSet *proxyErrorDelegates;
-@property (nonatomic, strong) NSMutableSet *appRegisteredDelegates;
+// SDL state
+@property (strong, nonatomic) SDLProxy *proxy;
+@property (assign, nonatomic) int correlationID;
+@property (assign, nonatomic) BOOL firstHMIFullOccurred;
+@property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
+@property (strong) NSException *proxyError;
+@property (assign, getter=isConnected) BOOL connected;
 
 // These delegates are required for the app to implement
-@property (nonatomic, strong) NSMutableSet *onOnLockScreenNotificationDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnLanguageChangeDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnPermissionsChangeDelegates;
+// TODO: should this stay this way?
+@property (strong) NSMutableSet *onOnLockScreenNotificationDelegates;
+@property (strong) NSMutableSet *onOnLanguageChangeDelegates;
+@property (strong) NSMutableSet *onOnPermissionsChangeDelegates;
+
+// Proxy notification and event delegates
+@property (strong) NSMutableSet *onProxyOpenedDelegates;
+@property (strong) NSMutableSet *onProxyClosedDelegates;
+@property (strong) NSMutableSet *firstHMIFullDelegates;
+@property (strong) NSMutableSet *firstHMINotNoneDelegates;
+@property (strong) NSMutableSet *proxyErrorDelegates;
+@property (strong) NSMutableSet *appRegisteredDelegates;
 
 // Optional delegates
-@property (nonatomic, strong) NSMutableSet *onOnDriverDistractionDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnHMIStatusDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnAppInterfaceUnregisteredDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnAudioPassThruDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnButtonEventDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnButtonPressDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnCommandDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnEncodedSyncPDataDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnHashChangeDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnSyncPDataDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnSystemRequestDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnTBTClientStateDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnTouchEventDelegates;
-@property (nonatomic, strong) NSMutableSet *onOnVehicleDataDelegates;
+@property (strong) NSMutableSet *onOnDriverDistractionDelegates;
+@property (strong) NSMutableSet *onOnHMIStatusDelegates;
+@property (strong) NSMutableSet *onOnAppInterfaceUnregisteredDelegates;
+@property (strong) NSMutableSet *onOnAudioPassThruDelegates;
+@property (strong) NSMutableSet *onOnButtonEventDelegates;
+@property (strong) NSMutableSet *onOnButtonPressDelegates;
+@property (strong) NSMutableSet *onOnCommandDelegates;
+@property (strong) NSMutableSet *onOnEncodedSyncPDataDelegates;
+@property (strong) NSMutableSet *onOnHashChangeDelegates;
+@property (strong) NSMutableSet *onOnSyncPDataDelegates;
+@property (strong) NSMutableSet *onOnSystemRequestDelegates;
+@property (strong) NSMutableSet *onOnTBTClientStateDelegates;
+@property (strong) NSMutableSet *onOnTouchEventDelegates;
+@property (strong) NSMutableSet *onOnVehicleDataDelegates;
 
-// Dictionary to link RPC response handlers with the request correlationId
+// Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMutableDictionary *rpcResponseHandlerDictionary;
-// Dictionary to link command handlers with the command ID
 @property (strong, nonatomic) NSMutableDictionary *commandHandlerDictionary;
-// Dictionary to link button handlers with the button name
 @property (strong, nonatomic) NSMutableDictionary *buttonHandlerDictionary;
-// Dictionary to link custom button handlers with the custom button ID
 @property (strong, nonatomic) NSMutableDictionary *customButtonHandlerDictionary;
 
 @end
 
-
 @implementation SDLProxyBase
+
+
+#pragma mark Lifecycle
 
 - (id)init {
     self = [super init];
@@ -86,7 +86,7 @@
         _buttonHandlerDictionaryLock = [[NSObject alloc] init];
         _customButtonHandlerDictionaryLock = [[NSObject alloc] init];
         _correlationID = 1;
-        _isConnected = NO;
+        _connected = NO;
         _handlerQueue = dispatch_queue_create("com.sdl.proxy_base.handler_queue", DISPATCH_QUEUE_SERIAL);
         _backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         _mainUIQueue = dispatch_get_main_queue();
@@ -124,6 +124,9 @@
     return self;
 }
 
+
+#pragma mark Exceptions
+
 + (NSException *)createMissingHandlerException {
     NSException* excep = [NSException
                                 exceptionWithName:@"MissingHandlerException"
@@ -139,6 +142,9 @@
                           userInfo:nil];
     return excep;
 }
+
+
+#pragma mark Delegates
 
 - (void)addDelegate:(id<NSObject>)delegate toSet:(NSMutableSet *)set {
     if (delegate) {
@@ -240,6 +246,8 @@
     [self addDelegate:delegate toSet:self.onOnVehicleDataDelegates];
 }
 
+
+#pragma mark 
 
 - (void)notifyDelegatesOfEvent:(enum SDLEvent)sdlEvent error:(NSException *)error {
     __weak typeof(self) weakSelf = self;
@@ -482,6 +490,9 @@
     }
 }
 
+
+#pragma mark SDLProxyBase
+
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(RPCResponseHandler)responseHandler {
     __weak typeof(self) weakSelf = self;
     if (self.isConnected) {
@@ -644,7 +655,7 @@
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
         [SDLDebugTool logInfo:@"onProxyOpened"];
-        self.isConnected = YES;
+        self.connected = YES;
         SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
         regRequest.isMediaApplication = [NSNumber numberWithBool:self.isMedia];
         regRequest.ngnMediaScreenAppName = self.shortName;
@@ -684,7 +695,7 @@
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
         [SDLDebugTool logInfo:@"onProxyClosed"];
-        self.isConnected = NO;
+        self.connected = NO;
         [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
         if ([self.onProxyClosedDelegates count] > 0) {
             dispatch_async(self.mainUIQueue, ^{

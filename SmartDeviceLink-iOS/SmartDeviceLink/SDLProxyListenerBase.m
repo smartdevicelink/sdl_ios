@@ -4,14 +4,18 @@
 #import <Foundation/Foundation.h>
 #import "SDLProxyListenerBase.h"
 #import "SDLProxyBase.h"
+#import "SDLProxyBaseInternal.h"
 
 @interface SDLProxyListenerBase ()
 
-@property (weak, nonatomic) SDLProxyBase *proxyBase;
+@property (weak) SDLProxyBase *proxyBase;
 
 @end
 
 @implementation SDLProxyListenerBase
+
+
+#pragma mark Lifecycle
 
 - (id)initWithProxyBase:(SDLProxyBase *)base {
     self = [super init];
@@ -20,6 +24,9 @@
     }
     return self;
 }
+
+
+#pragma mark SDLProxyListener
 
 - (void)onProxyOpened {
     [self.proxyBase notifyDelegatesOfEvent:ProxyOpened error:nil];

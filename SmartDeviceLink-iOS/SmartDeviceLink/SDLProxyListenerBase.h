@@ -7,6 +7,6 @@
 
 @interface SDLProxyListenerBase : NSObject <SDLProxyListener>
 
-- (id)initWithProxyBase:(SDLProxyBase *)base;
+- (id)initWithProxyBase:(SDLProxyBase *)base NS_DESIGNATED_INITIALIZER;
 
 @end
