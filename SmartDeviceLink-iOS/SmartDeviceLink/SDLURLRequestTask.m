@@ -32,7 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+    [_connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [_connection start];
+    
     _completionHandler = completionHandler;
     
     _mutableData = [NSMutableData data];
