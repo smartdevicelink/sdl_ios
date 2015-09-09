@@ -245,7 +245,8 @@
     [self addDelegate:delegate toHashTable:self.onOnVehicleDataDelegates];
 }
 
-#pragma mark 
+
+#pragma mark Event, Response, Notification Processing
 
 - (void)notifyDelegatesOfEvent:(enum SDLEvent)sdlEvent error:(NSException *)error {
     __weak typeof(self) weakSelf = self;
@@ -604,6 +605,26 @@
     });
 }
 
+- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(self.backgroundQueue, ^{
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            // Add a correlation ID
+            SDLRPCRequest *rpcWithCorrID = putFileRPCRequest;
+            NSNumber *corrID = [strongSelf getNextCorrelationId];
+            rpcWithCorrID.correlationID = corrID;
+            
+            @synchronized(strongSelf.proxyLock) {
+                [strongSelf.proxy putFileStream:inputStream withRequest:(SDLPutFile *)rpcWithCorrID];
+            }
+        }
+    });
+}
+
+
+#pragma mark Private Methods
+
 - (void)disposeProxy {
     [SDLDebugTool logInfo:@"Stop Proxy"];
     @synchronized(self.proxyLock) {
@@ -735,7 +756,7 @@
         @synchronized(self.hmiStateLock) {
             self.firstHMINotNoneOccurred = YES;
         }
-
+        
         @synchronized(self.hmiStateLock) {
             occurred = self.firstHMIFullOccurred;
         }
@@ -795,23 +816,6 @@
             }
         });
     }
-}
-
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(self.backgroundQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            // Add a correlation ID
-            SDLRPCRequest *rpcWithCorrID = putFileRPCRequest;
-            NSNumber *corrID = [strongSelf getNextCorrelationId];
-            rpcWithCorrID.correlationID = corrID;
-            
-            @synchronized(strongSelf.proxyLock) {
-                [strongSelf.proxy putFileStream:inputStream withRequest:(SDLPutFile *)rpcWithCorrID];
-            }
-        }
-    });
 }
 
 @end
