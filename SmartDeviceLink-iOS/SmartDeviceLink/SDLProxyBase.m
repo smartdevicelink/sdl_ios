@@ -13,12 +13,12 @@
 @interface SDLProxyBase ()
 
 // GCD
-@property (strong, nonatomic) dispatch_queue_t handlerQueue;
 @property (strong, nonatomic) dispatch_queue_t backgroundQueue;
 @property (strong, nonatomic) dispatch_queue_t mainUIQueue;
-@property (strong, nonatomic) NSObject *proxyLock; // synchronize instantiation, sending, putfile, disposing
-@property (strong, nonatomic) NSObject *correlationIdLock; // manually handle synchronization
-@property (strong, nonatomic) NSObject *hmiStateLock;  // synchronize several HMI state variables together
+@property (strong, nonatomic) NSObject *delegateLock;
+@property (strong, nonatomic) NSObject *proxyLock;
+@property (strong, nonatomic) NSObject *correlationIdLock;
+@property (strong, nonatomic) NSObject *hmiStateLock;
 @property (strong, nonatomic) NSObject *rpcResponseHandlerDictionaryLock;
 @property (strong, nonatomic) NSObject *commandHandlerDictionaryLock;
 @property (strong, nonatomic) NSObject *buttonHandlerDictionaryLock;
@@ -29,38 +29,37 @@
 @property (assign, nonatomic) int correlationID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
-@property (strong) NSException *proxyError;
 @property (assign, getter=isConnected) BOOL connected;
 
 // These delegates are required for the app to implement
-// TODO: should this stay this way?
-@property (strong) NSMutableSet *onOnLockScreenNotificationDelegates;
-@property (strong) NSMutableSet *onOnLanguageChangeDelegates;
-@property (strong) NSMutableSet *onOnPermissionsChangeDelegates;
+// TODO: should these be required?
+@property (copy) NSSet *onOnLockScreenNotificationDelegates;
+@property (copy) NSSet *onOnLanguageChangeDelegates;
+@property (copy) NSSet *onOnPermissionsChangeDelegates;
 
 // Proxy notification and event delegates
-@property (strong) NSMutableSet *onProxyOpenedDelegates;
-@property (strong) NSMutableSet *onProxyClosedDelegates;
-@property (strong) NSMutableSet *firstHMIFullDelegates;
-@property (strong) NSMutableSet *firstHMINotNoneDelegates;
-@property (strong) NSMutableSet *proxyErrorDelegates;
-@property (strong) NSMutableSet *appRegisteredDelegates;
+@property (copy) NSSet *onProxyOpenedDelegates;
+@property (copy) NSSet *onProxyClosedDelegates;
+@property (copy) NSSet *firstHMIFullDelegates;
+@property (copy) NSSet *firstHMINotNoneDelegates;
+@property (copy) NSSet *proxyErrorDelegates;
+@property (copy) NSSet *appRegisteredDelegates;
 
 // Optional delegates
-@property (strong) NSMutableSet *onOnDriverDistractionDelegates;
-@property (strong) NSMutableSet *onOnHMIStatusDelegates;
-@property (strong) NSMutableSet *onOnAppInterfaceUnregisteredDelegates;
-@property (strong) NSMutableSet *onOnAudioPassThruDelegates;
-@property (strong) NSMutableSet *onOnButtonEventDelegates;
-@property (strong) NSMutableSet *onOnButtonPressDelegates;
-@property (strong) NSMutableSet *onOnCommandDelegates;
-@property (strong) NSMutableSet *onOnEncodedSyncPDataDelegates;
-@property (strong) NSMutableSet *onOnHashChangeDelegates;
-@property (strong) NSMutableSet *onOnSyncPDataDelegates;
-@property (strong) NSMutableSet *onOnSystemRequestDelegates;
-@property (strong) NSMutableSet *onOnTBTClientStateDelegates;
-@property (strong) NSMutableSet *onOnTouchEventDelegates;
-@property (strong) NSMutableSet *onOnVehicleDataDelegates;
+@property (copy) NSSet *onOnDriverDistractionDelegates;
+@property (copy) NSSet *onOnHMIStatusDelegates;
+@property (copy) NSSet *onOnAppInterfaceUnregisteredDelegates;
+@property (copy) NSSet *onOnAudioPassThruDelegates;
+@property (copy) NSSet *onOnButtonEventDelegates;
+@property (copy) NSSet *onOnButtonPressDelegates;
+@property (copy) NSSet *onOnCommandDelegates;
+@property (copy) NSSet *onOnEncodedSyncPDataDelegates;
+@property (copy) NSSet *onOnHashChangeDelegates;
+@property (copy) NSSet *onOnSyncPDataDelegates;
+@property (copy) NSSet *onOnSystemRequestDelegates;
+@property (copy) NSSet *onOnTBTClientStateDelegates;
+@property (copy) NSSet *onOnTouchEventDelegates;
+@property (copy) NSSet *onOnVehicleDataDelegates;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMutableDictionary *rpcResponseHandlerDictionary;
@@ -78,6 +77,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+        _delegateLock = [[NSObject alloc] init];
         _proxyLock = [[NSObject alloc] init];
         _correlationIdLock = [[NSObject alloc] init];
         _hmiStateLock = [[NSObject alloc] init];
@@ -87,7 +87,6 @@
         _customButtonHandlerDictionaryLock = [[NSObject alloc] init];
         _correlationID = 1;
         _connected = NO;
-        _handlerQueue = dispatch_queue_create("com.sdl.proxy_base.handler_queue", DISPATCH_QUEUE_SERIAL);
         _backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         _mainUIQueue = dispatch_get_main_queue();
         _firstHMIFullOccurred = NO;
@@ -97,29 +96,29 @@
         _buttonHandlerDictionary = [[NSMutableDictionary alloc] init];
         _customButtonHandlerDictionary = [[NSMutableDictionary alloc] init];
         
-        _onProxyOpenedDelegates = [[NSMutableSet alloc] init];
-        _onProxyClosedDelegates = [[NSMutableSet alloc] init];
-        _firstHMIFullDelegates = [[NSMutableSet alloc] init];
-        _firstHMINotNoneDelegates = [[NSMutableSet alloc] init];
-        _proxyErrorDelegates = [[NSMutableSet alloc] init];
-        _appRegisteredDelegates = [[NSMutableSet alloc] init];
-        _onOnLockScreenNotificationDelegates = [[NSMutableSet alloc] init];
-        _onOnLanguageChangeDelegates = [[NSMutableSet alloc] init];
-        _onOnPermissionsChangeDelegates = [[NSMutableSet alloc] init];
-        _onOnDriverDistractionDelegates = [[NSMutableSet alloc] init];
-        _onOnHMIStatusDelegates = [[NSMutableSet alloc] init];
-        _onOnAppInterfaceUnregisteredDelegates = [[NSMutableSet alloc] init];
-        _onOnAudioPassThruDelegates = [[NSMutableSet alloc] init];
-        _onOnButtonEventDelegates = [[NSMutableSet alloc] init];
-        _onOnButtonPressDelegates = [[NSMutableSet alloc] init];
-        _onOnCommandDelegates = [[NSMutableSet alloc] init];
-        _onOnEncodedSyncPDataDelegates = [[NSMutableSet alloc] init];
-        _onOnHashChangeDelegates = [[NSMutableSet alloc] init];
-        _onOnSyncPDataDelegates = [[NSMutableSet alloc] init];
-        _onOnSystemRequestDelegates = [[NSMutableSet alloc] init];
-        _onOnTBTClientStateDelegates = [[NSMutableSet alloc] init];
-        _onOnTouchEventDelegates = [[NSMutableSet alloc] init];
-        _onOnVehicleDataDelegates = [[NSMutableSet alloc] init];
+        _onProxyOpenedDelegates = [[NSSet alloc] init];
+        _onProxyClosedDelegates = [[NSSet alloc] init];
+        _firstHMIFullDelegates = [[NSSet alloc] init];
+        _firstHMINotNoneDelegates = [[NSSet alloc] init];
+        _proxyErrorDelegates = [[NSSet alloc] init];
+        _appRegisteredDelegates = [[NSSet alloc] init];
+        _onOnLockScreenNotificationDelegates = [[NSSet alloc] init];
+        _onOnLanguageChangeDelegates = [[NSSet alloc] init];
+        _onOnPermissionsChangeDelegates = [[NSSet alloc] init];
+        _onOnDriverDistractionDelegates = [[NSSet alloc] init];
+        _onOnHMIStatusDelegates = [[NSSet alloc] init];
+        _onOnAppInterfaceUnregisteredDelegates = [[NSSet alloc] init];
+        _onOnAudioPassThruDelegates = [[NSSet alloc] init];
+        _onOnButtonEventDelegates = [[NSSet alloc] init];
+        _onOnButtonPressDelegates = [[NSSet alloc] init];
+        _onOnCommandDelegates = [[NSSet alloc] init];
+        _onOnEncodedSyncPDataDelegates = [[NSSet alloc] init];
+        _onOnHashChangeDelegates = [[NSSet alloc] init];
+        _onOnSyncPDataDelegates = [[NSSet alloc] init];
+        _onOnSystemRequestDelegates = [[NSSet alloc] init];
+        _onOnTBTClientStateDelegates = [[NSSet alloc] init];
+        _onOnTouchEventDelegates = [[NSSet alloc] init];
+        _onOnVehicleDataDelegates = [[NSSet alloc] init];
     }
     return self;
 }
@@ -146,104 +145,188 @@
 
 #pragma mark Delegates
 
-- (void)addDelegate:(id<NSObject>)delegate toSet:(NSMutableSet *)set {
+- (void)addOnProxyOpenedDelegate:(id<SDLProxyOpenedDelegate>)delegate {
     if (delegate) {
-        dispatch_barrier_async(self.handlerQueue, ^{
-            [set addObject:delegate];
-        });
+        @synchronized (self.delegateLock) {
+            self.onProxyOpenedDelegates = [self.onProxyOpenedDelegates setByAddingObject:delegate];
+        }
     }
 }
 
-- (void)addOnProxyOpenedDelegate:(id<SDLProxyOpenedDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onProxyOpenedDelegates];
-}
-
 - (void)addOnProxyClosedDelegate:(id<SDLProxyClosedDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onProxyClosedDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onProxyClosedDelegates = [self.onProxyClosedDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addProxyErrorDelegate:(id<SDLProxyErrorDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.proxyErrorDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.proxyErrorDelegates = [self.proxyErrorDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addAppRegisteredDelegate:(id<SDLAppRegisteredDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.appRegisteredDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.appRegisteredDelegates = [self.appRegisteredDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addFirstHMIFullDelegate:(id<SDLFirstHMIFullDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.firstHMIFullDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.firstHMIFullDelegates = [self.firstHMIFullDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addFirstHMINotNoneDelegate:(id<SDLFirstHMINotNoneDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.firstHMINotNoneDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.firstHMINotNoneDelegates = [self.firstHMINotNoneDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnLockScreenNotificationDelegate:(id<SDLOnLockScreenNotificationDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnLockScreenNotificationDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnLockScreenNotificationDelegates = [self.onOnLockScreenNotificationDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnLanguageChangeDelegate:(id<SDLOnLanguageChangeDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnLanguageChangeDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnLanguageChangeDelegates = [self.onOnLanguageChangeDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnPermissionsChangeDelegate:(id<SDLOnPermissionsChangeDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnPermissionsChangeDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnPermissionsChangeDelegates = [self.onOnPermissionsChangeDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnDriverDistractionDelegate:(id<SDLOnDriverDistractionDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnDriverDistractionDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnDriverDistractionDelegates = [self.onOnDriverDistractionDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnHMIStatusDelegate:(id<SDLOnHMIStatusDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnHMIStatusDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnHMIStatusDelegates = [self.onOnHMIStatusDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnAppInterfaceUnregisteredDelegate:(id<SDLAppUnregisteredDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnAppInterfaceUnregisteredDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnAppInterfaceUnregisteredDelegates = [self.onOnAppInterfaceUnregisteredDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnAudioPassThruDelegate:(id<SDLOnAudioPassThruDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnAudioPassThruDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnAudioPassThruDelegates = [self.onOnAudioPassThruDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnButtonEventDelegate:(id<SDLOnButtonEventDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnButtonEventDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnButtonEventDelegates = [self.onOnButtonEventDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnButtonPressDelegate:(id<SDLOnButtonPressDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnButtonPressDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnButtonPressDelegates = [self.onOnButtonPressDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnCommandDelegate:(id<SDLOnCommandDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnCommandDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnCommandDelegates = [self.onOnCommandDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnEncodedSyncPDataDelegate:(id<SDLOnEncodedSyncPDataDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnEncodedSyncPDataDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnEncodedSyncPDataDelegates = [self.onOnEncodedSyncPDataDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnHashChangeDelegate:(id<SDLOnHashChangeDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnHashChangeDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnHashChangeDelegates = [self.onOnHashChangeDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnSyncPDataDelegate:(id<SDLOnSyncPDataDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnSyncPDataDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnSyncPDataDelegates = [self.onOnSyncPDataDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnSystemRequestDelegate:(id<SDLOnSystemRequestDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnSystemRequestDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnSystemRequestDelegates = [self.onOnSystemRequestDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnTBTClientStateDelegate:(id<SDLOnTBTClientStateDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnTBTClientStateDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnTBTClientStateDelegates = [self.onOnTBTClientStateDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnTouchEventDelegate:(id<SDLOnTouchEventDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnTouchEventDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnTouchEventDelegates = [self.onOnTouchEventDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 - (void)addOnOnVehicleDataDelegate:(id<SDLOnVehicleDataDelegate>)delegate {
-    [self addDelegate:delegate toSet:self.onOnVehicleDataDelegates];
+    if (delegate) {
+        @synchronized (self.delegateLock) {
+            self.onOnVehicleDataDelegates = [self.onOnVehicleDataDelegates setByAddingObject:delegate];
+        }
+    }
 }
 
 
@@ -255,8 +338,7 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             if (sdlEvent == OnError) {
-                strongSelf.proxyError = error;
-                [strongSelf onError:strongSelf.proxyError];
+                [strongSelf onError:error];
             }
             else if (sdlEvent == ProxyClosed) {
                 [strongSelf onProxyClosed];
@@ -274,7 +356,7 @@
         @autoreleasepool {
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                NSMutableSet *delegateSet = nil;
+                NSSet *delegateSet = nil;
                 void (^enumerationBlock)(id<NSObject> delegate, BOOL *stop) = nil;
                 
                 if ([notification isKindOfClass:[SDLOnHMIStatus class]]) {
