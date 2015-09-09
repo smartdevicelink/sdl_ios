@@ -19,10 +19,10 @@
 @property (strong, nonatomic) NSObject *proxyLock;
 @property (strong, nonatomic) NSObject *correlationIdLock;
 @property (strong, nonatomic) NSObject *hmiStateLock;
-@property (strong, nonatomic) NSObject *rpcResponseHandlerDictionaryLock;
-@property (strong, nonatomic) NSObject *commandHandlerDictionaryLock;
-@property (strong, nonatomic) NSObject *buttonHandlerDictionaryLock;
-@property (strong, nonatomic) NSObject *customButtonHandlerDictionaryLock;
+@property (strong, nonatomic) NSObject *rpcResponseHandlerMapLock;
+@property (strong, nonatomic) NSObject *commandHandlerMapLock;
+@property (strong, nonatomic) NSObject *buttonHandlerMapLock;
+@property (strong, nonatomic) NSObject *customButtonHandlerMapLock;
 
 // SDL state
 @property (strong, nonatomic) SDLProxy *proxy;
@@ -62,10 +62,10 @@
 @property (copy) NSSet *onOnVehicleDataDelegates;
 
 // Dictionaries to link handlers with requests/commands/etc
-@property (strong, nonatomic) NSMutableDictionary *rpcResponseHandlerDictionary;
-@property (strong, nonatomic) NSMutableDictionary *commandHandlerDictionary;
-@property (strong, nonatomic) NSMutableDictionary *buttonHandlerDictionary;
-@property (strong, nonatomic) NSMutableDictionary *customButtonHandlerDictionary;
+@property (strong, nonatomic) NSMapTable *rpcResponseHandlerMap;
+@property (strong, nonatomic) NSMapTable *commandHandlerMap;
+@property (strong, nonatomic) NSMapTable *buttonHandlerMap;
+@property (strong, nonatomic) NSMapTable *customButtonHandlerMap;
 
 @end
 
@@ -81,20 +81,20 @@
         _proxyLock = [[NSObject alloc] init];
         _correlationIdLock = [[NSObject alloc] init];
         _hmiStateLock = [[NSObject alloc] init];
-        _rpcResponseHandlerDictionaryLock = [[NSObject alloc] init];
-        _commandHandlerDictionaryLock = [[NSObject alloc] init];
-        _buttonHandlerDictionaryLock = [[NSObject alloc] init];
-        _customButtonHandlerDictionaryLock = [[NSObject alloc] init];
+        _rpcResponseHandlerMapLock = [[NSObject alloc] init];
+        _commandHandlerMapLock = [[NSObject alloc] init];
+        _buttonHandlerMapLock = [[NSObject alloc] init];
+        _customButtonHandlerMapLock = [[NSObject alloc] init];
         _correlationID = 1;
         _connected = NO;
         _backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         _mainUIQueue = dispatch_get_main_queue();
         _firstHMIFullOccurred = NO;
         _firstHMINotNoneOccurred = NO;
-        _rpcResponseHandlerDictionary = [[NSMutableDictionary alloc] init];
-        _commandHandlerDictionary = [[NSMutableDictionary alloc] init];
-        _buttonHandlerDictionary = [[NSMutableDictionary alloc] init];
-        _customButtonHandlerDictionary = [[NSMutableDictionary alloc] init];
+        _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+        _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+        _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+        _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         
         _onProxyOpenedDelegates = [[NSSet alloc] init];
         _onProxyClosedDelegates = [[NSSet alloc] init];
@@ -463,9 +463,9 @@
         @autoreleasepool {
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized(strongSelf.rpcResponseHandlerDictionaryLock) {
-                    RPCResponseHandler handler = [strongSelf.rpcResponseHandlerDictionary objectForKey:response.correlationID];
-                    [strongSelf.rpcResponseHandlerDictionary removeObjectForKey:response.correlationID];
+                @synchronized(strongSelf.rpcResponseHandlerMapLock) {
+                    RPCResponseHandler handler = [strongSelf.rpcResponseHandlerMap objectForKey:response.correlationID];
+                    [strongSelf.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
                     if (handler) {
                         dispatch_async(strongSelf.mainUIQueue, ^{
                             handler(response);
@@ -490,8 +490,8 @@
     @autoreleasepool {
         __weak typeof(self) weakSelf = self;
         RPCNotificationHandler handler = nil;
-        @synchronized(self.commandHandlerDictionaryLock) {
-            handler = [self.commandHandlerDictionary objectForKey:command.cmdID];
+        @synchronized(self.commandHandlerMapLock) {
+            handler = [self.commandHandlerMap objectForKey:command.cmdID];
         }
         
         if (handler) {
@@ -532,13 +532,13 @@
         }
         
         if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
-            @synchronized(self.customButtonHandlerDictionaryLock) {
-                handler = [self.customButtonHandlerDictionary objectForKey:customID];
+            @synchronized(self.customButtonHandlerMapLock) {
+                handler = [self.customButtonHandlerMap objectForKey:customID];
             }
         }
         else {
-            @synchronized(self.buttonHandlerDictionaryLock) {
-                handler = [self.buttonHandlerDictionary objectForKey:name.value];
+            @synchronized(self.buttonHandlerMapLock) {
+                handler = [self.buttonHandlerMap objectForKey:name.value];
             }
         }
         
@@ -600,8 +600,8 @@
                                 if (!sb.softButtonID) {
                                     @throw [SDLProxyBase createMissingIDException];
                                 }
-                                @synchronized(strongSelf.customButtonHandlerDictionaryLock) {
-                                    strongSelf.customButtonHandlerDictionary[sb.softButtonID] = ((SDLSoftButtonWithHandler *)sb).onButtonHandler;
+                                @synchronized(strongSelf.customButtonHandlerMapLock) {
+                                    [strongSelf.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
                                 }
                             }
                         }
@@ -613,8 +613,8 @@
                         if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
                             @throw [SDLProxyBase createMissingIDException];
                         }
-                        @synchronized(strongSelf.commandHandlerDictionaryLock) {
-                            strongSelf.commandHandlerDictionary[((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID] = ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler;
+                        @synchronized(strongSelf.commandHandlerMapLock) {
+                            [strongSelf.commandHandlerMap setObject:((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler forKey:((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID];
                         }
                     }
                     else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
@@ -626,14 +626,14 @@
                         if (!buttonName) {
                             @throw [SDLProxyBase createMissingIDException];
                         }
-                        @synchronized(strongSelf.buttonHandlerDictionaryLock) {
-                            strongSelf.buttonHandlerDictionary[buttonName] = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler;
+                        @synchronized(strongSelf.buttonHandlerMapLock) {
+                            [strongSelf.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler forKey:buttonName];
                         }
                     }
                     
                     if (responseHandler) {
-                        @synchronized(strongSelf.rpcResponseHandlerDictionaryLock) {
-                            strongSelf.rpcResponseHandlerDictionary[corrID] = responseHandler;
+                        @synchronized(strongSelf.rpcResponseHandlerMapLock) {
+                            [strongSelf.rpcResponseHandlerMap setObject:responseHandler forKey:corrID];
                         }
                     }
                     @synchronized(strongSelf.proxyLock) {
