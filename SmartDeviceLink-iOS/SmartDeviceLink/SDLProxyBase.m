@@ -364,10 +364,8 @@
             
             if (delegateHashTable && enumerationBlock) {
                 dispatch_async(strongSelf.mainUIQueue, ^{
-                    @synchronized (strongSelf.delegateLock) {
-                        for (id<NSObject> delegate in delegateHashTable) {
-                            enumerationBlock(delegate);
-                        }
+                    for (id<NSObject> delegate in delegateHashTable) {
+                        enumerationBlock(delegate);
                     }
                 });
             }
@@ -421,10 +419,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLOnCommandDelegate> delegate in strongSelf.onOnCommandDelegates) {
-                        [delegate onSDLCommand:command];
-                    }
+                for (id<SDLOnCommandDelegate> delegate in strongSelf.onOnCommandDelegates) {
+                    [delegate onSDLCommand:command];
                 }
             }
         });
@@ -469,10 +465,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLOnButtonEventDelegate> delegate in strongSelf.onOnButtonEventDelegates) {
-                        [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
-                    }
+                for (id<SDLOnButtonEventDelegate> delegate in strongSelf.onOnButtonEventDelegates) {
+                    [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
                 }
             }
         });
@@ -481,10 +475,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLOnButtonPressDelegate> delegate in strongSelf.onOnButtonPressDelegates) {
-                        [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
-                    }
+                for (id<SDLOnButtonPressDelegate> delegate in strongSelf.onOnButtonPressDelegates) {
+                    [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
                 }
             }
         });
@@ -653,10 +645,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLProxyErrorDelegate> delegate in strongSelf.proxyErrorDelegates) {
-                        [delegate onSDLError:e];
-                    }
+                for (id<SDLProxyErrorDelegate> delegate in strongSelf.proxyErrorDelegates) {
+                    [delegate onSDLError:e];
                 }
             }
         });
@@ -682,10 +672,8 @@
                     dispatch_async(strongSelf.mainUIQueue, ^{
                         typeof(self) strongSelf = weakSelf;
                         if (strongSelf) {
-                            @synchronized (strongSelf.delegateLock) {
-                                for (id<SDLAppRegisteredDelegate> delegate in strongSelf.appRegisteredDelegates) {
-                                    [delegate onSDLRegisterAppInterfaceResponse:((SDLRegisterAppInterfaceResponse *) response)];
-                                }
+                            for (id<SDLAppRegisteredDelegate> delegate in strongSelf.appRegisteredDelegates) {
+                                [delegate onSDLRegisterAppInterfaceResponse:((SDLRegisterAppInterfaceResponse *) response)];
                             }
                         }
                     });
@@ -697,10 +685,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLProxyOpenedDelegate> delegate in strongSelf.onProxyOpenedDelegates) {
-                        [delegate onSDLProxyOpened];
-                    }
+                for (id<SDLProxyOpenedDelegate> delegate in strongSelf.onProxyOpenedDelegates) {
+                    [delegate onSDLProxyOpened];
                 }
             }
         });
@@ -717,10 +703,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLProxyClosedDelegate> delegate in strongSelf.onProxyClosedDelegates) {
-                        [delegate onSDLProxyClosed];
-                    }
+                for (id<SDLProxyClosedDelegate> delegate in strongSelf.onProxyClosedDelegates) {
+                    [delegate onSDLProxyClosed];
                 }
             }
         });
@@ -744,10 +728,8 @@
                 dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
-                        @synchronized (strongSelf.delegateLock) {
-                            for (id<SDLFirstHMINotNoneDelegate> delegate in strongSelf.firstHMINotNoneDelegates) {
-                                [delegate onSDLFirstHMINotNone:notification];
-                            }
+                        for (id<SDLFirstHMINotNoneDelegate> delegate in strongSelf.firstHMINotNoneDelegates) {
+                            [delegate onSDLFirstHMINotNone:notification];
                         }
                     }
                 });
@@ -766,10 +748,8 @@
                 dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
-                        @synchronized (strongSelf.delegateLock) {
-                            for (id<SDLFirstHMIFullDelegate> delegate in strongSelf.firstHMIFullDelegates) {
-                                [delegate onSDLFirstHMIFull:notification];
-                            }
+                        for (id<SDLFirstHMIFullDelegate> delegate in strongSelf.firstHMIFullDelegates) {
+                            [delegate onSDLFirstHMIFull:notification];
                         }
                     }
                 });
@@ -791,10 +771,8 @@
                 dispatch_async(self.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
-                        @synchronized (strongSelf.delegateLock) {
-                            for (id<SDLFirstHMINotNoneDelegate> delegate in strongSelf.firstHMINotNoneDelegates) {
-                                [delegate onSDLFirstHMINotNone:notification];
-                            }
+                        for (id<SDLFirstHMINotNoneDelegate> delegate in strongSelf.firstHMINotNoneDelegates) {
+                            [delegate onSDLFirstHMINotNone:notification];
                         }
                     }
                 });
@@ -808,10 +786,8 @@
         dispatch_async(self.mainUIQueue, ^{
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
-                @synchronized (strongSelf.delegateLock) {
-                    for (id<SDLOnHMIStatusDelegate> delegate in strongSelf.onOnHMIStatusDelegates) {
-                        [delegate onSDLHMIStatus:notification];
-                    }
+                for (id<SDLOnHMIStatusDelegate> delegate in strongSelf.onOnHMIStatusDelegates) {
+                    [delegate onSDLHMIStatus:notification];
                 }
             }
         });
