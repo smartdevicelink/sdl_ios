@@ -488,29 +488,16 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-    NSURLSessionDownloadTask *task = nil;
-    task = [self downloadTaskForSystemRequestURLString:request.url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        
-        if ([self.activeSystemRequestTasks containsObject:task]) {
-            [self.activeSystemRequestTasks removeObject:task];
-        }
-        
+    [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:request.url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
             [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
             return;
         }
         
-        UIImage *icon = [UIImage imageWithData: [NSData dataWithContentsOfURL:location]];
-        SEL selector = @selector(onReceivedLockScreenIcon:);
-        [self.proxyListeners enumerateObjectsUsingBlock:^(id listener, NSUInteger idx, BOOL *stop) {
-            if ([(NSObject *)listener respondsToSelector:selector]) {
-                [(NSObject *)listener performSelectorOnMainThread:selector withObject:icon waitUntilDone:NO];
-            }
-        }];
+        UIImage *icon = [UIImage imageWithData:data];
+        [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
     }];
-    [self.activeSystemRequestTasks addObject:task];
-    [task resume];
 }
 
 /**
