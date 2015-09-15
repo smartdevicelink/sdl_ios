@@ -82,7 +82,11 @@
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateConnected: {
-            [self showVideoPicker];
+            if ([[ProxyManager sharedManager].mediaManager videoSessionConnected]) {
+                [[ProxyManager sharedManager].mediaManager stopVideoSession];
+            } else {
+                [self showVideoPicker];
+            }
         } break;
         default: break;
     }
@@ -132,7 +136,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSLog(@"did finish picking media");
-    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     [picker dismissViewControllerAnimated:YES completion:nil];
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         __block NSURL *videoUrl=(NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
@@ -142,8 +146,7 @@
             [self processImageBuffersFromURL:videoUrl withBlock:^(CVImageBufferRef bufferRef) {
                 if ([[ProxyManager sharedManager].mediaManager sendVideoData:bufferRef]) {
                     NSLog(@"successfully sent image buffer");
-                }
-                else {
+                } else {
                     NSLog(@"failed to process image buffer");
                 }
                 CFRelease(bufferRef);
@@ -155,8 +158,7 @@
                     [self processImageBuffersFromURL:videoUrl withBlock:^(CVImageBufferRef bufferRef) {
                         if ([[ProxyManager sharedManager].mediaManager sendVideoData:bufferRef]) {
                             NSLog(@"successfully sent image buffer");
-                        }
-                        else {
+                        } else {
                             NSLog(@"failed to process image buffer");
                         }
                         CFRelease(bufferRef);
@@ -183,9 +185,6 @@
         case ProxyStateStopped: {
             self.connectTableViewCell.backgroundColor = [UIColor redColor];
             self.connectButton.titleLabel.text = @"Connect";
-            
-            self.videoTableViewCell.backgroundColor = [UIColor redColor];
-            self.videoButton.titleLabel.text = @"Select Video";
         } break;
         case ProxyStateSearchingForConnection: {
             self.connectTableViewCell.backgroundColor = [UIColor blueColor];
@@ -194,9 +193,6 @@
         case ProxyStateConnected: {
             self.connectTableViewCell.backgroundColor = [UIColor greenColor];
             self.connectButton.titleLabel.text = @"Disconnect";
-            
-            self.videoTableViewCell.backgroundColor = [UIColor blueColor];
-            self.videoButton.titleLabel.text = @"Select Video";
         } break;
         default: break;
     }
@@ -208,7 +204,8 @@
 - (void)showVideoPicker {
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil];
+    imagePicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
+    imagePicker.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeMovie, nil];
     imagePicker.delegate = self;
     
     [self presentViewController:imagePicker animated:YES completion:nil];
@@ -229,6 +226,10 @@
         CMSampleBufferRef sample = NULL;
         //Background Thread
         while ((sample = [readerTrack copyNextSampleBuffer])) {
+            if (![[ProxyManager sharedManager].mediaManager videoSessionConnected]) {
+                return;
+            }
+            
             CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sample);
             if (imageBuffer && block) {
                 block(imageBuffer);
