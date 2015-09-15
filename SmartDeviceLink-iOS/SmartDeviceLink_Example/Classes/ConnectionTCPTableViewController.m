@@ -52,6 +52,10 @@
     } @catch (NSException __unused *exception) {}
 }
 
+- (void)didReceiveMemoryWarning {
+    NSLog(@"***** MEMORY WARNING *****");
+}
+
 
 #pragma mark - IBActions
 
@@ -80,15 +84,28 @@
         case ProxyStateConnected: {
             [self showVideoPicker];
         } break;
-        default: {
-            NSLog(@"go away");
-        }break;
+        default: break;
     }
 }
+
+- (IBAction)audioButtonPressed:(id)sender {
+    ProxyState state = [ProxyManager sharedManager].state;
+    switch (state) {
+        case ProxyStateConnected: {
+            [self sendAudio];
+        } break;
+        default: break;
+    }
+}
+
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section != 0) {
+        return;
+    }
+    
     switch (indexPath.row) {
         case 0: {
             [self.ipAddressTextField becomeFirstResponder];
@@ -112,13 +129,13 @@
 
 
 #pragma mark - UIImagePickerControllerDelegate Methods
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSLog(@"did finish picking media");
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     [picker dismissViewControllerAnimated:YES completion:nil];
     if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
         __block NSURL *videoUrl=(NSURL*)[info objectForKey:UIImagePickerControllerMediaURL];
-        
         BOOL videoConnected = [ProxyManager sharedManager].mediaManager.videoSessionConnected;
         
         if (videoConnected) {
@@ -159,7 +176,7 @@
     
 }
 
-#pragma mark - Private Methods
+#pragma mark - KVO
 
 - (void)proxyManagerDidChangeState:(ProxyState)newState {
     switch (newState) {
@@ -185,6 +202,9 @@
     }
 }
 
+
+#pragma mark - Video Methods
+
 - (void)showVideoPicker {
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -195,18 +215,13 @@
 }
 
 - (void)processImageBuffersFromURL:(NSURL *)url withBlock:(void (^)(CVImageBufferRef bufferRef))block {
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         AVAsset *asset = [AVAsset assetWithURL:url];
-        AVAssetTrack *track = [[asset
-                                tracksWithMediaType:AVMediaTypeVideo]
-                               objectAtIndex:0];
+        AVAssetTrack *track = [asset tracksWithMediaType:AVMediaTypeVideo][0];
+        AVAssetReaderTrackOutput *readerTrack = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:track
+                                                                                           outputSettings:@{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)}];
         
-        AVAssetReaderTrackOutput
-        *readerTrack = [AVAssetReaderTrackOutput
-                        assetReaderTrackOutputWithTrack:track
-                        outputSettings:@{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)}];
-        AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset
-                                                              error:nil];
+        AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:asset error:nil];
         reader.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
         [reader addOutput:readerTrack];
         [reader startReading];
@@ -220,6 +235,7 @@
             }
             [NSThread sleepForTimeInterval:0.01f];
         }
+        
         // TODO: do something about the reader status after it stops reading
         switch (reader.status) {
             case AVAssetReaderStatusReading:
@@ -234,8 +250,43 @@
     });
 }
 
-- (void)didReceiveMemoryWarning {
-    NSLog(@"lol mem warning");
+
+#pragma mark - Audio Methods
+
+- (void)startAudioSession {
+    [[ProxyManager sharedManager].mediaManager startAudioStreamingWithStartBlock:^void (BOOL success, NSError *error) {
+        NSLog(@"Attempt to start audio session success: %@", (success ? @"YES" : @"NO"));
+        if (!success) {
+            NSLog(@"Error trying to start audio session: %@", error);
+            return;
+        }
+        
+        [self sendAudio];
+    }];
+}
+
+- (void)sendAudio {
+    NSLog(@"Trying to send audio");
+    BOOL audioConnected = [[ProxyManager sharedManager].mediaManager audioSessionConnected];
+    if (!audioConnected) {
+        [self startAudioSession];
+    }
+    
+    if (audioConnected) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"acro" ofType:@"pcm"];
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:filePath];
+        
+        if (!data) {
+            NSLog(@"Could not retrieve arco.pcm from main bundle");
+        }
+        
+        BOOL success = [[ProxyManager sharedManager].mediaManager sendAudioData:data];
+        NSLog(@"Succeeded sending audio data: %@", (success ? @"YES" : @"NO"));
+    }
+}
+
+- (void)endAudioSession {
+    [[ProxyManager sharedManager].mediaManager stopAudioSession];
 }
 
 @end

@@ -110,6 +110,30 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rnX-I6-LFT">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rnX-I6-LFT" id="naC-gZ-css">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHB-td-cA6">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                    <state key="normal" title="Play PCM Audio">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="audioButtonPressed:" destination="l5Q-ZP-1BO" eventType="touchUpInside" id="PHR-HK-grO"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zHB-td-cA6" firstAttribute="leading" secondItem="naC-gZ-css" secondAttribute="leadingMargin" constant="-8" id="3r2-lt-7EW"/>
+                                                <constraint firstAttribute="bottom" secondItem="zHB-td-cA6" secondAttribute="bottom" constant="-1" id="FH1-3r-GnL"/>
+                                                <constraint firstItem="zHB-td-cA6" firstAttribute="top" secondItem="naC-gZ-css" secondAttribute="top" id="Szw-XI-tk6"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zHB-td-cA6" secondAttribute="trailing" constant="-8" id="VyK-98-BCq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>

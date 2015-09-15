@@ -116,18 +116,6 @@
     
     self.connectionTypeSegmentedControl.userInteractionEnabled = NO;
     [animator animateTransition:transitionContext];
-    
-//    toViewController.view.alpha = 0.0;
-//    [self transitionFromViewController:self.currentViewController toViewController:toViewController duration:0.25 options:(UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionCurveEaseOut) animations:^{
-//        self.currentViewController.view.alpha = 0.0;
-//        toViewController.view.alpha = 1.0;
-//    } completion:^(BOOL finished) {
-//        NSLog(@"Transition Connection Container View Controller complete");
-//        [self.currentViewController removeFromParentViewController];
-//        [toViewController didMoveToParentViewController:self];
-//        
-//        self.currentViewController = toViewController;
-//    }];
 }
 
 @end
