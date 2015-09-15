@@ -28,6 +28,7 @@
 @class SDLOnHashChange;
 @class SDLOnHMIStatus;
 @class SDLOnLanguageChange;
+@class SDLOnLockscreenStatus;
 @class SDLOnPermissionsChange;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;

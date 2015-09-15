@@ -15,7 +15,15 @@
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:wrappedData options:kNilOptions error:&errorJSONSerialization];
         NSArray *array = dictionary[@"data"];
         NSString *base64EncodedString = array[0];
-        decodedData = [[NSData alloc] initWithBase64EncodedString:base64EncodedString options:0];
+        
+        if ([NSData instancesRespondToSelector:@selector(initWithBase64EncodedString:options:)]) {
+            decodedData = [[NSData alloc] initWithBase64EncodedString:base64EncodedString options:0];
+        } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            decodedData = [[NSData alloc] initWithBase64Encoding:base64EncodedString];
+#pragma clang diagnostic pop
+        }
     }
     @catch (NSException *exception) {
         decodedData = nil;
