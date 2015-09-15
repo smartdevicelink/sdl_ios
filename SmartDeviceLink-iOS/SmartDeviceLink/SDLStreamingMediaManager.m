@@ -199,7 +199,9 @@ NS_ASSUME_NONNULL_BEGIN
     CFRelease(self.compressionSession);
 }
 
+
 #pragma mark Callbacks
+
 void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
@@ -211,6 +213,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
     [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
 }
+
 
 #pragma mark Configuration
 
