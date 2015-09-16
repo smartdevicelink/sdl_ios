@@ -7,11 +7,11 @@
 @class SDLPutFile;
 @class SDLRPCMessage;
 @class SDLRPCRequestFactory;
+@class SDLStreamingMediaManager;
 @class SDLTimer;
 
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
-#import "SDLRPCRequestFactory.h"
 
 
 @interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
@@ -27,6 +27,7 @@
 @property (strong) SDLTimer *startSessionTimer;
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
+@property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol

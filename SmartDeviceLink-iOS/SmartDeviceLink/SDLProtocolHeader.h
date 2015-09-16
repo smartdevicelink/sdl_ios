@@ -5,30 +5,36 @@
 
 
 typedef NS_ENUM(UInt8, SDLFrameType) {
-    SDLFrameType_Control = 0,
-    SDLFrameType_Single = 1,
-    SDLFrameType_First = 2,
-    SDLFrameType_Consecutive = 3
+    SDLFrameType_Control = 0x00,
+    SDLFrameType_Single = 0x01,
+    SDLFrameType_First = 0x02,
+    SDLFrameType_Consecutive = 0x03
 };
 
 typedef NS_ENUM(UInt8, SDLServiceType) {
-    SDLServiceType_Control = 0,
-    SDLServiceType_RPC = 7,
-    SDLServiceType_Audio = 10,
-    SDLServiceType_Video = 11,
-    SDLServiceType_BulkData = 15
+    SDLServiceType_Control = 0x00,
+    SDLServiceType_RPC = 0x07,
+    SDLServiceType_Audio = 0x0A,
+    SDLServiceType_Video = 0x0B,
+    SDLServiceType_BulkData = 0x0F
 };
 
 typedef NS_ENUM(UInt8, SDLFrameData) {
-    SDLFrameData_Heartbeat = 0,
+    SDLFrameData_Heartbeat = 0x00,
+    SDLFrameData_StartSession = 0x01,
+    SDLFrameData_StartSessionACK = 0x02,
+    SDLFrameData_StartSessionNACK = 0x03,
+    SDLFrameData_EndSession = 0x04,
+    SDLFrameData_EndSessionACK = 0x05,
+    SDLFrameData_EndSessionNACK = 0x06,
+    SDLFrameData_ServiceDataACK = 0xFE,
     SDLFrameData_HeartbeatACK = 0xFF,
-    SDLFrameData_StartSession = 1,
-    SDLFrameData_StartSessionACK = 2,
-    SDLFrameData_StartSessionNACK = 3,
-    SDLFrameData_EndSession = 4,
-    SDLFrameData_SingleFrame = 0,
-    SDLFrameData_FirstFrame = 0,
-    SDLFrameData_ConsecutiveLastFrame = 0
+    // If frameType == Single (0x01)
+    SDLFrameData_SingleFrame = 0x00,
+    // If frameType == First (0x02)
+    SDLFrameData_FirstFrame = 0x00,
+    // If frametype == Consecutive (0x03)
+    SDLFrameData_ConsecutiveLastFrame = 0x00
 };
 
 

@@ -31,6 +31,7 @@
 #import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLSiphonServer.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLQueryAppsManager.h"
@@ -56,6 +57,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
+@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+
 @end
 
 
@@ -72,13 +75,13 @@ const int POLICIES_CORRELATION_ID = 65535;
         _protocol = protocol;
         _transport = transport;
         _transport.delegate = protocol;
-        _protocol.protocolDelegate = self;
+        [_protocol.protocolDelegateTable addObject:self];
         _protocol.transport = transport;
 
         [self.transport connect];
-        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
         
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
+        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
     }
 
     return self;
@@ -154,20 +157,29 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self sendRPC:HMIStatusRPC];
 }
 
+
+#pragma mark - Setters / Getters
+
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
 }
 
-- (void)startRPCSession {
-    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+- (SDLStreamingMediaManager *)streamingMediaManager {
+    if (_streamingMediaManager == nil) {
+        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
+        [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
+    }
+    
+    return _streamingMediaManager;
 }
+
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)onProtocolOpened {
     _isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    [self startRPCSession];
+    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
 
     if (self.startSessionTimer == nil) {
         self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
@@ -191,7 +203,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)maxVersionForModule {
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
 
