@@ -2,9 +2,9 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
-#import "ProxyManager.h"
-
 @import SmartDeviceLink;
+
+#import "ProxyManager.h"
 
 #import "Preferences.h"
 
@@ -19,7 +19,6 @@ NSString *const SDLAppId = @"9999";
 @property (assign, nonatomic, readwrite) ProxyState state;
 @property (assign, nonatomic) BOOL isFirstHMIFull;
 @property (assign, nonatomic) ProxyTransportType currentTransportType;
-
 @end
 
 
@@ -66,7 +65,7 @@ NSString *const SDLAppId = @"9999";
     if (self.proxy != nil) {
         return;
     }
-    
+
     self.currentTransportType = transportType;
     self.isFirstHMIFull = YES;
     self.state = ProxyStateSearchingForConnection;
@@ -109,6 +108,10 @@ NSString *const SDLAppId = @"9999";
     return _messageNumber++;
 }
 
+- (SDLStreamingMediaManager *)mediaManager {
+    return self.proxy.streamingMediaManager;
+}
+
 
 #pragma mark - SDLProxyListner delegate methods
 
@@ -116,6 +119,7 @@ NSString *const SDLAppId = @"9999";
     self.state = ProxyStateConnected;
     
     SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
+    registerRequest.appHMIType = [NSMutableArray arrayWithObjects:[SDLAppHMIType NAVIGATION], nil];
     [self.proxy sendRPC:registerRequest];
 }
 
@@ -132,6 +136,17 @@ NSString *const SDLAppId = @"9999";
         [self showInitialData];
         self.isFirstHMIFull = NO;
     }
+}
+
+- (void)onReceivedLockScreenIcon:(UIImage *)icon {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Lock Screen Icon" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+        [alert setValue:imageView forKey:@"accessoryView"];
+    }else{
+        [alert addSubview:imageView];
+    }
+    [alert show];
 }
 
 @end

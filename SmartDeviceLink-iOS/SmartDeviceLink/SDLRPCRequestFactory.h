@@ -147,7 +147,6 @@
 + (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)laguageDesired appID:(NSString *)appID;
 //*****
 
-
 + (SDLResetGlobalProperties *)buildResetGlobalPropertiesWithProperties:(NSArray *)properties correlationID:(NSNumber *)correlationID;
 
 + (SDLSendLocation *)buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image;
@@ -201,7 +200,7 @@
 
 +(SDLShowConstantTBT*) buildShowConstantTBTWithString:(NSString*)navigationText1 navigationText2:(NSString*)navigationText2 eta:(NSString*)eta timeToDestination:(NSString*)timeToDestination totalDistance:(NSString*)totalDistance turnIcon:(SDLImage*)turnIcon nextTurnIcon:(SDLImage*)nextTurnIcon distanceToManeuver:(NSNumber*)distanceToManeuver distanceToManeuverScale:(NSNumber*)distanceToManeuverScale maneuverComplete:(NSNumber*)maneuverComplete softButtons:(NSMutableArray*)softButtons correlationID:(NSNumber*) correlationID;
 
-+(SDLUnregisterAppInterface*) buildUnregisterAppInterfaceWithCorrelationID:(NSNumber*) correlationID;
++(SDLUnregisterAppInterface *) buildUnregisterAppInterfaceWithCorrelationID:(NSNumber*) correlationID;
 
 + (SDLUnsubscribeButton *)buildUnsubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID;
 

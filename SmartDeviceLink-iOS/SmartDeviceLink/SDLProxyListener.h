@@ -1,6 +1,8 @@
 //  SDLProxyListener.h
 //
 
+@import UIKit;
+
 @class SDLAddCommandResponse;
 @class SDLAddSubMenuResponse;
 @class SDLAlertManeuverResponse;
@@ -30,6 +32,7 @@
 @class SDLOnHashChange;
 @class SDLOnHMIStatus;
 @class SDLOnLanguageChange;
+@class SDLOnLockscreenStatus;
 @class SDLOnPermissionsChange;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;
@@ -61,6 +64,7 @@
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
 
+
 @protocol SDLProxyListener <NSObject>
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification;
@@ -89,6 +93,7 @@
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response;
 - (void)onListFilesResponse:(SDLListFilesResponse *)response;
+- (void)onReceivedLockScreenIcon:(UIImage *)icon;
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification;
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification;

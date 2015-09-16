@@ -5,6 +5,7 @@
 #import "SDLJsonEncoder.h"
 #import "SDLFunctionID.h"
 
+#import "SDLGlobals.h"
 #import "SDLRPCRequest.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
@@ -18,10 +19,7 @@
 #import "SDLRPCNotification.h"
 #import "SDLRPCResponse.h"
 #import "SDLAbstractTransport.h"
-
-
-const NSUInteger MAX_TRANSMISSION_SIZE = 1024;
-const UInt8 MAX_VERSION_TO_SEND = 4;
+#import "SDLTimer.h"
 
 
 @interface SDLProtocol () {
@@ -33,12 +31,11 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     BOOL _alreadyDestructed;
 }
 
-@property (assign) UInt8 version;
-@property (assign) UInt8 maxVersionSupportedByHeadUnit;
 @property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
-
+@property (nonatomic) BOOL heartbeatACKed;
+@property (nonatomic, strong) SDLTimer *heartbeatTimer;
 @end
 
 
@@ -46,15 +43,15 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _version = 1;
         _messageID = 0;
         _sessionID = 0;
+        _heartbeatACKed = NO;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _sessionIDs = [NSMutableDictionary new];
-        self.messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
-        self.messageRouter.delegate = self;
+        _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
+        _messageRouter.delegate = self;
     }
 
     return self;
@@ -75,21 +72,29 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:1];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    switch (serviceType) {
+        case SDLServiceType_RPC: {
+            // Need a different header for starting the RPC service
+            header = [SDLProtocolHeader headerForVersion:1];
+            if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
+                header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            }
+        } break;
+        default: {
+            header.sessionID = self.sessionID;
+        } break;
+    }
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-
-    if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
-        header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
-    }
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:serviceType];
 }
 
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType sessionID:(Byte)sessionID {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
@@ -102,7 +107,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)sendRPC:(SDLRPCMessage *)message {
     NSParameterAssert(message != nil);
 
-    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:self.version]];
+    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion]];
     NSData *messagePayload = nil;
 
     NSString *logMessage = [NSString stringWithFormat:@"%@", message];
@@ -110,7 +115,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
-    switch (self.version) {
+    switch ([SDLGlobals globals].protocolVersion) {
         case 1: {
             // No binary header in version 1
             messagePayload = jsonData;
@@ -142,12 +147,12 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
             messagePayload = rpcPayload.data;
         } break;
         default: {
-            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @(self.version), message);
+            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals globals].protocolVersion), message);
         } break;
     }
 
     // Build the protocol level header & message
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
     header.serviceType = SDLServiceType_RPC;
     header.frameData = SDLFrameData_SingleFrame;
@@ -155,7 +160,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
-    if (self.version >= 2) {
+    if ([SDLGlobals globals].protocolVersion >= 2) {
         [((SDLV2ProtocolHeader *)header)setMessageID:++_messageID];
     }
 
@@ -163,11 +168,11 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < MAX_TRANSMISSION_SIZE) {
+    if (protocolMessage.size < [SDLGlobals globals].maxMTUSize) {
         [self logRPCSend:protocolMessage];
         [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
@@ -201,7 +206,7 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * MAX_TRANSMISSION_SIZE)];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [SDLGlobals globals].maxMTUSize)];
     }
 
     // Save the data
@@ -255,31 +260,48 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 }
 
 - (void)sendHeartbeat {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:self.version];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
-    header.serviceType = 0;
+    header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_Heartbeat;
     header.sessionID = self.sessionID;
-
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-
     [self sendDataToTransport:message.data withPriority:header.serviceType];
 }
 
+- (void)startHeartbeatTimerWithDuration:(float)duration {
+    self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
+    __weak typeof(self) weakSelf = self;
+    self.heartbeatTimer.elapsedBlock = ^void() {
+        __strong typeof(self) strongSelf = weakSelf;
+        if (strongSelf.heartbeatACKed) {
+            strongSelf.heartbeatACKed = NO;
+            [strongSelf sendHeartbeat];
+        } else {
+            NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+            [strongSelf onProtocolClosed];
+        }
+    };
+    [self.heartbeatTimer start];
+}
+
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
-    SDLV2ProtocolHeader *header = [SDLV2ProtocolHeader new];
+    
+    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
     header.serviceType = serviceType;
-    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.sessionID = self.sessionID;
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-
-    if (message.size < MAX_TRANSMISSION_SIZE) {
+    
+    if (message.size < [SDLGlobals globals].maxMTUSize) {
         [self logRPCSend:message];
         [self sendDataToTransport:message.data withPriority:header.serviceType];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:MAX_TRANSMISSION_SIZE];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self logRPCSend:smallerMessage];
             [self sendDataToTransport:smallerMessage.data withPriority:header.serviceType];
@@ -289,34 +311,120 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
 
 
 #pragma mark - SDLProtocolListener Implementation
-- (void)handleProtocolSessionStarted:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    [self storeSessionID:sessionID forServiceType:serviceType];
-
-    self.maxVersionSupportedByHeadUnit = version;
-    self.version = MIN(self.maxVersionSupportedByHeadUnit, MAX_VERSION_TO_SEND);
-
-    if (self.version >= 3) {
-        // start hearbeat
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+    
+    switch (serviceType) {
+        case SDLServiceType_RPC: {
+            self.sessionID = sessionID;
+            [SDLGlobals globals].maxHeadUnitVersion = version;
+            if ([SDLGlobals globals].protocolVersion >= 3) {
+                self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
+                [self startHeartbeatTimerWithDuration:5.0];
+            }
+        } break;
+        default:
+            break;
     }
+    
+    [self storeSessionID:sessionID forServiceType:serviceType];
+    
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
+            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
+        }
+    }
+}
 
-    [self.protocolDelegate handleProtocolSessionStarted:serviceType sessionID:sessionID version:version];
+- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
+            [listener handleProtocolStartSessionNACK:serviceType];
+        }
+    }
+}
+
+- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
+            [listener handleProtocolEndSessionACK:serviceType];
+        }
+    }
+}
+
+- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
+            [listener handleProtocolEndSessionNACK:serviceType];
+        }
+    }
+}
+
+- (void)handleHeartbeatForSession:(Byte)session {
+    // Respond with a heartbeat ACK
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    header.frameType = SDLFrameType_Control;
+    header.serviceType = SDLServiceType_Control;
+    header.frameData = SDLFrameData_HeartbeatACK;
+    header.sessionID = session;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sendDataToTransport:message.data withPriority:header.serviceType];
+    
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
+            [listener handleHeartbeatForSession:session];
+        }
+    }
+}
+
+- (void)handleHeartbeatACK {
+    self.heartbeatACKed = YES;
+    
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
+            [listener handleHeartbeatACK];
+        }
+    }
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
-    [self.protocolDelegate onProtocolMessageReceived:msg];
+    if ([SDLGlobals globals].protocolVersion >= 3 && self.heartbeatTimer != nil) {
+        self.heartbeatACKed = YES; // All messages count as heartbeats
+        [self.heartbeatTimer start];
+    }
+
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
+            [listener onProtocolMessageReceived:msg];
+        }
+    }
 }
 
 - (void)onProtocolOpened {
-    [self.protocolDelegate onProtocolOpened];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
+            [listener onProtocolOpened];
+        }
+    }
 }
 
 - (void)onProtocolClosed {
-    [self.protocolDelegate onProtocolClosed];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
+            [listener onProtocolClosed];
+        }
+    }
 }
 
 - (void)onError:(NSString *)info exception:(NSException *)e {
-    [self.protocolDelegate onError:info exception:e];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onError:exception:)]) {
+            [listener onError:info exception:e];
+        }
+    }
 }
+
+
+#pragma mark - Lifecycle
 
 - (void)destructObjects {
     if (!_alreadyDestructed) {
@@ -324,7 +432,8 @@ const UInt8 MAX_VERSION_TO_SEND = 4;
         self.messageRouter.delegate = nil;
         self.messageRouter = nil;
         self.transport = nil;
-        self.protocolDelegate = nil;
+        self.protocolDelegateTable = nil;
+        self.heartbeatTimer = nil;
     }
 }
 

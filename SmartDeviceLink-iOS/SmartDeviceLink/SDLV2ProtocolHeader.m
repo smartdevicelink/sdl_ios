@@ -6,9 +6,16 @@
 
 const int V2PROTOCOL_HEADERSIZE = 12;
 
+
+@interface SDLV2ProtocolHeader ()
+
+@end
+
+
 @implementation SDLV2ProtocolHeader
 
 - (instancetype)init {
+    // TODO: Should this be changed to whatever the current version is from SDLGlobals
     return [self initWithVersion:2];
 }
 
@@ -48,6 +55,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 
 - (id)copyWithZone:(NSZone *)zone {
     SDLV2ProtocolHeader *newHeader = [[SDLV2ProtocolHeader allocWithZone:zone] init];
+    newHeader->_version = self.version;
     newHeader.compressed = self.compressed;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;

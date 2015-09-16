@@ -9,6 +9,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
         _debugConsoleGroupName = @"default";
     }
     return self;
@@ -54,11 +55,19 @@
 
 #pragma - SDLTransportListener Implementation
 - (void)onTransportConnected {
-    [self.protocolDelegate onProtocolOpened];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
+            [listener onProtocolOpened];
+        }
+    }
 }
 
 - (void)onTransportDisconnected {
-    [self.protocolDelegate onProtocolClosed];
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
+            [listener onProtocolClosed];
+        }
+    }
 }
 
 - (void)onDataReceived:(NSData *)receivedData {

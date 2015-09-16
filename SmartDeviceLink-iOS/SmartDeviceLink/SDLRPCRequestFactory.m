@@ -2,6 +2,9 @@
 //
 
 #import "SDLRPCRequestFactory.h"
+#import <UIKit/UIKit.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
 
 #import "SDLMenuParams.h"
 #import "SDLTTSChunkFactory.h"
@@ -12,10 +15,12 @@
 #import "SDLAppHMIType.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
+#import "SDLDebugTool.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDeviceInfo.h"
 #import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
@@ -58,9 +63,9 @@
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID {
     SDLAddCommand *msg = [[SDLAddCommand alloc] init];
     msg.correlationID = correlationID;
-
+    
     msg.cmdID = cmdID;
-
+    
     if (menuName != nil || parentID != nil || position != nil) {
         SDLMenuParams *menuParams = [[SDLMenuParams alloc] init];
         menuParams.menuName = menuName;
@@ -69,14 +74,14 @@
         msg.menuParams = menuParams;
     }
     msg.vrCommands = [vrCommands mutableCopy];
-
+    
     if (iconValue != nil || iconType != nil) {
         SDLImage *icon = [[SDLImage alloc] init];
         icon.value = iconValue;
         icon.imageType = iconType;
         msg.cmdIcon = icon;
     }
-
+    
     return msg;
 }
 
@@ -97,7 +102,6 @@
     msg.menuID = menuID;
     msg.menuName = menuName;
     msg.position = position;
-
     return msg;
 }
 
@@ -113,7 +117,7 @@
     simpleChunk.text = ttsText;
     simpleChunk.type = SDLSpeechCapabilities.TEXT;
     NSArray *ttsChunks = [NSArray arrayWithObject:simpleChunk];
-
+    
     return [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil correlationID:correlationID];
 }
 
@@ -122,7 +126,7 @@
 }
 
 + (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText playTone:(NSNumber *)playTone correlationID:(NSNumber *)
-                                                                                                    correlationID {
+correlationID {
     return [SDLRPCRequestFactory buildAlertWithTTS:ttsText alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:nil correlationID:correlationID];
 }
 
@@ -174,7 +178,7 @@
     msg.language = language;
     msg.hmiDisplayLanguage = hmiDisplayLanguage;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -183,7 +187,7 @@
     msg.interactionChoiceSetID = interactionChoiceSetID;
     msg.choiceSet = [choices mutableCopy];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -191,7 +195,7 @@
     SDLDeleteCommand *msg = [[SDLDeleteCommand alloc] init];
     msg.cmdID = cmdID;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -199,21 +203,21 @@
     SDLDeleteFile *msg = [[SDLDeleteFile alloc] init];
     msg.syncFileName = syncFileName;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
 + (SDLDialNumber *)buildDialNumberWithNumber:(NSString *)phoneNumber {
     SDLDialNumber *msg = [[SDLDialNumber alloc] init];
     msg.number = phoneNumber;
-
+    
     return msg;
 }
 
 + (SDLListFiles *)buildListFilesWithCorrelationID:(NSNumber *)correlationID {
     SDLListFiles *msg = [[SDLListFiles alloc] init];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -221,7 +225,7 @@
     SDLDeleteInteractionChoiceSet *msg = [[SDLDeleteInteractionChoiceSet alloc] init];
     msg.interactionChoiceSetID = interactionChoiceSetID;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -229,14 +233,14 @@
     SDLDeleteSubMenu *msg = [[SDLDeleteSubMenu alloc] init];
     msg.menuID = menuID;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
 + (SDLEndAudioPassThru *)buildEndAudioPassThruWithCorrelationID:(NSNumber *)correlationID {
     SDLEndAudioPassThru *msg = [[SDLEndAudioPassThru alloc] init];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -244,7 +248,7 @@
     SDLGetDTCs *msg = [[SDLGetDTCs alloc] init];
     msg.ecuName = ecuName;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -271,13 +275,13 @@
     msg.accPedalPosition = accPedalPosition;
     msg.steeringWheelAngle = steeringWheelAngle;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
 + (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID {
     NSArray *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
-
+    
     SDLPerformAudioPassThru *msg = [[SDLPerformAudioPassThru alloc] init];
     msg.initialPrompt = [initialChunks mutableCopy];
     msg.audioPassThruDisplayText1 = audioPassThruDisplayText1;
@@ -288,7 +292,7 @@
     msg.audioType = audioType;
     msg.muteAudio = muteAudio;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -305,7 +309,7 @@
     msg.timeout = timeout;
     msg.vrHelp = [vrHelp mutableCopy];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -314,14 +318,14 @@
     NSArray *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
     NSArray *helpChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpPrompt];
     NSArray *timeoutChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutPrompt];
-
+    
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp correlationID:correlationID];
 }
 
 + (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(NSNumber *)interactionChoiceSetID vrHelp:(NSArray *)vrHelp correlationID:(NSNumber *)correlationID {
     NSArray *interactionChoiceSetIDList = [NSArray arrayWithObject:interactionChoiceSetID];
     NSArray *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
-
+    
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:nil timeoutChunks:nil interactionMode:SDLInteractionMode.BOTH timeout:nil vrHelp:vrHelp correlationID:correlationID];
 }
 
@@ -337,11 +341,11 @@
 + (SDLPutFile *)buildPutFileWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(NSNumber *)persistentFile correlationId:(NSNumber *)correlationID {
     SDLPutFile *msg = [[SDLPutFile alloc] init];
     msg.syncFileName = fileName;
-
+    
     msg.fileType = fileType;
     msg.persistentFile = persistentFile;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -354,7 +358,7 @@
     msg.ecuName = ecuName;
     msg.didLocation = [didLocation mutableCopy];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -373,15 +377,27 @@
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     msg.appID = appID;
-
+    msg.deviceInfo = [self sdl_buildDeviceInfo];
     msg.correlationID = [NSNumber numberWithInt:1];
-
+    
     return msg;
 }
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID {
-    NSMutableArray *syns = [NSMutableArray arrayWithObject:appName];
++(SDLDeviceInfo*) sdl_buildDeviceInfo {
+    SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc]init];
+    deviceInfo.hardware = [UIDevice currentDevice].model ;
+    deviceInfo.os = [UIDevice currentDevice].systemName;
+    deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
+    CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = netinfo.subscriberCellularProvider;
+    NSString *carrierName = carrier.carrierName;
+    deviceInfo.carrier = carrierName;
+    
+    return deviceInfo;
+}
 
++(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID {
+    NSMutableArray* syns = [NSMutableArray arrayWithObject:appName];
     return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID];
 }
 
@@ -395,7 +411,7 @@
     SDLResetGlobalProperties *msg = [[SDLResetGlobalProperties alloc] init];
     msg.properties = [properties mutableCopy];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -405,7 +421,7 @@
     msg.timeout = timeout;
     msg.softButtons = [softButtons mutableCopy];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -427,7 +443,7 @@
     SDLSetAppIcon* msg = [[SDLSetAppIcon alloc] init];
     msg.syncFileName = syncFileName;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -435,7 +451,7 @@
     SDLSetDisplayLayout *msg = [[SDLSetDisplayLayout alloc] init];
     msg.displayLayout = displayLayout;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -448,7 +464,7 @@
     msg.vrHelpTitle = vrHelpTitle;
     msg.vrHelp = [vrHelp mutableCopy];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -457,7 +473,7 @@
     msg.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
     msg.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 //*****
@@ -473,7 +489,7 @@
     msg.startTime = startTime;
     msg.updateMode = updateMode;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -481,7 +497,7 @@
     SDLSetMediaClockTimer *msg = [[SDLSetMediaClockTimer alloc] init];
     msg.updateMode = updateMode;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 //*****
@@ -502,7 +518,7 @@
     msg.graphic = graphic;
     msg.softButtons = [softButtons mutableCopy];
     msg.customPresets = [customPresets mutableCopy];
-
+    
     return msg;
 }
 
@@ -515,7 +531,7 @@
     msg.mediaClock = mediaClock;
     msg.mediaTrack = mediaTrack;
     msg.alignment = textAlignment;
-
+    
     return msg;
 }
 
@@ -554,18 +570,18 @@
     msg.sliderHeader = sliderHeader;
     msg.sliderFooter = [sliderFooter mutableCopy];
     msg.timeout = timeout;
-
+    
     return msg;
 }
 
 + (SDLSlider *)buildSliderStaticFooterWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(NSNumber *)timeout correlationID:(NSNumber *)correlationID {
     NSArray *sliderFooters = [NSArray arrayWithObject:sliderFooter];
-
+    
     // Populates array with the same footer value for each position
     for (UInt32 i = 1; i < numTicks.unsignedIntegerValue; i++) {
         sliderFooters = [sliderFooters arrayByAddingObject:sliderFooter];
     }
-
+    
     return [SDLRPCRequestFactory buildSliderDynamicFooterWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:sliderFooters timeout:timeout correlationID:correlationID];
 }
 //*****
@@ -576,7 +592,7 @@
     SDLSpeak *msg = [[SDLSpeak alloc] init];
     msg.correlationID = correlationID;
     msg.ttsChunks = [ttsChunks mutableCopy];
-
+    
     return msg;
 }
 
@@ -586,7 +602,7 @@
     simpleChunk.text = ttsText;
     simpleChunk.type = SDLSpeechCapabilities.TEXT;
     NSArray *ttsChunks = [NSMutableArray arrayWithObject:simpleChunk];
-
+    
     return [SDLRPCRequestFactory buildSpeakWithTTSChunks:ttsChunks correlationID:correlationID];
 }
 //*****
@@ -596,7 +612,7 @@
     SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] init];
     msg.correlationID = correlationID;
     msg.buttonName = buttonName;
-
+    
     return msg;
 }
 
@@ -622,14 +638,14 @@
     msg.accPedalPosition = accPedalPosition;
     msg.steeringWheelAngle = steeringWheelAngle;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
 + (SDLUnregisterAppInterface *)buildUnregisterAppInterfaceWithCorrelationID:(NSNumber *)correlationID {
     SDLUnregisterAppInterface *msg = [[SDLUnregisterAppInterface alloc] init];
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -637,7 +653,7 @@
     SDLUnsubscribeButton *msg = [[SDLUnsubscribeButton alloc] init];
     msg.buttonName = buttonName;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
@@ -663,7 +679,7 @@
     msg.accPedalPosition = accPedalPosition;
     msg.steeringWheelAngle = steeringWheelAngle;
     msg.correlationID = correlationID;
-
+    
     return msg;
 }
 
