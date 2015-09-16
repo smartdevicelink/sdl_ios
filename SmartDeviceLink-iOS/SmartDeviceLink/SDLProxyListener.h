@@ -5,6 +5,7 @@
 
 @class SDLAddCommandResponse;
 @class SDLAddSubMenuResponse;
+@class SDLAlertManeuverResponse;
 @class SDLAlertResponse;
 @class SDLChangeRegistrationResponse;
 @class SDLCreateInteractionChoiceSetResponse;
@@ -13,6 +14,7 @@
 @class SDLDeleteInteractionChoiceSetResponse;
 @class SDLDeleteSubMenuResponse;
 @class SDLDiagnosticMessageResponse;
+@class SDLDialNumberResponse;
 @class SDLEncodedSyncPDataResponse;
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
@@ -45,6 +47,7 @@
 @class SDLRegisterAppInterfaceResponse;
 @class SDLResetGlobalPropertiesResponse;
 @class SDLScrollableMessageResponse;
+@class SDLSendLocationResponse;
 @class SDLSetAppIconResponse;
 @class SDLSetDisplayLayoutResponse;
 @class SDLSetGlobalPropertiesResponse;
@@ -73,6 +76,7 @@
 
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response;
 - (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response;
+- (void)onAlertManeuverResponse:(SDLAlertManeuverResponse*) request;
 - (void)onAlertResponse:(SDLAlertResponse *)response;
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response;
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response;
@@ -81,6 +85,7 @@
 - (void)onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse *)response;
 - (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response;
 - (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response;
+- (void)onDialNumberResponse:(SDLDialNumberResponse*) request;
 - (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response;
 - (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response;
 - (void)onError:(NSException *)e;
@@ -111,6 +116,7 @@
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response;
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response;
+- (void)onSendLocationResponse:(SDLSendLocationResponse*) request;
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response;
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response;
