@@ -583,25 +583,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:urlString] completionHandler:completionHandler];
 }
 
-/**
- *  Generate an NSURLSessionDownloadTask for System Requests
- *
- *  @param urlString     A string containing the URL to download data from
- *  @param completionHandler a completion handler returning the response from the server and location of the download
- *
- *  @return The download task, which can be started by calling -[resume]
- */
-- (NSURLSessionDownloadTask *)downloadTaskForSystemRequestURLString:(NSString *)urlString completionHandler:(URLSessionDownloadTaskCompletionHandler)completionHandler {
-    NSParameterAssert(urlString != nil);
-    NSParameterAssert(completionHandler != nil);
-    
-    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request to URL: %@", urlString];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    
-    // Create and return the download task
-    return [[NSURLSession sharedSession] downloadTaskWithURL:[NSURL URLWithString:urlString] completionHandler:completionHandler];
-}
-
 
 #pragma mark - Delegate management
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate {
