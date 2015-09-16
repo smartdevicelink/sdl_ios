@@ -43,6 +43,7 @@
 
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
+typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
 NSString *const SDLProxyVersion = @"4.0.0-alpha.4";
 const float startSessionTime = 10.0;
@@ -349,6 +350,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestQueryApps:systemRequest];
     } else if (requestType == [SDLRequestType LAUNCH_APP]) {
         [self handleSystemRequestLaunchApp:systemRequest];
+    } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
+        [self handleSystemRequestLockScreenIconURL:systemRequest];
     }
 }
 
@@ -482,6 +485,19 @@ const int POLICIES_CORRELATION_ID = 65535;
     if ([[UIApplication sharedApplication] canOpenURL:URLScheme]) {
         [[UIApplication sharedApplication] openURL:URLScheme];
     }
+}
+
+- (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
+    [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:request.url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
+            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            return;
+        }
+        
+        UIImage *icon = [UIImage imageWithData:data];
+        [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+    }];
 }
 
 /**
