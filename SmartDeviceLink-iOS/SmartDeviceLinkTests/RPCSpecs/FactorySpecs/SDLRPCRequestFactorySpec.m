@@ -186,37 +186,27 @@ describe(@"BuildAlert Tests", ^ {
 
 
 describe(@"SDLAlertManeuver Tests", ^ {
-    it(@"Should build correctly", ^ {
-        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
-        NSMutableArray* softButtonsModified = [NSMutableArray arrayWithArray:softButtons];
-        NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
-        NSMutableArray* ttsChunksModified = [NSMutableArray arrayWithArray:ttsChunks];
-        SDLAlertManeuver* message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunksModified softButtons:softButtonsModified correlationID:@1234];
+    __block NSMutableArray *softButtons = nil;
+    __block NSMutableArray *ttsChunks = nil;
+    __block SDLAlertManeuver *message = nil;
+    
+    describe(@"Should build correctly", ^ {
+        beforeEach(^{
+            softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
+            ttsChunks = [@[[[SDLTTSChunk alloc] init]] mutableCopy];
+            message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunks softButtons:softButtons correlationID:@1234];
+        });
         
         it(@"Should properly set TTS Chunks", ^{
-            expect(message.ttsChunks).to(equal(ttsChunksModified));
+            expect(message.ttsChunks).to(equal(ttsChunks));
         });
         
         it(@"Should properly set Soft Buttons", ^{
-            expect(message.softButtons).to(equal(softButtonsModified));
+            expect(message.softButtons).to(equal(softButtons));
         });
         
         it(@"Should properly set Correlation ID", ^{
             expect(message.correlationID).to(equal(@1234));
-        });
-        
-        message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunksModified softButtons:softButtonsModified correlationID:@99999];
-        
-        it(@"Should properly set TTS Chunks", ^{
-            expect(message.ttsChunks).to(equal(ttsChunksModified));
-        });
-        
-        it(@"Should return nil for Soft Buttons", ^{
-            expect(message.softButtons).to(beNil());
-        });
-        
-        it(@"Should properly set Correlation ID", ^{
-            expect(message.correlationID).to(equal(@99999));
         });
     });
 });
@@ -746,13 +736,18 @@ describe(@"BuildShow Tests", ^ {
 });
 
 describe(@"SDLShowConstantTBT Tests", ^ {
-    it(@"Should build correctly", ^ {
-        
-        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
-        NSMutableArray* softButtonsModified = [NSMutableArray arrayWithArray:softButtons];
-        SDLImage *image1 = [[SDLImage alloc]init];
-        SDLImage *image2 = [[SDLImage alloc]init];
-        SDLShowConstantTBT* message = [SDLRPCRequestFactory buildShowConstantTBTWithString:@"Navigation Text 1" navigationText2:@"Navigation Text 2" eta:@"ETA String" timeToDestination:@"10:31 PM" totalDistance:@"1000 Miles" turnIcon:image1 nextTurnIcon:image2 distanceToManeuver:@100.11 distanceToManeuverScale:@10.20 maneuverComplete:@23.2 softButtons:softButtonsModified correlationID:@1234];
+    __block NSMutableArray *softButtons = nil;
+    __block SDLImage *image1 = nil;
+    __block SDLImage *image2 = nil;
+    __block SDLShowConstantTBT *message = nil;
+    
+    describe(@"Should build correctly", ^ {
+        beforeEach(^{
+            softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
+            image1 = [[SDLImage alloc]init];
+            image2 = [[SDLImage alloc]init];
+            message = [SDLRPCRequestFactory buildShowConstantTBTWithString:@"Navigation Text 1" navigationText2:@"Navigation Text 2" eta:@"ETA String" timeToDestination:@"10:31 PM" totalDistance:@"1000 Miles" turnIcon:image1 nextTurnIcon:image2 distanceToManeuver:@100.11 distanceToManeuverScale:@10.20 maneuverComplete:@23.2 softButtons:softButtons correlationID:@1234];
+        });
         
         it(@"Should properly set title navigation text", ^{
             expect(message.navigationText1).to(equal(@"Navigation Text 1"));
@@ -795,7 +790,7 @@ describe(@"SDLShowConstantTBT Tests", ^ {
         });
         
         it(@"Should properly set soft buttons", ^{
-            expect(message.softButtons).to(equal(softButtonsModified));
+            expect(message.softButtons).to(equal(softButtons));
         });
         
         it(@"Should properly set the correlation ID", ^{
@@ -944,43 +939,31 @@ describe(@"BuildSubscribeVehicleData Tests", ^ {
     });
 });
 
-
 describe(@"SDLUpdateTurnList Tests", ^ {
-    it(@"Should build correctly", ^ {
-        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
-        NSMutableArray* softButtonsModified = [NSMutableArray arrayWithArray:softButtons];
-        NSArray* turnImages = @[@"Image 1", @"Image 2", @"Image 3"];
-        NSMutableArray* turnImagesModified = [NSMutableArray arrayWithArray:turnImages];
-        SDLUpdateTurnList* message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turnImagesModified softButtons:softButtonsModified correlationID:@1234];
+    __block NSMutableArray *softButtons = nil;
+    __block NSMutableArray *turnImages = nil;
+    __block SDLUpdateTurnList *message = nil;
+    
+    describe(@"Should build correctly", ^ {
+        beforeEach(^{
+            softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
+            turnImages = [@[@"Image 1", @"Image 2", @"Image 3"] mutableCopy];
+            message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turnImages softButtons:softButtons correlationID:@1234];
+        });
         
         it(@"Should properly set Turn imaged", ^{
-            expect(message.turnList).to(equal(turnImagesModified));
+            expect(message.turnList).to(equal(turnImages));
         });
         
         it(@"Should properly set Soft Buttons", ^{
-            expect(message.softButtons).to(equal(softButtonsModified));
+            expect(message.softButtons).to(equal(softButtons));
         });
         
         it(@"Should properly set Correlation Id", ^{
             expect(message.correlationID).to(equal(@1234));
         });
-        
-        message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turnImagesModified softButtons:softButtonsModified correlationID:@99999];
-        it(@"Should properly set Turn imaged", ^{
-            expect(message.turnList).to(equal(turnImagesModified));
-        });
-        
-        it(@"Should return nil for Soft Buttons", ^{
-            expect(message.softButtons).to(beNil());
-        });
-        
-        it(@"Should properly set Correlation Id", ^{
-            expect(message.correlationID).to(equal(@99999));
-        });
     });
 });
-
-
 
 QuickSpecEnd
 
