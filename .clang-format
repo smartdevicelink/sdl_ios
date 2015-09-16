@@ -4,9 +4,9 @@ Language: Cpp
 AccessModifierOffset: -2
 # AlignAfterOpenBracket: true
 # AlignEscapedNewlinesLeft: true
-AlignTrailingComments: true
+AlignTrailingComments: false
 AllowShortBlocksOnASingleLine: false
-AllowShortCaseLabelsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false

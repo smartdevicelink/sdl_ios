@@ -31,9 +31,9 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     // Assembles the properties in the binary header format
     Byte headerBytes[V2PROTOCOL_HEADERSIZE] = {0};
 
-    Byte version = (self.version & 0xF) << 4;         // first 4 bits
+    Byte version = (self.version & 0xF) << 4; // first 4 bits
     Byte compressed = (self.compressed ? 1 : 0) << 3; // next 1 bit
-    Byte frameType = (self.frameType & 0x7);          // last 3 bits
+    Byte frameType = (self.frameType & 0x7); // last 3 bits
 
     headerBytes[0] = version | compressed | frameType;
     headerBytes[1] = self.serviceType;
@@ -81,7 +81,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 
     UInt32 *uintPointer = (UInt32 *)data.bytes;
     self.bytesInPayload = CFSwapInt32BigToHost(uintPointer[1]); // Data is coming in in big-endian, so swap it.
-    self.messageID = CFSwapInt32BigToHost(uintPointer[2]);      // Data is coming in in big-endian, so swap it.
+    self.messageID = CFSwapInt32BigToHost(uintPointer[2]); // Data is coming in in big-endian, so swap it.
 }
 
 - (NSString *)description {

@@ -15,7 +15,7 @@
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:wrappedData options:kNilOptions error:&errorJSONSerialization];
         NSArray *array = dictionary[@"data"];
         NSString *base64EncodedString = array[0];
-        
+
         if ([NSData instancesRespondToSelector:@selector(initWithBase64EncodedString:options:)]) {
             decodedData = [[NSData alloc] initWithBase64EncodedString:base64EncodedString options:0];
         } else {
@@ -65,7 +65,7 @@
 
         if (self.hasESN) {
             int esnOffset = self.isHighBandwidth ? 7 : 5;
-            self.ESN = [NSData dataWithBytes:(bytes + esnOffset)length:8];
+            self.ESN = [NSData dataWithBytes:(bytes + esnOffset) length:8];
         }
 
         if (self.isHighBandwidth) {
@@ -91,7 +91,7 @@
                 ivOffset += 11;
             if (self.hasESN)
                 ivOffset += self.ESN.length;
-            self.initializationVector = [NSData dataWithBytes:(bytes + ivOffset)length:16];
+            self.initializationVector = [NSData dataWithBytes:(bytes + ivOffset) length:16];
         }
 
         int payloadOffset = 5;
@@ -101,11 +101,11 @@
             payloadOffset += self.ESN.length;
         if (self.isEncrypted)
             payloadOffset += self.initializationVector.length;
-        self.payload = [NSData dataWithBytes:(bytes + payloadOffset)length:self.payloadSize];
+        self.payload = [NSData dataWithBytes:(bytes + payloadOffset) length:self.payloadSize];
 
         if (self.isSigned) {
             int signatureTagOffset = (int)data.length - 16;
-            self.signatureTag = [NSData dataWithBytes:(bytes + signatureTagOffset)length:16];
+            self.signatureTag = [NSData dataWithBytes:(bytes + signatureTagOffset) length:16];
         }
 
     }

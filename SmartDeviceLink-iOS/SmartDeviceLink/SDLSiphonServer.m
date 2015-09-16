@@ -94,8 +94,8 @@ void _closeSiphonSocket() {
                 close(siphonSocket);
                 siphonSocket = 0;
             } // end-if
-        }     // end-lock
-    }         // end-if
+        } // end-lock
+    } // end-if
 #ifdef DEBUG_SIPHON
     NSLog(@"siphon: siphon socket reset complete");
 #endif
@@ -229,8 +229,8 @@ bool _sendSiphonData(const void *dataBytes, int dataBytesLength, SiphonDataType 
                 NSLog(@"siphon: siphon socket is NULL");
 #endif
             } // end-if
-        }     //end  Synchronized
-    }         // end-if
+        } //end  Synchronized
+    } // end-if
     return NO;
 
 } // end-method
@@ -312,7 +312,7 @@ void _acceptConnection(int fd) {
             [SDLDebugTool logInfo:@"Siphon connected." withType:SDLDebugType_Debug];
 
         } // end-lock
-    }     // end-if
+    } // end-if
     return;
 }
 

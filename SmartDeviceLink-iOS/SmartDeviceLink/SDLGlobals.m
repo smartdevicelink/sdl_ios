@@ -26,7 +26,7 @@ static const NSUInteger maxProxyVersion = 4;
     dispatch_once(&onceToken, ^{
         sharedGlobals = [[SDLGlobals alloc] init];
     });
-    
+
     return sharedGlobals;
 }
 
@@ -35,10 +35,10 @@ static const NSUInteger maxProxyVersion = 4;
     if (!self) {
         return nil;
     }
-    
+
     _protocolVersion = 1;
     _maxHeadUnitVersion = 0;
-    
+
     return self;
 }
 
@@ -47,7 +47,7 @@ static const NSUInteger maxProxyVersion = 4;
 
 - (void)setMaxHeadUnitVersion:(NSUInteger)maxHeadUnitVersion {
     self.protocolVersion = MIN(maxHeadUnitVersion, maxProxyVersion);
-    
+
     _maxHeadUnitVersion = maxHeadUnitVersion;
 }
 

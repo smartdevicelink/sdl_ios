@@ -161,7 +161,7 @@
 
     // V2+ messages need to have message ID property set.
     if ([SDLGlobals globals].protocolVersion >= 2) {
-        [((SDLV2ProtocolHeader *)header)setMessageID:++_messageID];
+        [((SDLV2ProtocolHeader *)header) setMessageID:++_messageID];
     }
 
 
@@ -196,7 +196,7 @@
 
     dispatch_async(_sendQueue, ^{
         NSData *dataToTransmit = nil;
-        while(dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
+        while (dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
             [self.transport sendData:dataToTransmit];
         };
     });
@@ -287,16 +287,15 @@
 }
 
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
-    
     SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
     header.serviceType = serviceType;
     header.sessionID = self.sessionID;
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
-    
+
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
-    
+
     if (message.size < [SDLGlobals globals].maxMTUSize) {
         [self logRPCSend:message];
         [self sendDataToTransport:message.data withPriority:header.serviceType];
@@ -312,7 +311,6 @@
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    
     switch (serviceType) {
         case SDLServiceType_RPC: {
             self.sessionID = sessionID;
@@ -325,9 +323,9 @@
         default:
             break;
     }
-    
+
     [self storeSessionID:sessionID forServiceType:serviceType];
-    
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
             [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
@@ -368,7 +366,7 @@
     header.sessionID = session;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:header.serviceType];
-    
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
             [listener handleHeartbeatForSession:session];
@@ -378,7 +376,7 @@
 
 - (void)handleHeartbeatACK {
     self.heartbeatACKed = YES;
-    
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
             [listener handleHeartbeatACK];

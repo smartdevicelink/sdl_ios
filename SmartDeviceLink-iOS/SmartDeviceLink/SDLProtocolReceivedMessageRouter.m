@@ -59,7 +59,7 @@
             [self.delegate handleProtocolStartSessionACK:message.header.serviceType
                                                sessionID:message.header.sessionID
                                                  version:message.header.version];
-            
+
         } break;
         case SDLFrameData_StartSessionNACK: {
             [self.delegate handleProtocolStartSessionNACK:message.header.serviceType];

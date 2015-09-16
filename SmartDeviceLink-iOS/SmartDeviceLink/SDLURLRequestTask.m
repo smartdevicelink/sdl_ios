@@ -36,17 +36,17 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     [_connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [_connection start];
-    
+
     _completionHandler = completionHandler;
-    
+
     _mutableData = [NSMutableData data];
     _response = nil;
     _state = SDLURLRequestTaskStateRunning;
-    
+
     return self;
 }
 
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.completionHandler(nil, self.response, error);
-        
+
         self.state = SDLURLRequestTaskStateCompleted;
         [self.delegate taskDidFinish:self];
     });
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.completionHandler([self.mutableData copy], self.response, nil);
-        
+
         self.state = SDLURLRequestTaskStateCompleted;
         [self.delegate taskDidFinish:self];
     });

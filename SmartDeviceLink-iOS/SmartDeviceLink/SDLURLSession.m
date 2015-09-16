@@ -34,7 +34,7 @@ static float DefaultConnectionTimeout = 45.0;
     dispatch_once(&onceToken, ^{
         sharedSession = [[self alloc] init];
     });
-    
+
     return sharedSession;
 }
 
@@ -49,12 +49,12 @@ static float DefaultConnectionTimeout = 45.0;
     if (!self) {
         return nil;
     }
-    
+
     _cachePolicy = NSURLRequestUseProtocolCachePolicy;
     _connectionTimeout = DefaultConnectionTimeout;
-    
+
     _activeTasks = [NSMutableSet set];
-    
+
     return self;
 }
 
@@ -63,10 +63,10 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)dataFromURL:(NSURL *)url completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:self.cachePolicy timeoutInterval:self.connectionTimeout];
-    
+
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
     task.delegate = self;
-    
+
     [self.activeTasks addObject:task];
 }
 
@@ -74,10 +74,10 @@ static float DefaultConnectionTimeout = 45.0;
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
     mutableRequest.HTTPBody = data;
     mutableRequest.HTTPMethod = @"POST";
-    
+
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:mutableRequest completionHandler:completionHandler];
     task.delegate = self;
-    
+
     [self.activeTasks addObject:task];
 }
 
