@@ -1,6 +1,8 @@
 //  SDLProxyListener.h
 //
 
+@import UIKit;
+
 @class SDLAddCommandResponse;
 @class SDLAddSubMenuResponse;
 @class SDLAlertResponse;
@@ -58,7 +60,7 @@
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
-@import UIKit;
+
 
 @protocol SDLProxyListener <NSObject>
 
