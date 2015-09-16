@@ -383,7 +383,7 @@ correlationID {
     return msg;
 }
 
-+(SDLDeviceInfo*) sdl_buildDeviceInfo {
++ (SDLDeviceInfo*)sdl_buildDeviceInfo {
     SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc]init];
     deviceInfo.hardware = [UIDevice currentDevice].model ;
     deviceInfo.os = [UIDevice currentDevice].systemName;
@@ -396,7 +396,7 @@ correlationID {
     return deviceInfo;
 }
 
-+(SDLRegisterAppInterface*) buildRegisterAppInterfaceWithAppName:(NSString*) appName isMediaApp:(NSNumber*) isMediaApp languageDesired:(SDLLanguage*) languageDesired appID:(NSString*) appID {
++ (SDLRegisterAppInterface*)buildRegisterAppInterfaceWithAppName:(NSString*)appName isMediaApp:(NSNumber*)isMediaApp languageDesired:(SDLLanguage*)languageDesired appID:(NSString*)appID {
     NSMutableArray* syns = [NSMutableArray arrayWithObject:appName];
     return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID];
 }
