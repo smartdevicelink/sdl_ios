@@ -26,6 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
+- (instancetype)init {
+    NSAssert(NO, @"use initWithURLRequest:completionHandler instead");
+    return nil;
+}
+
 - (instancetype)initWithURLRequest:(NSURLRequest *)request completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
