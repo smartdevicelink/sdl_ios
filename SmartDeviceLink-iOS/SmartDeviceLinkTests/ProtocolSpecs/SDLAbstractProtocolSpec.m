@@ -19,7 +19,7 @@ describe(@"OnTransportConnected Tests", ^ {
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
         
         SDLAbstractProtocol* abstractProtocol = [[SDLAbstractProtocol alloc] init];
-        abstractProtocol.protocolDelegate = delegateMock;
+        [abstractProtocol.protocolDelegateTable addObject:delegateMock];
         
         __block BOOL verified = NO;
         [[[delegateMock stub] andDo:^(NSInvocation* invocation) {verified = YES;}] onProtocolOpened];
@@ -39,7 +39,7 @@ describe(@"OnTransportDisconnected Tests", ^ {
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
         
         SDLAbstractProtocol* abstractProtocol = [[SDLAbstractProtocol alloc] init];
-        abstractProtocol.protocolDelegate = delegateMock;
+        [abstractProtocol.protocolDelegateTable addObject:delegateMock];
         
         __block BOOL verified = NO;
         [[[delegateMock stub] andDo:^(NSInvocation* invocation) {verified = YES;}] onProtocolClosed];
