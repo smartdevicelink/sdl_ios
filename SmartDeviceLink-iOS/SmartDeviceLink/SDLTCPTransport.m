@@ -63,8 +63,10 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 - (void)sendData:(NSData *)msgBytes {
     dispatch_async(_sendQueue, ^{
-        NSString *byteStr = [SDLHexUtility getHexString:msgBytes];
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+        @autoreleasepool {
+            NSString *byteStr = [SDLHexUtility getHexString:msgBytes];
+            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+        }
 
         CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
         if (e != kCFSocketSuccess) {
