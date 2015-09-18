@@ -38,12 +38,8 @@ NSString* getHexString(NSData *data) {
                                                          length:length*2
                                                        encoding:NSASCIIStringEncoding
                                                    freeWhenDone:YES];
-    /*
-     *  According to apple's special case (https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/#//apple_ref/occ/instm/NSString/initWithBytesNoCopy:length:encoding:freeWhenDone:)
-     *  we must free the buffer if there is an error allocating the string.
-     *  We will then fallback to our less performant method, in hopes we will be able to 
-     *  convert the bytes. This is only a precaution.
-     */
+    // HAX : https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/#//apple_ref/occ/instm/NSString/initWithBytesNoCopy:length:encoding:freeWhenDone:
+    // If there is an error allocating the string, we must free the buffer and fall back to the less performant method.
     if (!hexString) {
         free(buffer);
         hexString = [SDLHexUtility getHexString:bytes
