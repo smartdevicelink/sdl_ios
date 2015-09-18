@@ -45,7 +45,7 @@ NSString* getHexString(NSData *data) {
         hexString = [SDLHexUtility getHexString:bytes
                                          length:length];
     }
-    return
+    return hexString;
 }
 
 + (NSString *)getHexString:(NSData *)data {
