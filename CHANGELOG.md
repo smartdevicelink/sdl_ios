@@ -1,11 +1,30 @@
 # 4.0.0 Release Notes (pre-release)
 
-## Alpha 3
+## Alpha 4 (2015-09-08)
+
+### Enhancements
+* Documentation update to SDLHMILevel.
+* Formatted files.
+* SDLChangeRegistration RPC updated with new parameters.
+* Heartbeat is now implemented for v3 head units and greater.
+* Lock Screen Image URL fetching is now implemented.
+* Callback methods in SDLProxyListener protocol implemented for new RPCs.
+* Buffer size for transport greatly increased for v3 and greater.
+* Now compatible with iOS 6+ instead of just iOS 7+ using Cocoapods.
+* Video and Audio streaming is now implemented. Video Streaming is iOS 8+ only. The object will reject you if you are using an older version at runtime.
+
+### Bugfixes
+* Properly reset the timer for IAP transport.
+
+
+## Alpha 3 (2015-06-22)
+
 ### Bug Fixes
 * Prevent NULL pointer calls on SDLPolicyDataParser, SDLV1ProtocolHeader, and SDLV2ProtocolHeader
 * Fix transport not connecting if the app is launched after the device is connected to a head unit.
 
-## Alpha 2
+
+## Alpha 2 (2015-06-04)
 
 ### API Breaking Changes
 * 28 header files moved to 'project' scope, making them unavailable to developers.
