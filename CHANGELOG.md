@@ -1,6 +1,6 @@
 # 4.0.0 Release Notes (pre-release)
 
-## Alpha 4
+## Alpha 4 (2015-09-08)
 
 ### Enhancements
 * Documentation update to SDLHMILevel.
