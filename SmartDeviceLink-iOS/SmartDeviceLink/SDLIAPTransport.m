@@ -190,7 +190,6 @@ int const streamOpenTimeoutSeconds = 2;
             self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds repeat:NO];
         } else {
             [self.protocolIndexTimer cancel];
-            [self.protocolIndexTimer start];
         }
 
         __weak typeof(self) weakSelf = self;
