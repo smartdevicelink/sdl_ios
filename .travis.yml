@@ -6,7 +6,6 @@ notifications:
 
 before_script:
   - brew update
-  - brew install xctool
   - brew outdated xctool || brew upgrade xctool
 
 script:
