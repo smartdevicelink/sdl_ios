@@ -71,9 +71,11 @@ bool debugToLogFile = false;
     }
 
     if (data) {
-        NSString *dataString = [SDLHexUtility getHexString:data];
-        if (dataString) {
-            [outputString appendString:dataString];
+        @autoreleasepool {
+            NSString *dataString = [SDLHexUtility getHexString:data];
+            if (dataString) {
+                [outputString appendString:dataString];
+            }
         }
     }
 
