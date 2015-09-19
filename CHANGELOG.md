@@ -1,5 +1,20 @@
 # 4.0.0 Release Notes (pre-release)
 
+## Release Candidate 1 (2015-09-19)
+
+### Enhancements
+* Lock screen icon is now fetched
+* Hex string parsing is now roughly twice as fast
+
+### Bug Fixes
+* Web request delegates weren't always called
+* Streaming audio fixes
+* Large chunks of data passed over TCP no longer uses far too much memory
+* Xcode 7 warnings fixed
+* Test frameworks updated for Swift 2.0
+* Build server fixes
+
+
 ## Alpha 4 (2015-09-08)
 
 ### Enhancements
@@ -7,7 +22,6 @@
 * Formatted files.
 * SDLChangeRegistration RPC updated with new parameters.
 * Heartbeat is now implemented for v3 head units and greater.
-* Lock Screen Image URL fetching is now implemented.
 * Callback methods in SDLProxyListener protocol implemented for new RPCs.
 * Buffer size for transport greatly increased for v3 and greater.
 * Now compatible with iOS 6+ instead of just iOS 7+ using Cocoapods.
