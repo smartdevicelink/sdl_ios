@@ -1,5 +1,8 @@
 # 4.0.0 Release Notes (pre-release)
 
+## Release Candidate 2 (2015-09-23)
+* Fix a warning for passing in an NSUInteger to an int parameter
+
 ## Release Candidate 1 (2015-09-19)
 
 ### Enhancements
