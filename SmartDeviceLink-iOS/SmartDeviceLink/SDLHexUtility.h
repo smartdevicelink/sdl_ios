@@ -7,7 +7,7 @@
 
 @interface SDLHexUtility : NSObject
 
-+ (NSString *)getHexString:(UInt8 *)bytes length:(int)length;
++ (NSString *)getHexString:(UInt8 *)bytes length:(NSUInteger)length;
 + (NSString *)getHexString:(NSData *)data;
 
 @end

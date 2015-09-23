@@ -8,7 +8,7 @@
 @implementation SDLHexUtility
 
 // Using this function as a fail-safe, because we know this is successful.
-+ (NSString *)getHexString:(UInt8 *)bytes length:(int)length {
++ (NSString *)getHexString:(UInt8 *)bytes length:(NSUInteger)length {
     NSMutableString *ret = [NSMutableString stringWithCapacity:(length * 2)];
     for (int i = 0; i < length; i++) {
         [ret appendFormat:@"%02X", ((Byte *)bytes)[i]];
