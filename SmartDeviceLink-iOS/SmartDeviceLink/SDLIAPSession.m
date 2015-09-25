@@ -64,11 +64,9 @@
 }
 
 - (void)stop {
-    @autoreleasepool {
-        [self stopStream:self.easession.outputStream];
-        [self stopStream:self.easession.inputStream];
-        self.easession = nil;
-    }
+    [self stopStream:self.easession.outputStream];
+    [self stopStream:self.easession.inputStream];
+    self.easession = nil;
 }
 
 
@@ -145,13 +143,11 @@
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    @autoreleasepool {
-        self.delegate = nil;
-        self.accessory = nil;
-        self.protocol = nil;
-        self.streamDelegate = nil;
-        self.easession = nil;
-    }
+    self.delegate = nil;
+    self.accessory = nil;
+    self.protocol = nil;
+    self.streamDelegate = nil;
+    self.easession = nil;
     [SDLDebugTool logInfo:@"SDLIAPSession Dealloc"];
 }
 
