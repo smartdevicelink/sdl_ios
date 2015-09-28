@@ -2,25 +2,30 @@
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
 #import <Foundation/Foundation.h>
-#import "SDLProxyListenerBase.h"
-#import "SDLProxyBase.h"
+#import "SDLProxyListenerTranslator.h"
+#import "SDLManager.h"
 #import "SDLProxyBaseInternal.h"
 
-@interface SDLProxyListenerBase ()
+@interface SDLProxyListenerTranslator ()
 
-@property (weak) SDLProxyBase *proxyBase;
+@property (weak) SDLManager *proxyBase;
 
 @end
 
-@implementation SDLProxyListenerBase
+@implementation SDLProxyListenerTranslator
 
 
 #pragma mark Lifecycle
 
-- (id)initWithProxyBase:(SDLProxyBase *)base {
+- (instancetype)init {
+    NSAssert(NO, @"Use -initWithManager instead");
+    return nil;
+}
+
+- (instancetype)initWithManager:(SDLManager *)manager {
     self = [super init];
     if (self) {
-        _proxyBase = base;
+        _proxyBase = manager;
     }
     return self;
 }
@@ -29,15 +34,15 @@
 #pragma mark SDLProxyListener
 
 - (void)onProxyOpened {
-    [self.proxyBase notifyDelegatesOfEvent:ProxyOpened error:nil];
+    [self.proxyBase notifyDelegatesOfEvent:SDLEventOpened error:nil];
 }
 
 - (void)onProxyClosed {
-    [self.proxyBase notifyDelegatesOfEvent:ProxyClosed error:nil];
+    [self.proxyBase notifyDelegatesOfEvent:SDLEventClosed error:nil];
 }
 
 - (void)onError:(NSException *)e {
-    [self.proxyBase notifyDelegatesOfEvent:OnError error:e];
+    [self.proxyBase notifyDelegatesOfEvent:SDLEventError error:e];
 }
 
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response {

@@ -3,11 +3,12 @@
 
 @class SDLRPCResponse, SDLRPCNotification, SDLOnHMIStatus, SDLOnDriverDistraction, SDLRegisterAppInterfaceResponse, SDLOnAppInterfaceUnregistered, SDLOnAudioPassThru, SDLOnButtonEvent, SDLOnButtonPress, SDLOnCommand, SDLOnEncodedSyncPData, SDLOnHashChange, SDLOnLanguageChange, SDLOnLockScreenStatus, SDLOnPermissionsChange, SDLOnSyncPData, SDLOnSystemRequest, SDLOnTBTClientState, SDLOnTouchEvent, SDLOnVehicleData;
 
-typedef void (^RPCResponseHandler) (SDLRPCResponse *);
-typedef void (^RPCNotificationHandler) (SDLRPCNotification *);
+typedef void (^SDLRPCResponseHandler) (__kindof SDLRPCResponse *);
+typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *);
 
 @protocol SDLManagerDelegate <NSObject>
 
+@optional
 - (void)onSDLFirstHMIFull:(SDLOnHMIStatus *)notification;
 - (void)onSDLFirstHMINotNone:(SDLOnHMIStatus *)notification;
 - (void)onSDLDriverDistraction:(SDLOnDriverDistraction *)notification;

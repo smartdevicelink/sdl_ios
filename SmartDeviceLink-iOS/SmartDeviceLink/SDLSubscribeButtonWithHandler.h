@@ -6,6 +6,6 @@
 
 @interface SDLSubscribeButtonWithHandler : SDLSubscribeButton
 
-@property (copy) RPCNotificationHandler onButtonHandler;
+@property (copy) SDLRPCNotificationHandler onButtonHandler;
 
 @end

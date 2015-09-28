@@ -6,6 +6,6 @@
 
 @interface SDLSoftButtonWithHandler : SDLSoftButton
 
-@property (copy) RPCNotificationHandler onButtonHandler;
+@property (copy) SDLRPCNotificationHandler onButtonHandler;
 
 @end

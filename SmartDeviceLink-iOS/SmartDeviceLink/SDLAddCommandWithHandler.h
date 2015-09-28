@@ -6,6 +6,6 @@
 
 @interface SDLAddCommandWithHandler : SDLAddCommand
 
-@property (copy) RPCNotificationHandler onCommandHandler;
+@property (copy) SDLRPCNotificationHandler onCommandHandler;
 
 @end

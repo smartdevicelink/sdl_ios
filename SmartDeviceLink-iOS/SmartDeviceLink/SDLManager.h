@@ -3,12 +3,16 @@
 
 #import "SDLDelegates.h"
 
-enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
+typedef NS_ENUM(NSUInteger, SDLEvent) {
+    SDLEventError,
+    SDLEventClosed,
+    SDLEventOpened
+};
 
 @class SDLRPCRequest, SDLRPCResponse, SDLRPCNotification, SDLLanguage, SDLPutFile;
 
 
-@interface SDLProxyBase : NSObject
+@interface SDLManager : NSObject
 
 // Proxy registration objects
 @property (copy) NSString *appName;
@@ -22,7 +26,7 @@ enum SDLEvent {OnError, ProxyClosed, ProxyOpened};
 - (void)addDelegate:(id<SDLManagerDelegate>)delegate;
 
 // Main proxy methods
-- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(RPCResponseHandler)responseHandler;
+- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(SDLRPCResponseHandler)responseHandler;
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired;
 - (void)stopProxy;
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;

@@ -3,14 +3,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SmartDeviceLink.h"
-#import "SDLProxyBase.h"
-#import "SDLProxyListenerBase.h"
+#import "SDLManager.h"
+#import "SDLProxyListenerTranslator.h"
 #import "SDLAddCommandWithHandler.h"
 #import "SDLSubscribeButtonWithHandler.h"
 #import "SDLSoftButtonWithHandler.h"
 
 
-@interface SDLProxyBase ()
+@interface SDLManager ()
 
 // GCD
 @property (strong, nonatomic) dispatch_queue_t backgroundQueue;
@@ -42,12 +42,12 @@
 
 @end
 
-@implementation SDLProxyBase
+@implementation SDLManager
 
 
 #pragma mark Lifecycle
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         _delegateLock = [[NSObject alloc] init];
@@ -106,19 +106,22 @@
 
 #pragma mark Event, Response, Notification Processing
 
-- (void)notifyDelegatesOfEvent:(enum SDLEvent)sdlEvent error:(NSException *)error {
+- (void)notifyDelegatesOfEvent:(SDLEvent)sdlEvent error:(NSException *)error {
+    // TODO: No need for weak/strong self
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
-            if (sdlEvent == OnError) {
-                [strongSelf onError:error];
-            }
-            else if (sdlEvent == ProxyClosed) {
-                [strongSelf onProxyClosed];
-            }
-            else if (sdlEvent == ProxyOpened) {
-                [strongSelf onProxyOpened];
+            switch (sdlEvent) {
+                case SDLEventError: {
+                    [strongSelf onError:error];
+                } break;
+                case SDLEventClosed: {
+                    [strongSelf onProxyClosed];
+                } break;
+                case SDLEventOpened: {
+                    [strongSelf onProxyOpened];
+                } break;
             }
         }
     });
@@ -251,7 +254,7 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             @synchronized(strongSelf.rpcResponseHandlerMapLock) {
-                RPCResponseHandler handler = [strongSelf.rpcResponseHandlerMap objectForKey:response.correlationID];
+                SDLRPCResponseHandler handler = [strongSelf.rpcResponseHandlerMap objectForKey:response.correlationID];
                 [strongSelf.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
                 if (handler) {
                     dispatch_async(strongSelf.mainUIQueue, ^{
@@ -275,7 +278,7 @@
 - (void)runHandlerForCommand:(SDLOnCommand *)command {
     // Already background dispatched from caller
     __weak typeof(self) weakSelf = self;
-    RPCNotificationHandler handler = nil;
+    SDLRPCNotificationHandler handler = nil;
     @synchronized(self.commandHandlerMapLock) {
         handler = [self.commandHandlerMap objectForKey:command.cmdID];
     }
@@ -302,7 +305,7 @@
 - (void)runHandlerForButton:(SDLRPCNotification *)notification {
     // Already background dispatched from caller
     __weak typeof(self) weakSelf = self;
-    RPCNotificationHandler handler = nil;
+    SDLRPCNotificationHandler handler = nil;
     SDLButtonName *name = nil;
     NSNumber *customID = nil;
     
@@ -362,7 +365,7 @@
 
 #pragma mark SDLProxyBase
 
-- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(RPCResponseHandler)responseHandler {
+- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(SDLRPCResponseHandler)responseHandler {
     __weak typeof(self) weakSelf = self;
     if (self.isConnected) {
         dispatch_async(self.backgroundQueue, ^{
@@ -381,10 +384,10 @@
                     if (softButtons && softButtons.count > 0) {
                         for (SDLSoftButton *sb in softButtons) {
                             if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
-                                @throw [SDLProxyBase createMissingHandlerException];
+                                @throw [SDLManager createMissingHandlerException];
                             }
                             if (!sb.softButtonID) {
-                                @throw [SDLProxyBase createMissingIDException];
+                                @throw [SDLManager createMissingIDException];
                             }
                             @synchronized(strongSelf.customButtonHandlerMapLock) {
                                 [strongSelf.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
@@ -394,10 +397,10 @@
                 }
                 else if ([rpcWithCorrID isKindOfClass:[SDLAddCommand class]]) {
                     if (![rpcWithCorrID isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler == nil) {
-                        @throw [SDLProxyBase createMissingHandlerException];
+                        @throw [SDLManager createMissingHandlerException];
                     }
                     if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
-                        @throw [SDLProxyBase createMissingIDException];
+                        @throw [SDLManager createMissingIDException];
                     }
                     @synchronized(strongSelf.commandHandlerMapLock) {
                         [strongSelf.commandHandlerMap setObject:((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler forKey:((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID];
@@ -405,12 +408,12 @@
                 }
                 else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
                     if (![rpcWithCorrID isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler == nil) {
-                        @throw [SDLProxyBase createMissingHandlerException];
+                        @throw [SDLManager createMissingHandlerException];
                     }
                     // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
                     NSString *buttonName = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).buttonName.value;
                     if (!buttonName) {
-                        @throw [SDLProxyBase createMissingIDException];
+                        @throw [SDLManager createMissingIDException];
                     }
                     @synchronized(strongSelf.buttonHandlerMapLock) {
                         [strongSelf.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler forKey:buttonName];
@@ -434,7 +437,7 @@
 }
 
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
-    
+    // TODO: No need for strong/weak self
     __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
         typeof(self) strongSelf = weakSelf;
@@ -447,7 +450,7 @@
                 strongSelf.appID = appID;
                 strongSelf.isMedia = isMedia;
                 strongSelf.languageDesired = languageDesired;
-                SDLProxyListenerBase *listener = [[SDLProxyListenerBase alloc] initWithProxyBase:strongSelf];
+                SDLProxyListenerTranslator *listener = [[SDLProxyListenerTranslator alloc] initWithManager:strongSelf];
                 @synchronized(strongSelf.proxyLock) {
                     [SDLProxy enableSiphonDebug];
                     strongSelf.proxy = [SDLProxyFactory buildSDLProxyWithListener:listener];

@@ -6,16 +6,11 @@
 //  Copyright (c) 2015 smartdevicelink. All rights reserved.
 //
 
-#ifndef SmartDeviceLink_iOS_SDLProxyBaseInternal_h
-#define SmartDeviceLink_iOS_SDLProxyBaseInternal_h
-
-@interface SDLProxyBase ()
+@interface SDLManager ()
 
 // Methods called by SDLProxyListenerBase in response to Events, and RPC Responses and Notifications
-- (void)notifyDelegatesOfEvent:(enum SDLEvent)sdlEvent error:(NSException *)error;
+- (void)notifyDelegatesOfEvent:(SDLEvent)sdlEvent error:(NSException *)error;
 - (void)runHandlersForResponse:(SDLRPCResponse *)response;
 - (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification;
 
 @end
-
-#endif
