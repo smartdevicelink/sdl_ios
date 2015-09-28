@@ -1,7 +1,7 @@
 //  SDLProxyBase.h
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
-#import "SDLDelegates.h"
+#import "SDLManagerDelegate.h"
 
 typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventError,
