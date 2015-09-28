@@ -148,92 +148,92 @@
         }
         else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLDriverDistraction:)]) {
-                    [delegate onSDLDriverDistraction:((SDLOnDriverDistraction *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveDriverDistraction:)]) {
+                    [delegate manager:self didReceiveDriverDistraction:(SDLOnDriverDistraction *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLAppInterfaceUnregistered:)]) {
-                    [delegate onSDLAppInterfaceUnregistered:((SDLOnAppInterfaceUnregistered *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didUnregister:)]) {
+                    [delegate manager:self didUnregister:(SDLOnAppInterfaceUnregistered *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLAudioPassThru:)]) {
-                    [delegate onSDLAudioPassThru:((SDLOnAudioPassThru *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveAudioPassThru:)]) {
+                    [delegate manager:self didReceiveAudioPassThru:(SDLOnAudioPassThru *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLEncodedSyncPData:)]) {
-                    [delegate onSDLEncodedSyncPData:((SDLOnEncodedSyncPData *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveEncodedData:)]) {
+                    [delegate manager:self didReceiveEncodedData:(SDLOnEncodedSyncPData *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLHashChange:)]) {
-                    [delegate onSDLHashChange:((SDLOnHashChange *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveNewHash:)]) {
+                    [delegate manager:self didReceiveNewHash:(SDLOnHashChange *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLLanguageChange:)]) {
-                    [delegate onSDLLanguageChange:((SDLOnLanguageChange *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didChangeLanguage:)]) {
+                    [delegate manager:self didChangeLanguage:(SDLOnLanguageChange *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLPermissionsChange:)]) {
-                    [delegate onSDLPermissionsChange:((SDLOnPermissionsChange *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didChangePermissions:)]) {
+                    [delegate manager:self didChangePermissions:(SDLOnPermissionsChange *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLSyncPData:)]) {
-                    [delegate onSDLSyncPData:((SDLOnSyncPData *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveData:)]) {
+                    [delegate manager:self didReceiveData:(SDLOnSyncPData *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLSystemRequest:)]) {
-                    [delegate onSDLSystemRequest:((SDLOnSystemRequest *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveSystemRequest:)]) {
+                    [delegate manager:self didReceiveSystemRequest:(SDLOnSystemRequest *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLTBTClientState:)]) {
-                    [delegate onSDLTBTClientState:((SDLOnTBTClientState *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didChangeTurnByTurnState:)]) {
+                    [delegate manager:self didChangeTurnByTurnState:(SDLOnTBTClientState *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLTouchEvent:)]) {
-                    [delegate onSDLTouchEvent:((SDLOnTouchEvent *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveTouchEvent:)]) {
+                    [delegate manager:self didReceiveTouchEvent:(SDLOnTouchEvent *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLVehicleData:)]) {
-                    [delegate onSDLVehicleData:((SDLOnVehicleData *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveVehicleData:)]) {
+                    [delegate manager:self didReceiveVehicleData:(SDLOnVehicleData *)notification];
                 }
             };
         }
         else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(onSDLLockScreenNotification:)]) {
-                    [delegate onSDLLockScreenNotification:((SDLOnLockScreenStatus *)notification)];
+                if ([delegate respondsToSelector:@selector(manager:didChangeLockScreenStatus:)]) {
+                    [delegate manager:self didChangeLockScreenStatus:(SDLOnLockScreenStatus *)notification];
                 }
             };
         }
@@ -294,8 +294,8 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(onSDLCommand:)]) {
-                    [delegate onSDLCommand:command];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveCommand:)]) {
+                    [delegate manager:self didReceiveCommand:command];
                 }
             }
         }
@@ -341,8 +341,8 @@
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
                 for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                    if ([delegate respondsToSelector:@selector(onSDLButtonEvent:)]) {
-                        [delegate onSDLButtonEvent:((SDLOnButtonEvent *)notification)];
+                    if ([delegate respondsToSelector:@selector(manager:didReceiveButtonEvent:)]) {
+                        [delegate manager:self didReceiveButtonEvent:(SDLOnButtonEvent *)notification];
                     }
                 }
             }
@@ -353,8 +353,8 @@
             typeof(self) strongSelf = weakSelf;
             if (strongSelf) {
                 for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                    if ([delegate respondsToSelector:@selector(onSDLButtonPress:)]) {
-                        [delegate onSDLButtonPress:((SDLOnButtonPress *)notification)];
+                    if ([delegate respondsToSelector:@selector(manager:didReceiveButtonPress:)]) {
+                        [delegate manager:self didReceiveButtonPress:(SDLOnButtonPress *)notification];
                     }
                 }
             }
@@ -525,8 +525,8 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(onSDLError:)]) {
-                    [delegate onSDLError:e];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveError:)]) {
+                    [delegate manager:self didReceiveError:e];
                 }
             }
         }
@@ -552,8 +552,8 @@
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
                         for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                            if ([delegate respondsToSelector:@selector(onSDLRegisterAppInterfaceResponse:)]) {
-                                [delegate onSDLRegisterAppInterfaceResponse:((SDLRegisterAppInterfaceResponse *) response)];
+                            if ([delegate respondsToSelector:@selector(manager:didRegister:)]) {
+                                [delegate manager:self didRegister:(SDLRegisterAppInterfaceResponse *)response];
                             }
                         }
                     }
@@ -565,8 +565,8 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(onSDLProxyOpened)]) {
-                    [delegate onSDLProxyOpened];
+                if ([delegate respondsToSelector:@selector(managerDidConnect:)]) {
+                    [delegate managerDidConnect:self];
                 }
             }
         }
@@ -583,8 +583,8 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(onSDLProxyClosed)]) {
-                    [delegate onSDLProxyClosed];
+                if ([delegate respondsToSelector:@selector(managerDidDisconnect:)]) {
+                    [delegate managerDidDisconnect:self];
                 }
             }
         }
@@ -609,8 +609,8 @@
                 typeof(self) strongSelf = weakSelf;
                 if (strongSelf) {
                     for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                        if ([delegate respondsToSelector:@selector(onSDLFirstHMINotNone:)]) {
-                            [delegate onSDLFirstHMINotNone:notification];
+                        if ([delegate respondsToSelector:@selector(manager:didReceiveFirstNonNoneHMIStatus:)]) {
+                            [delegate manager:self didReceiveFirstNonNoneHMIStatus:notification];
                         }
                     }
                 }
@@ -629,8 +629,8 @@
                 typeof(self) strongSelf = weakSelf;
                 if (strongSelf) {
                     for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                        if ([delegate respondsToSelector:@selector(onSDLFirstHMIFull:)]) {
-                            [delegate onSDLFirstHMIFull:notification];
+                        if ([delegate respondsToSelector:@selector(manager:didReceiveFirstFullHMIStatus:)]) {
+                            [delegate manager:self didReceiveFirstFullHMIStatus:notification];
                         }
                     }
                 }
@@ -652,9 +652,8 @@
                 typeof(self) strongSelf = weakSelf;
                 if (strongSelf) {
                     for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                        if ([delegate respondsToSelector:@selector(onSDLFirstHMINotNone:)]) {
-                            [delegate onSDLFirstHMINotNone:notification];
-
+                        if ([delegate respondsToSelector:@selector(manager:didReceiveFirstNonNoneHMIStatus:)]) {
+                            [delegate manager:self didReceiveFirstNonNoneHMIStatus:notification];
                         }
                     }
                 }
@@ -668,8 +667,8 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(onSDLHMIStatus:)]) {
-                    [delegate onSDLHMIStatus:notification];
+                if ([delegate respondsToSelector:@selector(manager:didReceiveHMIStatus:)]) {
+                    [delegate manager:self didReceiveHMIStatus:notification];
                 }
             }
         }
