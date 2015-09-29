@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 @property (copy) NSArray *vrSynonyms;
 @property (assign, readonly, getter=isConnected) BOOL connected;
 
++ (instancetype)sharedManager;
+
 - (void)addDelegate:(id<SDLManagerDelegate>)delegate;
 
 // Main proxy methods

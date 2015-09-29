@@ -47,6 +47,16 @@
 
 #pragma mark Lifecycle
 
++ (instancetype)sharedManager {
+    static SDLManager *sharedManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedManager = [[SDLManager alloc] init];
+    });
+    
+    return sharedManager;
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
