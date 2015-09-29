@@ -547,17 +547,40 @@
         }
         [self sendRPC:regRequest responseHandler:^(SDLRPCResponse *response){
             typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
+            __block NSString *info = response.info;
+            if (!response.success) {
                 dispatch_async(strongSelf.mainUIQueue, ^{
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
                         for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                            if ([delegate respondsToSelector:@selector(manager:didRegister:)]) {
-                                [delegate manager:self didRegister:(SDLRegisterAppInterfaceResponse *)response];
+                            if ([delegate respondsToSelector:@selector(manager:didFailToRegister:)]) {
+                                NSDictionary *userInfo = @{
+                                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to register with SDL head unit", nil),
+                                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil),
+                                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                           };
+                                NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
+                                                                     code:-1
+                                                                 userInfo:userInfo];
+                                [delegate manager:self didFailToRegister:error];
                             }
                         }
                     }
                 });
+            }
+            else {
+                if (strongSelf) {
+                    dispatch_async(strongSelf.mainUIQueue, ^{
+                        typeof(self) strongSelf = weakSelf;
+                        if (strongSelf) {
+                            for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+                                if ([delegate respondsToSelector:@selector(manager:didRegister:)]) {
+                                    [delegate manager:self didRegister:(SDLRegisterAppInterfaceResponse *)response];
+                                }
+                            }
+                        }
+                    });
+                }
             }
         }];
     }
