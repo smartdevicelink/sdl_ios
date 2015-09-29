@@ -24,7 +24,11 @@
 @property (strong, nonatomic) NSObject *customButtonHandlerMapLock;
 
 // SDL state
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (strong, nonatomic) SDLProxy *proxy;
+#pragma clang diagnostic pop
+
 @property (assign, nonatomic) int correlationID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
@@ -427,9 +431,12 @@
             self.isMedia = isMedia;
             self.languageDesired = languageDesired;
             @synchronized(self.proxyLock) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 [SDLProxy enableSiphonDebug];
                 self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
             }
+#pragma clang diagnostic pop
         }
         else {
             [SDLDebugTool logInfo:@"Error: One or more parameters (appName, appID, languageDesired) is nil"];
