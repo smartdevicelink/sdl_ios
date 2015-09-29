@@ -11,12 +11,12 @@ typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notifica
 @optional
 - (void)manager:(SDLManager *)manager didReceiveFirstFullHMIStatus:(SDLOnHMIStatus *)hmiStatus;
 - (void)manager:(SDLManager *)manager didReceiveFirstNonNoneHMIStatus:(SDLOnHMIStatus *)hmiStatus;
-- (void)manager:(SDLManager *)manager didReceiveDriverDistraction:(SDLOnDriverDistraction *)driverDistraction;
-- (void)manager:(SDLManager *)manager didReceiveHMIStatus:(SDLOnHMIStatus *)hmiStatus;
+- (void)manager:(SDLManager *)manager didChangeDriverDistractionState:(SDLOnDriverDistraction *)driverDistraction;
+- (void)manager:(SDLManager *)manager didChangeHMIStatus:(SDLOnHMIStatus *)hmiStatus;
 - (void)managerDidDisconnect:(SDLManager *)manager;
 - (void)managerDidConnect:(SDLManager *)manager;
 - (void)manager:(SDLManager *)manager didRegister:(SDLRegisterAppInterfaceResponse *)registerResponse;
-- (void)manager:(SDLManager *)manager didFailToRegister:(NSError *)error;
+- (void)manager:(SDLManager *)manager didFailToRegisterWithError:(NSError *)error;
 - (void)manager:(SDLManager *)manager didReceiveError:(NSError *)error;
 - (void)manager:(SDLManager *)manager didUnregister:(SDLOnAppInterfaceUnregistered *)unregisterNotification;
 - (void)manager:(SDLManager *)manager didReceiveAudioPassThru:(SDLOnAudioPassThru *)audioPassThru;

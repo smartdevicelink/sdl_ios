@@ -158,8 +158,8 @@
         }
         else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveDriverDistraction:)]) {
-                    [delegate manager:self didReceiveDriverDistraction:(SDLOnDriverDistraction *)notification];
+                if ([delegate respondsToSelector:@selector(manager:didChangeDriverDistractionState:)]) {
+                    [delegate manager:self didChangeDriverDistractionState:(SDLOnDriverDistraction *)notification];
                 }
             };
         }
@@ -571,7 +571,7 @@
                     typeof(self) strongSelf = weakSelf;
                     if (strongSelf) {
                         for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                            if ([delegate respondsToSelector:@selector(manager:didFailToRegister:)]) {
+                            if ([delegate respondsToSelector:@selector(manager:didFailToRegisterWithError:)]) {
                                 NSDictionary *userInfo = @{
                                                            NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to register with SDL head unit", nil),
                                                            NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil),
@@ -580,7 +580,7 @@
                                 NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
                                                                      code:-1
                                                                  userInfo:userInfo];
-                                [delegate manager:self didFailToRegister:error];
+                                [delegate manager:self didFailToRegisterWithError:error];
                             }
                         }
                     }
@@ -708,8 +708,8 @@
         typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveHMIStatus:)]) {
-                    [delegate manager:self didReceiveHMIStatus:notification];
+                if ([delegate respondsToSelector:@selector(manager:didChangeHMIStatus:)]) {
+                    [delegate manager:self didChangeHMIStatus:notification];
                 }
             }
         }
