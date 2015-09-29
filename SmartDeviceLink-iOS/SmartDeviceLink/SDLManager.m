@@ -29,7 +29,7 @@
 @property (assign, nonatomic) int correlationID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
-@property (assign, getter=isConnected) BOOL connected;
+@property (assign, getter=isConnected, nonatomic) BOOL connected;
 
 // SDL Delegate
 @property (strong) NSHashTable *delegates;
