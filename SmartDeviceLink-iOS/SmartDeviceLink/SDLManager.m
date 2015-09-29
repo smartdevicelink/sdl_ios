@@ -4,13 +4,12 @@
 #import <Foundation/Foundation.h>
 #import "SmartDeviceLink.h"
 #import "SDLManager.h"
-#import "SDLProxyListenerTranslator.h"
 #import "SDLAddCommandWithHandler.h"
 #import "SDLSubscribeButtonWithHandler.h"
 #import "SDLSoftButtonWithHandler.h"
 
 
-@interface SDLManager ()
+@interface SDLManager () <SDLProxyListener>
 
 // GCD
 @property (strong, nonatomic) dispatch_queue_t backgroundQueue;
@@ -138,23 +137,15 @@
 }
 
 - (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification {
-    __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (!strongSelf) {
-            return;
-        }
-        NSHashTable *delegateHashTable = strongSelf.delegates;
+        NSHashTable *delegateHashTable = self.delegates;
         void (^enumerationBlock)(id<SDLManagerDelegate> delegate) = nil;
         
-        if ([notification isKindOfClass:[SDLOnHMIStatus class]]) {
-            [strongSelf onHMIStatus:((SDLOnHMIStatus *)notification)];
-        }
-        else if ([notification isKindOfClass:[SDLOnCommand class]]) {
-            [strongSelf runHandlerForCommand:((SDLOnCommand *)notification)];
+        if ([notification isKindOfClass:[SDLOnCommand class]]) {
+            [self runHandlerForCommand:((SDLOnCommand *)notification)];
         }
         else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-            [strongSelf runHandlerForButton:((SDLRPCNotification *)notification)];
+            [self runHandlerForButton:((SDLRPCNotification *)notification)];
         }
         else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
             enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
@@ -249,7 +240,7 @@
         }
         
         if (delegateHashTable && enumerationBlock) {
-            dispatch_async(strongSelf.mainUIQueue, ^{
+            dispatch_async(self.mainUIQueue, ^{
                 for (id<SDLManagerDelegate> delegate in delegateHashTable) {
                     enumerationBlock(delegate);
                 }
@@ -259,18 +250,14 @@
 }
 
 - (void)runHandlersForResponse:(SDLRPCResponse *)response {
-    __weak typeof(self) weakSelf = self;
     dispatch_async(self.backgroundQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            @synchronized(strongSelf.rpcResponseHandlerMapLock) {
-                SDLRPCResponseHandler handler = [strongSelf.rpcResponseHandlerMap objectForKey:response.correlationID];
-                [strongSelf.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
-                if (handler) {
-                    dispatch_async(strongSelf.mainUIQueue, ^{
-                        handler(response);
-                    });
-                }
+        @synchronized(self.rpcResponseHandlerMapLock) {
+            SDLRPCResponseHandler handler = [self.rpcResponseHandlerMap objectForKey:response.correlationID];
+            [self.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
+            if (handler) {
+                dispatch_async(self.mainUIQueue, ^{
+                    handler(response);
+                });
             }
         }
         
@@ -460,10 +447,9 @@
                 strongSelf.appID = appID;
                 strongSelf.isMedia = isMedia;
                 strongSelf.languageDesired = languageDesired;
-                SDLProxyListenerTranslator *listener = [[SDLProxyListenerTranslator alloc] initWithManager:strongSelf];
                 @synchronized(strongSelf.proxyLock) {
                     [SDLProxy enableSiphonDebug];
-                    strongSelf.proxy = [SDLProxyFactory buildSDLProxyWithListener:listener];
+                    strongSelf.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
                 }
             }
             else {
@@ -507,6 +493,7 @@
 
 #pragma mark Private Methods
 
+// TODO: Private methods should be prefixed `sdl_`
 - (void)disposeProxy {
     [SDLDebugTool logInfo:@"Stop Proxy"];
     @synchronized(self.proxyLock) {
@@ -528,192 +515,381 @@
     return corrId;
 }
 
-- (void)onError:(NSException *)e {
-    // Already background dispatched from caller
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(self.mainUIQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveError:)]) {
-                    NSDictionary *userInfo = @{
-                                               NSLocalizedDescriptionKey: NSLocalizedString(e.name, nil),
-                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(e.reason, nil),
-                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                                               };
-                    NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
-                                                         code:-1
-                                                     userInfo:userInfo];
-                    [delegate manager:self didReceiveError:error];
-                }
-            }
-        }
-    });
-}
+
+#pragma mark - SDLProxyListener Methods
 
 - (void)onProxyOpened {
-    // Already background dispatched from caller
-    __weak typeof(self) weakSelf = self;
     [SDLDebugTool logInfo:@"onProxyOpened"];
-    self.connected = YES;
-    @autoreleasepool {
-        SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
-        regRequest.isMediaApplication = [NSNumber numberWithBool:self.isMedia];
-        regRequest.ngnMediaScreenAppName = self.shortName;
-        if (self.vrSynonyms) {
-            regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.vrSynonyms];
-        }
-        [self sendRPC:regRequest responseHandler:^(SDLRPCResponse *response){
-            typeof(self) strongSelf = weakSelf;
-            __block NSString *info = response.info;
-            if (!response.success) {
-                dispatch_async(strongSelf.mainUIQueue, ^{
-                    typeof(self) strongSelf = weakSelf;
-                    if (strongSelf) {
-                        for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+    dispatch_async(self.backgroundQueue, ^{
+        @autoreleasepool {
+            self.connected = YES;
+            
+            SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
+            regRequest.isMediaApplication = [NSNumber numberWithBool:self.isMedia];
+            regRequest.ngnMediaScreenAppName = self.shortName;
+            
+            if (self.vrSynonyms) {
+                regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.vrSynonyms];
+            }
+            
+            [self sendRPC:regRequest responseHandler:^(SDLRPCResponse *response) {
+                __block NSString *info = response.info;
+                if (!response.success) {
+                    dispatch_async(self.mainUIQueue, ^{
+                        for (id<SDLManagerDelegate> delegate in self.delegates) {
                             if ([delegate respondsToSelector:@selector(manager:didFailToRegisterWithError:)]) {
                                 NSDictionary *userInfo = @{
                                                            NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to register with SDL head unit", nil),
                                                            NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil),
                                                            NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                                            };
-                                NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
-                                                                     code:-1
-                                                                 userInfo:userInfo];
+                                // TODO: Define these error codes
+                                NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error" code:-1 userInfo:userInfo];
                                 [delegate manager:self didFailToRegisterWithError:error];
-                            }
-                        }
-                    }
-                });
-            }
-            else {
-                if (strongSelf) {
-                    dispatch_async(strongSelf.mainUIQueue, ^{
-                        typeof(self) strongSelf = weakSelf;
-                        if (strongSelf) {
-                            for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                                if ([delegate respondsToSelector:@selector(manager:didRegister:)]) {
-                                    [delegate manager:self didRegister:(SDLRegisterAppInterfaceResponse *)response];
-                                }
                             }
                         }
                     });
                 }
-            }
-        }];
-    }
-    dispatch_async(self.mainUIQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
-                if ([delegate respondsToSelector:@selector(managerDidConnect:)]) {
-                    [delegate managerDidConnect:self];
+                else {
+                    dispatch_async(self.mainUIQueue, ^{
+                        for (id<SDLManagerDelegate> delegate in self.delegates) {
+                            if ([delegate respondsToSelector:@selector(manager:didRegister:)]) {
+                                [delegate manager:self didRegister:(SDLRegisterAppInterfaceResponse *)response];
+                            }
+                        }
+                    });
                 }
+            }];
+        }
+    });
+    dispatch_async(self.mainUIQueue, ^{
+        for (id<SDLManagerDelegate> delegate in self.delegates) {
+            if ([delegate respondsToSelector:@selector(managerDidConnect:)]) {
+                [delegate managerDidConnect:self];
             }
         }
     });
 }
 
 - (void)onProxyClosed {
-    // Already background dispatched from caller
-    __weak typeof(self) weakSelf = self;
-    [SDLDebugTool logInfo:@"onProxyClosed"];
-    self.connected = NO;
-    [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
-    dispatch_async(self.mainUIQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+    dispatch_async(self.backgroundQueue, ^{
+        // Already background dispatched from caller
+        [SDLDebugTool logInfo:@"onProxyClosed"];
+        self.connected = NO;
+        [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
+        dispatch_async(self.mainUIQueue, ^{
+            for (id<SDLManagerDelegate> delegate in self.delegates) {
                 if ([delegate respondsToSelector:@selector(managerDidDisconnect:)]) {
                     [delegate managerDidDisconnect:self];
                 }
             }
-        }
+        });
+        [self startProxy];
     });
-    [self startProxy];
 }
 
-- (void)onHMIStatus:(SDLOnHMIStatus *)notification {
-    // Already background dispatched from caller
-    // TODO: Don't need strongself weakSelf if there's no stored block
-    __weak typeof(self) weakSelf = self;
-    [SDLDebugTool logInfo:@"onOnHMIStatus"];
-    if (notification.hmiLevel == [SDLHMILevel FULL])
-    {
-        BOOL occurred = NO;
-        @synchronized(self.hmiStateLock) {
-            occurred = self.firstHMINotNoneOccurred;
+- (void)onError:(NSException *)e {
+    dispatch_async(self.mainUIQueue, ^{
+        for (id<SDLManagerDelegate> delegate in self.delegates) {
+            if ([delegate respondsToSelector:@selector(manager:didReceiveError:)]) {
+                NSDictionary *userInfo = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(e.name, nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(e.reason, nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                           };
+                NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
+                                                     code:-1
+                                                 userInfo:userInfo];
+                [delegate manager:self didReceiveError:error];
+            }
         }
-        if (!occurred)
+    });
+}
+
+- (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)(SDLRPCResponse *)response];
+}
+
+- (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onAlertResponse:(SDLAlertResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onDeleteCommandResponse:(SDLDeleteCommandResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onDeleteFileResponse:(SDLDeleteFileResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onEncodedSyncPDataRespons:(SDLEncodedSyncPDataResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onGenericResponse:(SDLGenericResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onListFilesResponse:(SDLListFilesResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onPutFileResponse:(SDLPutFileResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onReadDIDResponse:(SDLReadDIDResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSetMediaClockTimerResponse:(SDLSetMediaClockTimerResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onShowConstantTBTResponse:(SDLShowConstantTBTResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onShowResponse:(SDLShowResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSliderResponse:(SDLSliderResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSpeakResponse:(SDLSpeakResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSubscribeButtonResponse:(SDLSubscribeButtonResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response {
+    [self runHandlersForResponse:(SDLRPCResponse *)response];
+}
+
+- (void)onOnLockScreenNotification:(SDLLockScreenStatus *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
+    dispatch_async(self.backgroundQueue, ^{
+        [SDLDebugTool logInfo:@"onOnHMIStatus"];
+        if (notification.hmiLevel == [SDLHMILevel FULL])
         {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+            BOOL occurred = NO;
+            @synchronized(self.hmiStateLock) {
+                occurred = self.firstHMINotNoneOccurred;
+            }
+            if (!occurred)
+            {
+                dispatch_async(self.mainUIQueue, ^{
+                    for (id<SDLManagerDelegate> delegate in self.delegates) {
                         if ([delegate respondsToSelector:@selector(manager:didReceiveFirstNonNoneHMIStatus:)]) {
                             [delegate manager:self didReceiveFirstNonNoneHMIStatus:notification];
                         }
                     }
-                }
-            });
-        }
-        @synchronized(self.hmiStateLock) {
-            self.firstHMINotNoneOccurred = YES;
-        }
-        
-        @synchronized(self.hmiStateLock) {
-            occurred = self.firstHMIFullOccurred;
-        }
-        if (!occurred)
-        {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+                });
+            }
+            @synchronized(self.hmiStateLock) {
+                self.firstHMINotNoneOccurred = YES;
+            }
+            
+            @synchronized(self.hmiStateLock) {
+                occurred = self.firstHMIFullOccurred;
+            }
+            if (!occurred)
+            {
+                dispatch_async(self.mainUIQueue, ^{
+                    for (id<SDLManagerDelegate> delegate in self.delegates) {
                         if ([delegate respondsToSelector:@selector(manager:didReceiveFirstFullHMIStatus:)]) {
                             [delegate manager:self didReceiveFirstFullHMIStatus:notification];
                         }
                     }
-                }
-            });
+                });
+            }
+            @synchronized(self.hmiStateLock) {
+                self.firstHMIFullOccurred = YES;
+            }
         }
-        @synchronized(self.hmiStateLock) {
-            self.firstHMIFullOccurred = YES;
-        }
-    }
-    else if (notification.hmiLevel == [SDLHMILevel BACKGROUND] || notification.hmiLevel == [SDLHMILevel LIMITED])
-    {
-        BOOL occurred = NO;
-        @synchronized(self.hmiStateLock) {
-            occurred = self.firstHMINotNoneOccurred;
-        }
-        if (!occurred)
+        else if (notification.hmiLevel == [SDLHMILevel BACKGROUND] || notification.hmiLevel == [SDLHMILevel LIMITED])
         {
-            dispatch_async(self.mainUIQueue, ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+            BOOL occurred = NO;
+            @synchronized(self.hmiStateLock) {
+                occurred = self.firstHMINotNoneOccurred;
+            }
+            if (!occurred)
+            {
+                dispatch_async(self.mainUIQueue, ^{
+                    for (id<SDLManagerDelegate> delegate in self.delegates) {
                         if ([delegate respondsToSelector:@selector(manager:didReceiveFirstNonNoneHMIStatus:)]) {
                             [delegate manager:self didReceiveFirstNonNoneHMIStatus:notification];
                         }
                     }
-                }
-            });
+                });
+            }
+            @synchronized(self.hmiStateLock) {
+                self.firstHMINotNoneOccurred = YES;
+            }
         }
-        @synchronized(self.hmiStateLock) {
-            self.firstHMINotNoneOccurred = YES;
-        }
-    }
-    dispatch_async(self.mainUIQueue, ^{
-        typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
+        dispatch_async(self.mainUIQueue, ^{
+            for (id<SDLManagerDelegate> delegate in self.delegates) {
                 if ([delegate respondsToSelector:@selector(manager:didChangeHMIStatus:)]) {
                     [delegate manager:self didChangeHMIStatus:notification];
                 }
             }
-        }
+        });
     });
+}
+
+- (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnButtonEvent:(SDLOnButtonEvent *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnButtonPress:(SDLOnButtonPress *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnCommand:(SDLOnCommand *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnHashChange:(SDLOnHashChange *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnLanguageChange:(SDLOnLanguageChange *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnSyncPData:(SDLOnSyncPData *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnTBTClientState:(SDLOnTBTClientState *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+}
+
+- (void)onOnVehicleData:(SDLOnVehicleData *)notification {
+    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
 
 @end

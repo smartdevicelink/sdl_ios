@@ -770,8 +770,6 @@
 		5DE372A61ACC35B400849FAA /* SDLDebugToolConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
-		935C1FB11B260C5900A332A6 /* SDLProxyListenerTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 935C1FA61B260C5900A332A6 /* SDLProxyListenerTranslator.h */; };
-		935C1FB21B260C5900A332A6 /* SDLProxyListenerTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 935C1FA71B260C5900A332A6 /* SDLProxyListenerTranslator.m */; };
 		935C1FB31B260C5900A332A6 /* SDLSubscribeButtonWithHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 935C1FA81B260C5900A332A6 /* SDLSubscribeButtonWithHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		935C1FB41B260C5900A332A6 /* SDLSubscribeButtonWithHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 935C1FA91B260C5900A332A6 /* SDLSubscribeButtonWithHandler.m */; };
 		935C1FB51B260C5900A332A6 /* SDLSoftButtonWithHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 935C1FAA1B260C5900A332A6 /* SDLSoftButtonWithHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1627,8 +1625,6 @@
 		5DE372A01ACB2ED300849FAA /* SDLHMICapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilities.m; sourceTree = "<group>"; };
 		5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilitiesSpec.m; sourceTree = "<group>"; };
 		5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDebugToolConsole.h; sourceTree = "<group>"; };
-		935C1FA61B260C5900A332A6 /* SDLProxyListenerTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLProxyListenerTranslator.h; sourceTree = "<group>"; };
-		935C1FA71B260C5900A332A6 /* SDLProxyListenerTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProxyListenerTranslator.m; sourceTree = "<group>"; };
 		935C1FA81B260C5900A332A6 /* SDLSubscribeButtonWithHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSubscribeButtonWithHandler.h; sourceTree = "<group>"; };
 		935C1FA91B260C5900A332A6 /* SDLSubscribeButtonWithHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeButtonWithHandler.m; sourceTree = "<group>"; };
 		935C1FAA1B260C5900A332A6 /* SDLSoftButtonWithHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSoftButtonWithHandler.h; sourceTree = "<group>"; };
@@ -1638,7 +1634,6 @@
 		935C1FAE1B260C5900A332A6 /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
 		935C1FAF1B260C5900A332A6 /* SDLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManager.h; sourceTree = "<group>"; };
 		935C1FB01B260C5900A332A6 /* SDLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLManager.m; sourceTree = "<group>"; };
-		9377D8531BA04B09002F184E /* SDLProxyBaseInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLProxyBaseInternal.h; sourceTree = "<group>"; };
 		E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+ThreadIndex.h"; sourceTree = "<group>"; };
 		E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+ThreadIndex.m"; sourceTree = "<group>"; };
 		E9C32B891AB20BA200F283AF /* SDLIAPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLIAPSession.h; sourceTree = "<group>"; };
@@ -2920,10 +2915,7 @@
 				935C1FAD1B260C5900A332A6 /* SDLAddCommandWithHandler.m */,
 				935C1FAE1B260C5900A332A6 /* SDLManagerDelegate.h */,
 				935C1FAF1B260C5900A332A6 /* SDLManager.h */,
-				9377D8531BA04B09002F184E /* SDLProxyBaseInternal.h */,
 				935C1FB01B260C5900A332A6 /* SDLManager.m */,
-				935C1FA61B260C5900A332A6 /* SDLProxyListenerTranslator.h */,
-				935C1FA71B260C5900A332A6 /* SDLProxyListenerTranslator.m */,
 				935C1FAA1B260C5900A332A6 /* SDLSoftButtonWithHandler.h */,
 				935C1FAB1B260C5900A332A6 /* SDLSoftButtonWithHandler.m */,
 				935C1FA81B260C5900A332A6 /* SDLSubscribeButtonWithHandler.h */,
@@ -3112,7 +3104,6 @@
 				5D61FCD31A84238C00846EE7 /* SDLImageResolution.h in Headers */,
 				5D61FD541A84238C00846EE7 /* SDLProxyListener.h in Headers */,
 				5D61FD731A84238C00846EE7 /* SDLRPCRequestFactory.h in Headers */,
-				935C1FB11B260C5900A332A6 /* SDLProxyListenerTranslator.h in Headers */,
 				5D61FC5D1A84238C00846EE7 /* SDLChangeRegistrationResponse.h in Headers */,
 				5D61FDCD1A84238C00846EE7 /* SDLTimerMode.h in Headers */,
 				E9C32B961AB20BA200F283AF /* SDLTimer.h in Headers */,
@@ -3596,7 +3587,6 @@
 				5D61FD761A84238C00846EE7 /* SDLRPCResponse.m in Sources */,
 				5D61FE081A84238C00846EE7 /* SDLVehicleDataStatus.m in Sources */,
 				E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */,
-				935C1FB21B260C5900A332A6 /* SDLProxyListenerTranslator.m in Sources */,
 				5D61FDA81A84238C00846EE7 /* SDLSpeakResponse.m in Sources */,
 				5DB92D331AC9C8BA00C15BB0 /* SDLRPCStruct.m in Sources */,
 				5D61FCD61A84238C00846EE7 /* SDLImageType.m in Sources */,

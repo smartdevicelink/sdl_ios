@@ -278,5 +278,4 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAddCommandWithHandler.h"
 #import "SDLSoftButtonWithHandler.h"
 #import "SDLSubscribeButtonWithHandler.h"
-#import "SDLProxyListenerTranslator.h"
 #import "SDLManager.h"
