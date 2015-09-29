@@ -17,9 +17,7 @@ typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notifica
 - (void)managerDidConnect:(SDLManager *)manager;
 - (void)manager:(SDLManager *)manager didRegister:(SDLRegisterAppInterfaceResponse *)registerResponse;
 - (void)manager:(SDLManager *)manager didFailToRegister:(NSError *)error;
-// TODO: implement a manager:didFailToRegister:
-// TODO: change to send an actual NSError
-- (void)manager:(SDLManager *)manager didReceiveError:(NSException *)error;
+- (void)manager:(SDLManager *)manager didReceiveError:(NSError *)error;
 - (void)manager:(SDLManager *)manager didUnregister:(SDLOnAppInterfaceUnregistered *)unregisterNotification;
 - (void)manager:(SDLManager *)manager didReceiveAudioPassThru:(SDLOnAudioPassThru *)audioPassThru;
 - (void)manager:(SDLManager *)manager didReceiveButtonEvent:(SDLOnButtonEvent *)buttonEvent;

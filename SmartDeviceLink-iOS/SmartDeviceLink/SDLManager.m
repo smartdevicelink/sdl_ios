@@ -526,7 +526,15 @@
         if (strongSelf) {
             for (id<SDLManagerDelegate> delegate in strongSelf.delegates) {
                 if ([delegate respondsToSelector:@selector(manager:didReceiveError:)]) {
-                    [delegate manager:self didReceiveError:e];
+                    NSDictionary *userInfo = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(e.name, nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(e.reason, nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                               };
+                    NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
+                                                         code:-1
+                                                     userInfo:userInfo];
+                    [delegate manager:self didReceiveError:error];
                 }
             }
         }
