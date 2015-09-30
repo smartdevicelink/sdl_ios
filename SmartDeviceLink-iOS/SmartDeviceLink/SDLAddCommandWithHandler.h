@@ -2,7 +2,7 @@
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
 #import "SDLAddCommand.h"
-#import "SDLManagerDelegate.h"
+#import "SDLNotificationConstants.h"
 
 @interface SDLAddCommandWithHandler : SDLAddCommand
 

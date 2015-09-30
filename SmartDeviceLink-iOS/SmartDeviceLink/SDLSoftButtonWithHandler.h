@@ -2,7 +2,7 @@
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
 #import "SDLSoftButton.h"
-#import "SDLManagerDelegate.h"
+#import "SDLNotificationConstants.h"
 
 @interface SDLSoftButtonWithHandler : SDLSoftButton
 

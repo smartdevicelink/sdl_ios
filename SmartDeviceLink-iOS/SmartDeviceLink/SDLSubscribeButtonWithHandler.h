@@ -2,10 +2,10 @@
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
 #import "SDLSubscribeButton.h"
-#import "SDLManagerDelegate.h"
+#import "SDLNotificationConstants.h"
 
 @interface SDLSubscribeButtonWithHandler : SDLSubscribeButton
 
-@property (copy) SDLRPCNotificationHandler onButtonHandler;
+@property (nonatomic, copy) SDLRPCNotificationHandler onButtonHandler;
 
 @end

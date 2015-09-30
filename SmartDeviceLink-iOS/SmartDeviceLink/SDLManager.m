@@ -7,6 +7,7 @@
 #import "SDLAddCommandWithHandler.h"
 #import "SDLSubscribeButtonWithHandler.h"
 #import "SDLSoftButtonWithHandler.h"
+#import "SDLNotificationConstants.h"
 
 
 @interface SDLManager () <SDLProxyListener>
@@ -33,9 +34,6 @@
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (assign, getter=isConnected, nonatomic) BOOL connected;
-
-// SDL Delegate
-@property (strong) NSHashTable *delegates;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable *rpcResponseHandlerMap;
@@ -82,9 +80,15 @@
         _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         
-        _delegates = [NSHashTable weakObjectsHashTable];
     }
     return self;
+}
+
+- (void)postNotification:(NSString *)name info:(id)info {
+    NSDictionary *userInfo = @{
+                               SDLNotificationUserInfoNotificationObject: info
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
 
@@ -104,17 +108,6 @@
                           reason:@"This request requires an ID (command, softbutton, etc) to be specified"
                           userInfo:nil];
     return excep;
-}
-
-
-#pragma mark Delegates
-
-- (void)addDelegate:(id<SDLManagerDelegate>)delegate {
-    if (delegate && self.delegates) {
-        @synchronized(self.delegateLock) {
-            [self.delegates addObject:delegate];
-        }
-    }
 }
 
 #pragma mark Event, Response, Notification Processing
@@ -138,8 +131,6 @@
 
 - (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification {
     dispatch_async(self.backgroundQueue, ^{
-        NSHashTable *delegateHashTable = self.delegates;
-        void (^enumerationBlock)(id<SDLManagerDelegate> delegate) = nil;
         
         if ([notification isKindOfClass:[SDLOnCommand class]]) {
             [self runHandlerForCommand:((SDLOnCommand *)notification)];
@@ -148,103 +139,43 @@
             [self runHandlerForButton:((SDLRPCNotification *)notification)];
         }
         else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didChangeDriverDistractionState:)]) {
-                    [delegate manager:self didChangeDriverDistractionState:(SDLOnDriverDistraction *)notification];
-                }
-            };
+            [self postNotification:SDLDidChangeDriverDistractionStateNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didUnregister:)]) {
-                    [delegate manager:self didUnregister:(SDLOnAppInterfaceUnregistered *)notification];
-                }
-            };
+            [self postNotification:SDLDidUnregisterNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveAudioPassThru:)]) {
-                    [delegate manager:self didReceiveAudioPassThru:(SDLOnAudioPassThru *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveAudioPassThruNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveEncodedData:)]) {
-                    [delegate manager:self didReceiveEncodedData:(SDLOnEncodedSyncPData *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveEncodedDataNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveNewHash:)]) {
-                    [delegate manager:self didReceiveNewHash:(SDLOnHashChange *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveNewHashNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didChangeLanguage:)]) {
-                    [delegate manager:self didChangeLanguage:(SDLOnLanguageChange *)notification];
-                }
-            };
+            [self postNotification:SDLDidChangeLanguageNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didChangePermissions:)]) {
-                    [delegate manager:self didChangePermissions:(SDLOnPermissionsChange *)notification];
-                }
-            };
+            [self postNotification:SDLDidChangePermissionsNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveData:)]) {
-                    [delegate manager:self didReceiveData:(SDLOnSyncPData *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveDataNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveSystemRequest:)]) {
-                    [delegate manager:self didReceiveSystemRequest:(SDLOnSystemRequest *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveSystemRequestNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didChangeTurnByTurnState:)]) {
-                    [delegate manager:self didChangeTurnByTurnState:(SDLOnTBTClientState *)notification];
-                }
-            };
+            [self postNotification:SDLDidChangeTurnByTurnStateNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveTouchEvent:)]) {
-                    [delegate manager:self didReceiveTouchEvent:(SDLOnTouchEvent *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveTouchEventNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveVehicleData:)]) {
-                    [delegate manager:self didReceiveVehicleData:(SDLOnVehicleData *)notification];
-                }
-            };
+            [self postNotification:SDLDidReceiveVehicleDataNotification info:notification];
         }
         else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
-            enumerationBlock = ^(id<SDLManagerDelegate> delegate) {
-                if ([delegate respondsToSelector:@selector(manager:didChangeLockScreenStatus:)]) {
-                    [delegate manager:self didChangeLockScreenStatus:(SDLOnLockScreenStatus *)notification];
-                }
-            };
-        }
-        
-        if (delegateHashTable && enumerationBlock) {
-            dispatch_async(self.mainUIQueue, ^{
-                for (id<SDLManagerDelegate> delegate in delegateHashTable) {
-                    enumerationBlock(delegate);
-                }
-            });
+            [self postNotification:SDLDidChangeLockScreenStatusNotification info:notification];
         }
     });
 }
@@ -287,11 +218,7 @@
     
     // TODO: Should this even be a thing still?
     dispatch_async(self.mainUIQueue, ^{
-        for (id<SDLManagerDelegate> delegate in self.delegates) {
-            if ([delegate respondsToSelector:@selector(manager:didReceiveCommand:)]) {
-                [delegate manager:self didReceiveCommand:command];
-            }
-        }
+        [self postNotification:SDLDidReceiveCommandNotification info:command];
     });
 }
 
@@ -330,20 +257,12 @@
     // TODO: Should this even be a thing still?
     if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
         dispatch_async(self.mainUIQueue, ^{
-            for (id<SDLManagerDelegate> delegate in self.delegates) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveButtonEvent:)]) {
-                    [delegate manager:self didReceiveButtonEvent:(SDLOnButtonEvent *)notification];
-                }
-            }
+            [self postNotification:SDLDidReceiveButtonEventNotification info:notification];
         });
     }
     else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
         dispatch_async(self.mainUIQueue, ^{
-            for (id<SDLManagerDelegate> delegate in self.delegates) {
-                if ([delegate respondsToSelector:@selector(manager:didReceiveButtonPress:)]) {
-                    [delegate manager:self didReceiveButtonPress:(SDLOnButtonPress *)notification];
-                }
-            }
+            [self postNotification:SDLDidReceiveButtonPressNotification info:notification];
         });
     }
 }
@@ -513,38 +432,27 @@
                 __block NSString *info = response.info;
                 if (!response.success) {
                     dispatch_async(self.mainUIQueue, ^{
-                        for (id<SDLManagerDelegate> delegate in self.delegates) {
-                            if ([delegate respondsToSelector:@selector(manager:didFailToRegisterWithError:)]) {
-                                NSDictionary *userInfo = @{
-                                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to register with SDL head unit", nil),
-                                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil),
-                                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                                                           };
-                                // TODO: Define these error codes
-                                NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error" code:-1 userInfo:userInfo];
-                                [delegate manager:self didFailToRegisterWithError:error];
-                            }
-                        }
+                        NSDictionary *userInfo = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to register with SDL head unit", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                   };
+                        // TODO: Define these error codes
+                        NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error" code:-1 userInfo:userInfo];
+                        [self postNotification:SDLDidFailToRegisterNotification info:error];
+                        
                     });
                 }
                 else {
                     dispatch_async(self.mainUIQueue, ^{
-                        for (id<SDLManagerDelegate> delegate in self.delegates) {
-                            if ([delegate respondsToSelector:@selector(manager:didRegister:)]) {
-                                [delegate manager:self didRegister:(SDLRegisterAppInterfaceResponse *)response];
-                            }
-                        }
+                        [self postNotification:SDLDidRegisterNotification info:response];
                     });
                 }
             }];
         }
     });
     dispatch_async(self.mainUIQueue, ^{
-        for (id<SDLManagerDelegate> delegate in self.delegates) {
-            if ([delegate respondsToSelector:@selector(managerDidConnect:)]) {
-                [delegate managerDidConnect:self];
-            }
-        }
+        [self postNotification:SDLDidConnectNotification info:nil];
     });
 }
 
@@ -555,11 +463,7 @@
         self.connected = NO;
         [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
         dispatch_async(self.mainUIQueue, ^{
-            for (id<SDLManagerDelegate> delegate in self.delegates) {
-                if ([delegate respondsToSelector:@selector(managerDidDisconnect:)]) {
-                    [delegate managerDidDisconnect:self];
-                }
-            }
+            [self postNotification:SDLDidDisconnectNotification info:nil];
         });
         [self startProxy];
     });
@@ -567,19 +471,15 @@
 
 - (void)onError:(NSException *)e {
     dispatch_async(self.mainUIQueue, ^{
-        for (id<SDLManagerDelegate> delegate in self.delegates) {
-            if ([delegate respondsToSelector:@selector(manager:didReceiveError:)]) {
-                NSDictionary *userInfo = @{
-                                           NSLocalizedDescriptionKey: NSLocalizedString(e.name, nil),
-                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(e.reason, nil),
-                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                                           };
-                NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
-                                                     code:-1
-                                                 userInfo:userInfo];
-                [delegate manager:self didReceiveError:error];
-            }
-        }
+        NSDictionary *userInfo = @{
+                                   NSLocalizedDescriptionKey: NSLocalizedString(e.name, nil),
+                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(e.reason, nil),
+                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                   };
+        NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
+                                             code:-1
+                                         userInfo:userInfo];
+        [self postNotification:SDLDidReceiveErrorNotification info:error];
     });
 }
 
@@ -751,11 +651,7 @@
             if (!occurred)
             {
                 dispatch_async(self.mainUIQueue, ^{
-                    for (id<SDLManagerDelegate> delegate in self.delegates) {
-                        if ([delegate respondsToSelector:@selector(manager:didReceiveFirstNonNoneHMIStatus:)]) {
-                            [delegate manager:self didReceiveFirstNonNoneHMIStatus:notification];
-                        }
-                    }
+                    [self postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
                 });
             }
             @synchronized(self.hmiStateLock) {
@@ -768,11 +664,7 @@
             if (!occurred)
             {
                 dispatch_async(self.mainUIQueue, ^{
-                    for (id<SDLManagerDelegate> delegate in self.delegates) {
-                        if ([delegate respondsToSelector:@selector(manager:didReceiveFirstFullHMIStatus:)]) {
-                            [delegate manager:self didReceiveFirstFullHMIStatus:notification];
-                        }
-                    }
+                    [self postNotification:SDLDidReceiveFirstFullHMIStatusNotification info:notification];
                 });
             }
             @synchronized(self.hmiStateLock) {
@@ -788,11 +680,7 @@
             if (!occurred)
             {
                 dispatch_async(self.mainUIQueue, ^{
-                    for (id<SDLManagerDelegate> delegate in self.delegates) {
-                        if ([delegate respondsToSelector:@selector(manager:didReceiveFirstNonNoneHMIStatus:)]) {
-                            [delegate manager:self didReceiveFirstNonNoneHMIStatus:notification];
-                        }
-                    }
+                    [self postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
                 });
             }
             @synchronized(self.hmiStateLock) {
@@ -800,11 +688,7 @@
             }
         }
         dispatch_async(self.mainUIQueue, ^{
-            for (id<SDLManagerDelegate> delegate in self.delegates) {
-                if ([delegate respondsToSelector:@selector(manager:didChangeHMIStatus:)]) {
-                    [delegate manager:self didChangeHMIStatus:notification];
-                }
-            }
+            [self postNotification:SDLDidChangeHMIStatusNotification info:notification];
         });
     });
 }

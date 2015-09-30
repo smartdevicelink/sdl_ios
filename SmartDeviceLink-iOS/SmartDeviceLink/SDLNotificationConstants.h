@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+@class SDLRPCNotification;
+@class SDLRPCResponse;
+
+typedef void (^SDLRPCResponseHandler) (__kindof SDLRPCResponse *response);
+typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notification);
 
 extern NSString *const SDLDidReceiveFirstFullHMIStatusNotification;
 extern NSString *const SDLDidReceiveFirstNonNoneHMIStatusNotification;

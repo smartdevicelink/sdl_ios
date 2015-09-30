@@ -1,8 +1,6 @@
 //  SDLProxyBase.h
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
-#import "SDLManagerDelegate.h"
-
 typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventError,
     SDLEventClosed,
@@ -24,8 +22,6 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 @property (assign, readonly, getter=isConnected) BOOL connected;
 
 + (instancetype)sharedManager;
-
-- (void)addDelegate:(id<SDLManagerDelegate>)delegate;
 
 // Main proxy methods
 - (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(SDLRPCResponseHandler)responseHandler;
