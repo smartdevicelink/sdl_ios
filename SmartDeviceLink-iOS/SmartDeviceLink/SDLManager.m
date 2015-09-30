@@ -85,9 +85,12 @@
 }
 
 - (void)postNotification:(NSString *)name info:(id)info {
-    NSDictionary *userInfo = @{
-                               SDLNotificationUserInfoNotificationObject: info
-                               };
+    NSDictionary *userInfo = nil;
+    if (info != nil) {
+        userInfo = @{
+                     SDLNotificationUserInfoNotificationObject: info
+                    };
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
