@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 @class SDLRPCNotification;
 @class SDLRPCResponse;
+@class SDLRPCRequest;
 
-typedef void (^SDLRPCResponseHandler) (__kindof SDLRPCResponse *response);
 typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notification);
+typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error);
 
 extern NSString *const SDLDidReceiveFirstFullHMIStatusNotification;
 extern NSString *const SDLDidReceiveFirstNonNoneHMIStatusNotification;

@@ -37,6 +37,7 @@
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable *rpcResponseHandlerMap;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber *, SDLRPCRequest *> *rpcRequestDictionary;
 @property (strong, nonatomic) NSMapTable *commandHandlerMap;
 @property (strong, nonatomic) NSMapTable *buttonHandlerMap;
 @property (strong, nonatomic) NSMapTable *customButtonHandlerMap;
@@ -76,6 +77,7 @@
         _firstHMIFullOccurred = NO;
         _firstHMINotNoneOccurred = NO;
         _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+        _rpcRequestDictionary = [[NSMutableDictionary alloc] init];
         _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
         _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
@@ -186,11 +188,13 @@
 - (void)runHandlersForResponse:(SDLRPCResponse *)response {
     dispatch_async(self.backgroundQueue, ^{
         @synchronized(self.rpcResponseHandlerMapLock) {
-            SDLRPCResponseHandler handler = [self.rpcResponseHandlerMap objectForKey:response.correlationID];
+            SDLRequestCompletionHandler handler = [self.rpcResponseHandlerMap objectForKey:response.correlationID];
+            SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
+            [self.rpcRequestDictionary removeObjectForKey:response.correlationID];
             [self.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
             if (handler) {
                 dispatch_async(self.mainUIQueue, ^{
-                    handler(response);
+                    handler(request, response, nil);
                 });
             }
         }
@@ -272,73 +276,61 @@
 
 
 #pragma mark SDLProxyBase
+// typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error);
 
-- (void)sendRPC:(SDLRPCRequest *)rpc responseHandler:(SDLRPCResponseHandler)responseHandler {
-    // TODO: If not connected, return error
-    if (self.isConnected) {
-        dispatch_async(self.backgroundQueue, ^{
-            // Add a correlation ID
-            SDLRPCRequest *rpcWithCorrID = rpc;
-            NSNumber *corrID = [self getNextCorrelationId];
-            rpcWithCorrID.correlationID = corrID;
-            
-            // Check for RPCs that require an extra handler
-            // TODO: add SDLAlert and SDLScrollableMessage
-            if ([rpcWithCorrID isKindOfClass:[SDLShow class]]) {
-                SDLShow *show = (SDLShow *)rpcWithCorrID;
-                NSMutableArray *softButtons = show.softButtons;
-                if (softButtons && softButtons.count > 0) {
-                    for (SDLSoftButton *sb in softButtons) {
-                        if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
-                            @throw [SDLManager createMissingHandlerException];
-                        }
-                        if (!sb.softButtonID) {
-                            @throw [SDLManager createMissingIDException];
-                        }
-                        @synchronized(self.customButtonHandlerMapLock) {
-                            [self.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
-                        }
-                    }
-                }
-            }
-            else if ([rpcWithCorrID isKindOfClass:[SDLAddCommand class]]) {
-                if (![rpcWithCorrID isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler == nil) {
-                    @throw [SDLManager createMissingHandlerException];
-                }
-                if (!((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID) {
-                    @throw [SDLManager createMissingIDException];
-                }
-                @synchronized(self.commandHandlerMapLock) {
-                    [self.commandHandlerMap setObject:((SDLAddCommandWithHandler *)rpcWithCorrID).onCommandHandler forKey:((SDLAddCommandWithHandler *)rpcWithCorrID).cmdID];
-                }
-            }
-            else if ([rpcWithCorrID isKindOfClass:[SDLSubscribeButton class]]) {
-                if (![rpcWithCorrID isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler == nil) {
-                    @throw [SDLManager createMissingHandlerException];
-                }
-                // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
-                NSString *buttonName = ((SDLSubscribeButtonWithHandler *)rpcWithCorrID).buttonName.value;
-                if (!buttonName) {
-                    @throw [SDLManager createMissingIDException];
-                }
-                @synchronized(self.buttonHandlerMapLock) {
-                    [self.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)rpcWithCorrID).onButtonHandler forKey:buttonName];
-                }
-            }
-            
-            if (responseHandler) {
-                @synchronized(self.rpcResponseHandlerMapLock) {
-                    [self.rpcResponseHandlerMap setObject:responseHandler forKey:corrID];
-                }
-            }
-            @synchronized(self.proxyLock) {
-                [self.proxy sendRPC:rpcWithCorrID];
-            }
-        });
-    }
-    else {
+- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(SDLRequestCompletionHandler)handler {
+    if (!self.isConnected) {
         [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
+        handler(nil, nil, [SDLManager errorWithDescription:@"Can't send request" andReason:@"Proxy not connected"]);
+        return;
     }
+    // Add a correlation ID
+    NSNumber *corrID = [self getNextCorrelationId];
+    request.correlationID = corrID;
+    
+    // Check for RPCs that require an extra handler
+    // TODO: add SDLAlert and SDLScrollableMessage
+    if ([request isKindOfClass:[SDLShow class]]) {
+        SDLShow *show = (SDLShow *)request;
+        NSMutableArray *softButtons = show.softButtons;
+        if (softButtons && softButtons.count > 0) {
+            for (SDLSoftButton *sb in softButtons) {
+                if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
+                    @throw [SDLManager createMissingHandlerException];
+                }
+                if (!sb.softButtonID) {
+                    @throw [SDLManager createMissingIDException];
+                }
+                    [self.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
+            }
+        }
+    }
+    else if ([request isKindOfClass:[SDLAddCommand class]]) {
+        if (![request isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)request).onCommandHandler == nil) {
+            @throw [SDLManager createMissingHandlerException];
+        }
+        if (!((SDLAddCommandWithHandler *)request).cmdID) {
+            @throw [SDLManager createMissingIDException];
+        }
+            [self.commandHandlerMap setObject:((SDLAddCommandWithHandler *)request).onCommandHandler forKey:((SDLAddCommandWithHandler *)request).cmdID];
+    }
+    else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
+        if (![request isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)request).onButtonHandler == nil) {
+            @throw [SDLManager createMissingHandlerException];
+        }
+        // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
+        NSString *buttonName = ((SDLSubscribeButtonWithHandler *)request).buttonName.value;
+        if (!buttonName) {
+            @throw [SDLManager createMissingIDException];
+        }
+            [self.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)request).onButtonHandler forKey:buttonName];
+    }
+    
+    if (handler) {
+        self.rpcRequestDictionary[corrID] = request;
+        [self.rpcResponseHandlerMap setObject:handler forKey:corrID];
+    }
+    [self.proxy sendRPC:request];
 }
 
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
@@ -430,20 +422,13 @@
             if (self.vrSynonyms) {
                 regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.vrSynonyms];
             }
-            
-            [self sendRPC:regRequest responseHandler:^(SDLRPCResponse *response) {
+            // TODO: implement handler with success/error
+            [self sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
                 __block NSString *info = response.info;
                 if (!response.success) {
                     dispatch_async(self.mainUIQueue, ^{
-                        NSDictionary *userInfo = @{
-                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to register with SDL head unit", nil),
-                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil),
-                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                                                   };
-                        // TODO: Define these error codes
-                        NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error" code:-1 userInfo:userInfo];
+                        NSError *error = [SDLManager errorWithDescription:@"Failed to register" andReason:info];
                         [self postNotification:SDLDidFailToRegisterNotification info:error];
-                        
                     });
                 }
                 else {
@@ -451,6 +436,7 @@
                         [self postNotification:SDLDidRegisterNotification info:response];
                     });
                 }
+
             }];
         }
     });
@@ -474,14 +460,7 @@
 
 - (void)onError:(NSException *)e {
     dispatch_async(self.mainUIQueue, ^{
-        NSDictionary *userInfo = @{
-                                   NSLocalizedDescriptionKey: NSLocalizedString(e.name, nil),
-                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(e.reason, nil),
-                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                                   };
-        NSError *error = [NSError errorWithDomain:@"com.smartdevicelink.error"
-                                             code:-1
-                                         userInfo:userInfo];
+        NSError *error = [SDLManager errorWithDescription:e.name andReason:e.reason];
         [self postNotification:SDLDidReceiveErrorNotification info:error];
     });
 }
@@ -755,5 +734,19 @@
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification {
     [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
 }
+
+#pragma mark class methods
+
++ (NSError *)errorWithDescription:(NSString *)description andReason:(NSString *)reason {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                               };
+    return [NSError errorWithDomain:@"com.smartdevicelink.error"
+                               code:-1
+                           userInfo:userInfo];
+}
+
 
 @end
