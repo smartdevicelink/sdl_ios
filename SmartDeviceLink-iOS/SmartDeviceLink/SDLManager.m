@@ -142,12 +142,18 @@
 }
 
 - (void)runHandlersForResponse:(SDLRPCResponse *)response {
+    
+    NSError *error = nil;
+    BOOL success = [response.success boolValue];
+    if (success == NO) {
+        error = [SDLManager errorWithDescription:response.resultCode.value andReason:response.info];
+    }
     SDLRequestCompletionHandler handler = [self.rpcResponseHandlerMap objectForKey:response.correlationID];
     SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
     [self.rpcRequestDictionary removeObjectForKey:response.correlationID];
     [self.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
     if (handler) {
-        handler(request, response, nil);
+        handler(request, response, error);
     }
     
     // Check for UnsubscribeButton, DeleteCommand and remove handlers
@@ -619,7 +625,8 @@
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
-    return [NSError errorWithDomain:@"com.smartdevicelink.error"
+    // TODO: we need an actual error code
+    return [NSError errorWithDomain:SDLGenericErrorDomain
                                code:-1
                            userInfo:userInfo];
 }

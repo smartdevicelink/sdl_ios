@@ -34,3 +34,5 @@ NSString *const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.rec
 NSString *const SDLDidReceiveVehicleDataNotification = @"com.sdl.notification.receiveVehicleData";
 
 NSString *const SDLNotificationUserInfoNotificationObject = @"com.sdl.notification.keys.notificationObject";
+
+NSString *const SDLGenericErrorDomain = @"com.sdl.error";
