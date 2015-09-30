@@ -95,9 +95,16 @@
 
 - (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification {
     if ([notification isKindOfClass:[SDLOnCommand class]]) {
+        [self postNotification:SDLDidReceiveCommandNotification info:notification];
         [self runHandlerForCommand:((SDLOnCommand *)notification)];
     }
     else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+        if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
+            [self postNotification:SDLDidReceiveButtonEventNotification info:notification];
+        }
+        else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+            [self postNotification:SDLDidReceiveButtonPressNotification info:notification];
+        }
         [self runHandlerForButton:((SDLRPCNotification *)notification)];
     }
     else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
@@ -174,9 +181,6 @@
     if (handler) {
         handler(command);
     }
-    
-    // TODO: Should this even be a thing still?
-    [self postNotification:SDLDidReceiveCommandNotification info:command];
 }
 
 - (void)runHandlerForButton:(SDLRPCNotification *)notification {
@@ -203,14 +207,6 @@
     
     if (handler) {
         handler(notification);
-    }
-    
-    // TODO: Should this even be a thing still?
-    if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
-        [self postNotification:SDLDidReceiveButtonEventNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-        [self postNotification:SDLDidReceiveButtonPressNotification info:notification];
     }
 }
 
@@ -347,12 +343,9 @@
     }
     // TODO: implement handler with success/error
     [self sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        __block NSString *info = response.info;
-        if (!response.success) {
-            NSError *error = [SDLManager errorWithDescription:@"Failed to register" andReason:info];
+        if (error) {
             [self postNotification:SDLDidFailToRegisterNotification info:error];
-        }
-        else {
+        } else {
             [self postNotification:SDLDidRegisterNotification info:response];
         }
         
