@@ -32,3 +32,5 @@ extern NSString *const SDLDidReceiveSystemRequestNotification;
 extern NSString *const SDLDidChangeTurnByTurnStateNotification;
 extern NSString *const SDLDidReceiveTouchEventNotification;
 extern NSString *const SDLDidReceiveVehicleDataNotification;
+
+extern NSString *const SDLNotificationUserInfoNotificationObject;

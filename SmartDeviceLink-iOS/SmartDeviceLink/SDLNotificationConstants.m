@@ -32,3 +32,5 @@ NSString *const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.
 NSString *const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.notification.changeTurnByTurnState";
 NSString *const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.receiveTouchEvent";
 NSString *const SDLDidReceiveVehicleDataNotification = @"com.sdl.notification.receiveVehicleData";
+
+NSString *const SDLNotificationUserInfoNotificationObject = @"com.sdl.notification.keys.notificationObject";
