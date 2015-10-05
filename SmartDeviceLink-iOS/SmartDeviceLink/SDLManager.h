@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLLanguage *languageDesired;
 @property (copy, nonatomic, readonly) NSString *shortName;
 @property (copy, nonatomic, readonly) NSArray<NSString *> *vrSynonyms;
-@property (assign, readonly, getter=isConnected) BOOL connected;
+@property (assign, nonatomic, readonly, getter=isConnected) BOOL connected;
 
 + (instancetype)sharedManager;
 
