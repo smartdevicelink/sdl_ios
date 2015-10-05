@@ -82,7 +82,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
                 }
 
                 [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
-        }
+            }
         }
     });
 }
