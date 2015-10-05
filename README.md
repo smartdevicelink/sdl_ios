@@ -1,5 +1,3 @@
-##### Note: Please see the [release/4.0.0](https://github.com/smartdevicelink/sdl_ios/tree/release/4.0.0) branch of sdl_ios for the most recent version. Significant changes have been made since the latest stable release and the in-progress develop branch. When released, it will include distribution via Carthage and Cocoapods. The current release candidate has Cocoapods support, see below for installation instructions.
-
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
@@ -33,7 +31,7 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/release/4.0.
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.0-RC.2'`. Then run `pod install` inside your terminal.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.0'`. Then run `pod install` inside your terminal.
 
 ##### Carthage
 

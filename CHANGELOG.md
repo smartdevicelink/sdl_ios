@@ -1,21 +1,24 @@
 # 4.0.0 Release Notes (pre-release)
 
+## Final Release (2015-10-5)
+* Example app plist updated with required [ATS](https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/) keys.
+
 ## Release Candidate 2 (2015-09-23)
-* Fix a warning for passing in an NSUInteger to an int parameter
+* Fix a warning for passing in an NSUInteger to an int parameter.
 
 ## Release Candidate 1 (2015-09-19)
 
 ### Enhancements
 * Lock screen icon is now fetched
-* Hex string parsing is now roughly twice as fast
+* Hex string parsing is now roughly twice as fast.
 
 ### Bug Fixes
-* Web request delegates weren't always called
-* Streaming audio fixes
-* Large chunks of data passed over TCP no longer uses far too much memory
-* Xcode 7 warnings fixed
-* Test frameworks updated for Swift 2.0
-* Build server fixes
+* Web request delegates weren't always called.
+* Streaming audio fixes.
+* Large chunks of data passed over TCP no longer uses far too much memory.
+* Xcode 7 warnings fixed.
+* Test frameworks updated for Swift 2.0.
+* Build server fixes.
 
 
 ## Alpha 4 (2015-09-08)
