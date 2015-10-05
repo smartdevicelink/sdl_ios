@@ -47,7 +47,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 expect(@(serviceType)).to(equal(@(SDLServiceType_RPC)));
                 expect(@(sessionID)).to(equal(@0x93));
                 expect(@(version)).to(equal(@0x02));
-            }] ignoringNonObjectArgs] handleProtocolSessionStarted:0 sessionID:0 version:0];
+            }] ignoringNonObjectArgs] handleProtocolStartSessionACK:0 sessionID:0 version:0];
             
             SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;

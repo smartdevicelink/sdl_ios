@@ -35,21 +35,17 @@
     SDLFrameType frameType = message.header.frameType;
 
     switch (frameType) {
-        case SDLFrameType_Single:
+        case SDLFrameType_Single: {
             [self dispatchProtocolMessage:message];
-            break;
-
-        case SDLFrameType_Control:
+        } break;
+        case SDLFrameType_Control: {
             [self dispatchControlMessage:message];
-            break;
-
-        case SDLFrameType_First:
-        case SDLFrameType_Consecutive:
+        } break;
+        case SDLFrameType_First: // fallthrough
+        case SDLFrameType_Consecutive: {
             [self dispatchMultiPartMessage:message];
-            break;
-
-        default:
-            break;
+        } break;
+        default: break;
     }
 }
 
@@ -58,10 +54,29 @@
 }
 
 - (void)dispatchControlMessage:(SDLProtocolMessage *)message {
-    if (message.header.frameData == SDLFrameData_StartSessionACK) {
-        [self.delegate handleProtocolSessionStarted:message.header.serviceType
-                                          sessionID:message.header.sessionID
-                                            version:message.header.version];
+    switch (message.header.frameData) {
+        case SDLFrameData_StartSessionACK: {
+            [self.delegate handleProtocolStartSessionACK:message.header.serviceType
+                                               sessionID:message.header.sessionID
+                                                 version:message.header.version];
+
+        } break;
+        case SDLFrameData_StartSessionNACK: {
+            [self.delegate handleProtocolStartSessionNACK:message.header.serviceType];
+        } break;
+        case SDLFrameData_EndSessionACK: {
+            [self.delegate handleProtocolEndSessionACK:message.header.serviceType];
+        } break;
+        case SDLFrameData_EndSessionNACK: {
+            [self.delegate handleProtocolStartSessionNACK:message.header.serviceType];
+        } break;
+        case SDLFrameData_Heartbeat: {
+            [self.delegate handleHeartbeatForSession:message.header.sessionID];
+        } break;
+        case SDLFrameData_HeartbeatACK: {
+            [self.delegate handleHeartbeatACK];
+        } break;
+        default: break;
     }
 }
 

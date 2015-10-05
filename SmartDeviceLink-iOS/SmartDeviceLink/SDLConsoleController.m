@@ -47,7 +47,7 @@
     if (messageList.count == 0) {
         return YES;
     } else {
-        NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:(messageList.count - 1)inSection:0];
+        NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:(messageList.count - 1) inSection:0];
 
         NSArray *visibleRowIndexes = [self.tableView indexPathsForVisibleRows];
         for (NSIndexPath *aPath in visibleRowIndexes) {

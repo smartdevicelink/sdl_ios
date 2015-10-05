@@ -63,24 +63,26 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 - (void)sendData:(NSData *)msgBytes {
     dispatch_async(_sendQueue, ^{
-        NSString* byteStr = [SDLHexUtility getHexString:msgBytes];
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
-        
-        CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
-        if (e != kCFSocketSuccess) {
-            NSString *errorCause = nil;
-            switch (e) {
-                case kCFSocketTimeout:
-                    errorCause = @"Socket Timeout Error.";
-                    break;
-                    
-                case kCFSocketError:
-                default:
-                    errorCause = @"Socket Error.";
-                    break;
+        @autoreleasepool {
+            NSString *byteStr = [SDLHexUtility getHexString:msgBytes];
+            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+
+            CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
+            if (e != kCFSocketSuccess) {
+                NSString *errorCause = nil;
+                switch (e) {
+                    case kCFSocketTimeout:
+                        errorCause = @"Socket Timeout Error.";
+                        break;
+
+                    case kCFSocketError:
+                    default:
+                        errorCause = @"Socket Error.";
+                        break;
+                }
+
+                [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
             }
-            
-            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
         }
     });
 }

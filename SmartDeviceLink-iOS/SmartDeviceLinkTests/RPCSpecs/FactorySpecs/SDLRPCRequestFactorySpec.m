@@ -184,6 +184,34 @@ describe(@"BuildAlert Tests", ^ {
     });
 });
 
+
+describe(@"SDLAlertManeuver Tests", ^ {
+    __block NSMutableArray *softButtons = nil;
+    __block NSMutableArray *ttsChunks = nil;
+    __block SDLAlertManeuver *message = nil;
+    
+    describe(@"Should build correctly", ^ {
+        beforeEach(^{
+            softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
+            ttsChunks = [@[[[SDLTTSChunk alloc] init]] mutableCopy];
+            message = [SDLRPCRequestFactory buildAlertManeuverwithTTSchunks:ttsChunks softButtons:softButtons correlationID:@1234];
+        });
+        
+        it(@"Should properly set TTS Chunks", ^{
+            expect(message.ttsChunks).to(equal(ttsChunks));
+        });
+        
+        it(@"Should properly set Soft Buttons", ^{
+            expect(message.softButtons).to(equal(softButtons));
+        });
+        
+        it(@"Should properly set Correlation ID", ^{
+            expect(message.correlationID).to(equal(@1234));
+        });
+    });
+});
+
+
 describe(@"BuildChangeRegistration Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLChangeRegistration* message = [SDLRPCRequestFactory buildChangeRegistrationWithLanguage:[SDLLanguage EN_GB] hmiDisplayLanguage:[SDLLanguage DE_DE] correlationID:@22336644];
@@ -707,6 +735,70 @@ describe(@"BuildShow Tests", ^ {
     });
 });
 
+describe(@"SDLShowConstantTBT Tests", ^ {
+    __block NSMutableArray *softButtons = nil;
+    __block SDLImage *image1 = nil;
+    __block SDLImage *image2 = nil;
+    __block SDLShowConstantTBT *message = nil;
+    
+    describe(@"Should build correctly", ^ {
+        beforeEach(^{
+            softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
+            image1 = [[SDLImage alloc]init];
+            image2 = [[SDLImage alloc]init];
+            message = [SDLRPCRequestFactory buildShowConstantTBTWithString:@"Navigation Text 1" navigationText2:@"Navigation Text 2" eta:@"ETA String" timeToDestination:@"10:31 PM" totalDistance:@"1000 Miles" turnIcon:image1 nextTurnIcon:image2 distanceToManeuver:@100.11 distanceToManeuverScale:@10.20 maneuverComplete:@23.2 softButtons:softButtons correlationID:@1234];
+        });
+        
+        it(@"Should properly set title navigation text", ^{
+            expect(message.navigationText1).to(equal(@"Navigation Text 1"));
+        });
+        
+        it(@"Should properly set secondary navigation text", ^{
+            expect(message.navigationText2).to(equal(@"Navigation Text 2"));
+        });
+        
+        it(@"Should properly set Estimated Time Of Arrival (ETA)", ^{
+            expect(message.eta).to(equal(@"ETA String"));
+        });
+        
+        it(@"Should properly set time to distance", ^{
+            expect(message.timeToDestination).to(equal(@"10:31 PM"));
+        });
+        
+        it(@"Should properly set total distance", ^{
+            expect(message.totalDistance).to(equal(@"1000 Miles"));
+        });
+        
+        it(@"Should properly set first turn icon", ^{
+            expect(message.turnIcon).to(equal(image1));
+        });
+        
+        it(@"Should properly set second turn icon", ^{
+            expect(message.nextTurnIcon).to(equal(image2));
+        });
+        
+        it(@"Should properly set distance to maneuver", ^{
+            expect(message.distanceToManeuver).to(equal(@100.11));
+        });
+        
+        it(@"Should properly set scale for distance to maneuver", ^{
+            expect(message.distanceToManeuverScale).to(equal(@10.20));
+        });
+        
+        it(@"Should properly set maneuver complete", ^{
+            expect(message.maneuverComplete).to(equal(@23.2));
+        });
+        
+        it(@"Should properly set soft buttons", ^{
+            expect(message.softButtons).to(equal(softButtons));
+        });
+        
+        it(@"Should properly set the correlation ID", ^{
+            expect(message.correlationID).to(equal(@1234));
+        });
+    });
+});
+
 describe(@"BuildSlider Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLSlider* message = [SDLRPCRequestFactory buildSliderDynamicFooterWithNumTicks:@3 position:@2 sliderHeader:@"HEAD" sliderFooter:@[@"FOOT1", @"FOOT2", @"FOOT3"] timeout:@32321
@@ -844,6 +936,32 @@ describe(@"BuildSubscribeVehicleData Tests", ^ {
         expect(message.clusterModeStatus).to(beNil());
         expect(message.myKey).to(beNil());
         expect(message.correlationID).to(equal(@1627384950));
+    });
+});
+
+describe(@"SDLUpdateTurnList Tests", ^ {
+    __block NSMutableArray *softButtons = nil;
+    __block NSMutableArray *turnImages = nil;
+    __block SDLUpdateTurnList *message = nil;
+    
+    describe(@"Should build correctly", ^ {
+        beforeEach(^{
+            softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
+            turnImages = [@[@"Image 1", @"Image 2", @"Image 3"] mutableCopy];
+            message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turnImages softButtons:softButtons correlationID:@1234];
+        });
+        
+        it(@"Should properly set Turn imaged", ^{
+            expect(message.turnList).to(equal(turnImages));
+        });
+        
+        it(@"Should properly set Soft Buttons", ^{
+            expect(message.softButtons).to(equal(softButtons));
+        });
+        
+        it(@"Should properly set Correlation Id", ^{
+            expect(message.correlationID).to(equal(@1234));
+        });
     });
 });
 

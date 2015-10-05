@@ -2,19 +2,25 @@
 //
 
 #import "SDLRPCRequestFactory.h"
+#import <UIKit/UIKit.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
 
 #import "SDLMenuParams.h"
 #import "SDLTTSChunkFactory.h"
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLAlert.h"
+#import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
+#import "SDLDebugTool.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteFile.h"
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDeviceInfo.h"
 #import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
@@ -36,6 +42,7 @@
 #import "SDLSetGlobalProperties.h"
 #import "SDLSetMediaClockTimer.h"
 #import "SDLShow.h"
+#import "SDLShowConstantTBT.h"
 #import "SDLSlider.h"
 #import "SDLSpeak.h"
 #import "SDLSpeechCapabilities.h"
@@ -47,6 +54,7 @@
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
+#import "SDLUpdateTurnList.h"
 
 
 @implementation SDLRPCRequestFactory
@@ -94,7 +102,6 @@
     msg.menuID = menuID;
     msg.menuName = menuName;
     msg.position = position;
-
     return msg;
 }
 
@@ -118,8 +125,7 @@
     return [SDLRPCRequestFactory buildAlertWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration correlationID:correlationID];
 }
 
-+ (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText playTone:(NSNumber *)playTone correlationID:(NSNumber *)
-                                                                                                    correlationID {
++ (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID {
     return [SDLRPCRequestFactory buildAlertWithTTS:ttsText alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:nil correlationID:correlationID];
 }
 
@@ -155,6 +161,14 @@
 }
 //*****
 
+
++ (SDLAlertManeuver *)buildAlertManeuverwithTTSchunks:(NSMutableArray *)ttsChunks softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber *)correlationID {
+    SDLAlertManeuver *msg = [[SDLAlertManeuver alloc] init];
+    msg.ttsChunks = ttsChunks;
+    msg.softButtons = softButtons;
+    msg.correlationID = correlationID;
+    return msg;
+}
 
 + (SDLChangeRegistration *)buildChangeRegistrationWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage correlationID:(NSNumber *)correlationID {
     SDLChangeRegistration *msg = [[SDLChangeRegistration alloc] init];
@@ -360,15 +374,27 @@
     msg.languageDesired = languageDesired;
     msg.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     msg.appID = appID;
-
+    msg.deviceInfo = [self sdl_buildDeviceInfo];
     msg.correlationID = [NSNumber numberWithInt:1];
 
     return msg;
 }
 
++ (SDLDeviceInfo *)sdl_buildDeviceInfo {
+    SDLDeviceInfo *deviceInfo = [[SDLDeviceInfo alloc] init];
+    deviceInfo.hardware = [UIDevice currentDevice].model;
+    deviceInfo.os = [UIDevice currentDevice].systemName;
+    deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
+    CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = netinfo.subscriberCellularProvider;
+    NSString *carrierName = carrier.carrierName;
+    deviceInfo.carrier = carrierName;
+
+    return deviceInfo;
+}
+
 + (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID {
     NSMutableArray *syns = [NSMutableArray arrayWithObject:appName];
-
     return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID];
 }
 
@@ -508,6 +534,24 @@
 + (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment correlationID:(NSNumber *)correlationID {
     return [SDLRPCRequestFactory buildShowWithMainField1:mainField1 mainField2:mainField2 statusBar:nil mediaClock:nil mediaTrack:nil alignment:alignment correlationID:correlationID];
 }
+
++ (SDLShowConstantTBT *)buildShowConstantTBTWithString:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(NSNumber *)distanceToManeuver distanceToManeuverScale:(NSNumber *)distanceToManeuverScale maneuverComplete:(NSNumber *)maneuverComplete softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber *)correlationID {
+    SDLShowConstantTBT *msg = [[SDLShowConstantTBT alloc] init];
+    msg.navigationText1 = navigationText1;
+    msg.navigationText2 = navigationText2;
+    msg.eta = eta;
+    msg.timeToDestination = timeToDestination;
+    msg.totalDistance = totalDistance;
+    msg.turnIcon = turnIcon;
+    msg.nextTurnIcon = nextTurnIcon;
+    msg.distanceToManeuver = distanceToManeuver;
+    msg.distanceToManeuverScale = distanceToManeuverScale;
+    msg.maneuverComplete = maneuverComplete;
+    msg.softButtons = [softButtons mutableCopy];
+    msg.correlationID = correlationID;
+
+    return msg;
+}
 //*****
 
 
@@ -628,6 +672,15 @@
     msg.engineTorque = engineTorque;
     msg.accPedalPosition = accPedalPosition;
     msg.steeringWheelAngle = steeringWheelAngle;
+    msg.correlationID = correlationID;
+
+    return msg;
+}
+
++ (SDLUpdateTurnList *)buildUpdateTurnListWithTurnList:(NSMutableArray *)turnList softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber *)correlationID {
+    SDLUpdateTurnList *msg = [[SDLUpdateTurnList alloc] init];
+    msg.turnList = [turnList mutableCopy];
+    msg.softButtons = [softButtons mutableCopy];
     msg.correlationID = correlationID;
 
     return msg;

@@ -7,6 +7,7 @@
 
 #import "SDLIAPTransport.h"
 #import "SDLDebugTool.h"
+#import "SDLGlobals.h"
 #import "SDLSiphonServer.h"
 #import "SDLIAPTransport.h"
 #import "SDLStreamDelegate.h"
@@ -20,7 +21,6 @@ NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
 
-int const iapInputBufferSize = 1024;
 int const createSessionRetries = 1;
 int const protocolIndexTimeoutSeconds = 20;
 int const streamOpenTimeoutSeconds = 2;
@@ -187,7 +187,9 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession.delegate = self;
 
         if (self.protocolIndexTimer == nil) {
-            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds];
+            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds repeat:NO];
+        } else {
+            [self.protocolIndexTimer cancel];
         }
 
         __weak typeof(self) weakSelf = self;
@@ -286,7 +288,7 @@ int const streamOpenTimeoutSeconds = 2;
         while (remainder.length != 0) {
             if (ostream.streamStatus == NSStreamStatusOpen && ostream.hasSpaceAvailable) {
                 NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
-                
+
                 if (bytesWritten == -1) {
                     [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
                     break;
@@ -307,9 +309,9 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Control Stream Event End"];
-        
+
         // End events come in pairs, only perform this once per set.
         if (strongSelf.controlSession != nil) {
             [strongSelf.protocolIndexTimer cancel];
@@ -326,28 +328,27 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSInputStream *istream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Control Stream Received Data"];
-        
+
         // Read in the stream a single byte at a time
         uint8_t buf[1];
         NSUInteger len = [istream read:buf maxLength:1];
-        if(len > 0) {
+        if (len > 0) {
             NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
             [SDLDebugTool logInfo:logMessage];
-            
+
             // Destroy the control session
             [strongSelf.protocolIndexTimer cancel];
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
             strongSelf.controlSession = nil;
-            
+
             // Determine protocol string of the data session, then create that data session
             NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [strongSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });
-            
         }
     };
 }
@@ -357,7 +358,7 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.protocolIndexTimer cancel];
         [strongSelf.controlSession stop];
@@ -375,15 +376,15 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Data Stream Event End"];
         [strongSelf.session stop];
         strongSelf.session.streamDelegate = nil;
-        
+
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf retryEstablishSession];
         }
-        
+
         strongSelf.session = nil;
     };
 }
@@ -393,12 +394,12 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSInputStream *istream) {
         typeof(self) strongSelf = weakSelf;
-        
-        uint8_t buf[iapInputBufferSize];
+
+        uint8_t buf[[SDLGlobals globals].maxMTUSize];
         while ([istream hasBytesAvailable]) {
-            NSInteger bytesRead = [istream read:buf maxLength:iapInputBufferSize];
+            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals globals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
-            
+
             if (bytesRead > 0) {
                 [strongSelf.delegate onDataReceived:dataIn];
             } else {
@@ -413,15 +414,15 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Data Stream Error"];
         [strongSelf.session stop];
         strongSelf.session.streamDelegate = nil;
-        
+
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf retryEstablishSession];
         }
-        
+
         strongSelf.session = nil;
     };
 }
