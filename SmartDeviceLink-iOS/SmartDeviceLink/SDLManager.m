@@ -2,20 +2,49 @@
 //  Copyright (c) 2015 Ford Motor Company. All rights reserved.
 
 #import <Foundation/Foundation.h>
-#import "SmartDeviceLink.h"
+
+#import "SmartDeviceLink.h" // TODO: Don't import everything ever
+
 #import "SDLManager.h"
+
+#import "NSMapTable+Subscripting.h"
 #import "SDLAddCommandWithHandler.h"
+#import "SDLErrorConstants.h"
+#import "SDLNotificationConstants.h"
 #import "SDLSubscribeButtonWithHandler.h"
 #import "SDLSoftButtonWithHandler.h"
-#import "SDLNotificationConstants.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
+
+#pragma mark - Private Typedefs and Constants
+
+typedef NSNumber SDLRPCCorrelationID;
+typedef NSNumber SDLSoftButtonCommandID;
+typedef NSNumber SDLAddCommandCommandID;
+typedef NSNumber SDLSubscribeButtonCommandID;
+
+
+#pragma mark - SDLManager NSError Category Interface
+
+@interface NSError (SDLManagerErrors)
+
++ (NSError *)sdl_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_notConnectedError;
++ (NSError *)sdl_unknownHeadUnitErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
+
+@end
+
+
+#pragma mark - SDLManager Private Interface
 
 @interface SDLManager () <SDLProxyListener>
 
 // SDL state
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic) SDLProxy *proxy;
+@property (strong, nonatomic, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
 @property (assign, nonatomic) int correlationID;
@@ -24,11 +53,11 @@
 @property (assign, getter=isConnected, nonatomic) BOOL connected;
 
 // Dictionaries to link handlers with requests/commands/etc
-@property (strong, nonatomic) NSMapTable *rpcResponseHandlerMap;
-@property (strong, nonatomic) NSMutableDictionary<NSNumber *, SDLRPCRequest *> *rpcRequestDictionary;
-@property (strong, nonatomic) NSMapTable *commandHandlerMap;
-@property (strong, nonatomic) NSMapTable *buttonHandlerMap;
-@property (strong, nonatomic) NSMapTable *customButtonHandlerMap;
+@property (strong, nonatomic) NSMapTable<SDLRPCCorrelationID *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
+@property (strong, nonatomic) NSMutableDictionary<SDLRPCCorrelationID *, SDLRPCRequest *> *rpcRequestDictionary;
+@property (strong, nonatomic) NSMapTable<SDLAddCommandCommandID *, SDLRPCNotificationHandler> *commandHandlerMap;
+@property (strong, nonatomic) NSMapTable<SDLSubscribeButtonCommandID *, SDLRPCNotificationHandler> *buttonHandlerMap;
+@property (strong, nonatomic) NSMapTable<SDLSoftButtonCommandID *, SDLRPCNotificationHandler> *customButtonHandlerMap;
 
 @end
 
@@ -49,116 +78,104 @@
 
 - (instancetype)init {
     self = [super init];
-    if (self) {
-        _correlationID = 1;
-        _connected = NO;
-        _firstHMIFullOccurred = NO;
-        _firstHMINotNoneOccurred = NO;
-        _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-        _rpcRequestDictionary = [[NSMutableDictionary alloc] init];
-        _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-        _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-        _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-        
+    if (!self) {
+        return nil;
     }
+    _connected = NO;
+    _isMedia = NO;
+    
+    _correlationID = 1;
+    _firstHMIFullOccurred = NO;
+    _firstHMINotNoneOccurred = NO;
+    _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    _rpcRequestDictionary = [[NSMutableDictionary alloc] init];
+    _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    
     return self;
 }
 
-- (void)postNotification:(NSString *)name info:(id)info {
-    NSDictionary *userInfo = nil;
-    if (info != nil) {
-        userInfo = @{
-                     SDLNotificationUserInfoNotificationObject: info
-                     };
+
+#pragma mark Event, Response, Notification Processing
+
+- (void)sdl_notify:(__kindof SDLRPCNotification *)notification {
+    if ([notification isKindOfClass:[SDLOnCommand class]]) {
+        [self sdl_postNotification:SDLDidReceiveCommandNotification info:notification];
+        [self sdl_runHandlerForCommand:((SDLOnCommand *)notification)];
     }
+    else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+        if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
+            [self sdl_postNotification:SDLDidReceiveButtonEventNotification info:notification];
+        }
+        else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+            [self sdl_postNotification:SDLDidReceiveButtonPressNotification info:notification];
+        }
+        [self sdl_runHandlerForButton:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
+        [self sdl_postNotification:SDLDidChangeDriverDistractionStateNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+        [self sdl_postNotification:SDLDidUnregisterNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
+        [self sdl_postNotification:SDLDidReceiveAudioPassThruNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
+        [self sdl_postNotification:SDLDidReceiveEncodedDataNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
+        [self sdl_postNotification:SDLDidReceiveNewHashNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
+        [self sdl_postNotification:SDLDidChangeLanguageNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
+        [self sdl_postNotification:SDLDidChangePermissionsNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
+        [self sdl_postNotification:SDLDidReceiveDataNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
+        [self sdl_postNotification:SDLDidReceiveSystemRequestNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
+        [self sdl_postNotification:SDLDidChangeTurnByTurnStateNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
+        [self sdl_postNotification:SDLDidReceiveTouchEventNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
+        [self sdl_postNotification:SDLDidReceiveVehicleDataNotification info:notification];
+    }
+    else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
+        [self sdl_postNotification:SDLDidChangeLockScreenStatusNotification info:notification];
+    }
+}
+
+- (void)sdl_postNotification:(NSString *)name info:(nullable id)info {
+    NSDictionary<NSString *, id> *userInfo = nil;
+    if (info != nil) {
+        userInfo = @{ SDLNotificationUserInfoNotificationObject: info };
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
 
-#pragma mark Exceptions
-
-+ (NSException *)createMissingHandlerException {
-    return [NSException
-            exceptionWithName:@"MissingHandlerException"
-            reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
-            userInfo:nil];
-}
-
-+ (NSException *)createMissingIDException {
-    return [NSException
-            exceptionWithName:@"MissingIDException"
-            reason:@"This request requires an ID (command, softbutton, etc) to be specified"
-            userInfo:nil];
-}
-
-#pragma mark Event, Response, Notification Processing
-
-- (void)notifyDelegatesOfNotification:(SDLRPCNotification *)notification {
-    if ([notification isKindOfClass:[SDLOnCommand class]]) {
-        [self postNotification:SDLDidReceiveCommandNotification info:notification];
-        [self runHandlerForCommand:((SDLOnCommand *)notification)];
-    }
-    else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-        if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
-            [self postNotification:SDLDidReceiveButtonEventNotification info:notification];
-        }
-        else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-            [self postNotification:SDLDidReceiveButtonPressNotification info:notification];
-        }
-        [self runHandlerForButton:((SDLRPCNotification *)notification)];
-    }
-    else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
-        [self postNotification:SDLDidChangeDriverDistractionStateNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
-        [self postNotification:SDLDidUnregisterNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
-        [self postNotification:SDLDidReceiveAudioPassThruNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
-        [self postNotification:SDLDidReceiveEncodedDataNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
-        [self postNotification:SDLDidReceiveNewHashNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
-        [self postNotification:SDLDidChangeLanguageNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
-        [self postNotification:SDLDidChangePermissionsNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
-        [self postNotification:SDLDidReceiveDataNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
-        [self postNotification:SDLDidReceiveSystemRequestNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
-        [self postNotification:SDLDidChangeTurnByTurnStateNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
-        [self postNotification:SDLDidReceiveTouchEventNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
-        [self postNotification:SDLDidReceiveVehicleDataNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
-        [self postNotification:SDLDidChangeLockScreenStatusNotification info:notification];
-    }
-}
-
-- (void)runHandlersForResponse:(SDLRPCResponse *)response {
-    
+- (void)sdl_runHandlersForResponse:(SDLRPCResponse *)response {
     NSError *error = nil;
     BOOL success = [response.success boolValue];
     if (success == NO) {
-        error = [SDLManager errorWithDescription:response.resultCode.value andReason:response.info];
+        error = [NSError sdl_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
     }
-    SDLRequestCompletionHandler handler = [self.rpcResponseHandlerMap objectForKey:response.correlationID];
+    
+    SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
     SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
     [self.rpcRequestDictionary removeObjectForKey:response.correlationID];
     [self.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
+    
     if (handler) {
         handler(request, response, error);
     }
@@ -173,17 +190,17 @@
     }
 }
 
-- (void)runHandlerForCommand:(SDLOnCommand *)command {
+- (void)sdl_runHandlerForCommand:(SDLOnCommand *)command {
     // Already background dispatched from caller
     SDLRPCNotificationHandler handler = nil;
-    handler = [self.commandHandlerMap objectForKey:command.cmdID];
+    handler = self.commandHandlerMap[command.cmdID];
     
     if (handler) {
         handler(command);
     }
 }
 
-- (void)runHandlerForButton:(SDLRPCNotification *)notification {
+- (void)sdl_runHandlerForButton:(__kindof SDLRPCNotification *)notification {
     // Already background dispatched from caller
     SDLRPCNotificationHandler handler = nil;
     SDLButtonName *name = nil;
@@ -199,10 +216,10 @@
     }
     
     if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
-        handler = [self.customButtonHandlerMap objectForKey:customID];
+        handler = self.customButtonHandlerMap[customID];
     }
     else {
-        handler = [self.buttonHandlerMap objectForKey:name.value];
+        handler = self.buttonHandlerMap[name.value];
     }
     
     if (handler) {
@@ -211,67 +228,68 @@
 }
 
 
-#pragma mark SDLProxyBase
-// typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error);
+#pragma mark Proxy Wrappers
 
-- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(SDLRequestCompletionHandler)handler {
+- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     if (!self.isConnected) {
         [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
-        handler(nil, nil, [SDLManager errorWithDescription:@"Can't send request" andReason:@"Proxy not connected"]);
+        
+        if (handler) {
+            handler(nil, nil, [NSError sdl_notConnectedError]);
+        }
+        
         return;
     }
     // Add a correlation ID
-    NSNumber *corrID = [self getNextCorrelationId];
+    NSNumber *corrID = [self sdl_getNextCorrelationId];
     request.correlationID = corrID;
     
     // Check for RPCs that require an extra handler
     // TODO: add SDLAlert and SDLScrollableMessage
     if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
-        NSMutableArray *softButtons = show.softButtons;
+        NSMutableArray<SDLSoftButton *> *softButtons = show.softButtons;
         if (softButtons && softButtons.count > 0) {
             for (SDLSoftButton *sb in softButtons) {
                 if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
-                    @throw [SDLManager createMissingHandlerException];
+                    @throw [SDLManager sdl_missingHandlerException]; // TODO: Use nullability annotations instead?
                 }
                 if (!sb.softButtonID) {
-                    @throw [SDLManager createMissingIDException];
+                    @throw [SDLManager sdl_missingIDException];
                 }
-                [self.customButtonHandlerMap setObject:((SDLSoftButtonWithHandler *)sb).onButtonHandler forKey:sb.softButtonID];
+                self.customButtonHandlerMap[sb.softButtonID] = ((SDLSoftButtonWithHandler *)sb).onButtonHandler;
             }
         }
     }
     else if ([request isKindOfClass:[SDLAddCommand class]]) {
         if (![request isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)request).onCommandHandler == nil) {
-            @throw [SDLManager createMissingHandlerException];
+            @throw [SDLManager sdl_missingHandlerException];
         }
         if (!((SDLAddCommandWithHandler *)request).cmdID) {
-            @throw [SDLManager createMissingIDException];
+            @throw [SDLManager sdl_missingIDException];
         }
-        [self.commandHandlerMap setObject:((SDLAddCommandWithHandler *)request).onCommandHandler forKey:((SDLAddCommandWithHandler *)request).cmdID];
+        self.commandHandlerMap[((SDLAddCommandWithHandler *)request).cmdID] = ((SDLAddCommandWithHandler *)request).onCommandHandler;
     }
     else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
         if (![request isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)request).onButtonHandler == nil) {
-            @throw [SDLManager createMissingHandlerException];
+            @throw [SDLManager sdl_missingHandlerException];
         }
         // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
         NSString *buttonName = ((SDLSubscribeButtonWithHandler *)request).buttonName.value;
         if (!buttonName) {
-            @throw [SDLManager createMissingIDException];
+            @throw [SDLManager sdl_missingIDException];
         }
-        [self.buttonHandlerMap setObject:((SDLSubscribeButtonWithHandler *)request).onButtonHandler forKey:buttonName];
+        self.buttonHandlerMap[buttonName] = ((SDLSubscribeButtonWithHandler *)request).onButtonHandler;
     }
     
     if (handler) {
         self.rpcRequestDictionary[corrID] = request;
-        [self.rpcResponseHandlerMap setObject:handler forKey:corrID];
+        self.rpcResponseHandlerMap[corrID] = handler;
     }
     [self.proxy sendRPC:request];
 }
 
 - (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
-    // TODO: No need for strong/weak self
-    // TODO: Use non-null for these
     if (appName && appID && languageDesired)
     {
         [SDLDebugTool logInfo:@"Start Proxy"];
@@ -290,19 +308,18 @@
     }
 }
 
-- (void)startProxy {
+- (void)sdl_startProxy {
     [self startProxyWithAppName:self.appName appID:self.appID isMedia:self.isMedia languageDesired:self.languageDesired];
 }
 
 - (void)stopProxy {
-    [self disposeProxy];
+    [self sdl_disposeProxy];
 }
 
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
     // TODO: Need to check if the put file stream needs to be on a background queue
-    // Add a correlation ID
     SDLRPCRequest *rpcWithCorrID = putFileRPCRequest;
-    NSNumber *corrID = [self getNextCorrelationId];
+    NSNumber *corrID = [self sdl_getNextCorrelationId];
     rpcWithCorrID.correlationID = corrID;
     
     [self.proxy putFileStream:inputStream withRequest:(SDLPutFile *)rpcWithCorrID];
@@ -311,8 +328,7 @@
 
 #pragma mark Private Methods
 
-// TODO: Private methods should be prefixed `sdl_`
-- (void)disposeProxy {
+- (void)sdl_disposeProxy {
     [SDLDebugTool logInfo:@"Stop Proxy"];
     [self.proxy dispose];
     self.proxy = nil;
@@ -320,11 +336,8 @@
     self.firstHMINotNoneOccurred = NO;
 }
 
-- (NSNumber *)getNextCorrelationId {
-    NSNumber *corrId = nil;
-    self.correlationID++;
-    corrId = [NSNumber numberWithInt:self.correlationID];
-    return corrId;
+- (NSNumber *)sdl_getNextCorrelationId {
+    return @(self.correlationID++);
 }
 
 
@@ -335,7 +348,7 @@
     self.connected = YES;
     
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
-    regRequest.isMediaApplication = [NSNumber numberWithBool:self.isMedia];
+    regRequest.isMediaApplication = @(self.isMedia);
     regRequest.ngnMediaScreenAppName = self.shortName;
     
     if (self.vrSynonyms) {
@@ -344,183 +357,184 @@
     // TODO: implement handler with success/error
     [self sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         if (error) {
-            [self postNotification:SDLDidFailToRegisterNotification info:error];
+            [self sdl_postNotification:SDLDidFailToRegisterNotification info:error];
         } else {
-            [self postNotification:SDLDidRegisterNotification info:response];
+            [self sdl_postNotification:SDLDidRegisterNotification info:response];
         }
         
     }];
-    [self postNotification:SDLDidConnectNotification info:nil];
+    
+    [self sdl_postNotification:SDLDidConnectNotification info:nil];
 }
 
 - (void)onProxyClosed {
     // Already background dispatched from caller
     [SDLDebugTool logInfo:@"onProxyClosed"];
     self.connected = NO;
-    [self disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
-    [self postNotification:SDLDidDisconnectNotification info:nil];
-    [self startProxy];
+    [self sdl_disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
+    [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
+    [self sdl_startProxy];
 }
 
 - (void)onError:(NSException *)e {
-    NSError *error = [SDLManager errorWithDescription:e.name andReason:e.reason];
-    [self postNotification:SDLDidReceiveErrorNotification info:error];
+    NSError *error = [NSError sdl_unknownHeadUnitErrorWithDescription:e.name andReason:e.reason];
+    [self sdl_postNotification:SDLDidReceiveErrorNotification info:error];
 }
 
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onAlertResponse:(SDLAlertResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onDeleteCommandResponse:(SDLDeleteCommandResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onDeleteFileResponse:(SDLDeleteFileResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onEncodedSyncPDataRespons:(SDLEncodedSyncPDataResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onGenericResponse:(SDLGenericResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onListFilesResponse:(SDLListFilesResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onPutFileResponse:(SDLPutFileResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onReadDIDResponse:(SDLReadDIDResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSetMediaClockTimerResponse:(SDLSetMediaClockTimerResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onShowConstantTBTResponse:(SDLShowConstantTBTResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onShowResponse:(SDLShowResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSliderResponse:(SDLSliderResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSpeakResponse:(SDLSpeakResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSubscribeButtonResponse:(SDLSubscribeButtonResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response {
-    [self runHandlersForResponse:(SDLRPCResponse *)response];
+    [self sdl_runHandlersForResponse:response];
 }
 
-- (void)onOnLockScreenNotification:(SDLLockScreenStatus *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
+    [self sdl_notify:notification];
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
@@ -529,13 +543,13 @@
         BOOL occurred = NO;
         occurred = self.firstHMINotNoneOccurred;
         if (!occurred) {
-            [self postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
+            [self sdl_postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
         }
         self.firstHMINotNoneOccurred = YES;
         
         occurred = self.firstHMIFullOccurred;
         if (!occurred) {
-            [self postNotification:SDLDidReceiveFirstFullHMIStatusNotification info:notification];
+            [self sdl_postNotification:SDLDidReceiveFirstFullHMIStatusNotification info:notification];
         }
         self.firstHMIFullOccurred = YES;
     }
@@ -543,86 +557,131 @@
         BOOL occurred = NO;
         occurred = self.firstHMINotNoneOccurred;
         if (!occurred) {
-            [self postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
+            [self sdl_postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
         }
         self.firstHMINotNoneOccurred = YES;
     }
-    [self postNotification:SDLDidChangeHMIStatusNotification info:notification];
+    [self sdl_postNotification:SDLDidChangeHMIStatusNotification info:notification];
 }
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnButtonPress:(SDLOnButtonPress *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnCommand:(SDLOnCommand *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnTBTClientState:(SDLOnTBTClientState *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification {
-    [self notifyDelegatesOfNotification:(SDLRPCNotification *)notification];
+    [self sdl_notify:notification];
 }
 
-#pragma mark class methods
 
-+ (NSError *)errorWithDescription:(NSString *)description andReason:(NSString *)reason {
+#pragma mark Exceptions
+
++ (NSException *)sdl_missingHandlerException {
+    return [NSException
+            exceptionWithName:@"MissingHandlerException"
+            reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
+            userInfo:nil];
+}
+
++ (NSException *)sdl_missingIDException {
+    return [NSException
+            exceptionWithName:@"MissingIDException"
+            reason:@"This request requires an ID (command, softbutton, etc) to be specified"
+            userInfo:nil];
+}
+
+@end
+
+
+#pragma mark - SDLManager NSError category implementation
+
+@implementation NSError (SDLManagerErrors)
+
++ (NSError *)sdl_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
-    // TODO: we need an actual error code
-    return [NSError errorWithDomain:SDLGenericErrorDomain
-                               code:-1
+    return [NSError errorWithDomain:SDLManagerErrorDomain
+                               code:SDLManagerErrorRPCRequestFailed
                            userInfo:userInfo];
 }
 
++ (NSError *)sdl_notConnectedError {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                               };
+    
+    return [NSError errorWithDomain:SDLManagerErrorDomain
+                               code:SDLManagerErrorNotConnected
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_unknownHeadUnitErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                               };
+    return [NSError errorWithDomain:SDLManagerErrorDomain
+                               code:SDLManagerErrorUnknownHeadUnitError
+                           userInfo:userInfo];
+}
 
 @end
+
+NS_ASSUME_NONNULL_END

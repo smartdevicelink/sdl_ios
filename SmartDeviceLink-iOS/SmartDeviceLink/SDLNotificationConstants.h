@@ -40,6 +40,3 @@ extern NSString *const SDLDidReceiveTouchEventNotification;
 extern NSString *const SDLDidReceiveVehicleDataNotification;
 
 extern NSString *const SDLNotificationUserInfoNotificationObject;
-
-#pragma mark Error Domains
-extern NSString *const SDLGenericErrorDomain;
