@@ -41,6 +41,14 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 @interface SDLManager () <SDLProxyListener>
 
+// Public readonly
+@property (copy, nonatomic, readwrite) NSString *appName;
+@property (copy, nonatomic, readwrite) NSString *appID;
+@property (assign, nonatomic, readwrite) BOOL isMedia;
+@property (strong, nonatomic, readwrite) SDLLanguage *languageDesired;
+@property (copy, nonatomic, readwrite) NSString *shortName;
+@property (copy, nonatomic, readwrite) NSArray<NSString *> *vrSynonyms;
+
 // SDL state
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -61,8 +69,10 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 @end
 
-@implementation SDLManager
 
+#pragma mark - SDLManager Implementation
+
+@implementation SDLManager
 
 #pragma mark Lifecycle
 
@@ -234,14 +244,18 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [self.proxy sendRPC:request];
 }
 
-- (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired {
+- (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired shortName:(nullable NSString *)shortName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
     if (appName && appID && languageDesired)
     {
         [SDLDebugTool logInfo:@"Start Proxy"];
+        
         self.appName = appName;
         self.appID = appID;
         self.isMedia = isMedia;
         self.languageDesired = languageDesired;
+        self.shortName = shortName;
+        self.vrSynonyms = vrSynonyms;
+        
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [SDLProxy enableSiphonDebug];
