@@ -23,7 +23,7 @@ The mobile library component of SDL is meant to run on the end user’s smart-de
 
 We're still working on creating documentation for each of these individual repositories, but in the meantime, you can find more information about SmartDeviceLink [on the SDL Core README](https://github.com/smartdevicelink/sdl_core/blob/master/README.md) and [on Genivi](http://projects.genivi.org/smartdevicelink/about).
 
-See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/release/4.0.0/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
+See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
 
 ### Installing
 
@@ -35,7 +35,7 @@ In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.0'`. Then run 
 
 ##### Carthage
 
-Carthage currently only supports stable versions, support will come when SDL iOS releases version 4.0.0 stable.
+SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
 ### Reference Documentation
 
