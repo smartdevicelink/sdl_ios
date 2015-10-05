@@ -99,61 +99,6 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 #pragma mark Event, Response, Notification Processing
 
-- (void)sdl_notify:(__kindof SDLRPCNotification *)notification {
-    if ([notification isKindOfClass:[SDLOnCommand class]]) {
-        [self sdl_postNotification:SDLDidReceiveCommandNotification info:notification];
-        [self sdl_runHandlerForCommand:((SDLOnCommand *)notification)];
-    }
-    else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-        if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
-            [self sdl_postNotification:SDLDidReceiveButtonEventNotification info:notification];
-        }
-        else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-            [self sdl_postNotification:SDLDidReceiveButtonPressNotification info:notification];
-        }
-        [self sdl_runHandlerForButton:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnDriverDistraction class]]) {
-        [self sdl_postNotification:SDLDidChangeDriverDistractionStateNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
-        [self sdl_postNotification:SDLDidUnregisterNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnAudioPassThru class]]) {
-        [self sdl_postNotification:SDLDidReceiveAudioPassThruNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnEncodedSyncPData class]]) {
-        [self sdl_postNotification:SDLDidReceiveEncodedDataNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnHashChange class]]) {
-        [self sdl_postNotification:SDLDidReceiveNewHashNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnLanguageChange class]]) {
-        [self sdl_postNotification:SDLDidChangeLanguageNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnPermissionsChange class]]) {
-        [self sdl_postNotification:SDLDidChangePermissionsNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnSyncPData class]]) {
-        [self sdl_postNotification:SDLDidReceiveDataNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnSystemRequest class]]) {
-        [self sdl_postNotification:SDLDidReceiveSystemRequestNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnTBTClientState class]]) {
-        [self sdl_postNotification:SDLDidChangeTurnByTurnStateNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnTouchEvent class]]) {
-        [self sdl_postNotification:SDLDidReceiveTouchEventNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnVehicleData class]]) {
-        [self sdl_postNotification:SDLDidReceiveVehicleDataNotification info:notification];
-    }
-    else if ([notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
-        [self sdl_postNotification:SDLDidChangeLockScreenStatusNotification info:notification];
-    }
-}
-
 - (void)sdl_postNotification:(NSString *)name info:(nullable id)info {
     NSDictionary<NSString *, id> *userInfo = nil;
     if (info != nil) {
@@ -421,7 +366,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [self sdl_runHandlersForResponse:response];
 }
 
-- (void)onEncodedSyncPDataRespons:(SDLEncodedSyncPDataResponse *)response {
+- (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response {
     [self sdl_runHandlersForResponse:response];
 }
 
@@ -514,7 +459,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
-    [self sdl_runHandlersForResponse:response];
+    [self sdl_postNotification:SDLDidReceiveDataNotification info:notification];
 }
 
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
@@ -534,7 +479,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidChangeLockScreenStatusNotification info:notification];
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
@@ -565,15 +510,15 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidChangeDriverDistractionStateNotification info:notification];
 }
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidUnregisterNotification info:notification];
 }
 
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveAudioPassThruNotification info:notification];
 }
 
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification {
@@ -581,27 +526,34 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnButtonPress:(SDLOnButtonPress *)notification {
-    [self sdl_notify:notification];
+    if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
+        [self sdl_postNotification:SDLDidReceiveButtonEventNotification info:notification];
+    } else ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+        [self sdl_postNotification:SDLDidReceiveButtonPressNotification info:notification];
+    }
+    
+    [self sdl_runHandlerForButton:notification];
 }
 
 - (void)onOnCommand:(SDLOnCommand *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveCommandNotification info:notification];
+    [self sdl_runHandlerForCommand:((SDLOnCommand *)notification)];
 }
 
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveEncodedDataNotification info:notification];
 }
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveNewHashNotification info:notification];
 }
 
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidChangeLanguageNotification info:notification];
 }
 
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidChangePermissionsNotification info:notification];
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
@@ -609,19 +561,19 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveSystemRequestNotification info:notification];
 }
 
 - (void)onOnTBTClientState:(SDLOnTBTClientState *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidChangeTurnByTurnStateNotification info:notification];
 }
 
 - (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveTouchEventNotification info:notification];
 }
 
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveVehicleDataNotification info:notification];
 }
 
 
