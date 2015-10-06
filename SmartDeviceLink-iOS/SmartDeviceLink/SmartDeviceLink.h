@@ -16,6 +16,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLProxy.h"
 #import "SDLProxyListener.h"
 #import "SDLProxyFactory.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLTTSChunkFactory.h"
 
 /***** Debug *****/
@@ -274,8 +275,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWiperStatus.h"
 
 // Enhancements
-#import "SDLNotificationConstants.h"
 #import "SDLAddCommandWithHandler.h"
+#import "SDLErrorConstants.h"
+#import "SDLManager.h"
+#import "SDLNotificationConstants.h"
 #import "SDLSoftButtonWithHandler.h"
 #import "SDLSubscribeButtonWithHandler.h"
-#import "SDLManager.h"

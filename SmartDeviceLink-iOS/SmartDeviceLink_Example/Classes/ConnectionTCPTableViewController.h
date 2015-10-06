@@ -4,6 +4,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ConnectionTCPTableViewController : UITableViewController
+@interface ConnectionTCPTableViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end

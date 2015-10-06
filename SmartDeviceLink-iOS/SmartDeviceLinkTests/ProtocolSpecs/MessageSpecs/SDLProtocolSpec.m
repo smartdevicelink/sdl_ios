@@ -61,7 +61,7 @@ describe(@"SendEndSession Tests", ^ {
     context(@"During V1 session", ^ {
         it(@"Should send the correct data", ^ {
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x03 version:0x01];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0x03 version:0x01];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -78,7 +78,7 @@ describe(@"SendEndSession Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol sendEndSessionWithType:SDLServiceType_RPC sessionID:0x03];
+            [testProtocol sendEndSessionWithType:SDLServiceType_RPC];
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -87,7 +87,7 @@ describe(@"SendEndSession Tests", ^ {
     context(@"During V2 session", ^ {
         it(@"Should send the correct data", ^ {
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x61 version:0x02];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0x61 version:0x02];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -104,7 +104,7 @@ describe(@"SendEndSession Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol sendEndSessionWithType:SDLServiceType_RPC sessionID:0x61];
+            [testProtocol sendEndSessionWithType:SDLServiceType_RPC];
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -122,7 +122,7 @@ describe(@"SendRPCRequest Tests", ^ {
             [[[[mockRequest stub] andReturn:dictionaryV1] ignoringNonObjectArgs] serializeAsDictionary:1];
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0xFF version:0x01];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0xFF version:0x01];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -159,7 +159,7 @@ describe(@"SendRPCRequest Tests", ^ {
             [[[mockRequest stub] andReturn:[NSData dataWithBytes:"COMMAND" length:strlen("COMMAND")]] bulkData];
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x01 version:0x02];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0x01 version:0x02];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -207,7 +207,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
             (void)[[[routerMock stub] andReturn:routerMock] init];
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x43 version:0x01];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0x43 version:0x01];
             
             NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV1 options:0 error:0];
             NSUInteger dataLength = jsonTestData.length;
@@ -251,7 +251,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
             (void)[[[routerMock stub] andReturn:routerMock] init];
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0xF5 version:0x02];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0xF5 version:0x02];
             
             NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV2 options:0 error:0];
             NSUInteger dataLength = jsonTestData.length;
@@ -302,7 +302,7 @@ describe(@"SendHeartbeat Tests", ^ {
     context(@"During V1 session", ^ {
         it(@"Should send the correct data", ^ {
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0x43 version:0x01];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0x43 version:0x01];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -328,7 +328,7 @@ describe(@"SendHeartbeat Tests", ^ {
     context(@"During V2 session", ^ {
         it(@"Should send the correct data", ^ {
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-            [testProtocol handleProtocolSessionStarted:SDLServiceType_RPC sessionID:0xF5 version:0x02];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0xF5 version:0x02];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -372,11 +372,11 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
             expect(@(serviceType)).to(equal(@(SDLServiceType_BulkData)));
             expect(@(sessionID)).to(equal(@0x44));
             expect(@(version)).to(equal(@0x03));
-        }] ignoringNonObjectArgs] handleProtocolSessionStarted:0 sessionID:0 version:0];
+        }] ignoringNonObjectArgs] handleProtocolStartSessionACK:0 sessionID:0 version:0];
         
-        testProtocol.protocolDelegate = delegateMock;
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
         
-        [testProtocol handleProtocolSessionStarted:SDLServiceType_BulkData sessionID:0x44 version:0x03];
+        [testProtocol handleProtocolStartSessionACK:SDLServiceType_BulkData sessionID:0x44 version:0x03];
         
         expect(@(verified)).to(beTruthy());
     });
@@ -402,7 +402,7 @@ describe(@"OnProtocolMessageReceived Tests", ^ {
             expect(message).to(beIdenticalTo(testMessage));
         }] ignoringNonObjectArgs] onProtocolMessageReceived:[OCMArg any]];
         
-        testProtocol.protocolDelegate = delegateMock;
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
         
         [testProtocol onProtocolMessageReceived:testMessage];
         
@@ -421,7 +421,7 @@ describe(@"OnProtocolOpened Tests", ^ {
             verified = YES;
         }] onProtocolOpened];
         
-        testProtocol.protocolDelegate = delegateMock;
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
         
         [testProtocol onProtocolOpened];
         
@@ -440,7 +440,7 @@ describe(@"OnProtocolClosed Tests", ^ {
             verified = YES;
         }] onProtocolClosed];
         
-        testProtocol.protocolDelegate = delegateMock;
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
         
         [testProtocol onProtocolClosed];
         
@@ -470,7 +470,7 @@ describe(@"OnError Tests", ^ {
             expect(exception).to(equal(testException));
         }] onError:[OCMArg any] exception:[OCMArg any]];
         
-        testProtocol.protocolDelegate = delegateMock;
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
         
         [testProtocol onError:@"Nothing actually happened" exception:testException];
         

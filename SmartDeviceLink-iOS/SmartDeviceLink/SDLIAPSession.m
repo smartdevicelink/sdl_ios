@@ -112,7 +112,7 @@
 
     return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         if (stream == [strongSelf.easession outputStream]) {
             [SDLDebugTool logInfo:@"Output Stream Opened"];
             strongSelf.isOutputStreamOpen = YES;
@@ -120,7 +120,7 @@
             [SDLDebugTool logInfo:@"Input Stream Opened"];
             strongSelf.isInputStreamOpen = YES;
         }
-        
+
         // When both streams are open, session initialization is complete. Let the delegate know.
         if (strongSelf.isInputStreamOpen && strongSelf.isOutputStreamOpen) {
             [strongSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
@@ -133,7 +133,7 @@
 
     return ^(NSStream *stream) {
         typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.delegate onSessionStreamsEnded:strongSelf];
     };
