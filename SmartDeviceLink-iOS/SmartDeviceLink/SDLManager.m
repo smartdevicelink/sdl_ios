@@ -55,7 +55,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (strong, nonatomic, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
-@property (assign, nonatomic) int correlationID;
+@property (assign, nonatomic) UInt32 correlationID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (assign, getter=isConnected, nonatomic) BOOL connected;
@@ -268,7 +268,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)sdl_startProxy {
-    [self startProxyWithAppName:self.appName appID:self.appID isMedia:self.isMedia languageDesired:self.languageDesired];
+    [self startProxyWithAppName:self.appName appID:self.appID isMedia:self.isMedia languageDesired:self.languageDesired shortName:self.shortName vrSynonyms:self.vrSynonyms];
 }
 
 - (void)stopProxy {
@@ -296,6 +296,10 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (NSNumber *)sdl_getNextCorrelationId {
+    if (self.correlationID == UINT16_MAX) {
+        self.correlationID = 0;
+    }
+    
     return @(self.correlationID++);
 }
 
