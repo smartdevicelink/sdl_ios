@@ -2073,10 +2073,7 @@
 		5D2662251BC2C4070036D0B5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				D0BEA10C1BBC5030007C3D14 /* SDLNotificationConstants.h */,
-				D0BEA10D1BBC5030007C3D14 /* SDLNotificationConstants.m */,
-				5D26622B1BC2EDE20036D0B5 /* SDLErrorConstants.h */,
-				5D26622C1BC2EDE20036D0B5 /* SDLErrorConstants.m */,
+				5D26622F1BC4424F0036D0B5 /* Constants */,
 				5D26622A1BC2EDD00036D0B5 /* Categories */,
 			);
 			name = Utilities;
@@ -2089,6 +2086,17 @@
 				5D2662271BC2C4220036D0B5 /* NSMapTable+Subscripting.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		5D26622F1BC4424F0036D0B5 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D0BEA10C1BBC5030007C3D14 /* SDLNotificationConstants.h */,
+				D0BEA10D1BBC5030007C3D14 /* SDLNotificationConstants.m */,
+				5D26622B1BC2EDE20036D0B5 /* SDLErrorConstants.h */,
+				5D26622C1BC2EDE20036D0B5 /* SDLErrorConstants.m */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		5D4019A61A76EC350006B0C2 = {
