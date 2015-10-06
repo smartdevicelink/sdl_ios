@@ -476,8 +476,9 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [self sdl_runHandlersForResponse:response];
 }
 
+// TODO: Not actually a notification
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
-    [self sdl_postNotification:SDLDidReceiveDataNotification info:notification];
+    [self sdl_postNotification:SDLDidReceiveDataNotification info:response];
 }
 
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
@@ -540,15 +541,11 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveButtonEventNotification info:notification];
 }
 
 - (void)onOnButtonPress:(SDLOnButtonPress *)notification {
-    if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
-        [self sdl_postNotification:SDLDidReceiveButtonEventNotification info:notification];
-    } else ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-        [self sdl_postNotification:SDLDidReceiveButtonPressNotification info:notification];
-    }
+    [self sdl_postNotification:SDLDidReceiveButtonPressNotification info:notification];
     
     [self sdl_runHandlerForButton:notification];
 }
@@ -575,7 +572,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
-    [self sdl_notify:notification];
+    [self sdl_postNotification:SDLDidReceiveSystemRequestNotification info:notification];
 }
 
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
