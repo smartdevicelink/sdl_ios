@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: Need documentation
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId;
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port;
 
 @property (assign, nonatomic) BOOL tcpDebugMode;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugIPAddress;
@@ -36,8 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly) BOOL isMedia;
 
-@property (copy, nonatomic) SDLAppHMIType *appType;
+@property (strong, nonatomic) SDLAppHMIType *appType;
 @property (strong, nonatomic) SDLLanguage *language;
+@property (assign, nonatomic) BOOL showLockScreenInOptional;
 @property (copy, nonatomic, nullable) NSString *shortAppName;
 @property (copy, nonatomic, nullable) NSString *ttsName;
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionSynonyms;

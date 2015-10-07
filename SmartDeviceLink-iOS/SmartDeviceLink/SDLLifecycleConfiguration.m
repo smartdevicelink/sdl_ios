@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
+    _showLockScreenInOptional = NO;
     
     return self;
 }
@@ -44,10 +45,18 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithAppName:appName appId:appId];
 }
 
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port {
+    SDLLifecycleConfiguration *config = [[self alloc] initWithAppName:appName appId:appId];
+    config.tcpDebugIPAddress = ipAddress;
+    config.tcpDebugPort = port;
+    
+    return config;
+}
+
 #pragma mark Computed Properties
 
 - (BOOL)isMedia {
-    if (self.appType == [SDLAppHMIType MEDIA]) {
+    if ([self.appType isEqualToEnum:[SDLAppHMIType MEDIA]]) {
         return YES;
     }
     

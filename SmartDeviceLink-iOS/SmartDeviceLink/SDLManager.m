@@ -54,6 +54,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
+@property (copy, nonatomic, nullable) UIImage *lockScreenIcon;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable<SDLRPCCorrelationID *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
@@ -404,6 +405,12 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)onListFilesResponse:(SDLListFilesResponse *)response {
     [self sdl_runHandlersForResponse:response];
+}
+
+- (void)onReceivedLockScreenIcon:(UIImage *)icon {
+    // TODO: Notification? I'd guess not.
+    // TODO: Store to file so we're not holding it in memory?
+    self.lockScreenIcon = icon;
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
