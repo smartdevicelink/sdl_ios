@@ -11,6 +11,7 @@
 #import "SDLErrorConstants.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHashChange.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -38,18 +39,21 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 @interface SDLManager () <SDLProxyListener>
 
+// Readonly public properties
 @property (copy, nonatomic, readwrite) SDLLifecycleConfiguration *configuration;
+@property (assign, nonatomic, readwrite, getter=isConnected) BOOL connected;
 
-// SDL state
+// Deprecated internal proxy
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (strong, nonatomic, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
+// Internal properties
 @property (assign, nonatomic) UInt32 correlationID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
-@property (assign, getter=isConnected, nonatomic) BOOL connected;
+@property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable<SDLRPCCorrelationID *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
@@ -303,6 +307,11 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     regRequest.isMediaApplication = @(self.configuration.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.shortAppName;
     
+    // TODO: Should the hash be removed under any conditions?
+    if (self.resumeHash) {
+        regRequest.hashID = self.resumeHash.hashID;
+    }
+    
     if (self.configuration.voiceRecognitionSynonyms) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.voiceRecognitionSynonyms];
     }
@@ -549,6 +558,8 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
+    self.resumeHash = notification;
+    
     [self sdl_postNotification:SDLDidReceiveNewHashNotification info:notification];
 }
 

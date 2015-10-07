@@ -19,10 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 
-// Main proxy methods
+#pragma mark Lifecycle
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block;
 - (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration;
 - (void)stopProxy;
+
+#pragma mark File Streaming
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 
 @end
