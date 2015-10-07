@@ -44,6 +44,7 @@
 #import "SDLShow.h"
 #import "SDLShowConstantTBT.h"
 #import "SDLSlider.h"
+#import "SDLSoftButton.h"
 #import "SDLSpeak.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLStartTime.h"
@@ -60,9 +61,8 @@
 @implementation SDLRPCRequestFactory
 
 //***** AddCommand *****
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID {
-    SDLAddCommand *msg = [[SDLAddCommand alloc] init];
-    msg.correlationID = correlationID;
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
+    SDLAddCommand *msg = [[SDLAddCommand alloc] initWithHandler:handler];
 
     msg.cmdID = cmdID;
 
@@ -85,12 +85,12 @@
     return msg;
 }
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID {
-    return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:menuName parentID:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil correlationID:correlationID];
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
+    return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:menuName parentID:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil handler:handler];
 }
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID {
-    return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:nil vrCommands:vrCommands correlationID:correlationID];
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
+    return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:nil vrCommands:vrCommands handler:handler];
 }
 //*****
 
@@ -580,6 +580,18 @@
 }
 //*****
 
++ (SDLSoftButton *)buildSoftButtonWithType:(SDLSoftButtonType *)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonID:(UInt16)buttonID systemAction:(SDLSystemAction *)systemAction handler:(SDLRPCNotificationHandler)handler {
+    SDLSoftButton *button = [[SDLSoftButton alloc] initWithHandler:handler];
+    button.type = type;
+    button.text = text;
+    button.image = image;
+    button.isHighlighted = @(highlighted);
+    button.softButtonID = @(buttonID);
+    button.systemAction = systemAction;
+    
+    return button;
+}
+
 
 //***** Speak *****
 + (SDLSpeak *)buildSpeakWithTTSChunks:(NSArray *)ttsChunks correlationID:(NSNumber *)correlationID {
@@ -602,9 +614,8 @@
 //*****
 
 
-+ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID {
-    SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] init];
-    msg.correlationID = correlationID;
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler {
+    SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] initWithHandler:handler];
     msg.buttonName = buttonName;
 
     return msg;

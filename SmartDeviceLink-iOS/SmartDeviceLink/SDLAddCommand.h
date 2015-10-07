@@ -3,6 +3,9 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLNotificationConstants.h"
+#import "SDLRequestHandler.h"
+
 @class SDLMenuParams;
 @class SDLImage;
 
@@ -31,8 +34,7 @@
  *
  * @see SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
  */
-@interface SDLAddCommand : SDLRPCRequest {
-}
+@interface SDLAddCommand : SDLRPCRequest <SDLRequestHandler>
 
 /**
  * Constructs a new SDLAddCommand object
@@ -40,11 +42,27 @@
 - (instancetype)init;
 
 /**
+ *  Construct a SDLAddCommand with a handler callback when an event occurs.
+ *
+ *  @param handler A callback that will be called when a button event occurs for the command
+ *
+ *  @return An SDLAddCommand object
+ */
+- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+
+/**
  * Constructs a new *SDLAddCommand* object indicated by the dictionary parameter
  *
  * @param dict The dictionary to use
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+/**
+ *  A handler that will let you know when the button you created is subscribed.
+ *
+ *  @warning This will only work if you use SDLManager.
+ */
+@property (copy, nonatomic, readonly) SDLRPCNotificationHandler handler;
 
 /**
  * @abstract A Unique Command ID that identifies the command

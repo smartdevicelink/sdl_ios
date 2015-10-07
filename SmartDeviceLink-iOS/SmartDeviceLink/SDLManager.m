@@ -8,15 +8,11 @@
 #import "SDLManager.h"
 
 #import "NSMapTable+Subscripting.h"
-#import "SDLAddCommandWithHandler.h"
 #import "SDLErrorConstants.h"
 #import "SDLNotificationConstants.h"
-#import "SDLSubscribeButtonWithHandler.h"
-#import "SDLSoftButtonWithHandler.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
-
 
 #pragma mark - Private Typedefs and Constants
 
@@ -206,41 +202,44 @@ typedef NSNumber SDLSubscribeButtonCommandID;
         NSMutableArray<SDLSoftButton *> *softButtons = show.softButtons;
         if (softButtons && softButtons.count > 0) {
             for (SDLSoftButton *sb in softButtons) {
-                if (![sb isKindOfClass:[SDLSoftButtonWithHandler class]] || ((SDLSoftButtonWithHandler *)sb).onButtonHandler == nil) {
-                    @throw [SDLManager sdl_missingHandlerException]; // TODO: Use nullability annotations instead?
-                }
                 if (!sb.softButtonID) {
                     @throw [SDLManager sdl_missingIDException];
                 }
-                self.customButtonHandlerMap[sb.softButtonID] = ((SDLSoftButtonWithHandler *)sb).onButtonHandler;
+                if (sb.handler) {
+                    self.customButtonHandlerMap[sb.softButtonID] = sb.handler;
+                }
             }
         }
     }
     else if ([request isKindOfClass:[SDLAddCommand class]]) {
-        if (![request isKindOfClass:[SDLAddCommandWithHandler class]] || ((SDLAddCommandWithHandler *)request).onCommandHandler == nil) {
-            @throw [SDLManager sdl_missingHandlerException];
-        }
-        if (!((SDLAddCommandWithHandler *)request).cmdID) {
+        // TODO: Can we create CmdIDs ourselves?
+        SDLAddCommand *addCommand = (SDLAddCommand *)request;
+        
+        if (!addCommand.cmdID) {
             @throw [SDLManager sdl_missingIDException];
         }
-        self.commandHandlerMap[((SDLAddCommandWithHandler *)request).cmdID] = ((SDLAddCommandWithHandler *)request).onCommandHandler;
+        if (addCommand.handler) {
+            self.commandHandlerMap[addCommand.cmdID] = addCommand.handler;
+        }
     }
     else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
-        if (![request isKindOfClass:[SDLSubscribeButtonWithHandler class]] || ((SDLSubscribeButtonWithHandler *)request).onButtonHandler == nil) {
-            @throw [SDLManager sdl_missingHandlerException];
-        }
         // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
-        NSString *buttonName = ((SDLSubscribeButtonWithHandler *)request).buttonName.value;
+        SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
+        NSString *buttonName = subscribeButton.buttonName.value;
+        
         if (!buttonName) {
             @throw [SDLManager sdl_missingIDException];
         }
-        self.buttonHandlerMap[buttonName] = ((SDLSubscribeButtonWithHandler *)request).onButtonHandler;
+        if (subscribeButton.handler) {
+            self.buttonHandlerMap[buttonName] = subscribeButton.handler;
+        }
     }
     
     if (handler) {
         self.rpcRequestDictionary[corrID] = request;
         self.rpcResponseHandlerMap[corrID] = handler;
     }
+    
     [self.proxy sendRPC:request];
 }
 

@@ -17,6 +17,17 @@
     return self;
 }
 
+- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    _handler = handler;
+    
+    return self;
+}
+
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
