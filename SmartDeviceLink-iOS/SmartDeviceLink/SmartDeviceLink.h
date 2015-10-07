@@ -276,6 +276,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // Enhancements
 #import "SDLErrorConstants.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLManager.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRequestHandler.h"

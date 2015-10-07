@@ -9,6 +9,7 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLErrorConstants.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLNotificationConstants.h"
 
 
@@ -37,13 +38,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 @interface SDLManager () <SDLProxyListener>
 
-// Public readonly
-@property (copy, nonatomic, readwrite) NSString *appName;
-@property (copy, nonatomic, readwrite) NSString *appID;
-@property (assign, nonatomic, readwrite) BOOL isMedia;
-@property (strong, nonatomic, readwrite) SDLLanguage *languageDesired;
-@property (copy, nonatomic, readwrite) NSString *shortName;
-@property (copy, nonatomic, readwrite) NSArray<NSString *> *vrSynonyms;
+@property (copy, nonatomic, readwrite) SDLLifecycleConfiguration *configuration;
 
 // SDL state
 #pragma clang diagnostic push
@@ -87,8 +82,9 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     if (!self) {
         return nil;
     }
+    
     _connected = NO;
-    _isMedia = NO;
+    _configuration = nil;
     
     _correlationID = 1;
     _firstHMIFullOccurred = NO;
@@ -243,31 +239,25 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [self.proxy sendRPC:request];
 }
 
-- (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired shortName:(nullable NSString *)shortName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
-    if (appName && appID && languageDesired)
-    {
-        [SDLDebugTool logInfo:@"Start Proxy"];
-        
-        self.appName = appName;
-        self.appID = appID;
-        self.isMedia = isMedia;
-        self.languageDesired = languageDesired;
-        self.shortName = shortName;
-        self.vrSynonyms = vrSynonyms;
-        
+- (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration {
+    self.configuration = configuration;
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [SDLProxy enableSiphonDebug];
+    [SDLProxy enableSiphonDebug];
+    
+    if (configuration.tcpDebugMode) {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:configuration.tcpDebugIPAddress tcpPort:configuration.tcpDebugPort];
+    } else {
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+    }
 #pragma clang diagnostic pop
-    }
-    else {
-        [SDLDebugTool logInfo:@"Error: One or more parameters (appName, appID, languageDesired) is nil"];
-    }
 }
 
 - (void)sdl_startProxy {
-    [self startProxyWithAppName:self.appName appID:self.appID isMedia:self.isMedia languageDesired:self.languageDesired shortName:self.shortName vrSynonyms:self.vrSynonyms];
+    if (self.configuration != nil) {
+        [self startProxyWithConfiguration:self.configuration];
+    }
 }
 
 - (void)stopProxy {
@@ -309,12 +299,12 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [SDLDebugTool logInfo:@"onProxyOpened"];
     self.connected = YES;
     
-    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.appName languageDesired:self.languageDesired appID:self.appID];
-    regRequest.isMediaApplication = @(self.isMedia);
-    regRequest.ngnMediaScreenAppName = self.shortName;
+    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.appName languageDesired:self.configuration.language appID:self.configuration.appId];
+    regRequest.isMediaApplication = @(self.configuration.isMedia);
+    regRequest.ngnMediaScreenAppName = self.configuration.shortAppName;
     
-    if (self.vrSynonyms) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.vrSynonyms];
+    if (self.configuration.voiceRecognitionSynonyms) {
+        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.voiceRecognitionSynonyms];
     }
     // TODO: implement handler with success/error
     [self sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {

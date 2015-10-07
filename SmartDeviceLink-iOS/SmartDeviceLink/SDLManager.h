@@ -7,27 +7,21 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventOpened
 };
 
-@class SDLRPCRequest, SDLRPCResponse, SDLRPCNotification, SDLLanguage, SDLPutFile;
+@class SDLLanguage, SDLLifecycleConfiguration, SDLPutFile, SDLRPCNotification, SDLRPCRequest, SDLRPCResponse;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLManager : NSObject
 
-// Proxy registration objects
-@property (copy, nonatomic, readonly) NSString *appName;
-@property (copy, nonatomic, readonly) NSString *appID;
-@property (assign, nonatomic, readonly) BOOL isMedia;
-@property (strong, nonatomic, readonly) SDLLanguage *languageDesired;
-@property (copy, nonatomic, readonly) NSString *shortName;
-@property (copy, nonatomic, readonly) NSArray<NSString *> *vrSynonyms;
 @property (assign, nonatomic, readonly, getter=isConnected) BOOL connected;
+@property (copy, nonatomic, readonly) SDLLifecycleConfiguration *configuration;
 
 + (instancetype)sharedManager;
 
 // Main proxy methods
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block;
-- (void)startProxyWithAppName:(NSString *)appName appID:(NSString *)appID isMedia:(BOOL)isMedia languageDesired:(SDLLanguage *)languageDesired shortName:(nullable NSString *)shortName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms;
+- (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration;
 - (void)stopProxy;
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 
