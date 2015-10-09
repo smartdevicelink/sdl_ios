@@ -39,11 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLAppHMIType *appType;
 @property (strong, nonatomic) SDLLanguage *language;
-@property (assign, nonatomic) BOOL showLockScreenInOptional;
 @property (copy, nonatomic, nullable) NSString *shortAppName;
 @property (copy, nonatomic, nullable) NSString *ttsName;
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionSynonyms;
 @property (copy, nonatomic, nullable) UIImage *appIcon; // TODO: SDLImage of some sort?
+
+// TODO: I don't really like these being in here. Perhaps better in Lock Screen Manager when that gets pulled out of SDLProxy?
+@property (assign, nonatomic) BOOL showLockScreenInOptional;
+@property (copy, nonatomic, null_resettable) UIColor *lockScreenBackgroundColor;
 
 @end
 

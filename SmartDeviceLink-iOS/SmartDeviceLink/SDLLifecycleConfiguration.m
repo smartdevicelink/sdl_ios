@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
     _showLockScreenInOptional = NO;
+    _lockScreenBackgroundColor = [UIColor blackColor];
     
     return self;
 }
@@ -79,10 +80,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)setLockScreenBackgroundColor:(nullable UIColor *)lockScreenBackgroundColor {
+    if (lockScreenBackgroundColor == nil) {
+        _lockScreenBackgroundColor = [UIColor blackColor];
+    } else {
+        _lockScreenBackgroundColor = lockScreenBackgroundColor;
+    }
+}
+
 
 #pragma mark NSCopying
 
-// TODO
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initWithAppName:_appName appId:_appId];
     newConfig->_appType = _appType;
@@ -91,6 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_ttsName = _ttsName;
     newConfig->_voiceRecognitionSynonyms = _voiceRecognitionSynonyms;
     newConfig->_appIcon = _appIcon;
+    newConfig->_lockScreenBackgroundColor = _lockScreenBackgroundColor;
     
     return newConfig;
 }

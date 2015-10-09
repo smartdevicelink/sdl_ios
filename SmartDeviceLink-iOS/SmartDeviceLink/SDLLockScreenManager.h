@@ -19,3 +19,4 @@
 @property (strong, nonatomic, readonly) SDLOnLockScreenStatus *lockScreenStatusNotification;
 
 @end
+ 

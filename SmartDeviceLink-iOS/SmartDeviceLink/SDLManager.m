@@ -10,6 +10,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLErrorConstants.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHashChange.h"
 
@@ -54,7 +55,8 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
-@property (copy, nonatomic, nullable) UIImage *lockScreenIcon;
+@property (strong, nonatomic) SDLLockScreenViewController *lockScreenViewController;
+@property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable<SDLRPCCorrelationID *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
@@ -94,11 +96,14 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     _correlationID = 1;
     _firstHMIFullOccurred = NO;
     _firstHMINotNoneOccurred = NO;
+    _lockScreenViewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _rpcRequestDictionary = [[NSMutableDictionary alloc] init];
     _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
+    
+    _lockScreenPresented = NO;
     
     return self;
 }
@@ -247,12 +252,15 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 - (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration {
     self.configuration = configuration;
     
+    self.lockScreenViewController.appIcon = self.configuration.appIcon;
+    self.lockScreenViewController.backgroundColor = self.configuration.lockScreenBackgroundColor;
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
     
     if (configuration.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:configuration.tcpDebugIPAddress tcpPort:configuration.tcpDebugPort];
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:self.configuration.tcpDebugIPAddress tcpPort:self.configuration.tcpDebugPort];
     } else {
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
     }
@@ -295,6 +303,18 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     }
     
     return @(self.correlationID++);
+}
+
+- (UIViewController *)sdl_getCurrentViewController {
+    // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
+    // TODO: Will this work for everyone in every case? Do we need a way to disable it?
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController != nil) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
 }
 
 
@@ -409,8 +429,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)onReceivedLockScreenIcon:(UIImage *)icon {
     // TODO: Notification? I'd guess not.
-    // TODO: Store to file so we're not holding it in memory?
-    self.lockScreenIcon = icon;
+    self.lockScreenViewController.vehicleIcon = icon;
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
@@ -503,6 +522,27 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
+    // TODO: This logic should be moved into the lock screen manager class when SDLProxy doesn't handle this stuff
+    if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
+        [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
+        self.lockScreenPresented = YES;
+    } else if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
+        if (self.configuration.showLockScreenInOptional) {
+            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
+            self.lockScreenPresented = YES;
+        } else {
+            if (self.lockScreenPresented) {
+                [[self sdl_getCurrentViewController] dismissViewControllerAnimated:YES completion:nil];
+                self.lockScreenPresented = NO;
+            }
+        }
+    } else if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
+        if (self.lockScreenPresented) {
+            [[self sdl_getCurrentViewController] dismissViewControllerAnimated:YES completion:nil];
+            self.lockScreenPresented = NO;
+        }
+    }
+    
     [self sdl_postNotification:SDLDidChangeLockScreenStatusNotification info:notification];
 }
 
