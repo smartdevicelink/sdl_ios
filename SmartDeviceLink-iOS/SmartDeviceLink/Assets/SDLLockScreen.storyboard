@@ -9,7 +9,7 @@
         <!--Lock Screen View Controller-->
         <scene sceneID="sER-HO-a0H">
             <objects>
-                <viewController id="KFL-L4-LT4" customClass="SDLLockScreenViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SDLLockScreenViewController" id="KFL-L4-LT4" customClass="SDLLockScreenViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fQj-wc-g5d"/>
                         <viewControllerLayoutGuide type="bottom" id="4zz-lw-Azz"/>

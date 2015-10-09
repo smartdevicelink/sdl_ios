@@ -73,7 +73,9 @@
 #pragma mark - Private Image
 
 + (UIImage *)sdl_sdlImage {
-    return [UIImage imageNamed:@"sdl_logo" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
+    NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
+    
+    return [UIImage imageNamed:@"sdl_logo" inBundle:sdlBundle compatibleWithTraitCollection:nil];
 }
 
 @end
