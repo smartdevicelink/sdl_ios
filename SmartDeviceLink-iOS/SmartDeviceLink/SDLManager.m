@@ -254,7 +254,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 - (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration {
     self.configuration = configuration;
     
-    self.lockScreenViewController.appIcon = self.configuration.appIcon;
+    self.lockScreenViewController.appIcon = self.configuration.lockScreenAppIcon;
     self.lockScreenViewController.backgroundColor = self.configuration.lockScreenBackgroundColor;
     
 #pragma clang diagnostic push

@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_shortAppName = _shortAppName;
     newConfig->_ttsName = _ttsName;
     newConfig->_voiceRecognitionSynonyms = _voiceRecognitionSynonyms;
-    newConfig->_appIcon = _appIcon;
+    newConfig->_lockScreenAppIcon = _lockScreenAppIcon;
     newConfig->_lockScreenBackgroundColor = _lockScreenBackgroundColor;
     
     return newConfig;
