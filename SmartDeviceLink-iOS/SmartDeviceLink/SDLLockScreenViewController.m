@@ -37,14 +37,20 @@
 #pragma mark - Setters
 
 - (void)setAppIcon:(UIImage *)appIcon {
+    _appIcon = appIcon;
+    
     [self sdl_layoutImages];
 }
 
 - (void)setVehicleIcon:(UIImage *)vehicleIcon {
+    _vehicleIcon = vehicleIcon;
+    
     [self sdl_layoutImages];
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
+    
     [self sdl_setBackgroundColor];
 }
 

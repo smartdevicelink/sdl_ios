@@ -525,9 +525,6 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
     // TODO: This logic should be moved into the lock screen manager class when SDLProxy doesn't handle this stuff
-    self.lockScreenViewController.backgroundColor = self.configuration.lockScreenBackgroundColor;
-    self.lockScreenViewController.appIcon = self.configuration.appIcon;
-    
     if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
         if (!self.lockScreenPresented) {
             [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
