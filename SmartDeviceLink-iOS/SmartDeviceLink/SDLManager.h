@@ -7,6 +7,8 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventOpened
 };
 
+#import "SDLNotificationConstants.h"
+
 @class SDLConfiguration;
 @class SDLLanguage;
 @class SDLLifecycleConfiguration;
