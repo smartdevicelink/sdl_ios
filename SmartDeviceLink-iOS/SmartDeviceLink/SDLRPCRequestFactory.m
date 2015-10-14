@@ -61,6 +61,32 @@
 @implementation SDLRPCRequestFactory
 
 //***** AddCommand *****
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID {
+    SDLAddCommand *msg = [[SDLAddCommand alloc] init];
+    
+    msg.cmdID = cmdID;
+    
+    if (menuName != nil || parentID != nil || position != nil) {
+        SDLMenuParams *menuParams = [[SDLMenuParams alloc] init];
+        menuParams.menuName = menuName;
+        menuParams.parentID = parentID;
+        menuParams.position = position;
+        msg.menuParams = menuParams;
+    }
+    msg.vrCommands = [vrCommands mutableCopy];
+    
+    if (iconValue != nil || iconType != nil) {
+        SDLImage *icon = [[SDLImage alloc] init];
+        icon.value = iconValue;
+        icon.imageType = iconType;
+        msg.cmdIcon = icon;
+    }
+    
+    msg.correlationID = correlationID;
+    
+    return msg;
+}
+
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
     SDLAddCommand *msg = [[SDLAddCommand alloc] initWithHandler:handler];
 
@@ -85,8 +111,16 @@
     return msg;
 }
 
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID {
+    return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:menuName parentID:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil correlationID:correlationID];
+}
+
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
     return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:menuName parentID:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil handler:handler];
+}
+
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID {
+    return [SDLRPCRequestFactory buildAddCommandWithID:cmdID menuName:nil vrCommands:vrCommands correlationID:correlationID];
 }
 
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
@@ -613,6 +647,13 @@
 }
 //*****
 
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID {
+    SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] init];
+    msg.buttonName = buttonName;
+    msg.correlationID = correlationID;
+    
+    return msg;
+}
 
 + (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler {
     SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] initWithHandler:handler];

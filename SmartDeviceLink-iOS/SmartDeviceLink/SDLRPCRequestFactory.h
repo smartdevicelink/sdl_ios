@@ -63,6 +63,12 @@
 }
 
 //***** AddCommand *****
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:parentID:position:vrCommands:iconValue:iconType:handler: with SDLManager instead");;
+
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:vrCommands:handler: with SDLManager instead");
+
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:vrCommands:handler: with SDLManager instead");
+
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
 
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
@@ -200,6 +206,8 @@
 //***
 + (SDLSpeak *)buildSpeakWithTTS:(NSString *)ttsText correlationID:(NSNumber *)correlationID;
 //*****
+
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID __deprecated_msg("use buildSubscribeButtonWithName:handler: with SDLManager instead");
 
 + (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler;
 
