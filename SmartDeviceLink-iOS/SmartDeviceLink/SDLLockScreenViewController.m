@@ -62,7 +62,7 @@
         self.vehicleIconImageView.image = self.vehicleIcon;
     }
     
-    if (self.appIcon) {
+    if (self.appIcon != nil) {
         self.primaryImageView.image = self.appIcon;
         self.secondaryImageView.image = [self.class sdl_sdlImage];
     } else {

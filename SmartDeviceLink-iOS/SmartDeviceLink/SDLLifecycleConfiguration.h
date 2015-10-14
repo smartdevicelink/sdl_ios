@@ -43,11 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSString *ttsName;
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionSynonyms;
 
-// TODO: I don't really like these being in here. Perhaps better in Lock Screen Manager when that gets pulled out of SDLProxy?
-@property (assign, nonatomic) BOOL showLockScreenInOptional;
-@property (copy, nonatomic, null_resettable) UIColor *lockScreenBackgroundColor;
-@property (copy, nonatomic, nullable) UIImage *lockScreenAppIcon;
-
 @end
 
 NS_ASSUME_NONNULL_END

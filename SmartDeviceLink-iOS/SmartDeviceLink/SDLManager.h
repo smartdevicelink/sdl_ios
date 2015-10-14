@@ -7,7 +7,14 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventOpened
 };
 
-@class SDLLanguage, SDLLifecycleConfiguration, SDLPutFile, SDLRPCNotification, SDLRPCRequest, SDLRPCResponse;
+@class SDLConfiguration;
+@class SDLLanguage;
+@class SDLLifecycleConfiguration;
+@class SDLLockScreenConfiguration;
+@class SDLPutFile;
+@class SDLRPCNotification;
+@class SDLRPCRequest;
+@class SDLRPCResponse;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,13 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLManager : NSObject
 
 @property (assign, nonatomic, readonly, getter=isConnected) BOOL connected;
-@property (copy, nonatomic, readonly) SDLLifecycleConfiguration *configuration;
+@property (copy, nonatomic, readonly) SDLConfiguration *configuration;
+@property (copy, nonatomic) SDLLockScreenConfiguration *lockScreenConfiguration;
 
 + (instancetype)sharedManager;
 
 #pragma mark Lifecycle
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block;
-- (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration;
+- (void)startProxyWithConfiguration:(SDLConfiguration *)configuration;
 - (void)stopProxy;
 
 #pragma mark File Streaming

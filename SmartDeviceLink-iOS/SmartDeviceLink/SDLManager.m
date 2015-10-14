@@ -8,8 +8,10 @@
 #import "SDLManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLConfiguration.h"
 #import "SDLErrorConstants.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHashChange.h"
@@ -41,7 +43,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @interface SDLManager () <SDLProxyListener>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite) SDLLifecycleConfiguration *configuration;
+@property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite, getter=isConnected) BOOL connected;
 
 // Deprecated internal proxy
@@ -251,18 +253,18 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [self.proxy sendRPC:request];
 }
 
-- (void)startProxyWithConfiguration:(SDLLifecycleConfiguration *)configuration {
+- (void)startProxyWithConfiguration:(SDLConfiguration *)configuration {
     self.configuration = configuration;
     
-    self.lockScreenViewController.appIcon = self.configuration.lockScreenAppIcon;
-    self.lockScreenViewController.backgroundColor = self.configuration.lockScreenBackgroundColor;
+    self.lockScreenViewController.appIcon = self.configuration.lockScreenConfig.appIcon;
+    self.lockScreenViewController.backgroundColor = self.configuration.lockScreenConfig.backgroundColor;
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
     
-    if (configuration.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:self.configuration.tcpDebugIPAddress tcpPort:self.configuration.tcpDebugPort];
+    if (self.configuration.lifecycleConfig.tcpDebugMode) {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:self.configuration.lifecycleConfig.tcpDebugPort];
     } else {
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
     }
@@ -326,17 +328,17 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [SDLDebugTool logInfo:@"onProxyOpened"];
     self.connected = YES;
     
-    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.appName languageDesired:self.configuration.language appID:self.configuration.appId];
-    regRequest.isMediaApplication = @(self.configuration.isMedia);
-    regRequest.ngnMediaScreenAppName = self.configuration.shortAppName;
+    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
+    regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
+    regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
     
     // TODO: Should the hash be removed under any conditions?
     if (self.resumeHash) {
         regRequest.hashID = self.resumeHash.hashID;
     }
     
-    if (self.configuration.voiceRecognitionSynonyms) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.voiceRecognitionSynonyms];
+    if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms) {
+        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     }
     // TODO: implement handler with success/error
     [self sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
@@ -531,7 +533,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
             self.lockScreenPresented = YES;
         }
     } else if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
-        if (self.configuration.showLockScreenInOptional && !self.lockScreenPresented) {
+        if (self.configuration.lockScreenConfig.showInOptional && !self.lockScreenPresented) {
             [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
             self.lockScreenPresented = YES;
         } else if (self.lockScreenPresented) {
