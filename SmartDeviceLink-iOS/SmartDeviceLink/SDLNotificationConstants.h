@@ -11,8 +11,11 @@
 @class SDLRPCResponse;
 @class SDLRPCRequest;
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notification);
-typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error);
+typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest * __nullable request,  __kindof SDLRPCResponse * __nullable response, NSError * __nullable error);
 
 extern NSString *const SDLDidReceiveFirstFullHMIStatusNotification;
 extern NSString *const SDLDidReceiveFirstNonNoneHMIStatusNotification;
@@ -40,3 +43,5 @@ extern NSString *const SDLDidReceiveTouchEventNotification;
 extern NSString *const SDLDidReceiveVehicleDataNotification;
 
 extern NSString *const SDLNotificationUserInfoNotificationObject;
+
+NS_ASSUME_NONNULL_END
