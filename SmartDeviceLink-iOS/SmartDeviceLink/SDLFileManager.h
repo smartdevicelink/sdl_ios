@@ -14,8 +14,10 @@ typedef NSString SDLFileName;
 
 @interface SDLFileManager : NSObject
 
-@property (copy, nonatomic, readonly) NSArray<SDLFileName *> *availableFiles;
+@property (copy, nonatomic, readonly) NSArray<SDLFileName *> *remoteFiles;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
+
+- (void)deleteRemoteFileWithName:(SDLFileName *)name;
 
 @end
 

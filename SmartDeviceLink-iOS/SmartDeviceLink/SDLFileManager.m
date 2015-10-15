@@ -8,6 +8,8 @@
 
 #import "SDLFileManager.h"
 
+#import "SDLDeleteFile.h"
+#import "SDLDeleteFileResponse.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesResponse.h"
 #import "SDLManager.h"
@@ -25,7 +27,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 @interface SDLFileManager ()
 
-@property (copy, nonatomic, readwrite) NSArray<SDLFileName *> *availableFiles;
+@property (copy, nonatomic, readwrite) NSArray<SDLFileName *> *remoteFiles;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 @property (copy, nonatomic) NSMutableArray *uploadQueue;
@@ -42,7 +44,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
         return nil;
     }
     
-    _availableFiles = @[];
+    _remoteFiles = @[];
     _bytesAvailable = 0;
     _uploadQueue = [NSMutableArray array];
     _state = SDLFileManagerStateNotConnected;
@@ -54,7 +56,24 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 }
 
 
-#pragma mark - SDL Notifications
+#pragma mark - Remote File Manipulation
+
+- (void)deleteRemoteFileWithName:(SDLFileName *)name {
+    SDLDeleteFile *deleteFile = [SDLRPCRequestFactory buildDeleteFileWithName:name correlationID:@0];
+    
+    [[SDLManager sharedManager] sendRequest:deleteFile withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+        if (error != nil) {
+            // TODO:
+            return;
+        }
+        
+//        SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
+//        BOOL success = deleteFileResponse.success.boolValue; TODO: Do anything with this? Optional completion block?
+    }];
+}
+
+
+#pragma mark - SDL Notification Observers
 
 - (void)sdl_didConnect:(NSNotification *)notification {
     // TODO: List files
@@ -71,7 +90,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
         }
         
         SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-        strongSelf.availableFiles = [listFilesResponse.filenames copy];
+        strongSelf.remoteFiles = [listFilesResponse.filenames copy];
         strongSelf.bytesAvailable = listFilesResponse.spaceAvailable.unsignedIntegerValue;
         
         strongSelf.state = SDLFileManagerStateReady;
@@ -80,7 +99,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
     // TODO: Reset properties
-    self.availableFiles = @[];
+    self.remoteFiles = @[];
     self.bytesAvailable = 0;
     self.uploadQueue = [NSMutableArray array];
     self.state = SDLFileManagerStateNotConnected;
