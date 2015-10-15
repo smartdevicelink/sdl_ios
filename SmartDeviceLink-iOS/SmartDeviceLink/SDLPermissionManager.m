@@ -8,6 +8,96 @@
 
 #import "SDLPermissionManager.h"
 
-@implementation SDLPermissionManager
+#import "SDLHMILevel.h"
+#import "SDLHMIPermissions.h"
+#import "SDLNotificationConstants.h"
+#import "SDLPermissionItem.h"
+
+
+typedef NSString SDLPermissionRPCName;
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLPermissionManager ()
+
+@property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *permissions;
+@property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> *observers;
 
 @end
+
+
+@implementation SDLPermissionManager
+
+#pragma mark - Lifecycle
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
+    
+    return self;
+}
+
+
+#pragma mark - Permissions available
+
+- (BOOL)isRPCAllowed:(NSString *)rpcName forHMILevel:(SDLHMILevel *)hmiLevel {
+    // TODO: Use an enum to specify unknown?
+    if (self.permissions[rpcName] == nil) {
+        return NO;
+    }
+    
+    SDLPermissionItem *item = self.permissions[rpcName];
+    if ([item.hmiPermissions.allowed containsObject:hmiLevel.value]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+
+#pragma mark - Permissions observers
+
+- (void)addObserverForRPC:(NSString *)rpcName usingBlock:(SDLPermissionObserver)observer {
+    // If there is a current permission, send that immediately
+    if (self.permissions[rpcName] != nil) {
+        observer(rpcName, nil, self.permissions[rpcName]);
+    }
+    
+    [self.observers[rpcName] addObject:observer];
+}
+
+- (void)addObserverForRPCs:(NSArray<NSString *> *)rpcNames usingBlock:(SDLPermissionObserver)observer {
+    for (NSString *rpcName in rpcNames) {
+        if (self.permissions[rpcName] != nil) {
+            observer(rpcName, nil, self.permissions[rpcName]);
+        }
+        
+        [self.observers[rpcName] addObject:observer];
+    }
+}
+
+- (void)removeAllObservers {
+    self.observers = [NSMutableDictionary dictionary];
+}
+
+
+#pragma mark - SDL Notification Observers
+
+- (void)sdl_permissionsDidChange:(NSNotification *)notification {
+    NSArray<SDLPermissionItem *> *permissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
+    
+    for (SDLPermissionItem *item in permissionItems) {
+        self.permissions[item.rpcName] = item;
+    }
+    
+    // TODO: Notify observers
+}
+
+@end
+
+NS_ASSUME_NONNULL_END
