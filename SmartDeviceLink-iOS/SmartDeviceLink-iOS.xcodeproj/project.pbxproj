@@ -768,6 +768,8 @@
 		5D8204271BCEA8A600D0A41B /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */; settings = {ASSET_TAGS = (); }; };
 		5D82042D1BCEC32F00D0A41B /* SDLFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042B1BCEC32F00D0A41B /* SDLFile.h */; settings = {ASSET_TAGS = (); }; };
 		5D82042E1BCEC32F00D0A41B /* SDLFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D82042C1BCEC32F00D0A41B /* SDLFile.m */; settings = {ASSET_TAGS = (); }; };
+		5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042F1BD001C700D0A41B /* SDLArtwork.h */; settings = {ASSET_TAGS = (); }; };
+		5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204301BD001C700D0A41B /* SDLArtwork.m */; settings = {ASSET_TAGS = (); }; };
 		5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17501AC9D266006A6E1C /* SDLDialNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */; };
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1667,6 +1669,8 @@
 		5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionManager.m; sourceTree = "<group>"; };
 		5D82042B1BCEC32F00D0A41B /* SDLFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLFile.h; sourceTree = "<group>"; };
 		5D82042C1BCEC32F00D0A41B /* SDLFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFile.m; sourceTree = "<group>"; };
+		5D82042F1BD001C700D0A41B /* SDLArtwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLArtwork.h; sourceTree = "<group>"; };
+		5D8204301BD001C700D0A41B /* SDLArtwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLArtwork.m; sourceTree = "<group>"; };
 		5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumber.h; sourceTree = "<group>"; };
 		5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumber.m; sourceTree = "<group>"; };
 		5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumberResponse.h; sourceTree = "<group>"; };
@@ -3002,6 +3006,8 @@
 				5D8204211BCEA89A00D0A41B /* SDLFileManager.m */,
 				5D82042B1BCEC32F00D0A41B /* SDLFile.h */,
 				5D82042C1BCEC32F00D0A41B /* SDLFile.m */,
+				5D82042F1BD001C700D0A41B /* SDLArtwork.h */,
+				5D8204301BD001C700D0A41B /* SDLArtwork.m */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -3232,6 +3238,7 @@
 				5D61FD891A84238C00846EE7 /* SDLSetGlobalPropertiesResponse.h in Headers */,
 				5D61FD8D1A84238C00846EE7 /* SDLSetMediaClockTimerResponse.h in Headers */,
 				5D61FD3B1A84238C00846EE7 /* SDLPresetBankCapabilities.h in Headers */,
+				5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */,
 				5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */,
 				5D61FD0F1A84238C00846EE7 /* SDLOnHMIStatus.h in Headers */,
 				5D61FD5F1A84238C00846EE7 /* SDLRegisterAppInterfaceResponse.h in Headers */,
@@ -3815,6 +3822,7 @@
 				5D61FD6A1A84238C00846EE7 /* SDLRPCMessage.m in Sources */,
 				5D61FCDB1A84238C00846EE7 /* SDLJingle.m in Sources */,
 				5D61FDA21A84238C00846EE7 /* SDLSoftButtonCapabilities.m in Sources */,
+				5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */,
 				5D61FC2C1A84238C00846EE7 /* SDLAbstractTransport.m in Sources */,
 				5D61FD8E1A84238C00846EE7 /* SDLSetMediaClockTimerResponse.m in Sources */,
 				5D61FD721A84238C00846EE7 /* SDLRPCRequest.m in Sources */,
