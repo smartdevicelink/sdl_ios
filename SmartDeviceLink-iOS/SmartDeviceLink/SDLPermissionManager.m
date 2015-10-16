@@ -91,11 +91,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_permissionsDidChange:(NSNotification *)notification {
     NSArray<SDLPermissionItem *> *permissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
     
-    for (SDLPermissionItem *item in permissionItems) {
-        self.permissions[item.rpcName] = item;
+    for (SDLPermissionItem *newItem in permissionItems) {
+        SDLPermissionItem *oldItem = self.permissions[newItem.rpcName];
+        self.permissions[newItem.rpcName] = newItem;
+        
+        // Pull all the observers for the rpc's permissions, then call them
+        NSArray<SDLPermissionObserver> *observers = [self.observers[newItem.rpcName] copy];
+        for (SDLPermissionObserver observer in observers) {
+            observer(newItem.rpcName, oldItem, newItem);
+        }
     }
-    
-    // TODO: Notify observers
 }
 
 @end
