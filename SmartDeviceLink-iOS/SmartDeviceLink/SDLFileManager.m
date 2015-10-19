@@ -131,7 +131,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
         case SDLFileManagerStateReady: {
             self.state = SDLFileManagerStateWaiting;
             
-            SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:<#(SDLFileType *)#> persistentFile:file.isPersistent correlationId:@0];
+            SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:@0];
         } break;
         case SDLFileManagerStateWaiting: {
             [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
