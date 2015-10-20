@@ -23,6 +23,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 @property (copy, nonatomic, readonly) NSArray<SDLFileName *> *remoteFiles;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
 
+// TODO: These are currently untestable as they interact directly with the SDLManager singleton. A protocol property or dependency would be much better (initWithManager: / initWithConnection:) something like that.
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(SDLFileManagerDeleteCompletion)completion;
 - (void)uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion;
 
