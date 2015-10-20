@@ -136,47 +136,57 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
             self.state = SDLFileManagerStateWaiting;
             
             NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:file];
-            __block BOOL stop = NO;
-            __block NSError *streamError = nil;
-            __block NSUInteger numResponsesReceived = 0;
-            
-            __weak typeof(self) weakSelf = self;
-            for (SDLPutFile *request in putFiles) {
-                [[SDLManager sharedManager] sendRequest:request withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-                    __strong typeof(self) strongSelf = weakSelf;
-                    
-                    // If we've already encountered an error, then just abort
-                    if (stop) {
-                        return;
-                    }
-                    
-                    // If we encounted an error, abort in the future and call the completion handler
-                    if (error != nil || response == nil) {
-                        stop = YES;
-                        streamError = error;
-                        completion(NO, strongSelf.bytesAvailable, error);
-                        
-                        strongSelf.state = SDLFileManagerStateReady;
-                    }
-                    
-                    // If we haven't encounted an error
-                    SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-                    strongSelf.bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue]; // TODO: If we receive responses out of order, this will be wrong at the end
-                    numResponsesReceived++;
-                    
-                    // If we've received all the responses we're going to receive
-                    if (putFiles.count == numResponsesReceived) {
-                        stop = YES;
-                        completion(YES, strongSelf.bytesAvailable, nil);
-                        
-                        strongSelf.state = SDLFileManagerStateReady;
-                    }
-                }];
-            }
+            [self sdl_sendPutFiles:putFiles withCompletion:completion];
         } break;
         case SDLFileManagerStateWaiting: {
             [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
         } break;
+    }
+}
+
+- (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletion)completion {
+    __block BOOL stop = NO;
+    __block NSError *streamError = nil;
+    __block NSUInteger numResponsesReceived = 0;
+    __block NSUInteger highestCorrelationID = 0;
+    
+    __weak typeof(self) weakSelf = self;
+    for (SDLPutFile *putFile in putFiles) {
+        [[SDLManager sharedManager] sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            __strong typeof(self) strongSelf = weakSelf;
+            
+            // If we've already encountered an error, then just abort
+            if (stop) {
+                return;
+            }
+            
+            // If we encounted an error, abort in the future and call the completion handler
+            if (error != nil || response == nil) {
+                stop = YES;
+                streamError = error;
+                completion(NO, strongSelf.bytesAvailable, error);
+                
+                strongSelf.state = SDLFileManagerStateReady;
+            }
+            
+            // If we haven't encounted an error
+            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
+            numResponsesReceived++;
+            
+            // We need to do this to make sure our bytesAvailable is accurate
+            if ([request.correlationID unsignedIntegerValue] > highestCorrelationID) {
+                highestCorrelationID = [request.correlationID unsignedIntegerValue];
+                strongSelf.bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
+            }
+            
+            // If we've received all the responses we're going to receive
+            if (putFiles.count == numResponsesReceived) {
+                stop = YES;
+                completion(YES, strongSelf.bytesAvailable, nil);
+                
+                strongSelf.state = SDLFileManagerStateReady;
+            }
+        }];
     }
 }
 
