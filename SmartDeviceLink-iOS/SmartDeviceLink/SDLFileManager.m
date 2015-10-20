@@ -155,6 +155,8 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
                         stop = YES;
                         streamError = error;
                         completion(NO, strongSelf.bytesAvailable, error);
+                        
+                        strongSelf.state = SDLFileManagerStateReady;
                     }
                     
                     // If we haven't encounted an error
@@ -166,6 +168,8 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
                     if (putFiles.count == numResponsesReceived) {
                         stop = YES;
                         completion(YES, strongSelf.bytesAvailable, nil);
+                        
+                        strongSelf.state = SDLFileManagerStateReady;
                     }
                 }];
             }
