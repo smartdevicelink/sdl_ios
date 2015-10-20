@@ -15,8 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLFileName;
 
-typedef void (^SDLFileManagerDeleteCompletion)(BOOL success, NSUInteger bytesAvailable, NSError *error);
-typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAvailable, NSError *error);
+typedef void (^SDLFileManagerDeleteCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
+typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
 
 @interface SDLFileManager : NSObject
 

@@ -17,11 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readonly, getter=isPersistent) BOOL persistent;
 @property (copy, nonatomic, readonly) NSString *name;
+@property (copy, nonatomic, readonly) NSData *data;
 
 /**
  *  Unless set manually, the system will attempt to determine the type of file that you have passed in.
  */
 @property (strong, nonatomic, readonly) SDLFileType *fileType;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  *  Create an SDL file using a local file path. If all that you have is the local file URL, then use [NSURL isFileURL] to be certain it is a file URL. If it is, use [NSURL path] to change it to a path.

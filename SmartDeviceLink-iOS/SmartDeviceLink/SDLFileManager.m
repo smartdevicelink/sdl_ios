@@ -11,10 +11,13 @@
 #import "SDLDeleteFile.h"
 #import "SDLDeleteFileResponse.h"
 #import "SDLFile.h"
+#import "SDLGlobals.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesResponse.h"
 #import "SDLManager.h"
 #import "SDLNotificationConstants.h"
+#import "SDLPutFile.h"
+#import "SDLPutFileResponse.h"
 #import "SDLRPCRequestFactory.h"
 
 
@@ -94,9 +97,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
                 [self uploadFile:wrapper.file completionHandler:wrapper.completionHandler];
             }
         } break;
-        default: {
-            return;
-        } break;
+        default: return;
     }
 }
 
@@ -126,17 +127,78 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     }];
 }
 
+// TODO: This is completely untestable
 - (void)uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
     switch (self.state) {
-        case SDLFileManagerStateReady: {
+        // Not connected state will fail on attempting to send
+        case SDLFileManagerStateReady:
+        case SDLFileManagerStateNotConnected: {
             self.state = SDLFileManagerStateWaiting;
             
-            SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:@0];
+            NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:file];
+            __block BOOL stop = NO;
+            __block NSError *streamError = nil;
+            __block NSUInteger numResponsesReceived = 0;
+            
+            __weak typeof(self) weakSelf = self;
+            for (SDLPutFile *request in putFiles) {
+                [[SDLManager sharedManager] sendRequest:request withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                    __strong typeof(self) strongSelf = weakSelf;
+                    
+                    // If we've already encountered an error, then just abort
+                    if (stop) {
+                        return;
+                    }
+                    
+                    // If we encounted an error, abort in the future and call the completion handler
+                    if (error != nil || response == nil) {
+                        stop = YES;
+                        streamError = error;
+                        completion(NO, strongSelf.bytesAvailable, error);
+                    }
+                    
+                    // If we haven't encounted an error
+                    SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
+                    strongSelf.bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue]; // TODO: If we receive responses out of order, this will be wrong at the end
+                    numResponsesReceived++;
+                    
+                    // If we've received all the responses we're going to receive
+                    if (putFiles.count == numResponsesReceived) {
+                        stop = YES;
+                        completion(YES, strongSelf.bytesAvailable, nil);
+                    }
+                }];
+            }
         } break;
         case SDLFileManagerStateWaiting: {
             [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
         } break;
     }
+}
+
++ (NSArray<SDLPutFile *> *)sdl_splitFile:(SDLFile *)file {
+    NSData *fileData = [file.data copy];
+    NSInteger currentOffset = 0;
+    NSMutableArray<SDLPutFile *> *putFiles = [NSMutableArray array];
+    
+    for (int i = 0; i < ((fileData.length / [SDLGlobals globals].maxMTUSize) + 1); i++){
+        SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:@0];
+        putFile.offset = @(currentOffset);
+        
+        if (currentOffset == 0) {
+            putFile.length = @(fileData.length);
+        } else if((fileData.length - currentOffset) < [SDLGlobals globals].maxMTUSize) {
+            putFile.length = @(fileData.length - currentOffset);
+        } else {
+            putFile.length = @([SDLGlobals globals].maxMTUSize);
+        }
+        
+        putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
+        
+        [putFiles addObject:putFile];
+    }
+    
+    return putFiles;
 }
 
 

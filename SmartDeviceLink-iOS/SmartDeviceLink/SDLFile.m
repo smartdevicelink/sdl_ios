@@ -16,8 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLFile ()
 
 @property (copy, nonatomic, nullable) NSString *filePath;
-@property (copy, nonatomic, nullable) NSData *fileData;
 @property (strong, nonatomic, readwrite) SDLFileType *fileType;
+@property (copy, nonatomic, readwrite) NSData *data;
 
 @end
 
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _fileData = data;
+    _data = data;
     _name = name;
     _fileType = fileType;
     
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
     _filePath = path;
     _name = name;
     _persistent = persistent;
-    _fileType = [self.class fileTypeFromFilePath:path];
+    _fileType = [self.class sdl_fileTypeFromFilePath:path];
     
     return self;
 }
@@ -71,7 +71,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Readonly Getters
 
-+ (SDLFileType *)fileTypeFromFilePath:(NSString *)filePath {
+- (NSData *)data {
+    if (_data) {
+        return _data;
+    } else if (_filePath) {
+        return [[NSFileManager defaultManager] contentsAtPath:_filePath];
+    } else {
+        return nil;
+    }
+}
+
+
+#pragma mark - File Type
+
++ (SDLFileType *)sdl_fileTypeFromFilePath:(NSString *)filePath {
     NSString *fileExtension = filePath.pathExtension;
     
     if ([fileExtension caseInsensitiveCompare:@"bmp"] == NSOrderedSame) {
