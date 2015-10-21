@@ -7,6 +7,7 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventOpened
 };
 
+#import "SDLConnectionManager.h"
 #import "SDLNotificationConstants.h"
 
 @class SDLConfiguration;
@@ -21,7 +22,7 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLManager : NSObject
+@interface SDLManager : NSObject <SDLConnectionManager>
 
 @property (assign, nonatomic, readonly, getter=isConnected) BOOL connected;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
@@ -30,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedManager;
 
 #pragma mark Lifecycle
-- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block;
 - (void)startProxyWithConfiguration:(SDLConfiguration *)configuration;
 - (void)stopProxy;
 

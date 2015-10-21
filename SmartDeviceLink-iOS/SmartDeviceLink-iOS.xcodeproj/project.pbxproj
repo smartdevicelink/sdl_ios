@@ -812,6 +812,7 @@
 		5DEE55C51B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */; };
 		5DEE55C61B8666A8004F0D0F /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
+		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */; settings = {ASSET_TAGS = (); }; };
 		E9C32B861AB20B4300F283AF /* NSThread+ThreadIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */; };
 		E9C32B871AB20B4300F283AF /* NSThread+ThreadIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */; };
 		E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B891AB20BA200F283AF /* SDLIAPSession.h */; };
@@ -1710,6 +1711,7 @@
 		5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = Carthage/Build/iOS/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
+		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManager.h; sourceTree = "<group>"; };
 		E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+ThreadIndex.h"; sourceTree = "<group>"; };
 		E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+ThreadIndex.m"; sourceTree = "<group>"; };
 		E9C32B891AB20BA200F283AF /* SDLIAPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLIAPSession.h; sourceTree = "<group>"; };
@@ -3023,6 +3025,7 @@
 				5D8204171BCD80A200D0A41B /* Configurations */,
 				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
+				5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */,
 			);
 			name = Enhancements;
 			sourceTree = "<group>";
@@ -3273,6 +3276,7 @@
 				5D61FC4D1A84238C00846EE7 /* SDLBitsPerSample.h in Headers */,
 				5D61FD9B1A84238C00846EE7 /* SDLSlider.h in Headers */,
 				5D61FD111A84238C00846EE7 /* SDLOnKeyboardInput.h in Headers */,
+				5DFFB9151BD7C89700DB3F04 /* SDLConnectionManager.h in Headers */,
 				5D61FC941A84238C00846EE7 /* SDLDriverDistractionState.h in Headers */,
 				5D61FD571A84238C00846EE7 /* SDLPutFileResponse.h in Headers */,
 				5D61FD411A84238C00846EE7 /* SDLPRNDL.h in Headers */,

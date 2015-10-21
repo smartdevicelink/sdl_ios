@@ -44,6 +44,8 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 @interface SDLFileManager ()
 
+@property (weak, nonatomic) id<SDLConnectionManager> connectionManager;
+
 // Remote state
 @property (copy, nonatomic, readwrite) NSMutableArray<SDLFileName *> *mutableRemoteFiles;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
@@ -59,11 +61,16 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 @implementation SDLFileManager
 
 - (instancetype)init {
+    return [[self.class alloc] initWithConnectionManager:[SDLManager sharedManager]];
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager {
     self = [super init];
     if (!self) {
         return nil;
     }
     
+    _connectionManager = manager;
     _bytesAvailable = 0;
     _mutableRemoteFiles = [NSMutableArray array];
     _uploadQueue = [NSMutableArray array];
@@ -108,7 +115,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     SDLDeleteFile *deleteFile = [SDLRPCRequestFactory buildDeleteFileWithName:name correlationID:@0];
     
     __weak typeof(self) weakSelf = self;
-    [[SDLManager sharedManager] sendRequest:deleteFile withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+    [self.connectionManager sendRequest:deleteFile withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         __strong typeof(self) strongSelf = weakSelf;
         
         // Pull out the parameters
@@ -127,7 +134,6 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     }];
 }
 
-// TODO: This is completely untestable
 - (void)uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
     switch (self.state) {
         // Not connected state will fail on attempting to send
@@ -152,7 +158,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     
     __weak typeof(self) weakSelf = self;
     for (SDLPutFile *putFile in putFiles) {
-        [[SDLManager sharedManager] sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        [self.connectionManager sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             __strong typeof(self) strongSelf = weakSelf;
             
             // If we've already encountered an error, then just abort
@@ -223,7 +229,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
     
     __weak typeof(self) weakSelf = self;
-    [[SDLManager sharedManager] sendRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+    [self.connectionManager sendRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         __strong typeof(self) strongSelf = weakSelf;
         
         if (error != nil) {

@@ -189,7 +189,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
-#pragma mark Proxy Wrappers
+#pragma mark - SDLConnectionManager Protocol
 
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     if (!self.isConnected) {
@@ -252,6 +252,9 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     
     [self.proxy sendRPC:request];
 }
+
+
+#pragma mark Proxy Wrappers
 
 - (void)startProxyWithConfiguration:(SDLConfiguration *)configuration {
     self.configuration = configuration;
