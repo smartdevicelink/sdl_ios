@@ -273,7 +273,7 @@
     self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
     __weak typeof(self) weakSelf = self;
     self.heartbeatTimer.elapsedBlock = ^void() {
-        __strong typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.heartbeatACKed) {
             strongSelf.heartbeatACKed = NO;
             [strongSelf sendHeartbeat];

@@ -194,11 +194,13 @@ int const streamOpenTimeoutSeconds = 2;
 
         __weak typeof(self) weakSelf = self;
         void (^elapsedBlock)(void) = ^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            
             [SDLDebugTool logInfo:@"Protocol Index Timeout"];
-            [weakSelf.controlSession stop];
-            weakSelf.controlSession.streamDelegate = nil;
-            weakSelf.controlSession = nil;
-            [weakSelf retryEstablishSession];
+            [strongSelf.controlSession stop];
+            strongSelf.controlSession.streamDelegate = nil;
+            strongSelf.controlSession = nil;
+            [strongSelf retryEstablishSession];
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
 
@@ -308,7 +310,7 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Control Stream Event End"];
 
@@ -327,7 +329,7 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
 
     return ^(NSInputStream *istream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Control Stream Received Data"];
 
@@ -357,7 +359,7 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.protocolIndexTimer cancel];
@@ -375,7 +377,7 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Event End"];
         [strongSelf.session stop];
@@ -393,7 +395,7 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
 
     return ^(NSInputStream *istream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         uint8_t buf[[SDLGlobals globals].maxMTUSize];
         while ([istream hasBytesAvailable]) {
@@ -413,7 +415,7 @@ int const streamOpenTimeoutSeconds = 2;
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Error"];
         [strongSelf.session stop];
