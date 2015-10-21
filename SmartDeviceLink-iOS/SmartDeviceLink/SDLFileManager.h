@@ -42,8 +42,14 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager NS_DESIGNATED_INITIALIZER;
 
-- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(SDLFileManagerDeleteCompletion)completion;
-- (void)uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion;
+/**
+ *  Delete a file stored on the remote system
+ *
+ *  @param name       The name of the remote file. It should be a name currently stored in remoteFileNames
+ *  @param completion An optional completion handler to receive an error should one occur.
+ */
+- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion;
+- (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
 
 @end
 

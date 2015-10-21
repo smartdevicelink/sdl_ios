@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 @property (weak, nonatomic) id<SDLConnectionManager> connectionManager;
 
 // Remote state
-@property (copy, nonatomic, readwrite) NSMutableArray<SDLFileName *> *mutableRemoteFiles;
+@property (copy, nonatomic, readwrite) NSMutableArray<SDLFileName *> *mutableRemoteFileNames;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 // Local state
@@ -72,7 +72,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     
     _connectionManager = manager;
     _bytesAvailable = 0;
-    _mutableRemoteFiles = [NSMutableArray array];
+    _mutableRemoteFileNames = [NSMutableArray array];
     _uploadQueue = [NSMutableArray array];
     _state = SDLFileManagerStateNotConnected;
     _currentFileUploadOffset = 0;
@@ -87,7 +87,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 #pragma mark - Getters
 
 - (NSArray<SDLFileName *> *)remoteFiles {
-    return [self.mutableRemoteFiles copy];
+    return [self.mutableRemoteFileNames copy];
 }
 
 
@@ -111,7 +111,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 #pragma mark - Remote File Manipulation
 
-- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(SDLFileManagerDeleteCompletion)completion {
+- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion {
     SDLDeleteFile *deleteFile = [SDLRPCRequestFactory buildDeleteFileWithName:name correlationID:@0];
     
     __weak typeof(self) weakSelf = self;
@@ -126,15 +126,17 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
         // Mutate self based on the changes
         strongSelf.bytesAvailable = bytesAvailable;
         if (success) {
-            [self.mutableRemoteFiles removeObject:name];
+            [self.mutableRemoteFileNames removeObject:name];
         }
         
         // Callback
-        completion(success, bytesAvailable, error);
+        if (completion != nil) {
+            completion(success, bytesAvailable, error);
+        }
     }];
 }
 
-- (void)uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
+- (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
     switch (self.state) {
         // Not connected state will fail on attempting to send
         case SDLFileManagerStateReady:
@@ -150,7 +152,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     }
 }
 
-- (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletion)completion {
+- (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(nullable SDLFileManagerUploadCompletion)completion {
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
     __block NSUInteger numResponsesReceived = 0;
@@ -170,9 +172,11 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
             if (error != nil || response == nil) {
                 stop = YES;
                 streamError = error;
-                completion(NO, strongSelf.bytesAvailable, error);
-                
                 strongSelf.state = SDLFileManagerStateReady;
+                
+                if (completion != nil) {
+                    completion(NO, strongSelf.bytesAvailable, error);
+                }
             }
             
             // If we haven't encounted an error
@@ -185,12 +189,15 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
                 strongSelf.bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
             }
             
-            // If we've received all the responses we're going to receive
+            // If we've received all the responses we're going to receive and haven't errored, we're done
             if (putFiles.count == numResponsesReceived) {
                 stop = YES;
-                completion(YES, strongSelf.bytesAvailable, nil);
-                
+                [strongSelf.mutableRemoteFileNames addObject:putFile.syncFileName];
                 strongSelf.state = SDLFileManagerStateReady;
+                
+                if (completion != nil) {
+                    completion(YES, strongSelf.bytesAvailable, nil);
+                }
             }
         }];
     }
@@ -238,7 +245,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
         }
         
         SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-        strongSelf.mutableRemoteFiles = [listFilesResponse.filenames copy];
+        strongSelf.mutableRemoteFileNames = [listFilesResponse.filenames copy];
         strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
         
         strongSelf.state = SDLFileManagerStateReady;
@@ -247,7 +254,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
     // TODO: Reset properties
-    self.mutableRemoteFiles = [NSMutableArray array];
+    self.mutableRemoteFileNames = [NSMutableArray array];
     self.bytesAvailable = 0;
     self.uploadQueue = [NSMutableArray array];
     self.state = SDLFileManagerStateNotConnected;
