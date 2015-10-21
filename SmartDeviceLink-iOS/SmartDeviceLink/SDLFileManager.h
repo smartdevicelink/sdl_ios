@@ -40,7 +40,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
  *
  *  @return An instance of SDLFileManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager NS_DESIGNATED_INITIALIZER;
 
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(SDLFileManagerDeleteCompletion)completion;
 - (void)uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion;

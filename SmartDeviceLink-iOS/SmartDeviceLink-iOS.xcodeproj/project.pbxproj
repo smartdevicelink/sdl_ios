@@ -3025,7 +3025,6 @@
 				5D8204171BCD80A200D0A41B /* Configurations */,
 				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
-				5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */,
 			);
 			name = Enhancements;
 			sourceTree = "<group>";
@@ -3033,6 +3032,7 @@
 		5DA3F3561BC4480E0026F2D0 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */,
 				5DA3F35C1BC4484B0026F2D0 /* Constants */,
 				5DA3F3571BC448160026F2D0 /* Categories */,
 			);

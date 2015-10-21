@@ -61,7 +61,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 @implementation SDLFileManager
 
 - (instancetype)init {
-    return [[self.class alloc] initWithConnectionManager:[SDLManager sharedManager]];
+    return [self initWithConnectionManager:[SDLManager sharedManager]];
 }
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager {
