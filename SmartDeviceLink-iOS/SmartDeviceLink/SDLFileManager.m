@@ -116,7 +116,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequest:deleteFile withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        __strong typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         
         // Pull out the parameters
         SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     __weak typeof(self) weakSelf = self;
     for (SDLPutFile *putFile in putFiles) {
         [self.connectionManager sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            __strong typeof(self) strongSelf = weakSelf;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             
             // If we've already encountered an error, then just abort
             if (stop) {
@@ -237,7 +237,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        __strong typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         
         if (error != nil) {
             // TODO: this is bad

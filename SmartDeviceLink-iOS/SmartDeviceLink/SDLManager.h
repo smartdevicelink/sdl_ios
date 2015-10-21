@@ -11,6 +11,7 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 #import "SDLNotificationConstants.h"
 
 @class SDLConfiguration;
+@class SDLHMILevel;
 @class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readonly, getter=isConnected) BOOL connected;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
-@property (copy, nonatomic) SDLLockScreenConfiguration *lockScreenConfiguration;
+@property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
 
 + (instancetype)sharedManager;
 
@@ -35,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopProxy;
 
 #pragma mark File Streaming
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
+- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest; // TODO: Remove when file manager is tested
 
 @end
 

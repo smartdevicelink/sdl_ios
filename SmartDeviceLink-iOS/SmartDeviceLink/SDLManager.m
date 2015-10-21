@@ -10,6 +10,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLConfiguration.h"
 #import "SDLErrorConstants.h"
+#import "SDLHMILevel.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenViewController.h"
@@ -43,6 +44,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @interface SDLManager () <SDLProxyListener>
 
 // Readonly public properties
+@property (copy, nonatomic, readwrite) SDLHMILevel *currentHMILevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite, getter=isConnected) BOOL connected;
 
@@ -568,8 +570,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
             [self sdl_postNotification:SDLDidReceiveFirstFullHMIStatusNotification info:notification];
         }
         self.firstHMIFullOccurred = YES;
-    }
-    else if (notification.hmiLevel == [SDLHMILevel BACKGROUND] || notification.hmiLevel == [SDLHMILevel LIMITED]) {
+    } else if (notification.hmiLevel == [SDLHMILevel BACKGROUND] || notification.hmiLevel == [SDLHMILevel LIMITED]) {
         BOOL occurred = NO;
         occurred = self.firstHMINotNoneOccurred;
         if (!occurred) {
@@ -577,6 +578,8 @@ typedef NSNumber SDLSubscribeButtonCommandID;
         }
         self.firstHMINotNoneOccurred = YES;
     }
+    
+    self.currentHMILevel = notification.hmiLevel;
     [self sdl_postNotification:SDLDidChangeHMIStatusNotification info:notification];
 }
 
