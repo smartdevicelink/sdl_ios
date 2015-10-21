@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) NSString *filePath;
 @property (strong, nonatomic, readwrite) SDLFileType *fileType;
+
+@property (assign, nonatomic, readwrite) BOOL persistent;
+@property (copy, nonatomic, readwrite) NSString *name;
 @property (copy, nonatomic, readwrite) NSData *data;
 
 @end
@@ -34,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithFileAtPath:path name:name persistent:YES];
 }
 
-- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType {
+- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent {
     self = [super init];
     if (!self) {
         return nil;
@@ -43,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     _data = data;
     _name = name;
     _fileType = fileType;
+    _persistent = persistent;
     
     return self;
 }

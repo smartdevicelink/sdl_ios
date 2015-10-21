@@ -10,9 +10,14 @@
 
 #import "SDLFile.h"
 
+typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
+    SDLArtworkImageFormatPNG,
+    SDLArtworkImageFormatJPG
+};
+
 @interface SDLArtwork : SDLFile
 
-- (instancetype)initWithImage:(UIImage *)image name:(NSString *)name;
-- (instancetype)initWithPersistentImage:(UIImage *)image name:(NSString *)name;
+- (instancetype)initWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
+- (instancetype)initWithPersistentImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
 
 @end

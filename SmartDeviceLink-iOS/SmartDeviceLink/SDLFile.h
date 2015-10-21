@@ -62,13 +62,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Create an SDL file using raw data.
  *
- *  @param data     The raw data to be used for the file
- *  @param name     The name of the file that will be used to reference the file in the future (for example on the remote file system).
- *  @param fileType The file type for this file
+ *  @param data         The raw data to be used for the file
+ *  @param name         The name of the file that will be used to reference the file in the future (for example on the remote file system).
+ *  @param fileType     The file type for this file
+ *  @param persistent   Whether or not the remote file with this data should be persistent
  *
  *  @return An instance of this class
  */
-- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType;
+- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent;
 
 @end
 
