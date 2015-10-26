@@ -753,37 +753,37 @@
 		5D61FE141A84238C00846EE7 /* SDLWiperStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FC271A84238C00846EE7 /* SDLWiperStatus.m */; };
 		5D6F7A2B1BC45BF70070BF37 /* SDLRequestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D6F7A2A1BC45BF70070BF37 /* SDLRequestHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D6F7A2E1BC5650B0070BF37 /* SDLLifecycleConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D6F7A2C1BC5650B0070BF37 /* SDLLifecycleConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D6F7A2F1BC5650B0070BF37 /* SDLLifecycleConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F7A2D1BC5650B0070BF37 /* SDLLifecycleConfiguration.m */; settings = {ASSET_TAGS = (); }; };
-		5D6F7A351BC5B9B60070BF37 /* SDLLockScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */; settings = {ASSET_TAGS = (); }; };
-		5D6F7A361BC5B9B60070BF37 /* SDLLockScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F7A341BC5B9B60070BF37 /* SDLLockScreenViewController.m */; settings = {ASSET_TAGS = (); }; };
-		5D6F7A3C1BC811F30070BF37 /* SDLLockScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3B1BC811F30070BF37 /* SDLLockScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
-		5D6F7A3E1BC811FC0070BF37 /* SDLAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */; settings = {ASSET_TAGS = (); }; };
+		5D6F7A2F1BC5650B0070BF37 /* SDLLifecycleConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F7A2D1BC5650B0070BF37 /* SDLLifecycleConfiguration.m */; };
+		5D6F7A351BC5B9B60070BF37 /* SDLLockScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */; };
+		5D6F7A361BC5B9B60070BF37 /* SDLLockScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6F7A341BC5B9B60070BF37 /* SDLLockScreenViewController.m */; };
+		5D6F7A3C1BC811F30070BF37 /* SDLLockScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3B1BC811F30070BF37 /* SDLLockScreen.storyboard */; };
+		5D6F7A3E1BC811FC0070BF37 /* SDLAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */; };
 		5D82041A1BCD80BA00D0A41B /* SDLLockScreenConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8204181BCD80BA00D0A41B /* SDLLockScreenConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D82041B1BCD80BA00D0A41B /* SDLLockScreenConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204191BCD80BA00D0A41B /* SDLLockScreenConfiguration.m */; settings = {ASSET_TAGS = (); }; };
+		5D82041B1BCD80BA00D0A41B /* SDLLockScreenConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204191BCD80BA00D0A41B /* SDLLockScreenConfiguration.m */; };
 		5D82041E1BCD8E6100D0A41B /* SDLConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82041C1BCD8E6100D0A41B /* SDLConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D82041F1BCD8E6100D0A41B /* SDLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D82041D1BCD8E6100D0A41B /* SDLConfiguration.m */; settings = {ASSET_TAGS = (); }; };
+		5D82041F1BCD8E6100D0A41B /* SDLConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D82041D1BCD8E6100D0A41B /* SDLConfiguration.m */; };
 		5D8204221BCEA89A00D0A41B /* SDLFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8204201BCEA89A00D0A41B /* SDLFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D8204231BCEA89A00D0A41B /* SDLFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204211BCEA89A00D0A41B /* SDLFileManager.m */; settings = {ASSET_TAGS = (); }; };
+		5D8204231BCEA89A00D0A41B /* SDLFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204211BCEA89A00D0A41B /* SDLFileManager.m */; };
 		5D8204261BCEA8A600D0A41B /* SDLPermissionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8204241BCEA8A600D0A41B /* SDLPermissionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D8204271BCEA8A600D0A41B /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */; settings = {ASSET_TAGS = (); }; };
-		5D82042D1BCEC32F00D0A41B /* SDLFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042B1BCEC32F00D0A41B /* SDLFile.h */; settings = {ASSET_TAGS = (); }; };
-		5D82042E1BCEC32F00D0A41B /* SDLFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D82042C1BCEC32F00D0A41B /* SDLFile.m */; settings = {ASSET_TAGS = (); }; };
-		5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042F1BD001C700D0A41B /* SDLArtwork.h */; settings = {ASSET_TAGS = (); }; };
-		5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204301BD001C700D0A41B /* SDLArtwork.m */; settings = {ASSET_TAGS = (); }; };
+		5D8204271BCEA8A600D0A41B /* SDLPermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */; };
+		5D82042D1BCEC32F00D0A41B /* SDLFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042B1BCEC32F00D0A41B /* SDLFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D82042E1BCEC32F00D0A41B /* SDLFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D82042C1BCEC32F00D0A41B /* SDLFile.m */; };
+		5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042F1BD001C700D0A41B /* SDLArtwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204301BD001C700D0A41B /* SDLArtwork.m */; };
 		5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17501AC9D266006A6E1C /* SDLDialNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */; };
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */; };
 		5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */; };
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
-		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; settings = {ASSET_TAGS = (); }; };
-		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; settings = {ASSET_TAGS = (); }; };
-		5DA3F35A1BC448480026F2D0 /* SDLErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3581BC448480026F2D0 /* SDLErrorConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DA3F35B1BC448480026F2D0 /* SDLErrorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3591BC448480026F2D0 /* SDLErrorConstants.m */; settings = {ASSET_TAGS = (); }; };
+		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; };
+		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; };
+		5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3581BC448480026F2D0 /* SDLError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DA3F35B1BC448480026F2D0 /* SDLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3591BC448480026F2D0 /* SDLError.m */; };
 		5DA3F35F1BC448590026F2D0 /* SDLNotificationConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F35D1BC448590026F2D0 /* SDLNotificationConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DA3F3601BC448590026F2D0 /* SDLNotificationConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */; settings = {ASSET_TAGS = (); }; };
+		5DA3F3601BC448590026F2D0 /* SDLNotificationConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */; };
 		5DA3F3701BC4489A0026F2D0 /* SDLManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DA3F3711BC4489A0026F2D0 /* SDLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */; settings = {ASSET_TAGS = (); }; };
+		5DA3F3711BC4489A0026F2D0 /* SDLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */; };
 		5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */; };
 		5DB92D261AC4836F00C15BB0 /* SDLJingleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D251AC4836F00C15BB0 /* SDLJingleSpec.m */; };
 		5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */; };
@@ -1680,8 +1680,8 @@
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
 		5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
-		5DA3F3581BC448480026F2D0 /* SDLErrorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLErrorConstants.h; sourceTree = "<group>"; };
-		5DA3F3591BC448480026F2D0 /* SDLErrorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLErrorConstants.m; sourceTree = "<group>"; };
+		5DA3F3581BC448480026F2D0 /* SDLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLError.h; sourceTree = "<group>"; };
+		5DA3F3591BC448480026F2D0 /* SDLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLError.m; sourceTree = "<group>"; };
 		5DA3F35D1BC448590026F2D0 /* SDLNotificationConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLNotificationConstants.h; sourceTree = "<group>"; };
 		5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNotificationConstants.m; sourceTree = "<group>"; };
 		5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManager.h; sourceTree = "<group>"; };
@@ -3053,8 +3053,8 @@
 			children = (
 				5DA3F35D1BC448590026F2D0 /* SDLNotificationConstants.h */,
 				5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */,
-				5DA3F3581BC448480026F2D0 /* SDLErrorConstants.h */,
-				5DA3F3591BC448480026F2D0 /* SDLErrorConstants.m */,
+				5DA3F3581BC448480026F2D0 /* SDLError.h */,
+				5DA3F3591BC448480026F2D0 /* SDLError.m */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -3126,7 +3126,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DA3F35A1BC448480026F2D0 /* SDLErrorConstants.h in Headers */,
+				5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */,
 				5DA3F35F1BC448590026F2D0 /* SDLNotificationConstants.h in Headers */,
 				5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */,
 				5DA3F3701BC4489A0026F2D0 /* SDLManager.h in Headers */,
@@ -3645,7 +3645,7 @@
 				5D61FD2E1A84238C00846EE7 /* SDLPermissionItem.m in Sources */,
 				5D61FD041A84238C00846EE7 /* SDLOnButtonEvent.m in Sources */,
 				5D61FD201A84238C00846EE7 /* SDLOnTouchEvent.m in Sources */,
-				5DA3F35B1BC448480026F2D0 /* SDLErrorConstants.m in Sources */,
+				5DA3F35B1BC448480026F2D0 /* SDLError.m in Sources */,
 				5D61FD781A84238C00846EE7 /* SDLSamplingRate.m in Sources */,
 				5D61FC681A84238C00846EE7 /* SDLComponentVolumeStatus.m in Sources */,
 				5D61FDB61A84238C00846EE7 /* SDLSyncMsgVersion.m in Sources */,

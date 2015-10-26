@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 @class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
+@class SDLPermissionManager;
 @class SDLPutFile;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
@@ -28,10 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isConnected) BOOL connected;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 @property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
-
-+ (instancetype)sharedManager;
+@property (strong, nonatomic, readonly) SDLFileManager *fileManager;
+@property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
 
 #pragma mark Lifecycle
++ (instancetype)sharedManager;
 - (void)startProxyWithConfiguration:(SDLConfiguration *)configuration;
 - (void)stopProxy;
 

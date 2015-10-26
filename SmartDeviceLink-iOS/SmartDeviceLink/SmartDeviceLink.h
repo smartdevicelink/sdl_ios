@@ -276,9 +276,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // TODO: Separate better
 // Enhancements
+#import "SDLArtwork.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManager.h"
-#import "SDLErrorConstants.h"
+#import "SDLError.h"
+#import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"

@@ -9,7 +9,7 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLConfiguration.h"
-#import "SDLErrorConstants.h"
+#import "SDLError.h"
 #import "SDLHMILevel.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
@@ -28,17 +28,6 @@ typedef NSNumber SDLAddCommandCommandID;
 typedef NSNumber SDLSubscribeButtonCommandID;
 
 
-#pragma mark - SDLManager NSError Category Interface
-
-@interface NSError (SDLManagerErrors)
-
-+ (NSError *)sdl_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
-+ (NSError *)sdl_notConnectedError;
-+ (NSError *)sdl_unknownHeadUnitErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
-
-@end
-
-
 #pragma mark - SDLManager Private Interface
 
 @interface SDLManager () <SDLProxyListener>
@@ -46,6 +35,8 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLHMILevel *currentHMILevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
+@property (strong, nonatomic, readwrite) SDLFileManager *fileManager;
+@property (strong, nonatomic, readwrite) SDLPermissionManager *permissionManager;
 @property (assign, nonatomic, readwrite, getter=isConnected) BOOL connected;
 
 // Deprecated internal proxy
@@ -115,6 +106,25 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
+#pragma mark Getters
+
+- (SDLFileManager *)fileManager {
+    if (_fileManager == nil) {
+        _fileManager = [[SDLFileManager alloc] init];
+    }
+    
+    return _fileManager;
+}
+
+- (SDLPermissionManager *)permissionManager {
+    if (_permissionManager == nil) {
+        _permissionManager = [[SDLPermissionManager alloc] init];
+    }
+    
+    return _permissionManager;
+}
+
+
 #pragma mark Event, Response, Notification Processing
 
 - (void)sdl_postNotification:(NSString *)name info:(nullable id)info {
@@ -131,7 +141,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     NSError *error = nil;
     BOOL success = [response.success boolValue];
     if (success == NO) {
-        error = [NSError sdl_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
+        error = [NSError sdl_manager_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
     }
     
     SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
@@ -191,14 +201,14 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
-#pragma mark - SDLConnectionManager Protocol
+#pragma mark SDLConnectionManager Protocol
 
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     if (!self.isConnected) {
         [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
         
         if (handler) {
-            handler(nil, nil, [NSError sdl_notConnectedError]);
+            handler(nil, nil, [NSError sdl_manager_notConnectedError]);
         }
         
         return;
@@ -327,7 +337,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
-#pragma mark - SDLProxyListener Methods
+#pragma mark SDLProxyListener Methods
 
 - (void)onProxyOpened {
     [SDLDebugTool logInfo:@"onProxyOpened"];
@@ -368,7 +378,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onError:(NSException *)e {
-    NSError *error = [NSError sdl_unknownHeadUnitErrorWithDescription:e.name andReason:e.reason];
+    NSError *error = [NSError sdl_manager_unknownHeadUnitErrorWithDescription:e.name andReason:e.reason];
     [self sdl_postNotification:SDLDidReceiveErrorNotification info:error];
 }
 
@@ -663,47 +673,6 @@ typedef NSNumber SDLSubscribeButtonCommandID;
             exceptionWithName:@"MissingIDException"
             reason:@"This request requires an ID (command, softbutton, etc) to be specified"
             userInfo:nil];
-}
-
-@end
-
-
-#pragma mark - SDLManager NSError category implementation
-
-@implementation NSError (SDLManagerErrors)
-
-+ (NSError *)sdl_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                               };
-    return [NSError errorWithDomain:SDLManagerErrorDomain
-                               code:SDLManagerErrorRPCRequestFailed
-                           userInfo:userInfo];
-}
-
-+ (NSError *)sdl_notConnectedError {
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                               };
-    
-    return [NSError errorWithDomain:SDLManagerErrorDomain
-                               code:SDLManagerErrorNotConnected
-                           userInfo:userInfo];
-}
-
-+ (NSError *)sdl_unknownHeadUnitErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-                               };
-    return [NSError errorWithDomain:SDLManagerErrorDomain
-                               code:SDLManagerErrorUnknownHeadUnitError
-                           userInfo:userInfo];
 }
 
 @end
