@@ -51,7 +51,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion;
 
 /**
- *  Upload a file to the remote file system
+ *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading.
  *
  *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.

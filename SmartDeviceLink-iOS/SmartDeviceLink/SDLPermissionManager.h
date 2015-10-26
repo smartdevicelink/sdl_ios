@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __nullable oldPermission, SDLPermissionItem *newPermission);
 
+
 @interface SDLPermissionManager : NSObject
 
 /**
@@ -57,6 +58,20 @@ typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __n
  *  Remove every current observer
  */
 - (void)removeAllObservers;
+
+/**
+ *  Remove block observers for the specified RPC
+ *
+ *  @param rpcName The RPC to remove all observers for
+ */
+- (void)removeObserversForRPC:(NSString *)rpcName;
+
+/**
+ *  Remove block observers for the specified RPCs
+ *
+ *  @param rpcNames The RPCs to remove all observers for
+ */
+- (void)removeObserversForRPCs:(NSArray<NSString *> *)rpcNames;
 
 @end
 

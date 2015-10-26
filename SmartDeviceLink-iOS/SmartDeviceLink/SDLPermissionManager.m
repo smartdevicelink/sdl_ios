@@ -62,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Permissions observers
 
+#pragma mark Add Observers
+
 - (void)addObserverForRPC:(NSString *)rpcName usingBlock:(SDLPermissionObserver)observer {
     // If there is a current permission, send that immediately
     if (self.permissions[rpcName] != nil) {
@@ -81,8 +83,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma mark Remove Observers
+
 - (void)removeAllObservers {
-    self.observers = [NSMutableDictionary dictionary];
+    [self.observers removeAllObjects];
+}
+
+- (void)removeObserversForRPC:(NSString *)rpcName {
+    [self.observers removeObjectForKey:rpcName];
+}
+
+- (void)removeObserversForRPCs:(NSArray<NSString *> *)rpcNames {
+    [self.observers removeObjectsForKeys:rpcNames];
 }
 
 
@@ -92,6 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLPermissionItem *> *permissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
     
     for (SDLPermissionItem *newItem in permissionItems) {
+        // Hold onto the old item, then replace it in the dictionary
         SDLPermissionItem *oldItem = self.permissions[newItem.rpcName];
         self.permissions[newItem.rpcName] = newItem;
         
