@@ -10,6 +10,7 @@
 
 #import "SDLDeleteFile.h"
 #import "SDLDeleteFileResponse.h"
+#import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLGlobals.h"
 #import "SDLListFiles.h"
@@ -30,6 +31,8 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 };
 
 
+#pragma mark - SDLFileWrapper class struct
+
 @interface SDLFileWrapper : NSObject
 
 @property (strong, nonatomic, readonly) SDLFile *file;
@@ -41,6 +44,8 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 @end
 
+
+#pragma mark - SDLFileManager class
 
 @interface SDLFileManager ()
 
@@ -72,6 +77,8 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     
     _connectionManager = manager;
     _bytesAvailable = 0;
+    _allowOverwrite = YES;
+    
     _mutableRemoteFileNames = [NSMutableArray array];
     _uploadQueue = [NSMutableArray array];
     _state = SDLFileManagerStateNotConnected;
@@ -137,6 +144,20 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 }
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
+    // Check our overwrite settings and error out if it would overwrite
+    if (self.allowOverwrite == NO && [self.remoteFileNames containsObject:file.name]) {
+        if (completion != nil) {
+            completion(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
+        }
+        
+        return;
+    }
+    
+    // If we didn't error out over the overwrite, then continue on
+    [self forceUploadFile:file completionHandler:completion];
+}
+
+- (void)forceUploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
     switch (self.state) {
         // Not connected state will fail on attempting to send
         case SDLFileManagerStateReady:
@@ -193,11 +214,12 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
             if (putFiles.count == numResponsesReceived) {
                 stop = YES;
                 [strongSelf.mutableRemoteFileNames addObject:putFile.syncFileName];
-                strongSelf.state = SDLFileManagerStateReady;
                 
                 if (completion != nil) {
                     completion(YES, strongSelf.bytesAvailable, nil);
                 }
+                
+                strongSelf.state = SDLFileManagerStateReady;
             }
         }];
     }

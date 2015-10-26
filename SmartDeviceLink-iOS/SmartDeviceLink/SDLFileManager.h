@@ -25,6 +25,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 
 @property (copy, nonatomic, readonly) NSArray<SDLFileName *> *remoteFileNames;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
+@property (assign, nonatomic) BOOL allowOverwrite;
 
 /**
  *  Creates a new file manager where the connection manager is [SDLManager sharedManager]
@@ -51,12 +52,20 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion;
 
 /**
- *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading.
+ *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading, or change allowOverwrite to NO.
  *
  *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
+
+/**
+ *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, and allowOverwrite is NO, this method will still overwrite the file.
+ *
+ *  @param file       An SDLFile that contains metadata about the file to be sent
+ *  @param completion An optional completion handler that sends an error should one occur.
+ */
+- (void)forceUploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion;
 
 @end
 
