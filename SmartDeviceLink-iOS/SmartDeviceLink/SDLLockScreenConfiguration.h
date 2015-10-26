@@ -16,12 +16,20 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenConfiguration : NSObject <NSCopying>
 
 @property (assign, nonatomic) BOOL showInOptional;
-@property (copy, nonatomic, null_resettable) UIColor *backgroundColor;
-@property (copy, nonatomic, nullable) UIImage *appIcon;
+
+/**
+ *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged.
+ */
+@property (assign, nonatomic, readonly) BOOL enableAutomaticLockScreen;
+
+@property (copy, nonatomic, readonly) UIColor *backgroundColor;
+@property (copy, nonatomic, readonly, nullable) UIImage *appIcon;
+@property (strong, nonatomic, readonly, nullable) UIViewController *customViewController;
 
 + (instancetype)disabledConfiguration;
 + (instancetype)enabledConfiguration;
-+ (instancetype)enabledConfigurationWithBackgroundColor:(UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon;
++ (instancetype)enabledConfigurationWithBackgroundColor:(nullable UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon;
++ (instancetype)enabledConfigurationWithViewController:(UIViewController *)viewController;
 
 @end
 

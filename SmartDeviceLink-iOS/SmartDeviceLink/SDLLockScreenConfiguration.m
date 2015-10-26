@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenConfiguration ()
 
-@property (assign, nonatomic) BOOL enableAutomaticLockScreen;
-
 @end
 
 
@@ -23,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithAutoLockScreen:(BOOL)enableAutomatic enableInOptional:(BOOL)enableOptional backgroundColor:(UIColor *)backgroundColor appIcon:(nullable UIImage *)appIcon {
+- (instancetype)initWithAutoLockScreen:(BOOL)enableAutomatic enableInOptional:(BOOL)enableOptional backgroundColor:(UIColor *)backgroundColor appIcon:(nullable UIImage *)appIcon viewController:(nullable UIViewController *)customViewController {
     self = [super init];
     if (!self) {
         return nil;
@@ -33,31 +31,29 @@ NS_ASSUME_NONNULL_BEGIN
     _showInOptional = enableOptional;
     _backgroundColor = backgroundColor;
     _appIcon = appIcon;
+    _customViewController = customViewController;
     
     return self;
 }
 
 + (instancetype)disabledConfiguration {
-    return [[self alloc] initWithAutoLockScreen:NO enableInOptional:NO backgroundColor:[self defaultBackgroundColor] appIcon:nil];
+    return [[self alloc] initWithAutoLockScreen:NO enableInOptional:NO backgroundColor:[self defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
 + (instancetype)enabledConfiguration {
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self defaultBackgroundColor] appIcon:nil];
+    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
-+ (instancetype)enabledConfigurationWithBackgroundColor:(UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon {
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:lockScreenBackgroundColor appIcon:lockScreenAppIcon];
-}
-
-
-#pragma mark - Custom Setters
-
-- (void)setBackgroundColor:(nullable UIColor *)backgroundColor {
-    if (backgroundColor == nil) {
-        _backgroundColor = [self.class defaultBackgroundColor];
-    } else {
-        _backgroundColor = backgroundColor;
++ (instancetype)enabledConfigurationWithBackgroundColor:(nullable UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon {
+    if (lockScreenBackgroundColor == nil) {
+        lockScreenBackgroundColor = [self.class defaultBackgroundColor];
     }
+    
+    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:lockScreenBackgroundColor appIcon:lockScreenAppIcon viewController:nil];
+}
+
++ (instancetype)enabledConfigurationWithViewController:(UIViewController *)viewController {
+    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[UIColor blackColor] appIcon:nil viewController:viewController];
 }
 
 
@@ -76,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     new->_showInOptional = _showInOptional;
     new->_backgroundColor = _backgroundColor;
     new->_appIcon = _appIcon;
+    new->_customViewController = _customViewController;
     
     return new;
 }

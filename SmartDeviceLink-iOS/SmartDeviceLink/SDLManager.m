@@ -50,7 +50,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
-@property (strong, nonatomic) SDLLockScreenViewController *lockScreenViewController;
+@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController;
 @property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
 
 // Dictionaries to link handlers with requests/commands/etc
@@ -92,8 +92,6 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     _firstHMIFullOccurred = NO;
     _firstHMINotNoneOccurred = NO;
     
-    NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
-    _lockScreenViewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
     _lockScreenPresented = NO;
     
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
@@ -271,9 +269,6 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 - (void)startProxyWithConfiguration:(SDLConfiguration *)configuration {
     self.configuration = configuration;
     
-    self.lockScreenViewController.appIcon = self.configuration.lockScreenConfig.appIcon;
-    self.lockScreenViewController.backgroundColor = self.configuration.lockScreenConfig.backgroundColor;
-    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
@@ -306,9 +301,10 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
-#pragma mark Private Methods
+#pragma mark Helper Methods
 
 - (void)sdl_disposeProxy {
+    // TODO:
     [SDLDebugTool logInfo:@"Stop Proxy"];
     [self.proxy dispose];
     self.proxy = nil;
@@ -318,10 +314,29 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (NSNumber *)sdl_getNextCorrelationId {
     if (self.correlationID == UINT16_MAX) {
-        self.correlationID = 0;
+        self.correlationID = 1;
     }
     
     return @(self.correlationID++);
+}
+
+
+#pragma mark Lock Screen
+
+- (void)sdl_initializeLockScreenController {
+    if (self.configuration == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempting to intialize a lock screen controller, but SDLManager doesn't have a configuration" userInfo:nil];
+    } else if (!self.configuration.lockScreenConfig.enableAutomaticLockScreen) {
+        self.lockScreenViewController = nil;
+    } else if (self.configuration.lockScreenConfig.customViewController != nil) {
+        self.lockScreenViewController = self.configuration.lockScreenConfig.customViewController;
+    } else {
+        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
+        SDLLockScreenViewController *lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
+        lockScreenVC.appIcon = self.configuration.lockScreenConfig.appIcon;
+        lockScreenVC.backgroundColor = self.configuration.lockScreenConfig.backgroundColor;
+        self.lockScreenViewController = lockScreenVC;
+    }
 }
 
 - (UIViewController *)sdl_getCurrentViewController {
@@ -448,7 +463,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)onReceivedLockScreenIcon:(UIImage *)icon {
     // TODO: Notification? I'd guess not.
-    self.lockScreenViewController.vehicleIcon = icon;
+    ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
@@ -542,6 +557,10 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
     // TODO: This logic should be moved into the lock screen manager class when SDLProxy doesn't handle this stuff
+    if (self.lockScreenViewController == nil) {
+        return;
+    }
+    
     if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
         if (!self.lockScreenPresented) {
             [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
