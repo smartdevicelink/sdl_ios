@@ -22,6 +22,17 @@
 #pragma mark - Lifecycle
 
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    return [self initWithImage:image name:name persistent:NO asImageFormat:imageFormat];
+}
+
+- (instancetype)initWithPersistentImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    return [self initWithImage:image name:name persistent:YES asImageFormat:imageFormat];
+}
+
+
+#pragma Private Lifecycle
+
+- (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
     NSData *imageData = nil;
     SDLFileType *fileType = nil;
     
@@ -36,7 +47,7 @@
         } break;
     }
     
-    return [super initWithData:imageData name:name type:fileType];
+    return [super initWithData:imageData name:name type:fileType persistent:persistent];
 }
 
 @end

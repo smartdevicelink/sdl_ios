@@ -37,7 +37,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (strong, nonatomic, readwrite) SDLFileManager *fileManager;
 @property (strong, nonatomic, readwrite) SDLPermissionManager *permissionManager;
-@property (assign, nonatomic, readwrite, getter=isConnected) BOOL connected;
+@property (assign, nonatomic, readwrite) SDLLifecycleState lifecycleState;
 
 // Deprecated internal proxy
 #pragma clang diagnostic push
@@ -85,7 +85,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
         return nil;
     }
     
-    _connected = NO;
+    _lifecycleState = SDLLifecycleStateNotConnected;
     _configuration = nil;
     
     _correlationID = 1;
@@ -108,7 +108,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (SDLFileManager *)fileManager {
     if (_fileManager == nil) {
-        _fileManager = [[SDLFileManager alloc] init];
+        _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     }
     
     return _fileManager;
@@ -139,7 +139,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     NSError *error = nil;
     BOOL success = [response.success boolValue];
     if (success == NO) {
-        error = [NSError sdl_manager_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
+        error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
     }
     
     SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
@@ -202,15 +202,30 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 #pragma mark SDLConnectionManager Protocol
 
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
-    if (!self.isConnected) {
-        [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
-        
-        if (handler) {
-            handler(nil, nil, [NSError sdl_manager_notConnectedError]);
-        }
-        
-        return;
+    switch (self.lifecycleState) {
+            // Don't allow anything to be sent when not connected
+        case SDLLifecycleStateNotConnected: {
+            [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
+            if (handler) {
+                handler(nil, nil, [NSError sdl_lifecycle_notConnectedError]);
+            }
+        } break;
+            // Only allow a Register
+        case SDLLifecycleStateNotReady: {
+            [SDLDebugTool logInfo:@"Manager not ready, will not send RPC"];
+            if (handler) {
+                handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
+            }
+        } break;
+        case SDLLifecycleStateReady: {
+            [self sdl_sendRequest:request withCompletionHandler:handler];
+        } break;
     }
+    
+}
+
+- (void)sdl_sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
+    // We will allow things to be sent in a "SDLLifeCycleStateNotReady" in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     // Add a correlation ID
     NSNumber *corrID = [self sdl_getNextCorrelationId];
     request.correlationID = corrID;
@@ -352,11 +367,16 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
+#pragma mark State Machine Transitions
+
+
+
+
 #pragma mark SDLProxyListener Methods
 
 - (void)onProxyOpened {
     [SDLDebugTool logInfo:@"onProxyOpened"];
-    self.connected = YES;
+    self.lifecycleState = SDLLifecycleStateNotReady;
     
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
@@ -370,8 +390,9 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     }
+    
     // TODO: implement handler with success/error
-    [self sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+    [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         if (error) {
             [self sdl_postNotification:SDLDidFailToRegisterNotification info:error];
         } else {
@@ -386,14 +407,14 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 - (void)onProxyClosed {
     // Already background dispatched from caller
     [SDLDebugTool logInfo:@"onProxyClosed"];
-    self.connected = NO;
-    [self sdl_disposeProxy];    // call this method instead of stopProxy to avoid double-dispatching
+    self.lifecycleState = SDLLifecycleStateNotConnected;
+    [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
     [self sdl_startProxy];
 }
 
 - (void)onError:(NSException *)e {
-    NSError *error = [NSError sdl_manager_unknownHeadUnitErrorWithDescription:e.name andReason:e.reason];
+    NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:e.name andReason:e.reason];
     [self sdl_postNotification:SDLDidReceiveErrorNotification info:error];
 }
 
@@ -463,7 +484,11 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)onReceivedLockScreenIcon:(UIImage *)icon {
     // TODO: Notification? I'd guess not.
-    ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
+    if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
+        ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
+    } else {
+        [self sdl_postNotification:SDLDidReceiveVehicleIconNotification info:icon];
+    }
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
@@ -483,6 +508,10 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
+    // TODO: Get ListFiles, send persistent images, stay not ready till done
+    // TODO: Store response data somewhere?
+    self.lifecycleState = SDLLifecycleStateReady;
+    
     [self sdl_runHandlersForResponse:response];
 }
 

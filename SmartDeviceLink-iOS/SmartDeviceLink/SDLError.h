@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSInteger, SDLManagerError) {
     SDLManagerErrorRPCRequestFailed = -1,
     SDLManagerErrorNotConnected = -2,
-    SDLManagerErrorUnknownHeadUnitError = -3
+    SDLManagerErrorNotReady = -3,
+    SDLManagerErrorUnknownRemoteError = -4
 };
 
 typedef NS_ENUM(NSInteger, SDLFileManagerError) {
@@ -26,9 +27,10 @@ extern NSString *const SDLFileManagerErrorDomain;
 
 #pragma mark SDLManager
 
-+ (NSError *)sdl_manager_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
-+ (NSError *)sdl_manager_notConnectedError;
-+ (NSError *)sdl_manager_unknownHeadUnitErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_notConnectedError;
++ (NSError *)sdl_lifecycle_notReadyError;
++ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
 
 #pragma mark SDLFileManager
 

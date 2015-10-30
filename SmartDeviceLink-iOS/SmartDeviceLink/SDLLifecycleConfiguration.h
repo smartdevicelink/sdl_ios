@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 
 @class SDLAppHMIType;
+@class SDLFile;
 @class SDLLanguage;
 
 
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL tcpDebugMode;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugIPAddress;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugPort;
+@property (copy, nonatomic) NSArray<SDLFile *> *persistentImages;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *appId;

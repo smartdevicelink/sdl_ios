@@ -17,7 +17,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
 
 #pragma mark - SDLManager
 
-+ (NSError *)sdl_manager_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
++ (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
@@ -28,7 +28,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_manager_notConnectedError {
++ (NSError *)sdl_lifecycle_notConnectedError {
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
@@ -40,14 +40,26 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_manager_unknownHeadUnitErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
++ (NSError *)sdl_lifecycle_notReadyError {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                               };
+    
+    return [NSError errorWithDomain:SDLManagerErrorDomain
+                               code:SDLManagerErrorNotConnected
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
     return [NSError errorWithDomain:SDLManagerErrorDomain
-                               code:SDLManagerErrorUnknownHeadUnitError
+                               code:SDLManagerErrorUnknownRemoteError
                            userInfo:userInfo];
 }
 

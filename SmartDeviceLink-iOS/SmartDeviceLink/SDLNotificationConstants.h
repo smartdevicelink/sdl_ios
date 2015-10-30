@@ -35,6 +35,7 @@ extern NSString *const SDLDidReceiveEncodedDataNotification;
 extern NSString *const SDLDidReceiveNewHashNotification;
 extern NSString *const SDLDidChangeLanguageNotification;
 extern NSString *const SDLDidChangeLockScreenStatusNotification;
+extern NSString *const SDLDidReceiveVehicleIconNotification;
 extern NSString *const SDLDidChangePermissionsNotification;
 extern NSString *const SDLDidReceiveDataNotification;
 extern NSString *const SDLDidReceiveSystemRequestNotification;

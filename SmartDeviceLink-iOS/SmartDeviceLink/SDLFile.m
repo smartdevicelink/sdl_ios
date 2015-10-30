@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSString *filePath;
 @property (strong, nonatomic, readwrite) SDLFileType *fileType;
 
-@property (assign, nonatomic) BOOL persistent;
+@property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
 @property (copy, nonatomic, readwrite) NSData *data;
 
@@ -29,11 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (nullable instancetype)initWithFileAtPath:(NSString *)path {
-    return [self initWithFileAtPath:path name:[[NSFileManager defaultManager] displayNameAtPath:path]];
+- (instancetype)initWithFileAtPath:(NSString *)path {
+    return [self initWithFileAtPath:path name:[[NSFileManager defaultManager] displayNameAtPath:path] persistent:NO];
 }
 
-- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType {
+- (instancetype)initWithPersistentFileAtPath:(NSString *)path name:(NSString *)name {
+    return [self initWithFileAtPath:path name:name persistent:YES];
+}
+
+- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent {
     self = [super init];
     if (!self) {
         return nil;
@@ -42,14 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
     _data = data;
     _name = name;
     _fileType = fileType;
-    _persistent = NO;
+    _persistent = persistent;
     
     return self;
 }
 
 #pragma mark Private Lifecycle
 
-- (instancetype)initWithFileAtPath:(NSString *)path name:(NSString *)name {
+- (instancetype)initWithFileAtPath:(NSString *)path name:(NSString *)name persistent:(BOOL)persistent {
     self = [super init];
     if (!self) {
         return nil;
@@ -62,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _filePath = path;
     _name = name;
-    _persistent = NO;
+    _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFilePath:path];
     
     return self;

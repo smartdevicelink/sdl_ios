@@ -18,5 +18,6 @@ typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
 @interface SDLArtwork : SDLFile
 
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
+- (instancetype)initWithPersistentImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
 
 @end
