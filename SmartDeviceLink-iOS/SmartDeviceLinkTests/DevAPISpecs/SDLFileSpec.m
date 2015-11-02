@@ -23,7 +23,7 @@ describe(@"SDLFile", ^{
             testPersistence = YES;
             
             beforeEach(^{
-                testFile = [[SDLFile alloc] initWithData:testData name:testName type:testFileType];
+                testFile = [[SDLFile alloc] initWithData:testData name:testName type:testFileType persistent:NO];
             });
             
             it(@"should correctly store data", ^{
@@ -46,7 +46,7 @@ describe(@"SDLFile", ^{
                 testFileType = [SDLFileType BINARY];
                 testPersistence = YES;
                 
-                testFile = [[SDLFile alloc] initWithData:testData name:testName type:testFileType];
+                testFile = [[SDLFile alloc] initWithData:testData name:testName type:testFileType persistent:NO];
             });
             
             it(@"should correctly store data", ^{
@@ -81,23 +81,55 @@ describe(@"SDLFile", ^{
         });
         
         context(@"when created with a good file path", ^{
-            beforeEach(^{
-                NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                testFilePath = [testBundle pathForResource:@"testImageJPG" ofType:@"jpg"];
+            context(@"that is not persistent", ^{
+                beforeEach(^{
+                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+                    testFilePath = [testBundle pathForResource:@"testImageJPG" ofType:@"jpg"];
+                    
+                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                });
                 
-                testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                it(@"should correctly store data", ^{
+                    expect(testFile.data).to(equal([NSData dataWithContentsOfFile:testFilePath]));
+                });
+                
+                it(@"should correctly store name", ^{
+                    expect(testFile.name).to(equal([[NSFileManager defaultManager] displayNameAtPath:testFilePath]));
+                });
+                
+                it(@"should correctly store file type", ^{
+                    expect(testFile.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
+                });
+                
+                it(@"should correctly store persistence", ^{
+                    expect(@(testFile.persistent)).to(equal(@NO));
+                });
             });
             
-            it(@"should correctly store data", ^{
-                expect(testFile.data).to(equal([NSData dataWithContentsOfFile:testFilePath]));
-            });
-            
-            it(@"should correctly store name", ^{
-                expect(testFile.name).to(equal([[NSFileManager defaultManager] displayNameAtPath:testFilePath]));
-            });
-            
-            it(@"should correctly store file type", ^{
-                expect(testFile.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
+            context(@"That is persistent", ^{
+                beforeEach(^{
+                    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
+                    testFilePath = [testBundle pathForResource:@"testImageJPG" ofType:@"jpg"];
+                    testFileName = @"Persistant file name";
+                    
+                    testFile = [[SDLFile alloc] initWithPersistentFileAtPath:testFilePath name:testFileName];
+                });
+                
+                it(@"should correctly store data", ^{
+                    expect(testFile.data).to(equal([NSData dataWithContentsOfFile:testFilePath]));
+                });
+                
+                it(@"should correctly store name", ^{
+                    expect(testFile.name).to(equal([[NSFileManager defaultManager] displayNameAtPath:testFilePath]));
+                });
+                
+                it(@"should correctly store file type", ^{
+                    expect(testFile.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
+                });
+                
+                it(@"should correctly store persistence", ^{
+                    expect(@(testFile.persistent)).to(equal(@YES));
+                });
             });
         });
         
