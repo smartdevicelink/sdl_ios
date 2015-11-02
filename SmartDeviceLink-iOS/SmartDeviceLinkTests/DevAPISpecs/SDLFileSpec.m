@@ -120,7 +120,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should correctly store name", ^{
-                    expect(testFile.name).to(equal([[NSFileManager defaultManager] displayNameAtPath:testFilePath]));
+                    expect(testFile.name).to(equal(testFileName));
                 });
                 
                 it(@"should correctly store file type", ^{
