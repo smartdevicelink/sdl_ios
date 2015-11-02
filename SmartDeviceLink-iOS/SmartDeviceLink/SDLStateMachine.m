@@ -41,32 +41,37 @@
     if (![self sdl_canState:self.currentState transitionToState:state]) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:@"Attempted to transition to a state that is not allowed from the current state"
-                                     userInfo:@{@"fromState": self.currentState
+                                     userInfo:@{@"fromState": self.currentState,
                                                 @"toState": state}];
     }
     
-    NSString *willLeave = [NSString stringWithFormat:@"willLeaveState%@", self.currentState.name];
-    NSString *willTransition = [NSString stringWithFormat:@"willTransitionFromState%@ToState%@", self.currentState.name, state.name];
-    NSString *didTransition = [NSString stringWithFormat:@"didTransitionFromState%@ToState%@", self.currentState.name, state.name];
-    NSString *didEnter = [NSString stringWithFormat:@"enteringState%@", state.name];
+    SEL willLeave = NSSelectorFromString([NSString stringWithFormat:@"willLeaveState%@", self.currentState.name]);
+    SEL willTransition = NSSelectorFromString([NSString stringWithFormat:@"willTransitionFromState%@ToState%@", self.currentState.name, state.name]);
+    SEL didTransition = NSSelectorFromString([NSString stringWithFormat:@"didTransitionFromState%@ToState%@", self.currentState.name, state.name]);
+    SEL didEnter = NSSelectorFromString([NSString stringWithFormat:@"enteringState%@", state.name]);
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     
     if ([self.target respondsToSelector:willLeave]) {
-        [self.target performSelector:NSSelectorFromString(willLeave)];
+        [self.target performSelector:willLeave];
     }
     
     if ([self.target respondsToSelector:willTransition]) {
-        [self.target performSelector:NSSelectorFromString(willTransition)];
+        [self.target performSelector:willTransition];
     }
     
     self.currentState = state;
     
     if ([self.target respondsToSelector:didTransition]) {
-        [self.target performSelector:NSSelectorFromString(didTransition)];
+        [self.target performSelector:didTransition];
     }
     
     if ([self.target respondsToSelector:didEnter]) {
-        [self.target performSelector:NSSelectorFromString(didEnter)];
+        [self.target performSelector:didEnter];
     }
+    
+#pragma clang diagnostic pop
 }
 
 - (BOOL)sdl_canState:(SDLState *)fromState transitionToState:(SDLState *)toState {
