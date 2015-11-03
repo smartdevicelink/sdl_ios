@@ -787,6 +787,7 @@
 		5D9F507B1BE7DD4C00FEF399 /* testImageJPG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50751BE7DD4C00FEF399 /* testImageJPG.jpg */; };
 		5D9F507C1BE7DD4C00FEF399 /* testImagePNG.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50761BE7DD4C00FEF399 /* testImagePNG.png */; };
 		5D9F507D1BE7DD4C00FEF399 /* testImageTIFF.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50771BE7DD4C00FEF399 /* testImageTIFF.tiff */; };
+		5D9F50811BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */; };
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
 		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; };
 		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; };
@@ -1701,6 +1702,7 @@
 		5D9F50751BE7DD4C00FEF399 /* testImageJPG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImageJPG.jpg; sourceTree = "<group>"; };
 		5D9F50761BE7DD4C00FEF399 /* testImagePNG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImagePNG.png; sourceTree = "<group>"; };
 		5D9F50771BE7DD4C00FEF399 /* testImageTIFF.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = testImageTIFF.tiff; sourceTree = "<group>"; };
+		5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionsManagerSpec.m; path = DevAPISpecs/SDLPermissionsManagerSpec.m; sourceTree = "<group>"; };
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
 		5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
@@ -2961,7 +2963,7 @@
 		5D61FA1D1A84237100846EE7 /* SmartDeviceLink */ = {
 			isa = PBXGroup;
 			children = (
-				5DA3F3511BC4477B0026F2D0 /* Enhancements */,
+				5DA3F3511BC4477B0026F2D0 /* Developer API */,
 				5D5934F61A85189500687FB9 /* Utilities */,
 				5D5934F51A8516C800687FB9 /* Debug */,
 				5D5934F01A85161A00687FB9 /* Transport */,
@@ -2985,7 +2987,7 @@
 		5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */ = {
 			isa = PBXGroup;
 			children = (
-				5DAE06711BDEC68700F9B498 /* Enhancements Tests */,
+				5DAE06711BDEC68700F9B498 /* Developer API Tests */,
 				5D59DD451B14FDD000BE744D /* ProxySpecs */,
 				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
 				1680B1041A9CD7AD00DBD79E /* ProtocolSpecs */,
@@ -3074,7 +3076,24 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
-		5DA3F3511BC4477B0026F2D0 /* Enhancements */ = {
+		5D9F507E1BE7E46600FEF399 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */,
+				5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */,
+			);
+			name = Files;
+			sourceTree = "<group>";
+		};
+		5D9F507F1BE7E6C900FEF399 /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */,
+			);
+			name = Permissions;
+			sourceTree = "<group>";
+		};
+		5DA3F3511BC4477B0026F2D0 /* Developer API */ = {
 			isa = PBXGroup;
 			children = (
 				5D6F7A301BC5B7100070BF37 /* Lock Screen UI */,
@@ -3086,7 +3105,7 @@
 				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
 			);
-			name = Enhancements;
+			name = "Developer API";
 			sourceTree = "<group>";
 		};
 		5DA3F3561BC4480E0026F2D0 /* Utilities */ = {
@@ -3128,13 +3147,13 @@
 			name = "Handler Additions";
 			sourceTree = "<group>";
 		};
-		5DAE06711BDEC68700F9B498 /* Enhancements Tests */ = {
+		5DAE06711BDEC68700F9B498 /* Developer API Tests */ = {
 			isa = PBXGroup;
 			children = (
-				5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */,
-				5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */,
+				5D9F507F1BE7E6C900FEF399 /* Permissions */,
+				5D9F507E1BE7E46600FEF399 /* Files */,
 			);
-			name = "Enhancements Tests";
+			name = "Developer API Tests";
 			sourceTree = "<group>";
 		};
 		5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */ = {
@@ -4047,6 +4066,7 @@
 				162E82D71A9BDE8A00906325 /* SDLDeviceLevelStatusSpec.m in Sources */,
 				162E83841A9BDE8B00906325 /* SDLMenuParamsSpec.m in Sources */,
 				162E83071A9BDE8B00906325 /* SDLVehicleDataNotificationStatusSpec.m in Sources */,
+				5D9F50811BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m in Sources */,
 				162E83361A9BDE8B00906325 /* SDLRegisterAppInterfaceSpec.m in Sources */,
 				162E82DD1A9BDE8B00906325 /* SDLFileTypeSpec.m in Sources */,
 				162E836A1A9BDE8B00906325 /* SDLSubscribeVehicleDataResponseSpec.m in Sources */,

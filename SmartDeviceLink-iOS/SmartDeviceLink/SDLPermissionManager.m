@@ -14,15 +14,12 @@
 #import "SDLPermissionItem.h"
 
 
-typedef NSString SDLPermissionRPCName;
-
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager ()
 
-@property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *permissions;
-@property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> *observers;
+@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> *observers;
 
 @end
 
@@ -70,11 +67,12 @@ NS_ASSUME_NONNULL_BEGIN
         observer(rpcName, nil, self.permissions[rpcName]);
     }
     
-    [self.observers[rpcName] addObject:observer];
+    [self.observers[rpcName] addObject:[observer copy]];
 }
 
-- (void)addObserverForRPCs:(NSArray<NSString *> *)rpcNames usingBlock:(SDLPermissionObserver)observer {
+- (void)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames usingBlock:(SDLPermissionObserver)observer {
     for (NSString *rpcName in rpcNames) {
+        // If there is a current permission, send it immediately
         if (self.permissions[rpcName] != nil) {
             observer(rpcName, nil, self.permissions[rpcName]);
         }
@@ -93,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.observers removeObjectForKey:rpcName];
 }
 
-- (void)removeObserversForRPCs:(NSArray<NSString *> *)rpcNames {
+- (void)removeObserversForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
     [self.observers removeObjectsForKeys:rpcNames];
 }
 

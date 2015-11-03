@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLHMILevel, SDLPermissionItem;
+@class SDLHMILevel;
+@class SDLPermissionItem;
+
+typedef NSString SDLPermissionRPCName;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,7 +56,7 @@ typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __n
  *  @param rpcNames  The RPCs to be observed
  *  @param observer The block that will be called whenever permissions change.
  */
-- (void)addObserverForRPCs:(NSArray<NSString *> *)rpcNames usingBlock:(SDLPermissionObserver)observer;
+- (void)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames usingBlock:(SDLPermissionObserver)observer;
 
 /**
  *  Remove every current observer
@@ -71,7 +75,7 @@ typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __n
  *
  *  @param rpcNames The RPCs to remove all observers for
  */
-- (void)removeObserversForRPCs:(NSArray<NSString *> *)rpcNames;
+- (void)removeObserversForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
 
 @end
 
