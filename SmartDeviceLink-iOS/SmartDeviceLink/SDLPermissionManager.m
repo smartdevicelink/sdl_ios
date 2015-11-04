@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     SDLPermissionItem *item = self.permissions[rpcName];
-    if ([item.hmiPermissions.allowed containsObject:hmiLevel.value]) {
+    if ([item.hmiPermissions.allowed containsObject:hmiLevel]) {
         return YES;
     } else {
         return NO;
