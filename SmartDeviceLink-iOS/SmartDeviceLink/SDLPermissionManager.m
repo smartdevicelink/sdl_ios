@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
+    _permissions = [NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> dictionary];
+    _observers = [NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> dictionary];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
     
     return self;

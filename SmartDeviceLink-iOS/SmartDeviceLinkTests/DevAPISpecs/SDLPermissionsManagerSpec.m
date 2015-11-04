@@ -67,10 +67,9 @@ fdescribe(@"SDLPermissionsManager", ^{
         context(@"when permissions exist", ^{
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                someRPCName = @"some rpc name";
                 someHMILevel = [SDLHMILevel NONE];
                 
-                testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName forHMILevel:someHMILevel];
+                testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCName1 forHMILevel:someHMILevel];
             });
             
             it(@"should be allowed", ^{
