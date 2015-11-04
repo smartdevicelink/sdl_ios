@@ -147,11 +147,17 @@ fdescribe(@"SDLPermissionsManager", ^{
             
             context(@"when data is already present", ^{
                 __block NSInteger numberOfTimesObserverCalled = 0;
-                __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
-                __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];
-                __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = [NSMutableArray array];
+                __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
+                __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
+                __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
                 
                 beforeEach(^{
+                    // Reset vars
+                    numberOfTimesObserverCalled = 0;
+                    testObserverCalledRPCNames = [NSMutableArray array];
+                    testObserverCalledOldPermissions = [NSMutableArray array];
+                    testObserverCalledNewPermissions = [NSMutableArray array];
+                    
                     // Post the notification before setting the observer to make sure data is already present
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                     
@@ -196,13 +202,19 @@ fdescribe(@"SDLPermissionsManager", ^{
         
         context(@"updating an observer with new data", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = [NSMutableArray array];
+            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
             
             __block SDLPermissionItem *testPermissionUpdated = nil;
             
             beforeEach(^{
+                // Reset vars
+                numberOfTimesObserverCalled = 0;
+                testObserverCalledRPCNames = [NSMutableArray array];
+                testObserverCalledOldPermissions = [NSMutableArray array];
+                testObserverCalledNewPermissions = [NSMutableArray array];
+                
                 // Set the "preexisting" data
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                 
@@ -268,11 +280,18 @@ fdescribe(@"SDLPermissionsManager", ^{
     describe(@"removing observers", ^{
         context(@"removing a single observer and leaving one remaining", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = [NSMutableArray array];
+            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
             
             beforeEach(^{
+                // Reset vars
+                numberOfTimesObserverCalled = 0;
+                testObserverCalledRPCNames = [NSMutableArray array];
+                testObserverCalledOldPermissions = [NSMutableArray array];
+                testObserverCalledNewPermissions = [NSMutableArray array];
+                
+                // Add two observers
                 [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledRPCNames addObject:rpcName];
@@ -284,8 +303,10 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [testObserverCalledNewPermissions addObject:newPermission];
                 }];
                 
+                // Remove one observer
                 [testPermissionsManager removeObserversForRPC:testRPCName1];
                 
+                // Post a notification
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
             
@@ -304,11 +325,18 @@ fdescribe(@"SDLPermissionsManager", ^{
         
         context(@"removing multiple observers", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = [NSMutableArray array];
+            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
             
             beforeEach(^{
+                // Reset vars
+                numberOfTimesObserverCalled = 0;
+                testObserverCalledRPCNames = [NSMutableArray array];
+                testObserverCalledOldPermissions = [NSMutableArray array];
+                testObserverCalledNewPermissions = [NSMutableArray array];
+                
+                // Add two observers
                 [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledRPCNames addObject:rpcName];
@@ -320,8 +348,10 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [testObserverCalledNewPermissions addObject:newPermission];
                 }];
                 
+                // Remove both observers
                 [testPermissionsManager removeObserversForRPCs:@[testRPCName1, testRPCName2]];
                 
+                // Add a permission
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
             
@@ -332,11 +362,18 @@ fdescribe(@"SDLPermissionsManager", ^{
         
         context(@"removing all observers", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = [NSMutableArray array];
+            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
+            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
             
             beforeEach(^{
+                // Reset vars
+                numberOfTimesObserverCalled = 0;
+                testObserverCalledRPCNames = [NSMutableArray array];
+                testObserverCalledOldPermissions = [NSMutableArray array];
+                testObserverCalledNewPermissions = [NSMutableArray array];
+                
+                // Add two observers
                 [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledRPCNames addObject:rpcName];
@@ -348,8 +385,10 @@ fdescribe(@"SDLPermissionsManager", ^{
                     [testObserverCalledNewPermissions addObject:newPermission];
                 }];
                 
+                // Remove all observers
                 [testPermissionsManager removeAllObservers];
                 
+                // Add some permissions
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
             
