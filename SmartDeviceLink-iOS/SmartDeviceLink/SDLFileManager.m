@@ -268,7 +268,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
-    // TODO: Reset properties
     self.mutableRemoteFileNames = [NSMutableArray array];
     self.bytesAvailable = 0;
     self.uploadQueue = [NSMutableArray array];

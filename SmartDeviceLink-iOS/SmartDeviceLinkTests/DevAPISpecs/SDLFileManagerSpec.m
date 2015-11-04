@@ -3,13 +3,19 @@
 
 #import "SDLFileManager.h"
 #import "SDLListFiles.h"
+#import "SDLListFilesResponse.h"
 #import "SDLNotificationConstants.h"
+
 
 @interface TestConnectionManager : NSObject<SDLConnectionManager>
 
 @property (copy, nonatomic, readonly) NSMutableArray<__kindof SDLRPCRequest *> *receivedRequests;
 
+@property (assign, nonatomic) BOOL respondToListFiles;
+@property (strong, nonatomic) SDLListFilesResponse *listFilesResponse;
+
 @end
+
 
 @implementation TestConnectionManager
 
@@ -21,11 +27,17 @@
     
     _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
     
+    _respondToListFiles = NO;
+    
     return self;
 }
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(SDLRequestCompletionHandler)block {
     [self.receivedRequests addObject:request];
+    
+    if (self.respondToListFiles) {
+        block(request, self.listFilesResponse, nil);
+    }
 }
 
 @end
@@ -36,10 +48,16 @@ QuickSpecBegin(SDLFileManagerSpec)
 describe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
+    __block SDLListFilesResponse *testListFilesResponse = nil;
     
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
+        
+        testListFilesResponse = [[SDLListFilesResponse alloc] init];
+        testListFilesResponse.spaceAvailable = @25;
+        testListFilesResponse.filenames = [NSMutableArray arrayWithArray:@[@"testFile1", @"testFile2", @"testFile3"]];
+        testConnectionManager.listFilesResponse = testListFilesResponse;
     });
     
     describe(@"before receiving a connect notification", ^{
@@ -73,7 +91,9 @@ describe(@"SDLFileManager", ^{
             it(@"should be in the waiting state", ^{
                 expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateWaiting)));
             });
-            
+        });
+        
+        describe(@"after receiving a ListFiles response", ^{
             xdescribe(@"entering files before a response then receiving the response", ^{
                 it(@"should immediately start sending queued files", ^{
                     
