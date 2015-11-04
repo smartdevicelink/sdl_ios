@@ -194,7 +194,7 @@ fdescribe(@"SDLPermissionsManager", ^{
             });
         });
         
-        xcontext(@"updating an observer with new data", ^{
+        context(@"updating an observer with new data", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
             __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
             __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];
@@ -266,7 +266,7 @@ fdescribe(@"SDLPermissionsManager", ^{
     });
     
     describe(@"removing observers", ^{
-        context(@"removing a single observer", ^{
+        context(@"removing a single observer and leaving one remaining", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
             __block NSMutableArray<NSString *> *testObserverCalledRPCNames = [NSMutableArray array];
             __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = [NSMutableArray array];

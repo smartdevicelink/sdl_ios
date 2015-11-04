@@ -69,17 +69,17 @@ NS_ASSUME_NONNULL_BEGIN
         observer(rpcName, nil, self.permissions[rpcName]);
     }
     
+    // If we don't currently have anything for this RPC name, then create an array to house observers
+    if (self.observers[rpcName] == nil) {
+        self.observers[rpcName] = [NSMutableArray<SDLPermissionObserver> array];
+    }
+    
     [self.observers[rpcName] addObject:[observer copy]];
 }
 
 - (void)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames usingBlock:(SDLPermissionObserver)observer {
     for (NSString *rpcName in rpcNames) {
-        // If there is a current permission, send it immediately
-        if (self.permissions[rpcName] != nil) {
-            observer(rpcName, nil, self.permissions[rpcName]);
-        }
-        
-        [self.observers[rpcName] addObject:observer];
+        [self addObserverForRPC:rpcName usingBlock:observer];
     }
 }
 
