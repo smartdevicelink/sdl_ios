@@ -24,13 +24,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
-    SDLFileManagerStateNotConnected,
-    SDLFileManagerStateReady,
-    SDLFileManagerStateWaiting
-};
-
-
 #pragma mark - SDLFileWrapper class struct
 
 @interface SDLFileWrapper : NSObject
@@ -57,7 +50,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 // Local state
 @property (copy, nonatomic) NSMutableArray<SDLFileWrapper *> *uploadQueue;
-@property (assign, nonatomic) SDLFileManagerState state;
+@property (assign, nonatomic, readwrite) SDLFileManagerState state;
 @property (assign, nonatomic) NSUInteger currentFileUploadOffset;
 
 @end
@@ -93,7 +86,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
 
 #pragma mark - Getters
 
-- (NSArray<SDLFileName *> *)remoteFiles {
+- (NSArray<SDLFileName *> *)remoteFileNames {
     return [self.mutableRemoteFileNames copy];
 }
 
@@ -280,6 +273,7 @@ typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
     self.bytesAvailable = 0;
     self.uploadQueue = [NSMutableArray array];
     self.state = SDLFileManagerStateNotConnected;
+    self.currentFileUploadOffset = 0;
 }
 
 @end

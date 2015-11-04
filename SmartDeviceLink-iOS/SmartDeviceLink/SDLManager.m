@@ -201,7 +201,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 #pragma mark SDLConnectionManager Protocol
 
-- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
+- (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     switch (self.lifecycleState) {
             // Don't allow anything to be sent when not connected
         case SDLLifecycleStateNotConnected: {

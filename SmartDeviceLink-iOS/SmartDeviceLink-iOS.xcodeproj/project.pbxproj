@@ -788,6 +788,7 @@
 		5D9F507C1BE7DD4C00FEF399 /* testImagePNG.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50761BE7DD4C00FEF399 /* testImagePNG.png */; };
 		5D9F507D1BE7DD4C00FEF399 /* testImageTIFF.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50771BE7DD4C00FEF399 /* testImageTIFF.tiff */; };
 		5D9F50811BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */; };
+		5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */; };
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
 		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; };
 		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; };
@@ -1703,6 +1704,7 @@
 		5D9F50761BE7DD4C00FEF399 /* testImagePNG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImagePNG.png; sourceTree = "<group>"; };
 		5D9F50771BE7DD4C00FEF399 /* testImageTIFF.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = testImageTIFF.tiff; sourceTree = "<group>"; };
 		5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionsManagerSpec.m; path = DevAPISpecs/SDLPermissionsManagerSpec.m; sourceTree = "<group>"; };
+		5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLFileManagerSpec.m; path = DevAPISpecs/SDLFileManagerSpec.m; sourceTree = "<group>"; };
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
 		5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
@@ -3081,6 +3083,7 @@
 			children = (
 				5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */,
 				5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */,
+				5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -3997,6 +4000,7 @@
 				162E83721A9BDE8B00906325 /* SDLAudioPassThruCapabilitiesSpec.m in Sources */,
 				162E83681A9BDE8B00906325 /* SDLSpeakResponseSpec.m in Sources */,
 				162E83661A9BDE8B00906325 /* SDLShowResponseSpec.m in Sources */,
+				5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */,
 				162E83221A9BDE8B00906325 /* SDLAddCommandSpec.m in Sources */,
 				162E83121A9BDE8B00906325 /* SDLOnButtonPressSpec.m in Sources */,
 				162E838D1A9BDE8B00906325 /* SDLStartTimeSpec.m in Sources */,
