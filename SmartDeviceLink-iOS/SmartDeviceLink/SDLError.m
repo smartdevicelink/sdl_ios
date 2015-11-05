@@ -75,4 +75,13 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
     return [NSError errorWithDomain:SDLFileManagerErrorDomain code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_noKnownFileError {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(@"No such remote file is currently known", nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file is not currently known by the file manager. It could be that this file does not exist on the remote system or that the file manager has not completed its initialization and received a list of files from the remote system.", nil),
+                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure a file with this name is present on the remote system and that the file manager has finished its initialization.", nil)
+                               };
+    return [NSError errorWithDomain:SDLFileManagerErrorDomain code:SDLFileManagerErrorNoKnownFile userInfo:userInfo];
+}
+
 @end

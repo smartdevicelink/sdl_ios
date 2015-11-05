@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger, SDLManagerError) {
 };
 
 typedef NS_ENUM(NSInteger, SDLFileManagerError) {
-    SDLFileManagerErrorCannotOverwrite = -1
+    SDLFileManagerErrorCannotOverwrite = -1,
+    SDLFileManagerErrorNoKnownFile = -2
 };
 
 #pragma mark Error Domains
@@ -35,5 +36,6 @@ extern NSString *const SDLFileManagerErrorDomain;
 #pragma mark SDLFileManager
 
 + (NSError *)sdl_fileManager_cannotOverwriteError;
++ (NSError *)sdl_fileManager_noKnownFileError;
 
 @end

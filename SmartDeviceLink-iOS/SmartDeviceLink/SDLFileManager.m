@@ -112,6 +112,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Remote File Manipulation
 
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion {
+    if (![self.mutableRemoteFileNames containsObject:name]) {
+        completion(NO, self.bytesAvailable, [NSError sdl_fileManager_noKnownFileError]);
+    }
+    
     SDLDeleteFile *deleteFile = [SDLRPCRequestFactory buildDeleteFileWithName:name correlationID:@0];
     
     __weak typeof(self) weakSelf = self;
