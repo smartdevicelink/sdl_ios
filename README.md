@@ -1,8 +1,8 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
-[![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/release%2F4.0.0.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
-[![codecov.io](https://img.shields.io/codecov/c/github/codecov/smartdevicelink/sdl_ios/release%2F4.0.0.svg?style=flat)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=release/4.0.0)
+[![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/release%2F4.0.1.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
+[![codecov.io](https://img.shields.io/codecov/c/github/codecov/smartdevicelink/sdl_ios/release%2F4.0.1.svg?style=flat)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=release/4.0.1)
 
 
 # SmartDeviceLink (SDL)
@@ -23,7 +23,7 @@ The mobile library component of SDL is meant to run on the end user’s smart-de
 
 We're still working on creating documentation for each of these individual repositories, but in the meantime, you can find more information about SmartDeviceLink [on the SDL Core README](https://github.com/smartdevicelink/sdl_core/blob/master/README.md) and [on Genivi](http://projects.genivi.org/smartdevicelink/about).
 
-See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/release/4.0.0/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
+See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
 
 ### Installing
 
@@ -31,11 +31,11 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/release/4.0.
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.0'`. Then run `pod install` inside your terminal.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.1'`. Then run `pod install` inside your terminal.
 
 ##### Carthage
 
-Carthage currently only supports stable versions, support will come when SDL iOS releases version 4.0.0 stable.
+SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
 ### Reference Documentation
 

@@ -1,3 +1,8 @@
+# 4.0.1 Release notes
+
+### Bug Fixes
+* Fixed some implicit `self` captures with blocks.
+
 # 4.0.0 Release Notes (pre-release)
 
 ## Final Release (2015-10-5)

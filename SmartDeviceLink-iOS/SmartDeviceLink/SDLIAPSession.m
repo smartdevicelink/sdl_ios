@@ -47,13 +47,15 @@
     [SDLDebugTool logInfo:logMessage];
 
     if ((self.easession = [[EASession alloc] initWithAccessory:_accessory forProtocol:_protocol])) {
+        __strong typeof(self) strongSelf = weakSelf;
+        
         [SDLDebugTool logInfo:@"Created Session Object"];
 
-        weakSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
-        weakSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
+        strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
+        strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
 
-        [weakSelf startStream:weakSelf.easession.outputStream];
-        [weakSelf startStream:weakSelf.easession.inputStream];
+        [strongSelf startStream:weakSelf.easession.outputStream];
+        [strongSelf startStream:weakSelf.easession.inputStream];
 
         return YES;
 
@@ -111,7 +113,7 @@
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         if (stream == [strongSelf.easession outputStream]) {
             [SDLDebugTool logInfo:@"Output Stream Opened"];
@@ -132,7 +134,7 @@
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        typeof(self) strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.delegate onSessionStreamsEnded:strongSelf];
