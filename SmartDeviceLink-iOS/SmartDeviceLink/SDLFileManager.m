@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - Remote File Manipulation
+#pragma mark - Deleting
 
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion {
     if (![self.mutableRemoteFileNames containsObject:name]) {
@@ -140,6 +140,9 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+
+#pragma mark - Uploading
+
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
     // Check our overwrite settings and error out if it would overwrite
     if (self.allowOverwrite == NO && [self.remoteFileNames containsObject:file.name]) {
@@ -151,12 +154,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     // If we didn't error out over the overwrite, then continue on
-    [self forceUploadFile:file completionHandler:completion];
+    [self sdl_uploadFile:file completionHandler:completion];
 }
 
 - (void)forceUploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
+    [self sdl_uploadFile:file completionHandler:completion];
+}
+
+- (void)sdl_uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
     switch (self.state) {
-        // Not connected state will fail on attempting to send
+            // Not connected state will fail on attempting to send
         case SDLFileManagerStateReady:
         case SDLFileManagerStateNotConnected: {
             self.state = SDLFileManagerStateWaiting;

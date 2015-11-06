@@ -260,7 +260,7 @@ describe(@"SDLPermissionsManager", ^{
             });
             
             it(@"should only have one old permission", ^{
-                expect(@(testObserverCalledOldPermissions.count)).to(equal(@1));
+                expect(testObserverCalledOldPermissions).to(haveCount(@1));
             });
             
             it(@"should have the correct old permission", ^{

@@ -1,7 +1,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLDeleteFileResponse.h"
 #import "SDLError.h"
+#import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesResponse.h"
@@ -158,21 +160,71 @@ describe(@"SDLFileManager", ^{
                     it(@"should return the correct error", ^{
                         expect(completionError).to(equal([NSError sdl_fileManager_noKnownFileError]));
                     });
+                    
+                    it(@"should still contain all files", ^{
+                        expect(testFileManager.remoteFileNames).to(haveCount(@(testListFilesResponseFileNames.count)));
+                    });
                 });
                 
-                xcontext(@"when the file is known", ^{
+                context(@"when the file is known", ^{
+                    __block NSString *someKnownFileName = nil;
+                    __block BOOL completionSuccess = NO;
+                    __block NSUInteger completionBytesAvailable = 0;
+                    __block NSError *completionError = nil;
+                    __block NSUInteger newSpaceAvailable = 600;
                     
+                    beforeEach(^{
+                        someKnownFileName = testListFilesResponseFileNames.firstObject;
+                        [testFileManager deleteRemoteFileWithName:someKnownFileName completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                            completionSuccess = success;
+                            completionBytesAvailable = bytesAvailable;
+                            completionError = error;
+                        }];
+                        
+                        SDLDeleteFileResponse *deleteResponse = [[SDLDeleteFileResponse alloc] init];
+                        deleteResponse.spaceAvailable = @(newSpaceAvailable);
+                        [testConnectionManager respondToLastRequestWithResponse:deleteResponse];
+                    });
+                    
+                    it(@"should return YES for success", ^{
+                        expect(@(completionSuccess)).to(equal(@YES));
+                    });
+                    
+                    it(@"should return correct number of bytesAvailable", ^{
+                        expect(@(completionBytesAvailable)).to(equal(@(newSpaceAvailable)));
+                    });
+                    
+                    it(@"should set the new number of bytes to file manager's bytesAvailable property", ^{
+                        expect(@(testFileManager.bytesAvailable)).to(equal(@(newSpaceAvailable)));
+                    });
+                    
+                    it(@"should return the correct error", ^{
+                        expect(completionError).to(equal(beNil()));
+                    });
                 });
             });
             
             xdescribe(@"uploading a new file", ^{
+                __block NSString *fileNameAlreadyExists = @"testFile1";
+                __block SDLFile *testUploadFile = nil;
+                
                 xcontext(@"when there is a remote file named the same thing", ^{
+                    beforeEach(^{
+                        
+                    });
                     
+                    describe(@"when allow overwrite is true", ^{
+                        
+                    });
                 });
                 
                 xcontext(@"when there is not a remote file named the same thing", ^{
                     
                 });
+            });
+            
+            xdescribe(@"force uploading a file", ^{
+                
             });
         });
     });
