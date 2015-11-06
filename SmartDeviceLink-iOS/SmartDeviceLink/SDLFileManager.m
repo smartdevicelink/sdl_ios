@@ -189,6 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakSelf) strongSelf = weakSelf;
             
             // If we've already encountered an error, then just abort
+            // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
             if (stop) {
                 return;
             }
@@ -198,6 +199,10 @@ NS_ASSUME_NONNULL_BEGIN
                 stop = YES;
                 streamError = error;
                 strongSelf.state = SDLFileManagerStateReady;
+                
+                if (response != nil) {
+                    strongSelf.bytesAvailable = [((SDLPutFileResponse *)response).spaceAvailable unsignedIntegerValue];
+                }
                 
                 if (completion != nil) {
                     completion(NO, strongSelf.bytesAvailable, error);

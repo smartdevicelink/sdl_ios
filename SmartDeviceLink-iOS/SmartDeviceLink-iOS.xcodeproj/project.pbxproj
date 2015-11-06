@@ -789,6 +789,7 @@
 		5D9F507D1BE7DD4C00FEF399 /* testImageTIFF.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50771BE7DD4C00FEF399 /* testImageTIFF.tiff */; };
 		5D9F50811BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */; };
 		5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */; };
+		5D9F50871BED412E00FEF399 /* TestConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50861BED412E00FEF399 /* TestConnectionManager.m */; };
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
 		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; };
 		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; };
@@ -1705,6 +1706,8 @@
 		5D9F50771BE7DD4C00FEF399 /* testImageTIFF.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = testImageTIFF.tiff; sourceTree = "<group>"; };
 		5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionsManagerSpec.m; path = DevAPISpecs/SDLPermissionsManagerSpec.m; sourceTree = "<group>"; };
 		5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLFileManagerSpec.m; path = DevAPISpecs/SDLFileManagerSpec.m; sourceTree = "<group>"; };
+		5D9F50851BED412E00FEF399 /* TestConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestConnectionManager.h; path = TestUtilities/TestConnectionManager.h; sourceTree = "<group>"; };
+		5D9F50861BED412E00FEF399 /* TestConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestConnectionManager.m; path = TestUtilities/TestConnectionManager.m; sourceTree = "<group>"; };
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
 		5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
@@ -2989,6 +2992,7 @@
 		5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */ = {
 			isa = PBXGroup;
 			children = (
+				5D9F50841BED410C00FEF399 /* Test Utilities */,
 				5DAE06711BDEC68700F9B498 /* Developer API Tests */,
 				5D59DD451B14FDD000BE744D /* ProxySpecs */,
 				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
@@ -3094,6 +3098,15 @@
 				5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */,
 			);
 			name = Permissions;
+			sourceTree = "<group>";
+		};
+		5D9F50841BED410C00FEF399 /* Test Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5D9F50851BED412E00FEF399 /* TestConnectionManager.h */,
+				5D9F50861BED412E00FEF399 /* TestConnectionManager.m */,
+			);
+			name = "Test Utilities";
 			sourceTree = "<group>";
 		};
 		5DA3F3511BC4477B0026F2D0 /* Developer API */ = {
@@ -4041,6 +4054,7 @@
 				162E82DC1A9BDE8B00906325 /* SDLEmergencyEventTypeSpec.m in Sources */,
 				162E82CE1A9BDE8A00906325 /* SDLAudioTypeSpec.m in Sources */,
 				162E831C1A9BDE8B00906325 /* SDLOnSyncPDataSpec.m in Sources */,
+				5D9F50871BED412E00FEF399 /* TestConnectionManager.m in Sources */,
 				162E83341A9BDE8B00906325 /* SDLPutFileSpec.m in Sources */,
 				162E837A1A9BDE8B00906325 /* SDLDIDResult.m in Sources */,
 				162E83171A9BDE8B00906325 /* SDLOnHMIStatusSpec.m in Sources */,
