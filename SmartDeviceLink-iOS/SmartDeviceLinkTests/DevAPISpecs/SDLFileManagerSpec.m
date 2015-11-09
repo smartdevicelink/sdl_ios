@@ -33,7 +33,6 @@ describe(@"SDLFileManager", ^{
         testListFilesResponse = [[SDLListFilesResponse alloc] init];
         testListFilesResponse.spaceAvailable = testInitialSpaceAvailable;
         testListFilesResponse.filenames = [NSMutableArray arrayWithArray:testInitialFileNames];
-        [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
     });
     
     describe(@"before receiving a connect notification", ^{
@@ -57,6 +56,7 @@ describe(@"SDLFileManager", ^{
     describe(@"after receiving a connect notification", ^{
         beforeEach(^{
             [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidConnectNotification object:nil];
+            [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
         });
         
         it(@"should have sent the connection manager a ListFiles request", ^{
@@ -89,10 +89,10 @@ describe(@"SDLFileManager", ^{
             });
             
             it(@"should properly set the space available", ^{
-                expect(@(testFileManager.bytesAvailable)).to(equal(testListFilesResponseSpaceAvailable));
+                expect(@(testFileManager.bytesAvailable)).to(equal(testInitialSpaceAvailable));
             });
             
-            describe(@"deleting a file", ^{
+            fdescribe(@"deleting a file", ^{
                 __block BOOL completionSuccess = NO;
                 __block NSUInteger completionBytesAvailable = 0;
                 __block NSError *completionError = nil;
@@ -132,7 +132,7 @@ describe(@"SDLFileManager", ^{
                     __block NSError *completionError = nil;
                     
                     beforeEach(^{
-                        someKnownFileName = testListFilesResponseFileNames.firstObject;
+                        someKnownFileName = testInitialFileNames.firstObject;
                         [testFileManager deleteRemoteFileWithName:someKnownFileName completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                             completionSuccess = success;
                             completionBytesAvailable = bytesAvailable;
@@ -140,6 +140,7 @@ describe(@"SDLFileManager", ^{
                         }];
                         
                         SDLDeleteFileResponse *deleteResponse = [[SDLDeleteFileResponse alloc] init];
+                        deleteResponse.success = @YES;
                         deleteResponse.spaceAvailable = @(newSpaceAvailable);
                         [testConnectionManager respondToLastRequestWithResponse:deleteResponse];
                     });
@@ -202,7 +203,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should create a putfile with the correct file type", ^{
-                            expect(sentPutFile.fileType).to(equal(testFileType));
+                            expect(sentPutFile.fileType.value).to(equal(testFileType.value));
                         });
                         
                         context(@"when the connection returns without error", ^{

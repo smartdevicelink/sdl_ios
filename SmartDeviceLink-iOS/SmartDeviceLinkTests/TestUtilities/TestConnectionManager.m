@@ -27,11 +27,19 @@
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
-    self.lastRequestBlock(self.receivedRequests.lastObject, response, nil);
+    if (self.lastRequestBlock != nil) {
+        self.lastRequestBlock(self.receivedRequests.lastObject, response, nil);
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
+    }
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response error:(NSError *)error {
-    self.lastRequestBlock(self.receivedRequests.lastObject, response, error);
+    if (self.lastRequestBlock != nil) {
+        self.lastRequestBlock(self.receivedRequests.lastObject, response, error);
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
+    }
 }
 
 @end

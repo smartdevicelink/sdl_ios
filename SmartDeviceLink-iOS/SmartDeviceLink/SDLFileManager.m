@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManager> connectionManager;
 
 // Remote state
-@property (copy, nonatomic, readwrite) NSMutableArray<SDLFileName *> *mutableRemoteFileNames;
+@property (copy, nonatomic, readwrite) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 // Local state
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     _bytesAvailable = 0;
     _allowOverwrite = YES;
     
-    _mutableRemoteFileNames = [NSMutableArray array];
+    _mutableRemoteFileNames = [NSMutableSet set];
     _uploadQueue = [NSMutableArray array];
     _state = SDLFileManagerStateNotConnected;
     _currentFileUploadOffset = 0;
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters
 
-- (NSArray<SDLFileName *> *)remoteFileNames {
+- (NSSet<SDLFileName *> *)remoteFileNames {
     return [self.mutableRemoteFileNames copy];
 }
 
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Mutate self based on the changes
         strongSelf.bytesAvailable = bytesAvailable;
         if (success) {
-            [self.mutableRemoteFileNames removeObject:name];
+            [strongSelf.mutableRemoteFileNames removeObject:name];
         }
         
         // Callback
@@ -276,7 +276,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-        strongSelf.mutableRemoteFileNames = [listFilesResponse.filenames copy];
+        [strongSelf.mutableRemoteFileNames addObjectsFromArray:listFilesResponse.filenames];
         strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
         
         strongSelf.state = SDLFileManagerStateReady;
@@ -284,9 +284,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
-    self.mutableRemoteFileNames = [NSMutableArray array];
+    [self.mutableRemoteFileNames removeAllObjects];
     self.bytesAvailable = 0;
-    self.uploadQueue = [NSMutableArray array];
+    [self.uploadQueue removeAllObjects];
     self.state = SDLFileManagerStateNotConnected;
     self.currentFileUploadOffset = 0;
 }
