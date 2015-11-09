@@ -85,7 +85,7 @@ describe(@"SDLFileManager", ^{
             });
             
             it(@"should properly set the remote file names", ^{
-                expect(testFileManager.remoteFileNames).to(equal(testListFilesResponseFileNames));
+                expect(testFileManager.remoteFileNames).to(equal(testInitialFileNames));
             });
             
             it(@"should properly set the space available", ^{
@@ -120,7 +120,7 @@ describe(@"SDLFileManager", ^{
                     });
                     
                     it(@"should still contain all files", ^{
-                        expect(testFileManager.remoteFileNames).to(haveCount(@(testListFilesResponseFileNames.count)));
+                        expect(testFileManager.remoteFileNames).to(haveCount(@(testInitialFileNames.count)));
                     });
                 });
                 
