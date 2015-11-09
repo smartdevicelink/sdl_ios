@@ -181,7 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
     __block NSUInteger numResponsesReceived = 0;
-    __block NSUInteger highestCorrelationID = 0;
+    __block NSInteger highestCorrelationIDReceived = -1;
     
     __weak typeof(self) weakSelf = self;
     for (SDLPutFile *putFile in putFiles) {
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
             
             // If we encounted an error, abort in the future and call the completion handler
-            if (error != nil || response == nil) {
+            if (error != nil || response == nil || ![response.success boolValue]) {
                 stop = YES;
                 streamError = error;
                 strongSelf.state = SDLFileManagerStateReady;
@@ -207,6 +207,8 @@ NS_ASSUME_NONNULL_BEGIN
                 if (completion != nil) {
                     completion(NO, strongSelf.bytesAvailable, error);
                 }
+                
+                return;
             }
             
             // If we haven't encounted an error
@@ -214,8 +216,8 @@ NS_ASSUME_NONNULL_BEGIN
             numResponsesReceived++;
             
             // We need to do this to make sure our bytesAvailable is accurate
-            if ([request.correlationID unsignedIntegerValue] > highestCorrelationID) {
-                highestCorrelationID = [request.correlationID unsignedIntegerValue];
+            if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
+                highestCorrelationIDReceived = [request.correlationID integerValue];
                 strongSelf.bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
             }
             
