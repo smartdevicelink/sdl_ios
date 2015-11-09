@@ -30,6 +30,7 @@ describe(@"SDLFileManager", ^{
         testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
         
         testInitialFileNames = @[@"testFile1", @"testFile2", @"testFile3"];
+        testInitialSpaceAvailable = @0;
         testListFilesResponse = [[SDLListFilesResponse alloc] init];
         testListFilesResponse.spaceAvailable = testInitialSpaceAvailable;
         testListFilesResponse.filenames = [NSMutableArray arrayWithArray:testInitialFileNames];
@@ -92,7 +93,7 @@ describe(@"SDLFileManager", ^{
                 expect(@(testFileManager.bytesAvailable)).to(equal(testInitialSpaceAvailable));
             });
             
-            fdescribe(@"deleting a file", ^{
+            describe(@"deleting a file", ^{
                 __block BOOL completionSuccess = NO;
                 __block NSUInteger completionBytesAvailable = 0;
                 __block NSError *completionError = nil;
