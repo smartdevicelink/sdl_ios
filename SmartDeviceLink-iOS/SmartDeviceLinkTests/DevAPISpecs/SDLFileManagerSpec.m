@@ -311,8 +311,40 @@ describe(@"SDLFileManager", ^{
                         });
                     });
                     
-                    xcontext(@"when allow overwrite is false", ^{
+                    context(@"when allow overwrite is false", ^{
+                        __block SDLRPCRequest *lastRequest = nil;
                         
+                        beforeEach(^{
+                            testFileManager.allowOverwrite = NO;
+                            
+                            testFileType = [SDLFileType BINARY];
+                            testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                            testUploadFile = [[SDLFile alloc] initWithData:testFileData name:fileNameAlreadyExists type:testFileType persistent:NO];
+                            
+                            [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                                completionSuccess = success;
+                                completionBytesAvailable = bytesAvailable;
+                                completionError = error;
+                            }];
+                            
+                            lastRequest = testConnectionManager.receivedRequests.lastObject;
+                        });
+                        
+                        it(@"should not have sent any putfiles", ^{
+                            expect(lastRequest).toNot(beAnInstanceOf([SDLPutFile class]));
+                        });
+                        
+                        it(@"should fail", ^{
+                            expect(@(completionSuccess)).to(equal(@NO));
+                        });
+                        
+                        it(@"should return the same bytes as the file manager", ^{
+                            expect(@(completionBytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
+                        });
+                        
+                        it(@"should return an error", ^{
+                            expect(completionError).to(equal([NSError sdl_fileManager_cannotOverwriteError]));
+                        });
                     });
                 });
                 
