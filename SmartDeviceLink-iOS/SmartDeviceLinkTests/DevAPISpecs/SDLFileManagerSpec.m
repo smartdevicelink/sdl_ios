@@ -190,13 +190,15 @@ fdescribe(@"SDLFileManager", ^{
                     
                     context(@"when allowing overwriting", ^{
                         beforeEach(^{
+                            testFileManager.allowOverwrite = YES;
+                            
                             [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                                 completionSuccess = success;
                                 completionBytesAvailable = bytesAvailable;
                                 completionError = error;
                             }];
                             
-                            sentPutFile = (SDLPutFile *)testConnectionManager.receivedRequests.lastObject;
+                            sentPutFile = testConnectionManager.receivedRequests.lastObject;
                         });
                         
                         it(@"should set the file manager state to waiting", ^{
@@ -471,8 +473,55 @@ fdescribe(@"SDLFileManager", ^{
                 });
             });
             
-            xdescribe(@"force uploading a file", ^{
+            describe(@"force uploading a file", ^{
+                __block NSString *testFileName = nil;
+                __block SDLFile *testUploadFile = nil;
+                __block BOOL completionSuccess = NO;
+                __block NSUInteger completionBytesAvailable = 0;
+                __block NSError *completionError = nil;
                 
+                __block SDLPutFile *sentPutFile = nil;
+                __block NSData *testFileData = nil;
+                __block SDLFileType *testFileType = nil;
+                
+                context(@"when there is a remote file named the same thing", ^{
+                    beforeEach(^{
+                        testFileName = [testInitialFileNames anyObject];
+                        testFileType = [SDLFileType BINARY];
+                        testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                        testUploadFile = [[SDLFile alloc] initWithData:testFileData name:testFileName type:testFileType persistent:NO];
+                    });
+                    
+                    context(@"when disallowing overwriting", ^{
+                        beforeEach(^{
+                            testFileManager.allowOverwrite = NO;
+                            
+                            [testFileManager forceUploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                                completionSuccess = success;
+                                completionBytesAvailable = bytesAvailable;
+                                completionError = error;
+                            }];
+                            
+                            sentPutFile = testConnectionManager.receivedRequests.lastObject;
+                        });
+                        
+                        it(@"should set the file manager state to waiting", ^{
+                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateWaiting)));
+                        });
+                        
+                        it(@"should create a putfile that is the correct size", ^{
+                            expect(sentPutFile.length).to(equal(@(testFileData.length)));
+                        });
+                        
+                        it(@"should create a putfile with the correct data", ^{
+                            expect(sentPutFile.bulkData).to(equal(testFileData));
+                        });
+                        
+                        it(@"should create a putfile with the correct file type", ^{
+                            expect(sentPutFile.fileType.value).to(equal(testFileType.value));
+                        });
+                    });
+                });
             });
         });
     });
