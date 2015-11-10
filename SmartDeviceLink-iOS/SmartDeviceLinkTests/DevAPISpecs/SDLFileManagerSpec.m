@@ -17,7 +17,7 @@
 
 QuickSpecBegin(SDLFileManagerSpec)
 
-describe(@"SDLFileManager", ^{
+fdescribe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
     
@@ -170,7 +170,7 @@ describe(@"SDLFileManager", ^{
             });
             
             describe(@"uploading a new file", ^{
-                __block NSString *fileNameAlreadyExists = @"testFile1";
+                __block NSString *testFileName = nil;
                 __block SDLFile *testUploadFile = nil;
                 __block BOOL completionSuccess = NO;
                 __block NSUInteger completionBytesAvailable = 0;
@@ -181,12 +181,15 @@ describe(@"SDLFileManager", ^{
                 __block SDLFileType *testFileType = nil;
                 
                 context(@"when there is a remote file named the same thing", ^{
+                    beforeEach(^{
+                        testFileName = [testInitialFileNames anyObject];
+                        testFileType = [SDLFileType BINARY];
+                        testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                        testUploadFile = [[SDLFile alloc] initWithData:testFileData name:testFileName type:testFileType persistent:NO];
+                    });
+                    
                     context(@"when allowing overwriting", ^{
                         beforeEach(^{
-                            testFileType = [SDLFileType BINARY];
-                            testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                            testUploadFile = [[SDLFile alloc] initWithData:testFileData name:fileNameAlreadyExists type:testFileType persistent:NO];
-                            
                             [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                                 completionSuccess = success;
                                 completionBytesAvailable = bytesAvailable;
@@ -237,7 +240,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should still have the file name available", ^{
-                                expect(testFileManager.remoteFileNames).to(contain(fileNameAlreadyExists));
+                                expect(testFileManager.remoteFileNames).to(contain(testFileName));
                             });
                             
                             it(@"should call the completion handler with success YES", ^{
@@ -278,7 +281,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should still have the file name available", ^{
-                                expect(testFileManager.remoteFileNames).to(contain(fileNameAlreadyExists));
+                                expect(testFileManager.remoteFileNames).to(contain(testFileName));
                             });
                             
                             it(@"should call the completion handler with success YES", ^{
@@ -300,7 +303,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should still have the file name available", ^{
-                                expect(testFileManager.remoteFileNames).to(contain(fileNameAlreadyExists));
+                                expect(testFileManager.remoteFileNames).to(contain(testFileName));
                             });
                             
                             it(@"should call the completion handler with nil error", ^{
@@ -318,10 +321,6 @@ describe(@"SDLFileManager", ^{
                         
                         beforeEach(^{
                             testFileManager.allowOverwrite = NO;
-                            
-                            testFileType = [SDLFileType BINARY];
-                            testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                            testUploadFile = [[SDLFile alloc] initWithData:testFileData name:fileNameAlreadyExists type:testFileType persistent:NO];
                             
                             [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                                 completionSuccess = success;
@@ -350,8 +349,125 @@ describe(@"SDLFileManager", ^{
                     });
                 });
                 
-                xcontext(@"when there is not a remote file named the same thing", ^{
+                context(@"when there is not a remote file named the same thing", ^{
+                    beforeEach(^{
+                        testFileName = @"not a test file";
+                        testFileType = [SDLFileType BINARY];
+                        testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
+                        testUploadFile = [[SDLFile alloc] initWithData:testFileData name:testFileName type:testFileType persistent:NO];
+                        
+                        [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                            completionSuccess = success;
+                            completionBytesAvailable = bytesAvailable;
+                            completionError = error;
+                        }];
+                        
+                        sentPutFile = (SDLPutFile *)testConnectionManager.receivedRequests.lastObject;
+                    });
                     
+                    it(@"should not have testFileName in the files set", ^{
+                        expect(testInitialFileNames).toNot(contain(testFileName));
+                    });
+                    
+                    context(@"when the connection returns without error", ^{
+                        __block SDLPutFileResponse *testResponse = nil;
+                        __block NSNumber *testResponseSuccess = nil;
+                        __block NSNumber *testResponseBytesAvailable = nil;
+                        
+                        beforeEach(^{
+                            testResponseBytesAvailable = @750;
+                            testResponseSuccess = @YES;
+                            
+                            testResponse = [[SDLPutFileResponse alloc] init];
+                            testResponse.success = testResponseSuccess;
+                            testResponse.spaceAvailable = testResponseBytesAvailable;
+                            
+                            [testConnectionManager respondToLastRequestWithResponse:testResponse];
+                        });
+                        
+                        it(@"should set the bytes available correctly", ^{
+                            expect(@(testFileManager.bytesAvailable)).to(equal(testResponseBytesAvailable));
+                        });
+                        
+                        it(@"should call the completion handler with the new bytes available", ^{
+                            expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
+                        });
+                        
+                        it(@"should add the file name", ^{
+                            expect(testFileManager.remoteFileNames).to(contain(testFileName));
+                        });
+                        
+                        it(@"should call the completion handler with success YES", ^{
+                            expect(@(completionSuccess)).to(equal(@YES));
+                        });
+                        
+                        it(@"should call the completion handler with nil error", ^{
+                            expect(completionError).to(beNil());
+                        });
+                        
+                        it(@"should set the file manager state to ready", ^{
+                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                        });
+                    });
+                    
+                    context(@"when the connection returns failure", ^{
+                        __block SDLPutFileResponse *testResponse = nil;
+                        __block NSNumber *testResponseBytesAvailable = nil;
+                        __block NSNumber *testResponseSuccess = nil;
+                        
+                        beforeEach(^{
+                            testResponseBytesAvailable = @750;
+                            testResponseSuccess = @NO;
+                            
+                            testResponse = [[SDLPutFileResponse alloc] init];
+                            testResponse.spaceAvailable = testResponseBytesAvailable;
+                            testResponse.success = testResponseSuccess;
+                            
+                            [testConnectionManager respondToLastRequestWithResponse:testResponse];
+                        });
+                        
+                        it(@"should set the bytes available correctly", ^{
+                            expect(@(testFileManager.bytesAvailable)).to(equal(testResponseBytesAvailable));
+                        });
+                        
+                        it(@"should call the completion handler with the new bytes available", ^{
+                            expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
+                        });
+                        
+                        it(@"should not have the file name available", ^{
+                            expect(testFileManager.remoteFileNames).toNot(contain(testFileName));
+                        });
+                        
+                        it(@"should call the completion handler with success YES", ^{
+                            expect(@(completionSuccess)).to(equal(testResponseSuccess));
+                        });
+                        
+                        it(@"should call the completion handler with nil error", ^{
+                            expect(completionError).to(beNil());
+                        });
+                        
+                        it(@"should set the file manager state to ready", ^{
+                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                        });
+                    });
+                    
+                    context(@"when the connection errors without a response", ^{
+                        beforeEach(^{
+                            [testConnectionManager respondToLastRequestWithResponse:nil error:[NSError sdl_lifecycle_notReadyError]];
+                        });
+                        
+                        it(@"should not have the file name available", ^{
+                            expect(testFileManager.remoteFileNames).toNot(contain(testFileName));
+                        });
+                        
+                        it(@"should call the completion handler with nil error", ^{
+                            expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
+                        });
+                        
+                        it(@"should set the file manager state to ready", ^{
+                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                        });
+                    });
                 });
             });
             
