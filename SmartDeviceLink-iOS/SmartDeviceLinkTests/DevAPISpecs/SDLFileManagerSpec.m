@@ -214,12 +214,15 @@ describe(@"SDLFileManager", ^{
                         
                         context(@"when the connection returns without error", ^{
                             __block SDLPutFileResponse *testResponse = nil;
+                            __block NSNumber *testResponseSuccess = nil;
                             __block NSNumber *testResponseBytesAvailable = nil;
                             
                             beforeEach(^{
                                 testResponseBytesAvailable = @750;
+                                testResponseSuccess = @YES;
                                 
                                 testResponse = [[SDLPutFileResponse alloc] init];
+                                testResponse.success = testResponseSuccess;
                                 testResponse.spaceAvailable = testResponseBytesAvailable;
                                 
                                 [testConnectionManager respondToLastRequestWithResponse:testResponse];
@@ -278,7 +281,7 @@ describe(@"SDLFileManager", ^{
                                 expect(testFileManager.remoteFileNames).to(contain(fileNameAlreadyExists));
                             });
                             
-                            fit(@"should call the completion handler with success YES", ^{
+                            it(@"should call the completion handler with success YES", ^{
                                 expect(@(completionSuccess)).to(equal(testResponseSuccess));
                             });
                             
