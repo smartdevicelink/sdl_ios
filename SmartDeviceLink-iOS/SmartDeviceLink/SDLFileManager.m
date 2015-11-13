@@ -157,11 +157,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_uploadFile:file completionHandler:completion];
 }
 
-- (void)forceUploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
+- (void)forceUploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
     [self sdl_uploadFile:file completionHandler:completion];
 }
 
-- (void)sdl_uploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion {
+- (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
     switch (self.state) {
             // Not connected state will fail on attempting to send
         case SDLFileManagerStateReady:

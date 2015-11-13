@@ -73,7 +73,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
  *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
-- (void)forceUploadFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completion;
+- (void)forceUploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
 
 @end
 
