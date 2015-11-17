@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL tcpDebugMode;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugIPAddress;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugPort;
+
 @property (copy, nonatomic) NSArray<SDLFile *> *persistentImages;
 
 @property (copy, nonatomic, readonly) NSString *appName;
@@ -39,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly) BOOL isMedia;
 
-@property (strong, nonatomic) SDLAppHMIType *appType;
+@property (strong, nonatomic, null_resettable) SDLAppHMIType *appType;
 @property (strong, nonatomic) SDLLanguage *language;
 @property (strong, nonatomic) NSArray<SDLLanguage *> *languagesSupported;
 @property (copy, nonatomic, nullable) NSString *shortAppName;
