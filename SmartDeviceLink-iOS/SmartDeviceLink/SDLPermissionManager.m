@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *permissions;
 @property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> *observers;
+@property (copy, nonatomic) SDLHMILevel *currentLevel;
 
 @end
 
@@ -36,7 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
     
     _permissions = [NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> dictionary];
     _observers = [NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> dictionary];
+    
+    // Set up SDL status notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
     
     return self;
 }
@@ -112,6 +116,27 @@ NS_ASSUME_NONNULL_BEGIN
         NSArray<SDLPermissionObserver> *observers = [self.observers[newItem.rpcName] copy];
         for (SDLPermissionObserver observer in observers) {
             observer(newItem.rpcName, oldItem, newItem);
+        }
+    }
+}
+
+- (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
+    SDLHMILevel *oldLevel = self.currentLevel;
+    SDLHMILevel *newLevel = notification.userInfo[SDLNotificationUserInfoNotificationObject];
+    
+    for (NSString *rpcName in self.observers.allKeys) {
+        SDLPermissionItem *item = [self.permissions[rpcName] copy];
+        BOOL newAllowed = [item.hmiPermissions.allowed containsObject:newLevel];
+        BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldLevel];
+        
+        if ((!newAllowed && !oldAllowed) || (newAllowed && oldAllowed)) {
+            // No change
+            return;
+        } else {
+            // Now permitted when it was not before, or not permitted when it was before
+            for (SDLPermissionObserver observer in [self.observers[rpcName] copy]) {
+                observer(rpcName, nil, item); // TODO
+            }
         }
     }
 }
