@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _connectionManager = manager;
     _bytesAvailable = 0;
-    _allowOverwrite = YES;
+    _allowOverwrite = NO;
     
     _mutableRemoteFileNames = [NSMutableSet set];
     _uploadQueue = [NSMutableArray array];
