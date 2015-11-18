@@ -169,7 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
         } break;
         case SDLPermissionChangeTypeAny: {
             // If they passed in Any, they want to be notified no matter what
-            NSDictionary *allowedDict = [self sdl_permissionAllowedDictForArray:filter.rpcNames];
+            NSDictionary *allowedDict = [self permissionAllowedDictForRPCs:filter.rpcNames];
             filter.observer(allowedDict, allowedStatus);
         } break;
     }
