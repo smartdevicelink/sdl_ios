@@ -8,54 +8,68 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLPermissionsConstants.h"
+
 @class SDLHMILevel;
 @class SDLPermissionItem;
-
-typedef NSString SDLPermissionRPCName;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  An observer that will be called whenever permissions change on the remote system
- *
- *  @param rpcName       The name of the SDLRPC whose permission changed
- *  @param oldPermission The permission state before it changed. If this is the first time the permission manager learned about this RPC, then this will be nil
- *  @param newPermission The current permission state of the RPC
- */
-typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __nullable oldPermission, SDLPermissionItem *newPermission);
-
-
 @interface SDLPermissionManager : NSObject
 
 /**
- *  Determine if an individual RPC is allowed for a specified HMI level
+ *  Determine if an individual RPC is allowed for the current HMI level
  *
  *  @param rpcName  The name of the RPC to be tested, // TODO: add an example
  *
  *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */
-- (BOOL)isRPCAllowed:(NSString *)rpcName;
+- (BOOL)isRPCAllowed:(SDLPermissionRPCName *)rpcName;
 
 /**
- *  Add an observer for a specified RPC name, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known.
+ *  Determine if all RPCs are allowed for the current HMI level
+ *
+ *  @param rpcNames The RPCs to check
+ *
+ *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
+ */
+- (SDLPermissionChangeType)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+
+/**
+ *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
+ *
+ *  @param rpcNames An array of RPC names to check
+ *
+ *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
+ */
+- (NSDictionary<SDLPermissionRPCName *, SDLPermissionAllowed *> *)permissionAllowedDictForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+
+/**
+ *  Add an observer for a specified RPC name, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known and fit the specifications.
  *
  *  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
  *
- *  @param rpcName  The RPC to be observed
- *  @param observer The block that will be called whenever permissions change.
+ *  @param rpcName      The RPC to be observed
+ *  @param changeType   The type of change that will cause the observer to be called
+ *  @param observer     The block that will be called whenever permissions change.
+ *
+ *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (void)addObserverForRPC:(NSString *)rpcName usingBlock:(SDLPermissionObserver)observer;
+- (SDLPermissionObserverIdentifier *)addObserverForRPC:(SDLPermissionRPCName *)rpcName onChange:(SDLPermissionChangeType)changeType withBlock:(SDLPermissionObserver)observer;
 
 /**
- *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known.
+ *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known and fit the specifications.
  *
  *  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
  *
  *  @param rpcNames  The RPCs to be observed
+ *  @param changeType   The type of change that will cause the observer to be called
  *  @param observer The block that will be called whenever permissions change.
+ *
+ *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (void)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames usingBlock:(SDLPermissionObserver)observer;
+- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames onChange:(SDLPermissionChangeType)changeType withBlock:(SDLPermissionObserver)observer;
 
 /**
  *  Remove every current observer
@@ -65,16 +79,9 @@ typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __n
 /**
  *  Remove block observers for the specified RPC
  *
- *  @param rpcName The RPC to remove all observers for
+ *  @param identifier   The identifier specifying which observer to remove
  */
-- (void)removeObserversForRPC:(NSString *)rpcName;
-
-/**
- *  Remove block observers for the specified RPCs
- *
- *  @param rpcNames The RPCs to remove all observers for
- */
-- (void)removeObserversForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+- (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier *)identifier;
 
 @end
 

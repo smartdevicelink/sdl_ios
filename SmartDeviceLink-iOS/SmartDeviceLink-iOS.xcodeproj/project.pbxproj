@@ -243,6 +243,9 @@
 		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
 		5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */; };
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
+		5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */; };
+		5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */; };
+		5D2996ED1BFCC5DA006106BF /* SDLPermissionsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */; };
 		5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */; };
 		5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
@@ -1151,6 +1154,9 @@
 		5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
+		5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionFilter.h; sourceTree = "<group>"; };
+		5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
+		5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionsConstants.h; sourceTree = "<group>"; };
 		5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLQueryAppsManager.h; sourceTree = "<group>"; };
 		5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLQueryAppsManager.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3060,6 +3066,9 @@
 			children = (
 				5D8204241BCEA8A600D0A41B /* SDLPermissionManager.h */,
 				5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */,
+				5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */,
+				5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */,
+				5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */,
 			);
 			name = Permissions;
 			sourceTree = "<group>";
@@ -3419,6 +3428,7 @@
 				5D82042D1BCEC32F00D0A41B /* SDLFile.h in Headers */,
 				5D61FD1B1A84238C00846EE7 /* SDLOnSystemRequest.h in Headers */,
 				5D61FD2F1A84238C00846EE7 /* SDLPermissionStatus.h in Headers */,
+				5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */,
 				5D61FCF21A84238C00846EE7 /* SDLLockScreenStatus.h in Headers */,
 				5D61FCD31A84238C00846EE7 /* SDLImageResolution.h in Headers */,
 				5D61FD541A84238C00846EE7 /* SDLProxyListener.h in Headers */,
@@ -3483,6 +3493,7 @@
 				5D61FC3F1A84238C00846EE7 /* SDLAmbientLightStatus.h in Headers */,
 				5DE372A11ACB2ED300849FAA /* SDLHMICapabilities.h in Headers */,
 				E9C32B9C1AB20C5900F283AF /* EAAccessory+SDLProtocols.h in Headers */,
+				5D2996ED1BFCC5DA006106BF /* SDLPermissionsConstants.h in Headers */,
 				5D61FE0B1A84238C00846EE7 /* SDLVehicleType.h in Headers */,
 				5D61FCC31A84238C00846EE7 /* SDLHMIPermissions.h in Headers */,
 				5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */,
@@ -3605,7 +3616,7 @@
 		5D4019A71A76EC350006B0C2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = smartdevicelink;
 				TargetAttributes = {
@@ -3884,6 +3895,7 @@
 				5D61FCE91A84238C00846EE7 /* SDLLanguage.m in Sources */,
 				5D61FC3E1A84238C00846EE7 /* SDLAlertResponse.m in Sources */,
 				5D61FD8C1A84238C00846EE7 /* SDLSetMediaClockTimer.m in Sources */,
+				5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */,
 				5D61FE121A84238C00846EE7 /* SDLWarningLightStatus.m in Sources */,
 				5D61FCDD1A84238C00846EE7 /* SDLJsonDecoder.m in Sources */,
 				5D61FCB81A84238C00846EE7 /* SDLGetVehicleDataResponse.m in Sources */,
@@ -4395,6 +4407,7 @@
 		5D61FA361A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_STATIC_ANALYZER_MODE = deep;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4423,6 +4436,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4432,6 +4446,7 @@
 		5D61FA371A84237100846EE7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_STATIC_ANALYZER_MODE = deep;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4468,7 +4483,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -4509,7 +4523,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
