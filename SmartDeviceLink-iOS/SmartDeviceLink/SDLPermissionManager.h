@@ -32,11 +32,10 @@ typedef void (^SDLPermissionObserver)(NSString *rpcName, SDLPermissionItem * __n
  *  Determine if an individual RPC is allowed for a specified HMI level
  *
  *  @param rpcName  The name of the RPC to be tested, // TODO: add an example
- *  @param hmiLevel The HMI level to test that the RPC is enabled for
  *
- *  @return YES if the RPC is allowed at the specified HMI level, NO if not
+ *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */
-- (BOOL)isRPCAllowed:(NSString *)rpcName forHMILevel:(SDLHMILevel *)hmiLevel;
+- (BOOL)isRPCAllowed:(NSString *)rpcName;
 
 /**
  *  Add an observer for a specified RPC name, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known.

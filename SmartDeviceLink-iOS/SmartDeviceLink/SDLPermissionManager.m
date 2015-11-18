@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
+    _currentLevel = nil;
     _permissions = [NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> dictionary];
     _observers = [NSMutableDictionary<SDLPermissionRPCName *, NSMutableArray<SDLPermissionObserver> *> dictionary];
     
@@ -48,18 +49,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Permissions available
 
-- (BOOL)isRPCAllowed:(NSString *)rpcName forHMILevel:(SDLHMILevel *)hmiLevel {
+- (BOOL)isRPCAllowed:(NSString *)rpcName {
     // TODO: Use an enum to specify unknown?
-    if (self.permissions[rpcName] == nil) {
+    if (self.permissions[rpcName] == nil || self.currentLevel == nil) {
         return NO;
     }
     
     SDLPermissionItem *item = self.permissions[rpcName];
-    if ([item.hmiPermissions.allowed containsObject:hmiLevel]) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [item.hmiPermissions.allowed containsObject:self.currentLevel];
 }
 
 
