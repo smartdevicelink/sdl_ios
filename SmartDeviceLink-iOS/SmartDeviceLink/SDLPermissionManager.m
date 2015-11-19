@@ -97,8 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSDictionary<SDLPermissionRPCName *, SDLPermissionAllowed *> *)permissionAllowedDictForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
-    NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionAllowed *> *permissionAllowedDict = [NSMutableDictionary dictionary];
+- (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)permissionAllowedDictForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+    NSMutableDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *permissionAllowedDict = [NSMutableDictionary dictionary];
     
     for (NSString *rpcName in rpcNames) {
         BOOL allowed = [self isRPCAllowed:rpcName];

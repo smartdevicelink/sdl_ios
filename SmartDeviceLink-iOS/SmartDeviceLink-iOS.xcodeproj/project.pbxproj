@@ -246,6 +246,11 @@
 		5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */; };
 		5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */; };
 		5D2996ED1BFCC5DA006106BF /* SDLPermissionsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */; };
+		5D2996F01BFD1DFA006106BF /* SDLPermissionFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996EF1BFD1DFA006106BF /* SDLPermissionFilterSpec.m */; };
+		5D2996F41BFE55B7006106BF /* Nimble.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D2996F11BFE55B7006106BF /* Nimble.framework.dSYM */; };
+		5D2996F51BFE55B7006106BF /* Quick.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D2996F21BFE55B7006106BF /* Quick.framework.dSYM */; };
+		5D2996F61BFE55B7006106BF /* SmartDeviceLink.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D2996F31BFE55B7006106BF /* SmartDeviceLink.framework.dSYM */; };
+		5D2996F91BFE5B29006106BF /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996F71BFE5B29006106BF /* NSNumber+NumberType.h */; };
 		5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */; };
 		5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
@@ -903,6 +908,9 @@
 			dstSubfolderSpec = 16;
 			files = (
 				5DEE55C51B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM in CopyFiles */,
+				5D2996F41BFE55B7006106BF /* Nimble.framework.dSYM in CopyFiles */,
+				5D2996F51BFE55B7006106BF /* Quick.framework.dSYM in CopyFiles */,
+				5D2996F61BFE55B7006106BF /* SmartDeviceLink.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,6 +1165,11 @@
 		5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionFilter.h; sourceTree = "<group>"; };
 		5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
 		5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionsConstants.h; sourceTree = "<group>"; };
+		5D2996EF1BFD1DFA006106BF /* SDLPermissionFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionFilterSpec.m; path = DevAPISpecs/SDLPermissionFilterSpec.m; sourceTree = "<group>"; };
+		5D2996F11BFE55B7006106BF /* Nimble.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Nimble.framework.dSYM; path = Carthage/Build/iOS/Nimble.framework.dSYM; sourceTree = "<group>"; };
+		5D2996F21BFE55B7006106BF /* Quick.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Quick.framework.dSYM; path = Carthage/Build/iOS/Quick.framework.dSYM; sourceTree = "<group>"; };
+		5D2996F31BFE55B7006106BF /* SmartDeviceLink.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SmartDeviceLink.framework.dSYM; path = Carthage/Build/iOS/SmartDeviceLink.framework.dSYM; sourceTree = "<group>"; };
+		5D2996F71BFE5B29006106BF /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLQueryAppsManager.h; sourceTree = "<group>"; };
 		5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLQueryAppsManager.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2088,6 +2101,9 @@
 		167ED9231A9BB86300797BE5 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5D2996F11BFE55B7006106BF /* Nimble.framework.dSYM */,
+				5D2996F21BFE55B7006106BF /* Quick.framework.dSYM */,
+				5D2996F31BFE55B7006106BF /* SmartDeviceLink.framework.dSYM */,
 				5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */,
 				5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */,
 				162E81C81A9BDD3F00906325 /* Nimble.framework */,
@@ -3123,6 +3139,7 @@
 			isa = PBXGroup;
 			children = (
 				5D9F50801BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m */,
+				5D2996EF1BFD1DFA006106BF /* SDLPermissionFilterSpec.m */,
 			);
 			name = Permissions;
 			sourceTree = "<group>";
@@ -3167,6 +3184,7 @@
 			children = (
 				5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */,
 				5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */,
+				5D2996F71BFE5B29006106BF /* NSNumber+NumberType.h */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3380,6 +3398,7 @@
 				5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */,
 				5D61FD0F1A84238C00846EE7 /* SDLOnHMIStatus.h in Headers */,
 				5D61FD5F1A84238C00846EE7 /* SDLRegisterAppInterfaceResponse.h in Headers */,
+				5D2996F91BFE5B29006106BF /* NSNumber+NumberType.h in Headers */,
 				5D61FD191A84238C00846EE7 /* SDLOnSyncPData.h in Headers */,
 				5D61FE091A84238C00846EE7 /* SDLVehicleDataType.h in Headers */,
 				5DCC19A01B8221F3004FFAD9 /* SDLURLSession.h in Headers */,
@@ -4213,6 +4232,7 @@
 				162E83621A9BDE8B00906325 /* SDLSetDisplayLayoutResponseSpec.m in Sources */,
 				162E832E1A9BDE8B00906325 /* SDLEndAudioPassThruSpec.m in Sources */,
 				1680B1191A9CD7AD00DBD79E /* SDLV2ProtocolMessageSpec.m in Sources */,
+				5D2996F01BFD1DFA006106BF /* SDLPermissionFilterSpec.m in Sources */,
 				162E83961A9BDE8B00906325 /* SDLVehicleDataResultSpec.m in Sources */,
 				162E83491A9BDE8B00906325 /* SDLAddCommandResponseSpec.m in Sources */,
 				162E82F51A9BDE8B00906325 /* SDLPRNDLSpec.m in Sources */,
