@@ -276,6 +276,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // TODO: Separate better
 // Enhancements
+#import "NSNumber+NumberType.h"
 #import "SDLArtwork.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManager.h"
@@ -286,5 +287,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLockScreenConfiguration.h"
 #import "SDLManager.h"
 #import "SDLNotificationConstants.h"
+#import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
 #import "SDLRequestHandler.h"

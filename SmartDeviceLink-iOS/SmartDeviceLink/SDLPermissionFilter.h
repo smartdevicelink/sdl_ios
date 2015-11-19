@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLPermissionsConstants.h"
+#import "SDLPermissionConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -5,6 +5,4 @@
 
 QuickSpecBegin(SDLPermissionFilterSpec)
 
-describe
-
 QuickSpecEnd

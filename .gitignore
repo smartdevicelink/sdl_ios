@@ -37,4 +37,4 @@ profile
 # Carthage #
 ############
 Carthage.pkg
-Carthage/
+Carthage/Build

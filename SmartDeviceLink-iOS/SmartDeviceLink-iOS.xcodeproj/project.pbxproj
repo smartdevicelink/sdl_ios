@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		162E81CA1A9BDD3F00906325 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C81A9BDD3F00906325 /* Nimble.framework */; };
-		162E81CB1A9BDD3F00906325 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C91A9BDD3F00906325 /* Quick.framework */; };
-		162E81CF1A9BDDD800906325 /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 162E81C81A9BDD3F00906325 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		162E81D01A9BDDD800906325 /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 162E81C91A9BDD3F00906325 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */; };
 		162E82CB1A9BDE8A00906325 /* SDLAppHMITypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */; };
 		162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */; };
@@ -224,7 +220,6 @@
 		162E839D1A9BDE8B00906325 /* SDLRPCResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82BC1A9BDE8A00906325 /* SDLRPCResponseSpec.m */; };
 		162E839E1A9BDE8B00906325 /* SDLRPCStructSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82BD1A9BDE8A00906325 /* SDLRPCStructSpec.m */; };
 		167ED92F1A9BB87900797BE5 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 167ED9241A9BB87900797BE5 /* libOCMock.a */; };
-		167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
 		167ED9461A9BCE5D00797BE5 /* SwiftSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167ED9451A9BCE5D00797BE5 /* SwiftSpec.swift */; };
 		1680B1131A9CD7AD00DBD79E /* SDLProtocolHeaderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1061A9CD7AD00DBD79E /* SDLProtocolHeaderSpec.m */; };
 		1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1071A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m */; };
@@ -245,12 +240,15 @@
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
 		5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */; };
 		5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */; };
-		5D2996ED1BFCC5DA006106BF /* SDLPermissionsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */; };
+		5D2996ED1BFCC5DA006106BF /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D2996F01BFD1DFA006106BF /* SDLPermissionFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996EF1BFD1DFA006106BF /* SDLPermissionFilterSpec.m */; };
-		5D2996F41BFE55B7006106BF /* Nimble.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D2996F11BFE55B7006106BF /* Nimble.framework.dSYM */; };
-		5D2996F51BFE55B7006106BF /* Quick.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D2996F21BFE55B7006106BF /* Quick.framework.dSYM */; };
-		5D2996F61BFE55B7006106BF /* SmartDeviceLink.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D2996F31BFE55B7006106BF /* SmartDeviceLink.framework.dSYM */; };
-		5D2996F91BFE5B29006106BF /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996F71BFE5B29006106BF /* NSNumber+NumberType.h */; };
+		5D2996F91BFE5B29006106BF /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996F71BFE5B29006106BF /* NSNumber+NumberType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D2997131BFE6160006106BF /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2997101BFE615F006106BF /* Nimble.framework */; };
+		5D2997141BFE6160006106BF /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2997111BFE615F006106BF /* OHHTTPStubs.framework */; };
+		5D2997151BFE6160006106BF /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2997121BFE6160006106BF /* Quick.framework */; };
+		5D2997161BFE6166006106BF /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2997101BFE615F006106BF /* Nimble.framework */; };
+		5D2997171BFE6166006106BF /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2997111BFE615F006106BF /* OHHTTPStubs.framework */; };
+		5D2997181BFE6166006106BF /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2997121BFE6160006106BF /* Quick.framework */; };
 		5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */; };
 		5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
@@ -260,7 +258,6 @@
 		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
 		5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A71A95191B00252386 /* ConnectionAnimatedTransition.m */; };
-		5D4AB7A21B21EC16004C1AB0 /* SmartDeviceLink.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D535DC51B72473800CF7760 /* SDLGlobals.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D535DC31B72473800CF7760 /* SDLGlobals.h */; };
 		5D535DC61B72473800CF7760 /* SDLGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D535DC41B72473800CF7760 /* SDLGlobals.m */; };
 		5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -833,9 +830,6 @@
 		5DE372A61ACC35B400849FAA /* SDLDebugToolConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
-		5DEE55C21B864A7D004F0D0F /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */; };
-		5DEE55C51B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */; };
-		5DEE55C61B8666A8004F0D0F /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9C32B861AB20B4300F283AF /* NSThread+ThreadIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */; };
 		E9C32B871AB20B4300F283AF /* NSThread+ThreadIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */; };
@@ -883,10 +877,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5DEE55C61B8666A8004F0D0F /* OHHTTPStubs.framework in CopyFiles */,
-				5D4AB7A21B21EC16004C1AB0 /* SmartDeviceLink.framework in CopyFiles */,
-				162E81CF1A9BDDD800906325 /* Nimble.framework in CopyFiles */,
-				162E81D01A9BDDD800906325 /* Quick.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,18 +897,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				5DEE55C51B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM in CopyFiles */,
-				5D2996F41BFE55B7006106BF /* Nimble.framework.dSYM in CopyFiles */,
-				5D2996F51BFE55B7006106BF /* Quick.framework.dSYM in CopyFiles */,
-				5D2996F61BFE55B7006106BF /* SmartDeviceLink.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		162E81C81A9BDD3F00906325 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
-		162E81C91A9BDD3F00906325 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAmbientLightStatusSpec.m; sourceTree = "<group>"; };
 		162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppHMITypeSpec.m; sourceTree = "<group>"; };
 		162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInterfaceUnregisteredReasonSpec.m; sourceTree = "<group>"; };
@@ -1164,12 +1148,12 @@
 		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
 		5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionFilter.h; sourceTree = "<group>"; };
 		5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
-		5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionsConstants.h; sourceTree = "<group>"; };
+		5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
 		5D2996EF1BFD1DFA006106BF /* SDLPermissionFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPermissionFilterSpec.m; path = DevAPISpecs/SDLPermissionFilterSpec.m; sourceTree = "<group>"; };
-		5D2996F11BFE55B7006106BF /* Nimble.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Nimble.framework.dSYM; path = Carthage/Build/iOS/Nimble.framework.dSYM; sourceTree = "<group>"; };
-		5D2996F21BFE55B7006106BF /* Quick.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Quick.framework.dSYM; path = Carthage/Build/iOS/Quick.framework.dSYM; sourceTree = "<group>"; };
-		5D2996F31BFE55B7006106BF /* SmartDeviceLink.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SmartDeviceLink.framework.dSYM; path = Carthage/Build/iOS/SmartDeviceLink.framework.dSYM; sourceTree = "<group>"; };
 		5D2996F71BFE5B29006106BF /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NumberType.h"; sourceTree = "<group>"; };
+		5D2997101BFE615F006106BF /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
+		5D2997111BFE615F006106BF /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		5D2997121BFE6160006106BF /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLQueryAppsManager.h; sourceTree = "<group>"; };
 		5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLQueryAppsManager.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1761,8 +1745,6 @@
 		5DE372A01ACB2ED300849FAA /* SDLHMICapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilities.m; sourceTree = "<group>"; };
 		5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilitiesSpec.m; sourceTree = "<group>"; };
 		5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDebugToolConsole.h; sourceTree = "<group>"; };
-		5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
-		5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = Carthage/Build/iOS/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManager.h; sourceTree = "<group>"; };
 		E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+ThreadIndex.h"; sourceTree = "<group>"; };
 		E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+ThreadIndex.m"; sourceTree = "<group>"; };
@@ -1792,6 +1774,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D2997131BFE6160006106BF /* Nimble.framework in Frameworks */,
+				5D2997141BFE6160006106BF /* OHHTTPStubs.framework in Frameworks */,
+				5D2997151BFE6160006106BF /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1799,11 +1784,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
 				167ED92F1A9BB87900797BE5 /* libOCMock.a in Frameworks */,
-				5DEE55C21B864A7D004F0D0F /* OHHTTPStubs.framework in Frameworks */,
-				162E81CB1A9BDD3F00906325 /* Quick.framework in Frameworks */,
-				162E81CA1A9BDD3F00906325 /* Nimble.framework in Frameworks */,
+				5D2997161BFE6166006106BF /* Nimble.framework in Frameworks */,
+				5D2997171BFE6166006106BF /* OHHTTPStubs.framework in Frameworks */,
+				5D2997181BFE6166006106BF /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2101,13 +2085,9 @@
 		167ED9231A9BB86300797BE5 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5D2996F11BFE55B7006106BF /* Nimble.framework.dSYM */,
-				5D2996F21BFE55B7006106BF /* Quick.framework.dSYM */,
-				5D2996F31BFE55B7006106BF /* SmartDeviceLink.framework.dSYM */,
-				5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */,
-				5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */,
-				162E81C81A9BDD3F00906325 /* Nimble.framework */,
-				162E81C91A9BDD3F00906325 /* Quick.framework */,
+				5D2997101BFE615F006106BF /* Nimble.framework */,
+				5D2997111BFE615F006106BF /* OHHTTPStubs.framework */,
+				5D2997121BFE6160006106BF /* Quick.framework */,
 				167ED9241A9BB87900797BE5 /* libOCMock.a */,
 				167ED9251A9BB87900797BE5 /* OCMock */,
 			);
@@ -3084,7 +3064,7 @@
 				5D8204251BCEA8A600D0A41B /* SDLPermissionManager.m */,
 				5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */,
 				5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */,
-				5D2996EB1BFCC5DA006106BF /* SDLPermissionsConstants.h */,
+				5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */,
 			);
 			name = Permissions;
 			sourceTree = "<group>";
@@ -3512,7 +3492,7 @@
 				5D61FC3F1A84238C00846EE7 /* SDLAmbientLightStatus.h in Headers */,
 				5DE372A11ACB2ED300849FAA /* SDLHMICapabilities.h in Headers */,
 				E9C32B9C1AB20C5900F283AF /* EAAccessory+SDLProtocols.h in Headers */,
-				5D2996ED1BFCC5DA006106BF /* SDLPermissionsConstants.h in Headers */,
+				5D2996ED1BFCC5DA006106BF /* SDLPermissionConstants.h in Headers */,
 				5D61FE0B1A84238C00846EE7 /* SDLVehicleType.h in Headers */,
 				5D61FCC31A84238C00846EE7 /* SDLHMIPermissions.h in Headers */,
 				5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */,
