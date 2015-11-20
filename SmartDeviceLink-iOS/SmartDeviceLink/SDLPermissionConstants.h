@@ -25,4 +25,4 @@ typedef NS_ENUM(NSUInteger, SDLPermissionChangeType) {
  *  @param changedDict  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
  *  @param changeType   The change made to all of the RPCs in the changedDict. All allowed, if all RPCs are now allowed, All disallowed if all RPCs are now disallowed, or Any if some are allowed, and some are disallowed
  */
-typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *changedDict, SDLPermissionChangeType changeType);
+typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType);
