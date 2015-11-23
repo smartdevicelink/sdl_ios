@@ -249,23 +249,30 @@ describe(@"SDLPermissionsManager", ^{
     describe(@"removing observers", ^{
         context(@"removing a single observer and leaving one remaining", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
+            __block NSMutableArray<NSString *> *testObserverCalledIdentifiers = nil;
+            __block SDLPermissionObserverIdentifier *testRemovedObserverId = nil;
+            __block SDLPermissionObserverIdentifier *testRemainingObserverId = nil;
             
             beforeEach(^{
                 // Reset vars
-                numberOfTimesObserverCalled = 0;
-                testObserverCalledRPCNames = [NSMutableArray array];
+                testObserverCalledIdentifiers = [NSMutableArray array];
                 
                 // Add two observers
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
                     numberOfTimesObserverCalled++;
-                    [testObserverCalledRPCNames addObject:rpcName];
+                    [testObserverCalledRPCNames addObject:testRemovedObserverId];
+                }];
+                
+                testRemainingObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                    numberOfTimesObserverCalled++;
+                    [testObserverCalledRPCNames addObject:testRemainingObserverId];
                 }];
                 
                 // Remove one observer
-                [testPermissionsManager removeObserversForRPC:testRPCNameAllAllowed];
+                [testPermissionsManager removeObserverForIdentifier:testRemovedObserverId];
                 
                 // Post a notification
+                [[NSNotificationCenter defaultCenter] postNotification:testHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
             
@@ -274,11 +281,11 @@ describe(@"SDLPermissionsManager", ^{
             });
             
             it(@"should not call the observer for the removed RPC", ^{
-                expect(testObserverCalledRPCNames).notTo(contain(testRPCName1));
+                expect(testObserverCalledIdentifiers).notTo(contain(testRemovedObserverId));
             });
             
-            it(@"should call the observer for the not remaining RPC", ^{
-                expect(testObserverCalledRPCNames).to(contain(testRPCName2));
+            it(@"should call the observer for the remaining RPC", ^{
+                expect(testObserverCalledIdentifiers).to(contain(testRemainingObserverId));
             });
         });
         
@@ -298,6 +305,7 @@ describe(@"SDLPermissionsManager", ^{
                 [testPermissionsManager removeAllObservers];
                 
                 // Add some permissions
+                [[NSNotificationCenter defaultCenter] postNotification:testHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
             });
             
