@@ -6,7 +6,7 @@
 
 QuickSpecBegin(SDLPermissionFilterSpec)
 
-describe(@"A filter", ^{
+fdescribe(@"A filter", ^{
     __block NSString *testRPCName1 = nil;
     __block NSString *testRPCName2 = nil;
     
@@ -16,7 +16,6 @@ describe(@"A filter", ^{
     });
     
     describe(@"should initialize correctly", ^{
-        __block NSUUID *testFilterId = nil;
         __block NSArray<SDLPermissionRPCName *> *testRPCNames = nil;
         __block SDLPermissionChangeType testChangeType = SDLPermissionChangeTypeAny;
         __block SDLPermissionFilter *testFilter = nil;
@@ -123,7 +122,54 @@ describe(@"A filter", ^{
     });
     
     describe(@"copying a filter", ^{
+        __block SDLPermissionFilter *testFilter = nil;
+        __block SDLPermissionFilter *testCopiedFilter = nil;
         
+        beforeEach(^{
+            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {}];
+            testCopiedFilter = [testFilter copy];
+        });
+        
+        it(@"should say copied filters are not the same instance", ^{
+            expect(testCopiedFilter).toNot(beIdenticalTo(testFilter));
+        });
+        
+        it(@"should copy the identifier correctly", ^{
+            expect(testCopiedFilter.identifier).to(equal(testFilter.identifier));
+        });
+        
+        it(@"should copy the filter array correctly", ^{
+            expect(testCopiedFilter.rpcNames).to(equal(testFilter.rpcNames));
+        });
+        
+        it(@"should copy the change type correctly", ^{
+            expect(@(testCopiedFilter.changeType)).to(equal(@(testFilter.changeType)));
+        });
+        
+        it(@"should copy the observer correctly", ^{
+            expect(testCopiedFilter.observer).to(equal(testFilter.observer));
+        });
+    });
+    
+    describe(@"testing equality", ^{
+        __block SDLPermissionFilter *testSameFilter1 = nil;
+        __block SDLPermissionFilter *testSameFilter2 = nil;
+        __block SDLPermissionFilter *testDifferentFilter = nil;
+        
+        beforeEach(^{
+            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {}];
+            testSameFilter2 = [testSameFilter1 copy];
+            
+            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {}];
+        });
+        
+        it(@"should say copied filters are the same", ^{
+            expect(testSameFilter1).to(equal(testSameFilter2));
+        });
+        
+        it(@"should say new filters are different", ^{
+            expect(testSameFilter1).toNot(equal(testDifferentFilter));
+        });
     });
 });
 
