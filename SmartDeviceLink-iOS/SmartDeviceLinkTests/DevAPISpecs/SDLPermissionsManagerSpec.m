@@ -13,37 +13,55 @@ QuickSpecBegin(SDLPermissionsManagerSpec)
 describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
     __block NSNotification *testPermissionsNotification = nil;
-    __block NSString *testRPCName1 = nil;
-    __block NSString *testRPCName2 = nil;
-    __block SDLPermissionItem *testPermission1 = nil;
-    __block SDLPermissionItem *testPermission2 = nil;
-    __block SDLHMIPermissions *testHMIPermissions1 = nil;
-    __block SDLHMIPermissions *testHMIPermissions2 = nil;
+    __block NSString *testRPCNameAllAllowed = nil;
+    __block NSString *testRPCNameAllDisallowed = nil;
+    __block NSString *testRPCNameFullLimitedAllowed = nil;
+    __block SDLPermissionItem *testPermissionAllAllowed = nil;
+    __block SDLHMIPermissions *testHMIPermissionsAllAllowed = nil;
+    __block SDLPermissionItem *testPermissionAllDisallowed = nil;
+    __block SDLHMIPermissions *testHMIPermissionsAllDisallowed = nil;
+    __block SDLPermissionItem *testPermissionFullLimitedAllowed = nil;
+    __block SDLHMIPermissions *testHMIPermissionsFullLimitedAllowed = nil;
+    
+    __block NSNotification *testHMINotification = nil;
+    __block SDLHMILevel *startingHMILevel = nil;
     
     beforeEach(^{
-        testRPCName1 = @"Show";
-        testRPCName2 = @"Speak";
+        startingHMILevel = [SDLHMILevel BACKGROUND];
+        
+        testRPCNameAllAllowed = @"AllAllowed";
+        testRPCNameAllDisallowed = @"AllDisallowed";
+        testRPCNameFullLimitedAllowed = @"FullAndLimitedAllowed";
         
         testPermissionsManager = [[SDLPermissionManager alloc] init];
         
-        testHMIPermissions1 = [[SDLHMIPermissions alloc] init];
-        testHMIPermissions1.allowed = [NSMutableArray arrayWithArray:@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL], [SDLHMILevel LIMITED], [SDLHMILevel NONE]]];
-        testHMIPermissions2 = [[SDLHMIPermissions alloc] init];
-        testHMIPermissions2.userDisallowed = [NSMutableArray arrayWithArray:@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL], [SDLHMILevel LIMITED], [SDLHMILevel NONE]]];
+        testHMIPermissionsAllAllowed = [[SDLHMIPermissions alloc] init];
+        testHMIPermissionsAllAllowed.allowed = [NSMutableArray arrayWithArray:@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL], [SDLHMILevel LIMITED], [SDLHMILevel NONE]]];
+        testHMIPermissionsAllDisallowed = [[SDLHMIPermissions alloc] init];
+        testHMIPermissionsAllDisallowed.userDisallowed = [NSMutableArray arrayWithArray:@[[SDLHMILevel BACKGROUND], [SDLHMILevel FULL], [SDLHMILevel LIMITED], [SDLHMILevel NONE]]];
+        testHMIPermissionsFullLimitedAllowed = [[SDLHMIPermissions alloc] init];
+        testHMIPermissionsFullLimitedAllowed.allowed = [NSMutableArray arrayWithArray:@[[SDLHMILevel FULL], [SDLHMILevel LIMITED]]];
+        testHMIPermissionsFullLimitedAllowed.userDisallowed = [NSMutableArray arrayWithArray:@[[SDLHMILevel BACKGROUND], [SDLHMILevel NONE]]];
         
         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
         
-        testPermission1 = [[SDLPermissionItem alloc] init];
-        testPermission1.rpcName = testRPCName1;
-        testPermission1.hmiPermissions = testHMIPermissions1;
-        testPermission1.parameterPermissions = testParameterPermissions;
+        testPermissionAllAllowed = [[SDLPermissionItem alloc] init];
+        testPermissionAllAllowed.rpcName = testRPCNameAllAllowed;
+        testPermissionAllAllowed.hmiPermissions = testHMIPermissionsAllAllowed;
+        testPermissionAllAllowed.parameterPermissions = testParameterPermissions;
         
-        testPermission2 = [[SDLPermissionItem alloc] init];
-        testPermission2.rpcName = testRPCName2;
-        testPermission2.hmiPermissions = testHMIPermissions2;
-        testPermission2.parameterPermissions = testParameterPermissions;
+        testPermissionAllDisallowed = [[SDLPermissionItem alloc] init];
+        testPermissionAllDisallowed.rpcName = testRPCNameAllDisallowed;
+        testPermissionAllDisallowed.hmiPermissions = testHMIPermissionsAllDisallowed;
+        testPermissionAllDisallowed.parameterPermissions = testParameterPermissions;
         
-        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermission1, testPermission2]}];
+        testPermissionFullLimitedAllowed = [[SDLPermissionItem alloc] init];
+        testPermissionFullLimitedAllowed.rpcName = testRPCNameFullLimitedAllowed;
+        testPermissionFullLimitedAllowed.hmiPermissions = testHMIPermissionsFullLimitedAllowed;
+        testPermissionFullLimitedAllowed.parameterPermissions = testParameterPermissions;
+        
+        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionAllAllowed, testPermissionAllDisallowed]}];
+        testHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: startingHMILevel}];
     });
     
     describe(@"when checking if a permission is allowed", ^{
@@ -56,7 +74,7 @@ describe(@"SDLPermissionsManager", ^{
                 someRPCName = @"some rpc name";
                 someHMILevel = [SDLHMILevel BACKGROUND];
                 
-                testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName forHMILevel:someHMILevel];
+                testResultBOOL = [testPermissionsManager isRPCAllowed:someRPCName];
             });
             
             it(@"should not be allowed", ^{
@@ -66,10 +84,12 @@ describe(@"SDLPermissionsManager", ^{
         
         context(@"when permissions exist", ^{
             beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:testHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                
                 someHMILevel = [SDLHMILevel NONE];
                 
-                testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCName1 forHMILevel:someHMILevel];
+                testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
             });
             
             it(@"should be allowed", ^{
@@ -79,63 +99,12 @@ describe(@"SDLPermissionsManager", ^{
     });
     
     describe(@"when adding and using observers", ^{
-        context(@"adding a single observer", ^{
-            context(@"when no data is present", ^{
-                __block BOOL testObserverCalled = NO;
-                
-                beforeEach(^{
-                    [testPermissionsManager addObserverForRPC:testRPCName1 usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
-                        testObserverCalled = YES;
-                    }];
-                });
-                
-                it(@"should not call the observer", ^{
-                    expect(@(testObserverCalled)).to(equal(@NO));
-                });
-            });
-            
-            context(@"when data is already present", ^{
-                __block BOOL testObserverCalled = NO;
-                __block NSString *testObserverCalledRPCName = nil;
-                __block SDLPermissionItem *testObserverCalledOldPermission = nil;
-                __block SDLPermissionItem *testObserverCalledNewPermission = nil;
-                
-                beforeEach(^{
-                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                    
-                    // This should be called immediately since data is already present
-                    [testPermissionsManager addObserverForRPC:testRPCName1 usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
-                        testObserverCalled = YES;
-                        testObserverCalledRPCName = rpcName;
-                        testObserverCalledOldPermission = oldPermission;
-                        testObserverCalledNewPermission = newPermission;
-                    }];
-                });
-                
-                it(@"should call the observer", ^{
-                    expect(@(testObserverCalled)).to(equal(@YES));
-                });
-                
-                it(@"should have the correct RPC name", ^{
-                    expect(testObserverCalledRPCName).to(equal(testRPCName1));
-                });
-                
-                it(@"should not have an old permission", ^{
-                    expect(testObserverCalledOldPermission).to(beNil());
-                });
-                
-                it(@"should have the correct new permission", ^{
-                    expect(testObserverCalledNewPermission).to(equal(testPermission1));
-                });
-            });
-        });
-        
         context(@"adding multiple observers", ^{
             context(@"when no data is present", ^{
                 __block BOOL testObserverCalled = NO;
                 
                 beforeEach(^{
-                    [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -162,7 +131,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                     
                     // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                    [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
                         numberOfTimesObserverCalled++;
                         [testObserverCalledRPCNames addObject:rpcName];
                         
@@ -219,7 +188,7 @@ describe(@"SDLPermissionsManager", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                 
                 // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                [testPermissionsManager addObserverForRPC:testRPCName1 usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
+                [testPermissionsManager addObserverForRPC:testRPCNameAllAllowed usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledRPCNames addObject:rpcName];
                     
@@ -238,7 +207,7 @@ describe(@"SDLPermissionsManager", ^{
                 SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                 
                 testPermissionUpdated = [[SDLPermissionItem alloc] init];
-                testPermissionUpdated.rpcName = testRPCName1;
+                testPermissionUpdated.rpcName = testRPCNameAllAllowed;
                 testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
                 testPermissionUpdated.parameterPermissions = testParameterPermissions;
                 
@@ -281,30 +250,20 @@ describe(@"SDLPermissionsManager", ^{
         context(@"removing a single observer and leaving one remaining", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
             __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
             
             beforeEach(^{
                 // Reset vars
                 numberOfTimesObserverCalled = 0;
                 testObserverCalledRPCNames = [NSMutableArray array];
-                testObserverCalledOldPermissions = [NSMutableArray array];
-                testObserverCalledNewPermissions = [NSMutableArray array];
                 
                 // Add two observers
-                [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledRPCNames addObject:rpcName];
-                    
-                    if (oldPermission != nil) {
-                        [testObserverCalledOldPermissions addObject:oldPermission];
-                    }
-                    
-                    [testObserverCalledNewPermissions addObject:newPermission];
                 }];
                 
                 // Remove one observer
-                [testPermissionsManager removeObserversForRPC:testRPCName1];
+                [testPermissionsManager removeObserversForRPC:testRPCNameAllAllowed];
                 
                 // Post a notification
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
@@ -323,66 +282,16 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
         
-        context(@"removing multiple observers", ^{
-            __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
-            
-            beforeEach(^{
-                // Reset vars
-                numberOfTimesObserverCalled = 0;
-                testObserverCalledRPCNames = [NSMutableArray array];
-                testObserverCalledOldPermissions = [NSMutableArray array];
-                testObserverCalledNewPermissions = [NSMutableArray array];
-                
-                // Add two observers
-                [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
-                    numberOfTimesObserverCalled++;
-                    [testObserverCalledRPCNames addObject:rpcName];
-                    
-                    if (oldPermission != nil) {
-                        [testObserverCalledOldPermissions addObject:oldPermission];
-                    }
-                    
-                    [testObserverCalledNewPermissions addObject:newPermission];
-                }];
-                
-                // Remove both observers
-                [testPermissionsManager removeObserversForRPCs:@[testRPCName1, testRPCName2]];
-                
-                // Add a permission
-                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-            });
-            
-            it(@"should never call the observer", ^{
-                expect(@(numberOfTimesObserverCalled)).to(equal(@0));
-            });
-        });
-        
         context(@"removing all observers", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSString *> *testObserverCalledRPCNames = nil;
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledOldPermissions = nil;
-            __block NSMutableArray<SDLPermissionItem *> *testObserverCalledNewPermissions = nil;
             
             beforeEach(^{
                 // Reset vars
                 numberOfTimesObserverCalled = 0;
-                testObserverCalledRPCNames = [NSMutableArray array];
-                testObserverCalledOldPermissions = [NSMutableArray array];
-                testObserverCalledNewPermissions = [NSMutableArray array];
                 
                 // Add two observers
-                [testPermissionsManager addObserverForRPCs:@[testRPCName1, testRPCName2] usingBlock:^(NSString * _Nonnull rpcName, SDLPermissionItem * _Nullable oldPermission, SDLPermissionItem * _Nonnull newPermission) {
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
                     numberOfTimesObserverCalled++;
-                    [testObserverCalledRPCNames addObject:rpcName];
-                    
-                    if (oldPermission != nil) {
-                        [testObserverCalledOldPermissions addObject:oldPermission];
-                    }
-                    
-                    [testObserverCalledNewPermissions addObject:newPermission];
                 }];
                 
                 // Remove all observers

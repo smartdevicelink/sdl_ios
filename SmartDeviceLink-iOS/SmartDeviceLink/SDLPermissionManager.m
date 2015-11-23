@@ -113,22 +113,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Add Observers
 
-- (SDLPermissionObserverIdentifier *)addObserverForRPC:(SDLPermissionRPCName *)rpcName onChange:(SDLPermissionChangeType)changeType withBlock:(SDLPermissionObserver)observer {
-    // If there is a current permission that fits the specifications, send that immediately
-    BOOL isAllowed = [self isRPCAllowed:rpcName];
-    if (isAllowed && (changeType == SDLPermissionChangeTypeAllAllowed || changeType == SDLPermissionChangeTypeAny)) {
-        observer(@{rpcName: @(YES)}, changeType);
-    } else if (!isAllowed && (changeType == SDLPermissionChangeTypeAllDisallowed || changeType == SDLPermissionChangeTypeAny)) {
-        observer(@{rpcName: @(NO)}, changeType);
-    }
-    
-    // Store the filter for later use
-    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:@[rpcName] changeType:changeType observer:observer];
-    [self.filters addObject:filter];
-    
-    return filter.identifier;
-}
-
 - (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames onChange:(SDLPermissionChangeType)changeType withBlock:(SDLPermissionObserver)observer {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames changeType:changeType observer:observer];
     

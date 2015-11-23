@@ -46,19 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)permissionAllowedDictForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
 
 /**
- *  Add an observer for a specified RPC name, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known and fit the specifications.
- *
- *  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
- *
- *  @param rpcName The RPC to be observed
- *  @param changeType The type of change that will cause the observer to be called
- *  @param observer The block that will be called whenever permissions change.
- *
- *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
- */
-- (SDLPermissionObserverIdentifier *)addObserverForRPC:(SDLPermissionRPCName *)rpcName onChange:(SDLPermissionChangeType)changeType withBlock:(SDLPermissionObserver)observer;
-
-/**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known and fit the specifications.
  *
  *  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
