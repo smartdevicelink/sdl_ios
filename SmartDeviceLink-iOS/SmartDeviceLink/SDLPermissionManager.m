@@ -190,22 +190,22 @@ NS_ASSUME_NONNULL_BEGIN
     
     // We only want to call on filters whose observed permissions changed, so check all of our filters for ones that have an RPC whose permission changed.
     // Just brute force it. We shouldn't run into many problems.
-    NSMutableArray<SDLPermissionFilter *> *mutableFiltersToCall = [NSMutableArray arrayWithCapacity:filters.count];
+    NSMutableArray<SDLPermissionFilter *> *mutableModifiedFilters = [NSMutableArray arrayWithCapacity:filters.count];
     for (SDLPermissionFilter *filter in filters) {
         for (SDLPermissionItem *item in permissionItems) {
             // If the filter covers one of the updated permissions, store it to be called
             if ([filter.rpcNames containsObject:item.rpcName]) {
-                [mutableFiltersToCall addObject:filter];
+                [mutableModifiedFilters addObject:filter];
                 break;
             }
         }
     }
     
-    NSArray *filtersToCall = [mutableFiltersToCall copy];
-    mutableFiltersToCall = nil;
+    NSArray *modifiedFilters = [mutableModifiedFilters copy];
+    mutableModifiedFilters = nil;
     
     // For all the modified filters, check and call if necessary
-    for (SDLPermissionFilter *filter in filtersToCall) {
+    for (SDLPermissionFilter *filter in modifiedFilters) {
         [self sdl_checkAndCallFilter:filter];
     }
 }
