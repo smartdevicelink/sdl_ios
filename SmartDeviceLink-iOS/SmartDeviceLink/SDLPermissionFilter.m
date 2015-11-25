@@ -15,10 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle
 
 - (instancetype)init {
-    return [self initWithRPCNames:@[] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber *> *changedDict, SDLPermissionChangeType changeType) {}];
+    return [self initWithRPCNames:@[] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status) {}];
 }
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames changeType:(SDLPermissionChangeType)changeType observer:(SDLPermissionObserver)observer {
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer {
     self = [super init];
     if (!self) {
         return nil;
@@ -26,21 +26,21 @@ NS_ASSUME_NONNULL_BEGIN
     
     _identifier = [NSUUID UUID];
     _rpcNames = rpcNames;
-    _changeType = changeType;
+    _groupType = groupType;
     _observer = observer;
     
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames changeType:(SDLPermissionChangeType)changeType observer:(SDLPermissionObserver)observer {
-    return [[self alloc] initWithRPCNames:rpcNames changeType:changeType observer:observer];
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer {
+    return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_rpcNames copyWithZone:zone] changeType:_changeType observer:[_observer copyWithZone:zone]];
+    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_rpcNames copyWithZone:zone] groupType:_groupType observer:[_observer copyWithZone:zone]];
     newFilter->_identifier = _identifier;
     
     return newFilter;

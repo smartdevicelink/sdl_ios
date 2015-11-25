@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, readonly) SDLPermissionObserverIdentifier *identifier;
 @property (copy, nonatomic, readonly) NSArray<SDLPermissionRPCName *> *rpcNames;
-@property (assign, nonatomic, readonly) SDLPermissionChangeType changeType;
+@property (assign, nonatomic, readonly) SDLPermissionGroupType groupType;
 @property (copy, nonatomic, readonly) SDLPermissionObserver observer;
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames changeType:(SDLPermissionChangeType)changeType observer:(SDLPermissionObserver)observer NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer NS_DESIGNATED_INITIALIZER;
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames changeType:(SDLPermissionChangeType)changeType observer:(SDLPermissionObserver)observer;
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer;
 
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter;
 

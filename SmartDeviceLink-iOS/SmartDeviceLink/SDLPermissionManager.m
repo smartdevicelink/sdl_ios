@@ -60,10 +60,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
 
-- (SDLPermissionChangeType)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+- (SDLPermissionStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
     // If we don't have an HMI level, then just say everything is disallowed
     if (self.currentHMILevel == nil) {
-        return SDLPermissionChangeTypeAllDisallowed;
+        return SDLPermissionStatusUnknown;
     }
     
     BOOL hasAllowed = NO;
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (NSString *rpcName in rpcNames) {
         // If at this point in the loop, we have both allowed and disallowed RPCs, return the mixed result
         if (hasAllowed && hasDisallowed) {
-            return SDLPermissionChangeTypeAny;
+            return SDLPermissionStatusMixed;
         }
         
         // If we don't have a status for this permission, set it as disallowed
@@ -91,9 +91,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     if (hasAllowed) {
-        return SDLPermissionChangeTypeAllAllowed;
+        return SDLPermissionStatusAllowed;
     } else {
-        return SDLPermissionChangeTypeAllDisallowed;
+        return SDLPermissionStatusDisallowed;
     }
 }
 
@@ -113,8 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Add Observers
 
-- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames onChange:(SDLPermissionChangeType)changeType withBlock:(SDLPermissionObserver)observer {
-    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames changeType:changeType observer:observer];
+- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withBlock:(nonnull SDLPermissionObserver)observer {
+    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:observer];
     
     // If there are permissions that fit the specifications, send immediately
     [self sdl_checkAndCallFilter:filter];
@@ -126,36 +126,25 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_checkAndCallFilter:(SDLPermissionFilter *)filter {
-    SDLPermissionChangeType allowedStatus = [self permissionStatusForRPCs:filter.rpcNames];
+    SDLPermissionStatus permissionStatus = [self permissionStatusForRPCs:filter.rpcNames];
     
-    switch (filter.changeType) {
-        case SDLPermissionChangeTypeAllAllowed: {
-            // The status matches the filter's changeType
-            if (allowedStatus == SDLPermissionChangeTypeAllAllowed) {
-                NSMutableDictionary *allowedDict = [NSMutableDictionary dictionary];
-                for (NSString *rpcName in filter.rpcNames) {
-                    allowedDict[rpcName] = @YES;
-                }
-                
-                filter.observer([allowedDict copy], allowedStatus);
+    switch (filter.groupType) {
+        case SDLPermissionGroupTypeAllAllowed: {
+            NSMutableDictionary *allowedDict = [NSMutableDictionary dictionary];
+            for (NSString *rpcName in filter.rpcNames) {
+                allowedDict[rpcName] = @YES;
             }
+            
+            filter.observer([allowedDict copy], permissionStatus);
         } break;
-        case SDLPermissionChangeTypeAllDisallowed: {
-            // The status matches the filter's changeType
-            if (allowedStatus == SDLPermissionChangeTypeAllDisallowed) {
-                NSMutableDictionary *allowedDict = [NSMutableDictionary dictionary];
-                for (NSString *rpcName in filter.rpcNames) {
-                    allowedDict[rpcName] = @NO;
-                }
-                
-                filter.observer([allowedDict copy], allowedStatus);
-            }
-        } break;
-        case SDLPermissionChangeTypeAny: {
+        case SDLPermissionGroupTypeAny: {
             // If they passed in Any, they want to be notified no matter what
             NSDictionary *allowedDict = [self permissionAllowedDictForRPCs:filter.rpcNames];
-            filter.observer(allowedDict, allowedStatus);
+            filter.observer(allowedDict, permissionStatus);
         } break;
+        default: {
+            break;
+        }
     }
 }
 

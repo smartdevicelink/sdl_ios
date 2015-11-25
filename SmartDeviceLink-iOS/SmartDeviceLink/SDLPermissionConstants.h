@@ -13,16 +13,22 @@
 typedef NSString SDLPermissionRPCName;
 typedef NSUUID SDLPermissionObserverIdentifier;
 
-typedef NS_ENUM(NSUInteger, SDLPermissionChangeType) {
-    SDLPermissionChangeTypeAllAllowed,
-    SDLPermissionChangeTypeAllDisallowed,
-    SDLPermissionChangeTypeAny
+typedef NS_ENUM(NSUInteger, SDLPermissionGroupType) {
+    SDLPermissionGroupTypeAllAllowed,
+    SDLPermissionGroupTypeAny
+};
+
+typedef NS_ENUM(NSUInteger, SDLPermissionStatus) {
+    SDLPermissionStatusAllowed,
+    SDLPermissionStatusDisallowed,
+    SDLPermissionStatusMixed,
+    SDLPermissionStatusUnknown
 };
 
 /**
  *  The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change.
  *
  *  @param changedDict  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
- *  @param changeType   The change made to all of the RPCs in the changedDict. All allowed, if all RPCs are now allowed, All disallowed if all RPCs are now disallowed, or Any if some are allowed, and some are disallowed
+ *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
-typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType);
+typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status);
