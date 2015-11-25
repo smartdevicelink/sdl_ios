@@ -110,7 +110,7 @@ describe(@"SDLPermissionsManager", ^{
                 __block BOOL testObserverCalled = NO;
                 
                 beforeEach(^{
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -123,15 +123,13 @@ describe(@"SDLPermissionsManager", ^{
             context(@"when data is already present", ^{
                 __block NSInteger numberOfTimesObserverCalled = 0;
                 __block NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *testObserverBlockChangedDict = nil;
-                __block SDLPermissionChangeType testObserverBlockChangeType = SDLPermissionChangeTypeAny;
-                __block SDLPermissionChangeType testChangeType = SDLPermissionChangeTypeAny;
+                __block SDLPermissionStatus testObserverReturnStatus = SDLPermissionStatusUnknown;
+                __block SDLPermissionStatus testStatus = SDLPermissionStatusUnknown;
                 
                 context(@"to match an ANY observer", ^{
                     beforeEach(^{
                         // Reset vars
                         numberOfTimesObserverCalled = 0;
-                        
-                        testChangeType = SDLPermissionChangeTypeAny;
                         
                         // Post the notification before setting the observer to make sure data is already present
                         // HMI Full & Limited allowed
@@ -139,10 +137,10 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] onChange:testChangeType withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = changedDict;
-                            testObserverBlockChangeType = changeType;
+                            testObserverReturnStatus = status;
                         }];
                     });
                     
@@ -162,8 +160,8 @@ describe(@"SDLPermissionsManager", ^{
                         expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
                     });
                     
-                    it(@"should return the proper change type", ^{
-                        expect(@(testObserverBlockChangeType)).to(equal(@(testChangeType)));
+                    it(@"should return the proper status", ^{
+                        expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionStatusMixed)));
                     });
                 });
                 
