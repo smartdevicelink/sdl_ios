@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
 
-- (SDLPermissionGroupStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
     // If we don't have an HMI level, then just say everything is disallowed
     if (self.currentHMILevel == nil) {
         return SDLPermissionGroupStatusUnknown;
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)permissionAllowedDictForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+- (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
     NSMutableDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *permissionAllowedDict = [NSMutableDictionary dictionary];
     
     for (NSString *rpcName in rpcNames) {
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_checkAndCallFilter:(SDLPermissionFilter *)filter {
-    SDLPermissionGroupStatus permissionStatus = [self permissionStatusForRPCs:filter.rpcNames];
+    SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
     
     switch (filter.groupType) {
         case SDLPermissionGroupTypeAllAllowed: {
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
         } break;
         case SDLPermissionGroupTypeAny: {
             // If they passed in Any, they want to be notified no matter what
-            NSDictionary *allowedDict = [self permissionAllowedDictForRPCs:filter.rpcNames];
+            NSDictionary *allowedDict = [self statusOfRPCs:filter.rpcNames];
             filter.observer(allowedDict, permissionStatus);
         } break;
         default: {

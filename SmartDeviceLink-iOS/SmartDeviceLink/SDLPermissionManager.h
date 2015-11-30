@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
  */
-- (SDLPermissionGroupStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
 
 /**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */
-- (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)permissionAllowedDictForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+- (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately if the RPC's current permissions are known and fit the specifications.

@@ -17,7 +17,7 @@
 
 QuickSpecBegin(SDLFileManagerSpec)
 
-fdescribe(@"SDLFileManager", ^{
+describe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
     

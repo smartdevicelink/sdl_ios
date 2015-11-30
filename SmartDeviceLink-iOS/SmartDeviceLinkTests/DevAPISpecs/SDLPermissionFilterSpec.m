@@ -1,12 +1,13 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "NSNumber+NumberType.h"
+#import <SmartDeviceLink/NSNumber+NumberType.h>
+#import <SmartDeviceLink/SDLPermissionConstants.h>
 #import "SDLPermissionFilter.h"
 
 QuickSpecBegin(SDLPermissionFilterSpec)
 
-fdescribe(@"A filter", ^{
+describe(@"A filter", ^{
     __block NSString *testRPCName1 = nil;
     __block NSString *testRPCName2 = nil;
     
@@ -17,22 +18,20 @@ fdescribe(@"A filter", ^{
     
     describe(@"should initialize correctly", ^{
         __block NSArray<SDLPermissionRPCName *> *testRPCNames = nil;
-        __block SDLPermissionChangeType testChangeType = SDLPermissionChangeTypeAny;
+        __block SDLPermissionGroupType testGroupType = SDLPermissionGroupTypeAny;
         __block SDLPermissionFilter *testFilter = nil;
         
-        __block NSDictionary *testObserverReturnChangedDict = nil;
-        __block SDLPermissionChangeType testObserverReturnChangeType = SDLPermissionChangeTypeAny;
+        __block NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *testObserverReturnChangedDict = nil;
         
         beforeEach(^{
             testRPCNames = @[testRPCName1, testRPCName2];
-            testChangeType = SDLPermissionChangeTypeAllAllowed;
+            testGroupType = SDLPermissionGroupTypeAny;
         });
         
         context(@"using initWithRPCNames:changeType:observer:", ^{
             beforeEach(^{
-                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testRPCNames changeType:testChangeType observer:^(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     testObserverReturnChangedDict = changedDict;
-                    testObserverReturnChangeType = changeType;
                 }];
             });
             
@@ -44,41 +43,36 @@ fdescribe(@"A filter", ^{
                 expect(testFilter.rpcNames).to(equal(testRPCNames));
             });
             
-            it(@"should set the change type correctly", ^{
-                expect(@(testFilter.changeType)).to(equal(@(testChangeType)));
-            });
-            
             describe(@"it should set up the observer correctly", ^{
                 __block NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *testObserverChangedDict = nil;
                 __block NSNumber<SDLBool> *testRPCName1Bool = nil;
                 __block NSNumber<SDLBool> *testRPCName2Bool = nil;
-                __block SDLPermissionChangeType testObserverChangeType = SDLPermissionChangeTypeAny;
+                __block SDLPermissionGroupStatus testObserverGroupStatus = SDLPermissionGroupStatusUnknown;
                 
                 beforeEach(^{
                     testRPCName1Bool = @YES;
                     testRPCName2Bool = @NO;
                     testObserverChangedDict = @{testRPCName1: testRPCName1Bool,
                                                 testRPCName2: testRPCName2Bool};
-                    testObserverChangeType = SDLPermissionChangeTypeAllAllowed;
+                    testObserverGroupStatus = SDLPermissionGroupStatusMixed;
                     
-                    testFilter.observer(testObserverChangedDict, testObserverChangeType);
+                    testFilter.observer(testObserverChangedDict, testObserverGroupStatus);
                 });
                 
                 it(@"should call the changedDict correctly", ^{
                     expect(testObserverReturnChangedDict).to(equal(testObserverChangedDict));
                 });
                 
-                it(@"should call the changeType correctly", ^{
-                    expect(@(testObserverReturnChangeType)).to(equal(@(testObserverChangeType)));
+                it(@"should call the status correctly", ^{
+                    expect(@(testObserverGroupStatus)).to(equal(@(testObserverGroupStatus)));
                 });
             });
         });
         
         context(@"using filterWithRPCNames:changeType:observer:", ^{
             beforeEach(^{
-                testFilter = [SDLPermissionFilter filterWithRPCNames:testRPCNames changeType:testChangeType observer:^(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                testFilter = [SDLPermissionFilter filterWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     testObserverReturnChangedDict = changedDict;
-                    testObserverReturnChangeType = changeType;
                 }];
             });
             
@@ -90,32 +84,28 @@ fdescribe(@"A filter", ^{
                 expect(testFilter.rpcNames).to(equal(testRPCNames));
             });
             
-            it(@"should set the change type correctly", ^{
-                expect(@(testFilter.changeType)).to(equal(@(testChangeType)));
-            });
-            
             describe(@"it should set up the observer correctly", ^{
                 __block NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *testObserverChangedDict = nil;
                 __block NSNumber<SDLBool> *testRPCName1Bool = nil;
                 __block NSNumber<SDLBool> *testRPCName2Bool = nil;
-                __block SDLPermissionChangeType testObserverChangeType = SDLPermissionChangeTypeAny;
+                __block SDLPermissionGroupStatus testObserverGroupStatus = SDLPermissionGroupStatusUnknown;
                 
                 beforeEach(^{
                     testRPCName1Bool = @YES;
                     testRPCName2Bool = @NO;
                     testObserverChangedDict = @{testRPCName1: testRPCName1Bool,
                                                 testRPCName2: testRPCName2Bool};
-                    testObserverChangeType = SDLPermissionChangeTypeAllAllowed;
+                    testObserverGroupStatus = SDLPermissionGroupStatusMixed;
                     
-                    testFilter.observer(testObserverChangedDict, testObserverChangeType);
+                    testFilter.observer(testObserverChangedDict, testObserverGroupStatus);
                 });
                 
                 it(@"should call the changedDict correctly", ^{
                     expect(testObserverReturnChangedDict).to(equal(testObserverChangedDict));
                 });
                 
-                it(@"should call the changeType correctly", ^{
-                    expect(@(testObserverReturnChangeType)).to(equal(@(testObserverChangeType)));
+                it(@"should call the status correctly", ^{
+                    expect(@(testObserverGroupStatus)).to(equal(@(testObserverGroupStatus)));
                 });
             });
         });
@@ -126,7 +116,7 @@ fdescribe(@"A filter", ^{
         __block SDLPermissionFilter *testCopiedFilter = nil;
         
         beforeEach(^{
-            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {}];
+            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
             testCopiedFilter = [testFilter copy];
         });
         
@@ -143,7 +133,7 @@ fdescribe(@"A filter", ^{
         });
         
         it(@"should copy the change type correctly", ^{
-            expect(@(testCopiedFilter.changeType)).to(equal(@(testFilter.changeType)));
+            expect(@(testCopiedFilter.groupType)).to(equal(@(testFilter.groupType)));
         });
         
         it(@"should copy the observer correctly", ^{
@@ -157,10 +147,10 @@ fdescribe(@"A filter", ^{
         __block SDLPermissionFilter *testDifferentFilter = nil;
         
         beforeEach(^{
-            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {}];
+            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
             testSameFilter2 = [testSameFilter1 copy];
             
-            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] changeType:SDLPermissionChangeTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {}];
+            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
         });
         
         it(@"should say copied filters are the same", ^{

@@ -10,7 +10,7 @@
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
-describe(@"SDLPermissionsManager", ^{
+fdescribe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
     __block NSNotification *testPermissionsNotification = nil;
     __block NSString *testRPCNameAllAllowed = nil;
@@ -142,12 +142,92 @@ describe(@"SDLPermissionsManager", ^{
         });
     });
     
-    xdescribe(@"checking the permission status for RPCs", ^{
+    describe(@"checking the group status of RPCs", ^{
+        __block SDLPermissionGroupStatus testResultStatus = SDLPermissionGroupStatusUnknown;
         
+        context(@"with no permissions data", ^{
+            beforeEach(^{
+                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+            });
+            
+            it(@"should return unknown", ^{
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
+            });
+        });
+        
+        context(@"for an all allowed group", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                
+                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed]];
+            });
+            
+            it(@"should return mixed", ^{
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
+            });
+        });
+        
+        context(@"for an all disallowed group", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                
+                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed]];
+            });
+            
+            it(@"should return mixed", ^{
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+            });
+        });
+        
+        context(@"for a mixed group", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                
+                testResultStatus = [testPermissionsManager groupStatusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+            });
+            
+            it(@"should return mixed", ^{
+                expect(@(testResultStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
+            });
+        });
     });
     
-    xdescribe(@"checking the permission allowed dictionary for RPCs", ^{
+    describe(@"checking the status of RPCs", ^{
+        __block NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *testResultPermissionStatusDict = nil;
         
+        context(@"with no permissions data", ^{
+            beforeEach(^{
+                testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+            });
+            
+            it(@"should return NO for RPC All Allowed", ^{
+                expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
+            });
+            
+            it(@"should return NO for RPC All Disallowed", ^{
+                expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+            });
+        });
+        
+        context(@"with permissions data", ^{
+            beforeEach(^{
+                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                
+                testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
+            });
+            
+            it(@"should return YES for RPC All Allowed", ^{
+                expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
+            });
+            
+            it(@"should return NO for RPC All Disallowed", ^{
+                expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
+            });
+        });
     });
     
     describe(@"adding and using observers", ^{
