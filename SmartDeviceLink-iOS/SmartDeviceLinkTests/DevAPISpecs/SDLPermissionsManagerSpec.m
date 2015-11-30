@@ -10,7 +10,7 @@
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
-describe(@"SDLPermissionsManager", ^{
+fdescribe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
     __block NSNotification *testPermissionsNotification = nil;
     __block NSString *testRPCNameAllAllowed = nil;
@@ -85,7 +85,7 @@ describe(@"SDLPermissionsManager", ^{
         noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel NONE]}];
     });
     
-    fdescribe(@"checking if a permission is allowed", ^{
+    describe(@"checking if a permission is allowed", ^{
         __block NSString *someRPCName = nil;
         __block BOOL testResultBOOL = NO;
         
@@ -393,19 +393,19 @@ describe(@"SDLPermissionsManager", ^{
                 });
                 
                 it(@"should have the All Allowed RPC in the first change dict", ^{
-                    expect(changeDicts[0]).to(contain(testRPCNameAllAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
                 });
                 
                 it(@"should have the All Disallowed RPC in the first change dict", ^{
-                    expect(changeDicts[0]).to(contain(testRPCNameAllDisallowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameAllDisallowed));
                 });
                 
                 it(@"should have the All Allowed RPC in the second change dict", ^{
-                    expect(changeDicts[1]).to(contain(testRPCNameAllAllowed));
+                    expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
                 });
                 
                 it(@"should have the All Disallowed RPC in the second change dict", ^{
-                    expect(changeDicts[1]).to(contain(testRPCNameAllDisallowed));
+                    expect(changeDicts[1].allKeys).to(contain(testRPCNameAllDisallowed));
                 });
                 
                 it(@"should have the correct permission state for the all allowed RPC in the first change dict", ^{
@@ -470,7 +470,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should have the RPC in the first change dict", ^{
-                        expect(changeDicts[0]).to(contain(testRPCNameAllDisallowed));
+                        expect(changeDicts[0].allKeys).to(contain(testRPCNameAllDisallowed));
                     });
                     
                     it(@"should have the correct permissions for the RPC in the first change dict", ^{
@@ -508,11 +508,11 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should have the RPC in the first change dict", ^{
-                        expect(changeDicts[0]).to(contain(testRPCNameAllAllowed));
+                        expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
                     });
                     
                     it(@"should have the RPC in the second change dict", ^{
-                        expect(changeDicts[1]).to(contain(testRPCNameAllAllowed));
+                        expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
                     });
                     
                     it(@"should have the correct permissions for the RPC in the first change dict", ^{
@@ -560,19 +560,19 @@ describe(@"SDLPermissionsManager", ^{
                 });
                 
                 it(@"should have the All Allowed RPC in the first change dict", ^{
-                    expect(changeDicts[0]).to(contain(testRPCNameAllAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
                 });
                 
                 it(@"should have the All Disallowed RPC in the first change dict", ^{
-                    expect(changeDicts[0]).to(contain(testRPCNameFullLimitedAllowed));
+                    expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedAllowed));
                 });
                 
                 it(@"should have the All Allowed RPC in the second change dict", ^{
-                    expect(changeDicts[1]).to(contain(testRPCNameAllAllowed));
+                    expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
                 });
                 
                 it(@"should have the All Disallowed RPC in the second change dict", ^{
-                    expect(changeDicts[1]).to(contain(testRPCNameFullLimitedAllowed));
+                    expect(changeDicts[1].allKeys).to(contain(testRPCNameFullLimitedAllowed));
                 });
                 
                 it(@"should have the correct permission state for the all allowed RPC in the first change dict", ^{
@@ -624,7 +624,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should have the RPC in the first change dict", ^{
-                        expect(changeDicts[0]).to(contain(testRPCNameFullLimitedAllowed));
+                        expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedAllowed));
                     });
                     
                     it(@"should have the correct permissions for the RPC in the first change dict", ^{
@@ -649,11 +649,11 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should have the RPC in the first change dict", ^{
-                        expect(changeDicts[0]).to(contain(testRPCNameFullLimitedBackgroundAllowed));
+                        expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
                     });
                     
                     it(@"should have the RPC in the second change dict", ^{
-                        expect(changeDicts[1]).to(contain(testRPCNameFullLimitedBackgroundAllowed));
+                        expect(changeDicts[1].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
                     });
                     
                     it(@"should have the correct permissions for the RPC in the first change dict", ^{
@@ -697,25 +697,21 @@ describe(@"SDLPermissionsManager", ^{
         });
         
         context(@"removing a single observer and leaving one remaining", ^{
-            __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSUUID *> *testObserverCalledIdentifiers = nil;
-            __block SDLPermissionObserverIdentifier *testRemovedObserverId = nil;
-            __block SDLPermissionObserverIdentifier *testRemainingObserverId = nil;
+            __block NSUInteger numberOfTimesObserverCalled = 0;
+            __block NSMutableArray<NSNumber<SDLInt> *> *testObserverCalled = nil;
             
             beforeEach(^{
                 // Reset vars
                 numberOfTimesObserverCalled = 0;
-                testObserverCalledIdentifiers = [NSMutableArray array];
+                testObserverCalled = [NSMutableArray array];
                 
                 // Add two observers
-                testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    numberOfTimesObserverCalled++;
-                    [testObserverCalledIdentifiers addObject:testRemovedObserverId];
+                NSUUID *testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                    [testObserverCalled addObject:@1];
                 }];
                 
-                testRemainingObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
-                    numberOfTimesObserverCalled++;
-                    [testObserverCalledIdentifiers addObject:testRemainingObserverId];
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                    [testObserverCalled addObject:@2];
                 }];
                 
                 // Remove one observer
@@ -731,11 +727,11 @@ describe(@"SDLPermissionsManager", ^{
             });
             
             it(@"should not call the observer for the removed RPC", ^{
-                expect(testObserverCalledIdentifiers).notTo(contain(testRemovedObserverId));
+                expect(testObserverCalled).notTo(contain(@1));
             });
             
             it(@"should call the observer for the remaining RPC", ^{
-                expect(testObserverCalledIdentifiers).to(contain(testRemainingObserverId));
+                expect(testObserverCalled).to(contain(@2));
             });
         });
         

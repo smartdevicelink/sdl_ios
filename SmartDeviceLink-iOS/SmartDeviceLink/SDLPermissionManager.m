@@ -116,11 +116,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withBlock:(nonnull SDLPermissionObserver)observer {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:observer];
     
-    // If there are permissions that fit the specifications, send immediately
-    [self sdl_checkAndCallFilter:filter];
-    
-    // Store the filter for later use and return the identifier
+    // Store the filter for later use
     [self.filters addObject:filter];
+    
+    // If there are permissions that fit the specifications, send immediately. Then return the identifier.
+    [self sdl_checkAndCallFilter:filter];
     
     return filter.identifier;
 }

@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @warning This block will be captured by the SDLPermissionsManager, be sure to use [weakself/strongself](http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/) if you are referencing self within your observer block.
  *
+ *  @warning The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That will send `nil` to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.
+ *
  *  @param rpcNames The RPCs to be observed
  *  @param groupType Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.
  *  @param observer The block that will be called whenever permissions change.
