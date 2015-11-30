@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
     SDLHMILevel *oldLevel = self.currentHMILevel;
-    SDLHMILevel *newLevel = notification.userInfo[SDLNotificationUserInfoNotificationObject];
+    self.currentHMILevel = notification.userInfo[SDLNotificationUserInfoNotificationObject];
     NSArray *filters = [self.filters copy];
     
     // Only check what we have filters for
@@ -210,7 +210,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Check if an RPC within our filter changed based on the HMI change. If it did, add it to our filters to check and call.
         for (NSString *rpcName in filter.rpcNames) {
             SDLPermissionItem *item = self.permissions[rpcName];
-            BOOL newAllowed = [item.hmiPermissions.allowed containsObject:newLevel];
+            BOOL newAllowed = [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
             BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldLevel];
             
             if ((newAllowed && !oldAllowed) || (!newAllowed && oldAllowed)) {

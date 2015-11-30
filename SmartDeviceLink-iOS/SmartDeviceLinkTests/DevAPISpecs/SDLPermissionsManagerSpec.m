@@ -10,7 +10,7 @@
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
-fdescribe(@"SDLPermissionsManager", ^{
+describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
     __block NSNotification *testPermissionsNotification = nil;
     __block NSString *testRPCNameAllAllowed = nil;
@@ -79,13 +79,13 @@ fdescribe(@"SDLPermissionsManager", ^{
         testPermissionFullLimitedBackgroundAllowed.parameterPermissions = testParameterPermissions;
         
         // Permission Notifications
-        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionAllAllowed, testPermissionAllDisallowed]}];
+        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]}];
         limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel LIMITED]}];
         backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel BACKGROUND]}];
         noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel NONE]}];
     });
     
-    describe(@"checking if a permission is allowed", ^{
+    fdescribe(@"checking if a permission is allowed", ^{
         __block NSString *someRPCName = nil;
         __block BOOL testResultBOOL = NO;
         
