@@ -28,7 +28,6 @@ describe(@"SDLPermissionsManager", ^{
     __block NSNotification *noneHMINotification = nil;
     
     beforeEach(^{
-        
         testRPCNameAllAllowed = @"AllAllowed";
         testRPCNameAllDisallowed = @"AllDisallowed";
         testRPCNameFullLimitedAllowed = @"FullAndLimitedAllowed";
@@ -82,16 +81,43 @@ describe(@"SDLPermissionsManager", ^{
             });
         });
         
-        context(@"when permissions exist", ^{
+        context(@"when permissions exist but no HMI level", ^{
             beforeEach(^{
-                [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                 [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                 
                 testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
             });
             
-            it(@"should be allowed", ^{
-                expect(@(testResultBOOL)).to(equal(@YES));
+            it(@"should not be allowed", ^{
+                expect(@(testResultBOOL)).to(equal(@NO));
+            });
+        });
+        
+        context(@"when permissions exist", ^{
+            context(@"and the permission is allowed", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    
+                    testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllAllowed];
+                });
+                
+                it(@"should be allowed", ^{
+                    expect(@(testResultBOOL)).to(equal(@YES));
+                });
+            });
+            
+            context(@"and the permission is denied", ^{
+                beforeEach(^{
+                    [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
+                    [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
+                    
+                    testResultBOOL = [testPermissionsManager isRPCAllowed:testRPCNameAllDisallowed];
+                });
+                
+                it(@"should be denied", ^{
+                    expect(@(testResultBOOL)).to(equal(@NO));
+                });
             });
         });
     });
@@ -110,7 +136,7 @@ describe(@"SDLPermissionsManager", ^{
                 __block BOOL testObserverCalled = NO;
                 
                 beforeEach(^{
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                         testObserverCalled = YES;
                     }];
                 });
@@ -123,8 +149,8 @@ describe(@"SDLPermissionsManager", ^{
             context(@"when data is already present", ^{
                 __block NSInteger numberOfTimesObserverCalled = 0;
                 __block NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *testObserverBlockChangedDict = nil;
-                __block SDLPermissionStatus testObserverReturnStatus = SDLPermissionStatusUnknown;
-                __block SDLPermissionStatus testStatus = SDLPermissionStatusUnknown;
+                __block SDLPermissionGroupStatus testObserverReturnStatus = SDLPermissionGroupStatusUnknown;
+                __block SDLPermissionGroupStatus testStatus = SDLPermissionGroupStatusUnknown;
                 
                 context(@"to match an ANY observer", ^{
                     beforeEach(^{
@@ -137,7 +163,7 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = changedDict;
                             testObserverReturnStatus = status;
@@ -161,7 +187,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should return the proper status", ^{
-                        expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionStatusMixed)));
+                        expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
                     });
                 });
                 
@@ -170,18 +196,15 @@ describe(@"SDLPermissionsManager", ^{
                         // Reset vars
                         numberOfTimesObserverCalled = 0;
                         
-                        testChangeType = SDLPermissionChangeTypeAllAllowed;
-                        
                         // Post the notification before setting the observer to make sure data is already present
                         // HMI Full & Limited allowed, hmi level LIMITED
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] onChange:testChangeType withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = changedDict;
-                            testObserverBlockChangeType = changeType;
                         }];
                     });
                     
@@ -200,51 +223,6 @@ describe(@"SDLPermissionsManager", ^{
                     it(@"should only have the two rpcs in the dictionary", ^{
                         expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
                     });
-                    
-                    it(@"should return the proper change type", ^{
-                        expect(@(testObserverBlockChangeType)).to(equal(@(testChangeType)));
-                    });
-                });
-                
-                context(@"to match an all disallowed observer", ^{
-                    beforeEach(^{
-                        // Reset vars
-                        numberOfTimesObserverCalled = 0;
-                        
-                        testChangeType = SDLPermissionChangeTypeAllDisallowed;
-                        
-                        // Post the notification before setting the observer to make sure data is already present
-                        // HMI Full & Limited allowed, hmi level BACKGROUND
-                        [[NSNotificationCenter defaultCenter] postNotification:backgroundHMINotification];
-                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                        
-                        // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] onChange:testChangeType withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
-                            numberOfTimesObserverCalled++;
-                            testObserverBlockChangedDict = changedDict;
-                            testObserverBlockChangeType = changeType;
-                        }];
-                    });
-                    
-                    it(@"should call the observer once", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the full / limited rpc as NO", ^{
-                        expect(testObserverBlockChangedDict[testRPCNameAllAllowed]).to(equal(@NO));
-                    });
-                    
-                    it(@"should have the all disallowed rpc as NO", ^{
-                        expect(testObserverBlockChangedDict[testRPCNameFullLimitedAllowed]).to(equal(@NO));
-                    });
-                    
-                    it(@"should only have the two rpcs in the dictionary", ^{
-                        expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
-                    });
-                    
-                    it(@"should return the proper change type", ^{
-                        expect(@(testObserverBlockChangeType)).to(equal(@(testChangeType)));
-                    });
                 });
                 
                 context(@"that does not match an all allowed observer", ^{
@@ -252,38 +230,13 @@ describe(@"SDLPermissionsManager", ^{
                         // Reset vars
                         numberOfTimesObserverCalled = 0;
                         
-                        testChangeType = SDLPermissionChangeTypeAllAllowed;
-                        
                         // Post the notification before setting the observer to make sure data is already present
                         // HMI Full & Limited allowed, hmi level NONE
                         [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedAllowed] onChange:testChangeType withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
-                            numberOfTimesObserverCalled++;
-                        }];
-                    });
-                    
-                    it(@"should not call the observer", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@0));
-                    });
-                });
-                
-                context(@"that does not match an all disallowed observer", ^{
-                    beforeEach(^{
-                        // Reset vars
-                        numberOfTimesObserverCalled = 0;
-                        
-                        testChangeType = SDLPermissionChangeTypeAllDisallowed;
-                        
-                        // Post the notification before setting the observer to make sure data is already present
-                        // HMI Full & Limited allowed, hmi level LIMITED
-                        [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
-                        [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
-                        
-                        // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllAllowed] onChange:testChangeType withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                         }];
                     });
@@ -313,7 +266,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                     
                     // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
                         [changeDicts addObject:changedDict];
                     }];
@@ -339,11 +292,11 @@ describe(@"SDLPermissionsManager", ^{
                 });
                 
                 it(@"should have the first RPC name", ^{
-                    expect(testObserverCalledRPCNames[0]).to(equal(testRPCName1));
+                    expect(testObserverCalledRPCNames[0]).to(equal(testRPCNameAllAllowed));
                 });
                 
                 it(@"should have the second RPC name", ^{
-                    expect(testObserverCalledRPCNames[1]).to(equal(testRPCName1));
+                    expect(testObserverCalledRPCNames[1]).to(equal(testRPCNameAllAllowed));
                 });
             });
             
@@ -370,7 +323,7 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
                 
                 // Add two observers
-                NSUUID *observerId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                NSUUID *observerId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 
@@ -399,12 +352,12 @@ describe(@"SDLPermissionsManager", ^{
                 testObserverCalledIdentifiers = [NSMutableArray array];
                 
                 // Add two observers
-                testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledIdentifiers addObject:testRemovedObserverId];
                 }];
                 
-                testRemainingObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                testRemainingObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                     [testObserverCalledIdentifiers addObject:testRemainingObserverId];
                 }];
@@ -438,7 +391,7 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
                 
                 // Add two observers
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] onChange:SDLPermissionChangeTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionChangeType changeType) {
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 

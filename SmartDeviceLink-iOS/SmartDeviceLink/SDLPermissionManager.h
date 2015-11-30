@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
  */
-- (SDLPermissionStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+- (SDLPermissionGroupStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
 
 /**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed

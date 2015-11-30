@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle
 
 - (instancetype)init {
-    return [self initWithRPCNames:@[] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status) {}];
+    return [self initWithRPCNames:@[] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
 }
 
 - (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer {

@@ -60,10 +60,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
 
-- (SDLPermissionStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+- (SDLPermissionGroupStatus)permissionStatusForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
     // If we don't have an HMI level, then just say everything is disallowed
     if (self.currentHMILevel == nil) {
-        return SDLPermissionStatusUnknown;
+        return SDLPermissionGroupStatusUnknown;
     }
     
     BOOL hasAllowed = NO;
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (NSString *rpcName in rpcNames) {
         // If at this point in the loop, we have both allowed and disallowed RPCs, return the mixed result
         if (hasAllowed && hasDisallowed) {
-            return SDLPermissionStatusMixed;
+            return SDLPermissionGroupStatusMixed;
         }
         
         // If we don't have a status for this permission, set it as disallowed
@@ -91,9 +91,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     if (hasAllowed) {
-        return SDLPermissionStatusAllowed;
+        return SDLPermissionGroupStatusAllowed;
     } else {
-        return SDLPermissionStatusDisallowed;
+        return SDLPermissionGroupStatusDisallowed;
     }
 }
 
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_checkAndCallFilter:(SDLPermissionFilter *)filter {
-    SDLPermissionStatus permissionStatus = [self permissionStatusForRPCs:filter.rpcNames];
+    SDLPermissionGroupStatus permissionStatus = [self permissionStatusForRPCs:filter.rpcNames];
     
     switch (filter.groupType) {
         case SDLPermissionGroupTypeAllAllowed: {

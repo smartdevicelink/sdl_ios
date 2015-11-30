@@ -18,11 +18,11 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupType) {
     SDLPermissionGroupTypeAny
 };
 
-typedef NS_ENUM(NSUInteger, SDLPermissionStatus) {
-    SDLPermissionStatusAllowed,
-    SDLPermissionStatusDisallowed,
-    SDLPermissionStatusMixed,
-    SDLPermissionStatusUnknown
+typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
+    SDLPermissionGroupStatusAllowed,
+    SDLPermissionGroupStatusDisallowed,
+    SDLPermissionGroupStatusMixed,
+    SDLPermissionGroupStatusUnknown
 };
 
 /**
@@ -31,4 +31,4 @@ typedef NS_ENUM(NSUInteger, SDLPermissionStatus) {
  *  @param changedDict  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
  *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
-typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionStatus status);
+typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status);
