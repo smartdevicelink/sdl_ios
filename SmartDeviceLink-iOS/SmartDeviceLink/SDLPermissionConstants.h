@@ -28,7 +28,7 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
 /**
  *  The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change.
  *
- *  @param changedDict  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
+ *  @param change  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
  *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
-typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status);
+typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status);

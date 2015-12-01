@@ -90,7 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     
-    if (hasAllowed) {
+    if (hasAllowed && hasDisallowed) {
+        return SDLPermissionGroupStatusMixed;
+    } else if (hasAllowed) {
         return SDLPermissionGroupStatusAllowed;
     } else {
         return SDLPermissionGroupStatusDisallowed;
