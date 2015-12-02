@@ -159,9 +159,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier *)identifier {
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
     
-    for (SDLPermissionFilter *filter in filters) {
+    for (int i = 0; i < filters.count; i++) {
+        SDLPermissionFilter *filter = filters[i];
+        
         if ([filter.identifier isEqual:identifier]) {
-            [self.filters removeObject:filter];
+            [self.filters removeObjectAtIndex:i];
             break;
         }
     }
