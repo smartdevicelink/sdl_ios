@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:filters updatedPermissions:newPermissionItems];
     
     // We need the old group status and new group status for all allowed filters so we know if they should be called
-    NSDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
+    NSDictionary<NSUUID *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
     
     // Set the updated permissions on our stored permissions object
     for (SDLPermissionItem *item in newPermissionItems) {
@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLPermissionFilter *> *filtersToCall = [NSMutableArray array];
     for (SDLPermissionFilter *filter in modifiedFilters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
-            SDLPermissionGroupStatus oldStatus = [allAllowedFiltersWithOldStatus[filter] unsignedIntegerValue];
+            SDLPermissionGroupStatus oldStatus = [allAllowedFiltersWithOldStatus[filter.identifier] unsignedIntegerValue];
             SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCs:filter.rpcNames];
             
             // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
@@ -280,12 +280,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A dictionary of filters as the keys and an NSNumber wrapper for the SDLPermissionGroupStatus
  */
-- (NSDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *)sdl_currentStatusForFilters:(NSArray<SDLPermissionFilter *> *)filters {
+- (NSDictionary<NSUUID *, NSNumber<SDLInt> *> *)sdl_currentStatusForFilters:(NSArray<SDLPermissionFilter *> *)filters {
     // Create a dictionary that has the all allowed filters and stores their group status for future reference
     NSMutableDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *filtersWithStatus = [NSMutableDictionary dictionary];
     for (SDLPermissionFilter *filter in filters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
-            filtersWithStatus[[filter copy]] = @([self groupStatusOfRPCs:filter.rpcNames]);
+            filtersWithStatus[filter.identifier] = @([self groupStatusOfRPCs:filter.rpcNames]);
         }
     }
     

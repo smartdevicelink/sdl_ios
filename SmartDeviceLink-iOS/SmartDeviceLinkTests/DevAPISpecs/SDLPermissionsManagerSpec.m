@@ -614,7 +614,7 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
-                    fit(@"should only call the observer once", ^{
+                    it(@"should only call the observer once", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
                     });
                     
@@ -653,7 +653,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should have the first status as disallowed", ^{
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
+                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                     });
                 });
             });
@@ -716,7 +716,7 @@ describe(@"SDLPermissionsManager", ^{
                 });
                 
                 it(@"should have the second status as allowed", ^{
-                    expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
+                    expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                 });
             });
             
@@ -746,16 +746,7 @@ describe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should call the observer once", ^{
-                        expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the RPC in the first change dict", ^{
-                        expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedAllowed));
-                    });
-                    
-                    it(@"should have the correct permissions for the RPC in the first change dict", ^{
-                        NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameFullLimitedAllowed];
-                        expect(isAllowed).to(equal(@YES));
+                        expect(@(numberOfTimesObserverCalled)).to(equal(@2));
                     });
                     
                     it(@"should have the first status as disallowed", ^{
