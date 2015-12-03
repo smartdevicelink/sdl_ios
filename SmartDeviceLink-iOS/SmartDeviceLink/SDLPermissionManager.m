@@ -241,7 +241,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (NSString *rpcName in filter.rpcNames) {
         SDLPermissionItem *item = self.permissions[rpcName];
         BOOL newAllowed = [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
-        BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldLevel];
+        BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldHMILevel];
         
         if ((newAllowed && !oldAllowed) || (!newAllowed && oldAllowed)) {
             // Now permitted when it was not before, or not permitted when it was before
