@@ -161,6 +161,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDL Notification Observers
 
 - (void)sdl_permissionsDidChange:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[NSArray class]], @"The SDLPermissionManager permissions  observer got something other than an array of permissions level");
+    if (![notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[NSArray class]]) {
+        return;
+    }
+    
     NSArray<SDLPermissionItem *> *newPermissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
     
@@ -199,8 +204,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo isKindOfClass:[SDLHMILevel class]], @"The SDLPermissionManager HMI level observer got something other than a user level");
-    if (![notification.userInfo isKindOfClass:[SDLHMILevel class]]) {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[SDLHMILevel class]], @"The SDLPermissionManager HMI level observer got something other than a HMI level");
+    if (![notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[SDLHMILevel class]]) {
         return;
     }
     
