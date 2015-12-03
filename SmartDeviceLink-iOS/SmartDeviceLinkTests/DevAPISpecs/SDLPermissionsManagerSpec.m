@@ -10,7 +10,7 @@
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
-fdescribe(@"SDLPermissionsManager", ^{
+describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
     __block NSNotification *testPermissionsNotification = nil;
     __block NSString *testRPCNameAllAllowed = nil;
@@ -75,7 +75,7 @@ fdescribe(@"SDLPermissionsManager", ^{
         
         testPermissionFullLimitedBackgroundAllowed = [[SDLPermissionItem alloc] init];
         testPermissionFullLimitedBackgroundAllowed.rpcName = testRPCNameFullLimitedBackgroundAllowed;
-        testPermissionFullLimitedBackgroundAllowed.hmiPermissions = testHMIPermissionsFullLimitedAllowed;
+        testPermissionFullLimitedBackgroundAllowed.hmiPermissions = testHMIPermissionsFullLimitedBackgroundAllowed;
         testPermissionFullLimitedBackgroundAllowed.parameterPermissions = testParameterPermissions;
         
         // Permission Notifications
@@ -518,12 +518,12 @@ fdescribe(@"SDLPermissionsManager", ^{
                     });
                 });
                 
-                context(@"so that it goes from All Allowed to at least some disallowed", ^{
+                fcontext(@"so that it goes from All Allowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withBlock:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
-                            [changeDicts addObject:changedDict];
+                            [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
                         }];
                         
@@ -552,7 +552,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                     });
                     
                     it(@"should have Disallowed as the second status", ^{
-                        expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                     });
                     
                     it(@"should have the RPC in the first change dict", ^{
@@ -568,7 +568,7 @@ fdescribe(@"SDLPermissionsManager", ^{
                         expect(isAllowed).to(equal(@YES));
                     });
                     
-                    it(@"should have the RPC in the updated change dict", ^{
+                    it(@"should have the correct permissions for the RPC in the second change dict", ^{
                         NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameAllAllowed];
                         expect(isAllowed).to(equal(@NO));
                     });
