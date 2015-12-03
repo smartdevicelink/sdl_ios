@@ -198,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     // For all the modified filters we care about, call them
-    for (SDLPermissionFilter *filter in modifiedFilters) {
+    for (SDLPermissionFilter *filter in filtersToCall) {
         [self sdl_callFilterObserver:filter];
     }
 }

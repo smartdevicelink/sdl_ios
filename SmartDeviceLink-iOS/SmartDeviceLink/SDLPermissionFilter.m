@@ -61,7 +61,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isEqualToFilter:(SDLPermissionFilter *)otherFilter {
-    return (self.identifier == otherFilter.identifier);
+    return [self.identifier isEqual:otherFilter.identifier];
+}
+
+
+#pragma mark - Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"identifier: %@, group type: %@, rpcs: %@", self.identifier, @(self.groupType), self.rpcNames];
 }
 
 @end
