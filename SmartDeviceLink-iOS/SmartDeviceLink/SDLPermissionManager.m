@@ -61,8 +61,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+    return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
+}
+
++ (SDLPermissionGroupStatus)sdl_groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames withPermissions:(NSDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel *)hmiLevel {
     // If we don't have an HMI level, then just say everything is disallowed
-    if (self.currentHMILevel == nil) {
+    if (hmiLevel == nil) {
         return SDLPermissionGroupStatusUnknown;
     }
     
@@ -77,13 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         // If we don't have a status for this permission, set it as disallowed
-        if (self.permissions[rpcName] == nil) {
+        if (permissions[rpcName] == nil) {
             hasDisallowed = YES;
             continue;
         }
         
         // Check the permission's "allowed" array for the current HMI level
-        if ([self.permissions[rpcName].hmiPermissions.allowed containsObject:self.currentHMILevel]) {
+        if ([permissions[rpcName].hmiPermissions.allowed containsObject:hmiLevel]) {
             hasAllowed = YES;
         } else {
             hasDisallowed = YES;
@@ -122,32 +126,16 @@ NS_ASSUME_NONNULL_BEGIN
     [self.filters addObject:filter];
     
     // If there are permissions that fit the specifications, send immediately. Then return the identifier.
-    [self sdl_checkAndCallFilter:filter];
+    [self sdl_callFilterObserver:filter];
     
     return filter.identifier;
 }
 
-- (void)sdl_checkAndCallFilter:(SDLPermissionFilter *)filter {
+- (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
+    NSDictionary *allowedDict = [self statusOfRPCs:filter.rpcNames];
     
-    switch (filter.groupType) {
-        case SDLPermissionGroupTypeAllAllowed: {
-            NSMutableDictionary *allowedDict = [NSMutableDictionary dictionary];
-            for (NSString *rpcName in filter.rpcNames) {
-                allowedDict[rpcName] = @YES;
-            }
-            
-            filter.observer([allowedDict copy], permissionStatus);
-        } break;
-        case SDLPermissionGroupTypeAny: {
-            // If they passed in Any, they want to be notified no matter what
-            NSDictionary *allowedDict = [self statusOfRPCs:filter.rpcNames];
-            filter.observer(allowedDict, permissionStatus);
-        } break;
-        default: {
-            break;
-        }
-    }
+    filter.observer(allowedDict, permissionStatus);
 }
 
 #pragma mark Remove Observers
@@ -173,65 +161,154 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDL Notification Observers
 
 - (void)sdl_permissionsDidChange:(NSNotification *)notification {
-    NSArray<SDLPermissionItem *> *permissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
+    NSArray<SDLPermissionItem *> *newPermissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
     
+    // We can eliminate calling those filters who had no permission changes, so we'll filter down and see which had permissions that changed
+    NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:filters updatedPermissions:newPermissionItems];
+    
+    // We need the old group status and new group status for all allowed filters so we know if they should be called
+    NSDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
+    
     // Set the updated permissions on our stored permissions object
-    for (SDLPermissionItem *item in permissionItems) {
+    for (SDLPermissionItem *item in newPermissionItems) {
         self.permissions[item.rpcName] = item;
     }
     
-    // We only want to call on filters whose observed permissions changed, so check all of our filters for ones that have an RPC whose permission changed.
-    // Just brute force it. We shouldn't run into many problems.
-    NSMutableArray<SDLPermissionFilter *> *mutableModifiedFilters = [NSMutableArray arrayWithCapacity:filters.count];
-    for (SDLPermissionFilter *filter in filters) {
-        for (SDLPermissionItem *item in permissionItems) {
-            // If the filter covers one of the updated permissions, store it to be called
-            if ([filter.rpcNames containsObject:item.rpcName]) {
-                [mutableModifiedFilters addObject:filter];
-                break;
+    // Check if the observer should be called based on the group type
+    NSMutableArray<SDLPermissionFilter *> *filtersToCall = [NSMutableArray array];
+    for (SDLPermissionFilter *filter in modifiedFilters) {
+        if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
+            SDLPermissionGroupStatus oldStatus = [allAllowedFiltersWithOldStatus[filter] unsignedIntegerValue];
+            SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCs:filter.rpcNames];
+            
+            // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
+            if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
+                [filtersToCall addObject:filter];
             }
+        } else {
+            // The filter is an `any` type and we know it changed, so we'll call it
+            [filtersToCall addObject:filter];
         }
     }
     
-    NSArray *modifiedFilters = [mutableModifiedFilters copy];
-    mutableModifiedFilters = nil;
-    
-    // For all the modified filters, check and call if necessary
+    // For all the modified filters we care about, call them
     for (SDLPermissionFilter *filter in modifiedFilters) {
-        [self sdl_checkAndCallFilter:filter];
+        [self sdl_callFilterObserver:filter];
     }
 }
 
 - (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
-    SDLHMILevel *oldLevel = self.currentHMILevel;
+    NSAssert([notification.userInfo isKindOfClass:[SDLHMILevel class]], @"The SDLPermissionManager HMI level observer got something other than a user level");
+    if (![notification.userInfo isKindOfClass:[SDLHMILevel class]]) {
+        return;
+    }
+    
+    SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = notification.userInfo[SDLNotificationUserInfoNotificationObject];
     NSArray *filters = [self.filters copy];
     
-    // Only check what we have filters for
+    
     NSMutableArray<SDLPermissionFilter *> *mutableFiltersToCall = [NSMutableArray arrayWithCapacity:filters.count];
     for (SDLPermissionFilter *filter in filters) {
-        // Check if an RPC within our filter changed based on the HMI change. If it did, add it to our filters to check and call.
-        for (NSString *rpcName in filter.rpcNames) {
-            SDLPermissionItem *item = self.permissions[rpcName];
-            BOOL newAllowed = [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
-            BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldLevel];
-            
-            if ((newAllowed && !oldAllowed) || (!newAllowed && oldAllowed)) {
-                // Now permitted when it was not before, or not permitted when it was before
-                [mutableFiltersToCall addObject:filter];
+        // Check if the filter changed, according to its group type settings.
+        BOOL filterChanged = [self sdl_didFilterChange:filter fromHMILevel:oldHMILevel toHMILevel:self.currentHMILevel];
+        
+        if (filterChanged) {
+            [mutableFiltersToCall addObject:filter];
+        }
+    }
+    
+    NSArray *filtersToCall = [mutableFiltersToCall copy];
+    
+    // For all the modified filters, call if necessary
+    for (SDLPermissionFilter *filter in filtersToCall) {
+        [self sdl_callFilterObserver:filter];
+    }
+}
+
+/**
+ *  Determine if a filter changes based on an HMI level change and the filter's group type settings. This will run through the filter's RPCs, check the permission for each and see if any permission within the filter changes based on some permission now being allowed when it wasn't, or not allowed when it was. This also takes into account the group type setting, so an All Allowed filter will return YES if and only if some permission changed *and* that causes a status change *to* or *from* Allowed.
+ *
+ *  @param filter      The filter to check
+ *  @param oldHMILevel The old HMI level
+ *  @param newHMILevel The new HMI level
+ *
+ *  @return Whether or not the filter changed based on the difference in HMI levels.
+ */
+- (BOOL)sdl_didFilterChange:(SDLPermissionFilter *)filter fromHMILevel:(SDLHMILevel *)oldHMILevel toHMILevel:(SDLHMILevel *)newHMILevel {
+    BOOL changed = NO;
+    for (NSString *rpcName in filter.rpcNames) {
+        SDLPermissionItem *item = self.permissions[rpcName];
+        BOOL newAllowed = [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
+        BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldLevel];
+        
+        if ((newAllowed && !oldAllowed) || (!newAllowed && oldAllowed)) {
+            // Now permitted when it was not before, or not permitted when it was before
+            if (filter.groupType == SDLPermissionGroupTypeAny) {
+                return YES;
+            } else {
+                changed = YES;
                 break;
             }
         }
     }
     
-    NSArray *filtersToCall = [mutableFiltersToCall copy];
-    mutableFiltersToCall = nil;
-    
-    // For all the modified filters, check and call if necessary
-    for (SDLPermissionFilter *filter in filtersToCall) {
-        [self sdl_checkAndCallFilter:filter];
+    // This is only for the All Allowed group type. Unlike with the Any group type, we need to know if the group status has changed
+    if (changed) {
+        SDLPermissionGroupStatus oldStatus = [self.class sdl_groupStatusOfRPCs:filter.rpcNames withPermissions:self.permissions hmiLevel:oldHMILevel];
+        SDLPermissionGroupStatus newStatus = [self.class sdl_groupStatusOfRPCs:filter.rpcNames withPermissions:self.permissions hmiLevel:newHMILevel];
+        
+        // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
+        if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
+            return YES;
+        }
     }
+    
+    return NO;
+}
+
+/**
+ *  Get a dictionary of the current group status for filters passed in.
+ *
+ *  @param filters The filters to check
+ *
+ *  @return A dictionary of filters as the keys and an NSNumber wrapper for the SDLPermissionGroupStatus
+ */
+- (NSDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *)sdl_currentStatusForFilters:(NSArray<SDLPermissionFilter *> *)filters {
+    // Create a dictionary that has the all allowed filters and stores their group status for future reference
+    NSMutableDictionary<SDLPermissionFilter *, NSNumber<SDLInt> *> *filtersWithStatus = [NSMutableDictionary dictionary];
+    for (SDLPermissionFilter *filter in filters) {
+        if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
+            filtersWithStatus[[filter copy]] = @([self groupStatusOfRPCs:filter.rpcNames]);
+        }
+    }
+    
+    return [filtersWithStatus copy];
+}
+
+/**
+ *  Takes a set of filters and a set of updated permission items. Loops through each permission for each filter and determines if the filter contains a permission that was updated. Returns the set of filters  that contain an updated permission.
+ *
+ *  @param filters         The set of filters to check
+ *  @param permissionItems The set of updated permissions to test each filter against
+ *
+ *  @return An array of filters that contained one of the passed permissions
+ */
++ (NSArray<SDLPermissionFilter *> *)sdl_filterPermissionChangesForFilters:(NSArray<SDLPermissionFilter *> *)filters updatedPermissions:(NSArray<SDLPermissionItem *> *)permissionItems {
+    NSMutableArray<SDLPermissionFilter *> *modifiedFilters = [NSMutableArray arrayWithCapacity:filters.count];
+    
+    // Loop through each updated permission item for each filter, if the filter had something modified, store it and go to the next filter
+    for (SDLPermissionFilter *filter in filters) {
+        for (SDLPermissionItem *item in permissionItems) {
+            if ([filter.rpcNames containsObject:item.rpcName]) {
+                [modifiedFilters addObject:filter];
+                break;
+            }
+        }
+    }
+    
+    return [modifiedFilters copy];
 }
 
 @end
