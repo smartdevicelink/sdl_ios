@@ -14,7 +14,7 @@
 @implementation SDLButtonPressResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_buttonPress]) {
+    if (self = [super initWithName:NAMES_ButtonPress]) {
     }
     return self;
 }
