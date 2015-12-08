@@ -13,6 +13,9 @@
 #import "SDLAlert.h"
 #import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
+#import "SDLButtonName.h"
+#import "SDLButtonPress.h"
+#import "SDLButtonPressMode.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLDebugTool.h"
@@ -25,10 +28,16 @@
 #import "SDLEndAudioPassThru.h"
 #import "SDLFileType.h"
 #import "SDLGetDTCs.h"
+#import "SDLGetInteriorVehicleData.h"
+#import "SDLGetInteriorVehicleDataCapabilities.h"
 #import "SDLGetVehicleData.h"
 #import "SDLImage.h"
 #import "SDLInteractionMode.h"
+#import "SDLInteriorZone.h"
 #import "SDLListFiles.h"
+#import "SDLModuleData.h"
+#import "SDLModuleDescription.h"
+#import "SDLModuleType.h"
 #import "SDLPerformAudioPassThru.h"
 #import "SDLPerformInteraction.h"
 #import "SDLPutFile.h"
@@ -40,6 +49,7 @@
 #import "SDLSetAppIcon.h"
 #import "SDLSetDisplayLayout.h"
 #import "SDLSetGlobalProperties.h"
+#import "SDLSetInteriorVehicleData.h"
 #import "SDLSetMediaClockTimer.h"
 #import "SDLShow.h"
 #import "SDLShowConstantTBT.h"
@@ -170,6 +180,16 @@
     return msg;
 }
 
++ (SDLButtonPress *)buildRemoteButtonPressForButton:(SDLButtonName *)buttonName pressMode:(SDLButtonPressMode *)pressMode zone:(SDLInteriorZone *)zone moduleType:(SDLModuleType *)moduleType {
+    SDLButtonPress *msg = [[SDLButtonPress alloc] init];
+    msg.buttonName = buttonName;
+    msg.buttonPressMode = pressMode;
+    msg.zone = zone;
+    msg.moduleType = moduleType;
+    
+    return msg;
+}
+
 + (SDLChangeRegistration *)buildChangeRegistrationWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage correlationID:(NSNumber *)correlationID {
     SDLChangeRegistration *msg = [[SDLChangeRegistration alloc] init];
     msg.language = language;
@@ -208,6 +228,22 @@
     SDLDialNumber *msg = [[SDLDialNumber alloc] init];
     msg.number = phoneNumber;
 
+    return msg;
+}
+
++ (SDLGetInteriorVehicleData *)buildGetInteriorVehicleDataForModule:(SDLModuleDescription *)module subscribe:(BOOL)subscribe {
+    SDLGetInteriorVehicleData *msg = [[SDLGetInteriorVehicleData alloc] init];
+    msg.moduleDescription = module;
+    msg.subscribe = @(subscribe);
+    
+    return msg;
+}
+
++ (SDLGetInteriorVehicleDataCapabilities *)buildGetInteriorVehicleDataCapabilitiesForZone:(SDLInteriorZone *)zone moduleTypes:(NSArray<SDLModuleType *> *)moduleTypes {
+    SDLGetInteriorVehicleDataCapabilities *msg = [[SDLGetInteriorVehicleDataCapabilities alloc] init];
+    msg.interiorZone = zone;
+    msg.moduleTypes = moduleTypes;
+    
     return msg;
 }
 
@@ -474,6 +510,12 @@
 }
 //*****
 
++ (SDLSetInteriorVehicleData *)buildSetInteriorVehicleData:(SDLModuleData *)data {
+    SDLSetInteriorVehicleData *msg = [[SDLSetInteriorVehicleData alloc] init];
+    msg.moduleData = data;
+    
+    return msg;
+}
 
 //***** SetMediaClockTimer *****
 + (SDLSetMediaClockTimer *)buildSetMediaClockTimerWithHours:(NSNumber *)hours minutes:(NSNumber *)minutes seconds:(NSNumber *)seconds updateMode:(SDLUpdateMode *)updateMode correlationID:(NSNumber *)correlationID {

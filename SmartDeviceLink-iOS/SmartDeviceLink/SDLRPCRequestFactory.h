@@ -11,6 +11,8 @@
 @class SDLAudioType;
 @class SDLBitsPerSample;
 @class SDLButtonName;
+@class SDLButtonPress;
+@class SDLButtonPressMode;
 @class SDLChangeRegistration;
 @class SDLCreateInteractionChoiceSet;
 @class SDLDeleteCommand;
@@ -21,12 +23,18 @@
 @class SDLEndAudioPassThru;
 @class SDLFileType;
 @class SDLGetDTCs;
+@class SDLGetInteriorVehicleData;
+@class SDLGetInteriorVehicleDataCapabilities;
 @class SDLGetVehicleData;
 @class SDLImage;
 @class SDLImageType;
 @class SDLInteractionMode;
+@class SDLInteriorZone;
 @class SDLLanguage;
 @class SDLListFiles;
+@class SDLModuleData;
+@class SDLModuleDescription;
+@class SDLModuleType;
 @class SDLPerformAudioPassThru;
 @class SDLPerformInteraction;
 @class SDLPutFile;
@@ -39,6 +47,7 @@
 @class SDLSetAppIcon;
 @class SDLSetDisplayLayout;
 @class SDLSetGlobalProperties;
+@class SDLSetInteriorVehicleData;
 @class SDLSetMediaClockTimer;
 @class SDLShow;
 @class SDLShowConstantTBT;
@@ -78,8 +87,7 @@
 
 + (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(NSNumber *)playTone duration:(NSNumber *)duration correlationID:(NSNumber *)correlationID;
 
-+ (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText playTone:(NSNumber *)playTone correlationID:(NSNumber *)
-                                                                                                    correlationID;
++ (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID;
 
 //***
 + (SDLAlert *)buildAlertWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(NSNumber *)playTone duration:(NSNumber *)duration softButtons:(NSArray *)softButtons correlationID:(NSNumber *)correlationID;
@@ -95,6 +103,8 @@
 //*****
 
 + (SDLAlertManeuver *)buildAlertManeuverwithTTSchunks:(NSMutableArray *)ttsChunks softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber *)correlationID;
+
++ (SDLButtonPress *)buildRemoteButtonPressForButton:(SDLButtonName *)buttonName pressMode:(SDLButtonPressMode *)pressMode zone:(SDLInteriorZone *)zone moduleType:(SDLModuleType *)moduleType;
 
 + (SDLChangeRegistration *)buildChangeRegistrationWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage correlationID:(NSNumber *)correlationID;
 
@@ -117,6 +127,10 @@
 + (SDLGetDTCs *)buildGetDTCsWithECUName:(NSNumber *)ecuName correlationID:(NSNumber *)correlationID;
 
 + (SDLGetVehicleData *)buildGetVehicleDataWithGPS:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel fuelLevelState:(NSNumber *)fuelLevelState instantFuelConsumption:(NSNumber *)instantFuelConsumption externalTemperature:(NSNumber *)externalTemperature vin:(NSNumber *)vin prndl:(NSNumber *)prndl tirePressure:(NSNumber *)tirePressure odometer:(NSNumber *)odometer beltStatus:(NSNumber *)beltStatus bodyInformation:(NSNumber *)bodyInformation deviceStatus:(NSNumber *)deviceStatus driverBraking:(NSNumber *)driverBraking wiperStatus:(NSNumber *)wiperStatus headLampStatus:(NSNumber *)headLampStatus engineTorque:(NSNumber *)engineTorque accPedalPosition:(NSNumber *)accPedalPosition steeringWheelAngle:(NSNumber *)steeringWheelAngle correlationID:(NSNumber *)correlationID;
+
++ (SDLGetInteriorVehicleData *)buildGetInteriorVehicleDataForModule:(SDLModuleDescription *)module subscribe:(BOOL)subscribe;
+
++ (SDLGetInteriorVehicleDataCapabilities *)buildGetInteriorVehicleDataCapabilitiesForZone:(SDLInteriorZone *)zone moduleTypes:(NSArray<SDLModuleType *> *)moduleTypes;
 
 + (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID;
 
@@ -164,6 +178,7 @@
 + (SDLSetGlobalProperties *)buildSetGlobalPropertiesWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText correlationID:(NSNumber *)correlationID;
 //*****
 
++ (SDLSetInteriorVehicleData *)buildSetInteriorVehicleData:(SDLModuleData *)data;
 
 //***** SetMediaClockTimer *****
 + (SDLSetMediaClockTimer *)buildSetMediaClockTimerWithHours:(NSNumber *)hours minutes:(NSNumber *)minutes seconds:(NSNumber *)seconds updateMode:(SDLUpdateMode *)updateMode correlationID:(NSNumber *)correlationID;
@@ -207,4 +222,5 @@
 + (SDLUnsubscribeVehicleData *)buildUnsubscribeVehicleDataWithGPS:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel fuelLevelState:(NSNumber *)fuelLevelState instantFuelConsumption:(NSNumber *)instantFuelConsumption externalTemperature:(NSNumber *)externalTemperature prndl:(NSNumber *)prndl tirePressure:(NSNumber *)tirePressure odometer:(NSNumber *)odometer beltStatus:(NSNumber *)beltStatus bodyInformation:(NSNumber *)bodyInformation deviceStatus:(NSNumber *)deviceStatus driverBraking:(NSNumber *)driverBraking wiperStatus:(NSNumber *)wiperStatus headLampStatus:(NSNumber *)headLampStatus engineTorque:(NSNumber *)engineTorque accPedalPosition:(NSNumber *)accPedalPosition steeringWheelAngle:(NSNumber *)steeringWheelAngle correlationID:(NSNumber *)correlationID;
 
 + (SDLUpdateTurnList *)buildUpdateTurnListWithTurnList:(NSMutableArray *)turnList softButtons:(NSMutableArray *)softButtons correlationID:(NSNumber *)correlationID;
+
 @end
