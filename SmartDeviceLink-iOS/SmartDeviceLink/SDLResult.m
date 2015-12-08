@@ -37,6 +37,7 @@ SDLResult *SDLResult_SAVED = nil;
 SDLResult *SDLResult_INVALID_CERT = nil;
 SDLResult *SDLResult_EXPIRED_CERT = nil;
 SDLResult *SDLResult_RESUME_FAILED = nil;
+SDLResult *SDLResult_READ_ONLY = nil;
 
 NSArray *SDLResult_values = nil;
 
@@ -87,6 +88,7 @@ NSArray *SDLResult_values = nil;
             [SDLResult INVALID_CERT],
             [SDLResult EXPIRED_CERT],
             [SDLResult RESUME_FAILED],
+            [SDLResult READ_ONLY]
         ];
     }
     return SDLResult_values;
@@ -322,6 +324,13 @@ NSArray *SDLResult_values = nil;
         SDLResult_RESUME_FAILED = [[SDLResult alloc] initWithValue:@"RESUME_FAILED"];
     }
     return SDLResult_RESUME_FAILED;
+}
+
++ (SDLResult *)READ_ONLY {
+    if (SDLResult_READ_ONLY == nil) {
+        SDLResult_READ_ONLY = [[SDLResult alloc] initWithValue:@"READ_ONLY"];
+    }
+    return SDLResult_READ_ONLY;
 }
 
 @end

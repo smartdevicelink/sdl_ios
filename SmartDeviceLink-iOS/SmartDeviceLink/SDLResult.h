@@ -201,4 +201,9 @@
  */
 + (SDLResult *)RESUME_FAILED;
 
+/**
+ *  Attempt to write or set data failed because the data was read only.
+ */
++ (SDLResult *)READ_ONLY;
+
 @end

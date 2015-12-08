@@ -21,8 +21,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLButtonName : SDLEnum {
-}
+@interface SDLButtonName : SDLEnum
 
 /**
  * @abstract Convert String to SDLButtonName
@@ -148,5 +147,46 @@
 + (SDLButtonName *)CUSTOM_BUTTON;
 
 + (SDLButtonName *)SEARCH;
+
+#pragma mark - Climate
+
++ (SDLButtonName *)AC_MAX;
+
++ (SDLButtonName *)AC;
+
++ (SDLButtonName *)RECIRCULATE;
+
++ (SDLButtonName *)FAN_UP;
+
++ (SDLButtonName *)FAN_DOWN;
+
++ (SDLButtonName *)TEMP_UP;
+
++ (SDLButtonName *)TEMP_DOWN;
+
++ (SDLButtonName *)DEFROST_MAX;
+
++ (SDLButtonName *)DEFROST;
+
++ (SDLButtonName *)DEFROST_REAR;
+
++ (SDLButtonName *)UPPER_VENT;
+
++ (SDLButtonName *)LOWER_VENT;
+
+
+#pragma mark - Radio
+
++ (SDLButtonName *)VOLUME_UP;
+
++ (SDLButtonName *)VOLUME_DOWN;
+
++ (SDLButtonName *)EJECT;
+
++ (SDLButtonName *)SOURCE;
+
++ (SDLButtonName *)SHUFFLE;
+
++ (SDLButtonName *)REPEAT;
 
 @end
