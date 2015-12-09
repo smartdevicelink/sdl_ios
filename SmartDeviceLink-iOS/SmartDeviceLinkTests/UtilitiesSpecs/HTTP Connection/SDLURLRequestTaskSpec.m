@@ -1,6 +1,6 @@
-#import <Quick/Quick.h>
-#import <Nimble/Nimble.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
+@import Quick;
+@import Nimble;
+@import OHHTTPStubs;
 
 #import "SDLURLRequestTask.h"
 
