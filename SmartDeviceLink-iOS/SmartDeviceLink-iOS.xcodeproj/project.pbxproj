@@ -245,6 +245,7 @@
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
 		5D0A3A7E1C18854900D79D50 /* Nimble.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D0A3A7C1C18854800D79D50 /* Nimble.framework.dSYM */; };
 		5D0A3A7F1C18854900D79D50 /* Quick.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D0A3A7D1C18854800D79D50 /* Quick.framework.dSYM */; };
+		5D0A3A7B1C18752700D79D50 /* acro.pcm in Resources */ = {isa = PBXBuildFile; fileRef = 5D0A3A7A1C18752700D79D50 /* acro.pcm */; };
 		5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */; };
 		5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
@@ -262,7 +263,6 @@
 		5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350C1A855EB300687FB9 /* AppDelegate.m */; };
 		5D5935121A855EBE00687FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5935111A855EBE00687FB9 /* main.m */; };
 		5D59DD471B14FDEE00BE744D /* SDLLockScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59DD461B14FDEE00BE744D /* SDLLockScreenManagerSpec.m */; };
-		5D5D81721BA07541006D2459 /* acro.pcm in Resources */ = {isa = PBXBuildFile; fileRef = 5D5D81711BA07541006D2459 /* acro.pcm */; };
 		5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA201A84237100846EE7 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5D61FA341A84237100846EE7 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1113,6 +1113,7 @@
 		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
 		5D0A3A7C1C18854800D79D50 /* Nimble.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Nimble.framework.dSYM; path = Carthage/Build/iOS/Nimble.framework.dSYM; sourceTree = "<group>"; };
 		5D0A3A7D1C18854800D79D50 /* Quick.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Quick.framework.dSYM; path = Carthage/Build/iOS/Quick.framework.dSYM; sourceTree = "<group>"; };
+		5D0A3A7A1C18752700D79D50 /* acro.pcm */ = {isa = PBXFileReference; lastKnownFileType = file; path = acro.pcm; sourceTree = SOURCE_ROOT; };
 		5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLQueryAppsManager.h; sourceTree = "<group>"; };
 		5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLQueryAppsManager.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1136,7 +1137,6 @@
 		5D59350C1A855EB300687FB9 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SmartDeviceLink_Example/Classes/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		5D5935111A855EBE00687FB9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartDeviceLink_Example/Classes/main.m; sourceTree = SOURCE_ROOT; };
 		5D59DD461B14FDEE00BE744D /* SDLLockScreenManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenManagerSpec.m; path = ProxySpecs/SDLLockScreenManagerSpec.m; sourceTree = "<group>"; };
-		5D5D81711BA07541006D2459 /* acro.pcm */ = {isa = PBXFileReference; lastKnownFileType = file; name = acro.pcm; path = ../../../SDL_Bitbucket_SPT/al_iphone_dev/SyncProxyTester/acro.pcm; sourceTree = "<group>"; };
 		5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA1F1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
@@ -2134,7 +2134,7 @@
 		5D4019B21A76EC350006B0C2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5D5D81711BA07541006D2459 /* acro.pcm */,
+				5D0A3A7A1C18752700D79D50 /* acro.pcm */,
 				5D0218E71A8D611600D1BF62 /* Frameworks */,
 				5D5935111A855EBE00687FB9 /* main.m */,
 				5D4029D51A76F0410006B0C2 /* Info.plist */,
@@ -3377,7 +3377,7 @@
 				5D0218F91A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */,
 				5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */,
-				5D5D81721BA07541006D2459 /* acro.pcm in Resources */,
+				5D0A3A7B1C18752700D79D50 /* acro.pcm in Resources */,
 				5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */,
 				5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */,
 			);
