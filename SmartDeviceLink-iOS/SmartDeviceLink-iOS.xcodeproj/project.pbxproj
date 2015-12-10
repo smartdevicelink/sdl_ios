@@ -243,6 +243,7 @@
 		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
 		5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */; };
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
+		5D0A3A821C18D0D200D79D50 /* RemoteControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A3A811C18D0D200D79D50 /* RemoteControlManager.m */; };
 		5D36EC251AAE34650071CF83 /* SDLQueryAppsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */; };
 		5D36EC261AAE34650071CF83 /* SDLQueryAppsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
@@ -780,45 +781,45 @@
 		5DE372A61ACC35B400849FAA /* SDLDebugToolConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
-		5DEE06D71C11D8CC00FA0FD7 /* SDLButtonPress.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06D51C11D8CC00FA0FD7 /* SDLButtonPress.h */; };
+		5DEE06D71C11D8CC00FA0FD7 /* SDLButtonPress.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06D51C11D8CC00FA0FD7 /* SDLButtonPress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06D81C11D8CC00FA0FD7 /* SDLButtonPress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06D61C11D8CC00FA0FD7 /* SDLButtonPress.m */; };
-		5DEE06DB1C11F71500FA0FD7 /* SDLButtonPressResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06D91C11F71500FA0FD7 /* SDLButtonPressResponse.h */; };
+		5DEE06DB1C11F71500FA0FD7 /* SDLButtonPressResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06D91C11F71500FA0FD7 /* SDLButtonPressResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06DC1C11F71500FA0FD7 /* SDLButtonPressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06DA1C11F71500FA0FD7 /* SDLButtonPressResponse.m */; };
-		5DEE06DF1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06DD1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.h */; };
+		5DEE06DF1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06DD1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06E01C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06DE1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.m */; };
-		5DEE06E31C11F86800FA0FD7 /* SDLGetInteriorVehicleDataCapabilitiesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06E11C11F86800FA0FD7 /* SDLGetInteriorVehicleDataCapabilitiesResponse.h */; };
+		5DEE06E31C11F86800FA0FD7 /* SDLGetInteriorVehicleDataCapabilitiesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06E11C11F86800FA0FD7 /* SDLGetInteriorVehicleDataCapabilitiesResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06E41C11F86800FA0FD7 /* SDLGetInteriorVehicleDataCapabilitiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06E21C11F86800FA0FD7 /* SDLGetInteriorVehicleDataCapabilitiesResponse.m */; };
-		5DEE06E71C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06E51C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.h */; };
+		5DEE06E71C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06E51C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06E81C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06E61C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.m */; };
-		5DEE06EB1C11FA0000FA0FD7 /* SDLGetInteriorVehicleDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06E91C11FA0000FA0FD7 /* SDLGetInteriorVehicleDataResponse.h */; };
+		5DEE06EB1C11FA0000FA0FD7 /* SDLGetInteriorVehicleDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06E91C11FA0000FA0FD7 /* SDLGetInteriorVehicleDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06EC1C11FA0000FA0FD7 /* SDLGetInteriorVehicleDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06EA1C11FA0000FA0FD7 /* SDLGetInteriorVehicleDataResponse.m */; };
-		5DEE06EF1C11FAB800FA0FD7 /* SDLSetInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06ED1C11FAB800FA0FD7 /* SDLSetInteriorVehicleData.h */; };
+		5DEE06EF1C11FAB800FA0FD7 /* SDLSetInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06ED1C11FAB800FA0FD7 /* SDLSetInteriorVehicleData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06F01C11FAB800FA0FD7 /* SDLSetInteriorVehicleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06EE1C11FAB800FA0FD7 /* SDLSetInteriorVehicleData.m */; };
-		5DEE06F31C11FC0800FA0FD7 /* SDLSetInteriorVehicleDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06F11C11FC0800FA0FD7 /* SDLSetInteriorVehicleDataResponse.h */; };
+		5DEE06F31C11FC0800FA0FD7 /* SDLSetInteriorVehicleDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06F11C11FC0800FA0FD7 /* SDLSetInteriorVehicleDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06F41C11FC0800FA0FD7 /* SDLSetInteriorVehicleDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06F21C11FC0800FA0FD7 /* SDLSetInteriorVehicleDataResponse.m */; };
-		5DEE06F71C11FC4C00FA0FD7 /* SDLOnInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06F51C11FC4C00FA0FD7 /* SDLOnInteriorVehicleData.h */; };
+		5DEE06F71C11FC4C00FA0FD7 /* SDLOnInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06F51C11FC4C00FA0FD7 /* SDLOnInteriorVehicleData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06F81C11FC4C00FA0FD7 /* SDLOnInteriorVehicleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06F61C11FC4C00FA0FD7 /* SDLOnInteriorVehicleData.m */; };
-		5DEE06FB1C11FE4300FA0FD7 /* SDLInteriorZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06F91C11FE4300FA0FD7 /* SDLInteriorZone.h */; };
+		5DEE06FB1C11FE4300FA0FD7 /* SDLInteriorZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06F91C11FE4300FA0FD7 /* SDLInteriorZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE06FC1C11FE4300FA0FD7 /* SDLInteriorZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06FA1C11FE4300FA0FD7 /* SDLInteriorZone.m */; };
-		5DEE06FF1C11FEB700FA0FD7 /* SDLModuleType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06FD1C11FEB700FA0FD7 /* SDLModuleType.h */; };
+		5DEE06FF1C11FEB700FA0FD7 /* SDLModuleType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE06FD1C11FEB700FA0FD7 /* SDLModuleType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07001C11FEB700FA0FD7 /* SDLModuleType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE06FE1C11FEB700FA0FD7 /* SDLModuleType.m */; };
-		5DEE07031C11FF2C00FA0FD7 /* SDLModuleDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07011C11FF2C00FA0FD7 /* SDLModuleDescription.h */; };
+		5DEE07031C11FF2C00FA0FD7 /* SDLModuleDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07011C11FF2C00FA0FD7 /* SDLModuleDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07041C11FF2C00FA0FD7 /* SDLModuleDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE07021C11FF2C00FA0FD7 /* SDLModuleDescription.m */; };
-		5DEE07071C11FF8F00FA0FD7 /* SDLRadioBand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07051C11FF8F00FA0FD7 /* SDLRadioBand.h */; };
+		5DEE07071C11FF8F00FA0FD7 /* SDLRadioBand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07051C11FF8F00FA0FD7 /* SDLRadioBand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07081C11FF8F00FA0FD7 /* SDLRadioBand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE07061C11FF8F00FA0FD7 /* SDLRadioBand.m */; };
-		5DEE070B1C11FFDC00FA0FD7 /* SDLRadioState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07091C11FFDC00FA0FD7 /* SDLRadioState.h */; };
+		5DEE070B1C11FFDC00FA0FD7 /* SDLRadioState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07091C11FFDC00FA0FD7 /* SDLRadioState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE070C1C11FFDC00FA0FD7 /* SDLRadioState.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE070A1C11FFDC00FA0FD7 /* SDLRadioState.m */; };
-		5DEE070F1C12004900FA0FD7 /* SDLRDSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE070D1C12004900FA0FD7 /* SDLRDSData.h */; };
+		5DEE070F1C12004900FA0FD7 /* SDLRDSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE070D1C12004900FA0FD7 /* SDLRDSData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07101C12004900FA0FD7 /* SDLRDSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE070E1C12004900FA0FD7 /* SDLRDSData.m */; };
-		5DEE07131C12020500FA0FD7 /* SDLRadioControlData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07111C12020500FA0FD7 /* SDLRadioControlData.h */; };
+		5DEE07131C12020500FA0FD7 /* SDLRadioControlData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07111C12020500FA0FD7 /* SDLRadioControlData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07141C12020500FA0FD7 /* SDLRadioControlData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE07121C12020500FA0FD7 /* SDLRadioControlData.m */; };
-		5DEE07171C15CF0100FA0FD7 /* SDLDefrostZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07151C15CF0100FA0FD7 /* SDLDefrostZone.h */; };
+		5DEE07171C15CF0100FA0FD7 /* SDLDefrostZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07151C15CF0100FA0FD7 /* SDLDefrostZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07181C15CF0100FA0FD7 /* SDLDefrostZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE07161C15CF0100FA0FD7 /* SDLDefrostZone.m */; };
-		5DEE071B1C15CF4500FA0FD7 /* SDLTemperatureUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07191C15CF4500FA0FD7 /* SDLTemperatureUnit.h */; };
+		5DEE071B1C15CF4500FA0FD7 /* SDLTemperatureUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07191C15CF4500FA0FD7 /* SDLTemperatureUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE071C1C15CF4500FA0FD7 /* SDLTemperatureUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE071A1C15CF4500FA0FD7 /* SDLTemperatureUnit.m */; };
-		5DEE071F1C15CF9300FA0FD7 /* SDLClimateControlData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE071D1C15CF9300FA0FD7 /* SDLClimateControlData.h */; };
+		5DEE071F1C15CF9300FA0FD7 /* SDLClimateControlData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE071D1C15CF9300FA0FD7 /* SDLClimateControlData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07201C15CF9300FA0FD7 /* SDLClimateControlData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE071E1C15CF9300FA0FD7 /* SDLClimateControlData.m */; };
-		5DEE07231C15D11C00FA0FD7 /* SDLModuleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07211C15D11C00FA0FD7 /* SDLModuleData.h */; };
+		5DEE07231C15D11C00FA0FD7 /* SDLModuleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEE07211C15D11C00FA0FD7 /* SDLModuleData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEE07241C15D11C00FA0FD7 /* SDLModuleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE07221C15D11C00FA0FD7 /* SDLModuleData.m */; };
 		5DEE55C01B8509CB004F0D0F /* SDLURLRequestTaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */; };
 		5DEE55C21B864A7D004F0D0F /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */; };
@@ -1147,6 +1148,8 @@
 		5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
+		5D0A3A801C18D0D200D79D50 /* RemoteControlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControlManager.h; path = SmartDeviceLink_Example/Classes/RemoteControlManager.h; sourceTree = SOURCE_ROOT; };
+		5D0A3A811C18D0D200D79D50 /* RemoteControlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControlManager.m; path = SmartDeviceLink_Example/Classes/RemoteControlManager.m; sourceTree = SOURCE_ROOT; };
 		5D36EC231AAE34650071CF83 /* SDLQueryAppsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLQueryAppsManager.h; sourceTree = "<group>"; };
 		5D36EC241AAE34650071CF83 /* SDLQueryAppsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLQueryAppsManager.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2145,6 +2148,9 @@
 		5D0218EB1A8E795700D1BF62 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5D4029D31A76F0340006B0C2 /* Images.xcassets */,
+				5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */,
+				5D4029E11A76F0760006B0C2 /* Main.storyboard */,
 				5D0218EC1A8E796100D1BF62 /* Connection */,
 			);
 			name = UI;
@@ -2194,9 +2200,6 @@
 				5D0218EB1A8E795700D1BF62 /* UI */,
 				5D59350B1A855EB300687FB9 /* AppDelegate.h */,
 				5D59350C1A855EB300687FB9 /* AppDelegate.m */,
-				5D4029D31A76F0340006B0C2 /* Images.xcassets */,
-				5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */,
-				5D4029E11A76F0760006B0C2 /* Main.storyboard */,
 				5D4019B21A76EC350006B0C2 /* Supporting Files */,
 			);
 			name = Example;
@@ -2237,6 +2240,8 @@
 			children = (
 				5D48329F1A92868E00252386 /* ProxyManager.h */,
 				5D4832A01A92868E00252386 /* ProxyManager.m */,
+				5D0A3A801C18D0D200D79D50 /* RemoteControlManager.h */,
+				5D0A3A811C18D0D200D79D50 /* RemoteControlManager.m */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -2365,10 +2370,10 @@
 				5D61FAB71A84238A00846EE7 /* SDLEndAudioPassThru.m */,
 				5D61FAC41A84238A00846EE7 /* SDLGetDTCs.h */,
 				5D61FAC51A84238A00846EE7 /* SDLGetDTCs.m */,
-				5DEE06DD1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.h */,
-				5DEE06DE1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.m */,
 				5DEE06E51C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.h */,
 				5DEE06E61C11F8E100FA0FD7 /* SDLGetInteriorVehicleData.m */,
+				5DEE06DD1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.h */,
+				5DEE06DE1C11F77000FA0FD7 /* SDLGetInteriorVehicleDataCapabilities.m */,
 				5D61FAC81A84238A00846EE7 /* SDLGetVehicleData.h */,
 				5D61FAC91A84238A00846EE7 /* SDLGetVehicleData.m */,
 				5D61FAFF1A84238A00846EE7 /* SDLListFiles.h */,
@@ -3539,6 +3544,7 @@
 				5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */,
 				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
 				5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */,
+				5D0A3A821C18D0D200D79D50 /* RemoteControlManager.m in Sources */,
 				5D48329D1A8EA33D00252386 /* Preferences.m in Sources */,
 				5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */,
 				5D5935121A855EBE00687FB9 /* main.m in Sources */,
