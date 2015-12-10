@@ -35,7 +35,7 @@
 }
 
 - (SDLModuleData *)moduleData {
-    NSObject *obj = [store objectForKey:NAMES_moduleData];
+    NSObject *obj = [parameters objectForKey:NAMES_moduleData];
     if ([obj isKindOfClass:[SDLModuleData class]]) {
         return (SDLModuleData *)obj;
     } else {

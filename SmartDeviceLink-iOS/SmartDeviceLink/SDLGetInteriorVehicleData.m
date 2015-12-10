@@ -27,7 +27,7 @@
 }
 
 - (void)setModuleDescription:(SDLModuleDescription *)moduleDescription {
-    [store setObject:moduleDescription forKey:NAMES_moduleDescription];
+    [parameters setObject:moduleDescription forKey:NAMES_moduleDescription];
 }
 
 - (SDLModuleDescription *)moduleDescription {
@@ -41,14 +41,14 @@
 
 - (void)setSubscribe:(NSNumber *)subscribe {
     if (subscribe != nil) {
-        [store setObject:subscribe forKey:NAMES_subscribe];
+        [parameters setObject:subscribe forKey:NAMES_subscribe];
     } else {
-        [store removeObjectForKey:NAMES_subscribe];
+        [parameters removeObjectForKey:NAMES_subscribe];
     }
 }
 
 - (NSNumber *)subscribe {
-    return [store objectForKey:NAMES_subscribe];
+    return [parameters objectForKey:NAMES_subscribe];
 }
 
 @end

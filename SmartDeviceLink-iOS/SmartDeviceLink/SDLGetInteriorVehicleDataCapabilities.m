@@ -29,14 +29,14 @@
 
 - (void)setInteriorZone:(SDLInteriorZone *)interiorZone {
     if (interiorZone != nil) {
-        [store setObject:interiorZone forKey:NAMES_zone];
+        [parameters setObject:interiorZone forKey:NAMES_zone];
     } else {
-        [store removeObjectForKey:NAMES_zone];
+        [parameters removeObjectForKey:NAMES_zone];
     }
 }
 
 - (SDLInteriorZone *)interiorZone {
-    NSObject *obj = [store objectForKey:NAMES_zone];
+    NSObject *obj = [parameters objectForKey:NAMES_zone];
     if ([obj isKindOfClass:[SDLInteriorZone class]]) {
         return (SDLInteriorZone *)obj;
     } else {
@@ -46,9 +46,9 @@
 
 - (void)setModuleTypes:(NSArray<SDLModuleType *> *)moduleTypes {
     if (moduleTypes != nil) {
-        [store setObject:moduleTypes forKey:NAMES_moduleTypes];
+        [parameters setObject:moduleTypes forKey:NAMES_moduleTypes];
     } else {
-        [store removeObjectForKey:NAMES_moduleTypes];
+        [parameters removeObjectForKey:NAMES_moduleTypes];
     }
 }
 

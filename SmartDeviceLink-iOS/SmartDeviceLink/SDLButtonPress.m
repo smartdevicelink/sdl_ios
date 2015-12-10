@@ -30,11 +30,11 @@
 }
 
 - (void)setZone:(SDLInteriorZone *)zone {
-    [store setObject:zone forKey:NAMES_zone];
+    [parameters setObject:zone forKey:NAMES_zone];
 }
 
 - (SDLInteriorZone *)zone {
-    NSObject *obj = [store objectForKey:NAMES_zone];
+    NSObject *obj = [parameters objectForKey:NAMES_zone];
     if ([obj isKindOfClass:[SDLInteriorZone class]]) {
         return (SDLInteriorZone *)obj;
     } else {
@@ -43,11 +43,11 @@
 }
 
 - (void)setModuleType:(SDLModuleType *)moduleType {
-    [store setObject:moduleType forKey:NAMES_moduleType];
+    [parameters setObject:moduleType forKey:NAMES_moduleType];
 }
 
 - (SDLModuleType *)moduleType {
-    NSObject *obj = [store objectForKey:NAMES_moduleType];
+    NSObject *obj = [parameters objectForKey:NAMES_moduleType];
     if ([obj isKindOfClass:[SDLModuleType class]]) {
         return (SDLModuleType *)obj;
     } else {
@@ -56,11 +56,11 @@
 }
 
 - (void)setButtonName:(SDLButtonName *)buttonName {
-    [store setObject:buttonName forKey:NAMES_buttonName];
+    [parameters setObject:buttonName forKey:NAMES_buttonName];
 }
 
 - (SDLButtonName *)buttonName {
-    NSObject *obj = [store objectForKey:NAMES_buttonName];
+    NSObject *obj = [parameters objectForKey:NAMES_buttonName];
     if ([obj isKindOfClass:[SDLButtonName class]]) {
         return (SDLButtonName *)obj;
     } else {
@@ -69,11 +69,11 @@
 }
 
 - (void)setButtonPressMode:(SDLButtonPressMode *)buttonPressMode {
-    [store setObject:buttonPressMode forKey:NAMES_buttonPressMode];
+    [parameters setObject:buttonPressMode forKey:NAMES_buttonPressMode];
 }
 
 - (SDLButtonPressMode *)buttonPressMode {
-    NSObject *obj = [store objectForKey:NAMES_buttonPressMode];
+    NSObject *obj = [parameters objectForKey:NAMES_buttonPressMode];
     if ([obj isKindOfClass:[SDLButtonPressMode class]]) {
         return (SDLButtonPressMode *)obj;
     } else {

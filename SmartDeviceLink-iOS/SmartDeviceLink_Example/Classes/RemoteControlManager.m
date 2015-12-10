@@ -28,6 +28,7 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onGetInteriorVehicleDataCapabilitiesResponse:) name:NotificationGetInteriorVehicleDataCapabilitiesResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onGetInteriorVehicleDataResponse:) name:NotificationGetInteriorVehicleDataResponse object:nil];
     
     return self;
 }
@@ -38,17 +39,19 @@
     [[ProxyManager sharedManager] sendMessage:capabilities];
 }
 
-- (void)onGetInteriorVehicleDataCapabilitiesResponse:(SDLGetInteriorVehicleDataCapabilitiesResponse *)response {
+- (void)onGetInteriorVehicleDataCapabilitiesResponse:(NSNotification *)notification {
+    SDLGetInteriorVehicleDataCapabilitiesResponse *response = notification.userInfo[ProxyListenerNotificationObject];
     NSLog(@"Get Interior Vehicle Data Capabilities Response: %@", response);
     for (SDLModuleDescription *module in response.interiorVehicleDataCapabilities) {
-        if ([module.moduleType isEqualToEnum:[SDLModuleType CLIMATE]]) {
+        if ([module.moduleType isEqualToEnum:[SDLModuleType RADIO]]) {
             SDLGetInteriorVehicleData *getDataMsg = [SDLRPCRequestFactory buildGetInteriorVehicleDataForModule:module subscribe:NO];
             [[ProxyManager sharedManager] sendMessage:getDataMsg];
         }
     }
 }
 
-- (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
+- (void)onGetInteriorVehicleDataResponse:(NSNotification *)notification {
+    SDLGetInteriorVehicleDataResponse *response = notification.userInfo[ProxyListenerNotificationObject];
     NSLog(@"Get Interior Vehicle Data Response: %@", response);
 }
 

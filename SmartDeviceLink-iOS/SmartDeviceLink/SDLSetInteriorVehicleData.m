@@ -28,14 +28,14 @@
 
 - (void)setModuleData:(SDLModuleData *)moduleData {
     if (moduleData != nil) {
-        [store setObject:moduleData forKey:NAMES_moduleData];
+        [parameters setObject:moduleData forKey:NAMES_moduleData];
     } else {
-        [store removeObjectForKey:NAMES_moduleData];
+        [parameters removeObjectForKey:NAMES_moduleData];
     }
 }
 
 - (SDLModuleData *)moduleData {
-    NSObject *obj = [store objectForKey:NAMES_moduleData];
+    NSObject *obj = [parameters objectForKey:NAMES_moduleData];
     if ([obj isKindOfClass:[SDLModuleData class]]) {
         return (SDLModuleData *)obj;
     } else {
