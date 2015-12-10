@@ -31,7 +31,17 @@
 }
 
 - (NSArray<SDLModuleDescription *> *)interiorVehicleDataCapabilities {
-    return [store objectForKey:NAMES_interiorVehicleDataCapabilities];
+    NSArray *array = [parameters objectForKey:NAMES_interiorVehicleDataCapabilities];
+    if ([array count] < 1 || [array[0] isKindOfClass:[SDLModuleDescription class]]) {
+        return array;
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary *dict in array) {
+            [newList addObject:[[SDLModuleDescription alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+        }
+        
+        return [newList copy];
+    }
 }
 
 @end

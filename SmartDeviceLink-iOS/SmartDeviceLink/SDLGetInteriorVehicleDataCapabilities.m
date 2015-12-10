@@ -53,7 +53,17 @@
 }
 
 - (NSArray<SDLModuleType *> *)moduleTypes {
-    return [store objectForKey:NAMES_moduleTypes];
+    NSArray *array = [parameters objectForKey:NAMES_moduleTypes];
+    if ([array count] < 1 || [array[0] isKindOfClass:[SDLModuleType class]]) {
+        return array;
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSString *enumString in array) {
+            [newList addObject:[SDLModuleType valueOf:enumString]];
+        }
+        
+        return [newList copy];
+    }
 }
 
 @end
