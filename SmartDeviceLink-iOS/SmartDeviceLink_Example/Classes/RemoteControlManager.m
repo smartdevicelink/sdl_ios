@@ -36,6 +36,7 @@
 - (void)test {
     // Start by sending a request for capabilities
     SDLGetInteriorVehicleDataCapabilities *capabilities = [SDLRPCRequestFactory buildGetInteriorVehicleDataCapabilitiesForZone:nil moduleTypes:nil];
+    NSLog(@"Get vdc: %@", [capabilities serializeAsDictionary:4]);
     [[ProxyManager sharedManager] sendMessage:capabilities];
 }
 
@@ -43,8 +44,9 @@
     SDLGetInteriorVehicleDataCapabilitiesResponse *response = notification.userInfo[ProxyListenerNotificationObject];
     NSLog(@"Get Interior Vehicle Data Capabilities Response: %@", response);
     for (SDLModuleDescription *module in response.interiorVehicleDataCapabilities) {
-        if ([module.moduleType isEqualToEnum:[SDLModuleType RADIO]]) {
+        if ([module.moduleType isEqualToEnum:[SDLModuleType CLIMATE]]) {
             SDLGetInteriorVehicleData *getDataMsg = [SDLRPCRequestFactory buildGetInteriorVehicleDataForModule:module subscribe:NO];
+            NSLog(@"Get Data Message: %@", (SDLRPCStruct *)[getDataMsg serializeAsDictionary:4]);
             [[ProxyManager sharedManager] sendMessage:getDataMsg];
         }
     }
