@@ -51,38 +51,38 @@
 
 - (void)setColumnSpan:(NSNumber *)columnSpan {
     if (columnSpan != nil) {
-        [store setObject:columnSpan forKey:NAMES_colSpan];
+        [store setObject:columnSpan forKey:NAMES_colspan];
     } else {
-        [store removeObjectForKey:NAMES_colSpan];
+        [store removeObjectForKey:NAMES_colspan];
     }
 }
 
 - (NSNumber *)columnSpan {
-    return [store objectForKey:NAMES_colSpan];
+    return [store objectForKey:NAMES_colspan];
 }
 
 - (void)setRowSpan:(NSNumber *)rowSpan {
     if (rowSpan != nil) {
-        [store setObject:rowSpan forKey:NAMES_rowSpan];
+        [store setObject:rowSpan forKey:NAMES_rowspan];
     } else {
-        [store removeObjectForKey:NAMES_rowSpan];
+        [store removeObjectForKey:NAMES_rowspan];
     }
 }
 
 - (NSNumber *)rowSpan {
-    return [store objectForKey:NAMES_rowSpan];
+    return [store objectForKey:NAMES_rowspan];
 }
 
 - (void)setLevelSpan:(NSNumber *)levelSpan {
     if (levelSpan != nil) {
-        [store setObject:levelSpan forKey:NAMES_levelSpan];
+        [store setObject:levelSpan forKey:NAMES_levelspan];
     } else {
-        [store removeObjectForKey:NAMES_levelSpan];
+        [store removeObjectForKey:NAMES_levelspan];
     }
 }
 
 - (NSNumber *)levelSpan {
-    return [store objectForKey:NAMES_levelSpan];
+    return [store objectForKey:NAMES_levelspan];
 }
 
 @end
