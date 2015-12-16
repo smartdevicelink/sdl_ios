@@ -3,14 +3,15 @@
 //  SmartDeviceLink-iOS
 
 @import AVFoundation;
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #import "ConnectionTCPTableViewController.h"
 
 #import "Preferences.h"
 #import "ProxyManager.h"
+#import "RemoteControlManager.h"
 #import "SDLStreamingMediaManager.h"
 
-#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface ConnectionTCPTableViewController ()
 
@@ -20,9 +21,10 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
 
-
 @property (weak, nonatomic) IBOutlet UITableViewCell *videoTableViewCell;
 @property (weak, nonatomic) IBOutlet UIButton *videoButton;
+
+@property (strong, nonatomic) RemoteControlManager *remoteControlManager;
 
 @end
 
@@ -44,6 +46,8 @@
     // Connect Button setup
     self.connectButton.tintColor = [UIColor whiteColor];
     self.videoButton.tintColor = [UIColor whiteColor];
+    
+    self.remoteControlManager = [[RemoteControlManager alloc] init];
 }
 
 - (void)dealloc {
@@ -99,6 +103,12 @@
             [self sendAudio];
         } break;
         default: break;
+    }
+}
+
+- (IBAction)testRemoteControlButtonPressed:(UIButton *)sender {
+    if ([ProxyManager sharedManager].state == ProxyStateConnected) {
+       [self.remoteControlManager test];
     }
 }
 
@@ -289,5 +299,6 @@
 - (void)endAudioSession {
     [[ProxyManager sharedManager].mediaManager stopAudioSession];
 }
+
 
 @end

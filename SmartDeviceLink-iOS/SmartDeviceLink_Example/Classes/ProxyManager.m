@@ -9,6 +9,13 @@
 #import "Preferences.h"
 
 
+NSString *const NotificationGetInteriorVehicleDataResponse = @"NotificationGetInteriorVehicleDataResponse";
+NSString *const NotificationGetInteriorVehicleDataCapabilitiesResponse = @"NotificationGetInteriorVehicleDataCapabilitiesResponse";
+NSString *const NotificationButtonPressResponse = @"NotificationButtonPressResponse";
+NSString *const NotificationSetInteriorVehicleDataResponse = @"NotificationSetInteriorVehicleDataResponse";
+NSString *const NotificationOnInteriorVehicleDataResponse = @"NotificationOnInteriorVehicleDataResponse";
+NSString *const ProxyListenerNotificationObject = @"ProxyListenerNotificationObject";
+
 NSString *const SDLAppName = @"SDL Test";
 NSString *const SDLAppId = @"9999";
 
@@ -56,6 +63,13 @@ NSString *const SDLAppId = @"9999";
 - (void)resetProxyWithTransportType:(ProxyTransportType)transportType {
     [self stopProxy];
     [self startProxyWithTransportType:transportType];
+}
+
+
+#pragma mark - Public Proxy Message Forwarding
+
+- (void)sendMessage:(SDLRPCMessage *)message {
+    [self.proxy sendRPC:message];
 }
 
 
@@ -147,6 +161,33 @@ NSString *const SDLAppId = @"9999";
         [alert addSubview:imageView];
     }
     [alert show];
+}
+
+#pragma mark Remote Control delegate methods
+
+- (void)onGetInteriorVehicleDataCapabilitiesResponse:(SDLGetInteriorVehicleDataCapabilitiesResponse *)response {
+    NSNotification *notification = [NSNotification notificationWithName:NotificationGetInteriorVehicleDataCapabilitiesResponse object:self userInfo:@{ProxyListenerNotificationObject: response}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+- (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
+    NSNotification *notification = [NSNotification notificationWithName:NotificationGetInteriorVehicleDataResponse object:self userInfo:@{ProxyListenerNotificationObject: response}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+- (void)onButtonPressResponse:(SDLButtonPressResponse *)response {
+    NSNotification *notification = [NSNotification notificationWithName:NotificationButtonPressResponse object:self userInfo:@{ProxyListenerNotificationObject: response}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+- (void)onSetInteriorVehicleDataResponse:(SDLSetInteriorVehicleDataResponse *)response {
+    NSNotification *notification = [NSNotification notificationWithName:NotificationSetInteriorVehicleDataResponse object:self userInfo:@{ProxyListenerNotificationObject: response}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+- (void)onOnInteriorVehicleData:(SDLOnInteriorVehicleData *)notification {
+    NSNotification *thisNotification = [NSNotification notificationWithName:NotificationOnInteriorVehicleDataResponse object:self userInfo:@{ProxyListenerNotificationObject: notification}];
+    [[NSNotificationCenter defaultCenter] postNotification:thisNotification];
 }
 
 @end
