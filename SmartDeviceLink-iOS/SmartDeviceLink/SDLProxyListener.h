@@ -59,6 +59,7 @@
 @class SDLSubscribeButtonResponse;
 @class SDLSubscribeVehicleDataResponse;
 @class SDLSyncPDataResponse;
+@class SDLSystemRequestResponse;
 @class SDLUpdateTurnListResponse;
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
@@ -128,6 +129,7 @@
 - (void)onSubscribeButtonResponse:(SDLSubscribeButtonResponse *)response;
 - (void)onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse *)response;
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response;
+- (void)onSystemRequestResponse:(SDLSystemRequestResponse *)response;
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response;
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response;
 - (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response;
