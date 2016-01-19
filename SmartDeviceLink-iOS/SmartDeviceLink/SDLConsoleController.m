@@ -151,8 +151,13 @@
 
             NSString *detail = [NSString stringWithFormat:@"%@ - %@", tempdetail, [response resultCode]];
             cell.detailTextLabel.text = detail;
+            cell.backgroundColor = [UIColor colorWithRed:156 green:184 blue:151 alpha:1];
+        } else if ([rpc.messageType isEqualToString:@"request"]) {
+            cell.detailTextLabel.text = tempdetail;
+            cell.backgroundColor = [UIColor colorWithRed:137 green:187 blue:254 alpha:1];
         } else {
             cell.detailTextLabel.text = tempdetail;
+            cell.backgroundColor = [UIColor colorWithRed:193 green:174 blue:224 alpha:1];
         }
 
     } else {
