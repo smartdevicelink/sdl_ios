@@ -34,7 +34,6 @@
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
-#import "SDLQueryAppsManager.h"
 #import "SDLRPCPayload.h"
 #import "SDLPolicyDataParser.h"
 #import "SDLLockScreenManager.h"
