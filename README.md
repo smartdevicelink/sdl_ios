@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/release%2F4.0.1.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
 [![codecov.io](https://img.shields.io/codecov/c/github/codecov/smartdevicelink/sdl_ios/release%2F4.0.1.svg?style=flat)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=release/4.0.1)
+[![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.org)
 
 
 # SmartDeviceLink (SDL)
