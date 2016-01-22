@@ -6,7 +6,7 @@
 
 QuickSpecBegin(SDLTimerSpec)
 
-fdescribe(@"Running a timer", ^{
+describe(@"Running a timer", ^{
     __block SDLTimer *testTimer = nil;
     __block NSMutableArray *calledTimes = nil;
     
