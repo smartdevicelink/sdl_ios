@@ -10,6 +10,7 @@
 @property (strong, atomic) dispatch_source_t timer;
 @property (assign, atomic) BOOL timerRunning;
 @property (assign, nonatomic) BOOL repeat;
+
 @end
 
 
@@ -38,15 +39,17 @@
 }
 
 - (void)start {
-    if (self.duration > 0) {
-        [self sdl_stopAndDestroyTimer];
-        
-        self.timer = sdl_createDispatchTimer(_duration, 0.05, [self.class sdl_timerQueue], ^{
-            [self sdl_timerElapsed];
-        });
-        
-        self.timerRunning = YES;
+    if (self.duration < 0) {
+        return;
     }
+    
+    [self sdl_stopAndDestroyTimer];
+    
+    self.timer = sdl_createDispatchTimer(_duration, 0.05, [self.class sdl_timerQueue], ^{
+        [self sdl_timerElapsed];
+    });
+    
+    self.timerRunning = YES;
 }
 
 - (void)cancel {
@@ -78,10 +81,10 @@
 }
 
 // http://stackoverflow.com/a/8403743/1221798
-dispatch_source_t sdl_createDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block) {
+dispatch_source_t sdl_createDispatchTimer(float interval, float leeway, dispatch_queue_t queue, dispatch_block_t block) {
     dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     if (timer != nil) {
-        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval * NSEC_PER_SEC, leeway * NSEC_PER_SEC);
+        dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, interval * NSEC_PER_SEC, leeway * NSEC_PER_SEC);
         dispatch_source_set_event_handler(timer, block);
         dispatch_resume(timer);
     }
