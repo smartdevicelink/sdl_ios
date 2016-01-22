@@ -57,7 +57,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
     CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
     CFRunLoopRef loop = CFRunLoopGetCurrent();
-    CFRunLoopAddSource(loop, source, kCFRunLoopCommonModes);
+    CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
     CFRelease(source);
 }
 
