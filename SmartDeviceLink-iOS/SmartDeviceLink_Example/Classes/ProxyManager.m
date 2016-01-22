@@ -108,10 +108,6 @@ NSString *const SDLAppId = @"9999";
     return _messageNumber++;
 }
 
-- (SDLStreamingMediaManager *)mediaManager {
-    return self.proxy.streamingMediaManager;
-}
-
 
 #pragma mark - SDLProxyListner delegate methods
 
