@@ -119,7 +119,7 @@ NSString *const SDLAppId = @"9999";
     self.state = ProxyStateConnected;
     
     SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
-    registerRequest.appHMIType = [NSMutableArray arrayWithObjects:[SDLAppHMIType NAVIGATION], nil];
+    registerRequest.appHMIType = [NSMutableArray arrayWithObjects:[SDLAppHMIType MEDIA], nil];
     [self.proxy sendRPC:registerRequest];
 }
 
