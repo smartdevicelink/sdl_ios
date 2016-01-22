@@ -76,7 +76,7 @@
 
 - (void)startStream:(NSStream *)stream {
     stream.delegate = self.streamDelegate;
-    [stream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [stream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     [stream open];
 }
 
@@ -93,7 +93,7 @@
         [stream close];
     }
 
-    [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [stream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     [stream setDelegate:nil];
 
     NSUInteger status2 = stream.streamStatus;

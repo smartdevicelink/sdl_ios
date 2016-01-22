@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
-    [_connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [_connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     [_connection start];
 
     _completionHandler = completionHandler;

@@ -590,7 +590,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     objc_setAssociatedObject(inputStream, @"SDLPutFile", putFileRPCRequest, OBJC_ASSOCIATION_RETAIN);
     objc_setAssociatedObject(inputStream, @"BaseOffset", [putFileRPCRequest offset], OBJC_ASSOCIATION_RETAIN);
 
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     [inputStream open];
 }
 
@@ -620,7 +620,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         case NSStreamEventEndEncountered: {
             // Cleanup the stream
             [stream close];
-            [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+            [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 
             break;
         }
