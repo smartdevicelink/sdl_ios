@@ -206,7 +206,7 @@
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [SDLGlobals globals].maxMTUSize)];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:([SDLGlobals globals].maxMTUSize)];
     }
 
     // Save the data
@@ -255,8 +255,9 @@
     });
 
     // Call recursively until the buffer is empty or incomplete message is encountered
-    if (self.receiveBuffer.length > 0)
+    if (self.receiveBuffer.length > 0) {
         [self processMessages];
+    }
 }
 
 - (void)sendHeartbeat {
