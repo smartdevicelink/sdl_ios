@@ -50,7 +50,7 @@ int const streamOpenTimeoutSeconds = 2;
         _protocolIndexTimer = nil;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
 
-        [self startEventListening];
+        [self sdl_startEventListening];
         [SDLSiphonServer init];
     }
 
@@ -62,37 +62,32 @@ int const streamOpenTimeoutSeconds = 2;
 
 #pragma mark - Notification Subscriptions
 
-- (void)startEventListening {
+- (void)sdl_startEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Listening For Events"];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(accessoryConnected:)
+                                             selector:@selector(sdl_accessoryConnected:)
                                                  name:EAAccessoryDidConnectNotification
                                                object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(accessoryDisconnected:)
+                                             selector:@selector(sdl_accessoryDisconnected:)
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationWillEnterForeground:)
+                                             selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
 }
 
-- (void)stopEventListening {
+- (void)sdl_stopEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Stopped Listening For Events"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - EAAccessory Notifications
 
-- (void)accessoryConnected:(NSNotification *)notification {
+- (void)sdl_accessoryConnected:(NSNotification *)notification {
     NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
@@ -100,7 +95,7 @@ int const streamOpenTimeoutSeconds = 2;
     [self performSelector:@selector(connect) withObject:nil afterDelay:self.retryDelay];
 }
 
-- (void)accessoryDisconnected:(NSNotification *)notification {
+- (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"Accessory Disconnected Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Only check for the data session, the control session is handled separately
@@ -112,20 +107,10 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
-- (void)applicationWillEnterForeground:(NSNotification *)notification {
+- (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     self.retryCounter = 0;
     [self connect];
-}
-
-- (void)applicationDidEnterBackground:(NSNotification *)notification {
-    __block UIBackgroundTaskIdentifier taskID = NSNotFound;
-    taskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [SDLDebugTool logInfo:@"Warning: Background Task Expiring"];
-        [[UIApplication sharedApplication] endBackgroundTask:taskID];
-    }];
-
-    [SDLDebugTool logInfo:@"App Backgrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
 
@@ -134,7 +119,7 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)connect {
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
-        [self establishSession];
+        [self sdl_establishSession];
     } else if (self.session) {
         [SDLDebugTool logInfo:@"Session already established."];
     } else {
@@ -155,7 +140,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 #pragma mark - Creating Session Streams
 
-- (void)establishSession {
+- (void)sdl_establishSession {
     [SDLDebugTool logInfo:@"Attempting To Connect"];
     if (self.retryCounter < createSessionRetries) {
         // We should be attempting to connect
@@ -164,9 +149,9 @@ int const streamOpenTimeoutSeconds = 2;
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
         if ((accessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
-            [self createIAPControlSessionWithAccessory:accessory];
+            [self sdl_createIAPControlSessionWithAccessory:accessory];
         } else if ((accessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
-            [self createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
+            [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
         } else {
             // No compatible accessory
             [SDLDebugTool logInfo:@"No accessory supporting a required sync protocol was found."];
@@ -179,7 +164,7 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
-- (void)createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
+- (void)sdl_createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
     [SDLDebugTool logInfo:@"Starting MultiApp Session"];
     self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:controlProtocolString];
 
@@ -200,29 +185,29 @@ int const streamOpenTimeoutSeconds = 2;
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
             strongSelf.controlSession = nil;
-            [strongSelf retryEstablishSession];
+            [strongSelf sdl_retryEstablishSession];
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
 
         SDLStreamDelegate *controlStreamDelegate = [SDLStreamDelegate new];
         self.controlSession.streamDelegate = controlStreamDelegate;
-        controlStreamDelegate.streamHasBytesHandler = [self controlStreamHasBytesHandlerForAccessory:accessory];
-        controlStreamDelegate.streamEndHandler = [self controlStreamEndedHandler];
-        controlStreamDelegate.streamErrorHandler = [self controlStreamErroredHandler];
+        controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
+        controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandler];
+        controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamErroredHandler];
 
         if (![self.controlSession start]) {
             [SDLDebugTool logInfo:@"Control Session Failed"];
             self.controlSession.streamDelegate = nil;
             self.controlSession = nil;
-            [self retryEstablishSession];
+            [self sdl_retryEstablishSession];
         }
     } else {
         [SDLDebugTool logInfo:@"Failed MultiApp Control SDLIAPSession Initialization"];
-        [self retryEstablishSession];
+        [self sdl_retryEstablishSession];
     }
 }
 
-- (void)createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
+- (void)sdl_createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
     [SDLDebugTool logInfo:@"Starting Data Session"];
     self.session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     if (self.session) {
@@ -230,23 +215,23 @@ int const streamOpenTimeoutSeconds = 2;
 
         SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.session.streamDelegate = ioStreamDelegate;
-        ioStreamDelegate.streamHasBytesHandler = [self dataStreamHasBytesHandler];
-        ioStreamDelegate.streamEndHandler = [self dataStreamEndedHandler];
-        ioStreamDelegate.streamErrorHandler = [self dataStreamErroredHandler];
+        ioStreamDelegate.streamHasBytesHandler = [self sdl_dataStreamHasBytesHandler];
+        ioStreamDelegate.streamEndHandler = [self sdl_dataStreamEndedHandler];
+        ioStreamDelegate.streamErrorHandler = [self sdl_dataStreamErroredHandler];
 
         if (![self.session start]) {
             [SDLDebugTool logInfo:@"Data Session Failed"];
             self.session.streamDelegate = nil;
             self.session = nil;
-            [self retryEstablishSession];
+            [self sdl_retryEstablishSession];
         }
     } else {
         [SDLDebugTool logInfo:@"Failed MultiApp Data SDLIAPSession Initialization"];
-        [self retryEstablishSession];
+        [self sdl_retryEstablishSession];
     }
 }
 
-- (void)retryEstablishSession {
+- (void)sdl_retryEstablishSession {
     // Current strategy disallows automatic retries.
     self.sessionSetupInProgress = NO;
 }
@@ -275,7 +260,7 @@ int const streamOpenTimeoutSeconds = 2;
     if (!self.session && [controlProtocolString isEqualToString:session.protocol]) {
         [SDLDebugTool logInfo:@"onSessionStreamsEnded"];
         [session stop];
-        [self retryEstablishSession];
+        [self sdl_retryEstablishSession];
     }
 }
 
@@ -306,7 +291,7 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark - Stream Handlers
 #pragma mark Control Stream
 
-- (SDLStreamEndHandler)controlStreamEndedHandler {
+- (SDLStreamEndHandler)sdl_controlStreamEndedHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -320,12 +305,12 @@ int const streamOpenTimeoutSeconds = 2;
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
             strongSelf.controlSession = nil;
-            [strongSelf retryEstablishSession];
+            [strongSelf sdl_retryEstablishSession];
         }
     };
 }
 
-- (SDLStreamHasBytesHandler)controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory {
+- (SDLStreamHasBytesHandler)sdl_controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSInputStream *istream) {
@@ -349,13 +334,13 @@ int const streamOpenTimeoutSeconds = 2;
             // Determine protocol string of the data session, then create that data session
             NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [strongSelf createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
+                [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });
         }
     };
 }
 
-- (SDLStreamErrorHandler)controlStreamErroredHandler {
+- (SDLStreamErrorHandler)sdl_controlStreamErroredHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -366,14 +351,14 @@ int const streamOpenTimeoutSeconds = 2;
         [strongSelf.controlSession stop];
         strongSelf.controlSession.streamDelegate = nil;
         strongSelf.controlSession = nil;
-        [strongSelf retryEstablishSession];
+        [strongSelf sdl_retryEstablishSession];
     };
 }
 
 
 #pragma mark Data Stream
 
-- (SDLStreamEndHandler)dataStreamEndedHandler {
+- (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -384,14 +369,14 @@ int const streamOpenTimeoutSeconds = 2;
         strongSelf.session.streamDelegate = nil;
 
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf retryEstablishSession];
+            [strongSelf sdl_retryEstablishSession];
         }
 
         strongSelf.session = nil;
     };
 }
 
-- (SDLStreamHasBytesHandler)dataStreamHasBytesHandler {
+- (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSInputStream *istream) {
@@ -411,7 +396,7 @@ int const streamOpenTimeoutSeconds = 2;
     };
 }
 
-- (SDLStreamErrorHandler)dataStreamErroredHandler {
+- (SDLStreamErrorHandler)sdl_dataStreamErroredHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -422,20 +407,58 @@ int const streamOpenTimeoutSeconds = 2;
         strongSelf.session.streamDelegate = nil;
 
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf retryEstablishSession];
+            [strongSelf sdl_retryEstablishSession];
         }
 
         strongSelf.session = nil;
     };
 }
 
+- (double)retryDelay {
+    const double min_value = 0.0;
+    const double max_value = 10.0;
+    double range_length = max_value - min_value;
+    
+    static double delay = 0;
+    
+    // HAX: This pull the app name and hashes it in an attempt to provide a more even distribution of retry delays. The evidence that this does so is anecdotal. A more ideal solution would be to use a list of known, installed SDL apps on the phone to try and deterministically generate an even delay.
+    if (delay == 0) {
+        NSString *appName = [[NSProcessInfo processInfo] processName];
+        if (appName == nil) {
+            appName = @"noname";
+        }
+        
+        // Run the app name through an md5 hasher
+        const char *ptr = [appName UTF8String];
+        unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
+        CC_MD5(ptr, (unsigned int)strlen(ptr), md5Buffer);
+        
+        // Generate a string of the hex hash
+        NSMutableString *output = [NSMutableString stringWithString:@"0x"];
+        for (int i = 0; i < 8; i++) {
+            [output appendFormat:@"%02X", md5Buffer[i]];
+        }
+        
+        // Transform the string into a number between 0 and 1
+        unsigned long long firstHalf;
+        NSScanner *pScanner = [NSScanner scannerWithString:output];
+        [pScanner scanHexLongLong:&firstHalf];
+        double hashBasedValueInRange0to1 = ((double)firstHalf) / 0xffffffffffffffff;
+        
+        // Transform the number into a number between min and max
+        delay = ((range_length * hashBasedValueInRange0to1) + min_value);
+    }
+    
+    return delay;
+}
+
 
 #pragma mark - Lifecycle Destruction
 
-- (void)destructObjects {
+- (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
-        [self stopEventListening];
+        [self sdl_stopEventListening];
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
@@ -443,50 +466,12 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)dispose {
-    [self destructObjects];
+    [self sdl_destructObjects];
 }
 
 - (void)dealloc {
-    [self destructObjects];
+    [self sdl_destructObjects];
     [SDLDebugTool logInfo:@"SDLIAPTransport Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-}
-
-- (double)retryDelay {
-    const double min_value = 0.0;
-    const double max_value = 10.0;
-    double range_length = max_value - min_value;
-
-    static double delay = 0;
-
-    // HAX: This pull the app name and hashes it in an attempt to provide a more even distribution of retry delays. The evidence that this does so is anecdotal. A more ideal solution would be to use a list of known, installed SDL apps on the phone to try and deterministically generate an even delay.
-    if (delay == 0) {
-        NSString *appName = [[NSProcessInfo processInfo] processName];
-        if (appName == nil) {
-            appName = @"noname";
-        }
-
-        // Run the app name through an md5 hasher
-        const char *ptr = [appName UTF8String];
-        unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-        CC_MD5(ptr, (unsigned int)strlen(ptr), md5Buffer);
-
-        // Generate a string of the hex hash
-        NSMutableString *output = [NSMutableString stringWithString:@"0x"];
-        for (int i = 0; i < 8; i++) {
-            [output appendFormat:@"%02X", md5Buffer[i]];
-        }
-
-        // Transform the string into a number between 0 and 1
-        unsigned long long firstHalf;
-        NSScanner *pScanner = [NSScanner scannerWithString:output];
-        [pScanner scanHexLongLong:&firstHalf];
-        double hashBasedValueInRange0to1 = ((double)firstHalf) / 0xffffffffffffffff;
-
-        // Transform the number into a number between min and max
-        delay = ((range_length * hashBasedValueInRange0to1) + min_value);
-    }
-
-    return delay;
 }
 
 @end

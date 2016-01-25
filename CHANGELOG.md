@@ -1,3 +1,14 @@
+# In Progress
+
+### Bug Fixes
+* IAP code no longer causes an unnecessary 3 minute background timer to be set. External Accessory applications already get all the background time they need.
+* SDLProxyListener delegate callbacks had some misnamed parameters 'request' should be 'response'.
+* SDLProxyListener was marking the wrong type for a passed delegate object. `onOnLockScreenNotification:` now correctly passes a type `SDLOnLockScreenStatus` instead of an `SDLLockScreenStatus`.
+
+### Other
+* Apple broke SDL's app launching scheme in iOS 9.0, so this code has been removed from the project. Apple fixed a bug in iOS 9.2 that alleviates much of the missing functionality.
+* The example app no longer has video and audio code, and its app type is now `MEDIA` instead of `NAVIGATION`.
+
 # 4.0.1 Release notes
 
 ### Bug Fixes

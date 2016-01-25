@@ -21,7 +21,6 @@
 @class SDLGetDTCsResponse;
 @class SDLGetVehicleDataResponse;
 @class SDLListFilesResponse;
-@class SDLLockScreenStatus;
 @class SDLOnAppInterfaceUnregistered;
 @class SDLOnAudioPassThru;
 @class SDLOnButtonEvent;
@@ -32,7 +31,7 @@
 @class SDLOnHashChange;
 @class SDLOnHMIStatus;
 @class SDLOnLanguageChange;
-@class SDLOnLockscreenStatus;
+@class SDLOnLockScreenStatus;
 @class SDLOnPermissionsChange;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;
@@ -76,7 +75,7 @@
 
 - (void)onAddCommandResponse:(SDLAddCommandResponse *)response;
 - (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response;
-- (void)onAlertManeuverResponse:(SDLAlertManeuverResponse *)request;
+- (void)onAlertManeuverResponse:(SDLAlertManeuverResponse *)response;
 - (void)onAlertResponse:(SDLAlertResponse *)response;
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response;
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response;
@@ -85,7 +84,7 @@
 - (void)onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse *)response;
 - (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response;
 - (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response;
-- (void)onDialNumberResponse:(SDLDialNumberResponse *)request;
+- (void)onDialNumberResponse:(SDLDialNumberResponse *)response;
 - (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response;
 - (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response;
 - (void)onError:(NSException *)e;
@@ -102,7 +101,7 @@
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
 - (void)onOnHashChange:(SDLOnHashChange *)notification;
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
-- (void)onOnLockScreenNotification:(SDLLockScreenStatus *)notification;
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification;
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification;
@@ -116,7 +115,7 @@
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response;
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response;
-- (void)onSendLocationResponse:(SDLSendLocationResponse *)request;
+- (void)onSendLocationResponse:(SDLSendLocationResponse *)response;
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response;
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response;
