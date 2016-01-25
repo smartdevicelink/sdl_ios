@@ -32,7 +32,7 @@
 
 - (SDLVehicleDataNotificationStatus *)eCallNotificationStatus {
     NSObject *obj = [store objectForKey:NAMES_eCallNotificationStatus];
-    if ([obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
         return (SDLVehicleDataNotificationStatus *)obj;
     } else {
         return [SDLVehicleDataNotificationStatus valueOf:(NSString *)obj];
@@ -49,7 +49,7 @@
 
 - (SDLVehicleDataNotificationStatus *)auxECallNotificationStatus {
     NSObject *obj = [store objectForKey:NAMES_auxECallNotificationStatus];
-    if ([obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
         return (SDLVehicleDataNotificationStatus *)obj;
     } else {
         return [SDLVehicleDataNotificationStatus valueOf:(NSString *)obj];
@@ -66,7 +66,7 @@
 
 - (SDLECallConfirmationStatus *)eCallConfirmationStatus {
     NSObject *obj = [store objectForKey:NAMES_eCallConfirmationStatus];
-    if ([obj isKindOfClass:SDLECallConfirmationStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLECallConfirmationStatus.class]) {
         return (SDLECallConfirmationStatus *)obj;
     } else {
         return [SDLECallConfirmationStatus valueOf:(NSString *)obj];

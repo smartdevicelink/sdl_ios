@@ -67,7 +67,7 @@
 
 - (SDLInteractionMode *)interactionMode {
     NSObject *obj = [parameters objectForKey:NAMES_interactionMode];
-    if ([obj isKindOfClass:SDLInteractionMode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLInteractionMode.class]) {
         return (SDLInteractionMode *)obj;
     } else {
         return [SDLInteractionMode valueOf:(NSString *)obj];
@@ -171,7 +171,7 @@
 
 - (SDLLayoutMode *)interactionLayout {
     NSObject *obj = [parameters objectForKey:NAMES_interactionLayout];
-    if ([obj isKindOfClass:SDLLayoutMode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLayoutMode.class]) {
         return (SDLLayoutMode *)obj;
     } else {
         return [SDLLayoutMode valueOf:(NSString *)obj];

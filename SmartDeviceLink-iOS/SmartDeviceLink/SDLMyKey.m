@@ -31,7 +31,7 @@
 
 - (SDLVehicleDataStatus *)e911Override {
     NSObject *obj = [store objectForKey:NAMES_e911Override];
-    if ([obj isKindOfClass:SDLVehicleDataStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataStatus.class]) {
         return (SDLVehicleDataStatus *)obj;
     } else {
         return [SDLVehicleDataStatus valueOf:(NSString *)obj];

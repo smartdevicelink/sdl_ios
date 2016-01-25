@@ -32,7 +32,7 @@
 
 - (SDLTextFieldName *)name {
     NSObject *obj = [store objectForKey:NAMES_name];
-    if ([obj isKindOfClass:SDLTextFieldName.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLTextFieldName.class]) {
         return (SDLTextFieldName *)obj;
     } else {
         return [SDLTextFieldName valueOf:(NSString *)obj];
@@ -49,7 +49,7 @@
 
 - (SDLCharacterSet *)characterSet {
     NSObject *obj = [store objectForKey:NAMES_characterSet];
-    if ([obj isKindOfClass:SDLCharacterSet.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLCharacterSet.class]) {
         return (SDLCharacterSet *)obj;
     } else {
         return [SDLCharacterSet valueOf:(NSString *)obj];

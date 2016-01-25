@@ -33,7 +33,7 @@
 
 - (SDLLockScreenStatus *)lockScreenStatus {
     NSObject *obj = [parameters objectForKey:@"OnLockScreenStatus"];
-    if ([obj isKindOfClass:SDLLockScreenStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLockScreenStatus.class]) {
         return (SDLLockScreenStatus *)obj;
     } else {
         return [SDLLockScreenStatus valueOf:(NSString *)obj];
@@ -50,7 +50,7 @@
 
 - (SDLHMILevel *)hmiLevel {
     NSObject *obj = [parameters objectForKey:@"hmilevel"];
-    if ([obj isKindOfClass:SDLHMILevel.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLHMILevel.class]) {
         return (SDLHMILevel *)obj;
     } else {
         return [SDLHMILevel valueOf:(NSString *)obj];

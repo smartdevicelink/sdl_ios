@@ -92,7 +92,7 @@
 
 - (SDLDeviceLevelStatus *)battLevelStatus {
     NSObject *obj = [store objectForKey:NAMES_battLevelStatus];
-    if ([obj isKindOfClass:SDLDeviceLevelStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDeviceLevelStatus.class]) {
         return (SDLDeviceLevelStatus *)obj;
     } else {
         return [SDLDeviceLevelStatus valueOf:(NSString *)obj];
@@ -133,7 +133,7 @@
 
 - (SDLDeviceLevelStatus *)signalLevelStatus {
     NSObject *obj = [store objectForKey:NAMES_signalLevelStatus];
-    if ([obj isKindOfClass:SDLDeviceLevelStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDeviceLevelStatus.class]) {
         return (SDLDeviceLevelStatus *)obj;
     } else {
         return [SDLDeviceLevelStatus valueOf:(NSString *)obj];
@@ -150,7 +150,7 @@
 
 - (SDLPrimaryAudioSource *)primaryAudioSource {
     NSObject *obj = [store objectForKey:NAMES_primaryAudioSource];
-    if ([obj isKindOfClass:SDLPrimaryAudioSource.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLPrimaryAudioSource.class]) {
         return (SDLPrimaryAudioSource *)obj;
     } else {
         return [SDLPrimaryAudioSource valueOf:(NSString *)obj];

@@ -33,7 +33,7 @@
 
 - (SDLImageFieldName *)name {
     NSObject *obj = [store objectForKey:NAMES_name];
-    if ([obj isKindOfClass:SDLImageFieldName.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImageFieldName.class]) {
         return (SDLImageFieldName *)obj;
     } else {
         return [SDLImageFieldName valueOf:(NSString *)obj];
@@ -71,7 +71,7 @@
 
 - (SDLImageResolution *)imageResolution {
     NSObject *obj = [store objectForKey:NAMES_imageResolution];
-    if ([obj isKindOfClass:SDLImageResolution.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
         return (SDLImageResolution *)obj;
     } else {
         return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
