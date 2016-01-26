@@ -49,7 +49,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
-@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController;
+@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController; // Make a LockScreenManager
 @property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
 
 // Dictionaries to link handlers with requests/commands/etc
@@ -134,7 +134,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 }
 
 
-- (void)sdl_runHandlersForResponse:(SDLRPCResponse *)response {
+- (void)sdl_runHandlersForResponse:(__kindof SDLRPCResponse *)response {
     NSError *error = nil;
     BOOL success = [response.success boolValue];
     if (success == NO) {
@@ -154,8 +154,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
         // TODO
         // The Command ID needs to be stored from the request RPC and then used here
-    }
-    else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
+    } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
         // TODO
     }
 }
@@ -179,16 +178,14 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)notification).buttonName;
         customID = ((SDLOnButtonEvent *)notification).customButtonID;
-    }
-    else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+    } else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)notification).buttonName;
         customID = ((SDLOnButtonPress *)notification).customButtonID;
     }
     
     if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
         handler = self.customButtonHandlerMap[customID];
-    }
-    else {
+    } else {
         handler = self.buttonHandlerMap[name.value];
     }
     
@@ -225,6 +222,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     // We will allow things to be sent in a "SDLLifeCycleStateNotReady" in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
+    
     // Add a correlation ID
     NSNumber *corrID = [self sdl_getNextCorrelationId];
     request.correlationID = corrID;
@@ -244,8 +242,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
                 }
             }
         }
-    }
-    else if ([request isKindOfClass:[SDLAddCommand class]]) {
+    } else if ([request isKindOfClass:[SDLAddCommand class]]) {
         // TODO: Can we create CmdIDs ourselves?
         SDLAddCommand *addCommand = (SDLAddCommand *)request;
         
@@ -255,8 +252,7 @@ typedef NSNumber SDLSubscribeButtonCommandID;
         if (addCommand.handler) {
             self.commandHandlerMap[addCommand.cmdID] = addCommand.handler;
         }
-    }
-    else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
+    } else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
         // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
         SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
         NSString *buttonName = subscribeButton.buttonName.value;
@@ -305,15 +301,6 @@ typedef NSNumber SDLSubscribeButtonCommandID;
     [self sdl_disposeProxy];
 }
 
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest {
-    // TODO: Need to check if the put file stream needs to be on a background queue
-    SDLRPCRequest *rpcWithCorrID = putFileRPCRequest;
-    NSNumber *corrID = [self sdl_getNextCorrelationId];
-    rpcWithCorrID.correlationID = corrID;
-    
-    [self.proxy putFileStream:inputStream withRequest:(SDLPutFile *)rpcWithCorrID];
-}
-
 
 #pragma mark Helper Methods
 
@@ -338,9 +325,9 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 #pragma mark Lock Screen
 
 - (void)sdl_initializeLockScreenController {
-    if (self.configuration == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempting to intialize a lock screen controller, but SDLManager doesn't have a configuration" userInfo:nil];
-    } else if (!self.configuration.lockScreenConfig.enableAutomaticLockScreen) {
+    NSAssert(self.configuration != nil, @"Attempting to intialize a lock screen controller, but SDLManager doesn't have a configuration");
+    
+    if (!self.configuration.lockScreenConfig.enableAutomaticLockScreen) {
         self.lockScreenViewController = nil;
     } else if (self.configuration.lockScreenConfig.customViewController != nil) {
         self.lockScreenViewController = self.configuration.lockScreenConfig.customViewController;

@@ -1,11 +1,5 @@
 
 
-typedef NS_ENUM(NSUInteger, SDLEvent) {
-    SDLEventError,
-    SDLEventClosed,
-    SDLEventOpened
-};
-
 #import "SDLConnectionManagerType.h"
 #import "SDLNotificationConstants.h"
 
@@ -28,6 +22,12 @@ typedef NS_ENUM(NSUInteger, SDLLifecycleState) {
     SDLLifecycleStateReady
 };
 
+typedef NS_ENUM(NSUInteger, SDLEvent) {
+    SDLEventError,
+    SDLEventClosed,
+    SDLEventOpened
+};
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,9 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Manually Send RPC Requests
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler;
-
-#pragma mark File Streaming
-- (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest; // TODO: Remove when file manager is tested
 
 @end
 
