@@ -1,5 +1,4 @@
-//  SDLProxyBase.h
-//  Copyright (c) 2015 Ford Motor Company. All rights reserved.
+
 
 typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventError,
@@ -7,10 +6,11 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventOpened
 };
 
-#import "SDLConnectionManager.h"
+#import "SDLConnectionManagerType.h"
 #import "SDLNotificationConstants.h"
 
 @class SDLConfiguration;
+@class SDLFileManager;
 @class SDLHMILevel;
 @class SDLLanguage;
 @class SDLLifecycleConfiguration;
@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, SDLLifecycleState) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLManager : NSObject <SDLConnectionManager>
+@interface SDLManager : NSObject <SDLConnectionManagerType>
 
 @property (assign, nonatomic, readonly) SDLLifecycleState lifecycleState;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;

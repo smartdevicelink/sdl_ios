@@ -1,9 +1,8 @@
-//  SDLProxyBase.m
-//  Copyright (c) 2015 Ford Motor Company. All rights reserved.
+
 
 #import <Foundation/Foundation.h>
 
-#import "SmartDeviceLink.h" // TODO: Don't import everything ever
+#import "SmartDeviceLink.h"
 
 #import "SDLManager.h"
 

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLConnectionManager.h"
+#import "SDLConnectionManagerType.h"
 
 @class SDLFile;
 
@@ -49,7 +49,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
  *
  *  @return An instance of SDLFileManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Delete a file stored on the remote system

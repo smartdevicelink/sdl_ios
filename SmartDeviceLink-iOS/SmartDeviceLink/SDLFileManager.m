@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFileManager ()
 
-@property (weak, nonatomic) id<SDLConnectionManager> connectionManager;
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 // Remote state
 @property (copy, nonatomic, readwrite) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithConnectionManager:[SDLManager sharedManager]];
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManager>)manager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
     self = [super init];
     if (!self) {
         return nil;

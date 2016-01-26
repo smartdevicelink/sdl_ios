@@ -12,7 +12,7 @@
 #import "SDLNotificationConstants.h"
 
 
-@interface TestConnectionManager : NSObject<SDLConnectionManager>
+@interface TestConnectionManager : NSObject<SDLConnectionManagerType>
 
 @property (copy, nonatomic, readonly) NSMutableArray<__kindof SDLRPCRequest *> *receivedRequests;
 @property (copy, nonatomic) SDLRequestCompletionHandler lastRequestBlock;
