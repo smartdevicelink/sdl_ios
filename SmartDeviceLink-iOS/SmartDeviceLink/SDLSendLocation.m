@@ -97,7 +97,7 @@
 
 - (SDLImage *)locationImage {
     id obj = parameters[NAMES_locationImage];
-    if ([obj isKindOfClass:[SDLImage class]]) {
+    if (obj == nil || [obj isKindOfClass:[SDLImage class]]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:obj];

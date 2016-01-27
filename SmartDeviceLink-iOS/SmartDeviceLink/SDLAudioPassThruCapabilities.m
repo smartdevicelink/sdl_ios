@@ -34,7 +34,7 @@
 
 - (SDLSamplingRate *)samplingRate {
     NSObject *obj = [store objectForKey:NAMES_samplingRate];
-    if ([obj isKindOfClass:SDLSamplingRate.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSamplingRate.class]) {
         return (SDLSamplingRate *)obj;
     } else {
         return [SDLSamplingRate valueOf:(NSString *)obj];
@@ -51,7 +51,7 @@
 
 - (SDLBitsPerSample *)bitsPerSample {
     NSObject *obj = [store objectForKey:NAMES_bitsPerSample];
-    if ([obj isKindOfClass:SDLBitsPerSample.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLBitsPerSample.class]) {
         return (SDLBitsPerSample *)obj;
     } else {
         return [SDLBitsPerSample valueOf:(NSString *)obj];
@@ -68,7 +68,7 @@
 
 - (SDLAudioType *)audioType {
     NSObject *obj = [store objectForKey:NAMES_audioType];
-    if ([obj isKindOfClass:SDLAudioType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLAudioType.class]) {
         return (SDLAudioType *)obj;
     } else {
         return [SDLAudioType valueOf:(NSString *)obj];

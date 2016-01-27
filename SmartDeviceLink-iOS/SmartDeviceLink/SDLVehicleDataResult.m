@@ -32,7 +32,7 @@
 
 - (SDLVehicleDataType *)dataType {
     NSObject *obj = [store objectForKey:NAMES_dataType];
-    if ([obj isKindOfClass:SDLVehicleDataType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataType.class]) {
         return (SDLVehicleDataType *)obj;
     } else {
         return [SDLVehicleDataType valueOf:(NSString *)obj];
@@ -49,7 +49,7 @@
 
 - (SDLVehicleDataResultCode *)resultCode {
     NSObject *obj = [store objectForKey:NAMES_resultCode];
-    if ([obj isKindOfClass:SDLVehicleDataResultCode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataResultCode.class]) {
         return (SDLVehicleDataResultCode *)obj;
     } else {
         return [SDLVehicleDataResultCode valueOf:(NSString *)obj];

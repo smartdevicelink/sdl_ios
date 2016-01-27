@@ -30,7 +30,7 @@
 
 - (SDLVehicleDataEventStatus *)driverAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_driverAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -47,7 +47,7 @@
 
 - (SDLVehicleDataEventStatus *)driverSideAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_driverSideAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -64,7 +64,7 @@
 
 - (SDLVehicleDataEventStatus *)driverCurtainAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_driverCurtainAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -81,7 +81,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_passengerAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -98,7 +98,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerCurtainAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_passengerCurtainAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -115,7 +115,7 @@
 
 - (SDLVehicleDataEventStatus *)driverKneeAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_driverKneeAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -132,7 +132,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerSideAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_passengerSideAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -149,7 +149,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerKneeAirbagDeployed {
     NSObject *obj = [store objectForKey:NAMES_passengerKneeAirbagDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];

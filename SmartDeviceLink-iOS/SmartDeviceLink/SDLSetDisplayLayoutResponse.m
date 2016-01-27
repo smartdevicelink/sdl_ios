@@ -35,7 +35,7 @@
 
 - (SDLDisplayCapabilities *)displayCapabilities {
     NSObject *obj = [parameters objectForKey:NAMES_displayCapabilities];
-    if ([obj isKindOfClass:SDLDisplayCapabilities.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
         return (SDLDisplayCapabilities *)obj;
     } else {
         return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -94,7 +94,7 @@
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
     NSObject *obj = [parameters objectForKey:NAMES_presetBankCapabilities];
-    if ([obj isKindOfClass:SDLPresetBankCapabilities.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
         return (SDLPresetBankCapabilities *)obj;
     } else {
         return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];

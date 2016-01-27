@@ -44,7 +44,7 @@
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
     NSObject *obj = [parameters objectForKey:NAMES_syncMsgVersion];
-    if ([obj isKindOfClass:SDLSyncMsgVersion.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
         return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -61,7 +61,7 @@
 
 - (SDLLanguage *)language {
     NSObject *obj = [parameters objectForKey:NAMES_language];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
@@ -78,7 +78,7 @@
 
 - (SDLLanguage *)hmiDisplayLanguage {
     NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
@@ -95,7 +95,7 @@
 
 - (SDLDisplayCapabilities *)displayCapabilities {
     NSObject *obj = [parameters objectForKey:NAMES_displayCapabilities];
-    if ([obj isKindOfClass:SDLDisplayCapabilities.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
         return (SDLDisplayCapabilities *)obj;
     } else {
         return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -154,7 +154,7 @@
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
     NSObject *obj = [parameters objectForKey:NAMES_presetBankCapabilities];
-    if ([obj isKindOfClass:SDLPresetBankCapabilities.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
         return (SDLPresetBankCapabilities *)obj;
     } else {
         return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -276,7 +276,7 @@
 
 - (SDLVehicleType *)vehicleType {
     NSObject *obj = [parameters objectForKey:NAMES_vehicleType];
-    if ([obj isKindOfClass:SDLVehicleType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleType.class]) {
         return (SDLVehicleType *)obj;
     } else {
         return [[SDLVehicleType alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -305,7 +305,7 @@
 
 - (SDLHMICapabilities *)hmiCapabilities {
     NSObject *obj = [parameters objectForKey:NAMES_hmiCapabilities];
-    if ([obj isKindOfClass:[SDLHMICapabilities class]]) {
+    if (obj == nil || [obj isKindOfClass:[SDLHMICapabilities class]]) {
         return (SDLHMICapabilities *)obj;
     } else {
         return [[SDLHMICapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];

@@ -33,7 +33,7 @@
 
 - (SDLLanguage *)language {
     NSObject *obj = [store objectForKey:NAMES_language];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
@@ -50,7 +50,7 @@
 
 - (SDLKeyboardLayout *)keyboardLayout {
     NSObject *obj = [store objectForKey:NAMES_keyboardLayout];
-    if ([obj isKindOfClass:SDLKeyboardLayout.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLKeyboardLayout.class]) {
         return (SDLKeyboardLayout *)obj;
     } else {
         return [SDLKeyboardLayout valueOf:(NSString *)obj];
@@ -67,7 +67,7 @@
 
 - (SDLKeypressMode *)keypressMode {
     NSObject *obj = [store objectForKey:NAMES_keypressMode];
-    if ([obj isKindOfClass:SDLKeypressMode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLKeypressMode.class]) {
         return (SDLKeypressMode *)obj;
     } else {
         return [SDLKeypressMode valueOf:(NSString *)obj];

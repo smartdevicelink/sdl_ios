@@ -56,7 +56,7 @@
 
 - (SDLTriggerSource *)triggerSource {
     NSObject *obj = [parameters objectForKey:NAMES_triggerSource];
-    if ([obj isKindOfClass:SDLTriggerSource.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLTriggerSource.class]) {
         return (SDLTriggerSource *)obj;
     } else {
         return [SDLTriggerSource valueOf:(NSString *)obj];

@@ -32,7 +32,7 @@
 
 - (SDLRequestType *)requestType {
     NSObject *obj = [parameters objectForKey:NAMES_requestType];
-    if ([obj isKindOfClass:SDLRequestType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
         return (SDLRequestType *)obj;
     } else {
         return [SDLRequestType valueOf:(NSString *)obj];

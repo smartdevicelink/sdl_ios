@@ -31,7 +31,7 @@
 
 - (SDLTBTState *)state {
     NSObject *obj = [parameters objectForKey:NAMES_state];
-    if ([obj isKindOfClass:SDLTBTState.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLTBTState.class]) {
         return (SDLTBTState *)obj;
     } else {
         return [SDLTBTState valueOf:(NSString *)obj];
