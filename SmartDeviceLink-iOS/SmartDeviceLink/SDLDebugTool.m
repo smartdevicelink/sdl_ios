@@ -160,9 +160,9 @@
 }
 
 - (void)sdl_enableDebugToLogFile {
-    self.debugToLogFile = YES;
+    [SDLDebugTool logInfo:@"Enabling Log File" withType:SDLDebugType_Debug];
     
-    [SDLDebugTool logInfo:@"Log File Enabled" withType:SDLDebugType_Debug];
+    self.debugToLogFile = YES;
     
     //Delete Log File If It Exists
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
