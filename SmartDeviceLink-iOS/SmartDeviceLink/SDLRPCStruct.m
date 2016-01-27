@@ -12,7 +12,11 @@
 
 - (id)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super init]) {
-        store = dict;
+        if (dict != nil) {
+            store = dict;
+        } else {
+            store = [[NSMutableDictionary alloc] init];
+        }
     }
     return self;
 }
