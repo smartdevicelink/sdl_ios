@@ -9,32 +9,67 @@
 
 #define LOG_ERROR_ENABLED
 
-static NSMutableDictionary *namedConsoleSets = nil;
+@interface SDLDebugTool ()
 
-bool debugToLogFile = false;
+@property (nonatomic, assign) BOOL debugToLogFile;
+@property (nonatomic, strong) NSMutableDictionary *namedConsoleSets;
+@property (nonatomic, strong) NSDateFormatter *logDateFormatter;
+@property (nonatomic, strong) NSFileHandle *logFileHandle;
+@property (nonatomic, strong) dispatch_queue_t logQueue;
+
+@end
 
 
 @implementation SDLDebugTool
 
+#pragma mark - Lifecycle
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _debugToLogFile = NO;
+    _logQueue = dispatch_queue_create("com.sdl.log.file", DISPATCH_QUEUE_SERIAL);
+    
+    return self;
+}
+
++ (SDLDebugTool *)sharedTool {
+    static SDLDebugTool *sharedTool = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedTool = [[self.class alloc] init];
+    });
+    
+    return sharedTool;
+}
+
 
 #pragma mark - Console Management
+
 + (void)addConsole:(NSObject<SDLDebugToolConsole> *)console {
     [self addConsole:console toGroup:@"default"];
 }
 
-+ (void)addConsole:(NSObject<SDLDebugToolConsole> *)console toGroup:(NSString *)groupName {
+- (void)sdl_addConsole:(NSObject<SDLDebugToolConsole> *)console toGroup:(NSString *)groupName {
     // Make sure master dictionary exists
-    if (namedConsoleSets == nil) {
-        namedConsoleSets = [NSMutableDictionary new];
+    if (self.namedConsoleSets == nil) {
+        self.namedConsoleSets = [NSMutableDictionary new];
     }
 
     // Make sure the set to contain this group's elements exists
-    if ([namedConsoleSets objectForKey:groupName] == nil) {
-        [namedConsoleSets setValue:[NSMutableSet new] forKey:groupName];
+    if ([self.namedConsoleSets objectForKey:groupName] == nil) {
+        [self.namedConsoleSets setValue:[NSMutableSet new] forKey:groupName];
     }
 
     // Add the console to the set
-    [[namedConsoleSets valueForKey:groupName] addObject:console];
+    [[self.namedConsoleSets valueForKey:groupName] addObject:console];
+}
+
++ (void)addConsole:(NSObject<SDLDebugToolConsole> *)console toGroup:(NSString *)groupName {
+    [[self sharedTool] sdl_addConsole:console toGroup:groupName];
 }
 
 + (void)removeConsole:(NSObject<SDLDebugToolConsole> *)console {
@@ -46,11 +81,16 @@ bool debugToLogFile = false;
 }
 
 + (NSMutableSet *)getConsoleListenersForGroup:(NSString *)groupName {
-    return [namedConsoleSets valueForKey:groupName];
+    return [[self sharedTool] sdl_getConsoleListenersForGroup:groupName];
+}
+
+- (NSMutableSet *)sdl_getConsoleListenersForGroup:(NSString *)groupName {
+    return [self.namedConsoleSets valueForKey:groupName];
 }
 
 
-#pragma mark - logging
+#pragma mark - Logging
+
 + (void)logInfo:(NSString *)info {
     [self logInfo:info withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:@"default"];
 }
@@ -85,14 +125,9 @@ bool debugToLogFile = false;
 // The designated logInfo method. All outputs should be performed here.
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output toGroup:(NSString *)consoleGroupName {
     // Format the message, prepend the thread id
-    NSMutableString *outputString = [NSMutableString stringWithFormat:@"[%li] %@", (long)[[NSThread currentThread] threadIndex], info];
+    NSString *outputString = [NSString stringWithFormat:@"[%li] %@", (long)[[NSThread currentThread] threadIndex], info];
 
-
-    ////////////////////////////////////////////////
-    //
     //  Output to the various destinations
-    //
-    ////////////////////////////////////////////////
 
     //Output To DeviceConsole
     if (output & SDLDebugOutput_DeviceConsole) {
@@ -118,62 +153,81 @@ bool debugToLogFile = false;
 }
 
 
-#pragma mark - file handling
+#pragma mark - File Handling
+
 + (void)enableDebugToLogFile {
-    debugToLogFile = true;
+    [[self sharedTool] sdl_enableDebugToLogFile];
+}
 
-    [SDLDebugTool logInfo:@"Log File Enabled" withType:SDLDebugType_Debug];
-
+- (void)sdl_enableDebugToLogFile {
+    [SDLDebugTool logInfo:@"Enabling Log File" withType:SDLDebugType_Debug];
+    
+    self.debugToLogFile = YES;
+    
     //Delete Log File If It Exists
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"smartdevicelink.log"];
-
+    
     NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:filePath]) {
-        [SDLDebugTool logInfo:@"Log File Exisits, Deleteing" withType:SDLDebugType_Debug];
         [manager removeItemAtPath:filePath error:nil];
     }
+    
+    // Create log file
+    [manager createFileAtPath:filePath contents:nil attributes:nil];
+    self.logFileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    [self.logFileHandle seekToEndOfFile];
 }
 
 + (void)disableDebugToLogFile {
-    debugToLogFile = false;
+    [[self sharedTool] sdl_disableDebugToLogFile];
+}
+
+- (void)sdl_disableDebugToLogFile {
+    self.debugToLogFile = false;
 }
 
 + (void)writeToLogFile:(NSString *)info {
-    // Warning: do not call any logInfo method from here. recursion of death.
+    [[self sharedTool] sdl_writeToLogFile:info];
+}
 
-    if (!debugToLogFile || info == NULL || info.length == 0) {
+- (void)sdl_writeToLogFile:(NSString *)info {
+    // Warning: do not call any logInfo method from here. recursion of death.
+    if (!self.debugToLogFile || info == NULL || info.length == 0) {
         return;
     }
+    
+    dispatch_async(self.logQueue, ^{
+        // Create timestamp string, add it in front of the message to be logged
+        NSDate *currentDate = [NSDate date];
+        NSString *dateString = [self.logDateFormatter stringFromDate:currentDate];
+        NSString *outputString = [dateString stringByAppendingFormat:@": %@\n", info];
+        
+        // File write takes an NSData, so convert string to data.
+        NSData *dataToLog = [outputString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        if (self.logFileHandle != nil) {
+            [self.logFileHandle seekToEndOfFile];
+            [self.logFileHandle writeData:dataToLog];
+        } else {
+            NSLog(@"SDL ERROR: Unable to log to file. File handle does not exist.");
+        }
+    });
+}
 
-    // Create timestamp string, add it in front of the message to be logged
-    NSDate *currentDate = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM/dd/YY HH:mm:ss.SSS"];
-    NSString *dateString = [dateFormatter stringFromDate:currentDate];
-    NSString *outputString = [dateString stringByAppendingFormat:@": %@\n", info];
-
-    // file write takes an NSData, so convert string to data.
-    NSData *dataToLog = [outputString dataUsingEncoding:NSUTF8StringEncoding];
-
-    // If open/create file and write
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"smartdevicelink.log"];
-
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-    if (fileHandle) {
-        [fileHandle seekToEndOfFile];
-        [fileHandle writeData:dataToLog];
-        [fileHandle closeFile];
-    } else {
-        [dataToLog writeToFile:filePath atomically:NO];
+- (NSDateFormatter *)logDateFormatter {
+    if (_logDateFormatter == nil) {
+        _logDateFormatter = [[NSDateFormatter alloc] init];
+        [_logDateFormatter setDateFormat:@"MM/dd/YY HH:mm:ss.SSS"];
     }
+    
+    return _logDateFormatter;
 }
 
 
 #pragma mark - Helper Methods
+
 + (NSString *)stringForDebugType:(SDLDebugType)debugType {
     switch (debugType) {
         case SDLDebugType_Debug:
