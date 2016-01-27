@@ -82,6 +82,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     UInt32 *uintPointer = (UInt32 *)data.bytes;
     self.bytesInPayload = CFSwapInt32BigToHost(uintPointer[1]); // Data is coming in in big-endian, so swap it.
     self.messageID = CFSwapInt32BigToHost(uintPointer[2]); // Data is coming in in big-endian, so swap it.
+    
 }
 
 - (NSString *)description {

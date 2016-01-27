@@ -28,6 +28,7 @@
     dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
     NSMutableDictionary *_sessionIDs;
+    NSMutableDictionary *_hashIDs;
     BOOL _alreadyDestructed;
 }
 
@@ -50,6 +51,7 @@
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _sessionIDs = [NSMutableDictionary new];
+        _hashIDs = [NSMutableDictionary new];
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
     }
@@ -61,6 +63,10 @@
     _sessionIDs[@(serviceType)] = @(sessionID);
 }
 
+- (void)storeHashID:(UInt32)hashID forServiceType:(SDLServiceType)serviceType {
+    _hashIDs[@(serviceType)] = @(hashID);
+}
+
 - (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     NSNumber *number = _sessionIDs[@(serviceType)];
     if (!number) {
@@ -68,6 +74,16 @@
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
 
+    return (number ? [number unsignedCharValue] : 0);
+}
+
+- (UInt32)retrieveHashIDForServiceType:(SDLServiceType)serviceType {
+    NSNumber* number = _hashIDs[@(serviceType)];
+    if (!number) {
+        NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve hashID for serviceType %i, but no hashID is saved for that service type.", serviceType];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+    }
+    
     return (number ? [number unsignedCharValue] : 0);
 }
 
@@ -99,8 +115,14 @@
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
     header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
-
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    
+    NSData* payload = nil;
+    if ([self retrieveHashIDForServiceType:serviceType]) {
+        UInt32 hashId = [self retrieveHashIDForServiceType:serviceType];
+        payload = [NSData dataWithBytes:&hashId length:4];
+    }
+    
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
     [self sendDataToTransport:message.data withPriority:serviceType];
 }
 
@@ -249,6 +271,8 @@
     // Need to maintain the receiveBuffer, remove the bytes from it which we just processed.
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
 
+    
+    
     // Pass on the message to the message router.
     dispatch_async(_receiveQueue, ^{
         [self.messageRouter handleReceivedMessage:message];
@@ -310,7 +334,7 @@
 
 
 #pragma mark - SDLProtocolListener Implementation
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID hashID:(UInt32)hashID version:(Byte)version {
     switch (serviceType) {
         case SDLServiceType_RPC: {
             self.sessionID = sessionID;
@@ -326,9 +350,11 @@
 
     [self storeSessionID:sessionID forServiceType:serviceType];
 
+    [self storeHashID:hashID forServiceType:serviceType];
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:hashID:version:)]) {
+            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:hashID version:version];
         }
     }
 }

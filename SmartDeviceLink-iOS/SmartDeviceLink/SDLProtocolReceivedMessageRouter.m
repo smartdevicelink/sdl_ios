@@ -56,8 +56,15 @@
 - (void)dispatchControlMessage:(SDLProtocolMessage *)message {
     switch (message.header.frameData) {
         case SDLFrameData_StartSessionACK: {
+            
+            NSData* payload = message.payload;
+            UInt32* bytes = (UInt32*)payload.bytes;
+            
+            UInt32 hashID = CFSwapInt32BigToHost(bytes[0]);
+            
             [self.delegate handleProtocolStartSessionACK:message.header.serviceType
                                                sessionID:message.header.sessionID
+                                                  hashID:hashID
                                                  version:message.header.version];
 
         } break;
