@@ -82,7 +82,7 @@
 
 - (SDLTextAlignment *)alignment {
     NSObject *obj = [parameters objectForKey:NAMES_alignment];
-    if ([obj isKindOfClass:SDLTextAlignment.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLTextAlignment.class]) {
         return (SDLTextAlignment *)obj;
     } else {
         return [SDLTextAlignment valueOf:(NSString *)obj];
@@ -135,7 +135,7 @@
 
 - (SDLImage *)graphic {
     NSObject *obj = [parameters objectForKey:NAMES_graphic];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -152,7 +152,7 @@
 
 - (SDLImage *)secondaryGraphic {
     NSObject *obj = [parameters objectForKey:NAMES_secondaryGraphic];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];

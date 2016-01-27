@@ -67,7 +67,7 @@
 
 - (SDLResult *)resultCode {
     NSObject *obj = [parameters objectForKey:NAMES_resultCode];
-    if ([obj isKindOfClass:SDLResult.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLResult.class]) {
         return (SDLResult *)obj;
     } else {
         return [SDLResult valueOf:(NSString *)obj];

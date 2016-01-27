@@ -45,7 +45,7 @@
 
 - (SDLMenuParams *)menuParams {
     NSObject *obj = [parameters objectForKey:NAMES_menuParams];
-    if ([obj isKindOfClass:SDLMenuParams.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLMenuParams.class]) {
         return (SDLMenuParams *)obj;
     } else {
         return [[SDLMenuParams alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -74,7 +74,7 @@
 
 - (SDLImage *)cmdIcon {
     NSObject *obj = [parameters objectForKey:NAMES_cmdIcon];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];

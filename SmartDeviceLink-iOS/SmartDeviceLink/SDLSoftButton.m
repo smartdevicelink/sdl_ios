@@ -33,7 +33,7 @@
 
 - (SDLSoftButtonType *)type {
     NSObject *obj = [store objectForKey:NAMES_type];
-    if ([obj isKindOfClass:SDLSoftButtonType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSoftButtonType.class]) {
         return (SDLSoftButtonType *)obj;
     } else {
         return [SDLSoftButtonType valueOf:(NSString *)obj];
@@ -62,7 +62,7 @@
 
 - (SDLImage *)image {
     NSObject *obj = [store objectForKey:NAMES_image];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -103,7 +103,7 @@
 
 - (SDLSystemAction *)systemAction {
     NSObject *obj = [store objectForKey:NAMES_systemAction];
-    if ([obj isKindOfClass:SDLSystemAction.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSystemAction.class]) {
         return (SDLSystemAction *)obj;
     } else {
         return [SDLSystemAction valueOf:(NSString *)obj];

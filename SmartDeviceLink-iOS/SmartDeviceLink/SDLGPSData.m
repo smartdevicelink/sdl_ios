@@ -128,7 +128,7 @@
 
 - (SDLCompassDirection *)compassDirection {
     NSObject *obj = [store objectForKey:NAMES_compassDirection];
-    if ([obj isKindOfClass:SDLCompassDirection.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLCompassDirection.class]) {
         return (SDLCompassDirection *)obj;
     } else {
         return [SDLCompassDirection valueOf:(NSString *)obj];
@@ -205,7 +205,7 @@
 
 - (SDLDimension *)dimension {
     NSObject *obj = [store objectForKey:NAMES_dimension];
-    if ([obj isKindOfClass:SDLDimension.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDimension.class]) {
         return (SDLDimension *)obj;
     } else {
         return [SDLDimension valueOf:(NSString *)obj];

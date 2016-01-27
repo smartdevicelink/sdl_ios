@@ -31,7 +31,7 @@
 
 - (SDLLanguage *)language {
     NSObject *obj = [parameters objectForKey:NAMES_language];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
@@ -48,7 +48,7 @@
 
 - (SDLLanguage *)hmiDisplayLanguage {
     NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
