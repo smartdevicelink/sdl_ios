@@ -119,6 +119,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)notifyProxyClosed {
     if (_isConnected) {
+        [self.protocol sendEndSessionWithType:SDLServiceType_RPC];
         _isConnected = NO;
         [self invokeMethodOnDelegates:@selector(onProxyClosed) withObject:nil];
     }
@@ -173,11 +174,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID hashID:(UInt32)hashID version:(Byte)version {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
 
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
+    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nHashId: %u, SessionId: %d for serviceType %d", (unsigned int)hashID, sessionID, serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     if (serviceType == SDLServiceType_RPC || [SDLGlobals globals].protocolVersion >= 2) {

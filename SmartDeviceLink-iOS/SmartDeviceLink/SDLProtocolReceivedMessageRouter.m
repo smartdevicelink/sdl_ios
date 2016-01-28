@@ -57,10 +57,14 @@
     switch (message.header.frameData) {
         case SDLFrameData_StartSessionACK: {
             
-            NSData* payload = message.payload;
-            UInt32* bytes = (UInt32*)payload.bytes;
+            UInt32 hashID = 0;
             
-            UInt32 hashID = CFSwapInt32BigToHost(bytes[0]);
+            if (message.header.version > 1
+                && message.payload
+                && message.payload.length == 4) {
+                UInt32* bytes = (UInt32*)message.payload.bytes;
+                hashID = CFSwapInt32BigToHost(bytes[0]);
+            }
             
             [self.delegate handleProtocolStartSessionACK:message.header.serviceType
                                                sessionID:message.header.sessionID

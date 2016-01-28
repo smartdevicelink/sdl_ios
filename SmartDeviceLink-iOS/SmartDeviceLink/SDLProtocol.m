@@ -84,7 +84,13 @@
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
     
-    return (number ? [number unsignedCharValue] : 0);
+    return (number ? [number unsignedIntValue] : 0);
+}
+
+- (void)removeHashIDForServiceType:(SDLServiceType)serviceType {
+    if (_hashIDs[@(serviceType)]) {
+        [_hashIDs removeObjectForKey:@(serviceType)];
+    }
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
@@ -117,10 +123,15 @@
     header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
     
     NSData* payload = nil;
-    if ([self retrieveHashIDForServiceType:serviceType]) {
-        UInt32 hashId = [self retrieveHashIDForServiceType:serviceType];
+    UInt32 hashId = [self retrieveHashIDForServiceType:serviceType];
+    if (hashId) {
         payload = [NSData dataWithBytes:&hashId length:4];
+        [self removeHashIDForServiceType:serviceType];
     }
+    
+    NSString* logMessage = [NSString stringWithFormat:@"EndSession (request)\nHashId: %u for serviceType %d", hashId, serviceType];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+
     
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
     [self sendDataToTransport:message.data withPriority:serviceType];
