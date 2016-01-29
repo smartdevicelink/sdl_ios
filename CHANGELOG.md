@@ -5,6 +5,8 @@
 * IAP code no longer causes an unnecessary 3 minute background timer to be set. External Accessory applications already get all the background time they need.
 * SDLProxyListener delegate callbacks had some misnamed parameters 'request' should be 'response'.
 * SDLProxyListener was marking the wrong type for a passed delegate object. `onOnLockScreenNotification:` now correctly passes a type `SDLOnLockScreenStatus` instead of an `SDLLockScreenStatus`.
+* Return `nil` if an object was never set to an RPC. This fixes many unit tests.
+* Don't allow `SDLRPCStruct` to initialize with a `nil` backing store. This fixes unit tests.
 
 ### Other
 * Apple broke SDL's app launching scheme in iOS 9.0, so this code has been removed from the project. Apple fixed a bug in iOS 9.2 that alleviates much of the missing functionality.
