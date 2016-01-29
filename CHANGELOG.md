@@ -1,6 +1,7 @@
 # In Progress
 
 ### Bug Fixes
+* Debug logging is a bit better designed and is faster, and file logging happens on a separate queue.
 * IAP code no longer causes an unnecessary 3 minute background timer to be set. External Accessory applications already get all the background time they need.
 * SDLProxyListener delegate callbacks had some misnamed parameters 'request' should be 'response'.
 * SDLProxyListener was marking the wrong type for a passed delegate object. `onOnLockScreenNotification:` now correctly passes a type `SDLOnLockScreenStatus` instead of an `SDLLockScreenStatus`.
