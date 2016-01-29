@@ -9,6 +9,7 @@
 ### Other
 * Apple broke SDL's app launching scheme in iOS 9.0, so this code has been removed from the project. Apple fixed a bug in iOS 9.2 that alleviates much of the missing functionality.
 * The example app no longer has video and audio code, and its app type is now `MEDIA` instead of `NAVIGATION`.
+* Travis CI builds are fixed
 
 # 4.0.1 Release notes
 
