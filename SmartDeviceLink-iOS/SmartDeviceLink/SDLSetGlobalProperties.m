@@ -122,7 +122,7 @@
 
 - (SDLImage *)menuIcon {
     NSObject *obj = [parameters objectForKey:NAMES_menuIcon];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -139,7 +139,7 @@
 
 - (SDLKeyboardProperties *)keyboardProperties {
     NSObject *obj = [parameters objectForKey:NAMES_keyboardProperties];
-    if ([obj isKindOfClass:SDLKeyboardProperties.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLKeyboardProperties.class]) {
         return (SDLKeyboardProperties *)obj;
     } else {
         return [[SDLKeyboardProperties alloc] initWithDictionary:(NSMutableDictionary *)obj];

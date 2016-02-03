@@ -33,7 +33,7 @@
 
 - (SDLStartTime *)startTime {
     NSObject *obj = [parameters objectForKey:NAMES_startTime];
-    if ([obj isKindOfClass:SDLStartTime.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
         return [[SDLStartTime alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -50,7 +50,7 @@
 
 - (SDLStartTime *)endTime {
     NSObject *obj = [parameters objectForKey:NAMES_endTime];
-    if ([obj isKindOfClass:SDLStartTime.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
         return [[SDLStartTime alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -67,7 +67,7 @@
 
 - (SDLUpdateMode *)updateMode {
     NSObject *obj = [parameters objectForKey:NAMES_updateMode];
-    if ([obj isKindOfClass:SDLUpdateMode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLUpdateMode.class]) {
         return (SDLUpdateMode *)obj;
     } else {
         return [SDLUpdateMode valueOf:(NSString *)obj];

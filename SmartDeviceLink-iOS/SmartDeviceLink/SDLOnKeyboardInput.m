@@ -31,7 +31,7 @@
 
 - (SDLKeyboardEvent *)event {
     NSObject *obj = [parameters objectForKey:NAMES_event];
-    if ([obj isKindOfClass:SDLKeyboardEvent.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLKeyboardEvent.class]) {
         return (SDLKeyboardEvent *)obj;
     } else {
         return [SDLKeyboardEvent valueOf:(NSString *)obj];

@@ -45,7 +45,7 @@
 
 - (SDLPowerModeQualificationStatus *)powerModeQualificationStatus {
     NSObject *obj = [store objectForKey:NAMES_powerModeQualificationStatus];
-    if ([obj isKindOfClass:SDLPowerModeQualificationStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLPowerModeQualificationStatus.class]) {
         return (SDLPowerModeQualificationStatus *)obj;
     } else {
         return [SDLPowerModeQualificationStatus valueOf:(NSString *)obj];
@@ -62,7 +62,7 @@
 
 - (SDLCarModeStatus *)carModeStatus {
     NSObject *obj = [store objectForKey:NAMES_carModeStatus];
-    if ([obj isKindOfClass:SDLCarModeStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLCarModeStatus.class]) {
         return (SDLCarModeStatus *)obj;
     } else {
         return [SDLCarModeStatus valueOf:(NSString *)obj];
@@ -79,7 +79,7 @@
 
 - (SDLPowerModeStatus *)powerModeStatus {
     NSObject *obj = [store objectForKey:NAMES_powerModeStatus];
-    if ([obj isKindOfClass:SDLPowerModeStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLPowerModeStatus.class]) {
         return (SDLPowerModeStatus *)obj;
     } else {
         return [SDLPowerModeStatus valueOf:(NSString *)obj];

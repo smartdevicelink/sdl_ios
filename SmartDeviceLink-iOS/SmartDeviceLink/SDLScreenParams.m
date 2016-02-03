@@ -32,7 +32,7 @@
 
 - (SDLImageResolution *)resolution {
     NSObject *obj = [store objectForKey:NAMES_resolution];
-    if ([obj isKindOfClass:SDLImageResolution.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
         return (SDLImageResolution *)obj;
     } else {
         return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -49,7 +49,7 @@
 
 - (SDLTouchEventCapabilities *)touchEventAvailable {
     NSObject *obj = [store objectForKey:NAMES_touchEventAvailable];
-    if ([obj isKindOfClass:SDLTouchEventCapabilities.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLTouchEventCapabilities.class]) {
         return (SDLTouchEventCapabilities *)obj;
     } else {
         return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
