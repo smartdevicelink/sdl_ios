@@ -31,7 +31,7 @@
 
 - (SDLVehicleDataEventStatus *)driverBeltDeployed {
     NSObject *obj = [store objectForKey:NAMES_driverBeltDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -48,7 +48,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerBeltDeployed {
     NSObject *obj = [store objectForKey:NAMES_passengerBeltDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -65,7 +65,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerBuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_passengerBuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -82,7 +82,7 @@
 
 - (SDLVehicleDataEventStatus *)driverBuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_driverBuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -99,7 +99,7 @@
 
 - (SDLVehicleDataEventStatus *)leftRow2BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_leftRow2BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -116,7 +116,7 @@
 
 - (SDLVehicleDataEventStatus *)passengerChildDetected {
     NSObject *obj = [store objectForKey:NAMES_passengerChildDetected];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -133,7 +133,7 @@
 
 - (SDLVehicleDataEventStatus *)rightRow2BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_rightRow2BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -150,7 +150,7 @@
 
 - (SDLVehicleDataEventStatus *)middleRow2BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_middleRow2BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -167,7 +167,7 @@
 
 - (SDLVehicleDataEventStatus *)middleRow3BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_middleRow3BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -184,7 +184,7 @@
 
 - (SDLVehicleDataEventStatus *)leftRow3BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_leftRow3BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -201,7 +201,7 @@
 
 - (SDLVehicleDataEventStatus *)rightRow3BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_rightRow3BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -218,7 +218,7 @@
 
 - (SDLVehicleDataEventStatus *)leftRearInflatableBelted {
     NSObject *obj = [store objectForKey:NAMES_leftRearInflatableBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -235,7 +235,7 @@
 
 - (SDLVehicleDataEventStatus *)rightRearInflatableBelted {
     NSObject *obj = [store objectForKey:NAMES_rightRearInflatableBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -252,7 +252,7 @@
 
 - (SDLVehicleDataEventStatus *)middleRow1BeltDeployed {
     NSObject *obj = [store objectForKey:NAMES_middleRow1BeltDeployed];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -269,7 +269,7 @@
 
 - (SDLVehicleDataEventStatus *)middleRow1BuckleBelted {
     NSObject *obj = [store objectForKey:NAMES_middleRow1BuckleBelted];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];

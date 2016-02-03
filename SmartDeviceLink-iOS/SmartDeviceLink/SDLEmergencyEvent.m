@@ -33,7 +33,7 @@
 
 - (SDLEmergencyEventType *)emergencyEventType {
     NSObject *obj = [store objectForKey:NAMES_emergencyEventType];
-    if ([obj isKindOfClass:SDLEmergencyEventType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLEmergencyEventType.class]) {
         return (SDLEmergencyEventType *)obj;
     } else {
         return [SDLEmergencyEventType valueOf:(NSString *)obj];
@@ -50,7 +50,7 @@
 
 - (SDLFuelCutoffStatus *)fuelCutoffStatus {
     NSObject *obj = [store objectForKey:NAMES_fuelCutoffStatus];
-    if ([obj isKindOfClass:SDLFuelCutoffStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLFuelCutoffStatus.class]) {
         return (SDLFuelCutoffStatus *)obj;
     } else {
         return [SDLFuelCutoffStatus valueOf:(NSString *)obj];
@@ -67,7 +67,7 @@
 
 - (SDLVehicleDataEventStatus *)rolloverEvent {
     NSObject *obj = [store objectForKey:NAMES_rolloverEvent];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
@@ -96,7 +96,7 @@
 
 - (SDLVehicleDataEventStatus *)multipleEvents {
     NSObject *obj = [store objectForKey:NAMES_multipleEvents];
-    if ([obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
         return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];

@@ -64,7 +64,7 @@ static const NSUInteger maxProxyVersion = 4;
             if (self.maxHeadUnitVersion > maxProxyVersion) {
                 return 1024;
             } else {
-                return 128000;
+                return 131084;
             }
         } break;
         default: {

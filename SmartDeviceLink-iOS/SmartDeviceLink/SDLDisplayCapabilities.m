@@ -35,7 +35,7 @@
 
 - (SDLDisplayType *)displayType {
     NSObject *obj = [store objectForKey:NAMES_displayType];
-    if ([obj isKindOfClass:SDLDisplayType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDisplayType.class]) {
         return (SDLDisplayType *)obj;
     } else {
         return [SDLDisplayType valueOf:(NSString *)obj];
@@ -139,7 +139,7 @@
 
 - (SDLScreenParams *)screenParams {
     NSObject *obj = [store objectForKey:NAMES_screenParams];
-    if ([obj isKindOfClass:SDLScreenParams.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLScreenParams.class]) {
         return (SDLScreenParams *)obj;
     } else {
         return [[SDLScreenParams alloc] initWithDictionary:(NSMutableDictionary *)obj];

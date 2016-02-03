@@ -31,7 +31,7 @@
 
 - (SDLComponentVolumeStatus *)status {
     NSObject *obj = [store objectForKey:NAMES_status];
-    if ([obj isKindOfClass:SDLComponentVolumeStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLComponentVolumeStatus.class]) {
         return (SDLComponentVolumeStatus *)obj;
     } else {
         return [SDLComponentVolumeStatus valueOf:(NSString *)obj];
