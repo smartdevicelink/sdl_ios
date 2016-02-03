@@ -12,6 +12,7 @@
 
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
+#import "SDLSecurityType.h"
 
 
 @interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
@@ -28,6 +29,7 @@
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
 @property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong) id<SDLSecurityType> securityManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol
