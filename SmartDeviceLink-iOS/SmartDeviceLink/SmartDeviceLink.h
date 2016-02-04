@@ -11,6 +11,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 /**** Utilities *****/
 #import "SDLJingle.h"
+#import "SDLLocalization.h"
 
 /***** Proxy *****/
 #import "SDLProxy.h"
