@@ -21,11 +21,13 @@ typedef NS_ENUM(NSInteger, SDLStreamingVideoError) {
     SDLSTreamingVideoErrorInvalidOperatingSystemVersion,
     SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure,
     SDLStreamingVideoErrorConfigurationAllocationFailure,
-    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure
+    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure,
+    SDLStreamingVideoErrorEncryptionLibraryNotDetected
 };
 
 typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
-    SDLStreamingAudioErrorHeadUnitNACK
+    SDLStreamingAudioErrorHeadUnitNACK,
+    SDLStreamingAudioErrorEncryptionLibraryNotDetected
 };
 
 extern NSString *const SDLErrorDomainStreamingMediaVideo;
@@ -47,6 +49,9 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  */
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
+// TODO: Documentation
+- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock;
+
 /**
  *  This method will stop a running video session if there is one running.
  */
@@ -67,6 +72,9 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  *  @param startBlock A block that will be called with the result of attempting to start an audio session
  */
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock;
+
+// TODO: Documentation
+- (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock;
 
 /**
  *  This method will stop a running audio session if there is one running.

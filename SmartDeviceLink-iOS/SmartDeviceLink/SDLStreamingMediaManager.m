@@ -63,6 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
+    [self startVideoSessionWithEncryption:NO startBlock:startBlock];
+}
+
+- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
@@ -73,7 +77,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.videoStartBlock = [startBlock copy];
 
-    [self.protocol sendStartSessionWithType:SDLServiceType_Video];
+    BOOL encryptionAvailable = [self.protocol sendStartServiceWithType:SDLServiceType_Video encryption:encryption];
+    
+    if (!encryptionAvailable) {
+        self.videoStartBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorEncryptionLibraryNotDetected userInfo:nil]);
+        self.videoStartBlock = nil;
+    }
 }
 
 - (void)stopVideoSession {
@@ -85,9 +94,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    self.audioStartBlock = [startBlock copy];
+    [self startAudioStreamingWithEncryption:NO startBlock:startBlock];
+}
 
-    [self.protocol sendStartSessionWithType:SDLServiceType_Audio];
+- (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
+    self.audioStartBlock = [startBlock copy];
+    
+    BOOL encryptionAvailable = [self.protocol sendStartServiceWithType:SDLServiceType_Audio encryption:encryption];
+    
+    if (!encryptionAvailable) {
+        self.audioStartBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingAudioErrorEncryptionLibraryNotDetected userInfo:nil]);
+        self.audioStartBlock = nil;
+    }
 }
 
 - (void)stopAudioSession {
