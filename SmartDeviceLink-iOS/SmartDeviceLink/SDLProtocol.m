@@ -75,21 +75,30 @@
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self sendStartSessionWithType:serviceType encryption:NO];
+    [self sendStartServiceWithType:serviceType];
 }
 
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType encryption:(BOOL)encryption {
+- (void)sendStartServiceWithType:(SDLServiceType)serviceType {
+    [self sendStartServiceWithType:serviceType encryption:NO];
+}
+
+- (BOOL)sendStartServiceWithType:(SDLServiceType)serviceType encryption:(BOOL)encryption {
     if (encryption) {
         if (!self.securityManager) {
-            [SDLDebugTool logInfo:@"Security Manager not set, encryption failed"];
+            NSString *logString = [NSString stringWithFormat:@"Could not start service: %@, encryption was requested but failed because no security manager has been set.", @(serviceType)];
+            [SDLDebugTool logInfo:logString];
+            
+            return NO;
         }
         
-        [self.securityManager startWithCompletionHandler:^(BOOL success, NSError * _Nonnull error) {
-            if (!success) {
-                NSString *logString = [NSString stringWithFormat:@"Security Manager failed to initialize with error: %@", error];
-                [SDLDebugTool logInfo:logString];
-            }
-        }];
+        NSError *error = nil;
+        BOOL startSecuritySuccess = [self.securityManager startWithError:&error];
+        if (!startSecuritySuccess) {
+            NSString *logString = [NSString stringWithFormat:@"Security Manager failed to initialize with error: %@", error];
+            [SDLDebugTool logInfo:logString];
+            
+            return NO;
+        }
     }
     
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
@@ -116,6 +125,8 @@
     
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:serviceType];
+    
+    return YES;
 }
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {

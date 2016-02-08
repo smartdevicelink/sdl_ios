@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLSecurityType <NSObject>
 
-- (void)startWithCompletionHandler:(void(^)(BOOL success, NSError *error))completionHandler;
+- (BOOL)startWithError:(NSError **)error;
 - (void)stop;
 
 - (NSData *)encryptData:(NSData *)data withError:(NSError **)error;

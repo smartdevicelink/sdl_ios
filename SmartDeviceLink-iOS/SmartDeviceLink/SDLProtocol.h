@@ -9,8 +9,9 @@
 @interface SDLProtocol : SDLAbstractProtocol <SDLProtocolListener>
 
 // Sending
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType;
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType encryption:(BOOL)encryption;
+- (void)sendStartSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use startServiceWithType: instead"));
+- (void)sendStartServiceWithType:(SDLServiceType)serviceType;
+- (BOOL)sendStartServiceWithType:(SDLServiceType)serviceType encryption:(BOOL)encryption;
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType;
 - (void)sendRPC:(SDLRPCMessage *)message;
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg(("Use sendRPC: instead"));

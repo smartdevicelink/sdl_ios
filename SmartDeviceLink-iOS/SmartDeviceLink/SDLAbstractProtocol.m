@@ -20,6 +20,15 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)sendStartServiceWithType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (BOOL)sendStartServiceWithType:(SDLServiceType)serviceType encryption:(BOOL)encryption {
+    [self doesNotRecognizeSelector:_cmd];
+    return NO;
+}
+
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {
     [self doesNotRecognizeSelector:_cmd];
 }
