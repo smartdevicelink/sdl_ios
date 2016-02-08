@@ -20,6 +20,14 @@
     return self;
 }
 
+- (BOOL)compressed {
+    return _encrypted;
+}
+
+- (void)setCompressed:(BOOL)compressed {
+    _encrypted = compressed;
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     [self doesNotRecognizeSelector:_cmd];
     return 0;

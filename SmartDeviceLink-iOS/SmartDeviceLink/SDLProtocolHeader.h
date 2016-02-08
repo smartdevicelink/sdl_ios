@@ -45,7 +45,8 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
 
 @property (assign, readonly) UInt8 version;
 @property (assign, readonly) NSUInteger size;
-@property (assign) BOOL compressed;
+@property (assign) BOOL compressed __deprecated_msg("This is a mirror for encrypted");
+@property (assign) BOOL encrypted;
 @property (assign) SDLFrameType frameType;
 @property (assign) SDLServiceType serviceType;
 @property (assign) SDLFrameData frameData;
