@@ -5,6 +5,7 @@
 #import "SDLJsonEncoder.h"
 #import "SDLFunctionID.h"
 
+#import "SDLAbstractTransport.h"
 #import "SDLGlobals.h"
 #import "SDLRPCRequest.h"
 #import "SDLProtocol.h"
@@ -18,7 +19,7 @@
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCResponse.h"
-#import "SDLAbstractTransport.h"
+#import "SDLSecurityType.h"
 #import "SDLTimer.h"
 
 
@@ -36,6 +37,8 @@
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic) BOOL heartbeatACKed;
 @property (nonatomic, strong) SDLTimer *heartbeatTimer;
+@property (nonatomic, strong) id<SDLSecurityType> securityManager;
+
 @end
 
 
@@ -72,6 +75,23 @@
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
+    [self sendStartSessionWithType:serviceType encryption:NO];
+}
+
+- (void)sendStartSessionWithType:(SDLServiceType)serviceType encryption:(BOOL)encryption {
+    if (encryption) {
+        if (!self.securityManager) {
+            [SDLDebugTool logInfo:@"Security Manager not set, encryption failed"];
+        }
+        
+        [self.securityManager startWithCompletionHandler:^(BOOL success, NSError * _Nonnull error) {
+            if (!success) {
+                NSString *logString = [NSString stringWithFormat:@"Security Manager failed to initialize with error: %@", error];
+                [SDLDebugTool logInfo:logString];
+            }
+        }];
+    }
+    
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     switch (serviceType) {
         case SDLServiceType_RPC: {
@@ -88,7 +108,12 @@
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-
+    
+    // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
+    if (encryption) {
+        header.encrypted = YES;
+    }
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:serviceType];
 }
