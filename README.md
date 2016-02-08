@@ -47,3 +47,12 @@ Tagged to our releases is a dynamic framework file that can be drag-and-dropped 
 ### Reference Documentation
 
 You can find the latest reference documentation on [Cocoadocs](http://cocoadocs.org/docsets/SmartDeviceLink-iOS). Install this documentation to [Dash](http://kapeli.com/dash) or Xcode using [Docs for Xcode](https://documancer.com/xcode/). On the [docs page](http://cocoadocs.org/docsets/SmartDeviceLink-iOS), click the 'share' button in the upper right.
+
+### Running Tests
+To run tests, you will need to bootstrap the Carthage testing libraries. To do so, from the root project directory, run:
+```bash
+cd SmartDeviceLink-iOS
+carthage bootstrap --platform ios
+cd ../
+xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO test
+```
