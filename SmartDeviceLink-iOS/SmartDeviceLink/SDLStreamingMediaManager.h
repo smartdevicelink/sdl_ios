@@ -21,13 +21,11 @@ typedef NS_ENUM(NSInteger, SDLStreamingVideoError) {
     SDLSTreamingVideoErrorInvalidOperatingSystemVersion,
     SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure,
     SDLStreamingVideoErrorConfigurationAllocationFailure,
-    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure,
-    SDLStreamingVideoErrorEncryptionLibraryNotDetected
+    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure
 };
 
 typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
-    SDLStreamingAudioErrorHeadUnitNACK,
-    SDLStreamingAudioErrorEncryptionLibraryNotDetected
+    SDLStreamingAudioErrorHeadUnitNACK
 };
 
 extern NSString *const SDLErrorDomainStreamingMediaVideo;

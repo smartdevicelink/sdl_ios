@@ -47,7 +47,7 @@
     return description;
 }
 
-+ (SDLProtocolHeader *)headerForVersion:(UInt8)version {
++ (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version {
     // VERSION DEPENDENT CODE
     switch (version) {
         case 1: {

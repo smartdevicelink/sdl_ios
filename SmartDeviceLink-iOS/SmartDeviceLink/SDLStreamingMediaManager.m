@@ -77,12 +77,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.videoStartBlock = [startBlock copy];
 
-    BOOL encryptionAvailable = [self.protocol sendStartServiceWithType:SDLServiceType_Video encryption:encryption];
-    
-    if (!encryptionAvailable) {
-        self.videoStartBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorEncryptionLibraryNotDetected userInfo:nil]);
-        self.videoStartBlock = nil;
-    }
+    [self.protocol startEncryptedServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
+        // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
+        if (!success) {
+            self.videoStartBlock(NO, error);
+            self.videoStartBlock = nil;
+        }
+    }];
 }
 
 - (void)stopVideoSession {
@@ -90,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.protocol sendEndSessionWithType:SDLServiceType_Video];
+    [self.protocol endServiceWithType:SDLServiceType_Video];
 }
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
@@ -100,12 +101,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     
-    BOOL encryptionAvailable = [self.protocol sendStartServiceWithType:SDLServiceType_Audio encryption:encryption];
-    
-    if (!encryptionAvailable) {
-        self.audioStartBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingAudioErrorEncryptionLibraryNotDetected userInfo:nil]);
-        self.audioStartBlock = nil;
-    }
+    [self.protocol startEncryptedServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
+        // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
+        if (!success) {
+            self.audioStartBlock(NO, error);
+            self.audioStartBlock = nil;
+        }
+    }];
 }
 
 - (void)stopAudioSession {
@@ -113,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.protocol sendEndSessionWithType:SDLServiceType_Audio];
+    [self.protocol endServiceWithType:SDLServiceType_Audio];
 }
 
 

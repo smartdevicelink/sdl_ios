@@ -26,6 +26,7 @@
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
 #import "SDLPutFile.h"
+#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCRequestFactory.h"
@@ -40,10 +41,13 @@
 #import "SDLProtocolMessage.h"
 #import "SDLTimer.h"
 #import "SDLURLSession.h"
+#import "SDLVehicleType.h"
 
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
+
+typedef NSString SDLVehicleMake;
 
 NSString *const SDLProxyVersion = @"4.0.1";
 const float startSessionTime = 10.0;
@@ -57,6 +61,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
 @property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
+@property (nonatomic, strong) SDLVehicleType *connectedVehicleType;
 
 @end
 
@@ -124,14 +130,12 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-#pragma mark - Accessors
+
+#pragma mark - Setters / Getters
 
 - (NSSet *)proxyListeners {
     return [self.mutableProxyListeners copy];
 }
-
-
-#pragma mark - Setters / Getters
 
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
@@ -146,13 +150,33 @@ const int POLICIES_CORRELATION_ID = 65535;
     return _streamingMediaManager;
 }
 
+- (id<SDLSecurityType>)currentSecurityManager {
+    if ((_connectedVehicleType.make != nil) && (_securityManagers[_connectedVehicleType.make] != nil)) {
+        Class securityManagerClass = _securityManagers[_connectedVehicleType.make];
+        return [[securityManagerClass alloc] init];
+    }
+    
+    return nil;
+}
+
+
+#pragma mark - SecurityManager
+
+- (void)setSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake {
+    if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
+        self.securityManagers[vehicleMake] = securityManagerClass;
+    } else {
+        @throw [NSException exceptionWithName:@"Unknown Security Manager" reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
+    }
+}
+
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)onProtocolOpened {
     _isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    [self.protocol sendStartSessionWithType:SDLServiceType_RPC];
+    [self.protocol startServiceWithType:SDLServiceType_RPC];
 
     if (self.startSessionTimer == nil) {
         self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
@@ -295,6 +319,9 @@ const int POLICIES_CORRELATION_ID = 65535;
     //Print Proxy Version To Console
     NSString *logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+    self.connectedVehicleType = registerResponse.vehicleType;
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {

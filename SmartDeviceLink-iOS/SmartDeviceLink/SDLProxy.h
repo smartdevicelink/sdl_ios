@@ -29,7 +29,7 @@
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
 @property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
-@property (nonatomic, strong) id<SDLSecurityType> securityManager;
+@property (nonatomic, strong, readonly) id<SDLSecurityType> currentSecurityManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol
@@ -46,6 +46,8 @@
 - (void)handleRpcMessage:(NSDictionary *)msg __deprecated_msg("use -handleRPCDictionary: instead");
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
+
+- (void)setSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake;
 
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;

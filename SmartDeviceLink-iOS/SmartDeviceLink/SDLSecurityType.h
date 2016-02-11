@@ -12,11 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLSecurityType <NSObject>
 
-- (BOOL)startWithError:(NSError **)error;
+- (void)initializeWithCompletionHandler:(void(^)(NSError * _Nullable error))completionHandler;
 - (void)stop;
 
-- (NSData *)encryptData:(NSData *)data withError:(NSError **)error;
-- (NSData *)decryptData:(NSData *)data withError:(NSError **)error;
+- (nullable NSData *)runHandshakeWithClientData:(NSData *)data error:(NSError **)error;
+
+- (nullable NSData *)encryptData:(NSData *)data withError:(NSError **)error;
+- (nullable NSData *)decryptData:(NSData *)data withError:(NSError **)error;
 
 @end
 
