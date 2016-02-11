@@ -32,10 +32,10 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     Byte headerBytes[V2PROTOCOL_HEADERSIZE] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = (self.encrypted ? 1 : 0) << 3; // next 1 bit
+    Byte encrypted = (self.encrypted ? 1 : 0) << 3; // next 1 bit
     Byte frameType = (self.frameType & 0x7); // last 3 bits
 
-    headerBytes[0] = version | compressed | frameType;
+    headerBytes[0] = version | encrypted | frameType;
     headerBytes[1] = self.serviceType;
     headerBytes[2] = self.frameData;
     headerBytes[3] = self.sessionID;
