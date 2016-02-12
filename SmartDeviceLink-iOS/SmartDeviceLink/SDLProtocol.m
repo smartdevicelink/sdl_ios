@@ -185,7 +185,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     [self sendRPC:message encrypted:NO error:nil];
 }
 
-- (void)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
+- (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
     
     NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion]];
@@ -222,14 +222,14 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             } else {
                 NSAssert(NO, @"Unknown message type attempted to send. Type: %@", [message class]);
-                return;
+                return NO;
             }
             
             // If we're trying to encrypt, try to have the security manager encrypt it. Return if it fails.
             // TODO: (Joel F.)[2016-02-09] We should assert if the service isn't setup for encryption. See [#350](https://github.com/smartdevicelink/sdl_ios/issues/350)
             messagePayload = encryption ? [self.securityManager encryptData:rpcPayload.data withError:error] : rpcPayload.data;
             if (!messagePayload) {
-                return;
+                return NO;
             }
         } break;
         default: {
@@ -265,6 +265,8 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceType_RPC];
         }
     }
+    
+    return YES;
 }
 
 // SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
@@ -515,7 +517,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         [self.heartbeatTimer start];
     }
     
-    // Protocol (non CONTROL frame type) messages with service types are likely TLS handshake messages
+    // Control service (but not control frame type) messages are TLS handshake messages
     if (msg.header.serviceType == SDLServiceType_Control) {
         [self sdl_processSecurityMessage:msg];
         return;
@@ -559,8 +561,10 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     if (self.securityManager == nil) {
         NSString *logString = [NSString stringWithFormat:@"Failed to process security message because no security manager is set. Message: %@", clientHandshakeMessage];
         [SDLDebugTool logInfo:logString];
+        return;
     }
     
+    // Tear off the binary header of the client protocol message to get at the actual TLS handshake
     if (clientHandshakeMessage.payload.length <= 12) {
         NSString *logString = [NSString stringWithFormat:@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage];
         [SDLDebugTool logInfo:logString];
@@ -569,6 +573,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     // Pull out the client's handshake
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
     
+    // Ask the security manager for server data based on the client data sent
     NSError *handshakeError = nil;
     NSData *serverHandshakeData = [self.securityManager runHandshakeWithClientData:clientHandshakeData error:&handshakeError];
     
@@ -607,11 +612,12 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 - (void)destructObjects {
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
-        self.messageRouter.delegate = nil;
-        self.messageRouter = nil;
+        _messageRouter.delegate = nil;
+        _messageRouter = nil;
         self.transport = nil;
         self.protocolDelegateTable = nil;
-        self.heartbeatTimer = nil;
+        _heartbeatTimer = nil;
+        [_securityManager stop];
     }
 }
 

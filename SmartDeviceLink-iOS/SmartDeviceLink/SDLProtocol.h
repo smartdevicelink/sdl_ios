@@ -21,7 +21,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use endServiceWithType: instead"));
 - (void)endServiceWithType:(SDLServiceType)serviceType;
 - (void)sendRPC:(SDLRPCMessage *)message;
-- (void)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError **)error;
+- (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError **)error;
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest __deprecated_msg(("Use sendRPC: instead"));
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType;
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType;

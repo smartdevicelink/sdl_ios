@@ -172,6 +172,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - SDLProtocolListener Implementation
+
 - (void)onProtocolOpened {
     _isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];

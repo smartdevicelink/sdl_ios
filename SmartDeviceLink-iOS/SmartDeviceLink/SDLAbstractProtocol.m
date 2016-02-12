@@ -40,8 +40,9 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
+- (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     [self doesNotRecognizeSelector:_cmd];
+    return NO;
 }
 
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
