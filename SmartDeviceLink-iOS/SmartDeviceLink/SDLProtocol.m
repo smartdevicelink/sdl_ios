@@ -437,11 +437,11 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 #pragma mark - SDLProtocolListener Implementation
 
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    switch (serviceType) {
+- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
+    switch (header.serviceType) {
         case SDLServiceType_RPC: {
-            self.sessionID = sessionID;
-            [SDLGlobals globals].maxHeadUnitVersion = version;
+            self.sessionID = header.sessionID;
+            [SDLGlobals globals].maxHeadUnitVersion = header.version;
             if ([SDLGlobals globals].protocolVersion >= 3) {
                 self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
                 [self startHeartbeatTimerWithDuration:5.0];
@@ -450,12 +450,19 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         default:
             break;
     }
-
-    [self storeSessionID:sessionID forServiceType:serviceType];
-
+    
+    [self storeSessionID:header.sessionID forServiceType:header.serviceType];
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
+            [listener handleProtocolStartSessionACK:header];
+        }
+        
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [listener handleProtocolStartSessionACK:header.serviceType sessionID:header.sessionID version:header.version];
+#pragma clang diagnostic pop
         }
     }
 }
@@ -564,46 +571,78 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         return;
     }
     
-    // Tear off the binary header of the client protocol message to get at the actual TLS handshake
+    // x
     if (clientHandshakeMessage.payload.length <= 12) {
         NSString *logString = [NSString stringWithFormat:@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage];
         [SDLDebugTool logInfo:logString];
     }
     
-    // Pull out the client's handshake
+    // Tear off the binary header of the client protocol message to get at the actual TLS handshake
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
     
     // Ask the security manager for server data based on the client data sent
     NSError *handshakeError = nil;
     NSData *serverHandshakeData = [self.securityManager runHandshakeWithClientData:clientHandshakeData error:&handshakeError];
     
+    // If the handshake went bad and the security library ain't happy
+    SDLProtocolMessage *serverSecurityMessage = nil;
     if (serverHandshakeData == nil) {
-        NSString *logString = [NSString stringWithFormat:@"Error running TLS handshake procedure. Error: %@", handshakeError];
+        NSString *logString = [NSString stringWithFormat:@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError];
         [SDLDebugTool logInfo:logString];
-        return;
+        
+        // TODO: Send an error
+        serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
+    } else {
+        serverSecurityMessage = [self.class sdl_serverSecurityHandshakeMessageForData:serverHandshakeData clientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
     }
     
+    // Send the response or error message. If it's an error message, the module will ACK the Start Service without encryption. If it's a TLS handshake message, the module will ACK with encryption
+    [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceType_Control];
+}
+
++ (SDLProtocolMessage *)sdl_serverSecurityHandshakeMessageForData:(NSData *)data clientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
     // This can't possibly be a v1 header because v1 does not have control protocol messages
-    SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHandshakeMessage.header.version];
+    SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
     serverMessageHeader.encrypted = NO;
     serverMessageHeader.frameType = SDLFrameType_Single;
     serverMessageHeader.serviceType = SDLServiceType_Control;
     serverMessageHeader.frameData = SDLFrameData_SingleFrame;
-    serverMessageHeader.sessionID = clientHandshakeMessage.header.sessionID;
-    serverMessageHeader.messageID = ++_messageID;
+    serverMessageHeader.sessionID = clientHeader.sessionID;
+    serverMessageHeader.messageID = messageId;
     
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
-    serverTLSPayload.functionID = 0x01;
+    serverTLSPayload.functionID = 0x01; // TLS Handshake message
     serverTLSPayload.rpcType = 0x00;
     serverTLSPayload.correlationID = 0x00;
-    serverTLSPayload.binaryData = serverHandshakeData;
+    serverTLSPayload.binaryData = data;
     
     NSData *binaryData = serverTLSPayload.data;
     serverMessageHeader.bytesInPayload = (UInt32)binaryData.length;
     
-    SDLProtocolMessage *serverHandshakeMessage = [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
-    [self sdl_sendDataToTransport:serverHandshakeMessage.data onService:SDLServiceType_Control];
+    return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
+}
+
++ (SDLProtocolMessage *)sdl_serverSecurityFailedMessageWithClientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
+    // This can't possibly be a v1 header because v1 does not have control protocol messages
+    SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
+    serverMessageHeader.encrypted = NO;
+    serverMessageHeader.frameType = SDLFrameType_Single;
+    serverMessageHeader.serviceType = SDLServiceType_Control;
+    serverMessageHeader.frameData = SDLFrameData_SingleFrame;
+    serverMessageHeader.sessionID = clientHeader.sessionID;
+    serverMessageHeader.messageID = messageId;
+    
+    // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
+    SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
+    serverTLSPayload.functionID = 0x00; // TLS Error message
+    serverTLSPayload.rpcType = 0x00;
+    serverTLSPayload.correlationID = 0x00;
+    
+    NSData *binaryData = serverTLSPayload.data;
+    serverMessageHeader.bytesInPayload = (UInt32)binaryData.length;
+    
+    return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
 
 
