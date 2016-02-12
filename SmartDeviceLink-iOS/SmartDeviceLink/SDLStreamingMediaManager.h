@@ -32,6 +32,7 @@ extern NSString *const SDLErrorDomainStreamingMediaVideo;
 extern NSString *const SDLErrorDomainStreamingMediaAudio;
 
 typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
+typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError * __nullable error);
 
 
 @interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
@@ -45,10 +46,10 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  *
  *  @param startBlock A block that will be called with the result of attempting to start a video session
  */
-- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock __deprecated_msg("Feel free to continue to use this for now. At the next major change, the startBlock will change to accept an encryption parameter like startVideoSessionWithEncryption:startBlock: does.");
 
 // TODO: Documentation
-- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**
  *  This method will stop a running video session if there is one running.

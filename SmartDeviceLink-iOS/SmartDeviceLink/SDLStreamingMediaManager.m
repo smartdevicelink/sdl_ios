@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
-@property (copy, nonatomic, nullable) SDLStreamingStartBlock videoStartBlock;
-@property (copy, nonatomic, nullable) SDLStreamingStartBlock audioStartBlock;
+@property (copy, nonatomic, nullable) SDLStreamingEncryptionStartBlock videoStartBlock;
+@property (copy, nonatomic, nullable) SDLStreamingEncryptionStartBlock audioStartBlock;
 
 @end
 
@@ -63,13 +63,15 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithEncryption:NO startBlock:startBlock];
+    [self startVideoSessionWithEncryption:NO startBlock:^(BOOL success, BOOL encryption, NSError * _Nullable error) {
+        startBlock(success, error);
+    }];
 }
 
-- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
+- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
-        startBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
+        startBlock(NO, NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
 
         return;
     }
@@ -80,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol startEncryptedServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
         // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
         if (!success) {
-            self.videoStartBlock(NO, error);
+            self.videoStartBlock(NO, NO, error);
             self.videoStartBlock = nil;
         }
     }];
@@ -95,7 +97,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startAudioStreamingWithEncryption:NO startBlock:startBlock];
+    [self startAudioStreamingWithEncryption:NO startBlock:^(BOOL success, NSError * _Nullable error) {
+        startBlock(success, error);
+    }];
 }
 
 - (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
@@ -104,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol startEncryptedServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
         // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
         if (!success) {
-            self.audioStartBlock(NO, error);
+            self.audioStartBlock(NO, NO, error);
             self.audioStartBlock = nil;
         }
     }];
@@ -149,11 +153,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLProtocolListener Methods
 
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
-    switch (serviceType) {
+- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
+    switch (header.serviceType) {
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
-            self.audioStartBlock(YES, nil);
+            self.audioStartBlock(YES, header.encrypted, nil);
             self.audioStartBlock = nil;
         } break;
         case SDLServiceType_Video: {
@@ -162,14 +166,14 @@ NS_ASSUME_NONNULL_BEGIN
 
             if (!success) {
                 [self sdl_teardownCompressionSession];
-                self.videoStartBlock(NO, error);
+                self.videoStartBlock(NO, header.encrypted, error);
                 self.videoStartBlock = nil;
 
                 return;
             }
 
             self.videoSessionConnected = YES;
-            self.videoStartBlock(YES, nil);
+            self.videoStartBlock(YES, header.encrypted, nil);
             self.videoStartBlock = nil;
         } break;
         default: break;
@@ -181,13 +185,13 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceType_Audio: {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaAudio code:SDLStreamingAudioErrorHeadUnitNACK userInfo:nil];
 
-            self.audioStartBlock(NO, error);
+            self.audioStartBlock(NO, NO, error);
             self.audioStartBlock = nil;
         } break;
         case SDLServiceType_Video: {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorHeadUnitNACK userInfo:nil];
 
-            self.videoStartBlock(NO, error);
+            self.videoStartBlock(NO, NO, error);
             self.videoStartBlock = nil;
         } break;
         default: break;
