@@ -28,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL videoSessionConnected;
 @property (assign, nonatomic, readwrite) BOOL audioSessionConnected;
 
+@property (assign, nonatomic, readwrite) BOOL videoSessionEncypted;
+@property (assign, nonatomic, readwrite) BOOL audioSessionEncrypted;
+
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
 @property (copy, nonatomic, nullable) SDLStreamingEncryptionStartBlock videoStartBlock;
@@ -78,12 +81,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 
     self.videoStartBlock = [startBlock copy];
-
+    
+    __weak typeof(self) weakSelf = self;
     [self.protocol startEncryptedServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
+        typeof(weakSelf) strongSelf = weakSelf;
         // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
         if (!success) {
-            self.videoStartBlock(NO, NO, error);
-            self.videoStartBlock = nil;
+            strongSelf.videoStartBlock(NO, NO, error);
+            strongSelf.videoStartBlock = nil;
         }
     }];
 }
@@ -105,11 +110,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     
+    __weak typeof(self) weakSelf = self;
     [self.protocol startEncryptedServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
+        typeof(weakSelf) strongSelf = weakSelf;
         // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
         if (!success) {
-            self.audioStartBlock(NO, NO, error);
-            self.audioStartBlock = nil;
+            strongSelf.audioStartBlock(NO, NO, error);
+            strongSelf.audioStartBlock = nil;
         }
     }];
 }
@@ -143,7 +150,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         @autoreleasepool {
-            [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
+            if (self.audioSessionEncrypted) {
+                [self.protocol sendEncryptedRawData:pcmAudioData onService:SDLServiceType_Audio];
+            } else {
+                [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
+            }
         }
     });
 
@@ -157,6 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
     switch (header.serviceType) {
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
+            self.audioSessionEncrypted = header.encrypted;
             self.audioStartBlock(YES, header.encrypted, nil);
             self.audioStartBlock = nil;
         } break;
@@ -166,6 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
 
             if (!success) {
                 [self sdl_teardownCompressionSession];
+                [self.protocol endServiceWithType:SDLServiceType_Video];
                 self.videoStartBlock(NO, header.encrypted, error);
                 self.videoStartBlock = nil;
 
@@ -173,6 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             self.videoSessionConnected = YES;
+            self.videoSessionEncypted = header.encrypted;
             self.videoStartBlock(YES, header.encrypted, nil);
             self.videoStartBlock = nil;
         } break;
@@ -237,7 +251,12 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
-    [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
+    
+    if (mediaManager.videoSessionEncypted) {
+        [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceType_Video];
+    } else {
+        [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
+    }
 }
 
 

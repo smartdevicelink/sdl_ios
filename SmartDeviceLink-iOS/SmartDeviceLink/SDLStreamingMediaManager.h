@@ -92,6 +92,8 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
 
+@property (assign, nonatomic, readonly) BOOL videoSessionEncypted;
+@property (assign, nonatomic, readonly) BOOL audioSessionEncrypted;
 
 @end
 
