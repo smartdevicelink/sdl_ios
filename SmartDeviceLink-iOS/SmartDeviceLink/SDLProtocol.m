@@ -571,36 +571,37 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         return;
     }
     
-    // x
+    // Misformatted handshake message, something went wrong
     if (clientHandshakeMessage.payload.length <= 12) {
         NSString *logString = [NSString stringWithFormat:@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage];
         [SDLDebugTool logInfo:logString];
     }
     
     // Tear off the binary header of the client protocol message to get at the actual TLS handshake
+    // TODO: (Joel F.)[2016-02-15] Should check for errors
     NSData *clientHandshakeData = [clientHandshakeMessage.payload subdataWithRange:NSMakeRange(12, (clientHandshakeMessage.payload.length - 12))];
     
     // Ask the security manager for server data based on the client data sent
     NSError *handshakeError = nil;
     NSData *serverHandshakeData = [self.securityManager runHandshakeWithClientData:clientHandshakeData error:&handshakeError];
     
-    // If the handshake went bad and the security library ain't happy
+    // If the handshake went bad and the security library ain't happy, send over the failure to the module. This should result in an ACK with encryption off.
     SDLProtocolMessage *serverSecurityMessage = nil;
     if (serverHandshakeData == nil) {
         NSString *logString = [NSString stringWithFormat:@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError];
         [SDLDebugTool logInfo:logString];
         
-        // TODO: Send an error
         serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
     } else {
-        serverSecurityMessage = [self.class sdl_serverSecurityHandshakeMessageForData:serverHandshakeData clientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
+        // The handshake went fine, send the module the remaining handshake data
+        serverSecurityMessage = [self.class sdl_serverSecurityHandshakeMessageWithData:serverHandshakeData clientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
     }
     
     // Send the response or error message. If it's an error message, the module will ACK the Start Service without encryption. If it's a TLS handshake message, the module will ACK with encryption
     [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceType_Control];
 }
 
-+ (SDLProtocolMessage *)sdl_serverSecurityHandshakeMessageForData:(NSData *)data clientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
++ (SDLProtocolMessage *)sdl_serverSecurityHandshakeMessageWithData:(NSData *)data clientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
     // This can't possibly be a v1 header because v1 does not have control protocol messages
     SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
     serverMessageHeader.encrypted = NO;
@@ -635,12 +636,14 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     
     // For a control service packet, we need a binary header with a function ID corresponding to what type of packet we're sending.
     SDLRPCPayload *serverTLSPayload = [[SDLRPCPayload alloc] init];
-    serverTLSPayload.functionID = 0x00; // TLS Error message
-    serverTLSPayload.rpcType = 0x00;
+    serverTLSPayload.functionID = 0x02; // TLS Error message
+    serverTLSPayload.rpcType = 0x02;
     serverTLSPayload.correlationID = 0x00;
     
     NSData *binaryData = serverTLSPayload.data;
     serverMessageHeader.bytesInPayload = (UInt32)binaryData.length;
+    
+    // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
