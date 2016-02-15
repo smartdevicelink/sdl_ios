@@ -27,6 +27,9 @@
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType;
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType;
 
+- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType __deprecated_msg("This is not implemented and will cause a crash if called");
+- (void)sendHeartbeat __deprecated_msg("This is not implemented and will cause a crash if called");
+
 // Recieving
 - (void)handleBytesFromTransport:(NSData *)receivedData;
 - (void)dispose;

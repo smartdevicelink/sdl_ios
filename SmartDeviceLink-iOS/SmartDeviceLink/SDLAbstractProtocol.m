@@ -61,6 +61,10 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
     [self doesNotRecognizeSelector:_cmd];
 }
