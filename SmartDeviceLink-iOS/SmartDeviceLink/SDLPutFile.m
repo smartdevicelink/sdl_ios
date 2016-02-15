@@ -43,7 +43,7 @@
 
 - (SDLFileType *)fileType {
     NSObject *obj = [parameters objectForKey:NAMES_fileType];
-    if ([obj isKindOfClass:SDLFileType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLFileType.class]) {
         return (SDLFileType *)obj;
     } else {
         return [SDLFileType valueOf:(NSString *)obj];

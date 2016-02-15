@@ -36,7 +36,7 @@
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
     NSObject *obj = [parameters objectForKey:NAMES_syncMsgVersion];
-    if ([obj isKindOfClass:SDLSyncMsgVersion.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
         return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -122,7 +122,7 @@
 
 - (SDLLanguage *)languageDesired {
     NSObject *obj = [parameters objectForKey:NAMES_languageDesired];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
@@ -139,7 +139,7 @@
 
 - (SDLLanguage *)hmiDisplayLanguageDesired {
     NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguageDesired];
-    if ([obj isKindOfClass:SDLLanguage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
         return [SDLLanguage valueOf:(NSString *)obj];
@@ -189,7 +189,7 @@
 
 - (SDLDeviceInfo *)deviceInfo {
     NSObject *obj = [parameters objectForKey:NAMES_deviceInfo];
-    if ([obj isKindOfClass:SDLDeviceInfo.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
         return (SDLDeviceInfo *)obj;
     } else {
         return [[SDLDeviceInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];

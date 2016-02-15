@@ -14,6 +14,8 @@ SmartDeviceLink (SDL) is a standard set of protocols and messages that connect a
   * The optional [SDL Server](https://github.com/smartdevicelink/sdl_server) can be used by Vehicle OEMs to update application policies and gather usage information for connected applications.
   * The [iOS](https://github.com/smartdevicelink/sdl_ios) and [Android](https://github.com/smartdevicelink/sdl_android) libraries are implemented by app developers into their applications to enable command and control via the connected head unit.
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=AzdQdSCS24M" target="_blank"><img src="http://i.imgur.com/nm8UujD.png?1" alt="SmartDeviceLink" border="10" /></a>
+
 
 ## Mobile Proxy
 
@@ -32,12 +34,29 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANG
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.1'`. Then run `pod install` inside your terminal.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.1'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
 
 ##### Carthage
 
-SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
+SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application). Carthage supports iOS 8+.
+
+##### Dynamic Framework
+
+Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+.
 
 ### Reference Documentation
 
 You can find the latest reference documentation on [Cocoadocs](http://cocoadocs.org/docsets/SmartDeviceLink-iOS). Install this documentation to [Dash](http://kapeli.com/dash) or Xcode using [Docs for Xcode](https://documancer.com/xcode/). On the [docs page](http://cocoadocs.org/docsets/SmartDeviceLink-iOS), click the 'share' button in the upper right.
+
+### Getting Help
+
+If you see a bug, feel free to post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
+
+### Running Tests
+To run tests, you will need to bootstrap the Carthage testing libraries. To do so, from the root project directory, run:
+```bash
+cd SmartDeviceLink-iOS
+carthage bootstrap --platform ios
+cd ../
+xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO test
+```

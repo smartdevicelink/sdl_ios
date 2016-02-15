@@ -172,7 +172,7 @@
     id obj = [currentDictionary objectForKey:@"object"];
 
     NSString *alertText = nil;
-    if ([obj isKindOfClass:SDLRPCMessage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLRPCMessage.class]) {
         SDLRPCMessage *rpc = obj;
         NSDictionary *dictionary = [rpc serializeAsDictionary:2];
         NSError *error = nil;

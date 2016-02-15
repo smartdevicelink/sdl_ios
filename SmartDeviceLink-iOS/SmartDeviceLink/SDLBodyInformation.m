@@ -45,7 +45,7 @@
 
 - (SDLIgnitionStableStatus *)ignitionStableStatus {
     NSObject *obj = [store objectForKey:NAMES_ignitionStableStatus];
-    if ([obj isKindOfClass:SDLIgnitionStableStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLIgnitionStableStatus.class]) {
         return (SDLIgnitionStableStatus *)obj;
     } else {
         return [SDLIgnitionStableStatus valueOf:(NSString *)obj];
@@ -62,7 +62,7 @@
 
 - (SDLIgnitionStatus *)ignitionStatus {
     NSObject *obj = [store objectForKey:NAMES_ignitionStatus];
-    if ([obj isKindOfClass:SDLIgnitionStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLIgnitionStatus.class]) {
         return (SDLIgnitionStatus *)obj;
     } else {
         return [SDLIgnitionStatus valueOf:(NSString *)obj];

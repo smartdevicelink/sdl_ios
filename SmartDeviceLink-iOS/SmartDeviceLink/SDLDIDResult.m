@@ -31,7 +31,7 @@
 
 - (SDLVehicleDataResultCode *)resultCode {
     NSObject *obj = [store objectForKey:NAMES_resultCode];
-    if ([obj isKindOfClass:SDLVehicleDataResultCode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLVehicleDataResultCode.class]) {
         return (SDLVehicleDataResultCode *)obj;
     } else {
         return [SDLVehicleDataResultCode valueOf:(NSString *)obj];

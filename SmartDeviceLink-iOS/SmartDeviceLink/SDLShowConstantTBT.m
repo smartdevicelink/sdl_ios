@@ -93,7 +93,7 @@
 
 - (SDLImage *)turnIcon {
     NSObject *obj = [parameters objectForKey:NAMES_turnIcon];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -110,7 +110,7 @@
 
 - (SDLImage *)nextTurnIcon {
     NSObject *obj = [parameters objectForKey:NAMES_nextTurnIcon];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];

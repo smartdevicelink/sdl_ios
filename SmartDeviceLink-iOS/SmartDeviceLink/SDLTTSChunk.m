@@ -43,7 +43,7 @@
 
 - (SDLSpeechCapabilities *)type {
     NSObject *obj = [store objectForKey:NAMES_type];
-    if ([obj isKindOfClass:SDLSpeechCapabilities.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSpeechCapabilities.class]) {
         return (SDLSpeechCapabilities *)obj;
     } else {
         return [SDLSpeechCapabilities valueOf:(NSString *)obj];

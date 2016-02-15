@@ -55,7 +55,7 @@
 
 - (SDLAmbientLightStatus *)ambientLightSensorStatus {
     NSObject *obj = [store objectForKey:NAMES_ambientLightSensorStatus];
-    if ([obj isKindOfClass:SDLAmbientLightStatus.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLAmbientLightStatus.class]) {
         return (SDLAmbientLightStatus *)obj;
     } else {
         return [SDLAmbientLightStatus valueOf:(NSString *)obj];

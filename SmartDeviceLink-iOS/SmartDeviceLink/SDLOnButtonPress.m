@@ -32,7 +32,7 @@
 
 - (SDLButtonName *)buttonName {
     NSObject *obj = [parameters objectForKey:NAMES_buttonName];
-    if ([obj isKindOfClass:SDLButtonName.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
         return (SDLButtonName *)obj;
     } else {
         return [SDLButtonName valueOf:(NSString *)obj];
@@ -49,7 +49,7 @@
 
 - (SDLButtonPressMode *)buttonPressMode {
     NSObject *obj = [parameters objectForKey:NAMES_buttonPressMode];
-    if ([obj isKindOfClass:SDLButtonPressMode.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLButtonPressMode.class]) {
         return (SDLButtonPressMode *)obj;
     } else {
         return [SDLButtonPressMode valueOf:(NSString *)obj];
