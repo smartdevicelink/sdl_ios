@@ -198,14 +198,14 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
 
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
+    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    if (serviceType == SDLServiceType_RPC || [SDLGlobals globals].protocolVersion >= 2) {
+    if (header.serviceType == SDLServiceType_RPC || [SDLGlobals globals].protocolVersion >= 2) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
