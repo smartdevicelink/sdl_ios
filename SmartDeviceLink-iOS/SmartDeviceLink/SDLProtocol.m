@@ -292,7 +292,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     });
 }
 
-- (void)sendHeartbeat {
+- (void)sdl_sendHeartbeat {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
@@ -302,14 +302,14 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     [self sdl_sendDataToTransport:message.data onService:header.serviceType];
 }
 
-- (void)startHeartbeatTimerWithDuration:(float)duration {
+- (void)sdl_startHeartbeatTimerWithDuration:(float)duration {
     self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
     __weak typeof(self) weakSelf = self;
     self.heartbeatTimer.elapsedBlock = ^void() {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.heartbeatACKed) {
             strongSelf.heartbeatACKed = NO;
-            [strongSelf sendHeartbeat];
+            [strongSelf sdl_sendHeartbeat];
         } else {
             NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
             [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
@@ -444,7 +444,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
             [SDLGlobals globals].maxHeadUnitVersion = header.version;
             if ([SDLGlobals globals].protocolVersion >= 3) {
                 self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
-                [self startHeartbeatTimerWithDuration:5.0];
+                [self sdl_startHeartbeatTimerWithDuration:5.0];
             }
         } break;
         default:
@@ -651,7 +651,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 #pragma mark - Lifecycle
 
-- (void)destructObjects {
+- (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
         _messageRouter.delegate = nil;
@@ -664,11 +664,11 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 }
 
 - (void)dispose {
-    [self destructObjects];
+    [self sdl_destructObjects];
 }
 
 - (void)dealloc {
-    [self destructObjects];
+    [self sdl_destructObjects];
     [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
