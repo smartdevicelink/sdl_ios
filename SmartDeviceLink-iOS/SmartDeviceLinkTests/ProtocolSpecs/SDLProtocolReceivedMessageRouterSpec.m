@@ -16,6 +16,7 @@
 
 QuickSpecBegin(SDLProtocolReceivedMessageRouterSpec)
 
+// TODO: This should be rewritten using an actual mock (i.e. SDLProtocolListenerDelegateMock class to avoid OCMock)
 describe(@"HandleReceivedMessage Tests", ^ {
     context(@"When handling control message", ^ {
         it(@"Should route message correctly", ^ {
@@ -47,7 +48,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 expect(@(serviceType)).to(equal(@(SDLServiceType_RPC)));
                 expect(@(sessionID)).to(equal(@0x93));
                 expect(@(version)).to(equal(@0x02));
-            }] ignoringNonObjectArgs] handleProtocolStartSessionACK:0 sessionID:0 version:0];
+            }] ignoringNonObjectArgs] handleProtocolStartSessionACK:testMessage.header];
             
             SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;
