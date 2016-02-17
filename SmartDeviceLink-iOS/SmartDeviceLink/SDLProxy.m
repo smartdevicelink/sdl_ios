@@ -162,7 +162,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - SecurityManager
 
-- (void)setSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake {
+- (void)addSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake {
     if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
         self.securityManagers[vehicleMake] = securityManagerClass;
     } else {
