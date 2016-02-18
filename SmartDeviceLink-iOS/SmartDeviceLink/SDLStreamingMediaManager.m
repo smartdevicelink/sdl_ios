@@ -82,15 +82,19 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.videoStartBlock = [startBlock copy];
     
-    __weak typeof(self) weakSelf = self;
-    [self.protocol startEncryptedServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
-        typeof(weakSelf) strongSelf = weakSelf;
-        // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
-        if (!success) {
-            strongSelf.videoStartBlock(NO, NO, error);
-            strongSelf.videoStartBlock = nil;
-        }
-    }];
+    if (encryption) {
+        __weak typeof(self) weakSelf = self;
+        [self.protocol startEncryptedServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
+            typeof(weakSelf) strongSelf = weakSelf;
+            // If success, we will get an ACK or NACK, so those methods will handle calling the video block
+            if (!success) {
+                strongSelf.videoStartBlock(NO, NO, error);
+                strongSelf.videoStartBlock = nil;
+            }
+        }];
+    } else {
+        [self.protocol startServiceWithType:SDLServiceType_Video];
+    }
 }
 
 - (void)stopVideoSession {
@@ -110,15 +114,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     
-    __weak typeof(self) weakSelf = self;
-    [self.protocol startEncryptedServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
-        typeof(weakSelf) strongSelf = weakSelf;
-        // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
-        if (!success) {
-            strongSelf.audioStartBlock(NO, NO, error);
-            strongSelf.audioStartBlock = nil;
-        }
-    }];
+    if (encryption) {
+        __weak typeof(self) weakSelf = self;
+        [self.protocol startEncryptedServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
+            typeof(weakSelf) strongSelf = weakSelf;
+            // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
+            if (!success) {
+                strongSelf.audioStartBlock(NO, NO, error);
+                strongSelf.audioStartBlock = nil;
+            }
+        }];
+    } else {
+        [self.protocol startServiceWithType:SDLServiceType_Audio];
+    }
 }
 
 - (void)stopAudioSession {

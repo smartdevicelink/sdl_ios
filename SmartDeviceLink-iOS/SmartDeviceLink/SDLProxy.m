@@ -161,8 +161,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
-    if ((make != nil) && (_securityManagers[make] != nil)) {
-        Class securityManagerClass = _securityManagers[make];
+    if ((make != nil) && (self.securityManagers[make] != nil)) {
+        Class securityManagerClass = self.securityManagers[make];
         return [[securityManagerClass alloc] init];
     }
     
