@@ -62,7 +62,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
 @property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
-@property (nonatomic, strong) SDLVehicleType *connectedVehicleType;
 
 @end
 
@@ -150,15 +149,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     return _streamingMediaManager;
 }
 
-- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
-    if ((_connectedVehicleType.make != nil) && (_securityManagers[_connectedVehicleType.make] != nil)) {
-        Class securityManagerClass = _securityManagers[_connectedVehicleType.make];
-        return [[securityManagerClass alloc] init];
-    }
-    
-    return nil;
-}
-
 
 #pragma mark - SecurityManager
 
@@ -168,6 +158,15 @@ const int POLICIES_CORRELATION_ID = 65535;
     } else {
         @throw [NSException exceptionWithName:@"Unknown Security Manager" reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
     }
+}
+
+- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
+    if ((make != nil) && (_securityManagers[make] != nil)) {
+        Class securityManagerClass = _securityManagers[make];
+        return [[securityManagerClass alloc] init];
+    }
+    
+    return nil;
 }
 
 
@@ -310,6 +309,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark - RPC Handlers
+
 - (void)handleRPCUnregistered:(NSDictionary *)messageDictionary {
     NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", messageDictionary];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
@@ -322,8 +322,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-    self.connectedVehicleType = registerResponse.vehicleType;
-    self.protocol.securityManager = [self securityManagerForMake:self.connectedVehicleType.make];
+    self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
