@@ -38,7 +38,6 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic) BOOL heartbeatACKed;
 @property (nonatomic, strong) SDLTimer *heartbeatTimer;
-@property (nonatomic, strong) id<SDLSecurityType> securityManager;
 
 @end
 
@@ -659,7 +658,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         self.transport = nil;
         self.protocolDelegateTable = nil;
         _heartbeatTimer = nil;
-        [_securityManager stop];
+        [self.securityManager stop];
     }
 }
 

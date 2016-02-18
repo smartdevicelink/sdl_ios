@@ -7,7 +7,6 @@
 
 typedef NS_ENUM(NSUInteger, SDLProtocolError) {
     SDLProtocolErrorNoSecurityManager,
-    
 };
 
 extern NSString *const SDLProtocolSecurityErrorDomain;

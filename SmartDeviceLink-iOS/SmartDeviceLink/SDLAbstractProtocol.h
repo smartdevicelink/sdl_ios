@@ -7,6 +7,7 @@
 
 #import "SDLProtocolListener.h"
 #import "SDLTransportDelegate.h"
+#import "SDLSecurityType.h"
 
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>
@@ -14,6 +15,7 @@
 @property (strong) NSString *debugConsoleGroupName;
 @property (weak) SDLAbstractTransport *transport;
 @property (strong) NSHashTable *protocolDelegateTable; // table of id<SDLProtocolListener>
+@property (nonatomic, strong) id<SDLSecurityType> securityManager;
 
 // Sending
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use startServiceWithType: instead"));

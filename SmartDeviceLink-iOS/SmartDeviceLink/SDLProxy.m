@@ -150,7 +150,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     return _streamingMediaManager;
 }
 
-- (id<SDLSecurityType>)currentSecurityManager {
+- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((_connectedVehicleType.make != nil) && (_securityManagers[_connectedVehicleType.make] != nil)) {
         Class securityManagerClass = _securityManagers[_connectedVehicleType.make];
         return [[securityManagerClass alloc] init];
@@ -323,6 +323,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
     self.connectedVehicleType = registerResponse.vehicleType;
+    self.protocol.securityManager = [self securityManagerForMake:self.connectedVehicleType.make];
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
