@@ -61,7 +61,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
 @property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
-@property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
+@property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, id<SDLSecurityType>> *securityManagers;
 
 @end
 
@@ -76,6 +76,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
+        _securityManagers = [NSMutableDictionary dictionary];
         _protocol = protocol;
         _transport = transport;
         _transport.delegate = protocol;
@@ -152,18 +153,16 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - SecurityManager
 
-- (void)addSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake {
-    if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
-        self.securityManagers[vehicleMake] = securityManagerClass;
-    } else {
-        @throw [NSException exceptionWithName:@"Unknown Security Manager" reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
-    }
+- (void)addSecurityManager:(id<SDLSecurityType>)securityManager forMake:(NSString *)vehicleMake {
+    NSParameterAssert(securityManager != nil);
+    NSParameterAssert(vehicleMake != nil);
+    
+    self.securityManagers[vehicleMake] = securityManager;
 }
 
 - (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((make != nil) && (self.securityManagers[make] != nil)) {
-        Class securityManagerClass = self.securityManagers[make];
-        return [[securityManagerClass alloc] init];
+        return self.securityManagers[make];
     }
     
     return nil;
