@@ -76,6 +76,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
+        _securityManagers = [NSMutableDictionary dictionary];
         _protocol = protocol;
         _transport = transport;
         _transport.delegate = protocol;
