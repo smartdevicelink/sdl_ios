@@ -31,7 +31,7 @@
 
 - (SDLDriverDistractionState *)state {
     NSObject *obj = [parameters objectForKey:NAMES_state];
-    if ([obj isKindOfClass:SDLDriverDistractionState.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLDriverDistractionState.class]) {
         return (SDLDriverDistractionState *)obj;
     } else {
         return [SDLDriverDistractionState valueOf:(NSString *)obj];

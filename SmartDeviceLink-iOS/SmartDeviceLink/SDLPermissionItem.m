@@ -44,7 +44,7 @@
 
 - (SDLHMIPermissions *)hmiPermissions {
     NSObject *obj = [store objectForKey:NAMES_hmiPermissions];
-    if ([obj isKindOfClass:SDLHMIPermissions.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
         return (SDLHMIPermissions *)obj;
     } else {
         return [[SDLHMIPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -61,7 +61,7 @@
 
 - (SDLParameterPermissions *)parameterPermissions {
     NSObject *obj = [store objectForKey:NAMES_parameterPermissions];
-    if ([obj isKindOfClass:SDLParameterPermissions.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLParameterPermissions.class]) {
         return (SDLParameterPermissions *)obj;
     } else {
         return [[SDLParameterPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];

@@ -31,7 +31,7 @@
 
 - (SDLAppInterfaceUnregisteredReason *)reason {
     NSObject *obj = [parameters objectForKey:NAMES_reason];
-    if ([obj isKindOfClass:SDLAppInterfaceUnregisteredReason.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLAppInterfaceUnregisteredReason.class]) {
         return (SDLAppInterfaceUnregisteredReason *)obj;
     } else {
         return [SDLAppInterfaceUnregisteredReason valueOf:(NSString *)obj];

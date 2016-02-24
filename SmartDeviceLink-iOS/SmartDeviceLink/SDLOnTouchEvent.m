@@ -32,7 +32,7 @@
 
 - (SDLTouchType *)type {
     NSObject *obj = [parameters objectForKey:NAMES_type];
-    if ([obj isKindOfClass:SDLTouchType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLTouchType.class]) {
         return (SDLTouchType *)obj;
     } else {
         return [SDLTouchType valueOf:(NSString *)obj];

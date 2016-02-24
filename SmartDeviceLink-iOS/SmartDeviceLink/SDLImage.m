@@ -43,7 +43,7 @@
 
 - (SDLImageType *)imageType {
     NSObject *obj = [store objectForKey:NAMES_imageType];
-    if ([obj isKindOfClass:SDLImageType.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImageType.class]) {
         return (SDLImageType *)obj;
     } else {
         return [SDLImageType valueOf:(NSString *)obj];

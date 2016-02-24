@@ -67,7 +67,7 @@
 
 - (SDLImage *)image {
     NSObject *obj = [store objectForKey:NAMES_image];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
@@ -108,7 +108,7 @@
 
 - (SDLImage *)secondaryImage {
     NSObject *obj = [store objectForKey:NAMES_secondaryImage];
-    if ([obj isKindOfClass:SDLImage.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];

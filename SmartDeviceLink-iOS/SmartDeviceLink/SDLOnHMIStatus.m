@@ -33,7 +33,7 @@
 
 - (SDLHMILevel *)hmiLevel {
     NSObject *obj = [parameters objectForKey:NAMES_hmiLevel];
-    if ([obj isKindOfClass:SDLHMILevel.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLHMILevel.class]) {
         return (SDLHMILevel *)obj;
     } else {
         return [SDLHMILevel valueOf:(NSString *)obj];
@@ -50,7 +50,7 @@
 
 - (SDLAudioStreamingState *)audioStreamingState {
     NSObject *obj = [parameters objectForKey:NAMES_audioStreamingState];
-    if ([obj isKindOfClass:SDLAudioStreamingState.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLAudioStreamingState.class]) {
         return (SDLAudioStreamingState *)obj;
     } else {
         return [SDLAudioStreamingState valueOf:(NSString *)obj];
@@ -67,7 +67,7 @@
 
 - (SDLSystemContext *)systemContext {
     NSObject *obj = [parameters objectForKey:NAMES_systemContext];
-    if ([obj isKindOfClass:SDLSystemContext.class]) {
+    if (obj == nil || [obj isKindOfClass:SDLSystemContext.class]) {
         return (SDLSystemContext *)obj;
     } else {
         return [SDLSystemContext valueOf:(NSString *)obj];
