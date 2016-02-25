@@ -114,7 +114,7 @@ describe(@"Send Location RPC", ^{
     });
     
     describe(@"when initialized with a dictionary", ^{
-        fcontext(@"when parameters are set correctly", ^{
+        context(@"when parameters are set correctly", ^{
             beforeEach(^{
                 someLongitude = @123.4567;
                 someLatitude = @65.4321;
@@ -132,7 +132,7 @@ describe(@"Send Location RPC", ^{
                                                            NAMES_locationDescription: someLocationDescription,
                                                            NAMES_addressLines: someAddressLines,
                                                            NAMES_phoneNumber: somePhoneNumber,
-                                                           NAMES_image: someImage
+                                                           NAMES_locationImage: someImage
                                                            }
                                                    }
                                            };
