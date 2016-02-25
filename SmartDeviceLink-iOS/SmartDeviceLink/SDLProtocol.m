@@ -343,6 +343,10 @@
 
 
 #pragma mark - SDLProtocolListener Implementation
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+    [self handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:0 version:version];
+}
+
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID hashID:(UInt32)hashID version:(Byte)version {
     switch (serviceType) {
         case SDLServiceType_RPC: {
@@ -364,6 +368,8 @@
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:hashID:version:)]) {
             [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:hashID version:version];
+        } else if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
+            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:0 version:version];
         }
     }
 }
