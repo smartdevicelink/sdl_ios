@@ -1,4 +1,4 @@
-# In Progress
+# 4.0.2 Release Notes
 
 ### Bug Fixes
 * Debug logging is a bit better designed and is faster, and file logging happens on a separate queue.
@@ -7,11 +7,13 @@
 * SDLProxyListener was marking the wrong type for a passed delegate object. `onOnLockScreenNotification:` now correctly passes a type `SDLOnLockScreenStatus` instead of an `SDLLockScreenStatus`.
 * Return `nil` if an object was never set to an RPC. This fixes many unit tests.
 * Don't allow `SDLRPCStruct` to initialize with a `nil` backing store. This fixes unit tests.
+* MTU size has been fixed to be base 8 based instead of base 10.
 
 ### Other
 * Apple broke SDL's app launching scheme in iOS 9.0, so this code has been removed from the project. Apple fixed a bug in iOS 9.2 that alleviates much of the missing functionality.
 * The example app no longer has video and audio code, and its app type is now `MEDIA` instead of `NAVIGATION`.
 * Travis CI builds are fixed
+* Pull-Request and Issue templates have been added
 
 # 4.0.1 Release notes
 
