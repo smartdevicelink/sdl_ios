@@ -1,9 +1,9 @@
 Fixes #[issue number]
 
-This PR is [ready / not ready] for review.
+This PR is **[ready / not ready]** for review.
 
 ### Risk
-This PR makes [no / minor / major] API changes.
+This PR makes **[no / minor / major]** API changes.
 
 ### Testing Plan
 [Describe how you plan to unit test the changes in this PR]
