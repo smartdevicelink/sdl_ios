@@ -28,6 +28,7 @@
     dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
     NSMutableDictionary *_sessionIDs;
+    NSMutableDictionary *_hashIDs;
     BOOL _alreadyDestructed;
 }
 
@@ -50,6 +51,7 @@
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _sessionIDs = [NSMutableDictionary new];
+        _hashIDs = [NSMutableDictionary new];
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
     }
@@ -57,11 +59,15 @@
     return self;
 }
 
-- (void)storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
+- (void)sdl_storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
     _sessionIDs[@(serviceType)] = @(sessionID);
 }
 
-- (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
+- (void)sdl_storeHashID:(UInt32)hashID forServiceType:(SDLServiceType)serviceType {
+    _hashIDs[@(serviceType)] = @(hashID);
+}
+
+- (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     NSNumber *number = _sessionIDs[@(serviceType)];
     if (!number) {
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
@@ -71,14 +77,30 @@
     return (number ? [number unsignedCharValue] : 0);
 }
 
+- (UInt32)sdl_retrieveHashIDForServiceType:(SDLServiceType)serviceType {
+    NSNumber* number = _hashIDs[@(serviceType)];
+    if (!number) {
+        NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve hashID for serviceType %i, but no hashID is saved for that service type.", serviceType];
+        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+    }
+    
+    return (number ? [number unsignedIntValue] : 0);
+}
+
+- (void)sdl_removeHashIDForServiceType:(SDLServiceType)serviceType {
+    if (_hashIDs[@(serviceType)]) {
+        [_hashIDs removeObjectForKey:@(serviceType)];
+    }
+}
+
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     switch (serviceType) {
         case SDLServiceType_RPC: {
             // Need a different header for starting the RPC service
             header = [SDLProtocolHeader headerForVersion:1];
-            if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
-                header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            if ([self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
+                header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
             }
         } break;
         default: {
@@ -90,7 +112,7 @@
     header.frameData = SDLFrameData_StartSession;
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [self sendDataToTransport:message.data withPriority:serviceType];
+    [self sdl_sendDataToTransport:message.data withPriority:serviceType];
 }
 
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {
@@ -98,10 +120,21 @@
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
-    header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
+    
+    NSData* payload = nil;
+    UInt32 hashId = [self sdl_retrieveHashIDForServiceType:serviceType];
+    if (hashId) {
+        payload = [NSData dataWithBytes:&hashId length:4];
+        [self sdl_removeHashIDForServiceType:serviceType];
+    }
+    
+    NSString* logMessage = [NSString stringWithFormat:@"EndSession (request)\nHashId: %u for serviceType %d", hashId, serviceType];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [self sendDataToTransport:message.data withPriority:serviceType];
+    
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+    [self sdl_sendDataToTransport:message.data withPriority:serviceType];
 }
 
 - (void)sendRPC:(SDLRPCMessage *)message {
@@ -156,7 +189,7 @@
     header.frameType = SDLFrameType_Single;
     header.serviceType = SDLServiceType_RPC;
     header.frameData = SDLFrameData_SingleFrame;
-    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
@@ -169,13 +202,13 @@
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
     if (protocolMessage.size < [SDLGlobals globals].maxMTUSize) {
-        [self logRPCSend:protocolMessage];
-        [self sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
+        [self sdl_logRPCSend:protocolMessage];
+        [self sdl_sendDataToTransport:protocolMessage.data withPriority:SDLServiceType_RPC];
     } else {
         NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
-            [self logRPCSend:smallerMessage];
-            [self sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
+            [self sdl_logRPCSend:smallerMessage];
+            [self sdl_sendDataToTransport:smallerMessage.data withPriority:SDLServiceType_RPC];
         }
     }
 }
@@ -185,13 +218,13 @@
     [self sendRPC:rpcRequest];
 }
 
-- (void)logRPCSend:(SDLProtocolMessage *)message {
+- (void)sdl_logRPCSend:(SDLProtocolMessage *)message {
     NSString *logMessage = [NSString stringWithFormat:@"Sending : %@", message];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
 }
 
 // Use for normal messages
-- (void)sendDataToTransport:(NSData *)data withPriority:(NSInteger)priority {
+- (void)sdl_sendDataToTransport:(NSData *)data withPriority:(NSInteger)priority {
     [_prioritizedCollection addObject:data withPriority:priority];
 
     dispatch_async(_sendQueue, ^{
@@ -212,10 +245,10 @@
     // Save the data
     [self.receiveBuffer appendData:receivedData];
 
-    [self processMessages];
+    [self sdl_processMessages];
 }
 
-- (void)processMessages {
+- (void)sdl_processMessages {
     NSMutableString *logMessage = [[NSMutableString alloc] init];
     UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.receiveBuffer];
 
@@ -248,7 +281,7 @@
 
     // Need to maintain the receiveBuffer, remove the bytes from it which we just processed.
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
-
+    
     // Pass on the message to the message router.
     dispatch_async(_receiveQueue, ^{
         [self.messageRouter handleReceivedMessage:message];
@@ -256,20 +289,20 @@
 
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0)
-        [self processMessages];
+        [self sdl_processMessages];
 }
 
-- (void)sendHeartbeat {
+- (void)sdl_sendHeartbeat {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_Heartbeat;
     header.sessionID = self.sessionID;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [self sendDataToTransport:message.data withPriority:header.serviceType];
+    [self sdl_sendDataToTransport:message.data withPriority:header.serviceType];
 }
 
-- (void)startHeartbeatTimerWithDuration:(float)duration {
+- (void)sdl_startHeartbeatTimerWithDuration:(float)duration {
     self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
     __weak typeof(self) weakSelf = self;
     self.heartbeatTimer.elapsedBlock = ^void() {
@@ -297,13 +330,13 @@
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
     if (message.size < [SDLGlobals globals].maxMTUSize) {
-        [self logRPCSend:message];
-        [self sendDataToTransport:message.data withPriority:header.serviceType];
+        [self sdl_logRPCSend:message];
+        [self sdl_sendDataToTransport:message.data withPriority:header.serviceType];
     } else {
         NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
-            [self logRPCSend:smallerMessage];
-            [self sendDataToTransport:smallerMessage.data withPriority:header.serviceType];
+            [self sdl_logRPCSend:smallerMessage];
+            [self sdl_sendDataToTransport:smallerMessage.data withPriority:header.serviceType];
         }
     }
 }
@@ -311,24 +344,32 @@
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version {
+    [self handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:0 version:version];
+}
+
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID hashID:(UInt32)hashID version:(Byte)version {
     switch (serviceType) {
         case SDLServiceType_RPC: {
             self.sessionID = sessionID;
             [SDLGlobals globals].maxHeadUnitVersion = version;
             if ([SDLGlobals globals].protocolVersion >= 3) {
                 self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
-                [self startHeartbeatTimerWithDuration:5.0];
+                [self sdl_startHeartbeatTimerWithDuration:5.0];
             }
         } break;
         default:
             break;
     }
 
-    [self storeSessionID:sessionID forServiceType:serviceType];
+    [self sdl_storeSessionID:sessionID forServiceType:serviceType];
 
+    [self sdl_storeHashID:hashID forServiceType:serviceType];
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID version:version];
+        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:hashID:version:)]) {
+            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:hashID version:version];
+        } else if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
+            [listener handleProtocolStartSessionACK:serviceType sessionID:sessionID hashID:0 version:version];
         }
     }
 }
@@ -365,7 +406,7 @@
     header.frameData = SDLFrameData_HeartbeatACK;
     header.sessionID = session;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [self sendDataToTransport:message.data withPriority:header.serviceType];
+    [self sdl_sendDataToTransport:message.data withPriority:header.serviceType];
 
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {

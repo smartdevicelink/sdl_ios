@@ -9,7 +9,8 @@
 @protocol SDLProtocolListener <NSObject>
 
 @optional
-- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version;
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID version:(Byte)version __deprecated_msg("use -handleProtocolStartSessionACK:sessionID:hashID:version: instead");
+- (void)handleProtocolStartSessionACK:(SDLServiceType)serviceType sessionID:(Byte)sessionID hashID:(UInt32)hashID version:(Byte)version;
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType;
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType;
 - (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType;
