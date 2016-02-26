@@ -49,7 +49,7 @@ typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLRe
 
 typedef NSString SDLVehicleMake;
 
-NSString *const SDLProxyVersion = @"4.0.1";
+NSString *const SDLProxyVersion = @"4.0.2";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
@@ -130,8 +130,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-
-#pragma mark - Setters / Getters
+#pragma mark - Accessors
 
 - (NSSet *)proxyListeners {
     return [self.mutableProxyListeners copy];
