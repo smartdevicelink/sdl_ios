@@ -12,23 +12,42 @@
 QuickSpecBegin(SDLObjectWithPrioritySpec)
 
 describe(@"a prioritized object", ^{
-    it(@"should initialize properly", ^{
-        SDLObjectWithPriority *object = [[SDLObjectWithPriority alloc] init];
-        
-        expect(object).toNot(beNil());
-        expect(object.object).to(beNil());
-        expect(@(object.priority)).to(equal(@0));
+    __block SDLObjectWithPriority *testObject = nil;
+    
+    beforeEach(^{
+        testObject = [[SDLObjectWithPriority alloc] init];
     });
     
-    it(@"should store an object properly", ^{
-        NSString *testString = @"TestString";
-        SDLObjectWithPriority *object = [[SDLObjectWithPriority alloc] init];
+    describe(@"should initialize properly", ^{
+        it(@"should not be nil", ^{
+            expect(testObject).toNot(beNil());
+        });
         
-        object.object = testString;
-        object.priority = 100;
+        it(@"should store a nil object", ^{
+            expect(testObject.object).to(beNil());
+        });
         
-        expect(object.object).to(equal(testString));
-        expect(@(object.priority)).to(equal(@100));
+        it(@"should have a priority of 0", ^{
+            expect(@(testObject.priority)).to(equal(@(NSIntegerMax)));
+        });
+    });
+    
+    describe(@"should store an object properly", ^{
+        __block NSString *testString = nil;
+        
+        beforeEach(^{
+            testString = @"TestString";
+            testObject.object = testString;
+            testObject.priority = 100;
+        });
+        
+        it(@"should store the string as it's object", ^{
+            expect(testObject.object).to(equal(testString));
+        });
+        
+        it(@"should set the priority as specified", ^{
+            expect(@(testObject.priority)).to(equal(@100));
+        });
     });
 });
 

@@ -48,19 +48,29 @@ describe(@"a prioritized object collection", ^{
     });
     
     describe(@"should retrieve higher priority objects first", ^{
-        NSString *highPriorityString = @"highPriority";
-        NSString *mediumPriorityString = @"mediumPriority";
-        NSString *lowPriorityString = @"lowPriority";
+        __block id firstObjectOut = nil;
+        __block id secondObjectOut = nil;
+        __block id thirdObjectOut = nil;
         
-        // Add them in "incorrect" order to make sure sorting works correctly.
-        // Lower numbers indicate higher priority
-        [collection addObject:mediumPriorityString withPriority:100];
-        [collection addObject:lowPriorityString withPriority:200];
-        [collection addObject:highPriorityString withPriority:0];
+        __block NSString *highPriorityString = nil;
+        __block NSString *mediumPriorityString = nil;
+        __block NSString *lowPriorityString = nil;
         
-        id firstObjectOut = [collection nextObject];
-        id secondObjectOut = [collection nextObject];
-        id thirdObjectOut = [collection nextObject];
+        beforeEach(^{
+            highPriorityString = @"highPriority";
+            mediumPriorityString = @"mediumPriority";
+            lowPriorityString = @"lowPriority";
+            
+            // Add them in "incorrect" order to make sure sorting works correctly.
+            // Lower numbers indicate higher priority
+            [collection addObject:mediumPriorityString withPriority:100];
+            [collection addObject:lowPriorityString withPriority:200];
+            [collection addObject:highPriorityString withPriority:0];
+            
+            firstObjectOut = [collection nextObject];
+            secondObjectOut = [collection nextObject];
+            thirdObjectOut = [collection nextObject];
+        });
         
         it(@"should retrieve the highest priority first", ^{
             expect(firstObjectOut).to(equal(highPriorityString));

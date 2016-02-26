@@ -8,7 +8,7 @@ QuickSpecBegin(SDLGlobalsSpec)
 describe(@"The SDLGlobals class", ^{
     __block SDLGlobals *testGlobals = nil;
     __block NSNumber *v1And2MTUSize = @1024;
-    __block NSNumber *v3And4MTUSize = @128000;
+    __block NSNumber *v3And4MTUSize = @131084;
     
     beforeEach(^{
         testGlobals = [[SDLGlobals alloc] init];

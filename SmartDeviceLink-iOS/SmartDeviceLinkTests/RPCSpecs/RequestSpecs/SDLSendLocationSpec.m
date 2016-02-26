@@ -27,100 +27,58 @@ describe(@"Send Location RPC", ^{
         });
         
         context(@"when parameters are set correctly", ^{
-            context(@"when parameters are set with immutable properties", ^{
-                beforeEach(^{
-                    someLongitude = @123.4567;
-                    someLatitude = @65.4321;
-                    someLocation = @"Livio";
-                    someLocationDescription = @"A great place to work";
-                    someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
-                    somePhoneNumber = @"248-591-0333";
-                    someImage = [[SDLImage alloc] init];
-                    
-                    testRequest.longitudeDegrees = someLongitude;
-                    testRequest.latitudeDegrees = someLatitude;
-                    testRequest.locationName = someLocation;
-                    testRequest.locationDescription = someLocationDescription;
-                    testRequest.addressLines = someAddressLines;
-                    testRequest.phoneNumber = somePhoneNumber;
-                    testRequest.locationImage = someImage;
-                });
+            beforeEach(^{
+                someLongitude = @123.4567;
+                someLatitude = @65.4321;
+                someLocation = @"Livio";
+                someLocationDescription = @"A great place to work";
+                someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
+                somePhoneNumber = @"248-591-0333";
+                someImage = [[SDLImage alloc] init];
                 
-                // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
-                it(@"should get longitude correctly", ^{
-                    expect(testRequest.longitudeDegrees).to(equal(someLongitude));
-                    expect(testRequest.longitudeDegrees).to(beIdenticalTo(someLongitude));
-                });
-                
-                it(@"should get latitude correctly", ^{
-                    expect(testRequest.latitudeDegrees).to(equal(someLatitude));
-                    expect(testRequest.latitudeDegrees).to(beIdenticalTo(someLatitude));
-                });
-                
-                it(@"should get location correctly", ^{
-                    expect(testRequest.locationName).to(equal(someLocation));
-                    expect(testRequest.locationName).to(beIdenticalTo(someLocation));
-                });
-                
-                it(@"should get location description correctly", ^{
-                    expect(testRequest.locationDescription).to(equal(someLocationDescription));
-                    expect(testRequest.locationDescription).to(beIdenticalTo(someLocationDescription));
-                });
-                
-                it(@"should get address lines correctly", ^{
-                    expect(testRequest.addressLines).to(equal(someAddressLines));
-                    expect(testRequest.addressLines).to(beIdenticalTo(someAddressLines));
-                });
-                
-                it(@"should get phone number correctly", ^{
-                    expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
-                    expect(testRequest.phoneNumber).to(beIdenticalTo(somePhoneNumber));
-                });
-                
-                it(@"should get image correctly", ^{
-                    expect(testRequest.locationImage).to(equal(someImage));
-                    expect(testRequest.locationImage).to(beIdenticalTo(someImage));
-                });
+                testRequest.longitudeDegrees = someLongitude;
+                testRequest.latitudeDegrees = someLatitude;
+                testRequest.locationName = someLocation;
+                testRequest.locationDescription = someLocationDescription;
+                testRequest.addressLines = someAddressLines;
+                testRequest.phoneNumber = somePhoneNumber;
+                testRequest.locationImage = someImage;
             });
             
-            context(@"when strings and arrays are set with mutable properties", ^{
-                beforeEach(^{
-                    someLocation = [NSMutableString stringWithString:@"Livio"];
-                    someLocationDescription = [NSMutableString stringWithString:@"A great place to work"];
-                    someAddressLines = [NSMutableArray arrayWithArray:@[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"]];
-                    somePhoneNumber = [NSMutableString stringWithString:@"248-591-0333"];
-                    
-                    testRequest.locationName = someLocation;
-                    testRequest.locationDescription = someLocationDescription;
-                    testRequest.addressLines = someAddressLines;
-                    testRequest.phoneNumber = somePhoneNumber;
-                });
-                
-                // Since all the properties tested are mutable, they should be copied, and therefore not identical
-                it(@"should get location correctly", ^{
-                    expect(testRequest.locationName).to(equal(someLocation));
-                    expect(testRequest.locationName).toNot(beIdenticalTo(someLocation));
-                });
-                
-                it(@"should get location description correctly", ^{
-                    expect(testRequest.locationDescription).to(equal(someLocationDescription));
-                    expect(testRequest.locationDescription).toNot(beIdenticalTo(someLocationDescription));
-                });
-                
-                it(@"should get address lines correctly", ^{
-                    expect(testRequest.addressLines).to(equal(someAddressLines));
-                    expect(testRequest.addressLines).toNot(beIdenticalTo(someAddressLines));
-                });
-                
-                it(@"should get phone number correctly", ^{
-                    expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
-                    expect(testRequest.phoneNumber).toNot(beIdenticalTo(somePhoneNumber));
-                });
-                
-                it(@"should get image correctly", ^{
-                    expect(testRequest.locationImage).to(equal(someImage));
-                    expect(testRequest.locationImage).toNot(beIdenticalTo(someImage));
-                });
+            // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
+            it(@"should get longitude correctly", ^{
+                expect(testRequest.longitudeDegrees).to(equal(someLongitude));
+                expect(testRequest.longitudeDegrees).to(beIdenticalTo(someLongitude));
+            });
+            
+            it(@"should get latitude correctly", ^{
+                expect(testRequest.latitudeDegrees).to(equal(someLatitude));
+                expect(testRequest.latitudeDegrees).to(beIdenticalTo(someLatitude));
+            });
+            
+            it(@"should get location correctly", ^{
+                expect(testRequest.locationName).to(equal(someLocation));
+                expect(testRequest.locationName).to(beIdenticalTo(someLocation));
+            });
+            
+            it(@"should get location description correctly", ^{
+                expect(testRequest.locationDescription).to(equal(someLocationDescription));
+                expect(testRequest.locationDescription).to(beIdenticalTo(someLocationDescription));
+            });
+            
+            it(@"should get address lines correctly", ^{
+                expect(testRequest.addressLines).to(equal(someAddressLines));
+                expect(testRequest.addressLines).to(beIdenticalTo(someAddressLines));
+            });
+            
+            it(@"should get phone number correctly", ^{
+                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
+                expect(testRequest.phoneNumber).to(beIdenticalTo(somePhoneNumber));
+            });
+            
+            it(@"should get image correctly", ^{
+                expect(testRequest.locationImage).to(equal(someImage));
+                expect(testRequest.locationImage).to(beIdenticalTo(someImage));
             });
         });
         
@@ -174,7 +132,7 @@ describe(@"Send Location RPC", ^{
                                                            NAMES_locationDescription: someLocationDescription,
                                                            NAMES_addressLines: someAddressLines,
                                                            NAMES_phoneNumber: somePhoneNumber,
-                                                           NAMES_image: someImage
+                                                           NAMES_locationImage: someImage
                                                            }
                                                    }
                                            };
@@ -216,54 +174,6 @@ describe(@"Send Location RPC", ^{
             it(@"should get image correctly", ^{
                 expect(testRequest.locationImage).to(equal(someImage));
                 expect(testRequest.locationImage).to(beIdenticalTo(someImage));
-            });
-        });
-        
-        context(@"when strings and arrays are set with mutable properties", ^{
-            beforeEach(^{
-                someLocation = [NSMutableString stringWithString:@"Livio"];
-                someLocationDescription = [NSMutableString stringWithString:@"A great place to work"];
-                someAddressLines = [NSMutableArray arrayWithArray:@[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"]];
-                somePhoneNumber = [NSMutableString stringWithString:@"248-591-0333"];
-                
-                NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{
-                                                           NAMES_locationName: someLocation,
-                                                           NAMES_locationDescription: someLocationDescription,
-                                                           NAMES_addressLines: someAddressLines,
-                                                           NAMES_phoneNumber: somePhoneNumber
-                                                           }
-                                                   }
-                                           };
-                
-                testRequest = [[SDLSendLocation alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
-            });
-            
-            // Since all the properties tested are mutable, they should be copied, and therefore not identical
-            it(@"should get location correctly", ^{
-                expect(testRequest.locationName).to(equal(someLocation));
-                expect(testRequest.locationName).toNot(beIdenticalTo(someLocation));
-            });
-            
-            it(@"should get location description correctly", ^{
-                expect(testRequest.locationDescription).to(equal(someLocationDescription));
-                expect(testRequest.locationDescription).toNot(beIdenticalTo(someLocationDescription));
-            });
-            
-            it(@"should get address lines correctly", ^{
-                expect(testRequest.addressLines).to(equal(someAddressLines));
-                expect(testRequest.addressLines).toNot(beIdenticalTo(someAddressLines));
-            });
-            
-            it(@"should get phone number correctly", ^{
-                expect(testRequest.phoneNumber).to(equal(somePhoneNumber));
-                expect(testRequest.phoneNumber).toNot(beIdenticalTo(somePhoneNumber));
-            });
-            
-            it(@"should get image correctly", ^{
-                expect(testRequest.locationImage).to(equal(someImage));
-                expect(testRequest.locationImage).toNot(beIdenticalTo(someImage));
             });
         });
     
