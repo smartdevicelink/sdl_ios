@@ -71,6 +71,18 @@
     }
 }
 
+- (NSString *)locationDescription {
+    return parameters[NAMES_locationDescription];
+}
+
+- (void)setLocationDescription:(NSString *)locationDescription {
+    if (locationDescription != nil) {
+        parameters[NAMES_locationDescription] = locationDescription;
+    } else {
+        [parameters removeObjectForKey:NAMES_locationDescription];
+    }
+}
+
 - (NSArray *)addressLines {
     return parameters[NAMES_addressLines];
 }
