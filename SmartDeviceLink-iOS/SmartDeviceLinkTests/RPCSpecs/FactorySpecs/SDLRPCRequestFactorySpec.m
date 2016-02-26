@@ -967,7 +967,7 @@ describe(@"SDLUpdateTurnList Tests", ^ {
             message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turns softButtons:softButtons correlationID:@1234];
         });
         
-        it(@"Should properly set Turn imaged", ^{
+        it(@"Should properly set Turns", ^{
             expect(message.turnList).to(equal(turns));
         });
         
