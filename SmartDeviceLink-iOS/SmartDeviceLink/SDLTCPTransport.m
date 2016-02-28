@@ -132,6 +132,9 @@ int call_socket(const char *hostname, const char *port) {
     // check if hostname address is valid before we attempt to connect.
     SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)hostname);
     if (reachability == NULL) {
+        NSString* hostnameString =  [NSString stringWithCString:hostname encoding:NSUTF8StringEncoding];
+        NSString* error = [NSString stringWithFormat:@"Invalid IP address of %@. Cancelling connection.", hostnameString];
+        [SDLDebugTool logInfo:error withType:SDLDebugType_Transport_TCP];
         return (-1);
     } else {
         CFRelease(reachability);
