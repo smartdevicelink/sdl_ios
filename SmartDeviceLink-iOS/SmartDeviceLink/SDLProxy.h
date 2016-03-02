@@ -28,6 +28,7 @@
 @property (strong) SDLTimer *startSessionTimer;
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
+@property (copy, nonatomic) NSString *appId;
 @property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport

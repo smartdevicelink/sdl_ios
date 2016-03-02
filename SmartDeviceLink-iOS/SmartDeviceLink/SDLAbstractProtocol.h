@@ -16,6 +16,7 @@
 @property (weak) SDLAbstractTransport *transport;
 @property (strong) NSHashTable *protocolDelegateTable; // table of id<SDLProtocolListener>
 @property (nonatomic, strong) id<SDLSecurityType> securityManager;
+@property (nonatomic, copy) NSString *appId;
 
 // Sending
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use startServiceWithType: instead"));

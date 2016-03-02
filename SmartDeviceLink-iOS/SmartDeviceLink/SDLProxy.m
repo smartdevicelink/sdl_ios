@@ -153,16 +153,21 @@ const int POLICIES_CORRELATION_ID = 65535;
 #pragma mark - SecurityManager
 
 - (void)addSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake {
+    if (self.appId == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"The App Id must be set on SDLProxy before calling this method" userInfo:nil];
+    }
+    
     if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
         self.securityManagers[vehicleMake] = securityManagerClass;
     } else {
-        @throw [NSException exceptionWithName:@"Unknown Security Manager" reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
     }
 }
 
 - (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((make != nil) && (self.securityManagers[make] != nil)) {
         Class securityManagerClass = self.securityManagers[make];
+        self.protocol.appId = self.appId;
         return [[securityManagerClass alloc] init];
     }
     

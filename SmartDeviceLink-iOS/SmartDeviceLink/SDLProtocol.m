@@ -143,7 +143,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         return;
     }
     
-    [self.securityManager initializeWithCompletionHandler:^(NSError * _Nullable error) {
+    [self.securityManager initializeWithAppId:self.appId completionHandler:^(NSError * _Nullable error) {
         if (error) {
             NSString *logString = [NSString stringWithFormat:@"Security Manager failed to initialize with error: %@", error];
             [SDLDebugTool logInfo:logString];
@@ -643,7 +643,6 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     serverMessageHeader.bytesInPayload = (UInt32)binaryData.length;
     
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
-    
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
 
