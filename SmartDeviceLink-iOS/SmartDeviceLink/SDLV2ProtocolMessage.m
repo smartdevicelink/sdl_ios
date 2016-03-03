@@ -21,8 +21,9 @@
 
 // Convert RPC payload to dictionary (for consumption by RPC layer)
 - (NSDictionary *)rpcDictionary {
+    
     // Only applicable to RPCs
-    if (self.header.serviceType != SDLServiceType_RPC) {
+    if (self.header.serviceType != SDLServiceType_RPC && self.header.serviceType != SDLServiceType_BulkData) {
         return nil;
     }
 
