@@ -323,7 +323,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
     } else if (requestType == [SDLRequestType HTTP]) {
-        [self handleSystemRequestHttp:systemRequest];
+        [self handleSystemRequestHTTP:systemRequest];
     }
 }
 
@@ -429,8 +429,8 @@ const int POLICIES_CORRELATION_ID = 65535;
                               }];
 }
 
-- (void)handleSystemRequestHttp:(SDLOnSystemRequest *)request {
-    if (nil == request.bulkData) {
+- (void)handleSystemRequestHTTP:(SDLOnSystemRequest *)request {
+    if (request.bulkData.length == 0) {
         // TODO: not sure how we want to handle http requests that don't have bulk data (maybe as GET?)
         return;
     }
@@ -452,7 +452,7 @@ const int POLICIES_CORRELATION_ID = 65535;
                             return;
                         }
                         
-                        if (data == nil || data.length == 0) {
+                        if (data.length == 0) {
                             [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
                             return;
                         }
@@ -463,8 +463,8 @@ const int POLICIES_CORRELATION_ID = 65535;
                         // Create the SystemRequest RPC to send to module.
                         SDLPutFile *putFile = [[SDLPutFile alloc] init];
                         putFile.fileType = [SDLFileType JSON];
-                        putFile.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
-                        putFile.syncFileName = @"pt.json";
+                        putFile.correlationID = @(POLICIES_CORRELATION_ID);
+                        putFile.syncFileName = @"response_data";
                         putFile.bulkData = data;
                         
                         // Send and log RPC Request
