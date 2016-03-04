@@ -154,10 +154,19 @@
         } else {
             cell.detailTextLabel.text = tempdetail;
         }
-
+        
+        if ([rpc.messageType isEqualToString:@"response"]) {
+            cell.backgroundColor = [UIColor colorWithRed:0.611 green:0.721 blue:0.592 alpha:1.0];
+        } else if ([rpc.messageType isEqualToString:@"request"]) {
+            cell.backgroundColor = [UIColor colorWithRed:0.537 green:0.733 blue:0.996 alpha:1.0];
+        } else {
+            cell.backgroundColor = [UIColor colorWithRed:0.757 green:0.682 blue:0.878 alpha:1.0];
+        }
+        
     } else {
         cell.textLabel.text = msg;
         cell.detailTextLabel.text = tempdetail;
+        cell.backgroundColor = [UIColor whiteColor];
     }
 
     return cell;
