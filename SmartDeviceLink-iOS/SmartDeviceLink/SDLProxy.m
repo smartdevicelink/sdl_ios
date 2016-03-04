@@ -180,7 +180,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    if (serviceType == SDLServiceType_RPC || [SDLGlobals globals].protocolVersion >= 2) {
+    if (serviceType == SDLServiceType_RPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
