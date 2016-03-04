@@ -487,7 +487,10 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
                                                                  isMediaApp:@YES languageDesired:[SDLLanguage EN_US]
                                                                  hmiDisplayLanguageDesired:[SDLLanguage ES_MX] appID:@"6h43g"];
         
-        expect(message.syncMsgVersion).to(beNil());
+        expect(message.syncMsgVersion).toNot(beNil());
+        expect(message.syncMsgVersion.majorVersion).to(equal(@1));
+        expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        
         expect(message.appName).to(equal(@"Interface"));
         expect(message.ttsName).to(equal(ttsName));
         expect(message.ngnMediaScreenAppName).to(equal(@"Interface"));
@@ -497,13 +500,16 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage ES_MX]));
         expect(message.appHMIType).to(beNil());
         expect(message.hashID).to(beNil());
-        expect(message.deviceInfo).to(beNil());
+        expect(message.deviceInfo).toNot(beNil());
         expect(message.appID).to(equal(@"6h43g"));
         expect(message.correlationID).to(equal(@1));
         
         message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Register App Interface" isMediaApp:@NO languageDesired:[SDLLanguage PT_BR] appID:@"36g6rsw4"];
         
-        expect(message.syncMsgVersion).to(beNil());
+        expect(message.syncMsgVersion).toNot(beNil());
+        expect(message.syncMsgVersion.majorVersion).to(equal(@1));
+        expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        
         expect(message.appName).to(equal(@"Register App Interface"));
         expect(message.ttsName).to(beNil());
         expect(message.ngnMediaScreenAppName).to(equal(@"Register App Interface"));
@@ -513,13 +519,16 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_BR]));
         expect(message.appHMIType).to(beNil());
         expect(message.hashID).to(beNil());
-        expect(message.deviceInfo).to(beNil());
+        expect(message.deviceInfo).toNot(beNil());
         expect(message.appID).to(equal(@"36g6rsw4"));
         expect(message.correlationID).to(equal(@1));
         
         message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"..." languageDesired:[SDLLanguage CS_CZ] appID:@"56ht5j"];
         
-        expect(message.syncMsgVersion).to(beNil());
+        expect(message.syncMsgVersion).toNot(beNil());
+        expect(message.syncMsgVersion.majorVersion).to(equal(@1));
+        expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        
         expect(message.appName).to(equal(@"..."));
         expect(message.ttsName).to(beNil());
         expect(message.ngnMediaScreenAppName).to(equal(@"..."));
@@ -529,7 +538,7 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.hmiDisplayLanguageDesired).to(equal([SDLLanguage CS_CZ]));
         expect(message.appHMIType).to(beNil());
         expect(message.hashID).to(beNil());
-        expect(message.deviceInfo).to(beNil());
+        expect(message.deviceInfo).toNot(beNil());
         expect(message.appID).to(equal(@"56ht5j"));
         expect(message.correlationID).to(equal(@1));
     });
@@ -940,19 +949,26 @@ describe(@"BuildSubscribeVehicleData Tests", ^ {
 });
 
 describe(@"SDLUpdateTurnList Tests", ^ {
-    __block NSMutableArray *softButtons = nil;
-    __block NSMutableArray *turnImages = nil;
+    __block NSMutableArray<SDLSoftButton *> *softButtons = nil;
+    __block NSMutableArray<SDLTurn *> *turns = nil;
     __block SDLUpdateTurnList *message = nil;
+    
+    __block SDLTurn *turn1 = nil;
+    __block SDLTurn *turn2 = nil;
     
     describe(@"Should build correctly", ^ {
         beforeEach(^{
             softButtons = [@[[[SDLSoftButton alloc] init]] mutableCopy];
-            turnImages = [@[@"Image 1", @"Image 2", @"Image 3"] mutableCopy];
-            message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turnImages softButtons:softButtons correlationID:@1234];
+            
+            turn1 = [[SDLTurn alloc] init];
+            turn2 = [[SDLTurn alloc] init];
+            turns = [@[turn1, turn2] mutableCopy];
+            
+            message = [SDLRPCRequestFactory buildUpdateTurnListWithTurnList:turns softButtons:softButtons correlationID:@1234];
         });
         
-        it(@"Should properly set Turn imaged", ^{
-            expect(message.turnList).to(equal(turnImages));
+        it(@"Should properly set Turns", ^{
+            expect(message.turnList).to(equal(turns));
         });
         
         it(@"Should properly set Soft Buttons", ^{

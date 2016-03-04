@@ -127,7 +127,7 @@ int call_socket(const char *hostname, const char *port) {
         gethostname(localhost, sizeof localhost);
         hostname = (const char *)&localhost;
     }
-
+    
     //getaddrinfo setup
     if ((status = getaddrinfo(hostname, port, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));

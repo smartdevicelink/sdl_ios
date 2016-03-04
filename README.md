@@ -1,8 +1,8 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
-[![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/release%2F4.0.1.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
-[![codecov.io](https://img.shields.io/codecov/c/github/codecov/smartdevicelink/sdl_ios/release%2F4.0.1.svg?style=flat)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=release/4.0.1)
+[![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/master.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
+[![codecov.io](https://img.shields.io/codecov/c/github/codecov/smartdevicelink/sdl_ios/master.svg?style=flat)](http://codecov.io/github/smartdevicelink/sdl_ios?branch=master)
 [![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.org)
 
 
@@ -34,7 +34,7 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANG
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.1'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.3'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
 
 ##### Carthage
 

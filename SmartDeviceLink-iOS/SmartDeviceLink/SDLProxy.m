@@ -45,7 +45,7 @@
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.0.1";
+NSString *const SDLProxyVersion = @"4.0.3";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
@@ -322,6 +322,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestProprietary:systemRequest];
     } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
+    } else if (requestType == [SDLRequestType HTTP]) {
+        [self handleSystemRequestHTTP:systemRequest];
     }
 }
 
@@ -425,6 +427,51 @@ const int POLICIES_CORRELATION_ID = 65535;
                                   UIImage *icon = [UIImage imageWithData:data];
                                   [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
                               }];
+}
+
+- (void)handleSystemRequestHTTP:(SDLOnSystemRequest *)request {
+    if (request.bulkData.length == 0) {
+        // TODO: not sure how we want to handle http requests that don't have bulk data (maybe as GET?)
+        return;
+    }
+    
+    NSError *error = nil;
+    NSDictionary *body = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
+    if (error) {
+        NSLog(@"error creating body from bulk data: %@", error.localizedDescription);
+        return;
+    }
+    
+    [self uploadForBodyDataDictionary:body
+                            URLString:request.url
+                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                        NSString *logMessage = nil;
+                        if (error) {
+                            logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error];
+                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            return;
+                        }
+                        
+                        if (data.length == 0) {
+                            [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            return;
+                        }
+                        
+                        // Show the HTTP response
+                        [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                        
+                        // Create the SystemRequest RPC to send to module.
+                        SDLPutFile *putFile = [[SDLPutFile alloc] init];
+                        putFile.fileType = [SDLFileType JSON];
+                        putFile.correlationID = @(POLICIES_CORRELATION_ID);
+                        putFile.syncFileName = @"response_data";
+                        putFile.bulkData = data;
+                        
+                        // Send and log RPC Request
+                        logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length];
+                        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                        [self sendRPC:putFile];
+                    }];
 }
 
 /**
