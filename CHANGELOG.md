@@ -1,3 +1,16 @@
+# 4.0.3 Release Notes
+
+### Enhancements
+* Implement HTTP System Requests for policy updates
+
+### Bug Fix
+* Revert the reachability code in TCP. If you were having trouble with connecting to SDL Core, this should fix that particular bug.
+
+### Other
+* Fixed numerous broken tests
+* Moved templates and CONTRIBUTING to .github
+* Enable code coverage by default when testing
+
 # 4.0.2 Release Notes
 
 ### Bug Fixes
