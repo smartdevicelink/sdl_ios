@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         	= "SmartDeviceLink-iOS"
-  s.version      	= "4.0.2"
+  s.version      	= "4.0.3"
   s.summary      	= "Connect your app with cars!"
   s.homepage     	= "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
   s.license      	= { :type => "New BSD", :file => "LICENSE" }

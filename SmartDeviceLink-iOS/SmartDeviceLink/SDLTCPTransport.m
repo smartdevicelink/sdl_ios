@@ -14,7 +14,6 @@
 #import <sys/wait.h>
 #import <netinet/in.h>
 #import <netdb.h>
-#import <SystemConfiguration/SystemConfiguration.h>
 
 
 // C function forward declarations.
@@ -127,14 +126,6 @@ int call_socket(const char *hostname, const char *port) {
         char localhost[128];
         gethostname(localhost, sizeof localhost);
         hostname = (const char *)&localhost;
-    }
-    
-    // check if hostname address is valid before we attempt to connect.
-    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)hostname);
-    if (reachability == NULL) {
-        return (-1);
-    } else {
-        CFRelease(reachability);
     }
     
     //getaddrinfo setup

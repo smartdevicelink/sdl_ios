@@ -34,7 +34,7 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANG
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.2'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.0.3'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
 
 ##### Carthage
 
