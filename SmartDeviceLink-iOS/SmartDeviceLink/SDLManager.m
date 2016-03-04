@@ -21,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Typedefs and Constants
 
-typedef NSNumber SDLRPCCorrelationID;
-typedef NSNumber SDLSoftButtonCommandID;
-typedef NSNumber SDLAddCommandCommandID;
-typedef NSNumber SDLSubscribeButtonCommandID;
+typedef NSNumber SDLRPCCorrelationId;
+typedef NSNumber SDLAddCommandCommandId;
+typedef NSString SDLSubscribeButtonName;
+typedef NSNumber SDLSoftButtonId;
 
 
 #pragma mark - SDLManager Private Interface
@@ -53,11 +53,11 @@ typedef NSNumber SDLSubscribeButtonCommandID;
 @property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
 
 // Dictionaries to link handlers with requests/commands/etc
-@property (strong, nonatomic) NSMapTable<SDLRPCCorrelationID *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
-@property (strong, nonatomic) NSMutableDictionary<SDLRPCCorrelationID *, SDLRPCRequest *> *rpcRequestDictionary;
-@property (strong, nonatomic) NSMapTable<SDLAddCommandCommandID *, SDLRPCNotificationHandler> *commandHandlerMap;
-@property (strong, nonatomic) NSMapTable<SDLSubscribeButtonCommandID *, SDLRPCNotificationHandler> *buttonHandlerMap;
-@property (strong, nonatomic) NSMapTable<SDLSoftButtonCommandID *, SDLRPCNotificationHandler> *customButtonHandlerMap;
+@property (strong, nonatomic) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
+@property (strong, nonatomic) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
+@property (strong, nonatomic) NSMapTable<SDLAddCommandCommandId *, SDLRPCNotificationHandler> *commandHandlerMap;
+@property (strong, nonatomic) NSMapTable<SDLSubscribeButtonName *, SDLRPCNotificationHandler> *buttonHandlerMap;
+@property (strong, nonatomic) NSMapTable<SDLSoftButtonId *, SDLRPCNotificationHandler> *customButtonHandlerMap;
 
 @end
 
@@ -150,12 +150,15 @@ typedef NSNumber SDLSubscribeButtonCommandID;
         handler(request, response, error);
     }
     
-    // Check for UnsubscribeButton, DeleteCommand and remove handlers
+    // If it's a DeleteCommand or UnsubscribeButton, we need to remove handlers for the corresponding commands / buttons
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
-        // TODO
-        // The Command ID needs to be stored from the request RPC and then used here
+        SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
+        NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
+        [self.commandHandlerMap removeObjectForKey:deleteCommandId];
     } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
-        // TODO
+        SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
+        NSString *unsubscribeButtonName = unsubscribeButtonRequest.buttonName.value;
+        [self.buttonHandlerMap removeObjectForKey:unsubscribeButtonName];
     }
 }
 
