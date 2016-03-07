@@ -141,11 +141,13 @@ typedef NSNumber SDLSoftButtonId;
         error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
     }
     
+    // Find the appropriate request completion handler, remove the request and response handler
     SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
     SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
     [self.rpcRequestDictionary removeObjectForKey:response.correlationID];
     [self.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
     
+    // Run the response handler
     if (handler) {
         handler(request, response, error);
     }
@@ -328,8 +330,7 @@ typedef NSNumber SDLSoftButtonId;
 #pragma mark Lock Screen
 
 - (void)sdl_initializeLockScreenController {
-    NSAssert(self.configuration != nil, @"Attempting to intialize a lock screen controller, but SDLManager doesn't have a configuration");
-    
+    // Create and initialize the lock screen controller depending on the configuration
     if (!self.configuration.lockScreenConfig.enableAutomaticLockScreen) {
         self.lockScreenViewController = nil;
     } else if (self.configuration.lockScreenConfig.customViewController != nil) {
@@ -345,9 +346,7 @@ typedef NSNumber SDLSoftButtonId;
 
 - (UIViewController *)sdl_getCurrentViewController {
     // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
-    // TODO: Will this work for everyone in every case? Do we need a way to disable it?
     UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    
     while (topController.presentedViewController != nil) {
         topController = topController.presentedViewController;
     }
@@ -367,6 +366,7 @@ typedef NSNumber SDLSoftButtonId;
     [SDLDebugTool logInfo:@"onProxyOpened"];
     self.lifecycleState = SDLLifecycleStateNotReady;
     
+    // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
@@ -380,21 +380,20 @@ typedef NSNumber SDLSoftButtonId;
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     }
     
-    // TODO: implement handler with success/error
+    // Send the request and depending on the response, post the notification
     [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         if (error) {
             [self sdl_postNotification:SDLDidFailToRegisterNotification info:error];
         } else {
             [self sdl_postNotification:SDLDidRegisterNotification info:response];
         }
-        
     }];
     
+    // Make sure to post the did connect notification to start preheating some other objects as well while we wait for the RAIR
     [self sdl_postNotification:SDLDidConnectNotification info:nil];
 }
 
 - (void)onProxyClosed {
-    // Already background dispatched from caller
     [SDLDebugTool logInfo:@"onProxyClosed"];
     self.lifecycleState = SDLLifecycleStateNotConnected;
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
