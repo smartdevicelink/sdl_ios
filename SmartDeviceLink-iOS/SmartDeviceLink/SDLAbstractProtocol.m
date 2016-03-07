@@ -32,10 +32,6 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)sendHeartbeat {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     [self doesNotRecognizeSelector:_cmd];
 }
