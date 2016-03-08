@@ -70,6 +70,9 @@
         case SDLFrameData_EndSessionNACK: {
             [self.delegate handleProtocolStartSessionNACK:message.header.serviceType];
         } break;
+        case SDLFrameData_Heartbeat: {
+            
+        }
         default: break;
     }
 }
