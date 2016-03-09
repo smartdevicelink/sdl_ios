@@ -165,7 +165,6 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)sdl_runHandlerForCommand:(SDLOnCommand *)command {
-    // Already background dispatched from caller
     SDLRPCNotificationHandler handler = nil;
     handler = self.commandHandlerMap[command.cmdID];
     
@@ -175,7 +174,6 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)sdl_runHandlerForButton:(__kindof SDLRPCNotification *)notification {
-    // Already background dispatched from caller
     SDLRPCNotificationHandler handler = nil;
     SDLButtonName *name = nil;
     NSNumber *customID = nil;
@@ -317,7 +315,6 @@ typedef NSNumber SDLSoftButtonId;
 #pragma mark Helper Methods
 
 - (void)sdl_disposeProxy {
-    // TODO:
     [SDLDebugTool logInfo:@"Stop Proxy"];
     [self.proxy dispose];
     self.proxy = nil;
