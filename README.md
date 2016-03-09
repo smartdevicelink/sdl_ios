@@ -60,3 +60,152 @@ carthage bootstrap --platform ios
 cd ../
 xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO test
 ```
+
+### SDL iOS Getting Started
+
+#### Other Installation Requirements
+You may want to build the [sdl_core project](https://github.com/smartdevicelink/sdl_core) to be able to see your application connecting if you don't have an iAP enabled head unit to test.
+
+#### Enabling Background Capabilities
+iOS 5 introduced the capability for an iOS application to maintain a connection to an external accessory while the application is in the background. This capability must be explicitly enabled for your application.
+
+To enable the feature for your application, select your application's build target, go to Capabilities, enable Background Modes, and select the External accessory communication mode.
+
+![Enable External Accessory Background Mode](http://i.imgur.com/zxn4lsb.png)
+
+#### SDL protocol strings
+Your application must support a set of smartdevicelink protocol strings in order to be connected to smartdevicelink enabled head units. Go to your application's .plist, look at the source, and add the following code under the top level `dict`. Note: This is not required if you're only testing by connected to a wifi enabled head unit, but is required for USB and Bluetooth enabled head units.
+
+```xml
+<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.smartdevicelink.prot29</string>
+		<string>com.smartdevicelink.prot28</string>
+		<string>com.smartdevicelink.prot27</string>
+		<string>com.smartdevicelink.prot26</string>
+		<string>com.smartdevicelink.prot25</string>
+		<string>com.smartdevicelink.prot24</string>
+		<string>com.smartdevicelink.prot23</string>
+		<string>com.smartdevicelink.prot22</string>
+		<string>com.smartdevicelink.prot21</string>
+		<string>com.smartdevicelink.prot20</string>
+		<string>com.smartdevicelink.prot19</string>
+		<string>com.smartdevicelink.prot18</string>
+		<string>com.smartdevicelink.prot17</string>
+		<string>com.smartdevicelink.prot16</string>
+		<string>com.smartdevicelink.prot15</string>
+		<string>com.smartdevicelink.prot14</string>
+		<string>com.smartdevicelink.prot13</string>
+		<string>com.smartdevicelink.prot12</string>
+		<string>com.smartdevicelink.prot11</string>
+		<string>com.smartdevicelink.prot10</string>
+		<string>com.smartdevicelink.prot9</string>
+		<string>com.smartdevicelink.prot8</string>
+		<string>com.smartdevicelink.prot7</string>
+		<string>com.smartdevicelink.prot6</string>
+		<string>com.smartdevicelink.prot5</string>
+		<string>com.smartdevicelink.prot4</string>
+		<string>com.smartdevicelink.prot3</string>
+		<string>com.smartdevicelink.prot2</string>
+		<string>com.smartdevicelink.prot1</string>
+		<string>com.smartdevicelink.prot0</string>
+		<string>com.ford.sync.prot0</string>
+	</array>
+```
+
+#### Creating the SDLProxy
+When creating a proxy, you will likely want a class to manage the Proxy and related functions for you. The example project located in this repository has a class called "ProxyManager" to serve this function. One important, somewhat odd note, is that when the proxy is created, it will immediately start. This means that you should only build the Proxy object when you are ready to search for connections. For production apps using iAP, this is early, since it ought to be ready for an iAP connection the entire time your app is available. However, when debugging using Wi-Fi, you may want to tie this to a button press, since the search can timeout.
+
+Another odd note is that if a connection disconnects for any reason, you will receive an `onProxyClosed` callback through the `SDLListener` delegate (see below), and you will have to completely discard and rebuild the proxy object.
+
+The example app's `startProxyWithTransportType` handles starting up the proxy when necessary. The proxy object should be stored as a property of it's parent class.
+
+```objc
+switch (transportType) {
+    case ProxyTransportTypeTCP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
+    } break;
+    case ProxyTransportTypeIAP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+    } break;
+    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
+}
+```
+
+#### SDLProxyListener
+
+Note in the following lines, that there is a call to pass a `listener` into the build method.
+
+```objc
+self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:[Preferences sharedPreferences].ipAddress tcpPort:[Preferences sharedPreferences].port]
+self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+```
+
+This is an object that conforms to the `SDLProxyListener` protocol. This could be the object holding the reference to the proxy, as it is here.
+
+#### Implement onProxyOpened and other delegate methods
+The `SDLProxyListener` protocol has four required methods:
+
+```objc
+-(void) onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
+-(void) onOnHMIStatus:(SDLOnHMIStatus*) notification;
+-(void) onProxyClosed;
+-(void) onProxyOpened;
+```
+
+`onProxyOpened` is called when a connection is established between the head unit and your application. This is the place to set whatever state you need to, to know that your application is connected. It is also where you must send a register request with your app's information to the vehicle. The example app uses the following basic code:
+
+```objc
+self.state = ProxyStateConnected;
+    
+SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
+[self.proxy sendRPC:registerRequest];
+```
+
+When the proxy is closed, you will receive a call to `onProxyClosed`. This is where you will reset the state of the proxy, because remember, when a connection is closed, it is assumed that you will destroy the current proxy. The example app runs a method called `resetProxyWithTransportType:` that runs the following:
+
+```objc
+[self stopProxy];
+[self startProxyWithTransportType:transportType];
+```
+
+`stopProxy` does the following:
+
+```objc
+self.state = ProxyStateStopped;
+
+if (self.proxy != nil) {
+    [self.proxy dispose];
+    self.proxy = nil;
+}
+```
+
+#### onOnHMIStatus
+When your app receives `onOnHMIStatus` it has changed HMI states on the head unit. For example, your application can be put into `HMI_FULL` meaning that it has full access to the vehicle screen. For more info on HMI Levels, [see the Cocoadoc documentation on the enum](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/4.0.0-alpha.2/Classes/SDLHMILevel.html).
+
+You will want to track your first HMI FULL, for instance with a boolean value. The example application has extremely basic tracking of this type in the `onOnHMIStatus` callback.
+
+```objc
+if ((notification.hmiLevel == [SDLHMILevel FULL]) && self.isFirstHMIFull) {
+    [self showInitialData];
+    self.isFirstHMIFull = NO;
+}
+```
+
+#### WiFi vs. iAP
+
+As described in the section "Creating the SDLProxy", you need will have separate setup for either WiFi (debugging) and iAP (production) code.
+
+```objc
+switch (transportType) {
+    case ProxyTransportTypeTCP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
+    } break;
+    case ProxyTransportTypeIAP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+    } break;
+    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
+}
+```
+
+When creating for WiFi, you will want to know the IP address and port of the Core system you are testing with. With IAP connections, you will use the "build" method without setting an IP and Port, and IAP will automatically be activated.
