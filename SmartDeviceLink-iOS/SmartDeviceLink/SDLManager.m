@@ -233,24 +233,13 @@ typedef NSNumber SDLSoftButtonId;
     request.correlationID = corrID;
     
     // Check for RPCs that require an extra handler
-    // TODO: add SDLAlert and SDLScrollableMessage
     if ([request isKindOfClass:[SDLShow class]]) {
+        // TODO: Can we create soft button ids ourselves?
         SDLShow *show = (SDLShow *)request;
-        NSMutableArray<SDLSoftButton *> *softButtons = show.softButtons;
-        if (softButtons && softButtons.count > 0) {
-            for (SDLSoftButton *sb in softButtons) {
-                if (!sb.softButtonID) {
-                    @throw [SDLManager sdl_missingIDException];
-                }
-                if (sb.handler) {
-                    self.customButtonHandlerMap[sb.softButtonID] = sb.handler;
-                }
-            }
-        }
+        [self sdl_addToHandlerMapWithSoftButtons:show.softButtons];
     } else if ([request isKindOfClass:[SDLAddCommand class]]) {
         // TODO: Can we create CmdIDs ourselves?
         SDLAddCommand *addCommand = (SDLAddCommand *)request;
-        
         if (!addCommand.cmdID) {
             @throw [SDLManager sdl_missingIDException];
         }
@@ -261,13 +250,18 @@ typedef NSNumber SDLSoftButtonId;
         // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
         SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
         NSString *buttonName = subscribeButton.buttonName.value;
-        
         if (!buttonName) {
             @throw [SDLManager sdl_missingIDException];
         }
         if (subscribeButton.handler) {
             self.buttonHandlerMap[buttonName] = subscribeButton.handler;
         }
+    } else if ([request isKindOfClass:[SDLAlert class]]) {
+        SDLAlert *alert = (SDLAlert *)request;
+        [self sdl_addToHandlerMapWithSoftButtons:alert.softButtons];
+    } else if ([request isKindOfClass:[SDLScrollableMessage class]]) {
+        SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
+        [self sdl_addToHandlerMapWithSoftButtons:scrollableMessage.softButtons];
     }
     
     if (handler) {
@@ -276,6 +270,19 @@ typedef NSNumber SDLSoftButtonId;
     }
     
     [self.proxy sendRPC:request];
+}
+
+- (void)sdl_addToHandlerMapWithSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+    if (softButtons.count > 0) {
+        for (SDLSoftButton *sb in softButtons) {
+            if (!sb.softButtonID) {
+                @throw [SDLManager sdl_missingIDException];
+            }
+            if (sb.handler) {
+                self.customButtonHandlerMap[sb.softButtonID] = sb.handler;
+            }
+        }
+    }
 }
 
 
