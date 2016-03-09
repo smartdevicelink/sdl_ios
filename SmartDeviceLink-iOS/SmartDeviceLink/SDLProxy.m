@@ -436,15 +436,12 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
     
     NSError *error = nil;
-    NSDictionary *body = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
     if (error) {
         NSLog(@"error creating body from bulk data: %@", error.localizedDescription);
         return;
     }
     
-    [self uploadForBodyDataDictionary:body
-                            URLString:request.url
-                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [self uploadData:request.bulkData toURLString:request.url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         NSString *logMessage = nil;
                         if (error) {
                             logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error];
@@ -505,6 +502,21 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 
     return JSONDictionary;
+}
+
+- (void)uploadData:(NSData * _Nonnull)data toURLString:(NSString * _Nonnull)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+    // NSURLRequest configuration
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.timeoutInterval = 7;
+    request.HTTPMethod = @"POST";
+
+    // Logging
+    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", urlString];
+    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    // Create the upload task
+    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:data completionHandler:completionHandler];
 }
 
 /**
