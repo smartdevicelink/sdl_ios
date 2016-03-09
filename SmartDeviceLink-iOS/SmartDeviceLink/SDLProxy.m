@@ -324,6 +324,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestLockScreenIconURL:systemRequest];
     } else if (requestType == [SDLRequestType HTTP]) {
         [self handleSystemRequestHTTP:systemRequest];
+    } else if (requestType == [SDLRequestType LAUNCH_APP]) {
+        [self handleSystemRequestLockScreenIconURL:systemRequest];
     }
 }
 
@@ -354,6 +356,16 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 #pragma mark OnSystemRequest Handlers
+- (void)handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
+    NSURL *URLScheme = [NSURL URLWithString:request.url];
+    if (URLScheme == nil) {
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Launch App failure: invalid URL sent from module: %@", request.url] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        return;
+    }
+    
+    [[UIApplication sharedApplication] openURL:URLScheme];
+}
+
 - (void)handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
     NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
     if (JSONDictionary == nil || request.url == nil) {
