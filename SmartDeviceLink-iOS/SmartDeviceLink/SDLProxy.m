@@ -325,7 +325,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     } else if (requestType == [SDLRequestType HTTP]) {
         [self handleSystemRequestHTTP:systemRequest];
     } else if (requestType == [SDLRequestType LAUNCH_APP]) {
-        [self handleSystemRequestLockScreenIconURL:systemRequest];
+        [self handleSystemRequestLaunchApp:systemRequest];
     }
 }
 
