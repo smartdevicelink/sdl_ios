@@ -63,7 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+    // If system version is less than 8.0
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
 
