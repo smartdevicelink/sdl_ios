@@ -154,10 +154,10 @@ This is an object that conforms to the `SDLProxyListener` protocol. This could b
 The `SDLProxyListener` protocol has four required methods:
 
 ```objc
--(void) onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
--(void) onOnHMIStatus:(SDLOnHMIStatus*) notification;
--(void) onProxyClosed;
--(void) onProxyOpened;
+- (void)onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
+- (void)onOnHMIStatus:(SDLOnHMIStatus*) notification;
+- (void)onProxyClosed;
+- (void)onProxyOpened;
 ```
 
 `onProxyOpened` is called when a connection is established between the head unit and your application. This is the place to set whatever state you need to, to know that your application is connected. It is also where you must send a register request with your app's information to the vehicle. The example app uses the following basic code:
