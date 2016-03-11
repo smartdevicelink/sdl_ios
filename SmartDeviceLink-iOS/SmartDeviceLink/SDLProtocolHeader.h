@@ -21,7 +21,7 @@ typedef NS_ENUM(UInt8, SDLServiceType) {
 
 typedef NS_ENUM(UInt8, SDLFrameData) {
     // Left for backwards compatibility.
-    SDLFrameData_Heartbeat __deprecated_enum_msg("Heartbeat is no longer used.") = 0x00,
+    SDLFrameData_Heartbeat = 0x00,
     SDLFrameData_StartSession = 0x01,
     SDLFrameData_StartSessionACK = 0x02,
     SDLFrameData_StartSessionNACK = 0x03,
@@ -29,7 +29,7 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
     SDLFrameData_EndSessionACK = 0x05,
     SDLFrameData_EndSessionNACK = 0x06,
     SDLFrameData_ServiceDataACK = 0xFE,
-    SDLFrameData_HeartbeatACK __deprecated_enum_msg("Heartbeat is no longer used.") = 0xFF,
+    SDLFrameData_HeartbeatACK = 0xFF,
     // If frameType == Single (0x01)
     SDLFrameData_SingleFrame = 0x00,
     // If frameType == First (0x02)

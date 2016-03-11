@@ -323,6 +323,31 @@
     }
 }
 
+- (void)handleHeartbeatForSession:(Byte)session {
+    // Respond with a heartbeat ACK
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    header.frameType = SDLFrameType_Control;
+    header.serviceType = SDLServiceType_Control;
+    header.frameData = SDLFrameData_HeartbeatACK;
+    header.sessionID = session;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sendDataToTransport:message.data withPriority:header.serviceType];
+
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
+            [listener handleHeartbeatForSession:session];
+        }
+    }
+}
+
+- (void)handleHeartbeatACK {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
+            [listener handleHeartbeatACK];
+        }
+    }
+}
+
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {

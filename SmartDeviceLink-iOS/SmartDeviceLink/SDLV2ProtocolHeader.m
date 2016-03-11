@@ -95,8 +95,6 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     NSString *frameDataString = nil;
     if (self.frameType == SDLFrameType_Control) {
         if (self.frameData >= 0 && self.frameData <= 5) {
-            // We will want to remove Heartbeat when we get to version 5.0. This is here
-            // for backwards compatibility.
             NSArray *controlFrameDataNames = @[ @"Heartbeat", @"StartSession", @"StartSessionACK", @"StartSessionNACK", @"EndSession", @"EndSessionNACK" ];
             frameDataString = controlFrameDataNames[self.frameData];
         } else {

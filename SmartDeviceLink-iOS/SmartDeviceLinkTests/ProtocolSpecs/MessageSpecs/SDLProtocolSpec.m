@@ -298,6 +298,60 @@ describe(@"HandleBytesFromTransport Tests", ^ {
     });
 });
 
+describe(@"SendHeartbeat Tests", ^ {
+    context(@"During V1 session", ^ {
+        it(@"Should send the correct data", ^ {
+            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0x43 version:0x01];
+            
+            __block BOOL verified = NO;
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
+            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
+                verified = YES;
+                
+                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
+                __unsafe_unretained NSData* data;
+                [invocation getArgument:&data atIndex:2];
+                NSData* dataSent = [data copy];
+                
+                const char testHeader[8] = {0x10 | SDLFrameType_Control, 0x00, SDLFrameData_Heartbeat, 0x43, 0x00, 0x00, 0x00, 0x00};
+                expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:8]));
+            }] sendData:[OCMArg any]];
+            testProtocol.transport = transportMock;
+            
+            [testProtocol sendHeartbeat];
+            
+            expect(@(verified)).toEventually(beTruthy());
+        });
+    });
+    
+    context(@"During V2 session", ^ {
+        it(@"Should send the correct data", ^ {
+            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+            [testProtocol handleProtocolStartSessionACK:SDLServiceType_RPC sessionID:0xF5 version:0x02];
+            
+            __block BOOL verified = NO;
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
+            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
+                verified = YES;
+                
+                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
+                __unsafe_unretained NSData* data;
+                [invocation getArgument:&data atIndex:2];
+                NSData* dataSent = [data copy];
+                
+                const char testHeader[12] = {0x20 | SDLFrameType_Control, 0x00, SDLFrameData_Heartbeat, 0xF5, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:12]));
+            }] sendData:[OCMArg any]];
+            testProtocol.transport = transportMock;
+            
+            [testProtocol sendHeartbeat];
+            
+            expect(@(verified)).toEventually(beTruthy());
+        });
+    });
+});
+
 describe(@"HandleProtocolSessionStarted Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
