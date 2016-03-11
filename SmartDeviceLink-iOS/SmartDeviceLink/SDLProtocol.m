@@ -256,6 +256,16 @@
         [self processMessages];
 }
 
+- (void)sendHeartbeat {
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    header.frameType = SDLFrameType_Control;
+    header.serviceType = SDLServiceType_Control;
+    header.frameData = SDLFrameData_Heartbeat;
+    header.sessionID = self.sessionID;
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    [self sendDataToTransport:message.data withPriority:header.serviceType];
+}
+
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
