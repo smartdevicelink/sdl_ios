@@ -62,9 +62,7 @@
 }
 
 - (void)sdl_removeSessionIdForServiceType:(SDLServiceType)serviceType {
-    if (_sessionIDs[@(serviceType)] != nil) {
-        [_sessionIDs removeObjectForKey:@(serviceType)];
-    }
+    [_sessionIDs removeObjectForKey:@(serviceType)];
 }
 
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
