@@ -20,6 +20,7 @@ typedef NS_ENUM(UInt8, SDLServiceType) {
 };
 
 typedef NS_ENUM(UInt8, SDLFrameData) {
+    // Left for backwards compatibility.
     SDLFrameData_Heartbeat = 0x00,
     SDLFrameData_StartSession = 0x01,
     SDLFrameData_StartSessionACK = 0x02,
