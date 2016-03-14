@@ -55,7 +55,7 @@
     [description appendString:self.header.description];
 
     // If it's an RPC, provide greater detail
-    if (self.header.serviceType == SDLServiceType_RPC && (self.header.frameType == SDLFrameType_Single)) {
+    if (((self.header.serviceType == SDLServiceType_RPC) || (self.header.serviceType == SDLServiceType_BulkData)) && (self.header.frameType == SDLFrameType_Single)) {
         // version of RPC Message determines how we access the info.
         if (self.header.version >= 2) {
             SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
