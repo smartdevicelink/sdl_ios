@@ -57,11 +57,15 @@
     return self;
 }
 
-- (void)storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
+- (void)sdl_storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
     _sessionIDs[@(serviceType)] = @(sessionID);
 }
 
-- (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
+- (void)sdl_removeSessionIdForServiceType:(SDLServiceType)serviceType {
+    [_sessionIDs removeObjectForKey:@(serviceType)];
+}
+
+- (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     NSNumber *number = _sessionIDs[@(serviceType)];
     if (!number) {
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
@@ -77,8 +81,8 @@
         case SDLServiceType_RPC: {
             // Need a different header for starting the RPC service
             header = [SDLProtocolHeader headerForVersion:1];
-            if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
-                header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            if ([self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
+                header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
             }
         } break;
         default: {
@@ -98,7 +102,7 @@
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
-    header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sendDataToTransport:message.data withPriority:serviceType];
@@ -156,7 +160,7 @@
     header.frameType = SDLFrameType_Single;
     header.serviceType = (message.bulkData.length <= 0) ? SDLServiceType_RPC : SDLServiceType_BulkData;
     header.frameData = SDLFrameData_SingleFrame;
-    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
@@ -324,7 +328,7 @@
             break;
     }
 
-    [self storeSessionID:sessionID forServiceType:serviceType];
+    [self sdl_storeSessionID:sessionID forServiceType:serviceType];
 
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
@@ -342,6 +346,9 @@
 }
 
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
+    // Remove the session id
+    [self sdl_removeSessionIdForServiceType:serviceType];
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
             [listener handleProtocolEndSessionACK:serviceType];
