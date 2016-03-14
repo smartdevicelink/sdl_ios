@@ -154,7 +154,7 @@
     // Build the protocol level header & message
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
-    header.serviceType = SDLServiceType_RPC;
+    header.serviceType = (message.bulkData.length <= 0) ? SDLServiceType_RPC : SDLServiceType_BulkData;
     header.frameData = SDLFrameData_SingleFrame;
     header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
     header.bytesInPayload = (UInt32)messagePayload.length;
