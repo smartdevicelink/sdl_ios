@@ -24,12 +24,16 @@
 
 NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
+
+#pragma mark - SDLProtocol Private Interface
+
+typedef NSNumber SDLServiceTypeBox;
+
 @interface SDLProtocol () {
     UInt32 _messageID;
     dispatch_queue_t _receiveQueue;
     dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
-    NSMutableDictionary *_sessionIDs;
     BOOL _alreadyDestructed;
 }
 
@@ -38,9 +42,12 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic) BOOL heartbeatACKed;
 @property (nonatomic, strong) SDLTimer *heartbeatTimer;
+@property (nonatomic, strong) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 
 @end
 
+
+#pragma mark - SDLProtocol Implementation
 
 @implementation SDLProtocol
 
@@ -54,7 +61,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
-        _sessionIDs = [NSMutableDictionary new];
+        _serviceHeaders = [[NSMutableDictionary alloc] init];
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
     }
@@ -64,22 +71,14 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 
 #pragma mark - Service metadata
-- (void)sdl_storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
-    _sessionIDs[@(serviceType)] = @(sessionID);
-}
-
-- (void)sdl_removeSessionIdForServiceType:(SDLServiceType)serviceType {
-    [_sessionIDs removeObjectForKey:@(serviceType)];
-}
-
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
-    NSNumber *number = _sessionIDs[@(serviceType)];
-    if (!number) {
-        NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
+    SDLProtocolHeader *header = self.serviceHeaders[@(serviceType)];
+    if (header == nil) {
+        NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type", serviceType];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
 
-    return (number ? [number unsignedCharValue] : 0);
+    return header.sessionID;
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
@@ -452,8 +451,8 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         default:
             break;
     }
-
-    [self sdl_storeSessionID:header.sessionID forServiceType:header.serviceType];
+    
+    self.serviceHeaders[@(header.serviceType)] = [header copy];
 
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
@@ -479,7 +478,7 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
     // Remove the session id
-    [self sdl_removeSessionIdForServiceType:serviceType];
+    [self.serviceHeaders removeObjectForKey:@(serviceType)];
     
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
