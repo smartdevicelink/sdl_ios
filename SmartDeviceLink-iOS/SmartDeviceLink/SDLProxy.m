@@ -152,13 +152,18 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - SecurityManager
 
-- (void)addSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake {
+- (void)addSecurityManager:(Class)securityManagerClass forMakes:(NSArray<NSString *> *)vehicleMakes {
+    NSParameterAssert(vehicleMakes != nil);
+    NSParameterAssert(securityManagerClass != nil);
+    
     if (self.appId == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"The App Id must be set on SDLProxy before calling this method" userInfo:nil];
     }
     
     if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
-        self.securityManagers[vehicleMake] = securityManagerClass;
+        for (NSString *vehicleMake in vehicleMakes) {
+            self.securityManagers[vehicleMake] = securityManagerClass;
+        }
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
     }
@@ -206,7 +211,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
 
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", sessionID, serviceType];
+    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     if (header.serviceType == SDLServiceType_RPC) {

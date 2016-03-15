@@ -47,7 +47,7 @@
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
-- (void)addSecurityManager:(Class)securityManagerClass forMake:(NSString *)vehicleMake;
+- (void)addSecurityManager:(Class)securityManagerClass forMakes:(NSArray<NSString *> *)vehicleMakes;
 
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;
