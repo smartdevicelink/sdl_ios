@@ -34,8 +34,6 @@
 @property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
-@property (nonatomic) BOOL heartbeatACKed;
-@property (nonatomic, strong) SDLTimer *heartbeatTimer;
 @end
 
 
@@ -45,7 +43,6 @@
     if (self = [super init]) {
         _messageID = 0;
         _sessionID = 0;
-        _heartbeatACKed = NO;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
@@ -273,23 +270,6 @@
     [self sendDataToTransport:message.data withPriority:header.serviceType];
 }
 
-- (void)startHeartbeatTimerWithDuration:(float)duration {
-    self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
-    __weak typeof(self) weakSelf = self;
-    self.heartbeatTimer.elapsedBlock = ^void() {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.heartbeatACKed) {
-            strongSelf.heartbeatACKed = NO;
-            [strongSelf sendHeartbeat];
-        } else {
-            NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
-            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
-            [strongSelf onProtocolClosed];
-        }
-    };
-    [self.heartbeatTimer start];
-}
-
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].protocolVersion];
     header.frameType = SDLFrameType_Single;
@@ -319,10 +299,6 @@
         case SDLServiceType_RPC: {
             self.sessionID = sessionID;
             [SDLGlobals globals].maxHeadUnitVersion = version;
-            if ([SDLGlobals globals].protocolVersion >= 3) {
-                self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
-                [self startHeartbeatTimerWithDuration:5.0];
-            }
         } break;
         default:
             break;
@@ -382,8 +358,6 @@
 }
 
 - (void)handleHeartbeatACK {
-    self.heartbeatACKed = YES;
-
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
             [listener handleHeartbeatACK];
@@ -392,11 +366,6 @@
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
-    if ([SDLGlobals globals].protocolVersion >= 3 && self.heartbeatTimer != nil) {
-        self.heartbeatACKed = YES; // All messages count as heartbeats
-        [self.heartbeatTimer start];
-    }
-
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
             [listener onProtocolMessageReceived:msg];
@@ -438,7 +407,6 @@
         self.messageRouter = nil;
         self.transport = nil;
         self.protocolDelegateTable = nil;
-        self.heartbeatTimer = nil;
     }
 }
 
