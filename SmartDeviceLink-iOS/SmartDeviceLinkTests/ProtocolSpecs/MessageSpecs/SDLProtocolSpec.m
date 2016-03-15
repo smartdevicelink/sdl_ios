@@ -161,7 +161,7 @@ describe(@"SendRPCRequest Tests", ^ {
     });
     
     context(@"During V2 session", ^ {
-        it(@"Should send the correct data", ^ {
+        it(@"Should send the correct data bulk data when bulk data is available", ^ {
             [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
             [[[mockRequest stub] andReturn:@0x98765] correlationID];
             [[[mockRequest stub] andReturn:@"DeleteCommand"] getFunctionName];
@@ -192,8 +192,7 @@ describe(@"SendRPCRequest Tests", ^ {
                 [payloadData appendData:jsonTestData];
                 [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
                 
-                const char testHeader[12] = {0x20 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,
-                                              (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
+                const char testHeader[12] = {0x20 | SDLFrameType_Single, SDLServiceType_BulkData, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,(payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
                 
                 NSMutableData* testData = [NSMutableData dataWithBytes:testHeader length:12];
                 [testData appendData:payloadData];

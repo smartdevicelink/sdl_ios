@@ -53,11 +53,18 @@ You can find the latest reference documentation on [Cocoadocs](http://cocoadocs.
 If you see a bug, feel free to post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
 
 ### Running Tests
-To run tests, you will need to bootstrap the Carthage testing libraries. To do so, from the root project directory, run:
+To run tests, you will need to bootstrap the Carthage testing libraries. To do so, first [install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
+
+Then, from the root project directory, run:
 ```bash
 cd SmartDeviceLink-iOS
 carthage bootstrap --platform ios
 cd ../
+```
+
+At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, [install xctool](https://github.com/facebook/xctool#installation) and run:
+
+```bash
 xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO test
 ```
 
@@ -147,10 +154,10 @@ This is an object that conforms to the `SDLProxyListener` protocol. This could b
 The `SDLProxyListener` protocol has four required methods:
 
 ```objc
--(void) onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
--(void) onOnHMIStatus:(SDLOnHMIStatus*) notification;
--(void) onProxyClosed;
--(void) onProxyOpened;
+- (void)onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
+- (void)onOnHMIStatus:(SDLOnHMIStatus*) notification;
+- (void)onProxyClosed;
+- (void)onProxyOpened;
 ```
 
 `onProxyOpened` is called when a connection is established between the head unit and your application. This is the place to set whatever state you need to, to know that your application is connected. It is also where you must send a register request with your app's information to the vehicle. The example app uses the following basic code:

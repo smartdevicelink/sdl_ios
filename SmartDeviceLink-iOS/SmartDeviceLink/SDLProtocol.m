@@ -64,12 +64,15 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 
 #pragma mark - Service metadata
-
-- (void)storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
+- (void)sdl_storeSessionID:(UInt8)sessionID forServiceType:(SDLServiceType)serviceType {
     _sessionIDs[@(serviceType)] = @(sessionID);
 }
 
-- (UInt8)retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
+- (void)sdl_removeSessionIdForServiceType:(SDLServiceType)serviceType {
+    [_sessionIDs removeObjectForKey:@(serviceType)];
+}
+
+- (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     NSNumber *number = _sessionIDs[@(serviceType)];
     if (!number) {
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no sessionID is saved for that service type.", serviceType];
@@ -112,8 +115,8 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         case SDLServiceType_RPC: {
             // Need a different header for starting the RPC service
             header = [SDLProtocolHeader headerForVersion:1];
-            if ([self retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
-                header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            if ([self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
+                header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
             }
         } break;
         default: {
@@ -171,8 +174,8 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
-    header.sessionID = [self retrieveSessionIDforServiceType:serviceType];
-    
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
+
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
@@ -240,9 +243,9 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameType_Single;
-    header.serviceType = SDLServiceType_RPC;
+    header.serviceType = (message.bulkData.length <= 0) ? SDLServiceType_RPC : SDLServiceType_BulkData;
     header.frameData = SDLFrameData_SingleFrame;
-    header.sessionID = [self retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
     header.bytesInPayload = (UInt32)messagePayload.length;
     
     // V2+ messages need to have message ID property set.
@@ -449,9 +452,9 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
         default:
             break;
     }
-    
-    [self storeSessionID:header.sessionID forServiceType:header.serviceType];
-    
+
+    [self sdl_storeSessionID:header.sessionID forServiceType:header.serviceType];
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
             [listener handleProtocolStartSessionACK:header];
@@ -475,6 +478,9 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 }
 
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
+    // Remove the session id
+    [self sdl_removeSessionIdForServiceType:serviceType];
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
             [listener handleProtocolEndSessionACK:serviceType];
