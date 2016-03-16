@@ -362,7 +362,13 @@ const int POLICIES_CORRELATION_ID = 65535;
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Launch App failure: invalid URL sent from module: %@", request.url] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return;
     }
-    
+    // If system version is less than 9.0 http://stackoverflow.com/a/5337804/1370927 
+    if (SDL_SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        // Return early if we can't openURL because openURL will crash instead of fail silently in < 9.0
+        if (![[UIApplication sharedApplication] canOpenURL:URLScheme]) {
+            return;
+        }
+    }
     [[UIApplication sharedApplication] openURL:URLScheme];
 }
 
