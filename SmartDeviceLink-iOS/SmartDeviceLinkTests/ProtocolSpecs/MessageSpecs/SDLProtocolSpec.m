@@ -317,8 +317,11 @@ describe(@"SendHeartbeat Tests", ^ {
                 expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:8]));
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
-            
+           
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [testProtocol sendHeartbeat];
+#pragma clang diagnostic pop
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -344,7 +347,10 @@ describe(@"SendHeartbeat Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [testProtocol sendHeartbeat];
+#pragma clang diagnostic pop
             
             expect(@(verified)).toEventually(beTruthy());
         });
