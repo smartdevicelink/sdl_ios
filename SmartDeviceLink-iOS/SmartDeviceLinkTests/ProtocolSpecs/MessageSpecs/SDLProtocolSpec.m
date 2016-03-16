@@ -381,6 +381,31 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
     });
 });
 
+describe(@"HandleHeartbeatForSession Tests", ^{
+    // TODO: Test automatically sending data to head unit (dependency injection?)
+    it(@"Should pass information along to delegate", ^ {
+        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+        
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        
+        __block BOOL verified = NO;
+        [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
+            verified = YES;
+            Byte sessionID;
+            
+            [invocation getArgument:&sessionID atIndex:2];
+            
+            expect(@(sessionID)).to(equal(@0x44));
+        }] ignoringNonObjectArgs] handleHeartbeatForSession:0];
+        
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        
+        [testProtocol handleHeartbeatForSession:0x44];
+        
+        expect(@(verified)).to(beTruthy());
+    });
+});
+
 describe(@"OnProtocolMessageReceived Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
