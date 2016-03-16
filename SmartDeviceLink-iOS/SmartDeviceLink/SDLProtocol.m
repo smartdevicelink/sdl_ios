@@ -37,7 +37,6 @@ typedef NSNumber SDLServiceTypeBox;
     BOOL _alreadyDestructed;
 }
 
-@property (assign) UInt8 sessionID;
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic) BOOL heartbeatACKed;
@@ -56,7 +55,6 @@ typedef NSNumber SDLServiceTypeBox;
 - (instancetype)init {
     if (self = [super init]) {
         _messageID = 0;
-        _sessionID = 0;
         _heartbeatACKed = NO;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
@@ -112,14 +110,16 @@ typedef NSNumber SDLServiceTypeBox;
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
     switch (serviceType) {
         case SDLServiceType_RPC: {
-            // Need a different header for starting the RPC service
+            // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
             header = [SDLProtocolHeader headerForVersion:1];
             if ([self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
                 header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            } else {
+                header.sessionID = 0;
             }
         } break;
         default: {
-            header.sessionID = self.sessionID;
+            header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
         } break;
     }
     header.frameType = SDLFrameType_Control;
@@ -298,7 +298,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_Heartbeat;
-    header.sessionID = self.sessionID;
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:header.serviceType];
 }
@@ -333,7 +333,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.encrypted = encryption;
     header.frameType = SDLFrameType_Single;
     header.serviceType = service;
-    header.sessionID = self.sessionID;
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:service];
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
     
@@ -441,7 +441,6 @@ typedef NSNumber SDLServiceTypeBox;
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
         case SDLServiceType_RPC: {
-            self.sessionID = header.sessionID;
             [SDLGlobals globals].maxHeadUnitVersion = header.version;
             if ([SDLGlobals globals].protocolVersion >= 3) {
                 self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
@@ -452,8 +451,10 @@ typedef NSNumber SDLServiceTypeBox;
             break;
     }
     
+    // Store the header of this service away for future use
     self.serviceHeaders[@(header.serviceType)] = [header copy];
 
+    // Pass along to all the listeners
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
             [listener handleProtocolStartSessionACK:header];
