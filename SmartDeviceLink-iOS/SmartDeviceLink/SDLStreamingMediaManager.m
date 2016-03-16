@@ -11,6 +11,7 @@
 @import UIKit;
 
 #import "SDLAbstractProtocol.h"
+#import "SDLGlobals.h"
 
 
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
@@ -63,8 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    // If system version is less than 8.0
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
+    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
 

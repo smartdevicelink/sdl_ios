@@ -363,7 +363,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         return;
     }
     // If system version is less than 9.0 http://stackoverflow.com/a/5337804/1370927 
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedAscending) {
+    if (SDL_SYSTEM_VERSION_LESS_THAN(@"9.0")) {
         // Return early if we can't openURL because openURL will crash instead of fail silently in < 9.0
         if (![[UIApplication sharedApplication] canOpenURL:URLScheme]) {
             return;
