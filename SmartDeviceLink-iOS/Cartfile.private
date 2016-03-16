@@ -1,3 +1,4 @@
 github "Quick/Quick" ~> 0.9
 github "Quick/Nimble" ~> 3.1
 github "AliSoftware/OHHTTPStubs" ~> 4.7
+github "erikdoe/ocmock" ~> 3.2
