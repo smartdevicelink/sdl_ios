@@ -130,6 +130,33 @@ const int POLICIES_CORRELATION_ID = 65535;
     return [self.mutableProxyListeners copy];
 }
 
+#pragma mark - Methods
+
+- (void)sendMobileHMIState {
+    UIApplicationState appState = [UIApplication sharedApplication].applicationState;
+    SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
+    
+    HMIStatusRPC.audioStreamingState = [SDLAudioStreamingState NOT_AUDIBLE];
+    HMIStatusRPC.systemContext = [SDLSystemContext MAIN];
+    
+    switch (appState) {
+        case UIApplicationStateActive: {
+            HMIStatusRPC.hmiLevel = [SDLHMILevel FULL];
+        } break;
+        case UIApplicationStateBackground: // Fallthrough
+        case UIApplicationStateInactive: {
+            HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
+        } break;
+        default:
+            break;
+    }
+    
+    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
+    [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    [self sendRPC:HMIStatusRPC];
+}
+
 
 #pragma mark - Setters / Getters
 
@@ -295,6 +322,12 @@ const int POLICIES_CORRELATION_ID = 65535;
     //Print Proxy Version To Console
     NSString *logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    if ([SDLGlobals globals].protocolVersion >= 4) {
+        [self sendMobileHMIState];
+        // Send SDL updates to application state
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
