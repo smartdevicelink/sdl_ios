@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 * `[SDLProxyListener onProxyOpened]` will only be called when the RPC service starts, instead of any service.
-* Sending heartbeat has been deprecated. The iOS proxy will not only respond to heartbeats.
+* Sending heartbeat has been deprecated. The iOS proxy will now only respond to heartbeats.
 * `SYSTEM_REQUEST` RPC now properly uploads and returns data.
 * `SDLStreamingMediaManager`'s version check now correctly compares versions
 
