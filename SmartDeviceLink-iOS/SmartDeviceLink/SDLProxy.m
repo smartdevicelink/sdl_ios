@@ -283,7 +283,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
     
     if ([functionName isEqualToString:@"OnSystemRequest"]) {
-        [self handleSystemRequest:dict];
+        [self handleOnSystemRequest:dict];
     }
     
     if ([functionName isEqualToString:@"SystemRequestResponse"]) {
@@ -344,7 +344,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleSystemRequest:(NSDictionary *)dict {
+- (void)handleOnSystemRequest:(NSDictionary *)dict {
     [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
