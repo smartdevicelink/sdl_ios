@@ -41,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Lifecycle
 + (instancetype)sharedManager;
-- (void)startProxyWithConfiguration:(SDLConfiguration *)configuration;
-- (void)stopProxy;
+- (void)startWithConfiguration:(SDLConfiguration *)configuration;
+- (void)stop;
 
 #pragma mark Manually Send RPC Requests
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler;

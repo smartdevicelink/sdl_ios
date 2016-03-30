@@ -286,7 +286,7 @@ typedef NSNumber SDLSoftButtonId;
 
 #pragma mark Proxy Wrappers
 
-- (void)startProxyWithConfiguration:(SDLConfiguration *)configuration {
+- (void)startWithConfiguration:(SDLConfiguration *)configuration {
     self.configuration = configuration;
     
 #pragma clang diagnostic push
@@ -303,11 +303,11 @@ typedef NSNumber SDLSoftButtonId;
 
 - (void)sdl_startProxy {
     if (self.configuration != nil) {
-        [self startProxyWithConfiguration:self.configuration];
+        [self startWithConfiguration:self.configuration];
     }
 }
 
-- (void)stopProxy {
+- (void)stop {
     [self sdl_disposeProxy];
 }
 

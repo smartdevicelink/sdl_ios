@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray<SDLLanguage *> *languagesSupported;
 @property (copy, nonatomic, nullable) NSString *shortAppName;
 @property (copy, nonatomic, nullable) NSString *ttsName;
-@property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionSynonyms;
+@property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionSynonyms; // TODO: Better name?
 
 @end
 
