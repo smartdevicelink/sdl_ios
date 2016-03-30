@@ -1,4 +1,4 @@
-# 4.1.0 Release Notes - IN PROGRESS
+# 4.1.0 Release Notes
 ### Enhancements
 * The `LAUNCH_APP` system request was implemented.
 * The proxy now tracks application state and relays that information to the Head Unit on v4 and above.
@@ -15,7 +15,7 @@
 * All testing frameworks are removed from the repository and must be bootstrapped when wanted.
 
 ### Deprecations
-* Methods relating to sending heartbeat have been deprecated.
+* Methods relating to sending heartbeat have been deprecated. This should not affect your app in any way. These lower-level classes will be removed in future versions.
 
 # 4.0.3 Release Notes
 
