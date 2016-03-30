@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define SDL_SYSTEM_VERSION_LESS_THAN(version)   ([[[UIDevice currentDevice] systemVersion] compare:version options:NSNumericSearch] == NSOrderedAscending)
+
 @interface SDLGlobals : NSObject
 
 @property (assign, nonatomic, readonly) NSUInteger protocolVersion;

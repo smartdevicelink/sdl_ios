@@ -152,7 +152,7 @@ describe(@"SendRPCRequest Tests", ^ {
     });
     
     context(@"During V2 session", ^ {
-        it(@"Should send the correct data", ^ {
+        it(@"Should send the correct data bulk data when bulk data is available", ^ {
             [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
             [[[mockRequest stub] andReturn:@0x98765] correlationID];
             [[[mockRequest stub] andReturn:@"DeleteCommand"] getFunctionName];
@@ -180,8 +180,7 @@ describe(@"SendRPCRequest Tests", ^ {
                 [payloadData appendData:jsonTestData];
                 [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
                 
-                const char testHeader[12] = {0x20 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,
-                                              (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
+                const char testHeader[12] = {0x20 | SDLFrameType_Single, SDLServiceType_BulkData, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,(payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
                 
                 NSMutableData* testData = [NSMutableData dataWithBytes:testHeader length:12];
                 [testData appendData:payloadData];
@@ -318,8 +317,11 @@ describe(@"SendHeartbeat Tests", ^ {
                 expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:8]));
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
-            
+           
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [testProtocol sendHeartbeat];
+#pragma clang diagnostic pop
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -345,7 +347,10 @@ describe(@"SendHeartbeat Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [testProtocol sendHeartbeat];
+#pragma clang diagnostic pop
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -377,6 +382,31 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         
         [testProtocol handleProtocolStartSessionACK:SDLServiceType_BulkData sessionID:0x44 version:0x03];
+        
+        expect(@(verified)).to(beTruthy());
+    });
+});
+
+describe(@"HandleHeartbeatForSession Tests", ^{
+    // TODO: Test automatically sending data to head unit (dependency injection?)
+    it(@"Should pass information along to delegate", ^ {
+        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+        
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        
+        __block BOOL verified = NO;
+        [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
+            verified = YES;
+            Byte sessionID;
+            
+            [invocation getArgument:&sessionID atIndex:2];
+            
+            expect(@(sessionID)).to(equal(@0x44));
+        }] ignoringNonObjectArgs] handleHeartbeatForSession:0];
+        
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        
+        [testProtocol handleHeartbeatForSession:0x44];
         
         expect(@(verified)).to(beTruthy());
     });
