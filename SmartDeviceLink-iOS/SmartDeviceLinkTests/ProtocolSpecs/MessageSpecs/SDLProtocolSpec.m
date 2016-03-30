@@ -317,8 +317,11 @@ describe(@"SendHeartbeat Tests", ^ {
                 expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:8]));
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
-            
+           
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [testProtocol sendHeartbeat];
+#pragma clang diagnostic pop
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -344,7 +347,10 @@ describe(@"SendHeartbeat Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [testProtocol sendHeartbeat];
+#pragma clang diagnostic pop
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -376,6 +382,31 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
         [testProtocol.protocolDelegateTable addObject:delegateMock];
         
         [testProtocol handleProtocolStartSessionACK:SDLServiceType_BulkData sessionID:0x44 version:0x03];
+        
+        expect(@(verified)).to(beTruthy());
+    });
+});
+
+describe(@"HandleHeartbeatForSession Tests", ^{
+    // TODO: Test automatically sending data to head unit (dependency injection?)
+    it(@"Should pass information along to delegate", ^ {
+        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+        
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        
+        __block BOOL verified = NO;
+        [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
+            verified = YES;
+            Byte sessionID;
+            
+            [invocation getArgument:&sessionID atIndex:2];
+            
+            expect(@(sessionID)).to(equal(@0x44));
+        }] ignoringNonObjectArgs] handleHeartbeatForSession:0];
+        
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        
+        [testProtocol handleHeartbeatForSession:0x44];
         
         expect(@(verified)).to(beTruthy());
     });
