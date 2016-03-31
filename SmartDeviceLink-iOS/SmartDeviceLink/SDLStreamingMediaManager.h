@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, SDLStreamingVideoError) {
     SDLStreamingVideoErrorHeadUnitNACK,
-    SDLSTreamingVideoErrorInvalidOperatingSystemVersion,
+    SDLStreamingVideoErrorInvalidOperatingSystemVersion,
     SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure,
     SDLStreamingVideoErrorConfigurationAllocationFailure,
     SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure
