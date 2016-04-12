@@ -241,7 +241,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSInteger currentOffset = 0;
     NSMutableArray<SDLPutFile *> *putFiles = [NSMutableArray array];
     
-    for (int i = 0; i < ((fileData.length / [SDLGlobals globals].maxMTUSize) + 1); i++){
+    for (int i = 0; i < ((fileData.length / [SDLGlobals globals].maxMTUSize) + 1); i++) {
         SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:@0];
         putFile.offset = @(currentOffset);
         
