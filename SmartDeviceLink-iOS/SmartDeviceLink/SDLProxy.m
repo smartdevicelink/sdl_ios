@@ -49,7 +49,7 @@ typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLRe
 
 typedef NSString SDLVehicleMake;
 
-NSString *const SDLProxyVersion = @"4.0.3";
+NSString *const SDLProxyVersion = @"4.1.0";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
@@ -130,11 +130,42 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
+
+#pragma mark - Application Lifecycle
+
+- (void)sendMobileHMIState {
+    UIApplicationState appState = [UIApplication sharedApplication].applicationState;
+    SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
+    
+    HMIStatusRPC.audioStreamingState = [SDLAudioStreamingState NOT_AUDIBLE];
+    HMIStatusRPC.systemContext = [SDLSystemContext MAIN];
+    
+    switch (appState) {
+        case UIApplicationStateActive: {
+            HMIStatusRPC.hmiLevel = [SDLHMILevel FULL];
+        } break;
+        case UIApplicationStateBackground: // Fallthrough
+        case UIApplicationStateInactive: {
+            HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
+        } break;
+        default:
+            break;
+    }
+    
+    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
+    [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    
+    [self sendRPC:HMIStatusRPC];
+}
+
 #pragma mark - Accessors
 
 - (NSSet *)proxyListeners {
     return [self.mutableProxyListeners copy];
 }
+
+
+#pragma mark - Setters / Getters
 
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
@@ -330,9 +361,15 @@ const int POLICIES_CORRELATION_ID = 65535;
     //Print Proxy Version To Console
     NSString *logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    
-    SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+	SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
+
+	if ([SDLGlobals globals].protocolVersion >= 4) {
+        [self sendMobileHMIState];
+        // Send SDL updates to application state
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
@@ -400,7 +437,13 @@ const int POLICIES_CORRELATION_ID = 65535;
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Launch App failure: invalid URL sent from module: %@", request.url] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return;
     }
-    
+    // If system version is less than 9.0 http://stackoverflow.com/a/5337804/1370927 
+    if (SDL_SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        // Return early if we can't openURL because openURL will crash instead of fail silently in < 9.0
+        if (![[UIApplication sharedApplication] canOpenURL:URLScheme]) {
+            return;
+        }
+    }
     [[UIApplication sharedApplication] openURL:URLScheme];
 }
 

@@ -39,10 +39,7 @@ typedef NSNumber SDLServiceTypeBox;
 
 @property (strong) NSMutableData *receiveBuffer;
 @property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
-@property (nonatomic) BOOL heartbeatACKed;
-@property (nonatomic, strong) SDLTimer *heartbeatTimer;
 @property (nonatomic, strong) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
-
 @end
 
 
@@ -55,7 +52,6 @@ typedef NSNumber SDLServiceTypeBox;
 - (instancetype)init {
     if (self = [super init]) {
         _messageID = 0;
-        _heartbeatACKed = NO;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
@@ -293,33 +289,6 @@ typedef NSNumber SDLServiceTypeBox;
     });
 }
 
-- (void)sdl_sendHeartbeat {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
-    header.frameType = SDLFrameType_Control;
-    header.serviceType = SDLServiceType_Control;
-    header.frameData = SDLFrameData_Heartbeat;
-    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
-    [self sdl_sendDataToTransport:message.data onService:header.serviceType];
-}
-
-- (void)sdl_startHeartbeatTimerWithDuration:(float)duration {
-    self.heartbeatTimer = [[SDLTimer alloc] initWithDuration:duration repeat:YES];
-    __weak typeof(self) weakSelf = self;
-    self.heartbeatTimer.elapsedBlock = ^void() {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.heartbeatACKed) {
-            strongSelf.heartbeatACKed = NO;
-            [strongSelf sdl_sendHeartbeat];
-        } else {
-            NSString *logMessage = [NSString stringWithFormat:@"Heartbeat ack not received. Goodbye."];
-            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
-            [strongSelf onProtocolClosed];
-        }
-    };
-    [self.heartbeatTimer start];
-}
-
 - (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
     [self sdl_sendRawData:data onService:serviceType encryption:NO];
 }
@@ -435,17 +404,10 @@ typedef NSNumber SDLServiceTypeBox;
     }
 }
 
-
-#pragma mark - SDLProtocolListener Implementation
-
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
         case SDLServiceType_RPC: {
             [SDLGlobals globals].maxHeadUnitVersion = header.version;
-            if ([SDLGlobals globals].protocolVersion >= 3) {
-                self.heartbeatACKed = YES; // Ensures a first heartbeat is sent
-                [self sdl_startHeartbeatTimerWithDuration:5.0];
-            }
         } break;
         default:
             break;
@@ -514,8 +476,6 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)handleHeartbeatACK {
-    self.heartbeatACKed = YES;
-
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatACK)]) {
             [listener handleHeartbeatACK];
@@ -524,11 +484,6 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
-    if ([SDLGlobals globals].protocolVersion >= 3 && self.heartbeatTimer != nil) {
-        self.heartbeatACKed = YES; // All messages count as heartbeats
-        [self.heartbeatTimer start];
-    }
-    
     // Control service (but not control frame type) messages are TLS handshake messages
     if (msg.header.serviceType == SDLServiceType_Control) {
         [self sdl_processSecurityMessage:msg];
@@ -662,8 +617,6 @@ typedef NSNumber SDLServiceTypeBox;
         _messageRouter = nil;
         self.transport = nil;
         self.protocolDelegateTable = nil;
-        _heartbeatTimer = nil;
-        [self.securityManager stop];
     }
 }
 
