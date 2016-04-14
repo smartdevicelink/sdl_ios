@@ -32,32 +32,42 @@ NSDictionary* dictionaryV1 = @{NAMES_request:
                                          @{NAMES_cmdID:@55}}};
 NSDictionary* dictionaryV2 = @{NAMES_cmdID:@55};
 
-describe(@"SendStartSession Tests", ^ {
-    it(@"Should send the correct data", ^ {
-        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-        
-        __block BOOL verified = NO;
-        id transportMock = OCMClassMock([SDLAbstractTransport class]);
-        [[[transportMock stub] andDo:^(NSInvocation* invocation) {
-            verified = YES;
+describe(@"Send StartService Tests", ^ {
+    context(@"Unsecure", ^{
+        it(@"Should send the correct data", ^ {
+            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
             
-            //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
-            __unsafe_unretained NSData* data;
-            [invocation getArgument:&data atIndex:2];
-            NSData* dataSent = [data copy];
+            __block BOOL verified = NO;
+            id transportMock = OCMClassMock([SDLAbstractTransport class]);
+            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
+                verified = YES;
+                
+                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
+                __unsafe_unretained NSData* data;
+                [invocation getArgument:&data atIndex:2];
+                NSData* dataSent = [data copy];
+                
+                const char testHeader[8] = {0x10 | SDLFrameType_Control, SDLServiceType_BulkData, SDLFrameData_StartSession, 0x00, 0x00, 0x00, 0x00, 0x00};
+                expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:8]));
+            }] sendData:[OCMArg any]];
+            testProtocol.transport = transportMock;
             
-            const char testHeader[8] = {0x10 | SDLFrameType_Control, SDLServiceType_BulkData, SDLFrameData_StartSession, 0x00, 0x00, 0x00, 0x00, 0x00};
-            expect(dataSent).to(equal([NSData dataWithBytes:testHeader length:8]));
-        }] sendData:[OCMArg any]];
-        testProtocol.transport = transportMock;
-        
-        [testProtocol startServiceWithType:SDLServiceType_BulkData];
-        
-        expect(@(verified)).toEventually(beTruthy());
+            [testProtocol startServiceWithType:SDLServiceType_BulkData];
+            
+            expect(@(verified)).toEventually(beTruthy());
+        });
+    });
+    
+    context(@"Secure", ^{
+        it(@"Should send the correct data", ^ {
+            // TODO: How do we properly test the security? Assume a correct / fail?
+            // TODO: The security methods need to be split out to their own class so they can be public.
+            // Abstract Protocol needs to be combined into Protocol
+        });
     });
 });
 
-describe(@"SendEndSession Tests", ^ {
+describe(@"Send EndSession Tests", ^ {
     context(@"During V1 session", ^ {
         it(@"Should send the correct data", ^ {
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
