@@ -46,10 +46,10 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  *
  *  @param startBlock A block that will be called with the result of attempting to start a video session
  */
-- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock __deprecated_msg("Feel free to continue to use this for now. At the next major change, the startBlock will change to accept an encryption parameter like startVideoSessionWithEncryption:startBlock: does.");
+- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 // TODO: Documentation
-- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
+- (void)startVideoSessionWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**
  *  This method will stop a running video session if there is one running.
@@ -73,7 +73,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 // TODO: Documentation
-- (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startAudioStreamingWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock;
 
 /**
  *  This method will stop a running audio session if there is one running.
@@ -92,8 +92,8 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
 
-@property (assign, nonatomic, readonly) BOOL videoSessionEncypted;
-@property (assign, nonatomic, readonly) BOOL audioSessionEncrypted;
+@property (assign, nonatomic, readonly) BOOL videoSessionAuthenticated;
+@property (assign, nonatomic, readonly) BOOL audioSessionAuthenticated;
 
 @end
 

@@ -24,7 +24,7 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)startEncryptedServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
     [self doesNotRecognizeSelector:_cmd];
 }
 

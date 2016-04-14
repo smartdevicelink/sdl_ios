@@ -29,8 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL videoSessionConnected;
 @property (assign, nonatomic, readwrite) BOOL audioSessionConnected;
 
-@property (assign, nonatomic, readwrite) BOOL videoSessionEncypted;
-@property (assign, nonatomic, readwrite) BOOL audioSessionEncrypted;
+@property (assign, nonatomic, readwrite) BOOL videoSessionAuthenticated;
+@property (assign, nonatomic, readwrite) BOOL audioSessionAuthenticated;
+@property (assign, nonatomic, readwrite) BOOL encryptVideoSession;
+@property (assign, nonatomic, readwrite) BOOL encryptAudioSession;
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
@@ -55,6 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
     _currentFrameNumber = 0;
     _videoSessionConnected = NO;
     _audioSessionConnected = NO;
+    _videoSessionAuthenticated = NO;
+    _audioSessionAuthenticated = NO;
+    _encryptVideoSession = NO;
+    _encryptAudioSession = NO;
     _protocol = protocol;
 
     _videoStartBlock = nil;
@@ -67,12 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithEncryption:NO startBlock:^(BOOL success, BOOL encryption, NSError * _Nullable error) {
+    [self startVideoSessionWithTLSAuthentication:NO encryption:NO startBlock:^(BOOL success, BOOL encryption, NSError * _Nullable error) {
         startBlock(success, error);
     }];
 }
 
-- (void)startVideoSessionWithEncryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
+- (void)startVideoSessionWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
@@ -80,12 +86,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-
     self.videoStartBlock = [startBlock copy];
+    self.encryptVideoSession = encryption;
     
-    if (encryption) {
+    if (authentication) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startEncryptedServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
             typeof(weakSelf) strongSelf = weakSelf;
             // If success, we will get an ACK or NACK, so those methods will handle calling the video block
             if (!success) {
@@ -107,17 +113,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startAudioStreamingWithEncryption:NO startBlock:^(BOOL success, NSError * _Nullable error) {
+    [self startAudioStreamingWithTLSAuthentication:NO encryption:NO startBlock:^(BOOL success, NSError * _Nullable error) {
         startBlock(success, error);
     }];
 }
 
-- (void)startAudioStreamingWithEncryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
+- (void)startAudioStreamingWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
+    self.encryptAudioSession = encryption;
     
-    if (encryption) {
+    if (authentication) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startEncryptedServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
             typeof(weakSelf) strongSelf = weakSelf;
             // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
             if (!success) {
@@ -147,6 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // TODO (Joel F.)[2015-08-17]: Somehow monitor connection to make sure we're not clogging the connection with data.
+    // This will come out in -[self sdl_videoEncoderOutputCallback]
     OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, CMTimeMake(self.currentFrameNumber++, 30), kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
 
     return (status == noErr);
@@ -159,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         @autoreleasepool {
-            if (self.audioSessionEncrypted) {
+            if (self.encryptAudioSession) {
                 [self.protocol sendEncryptedRawData:pcmAudioData onService:SDLServiceType_Audio];
             } else {
                 [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
@@ -177,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
     switch (header.serviceType) {
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
-            self.audioSessionEncrypted = header.encrypted;
+            self.audioSessionAuthenticated = header.encrypted;
             self.audioStartBlock(YES, header.encrypted, nil);
             self.audioStartBlock = nil;
         } break;
@@ -195,7 +203,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             self.videoSessionConnected = YES;
-            self.videoSessionEncypted = header.encrypted;
+            self.videoSessionAuthenticated = header.encrypted;
             self.videoStartBlock(YES, header.encrypted, nil);
             self.videoStartBlock = nil;
         } break;
@@ -261,7 +269,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
     
-    if (mediaManager.videoSessionEncypted) {
+    if (mediaManager.encryptVideoSession) {
         [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceType_Video];
     } else {
         [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];

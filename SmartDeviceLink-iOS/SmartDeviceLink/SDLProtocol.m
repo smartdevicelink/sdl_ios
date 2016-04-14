@@ -88,7 +88,7 @@ typedef NSNumber SDLServiceTypeBox;
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
-- (void)startEncryptedServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
