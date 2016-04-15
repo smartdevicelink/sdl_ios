@@ -523,7 +523,7 @@ typedef NSNumber SDLServiceTypeBox;
 
 
 #pragma mark - TLS Handshake
-
+// TODO: These should be split out to a separate class to be tested properly
 - (void)sdl_processSecurityMessage:(SDLProtocolMessage *)clientHandshakeMessage {
     if (self.securityManager == nil) {
         NSString *logString = [NSString stringWithFormat:@"Failed to process security message because no security manager is set. Message: %@", clientHandshakeMessage];
