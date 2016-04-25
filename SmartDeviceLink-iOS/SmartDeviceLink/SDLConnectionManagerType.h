@@ -1,5 +1,5 @@
 //
-//  SDLConnectionManager.h
+//  SDLConnectionManagerType.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Joel Fischer on 10/21/15.
