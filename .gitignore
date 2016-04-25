@@ -37,4 +37,6 @@ profile
 # Carthage #
 ############
 Carthage.pkg
-Carthage/Build
+SmartDeviceLink-iOS/Carthage/Build
+SmartDeviceLink-iOS/Carthage/Checkouts
+SmartDeviceLink-iOS/infer-out

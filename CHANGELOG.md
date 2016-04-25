@@ -1,9 +1,28 @@
+# 4.1.0 Release Notes
+### Enhancements
+* The `LAUNCH_APP` system request was implemented.
+* The proxy now tracks application state and relays that information to the Head Unit on v4 and above.
+
+### Bug Fixes
+* `[SDLProxyListener onProxyOpened]` will only be called when the RPC service starts, instead of any service.
+* Sending heartbeat has been deprecated. The iOS proxy will now only respond to heartbeats.
+* `SYSTEM_REQUEST` RPC now properly uploads and returns data.
+* `SDLStreamingMediaManager`'s version check now correctly compares versions
+
+### Other
+* Updates to the README with "Getting Started" code, and updated information on testing.
+* License copyright updated to 2016.
+* All testing frameworks are removed from the repository and must be bootstrapped when wanted.
+
+### Deprecations
+* Methods relating to sending heartbeat have been deprecated. This should not affect your app in any way. These lower-level classes will be removed in future versions.
+
 # 4.0.3 Release Notes
 
 ### Enhancements
 * Implement HTTP System Requests for policy updates
 
-### Bug Fix
+### Bug Fixes
 * Revert the reachability code in TCP. If you were having trouble with connecting to SDL Core, this should fix that particular bug.
 
 ### Other
