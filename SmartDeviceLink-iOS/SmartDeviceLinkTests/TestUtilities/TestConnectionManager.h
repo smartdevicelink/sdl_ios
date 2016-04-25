@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLConnectionManager.h"
+#import "SDLConnectionManagerType.h"
 #import "SDLNotificationConstants.h"
 
 
