@@ -59,7 +59,7 @@ typedef NSNumber SDLServiceTypeBox;
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
     }
-
+    
     return self;
 }
 
@@ -71,7 +71,7 @@ typedef NSNumber SDLServiceTypeBox;
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type", serviceType];
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
-
+    
     return header.sessionID;
 }
 
@@ -97,7 +97,7 @@ typedef NSNumber SDLServiceTypeBox;
         }
         
         // TLS initialization succeeded. Build and send the message.
-        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO];
+        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES];
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
 }
@@ -123,9 +123,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.frameData = SDLFrameData_StartSession;
     
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
-    if (encryption) {
-        header.encrypted = YES;
-    }
+    header.encrypted = encryption;
     
     return [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 }
@@ -170,7 +168,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
-
+    
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
@@ -339,17 +337,17 @@ typedef NSNumber SDLServiceTypeBox;
     if (self.receiveBuffer == nil) {
         self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [SDLGlobals globals].maxMTUSize)];
     }
-
+    
     // Save the data
     [self.receiveBuffer appendData:receivedData];
-
+    
     [self processMessages];
 }
 
 - (void)processMessages {
     NSMutableString *logMessage = [[NSMutableString alloc] init];
     UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.receiveBuffer];
-
+    
     // If we have enough bytes, create the header.
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:incomingVersion];
     NSUInteger headerSize = header.size;
@@ -358,7 +356,7 @@ typedef NSNumber SDLServiceTypeBox;
     } else {
         return;
     }
-
+    
     // If we have enough bytes, finish building the message.
     SDLProtocolMessage *message = nil;
     NSUInteger payloadSize = header.bytesInPayload;
@@ -389,15 +387,15 @@ typedef NSNumber SDLServiceTypeBox;
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
         return;
     }
-
+    
     // Need to maintain the receiveBuffer, remove the bytes from it which we just processed.
     self.receiveBuffer = [[self.receiveBuffer subdataWithRange:NSMakeRange(messageSize, self.receiveBuffer.length - messageSize)] mutableCopy];
-
+    
     // Pass on the message to the message router.
     dispatch_async(_receiveQueue, ^{
         [self.messageRouter handleReceivedMessage:message];
     });
-
+    
     // Call recursively until the buffer is empty or incomplete message is encountered
     if (self.receiveBuffer.length > 0) {
         [self processMessages];
@@ -415,7 +413,7 @@ typedef NSNumber SDLServiceTypeBox;
     
     // Store the header of this service away for future use
     self.serviceHeaders[@(header.serviceType)] = [header copy];
-
+    
     // Pass along to all the listeners
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
@@ -467,7 +465,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.sessionID = session;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:header.serviceType];
-
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleHeartbeatForSession:)]) {
             [listener handleHeartbeatForSession:session];
@@ -489,7 +487,7 @@ typedef NSNumber SDLServiceTypeBox;
         [self sdl_processSecurityMessage:msg];
         return;
     }
-
+    
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onProtocolMessageReceived:)]) {
             [listener onProtocolMessageReceived:msg];
