@@ -10,6 +10,9 @@
 
 #import "SDLFileType.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLArtwork ()
 
 @property (strong, nonatomic) UIImage *image;
@@ -51,3 +54,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

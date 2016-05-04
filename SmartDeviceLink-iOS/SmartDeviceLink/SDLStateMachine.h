@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @class SDLState;
 
 

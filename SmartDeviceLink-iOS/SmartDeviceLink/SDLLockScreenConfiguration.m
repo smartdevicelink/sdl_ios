@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-
 @implementation SDLLockScreenConfiguration
 
 #pragma mark - Lifecycle

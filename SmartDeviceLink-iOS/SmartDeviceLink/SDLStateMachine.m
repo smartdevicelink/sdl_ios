@@ -10,6 +10,8 @@
 
 #import "SDLState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLStateMachine ()
 
 @property (strong, nonatomic, readwrite) SDLState *currentState;
@@ -83,3 +85,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

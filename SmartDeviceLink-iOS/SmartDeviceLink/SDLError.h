@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, SDLManagerError) {
     SDLManagerErrorRPCRequestFailed = -1,
     SDLManagerErrorNotConnected = -2,
@@ -39,3 +41,5 @@ extern NSString *const SDLFileManagerErrorDomain;
 + (NSError *)sdl_fileManager_noKnownFileError;
 
 @end
+
+NS_ASSUME_NONNULL_END

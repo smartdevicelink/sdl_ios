@@ -8,6 +8,8 @@
 
 #import "SDLError.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark Error Domains
 
 NSString *const SDLManagerErrorDomain = @"com.sdl.manager";
@@ -85,3 +87,5 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

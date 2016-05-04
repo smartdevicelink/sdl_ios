@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSMapTable (Subscripting)
 
-- (void)setObject:(nullable id)anObject forKeyedSubscript:(nonnull id<NSCopying>)key;
-- (nullable id)objectForKeyedSubscript:(nonnull id<NSCopying>)key;
+- (void)setObject:(nullable id)anObject forKeyedSubscript:(id<NSCopying>)key;
+- (nullable id)objectForKeyedSubscript:(id<NSCopying>)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

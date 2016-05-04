@@ -8,14 +8,18 @@
 
 #import "NSMapTable+Subscripting.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSMapTable (Subscripting)
 
-- (void)setObject:(id)anObject forKeyedSubscript:(id<NSCopying>)key {
+- (void)setObject:(nullable id)anObject forKeyedSubscript:(id<NSCopying>)key {
     [self setObject:anObject forKey:key];
 }
 
-- (id)objectForKeyedSubscript:(id<NSCopying>)key {
+- (nullable id)objectForKeyedSubscript:(id<NSCopying>)key {
     return [self objectForKey:key];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

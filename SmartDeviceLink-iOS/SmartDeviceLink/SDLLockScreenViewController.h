@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLLockScreenViewController : UIViewController
 
-@property (copy, nonatomic) UIImage *appIcon;
-@property (copy, nonatomic) UIImage *vehicleIcon;
-@property (copy, nonatomic) UIColor *backgroundColor;
+@property (copy, nonatomic, nullable) UIImage *appIcon;
+@property (copy, nonatomic, nullable) UIImage *vehicleIcon;
+@property (copy, nonatomic, nullable) UIColor *backgroundColor;
 
 @end
+
+NS_ASSUME_NONNULL_END

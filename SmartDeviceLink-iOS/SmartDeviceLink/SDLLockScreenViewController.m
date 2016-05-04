@@ -8,6 +8,8 @@
 
 #import "SDLLockScreenViewController.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLLockScreenViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *primaryImageView;
@@ -36,19 +38,19 @@
 
 #pragma mark - Setters
 
-- (void)setAppIcon:(UIImage *)appIcon {
+- (void)setAppIcon:(UIImage *_Nullable)appIcon {
     _appIcon = appIcon;
     
     [self sdl_layoutImages];
 }
 
-- (void)setVehicleIcon:(UIImage *)vehicleIcon {
+- (void)setVehicleIcon:(UIImage *_Nullable)vehicleIcon {
     _vehicleIcon = vehicleIcon;
     
     [self sdl_layoutImages];
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
+- (void)setBackgroundColor:(UIColor *_Nullable)backgroundColor {
     _backgroundColor = backgroundColor;
     
     [self sdl_setBackgroundColor];
@@ -85,3 +87,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -10,6 +10,9 @@
 
 #import "NSNumber+NumberType.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NSString SDLPermissionRPCName;
 typedef NSUUID SDLPermissionObserverIdentifier;
 
@@ -32,3 +35,5 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
  *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
 typedef void (^SDLPermissionObserver)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status);
+
+NS_ASSUME_NONNULL_END
