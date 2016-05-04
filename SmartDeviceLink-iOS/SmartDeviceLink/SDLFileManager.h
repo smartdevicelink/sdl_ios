@@ -9,20 +9,19 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLConnectionManagerType.h"
+#import "SDLStateMachine.h"
 
 @class SDLFile;
 
 
-typedef NS_ENUM(NSUInteger, SDLFileManagerState) {
-    SDLFileManagerStateNotConnected,
-    SDLFileManagerStateReady,
-    SDLFileManagerStateWaiting
-};
+NS_ASSUME_NONNULL_BEGIN
+
+extern NSString *const SDLFileManagerStateNotConnected;
+extern NSString *const SDLFileManagerStateReady;
+extern NSString *const SDLFileManagerStateWaiting;
+
 
 typedef NSString SDLFileName;
-
-
-NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^SDLFileManagerDeleteCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
 typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
@@ -31,7 +30,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 @interface SDLFileManager : NSObject
 
 @property (copy, nonatomic, readonly) NSSet<SDLFileName *> *remoteFileNames;
-@property (assign, nonatomic, readonly) SDLFileManagerState state;
+//@property (assign, nonatomic, readonly) SDLFileManagerState state;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
 @property (assign, nonatomic) BOOL allowOverwrite;
 

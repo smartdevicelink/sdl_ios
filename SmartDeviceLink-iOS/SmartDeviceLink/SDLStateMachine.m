@@ -8,13 +8,14 @@
 
 #import "SDLStateMachine.h"
 
-#import "SDLState.h"
+#import "SDLError.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStateMachine ()
 
-@property (strong, nonatomic, readwrite) SDLState *currentState;
+@property (copy, nonatomic, readwrite) SDLState *currentState;
 
 @end
 
@@ -39,18 +40,21 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)transitionToState:(SDLState *)state {
+- (BOOL)transitionToState:(SDLState *)state error:(NSError * __autoreleasing*)error {
     if (![self sdl_canState:self.currentState transitionToState:state]) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"Attempted to transition to a state that is not allowed from the current state"
-                                     userInfo:@{@"fromState": self.currentState,
-                                                @"toState": state}];
+        if (error != nil) {
+            NSString *stateMachineErrorDomain = [NSString stringWithFormat:@"com.sdl.%@", NSStringFromClass([self.target class])];
+            *error = [NSError errorWithDomain:stateMachineErrorDomain code:SDLStateMachineErrorInvalidTransitionOccurred userInfo:@{@"fromState": self.currentState,
+                                                                                                                                    @"toState": state}];
+        }
+        
+        return NO;
     }
     
-    SEL willLeave = NSSelectorFromString([NSString stringWithFormat:@"willLeaveState%@", self.currentState.name]);
-    SEL willTransition = NSSelectorFromString([NSString stringWithFormat:@"willTransitionFromState%@ToState%@", self.currentState.name, state.name]);
-    SEL didTransition = NSSelectorFromString([NSString stringWithFormat:@"didTransitionFromState%@ToState%@", self.currentState.name, state.name]);
-    SEL didEnter = NSSelectorFromString([NSString stringWithFormat:@"enteringState%@", state.name]);
+    SEL willLeave = NSSelectorFromString([NSString stringWithFormat:@"willLeaveState%@", self.currentState]);
+    SEL willTransition = NSSelectorFromString([NSString stringWithFormat:@"willTransitionFromState%@ToState%@", self.currentState, state]);
+    SEL didTransition = NSSelectorFromString([NSString stringWithFormat:@"didTransitionFromState%@ToState%@", self.currentState, state]);
+    SEL didEnter = NSSelectorFromString([NSString stringWithFormat:@"didEnterState%@", state]);
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -74,6 +78,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
 #pragma clang diagnostic pop
+    
+    return YES;
+}
+
+- (BOOL)isState:(SDLState *)state {
+    return [self.currentState isEqualToString:state];
 }
 
 - (BOOL)sdl_canState:(SDLState *)fromState transitionToState:(SDLState *)toState {

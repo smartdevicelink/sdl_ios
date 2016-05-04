@@ -22,6 +22,10 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
     SDLFileManagerErrorNoKnownFile = -2
 };
 
+typedef NS_ENUM(NSInteger, SDLStateMachineError) {
+    SDLStateMachineErrorInvalidTransitionOccurred = -1
+};
+
 #pragma mark Error Domains
 extern NSString *const SDLManagerErrorDomain;
 extern NSString *const SDLFileManagerErrorDomain;
