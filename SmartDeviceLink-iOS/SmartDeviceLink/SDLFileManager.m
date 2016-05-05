@@ -103,6 +103,10 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
     return [self.mutableRemoteFileNames copy];
 }
 
+- (SDLState *)currentState {
+    return self.stateMachine.currentState;
+}
+
 
 #pragma mark - State
 
