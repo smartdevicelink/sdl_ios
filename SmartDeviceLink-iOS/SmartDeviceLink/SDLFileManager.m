@@ -88,14 +88,6 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
     return self;
 }
 
-+ (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
-    return @{
-             SDLFileManagerStateNotConnected: @[SDLFileManagerStateReady],
-             SDLFileManagerStateReady: @[SDLFileManagerStateNotConnected, SDLFileManagerStateWaiting],
-             SDLFileManagerStateWaiting: @[SDLFileManagerStateNotConnected, SDLFileManagerStateReady]
-             };
-}
-
 
 #pragma mark - Getters
 
@@ -109,6 +101,14 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 
 
 #pragma mark - State
+
++ (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
+    return @{
+             SDLFileManagerStateNotConnected: @[SDLFileManagerStateReady],
+             SDLFileManagerStateReady: @[SDLFileManagerStateNotConnected, SDLFileManagerStateWaiting],
+             SDLFileManagerStateWaiting: @[SDLFileManagerStateNotConnected, SDLFileManagerStateReady]
+             };
+}
 
 - (void)didEnterStateReady {
     if (self.uploadQueue.count != 0) {
@@ -172,12 +172,12 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
-    if ([self.stateMachine isState:SDLFileManagerStateNotConnected]) {
+    if ([self.stateMachine isCurrentState:SDLFileManagerStateNotConnected]) {
         [self.stateMachine transitionToState:SDLFileManagerStateWaiting error:nil];
         
         NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:file];
         [self sdl_sendPutFiles:putFiles withCompletion:completion];
-    } else if ([self.stateMachine isState:SDLFileManagerStateWaiting]) {
+    } else if ([self.stateMachine isCurrentState:SDLFileManagerStateWaiting]) {
         [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
     }
 }

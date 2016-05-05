@@ -55,7 +55,7 @@ typedef NSArray<SDLState *> SDLAllowableStateTransitions;
  *
  *  @param state The state to check
  */
-- (BOOL)isState:(SDLState *)state;
+- (BOOL)isCurrentState:(SDLState *)state;
 
 @end
 

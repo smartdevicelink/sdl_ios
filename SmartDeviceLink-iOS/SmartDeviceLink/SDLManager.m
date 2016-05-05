@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Typedefs and Constants
 
+NSString *const SDLLifecycleStateTransportDisconnected = @"Transport Disconnected";
+NSString *const SDLLifecycleStateReady = @"Ready";
+NSString *const SDLLifecycleStateTransportConnected = @"Transport Connected";
+
 typedef NSNumber SDLRPCCorrelationId;
 typedef NSNumber SDLAddCommandCommandId;
 typedef NSString SDLSubscribeButtonName;
@@ -36,7 +40,7 @@ typedef NSNumber SDLSoftButtonId;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (strong, nonatomic, readwrite) SDLFileManager *fileManager;
 @property (strong, nonatomic, readwrite) SDLPermissionManager *permissionManager;
-@property (assign, nonatomic, readwrite) SDLLifecycleState lifecycleState;
+@property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 
 // Deprecated internal proxy
 #pragma clang diagnostic push
@@ -84,7 +88,7 @@ typedef NSNumber SDLSoftButtonId;
         return nil;
     }
     
-    _lifecycleState = SDLLifecycleStateNotConnected;
+    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self states:[self.class sdl_stateTransitionDictionary] startState:SDLFileManagerStateNotConnected];
     _configuration = nil;
     
     _correlationID = 1;
@@ -119,6 +123,10 @@ typedef NSNumber SDLSoftButtonId;
     }
     
     return _permissionManager;
+}
+
+- (SDLState *)lifecycleState {
+    return self.lifecycleStateMachine.currentState;
 }
 
 
@@ -201,30 +209,23 @@ typedef NSNumber SDLSoftButtonId;
 #pragma mark SDLConnectionManager Protocol
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
-    switch (self.lifecycleState) {
-            // Don't allow anything to be sent when not connected
-        case SDLLifecycleStateNotConnected: {
-            [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
-            if (handler) {
-                handler(nil, nil, [NSError sdl_lifecycle_notConnectedError]);
-            }
-        } break;
-            // Only allow a Register
-        case SDLLifecycleStateNotReady: {
-            [SDLDebugTool logInfo:@"Manager not ready, will not send RPC"];
-            if (handler) {
-                handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
-            }
-        } break;
-        case SDLLifecycleStateReady: {
-            [self sdl_sendRequest:request withCompletionHandler:handler];
-        } break;
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateTransportDisconnected]) {
+        [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
+        if (handler) {
+            handler(nil, nil, [NSError sdl_lifecycle_notConnectedError]);
+        }
+    } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateTransportConnected]) {
+        [SDLDebugTool logInfo:@"Manager not ready, will not send RPC"];
+        if (handler) {
+            handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
+        }
+    } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        [self sdl_sendRequest:request withCompletionHandler:handler];
     }
-    
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
-    // We will allow things to be sent in a "SDLLifeCycleStateNotReady" in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
+    // We will allow things to be sent in a "SDLLifeCycleStateTransportConnected" in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     
     // Add a correlation ID
     NSNumber *corrID = [self sdl_getNextCorrelationId];
@@ -359,16 +360,22 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 
-#pragma mark State Machine Transitions
+#pragma mark State Machine
 
-
++ (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
+    return @{
+             SDLLifecycleStateTransportDisconnected: @[SDLLifecycleStateReady, SDLLifecycleStateTransportConnected],
+             SDLLifecycleStateTransportConnected: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateReady],
+             SDLLifecycleStateReady: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateTransportConnected]
+             };
+}
 
 
 #pragma mark SDLProxyListener Methods
 
 - (void)onProxyOpened {
     [SDLDebugTool logInfo:@"onProxyOpened"];
-    self.lifecycleState = SDLLifecycleStateNotReady;
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected error:nil];
     
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
@@ -399,7 +406,8 @@ typedef NSNumber SDLSoftButtonId;
 
 - (void)onProxyClosed {
     [SDLDebugTool logInfo:@"onProxyClosed"];
-    self.lifecycleState = SDLLifecycleStateNotConnected;
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected error:nil];
+    
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
     [self sdl_startProxy];
@@ -502,7 +510,7 @@ typedef NSNumber SDLSoftButtonId;
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
     // TODO: Get ListFiles, send persistent images, stay not ready till done
     // TODO: Store response data somewhere?
-    self.lifecycleState = SDLLifecycleStateReady;
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady error:nil];
     
     [self sdl_runHandlersForResponse:response];
 }

@@ -16,11 +16,11 @@
 @class SDLRPCResponse;
 
 
-typedef NS_ENUM(NSUInteger, SDLLifecycleState) {
-    SDLLifecycleStateNotConnected,
-    SDLLifecycleStateNotReady,
-    SDLLifecycleStateReady
-};
+NS_ASSUME_NONNULL_BEGIN
+
+extern NSString *const SDLLifecycleStateNotConnected;
+extern NSString *const SDLLifecycleStateReady;
+extern NSString *const SDLLifecycleStateWaiting;
 
 typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventError,
@@ -29,11 +29,9 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 };
 
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLManager : NSObject <SDLConnectionManagerType>
 
-@property (assign, nonatomic, readonly) SDLLifecycleState lifecycleState;
+@property (assign, nonatomic, readonly) SDLState *lifecycleState;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 @property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;

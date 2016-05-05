@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (BOOL)isState:(SDLState *)state {
+- (BOOL)isCurrentState:(SDLState *)state {
     return [self.currentState isEqualToString:state];
 }
 
