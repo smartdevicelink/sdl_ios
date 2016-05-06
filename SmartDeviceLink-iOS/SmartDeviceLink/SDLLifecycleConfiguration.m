@@ -9,6 +9,7 @@
 #import "SDLLifecycleConfiguration.h"
 
 #import "SDLAppHMIType.h"
+#import "SDLFile.h"
 #import "SDLLanguage.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
@@ -31,11 +32,16 @@ NS_ASSUME_NONNULL_BEGIN
     _tcpDebugIPAddress = DefaultTCPIPAddress;
     _tcpDebugPort = DefaultTCPIPPort;
     
+    _persistentFiles = @[];
     _appName = appName;
     _appId = appId;
     
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
+    _languagesSupported = @[_language];
+    _shortAppName = nil;
+    _ttsName = nil;
+    _voiceRecognitionSynonyms = @[];
     
     return self;
 }
@@ -86,16 +92,29 @@ NS_ASSUME_NONNULL_BEGIN
     _appType = appType;
 }
 
+- (void)setPersistentFiles:(NSArray<SDLFile *> *)persistentFiles {
+    for (SDLFile *file in persistentFiles) {
+        if (!file.persistent) {
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:NSLocalizedString(@"SDLLifecycleConfiguration persistentFiles must all be persistent; non-persistent file found", nil) userInfo:@{@"Error": file}];
+        }
+    }
+}
+
 
 #pragma mark NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initWithAppName:_appName appId:_appId];
-    newConfig->_appType = _appType;
-    newConfig->_language = _language;
-    newConfig->_shortAppName = _shortAppName;
-    newConfig->_ttsName = _ttsName;
-    newConfig->_voiceRecognitionSynonyms = _voiceRecognitionSynonyms;
+    newConfig -> _tcpDebugMode = _tcpDebugMode;
+    newConfig -> _tcpDebugIPAddress = _tcpDebugIPAddress;
+    newConfig -> _tcpDebugPort = _tcpDebugPort;
+    newConfig -> _persistentFiles = _persistentFiles;
+    newConfig -> _appType = _appType;
+    newConfig -> _language = _language;
+    newConfig -> _languagesSupported = _languagesSupported;
+    newConfig -> _shortAppName = _shortAppName;
+    newConfig -> _ttsName = _ttsName;
+    newConfig -> _voiceRecognitionSynonyms = _voiceRecognitionSynonyms;
     
     return newConfig;
 }

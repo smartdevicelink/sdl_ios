@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugIPAddress;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugPort;
 
-@property (copy, nonatomic) NSArray<SDLFile *> *persistentImages;
+@property (copy, nonatomic) NSArray<SDLFile *> *persistentFiles;
 
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *appId;
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray<SDLLanguage *> *languagesSupported;
 @property (copy, nonatomic, nullable) NSString *shortAppName;
 @property (copy, nonatomic, nullable) NSString *ttsName;
-@property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionSynonyms; // TODO: Better name?
+@property (copy, nonatomic) NSArray<NSString *> *voiceRecognitionSynonyms; // TODO: Better name?
 
 @end
 
