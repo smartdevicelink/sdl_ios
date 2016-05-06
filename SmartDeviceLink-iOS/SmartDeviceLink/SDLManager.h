@@ -17,10 +17,12 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-extern NSString *const SDLLifecycleStateNotConnected;
+// TODO: Update for new states
+extern NSString *const SDLLifecycleStateTransportDisconnected;
+extern NSString *const SDLLifecycleStateTransportConnected;
+extern NSString *const SDLLifecycleStateRegistered;
+extern NSString *const SDLLifecycleStateSettingUpManagers;
 extern NSString *const SDLLifecycleStateReady;
-extern NSString *const SDLLifecycleStateWaiting;
 
 typedef NS_ENUM(NSUInteger, SDLEvent) {
     SDLEventError,

@@ -21,9 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Typedefs and Constants
 
-NSString *const SDLLifecycleStateTransportDisconnected = @"Transport Disconnected";
+NSString *const SDLLifecycleStateTransportDisconnected = @"TransportDisconnected";
+NSString *const SDLLifecycleStateTransportConnected = @"TransportConnected";
+NSString *const SDLLifecycleStateRegistered = @"Registered";
+NSString *const SDLLifecycleStateWaitingForManagers = @"WaitingForManagers";
 NSString *const SDLLifecycleStateReady = @"Ready";
-NSString *const SDLLifecycleStateTransportConnected = @"Transport Connected";
 
 typedef NSNumber SDLRPCCorrelationId;
 typedef NSNumber SDLAddCommandCommandId;
@@ -111,7 +113,7 @@ typedef NSNumber SDLSoftButtonId;
 
 - (SDLFileManager *)fileManager {
     if (_fileManager == nil) {
-        _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
+        _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self initialFiles:self.configuration.lifecycleConfig.persistentFiles];
     }
     
     return _fileManager;
@@ -127,6 +129,19 @@ typedef NSNumber SDLSoftButtonId;
 
 - (SDLState *)lifecycleState {
     return self.lifecycleStateMachine.currentState;
+}
+
+
+#pragma mark State Machine
+
++ (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
+    return @{
+             SDLLifecycleStateTransportDisconnected: @[SDLLifecycleStateTransportConnected],
+             SDLLifecycleStateTransportConnected: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateRegistered],
+             SDLLifecycleStateRegistered: @[SDLLifecycleStateWaitingForManagers],
+             SDLLifecycleStateWaitingForManagers: @[SDLLifecycleStateReady],
+             SDLLifecycleStateReady: @[SDLLifecycleStateTransportDisconnected]
+             };
 }
 
 
@@ -215,7 +230,7 @@ typedef NSNumber SDLSoftButtonId;
             handler(nil, nil, [NSError sdl_lifecycle_notConnectedError]);
         }
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateTransportConnected]) {
-        [SDLDebugTool logInfo:@"Manager not ready, will not send RPC"];
+        [SDLDebugTool logInfo:@"Manager not ready, will not send RPC until ready"];
         if (handler) {
             handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
         }
@@ -360,22 +375,11 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 
-#pragma mark State Machine
-
-+ (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
-    return @{
-             SDLLifecycleStateTransportDisconnected: @[SDLLifecycleStateReady, SDLLifecycleStateTransportConnected],
-             SDLLifecycleStateTransportConnected: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateReady],
-             SDLLifecycleStateReady: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateTransportConnected]
-             };
-}
-
-
 #pragma mark SDLProxyListener Methods
 
 - (void)onProxyOpened {
     [SDLDebugTool logInfo:@"onProxyOpened"];
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected error:nil];
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected];
     
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
@@ -383,11 +387,11 @@ typedef NSNumber SDLSoftButtonId;
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
     
     // TODO: Should the hash be removed under any conditions?
-    if (self.resumeHash) {
+    if (self.resumeHash != nil) {
         regRequest.hashID = self.resumeHash.hashID;
     }
     
-    if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms) {
+    if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms != nil) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     }
     
@@ -406,7 +410,7 @@ typedef NSNumber SDLSoftButtonId;
 
 - (void)onProxyClosed {
     [SDLDebugTool logInfo:@"onProxyClosed"];
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected error:nil];
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected];
     
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
@@ -508,9 +512,9 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
-    // TODO: Get ListFiles, send persistent images, stay not ready till done
+    // TODO: Get ListFiles, send persistent images, stay not ready till done. Start up all managers, and stay not ready until all say they're done?
     // TODO: Store response data somewhere?
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady error:nil];
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     
     [self sdl_runHandlersForResponse:response];
 }
