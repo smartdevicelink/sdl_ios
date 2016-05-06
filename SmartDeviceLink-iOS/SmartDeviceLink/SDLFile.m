@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFile ()
 
-@property (copy, nonatomic, nullable) NSString *filePath;
+@property (copy, nonatomic, nullable) NSURL *fileURL;
 @property (strong, nonatomic, readwrite) SDLFileType *fileType;
 
 @property (assign, nonatomic, readwrite) BOOL persistent;
@@ -29,12 +29,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithFileAtPath:(NSString *)path {
-    return [self initWithFileAtPath:path name:[[NSFileManager defaultManager] displayNameAtPath:path] persistent:NO];
+- (instancetype)initWithURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    BOOL exists = url.isFileURL && [url checkResourceIsReachableAndReturnError:nil];
+    if (!exists) {
+        return nil;
+    }
+    
+    _fileURL = url;
+    _name = name;
+    _persistent = persistent;
+    _fileType = [self.class sdl_fileTypeFromFileURL:url];
+    
+    return self;
 }
 
-- (instancetype)initWithPersistentFileAtPath:(NSString *)path name:(NSString *)name {
-    return [self initWithFileAtPath:path name:name persistent:YES];
++ (instancetype)persistentFileAtURL:(NSURL *)url name:(NSString *)name {
+    return [[self alloc] initWithURL:url name:name persistent:YES];
+}
+
++ (instancetype)ephemeralFileAtURL:(NSURL *)url name:(NSString *)name {
+    return [[self alloc] initWithURL:url name:name persistent:NO];
 }
 
 - (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent {
@@ -43,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
+    // TODO: Write to temp directory?
     _data = data;
     _name = name;
     _fileType = fileType;
@@ -51,25 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-#pragma mark Private Lifecycle
-
-- (instancetype)initWithFileAtPath:(NSString *)path name:(NSString *)name persistent:(BOOL)persistent {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-    
-    BOOL pathExists = [[NSFileManager defaultManager] isReadableFileAtPath:path];
-    if (!pathExists) {
-        return nil;
-    }
-    
-    _filePath = path;
-    _name = name;
-    _persistent = persistent;
-    _fileType = [self.class sdl_fileTypeFromFilePath:path];
-    
-    return self;
++ (instancetype)fileWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent {
+    return [[self alloc] initWithData:data name:name type:fileType persistent:persistent];
 }
 
 
@@ -78,8 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *)data {
     if (_data != nil) {
         return _data;
-    } else if (_filePath != nil) {
-        return [[NSFileManager defaultManager] contentsAtPath:_filePath];
+    } else if (_fileURL != nil) {
+        return [NSData dataWithContentsOfURL:_fileURL];
     } else {
         return nil;
     }
@@ -88,8 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - File Type
 
-+ (SDLFileType *)sdl_fileTypeFromFilePath:(NSString *)filePath {
-    NSString *fileExtension = filePath.pathExtension;
++ (SDLFileType *)sdl_fileTypeFromFileURL:(NSURL *)url {
+    NSString *fileExtension = url.pathExtension;
     
     if ([fileExtension caseInsensitiveCompare:@"bmp"] == NSOrderedSame) {
         return [SDLFileType GRAPHIC_BMP];
