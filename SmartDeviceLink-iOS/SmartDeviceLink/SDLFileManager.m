@@ -24,8 +24,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLFileManagerStateNotConnected = @"NotConnected";
-NSString *const SDLFileManagerStateReady = @"Ready";
-NSString *const SDLFileManagerStateWaiting = @"Waiting";
+NSString *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
+NSString *const SDLFileManagerStateCheckingQueue = @"CheckingQueue";
+NSString *const SDLFileManagerStateUploading = @"Uploading";
+NSString *const SDLFileManagerStateIdle = @"Idle";
 
 
 #pragma mark - SDLFileWrapper class struct
@@ -55,7 +57,6 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 // Local state
 @property (copy, nonatomic) NSMutableArray<SDLFileWrapper *> *uploadQueue;
 @property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
-@property (assign, nonatomic) NSUInteger currentFileUploadOffset;
 
 @end
 
@@ -63,10 +64,10 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 @implementation SDLFileManager
 
 - (instancetype)init {
-    return [self initWithConnectionManager:[SDLManager sharedManager]];
+    return [self initWithConnectionManager:[SDLManager sharedManager] initialFiles:@[]];
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager initialFiles:(NSArray<SDLFile *> *)initialFiles {
     self = [super init];
     if (!self) {
         return nil;
@@ -77,8 +78,7 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
     _allowOverwrite = NO;
     
     _mutableRemoteFileNames = [NSMutableSet set];
-    _uploadQueue = [NSMutableArray array];
-    _currentFileUploadOffset = 0;
+    _uploadQueue = [initialFiles mutableCopy];
     
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self states:[self.class sdl_stateTransitionDictionary] startState:SDLFileManagerStateNotConnected];
     
@@ -104,18 +104,34 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-             SDLFileManagerStateNotConnected: @[SDLFileManagerStateReady],
-             SDLFileManagerStateReady: @[SDLFileManagerStateNotConnected, SDLFileManagerStateWaiting],
-             SDLFileManagerStateWaiting: @[SDLFileManagerStateNotConnected, SDLFileManagerStateReady]
+             SDLFileManagerStateNotConnected: @[SDLFileManagerStateFetchingInitialList],
+             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateNotConnected, SDLFileManagerStateCheckingQueue],
+             SDLFileManagerStateCheckingQueue: @[SDLFileManagerStateNotConnected,SDLFileManagerStateUploading, SDLFileManagerStateIdle],
+             SDLFileManagerStateUploading: @[SDLFileManagerStateNotConnected, SDLFileManagerStateCheckingQueue, SDLFileManagerStateIdle],
+             SDLFileManagerStateIdle: @[SDLFileManagerStateNotConnected, SDLFileManagerStateNotConnected, SDLFileManagerStateUploading]
              };
 }
 
-- (void)didEnterStateReady {
-    if (self.uploadQueue.count != 0) {
+- (void)didEnterStateFetchingInitialList {
+    
+}
+
+- (void)didEnterStateCheckingQueue {
+    if (self.uploadQueue.count > 0) {
         SDLFileWrapper *wrapper = [self.uploadQueue firstObject];
         [self.uploadQueue removeObjectAtIndex:0];
         [self uploadFile:wrapper.file completionHandler:wrapper.completionHandler];
+    } else {
+        [self.stateMachine transitionToState:SDLFileManagerStateIdle];
     }
+}
+
+- (void)didEnterStateNotConnected {
+    [self.mutableRemoteFileNames removeAllObjects];
+    self.bytesAvailable = 0;
+    
+    // TODO: Change back to initialFiles
+    [self.uploadQueue removeAllObjects];
 }
 
 
@@ -172,12 +188,12 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
-    if ([self.stateMachine isCurrentState:SDLFileManagerStateNotConnected]) {
-        [self.stateMachine transitionToState:SDLFileManagerStateWaiting error:nil];
+    if ([self.stateMachine isCurrentState:SDLFileManagerStateIdle]) {
+        [self.stateMachine transitionToState:SDLFileManagerStateUploading];
         
         NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:file];
         [self sdl_sendPutFiles:putFiles withCompletion:completion];
-    } else if ([self.stateMachine isCurrentState:SDLFileManagerStateWaiting]) {
+    } else if ([self.stateMachine isCurrentState:SDLFileManagerStateUploading]) {
         [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
     }
 }
@@ -190,6 +206,7 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
     
     __weak typeof(self) weakSelf = self;
     for (SDLPutFile *putFile in putFiles) {
+        // TODO: More classes for something like upload tasks in NSURLSession, to be able to send and be able to cancel instead of just looping.
         [self.connectionManager sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             
@@ -203,7 +220,7 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
             if (error != nil || response == nil || ![response.success boolValue]) {
                 stop = YES;
                 streamError = error;
-                [strongSelf.stateMachine transitionToState:SDLFileManagerStateReady error:nil];
+                [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
                 
                 if (response != nil) {
                     strongSelf.bytesAvailable = [((SDLPutFileResponse *)response).spaceAvailable unsignedIntegerValue];
@@ -235,7 +252,7 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
                     completion(YES, strongSelf.bytesAvailable, nil);
                 }
                 
-                [strongSelf.stateMachine transitionToState:SDLFileManagerStateReady error:nil];
+                [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
             }
         }];
     }
@@ -270,7 +287,7 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
 #pragma mark - SDL Notification Observers
 
 - (void)sdl_didConnect:(NSNotification *)notification {
-    [self.stateMachine transitionToState:SDLFileManagerStateWaiting error:nil];
+    [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
     SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
     
     __weak typeof(self) weakSelf = self;
@@ -286,16 +303,12 @@ NSString *const SDLFileManagerStateWaiting = @"Waiting";
         [strongSelf.mutableRemoteFileNames addObjectsFromArray:listFilesResponse.filenames];
         strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
         
-        [strongSelf.stateMachine transitionToState:SDLFileManagerStateReady error:nil];
+        [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
     }];
 }
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
-    [self.mutableRemoteFileNames removeAllObjects];
-    self.bytesAvailable = 0;
-    [self.uploadQueue removeAllObjects];
-    [self.stateMachine transitionToState:SDLFileManagerStateNotConnected error:nil];
-    self.currentFileUploadOffset = 0;
+    [self.stateMachine transitionToState:SDLFileManagerStateNotConnected];
 }
 
 @end

@@ -17,8 +17,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const SDLFileManagerStateNotConnected;
-extern NSString *const SDLFileManagerStateReady;
-extern NSString *const SDLFileManagerStateWaiting;
+extern NSString *const SDLFileManagerStateFetchingInitialList;
+extern NSString *const SDLFileManagerStateCheckingQueue;
+extern NSString *const SDLFileManagerStateUploading;
+extern NSString *const SDLFileManagerStateIdle;
 
 
 typedef NSString SDLFileName;
@@ -30,9 +32,9 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 @interface SDLFileManager : NSObject
 
 @property (copy, nonatomic, readonly) NSSet<SDLFileName *> *remoteFileNames;
-//@property (assign, nonatomic, readonly) SDLFileManagerState state;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
 @property (copy, nonatomic, readonly) SDLState *currentState;
+
 @property (assign, nonatomic) BOOL allowOverwrite;
 
 /**
@@ -46,10 +48,11 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
  *  Creates a new file manager with a specified connection manager
  *
  *  @param manager A connection manager to use to forward on RPCs
+ *  @param initialFiles Files that should be available before the file manager is considered "ready"
  *
  *  @return An instance of SDLFileManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager initialFiles:(NSArray<SDLFile *> *)initialFiles NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Delete a file stored on the remote system
