@@ -43,12 +43,11 @@ typedef NSArray<SDLState *> SDLAllowableStateTransitions;
 - (instancetype)initWithTarget:(id)target states:(NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)states startState:(SDLState *)startState;
 
 /**
- *  Transition to another state when called. If the current state is not allowed to transition to the new state, an error will be returned to the error parameter.
+ *  Transition to another state when called. If the current state is not allowed to transition to the new state, an exception will occur.
  *
  *  @param state The state to transition to.
- *  @param error An error passthrough an error will be placed within if an error occurs.
  */
-- (BOOL)transitionToState:(SDLState *)state error:(NSError **)error;
+- (BOOL)transitionToState:(SDLState *)state;
 
 /**
  *  Return whether or not the current state is the passed state

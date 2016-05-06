@@ -40,13 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (BOOL)transitionToState:(SDLState *)state error:(NSError * __autoreleasing*)error {
+- (BOOL)transitionToState:(SDLState *)state {
     if (![self sdl_canState:self.currentState transitionToState:state]) {
-        if (error != nil) {
-            NSString *stateMachineErrorDomain = [NSString stringWithFormat:@"com.sdl.%@", NSStringFromClass([self.target class])];
-            *error = [NSError errorWithDomain:stateMachineErrorDomain code:SDLStateMachineErrorInvalidTransitionOccurred userInfo:@{@"fromState": self.currentState,
-                                                                                                                                    @"toState": state}];
-        }
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Invalid state machine transition occurred" userInfo:@{ @"targetClass": NSStringFromClass([self.target class]), @"fromState": self.currentState, @"toState": state}];
         
         return NO;
     }
@@ -86,8 +82,16 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.currentState isEqualToString:state];
 }
 
+/**
+ *  Determine if a state transition is valid. Returns YES if the state transition dictionary's fromState key contains toState in its value array, or if fromState and toState are the same state.
+ *
+ *  @param fromState The former state
+ *  @param toState   The new state
+ *
+ *  @return Whether or not the state transition is valid
+ */
 - (BOOL)sdl_canState:(SDLState *)fromState transitionToState:(SDLState *)toState {
-    if ([self.states[fromState] containsObject:toState]) {
+    if ([self.states[fromState] containsObject:toState] || [fromState isEqualToString:toState]) {
         return YES;
     }
     
