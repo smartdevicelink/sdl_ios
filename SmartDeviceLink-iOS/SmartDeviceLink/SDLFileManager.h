@@ -38,7 +38,7 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 @property (assign, nonatomic) BOOL allowOverwrite;
 
 /**
- *  Creates a new file manager where the connection manager is [SDLManager sharedManager]
+ *  Creates a new file manager where the connection manager is [SDLManager sharedManager], and there are no initial files.
  *
  *  @return An instance of SDLFileManager
  */

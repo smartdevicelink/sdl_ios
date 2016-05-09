@@ -113,11 +113,9 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 }
 
 - (void)didEnterStateNotConnected {
+    [self.uploadQueue removeAllObjects];
     [self.mutableRemoteFileNames removeAllObjects];
     self.bytesAvailable = 0;
-    
-    // TODO: Change back to initialFiles
-    [self.uploadQueue removeAllObjects];
 }
 
 - (void)didEnterStateFetchingInitialList {
@@ -220,6 +218,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     __block NSUInteger numResponsesReceived = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
     
+    // TODO: I really don't like this
     __weak typeof(self) weakSelf = self;
     for (SDLPutFile *putFile in putFiles) {
         // TODO: More classes for something like upload tasks in NSURLSession, to be able to send and be able to cancel instead of just looping.
