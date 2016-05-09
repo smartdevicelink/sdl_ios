@@ -22,29 +22,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStateMachine
 
-- (instancetype)initWithTarget:(id)target states:(NSDictionary<SDLState *,SDLAllowableStateTransitions *> *)states startState:(SDLState *)startState {
+- (instancetype)initWithTarget:(id)target initialState:(SDLState *)initialState states:(NSDictionary<SDLState *,SDLAllowableStateTransitions *> *)states {
     self = [super init];
     
     if (!self) {
         return nil;
     }
     
-    if (states[startState] == nil) {
+    if (states[initialState] == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to start with an SDLState that is not in the states dictionary" userInfo:nil];
     }
     
     _target = target;
     _states = states;
-    _currentState = startState;
+    _currentState = initialState;
     
     return self;
 }
 
-- (BOOL)transitionToState:(SDLState *)state {
+- (void)transitionToState:(SDLState *)state {
     if (![self sdl_canState:self.currentState transitionToState:state]) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Invalid state machine transition occurred" userInfo:@{ @"targetClass": NSStringFromClass([self.target class]), @"fromState": self.currentState, @"toState": state}];
-        
-        return NO;
     }
     
     SEL willLeave = NSSelectorFromString([NSString stringWithFormat:@"willLeaveState%@", self.currentState]);
@@ -55,27 +53,35 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     
-    if ([self.target respondsToSelector:willLeave]) {
+    // Don't call this method if we aren't actually leaving the state
+    if ([self.target respondsToSelector:willLeave] && ![self isCurrentState:state]) {
         [self.target performSelector:willLeave];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:[self.class sdl_notificationNameForTargetClass:[self.target class] selector:willLeave] object:self];
     }
     
     if ([self.target respondsToSelector:willTransition]) {
         [self.target performSelector:willTransition];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:[self.class sdl_notificationNameForTargetClass:[self.target class] selector:willTransition] object:self];
     }
     
     self.currentState = state;
     
     if ([self.target respondsToSelector:didTransition]) {
         [self.target performSelector:didTransition];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:[self.class sdl_notificationNameForTargetClass:[self.target class] selector:didTransition] object:self];
     }
     
-    if ([self.target respondsToSelector:didEnter]) {
+    // Don't call this method if we aren't actually entering the state from another state
+    if ([self.target respondsToSelector:didEnter] && ![self isCurrentState:state]) {
         [self.target performSelector:didEnter];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:[self.class sdl_notificationNameForTargetClass:[self.target class] selector:didEnter] object:self];
     }
     
 #pragma clang diagnostic pop
-    
-    return YES;
 }
 
 - (BOOL)isCurrentState:(SDLState *)state {
@@ -96,6 +102,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     return NO;
+}
+
++ (NSString *)sdl_notificationNameForTargetClass:(Class)targetClass selector:(SEL)selector {
+    return [NSString stringWithFormat:@"com.sdl.notification.statemachine.%@.%@", [targetClass class], NSStringFromSelector(selector)];
 }
 
 @end

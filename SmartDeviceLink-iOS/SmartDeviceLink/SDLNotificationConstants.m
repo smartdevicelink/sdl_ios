@@ -8,6 +8,7 @@
 
 #import "SDLNotificationConstants.h"
 
+// TODO: Further namespace since other notification types will be firing, e.g. state machine notifications
 NSString *const SDLDidReceiveFirstFullHMIStatusNotification = @"com.sdl.notification.firstFullHMIStatus";
 NSString *const SDLDidReceiveFirstNonNoneHMIStatusNotification = @"com.sdl.notification.firstNonNoneHMIStatus";
 NSString *const SDLDidChangeDriverDistractionStateNotification = @"com.sdl.notification.changeDriverDistractionState";
