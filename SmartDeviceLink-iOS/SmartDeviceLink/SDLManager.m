@@ -191,7 +191,9 @@ typedef NSNumber SDLSoftButtonId;
         userInfo = @{ SDLNotificationUserInfoNotificationObject: info };
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
+    });
 }
 
 
