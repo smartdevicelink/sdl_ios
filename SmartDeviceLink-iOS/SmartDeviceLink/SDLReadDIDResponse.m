@@ -4,8 +4,8 @@
 
 #import "SDLReadDIDResponse.h"
 
-#import "SDLNames.h"
 #import "SDLDIDResult.h"
+#import "SDLNames.h"
 
 @implementation SDLReadDIDResponse
 

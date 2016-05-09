@@ -4,8 +4,8 @@
 #import "SDLVehicleDataResult.h"
 
 #import "SDLNames.h"
-#import "SDLVehicleDataType.h"
 #import "SDLVehicleDataResultCode.h"
+#import "SDLVehicleDataType.h"
 
 
 @implementation SDLVehicleDataResult

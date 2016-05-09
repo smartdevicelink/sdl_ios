@@ -2,9 +2,9 @@
 //  SDLIAPSession.h
 //
 
-#import <Foundation/Foundation.h>
-#import <ExternalAccessory/ExternalAccessory.h>
 #import "SDLIAPSessionDelegate.h"
+#import <ExternalAccessory/ExternalAccessory.h>
+#import <Foundation/Foundation.h>
 
 @class SDLStreamDelegate;
 

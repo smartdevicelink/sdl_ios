@@ -4,8 +4,8 @@
 
 #import "SDLChangeRegistration.h"
 
-#import "SDLNames.h"
 #import "SDLLanguage.h"
+#import "SDLNames.h"
 
 @implementation SDLChangeRegistration
 
