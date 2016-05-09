@@ -108,12 +108,36 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
              SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateNotConnected, SDLFileManagerStateCheckingQueue],
              SDLFileManagerStateCheckingQueue: @[SDLFileManagerStateNotConnected,SDLFileManagerStateUploading, SDLFileManagerStateIdle],
              SDLFileManagerStateUploading: @[SDLFileManagerStateNotConnected, SDLFileManagerStateCheckingQueue, SDLFileManagerStateIdle],
-             SDLFileManagerStateIdle: @[SDLFileManagerStateNotConnected, SDLFileManagerStateNotConnected, SDLFileManagerStateUploading]
+             SDLFileManagerStateIdle: @[SDLFileManagerStateNotConnected, SDLFileManagerStateUploading]
              };
 }
 
-- (void)didEnterStateFetchingInitialList {
+- (void)didEnterStateNotConnected {
+    [self.mutableRemoteFileNames removeAllObjects];
+    self.bytesAvailable = 0;
     
+    // TODO: Change back to initialFiles
+    [self.uploadQueue removeAllObjects];
+}
+
+- (void)didEnterStateFetchingInitialList {
+    SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
+    
+    __weak typeof(self) weakSelf = self;
+    [self.connectionManager sendRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        
+        if (error != nil) {
+            // TODO: this is bad
+            return;
+        }
+        
+        SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
+        [strongSelf.mutableRemoteFileNames addObjectsFromArray:listFilesResponse.filenames];
+        strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
+        
+        [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
+    }];
 }
 
 - (void)didEnterStateCheckingQueue {
@@ -124,14 +148,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     } else {
         [self.stateMachine transitionToState:SDLFileManagerStateIdle];
     }
-}
-
-- (void)didEnterStateNotConnected {
-    [self.mutableRemoteFileNames removeAllObjects];
-    self.bytesAvailable = 0;
-    
-    // TODO: Change back to initialFiles
-    [self.uploadQueue removeAllObjects];
 }
 
 
@@ -188,13 +204,13 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
-    if ([self.stateMachine isCurrentState:SDLFileManagerStateIdle]) {
+    if ([self.stateMachine isCurrentState:SDLFileManagerStateUploading]) {
+        [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
+    } else {
         [self.stateMachine transitionToState:SDLFileManagerStateUploading];
         
         NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:file];
         [self sdl_sendPutFiles:putFiles withCompletion:completion];
-    } else if ([self.stateMachine isCurrentState:SDLFileManagerStateUploading]) {
-        [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
     }
 }
 
@@ -220,7 +236,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
             if (error != nil || response == nil || ![response.success boolValue]) {
                 stop = YES;
                 streamError = error;
-                [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
                 
                 if (response != nil) {
                     strongSelf.bytesAvailable = [((SDLPutFileResponse *)response).spaceAvailable unsignedIntegerValue];
@@ -229,6 +244,8 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
                 if (completion != nil) {
                     completion(NO, strongSelf.bytesAvailable, error);
                 }
+                
+                [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
                 
                 return;
             }
@@ -260,7 +277,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 
 + (NSArray<SDLPutFile *> *)sdl_splitFile:(SDLFile *)file {
     NSData *fileData = [file.data copy];
-    NSInteger currentOffset = 0;
+    NSUInteger currentOffset = 0;
     NSMutableArray<SDLPutFile *> *putFiles = [NSMutableArray array];
     
     for (int i = 0; i < ((fileData.length / [SDLGlobals globals].maxMTUSize) + 1); i++) {
@@ -276,6 +293,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
         }
         
         putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
+        currentOffset = [putFile.length unsignedIntegerValue] + 1;
         
         [putFiles addObject:putFile];
     }
@@ -288,23 +306,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 
 - (void)sdl_didConnect:(NSNotification *)notification {
     [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
-    SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
-    
-    __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        
-        if (error != nil) {
-            // TODO: this is bad
-            return;
-        }
-        
-        SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-        [strongSelf.mutableRemoteFileNames addObjectsFromArray:listFilesResponse.filenames];
-        strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
-        
-        [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
-    }];
 }
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
