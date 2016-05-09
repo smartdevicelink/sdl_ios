@@ -2,24 +2,24 @@
 //
 
 
-#import "SDLJsonEncoder.h"
 #import "SDLFunctionID.h"
+#import "SDLJsonEncoder.h"
 
+#import "SDLAbstractTransport.h"
+#import "SDLDebugTool.h"
 #import "SDLGlobals.h"
-#import "SDLRPCRequest.h"
+#import "SDLPrioritizedObjectCollection.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
-#import "SDLV2ProtocolHeader.h"
 #import "SDLProtocolMessageDisassembler.h"
 #import "SDLProtocolReceivedMessageRouter.h"
-#import "SDLRPCPayload.h"
-#import "SDLDebugTool.h"
-#import "SDLPrioritizedObjectCollection.h"
 #import "SDLRPCNotification.h"
+#import "SDLRPCPayload.h"
+#import "SDLRPCRequest.h"
 #import "SDLRPCResponse.h"
-#import "SDLAbstractTransport.h"
 #import "SDLTimer.h"
+#import "SDLV2ProtocolHeader.h"
 
 
 @interface SDLProtocol () {
@@ -324,7 +324,7 @@
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
     // Remove the session id
     [self sdl_removeSessionIdForServiceType:serviceType];
-    
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
             [listener handleProtocolEndSessionACK:serviceType];

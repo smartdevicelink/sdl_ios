@@ -4,8 +4,8 @@
 
 #import "SDLHMIPermissions.h"
 
-#import "SDLNames.h"
 #import "SDLHMILevel.h"
+#import "SDLNames.h"
 
 @implementation SDLHMIPermissions
 

@@ -8,8 +8,8 @@
 #import "SDLDeviceInfo.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
-#import "SDLTTSChunk.h"
 #import "SDLSyncMsgVersion.h"
+#import "SDLTTSChunk.h"
 
 
 @implementation SDLRegisterAppInterface

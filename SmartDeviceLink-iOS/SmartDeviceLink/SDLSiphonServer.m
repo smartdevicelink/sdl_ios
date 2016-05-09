@@ -14,13 +14,13 @@
 //#define DEBUG_SIPHON //Uncomment to have output to NSLog.
 
 #import "SDLSiphonServer.h"
-#include <CFNetwork/CFNetwork.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <sys/types.h>
-#include <string.h>
-#include <unistd.h>
 #import "SDLDebugTool.h"
+#include <CFNetwork/CFNetwork.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 typedef enum {
     fromApp = 0x01,

@@ -2,10 +2,10 @@
 //  SDLIAPSession.m
 //
 
-#import "SDLDebugTool.h"
 #import "SDLIAPSession.h"
-#import "SDLTimer.h"
+#import "SDLDebugTool.h"
 #import "SDLStreamDelegate.h"
+#import "SDLTimer.h"
 
 
 @interface SDLIAPSession ()
@@ -48,7 +48,7 @@
 
     if ((self.easession = [[EASession alloc] initWithAccessory:_accessory forProtocol:_protocol])) {
         __strong typeof(self) strongSelf = weakSelf;
-        
+
         [SDLDebugTool logInfo:@"Created Session Object"];
 
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];

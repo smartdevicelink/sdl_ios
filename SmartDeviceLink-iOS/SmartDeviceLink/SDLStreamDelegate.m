@@ -2,8 +2,8 @@
 //  SDLtreamDelegate.m
 //
 
-#import "SDLDebugTool.h"
 #import "SDLStreamDelegate.h"
+#import "SDLDebugTool.h"
 
 @interface SDLStreamDelegate () {
     dispatch_queue_t _input_stream_queue;

@@ -2,12 +2,10 @@
 //
 
 #import "SDLRPCRequestFactory.h"
-#import <UIKit/UIKit.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <UIKit/UIKit.h>
 
-#import "SDLMenuParams.h"
-#import "SDLTTSChunkFactory.h"
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLAlert.h"
@@ -29,6 +27,7 @@
 #import "SDLImage.h"
 #import "SDLInteractionMode.h"
 #import "SDLListFiles.h"
+#import "SDLMenuParams.h"
 #import "SDLPerformAudioPassThru.h"
 #import "SDLPerformInteraction.h"
 #import "SDLPutFile.h"
@@ -51,6 +50,7 @@
 #import "SDLSubscribeVehicleData.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLTTSChunk.h"
+#import "SDLTTSChunkFactory.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
