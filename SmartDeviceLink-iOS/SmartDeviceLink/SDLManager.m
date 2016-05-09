@@ -90,7 +90,7 @@ typedef NSNumber SDLSoftButtonId;
         return nil;
     }
     
-    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self states:[self.class sdl_stateTransitionDictionary] startState:SDLFileManagerStateNotConnected];
+    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateTransportDisconnected states:[self.class sdl_stateTransitionDictionary]];
     _configuration = nil;
     
     _correlationID = 1;
@@ -142,6 +142,44 @@ typedef NSNumber SDLSoftButtonId;
              SDLLifecycleStateWaitingForManagers: @[SDLLifecycleStateReady],
              SDLLifecycleStateReady: @[SDLLifecycleStateTransportDisconnected]
              };
+}
+
+- (void)didEnterStateTransportDisconnected {
+    [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
+    [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
+    [self sdl_startProxy];
+}
+
+- (void)didEnterStateTransportConnected {
+    // Build a register app interface request with the configuration data
+    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
+    regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
+    regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
+    
+    // TODO: Should the hash be removed under any conditions?
+    if (self.resumeHash != nil) {
+        regRequest.hashID = self.resumeHash.hashID;
+    }
+    
+    if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms != nil) {
+        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
+    }
+    
+    // Send the request and depending on the response, post the notification
+    [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+        if (error) {
+            [self sdl_postNotification:SDLDidFailToRegisterNotification info:error];
+        } else {
+            [self sdl_postNotification:SDLDidRegisterNotification info:response];
+        }
+    }];
+    
+    // Make sure to post the did connect notification to start preheating some other objects as well while we wait for the RAIR
+    [self sdl_postNotification:SDLDidConnectNotification info:nil];
+}
+
+- (void)didEnterStateRegistered {
+    // TODO: Start up all managers, and stay not ready until all say they're done?
 }
 
 
@@ -380,41 +418,11 @@ typedef NSNumber SDLSoftButtonId;
 - (void)onProxyOpened {
     [SDLDebugTool logInfo:@"onProxyOpened"];
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected];
-    
-    // Build a register app interface request with the configuration data
-    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
-    regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
-    regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    
-    // TODO: Should the hash be removed under any conditions?
-    if (self.resumeHash != nil) {
-        regRequest.hashID = self.resumeHash.hashID;
-    }
-    
-    if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms != nil) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
-    }
-    
-    // Send the request and depending on the response, post the notification
-    [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        if (error) {
-            [self sdl_postNotification:SDLDidFailToRegisterNotification info:error];
-        } else {
-            [self sdl_postNotification:SDLDidRegisterNotification info:response];
-        }
-    }];
-    
-    // Make sure to post the did connect notification to start preheating some other objects as well while we wait for the RAIR
-    [self sdl_postNotification:SDLDidConnectNotification info:nil];
 }
 
 - (void)onProxyClosed {
     [SDLDebugTool logInfo:@"onProxyClosed"];
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected];
-    
-    [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
-    [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
-    [self sdl_startProxy];
 }
 
 - (void)onError:(NSException *)e {
@@ -512,9 +520,8 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
-    // TODO: Get ListFiles, send persistent images, stay not ready till done. Start up all managers, and stay not ready until all say they're done?
     // TODO: Store response data somewhere?
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
     
     [self sdl_runHandlersForResponse:response];
 }

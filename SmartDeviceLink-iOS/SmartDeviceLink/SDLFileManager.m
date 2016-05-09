@@ -80,7 +80,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     _mutableRemoteFileNames = [NSMutableSet set];
     _uploadQueue = [initialFiles mutableCopy];
     
-    _stateMachine = [[SDLStateMachine alloc] initWithTarget:self states:[self.class sdl_stateTransitionDictionary] startState:SDLFileManagerStateNotConnected];
+    _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateNotConnected states:[self.class sdl_stateTransitionDictionary]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didConnect:) name:SDLDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didDisconnect:) name:SDLDidDisconnectNotification object:nil];
