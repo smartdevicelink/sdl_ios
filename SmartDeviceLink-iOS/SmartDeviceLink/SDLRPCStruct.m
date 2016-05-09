@@ -38,7 +38,7 @@
             [ret setObject:[self serializeDictionary:(NSDictionary *)value version:version] forKey:key];
         } else if ([value isKindOfClass:NSArray.class]) {
             NSArray *arrayVal = (NSArray *)value;
-
+            
             if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLRPCStruct.class])) {
                 NSMutableArray *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
                 for (SDLRPCStruct *serializeable in arrayVal) {
@@ -79,7 +79,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"RPC Struct (%@) %@", [self class], [store description]];
+    return [store description];
 }
 
 - (void)dealloc {
