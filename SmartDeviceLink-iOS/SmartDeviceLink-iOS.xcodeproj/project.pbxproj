@@ -1106,11 +1106,11 @@
 		5D1464331C99AC0900727339 /* OCMock.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OCMock.framework.dSYM; path = Carthage/Build/iOS/OCMock.framework.dSYM; sourceTree = "<group>"; };
 		5D1464341C99AC0900727339 /* Quick.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Quick.framework.dSYM; path = Carthage/Build/iOS/Quick.framework.dSYM; sourceTree = "<group>"; };
 		5D1464351C99AC0900727339 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
-		5D3759B71CE1198F0088C60E /* SmartDeviceLink-iOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SmartDeviceLink-iOS.podspec"; sourceTree = "<group>"; };
-		5D3759B81CE11A010088C60E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
-		5D3759B91CE11A010088C60E /* DEPENDENCIES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DEPENDENCIES.md; sourceTree = "<group>"; };
-		5D3759BA1CE11A010088C60E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		5D3759BB1CE11A010088C60E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5D3759BC1CE12E810088C60E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
+		5D3759BD1CE12E810088C60E /* DEPENDENCIES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = DEPENDENCIES.md; path = ../../DEPENDENCIES.md; sourceTree = "<group>"; };
+		5D3759BE1CE12E810088C60E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../../LICENSE; sourceTree = "<group>"; };
+		5D3759BF1CE12E810088C60E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
+		5D3759C01CE12E810088C60E /* SmartDeviceLink-iOS.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = "SmartDeviceLink-iOS.podspec"; path = "../../SmartDeviceLink-iOS.podspec"; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -2860,11 +2860,11 @@
 				5D5934EE1A85160900687FB9 /* Protocol */,
 				5D5934ED1A85160400687FB9 /* Proxy */,
 				5D61FA201A84237100846EE7 /* SmartDeviceLink.h */,
-				5D3759B71CE1198F0088C60E /* SmartDeviceLink-iOS.podspec */,
-				5D3759BA1CE11A010088C60E /* LICENSE */,
-				5D3759B81CE11A010088C60E /* CHANGELOG.md */,
-				5D3759B91CE11A010088C60E /* DEPENDENCIES.md */,
-				5D3759BB1CE11A010088C60E /* README.md */,
+				5D3759BC1CE12E810088C60E /* CHANGELOG.md */,
+				5D3759BD1CE12E810088C60E /* DEPENDENCIES.md */,
+				5D3759BE1CE12E810088C60E /* LICENSE */,
+				5D3759BF1CE12E810088C60E /* README.md */,
+				5D3759C01CE12E810088C60E /* SmartDeviceLink-iOS.podspec */,
 				5D61FA1E1A84237100846EE7 /* Supporting Files */,
 			);
 			path = SmartDeviceLink;
