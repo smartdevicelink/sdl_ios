@@ -2,10 +2,10 @@
 //
 
 #import "SDLDebugTool.h"
+#import "NSThread+ThreadIndex.h"
+#import "SDLHexUtility.h"
 #import "SDLRPCMessage.h"
 #import "SDLSiphonServer.h"
-#import "SDLHexUtility.h"
-#import "NSThread+ThreadIndex.h"
 
 #define LOG_ERROR_ENABLED
 
@@ -29,10 +29,10 @@
     if (!self) {
         return nil;
     }
-    
+
     _debugToLogFile = NO;
     _logQueue = dispatch_queue_create("com.sdl.log.file", DISPATCH_QUEUE_SERIAL);
-    
+
     return self;
 }
 
@@ -42,7 +42,7 @@
     dispatch_once(&onceToken, ^{
         sharedTool = [[self.class alloc] init];
     });
-    
+
     return sharedTool;
 }
 
@@ -161,19 +161,19 @@
 
 - (void)sdl_enableDebugToLogFile {
     [SDLDebugTool logInfo:@"Enabling Log File" withType:SDLDebugType_Debug];
-    
+
     self.debugToLogFile = YES;
-    
+
     //Delete Log File If It Exists
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"smartdevicelink.log"];
-    
+
     NSFileManager *manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:filePath]) {
         [manager removeItemAtPath:filePath error:nil];
     }
-    
+
     // Create log file
     [manager createFileAtPath:filePath contents:nil attributes:nil];
     self.logFileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
@@ -197,16 +197,16 @@
     if (!self.debugToLogFile || info == NULL || info.length == 0) {
         return;
     }
-    
+
     dispatch_async(self.logQueue, ^{
         // Create timestamp string, add it in front of the message to be logged
         NSDate *currentDate = [NSDate date];
         NSString *dateString = [self.logDateFormatter stringFromDate:currentDate];
         NSString *outputString = [dateString stringByAppendingFormat:@": %@\n", info];
-        
+
         // File write takes an NSData, so convert string to data.
         NSData *dataToLog = [outputString dataUsingEncoding:NSUTF8StringEncoding];
-        
+
         if (self.logFileHandle != nil) {
             [self.logFileHandle seekToEndOfFile];
             [self.logFileHandle writeData:dataToLog];
@@ -221,7 +221,7 @@
         _logDateFormatter = [[NSDateFormatter alloc] init];
         [_logDateFormatter setDateFormat:@"MM/dd/YY HH:mm:ss.SSS"];
     }
-    
+
     return _logDateFormatter;
 }
 

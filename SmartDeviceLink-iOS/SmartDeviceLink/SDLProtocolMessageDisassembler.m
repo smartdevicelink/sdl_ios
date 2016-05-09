@@ -1,9 +1,9 @@
 //  SDLProtocolMessageDisassembler.m
 //
 
+#import "SDLProtocolMessageDisassembler.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
-#import "SDLProtocolMessageDisassembler.h"
 
 
 @implementation SDLProtocolMessageDisassembler

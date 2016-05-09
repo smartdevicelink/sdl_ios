@@ -5,8 +5,8 @@
 #import "SDLUpdateTurnList.h"
 
 #import "SDLNames.h"
-#import "SDLTurn.h"
 #import "SDLSoftButton.h"
+#import "SDLTurn.h"
 
 @implementation SDLUpdateTurnList
 

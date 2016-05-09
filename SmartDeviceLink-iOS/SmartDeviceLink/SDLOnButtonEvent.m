@@ -3,8 +3,8 @@
 
 #import "SDLOnButtonEvent.h"
 
-#import "SDLButtonName.h"
 #import "SDLButtonEventMode.h"
+#import "SDLButtonName.h"
 #import "SDLNames.h"
 
 
