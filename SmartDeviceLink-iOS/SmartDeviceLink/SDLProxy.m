@@ -259,7 +259,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     // From the function name, create the corresponding RPCObject and initialize it
     NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
-    SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:dict];
+    SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:[dict mutableCopy]];
     
     // Log the RPC message
     NSString *logMessage = [NSString stringWithFormat:@"%@", newMessage];
