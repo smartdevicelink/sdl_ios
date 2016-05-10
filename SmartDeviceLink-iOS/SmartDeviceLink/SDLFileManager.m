@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLFileManagerStateNotConnected = @"NotConnected";
 NSString *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
+NSString *const SDLFileManagerStateCheckingQueue = @"CheckingQueue";
 NSString *const SDLFileManagerStateUploading = @"Uploading";
 NSString *const SDLFileManagerStateIdle = @"Idle";
 
@@ -178,12 +179,18 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 
 - (void)didEnterStateCheckingQueue {
     if (self.uploadQueue.count > 0) {
-        SDLFileWrapper *wrapper = [self.uploadQueue firstObject];
-        [self.uploadQueue removeObjectAtIndex:0];
-        [self uploadFile:wrapper.file completionHandler:wrapper.completionHandler];
+        [self.stateMachine transitionToState:SDLFileManagerStateUploading];
     } else {
         [self.stateMachine transitionToState:SDLFileManagerStateIdle];
     }
+}
+
+- (void)didEnterStateUploading {
+    SDLFileWrapper *nextFile = [self.uploadQueue firstObject];
+    [self.uploadQueue removeObjectAtIndex:0];
+    
+    NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:nextFile.file];
+    [self sdl_sendPutFiles:putFiles withCompletion:nextFile.completionHandler];
 }
 
 - (void)didEnterStateIdle {
@@ -248,14 +255,8 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
-    if ([self.stateMachine isCurrentState:SDLFileManagerStateUploading]) {
-        [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
-    } else {
-        [self.stateMachine transitionToState:SDLFileManagerStateUploading];
-        
-        NSArray<SDLPutFile *> *putFiles = [self.class sdl_splitFile:file];
-        [self sdl_sendPutFiles:putFiles withCompletion:completion];
-    }
+    [self.uploadQueue addObject:[SDLFileWrapper wrapperWithFile:file completionHandler:completion]];
+    [self.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
 }
 
 - (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(nullable SDLFileManagerUploadCompletion)completion {
@@ -264,10 +265,8 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     __block NSUInteger numResponsesReceived = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
     
-    // TODO: I really don't like this
-    __weak typeof(self) weakSelf = self;
+    // Move this to an NSOperation?
     dispatch_group_t putFileGroup = dispatch_group_create();
-    
     // When the putfiles all complete, run this block
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         [self.mutableRemoteFileNames addObject:putFiles[0].syncFileName];
@@ -282,6 +281,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     for (SDLPutFile *putFile in putFiles) {
         // TODO: More classes for something like upload tasks in NSURLSession, to be able to send and be able to cancel instead of just looping.
         dispatch_group_enter(putFileGroup);
+        __weak typeof(self) weakSelf = self;
         [self.connectionManager sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             
