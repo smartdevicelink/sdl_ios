@@ -182,6 +182,19 @@ typedef NSNumber SDLSoftButtonId;
     // TODO: Start up all managers, and stay not ready until all say they're done?
 }
 
+- (void)didEnterStateWaitingForManagers {
+    dispatch_group_t managerGroup = dispatch_group_create();
+    
+    dispatch_group_enter(managerGroup);
+    [self.fileManager startManagerWithCompletionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        dispatch_group_leave(managerGroup);
+    }];
+    
+    dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    });
+}
+
 
 #pragma mark Event, Response, Notification Processing
 

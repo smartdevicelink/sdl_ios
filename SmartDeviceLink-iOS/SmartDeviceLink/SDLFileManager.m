@@ -21,16 +21,16 @@
 #import "SDLPutFileResponse.h"
 #import "SDLRPCRequestFactory.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLFileManagerStateNotConnected = @"NotConnected";
 NSString *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
-NSString *const SDLFileManagerStateCheckingQueue = @"CheckingQueue";
 NSString *const SDLFileManagerStateUploading = @"Uploading";
 NSString *const SDLFileManagerStateIdle = @"Idle";
 
 
-#pragma mark - SDLFileWrapper class struct
+#pragma mark - SDLFileWrapper Helper Class
 
 @interface SDLFileWrapper : NSObject
 
@@ -40,6 +40,26 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 - (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler;
 
 + (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler;
+
+@end
+
+@implementation SDLFileWrapper
+
+- (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _file = file;
+    _completionHandler = completionHandler;
+    
+    return self;
+}
+
++ (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler {
+    return [[self alloc] initWithFile:file completionHandler:completionHandler];
+}
 
 @end
 
@@ -57,11 +77,15 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 // Local state
 @property (copy, nonatomic) NSMutableArray<SDLFileWrapper *> *uploadQueue;
 @property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
+@property (assign, nonatomic) BOOL initialUpload;
+@property (copy, nonatomic, nullable) SDLFileManagerStartupCompletion startupCompletionHandler;
 
 @end
 
 
 @implementation SDLFileManager
+
+#pragma mark - Lifecycle
 
 - (instancetype)init {
     return [self initWithConnectionManager:[SDLManager sharedManager] initialFiles:@[]];
@@ -81,11 +105,25 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     _uploadQueue = [initialFiles mutableCopy];
     
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateNotConnected states:[self.class sdl_stateTransitionDictionary]];
+    _initialUpload = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didConnect:) name:SDLDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didDisconnect:) name:SDLDidDisconnectNotification object:nil];
     
     return self;
+}
+
+
+#pragma mark - Setup / Shutdown
+
+- (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler {
+    if ([self.currentState isEqualToString:SDLFileManagerStateNotConnected]) {
+        self.startupCompletionHandler = completionHandler;
+        [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
+    } else {
+        // If we already started, just tell the handler we're started.
+        completionHandler(YES, self.bytesAvailable, nil);
+    }
 }
 
 
@@ -126,8 +164,8 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
         __strong typeof(weakSelf) strongSelf = weakSelf;
         
         if (error != nil) {
-            // TODO: this is bad
-            return;
+            self.startupCompletionHandler(NO, 0, error);
+            BLOCK_RETURN;
         }
         
         SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
@@ -146,6 +184,14 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     } else {
         [self.stateMachine transitionToState:SDLFileManagerStateIdle];
     }
+}
+
+- (void)didEnterStateIdle {
+    if (self.initialUpload) {
+        self.startupCompletionHandler(YES, self.bytesAvailable, nil);
+    }
+    
+    self.initialUpload = NO;
 }
 
 
@@ -220,15 +266,30 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     
     // TODO: I really don't like this
     __weak typeof(self) weakSelf = self;
+    dispatch_group_t putFileGroup = dispatch_group_create();
+    
+    // When the putfiles all complete, run this block
+    dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
+        [self.mutableRemoteFileNames addObject:putFiles[0].syncFileName];
+        
+        if (completion != nil) {
+            completion(YES, self.bytesAvailable, nil);
+        }
+        
+        [self.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
+    });
+    
     for (SDLPutFile *putFile in putFiles) {
         // TODO: More classes for something like upload tasks in NSURLSession, to be able to send and be able to cancel instead of just looping.
+        dispatch_group_enter(putFileGroup);
         [self.connectionManager sendRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             
             // If we've already encountered an error, then just abort
             // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
             if (stop) {
-                return;
+                dispatch_group_leave(putFileGroup);
+                BLOCK_RETURN;
             }
             
             // If we encounted an error, abort in the future and call the completion handler
@@ -244,9 +305,10 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
                     completion(NO, strongSelf.bytesAvailable, error);
                 }
                 
+                dispatch_group_leave(putFileGroup);
                 [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
                 
-                return;
+                BLOCK_RETURN;
             }
             
             // If we haven't encounted an error
@@ -259,17 +321,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
                 strongSelf.bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
             }
             
-            // If we've received all the responses we're going to receive and haven't errored, we're done
-            if (putFiles.count == numResponsesReceived) {
-                stop = YES;
-                [strongSelf.mutableRemoteFileNames addObject:putFile.syncFileName];
-                
-                if (completion != nil) {
-                    completion(YES, strongSelf.bytesAvailable, nil);
-                }
-                
-                [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
-            }
+            dispatch_group_leave(putFileGroup);
         }];
     }
 }
@@ -309,29 +361,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 
 - (void)sdl_didDisconnect:(NSNotification *)notification {
     [self.stateMachine transitionToState:SDLFileManagerStateNotConnected];
-}
-
-@end
-
-
-#pragma mark - SDLFileWrapper Helper Class
-
-@implementation SDLFileWrapper
-
-- (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-    
-    _file = file;
-    _completionHandler = completionHandler;
-    
-    return self;
-}
-
-+ (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler {
-    return [[self alloc] initWithFile:file completionHandler:completionHandler];
 }
 
 @end

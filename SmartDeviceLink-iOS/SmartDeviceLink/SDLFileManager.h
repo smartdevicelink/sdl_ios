@@ -27,6 +27,7 @@ typedef NSString SDLFileName;
 
 typedef void (^SDLFileManagerDeleteCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
 typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
+typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 
 
 @interface SDLFileManager : NSObject
@@ -53,6 +54,13 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
  *  @return An instance of SDLFileManager
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager initialFiles:(NSArray<SDLFile *> *)initialFiles NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  The manager stars up and attempts to fetch its initial list and transfer initial files.
+ *
+ *  @param completionHandler The handler called when the manager is set up or failed to set up with an error. Use weak self when accessing self from the completion handler.
+ */
+- (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler;
 
 /**
  *  Delete a file stored on the remote system

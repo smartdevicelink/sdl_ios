@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    // TODO: Write to temp directory?
+    // TODO: Write to temp directory? Would have to delete after its sent, or cached?
     _data = data;
     _name = name;
     _fileType = fileType;
