@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLConnectionManagerType.h"
+#import "SDLFileManagerConstants.h"
 #import "SDLStateMachine.h"
 
 @class SDLFile;
@@ -25,8 +26,6 @@ extern NSString *const SDLFileManagerStateIdle;
 
 typedef NSString SDLFileName;
 
-typedef void (^SDLFileManagerDeleteCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
-typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAvailable, NSError * __nullable error);
 typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 
 
@@ -62,6 +61,9 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSUInteger bytesAv
  */
 - (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler;
 
+/**
+ *  Cancels all file manager operations and deletes all associated data.
+ */
 - (void)stop;
 
 /**
