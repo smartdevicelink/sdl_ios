@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const SDLFileManagerStateNotConnected;
+extern NSString *const SDLFileManagerStateShutdown;
 extern NSString *const SDLFileManagerStateFetchingInitialList;
 extern NSString *const SDLFileManagerStateCheckingQueue;
 extern NSString *const SDLFileManagerStateUploading;
@@ -61,6 +61,8 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSUInteger bytesAv
  *  @param completionHandler The handler called when the manager is set up or failed to set up with an error. Use weak self when accessing self from the completion handler.
  */
 - (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler;
+
+- (void)stop;
 
 /**
  *  Delete a file stored on the remote system

@@ -24,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const SDLFileManagerStateNotConnected = @"NotConnected";
+NSString *const SDLFileManagerStateShutdown = @"Shutdown";
 NSString *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
 NSString *const SDLFileManagerStateCheckingQueue = @"CheckingQueue";
 NSString *const SDLFileManagerStateUploading = @"Uploading";
@@ -83,6 +83,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 
 @end
 
+// TODO: Allow versioning of persistent files so that if new ones need to overwrite old ones they can.
 
 @implementation SDLFileManager
 
@@ -105,11 +106,8 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     _mutableRemoteFileNames = [NSMutableSet set];
     _uploadQueue = [initialFiles mutableCopy];
     
-    _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateNotConnected states:[self.class sdl_stateTransitionDictionary]];
+    _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
     _initialUpload = YES;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didConnect:) name:SDLDidConnectNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didDisconnect:) name:SDLDidDisconnectNotification object:nil];
     
     return self;
 }
@@ -118,13 +116,17 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 #pragma mark - Setup / Shutdown
 
 - (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler {
-    if ([self.currentState isEqualToString:SDLFileManagerStateNotConnected]) {
+    if ([self.currentState isEqualToString:SDLFileManagerStateShutdown]) {
         self.startupCompletionHandler = completionHandler;
         [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
     } else {
         // If we already started, just tell the handler we're started.
         completionHandler(YES, self.bytesAvailable, nil);
     }
+}
+
+- (void)stop {
+    [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
 }
 
 
@@ -143,15 +145,15 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-             SDLFileManagerStateNotConnected: @[SDLFileManagerStateFetchingInitialList],
-             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateNotConnected, SDLFileManagerStateCheckingQueue],
-             SDLFileManagerStateCheckingQueue: @[SDLFileManagerStateNotConnected,SDLFileManagerStateUploading, SDLFileManagerStateIdle],
-             SDLFileManagerStateUploading: @[SDLFileManagerStateNotConnected, SDLFileManagerStateCheckingQueue, SDLFileManagerStateIdle],
-             SDLFileManagerStateIdle: @[SDLFileManagerStateNotConnected, SDLFileManagerStateUploading]
+             SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
+             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateCheckingQueue],
+             SDLFileManagerStateCheckingQueue: @[SDLFileManagerStateShutdown,SDLFileManagerStateUploading, SDLFileManagerStateIdle],
+             SDLFileManagerStateUploading: @[SDLFileManagerStateShutdown, SDLFileManagerStateCheckingQueue, SDLFileManagerStateIdle],
+             SDLFileManagerStateIdle: @[SDLFileManagerStateShutdown, SDLFileManagerStateUploading]
              };
 }
 
-- (void)didEnterStateNotConnected {
+- (void)willEnterStateNotConnected {
     [self.uploadQueue removeAllObjects];
     [self.mutableRemoteFileNames removeAllObjects];
     self.bytesAvailable = 0;
@@ -262,7 +264,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 - (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(nullable SDLFileManagerUploadCompletion)completion {
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
-    __block NSUInteger numResponsesReceived = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
     
     // Move this to an NSOperation?
@@ -313,7 +314,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
             
             // If we haven't encounted an error
             SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            numResponsesReceived++;
             
             // We need to do this to make sure our bytesAvailable is accurate
             if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
@@ -350,17 +350,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     }
     
     return putFiles;
-}
-
-
-#pragma mark - SDL Notification Observers
-
-- (void)sdl_didConnect:(NSNotification *)notification {
-    [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
-}
-
-- (void)sdl_didDisconnect:(NSNotification *)notification {
-    [self.stateMachine transitionToState:SDLFileManagerStateNotConnected];
 }
 
 @end

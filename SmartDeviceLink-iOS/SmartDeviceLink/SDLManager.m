@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *const SDLLifecycleStateTransportDisconnected = @"TransportDisconnected";
 NSString *const SDLLifecycleStateTransportConnected = @"TransportConnected";
 NSString *const SDLLifecycleStateRegistered = @"Registered";
-NSString *const SDLLifecycleStateWaitingForManagers = @"WaitingForManagers";
+NSString *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
 NSString *const SDLLifecycleStateReady = @"Ready";
 
 typedef NSNumber SDLRPCCorrelationId;
@@ -138,13 +138,15 @@ typedef NSNumber SDLSoftButtonId;
     return @{
              SDLLifecycleStateTransportDisconnected: @[SDLLifecycleStateTransportConnected],
              SDLLifecycleStateTransportConnected: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateRegistered],
-             SDLLifecycleStateRegistered: @[SDLLifecycleStateWaitingForManagers],
-             SDLLifecycleStateWaitingForManagers: @[SDLLifecycleStateReady],
+             SDLLifecycleStateRegistered: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateSettingUpManagers],
+             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateReady],
              SDLLifecycleStateReady: @[SDLLifecycleStateTransportDisconnected]
              };
 }
 
 - (void)didEnterStateTransportDisconnected {
+    [self.fileManager stop];
+    
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
     [self sdl_startProxy];
@@ -179,7 +181,8 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)didEnterStateRegistered {
-    // TODO: Start up all managers, and stay not ready until all say they're done?
+    // TODO: Anything?
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
 - (void)didEnterStateWaitingForManagers {
