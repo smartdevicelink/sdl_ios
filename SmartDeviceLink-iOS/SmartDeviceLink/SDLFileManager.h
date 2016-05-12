@@ -24,7 +24,7 @@ extern NSString *const SDLFileManagerStateReady;
 
 typedef NSString SDLFileName;
 
-typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
+typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullable error);
 
 
 @interface SDLFileManager : NSObject

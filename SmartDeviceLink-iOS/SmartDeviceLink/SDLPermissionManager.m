@@ -47,6 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)startWithCompletionHandler:(void (^)(BOOL, NSError * _Nullable))completionHandler {
+    completionHandler(YES, nil);
+}
+
 
 #pragma mark - Permissions available
 

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager : NSObject
 
+- (void)startWithCompletionHandler:(void(^)(BOOL success, NSError *__nullable error))completionHandler;
+
 /**
  *  Determine if an individual RPC is allowed for the current HMI level
  *

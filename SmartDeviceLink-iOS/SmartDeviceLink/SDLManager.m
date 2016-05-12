@@ -185,17 +185,29 @@ typedef NSNumber SDLSoftButtonId;
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
-- (void)didEnterStateWaitingForManagers {
+// TODO: Tear down managers on disconnect
+- (void)didEnterStateSettingUpManagers {
     dispatch_group_t managerGroup = dispatch_group_create();
     
+    // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
     dispatch_group_enter(managerGroup);
-    [self.fileManager startManagerWithCompletionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+    
+    dispatch_group_enter(managerGroup);
+    [self.fileManager startManagerWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+        dispatch_group_leave(managerGroup);
+    }];
+    
+    dispatch_group_enter(managerGroup);
+    [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         dispatch_group_leave(managerGroup);
     }];
     
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     });
+    
+    // We're done synchronously calling all startup methods, so we can now wait.
+    dispatch_group_leave(managerGroup);
 }
 
 

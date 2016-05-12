@@ -85,7 +85,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
         [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
     } else {
         // If we already started, just tell the handler we're started.
-        completionHandler(YES, self.bytesAvailable, nil);
+        completionHandler(YES, nil);
     }
 }
 
@@ -133,7 +133,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
         __strong typeof(weakSelf) strongSelf = weakSelf;
         
         if (error != nil) {
-            self.startupCompletionHandler(NO, 0, error);
+            self.startupCompletionHandler(NO, error);
             [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
             BLOCK_RETURN;
         }
@@ -147,7 +147,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    self.startupCompletionHandler(YES, self.bytesAvailable, nil);
+    self.startupCompletionHandler(YES, nil);
 }
 
 
