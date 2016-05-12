@@ -3046,6 +3046,39 @@
 			name = "Lock Screen UI";
 			sourceTree = "<group>";
 		};
+		5D7F87F51CE51CD8002DD7C4 /* File Types */ = {
+			isa = PBXGroup;
+			children = (
+				5D82042B1BCEC32F00D0A41B /* SDLFile.h */,
+				5D82042C1BCEC32F00D0A41B /* SDLFile.m */,
+				5D82042F1BD001C700D0A41B /* SDLArtwork.h */,
+				5D8204301BD001C700D0A41B /* SDLArtwork.m */,
+			);
+			name = "File Types";
+			sourceTree = "<group>";
+		};
+		5D7F87F61CE51CE1002DD7C4 /* Transaction Operations */ = {
+			isa = PBXGroup;
+			children = (
+				5D79A0391CE36F030035797B /* SDLUploadFileOperation.h */,
+				5D79A03A1CE36F030035797B /* SDLUploadFileOperation.m */,
+				5D7F87E91CE3C1A1002DD7C4 /* SDLDeleteFileOperation.h */,
+				5D7F87EA1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.m */,
+			);
+			name = "Transaction Operations";
+			sourceTree = "<group>";
+		};
+		5D7F87F71CE51CEE002DD7C4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5D7F87ED1CE3C294002DD7C4 /* SDLFileManagerConstants.h */,
+				5D7F87EE1CE3C294002DD7C4 /* SDLFileManagerConstants.m */,
+				5D7F87F11CE3C29E002DD7C4 /* SDLFileWrapper.h */,
+				5D7F87F21CE3C29E002DD7C4 /* SDLFileWrapper.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		5D8204171BCD80A200D0A41B /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
@@ -3076,18 +3109,9 @@
 			children = (
 				5D8204201BCEA89A00D0A41B /* SDLFileManager.h */,
 				5D8204211BCEA89A00D0A41B /* SDLFileManager.m */,
-				5D82042B1BCEC32F00D0A41B /* SDLFile.h */,
-				5D82042C1BCEC32F00D0A41B /* SDLFile.m */,
-				5D82042F1BD001C700D0A41B /* SDLArtwork.h */,
-				5D8204301BD001C700D0A41B /* SDLArtwork.m */,
-				5D79A0391CE36F030035797B /* SDLUploadFileOperation.h */,
-				5D79A03A1CE36F030035797B /* SDLUploadFileOperation.m */,
-				5D7F87E91CE3C1A1002DD7C4 /* SDLDeleteFileOperation.h */,
-				5D7F87EA1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.m */,
-				5D7F87ED1CE3C294002DD7C4 /* SDLFileManagerConstants.h */,
-				5D7F87EE1CE3C294002DD7C4 /* SDLFileManagerConstants.m */,
-				5D7F87F11CE3C29E002DD7C4 /* SDLFileWrapper.h */,
-				5D7F87F21CE3C29E002DD7C4 /* SDLFileWrapper.m */,
+				5D7F87F51CE51CD8002DD7C4 /* File Types */,
+				5D7F87F61CE51CE1002DD7C4 /* Transaction Operations */,
+				5D7F87F71CE51CEE002DD7C4 /* Utilities */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -3149,11 +3173,11 @@
 				5D6F7A301BC5B7100070BF37 /* Lock Screen UI */,
 				5DA3F3611BC448690026F2D0 /* Handler Additions */,
 				5DA3F3561BC4480E0026F2D0 /* Utilities */,
-				5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */,
-				5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */,
 				5D8204171BCD80A200D0A41B /* Configurations */,
 				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
+				5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */,
+				5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */,
 			);
 			name = "Developer API";
 			sourceTree = "<group>";
