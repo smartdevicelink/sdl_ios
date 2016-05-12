@@ -42,7 +42,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 
 // Local state
 @property (strong, nonatomic) NSOperationQueue *transationQueue;
-@property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
+@property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletion startupCompletionHandler;
 
 @end
@@ -102,6 +102,10 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 
 - (SDLState *)currentState {
     return self.stateMachine.currentState;
+}
+
+- (NSUInteger)pendingTransactionsCount {
+    return self.transationQueue.operationCount;
 }
 
 

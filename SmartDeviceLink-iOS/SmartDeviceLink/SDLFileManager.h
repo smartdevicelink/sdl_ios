@@ -32,6 +32,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSUInteger bytesAv
 @property (copy, nonatomic, readonly) NSSet<SDLFileName *> *remoteFileNames;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
 @property (copy, nonatomic, readonly) SDLState *currentState;
+@property (assign, nonatomic, readonly) NSUInteger pendingTransactionsCount;
 
 @property (assign, nonatomic) BOOL allowOverwrite;
 
