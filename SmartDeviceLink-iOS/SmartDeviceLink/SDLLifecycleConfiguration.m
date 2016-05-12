@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
     _tcpDebugIPAddress = DefaultTCPIPAddress;
     _tcpDebugPort = DefaultTCPIPPort;
     
-    _persistentFiles = @[];
     _appName = appName;
     _appId = appId;
     
@@ -108,7 +107,6 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig -> _tcpDebugMode = _tcpDebugMode;
     newConfig -> _tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig -> _tcpDebugPort = _tcpDebugPort;
-    newConfig -> _persistentFiles = _persistentFiles;
     newConfig -> _appType = _appType;
     newConfig -> _language = _language;
     newConfig -> _languagesSupported = _languagesSupported;

@@ -113,7 +113,7 @@ typedef NSNumber SDLSoftButtonId;
 
 - (SDLFileManager *)fileManager {
     if (_fileManager == nil) {
-        _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self initialFiles:self.configuration.lifecycleConfig.persistentFiles];
+        _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     }
     
     return _fileManager;

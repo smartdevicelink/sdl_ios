@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugIPAddress;
 @property (copy, nonatomic, null_resettable) NSString *tcpDebugPort;
 
-@property (copy, nonatomic) NSArray<SDLFile *> *persistentFiles;
-
 @property (copy, nonatomic, readonly) NSString *appName;
 @property (copy, nonatomic, readonly) NSString *appId;
 

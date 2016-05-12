@@ -27,8 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLFileManagerStateShutdown = @"Shutdown";
 NSString *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
-NSString *const SDLFileManagerStateUploading = @"Uploading";
-NSString *const SDLFileManagerStateIdle = @"Idle";
+NSString *const SDLFileManagerStateReady = @"Ready";
 
 
 #pragma mark - SDLFileManager class
@@ -45,23 +44,19 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 @property (strong, nonatomic) NSOperationQueue *transationQueue;
 @property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletion startupCompletionHandler;
-@property (assign, nonatomic) BOOL initialUpload;
 
 @end
 
-// TODO: Allow versioning of persistent files so that if new ones need to overwrite old ones they can.
-
-// TODO: Remove the idea of "initial files"?
 
 @implementation SDLFileManager
 
 #pragma mark - Lifecycle
 
 - (instancetype)init {
-    return [self initWithConnectionManager:[SDLManager sharedManager] initialFiles:@[]];
+    return [self initWithConnectionManager:[SDLManager sharedManager]];
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager initialFiles:(NSArray<SDLFile *> *)initialFiles {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
     self = [super init];
     if (!self) {
         return nil;
@@ -77,7 +72,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
     _transationQueue.maxConcurrentOperationCount = 1;
     
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
-    _initialUpload = YES;
     
     return self;
 }
@@ -88,8 +82,6 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 - (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler {
     if ([self.currentState isEqualToString:SDLFileManagerStateShutdown]) {
         self.startupCompletionHandler = completionHandler;
-        // TODO: Add initial files to operation queue
-        
         [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
     } else {
         // If we already started, just tell the handler we're started.
@@ -118,10 +110,8 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
              SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
-             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateCheckingQueue],
-             SDLFileManagerStateCheckingQueue: @[SDLFileManagerStateShutdown,SDLFileManagerStateUploading, SDLFileManagerStateIdle],
-             SDLFileManagerStateUploading: @[SDLFileManagerStateShutdown, SDLFileManagerStateCheckingQueue, SDLFileManagerStateIdle],
-             SDLFileManagerStateIdle: @[SDLFileManagerStateShutdown, SDLFileManagerStateUploading]
+             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady],
+             SDLFileManagerStateReady: @[SDLFileManagerStateShutdown]
              };
 }
 
@@ -140,6 +130,7 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
         
         if (error != nil) {
             self.startupCompletionHandler(NO, 0, error);
+            [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
             BLOCK_RETURN;
         }
         
@@ -147,17 +138,12 @@ NSString *const SDLFileManagerStateIdle = @"Idle";
         [strongSelf.mutableRemoteFileNames addObjectsFromArray:listFilesResponse.filenames];
         strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
         
-        [strongSelf.stateMachine transitionToState:SDLFileManagerStateCheckingQueue];
+        [strongSelf.stateMachine transitionToState:SDLFileManagerStateReady];
     }];
 }
 
-- (void)didEnterStateIdle {
-    // TODO: Observe transaction queue to find out when this is?
-    if (self.initialUpload) {
-        self.startupCompletionHandler(YES, self.bytesAvailable, nil);
-    }
-    
-    self.initialUpload = NO;
+- (void)didEnterStateReady {
+    self.startupCompletionHandler(YES, self.bytesAvailable, nil);
 }
 
 
