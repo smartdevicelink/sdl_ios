@@ -13,10 +13,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLFile : NSObject
+@interface SDLFile : NSObject <NSCopying>
 
 @property (assign, nonatomic, readonly, getter=isPersistent) BOOL persistent;
 @property (copy, nonatomic, readonly) NSString *name;
+@property (copy, nonatomic, readonly) NSURL *fileURL;
 @property (copy, nonatomic, readonly) NSData *data;
 
 /**
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent;
+- (instancetype)initWithFileURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent;
 
 /**
  *  Create an SDL file using a local file URL.
@@ -42,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class, or nil if a readable file at the path could not be found.
  */
-+ (instancetype)persistentFileAtURL:(NSURL *)url name:(NSString *)name;
++ (instancetype)persistentFileAtFileURL:(NSURL *)url name:(NSString *)name;
 
 /**
  *  Create an SDL file using a local file URL.
@@ -58,31 +59,45 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class, or nil if a readable file at the url could not be found.
  */
-+ (instancetype)ephemeralFileAtURL:(NSURL *)url name:(NSString *)name;
++ (instancetype)ephemeralFileAtFileURL:(NSURL *)url name:(NSString *)name;
 
 /**
  *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.
  *
  *  @param data         The raw data to be used for the file
  *  @param name         The name of the file that will be used to reference the file in the future (for example on the remote file system).
- *  @param fileType     The file type for this file
+ *  @param extension    The file extension. For example "png". Currently supported file extensions are: "bmp", "jpg", "jpeg", "png", "wav", "mp3", "aac", "json". All others will be sent as binary files.
  *  @param persistent   Whether or not the remote file with this data should be persistent
  *
  *  @return An instance of this class
  */
-- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent;
+- (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent;
 
 /**
  *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.
  *
+ *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
+ *
  *  @param data         The raw data to be used for the file
  *  @param name         The name of the file that will be used to reference the file in the future (for example on the remote file system).
- *  @param fileType     The file type for this file
- *  @param persistent   Whether or not the remote file with this data should be persistent
+ *  @param extension    The file extension. For example "png". Currently supported file extensions are: "bmp", "jpg", "jpeg", "png", "wav", "mp3", "aac", "json". All others will be sent as binary files.
  *
  *  @return An instance of this class
  */
-+ (instancetype)fileWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent;
++ (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
+
+/**
+ *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.
+ *
+ *  This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not *know* you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.
+ *
+ *  @param data         The raw data to be used for the file
+ *  @param name         The name of the file that will be used to reference the file in the future (for example on the remote file system).
+ *  @param extension    The file extension. For example "png". Currently supported file extensions are: "bmp", "jpg", "jpeg", "png", "wav", "mp3", "aac", "json". All others will be sent as binary files.
+ *
+ *  @return An instance of this class
+ */
++ (instancetype)ephemeralFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
 
 @end
 

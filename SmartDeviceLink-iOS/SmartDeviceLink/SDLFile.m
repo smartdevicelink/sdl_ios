@@ -8,6 +8,7 @@
 
 #import "SDLFile.h"
 
+#import "SDLFileManager.h"
 #import "SDLFileType.h"
 
 
@@ -15,12 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFile ()
 
-@property (copy, nonatomic, nullable) NSURL *fileURL;
+@property (copy, nonatomic, readwrite) NSURL *fileURL;
 @property (strong, nonatomic, readwrite) SDLFileType *fileType;
 
 @property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
-@property (copy, nonatomic, readwrite) NSData *data;
 
 @end
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent {
+- (instancetype)initWithFileURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent {
     self = [super init];
     if (!self) {
         return nil;
@@ -43,57 +43,60 @@ NS_ASSUME_NONNULL_BEGIN
     _fileURL = url;
     _name = name;
     _persistent = persistent;
-    _fileType = [self.class sdl_fileTypeFromFileURL:url];
+    _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
     
     return self;
 }
 
-+ (instancetype)persistentFileAtURL:(NSURL *)url name:(NSString *)name {
-    return [[self alloc] initWithURL:url name:name persistent:YES];
++ (instancetype)persistentFileAtFileURL:(NSURL *)url name:(NSString *)name {
+    return [[self alloc] initWithFileURL:url name:name persistent:YES];
 }
 
-+ (instancetype)ephemeralFileAtURL:(NSURL *)url name:(NSString *)name {
-    return [[self alloc] initWithURL:url name:name persistent:NO];
++ (instancetype)ephemeralFileAtFileURL:(NSURL *)url name:(NSString *)name {
+    return [[self alloc] initWithFileURL:url name:name persistent:NO];
 }
 
-- (instancetype)initWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent {
+- (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent {
     self = [super init];
-    if (!self) {
+    if (!self) { return nil; }
+    
+    if (data.length == 0) { return nil; }
+    
+    // TODO: Only flush to file URL when under memory pressure?
+    NSError *error = nil;
+    NSString *tempFileName = [NSString stringWithFormat:@"%@_%@.%@", [NSProcessInfo processInfo].globallyUniqueString, name, extension];
+    _fileURL = [[SDLFileManager temporaryFileDirectory] URLByAppendingPathComponent:tempFileName];
+    [data writeToURL:_fileURL options:NSDataWritingAtomic error:&error];
+    if (error) {
         return nil;
     }
     
-    // TODO: Write to temp directory? Would have to delete after its sent, or cached?
-    _data = data;
     _name = name;
-    _fileType = fileType;
+    _fileType = [self.class sdl_fileTypeFromFileExtension:extension];
     _persistent = persistent;
     
     return self;
 }
 
-+ (instancetype)fileWithData:(NSData *)data name:(NSString *)name type:(SDLFileType *)fileType persistent:(BOOL)persistent {
-    return [[self alloc] initWithData:data name:name type:fileType persistent:persistent];
++ (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension {
+    return [[self alloc] initWithData:data name:name fileExtension:extension persistent:YES];
+}
+
++ (instancetype)ephemeralFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension {
+    return [[self alloc] initWithData:data name:name fileExtension:extension persistent:NO];
 }
 
 
 #pragma mark - Readonly Getters
 
 - (NSData *)data {
-    if (_data != nil) {
-        return _data;
-    } else if (_fileURL != nil) {
-        return [NSData dataWithContentsOfURL:_fileURL];
-    } else {
-        return nil;
-    }
+    return [NSData dataWithContentsOfURL:_fileURL];
 }
 
 
 #pragma mark - File Type
 
-+ (SDLFileType *)sdl_fileTypeFromFileURL:(NSURL *)url {
-    NSString *fileExtension = url.pathExtension;
-    
++ (SDLFileType *)sdl_fileTypeFromFileExtension:(NSString *)fileExtension {
     if ([fileExtension caseInsensitiveCompare:@"bmp"] == NSOrderedSame) {
         return [SDLFileType GRAPHIC_BMP];
     } else if (([fileExtension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
@@ -112,6 +115,13 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         return [SDLFileType BINARY];
     }
+}
+
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    return [[self.class allocWithZone:zone] initWithFileURL:_fileURL name:_name persistent:_persistent];
 }
 
 @end

@@ -146,6 +146,7 @@ typedef NSNumber SDLSoftButtonId;
 
 - (void)didEnterStateTransportDisconnected {
     [self.fileManager stop];
+    [self.permissionManager stop];
     
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self sdl_postNotification:SDLDidDisconnectNotification info:nil];
@@ -192,6 +193,11 @@ typedef NSNumber SDLSoftButtonId;
     // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
     dispatch_group_enter(managerGroup);
     
+    // When done, we want to transition
+    dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    });
+    
     dispatch_group_enter(managerGroup);
     [self.fileManager startManagerWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         dispatch_group_leave(managerGroup);
@@ -201,10 +207,6 @@ typedef NSNumber SDLSoftButtonId;
     [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         dispatch_group_leave(managerGroup);
     }];
-    
-    dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
-    });
     
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);

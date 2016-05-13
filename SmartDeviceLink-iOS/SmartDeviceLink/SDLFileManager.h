@@ -88,6 +88,15 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  */
 - (void)forceUploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
 
+/**
+ *  A URL to the directory where temporary files are stored. When an SDLFile is created with NSData, it writes to a temporary file until the file manager finishes uploading it.
+ *
+ *  The SDL library manages the creation and deletion of these files and you should not have to touch this directory at all.
+ *
+ *  @return An NSURL pointing to the location on disk where SDL's temporary files are stored.
+ */
++ (NSURL *)temporaryFileDirectory;
+
 @end
 
 NS_ASSUME_NONNULL_END

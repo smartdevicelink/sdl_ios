@@ -8,6 +8,7 @@
 
 #import "SDLFileManager.h"
 
+#import "SDLDebugTool.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
 #import "SDLFile.h"
@@ -119,9 +120,10 @@ NSString *const SDLFileManagerStateReady = @"Ready";
              };
 }
 
-- (void)willEnterStateNotConnected {
+- (void)willEnterStateShutdown {
     [self.transationQueue cancelAllOperations];
     [self.mutableRemoteFileNames removeAllObjects];
+    [self.class sdl_clearTemporaryFileDirectory];
     self.bytesAvailable = 0;
 }
 
@@ -194,9 +196,53 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
-    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:[SDLFileWrapper wrapperWithFile:file completionHandler:completion] connectionManager:self.connectionManager];
+    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        [self.class sdl_deleteTemporaryFile:file.fileURL];
+        completion(success, bytesAvailable, error);
+    }];
+    
+    SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
     
     [self.transationQueue addOperation:uploadOperation];
+}
+
+
+#pragma mark - Temporary Files
+
+#pragma mark - Temporary Files
+
++ (NSURL *)temporaryFileDirectory {
+    NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"SDL"]];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[directoryURL path]]) {
+        [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:NO attributes:nil error:nil];
+    }
+    
+    return directoryURL;
+}
+
++ (void)sdl_clearTemporaryFileDirectory {
+    BOOL (^errorHandler)(NSURL *url, NSError *error) = ^BOOL(NSURL * _Nonnull url, NSError * _Nonnull error) {
+        NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@ (%@)", error, url];
+        [SDLDebugTool logInfo:debugString];
+        return YES;
+    };
+    
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:[self.class temporaryFileDirectory] includingPropertiesForKeys:@[NSURLNameKey, NSURLIsDirectoryKey] options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:errorHandler];
+    
+    for (NSURL *fileURL in enumerator) {
+        NSError *error = nil;
+        if(![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
+            errorHandler(fileURL, error);
+        }
+    }
+}
+
++ (void)sdl_deleteTemporaryFile:(NSURL *)fileURL {
+    NSError *error = nil;
+    if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
+        NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@ (%@)", error, fileURL];
+        [SDLDebugTool logInfo:debugString];
+    }
 }
 
 
