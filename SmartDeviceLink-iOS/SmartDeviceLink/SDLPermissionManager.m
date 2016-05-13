@@ -51,6 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
     completionHandler(YES, nil);
 }
 
+- (void)stop {
+    // Nothing to do here right now
+}
+
 
 #pragma mark - Permissions available
 

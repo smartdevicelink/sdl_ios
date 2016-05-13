@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startWithCompletionHandler:(void(^)(BOOL success, NSError *__nullable error))completionHandler;
 
+- (void)stop;
+
 /**
  *  Determine if an individual RPC is allowed for the current HMI level
  *

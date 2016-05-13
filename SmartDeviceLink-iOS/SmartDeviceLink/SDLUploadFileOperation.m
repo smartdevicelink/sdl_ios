@@ -67,6 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSInteger highestCorrelationIDReceived = -1;
     
     dispatch_group_t putFileGroup = dispatch_group_create();
+    dispatch_group_enter(putFileGroup);
+    
     // When the putfiles all complete, run this block
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         [self sdl_finishOperation];
@@ -119,6 +121,8 @@ NS_ASSUME_NONNULL_BEGIN
             dispatch_group_leave(putFileGroup);
         }];
     }
+    
+    dispatch_group_leave(putFileGroup);
 }
 
 + (NSArray<SDLPutFile *> *)sdl_splitFile:(SDLFile *)file {
