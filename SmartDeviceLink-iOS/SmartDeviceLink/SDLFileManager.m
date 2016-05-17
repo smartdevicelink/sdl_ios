@@ -42,7 +42,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 // Local state
-@property (strong, nonatomic) NSOperationQueue *transationQueue;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletion startupCompletionHandler;
 
@@ -68,9 +68,9 @@ NSString *const SDLFileManagerStateReady = @"Ready";
     _allowOverwrite = NO;
     
     _mutableRemoteFileNames = [NSMutableSet set];
-    _transationQueue = [[NSOperationQueue alloc] init];
-    _transationQueue.name = @"SDLFileManager Transaction Queue";
-    _transationQueue.maxConcurrentOperationCount = 1;
+    _transactionQueue = [[NSOperationQueue alloc] init];
+    _transactionQueue.name = @"SDLFileManager Transaction Queue";
+    _transactionQueue.maxConcurrentOperationCount = 1;
     
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
     
@@ -106,7 +106,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 }
 
 - (NSUInteger)pendingTransactionsCount {
-    return self.transationQueue.operationCount;
+    return self.transactionQueue.operationCount;
 }
 
 
@@ -121,7 +121,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 }
 
 - (void)willEnterStateShutdown {
-    [self.transationQueue cancelAllOperations];
+    [self.transactionQueue cancelAllOperations];
     [self.mutableRemoteFileNames removeAllObjects];
     [self.class sdl_clearTemporaryFileDirectory];
     self.bytesAvailable = 0;
@@ -171,7 +171,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
         }
     }];
     
-    [self.transationQueue addOperation:deleteOperation];
+    [self.transactionQueue addOperation:deleteOperation];
 }
 
 
@@ -203,11 +203,9 @@ NSString *const SDLFileManagerStateReady = @"Ready";
     
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
     
-    [self.transationQueue addOperation:uploadOperation];
+    [self.transactionQueue addOperation:uploadOperation];
 }
 
-
-#pragma mark - Temporary Files
 
 #pragma mark - Temporary Files
 

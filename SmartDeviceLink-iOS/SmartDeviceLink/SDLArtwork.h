@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Persistent files should be created using `persistentArtworkWithImage:name:asImageFormat:`
  *
- *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass the UIImage if the image is not stored on disk*.
+ *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass a UIImage if the image is not stored on disk*.
  *
  *  @param image       The UIImage to be sent to the remote head unit
  *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system).
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Ephemeral files should be created using `ephemeralArtworkWithImage:name:asImageFormat:`
  *
- *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass the UIImage if the image is not stored on disk*.
+ *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass a UIImage if the image is not stored on disk*.
  *
  *  @param image       The UIImage to be sent to the remote head unit
  *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system).
