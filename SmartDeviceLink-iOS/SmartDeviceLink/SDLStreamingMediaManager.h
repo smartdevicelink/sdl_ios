@@ -12,7 +12,7 @@
 #import "SDLProtocolListener.h"
 
 @class SDLAbstractProtocol;
-
+@class SDLDisplayCapabilities;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +36,7 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 
 @interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities;
 
 /**
  *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session.
@@ -84,6 +84,11 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
+
+/*
+ *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
+ */
+@property (assign, nonatomic, readonly) CGSize screenSize;
 
 
 @end
