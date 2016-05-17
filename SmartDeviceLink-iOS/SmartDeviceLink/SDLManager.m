@@ -55,7 +55,7 @@ typedef NSNumber SDLSoftButtonId;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
-@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController; // Make a LockScreenManager
+@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController; // TODO: Make a LockScreenManager
 @property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
 
 // Dictionaries to link handlers with requests/commands/etc

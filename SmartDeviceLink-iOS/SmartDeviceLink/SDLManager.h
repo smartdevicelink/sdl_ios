@@ -17,7 +17,7 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
-// TODO: Update for new states
+
 extern NSString *const SDLLifecycleStateTransportDisconnected;
 extern NSString *const SDLLifecycleStateTransportConnected;
 extern NSString *const SDLLifecycleStateRegistered;
