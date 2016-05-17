@@ -13,6 +13,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
+#import "SDLStateMachine.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

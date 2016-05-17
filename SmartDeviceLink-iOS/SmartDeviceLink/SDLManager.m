@@ -15,6 +15,7 @@
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHashChange.h"
+#import "SDLStateMachine.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -10,7 +10,6 @@
 
 #import "SDLConnectionManagerType.h"
 #import "SDLFileManagerConstants.h"
-#import "SDLStateMachine.h"
 
 @class SDLFile;
 
@@ -31,7 +30,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
 
 @property (copy, nonatomic, readonly) NSSet<SDLFileName *> *remoteFileNames;
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
-@property (copy, nonatomic, readonly) SDLState *currentState;
+@property (copy, nonatomic, readonly) NSString *currentState;
 @property (assign, nonatomic, readonly) NSUInteger pendingTransactionsCount;
 
 @property (assign, nonatomic) BOOL allowOverwrite;

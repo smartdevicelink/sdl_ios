@@ -763,7 +763,7 @@
 		5D79A03C1CE36F030035797B /* SDLUploadFileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D79A03A1CE36F030035797B /* SDLUploadFileOperation.m */; };
 		5D7F87EB1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D7F87E91CE3C1A1002DD7C4 /* SDLDeleteFileOperation.h */; };
 		5D7F87EC1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F87EA1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.m */; };
-		5D7F87EF1CE3C294002DD7C4 /* SDLFileManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D7F87ED1CE3C294002DD7C4 /* SDLFileManagerConstants.h */; };
+		5D7F87EF1CE3C294002DD7C4 /* SDLFileManagerConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D7F87ED1CE3C294002DD7C4 /* SDLFileManagerConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D7F87F01CE3C294002DD7C4 /* SDLFileManagerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F87EE1CE3C294002DD7C4 /* SDLFileManagerConstants.m */; };
 		5D7F87F31CE3C29E002DD7C4 /* SDLFileWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D7F87F11CE3C29E002DD7C4 /* SDLFileWrapper.h */; };
 		5D7F87F41CE3C29E002DD7C4 /* SDLFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F87F21CE3C29E002DD7C4 /* SDLFileWrapper.m */; };

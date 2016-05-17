@@ -21,6 +21,7 @@
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLRPCRequestFactory.h"
+#import "SDLStateMachine.h"
 #import "SDLUploadFileOperation.h"
 
 
@@ -101,7 +102,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
     return [self.mutableRemoteFileNames copy];
 }
 
-- (SDLState *)currentState {
+- (NSString *)currentState {
     return self.stateMachine.currentState;
 }
 

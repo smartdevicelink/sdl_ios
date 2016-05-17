@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 
 @interface SDLManager : NSObject <SDLConnectionManagerType>
 
-@property (assign, nonatomic, readonly) SDLState *lifecycleState;
+@property (assign, nonatomic, readonly) NSString *lifecycleState;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 @property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;
