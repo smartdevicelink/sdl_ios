@@ -24,12 +24,6 @@ extern NSString *const SDLLifecycleStateRegistered;
 extern NSString *const SDLLifecycleStateSettingUpManagers;
 extern NSString *const SDLLifecycleStateReady;
 
-typedef NS_ENUM(NSUInteger, SDLEvent) {
-    SDLEventError,
-    SDLEventClosed,
-    SDLEventOpened
-};
-
 
 @interface SDLManager : NSObject <SDLConnectionManagerType>
 
@@ -41,6 +35,12 @@ typedef NS_ENUM(NSUInteger, SDLEvent) {
 
 #pragma mark Lifecycle
 + (instancetype)sharedManager;
+
+/**
+ *  Start the manager with a configuration. The manager will then begin waiting for a connection to occur. Once one does, it will automatically run the setup process. You will be notified of its completion via an NSNotification you will want to observe, `SDLDidBecomeReadyNotification`.
+ *
+ *  @param configuration Your app's unique configuration for setup.
+ */
 - (void)startWithConfiguration:(SDLConfiguration *)configuration;
 - (void)stop;
 

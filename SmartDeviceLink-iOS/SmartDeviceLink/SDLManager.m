@@ -401,7 +401,9 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)stop {
-    [self sdl_disposeProxy];
+    // TODO: Should properly unregister, possibly new state to make sure that happens correctly?
+    
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected];
 }
 
 
