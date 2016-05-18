@@ -12,7 +12,7 @@
 
 - (instancetype)init;
 - (instancetype)initWithDuration:(float)duration __deprecated;
-- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat;
+- (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat NS_DESIGNATED_INITIALIZER;
 - (void)start;
 - (void)cancel;
 
