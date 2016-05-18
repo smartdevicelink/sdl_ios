@@ -25,6 +25,7 @@ extern NSString *const SDLDidDisconnectNotification;
 extern NSString *const SDLDidConnectNotification;
 extern NSString *const SDLDidRegisterNotification;
 extern NSString *const SDLDidFailToRegisterNotification;
+extern NSString *const SDLDidBecomeReadyNotification;
 extern NSString *const SDLDidReceiveErrorNotification;
 extern NSString *const SDLDidUnregisterNotification;
 extern NSString *const SDLDidReceiveAudioPassThruNotification;

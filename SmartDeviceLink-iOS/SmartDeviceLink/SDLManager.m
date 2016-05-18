@@ -213,6 +213,12 @@ typedef NSNumber SDLSoftButtonId;
     dispatch_group_leave(managerGroup);
 }
 
+- (void)didEnterStateReady {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReadyNotification object:self userInfo:nil];
+    });
+}
+
 
 #pragma mark Event, Response, Notification Processing
 

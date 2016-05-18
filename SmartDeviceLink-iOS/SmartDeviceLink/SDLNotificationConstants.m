@@ -17,6 +17,7 @@ NSString *const SDLDidDisconnectNotification = @"com.sdl.notification.disconnect
 NSString *const SDLDidConnectNotification = @"com.sdl.notification.connect";
 NSString *const SDLDidRegisterNotification = @"com.sdl.notification.register";
 NSString *const SDLDidFailToRegisterNotification = @"com.sdl.notification.failToRegister";
+NSString *const SDLDidBecomeReadyNotification = @"com.sdl.notification.managerReady";
 NSString *const SDLDidReceiveErrorNotification = @"com.sdl.notification.receiveError";
 NSString *const SDLDidUnregisterNotification = @"com.sdl.notification.unregister";
 NSString *const SDLDidReceiveAudioPassThruNotification = @"com.sdl.notification.receiveAudioPassThru";
