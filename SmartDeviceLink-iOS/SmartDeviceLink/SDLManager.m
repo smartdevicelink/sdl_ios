@@ -77,24 +77,18 @@ typedef NSNumber SDLSoftButtonId;
 
 #pragma mark Lifecycle
 
-+ (instancetype)sharedManager {
-    static SDLManager *sharedManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedManager = [[SDLManager alloc] init];
-    });
-    
-    return sharedManager;
+- (instancetype)init {
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:nil]];
 }
 
-- (instancetype)init {
+- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
     
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
-    _configuration = nil;
+    _configuration = configuration;
     
     _correlationID = 1;
     _firstHMIFullOccurred = NO;
@@ -112,9 +106,7 @@ typedef NSNumber SDLSoftButtonId;
     return self;
 }
 
-- (void)startWithConfiguration:(SDLConfiguration *)configuration {
-    self.configuration = configuration;
-    
+- (void)start {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
@@ -128,9 +120,7 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)sdl_startProxy {
-    if (self.configuration != nil) {
-        [self startWithConfiguration:self.configuration];
-    }
+    [self start];
 }
 
 - (void)stop {

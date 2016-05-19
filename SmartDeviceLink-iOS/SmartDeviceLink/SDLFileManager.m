@@ -54,10 +54,6 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
-    return [self initWithConnectionManager:[SDLManager sharedManager]];
-}
-
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
     self = [super init];
     if (!self) {

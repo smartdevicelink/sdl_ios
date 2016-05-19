@@ -37,14 +37,16 @@ extern NSString *const SDLLifecycleStateReady;
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
 #pragma mark Lifecycle
-+ (instancetype)sharedManager;
-
 /**
  *  Start the manager with a configuration. The manager will then begin waiting for a connection to occur. Once one does, it will automatically run the setup process. You will be notified of its completion via an NSNotification you will want to observe, `SDLDidBecomeReadyNotification`.
  *
  *  @param configuration Your app's unique configuration for setup.
+ *
+ *  @return An instance of SDLManager
  */
-- (void)startWithConfiguration:(SDLConfiguration *)configuration;
+- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+
+- (void)start;
 - (void)stop;
 
 #pragma mark Manually Send RPC Requests

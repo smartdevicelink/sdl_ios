@@ -35,12 +35,8 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
 
 @property (assign, nonatomic) BOOL allowOverwrite;
 
-/**
- *  Creates a new file manager where the connection manager is [SDLManager sharedManager], and there are no initial files.
- *
- *  @return An instance of SDLFileManager
- */
-- (instancetype)init;
+
+- (instancetype)init __unavailable;
 
 /**
  *  Creates a new file manager with a specified connection manager
