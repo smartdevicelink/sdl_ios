@@ -19,10 +19,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const SDLLifecycleStateTransportDisconnected;
+extern NSString *const SDLLifecycleStateDisconnected;
 extern NSString *const SDLLifecycleStateTransportConnected;
 extern NSString *const SDLLifecycleStateRegistered;
 extern NSString *const SDLLifecycleStateSettingUpManagers;
+extern NSString *const SDLLifecycleStateUnregistering;
 extern NSString *const SDLLifecycleStateReady;
 
 

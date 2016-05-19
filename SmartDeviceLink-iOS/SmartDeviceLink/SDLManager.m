@@ -22,10 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Typedefs and Constants
 
-NSString *const SDLLifecycleStateTransportDisconnected = @"TransportDisconnected";
+NSString *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
 NSString *const SDLLifecycleStateTransportConnected = @"TransportConnected";
 NSString *const SDLLifecycleStateRegistered = @"Registered";
 NSString *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
+NSString *const SDLLifecycleStateUnregistering = @"Unregistering";
 NSString *const SDLLifecycleStateReady = @"Ready";
 
 typedef NSNumber SDLRPCCorrelationId;
@@ -92,7 +93,7 @@ typedef NSNumber SDLSoftButtonId;
         return nil;
     }
     
-    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateTransportDisconnected states:[self.class sdl_stateTransitionDictionary]];
+    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
     _configuration = nil;
     
     _correlationID = 1;
@@ -109,6 +110,31 @@ typedef NSNumber SDLSoftButtonId;
     _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     
     return self;
+}
+
+- (void)startWithConfiguration:(SDLConfiguration *)configuration {
+    self.configuration = configuration;
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [SDLProxy enableSiphonDebug];
+    
+    if (self.configuration.lifecycleConfig.tcpDebugMode) {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:self.configuration.lifecycleConfig.tcpDebugPort];
+    } else {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+    }
+#pragma clang diagnostic pop
+}
+
+- (void)sdl_startProxy {
+    if (self.configuration != nil) {
+        [self startWithConfiguration:self.configuration];
+    }
+}
+
+- (void)stop {
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
 }
 
 
@@ -143,11 +169,12 @@ typedef NSNumber SDLSoftButtonId;
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-             SDLLifecycleStateTransportDisconnected: @[SDLLifecycleStateTransportConnected],
-             SDLLifecycleStateTransportConnected: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateRegistered],
-             SDLLifecycleStateRegistered: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateSettingUpManagers],
-             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateTransportDisconnected, SDLLifecycleStateReady],
-             SDLLifecycleStateReady: @[SDLLifecycleStateTransportDisconnected]
+             SDLLifecycleStateDisconnected: @[SDLLifecycleStateTransportConnected],
+             SDLLifecycleStateTransportConnected: @[SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered],
+             SDLLifecycleStateRegistered: @[SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers],
+             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStateReady],
+             SDLLifecycleStateUnregistering: @[SDLLifecycleStateDisconnected],
+             SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering,SDLLifecycleStateDisconnected]
              };
 }
 
@@ -223,6 +250,15 @@ typedef NSNumber SDLSoftButtonId;
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReadyNotification object:self userInfo:nil];
     });
+}
+
+- (void)didEnterStateUnregistering {
+    SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
+    
+    __weak typeof(self) weakSelf = self;
+    [self sendRequest:unregisterRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+    }];
 }
 
 
@@ -307,7 +343,7 @@ typedef NSNumber SDLSoftButtonId;
 #pragma mark SDLConnectionManager Protocol
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
-    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateTransportDisconnected]) {
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateDisconnected]) {
         [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];
         if (handler) {
             handler(nil, nil, [NSError sdl_lifecycle_notConnectedError]);
@@ -383,36 +419,6 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 
-#pragma mark Proxy Wrappers
-
-- (void)startWithConfiguration:(SDLConfiguration *)configuration {
-    self.configuration = configuration;
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [SDLProxy enableSiphonDebug];
-    
-    if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:self.configuration.lifecycleConfig.tcpDebugPort];
-    } else {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-    }
-#pragma clang diagnostic pop
-}
-
-- (void)sdl_startProxy {
-    if (self.configuration != nil) {
-        [self startWithConfiguration:self.configuration];
-    }
-}
-
-- (void)stop {
-    // TODO: Should properly unregister, possibly new state to make sure that happens correctly?
-    
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected];
-}
-
-
 #pragma mark Helper Methods
 
 - (void)sdl_disposeProxy {
@@ -469,7 +475,7 @@ typedef NSNumber SDLSoftButtonId;
 
 - (void)onProxyClosed {
     [SDLDebugTool logInfo:@"onProxyClosed"];
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportDisconnected];
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
 
 - (void)onError:(NSException *)e {
