@@ -128,6 +128,10 @@ typedef NSNumber SDLSoftButtonId;
     return _permissionManager;
 }
 
+- (nullable SDLStreamingMediaManager *)streamManager {
+    return self.proxy.streamingMediaManager;
+}
+
 - (SDLState *)lifecycleState {
     return self.lifecycleStateMachine.currentState;
 }

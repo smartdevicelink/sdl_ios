@@ -32,6 +32,7 @@ extern NSString *const SDLLifecycleStateReady;
 @property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;
 @property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
+@property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
 #pragma mark Lifecycle
 + (instancetype)sharedManager;
