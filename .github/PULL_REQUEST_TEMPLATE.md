@@ -1,3 +1,7 @@
+[Things to note: Pull Requests **must** fix an issue. Discussion about the feature / bug takes place in the issue, discussion of the implementation takes place in the PR. Please also see the [Contributing Guide](https://github.com/smartdevicelink/sdl_ios/blob/master/.github/CONTRIBUTING.md) for information on branch naming and the CLA.
+
+Delete the above section when you've read it.]
+
 Fixes #[issue number]
 
 This PR is **[ready / not ready]** for review.
