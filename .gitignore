@@ -40,3 +40,6 @@ Carthage.pkg
 SmartDeviceLink-iOS/Carthage/Build
 SmartDeviceLink-iOS/Carthage/Checkouts
 SmartDeviceLink-iOS/infer-out
+# This ignore here is prevent projects fetching sdl_ios as a submodule using
+# Carthage from resulting as `-dirty` in the `git status`.
+Carthage/Build
