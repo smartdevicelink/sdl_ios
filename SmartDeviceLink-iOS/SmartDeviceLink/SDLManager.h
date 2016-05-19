@@ -14,6 +14,7 @@
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
+@class SDLStreamingMediaManager;
 
 
 NS_ASSUME_NONNULL_BEGIN

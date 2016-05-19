@@ -58,6 +58,7 @@ typedef NSNumber SDLSoftButtonId;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
 @property (strong, nonatomic, nullable) UIViewController *lockScreenViewController; // TODO: Make a LockScreenManager
 @property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
+@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
@@ -97,6 +98,7 @@ typedef NSNumber SDLSoftButtonId;
     _correlationID = 1;
     _firstHMIFullOccurred = NO;
     _firstHMINotNoneOccurred = NO;
+    _registerAppInterfaceResponse = nil;
     
     _lockScreenPresented = NO;
     
@@ -565,7 +567,8 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
-    // TODO: Store response data somewhere?
+    self.registerAppInterfaceResponse = response;
+    
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
     
     [self sdl_runHandlersForResponse:response];
