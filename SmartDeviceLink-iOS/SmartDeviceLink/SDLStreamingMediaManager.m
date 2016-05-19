@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
 
-@property (assign, nonatomic) VTCompressionSessionRef compressionSession;
+@property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 

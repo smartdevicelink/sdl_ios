@@ -239,6 +239,8 @@
 		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
 		5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */; };
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
+		5D1664E51CEE5F2D00CC4CA1 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C81A9BDD3F00906325 /* Nimble.framework */; };
+		5D1664E61CEE5F2D00CC4CA1 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C91A9BDD3F00906325 /* Quick.framework */; };
 		5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */; };
 		5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */; };
 		5D2996ED1BFCC5DA006106BF /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1804,6 +1806,8 @@
 				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
 				5DEE55C21B864A7D004F0D0F /* OHHTTPStubs.framework in Frameworks */,
 				5D86022E1C99AF5100A55266 /* OCMock.framework in Frameworks */,
+				5D1664E51CEE5F2D00CC4CA1 /* Nimble.framework in Frameworks */,
+				5D1664E61CEE5F2D00CC4CA1 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4444,7 +4448,10 @@
 		5D61FA361A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_STATIC_ANALYZER_MODE = deep;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
@@ -4480,7 +4487,10 @@
 		5D61FA371A84237100846EE7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_STATIC_ANALYZER_MODE = deep;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
