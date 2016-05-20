@@ -1,4 +1,4 @@
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+ [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/master.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
@@ -10,9 +10,9 @@
 
 SmartDeviceLink (SDL) is a standard set of protocols and messages that connect applications on a smartphone to a vehicle head unit. This messaging enables a consumer to interact with their application using common in-vehicle interfaces such as a touch screen display, embedded voice recognition, steering wheel controls and various vehicle knobs and buttons. There are three main components that make up the SDL ecosystem.
 
-  * The [Core](https://github.com/smartdevicelink/sdl_core) component is the software which Vehicle Manufacturers (OEMs)  implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
-  * The optional [SDL Server](https://github.com/smartdevicelink/sdl_server) can be used by Vehicle OEMs to update application policies and gather usage information for connected applications.
-  * The [iOS](https://github.com/smartdevicelink/sdl_ios) and [Android](https://github.com/smartdevicelink/sdl_android) libraries are implemented by app developers into their applications to enable command and control via the connected head unit.
+* The [Core](https://github.com/smartdevicelink/sdl_core) component is the software which Vehicle Manufacturers (OEMs)  implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
+* The optional [SDL Server](https://github.com/smartdevicelink/sdl_server) can be used by Vehicle OEMs to update application policies and gather usage information for connected applications.
+* The [iOS](https://github.com/smartdevicelink/sdl_ios) and [Android](https://github.com/smartdevicelink/sdl_android) libraries are implemented by app developers into their applications to enable command and control via the connected head unit.
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=AzdQdSCS24M" target="_blank"><img src="http://i.imgur.com/nm8UujD.png?1" alt="SmartDeviceLink" border="10" /></a>
 
@@ -34,7 +34,7 @@ See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANG
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.1.0'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.1.2'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6+.
 
 ##### Carthage
 
@@ -42,7 +42,7 @@ SDL iOS supports Carthage! Install using Carthage by following [this guide](http
 
 ##### Dynamic Framework
 
-Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+.
+Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Use a script such as Carthage's to accomplish this**.
 
 ### Reference Documentation
 
@@ -65,7 +65,7 @@ cd ../
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, [install xctool](https://github.com/facebook/xctool#installation) and run:
 
 ```bash
-xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO test
+xctool test
 ```
 
 ### SDL iOS Getting Started
@@ -85,39 +85,39 @@ Your application must support a set of smartdevicelink protocol strings in order
 
 ```xml
 <key>UISupportedExternalAccessoryProtocols</key>
-	<array>
-		<string>com.smartdevicelink.prot29</string>
-		<string>com.smartdevicelink.prot28</string>
-		<string>com.smartdevicelink.prot27</string>
-		<string>com.smartdevicelink.prot26</string>
-		<string>com.smartdevicelink.prot25</string>
-		<string>com.smartdevicelink.prot24</string>
-		<string>com.smartdevicelink.prot23</string>
-		<string>com.smartdevicelink.prot22</string>
-		<string>com.smartdevicelink.prot21</string>
-		<string>com.smartdevicelink.prot20</string>
-		<string>com.smartdevicelink.prot19</string>
-		<string>com.smartdevicelink.prot18</string>
-		<string>com.smartdevicelink.prot17</string>
-		<string>com.smartdevicelink.prot16</string>
-		<string>com.smartdevicelink.prot15</string>
-		<string>com.smartdevicelink.prot14</string>
-		<string>com.smartdevicelink.prot13</string>
-		<string>com.smartdevicelink.prot12</string>
-		<string>com.smartdevicelink.prot11</string>
-		<string>com.smartdevicelink.prot10</string>
-		<string>com.smartdevicelink.prot9</string>
-		<string>com.smartdevicelink.prot8</string>
-		<string>com.smartdevicelink.prot7</string>
-		<string>com.smartdevicelink.prot6</string>
-		<string>com.smartdevicelink.prot5</string>
-		<string>com.smartdevicelink.prot4</string>
-		<string>com.smartdevicelink.prot3</string>
-		<string>com.smartdevicelink.prot2</string>
-		<string>com.smartdevicelink.prot1</string>
-		<string>com.smartdevicelink.prot0</string>
-		<string>com.ford.sync.prot0</string>
-	</array>
+<array>
+<string>com.smartdevicelink.prot29</string>
+<string>com.smartdevicelink.prot28</string>
+<string>com.smartdevicelink.prot27</string>
+<string>com.smartdevicelink.prot26</string>
+<string>com.smartdevicelink.prot25</string>
+<string>com.smartdevicelink.prot24</string>
+<string>com.smartdevicelink.prot23</string>
+<string>com.smartdevicelink.prot22</string>
+<string>com.smartdevicelink.prot21</string>
+<string>com.smartdevicelink.prot20</string>
+<string>com.smartdevicelink.prot19</string>
+<string>com.smartdevicelink.prot18</string>
+<string>com.smartdevicelink.prot17</string>
+<string>com.smartdevicelink.prot16</string>
+<string>com.smartdevicelink.prot15</string>
+<string>com.smartdevicelink.prot14</string>
+<string>com.smartdevicelink.prot13</string>
+<string>com.smartdevicelink.prot12</string>
+<string>com.smartdevicelink.prot11</string>
+<string>com.smartdevicelink.prot10</string>
+<string>com.smartdevicelink.prot9</string>
+<string>com.smartdevicelink.prot8</string>
+<string>com.smartdevicelink.prot7</string>
+<string>com.smartdevicelink.prot6</string>
+<string>com.smartdevicelink.prot5</string>
+<string>com.smartdevicelink.prot4</string>
+<string>com.smartdevicelink.prot3</string>
+<string>com.smartdevicelink.prot2</string>
+<string>com.smartdevicelink.prot1</string>
+<string>com.smartdevicelink.prot0</string>
+<string>com.ford.sync.prot0</string>
+</array>
 ```
 
 #### Creating the SDLProxy
@@ -129,13 +129,13 @@ The example app's `startProxyWithTransportType` handles starting up the proxy wh
 
 ```objc
 switch (transportType) {
-    case ProxyTransportTypeTCP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
-    } break;
-    case ProxyTransportTypeIAP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-    } break;
-    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
+case ProxyTransportTypeTCP: {
+self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
+} break;
+case ProxyTransportTypeIAP: {
+self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+} break;
+default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
 }
 ```
 
@@ -164,7 +164,7 @@ The `SDLProxyListener` protocol has four required methods:
 
 ```objc
 self.state = ProxyStateConnected;
-    
+
 SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
 [self.proxy sendRPC:registerRequest];
 ```
@@ -182,8 +182,8 @@ When the proxy is closed, you will receive a call to `onProxyClosed`. This is wh
 self.state = ProxyStateStopped;
 
 if (self.proxy != nil) {
-    [self.proxy dispose];
-    self.proxy = nil;
+[self.proxy dispose];
+self.proxy = nil;
 }
 ```
 
@@ -194,8 +194,8 @@ You will want to track your first HMI FULL, for instance with a boolean value. T
 
 ```objc
 if ((notification.hmiLevel == [SDLHMILevel FULL]) && self.isFirstHMIFull) {
-    [self showInitialData];
-    self.isFirstHMIFull = NO;
+[self showInitialData];
+self.isFirstHMIFull = NO;
 }
 ```
 
@@ -205,13 +205,13 @@ As described in the section "Creating the SDLProxy", you need will have separate
 
 ```objc
 switch (transportType) {
-    case ProxyTransportTypeTCP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
-    } break;
-    case ProxyTransportTypeIAP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-    } break;
-    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
+case ProxyTransportTypeTCP: {
+self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
+} break;
+case ProxyTransportTypeIAP: {
+self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+} break;
+default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
 }
 ```
 

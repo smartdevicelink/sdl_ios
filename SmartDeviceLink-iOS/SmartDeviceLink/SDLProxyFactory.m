@@ -5,9 +5,9 @@
 
 #import "SDLDebugTool.h"
 #import "SDLIAPTransport.h"
-#import "SDLTCPTransport.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
+#import "SDLTCPTransport.h"
 
 
 @implementation SDLProxyFactory

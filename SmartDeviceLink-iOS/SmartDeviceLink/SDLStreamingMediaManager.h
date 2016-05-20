@@ -32,7 +32,7 @@ extern NSString *const SDLErrorDomainStreamingMediaVideo;
 extern NSString *const SDLErrorDomainStreamingMediaAudio;
 
 typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
-typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError * __nullable error);
+typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError *__nullable error);
 
 
 @interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>

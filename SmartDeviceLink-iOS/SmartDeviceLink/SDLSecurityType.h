@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLSecurityType <NSObject>
 
-- (void)initializeWithAppId:(NSString *)appId completionHandler:(void(^)(NSError * _Nullable error))completionHandler;
+- (void)initializeWithAppId:(NSString *)appId completionHandler:(void (^)(NSError *_Nullable error))completionHandler;
 - (void)stop;
 
 - (nullable NSData *)runHandshakeWithClientData:(NSData *)data error:(NSError **)error;

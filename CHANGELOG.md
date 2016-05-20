@@ -1,3 +1,19 @@
+# 4.1.2 Release Notes
+### Bugfixes
+* Enable additional static analyzer rules for Xcode 7.3, fix an associated nullability issue.
+
+### Other
+* New .gitignore rule to help carthage submodule users.
+
+# 4.1.1 Release Notes
+### Bug Fixes
+* Fixed passing in wrong type, causing SDL Protocol v1 to fail.
+* Fix `SDLRPCStruct` subclasses generating an incorrect description when logged.
+
+### Other
+* Some repository files are now linked into the Xcode project.
+* Updated testing dependencies for Xcode 7.3 compatibility.
+
 # 4.1.0 Release Notes
 ### Enhancements
 * The `LAUNCH_APP` system request was implemented.

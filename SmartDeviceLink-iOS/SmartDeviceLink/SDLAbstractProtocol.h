@@ -6,8 +6,8 @@
 @class SDLRPCRequest;
 
 #import "SDLProtocolListener.h"
-#import "SDLTransportDelegate.h"
 #import "SDLSecurityType.h"
+#import "SDLTransportDelegate.h"
 
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>

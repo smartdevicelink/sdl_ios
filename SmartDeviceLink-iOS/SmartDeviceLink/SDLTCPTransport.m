@@ -6,14 +6,14 @@
 #import "SDLDebugTool.h"
 #import "SDLHexUtility.h"
 #import <errno.h>
+#import <netdb.h>
+#import <netinet/in.h>
 #import <signal.h>
 #import <stdio.h>
-#import <unistd.h>
-#import <sys/types.h>
 #import <sys/socket.h>
+#import <sys/types.h>
 #import <sys/wait.h>
-#import <netinet/in.h>
-#import <netdb.h>
+#import <unistd.h>
 
 
 // C function forward declarations.
@@ -127,7 +127,7 @@ int call_socket(const char *hostname, const char *port) {
         gethostname(localhost, sizeof localhost);
         hostname = (const char *)&localhost;
     }
-    
+
     //getaddrinfo setup
     if ((status = getaddrinfo(hostname, port, &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));

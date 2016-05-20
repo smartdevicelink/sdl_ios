@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
 
-@property (assign, nonatomic) VTCompressionSessionRef compressionSession;
+@property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 
@@ -73,9 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithTLSAuthentication:NO encryption:NO startBlock:^(BOOL success, BOOL encryption, NSError * _Nullable error) {
-        startBlock(success, error);
-    }];
+    [self startVideoSessionWithTLSAuthentication:NO
+                                      encryption:NO
+                                      startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
+                                          startBlock(success, error);
+                                      }];
 }
 
 - (void)startVideoSessionWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
@@ -88,17 +90,18 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.videoStartBlock = [startBlock copy];
     self.encryptVideoSession = encryption;
-    
+
     if (authentication) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startSecureServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
-            typeof(weakSelf) strongSelf = weakSelf;
-            // If success, we will get an ACK or NACK, so those methods will handle calling the video block
-            if (!success) {
-                strongSelf.videoStartBlock(NO, NO, error);
-                strongSelf.videoStartBlock = nil;
-            }
-        }];
+        [self.protocol startSecureServiceWithType:SDLServiceType_Video
+                                completionHandler:^(BOOL success, NSError *error) {
+                                    typeof(weakSelf) strongSelf = weakSelf;
+                                    // If success, we will get an ACK or NACK, so those methods will handle calling the video block
+                                    if (!success) {
+                                        strongSelf.videoStartBlock(NO, NO, error);
+                                        strongSelf.videoStartBlock = nil;
+                                    }
+                                }];
     } else {
         [self.protocol startServiceWithType:SDLServiceType_Video];
     }
@@ -113,25 +116,28 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startAudioStreamingWithTLSAuthentication:NO encryption:NO startBlock:^(BOOL success, NSError * _Nullable error) {
-        startBlock(success, error);
-    }];
+    [self startAudioStreamingWithTLSAuthentication:NO
+                                        encryption:NO
+                                        startBlock:^(BOOL success, NSError *_Nullable error) {
+                                            startBlock(success, error);
+                                        }];
 }
 
 - (void)startAudioStreamingWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     self.encryptAudioSession = encryption;
-    
+
     if (authentication) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startSecureServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
-            typeof(weakSelf) strongSelf = weakSelf;
-            // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
-            if (!success) {
-                strongSelf.audioStartBlock(NO, NO, error);
-                strongSelf.audioStartBlock = nil;
-            }
-        }];
+        [self.protocol startSecureServiceWithType:SDLServiceType_Audio
+                                completionHandler:^(BOOL success, NSError *error) {
+                                    typeof(weakSelf) strongSelf = weakSelf;
+                                    // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
+                                    if (!success) {
+                                        strongSelf.audioStartBlock(NO, NO, error);
+                                        strongSelf.audioStartBlock = nil;
+                                    }
+                                }];
     } else {
         [self.protocol startServiceWithType:SDLServiceType_Audio];
     }
@@ -268,7 +274,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
-    
+
     if (mediaManager.encryptVideoSession) {
         [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceType_Video];
     } else {
