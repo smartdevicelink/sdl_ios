@@ -25,7 +25,9 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 @property (assign, nonatomic, readonly) ProxyState state;
 
 + (instancetype)sharedManager;
-- (void)start;
+- (void)startIAP;
+- (void)startTCP;
+- (void)stop;
 
 @property (strong, nonatomic, readonly) SDLStreamingMediaManager *mediaManager;
 

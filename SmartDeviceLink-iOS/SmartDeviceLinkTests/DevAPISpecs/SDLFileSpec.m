@@ -7,46 +7,28 @@
 
 QuickSpecBegin(SDLFileSpec)
 
-describe(@"SDLFile", ^{
+fdescribe(@"SDLFile", ^{
     __block SDLFile *testFile = nil;
     
     context(@"when created with data", ^{
         __block NSData *testData = nil;
         __block NSString *testName = nil;
-        __block SDLFileType *testFileType = nil;
+        __block NSString *testFileType = nil;
         __block BOOL testPersistence = NO;
         
-        context(@"using test data 1", ^{
+        context(@"using test data", ^{
             testName = @"Example Name";
             testData = [@"Example Data" dataUsingEncoding:NSUTF8StringEncoding];
-            testFileType = [SDLFileType AUDIO_MP3];
+            testFileType = @"mp3";
             testPersistence = YES;
             
             beforeEach(^{
-                testFile = [[SDLFile alloc] initWithData:testData name:testName type:testFileType persistent:NO];
+                testFile = [[SDLFile alloc] initWithData:testData name:testName fileExtension:testFileType persistent:testPersistence];
             });
             
-            it(@"should correctly store data", ^{
-                expect(testFile.data).to(equal(testData));
-            });
-            
-            it(@"should correctly store name", ^{
-                expect(testFile.name).to(equal(testName));
-            });
-            
-            it(@"should correctly store file type", ^{
-                expect(testFile.fileType).to(equal(testFileType));
-            });
-        });
-        
-        context(@"using test data 1", ^{
-            beforeEach(^{
-                testName = @"Second Name";
-                testData = [@"Second piece of data" dataUsingEncoding:NSUTF8StringEncoding];
-                testFileType = [SDLFileType BINARY];
-                testPersistence = YES;
-                
-                testFile = [[SDLFile alloc] initWithData:testData name:testName type:testFileType persistent:NO];
+            it(@"should store the data in a temp file", ^{
+                expect(testFile.fileURL).toNot(beNil());
+                expect(@([[NSFileManager defaultManager] fileExistsAtPath:testFile.fileURL.path])).to(equal(@YES));
             });
             
             it(@"should correctly store data", ^{
@@ -64,15 +46,16 @@ describe(@"SDLFile", ^{
     });
     
     context(@"when created with a file", ^{
-        __block NSString *testFilePath = nil;
+        __block NSURL *testFileURL = nil;
         __block NSString *testFileName = nil;
         
-        context(@"when created with a bad file path", ^{
+        context(@"when created with a non-extant file url", ^{
             beforeEach(^{
                 NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                testFilePath = [testBundle pathForResource:@"imageThatDoesNotExist" ofType:@"jpg"];
+                testFileURL = [testBundle URLForResource:@"imageThatDoesNotExist" withExtension:@"jpg"];
+                testFileName = @"someImage";
                 
-                testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
             });
             
             it(@"should be nil", ^{
@@ -80,21 +63,22 @@ describe(@"SDLFile", ^{
             });
         });
         
-        context(@"when created with a good file path", ^{
-            context(@"that is not persistent", ^{
+        context(@"when created with an extant file url", ^{
+            context(@"that is ephemeral", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImageJPG" ofType:@"jpg"];
+                    testFileURL = [testBundle URLForResource:@"testImageJPG" withExtension:@"jpg"];
+                    testFileName = @"someImage";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [SDLFile ephemeralFileAtFileURL:testFileURL name:testFileName];
                 });
                 
                 it(@"should correctly store data", ^{
-                    expect(testFile.data).to(equal([NSData dataWithContentsOfFile:testFilePath]));
+                    expect(testFile.data).to(equal([NSData dataWithContentsOfURL:testFileURL]));
                 });
                 
                 it(@"should correctly store name", ^{
-                    expect(testFile.name).to(equal([[NSFileManager defaultManager] displayNameAtPath:testFilePath]));
+                    expect(testFile.name).to(match(testFileName));
                 });
                 
                 it(@"should correctly store file type", ^{
@@ -109,14 +93,14 @@ describe(@"SDLFile", ^{
             context(@"That is persistent", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImageJPG" ofType:@"jpg"];
-                    testFileName = @"Persistant file name";
+                    testFileURL = [testBundle URLForResource:@"testImageJPG" withExtension:@"jpg"];
+                    testFileName = @"someImage";
                     
-                    testFile = [[SDLFile alloc] initWithPersistentFileAtPath:testFilePath name:testFileName];
+                    testFile = [SDLFile persistentFileAtFileURL:testFileURL name:testFileName];
                 });
                 
                 it(@"should correctly store data", ^{
-                    expect(testFile.data).to(equal([NSData dataWithContentsOfFile:testFilePath]));
+                    expect(testFile.data).to(equal([NSData dataWithContentsOfURL:testFileURL]));
                 });
                 
                 it(@"should correctly store name", ^{
@@ -137,9 +121,10 @@ describe(@"SDLFile", ^{
             context(@"jpg", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImageJPG" ofType:@"jpg"];
+                    testFileURL = [testBundle URLForResource:@"testImageJPG" withExtension:@"jpg"];
+                    testFileName = @"someJPG";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
                 });
                 
                 it(@"should properly interpret file type", ^{
@@ -150,9 +135,10 @@ describe(@"SDLFile", ^{
             context(@"jpeg", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImageJPEG" ofType:@"jpeg"];
+                    testFileURL = [testBundle URLForResource:@"testImageJPEG" withExtension:@"jpeg"];
+                    testFileName = @"someJPEG";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
                 });
                 
                 it(@"should properly interpret file type", ^{
@@ -163,9 +149,10 @@ describe(@"SDLFile", ^{
             context(@"png", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImagePNG" ofType:@"png"];
+                    testFileURL = [testBundle URLForResource:@"testImagePNG" withExtension:@"png"];
+                    testFileName = @"somePNG";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
                 });
                 
                 it(@"should properly interpret file type", ^{
@@ -176,9 +163,10 @@ describe(@"SDLFile", ^{
             context(@"bmp", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImageBMP" ofType:@"bmp"];
+                    testFileURL = [testBundle URLForResource:@"testImageBMP" withExtension:@"bmp"];
+                    testFileName = @"someBMP";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
                 });
                 
                 it(@"should properly interpret file type", ^{
@@ -191,9 +179,10 @@ describe(@"SDLFile", ^{
             context(@"json", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testFileJSON" ofType:@"json"];
+                    testFileURL = [testBundle URLForResource:@"testFileJSON" withExtension:@"json"];
+                    testFileName = @"someJSON";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
                 });
                 
                 it(@"should properly interpret file type", ^{
@@ -204,9 +193,10 @@ describe(@"SDLFile", ^{
             context(@"binary", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-                    testFilePath = [testBundle pathForResource:@"testImageTIFF" ofType:@"tiff"];
+                    testFileURL = [testBundle URLForResource:@"testImageTIFF" withExtension:@"tiff"];
+                    testFileName = @"someTIFF";
                     
-                    testFile = [[SDLFile alloc] initWithFileAtPath:testFilePath];
+                    testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
                 });
                 
                 it(@"should properly interpret file type", ^{

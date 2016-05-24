@@ -13,7 +13,9 @@ NSString *const SDLAppName = @"SDL Test";
 NSString *const SDLAppId = @"9999";
 
 
-@interface ProxyManager () <SDLProxyListener>
+@interface ProxyManager ()
+
+@property (strong, nonatomic) SDLManager *sdlManager;
 
 @end
 
@@ -41,11 +43,24 @@ NSString *const SDLAppId = @"9999";
     return self;
 }
 
-- (void)start {
+- (void)startIAP {
     SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId];
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:nil];
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config];
     
-    [[SDLManager sharedManager] startWithConfiguration:config];
+    [self.sdlManager start];
+}
+
+- (void)startTCP {
+    SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:nil];
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config];
+    
+    [self.sdlManager start];
+}
+
+- (void)stop {
+    [self.sdlManager stop];
 }
 
 - (void)showInitialData {

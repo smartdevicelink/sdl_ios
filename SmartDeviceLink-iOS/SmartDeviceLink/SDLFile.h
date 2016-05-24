@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSData *data;
 
 /**
- *  Unless set manually, the system will attempt to determine the type of file that you have passed in.
+ *  Unless set manually, the system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.
  */
 @property (strong, nonatomic, readonly) SDLFileType *fileType;
 

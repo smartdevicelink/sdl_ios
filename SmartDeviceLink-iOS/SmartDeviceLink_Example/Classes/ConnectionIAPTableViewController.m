@@ -45,13 +45,13 @@
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
-            [[ProxyManager sharedManager] startProxyWithTransportType:ProxyTransportTypeIAP];
+            [[ProxyManager sharedManager] startIAP];
         } break;
         case ProxyStateSearchingForConnection: {
-            [[ProxyManager sharedManager] stopProxy];
+            [[ProxyManager sharedManager] stop];
         } break;
         case ProxyStateConnected: {
-            [[ProxyManager sharedManager] stopProxy];
+            [[ProxyManager sharedManager] stop];
         } break;
         default: break;
     }

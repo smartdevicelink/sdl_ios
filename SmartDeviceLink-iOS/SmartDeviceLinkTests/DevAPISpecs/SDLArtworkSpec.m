@@ -20,7 +20,7 @@ describe(@"SDLArtwork", ^{
                 testArtworkName = @"Test Artwork";
                 testFormat = SDLArtworkImageFormatPNG;
                 
-                testArtwork = [[SDLArtwork alloc] initWithImage:testImage name:testArtworkName asImageFormat:testFormat];
+                testArtwork = [[SDLArtwork alloc] initWithImage:testImage name:testArtworkName persistent:NO asImageFormat:testFormat];
             });
             
             it(@"should correctly store image data", ^{
@@ -50,7 +50,7 @@ describe(@"SDLArtwork", ^{
                 testArtworkName = @"Test Artwork";
                 testFormat = SDLArtworkImageFormatJPG;
                 
-                testArtwork = [[SDLArtwork alloc] initWithImage:testImage name:testArtworkName asImageFormat:testFormat];
+                testArtwork = [[SDLArtwork alloc] initWithImage:testImage name:testArtworkName persistent:NO asImageFormat:testFormat];
             });
             
             it(@"should correctly store image data", ^{
@@ -80,7 +80,7 @@ describe(@"SDLArtwork", ^{
                 testArtworkName = @"Test Artwork";
                 testFormat = SDLArtworkImageFormatPNG;
                 
-                testArtwork = [[SDLArtwork alloc] initWithPersistentImage:testImage name:testArtworkName asImageFormat:testFormat];
+                testArtwork = [[SDLArtwork alloc] initWithImage:testImage name:testArtworkName persistent:YES asImageFormat:testFormat];
             });
             
             it(@"is persistent", ^{

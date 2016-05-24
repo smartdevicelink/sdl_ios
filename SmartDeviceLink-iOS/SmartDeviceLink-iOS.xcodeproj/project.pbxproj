@@ -241,6 +241,8 @@
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
 		5D1664E51CEE5F2D00CC4CA1 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C81A9BDD3F00906325 /* Nimble.framework */; };
 		5D1664E61CEE5F2D00CC4CA1 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C91A9BDD3F00906325 /* Quick.framework */; };
+		5D16659D1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D16659C1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m */; };
+		5D16659F1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D16659E1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m */; };
 		5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */; };
 		5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */; };
 		5D2996ED1BFCC5DA006106BF /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1161,6 +1163,8 @@
 		5D1464331C99AC0900727339 /* OCMock.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OCMock.framework.dSYM; path = Carthage/Build/iOS/OCMock.framework.dSYM; sourceTree = "<group>"; };
 		5D1464341C99AC0900727339 /* Quick.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Quick.framework.dSYM; path = Carthage/Build/iOS/Quick.framework.dSYM; sourceTree = "<group>"; };
 		5D1464351C99AC0900727339 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
+		5D16659C1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLUploadFileOperationSpec.m; path = DevAPISpecs/SDLUploadFileOperationSpec.m; sourceTree = "<group>"; };
+		5D16659E1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDeleteFileOperationSpec.m; path = DevAPISpecs/SDLDeleteFileOperationSpec.m; sourceTree = "<group>"; };
 		5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionFilter.h; sourceTree = "<group>"; };
 		5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
 		5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
@@ -3149,6 +3153,8 @@
 				5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */,
 				5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */,
 				5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */,
+				5D16659C1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m */,
+				5D16659E1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -4059,6 +4065,7 @@
 				5DCF76FE1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m in Sources */,
 				162E837D1A9BDE8B00906325 /* SDLEmergencyEventSpec.m in Sources */,
 				162E82D31A9BDE8A00906325 /* SDLCarModeStatusSpec.m in Sources */,
+				5D16659F1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m in Sources */,
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
 				1680B11A1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m in Sources */,
@@ -4211,6 +4218,7 @@
 				162E83601A9BDE8B00906325 /* SDLScrollableMessageResponseSpec.m in Sources */,
 				162E83791A9BDE8B00906325 /* SDLDeviceStatusSpec.m in Sources */,
 				162E83821A9BDE8B00906325 /* SDLImageSpec.m in Sources */,
+				5D16659D1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m in Sources */,
 				162E834A1A9BDE8B00906325 /* SDLAddSubMenuResponseSpec.m in Sources */,
 				162E830C1A9BDE8B00906325 /* SDLWarningLightStatusSpec.m in Sources */,
 				162E82E71A9BDE8B00906325 /* SDLKeyboardEventSpec.m in Sources */,

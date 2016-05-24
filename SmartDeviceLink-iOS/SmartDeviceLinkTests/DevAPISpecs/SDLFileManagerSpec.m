@@ -27,8 +27,8 @@ describe(@"SDLFileManager", ^{
     });
     
     describe(@"before receiving a connect notification", ^{
-        it(@"should be in the not connected state", ^{
-            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateNotConnected)));
+        it(@"should be in the shutdown state", ^{
+            expect(testFileManager.currentState).to(match(SDLFileManagerStateShutdown));
         });
         
         it(@"bytesAvailable should be 0", ^{
@@ -44,9 +44,9 @@ describe(@"SDLFileManager", ^{
         });
     });
     
-    describe(@"after receiving a connect notification", ^{
+    describe(@"after receiving a start message", ^{
         beforeEach(^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidConnectNotification object:nil];
+            [testFileManager startManagerWithCompletionHandler:nil];
         });
         
         it(@"should have sent the connection manager a ListFiles request", ^{
@@ -54,8 +54,8 @@ describe(@"SDLFileManager", ^{
         });
         
         describe(@"before receiving a ListFiles response", ^{
-            it(@"should be in the waiting state", ^{
-                expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateWaiting)));
+            it(@"should be in the fetching initial list state", ^{
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
             });
             
             xdescribe(@"entering files before a response then receiving the response", ^{
@@ -82,7 +82,7 @@ describe(@"SDLFileManager", ^{
             });
             
             it(@"should be in the ready state", ^{
-                expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
             });
             
             it(@"should properly set the remote file names", ^{
@@ -178,14 +178,12 @@ describe(@"SDLFileManager", ^{
                 
                 __block SDLPutFile *sentPutFile = nil;
                 __block NSData *testFileData = nil;
-                __block SDLFileType *testFileType = nil;
                 
                 context(@"when there is a remote file named the same thing", ^{
                     beforeEach(^{
                         testFileName = [testInitialFileNames anyObject];
-                        testFileType = [SDLFileType BINARY];
                         testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testUploadFile = [[SDLFile alloc] initWithData:testFileData name:testFileName type:testFileType persistent:NO];
+                        testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
                     });
                     
                     context(@"when allowing overwriting", ^{
@@ -201,8 +199,8 @@ describe(@"SDLFileManager", ^{
                             sentPutFile = testConnectionManager.receivedRequests.lastObject;
                         });
                         
-                        it(@"should set the file manager state to waiting", ^{
-                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateWaiting)));
+                        it(@"should set the file manager state to be waiting", ^{
+                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                         
                         it(@"should create a putfile that is the correct size", ^{
@@ -214,7 +212,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should create a putfile with the correct file type", ^{
-                            expect(sentPutFile.fileType.value).to(equal(testFileType.value));
+                            expect(sentPutFile.fileType.value).to(match([SDLFileType BINARY].value));
                         });
                         
                         context(@"when the connection returns without error", ^{
@@ -253,8 +251,8 @@ describe(@"SDLFileManager", ^{
                                 expect(completionError).to(beNil());
                             });
                             
-                            it(@"should set the file manager state to ready", ^{
-                                expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                            it(@"should have the file manager state as ready", ^{
+                                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
                         });
                         
@@ -295,7 +293,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should set the file manager state to ready", ^{
-                                expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
                         });
                         
@@ -313,7 +311,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should set the file manager state to ready", ^{
-                                expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
                         });
                     });
@@ -354,9 +352,8 @@ describe(@"SDLFileManager", ^{
                 context(@"when there is not a remote file named the same thing", ^{
                     beforeEach(^{
                         testFileName = @"not a test file";
-                        testFileType = [SDLFileType BINARY];
                         testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testUploadFile = [[SDLFile alloc] initWithData:testFileData name:testFileName type:testFileType persistent:NO];
+                        testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
                         
                         [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                             completionSuccess = success;
@@ -408,7 +405,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should set the file manager state to ready", ^{
-                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                     });
                     
@@ -449,7 +446,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should set the file manager state to ready", ^{
-                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                     });
                     
@@ -467,7 +464,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should set the file manager state to ready", ^{
-                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateReady)));
+                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                     });
                 });
@@ -482,14 +479,12 @@ describe(@"SDLFileManager", ^{
                 
                 __block SDLPutFile *sentPutFile = nil;
                 __block NSData *testFileData = nil;
-                __block SDLFileType *testFileType = nil;
                 
                 context(@"when there is a remote file named the same thing", ^{
                     beforeEach(^{
                         testFileName = [testInitialFileNames anyObject];
-                        testFileType = [SDLFileType BINARY];
                         testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testUploadFile = [[SDLFile alloc] initWithData:testFileData name:testFileName type:testFileType persistent:NO];
+                        testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
                     });
                     
                     context(@"when disallowing overwriting", ^{
@@ -506,7 +501,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should set the file manager state to waiting", ^{
-                            expect(@(testFileManager.state)).to(equal(@(SDLFileManagerStateWaiting)));
+                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                         
                         it(@"should create a putfile that is the correct size", ^{
@@ -518,7 +513,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should create a putfile with the correct file type", ^{
-                            expect(sentPutFile.fileType.value).to(equal(testFileType.value));
+                            expect(sentPutFile.fileType.value).to(equal([SDLFileType BINARY].value));
                         });
                     });
                 });
