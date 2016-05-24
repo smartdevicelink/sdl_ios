@@ -52,7 +52,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  *
  *  @param completionHandler The handler called when the manager is set up or failed to set up with an error. Use weak self when accessing self from the completion handler.
  */
-- (void)startManagerWithCompletionHandler:(SDLFileManagerStartupCompletion)completionHandler;
+- (void)startManagerWithCompletionHandler:(nullable SDLFileManagerStartupCompletion)completionHandler;
 
 /**
  *  Cancels all file manager operations and deletes all associated data.
