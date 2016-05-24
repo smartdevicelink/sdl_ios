@@ -6,7 +6,7 @@
 @class SDLDeviceInfo;
 @class SDLLanguage;
 @class SDLSyncMsgVersion;
-
+@class SDLAppInfo;
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of
@@ -213,5 +213,12 @@
  * @since SDL 2.0
  */
 @property (strong) NSString *appID;
+
+/**
+ * @abstract Information about the application running
+ *
+ * Optional
+ */
+@property (strong) SDLAppInfo *appInfo;
 
 @end
