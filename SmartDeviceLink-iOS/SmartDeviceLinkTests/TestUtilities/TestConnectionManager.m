@@ -11,6 +11,8 @@
 #import "SDLRPCRequest.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation TestConnectionManager
 
 - (instancetype)init {
@@ -24,7 +26,7 @@
     return self;
 }
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(SDLRequestCompletionHandler)block {
+- (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block {
     self.lastRequestBlock = block;
     request.correlationID = [self test_nextCorrelationID];
     
@@ -35,13 +37,21 @@
     [self respondToLastRequestWithResponse:response error:nil];
 }
 
-- (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response error:(NSError *)error {
+- (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *_Nullable)response error:(NSError *_Nullable)error {
     if (self.lastRequestBlock != nil) {
         self.lastRequestBlock(self.receivedRequests.lastObject, response, error);
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
     }
 }
+
+- (void)reset {
+    _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
+    _lastRequestBlock = nil;
+}
+
+
+#pragma mark Private helpers
 
 - (NSNumber *)test_nextCorrelationID {
     static NSUInteger correlationID = 0;
@@ -50,3 +60,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
