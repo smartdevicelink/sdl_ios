@@ -3390,7 +3390,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --objc --framework-root SmartDeviceLink  --sdk iphonesimulator --umbrella-header SmartDeviceLink/SmartDeviceLink.h --theme ../theme --output ../docs";
+			shellScript = "if hash jazzy 2>/dev/null; then\n  jazzy --objc --framework-root SmartDeviceLink  --sdk iphonesimulator --umbrella-header SmartDeviceLink/SmartDeviceLink.h --theme ../theme --output ../docs\nfi\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
