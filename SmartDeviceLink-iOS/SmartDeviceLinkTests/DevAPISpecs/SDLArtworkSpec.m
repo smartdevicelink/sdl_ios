@@ -24,7 +24,7 @@ describe(@"SDLArtwork", ^{
             });
             
             it(@"should correctly store image data", ^{
-                expect(testArtwork).to(equal(UIImagePNGRepresentation(testImage)));
+                expect(testArtwork.data).to(equal(UIImagePNGRepresentation(testImage)));
             });
             
             it(@"should correctly store name", ^{
@@ -54,7 +54,7 @@ describe(@"SDLArtwork", ^{
             });
             
             it(@"should correctly store image data", ^{
-                expect(testArtwork).to(equal(UIImageJPEGRepresentation(testImage, 0.85)));
+                expect(testArtwork.data).to(equal(UIImageJPEGRepresentation(testImage, 0.85)));
             });
             
             it(@"should correctly store name", ^{

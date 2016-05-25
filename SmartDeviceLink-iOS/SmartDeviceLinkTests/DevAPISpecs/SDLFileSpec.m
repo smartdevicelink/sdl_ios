@@ -7,7 +7,7 @@
 
 QuickSpecBegin(SDLFileSpec)
 
-fdescribe(@"SDLFile", ^{
+describe(@"SDLFile", ^{
     __block SDLFile *testFile = nil;
     
     context(@"when created with data", ^{
@@ -40,7 +40,7 @@ fdescribe(@"SDLFile", ^{
             });
             
             it(@"should correctly store file type", ^{
-                expect(testFile.fileType).to(equal(testFileType));
+                expect(testFile.fileType).to(equal([SDLFileType AUDIO_MP3]));
             });
         });
     });
