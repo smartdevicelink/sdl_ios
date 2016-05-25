@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _currentHMILevel = nil;
+    _currentHMILevel = [SDLHMILevel NONE];
     _permissions = [NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
     
