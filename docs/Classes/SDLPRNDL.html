@@ -1,0 +1,454 @@
+<h1>SDLPRNDL Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-+valueOf:">+valueOf:</a></li>
+  <li><a href="#section-+values">+values</a></li>
+  <li><a href="#section-+PARK">+PARK</a></li>
+  <li><a href="#section-+REVERSE">+REVERSE</a></li>
+  <li><a href="#section-+NEUTRAL">+NEUTRAL</a></li>
+  <li><a href="#section-+DRIVE">+DRIVE</a></li>
+  <li><a href="#section-+SPORT">+SPORT</a></li>
+  <li><a href="#section-+LOWGEAR">+LOWGEAR</a></li>
+  <li><a href="#section-+FIRST">+FIRST</a></li>
+  <li><a href="#section-+SECOND">+SECOND</a></li>
+  <li><a href="#section-+THIRD">+THIRD</a></li>
+  <li><a href="#section-+FOURTH">+FOURTH</a></li>
+  <li><a href="#section-+FIFTH">+FIFTH</a></li>
+  <li><a href="#section-+SIXTH">+SIXTH</a></li>
+  <li><a href="#section-+SEVENTH">+SEVENTH</a></li>
+  <li><a href="#section-+EIGHTH">+EIGHTH</a></li>
+  <li><a href="#section-+UNKNOWN">+UNKNOWN</a></li>
+  <li><a href="#section-+FAULT">+FAULT</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>The selected gear the car is in.</p>
+
+<p>@since SDL 2.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      +valueOf:
+  </h3>
+  
+  <p>@abstract get SDLPRNDL according value string</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="nf">valueOf</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">valueOf</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>value</dt>
+      <dd><p>The value of the string to get an object for</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL object</p>
+
+  </div>
+  
+  <h3>
+      +values
+  </h3>
+  
+  <p>@abstract declare an array to store all possible SDLPRNDL values</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">values</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>the array</p>
+
+  </div>
+  
+  <h3>
+      +PARK
+  </h3>
+  
+  <p>@abstract Park</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">PARK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">PARK</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>PARK</em></p>
+
+  </div>
+  
+  <h3>
+      +REVERSE
+  </h3>
+  
+  <p>@abstract Reverse gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">REVERSE</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">REVERSE</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>REVERSE</em></p>
+
+  </div>
+  
+  <h3>
+      +NEUTRAL
+  </h3>
+  
+  <p>@abstract No gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">NEUTRAL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">NEUTRAL</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>NEUTRAL</em></p>
+
+  </div>
+  
+  <h3>
+      +DRIVE
+  </h3>
+  
+  <p>@abstract: Drive gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">DRIVE</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">DRIVE</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>DRIVE</em></p>
+
+  </div>
+  
+  <h3>
+      +SPORT
+  </h3>
+  
+  <p>@abstract Drive Sport mode</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">SPORT</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">SPORT</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>SPORT</em></p>
+
+  </div>
+  
+  <h3>
+      +LOWGEAR
+  </h3>
+  
+  <p>@abstract 1st gear hold</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">LOWGEAR</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">LOWGEAR</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>LOWGEAR</em></p>
+
+  </div>
+  
+  <h3>
+      +FIRST
+  </h3>
+  
+  <p>@abstract First gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">FIRST</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">FIRST</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>FIRST</em></p>
+
+  </div>
+  
+  <h3>
+      +SECOND
+  </h3>
+  
+  <p>@abstract Second gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">SECOND</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">SECOND</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>SECOND</em></p>
+
+  </div>
+  
+  <h3>
+      +THIRD
+  </h3>
+  
+  <p>@abstract Third gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">THIRD</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">THIRD</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>THIRD</em></p>
+
+  </div>
+  
+  <h3>
+      +FOURTH
+  </h3>
+  
+  <p>@abstract Fourth gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">FOURTH</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">FOURTH</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>FOURTH</em></p>
+
+  </div>
+  
+  <h3>
+      +FIFTH
+  </h3>
+  
+  <p>@abstract Fifth gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">FIFTH</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">FIFTH</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>FIFTH</em></p>
+
+  </div>
+  
+  <h3>
+      +SIXTH
+  </h3>
+  
+  <p>@abstract Sixth gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">SIXTH</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">SIXTH</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>SIXTH</em></p>
+
+  </div>
+  
+  <h3>
+      +SEVENTH
+  </h3>
+  
+  <p>@abstract Seventh gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">SEVENTH</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">SEVENTH</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>SEVENTH</em></p>
+
+  </div>
+  
+  <h3>
+      +EIGHTH
+  </h3>
+  
+  <p>@abstract Eighth gear</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">EIGHTH</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">EIGHTH</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>EIGHTH</em></p>
+
+  </div>
+  
+  <h3>
+      +UNKNOWN
+  </h3>
+  
+  <p>@abstract Unknown</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">UNKNOWN</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">UNKNOWN</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>UNKNOWN</em></p>
+
+  </div>
+  
+  <h3>
+      +FAULT
+  </h3>
+  
+  <p>@abstract Fault</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLPRNDL</span> <span class="o">*</span><span class="p">)</span><span class="n">FAULT</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">FAULT</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLPRNDL</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPRNDL: <em>FAULT</em></p>
+
+  </div>
+  
+</section>

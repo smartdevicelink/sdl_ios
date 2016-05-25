@@ -1,0 +1,93 @@
+<h1>SDLDeleteInteractionChoiceSet Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-interactionChoiceSetID">interactionChoiceSetID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Deletes an existing Choice Set identified by the parameter
+ interactionChoiceSetID. If the specified interactionChoiceSetID is currently
+ in use by an active <i> SDLPerformInteraction</i> this call to
+ delete the Choice Set will fail returning an IN_USE resultCode
+ <p>
+ Function Group: Base
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b><br/>
+ </p></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br>
+ see SDLCreateInteractionChoiceSet SDLPerformInteraction</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Constructs a new SDLDeleteInteractionChoiceSet object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Constructs a new SDLDeleteInteractionChoiceSet object indicated by the
+ NSMutableDictionary parameter
+ <p></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      interactionChoiceSetID
+  </h3>
+  
+  <p>@abstract a unique ID that identifies the Choice Set
+@discussion a unique ID that identifies the Choice Set
+<p>
+<b>Notes: </b>Min Value: 0; Max Value: 2000000000</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">interactionChoiceSetID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">interactionChoiceSetID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
