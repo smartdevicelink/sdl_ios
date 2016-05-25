@@ -28,14 +28,41 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
 
 @interface SDLFileManager : NSObject
 
+/**
+ *  A set of all names of files known on the remote head unit. Known files can be used or deleted on the remote system.
+ */
 @property (copy, nonatomic, readonly) NSSet<SDLFileName *> *remoteFileNames;
-@property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
-@property (copy, nonatomic, readonly) NSString *currentState;
-@property (assign, nonatomic, readonly) NSUInteger pendingTransactionsCount;
 
+/**
+ *  The number of bytes still available for files for this app.
+ */
+@property (assign, nonatomic, readonly) NSUInteger bytesAvailable;
+
+/**
+ *  The state of the file manager.
+ */
+@property (copy, nonatomic, readonly) NSString *currentState;
+
+/**
+ *  The currently pending transactions (Upload, Delete, and List Files) in the file manager
+ */
+@property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingTransactions;
+
+/**
+ *  Allow the file manager to overwrite files on the remote system with the same name as an uploaded file. If NO, this can be overridden per file by calling forceUploadFile:completionHandler:
+ */
 @property (assign, nonatomic) BOOL allowOverwrite;
 
+/**
+ *  Whether or not the file manager is suspended. If suspended, the file manager can continue to queue uploads and deletes, but will not actually perform any of those until it is no longer suspended. This can be used for
+ */
+@property (assign, nonatomic) BOOL suspended;
 
+/**
+ *  Initialize the class...or not since this method is unavailable. Dependencies must be injected using initWithConnectionManager:
+ *
+ *  @return nil
+ */
 - (instancetype)init __unavailable;
 
 /**

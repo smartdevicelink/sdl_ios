@@ -94,15 +94,26 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 #pragma mark - Getters
 
 - (NSSet<SDLFileName *> *)remoteFileNames {
-    return [self.mutableRemoteFileNames copy];
+    return [NSSet setWithSet:self.mutableRemoteFileNames];
 }
 
 - (NSString *)currentState {
     return self.stateMachine.currentState;
 }
 
-- (NSUInteger)pendingTransactionsCount {
-    return self.transactionQueue.operationCount;
+- (NSArray<__kindof NSOperation *> *)pendingTransactions {
+    return self.transactionQueue.operations;
+}
+
+- (BOOL)suspended {
+    return self.transactionQueue.suspended;
+}
+
+
+#pragma mark Setters
+
+- (void)setSuspended:(BOOL)suspended {
+    self.transactionQueue.suspended = suspended;
 }
 
 
