@@ -22,10 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLUploadFileOperation
 
-@interface SDLUploadFileOperation () {
-    BOOL executing;
-    BOOL finished;
-}
+@interface SDLUploadFileOperation ()
 
 @property (strong, nonatomic) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -33,7 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@implementation SDLUploadFileOperation
+@implementation SDLUploadFileOperation {
+    BOOL executing;
+    BOOL finished;
+}
 
 - (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];

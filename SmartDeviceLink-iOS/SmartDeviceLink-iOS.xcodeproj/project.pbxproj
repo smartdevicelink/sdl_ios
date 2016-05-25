@@ -243,6 +243,9 @@
 		5D1664E61CEE5F2D00CC4CA1 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E81C91A9BDD3F00906325 /* Quick.framework */; };
 		5D16659D1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D16659C1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m */; };
 		5D16659F1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D16659E1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m */; };
+		5D1665AA1CF5F7D000CC4CA1 /* SDLListFilesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665A81CF5F7D000CC4CA1 /* SDLListFilesOperation.h */; };
+		5D1665AB1CF5F7D000CC4CA1 /* SDLListFilesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665A91CF5F7D000CC4CA1 /* SDLListFilesOperation.m */; };
+		5D1665AD1CF5FDBA00CC4CA1 /* SDLListFilesOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665AC1CF5FDBA00CC4CA1 /* SDLListFilesOperationSpec.m */; };
 		5D2996E91BFCC0E3006106BF /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */; };
 		5D2996EA1BFCC0E3006106BF /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */; };
 		5D2996ED1BFCC5DA006106BF /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1165,6 +1168,9 @@
 		5D1464351C99AC0900727339 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
 		5D16659C1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLUploadFileOperationSpec.m; path = DevAPISpecs/SDLUploadFileOperationSpec.m; sourceTree = "<group>"; };
 		5D16659E1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDeleteFileOperationSpec.m; path = DevAPISpecs/SDLDeleteFileOperationSpec.m; sourceTree = "<group>"; };
+		5D1665A81CF5F7D000CC4CA1 /* SDLListFilesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLListFilesOperation.h; sourceTree = "<group>"; };
+		5D1665A91CF5F7D000CC4CA1 /* SDLListFilesOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLListFilesOperation.m; sourceTree = "<group>"; };
+		5D1665AC1CF5FDBA00CC4CA1 /* SDLListFilesOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLListFilesOperationSpec.m; path = DevAPISpecs/SDLListFilesOperationSpec.m; sourceTree = "<group>"; };
 		5D2996E71BFCC0E3006106BF /* SDLPermissionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionFilter.h; sourceTree = "<group>"; };
 		5D2996E81BFCC0E3006106BF /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
 		5D2996EB1BFCC5DA006106BF /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
@@ -3072,6 +3078,8 @@
 				5D79A03A1CE36F030035797B /* SDLUploadFileOperation.m */,
 				5D7F87E91CE3C1A1002DD7C4 /* SDLDeleteFileOperation.h */,
 				5D7F87EA1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.m */,
+				5D1665A81CF5F7D000CC4CA1 /* SDLListFilesOperation.h */,
+				5D1665A91CF5F7D000CC4CA1 /* SDLListFilesOperation.m */,
 			);
 			name = "Transaction Operations";
 			sourceTree = "<group>";
@@ -3155,6 +3163,7 @@
 				5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */,
 				5D16659C1CF498FF00CC4CA1 /* SDLUploadFileOperationSpec.m */,
 				5D16659E1CF4991200CC4CA1 /* SDLDeleteFileOperationSpec.m */,
+				5D1665AC1CF5FDBA00CC4CA1 /* SDLListFilesOperationSpec.m */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -3446,6 +3455,7 @@
 				5D6F7A2E1BC5650B0070BF37 /* SDLLifecycleConfiguration.h in Headers */,
 				5D61FCCD1A84238C00846EE7 /* SDLImage.h in Headers */,
 				5D61FD481A84238C00846EE7 /* SDLProtocolMessage.h in Headers */,
+				5D1665AA1CF5F7D000CC4CA1 /* SDLListFilesOperation.h in Headers */,
 				5D61FC8C1A84238C00846EE7 /* SDLDIDResult.h in Headers */,
 				5D61FD1F1A84238C00846EE7 /* SDLOnTouchEvent.h in Headers */,
 				5D61FCB31A84238C00846EE7 /* SDLGetDTCsResponse.h in Headers */,
@@ -3963,6 +3973,7 @@
 				5D61FCA41A84238C00846EE7 /* SDLEndAudioPassThru.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
+				5D1665AB1CF5F7D000CC4CA1 /* SDLListFilesOperation.m in Sources */,
 				5D61FD1E1A84238C00846EE7 /* SDLOnTBTClientState.m in Sources */,
 				5D61FD581A84238C00846EE7 /* SDLPutFileResponse.m in Sources */,
 				5D61FCB21A84238C00846EE7 /* SDLGetDTCs.m in Sources */,
@@ -4184,6 +4195,7 @@
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
 				162E834B1A9BDE8B00906325 /* SDLAlertManeuverResponseSpec.m in Sources */,
 				162E833E1A9BDE8B00906325 /* SDLShowSpec.m in Sources */,
+				5D1665AD1CF5FDBA00CC4CA1 /* SDLListFilesOperationSpec.m in Sources */,
 				162E83241A9BDE8B00906325 /* SDLAlertManeuverSpec.m in Sources */,
 				162E83451A9BDE8B00906325 /* SDLUnregisterAppInterfaceSpec.m in Sources */,
 				162E82EF1A9BDE8B00906325 /* SDLPermissionStatusSpec.m in Sources */,

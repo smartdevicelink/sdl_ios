@@ -39,8 +39,8 @@ describe(@"SDLFileManager", ^{
             expect(testFileManager.remoteFileNames).to(beEmpty());
         });
         
-        it(@"allowOverwrite should be YES by default", ^{
-            expect(@(testFileManager.allowOverwrite)).to(equal(@YES));
+        it(@"allowOverwrite should be NO by default", ^{
+            expect(@(testFileManager.allowOverwrite)).to(equal(@NO));
         });
     });
     
@@ -498,10 +498,6 @@ describe(@"SDLFileManager", ^{
                             }];
                             
                             sentPutFile = testConnectionManager.receivedRequests.lastObject;
-                        });
-                        
-                        it(@"should set the file manager state to waiting", ^{
-                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                         
                         it(@"should create a putfile that is the correct size", ^{

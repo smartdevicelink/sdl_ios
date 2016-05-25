@@ -14,8 +14,7 @@
 #import "SDLFile.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
-#import "SDLListFiles.h"
-#import "SDLListFilesResponse.h"
+#import "SDLListFilesOperation.h"
 #import "SDLManager.h"
 #import "SDLNotificationConstants.h"
 #import "SDLPutFile.h"
@@ -125,24 +124,21 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 }
 
 - (void)didEnterStateFetchingInitialList {
-    SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
-    
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        
+    SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> * _Nonnull fileNames, NSError * _Nullable error) {
         if (error != nil) {
-            self.startupCompletionHandler(NO, error);
-            [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
+            weakSelf.startupCompletionHandler(NO, error);
+            [weakSelf.stateMachine transitionToState:SDLFileManagerStateShutdown];
             BLOCK_RETURN;
         }
         
-        SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-        [strongSelf.mutableRemoteFileNames addObjectsFromArray:listFilesResponse.filenames];
-        strongSelf.bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
+        [weakSelf.mutableRemoteFileNames addObjectsFromArray:fileNames];
+        weakSelf.bytesAvailable = bytesAvailable;
         
-        [strongSelf.stateMachine transitionToState:SDLFileManagerStateReady];
+        [weakSelf.stateMachine transitionToState:SDLFileManagerStateReady];
     }];
+    
+    [self.transactionQueue addOperation:listOperation];
 }
 
 - (void)didEnterStateReady {
