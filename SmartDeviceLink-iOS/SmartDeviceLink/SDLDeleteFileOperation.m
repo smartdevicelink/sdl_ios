@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
         
         return;
     }
+    
+    [self sdl_deleteFile];
 }
 
 - (void)sdl_deleteFile {
