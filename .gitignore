@@ -44,4 +44,4 @@ SmartDeviceLink-iOS/infer-out
 # Carthage from resulting as `-dirty` in the `git status`.
 Carthage/Build
 
-docs/docset
+docs/docsets/
