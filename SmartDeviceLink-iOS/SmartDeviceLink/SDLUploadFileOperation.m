@@ -71,13 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
     
     // When the putfiles all complete, run this block
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
-        [self sdl_finishOperation];
-        
         if (streamError != nil) {
             completion(NO, bytesAvailable, streamError);
         } else {
             completion(YES, bytesAvailable, nil);
         }
+        
+        [self sdl_finishOperation];
     });
     
     for (SDLPutFile *putFile in putFiles) {

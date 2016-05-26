@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
         
         return;
     }
+    
+    [self sdl_listFiles];
 }
 
 - (void)sdl_listFiles {
@@ -61,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
         if (weakSelf.completionHandler != nil) {
             weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
         }
+        
+        [weakSelf sdl_finishOperation];
     }];
 }
 
