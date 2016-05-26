@@ -65,7 +65,7 @@ cd ../
 At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, [install xctool](https://github.com/facebook/xctool#installation) and run:
 
 ```bash
-xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO test
+xctool test
 ```
 
 ### SDL iOS Getting Started
