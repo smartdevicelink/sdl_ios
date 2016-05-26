@@ -236,33 +236,6 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         return NO;
     }
 
-    // Set the bitrate of our video compression
-    int bitRate = 5000;
-    CFNumberRef bitRateNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &bitRate);
-    if (bitRateNumRef == NULL) {
-        // TODO: Log & end session
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
-        }
-
-        return NO;
-    }
-
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_AverageBitRate, bitRateNumRef);
-
-    // Release our bitrate number
-    CFRelease(bitRateNumRef);
-    bitRateNumRef = NULL;
-
-    if (status != noErr) {
-        // TODO: Log & End session
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
-        }
-
-        return NO;
-    }
-
     // Set the profile level of the video stream
     status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
     if (status != noErr) {
@@ -275,31 +248,6 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
     // Set the session to compress in real time
     status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
-    if (status != noErr) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
-        }
-
-        return NO;
-    }
-
-    // Set the key-frame interval
-    // TODO: This may be unnecessary, can the encoder do a better job than us?
-    int interval = 50;
-    CFNumberRef intervalNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &interval);
-    if (intervalNumRef == NULL) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
-        }
-
-        return NO;
-    }
-
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, intervalNumRef);
-
-    CFRelease(intervalNumRef);
-    intervalNumRef = NULL;
-
     if (status != noErr) {
         if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
