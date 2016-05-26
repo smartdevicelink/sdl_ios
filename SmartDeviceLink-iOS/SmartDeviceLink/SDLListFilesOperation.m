@@ -39,13 +39,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    if (self.isCancelled || self.isFinished || !self.isExecuting) {
+    if (self.isCancelled) {
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
         
         return;
     }
+    
+    [self willChangeValueForKey:@"isExecuting"];
+    executing = YES;
+    [self didChangeValueForKey:@"isExecuting"];
     
     [self sdl_listFiles];
 }
