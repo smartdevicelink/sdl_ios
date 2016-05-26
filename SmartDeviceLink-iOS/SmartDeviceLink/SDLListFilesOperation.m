@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
     
     _connectionManager = connectionManager;
+    _completionHandler = completionHandler;
     
     return self;
 }
