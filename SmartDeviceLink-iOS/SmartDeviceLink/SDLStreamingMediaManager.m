@@ -142,10 +142,8 @@ NS_ASSUME_NONNULL_BEGIN
     static NSDictionary* defaultVideoEncoderSettings = nil;
     if (defaultVideoEncoderSettings == nil) {
         defaultVideoEncoderSettings = @{
-                                        (__bridge NSString*)kVTCompressionPropertyKey_AverageBitRate : @(5000 * 1024),
                                         (__bridge NSString*)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString*)kVTProfileLevel_H264_Baseline_AutoLevel,
-                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @(YES),
-                                        (__bridge NSString*)kVTCompressionPropertyKey_MaxKeyFrameInterval : @(50)
+                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @(YES)
                                         };
     }
     return defaultVideoEncoderSettings;
