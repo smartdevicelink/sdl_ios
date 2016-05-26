@@ -82,8 +82,20 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  */
 - (BOOL)sendAudioData:(NSData *)pcmAudioData;
 
+/**
+ *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.
+ *
+ *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+ */
+@property (strong, nonatomic, nullable) NSDictionary* videoEncoderSettings;
+
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
+
+/**
+ *  Provides default video encoder settings used. 
+ */
+@property (strong, nonatomic, readonly) NSDictionary* defaultVideoEncoderSettings;
 
 
 @end

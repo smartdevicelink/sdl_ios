@@ -127,6 +127,30 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
+#pragma mark - Update video encoder
+
+- (void)setVideoEncoderSettings:( NSDictionary * _Nullable)videoEncoderSettings {
+    if (self.videoSessionConnected) {
+        @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
+        return;
+    }
+    
+    _videoEncoderSettings = videoEncoderSettings;
+}
+
+- (NSDictionary*)defaultVideoEncoderSettings {
+    static NSDictionary* defaultVideoEncoderSettings = nil;
+    if (defaultVideoEncoderSettings == nil) {
+        defaultVideoEncoderSettings = @{
+                                        (__bridge NSString*)kVTCompressionPropertyKey_AverageBitRate : @(5000 * 1024),
+                                        (__bridge NSString*)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString*)kVTProfileLevel_H264_Baseline_AutoLevel,
+                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @(YES),
+                                        (__bridge NSString*)kVTCompressionPropertyKey_MaxKeyFrameInterval : @(50)
+                                        };
+    }
+    return defaultVideoEncoderSettings;
+}
+
 
 #pragma mark - SDLProtocolListener Methods
 
@@ -229,83 +253,52 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
     if (status != noErr) {
         // TODO: Log the error
-        if (*error != nil) {
+        if (*error == nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
 
         return NO;
     }
-
-    // Set the bitrate of our video compression
-    int bitRate = 5000;
-    CFNumberRef bitRateNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &bitRate);
-    if (bitRateNumRef == NULL) {
-        // TODO: Log & end session
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
-        }
-
-        return NO;
+    
+    if (self.videoEncoderSettings == nil) {
+        self.videoEncoderSettings = self.defaultVideoEncoderSettings;
     }
 
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_AverageBitRate, bitRateNumRef);
-
-    // Release our bitrate number
-    CFRelease(bitRateNumRef);
-    bitRateNumRef = NULL;
-
+    // Validate that the video encoder properties are valid.
+    CFDictionaryRef supportedProperties;
+    status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
-        // TODO: Log & End session
-        if (*error != nil) {
+        if (*error == nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
-
+        
         return NO;
     }
-
-    // Set the profile level of the video stream
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
-    if (status != noErr) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+    
+    for (NSString* key in self.videoEncoderSettings.allKeys) {
+        if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
+            if (*error == nil) {
+                NSString* description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
+                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey : description}];
+            }
+            CFRelease(supportedProperties);
+            return NO;
         }
-
-        return NO;
     }
-
-    // Set the session to compress in real time
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
-    if (status != noErr) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+    CFRelease(supportedProperties);
+    
+    // Populate the video encoder settings from provided dictionary.
+    for (NSString* key in self.videoEncoderSettings.allKeys) {
+        id value = self.videoEncoderSettings[key];
+        
+        status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
+        if (status != noErr) {
+            if (*error == nil) {
+                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+            }
+            
+            return NO;
         }
-
-        return NO;
-    }
-
-    // Set the key-frame interval
-    // TODO: This may be unnecessary, can the encoder do a better job than us?
-    int interval = 50;
-    CFNumberRef intervalNumRef = CFNumberCreate(NULL, kCFNumberSInt32Type, &interval);
-    if (intervalNumRef == NULL) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationAllocationFailure userInfo:nil];
-        }
-
-        return NO;
-    }
-
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_MaxKeyFrameInterval, intervalNumRef);
-
-    CFRelease(intervalNumRef);
-    intervalNumRef = NULL;
-
-    if (status != noErr) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
-        }
-
-        return NO;
     }
 
     return YES;
