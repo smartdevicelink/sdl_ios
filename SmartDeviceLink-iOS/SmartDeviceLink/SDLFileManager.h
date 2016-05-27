@@ -26,6 +26,9 @@ typedef NSString SDLFileName;
 typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullable error);
 
 
+/**
+ *  The SDLFileManager is an RPC manager for the remote file system. After it starts, it will attempt to communicate with the remote file system to get the names of all files. Deleting and Uploading will them queue these changes as transactions. If a delete succeeds, the local list of remote files will remove that file name, and likewise, if an upload succeeds, the local list of remote files will now include that file name.
+ */
 @interface SDLFileManager : NSObject
 
 /**
