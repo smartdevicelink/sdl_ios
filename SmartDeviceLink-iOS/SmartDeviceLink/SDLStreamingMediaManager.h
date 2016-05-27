@@ -17,11 +17,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, SDLStreamingVideoError) {
-    SDLStreamingVideoErrorHeadUnitNACK,
-    SDLSTreamingVideoErrorInvalidOperatingSystemVersion,
-    SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure,
-    SDLStreamingVideoErrorConfigurationAllocationFailure,
-    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure
+    SDLStreamingVideoErrorHeadUnitNACK = 0,
+    SDLSTreamingVideoErrorInvalidOperatingSystemVersion __deprecated_enum_msg("Use SDLStreamingVideoErrorInvalidOperatingSystemVersion instead") = 1,
+    SDLStreamingVideoErrorInvalidOperatingSystemVersion = 1,
+    SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure = 2,
+    SDLStreamingVideoErrorConfigurationAllocationFailure = 3,
+    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure = 4
 };
 
 typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
