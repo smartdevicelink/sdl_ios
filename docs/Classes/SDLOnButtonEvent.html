@@ -1,0 +1,157 @@
+<h1>SDLOnButtonEvent Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-buttonName">buttonName</a></li>
+  <li><a href="#section-buttonEventMode">buttonEventMode</a></li>
+  <li><a href="#section-customButtonID">customButtonID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Notifies application that user has depressed or released a button to which
+ the application has subscribed.</p>
+
+<p>Further information about button events
+ and button-presses can be found at SDLSubscribeButton.
+ <p>
+ </p>
+
+<p><b>HMI Status Requirements:</b>
+ <ul>
+ HMILevel:
+ <ul>
+ <li>The application will receive <i>SDLOnButtonEvent</i> notifications for all
+ subscribed buttons when HMILevel is FULL.</li>
+ <li>The application will receive <i>SDLOnButtonEvent</i> notifications for subscribed
+ media buttons when HMILevel is LIMITED.</li>
+ <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
+ PRESET_0-PRESET_9.</li>
+ <li>The application will not receive <i>SDLOnButtonEvent</i> notification when HMILevel
+ is BACKGROUND.</li>
+ </ul>
+ AudioStreamingState:
+ <ul>
+ <li> Any </li>
+ </ul>
+ SystemContext:
+ <ul>
+ <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
+ button will cancel VR.</li>
+ </ul>
+ </ul>
+ <p></p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSubscribeButton</p>
+
+<p></div></p>
+
+<p>@since SDL 1.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Constructs a newly allocated SDLOnButtonEvent object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a newly allocated SDLOnButtonEvent object indicated by the dictionary parameter</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      buttonName
+  </h3>
+  
+  <p>@abstract The name of the button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLButtonName</span> <span class="o">*</span><span class="n">buttonName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt">SDLButtonName</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      buttonEventMode
+  </h3>
+  
+  <p>@abstract Indicates whether this is an UP or DOWN event</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLButtonEventMode</span> <span class="o">*</span><span class="n">buttonEventMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonEventMode</span><span class="p">:</span> <span class="kt">SDLButtonEventMode</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      customButtonID
+  </h3>
+  
+  <p>@abstract If ButtonName is <q>CUSTOM_BUTTON</q>, this references the integer ID passed by a custom button. (e.g. softButton ID)</p>
+
+<p>@since SDL 2.0</p>
+
+<p>Optional, Integer, 0 - 65536</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">customButtonID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">customButtonID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

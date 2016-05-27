@@ -3268,6 +3268,7 @@
 				5D61FA181A84237100846EE7 /* Frameworks */,
 				5D61FA191A84237100846EE7 /* Headers */,
 				5D61FA1A1A84237100846EE7 /* Resources */,
+				96FAF7E11CF61DF5004BC340 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3376,6 +3377,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		96FAF7E11CF61DF5004BC340 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if hash jazzy 2>/dev/null; then\n  jazzy --objc --framework-root SmartDeviceLink  --sdk iphonesimulator --umbrella-header SmartDeviceLink/SmartDeviceLink.h --theme ../theme --output ../docs\nfi\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5D4019AB1A76EC350006B0C2 /* Sources */ = {

@@ -1,0 +1,180 @@
+<h1>SDLSlider Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-numTicks">numTicks</a></li>
+  <li><a href="#section-position">position</a></li>
+  <li><a href="#section-sliderHeader">sliderHeader</a></li>
+  <li><a href="#section-sliderFooter">sliderFooter</a></li>
+  <li><a href="#section-timeout">timeout</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Creates a full screen or pop-up overlay (depending on platform) with a single user controlled slider</p>
+
+<p>HMILevel needs to be FULL</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSlider object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSlider object indicated by the dictionary parameter
+- parameter: dict The dictionary to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      numTicks
+  </h3>
+  
+  <p>@abstract Represents a number of selectable items on a horizontal axis</p>
+
+<p>Required, Integer, 2 - 26</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">numTicks</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">numTicks</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      position
+  </h3>
+  
+  <p>@abstract An Initial position of slider control</p>
+
+<p>Required, Integer, 1 - 26</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">position</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      sliderHeader
+  </h3>
+  
+  <p>@abstract A text header to display</p>
+
+<p>Rquired, Max length 500 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">sliderHeader</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      sliderFooter
+  </h3>
+  
+  <p>@abstract A text footer to display</p>
+
+<p>@discussion For a static text footer, only one footer string shall be provided in the array.</p>
+
+<p>For a dynamic text footer, the number of footer text string in the array must match the numTicks value.</p>
+
+<p>For a dynamic text footer, text array string should correlate with potential slider position index.</p>
+
+<p>If omitted on supported displays, no footer text shall be displayed.</p>
+
+<p>Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">sliderFooter</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">sliderFooter</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      timeout
+  </h3>
+  
+  <p>@abstract An App defined timeout</p>
+
+<p>@discussion Indicates how long of a timeout from the last action (i.e. sliding control resets timeout).</p>
+
+<p>If omitted, the value is set to 10000.</p>
+
+<p>Optional, Integer, 1000 - 65535</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">timeout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
