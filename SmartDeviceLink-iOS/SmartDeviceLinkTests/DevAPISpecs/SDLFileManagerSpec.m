@@ -7,6 +7,7 @@
 #import "SDLFileManager.h"
 #import "SDLFileType.h"
 #import "SDLListFiles.h"
+#import "SDLListFilesOperation.h"
 #import "SDLListFilesResponse.h"
 #import "SDLNotificationConstants.h"
 #import "SDLPutFile.h"
@@ -24,9 +25,10 @@ describe(@"SDLFileManager", ^{
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
         testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
+        testFileManager.suspended = YES;
     });
     
-    describe(@"before receiving a connect notification", ^{
+    describe(@"before starting", ^{
         it(@"should be in the shutdown state", ^{
             expect(testFileManager.currentState).to(match(SDLFileManagerStateShutdown));
         });
@@ -42,27 +44,32 @@ describe(@"SDLFileManager", ^{
         it(@"allowOverwrite should be NO by default", ^{
             expect(@(testFileManager.allowOverwrite)).to(equal(@NO));
         });
+        
+        it(@"should have no pending operations", ^{
+            expect(testFileManager.pendingTransactions).to(beEmpty());
+        });
     });
     
     describe(@"after receiving a start message", ^{
+        __block BOOL startupSuccess = NO;
+        __block NSError *startupError = nil;
+        
         beforeEach(^{
-            [testFileManager startManagerWithCompletionHandler:nil];
-        });
-        
-        it(@"should have sent the connection manager a ListFiles request", ^{
-            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLListFiles class]));
-        });
-        
-        describe(@"before receiving a ListFiles response", ^{
-            it(@"should be in the fetching initial list state", ^{
-                expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
-            });
+            [testFileManager startManagerWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+                startupSuccess = success;
+                startupError = error;
+            }];
             
-            xdescribe(@"entering files before a response then receiving the response", ^{
-                it(@"should immediately start sending queued files", ^{
-                    
-                });
-            });
+            testFileManager.suspended = NO;
+        });
+        
+        it(@"should have queued a ListFiles request", ^{
+            expect(testFileManager.pendingTransactions).to(haveCount(@1));
+            expect(testFileManager.pendingTransactions.firstObject).to(beAnInstanceOf([SDLListFilesOperation class]));
+        });
+        
+        it(@"should be in the fetching initial list state", ^{
+            expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
         });
         
         describe(@"after receiving a ListFiles response", ^{

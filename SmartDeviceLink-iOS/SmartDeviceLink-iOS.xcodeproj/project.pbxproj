@@ -2125,6 +2125,7 @@
 				162E81C91A9BDD3F00906325 /* Quick.framework */,
 			);
 			name = Libraries;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		1680B1041A9CD7AD00DBD79E /* ProtocolSpecs */ = {
@@ -2195,7 +2196,6 @@
 		5D4019A61A76EC350006B0C2 = {
 			isa = PBXGroup;
 			children = (
-				167ED9231A9BB86300797BE5 /* Libraries */,
 				5D4019B11A76EC350006B0C2 /* Example */,
 				5D61FA1D1A84237100846EE7 /* SmartDeviceLink */,
 				5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */,
@@ -3012,6 +3012,7 @@
 		5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */ = {
 			isa = PBXGroup;
 			children = (
+				167ED9231A9BB86300797BE5 /* Libraries */,
 				5D9F50841BED410C00FEF399 /* Test Utilities */,
 				5DAE06711BDEC68700F9B498 /* Developer API Tests */,
 				5D59DD451B14FDD000BE744D /* ProxySpecs */,
