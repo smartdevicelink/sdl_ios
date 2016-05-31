@@ -1,0 +1,8 @@
+coverage:
+  ignore:
+  - Carthage/.*
+  - SmartDeviceLinkTests/.*
+  - SmartDeviceLinkExample/.*
+  status:
+    patch: false
+    project: false
