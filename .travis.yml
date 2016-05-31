@@ -26,6 +26,10 @@ script:
 after_script:
 - bash <(curl -s https://codecov.io/bash)
 
+before_deploy:
+  - carthage build --no-skip-current --platform ios
+  - carthage archive $FRAMEWORK_NAME
+
 deploy:
   provider: releases
   api_key:
