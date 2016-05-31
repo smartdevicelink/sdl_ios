@@ -115,7 +115,7 @@ typedef NSNumber SDLServiceTypeBox;
             }
         } break;
         default: {
-            header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
         } break;
     }
     header.frameType = SDLFrameType_Control;
