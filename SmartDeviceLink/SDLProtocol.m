@@ -304,7 +304,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
     
-    if (encryption) {
+    if (encryption && data.length) {
         NSError *encryptError = nil;
         data = [self.securityManager encryptData:data withError:&encryptError];
         
@@ -366,8 +366,8 @@ typedef NSNumber SDLServiceTypeBox;
         NSUInteger payloadLength = payloadSize;
         NSData *payload = [self.receiveBuffer subdataWithRange:NSMakeRange(payloadOffset, payloadLength)];
         
-        // If the message in encrypted, try to decrypt it
-        if (header.encrypted) {
+        // If the message in encrypted and there is payload, try to decrypt it
+        if (header.encrypted && payload.length) {
             NSError *decryptError = nil;
             payload = [self.securityManager decryptData:payload withError:&decryptError];
             
