@@ -301,7 +301,6 @@ typedef NSNumber SDLServiceTypeBox;
     header.frameType = SDLFrameType_Single;
     header.serviceType = service;
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:service];
-    header.bytesInPayload = (UInt32)data.length;
     header.messageID = ++_messageID;
     
     if (encryption && data.length) {
@@ -313,6 +312,8 @@ typedef NSNumber SDLServiceTypeBox;
             [SDLDebugTool logInfo:encryptLogString];
         }
     }
+    
+    header.bytesInPayload = (UInt32)data.length;
     
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
     
