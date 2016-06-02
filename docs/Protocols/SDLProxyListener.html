@@ -1,0 +1,758 @@
+<h1>SDLProxyListener Protocol Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--onOnDriverDistraction:">-onOnDriverDistraction:</a></li>
+  <li><a href="#section--onOnHMIStatus:">-onOnHMIStatus:</a></li>
+  <li><a href="#section--onProxyClosed">-onProxyClosed</a></li>
+  <li><a href="#section--onProxyOpened">-onProxyOpened</a></li>
+  <li><a href="#section--onAddCommandResponse:">-onAddCommandResponse:</a></li>
+  <li><a href="#section--onAddSubMenuResponse:">-onAddSubMenuResponse:</a></li>
+  <li><a href="#section--onAlertManeuverResponse:">-onAlertManeuverResponse:</a></li>
+  <li><a href="#section--onAlertResponse:">-onAlertResponse:</a></li>
+  <li><a href="#section--onChangeRegistrationResponse:">-onChangeRegistrationResponse:</a></li>
+  <li><a href="#section--onCreateInteractionChoiceSetResponse:">-onCreateInteractionChoiceSetResponse:</a></li>
+  <li><a href="#section--onDeleteCommandResponse:">-onDeleteCommandResponse:</a></li>
+  <li><a href="#section--onDeleteFileResponse:">-onDeleteFileResponse:</a></li>
+  <li><a href="#section--onDeleteInteractionChoiceSetResponse:">-onDeleteInteractionChoiceSetResponse:</a></li>
+  <li><a href="#section--onDeleteSubMenuResponse:">-onDeleteSubMenuResponse:</a></li>
+  <li><a href="#section--onDiagnosticMessageResponse:">-onDiagnosticMessageResponse:</a></li>
+  <li><a href="#section--onDialNumberResponse:">-onDialNumberResponse:</a></li>
+  <li><a href="#section--onEncodedSyncPDataResponse:">-onEncodedSyncPDataResponse:</a></li>
+  <li><a href="#section--onEndAudioPassThruResponse:">-onEndAudioPassThruResponse:</a></li>
+  <li><a href="#section--onError:">-onError:</a></li>
+  <li><a href="#section--onGenericResponse:">-onGenericResponse:</a></li>
+  <li><a href="#section--onGetDTCsResponse:">-onGetDTCsResponse:</a></li>
+  <li><a href="#section--onGetVehicleDataResponse:">-onGetVehicleDataResponse:</a></li>
+  <li><a href="#section--onListFilesResponse:">-onListFilesResponse:</a></li>
+  <li><a href="#section--onReceivedLockScreenIcon:">-onReceivedLockScreenIcon:</a></li>
+  <li><a href="#section--onOnAppInterfaceUnregistered:">-onOnAppInterfaceUnregistered:</a></li>
+  <li><a href="#section--onOnAudioPassThru:">-onOnAudioPassThru:</a></li>
+  <li><a href="#section--onOnButtonEvent:">-onOnButtonEvent:</a></li>
+  <li><a href="#section--onOnButtonPress:">-onOnButtonPress:</a></li>
+  <li><a href="#section--onOnCommand:">-onOnCommand:</a></li>
+  <li><a href="#section--onOnEncodedSyncPData:">-onOnEncodedSyncPData:</a></li>
+  <li><a href="#section--onOnHashChange:">-onOnHashChange:</a></li>
+  <li><a href="#section--onOnLanguageChange:">-onOnLanguageChange:</a></li>
+  <li><a href="#section--onOnLockScreenNotification:">-onOnLockScreenNotification:</a></li>
+  <li><a href="#section--onOnPermissionsChange:">-onOnPermissionsChange:</a></li>
+  <li><a href="#section--onOnSyncPData:">-onOnSyncPData:</a></li>
+  <li><a href="#section--onOnSystemRequest:">-onOnSystemRequest:</a></li>
+  <li><a href="#section--onOnTBTClientState:">-onOnTBTClientState:</a></li>
+  <li><a href="#section--onOnTouchEvent:">-onOnTouchEvent:</a></li>
+  <li><a href="#section--onOnVehicleData:">-onOnVehicleData:</a></li>
+  <li><a href="#section--onPerformAudioPassThruResponse:">-onPerformAudioPassThruResponse:</a></li>
+  <li><a href="#section--onPerformInteractionResponse:">-onPerformInteractionResponse:</a></li>
+  <li><a href="#section--onPutFileResponse:">-onPutFileResponse:</a></li>
+  <li><a href="#section--onReadDIDResponse:">-onReadDIDResponse:</a></li>
+  <li><a href="#section--onRegisterAppInterfaceResponse:">-onRegisterAppInterfaceResponse:</a></li>
+  <li><a href="#section--onResetGlobalPropertiesResponse:">-onResetGlobalPropertiesResponse:</a></li>
+  <li><a href="#section--onScrollableMessageResponse:">-onScrollableMessageResponse:</a></li>
+  <li><a href="#section--onSendLocationResponse:">-onSendLocationResponse:</a></li>
+  <li><a href="#section--onSetAppIconResponse:">-onSetAppIconResponse:</a></li>
+  <li><a href="#section--onSetDisplayLayoutResponse:">-onSetDisplayLayoutResponse:</a></li>
+  <li><a href="#section--onSetGlobalPropertiesResponse:">-onSetGlobalPropertiesResponse:</a></li>
+  <li><a href="#section--onSetMediaClockTimerResponse:">-onSetMediaClockTimerResponse:</a></li>
+  <li><a href="#section--onShowConstantTBTResponse:">-onShowConstantTBTResponse:</a></li>
+  <li><a href="#section--onShowResponse:">-onShowResponse:</a></li>
+  <li><a href="#section--onSliderResponse:">-onSliderResponse:</a></li>
+  <li><a href="#section--onSpeakResponse:">-onSpeakResponse:</a></li>
+  <li><a href="#section--onSubscribeButtonResponse:">-onSubscribeButtonResponse:</a></li>
+  <li><a href="#section--onSubscribeVehicleDataResponse:">-onSubscribeVehicleDataResponse:</a></li>
+  <li><a href="#section--onSyncPDataResponse:">-onSyncPDataResponse:</a></li>
+  <li><a href="#section--onUpdateTurnListResponse:">-onUpdateTurnListResponse:</a></li>
+  <li><a href="#section--onUnregisterAppInterfaceResponse:">-onUnregisterAppInterfaceResponse:</a></li>
+  <li><a href="#section--onUnsubscribeButtonResponse:">-onUnsubscribeButtonResponse:</a></li>
+  <li><a href="#section--onUnsubscribeVehicleDataResponse:">-onUnsubscribeVehicleDataResponse:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -onOnDriverDistraction:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnHMIStatus:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onProxyClosed
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onProxyOpened
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onAddCommandResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onAddSubMenuResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onAlertManeuverResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onAlertResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onChangeRegistrationResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onCreateInteractionChoiceSetResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onDeleteCommandResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onDeleteFileResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onDeleteInteractionChoiceSetResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onDeleteSubMenuResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onDiagnosticMessageResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onDialNumberResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onEncodedSyncPDataResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onEndAudioPassThruResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onError:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onGenericResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onGetDTCsResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onGetVehicleDataResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onListFilesResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onReceivedLockScreenIcon:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnAppInterfaceUnregistered:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnAudioPassThru:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnButtonEvent:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnButtonPress:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnCommand:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnEncodedSyncPData:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnHashChange:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnLanguageChange:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnLockScreenNotification:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnPermissionsChange:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnSyncPData:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnSystemRequest:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnTBTClientState:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnTouchEvent:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onOnVehicleData:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onPerformAudioPassThruResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onPerformInteractionResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onPutFileResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onReadDIDResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onRegisterAppInterfaceResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onResetGlobalPropertiesResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onScrollableMessageResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSendLocationResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSetAppIconResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSetDisplayLayoutResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSetGlobalPropertiesResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSetMediaClockTimerResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onShowConstantTBTResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onShowResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSliderResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSpeakResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSubscribeButtonResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSubscribeVehicleDataResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onSyncPDataResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onUpdateTurnListResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onUnregisterAppInterfaceResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onUnsubscribeButtonResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -onUnsubscribeVehicleDataResponse:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+</section>
