@@ -1,0 +1,19 @@
+coverage:
+  precision: 2
+  round: down
+
+  ignore:
+  - Carthage/.*
+  - SmartDeviceLinkTests/.*
+  - SmartDeviceLinkExample/.*
+  status:
+    project: false
+    patch:
+      default:
+          enabled: yes
+          target: 80%
+
+comment:
+  layout: "header, diff, changes, suggestions"
+  branches: !hotfix*
+  behavior: default
