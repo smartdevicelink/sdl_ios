@@ -1,3 +1,16 @@
+# 4.1.3 Release Notes
+### Enhancements
+* Fix unit tests attempting to be built against Xcode 7.1 instead of Xcode 7.3. (#413)
+* Auto-upload Carthage archives on tag Travis builds. (#413)
+* Move codecov.io settings to the repository in codecov.yml (#415)
+* Add a Jazzy documentation generation script, add theme, and generate documentation for the SDL Developer Portal. (#417)
+
+### Bugfixes
+* Improve video streaming by altering video encoding settings. (#410)
+
+### Other
+* Shift project and code files into the root directory, removing the SmartDeviceLink-iOS directory. (#404)
+
 # 4.1.2 Release Notes
 ### Bugfixes
 * Enable additional static analyzer rules for Xcode 7.3, fix an associated nullability issue.
