@@ -1,0 +1,111 @@
+<h1>SDLDiagnosticMessage Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-targetID">targetID</a></li>
+  <li><a href="#section-messageLength">messageLength</a></li>
+  <li><a href="#section-messageData">messageData</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Non periodic vehicle diagnostic request</p>
+
+<p>@since SDL 3.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessage</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessage</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      targetID
+  </h3>
+  
+  <p>Name of target ECU</p>
+
+<p>Required, Integer, 0 - 65535</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">targetID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">targetID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      messageLength
+  </h3>
+  
+  <p>Length of message (in bytes)</p>
+
+<p>Required, Integer, 65535</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">messageLength</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">messageLength</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      messageData
+  </h3>
+  
+  <p>Array of bytes comprising CAN message.</p>
+
+<p>Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">messageData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">messageData</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
