@@ -1,0 +1,206 @@
+<h1>SDLStreamingMediaManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithProtocol:">-initWithProtocol:</a></li>
+  <li><a href="#section--startVideoSessionWithStartBlock:">-startVideoSessionWithStartBlock:</a></li>
+  <li><a href="#section--stopVideoSession">-stopVideoSession</a></li>
+  <li><a href="#section--sendVideoData:">-sendVideoData:</a></li>
+  <li><a href="#section--startAudioStreamingWithStartBlock:">-startAudioStreamingWithStartBlock:</a></li>
+  <li><a href="#section--stopAudioSession">-stopAudioSession</a></li>
+  <li><a href="#section--sendAudioData:">-sendAudioData:</a></li>
+  <li><a href="#section-videoSessionConnected">videoSessionConnected</a></li>
+  <li><a href="#section-audioSessionConnected">audioSessionConnected</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -initWithProtocol:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -startVideoSessionWithStartBlock:
+  </h3>
+  
+  <p>This method will attempt to start a streaming video session. It will set up iOS&rsquo;s video encoder,  and call out to the head unit asking if it will start a video session.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startVideoSessionWithStartBlock</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLStreamingStartBlock</span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startVideoSessionWithStartBlock</span><span class="p">(</span><span class="nv">startBlock</span><span class="p">:</span> <span class="kt">SDLStreamingStartBlock</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startBlock</dt>
+      <dd><p>A block that will be called with the result of attempting to start a video session</p>
+</dd>
+  </dl>
+  
+  <h3>
+      -stopVideoSession
+  </h3>
+  
+  <p>This method will stop a running video session if there is one running.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopVideoSession</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stopVideoSession</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -sendVideoData:
+  </h3>
+  
+  <p>This method receives raw image data and will run iOS8+&rsquo;s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendVideoData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">CVImageBufferRef</span><span class="p">)</span><span class="nv">imageBuffer</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendVideoData</span><span class="p">(</span><span class="nv">imageBuffer</span><span class="p">:</span> <span class="kt">CVImageBuffer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>imageBuffer</dt>
+      <dd><p>A CVImageBufferRef to be encoded by Video Toolbox</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>Whether or not the data was successfully encoded and sent.</p>
+
+  </div>
+  
+  <h3>
+      -startAudioStreamingWithStartBlock:
+  </h3>
+  
+  <p>This method will attempt to start an audio session</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startAudioStreamingWithStartBlock</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLStreamingStartBlock</span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startAudioStreamingWithStartBlock</span><span class="p">(</span><span class="nv">startBlock</span><span class="p">:</span> <span class="kt">SDLStreamingStartBlock</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>startBlock</dt>
+      <dd><p>A block that will be called with the result of attempting to start an audio session</p>
+</dd>
+  </dl>
+  
+  <h3>
+      -stopAudioSession
+  </h3>
+  
+  <p>This method will stop a running audio session if there is one running.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopAudioSession</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stopAudioSession</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -sendAudioData:
+  </h3>
+  
+  <p>This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendAudioData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">pcmAudioData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendAudioData</span><span class="p">(</span><span class="nv">pcmAudioData</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>pcmAudioData</dt>
+      <dd><p>The data in PCM audio format, to be played</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>Whether or not the data was successfully sent.</p>
+
+  </div>
+  
+  <h3>
+      videoSessionConnected
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      audioSessionConnected
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+</section>
