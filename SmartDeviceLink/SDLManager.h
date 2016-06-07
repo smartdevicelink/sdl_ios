@@ -1,6 +1,7 @@
 
 
 #import "SDLConnectionManagerType.h"
+#import "SDLManagerDelegate.h"
 #import "SDLNotificationConstants.h"
 
 @class SDLConfiguration;
@@ -44,7 +45,7 @@ extern NSString *const SDLLifecycleStateReady;
  *
  *  @return An instance of SDLManager
  */
-- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 - (void)start;
 - (void)stop;

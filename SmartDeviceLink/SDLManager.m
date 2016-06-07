@@ -60,6 +60,7 @@ typedef NSNumber SDLSoftButtonId;
 @property (strong, nonatomic, nullable) UIViewController *lockScreenViewController; // TODO: Make a LockScreenManager
 @property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
 @property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
+@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
@@ -78,10 +79,10 @@ typedef NSNumber SDLSoftButtonId;
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:nil]];
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:nil] delegate:nil];
 }
 
-- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration {
+- (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
     self = [super init];
     if (!self) {
         return nil;
@@ -89,6 +90,8 @@ typedef NSNumber SDLSoftButtonId;
     
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
     _configuration = configuration;
+    
+    _delegate = delegate;
     
     _correlationID = 1;
     _firstHMIFullOccurred = NO;
@@ -239,6 +242,10 @@ typedef NSNumber SDLSoftButtonId;
 - (void)didEnterStateReady {
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidBecomeReadyNotification object:self userInfo:nil];
+        
+        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
+            [self.delegate managerDidBecomeReady];
+        }
     });
 }
 
