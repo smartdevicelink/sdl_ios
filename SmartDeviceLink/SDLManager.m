@@ -332,6 +332,10 @@ typedef NSNumber SDLSoftButtonId;
 
 #pragma mark SDLConnectionManager Protocol
 
+- (void)sendRequest:(SDLRPCRequest *)request {
+    [self sendRequest:request withCompletionHandler:nil];
+}
+
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateDisconnected]) {
         [SDLDebugTool logInfo:@"Proxy not connected! Not sending RPC."];

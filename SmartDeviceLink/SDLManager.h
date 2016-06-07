@@ -50,6 +50,7 @@ extern NSString *const SDLLifecycleStateReady;
 - (void)stop;
 
 #pragma mark Manually Send RPC Requests
+- (void)sendRequest:(SDLRPCRequest *)request;
 - (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler;
 
 @end
