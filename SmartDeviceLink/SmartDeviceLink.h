@@ -287,6 +287,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLManager.h"
+#import "SDLManagerDelegate.h"
 #import "SDLNotificationConstants.h"
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
