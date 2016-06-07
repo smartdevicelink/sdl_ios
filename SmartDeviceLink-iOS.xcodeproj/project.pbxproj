@@ -1804,10 +1804,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
+				5D1665BD1CF8C9B700CC4CA1 /* Quick.framework in Frameworks */,
 				5D1665BA1CF8C9B700CC4CA1 /* Nimble.framework in Frameworks */,
 				5D1665BB1CF8C9B700CC4CA1 /* OCMock.framework in Frameworks */,
 				5D1665BC1CF8C9B700CC4CA1 /* OHHTTPStubs.framework in Frameworks */,
-				5D1665BD1CF8C9B700CC4CA1 /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3647,6 +3647,7 @@
 				5D61FA221A84237100846EE7 /* Sources */,
 				5D61FA231A84237100846EE7 /* Frameworks */,
 				5D61FA241A84237100846EE7 /* Resources */,
+				5D2F58091D072634001085CE /* ShellScript */,
 				162E81CE1A9BDDBB00906325 /* CopyFiles */,
 			);
 			buildRules = (
@@ -3745,6 +3746,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5D2F58091D072634001085CE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/OCMock.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/OHHTTPStubs.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5D4019AB1A76EC350006B0C2 /* Sources */ = {
