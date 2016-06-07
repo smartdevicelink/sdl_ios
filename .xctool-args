@@ -1,5 +1,5 @@
 [
-    "-project", "SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj",
+    "-project", "SmartDeviceLink-iOS.xcodeproj",
     "-scheme", "SmartDeviceLink",
     "-sdk", "iphonesimulator",
     "ONLY_ACTIVE_ARCH=NO",
