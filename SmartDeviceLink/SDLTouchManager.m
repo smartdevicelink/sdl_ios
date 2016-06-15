@@ -80,7 +80,7 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
     if ([notification.type isEqualToEnum:SDLTouchType.BEGIN]) {
         [self sdl_handleBeginTouch:touch];
     } else if ([notification.type isEqualToEnum:SDLTouchType.MOVE]) {
-        [self sdl_handleBeginTouch:touch];
+        [self sdl_handleMovedTouch:touch];
     } else if ([notification.type isEqualToEnum:SDLTouchType.END]) {
         [self sdl_handleEndTouch:touch];
     }
