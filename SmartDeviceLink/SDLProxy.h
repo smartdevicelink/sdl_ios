@@ -9,6 +9,7 @@
 @class SDLRPCRequestFactory;
 @class SDLStreamingMediaManager;
 @class SDLTimer;
+@class SDLTouchManager;
 
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
@@ -28,6 +29,7 @@
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
 @property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong, readonly) SDLTouchManager* touchManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol
