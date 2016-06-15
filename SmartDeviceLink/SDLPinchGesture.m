@@ -17,7 +17,7 @@ SDLPinchGesture SDLPinchGestureMake(SDLTouch firstTouch, SDLTouch secondTouch) {
     return pinchGesture;
 }
 
-const SDLPinchGesture SDLPinchGestureZero = {SDLTouchZero, SDLTouchZero, -0, {0, 0}};
+const SDLPinchGesture SDLPinchGestureZero = {{ULONG_MAX, {0, 0}, ULONG_MAX}, {ULONG_MAX, {0, 0}, ULONG_MAX}, 0, {0, 0}};
 
 SDLPinchGesture SDLPinchGestureUpdateFromTouch(SDLPinchGesture pinch, SDLTouch touch) {
     switch (touch.identifier) {
