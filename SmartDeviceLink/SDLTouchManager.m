@@ -41,7 +41,7 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
 - (instancetype)init {
     if (self = [super init]) {
         _panTimeThreshold = 150.0f;
-        _tapTimeThreshold = 400.0f;
+        _tapTimeThreshold = 0.4f;
         _tapDistanceThreshold = 50.0f;
         _previousTouch = SDLTouchZero;
         _singleTapTouch = SDLTouchZero;
@@ -184,7 +184,7 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
                 CGFloat xDelta = fabs(touch.location.x - self.singleTapTouch.location.x);
                 CGFloat yDelta = fabs(touch.location.y - self.singleTapTouch.location.y);
                 
-                if (timeStampDelta <= self.tapTimeThreshold
+                if (timeStampDelta <= self.tapTimeThreshold * NSEC_PER_USEC
                     && xDelta <= self.tapDistanceThreshold
                     && yDelta <= self.tapDistanceThreshold) {
                     CGPoint averagePoint = CGPointAverageOfPoints(touch.location,

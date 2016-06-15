@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
 @property (nonatomic) CGFloat tapDistanceThreshold;
 
 /*
- *  Duration between taps (in milliseconds).
+ *  Duration between taps (in seconds).
  */
 @property (nonatomic) CGFloat tapTimeThreshold;
 
