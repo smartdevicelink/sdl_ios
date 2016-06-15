@@ -10,7 +10,6 @@
 #define SDLPinchGesture_h
 
 #include <stdio.h>
-
 #include "SDLTouch.h"
 #include "CGPoint_Util.h"
 

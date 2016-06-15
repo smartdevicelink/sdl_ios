@@ -8,7 +8,7 @@
 
 #include "SDLTouch.h"
 
-SDLTouch const SDLTouchZero = {-1, {0, 0}, 0};
+SDLTouch const SDLTouchZero = {0, {0, 0}, 0};
 
 SDLTouch SDLTouchMake(unsigned long identifier, float x, float y, unsigned long timeStamp) {
     SDLTouch touch;

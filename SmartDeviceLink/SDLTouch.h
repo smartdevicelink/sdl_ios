@@ -10,7 +10,6 @@
 #define SDLTouch_h
 
 #include <stdio.h>
-
 #include <CoreGraphics/CGGeometry.h>
 
 typedef struct SDLTouch {
