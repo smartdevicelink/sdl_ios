@@ -7,6 +7,7 @@
 //
 
 #include "SDLPinchGesture.h"
+#import <limits.h>
 
 SDLPinchGesture SDLPinchGestureMake(SDLTouch firstTouch, SDLTouch secondTouch) {
     SDLPinchGesture pinchGesture;
