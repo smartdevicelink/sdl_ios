@@ -210,9 +210,9 @@ describe(@"SDLPinchGesture Tests", ^{
         __block unsigned long secondTimeStamp = timeStamp + 1000;
         
         beforeEach(^{
-            pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
             firstTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 100, 200, timeStamp);
             secondTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 200, 300, secondTimeStamp);
+            pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
         });
         
         it(@"should correctly initialize", ^{
@@ -237,14 +237,17 @@ describe(@"SDLPinchGesture Tests", ^{
     });
     
     context(@"updating SDLPinchGesture", ^{
+        __block SDLPinchGesture pinchGesture;
         __block unsigned long timeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         __block unsigned long secondTimeStamp = timeStamp + 1000;
-        __block SDLTouch firstTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 100, 200, timeStamp);
-        __block SDLTouch secondTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 200, 300, secondTimeStamp);
-
+        
+        beforeEach(^{
+            SDLTouch firstTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 100, 200, timeStamp);
+            SDLTouch secondTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 200, 300, secondTimeStamp);
+            pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
+        });
+        
         it(@"should update first point correctly", ^{
-            SDLPinchGesture pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
-            
             unsigned long newTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
             SDLTouch newTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 150, 250, newTimeStamp);
             pinchGesture = SDLPinchGestureUpdateFromTouch(pinchGesture, newTouch);
@@ -265,9 +268,7 @@ describe(@"SDLPinchGesture Tests", ^{
 
         });
         
-        it(@"should update second point correctly", ^{
-            SDLPinchGesture pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
-            
+        it(@"should update second point correctly", ^{            
             unsigned long newTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
             SDLTouch newTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 150, 250, newTimeStamp);
             pinchGesture = SDLPinchGestureUpdateFromTouch(pinchGesture, newTouch);
