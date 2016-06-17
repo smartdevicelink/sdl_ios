@@ -7,7 +7,6 @@
 //
 
 #include "SDLPinchGesture.h"
-#import <limits.h>
 
 SDLPinchGesture SDLPinchGestureMake(SDLTouch firstTouch, SDLTouch secondTouch) {
     SDLPinchGesture pinchGesture;
@@ -18,7 +17,7 @@ SDLPinchGesture SDLPinchGestureMake(SDLTouch firstTouch, SDLTouch secondTouch) {
     return pinchGesture;
 }
 
-const SDLPinchGesture SDLPinchGestureZero = {{ULONG_MAX, {0, 0}, ULONG_MAX}, {ULONG_MAX, {0, 0}, ULONG_MAX}, 0, {0, 0}};
+const SDLPinchGesture SDLPinchGestureZero = {{-1, {0, 0}, 0}, {-1, {0, 0}, 0}, 0, {0, 0}};
 
 SDLPinchGesture SDLPinchGestureUpdateFromTouch(SDLPinchGesture pinch, SDLTouch touch) {
     switch (touch.identifier) {

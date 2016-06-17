@@ -7,9 +7,8 @@
 //
 
 #include "SDLTouch.h"
-#import <limits.h>
 
-SDLTouch const SDLTouchZero = {ULONG_MAX, {0, 0}, ULONG_MAX};
+SDLTouch const SDLTouchZero = {-1, {0, 0}, 0};
 
 SDLTouch SDLTouchMake(unsigned long identifier, float x, float y, unsigned long timeStamp) {
     SDLTouch touch;

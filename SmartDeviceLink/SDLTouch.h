@@ -13,7 +13,7 @@
 #include <CoreGraphics/CGGeometry.h>
 
 typedef struct SDLTouch {
-    unsigned long identifier;
+    long identifier;
     CGPoint location;
     unsigned long timeStamp;
 } SDLTouch;
