@@ -27,8 +27,6 @@ extern const SDLTouch SDLTouchZero;
 
 SDLTouch SDLTouchMake(unsigned long identifier, float x, float y, unsigned long timeStamp);
 
-bool SDLTouchEqualToTouch(SDLTouch touch1, SDLTouch touch2);
-
 // Checks if SDLTouch is equal to SDLTouchZero.
 bool SDLTouchIsValid(SDLTouch touch);
 
