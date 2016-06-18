@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SDLTouchManagerListener.h"
 
-@class SDLOnTouchEvent;
-
 typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
     SDLPerformingTouchTypeNone,
     SDLPerformingTouchTypeSingleTouch,
