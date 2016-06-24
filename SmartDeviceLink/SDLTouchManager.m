@@ -71,7 +71,13 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
     SDLTouchCoord* coord = touchEvent.coord.firstObject;
     
     NSNumber* timeStampNumber = touchEvent.timeStamp.firstObject;
-    NSUInteger timeStamp = timeStampNumber.unsignedIntegerValue;
+    NSUInteger timeStamp;
+    // In the event we receive a null timestamp, we will supply a device timestamp.
+    if (timeStampNumber != [NSNull null]) {
+        timeStamp = timeStampNumber.unsignedIntegerValue;
+    } else {
+        timeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
+    }
     
     SDLTouch touch = SDLTouchMake(touchEventID,
                                   coord.x.floatValue,
