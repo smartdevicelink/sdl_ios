@@ -40,7 +40,7 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _panTimeThreshold = 150.0f;
+        _panTimeThreshold = 50.0f;
         _tapTimeThreshold = 0.4f;
         _tapDistanceThreshold = 50.0f;
         _previousTouch = SDLTouchZero;
