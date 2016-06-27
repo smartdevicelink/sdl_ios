@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     // Don't call this method if we aren't actually entering the state from another state
-    if ([self.target respondsToSelector:didEnter] && ![self isCurrentState:state]) {
+    if ([self.target respondsToSelector:didEnter]) {
         [self.target performSelector:didEnter];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:[self.class sdl_notificationNameForTargetClass:[self.target class] selector:didEnter] object:self];
