@@ -17,6 +17,13 @@
 #import "SDLTouchEvent.h"
 #import "SDLTouchType.h"
 
+typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
+    SDLPerformingTouchTypeNone,
+    SDLPerformingTouchTypeSingleTouch,
+    SDLPerformingTouchTypeMultiTouch,
+    SDLPerformingTouchTypePanningTouch
+};
+
 static NSUInteger const kMaximumNumberOfTouches = 2;
 
 @interface SDLTouchManager () <SDLProxyListener>
@@ -33,6 +40,8 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
 @property SDLPinchGesture currentPinchGesture;
 
 @property dispatch_source_t singleTapTimer;
+
+@property SDLPerformingTouchType performingTouchType;
 
 @end
 

@@ -9,14 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SDLTouchManagerListener.h"
 
-typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
-    SDLPerformingTouchTypeNone,
-    SDLPerformingTouchTypeSingleTouch,
-    SDLPerformingTouchTypeMultiTouch,
-    SDLPerformingTouchTypePanningTouch
-};
-
-
 @interface SDLTouchManager : NSObject
 
 @property (nonatomic, weak) id<SDLTouchManagerListener> touchEventListener;
@@ -37,7 +29,5 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
 @property (nonatomic) CGFloat panTimeThreshold;
 
 @property (nonatomic, getter=isTouchEnabled) BOOL touchEnabled;
-
-@property (nonatomic, readonly) SDLPerformingTouchType performingTouchType;
 
 @end
