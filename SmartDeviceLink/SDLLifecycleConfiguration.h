@@ -22,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLLifecycleConfiguration : NSObject <NSCopying>
 
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_DESIGNATED_INITIALIZER;
+
 // TODO: Need documentation
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId;
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port;

@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Lifecycle
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId {
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
     self = [super init];
     if (!self) {
         return nil;
@@ -46,11 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
-    return [[self alloc] initWithAppName:appName appId:appId];
+    return [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
 }
 
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port {
-    SDLLifecycleConfiguration *config = [[self alloc] initWithAppName:appName appId:appId];
+    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
     
@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initWithAppName:_appName appId:_appId];
+    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName appId:_appId];
     newConfig -> _tcpDebugMode = _tcpDebugMode;
     newConfig -> _tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig -> _tcpDebugPort = _tcpDebugPort;
