@@ -101,7 +101,7 @@ typedef NSNumber SDLSoftButtonId;
     _lockScreenPresented = NO;
     
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-    _rpcRequestDictionary = [[NSMutableDictionary alloc] init];
+    _rpcRequestDictionary = [NSMutableDictionary dictionary];
     _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
