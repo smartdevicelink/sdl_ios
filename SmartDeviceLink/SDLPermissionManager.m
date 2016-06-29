@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *permissions;
 @property (copy, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
-@property (copy, nonatomic) SDLHMILevel *currentHMILevel;
+@property (copy, nonatomic, nullable) SDLHMILevel *currentHMILevel;
 
 @end
 
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _currentHMILevel = [SDLHMILevel NONE];
+    _currentHMILevel = nil;
     _permissions = [NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
     
@@ -70,6 +70,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
+    if (self.currentHMILevel == nil) {
+        return SDLPermissionGroupStatusUnknown;
+    }
+    
     return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 

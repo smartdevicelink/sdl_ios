@@ -11,7 +11,7 @@
 
 QuickSpecBegin(SDLUploadFileOperationSpec)
 
-fdescribe(@"Upload File Operation", ^{
+describe(@"Upload File Operation", ^{
     __block NSString *testFileName = nil;
     __block NSData *testFileData = nil;
     __block SDLFile *testFile = nil;

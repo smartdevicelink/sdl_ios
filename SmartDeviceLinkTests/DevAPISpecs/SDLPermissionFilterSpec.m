@@ -1,8 +1,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import <SmartDeviceLink/NSNumber+NumberType.h>
-#import <SmartDeviceLink/SDLPermissionConstants.h>
+#import "NSNumber+NumberType.h"
+#import "SDLPermissionConstants.h"
 #import "SDLPermissionFilter.h"
 
 QuickSpecBegin(SDLPermissionFilterSpec)
@@ -33,10 +33,6 @@ describe(@"A filter", ^{
                 testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     testObserverReturnChangedDict = changedDict;
                 }];
-            });
-            
-            it(@"should initialize the identifier as an NSUUID", ^{
-                expect(testFilter.identifier).to(beAnInstanceOf([NSUUID class]));
             });
             
             it(@"should set the rpcNames array correctly", ^{
@@ -74,10 +70,6 @@ describe(@"A filter", ^{
                 testFilter = [SDLPermissionFilter filterWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     testObserverReturnChangedDict = changedDict;
                 }];
-            });
-            
-            it(@"should initialize the identifier as an NSUUID", ^{
-                expect(testFilter.identifier).to(beAnInstanceOf([NSUUID class]));
             });
             
             it(@"should set the rpcNames array correctly", ^{
