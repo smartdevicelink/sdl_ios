@@ -103,6 +103,7 @@ describe(@"Upload File Operation", ^{
                 expect(errorResult.localizedDescription).to(match(responseErrorDescription));
                 expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
                 expect(@(successResult)).to(equal(@NO));
+                expect(@(bytesAvailableResult)).to(equal(@0));
             });
         });
     });
