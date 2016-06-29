@@ -221,9 +221,21 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 }
 
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
+    __block NSString *fileName = file.name;
+    __block SDLFileManagerUploadCompletion uploadCompletion = [completion copy];
+    
+    __weak typeof(self) weakSelf = self;
     SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-        [self.class sdl_deleteTemporaryFile:file.fileURL];
-        completion(success, bytesAvailable, error);
+        [weakSelf.class sdl_deleteTemporaryFile:file.fileURL];
+        
+        if (bytesAvailable != 0) {
+            weakSelf.bytesAvailable = bytesAvailable;
+        }
+        if (success) {
+            [weakSelf.mutableRemoteFileNames addObject:fileName];
+        }
+        
+        uploadCompletion(success, bytesAvailable, error);
     }];
     
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];

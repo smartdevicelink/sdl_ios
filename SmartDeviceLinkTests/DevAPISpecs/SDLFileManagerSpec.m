@@ -15,12 +15,20 @@
 #import "SDLRPCResponse.h"
 #import "TestConnectionManager.h"
 
+// Not ideal, create a private backing _SDLFileManager class with more exposed for testing purposes and use SDLFileManager as the public facade?
+@interface SDLFileManager ()
+
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
+
+@end
+
 
 QuickSpecBegin(SDLFileManagerSpec)
 
 describe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
+    __block NSUInteger initialSpaceAvailable = 250;
     
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -61,6 +69,8 @@ describe(@"SDLFileManager", ^{
             }];
             
             testFileManager.suspended = NO;
+            
+            [NSThread sleepForTimeInterval:0.5];
         });
         
         it(@"should have queued a ListFiles request", ^{
@@ -75,29 +85,22 @@ describe(@"SDLFileManager", ^{
         describe(@"after receiving a ListFiles response", ^{
             __block SDLListFilesResponse *testListFilesResponse = nil;
             __block NSSet<NSString *> *testInitialFileNames = nil;
-            __block NSNumber *testInitialSpaceAvailable = nil;
             
             beforeEach(^{
                 testInitialFileNames = [NSSet setWithArray:@[@"testFile1", @"testFile2", @"testFile3"]];
-                testInitialSpaceAvailable = @0;
                 
                 testListFilesResponse = [[SDLListFilesResponse alloc] init];
-                testListFilesResponse.spaceAvailable = testInitialSpaceAvailable;
+                testListFilesResponse.success = @YES;
+                testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
                 testListFilesResponse.filenames = [NSMutableArray arrayWithArray:[testInitialFileNames allObjects]];
                 
                 [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
             });
             
-            it(@"should be in the ready state", ^{
-                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
-            });
-            
-            it(@"should properly set the remote file names", ^{
-                expect(testFileManager.remoteFileNames).to(equal(testInitialFileNames));
-            });
-            
-            it(@"should properly set the space available", ^{
-                expect(@(testFileManager.bytesAvailable)).to(equal(testInitialSpaceAvailable));
+            it(@"the file manager should be in the correct state", ^{
+                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                expect(testFileManager.remoteFileNames).toEventually(equal(testInitialFileNames));
+                expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
             });
             
             describe(@"deleting a file", ^{
@@ -113,22 +116,18 @@ describe(@"SDLFileManager", ^{
                             completionBytesAvailable = bytesAvailable;
                             completionError = error;
                         }];
+                        
+                        [NSThread sleepForTimeInterval:0.5];
                     });
                     
-                    it(@"should return NO for success", ^{
-                        expect(@(completionSuccess)).to(equal(@NO));
+                    it(@"should return the correct data", ^{
+                        expect(@(completionSuccess)).toEventually(equal(@NO));
+                        expect(@(completionBytesAvailable)).toEventually(equal(@250));
+                        expect(completionError).toEventually(equal([NSError sdl_fileManager_noKnownFileError]));
                     });
                     
-                    it(@"should return 0 for bytesAvailable", ^{
-                        expect(@(completionBytesAvailable)).to(equal(@0));
-                    });
-                    
-                    it(@"should return the correct error", ^{
-                        expect(completionError).to(equal([NSError sdl_fileManager_noKnownFileError]));
-                    });
-                    
-                    it(@"should still contain all files", ^{
-                        expect(testFileManager.remoteFileNames).to(haveCount(@(testInitialFileNames.count)));
+                    it(@"should not have deleted any files in the file manager", ^{
+                        expect(testFileManager.remoteFileNames).toEventually(haveCount(@(testInitialFileNames.count)));
                     });
                 });
                 
@@ -151,26 +150,19 @@ describe(@"SDLFileManager", ^{
                         deleteResponse.success = @YES;
                         deleteResponse.spaceAvailable = @(newSpaceAvailable);
                         
+                        [NSThread sleepForTimeInterval: 0.5];
+                        
                         [testConnectionManager respondToLastRequestWithResponse:deleteResponse];
                     });
                     
-                    it(@"should return YES for success", ^{
+                    it(@"should return the correct data", ^{
                         expect(@(completionSuccess)).to(equal(@YES));
-                    });
-                    
-                    it(@"should return correct number of bytesAvailable", ^{
                         expect(@(completionBytesAvailable)).to(equal(@(newSpaceAvailable)));
-                    });
-                    
-                    it(@"should set the new number of bytes to file manager's bytesAvailable property", ^{
                         expect(@(testFileManager.bytesAvailable)).to(equal(@(newSpaceAvailable)));
-                    });
-                    
-                    it(@"should return without an error", ^{
                         expect(completionError).to(beNil());
                     });
                     
-                    xit(@"should have removed the file", ^{
+                    it(@"should have removed the file from the file manager", ^{
                         expect(testFileManager.remoteFileNames).toNot(contain(someKnownFileName));
                     });
                 });
@@ -203,6 +195,8 @@ describe(@"SDLFileManager", ^{
                                 completionError = error;
                             }];
                             
+                            [NSThread sleepForTimeInterval:0.5];
+                            
                             sentPutFile = testConnectionManager.receivedRequests.lastObject;
                         });
                         
@@ -210,19 +204,13 @@ describe(@"SDLFileManager", ^{
                             expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                         
-                        it(@"should create a putfile that is the correct size", ^{
-                            expect(sentPutFile.length).to(equal(@(testFileData.length)));
-                        });
-                        
                         it(@"should create a putfile with the correct data", ^{
+                            expect(sentPutFile.length).to(equal(@(testFileData.length)));
                             expect(sentPutFile.bulkData).to(equal(testFileData));
-                        });
-                        
-                        it(@"should create a putfile with the correct file type", ^{
                             expect(sentPutFile.fileType.value).to(match([SDLFileType BINARY].value));
                         });
                         
-                        context(@"when the connection returns without error", ^{
+                        context(@"when the response returns without error", ^{
                             __block SDLPutFileResponse *testResponse = nil;
                             __block NSNumber *testResponseSuccess = nil;
                             __block NSNumber *testResponseBytesAvailable = nil;
@@ -238,28 +226,16 @@ describe(@"SDLFileManager", ^{
                                 [testConnectionManager respondToLastRequestWithResponse:testResponse];
                             });
                             
-                            it(@"should set the bytes available correctly", ^{
-                                expect(@(testFileManager.bytesAvailable)).to(equal(testResponseBytesAvailable));
+                            it(@"should set the file manager data correctly", ^{
+                                expect(@(testFileManager.bytesAvailable)).toEventually(equal(testResponseBytesAvailable));
+                                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                                expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
                             });
                             
-                            it(@"should call the completion handler with the new bytes available", ^{
+                            it(@"should call the completion handler with the correct data", ^{
                                 expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
-                            });
-                            
-                            it(@"should still have the file name available", ^{
-                                expect(testFileManager.remoteFileNames).to(contain(testFileName));
-                            });
-                            
-                            it(@"should call the completion handler with success YES", ^{
                                 expect(@(completionSuccess)).to(equal(@YES));
-                            });
-                            
-                            it(@"should call the completion handler with nil error", ^{
                                 expect(completionError).to(beNil());
-                            });
-                            
-                            it(@"should have the file manager state as ready", ^{
-                                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
                         });
                         
@@ -279,28 +255,16 @@ describe(@"SDLFileManager", ^{
                                 [testConnectionManager respondToLastRequestWithResponse:testResponse];
                             });
                             
-                            it(@"should set the bytes available correctly", ^{
-                                expect(@(testFileManager.bytesAvailable)).to(equal(testResponseBytesAvailable));
+                            it(@"should set the file manager data correctly", ^{
+                                expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
+                                expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
+                                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                             });
                             
-                            it(@"should call the completion handler with the new bytes available", ^{
-                                expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
-                            });
-                            
-                            it(@"should still have the file name available", ^{
-                                expect(testFileManager.remoteFileNames).to(contain(testFileName));
-                            });
-                            
-                            it(@"should call the completion handler with success YES", ^{
+                            it(@"should call the completion handler with the correct data", ^{
+                                expect(@(completionBytesAvailable)).to(equal(@0));
                                 expect(@(completionSuccess)).to(equal(testResponseSuccess));
-                            });
-                            
-                            it(@"should call the completion handler with nil error", ^{
                                 expect(completionError).to(beNil());
-                            });
-                            
-                            it(@"should set the file manager state to ready", ^{
-                                expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
                         });
                         
@@ -309,16 +273,13 @@ describe(@"SDLFileManager", ^{
                                 [testConnectionManager respondToLastRequestWithResponse:nil error:[NSError sdl_lifecycle_notReadyError]];
                             });
                             
-                            it(@"should still have the file name available", ^{
+                            it(@"should have the correct file manager state", ^{
                                 expect(testFileManager.remoteFileNames).to(contain(testFileName));
-                            });
-                            
-                            it(@"should call the completion handler with nil error", ^{
-                                expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
-                            });
-                            
-                            it(@"should set the file manager state to ready", ^{
                                 expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                            });
+                            
+                            it(@"should call the completion handler with correct data", ^{
+                                expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
                             });
                         });
                     });
@@ -335,22 +296,15 @@ describe(@"SDLFileManager", ^{
                                 completionError = error;
                             }];
                             
+                            [NSThread sleepForTimeInterval:0.5];
+                            
                             lastRequest = testConnectionManager.receivedRequests.lastObject;
                         });
                         
-                        it(@"should not have sent any putfiles", ^{
+                        it(@"should have called the completion handler with correct data", ^{
                             expect(lastRequest).toNot(beAnInstanceOf([SDLPutFile class]));
-                        });
-                        
-                        it(@"should fail", ^{
                             expect(@(completionSuccess)).to(equal(@NO));
-                        });
-                        
-                        it(@"should return the same bytes as the file manager", ^{
                             expect(@(completionBytesAvailable)).to(equal(@(testFileManager.bytesAvailable)));
-                        });
-                        
-                        it(@"should return an error", ^{
                             expect(completionError).to(equal([NSError sdl_fileManager_cannotOverwriteError]));
                         });
                     });
@@ -367,6 +321,8 @@ describe(@"SDLFileManager", ^{
                             completionBytesAvailable = bytesAvailable;
                             completionError = error;
                         }];
+                        
+                        [NSThread sleepForTimeInterval:0.5];
                         
                         sentPutFile = (SDLPutFile *)testConnectionManager.receivedRequests.lastObject;
                     });
@@ -391,28 +347,16 @@ describe(@"SDLFileManager", ^{
                             [testConnectionManager respondToLastRequestWithResponse:testResponse];
                         });
                         
-                        it(@"should set the bytes available correctly", ^{
-                            expect(@(testFileManager.bytesAvailable)).to(equal(testResponseBytesAvailable));
+                        it(@"should set the file manager state correctly", ^{
+                            expect(@(testFileManager.bytesAvailable)).toEventually(equal(testResponseBytesAvailable));
+                            expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
+                            expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                         });
                         
-                        it(@"should call the completion handler with the new bytes available", ^{
+                        it(@"should call the completion handler with the correct data", ^{
                             expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
-                        });
-                        
-                        it(@"should add the file name", ^{
-                            expect(testFileManager.remoteFileNames).to(contain(testFileName));
-                        });
-                        
-                        it(@"should call the completion handler with success YES", ^{
                             expect(@(completionSuccess)).to(equal(@YES));
-                        });
-                        
-                        it(@"should call the completion handler with nil error", ^{
                             expect(completionError).to(beNil());
-                        });
-                        
-                        it(@"should set the file manager state to ready", ^{
-                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                     });
                     
@@ -429,31 +373,21 @@ describe(@"SDLFileManager", ^{
                             testResponse.spaceAvailable = testResponseBytesAvailable;
                             testResponse.success = testResponseSuccess;
                             
+                            testFileManager.accessibilityHint = @"This doesn't matter";
+                            
                             [testConnectionManager respondToLastRequestWithResponse:testResponse];
                         });
                         
-                        it(@"should set the bytes available correctly", ^{
-                            expect(@(testFileManager.bytesAvailable)).to(equal(testResponseBytesAvailable));
+                        it(@"should set the file manager state correctly", ^{
+                            expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
+                            expect(testFileManager.remoteFileNames).toEventuallyNot(contain(testFileName));
+                            expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                         });
                         
-                        it(@"should call the completion handler with the new bytes available", ^{
-                            expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
-                        });
-                        
-                        it(@"should not have the file name available", ^{
-                            expect(testFileManager.remoteFileNames).toNot(contain(testFileName));
-                        });
-                        
-                        it(@"should call the completion handler with success YES", ^{
+                        it(@"should call the completion handler with the correct data", ^{
+                            expect(@(completionBytesAvailable)).to(equal(@0));
                             expect(@(completionSuccess)).to(equal(testResponseSuccess));
-                        });
-                        
-                        it(@"should call the completion handler with nil error", ^{
                             expect(completionError).to(beNil());
-                        });
-                        
-                        it(@"should set the file manager state to ready", ^{
-                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                     });
                     
@@ -462,16 +396,13 @@ describe(@"SDLFileManager", ^{
                             [testConnectionManager respondToLastRequestWithResponse:nil error:[NSError sdl_lifecycle_notReadyError]];
                         });
                         
-                        it(@"should not have the file name available", ^{
+                        it(@"should set the file manager state correctly", ^{
                             expect(testFileManager.remoteFileNames).toNot(contain(testFileName));
+                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                         
                         it(@"should call the completion handler with nil error", ^{
                             expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
-                        });
-                        
-                        it(@"should set the file manager state to ready", ^{
-                            expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                         });
                     });
                 });
@@ -504,18 +435,14 @@ describe(@"SDLFileManager", ^{
                                 completionError = error;
                             }];
                             
+                            [NSThread sleepForTimeInterval:0.5];
+                            
                             sentPutFile = testConnectionManager.receivedRequests.lastObject;
-                        });
-                        
-                        it(@"should create a putfile that is the correct size", ^{
-                            expect(sentPutFile.length).to(equal(@(testFileData.length)));
                         });
                         
                         it(@"should create a putfile with the correct data", ^{
                             expect(sentPutFile.bulkData).to(equal(testFileData));
-                        });
-                        
-                        it(@"should create a putfile with the correct file type", ^{
+                            expect(sentPutFile.length).to(equal(@(testFileData.length)));
                             expect(sentPutFile.fileType.value).to(equal([SDLFileType BINARY].value));
                         });
                     });

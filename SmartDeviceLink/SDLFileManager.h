@@ -57,7 +57,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
 @property (assign, nonatomic) BOOL allowOverwrite;
 
 /**
- *  Whether or not the file manager is suspended. If suspended, the file manager can continue to queue uploads and deletes, but will not actually perform any of those until it is no longer suspended. This can be used for
+ *  Whether or not the file manager is suspended. If suspended, the file manager can continue to queue uploads and deletes, but will not actually perform any of those until it is no longer suspended. This can be used for throttling down the file manager if other, important operations are taking place over the accessory connection.
  */
 @property (assign, nonatomic) BOOL suspended;
 
@@ -66,7 +66,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  *
  *  @return nil
  */
-- (instancetype)init __unavailable;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  *  Creates a new file manager with a specified connection manager

@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     // When the putfiles all complete, run this block
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
-        if (streamError != nil) {
+        if (streamError != nil || stop) {
             completion(NO, bytesAvailable, streamError);
         } else {
             completion(YES, bytesAvailable, nil);
