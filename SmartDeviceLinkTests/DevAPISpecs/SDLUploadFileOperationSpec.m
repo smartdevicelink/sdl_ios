@@ -11,7 +11,7 @@
 
 QuickSpecBegin(SDLUploadFileOperationSpec)
 
-describe(@"Upload File Operation", ^{
+fdescribe(@"Upload File Operation", ^{
     __block NSString *testFileName = nil;
     __block NSData *testFileData = nil;
     __block SDLFile *testFile = nil;
@@ -39,12 +39,13 @@ describe(@"Upload File Operation", ^{
     });
     
     it(@"should have a priority of 'very high'", ^{
-        expect(@(testOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityVeryHigh)));
+        expect(@(testOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
     });
     
     describe(@"running the operation", ^{
         beforeEach(^{
             [testOperation start];
+            [NSThread sleepForTimeInterval:0.5];
         });
         
         it(@"should send a list files request", ^{
@@ -68,14 +69,14 @@ describe(@"Upload File Operation", ^{
             });
             
             it(@"should have called the completion handler with proper data", ^{
-                expect(@(successResult)).to(equal(@YES));
-                expect(@(bytesAvailableResult)).to(equal(responseSpaceAvailable));
-                expect(errorResult).to(beNil());
+                expect(@(successResult)).toEventually(equal(@YES));
+                expect(@(bytesAvailableResult)).toEventually(equal(responseSpaceAvailable));
+                expect(errorResult).toEventually(beNil());
             });
             
             it(@"should be set to finished", ^{
-                expect(@(testOperation.finished)).to(equal(@YES));
-                expect(@(testOperation.executing)).to(equal(@NO));
+                expect(@(testOperation.finished)).toEventually(equal(@YES));
+                expect(@(testOperation.executing)).toEventually(equal(@NO));
             });
         });
         
@@ -100,10 +101,10 @@ describe(@"Upload File Operation", ^{
             });
             
             it(@"should have called completion handler with error", ^{
-                expect(errorResult.localizedDescription).to(match(responseErrorDescription));
-                expect(errorResult.localizedFailureReason).to(match(responseErrorReason));
-                expect(@(successResult)).to(equal(@NO));
-                expect(@(bytesAvailableResult)).to(equal(@0));
+                expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
+                expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
+                expect(@(successResult)).toEventually(equal(@NO));
+                expect(@(bytesAvailableResult)).toEventually(equal(@0));
             });
         });
     });
