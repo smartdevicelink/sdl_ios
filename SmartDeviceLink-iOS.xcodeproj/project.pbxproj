@@ -833,6 +833,7 @@
 		5DB1BCDD1D243DC3002FFC37 /* SDLLifecycleConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCDC1D243DC3002FFC37 /* SDLLifecycleConfigurationSpec.m */; };
 		5DB1BCDF1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCDE1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m */; };
 		5DB1BCE11D243DDE002FFC37 /* SDLConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCE01D243DDE002FFC37 /* SDLConfigurationSpec.m */; };
+		5DB1BCE71D245647002FFC37 /* TestStateMachineTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCE61D245647002FFC37 /* TestStateMachineTarget.m */; };
 		5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */; };
 		5DB92D261AC4836F00C15BB0 /* SDLJingleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D251AC4836F00C15BB0 /* SDLJingleSpec.m */; };
 		5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */; };
@@ -1758,6 +1759,8 @@
 		5DB1BCDC1D243DC3002FFC37 /* SDLLifecycleConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLifecycleConfigurationSpec.m; path = DevAPISpecs/SDLLifecycleConfigurationSpec.m; sourceTree = "<group>"; };
 		5DB1BCDE1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenConfigurationSpec.m; path = DevAPISpecs/SDLLockScreenConfigurationSpec.m; sourceTree = "<group>"; };
 		5DB1BCE01D243DDE002FFC37 /* SDLConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLConfigurationSpec.m; path = DevAPISpecs/SDLConfigurationSpec.m; sourceTree = "<group>"; };
+		5DB1BCE51D245647002FFC37 /* TestStateMachineTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestStateMachineTarget.h; path = TestUtilities/TestStateMachineTarget.h; sourceTree = "<group>"; };
+		5DB1BCE61D245647002FFC37 /* TestStateMachineTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStateMachineTarget.m; path = TestUtilities/TestStateMachineTarget.m; sourceTree = "<group>"; };
 		5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLHexUtilitySpec.m; path = UtilitiesSpecs/SDLHexUtilitySpec.m; sourceTree = "<group>"; };
 		5DB92D251AC4836F00C15BB0 /* SDLJingleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLJingleSpec.m; path = UtilitiesSpecs/SDLJingleSpec.m; sourceTree = "<group>"; };
 		5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPrioritizedObjectCollectionSpec.m; path = "UtilitiesSpecs/Prioritized Objects/SDLPrioritizedObjectCollectionSpec.m"; sourceTree = "<group>"; };
@@ -3038,8 +3041,8 @@
 		5D6EB4C61BF274F400693731 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5DB1BCE41D245629002FFC37 /* State Machine */,
 				5D6EB4C71BF28D6800693731 /* Categories */,
-				5DB1BCD91D243D85002FFC37 /* SDLStateMachineSpec.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -3161,6 +3164,7 @@
 		5D9F507E1BE7E46600FEF399 /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				5DB1BCE21D2455FD002FFC37 /* Connection Manager */,
 				5DB1BCD61D243A91002FFC37 /* Operations */,
 				5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */,
 				5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */,
@@ -3181,8 +3185,6 @@
 		5D9F50841BED410C00FEF399 /* Test Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				5D9F50851BED412E00FEF399 /* TestConnectionManager.h */,
-				5D9F50861BED412E00FEF399 /* TestConnectionManager.m */,
 			);
 			name = "Test Utilities";
 			sourceTree = "<group>";
@@ -3272,6 +3274,33 @@
 				5DB1BCE01D243DDE002FFC37 /* SDLConfigurationSpec.m */,
 			);
 			name = Configurations;
+			sourceTree = "<group>";
+		};
+		5DB1BCE21D2455FD002FFC37 /* Connection Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5D9F50851BED412E00FEF399 /* TestConnectionManager.h */,
+				5D9F50861BED412E00FEF399 /* TestConnectionManager.m */,
+			);
+			name = "Connection Manager";
+			sourceTree = "<group>";
+		};
+		5DB1BCE31D245614002FFC37 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5DB1BCE51D245647002FFC37 /* TestStateMachineTarget.h */,
+				5DB1BCE61D245647002FFC37 /* TestStateMachineTarget.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		5DB1BCE41D245629002FFC37 /* State Machine */ = {
+			isa = PBXGroup;
+			children = (
+				5DB1BCE31D245614002FFC37 /* Utilities */,
+				5DB1BCD91D243D85002FFC37 /* SDLStateMachineSpec.m */,
+			);
+			name = "State Machine";
 			sourceTree = "<group>";
 		};
 		5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */ = {
@@ -4221,6 +4250,7 @@
 				162E832C1A9BDE8B00906325 /* SDLDiagnosticMessageSpec.m in Sources */,
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
+				5DB1BCE71D245647002FFC37 /* TestStateMachineTarget.m in Sources */,
 				162E83541A9BDE8B00906325 /* SDLEncodedSyncPDataResponseSpec.m in Sources */,
 				162E83161A9BDE8B00906325 /* SDLOnHashChangeSpec.m in Sources */,
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
