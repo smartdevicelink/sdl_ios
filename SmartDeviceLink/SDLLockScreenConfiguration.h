@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly, nullable) UIImage *appIcon;
 @property (strong, nonatomic, readonly, nullable) UIViewController *customViewController;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 + (instancetype)disabledConfiguration;
 + (instancetype)enabledConfiguration;
 + (instancetype)enabledConfigurationWithBackgroundColor:(nullable UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon;

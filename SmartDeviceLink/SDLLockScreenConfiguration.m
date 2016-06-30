@@ -36,29 +36,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (instancetype)disabledConfiguration {
-    return [[self alloc] initWithAutoLockScreen:NO enableInOptional:NO backgroundColor:[self defaultBackgroundColor] appIcon:nil viewController:nil];
+    return [[self alloc] initWithAutoLockScreen:NO enableInOptional:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
 + (instancetype)enabledConfiguration {
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self defaultBackgroundColor] appIcon:nil viewController:nil];
+    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
 + (instancetype)enabledConfigurationWithBackgroundColor:(nullable UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon {
     if (lockScreenBackgroundColor == nil) {
-        lockScreenBackgroundColor = [self.class defaultBackgroundColor];
+        lockScreenBackgroundColor = [self.class sdl_defaultBackgroundColor];
     }
     
     return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:lockScreenBackgroundColor appIcon:lockScreenAppIcon viewController:nil];
 }
 
 + (instancetype)enabledConfigurationWithViewController:(UIViewController *)viewController {
-    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[UIColor blackColor] appIcon:nil viewController:viewController];
+    return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self.class sdl_defaultBackgroundColor] appIcon:nil viewController:viewController];
 }
 
 
 #pragma mark - Defaults
 
-+ (UIColor *)defaultBackgroundColor {
++ (UIColor *)sdl_defaultBackgroundColor {
     return [UIColor blackColor];
 }
 
@@ -66,12 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLockScreenConfiguration *new = [[SDLLockScreenConfiguration allocWithZone:zone] init];
-    new->_enableAutomaticLockScreen = _enableAutomaticLockScreen;
-    new->_showInOptional = _showInOptional;
-    new->_backgroundColor = _backgroundColor;
-    new->_appIcon = _appIcon;
-    new->_customViewController = _customViewController;
+    SDLLockScreenConfiguration *new = [[SDLLockScreenConfiguration allocWithZone:zone] initWithAutoLockScreen:_enableAutomaticLockScreen enableInOptional:_showInOptional backgroundColor:_backgroundColor appIcon:_appIcon viewController:_customViewController];
     
     return new;
 }
