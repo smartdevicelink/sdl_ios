@@ -53,7 +53,7 @@ describe(@"SDLTouchManager Tests", ^{
     __block DelegateCallbackBlock pinchEndTests;
     
     __block void (^performTouchEvent)(SDLTouchManager* touchManager, SDLOnTouchEvent* onTouchEvent) = ^(SDLTouchManager* touchManager, SDLOnTouchEvent* onTouchEvent) {
-        SEL onOnTouchEvent = @selector(onOnTouchEvent:);
+        SEL onOnTouchEvent = NSSelectorFromString(@"onOnTouchEvent:");
         ((void (*)(id, SEL, id))[touchManager methodForSelector:onOnTouchEvent])(touchManager, onOnTouchEvent, onTouchEvent);
     };
     
