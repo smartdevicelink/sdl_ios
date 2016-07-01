@@ -786,7 +786,11 @@
 		5DEE55C51B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */; };
 		5DEE55C61B8666A8004F0D0F /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
-		DA1166DB1D14625200438CEA /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1166DA1D14625200438CEA /* SDLTouchManagerSpec.m */; };
+		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
+		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
+		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
+		DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */; };
+		DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */; };
 		DAC572571D1067270004288B /* SDLTouchManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572551D1067270004288B /* SDLTouchManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAC572581D1067270004288B /* SDLTouchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572561D1067270004288B /* SDLTouchManager.m */; };
 		DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572591D10B81E0004288B /* SDLTouch.m */; };
@@ -1676,7 +1680,11 @@
 		5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = Carthage/Build/iOS/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
-		DA1166DA1D14625200438CEA /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManagerSpec.m; sourceTree = "<group>"; };
+		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
+		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
+		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
+		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
+		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
 		DAC572551D1067270004288B /* SDLTouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchManager.h; sourceTree = "<group>"; };
 		DAC572561D1067270004288B /* SDLTouchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManager.m; sourceTree = "<group>"; };
 		DAC572591D10B81E0004288B /* SDLTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouch.m; sourceTree = "<group>"; };
@@ -2987,7 +2995,11 @@
 		DA1166D71D14601C00438CEA /* Touches */ = {
 			isa = PBXGroup;
 			children = (
-				DA1166DA1D14625200438CEA /* SDLTouchManagerSpec.m */,
+				DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */,
+				DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */,
+				DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */,
+				DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */,
+				DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */,
 			);
 			name = Touches;
 			sourceTree = "<group>";
@@ -3810,6 +3822,7 @@
 				162E83811A9BDE8B00906325 /* SDLImageFieldSpec.m in Sources */,
 				162E834F1A9BDE8B00906325 /* SDLDeleteCommandResponseSpec.m in Sources */,
 				162E83231A9BDE8B00906325 /* SDLAddSubMenuSpec.m in Sources */,
+				DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */,
 				162E82F21A9BDE8B00906325 /* SDLPredefinedLayoutSpec.m in Sources */,
 				162E83521A9BDE8B00906325 /* SDLDeleteSubMenuResponseSpec.m in Sources */,
 				162E82E91A9BDE8B00906325 /* SDLKeypressModeSpec.m in Sources */,
@@ -3822,7 +3835,6 @@
 				162E83341A9BDE8B00906325 /* SDLPutFileSpec.m in Sources */,
 				162E837A1A9BDE8B00906325 /* SDLDIDResult.m in Sources */,
 				162E83171A9BDE8B00906325 /* SDLOnHMIStatusSpec.m in Sources */,
-				DA1166DB1D14625200438CEA /* SDLTouchManagerSpec.m in Sources */,
 				5DE372A41ACB336600849FAA /* SDLHMICapabilitiesSpec.m in Sources */,
 				162E82F71A9BDE8B00906325 /* SDLResultSpec.m in Sources */,
 				1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */,
@@ -3832,6 +3844,7 @@
 				162E83831A9BDE8B00906325 /* SDLKeyboardPropertiesSpec.m in Sources */,
 				162E82D11A9BDE8A00906325 /* SDLButtonNameSpec.m in Sources */,
 				162E839E1A9BDE8B00906325 /* SDLRPCStructSpec.m in Sources */,
+				DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */,
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
 				162E838E1A9BDE8B00906325 /* SDLSyncMsgVersionSpec.m in Sources */,
@@ -3865,6 +3878,7 @@
 				5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */,
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
+				DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */,
 				162E83541A9BDE8B00906325 /* SDLEncodedSyncPDataResponseSpec.m in Sources */,
 				162E83161A9BDE8B00906325 /* SDLOnHashChangeSpec.m in Sources */,
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
@@ -3890,6 +3904,7 @@
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
 				162E83641A9BDE8B00906325 /* SDLSetMediaClockTimerResponseSpec.m in Sources */,
 				162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */,
+				DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */,
 				5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */,
 				162E833D1A9BDE8B00906325 /* SDLShowConstantTBTSpec.m in Sources */,
 				162E83651A9BDE8B00906325 /* SDLShowConstantTBTResponseSpec.m in Sources */,
@@ -3939,6 +3954,7 @@
 				162E83891A9BDE8B00906325 /* SDLScreenParamsSpec.m in Sources */,
 				162E83441A9BDE8B00906325 /* SDLSystemRequestSpec.m in Sources */,
 				162E83001A9BDE8B00906325 /* SDLTextFieldNameSpec.m in Sources */,
+				DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */,
 				162E82FC1A9BDE8B00906325 /* SDLSystemAction.m in Sources */,
 				162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */,
 				162E83321A9BDE8B00906325 /* SDLPerformAudioPassThruSpec.m in Sources */,
