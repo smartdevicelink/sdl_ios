@@ -51,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port {
     SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
+    config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
     
