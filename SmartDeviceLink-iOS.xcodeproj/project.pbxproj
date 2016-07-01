@@ -3017,7 +3017,6 @@
 			isa = PBXGroup;
 			children = (
 				167ED9231A9BB86300797BE5 /* Libraries */,
-				5D9F50841BED410C00FEF399 /* Test Utilities */,
 				5DAE06711BDEC68700F9B498 /* Developer API Tests */,
 				5D59DD451B14FDD000BE744D /* ProxySpecs */,
 				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
@@ -3180,13 +3179,6 @@
 				5DB1BCD71D243AA6002FFC37 /* SDLPermissionFilterSpec.m */,
 			);
 			name = Permissions;
-			sourceTree = "<group>";
-		};
-		5D9F50841BED410C00FEF399 /* Test Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Test Utilities";
 			sourceTree = "<group>";
 		};
 		5DA3F3511BC4477B0026F2D0 /* Developer API */ = {

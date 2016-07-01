@@ -18,8 +18,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) SDLLifecycleConfiguration *lifecycleConfig;
 @property (copy, nonatomic, readonly) SDLLockScreenConfiguration *lockScreenConfig;
 
-
+/**
+ *  Create a new configuration to be passed into SDLManager.
+ *
+ *  @param lifecycleConfig  The lifecycle configuration to be used.
+ *  @param lockScreenConfig The lockscreen configuration to be used. If nil, this will be `enabledConfiguration`.
+ *
+ *  @return The configuration
+ */
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig;
+
+/**
+ *  Create a new configuration to be passed into SDLManager.
+ *
+ *  @param lifecycleConfig  The lifecycle configuration to be used.
+ *  @param lockScreenConfig The lockscreen configuration to be used. If nil, this will be `enabledConfiguration`.
+ *
+ *  @return The configuration
+ */
 + (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig;
 
 @end
