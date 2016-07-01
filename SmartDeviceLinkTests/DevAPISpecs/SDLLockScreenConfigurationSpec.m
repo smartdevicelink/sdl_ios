@@ -5,7 +5,7 @@
 
 QuickSpecBegin(SDLLockScreenConfigurationSpec)
 
-fdescribe(@"a lock screen configuration", ^{
+describe(@"a lock screen configuration", ^{
     __block SDLLockScreenConfiguration *testConfig = nil;
     
     context(@"in the disabled configuration", ^{

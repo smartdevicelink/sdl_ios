@@ -23,9 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLifecycleConfiguration : NSObject <NSCopying>
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_DESIGNATED_INITIALIZER;
 
-// TODO: Need documentation
+/**
+ *  A production configuration that runs using IAP. Additional functionality should be customized on the properties.
+ *
+ *  @param appName The name of the app.
+ *  @param appId   The appId to be used. This should be registered with the radio's manufacturer.
+ *
+ *  @return The lifecycle configuration
+ */
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId;
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port;
 
