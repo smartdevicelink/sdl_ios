@@ -1,4 +1,4 @@
-github "Quick/Nimble" "v4.0.1"
-github "AliSoftware/OHHTTPStubs" "5.0.0"
+github "Quick/Nimble" "v4.1.0"
+github "AliSoftware/OHHTTPStubs" "5.1.0"
 github "Quick/Quick" "v0.9.2"
-github "erikdoe/ocmock" "v3.3"
+github "erikdoe/ocmock" "v3.3.1"
