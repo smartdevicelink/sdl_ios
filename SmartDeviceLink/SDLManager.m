@@ -26,6 +26,7 @@ NSString *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
 NSString *const SDLLifecycleStateTransportConnected = @"TransportConnected";
 NSString *const SDLLifecycleStateRegistered = @"Registered";
 NSString *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
+NSString *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
 NSString *const SDLLifecycleStateUnregistering = @"Unregistering";
 NSString *const SDLLifecycleStateReady = @"Ready";
 
@@ -165,7 +166,8 @@ typedef NSNumber SDLSoftButtonId;
              SDLLifecycleStateDisconnected: @[SDLLifecycleStateTransportConnected],
              SDLLifecycleStateTransportConnected: @[SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered],
              SDLLifecycleStateRegistered: @[SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers],
-             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStateReady],
+             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing],
+             SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateDisconnected, SDLLifecycleStateReady],
              SDLLifecycleStateUnregistering: @[SDLLifecycleStateDisconnected],
              SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering,SDLLifecycleStateDisconnected]
              };
@@ -222,7 +224,7 @@ typedef NSNumber SDLSoftButtonId;
     
     // When done, we want to transition
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
     });
     
     dispatch_group_enter(managerGroup);
@@ -237,6 +239,10 @@ typedef NSNumber SDLSoftButtonId;
     
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
+}
+
+- (void)didEnterStatePostManagerProcessing {
+    // TODO: SetDisplayLayout (only after HMI_FULL?), SetAppIcon
 }
 
 - (void)didEnterStateReady {

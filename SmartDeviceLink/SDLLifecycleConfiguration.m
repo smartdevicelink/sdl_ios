@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
     _languagesSupported = @[_language];
+    _appIcon = nil;
+    _initialDisplayLayout = nil;
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionSynonyms = @[];
@@ -92,14 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
     _appType = appType;
 }
 
-- (void)setPersistentFiles:(NSArray<SDLFile *> *)persistentFiles {
-    for (SDLFile *file in persistentFiles) {
-        if (!file.persistent) {
-            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:NSLocalizedString(@"SDLLifecycleConfiguration persistentFiles must all be persistent; non-persistent file found", nil) userInfo:@{@"Error": file}];
-        }
-    }
-}
-
 
 #pragma mark NSCopying
 
@@ -111,6 +105,8 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig -> _appType = _appType;
     newConfig -> _language = _language;
     newConfig -> _languagesSupported = _languagesSupported;
+    newConfig -> _appIcon = _appIcon;
+    newConfig -> _initialDisplayLayout = _initialDisplayLayout;
     newConfig -> _shortAppName = _shortAppName;
     newConfig -> _ttsName = _ttsName;
     newConfig -> _voiceRecognitionSynonyms = _voiceRecognitionSynonyms;
