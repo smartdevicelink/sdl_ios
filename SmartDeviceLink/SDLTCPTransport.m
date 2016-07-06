@@ -45,7 +45,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 
 - (void)connect {
-    [SDLDebugTool logInfo:@"Init" withType:SDLDebugType_Transport_TCP];
+    [SDLDebugTool logInfo:@"TCP Transport attempt connect" withType:SDLDebugType_Transport_TCP];
 
     int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
     if (sock_fd < 0) {
@@ -88,6 +88,8 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)destructObjects {
+    [SDLDebugTool logInfo:@"SDLTCPTransport invalidate and dispose"];
+    
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
         if (socket != nil) {
@@ -151,15 +153,19 @@ int call_socket(const char *hostname, const char *port) {
 static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
     if (kCFSocketConnectCallBack == type) {
         SDLTCPTransport *transport = (__bridge SDLTCPTransport *)info;
-        SInt32 errorNumber = 0;
-        if (data) {
-            SInt32 *errorNumberPtr = (SInt32 *)data;
-            errorNumber = *errorNumberPtr;
-        }
         [transport.delegate onTransportConnected];
     } else if (kCFSocketDataCallBack == type) {
         SDLTCPTransport *transport = (__bridge SDLTCPTransport *)info;
-
+        
+        // Check if Core disconnected from us
+        if (CFDataGetLength((CFDataRef)data) <= 0) {
+            [SDLDebugTool logInfo:@"TCPCallback Got a data packet with length 0, the connection was terminated on the other side"];
+            [transport.delegate onTransportDisconnected];
+            
+            return;
+        }
+        
+        // Handle the data we received
         NSMutableString *byteStr = [NSMutableString stringWithCapacity:((int)CFDataGetLength((CFDataRef)data) * 2)];
         for (int i = 0; i < (int)CFDataGetLength((CFDataRef)data); i++) {
             [byteStr appendFormat:@"%02X", ((Byte *)(UInt8 *)CFDataGetBytePtr((CFDataRef)data))[i]];
