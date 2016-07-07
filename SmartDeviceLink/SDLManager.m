@@ -15,6 +15,7 @@
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHashChange.h"
+#import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
 
 
@@ -242,7 +243,10 @@ typedef NSNumber SDLSoftButtonId;
 }
 
 - (void)didEnterStatePostManagerProcessing {
-    // TODO: SetDisplayLayout (only after HMI_FULL?), SetAppIcon
+    // TODO: SetDisplayLayout (only after HMI_FULL?)
+    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^{
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    }];
 }
 
 - (void)didEnterStateReady {
@@ -261,6 +265,37 @@ typedef NSNumber SDLSoftButtonId;
     __weak typeof(self) weakSelf = self;
     [self sendRequest:unregisterRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+    }];
+}
+
+#pragma mark Post Manager Setup Processing
+
+- (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void(^)(void))completion {
+    // If no app icon was set, just move on to ready
+    if (appIcon == nil) {
+        completion();
+    }
+    
+    [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
+        if (error != nil) {
+            if (error.code == SDLFileManagerErrorCannotOverwrite) {
+                [SDLDebugTool logInfo:@"Failed to upload app icon: A file with this name already exists on the system"];
+            } else {
+                [SDLDebugTool logFormat:@"Unexpected error uploading app icon: %@", error];
+            }
+        }
+        
+        // Once we've tried to put the file on the remote system, try to set the app icon
+        SDLSetAppIcon *setAppIconRequest = [[SDLSetAppIcon alloc] initWithName:appIcon.name];
+        [self sendRequest:setAppIconRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                [SDLDebugTool logFormat:@"Error setting app icon: ", error];
+            }
+            
+            // We've succeeded or failed
+            completion();
+        }];
     }];
 }
 
