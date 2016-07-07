@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class to be passed to the file manager.
  */
-- (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat;
 
 @end
 
