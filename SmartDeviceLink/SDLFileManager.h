@@ -52,11 +52,6 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
 @property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingTransactions;
 
 /**
- *  Allow the file manager to overwrite files on the remote system with the same name as an uploaded file. If NO, this can be overridden per file by calling forceUploadFile:completionHandler:
- */
-@property (assign, nonatomic) BOOL allowOverwrite;
-
-/**
  *  Whether or not the file manager is suspended. If suspended, the file manager can continue to queue uploads and deletes, but will not actually perform any of those until it is no longer suspended. This can be used for throttling down the file manager if other, important operations are taking place over the accessory connection.
  */
 @property (assign, nonatomic) BOOL suspended;
@@ -104,14 +99,6 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  *  @param completion An optional completion handler that sends an error should one occur.
  */
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
-
-/**
- *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, and allowOverwrite is NO, this method will still overwrite the file.
- *
- *  @param file       An SDLFile that contains metadata about the file to be sent
- *  @param completion An optional completion handler that sends an error should one occur.
- */
-- (void)forceUploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
 
 /**
  *  A URL to the directory where temporary files are stored. When an SDLFile is created with NSData, it writes to a temporary file until the file manager finishes uploading it.

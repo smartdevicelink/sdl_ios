@@ -61,7 +61,6 @@ NSString *const SDLFileManagerStateReady = @"Ready";
     
     _connectionManager = manager;
     _bytesAvailable = 0;
-    _allowOverwrite = NO;
     
     _mutableRemoteFileNames = [NSMutableSet set];
     _transactionQueue = [[NSOperationQueue alloc] init];
@@ -204,7 +203,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
     // Check our overwrite settings and error out if it would overwrite
-    if (self.allowOverwrite == NO && [self.remoteFileNames containsObject:file.name]) {
+    if (file.overwrite == NO && [self.remoteFileNames containsObject:file.name]) {
         if (completion != nil) {
             completion(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
         }

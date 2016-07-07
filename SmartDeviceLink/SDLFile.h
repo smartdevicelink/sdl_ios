@@ -15,9 +15,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFile : NSObject <NSCopying>
 
+/**
+ *  Whether or not the file should persist on disk between car ignition cycles.
+ */
 @property (assign, nonatomic, readonly, getter=isPersistent) BOOL persistent;
+
+/**
+ *  Whether or not the file should overwrite an existing file on the remote disk with the same name.
+ */
+@property (assign, nonatomic) BOOL overwrite;
+
+/**
+ *  The name the file should be stored under on the remote disk. This is how the file will be referenced in all later calls.
+ */
 @property (copy, nonatomic, readonly) NSString *name;
+
+/**
+ *  The url the local file is stored at while waiting to push it to the remote system.
+ */
 @property (copy, nonatomic, readonly) NSURL *fileURL;
+
+/**
+ *  The binary data of the local file.
+ */
 @property (copy, nonatomic, readonly) NSData *data;
 
 /**
@@ -25,9 +45,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly) SDLFileType *fileType;
 
+
+
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithFileURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent;
+/**
+ *  The designated initializer for an SDL File. The only major property that is not set using this is "overwrite", which defaults to NO.
+ *
+ *  @param url        The file URL pointing to the local data that will be pushed to the remote system.
+ *  @param name       The name that the file will be stored under on the remote system and how it will be referenced from the local system.
+ *  @param persistent Whether or not the file will persist between ignition cycles.
+ *
+ *  @return An SDLFile object.
+ */
+- (instancetype)initWithFileURL:(NSURL *)url name:(NSString *)name persistent:(BOOL)persistent NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create an SDL file using a local file URL.

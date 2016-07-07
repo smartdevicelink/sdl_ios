@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
+    _overwrite = NO;
     
     return self;
 }
@@ -57,25 +58,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent {
-    self = [super init];
-    if (!self) { return nil; }
-    
     if (data.length == 0) { return nil; }
     
     // TODO: Only flush to file URL when under memory pressure?
     NSError *error = nil;
     NSString *tempFileName = [NSString stringWithFormat:@"%@_%@.%@", [NSProcessInfo processInfo].globallyUniqueString, name, extension];
-    _fileURL = [[SDLFileManager temporaryFileDirectory] URLByAppendingPathComponent:tempFileName];
+    NSURL *fileURL = [[SDLFileManager temporaryFileDirectory] URLByAppendingPathComponent:tempFileName];
     [data writeToURL:_fileURL options:NSDataWritingAtomic error:&error];
     if (error) {
         return nil;
     }
     
-    _name = name;
-    _fileType = [self.class sdl_fileTypeFromFileExtension:extension];
-    _persistent = persistent;
-    
-    return self;
+    return [self initWithFileURL:fileURL name:name persistent:persistent];
 }
 
 + (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension {
