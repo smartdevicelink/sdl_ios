@@ -274,6 +274,7 @@ typedef NSNumber SDLSoftButtonId;
     // If no app icon was set, just move on to ready
     if (appIcon == nil) {
         completion();
+        return;
     }
     
     [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
