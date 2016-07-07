@@ -229,7 +229,7 @@ typedef NSNumber SDLSoftButtonId;
     });
     
     dispatch_group_enter(managerGroup);
-    [self.fileManager startManagerWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.fileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         dispatch_group_leave(managerGroup);
     }];
     

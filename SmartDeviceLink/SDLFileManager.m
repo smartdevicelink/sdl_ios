@@ -75,7 +75,7 @@ NSString *const SDLFileManagerStateReady = @"Ready";
 
 #pragma mark - Setup / Shutdown
 
-- (void)startManagerWithCompletionHandler:(nullable SDLFileManagerStartupCompletion)completionHandler {
+- (void)startWithCompletionHandler:(nullable SDLFileManagerStartupCompletion)completionHandler {
     if ([self.currentState isEqualToString:SDLFileManagerStateShutdown]) {
         self.startupCompletionHandler = completionHandler;
         [self.stateMachine transitionToState:SDLFileManagerStateFetchingInitialList];
