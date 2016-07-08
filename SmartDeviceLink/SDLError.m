@@ -88,4 +88,23 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
 
 @end
 
+
+@implementation NSException (SDLExceptions)
+
++ (NSException *)sdl_missingHandlerException {
+    return [NSException
+            exceptionWithName:@"MissingHandlerException"
+            reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
+            userInfo:nil];
+}
+
++ (NSException *)sdl_missingIdException {
+    return [NSException
+            exceptionWithName:@"MissingIdException"
+            reason:@"This request requires an ID (command, softbutton, etc) to be specified"
+            userInfo:nil];
+}
+
+@end
+
 NS_ASSUME_NONNULL_END

@@ -174,12 +174,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDL Notification Observers
 
 - (void)sdl_permissionsDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[NSArray class]], @"The SDLPermissionManager permissions  observer got something other than an array of permissions level");
-    if (![notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[NSArray class]]) {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[NSArray class]], @"The SDLPermissionManager permissions  observer got something other than an array of permissions level");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[NSArray class]]) {
         return;
     }
     
-    NSArray<SDLPermissionItem *> *newPermissionItems = notification.userInfo[SDLNotificationUserInfoNotificationObject];
+    NSArray<SDLPermissionItem *> *newPermissionItems = notification.userInfo[SDLNotificationUserInfoObject];
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
     
     // We can eliminate calling those filters who had no permission changes, so we'll filter down and see which had permissions that changed
@@ -217,13 +217,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[SDLHMILevel class]], @"The SDLPermissionManager HMI level observer got something other than a HMI level");
-    if (![notification.userInfo[SDLNotificationUserInfoNotificationObject] isKindOfClass:[SDLHMILevel class]]) {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLHMILevel class]], @"The SDLPermissionManager HMI level observer got something other than a HMI level");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLHMILevel class]]) {
         return;
     }
     
     SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
-    self.currentHMILevel = notification.userInfo[SDLNotificationUserInfoNotificationObject];
+    self.currentHMILevel = notification.userInfo[SDLNotificationUserInfoObject];
     NSArray *filters = [self.filters copy];
     
     

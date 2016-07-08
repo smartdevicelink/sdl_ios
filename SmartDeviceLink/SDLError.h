@@ -46,4 +46,11 @@ extern NSString *const SDLFileManagerErrorDomain;
 
 @end
 
+@interface NSException (SDLExceptions)
+
++ (NSException *)sdl_missingHandlerException;
++ (NSException *)sdl_missingIdException;
+
+@end
+
 NS_ASSUME_NONNULL_END
