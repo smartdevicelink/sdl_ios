@@ -1,6 +1,5 @@
 
 
-#import "SDLConnectionManagerType.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationConstants.h"
 
@@ -28,7 +27,7 @@ extern NSString *const SDLLifecycleStateUnregistering;
 extern NSString *const SDLLifecycleStateReady;
 
 
-@interface SDLManager : NSObject <SDLConnectionManagerType>
+@interface SDLManager : NSObject
 
 @property (assign, nonatomic, readonly) NSString *lifecycleState;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;

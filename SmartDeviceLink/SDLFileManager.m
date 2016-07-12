@@ -8,6 +8,7 @@
 
 #import "SDLFileManager.h"
 
+#import "SDLConnectionManagerType.h"
 #import "SDLDebugTool.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"

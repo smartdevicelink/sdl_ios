@@ -137,8 +137,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Handlers
 #pragma mark Response
-// TODO: These are notification handlers, the object will be the notification, not the response
-- (void)sdl_runHandlersForResponse:(__kindof SDLRPCResponse *)response {
+- (void)sdl_runHandlersForResponse:(NSNotification *)notification {
+    __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
+    
     NSError *error = nil;
     BOOL success = [response.success boolValue];
     if (success == NO) {
@@ -170,28 +171,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Command
 
-- (void)sdl_runHandlerForCommand:(SDLOnCommand *)command {
+- (void)sdl_runHandlerForCommand:(NSNotification *)notification {
+    SDLOnCommand *onCommandNotification = notification.userInfo[SDLNotificationUserInfoObject];
     SDLRPCNotificationHandler handler = nil;
-    handler = self.commandHandlerMap[command.cmdID];
     
+    handler = self.commandHandlerMap[onCommandNotification.cmdID];
     if (handler) {
-        handler(command);
+        handler(onCommandNotification);
     }
 }
 
 #pragma mark Button
 
-- (void)sdl_runHandlerForButton:(__kindof SDLRPCNotification *)notification {
+- (void)sdl_runHandlerForButton:(NSNotification *)notification {
+    __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    
     SDLRPCNotificationHandler handler = nil;
     SDLButtonName *name = nil;
     NSNumber *customID = nil;
     
     if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
-        name = ((SDLOnButtonEvent *)notification).buttonName;
-        customID = ((SDLOnButtonEvent *)notification).customButtonID;
+        name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
+        customID = ((SDLOnButtonEvent *)rpcNotification).customButtonID;
     } else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-        name = ((SDLOnButtonPress *)notification).buttonName;
-        customID = ((SDLOnButtonPress *)notification).customButtonID;
+        name = ((SDLOnButtonPress *)rpcNotification).buttonName;
+        customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
     
     if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
@@ -201,7 +205,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     if (handler) {
-        handler(notification);
+        handler(rpcNotification);
     }
 }
 

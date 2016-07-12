@@ -863,7 +863,7 @@
 		5DE372A61ACC35B400849FAA /* SDLDebugToolConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DE372A51ACC35B400849FAA /* SDLDebugToolConsole.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
-		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		E9C32B861AB20B4300F283AF /* NSThread+ThreadIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */; };
 		E9C32B871AB20B4300F283AF /* NSThread+ThreadIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */; };
 		E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B891AB20BA200F283AF /* SDLIAPSession.h */; };
@@ -3200,17 +3200,11 @@
 				5DA3F3611BC448690026F2D0 /* Handler Additions */,
 				5DA3F3561BC4480E0026F2D0 /* Utilities */,
 				5D8204171BCD80A200D0A41B /* Configurations */,
-				5D82042A1BCEA91E00D0A41B /* Files */,
-				5D8204291BCEA91400D0A41B /* Permissions */,
+				5DBAE0A61D355EF200CE00BF /* Managers */,
+				5DBAE0A71D355F0C00CE00BF /* Dispatchers */,
 				5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */,
 				5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */,
 				5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */,
-				5D4D67AA1D2ED37A00468B4A /* SDLNotificationDispatcher.h */,
-				5D4D67AB1D2ED37A00468B4A /* SDLNotificationDispatcher.m */,
-				5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */,
-				5D4D67AF1D2FE2F900468B4A /* SDLResponseDispatcher.m */,
-				5D4D67B21D30161600468B4A /* SDLLockScreenManager.h */,
-				5D4D67B31D30161600468B4A /* SDLLockScreenManager.m */,
 			);
 			name = "Developer API";
 			sourceTree = "<group>";
@@ -3332,6 +3326,36 @@
 				5DB92D2E1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m */,
 			);
 			name = "Prioritized Objects";
+			sourceTree = "<group>";
+		};
+		5DBAE0A51D355EE700CE00BF /* Lock Screen */ = {
+			isa = PBXGroup;
+			children = (
+				5D4D67B21D30161600468B4A /* SDLLockScreenManager.h */,
+				5D4D67B31D30161600468B4A /* SDLLockScreenManager.m */,
+			);
+			name = "Lock Screen";
+			sourceTree = "<group>";
+		};
+		5DBAE0A61D355EF200CE00BF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5D82042A1BCEA91E00D0A41B /* Files */,
+				5D8204291BCEA91400D0A41B /* Permissions */,
+				5DBAE0A51D355EE700CE00BF /* Lock Screen */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		5DBAE0A71D355F0C00CE00BF /* Dispatchers */ = {
+			isa = PBXGroup;
+			children = (
+				5D4D67AA1D2ED37A00468B4A /* SDLNotificationDispatcher.h */,
+				5D4D67AB1D2ED37A00468B4A /* SDLNotificationDispatcher.m */,
+				5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */,
+				5D4D67AF1D2FE2F900468B4A /* SDLResponseDispatcher.m */,
+			);
+			name = Dispatchers;
 			sourceTree = "<group>";
 		};
 		5DCC199D1B8221D2004FFAD9 /* HTTP Connection */ = {

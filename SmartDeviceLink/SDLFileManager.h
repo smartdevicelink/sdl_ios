@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLConnectionManagerType.h"
 #import "SDLFileManagerConstants.h"
 
 @class SDLFile;
+@protocol SDLConnectionManagerType;
 
 
 NS_ASSUME_NONNULL_BEGIN

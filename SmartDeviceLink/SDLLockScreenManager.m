@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _lockScreenPresented = NO;
     _canPresent = NO;
-    _config = config; // TODO: Don't want to copy this, it could have VCs or images, and could be kind large
+    _config = config; // TODO: Don't want to copy this, it could have View Controllers or images, and could be kind large
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveVehicleIconNotification object:dispatcher];
@@ -48,9 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
+    self.canPresent = NO;
+    
     // Create and initialize the lock screen controller depending on the configuration
     if (!self.config.enableAutomaticLockScreen) {
         self.lockScreenViewController = nil;
+        return;
     } else if (self.config.customViewController != nil) {
         self.lockScreenViewController = self.config.customViewController;
     } else {

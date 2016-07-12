@@ -11,5 +11,6 @@
 @protocol SDLManagerDelegate <NSObject>
 
 - (void)managerDidBecomeReady;
+- (void)managerDidDisconnect;
 
 @end
