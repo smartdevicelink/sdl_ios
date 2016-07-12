@@ -1,95 +1,127 @@
 //
 //  SDLLockScreenManager.m
-//  SmartDeviceLink
+//  SmartDeviceLink-iOS
+//
+//  Created by Joel Fischer on 7/8/16.
+//  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
 #import "SDLLockScreenManager.h"
 
-#import "SDLHMILevel.h"
+#import "SDLLockScreenConfiguration.h"
+#import "SDLLockScreenViewController.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLNotificationConstants.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenManager ()
 
-@property (assign, nonatomic) BOOL haveDriverDistractionStatus;
+@property (assign, nonatomic, readwrite) BOOL lockScreenPresented;
+
+@property (copy, nonatomic) SDLLockScreenConfiguration *config;
+
+@property (assign, nonatomic) BOOL canPresent;
+@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController;
 
 @end
 
 
 @implementation SDLLockScreenManager
 
-#pragma mark - Lifecycle
-
-- (instancetype)init {
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher {
     self = [super init];
-    if (self) {
-        _userSelected = NO;
-        _driverDistracted = NO;
-        _haveDriverDistractionStatus = NO;
+    if (!self) {
+        return nil;
     }
+    
+    _lockScreenPresented = NO;
+    _canPresent = NO;
+    _config = config; // TODO: Don't want to copy this, it could have VCs or images, and could be kind large
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveVehicleIconNotification object:dispatcher];
+    
     return self;
 }
 
-
-#pragma mark - Getters / Setters
-#pragma mark Custom setters
-
-- (void)setDriverDistracted:(BOOL)driverDistracted {
-    _driverDistracted = driverDistracted;
-    _haveDriverDistractionStatus = YES;
-}
-
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
-    if (_hmiLevel != hmiLevel) {
-        _hmiLevel = hmiLevel;
-    }
-
-    if ([hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
-        self.userSelected = YES;
-    } else if ([hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
-        self.userSelected = NO;
-    }
-}
-
-
-#pragma mark Custom Getters
-
-- (SDLOnLockScreenStatus *)lockScreenStatusNotification {
-    SDLOnLockScreenStatus *notification = [[SDLOnLockScreenStatus alloc] init];
-    notification.driverDistractionStatus = @(self.driverDistracted);
-    notification.hmiLevel = self.hmiLevel;
-    notification.userSelected = @(self.userSelected);
-    notification.lockScreenStatus = self.lockScreenStatus;
-
-    return notification;
-}
-
-- (SDLLockScreenStatus *)lockScreenStatus {
-    if (self.hmiLevel == nil || [self.hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
-        // App is not active on the car
-        return [SDLLockScreenStatus OFF];
-    } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel BACKGROUND]]) {
-        // App is in the background on the car
-        // The lockscreen depends entirely on if the user selected the app
-        if (self.userSelected) {
-            return [SDLLockScreenStatus REQUIRED];
-        } else {
-            return [SDLLockScreenStatus OFF];
-        }
-    } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [self.hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
-        // App is in the foreground on the car in some manner
-        if (self.haveDriverDistractionStatus && !self.driverDistracted) {
-            // We have the distraction status, and the driver is not distracted
-            return [SDLLockScreenStatus OPTIONAL];
-        } else {
-            // We don't have the distraction status, and/or the driver is distracted
-            return [SDLLockScreenStatus REQUIRED];
-        }
+- (void)start {
+    // Create and initialize the lock screen controller depending on the configuration
+    if (!self.config.enableAutomaticLockScreen) {
+        self.lockScreenViewController = nil;
+    } else if (self.config.customViewController != nil) {
+        self.lockScreenViewController = self.config.customViewController;
     } else {
-        // This shouldn't be possible.
-        return [SDLLockScreenStatus OFF];
+        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
+        SDLLockScreenViewController *lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
+        lockScreenVC.appIcon = self.config.appIcon;
+        lockScreenVC.backgroundColor = self.config.backgroundColor;
+        self.lockScreenViewController = lockScreenVC;
+    }
+    
+    self.canPresent = YES;
+}
+
+- (void)stop {
+    self.canPresent = NO;
+    
+    // Remove the lock screen if presented, don't allow it to present again until we start
+    [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (UIViewController *)sdl_getCurrentViewController {
+    // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController != nil) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
+}
+
+
+#pragma mark - Notification Selectors
+
+- (void)sdl_lockScreenStatusDidChange:(NSNotification *)notification {
+    if (self.lockScreenViewController == nil) {
+        return;
+    }
+    
+    SDLOnLockScreenStatus *onLockScreenNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    
+    // Present the VC depending on the lock screen status
+    if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
+        if (!self.lockScreenPresented && self.canPresent) {
+            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
+            self.lockScreenPresented = YES;
+        }
+    } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
+        if (self.config.showInOptional && !self.lockScreenPresented && self.canPresent) {
+            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
+            self.lockScreenPresented = YES;
+        } else if (self.lockScreenPresented) {
+            [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
+            self.lockScreenPresented = NO;
+        }
+    } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
+        if (self.lockScreenPresented) {
+            [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
+            self.lockScreenPresented = NO;
+        }
+    }
+}
+
+- (void)sdl_lockScreenIconReceived:(NSNotification *)notification {
+    UIImage *icon = notification.userInfo[SDLNotificationUserInfoObject];
+    
+    // If the VC is our special type, then add the vehicle icon. If they passed in a custom VC, there's no current way to show the vehicle icon. If they're managing it themselves, they can grab the notification themselves.
+    if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
+        ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
     }
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

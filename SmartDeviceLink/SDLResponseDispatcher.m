@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLResponseDispatcher
 
-- (instancetype)initWithDispatcher:(id)dispatcher {
+- (instancetype)initWithDispatcher:(nullable id)dispatcher {
     self = [super init];
     if (!self) {
         return nil;
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveUnsubscribeButtonResponse object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveUnsubscribeVehicleDataResponse object:dispatcher];
     
-    // Some notifications
+    // Buttons and Commands
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForButton:) name:SDLDidReceiveButtonEventNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForButton:) name:SDLDidReceiveButtonPressNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForCommand:) name:SDLDidReceiveCommandNotification object:dispatcher];
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Handlers
 #pragma mark Response
-
+// TODO: These are notification handlers, the object will be the notification, not the response
 - (void)sdl_runHandlersForResponse:(__kindof SDLRPCResponse *)response {
     NSError *error = nil;
     BOOL success = [response.success boolValue];

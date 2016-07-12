@@ -18,8 +18,8 @@
 #import "SDLJsonEncoder.h"
 #import "SDLLanguage.h"
 #import "SDLLayoutMode.h"
-#import "SDLLockScreenManager.h"
-#import "SDLLockScreenManager.h"
+#import "SDLLockScreenStatusManager.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLNames.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemRequest.h"
@@ -52,7 +52,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 
 @interface SDLProxy () {
-    SDLLockScreenManager *_lsm;
+    SDLLockScreenStatusManager *_lsm;
 }
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
@@ -67,7 +67,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
-        _lsm = [[SDLLockScreenManager alloc] init];
+        _lsm = [[SDLLockScreenStatusManager alloc] init];
         _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];

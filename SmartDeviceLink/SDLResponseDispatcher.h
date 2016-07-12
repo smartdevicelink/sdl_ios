@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMapTable<SDLSubscribeButtonName *, SDLRPCNotificationHandler> *buttonHandlerMap;
 @property (strong, nonatomic) NSMapTable<SDLSoftButtonId *, SDLRPCNotificationHandler> *customButtonHandlerMap;
 
-- (instancetype)initWithDispatcher:(id)dispatcher;
+- (instancetype)initWithDispatcher:(nullable id)dispatcher;
 
 - (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLRequestCompletionHandler)handler;
 

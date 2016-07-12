@@ -19,7 +19,7 @@ typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notifica
 typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest * __nullable request,  __kindof SDLRPCResponse * __nullable response, NSError * __nullable error);
 
 #pragma mark - Notification info dictionary keys
-extern NSString *const SDLNotificationUserInfoObject;
+extern NSString *const SDLNotificationUserInfoObject; // TODO: Rename to be more specific? Multiple types (e.g. response, notification?)
 
 #pragma mark - General notifications
 extern NSString *const SDLTransportDidDisconnect;

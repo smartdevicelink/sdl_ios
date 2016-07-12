@@ -7,7 +7,7 @@
 #import "SDLManager.h"
 
 #import "NSMapTable+Subscripting.h"
-#import "SDLLockScreenViewController.h"
+#import "SDLLockScreenManager.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLResponseDispatcher.h"
 #import "SDLStateMachine.h"
@@ -48,11 +48,11 @@ NSString *const SDLLifecycleStateReady = @"Ready";
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
 @property (assign, nonatomic) BOOL firstHMINotNoneOccurred;
 @property (strong, nonatomic, nullable) SDLOnHashChange *resumeHash;
-@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController; // TODO: Make a LockScreenManager
-@property (assign, nonatomic, getter=isLockScreenPresented) BOOL lockScreenPresented;
+@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
+
+@property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
 @property (strong, nonatomic) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic) SDLResponseDispatcher *responseDispatcher;
-@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 
 @end
@@ -74,11 +74,12 @@ NSString *const SDLLifecycleStateReady = @"Ready";
         return nil;
     }
     
-    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
+    // Dependencies
     _configuration = configuration;
-    
     _delegate = delegate;
     
+    // Private properties
+    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
     _correlationID = 1;
     _firstHMIFullOccurred = NO;
     _firstHMINotNoneOccurred = NO;
@@ -86,7 +87,10 @@ NSString *const SDLLifecycleStateReady = @"Ready";
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithDispatcher:_notificationDispatcher];
     _registerAppInterfaceResponse = nil;
     
-    _lockScreenPresented = NO;
+    // Managers
+    _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
+    _permissionManager = [[SDLPermissionManager alloc] init];
+    _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher];
     
     return self;
 }
@@ -115,22 +119,6 @@ NSString *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Getters
 
-- (SDLFileManager *)fileManager {
-    if (_fileManager == nil) {
-        _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
-    }
-    
-    return _fileManager;
-}
-
-- (SDLPermissionManager *)permissionManager {
-    if (_permissionManager == nil) {
-        _permissionManager = [[SDLPermissionManager alloc] init];
-    }
-    
-    return _permissionManager;
-}
-
 - (nullable SDLStreamingMediaManager *)streamManager {
     return self.proxy.streamingMediaManager;
 }
@@ -157,6 +145,7 @@ NSString *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateTransportDisconnected {
     [self.fileManager stop];
     [self.permissionManager stop];
+    [self.lockScreenManager stop];
     
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.notificationDispatcher postNotification:SDLTransportDidDisconnect info:nil];
@@ -196,6 +185,8 @@ NSString *const SDLLifecycleStateReady = @"Ready";
     
     // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
     dispatch_group_enter(managerGroup);
+    
+    [self.lockScreenManager start];
     
     // When done, we want to transition
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
@@ -300,7 +291,7 @@ NSString *const SDLLifecycleStateReady = @"Ready";
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     // We will allow things to be sent in a "SDLLifeCycleStateTransportConnected" in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     
-    // Add a correlation ID
+    // Add a correlation ID to the request
     NSNumber *corrID = [self sdl_getNextCorrelationId];
     request.correlationID = corrID;
     
@@ -328,76 +319,13 @@ NSString *const SDLLifecycleStateReady = @"Ready";
 }
 
 
-#pragma mark Lock Screen
-
-- (void)sdl_initializeLockScreenController {
-    // Create and initialize the lock screen controller depending on the configuration
-    if (!self.configuration.lockScreenConfig.enableAutomaticLockScreen) {
-        self.lockScreenViewController = nil;
-    } else if (self.configuration.lockScreenConfig.customViewController != nil) {
-        self.lockScreenViewController = self.configuration.lockScreenConfig.customViewController;
-    } else {
-        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
-        SDLLockScreenViewController *lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
-        lockScreenVC.appIcon = self.configuration.lockScreenConfig.appIcon;
-        lockScreenVC.backgroundColor = self.configuration.lockScreenConfig.backgroundColor;
-        self.lockScreenViewController = lockScreenVC;
-    }
-}
-
-- (UIViewController *)sdl_getCurrentViewController {
-    // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController != nil) {
-        topController = topController.presentedViewController;
-    }
-    
-    return topController;
-}
-
-
 #pragma mark SDLProxyListener Methods
 
-- (void)onReceivedLockScreenIcon:(UIImage *)icon {
-    // TODO: Notification? I'd guess not.
-    if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
-        ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
-    } else {
-        [self.notificationDispatcher postNotification:SDLDidReceiveVehicleIconNotification info:icon];
-    }
-}
-
+// TODO: These are notification handlers now, change object type
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
     self.registerAppInterfaceResponse = response;
     
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
-}
-
-- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
-    // TODO: This logic should be moved into the lock screen manager class when SDLProxy doesn't handle this stuff
-    if (self.lockScreenViewController == nil) {
-        return;
-    }
-    
-    if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
-        if (!self.lockScreenPresented) {
-            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
-            self.lockScreenPresented = YES;
-        }
-    } else if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
-        if (self.configuration.lockScreenConfig.showInOptional && !self.lockScreenPresented) {
-            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
-            self.lockScreenPresented = YES;
-        } else if (self.lockScreenPresented) {
-            [[self sdl_getCurrentViewController] dismissViewControllerAnimated:YES completion:nil];
-            self.lockScreenPresented = NO;
-        }
-    } else if ([notification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
-        if (self.lockScreenPresented) {
-            [[self sdl_getCurrentViewController] dismissViewControllerAnimated:YES completion:nil];
-            self.lockScreenPresented = NO;
-        }
-    }
 }
 
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {

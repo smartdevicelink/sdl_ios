@@ -7,16 +7,16 @@
 
 #import "SDLHMILevel.h"
 #import "SDLOnLockScreenStatus.h"
-#import "SDLLockScreenManager.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenStatus.h"
 
 
 QuickSpecBegin(SDLLockScreenManagerSpec)
 
 describe(@"the lockscreen manager", ^{
-    __block SDLLockScreenManager *lockScreenManager;
+    __block SDLLockScreenStatusManager *lockScreenManager;
     beforeEach(^{
-        lockScreenManager = [[SDLLockScreenManager alloc] init];
+        lockScreenManager = [[SDLLockScreenStatusManager alloc] init];
     });
     
     it(@"should properly initialize user selected app boolean to false", ^{
