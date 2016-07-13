@@ -846,6 +846,7 @@
 		5DB92D2F1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D2E1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m */; };
 		5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DB92D301AC9C8BA00C15BB0 /* SDLRPCStruct.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DB92D331AC9C8BA00C15BB0 /* SDLRPCStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */; };
+		5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
 		5DCC19A01B8221F3004FFAD9 /* SDLURLSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCC199E1B8221F3004FFAD9 /* SDLURLSession.h */; };
 		5DCC19A11B8221F3004FFAD9 /* SDLURLSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCC199F1B8221F3004FFAD9 /* SDLURLSession.m */; };
@@ -1779,6 +1780,7 @@
 		5DB92D2E1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLObjectWithPrioritySpec.m; path = "UtilitiesSpecs/Prioritized Objects/SDLObjectWithPrioritySpec.m"; sourceTree = "<group>"; };
 		5DB92D301AC9C8BA00C15BB0 /* SDLRPCStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCStruct.h; sourceTree = "<group>"; };
 		5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCStruct.m; sourceTree = "<group>"; };
+		5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLNotificationDispatcherSpec.m; path = DevAPISpecs/SDLNotificationDispatcherSpec.m; sourceTree = "<group>"; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
 		5DCC199E1B8221F3004FFAD9 /* SDLURLSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLURLSession.h; sourceTree = "<group>"; };
 		5DCC199F1B8221F3004FFAD9 /* SDLURLSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLURLSession.m; sourceTree = "<group>"; };
@@ -3252,10 +3254,10 @@
 		5DAE06711BDEC68700F9B498 /* Developer API Tests */ = {
 			isa = PBXGroup;
 			children = (
+				5DBAE0A91D35888D00CE00BF /* Dispatchers */,
+				5DBAE0A81D35886E00CE00BF /* Managers */,
 				5DB1BCDB1D243DA8002FFC37 /* Configurations */,
 				5D6EB4C61BF274F400693731 /* Utilities */,
-				5D9F507F1BE7E6C900FEF399 /* Permissions */,
-				5D9F507E1BE7E46600FEF399 /* Files */,
 			);
 			name = "Developer API Tests";
 			sourceTree = "<group>";
@@ -3354,6 +3356,23 @@
 				5D4D67AB1D2ED37A00468B4A /* SDLNotificationDispatcher.m */,
 				5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */,
 				5D4D67AF1D2FE2F900468B4A /* SDLResponseDispatcher.m */,
+			);
+			name = Dispatchers;
+			sourceTree = "<group>";
+		};
+		5DBAE0A81D35886E00CE00BF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5D9F507F1BE7E6C900FEF399 /* Permissions */,
+				5D9F507E1BE7E46600FEF399 /* Files */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		5DBAE0A91D35888D00CE00BF /* Dispatchers */ = {
+			isa = PBXGroup;
+			children = (
+				5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */,
 			);
 			name = Dispatchers;
 			sourceTree = "<group>";
@@ -4405,6 +4424,7 @@
 				162E830A1A9BDE8B00906325 /* SDLVehicleDataTypeSpec.m in Sources */,
 				5DB1BCD31D243A8E002FFC37 /* SDLDeleteFileOperationSpec.m in Sources */,
 				162E82F41A9BDE8B00906325 /* SDLPrimaryAudioSource.m in Sources */,
+				5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */,
 				162E83461A9BDE8B00906325 /* SDLUnsubscribeButtonSpec.m in Sources */,
 				162E82EB1A9BDE8B00906325 /* SDLLayoutModeSpec.m in Sources */,
 				1680B1181A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m in Sources */,
