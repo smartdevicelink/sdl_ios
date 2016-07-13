@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent {
     if (data.length == 0) { return nil; }
     
-    // TODO: Only flush to file URL when under memory pressure?
+    // TODO: Only flush to file URL when under memory pressure? Most of the time this won't be needed
     NSError *error = nil;
     NSString *tempFileName = [NSString stringWithFormat:@"%@_%@.%@", [NSProcessInfo processInfo].globallyUniqueString, name, extension];
     NSURL *fileURL = [[SDLFileManager temporaryFileDirectory] URLByAppendingPathComponent:tempFileName];

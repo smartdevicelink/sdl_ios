@@ -42,6 +42,10 @@ describe(@"SDLFile", ^{
             it(@"should correctly store file type", ^{
                 expect(testFile.fileType).to(equal([SDLFileType AUDIO_MP3]));
             });
+            
+            it(@"should correctly start as non-overwrite", ^{
+                expect(@(testFile.overwrite)).to(equal(@NO));
+            });
         });
     });
     
@@ -88,6 +92,10 @@ describe(@"SDLFile", ^{
                 it(@"should correctly store persistence", ^{
                     expect(@(testFile.persistent)).to(equal(@NO));
                 });
+                
+                it(@"should correctly start as non-overwrite", ^{
+                    expect(@(testFile.overwrite)).to(equal(@NO));
+                });
             });
             
             context(@"That is persistent", ^{
@@ -113,6 +121,10 @@ describe(@"SDLFile", ^{
                 
                 it(@"should correctly store persistence", ^{
                     expect(@(testFile.persistent)).to(equal(@YES));
+                });
+                
+                it(@"should correctly start as non-overwrite", ^{
+                    expect(@(testFile.overwrite)).to(equal(@NO));
                 });
             });
         });
