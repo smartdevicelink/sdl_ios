@@ -80,10 +80,10 @@ describe(@"SDLPermissionsManager", ^{
         testPermissionFullLimitedBackgroundAllowed.parameterPermissions = testParameterPermissions;
         
         // Permission Notifications
-        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]}];
-        limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel LIMITED]}];
-        backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel BACKGROUND]}];
-        noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: [SDLHMILevel NONE]}];
+        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]}];
+        limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: [SDLHMILevel LIMITED]}];
+        backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: [SDLHMILevel BACKGROUND]}];
+        noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: [SDLHMILevel NONE]}];
     });
     
     describe(@"checking if a permission is allowed", ^{
@@ -415,7 +415,7 @@ describe(@"SDLPermissionsManager", ^{
                     testPermissionUpdated.parameterPermissions = testParameterPermissions;
                     
                     // Send the permission update
-                    NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionUpdated]}];
+                    NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
                     [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                 });
                 
@@ -494,7 +494,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -540,7 +540,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -610,7 +610,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -644,7 +644,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoNotificationObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     

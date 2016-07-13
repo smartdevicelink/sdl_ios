@@ -847,6 +847,7 @@
 		5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DB92D301AC9C8BA00C15BB0 /* SDLRPCStruct.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DB92D331AC9C8BA00C15BB0 /* SDLRPCStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */; };
 		5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */; };
+		5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
 		5DCC19A01B8221F3004FFAD9 /* SDLURLSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCC199E1B8221F3004FFAD9 /* SDLURLSession.h */; };
 		5DCC19A11B8221F3004FFAD9 /* SDLURLSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCC199F1B8221F3004FFAD9 /* SDLURLSession.m */; };
@@ -1781,6 +1782,7 @@
 		5DB92D301AC9C8BA00C15BB0 /* SDLRPCStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCStruct.h; sourceTree = "<group>"; };
 		5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCStruct.m; sourceTree = "<group>"; };
 		5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLNotificationDispatcherSpec.m; path = DevAPISpecs/SDLNotificationDispatcherSpec.m; sourceTree = "<group>"; };
+		5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLResponseDispatcherSpec.m; path = DevAPISpecs/SDLResponseDispatcherSpec.m; sourceTree = "<group>"; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
 		5DCC199E1B8221F3004FFAD9 /* SDLURLSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLURLSession.h; sourceTree = "<group>"; };
 		5DCC199F1B8221F3004FFAD9 /* SDLURLSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLURLSession.m; sourceTree = "<group>"; };
@@ -3373,6 +3375,7 @@
 			isa = PBXGroup;
 			children = (
 				5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */,
+				5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */,
 			);
 			name = Dispatchers;
 			sourceTree = "<group>";
@@ -4172,6 +4175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */,
 				162E83951A9BDE8B00906325 /* SDLTurnSpec.m in Sources */,
 				162E83481A9BDE8B00906325 /* SDLUpdateTurnListSpec.m in Sources */,
 				1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */,
