@@ -49,10 +49,6 @@ describe(@"SDLFileManager", ^{
             expect(testFileManager.remoteFileNames).to(beEmpty());
         });
         
-        it(@"allowOverwrite should be NO by default", ^{
-            expect(@(testFileManager.allowOverwrite)).to(equal(@NO));
-        });
-        
         it(@"should have no pending operations", ^{
             expect(testFileManager.pendingTransactions).to(beEmpty());
         });
@@ -63,7 +59,7 @@ describe(@"SDLFileManager", ^{
         __block NSError *startupError = nil;
         
         beforeEach(^{
-            [testFileManager startManagerWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+            [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
                 startupSuccess = success;
                 startupError = error;
             }];
@@ -185,9 +181,9 @@ describe(@"SDLFileManager", ^{
                         testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
                     });
                     
-                    context(@"when allowing overwriting", ^{
+                    context(@"when the file's overwrite property is YES", ^{
                         beforeEach(^{
-                            testFileManager.allowOverwrite = YES;
+                            testUploadFile.overwrite = YES;
                             
                             [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                                 completionSuccess = success;
@@ -288,7 +284,7 @@ describe(@"SDLFileManager", ^{
                         __block SDLRPCRequest *lastRequest = nil;
                         
                         beforeEach(^{
-                            testFileManager.allowOverwrite = NO;
+                            testUploadFile.overwrite = NO;
                             
                             [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                                 completionSuccess = success;
@@ -403,47 +399,6 @@ describe(@"SDLFileManager", ^{
                         
                         it(@"should call the completion handler with nil error", ^{
                             expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
-                        });
-                    });
-                });
-            });
-            
-            describe(@"force uploading a file", ^{
-                __block NSString *testFileName = nil;
-                __block SDLFile *testUploadFile = nil;
-                __block BOOL completionSuccess = NO;
-                __block NSUInteger completionBytesAvailable = 0;
-                __block NSError *completionError = nil;
-                
-                __block SDLPutFile *sentPutFile = nil;
-                __block NSData *testFileData = nil;
-                
-                context(@"when there is a remote file named the same thing", ^{
-                    beforeEach(^{
-                        testFileName = [testInitialFileNames anyObject];
-                        testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
-                    });
-                    
-                    context(@"when disallowing overwriting", ^{
-                        beforeEach(^{
-                            testFileManager.allowOverwrite = NO;
-                            
-                            [testFileManager forceUploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-                                completionSuccess = success;
-                                completionBytesAvailable = bytesAvailable;
-                                completionError = error;
-                            }];
-                            
-                            [NSThread sleepForTimeInterval:0.5];
-                            
-                            sentPutFile = testConnectionManager.receivedRequests.lastObject;
-                        });
-                        
-                        it(@"should create a putfile with the correct data", ^{
-                            expect(sentPutFile.bulkData).to(equal(testFileData));
-                            expect(sentPutFile.length).to(equal(@(testFileData.length)));
-                            expect(sentPutFile.fileType.value).to(equal([SDLFileType BINARY].value));
                         });
                     });
                 });
