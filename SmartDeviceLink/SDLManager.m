@@ -85,7 +85,7 @@ NSString *const SDLLifecycleStateReady = @"Ready";
     _firstHMIFullOccurred = NO;
     _firstHMINotNoneOccurred = NO;
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
-    _responseDispatcher = [[SDLResponseDispatcher alloc] initWithDispatcher:_notificationDispatcher];
+    _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerAppInterfaceResponse = nil;
     
     // Managers

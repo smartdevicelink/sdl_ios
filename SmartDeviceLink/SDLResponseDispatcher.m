@@ -14,7 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLResponseDispatcher
 
-- (instancetype)initWithDispatcher:(nullable id)dispatcher {
+- (instancetype)init {
+    return [self initWithNotificationDispatcher:nil];
+}
+
+- (instancetype)initWithNotificationDispatcher:(nullable id)dispatcher {
     self = [super init];
     if (!self) {
         return nil;
@@ -87,9 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     if ([request isKindOfClass:[SDLShow class]]) {
         // TODO: Can we create soft button ids ourselves?
         SDLShow *show = (SDLShow *)request;
-        if (show.softButtons.count > 0) {
-            [self sdl_addToHandlerMapWithSoftButtons:show.softButtons];
-        }
+        [self sdl_addToHandlerMapWithSoftButtons:show.softButtons];
     } else if ([request isKindOfClass:[SDLAddCommand class]]) {
         // TODO: Can we create CmdIDs ourselves?
         SDLAddCommand *addCommand = (SDLAddCommand *)request;
@@ -137,6 +139,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Handlers
 #pragma mark Response
+
+// Called by notifications
 - (void)sdl_runHandlersForResponse:(NSNotification *)notification {
     __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
     
