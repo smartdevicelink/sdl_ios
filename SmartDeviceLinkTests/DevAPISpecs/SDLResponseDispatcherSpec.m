@@ -4,7 +4,11 @@
 #import "SDLAddCommand.h"
 #import "SDLAlert.h"
 #import "SDLButtonName.h"
+#import "SDLDeleteCommand.h"
+#import "SDLDeleteCommandResponse.h"
+#import "SDLNotificationConstants.h"
 #import "SDLReadDID.h"
+#import "SDLReadDIDResponse.h"
 #import "SDLResponseDispatcher.h"
 #import "SDLRPCRequestFactory.h"
 #import "SDLScrollableMessage.h"
@@ -14,11 +18,13 @@
 #import "SDLSubscribeButton.h"
 #import "SDLSystemAction.h"
 #import "SDLTextAlignment.h"
+#import "SDLUnsubscribeButton.h"
+#import "SDLUnsubscribeButtonResponse.h"
 
 
 QuickSpecBegin(SDLResponseDispatcherSpec)
 
-fdescribe(@"a response dispatcher", ^{
+describe(@"a response dispatcher", ^{
     __block SDLResponseDispatcher *testDispatcher = nil;
     
     beforeEach(^{
@@ -39,7 +45,7 @@ fdescribe(@"a response dispatcher", ^{
         expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
     });
     
-    context(@"adding a request without a handler", ^{
+    context(@"storing a request without a handler", ^{
         it(@"should not store the request", ^{
             SDLReadDID *readDIDRPC = [[SDLReadDID alloc] init];
             [testDispatcher storeRequest:readDIDRPC handler:nil];
@@ -52,11 +58,48 @@ fdescribe(@"a response dispatcher", ^{
         });
     });
     
-    context(@"adding a request with a handler", ^{
+    context(@"storing a request with a handler", ^{
+        __block SDLRPCRequest *testRequest = nil;
+        __block NSNumber *testCorrelationId = nil;
+        __block BOOL handlerCalled = NO;
         
+        beforeEach(^{
+            testRequest = [[SDLReadDID alloc] init];
+            testCorrelationId = @42;
+            
+            testRequest.correlationID = testCorrelationId;
+            [testDispatcher storeRequest:testRequest handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                handlerCalled = YES;
+            }];
+        });
+        
+        it(@"should store the request and response", ^{
+            expect(testDispatcher.rpcRequestDictionary[testCorrelationId]).toNot(beNil());
+            expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
+            
+            expect(testDispatcher.rpcResponseHandlerMap[testCorrelationId]).toNot(beNil());
+            expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
+        });
+        
+        describe(@"when a response arrives", ^{
+            __block SDLRPCResponse *testResponse = nil;
+            
+            beforeEach(^{
+                testResponse = [[SDLReadDIDResponse alloc] init];
+                testResponse.correlationID = testCorrelationId;
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveReadDIDResponse object:nil userInfo:@{ SDLNotificationUserInfoObject: testResponse }];
+            });
+            
+            it(@"should run the handler", ^{
+                expect(@(handlerCalled)).to(beTruthy());
+                expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
+                expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
+            });
+        });
     });
     
-    context(@"adding a show request", ^{
+    context(@"storing a show request", ^{
         __block SDLShow *testShow = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
         
@@ -110,12 +153,20 @@ fdescribe(@"a response dispatcher", ^{
         });
     });
     
-    context(@"adding a command request", ^{
+    context(@"storing a command request", ^{
         __block SDLAddCommand *testAddCommand = nil;
+        __block NSNumber *testCommandId = nil;
+        
+        __block NSNumber *testAddCommandCorrelationId = nil;
+        __block NSNumber *testDeleteCommandCorrelationId = nil;
         
         context(@"with a handler", ^{
             beforeEach(^{
-                testAddCommand = [SDLRPCRequestFactory buildAddCommandWithID:@1 vrCommands:nil handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testCommandId = @1;
+                testAddCommandCorrelationId = @42;
+                
+                testAddCommand = [SDLRPCRequestFactory buildAddCommandWithID:testCommandId vrCommands:nil handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testAddCommand.correlationID = testAddCommandCorrelationId;
             });
             
             it(@"should add the command to the map", ^{
@@ -130,6 +181,37 @@ fdescribe(@"a response dispatcher", ^{
                 
                 expectAction(^{ [testDispatcher storeRequest:testAddCommand handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
+            
+            describe(@"then deleting the command", ^{
+                __block SDLDeleteCommand *testDeleteCommand = nil;
+                __block SDLDeleteCommandResponse *testDeleteResponse = nil;
+                
+                beforeEach(^{
+                    [testDispatcher storeRequest:testAddCommand handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {}];
+                    
+                    // We need both the delete command and the response for this to work
+                    testDeleteCommandCorrelationId = @43;
+                    
+                    testDeleteCommand = [[SDLDeleteCommand alloc] init];
+                    testDeleteCommand.correlationID = testDeleteCommandCorrelationId;
+                    testDeleteCommand.cmdID = testCommandId;
+                    
+                    [testDispatcher storeRequest:testDeleteCommand handler:nil];
+                    
+                    testDeleteResponse = [[SDLDeleteCommandResponse alloc] init];
+                    testDeleteResponse.correlationID = testDeleteCommandCorrelationId;
+                    testDeleteResponse.success = @YES;
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveDeleteCommandResponse object:nil userInfo:@{ SDLNotificationUserInfoObject: testDeleteResponse }];
+                });
+                
+                it(@"should have removed all the handlers", ^{
+                    // There should still be the add command request & handler in the dictionaries since we never responded
+                    expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
+                    expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
+                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
+                });
+            });
         });
         
         context(@"without a handler", ^{
@@ -143,12 +225,20 @@ fdescribe(@"a response dispatcher", ^{
         });
     });
     
-    context(@"adding a subscribe button request", ^{
+    context(@"storing a subscribe button request", ^{
         __block SDLSubscribeButton *testSubscribeButton = nil;
+        __block SDLButtonName *testButtonName = nil;
+        
+        __block NSNumber *testSubscribeCorrelationId = nil;
+        __block NSNumber *testUnsubscribeCorrelationId = nil;
         
         context(@"with a handler", ^{
             beforeEach(^{
-                testSubscribeButton = [SDLRPCRequestFactory buildSubscribeButtonWithName:[SDLButtonName OK] handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testButtonName = [SDLButtonName OK];
+                testSubscribeCorrelationId = @42;
+                
+                testSubscribeButton = [SDLRPCRequestFactory buildSubscribeButtonWithName:testButtonName handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSubscribeButton.correlationID = testSubscribeCorrelationId;
             });
             
             it(@"should add the subscription to the map", ^{
@@ -163,8 +253,39 @@ fdescribe(@"a response dispatcher", ^{
                 
                 expectAction(^{ [testDispatcher storeRequest:testSubscribeButton handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
+            
+            describe(@"then unsubscribing", ^{
+                __block SDLUnsubscribeButton *testUnsubscribe = nil;
+                __block SDLUnsubscribeButtonResponse *testUnsubscribeResponse = nil;
+                
+                beforeEach(^{
+                    [testDispatcher storeRequest:testSubscribeButton handler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {}];
+                    
+                    // We need both the delete command and the response for this to work
+                    testUnsubscribeCorrelationId = @43;
+                    
+                    testUnsubscribe = [[SDLUnsubscribeButton alloc] init];
+                    testUnsubscribe.correlationID = testUnsubscribeCorrelationId;
+                    testUnsubscribe.buttonName = testButtonName;
+                    
+                    [testDispatcher storeRequest:testUnsubscribe handler:nil];
+                    
+                    testUnsubscribeResponse = [[SDLUnsubscribeButtonResponse alloc] init];
+                    testUnsubscribeResponse.correlationID = testUnsubscribeCorrelationId;
+                    testUnsubscribeResponse.success = @YES;
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveUnsubscribeButtonResponse object:nil userInfo:@{ SDLNotificationUserInfoObject: testUnsubscribeResponse }];
+                });
+                
+                it(@"should have removed all the handlers", ^{
+                    // There should still be the add command request & handler in the dictionaries since we never responded
+                    expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
+                    expect(testDispatcher.rpcRequestDictionary).to(haveCount(@1));
+                    expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@1));
+                });
+            });
         });
-        
+    
         context(@"without a handler", ^{
             beforeEach(^{
                 testSubscribeButton = [SDLRPCRequestFactory buildSubscribeButtonWithName:[SDLButtonName OK] handler:nil];
@@ -176,7 +297,7 @@ fdescribe(@"a response dispatcher", ^{
         });
     });
     
-    context(@"adding an alert request", ^{
+    context(@"storing an alert request", ^{
         __block SDLAlert *testAlert = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
         
@@ -230,7 +351,7 @@ fdescribe(@"a response dispatcher", ^{
         });
     });
     
-    context(@"adding a scrollable message request", ^{
+    context(@"storing a scrollable message request", ^{
         __block SDLScrollableMessage *testScrollableMessage = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
         

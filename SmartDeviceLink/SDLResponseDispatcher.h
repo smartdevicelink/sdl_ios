@@ -22,12 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLResponseDispatcher : NSObject
 
+// TODO: Immutable versions?
 // Dictionaries to link handlers with requests/commands/etc
-@property (strong, nonatomic) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
-@property (strong, nonatomic) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
-@property (strong, nonatomic) NSMapTable<SDLAddCommandCommandId *, SDLRPCNotificationHandler> *commandHandlerMap;
-@property (strong, nonatomic) NSMapTable<SDLSubscribeButtonName *, SDLRPCNotificationHandler> *buttonHandlerMap;
-@property (strong, nonatomic) NSMapTable<SDLSoftButtonId *, SDLRPCNotificationHandler> *customButtonHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
+@property (strong, nonatomic, readonly) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
+@property (strong, nonatomic, readonly) NSMapTable<SDLAddCommandCommandId *, SDLRPCNotificationHandler> *commandHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCNotificationHandler> *buttonHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCNotificationHandler> *customButtonHandlerMap;
 
 - (instancetype)initWithNotificationDispatcher:(nullable id)dispatcher NS_DESIGNATED_INITIALIZER;
 

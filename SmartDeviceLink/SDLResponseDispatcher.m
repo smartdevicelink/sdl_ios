@@ -119,8 +119,9 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_addToHandlerMapWithSoftButtons:scrollableMessage.softButtons];
     }
     
+    // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
+    self.rpcRequestDictionary[correlationId] = request;
     if (handler) {
-        self.rpcRequestDictionary[correlationId] = request;
         self.rpcResponseHandlerMap[correlationId] = handler;
     }
 }
@@ -145,8 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
     __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
     
     NSError *error = nil;
-    BOOL success = [response.success boolValue];
-    if (success == NO) {
+    if (![response.success boolValue]) {
         error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
     }
     
@@ -160,6 +160,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (handler) {
         handler(request, response, error);
     }
+    
+    // If we errored on the response, the delete / unsubscribe was unsuccessful
+    if (error) { return; }
     
     // If it's a DeleteCommand or UnsubscribeButton, we need to remove handlers for the corresponding commands / buttons
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
