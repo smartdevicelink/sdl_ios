@@ -197,10 +197,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLButtonName *name = nil;
     NSNumber *customID = nil;
     
-    if ([notification isKindOfClass:[SDLOnButtonEvent class]]) {
+    if ([rpcNotification isKindOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
         customID = ((SDLOnButtonEvent *)rpcNotification).customButtonID;
-    } else if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+    } else if ([rpcNotification isKindOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
