@@ -6,10 +6,11 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class SDLLockScreenConfiguration;
 @class SDLLockScreenViewController;
+@protocol SDLViewControllerPresentable;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,8 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenManager : NSObject
 
 @property (assign, nonatomic, readonly) BOOL lockScreenPresented;
+@property (strong, nonatomic, readonly, nullable) UIViewController *lockScreenViewController;
 
-- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter;
 
 - (void)start;
 - (void)stop;

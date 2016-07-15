@@ -13,6 +13,7 @@
 #import "SDLLockScreenStatus.h"
 #import "SDLOnLockScreenStatus.h"
 #import "SDLNotificationConstants.h"
+#import "SDLViewControllerPresentable.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL lockScreenPresented;
 
 @property (copy, nonatomic) SDLLockScreenConfiguration *config;
+@property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 
 @property (assign, nonatomic) BOOL canPresent;
 @property (strong, nonatomic, nullable) UIViewController *lockScreenViewController;
@@ -31,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenManager
 
-- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher {
+- (instancetype)initWithConfiguration:(SDLLockScreenConfiguration *)config notificationDispatcher:(nullable id)dispatcher presenter:(id<SDLViewControllerPresentable>)presenter {
     self = [super init];
     if (!self) {
         return nil;
@@ -74,16 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (UIViewController *)sdl_getCurrentViewController {
-    // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController != nil) {
-        topController = topController.presentedViewController;
-    }
-    
-    return topController;
-}
-
 
 #pragma mark - Notification Selectors
 
@@ -97,12 +89,12 @@ NS_ASSUME_NONNULL_BEGIN
     // Present the VC depending on the lock screen status
     if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
         if (!self.lockScreenPresented && self.canPresent) {
-            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
+            [self.presenter.class presentViewController:self.lockScreenViewController];
             self.lockScreenPresented = YES;
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
         if (self.config.showInOptional && !self.lockScreenPresented && self.canPresent) {
-            [[self sdl_getCurrentViewController] presentViewController:self.lockScreenViewController animated:YES completion:nil];
+            [self.presenter.class presentViewController:self.lockScreenViewController];
             self.lockScreenPresented = YES;
         } else if (self.lockScreenPresented) {
             [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
