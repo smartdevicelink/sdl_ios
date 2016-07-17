@@ -1,3 +1,10 @@
+# 4.1.4 Release Notes
+### Bug Fixes
+* Fixed exception causing app to crash when SDL Core disconnects in TCP debug mode. Warning: The app may enter an undefined connection state as there is currently no retry strategy in TCP debug mode.
+
+### Other
+* Update test frameworks
+
 # 4.1.3 Release Notes
 ### Enhancements
 * Fix unit tests attempting to be built against Xcode 7.1 instead of Xcode 7.3. (#413)
