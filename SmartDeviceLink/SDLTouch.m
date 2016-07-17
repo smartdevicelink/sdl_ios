@@ -11,6 +11,8 @@
 #import "SDLTouchEvent.h"
 #import "SDLTouchCoord.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTouch
 
 - (instancetype)init {
@@ -58,3 +60,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

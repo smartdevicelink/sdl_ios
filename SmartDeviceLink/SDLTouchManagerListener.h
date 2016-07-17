@@ -8,6 +8,8 @@
 
 @class SDLTouchManager;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol SDLTouchManagerListener <NSObject>
 
 @optional
@@ -23,3 +25,5 @@
 - (void)touchManager:(SDLTouchManager*)manager pinchDidEndAtCenterPoint:(CGPoint)point;
 
 @end
+
+NS_ASSUME_NONNULL_END

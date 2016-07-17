@@ -15,15 +15,19 @@ typedef enum {
     SDLTouchIdentifierSecondFinger = 1
 } SDLTouchIdentifier;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTouch : NSObject
 
 - (instancetype)initWithTouchEvent:(SDLTouchEvent*)touchEvent;
 
-@property (nonatomic, readonly) NSInteger identifier;
-@property (nonatomic, readonly) CGPoint location;
-@property (nonatomic, readonly) NSUInteger timeStamp;
+@property (nonatomic, assign, readonly) NSInteger identifier;
+@property (nonatomic, assign, readonly) CGPoint location;
+@property (nonatomic, assign, readonly) NSUInteger timeStamp;
 
-@property (nonatomic, readonly) BOOL isFirstFinger;
-@property (nonatomic, readonly) BOOL isSecondFinger;
+@property (nonatomic, assign, readonly) BOOL isFirstFinger;
+@property (nonatomic, assign, readonly) BOOL isSecondFinger;
 
 @end
+
+NS_ASSUME_NONNULL_END

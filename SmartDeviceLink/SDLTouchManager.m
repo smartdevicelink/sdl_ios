@@ -19,6 +19,8 @@
 #import "SDLTouchEvent.h"
 #import "SDLTouchType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
     SDLPerformingTouchTypeNone,
     SDLPerformingTouchTypeSingleTouch,
@@ -30,20 +32,20 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 @interface SDLTouchManager () <SDLProxyListener>
 
-@property SDLTouch* previousTouch;
+@property (nonatomic, strong, nullable) SDLTouch* previousTouch;
 
 /*
  * Only used for caching previous single taps for double tap detection
  */
-@property SDLTouch* singleTapTouch;
+@property (nonatomic, strong, nullable) SDLTouch* singleTapTouch;
 
-@property CGFloat previousPinchDistance;
+@property (nonatomic, assign) CGFloat previousPinchDistance;
 
-@property SDLPinchGesture* currentPinchGesture;
+@property (nonatomic, strong, nullable) SDLPinchGesture* currentPinchGesture;
 
-@property dispatch_source_t singleTapTimer;
+@property (nonatomic, strong, nullable) dispatch_source_t singleTapTimer;
 
-@property SDLPerformingTouchType performingTouchType;
+@property (nonatomic, assign) SDLPerformingTouchType performingTouchType;
 
 @end
 
@@ -244,3 +246,5 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

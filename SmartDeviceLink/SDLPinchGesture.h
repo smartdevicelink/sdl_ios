@@ -10,15 +10,19 @@
 
 #import "SDLTouch.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPinchGesture : NSObject
 
 - (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch;
 
-@property (nonatomic, strong) SDLTouch* firstTouch;
-@property (nonatomic, strong) SDLTouch* secondTouch;
+@property (nonatomic, copy) SDLTouch* firstTouch;
+@property (nonatomic, copy) SDLTouch* secondTouch;
 
-@property (nonatomic, readonly) CGFloat distance;
-@property (nonatomic, readonly) CGPoint center;
-@property (nonatomic, readonly) BOOL isValid;
+@property (nonatomic, assign, readonly) CGFloat distance;
+@property (nonatomic, assign, readonly) CGPoint center;
+@property (nonatomic, assign, readonly) BOOL isValid;
 
 @end
+
+NS_ASSUME_NONNULL_END

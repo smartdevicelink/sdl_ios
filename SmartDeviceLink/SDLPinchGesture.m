@@ -11,6 +11,8 @@
 #import "SDLTouch.h"
 #import "CGPoint_Util.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPinchGesture
 
 @synthesize distance = _distance;
@@ -73,3 +75,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

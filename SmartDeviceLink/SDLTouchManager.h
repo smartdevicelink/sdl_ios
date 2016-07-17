@@ -9,25 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "SDLTouchManagerListener.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTouchManager : NSObject
 
-@property (nonatomic, weak) id<SDLTouchManagerListener> touchEventListener;
+@property (nonatomic, weak, nullable) id<SDLTouchManagerListener> touchEventListener;
 
 /*
  *  Distance between taps.
  */
-@property (nonatomic) CGFloat tapDistanceThreshold;
+@property (nonatomic, assign) CGFloat tapDistanceThreshold;
 
 /*
  *  Duration between taps (in seconds).
  */
-@property (nonatomic) CGFloat tapTimeThreshold;
+@property (nonatomic, assign) CGFloat tapTimeThreshold;
 
 /*
  *  Time between pan events (in seconds).
  */
-@property (nonatomic) CGFloat movementTimeThreshold;
+@property (nonatomic, assign) CGFloat movementTimeThreshold;
 
-@property (nonatomic, getter=isTouchEnabled) BOOL touchEnabled;
+@property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END
