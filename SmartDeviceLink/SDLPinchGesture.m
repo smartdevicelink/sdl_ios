@@ -1,38 +1,72 @@
 //
-//  SDLPinchGesture.c
+//  SDLPinchGesture.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 6/14/16.
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#include "SDLPinchGesture.h"
+#import "SDLPinchGesture.h"
 
-SDLPinchGesture SDLPinchGestureMake(SDLTouch firstTouch, SDLTouch secondTouch) {
-    SDLPinchGesture pinchGesture;
-    pinchGesture.firstTouch = firstTouch;
-    pinchGesture.secondTouch = secondTouch;
-    pinchGesture.center = CGPointCenterOfPoints(firstTouch.location, secondTouch.location);
-    pinchGesture.distance = CGPointDistanceBetweenPoints(firstTouch.location, secondTouch.location);
-    return pinchGesture;
+#import "SDLTouch.h"
+#import "CGPoint_Util.h"
+
+@implementation SDLPinchGesture
+
+@synthesize distance = _distance;
+@synthesize center = _center;
+
+- (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch {
+    self = [super init];
+    if (self) {
+        _firstTouch = firstTouch;
+        _secondTouch = secondTouch;
+        _distance = -1;
+        _center = CGPointZero;
+    }
+    return self;
 }
 
-const SDLPinchGesture SDLPinchGestureZero = {{-1, {0, 0}, 0}, {-1, {0, 0}, 0}, 0, {0, 0}};
-
-SDLPinchGesture SDLPinchGestureUpdateFromTouch(SDLPinchGesture pinch, SDLTouch touch) {
-    switch (touch.identifier) {
-        case SDLTouchIdentifierFirstFinger:
-            return SDLPinchGestureMake(touch, pinch.secondTouch);
-            break;
-        case SDLTouchIdentifierSecondFinger:
-            return SDLPinchGestureMake(pinch.firstTouch, touch);
-            break;
-        default:
-            return SDLPinchGestureZero;
-            break;
+#pragma mark - Setters
+- (void)setFirstTouch:(SDLTouch *)firstTouch {
+    if (firstTouch.identifier == SDLTouchIdentifierFirstFinger) {
+        _firstTouch = firstTouch;
+        [self sdl_invalidate];
     }
 }
 
-bool SDLPinchGestureIsValid(SDLPinchGesture pinch) {
-    return SDLTouchIsValid(pinch.firstTouch) && SDLTouchIsValid(pinch.secondTouch);
+- (void)setSecondTouch:(SDLTouch *)secondTouch {
+    if (secondTouch.identifier == SDLTouchIdentifierSecondFinger) {
+        _secondTouch = secondTouch;
+        [self sdl_invalidate];
+    }
 }
+
+#pragma mark - Getters
+- (CGFloat)distance {
+    if (_distance == -1) {
+        _distance = CGPointDistanceBetweenPoints(self.firstTouch.location,
+                                                 self.secondTouch.location);
+    }
+    return _distance;
+}
+
+- (CGPoint)center {
+    if (CGPointEqualToPoint(_center, CGPointZero)) {
+        _center = CGPointCenterOfPoints(self.firstTouch.location,
+                                        self.secondTouch.location);
+    }
+    return _center;
+}
+
+- (BOOL)isValid {
+    return (self.firstTouch != nil) && (self.secondTouch != nil);
+}
+
+#pragma mark - Private
+- (void)sdl_invalidate {
+    _distance = -1;
+    _center = CGPointZero;
+}
+
+@end

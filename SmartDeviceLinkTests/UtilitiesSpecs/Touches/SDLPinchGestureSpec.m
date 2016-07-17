@@ -13,41 +13,57 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLPinchGesture.h"
+#import "SDLTouchCoord.h"
+#import "SDLTouchEvent.h"
 
 QuickSpecBegin(SDLPinchGestureSpec)
 
 describe(@"SDLPinchGesture Tests", ^{
     context(@"SDLPinchGestureZero", ^{
-        __block SDLPinchGesture pinchGesture = SDLPinchGestureZero;
+        __block SDLPinchGesture* pinchGesture = [[SDLPinchGesture alloc] init];;
         
         it(@"should correctly initialize", ^{
-            expect(@(pinchGesture.firstTouch.identifier)).to(equal(@(-1)));
-            expect(@(pinchGesture.firstTouch.location.x)).to(equal(@0));
-            expect(@(pinchGesture.firstTouch.location.y)).to(equal(@0));
-            expect(@(pinchGesture.firstTouch.timeStamp)).to(equal(@0));
-            
-            expect(@(pinchGesture.secondTouch.identifier)).to(equal(@(-1)));
-            expect(@(pinchGesture.secondTouch.location.x)).to(equal(@0));
-            expect(@(pinchGesture.secondTouch.location.y)).to(equal(@0));
-            expect(@(pinchGesture.secondTouch.timeStamp)).to(equal(@0));
+            expect(pinchGesture.firstTouch).to(beNil());
+            expect(pinchGesture.secondTouch).to(beNil());
+            expect(@(pinchGesture.distance)).to(equal(@0));
+            expect(@(CGPointEqualToPoint(pinchGesture.center, CGPointZero))).to(beTruthy());
         });
         
         it(@"should not be a valid SDLPinchGesture", ^{
-            expect(@(SDLPinchGestureIsValid(pinchGesture))).to(beFalsy());
+            expect(@(pinchGesture.isValid)).to(beFalsy());
         });
     });
     
     context(@"SDLPinchGestureMake", ^{
-        __block SDLPinchGesture pinchGesture;
-        __block SDLTouch firstTouch;
-        __block SDLTouch secondTouch;
+        __block SDLPinchGesture* pinchGesture;
         __block unsigned long timeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         __block unsigned long secondTimeStamp = timeStamp + 1000;
         
         beforeEach(^{
-            firstTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 100, 200, timeStamp);
-            secondTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 200, 300, secondTimeStamp);
-            pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
+            SDLTouchCoord* firstCoord = [[SDLTouchCoord alloc] init];
+            firstCoord.x = @100;
+            firstCoord.y = @200;
+            
+            SDLTouchEvent* firstTouchEvent = [[SDLTouchEvent alloc] init];
+            firstTouchEvent.touchEventId = @0;
+            firstTouchEvent.coord = [NSMutableArray arrayWithObject:firstCoord];
+            firstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            
+            SDLTouch* firstTouch = [[SDLTouch alloc] initWithTouchEvent:firstTouchEvent];
+            
+            SDLTouchCoord* secondCoord = [[SDLTouchCoord alloc] init];
+            secondCoord.x = @200;
+            secondCoord.y = @300;
+            
+            SDLTouchEvent* secondTouchEvent = [[SDLTouchEvent alloc] init];
+            secondTouchEvent.touchEventId = @1;
+            secondTouchEvent.coord = [NSMutableArray arrayWithObject:secondCoord];
+            secondTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(secondTimeStamp)];
+            
+            SDLTouch* secondTouch = [[SDLTouch alloc] initWithTouchEvent:secondTouchEvent];
+
+            pinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:firstTouch
+                                                           secondTouch:secondTouch];
         });
         
         it(@"should correctly initialize", ^{
@@ -67,25 +83,65 @@ describe(@"SDLPinchGesture Tests", ^{
         });
         
         it(@"should be a valid SDLPinchGesture", ^{
-            expect(@(SDLPinchGestureIsValid(pinchGesture))).to(beTruthy());
+            expect(@(pinchGesture.isValid)).to(beTruthy());
         });
     });
     
     context(@"updating SDLPinchGesture", ^{
-        __block SDLPinchGesture pinchGesture;
+        __block SDLPinchGesture* pinchGesture;
         __block unsigned long timeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         __block unsigned long secondTimeStamp = timeStamp + 1000;
+        __block unsigned long newTimeStamp = timeStamp + 1000;
+        
+        __block SDLTouch* newFirstTouch;
+        __block SDLTouch* newSecondTouch;
         
         beforeEach(^{
-            SDLTouch firstTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 100, 200, timeStamp);
-            SDLTouch secondTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 200, 300, secondTimeStamp);
-            pinchGesture = SDLPinchGestureMake(firstTouch, secondTouch);
+            SDLTouchCoord* firstCoord = [[SDLTouchCoord alloc] init];
+            firstCoord.x = @100;
+            firstCoord.y = @200;
+            
+            SDLTouchEvent* firstTouchEvent = [[SDLTouchEvent alloc] init];
+            firstTouchEvent.touchEventId = @0;
+            firstTouchEvent.coord = [NSMutableArray arrayWithObject:firstCoord];
+            firstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            
+            SDLTouch* firstTouch = [[SDLTouch alloc] initWithTouchEvent:firstTouchEvent];
+            
+            SDLTouchCoord* secondCoord = [[SDLTouchCoord alloc] init];
+            secondCoord.x = @200;
+            secondCoord.y = @300;
+            
+            SDLTouchEvent* secondTouchEvent = [[SDLTouchEvent alloc] init];
+            secondTouchEvent.touchEventId = @1;
+            secondTouchEvent.coord = [NSMutableArray arrayWithObject:secondCoord];
+            secondTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(secondTimeStamp)];
+            
+            SDLTouch* secondTouch = [[SDLTouch alloc] initWithTouchEvent:secondTouchEvent];
+            
+            pinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:firstTouch
+                                                           secondTouch:secondTouch];
+            
+            SDLTouchCoord* newCoord = [[SDLTouchCoord alloc] init];
+            newCoord.x = @150;
+            newCoord.y = @250;
+            
+            SDLTouchEvent* newFirstTouchEvent = [[SDLTouchEvent alloc] init];
+            newFirstTouchEvent.touchEventId = @0;
+            newFirstTouchEvent.coord = [NSMutableArray arrayWithObject:newCoord];
+            newFirstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(newTimeStamp)];
+
+            SDLTouchEvent* newSecondTouchEvent = [[SDLTouchEvent alloc] init];
+            newSecondTouchEvent.touchEventId = @1;
+            newSecondTouchEvent.coord = [NSMutableArray arrayWithObject:newCoord];
+            newSecondTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(newTimeStamp)];
+
+            newFirstTouch = [[SDLTouch alloc] initWithTouchEvent:newFirstTouchEvent];
+            newSecondTouch = [[SDLTouch alloc] initWithTouchEvent:newSecondTouchEvent];
         });
         
         it(@"should update first point correctly", ^{
-            unsigned long newTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
-            SDLTouch newTouch = SDLTouchMake(SDLTouchIdentifierFirstFinger, 150, 250, newTimeStamp);
-            pinchGesture = SDLPinchGestureUpdateFromTouch(pinchGesture, newTouch);
+            pinchGesture.firstTouch = newFirstTouch;
             
             expect(@(pinchGesture.firstTouch.identifier)).to(equal(@(SDLTouchIdentifierFirstFinger)));
             expect(@(pinchGesture.firstTouch.location.x)).to(equal(@150));
@@ -104,9 +160,7 @@ describe(@"SDLPinchGesture Tests", ^{
         });
         
         it(@"should update second point correctly", ^{
-            unsigned long newTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
-            SDLTouch newTouch = SDLTouchMake(SDLTouchIdentifierSecondFinger, 150, 250, newTimeStamp);
-            pinchGesture = SDLPinchGestureUpdateFromTouch(pinchGesture, newTouch);
+            pinchGesture.secondTouch = newSecondTouch;
             
             expect(@(pinchGesture.firstTouch.identifier)).to(equal(@(SDLTouchIdentifierFirstFinger)));
             expect(@(pinchGesture.firstTouch.location.x)).to(equal(@100));

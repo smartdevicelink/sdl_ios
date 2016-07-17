@@ -12,13 +12,15 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLTouchEvent.h"
+#import "SDLTouchCoord.h"
 #import "SDLTouch.h"
 
 QuickSpecBegin(SDLTouchSpec)
 
 describe(@"SDLTouch Tests", ^{
     context(@"SDLTouchZero", ^{
-        __block SDLTouch touch = SDLTouchZero;
+        __block SDLTouch* touch = [[SDLTouch alloc] init];
         
         it(@"should correctly initialize", ^{
             expect(@(touch.identifier)).to(equal(@(-1)));
@@ -26,25 +28,30 @@ describe(@"SDLTouch Tests", ^{
             expect(@(touch.timeStamp)).to(equal(@0));
         });
         
-        it(@"should not be a valid SDLTouch", ^{
-            expect(@(SDLTouchIsValid(touch))).to(beFalsy());
-        });
-        
         it(@"should not equal First Finger Identifier", ^{
-            expect(@(SDLTouchIsFirstFinger(touch))).to(beFalsy());
+            expect(@(touch.isFirstFinger)).to(beFalsy());
         });
         
         it(@"should not equal Second Finger Identifier", ^{
-            expect(@(SDLTouchIsSecondFinger(touch))).to(beFalsy());
+            expect(@(touch.isSecondFinger)).to(beFalsy());
         });
     });
     
     context(@"For First Finger Identifiers", ^{
         __block unsigned long timeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
-        __block SDLTouch touch;
+        __block SDLTouch* touch;
         
         beforeSuite(^{
-            touch = SDLTouchMake(0, 100, 200, timeStamp);
+            SDLTouchCoord* coord = [[SDLTouchCoord alloc] init];
+            coord.x = @100;
+            coord.y = @200;
+            
+            SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
+            touchEvent.touchEventId = @0;
+            touchEvent.coord = [NSMutableArray arrayWithObject:coord];
+            touchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            
+            touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
         });
         
         it(@"should correctly make a SDLTouch struct", ^{
@@ -54,25 +61,30 @@ describe(@"SDLTouch Tests", ^{
             expect(@(touch.timeStamp)).to(equal(@(timeStamp)));
         });
         
-        it(@"should be a valid SDLTouch", ^{
-            expect(@(SDLTouchIsValid(touch))).to(beTruthy());
-        });
-        
         it(@"should equal First Finger Identifier", ^{
-            expect(@(SDLTouchIsFirstFinger(touch))).to(beTruthy());
+            expect(@(touch.isFirstFinger)).to(beTruthy());
         });
         
         it(@"should not equal Second Finger Identifier", ^{
-            expect(@(SDLTouchIsSecondFinger(touch))).to(beFalsy());
+            expect(@(touch.isSecondFinger)).to(beFalsy());
         });
     });
     
     context(@"For Second Finger Identifiers", ^{
         __block unsigned long timeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
-        __block SDLTouch touch;
+        __block SDLTouch* touch;
         
         beforeSuite(^{
-            touch = SDLTouchMake(1, 100, 200, timeStamp);
+            SDLTouchCoord* coord = [[SDLTouchCoord alloc] init];
+            coord.x = @100;
+            coord.y = @200;
+            
+            SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
+            touchEvent.touchEventId = @1;
+            touchEvent.coord = [NSMutableArray arrayWithObject:coord];
+            touchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            
+            touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
         });
         
         it(@"should correctly make a SDLTouch struct", ^{
@@ -82,16 +94,12 @@ describe(@"SDLTouch Tests", ^{
             expect(@(touch.timeStamp)).to(equal(@(timeStamp)));
         });
         
-        it(@"should be a valid SDLTouch", ^{
-            expect(@(SDLTouchIsValid(touch))).to(beTruthy());
-        });
-        
         it(@"should equal First Finger Identifier", ^{
-            expect(@(SDLTouchIsFirstFinger(touch))).to(beFalsy());
+            expect(@(touch.isFirstFinger)).to(beFalsy());
         });
         
         it(@"should not equal Second Finger Identifier", ^{
-            expect(@(SDLTouchIsSecondFinger(touch))).to(beTruthy());
+            expect(@(touch.isSecondFinger)).to(beTruthy());
         });
     });
 });

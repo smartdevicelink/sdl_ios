@@ -6,31 +6,24 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#ifndef SDLTouch_h
-#define SDLTouch_h
+#import <UIKit/UIKit.h>
 
-#include <stdio.h>
-#include <CoreGraphics/CGGeometry.h>
-
-typedef struct SDLTouch {
-    long identifier;
-    CGPoint location;
-    unsigned long timeStamp;
-} SDLTouch;
+@class SDLTouchEvent;
 
 typedef enum {
     SDLTouchIdentifierFirstFinger = 0,
     SDLTouchIdentifierSecondFinger = 1
 } SDLTouchIdentifier;
 
-extern const SDLTouch SDLTouchZero;
+@interface SDLTouch : NSObject
 
-SDLTouch SDLTouchMake(unsigned long identifier, float x, float y, unsigned long timeStamp);
+- (instancetype)initWithTouchEvent:(SDLTouchEvent*)touchEvent;
 
-// Checks if SDLTouch is equal to SDLTouchZero.
-bool SDLTouchIsValid(SDLTouch touch);
+@property (nonatomic, readonly) NSInteger identifier;
+@property (nonatomic, readonly) CGPoint location;
+@property (nonatomic, readonly) NSUInteger timeStamp;
 
-bool SDLTouchIsFirstFinger(SDLTouch touch);
-bool SDLTouchIsSecondFinger(SDLTouch touch);
+@property (nonatomic, readonly) BOOL isFirstFinger;
+@property (nonatomic, readonly) BOOL isSecondFinger;
 
-#endif /* SDLTouch_h */
+@end

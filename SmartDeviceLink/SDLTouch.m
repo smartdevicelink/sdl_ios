@@ -1,38 +1,57 @@
 //
-//  SDLTouch.c
+//  SDLTouch.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 6/14/16.
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#include "SDLTouch.h"
+#import "SDLTouch.h"
 
-SDLTouch const SDLTouchZero = {-1, {0, 0}, 0};
+#import "SDLTouchEvent.h"
+#import "SDLTouchCoord.h"
 
-SDLTouch SDLTouchMake(unsigned long identifier, float x, float y, unsigned long timeStamp) {
-    SDLTouch touch;
-    touch.identifier = identifier;
-    touch.location = CGPointMake(x, y);
-    touch.timeStamp = timeStamp;
-    return touch;
+@implementation SDLTouch
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _identifier = -1;
+        _location = CGPointZero;
+        _timeStamp = 0;
+    }
+    return self;
 }
 
-bool SDLTouchEqualToTouch(SDLTouch touch1, SDLTouch touch2) {
-    bool isEqual = (touch1.identifier == touch2.identifier);
-    isEqual = (isEqual && CGPointEqualToPoint(touch1.location, touch2.location));
-    isEqual = (isEqual && touch1.timeStamp == touch2.timeStamp);
-    return isEqual;
+- (instancetype)initWithTouchEvent:(SDLTouchEvent*)touchEvent {
+    self = [self init];
+    if (self) {
+        _identifier = touchEvent.touchEventId.unsignedIntegerValue;
+        
+        id firstTimeStamp = touchEvent.timeStamp.firstObject;
+        // In the event we receive a null timestamp, we will supply a device timestamp.
+        if ([firstTimeStamp isKindOfClass:[NSNull class]]
+            && [firstTimeStamp isEqual:[NSNull null]]) {
+            _timeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
+        } else {
+            NSNumber* timeStampNumber = (NSNumber*)firstTimeStamp;
+            _timeStamp = timeStampNumber.unsignedIntegerValue;
+        }
+
+        SDLTouchCoord* coord = touchEvent.coord.firstObject;
+        _location = CGPointMake(coord.x.floatValue,
+                                coord.y.floatValue);
+    }
+    return self;
 }
 
-bool SDLTouchIsValid(SDLTouch touch) {
-    return SDLTouchEqualToTouch(touch, SDLTouchZero) ? false : true;
+#pragma mark - Getters
+- (BOOL)isFirstFinger {
+    return self.identifier == SDLTouchIdentifierFirstFinger;
 }
 
-bool SDLTouchIsFirstFinger(SDLTouch touch) {
-    return touch.identifier == SDLTouchIdentifierFirstFinger ? true : false;
+- (BOOL)isSecondFinger {
+    return self.identifier == SDLTouchIdentifierSecondFinger;
 }
 
-bool SDLTouchIsSecondFinger(SDLTouch touch) {
-    return touch.identifier == SDLTouchIdentifierSecondFinger ? true : false;
-}
+@end

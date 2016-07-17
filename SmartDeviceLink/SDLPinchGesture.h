@@ -6,26 +6,19 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#ifndef SDLPinchGesture_h
-#define SDLPinchGesture_h
+#import <UIKit/UIKit.h>
 
-#include <stdio.h>
-#include "SDLTouch.h"
-#include "CGPoint_Util.h"
+#import "SDLTouch.h"
 
-typedef struct {
-    SDLTouch firstTouch;
-    SDLTouch secondTouch;
-    CGFloat distance;
-    CGPoint center;
-} SDLPinchGesture;
+@interface SDLPinchGesture : NSObject
 
-extern const SDLPinchGesture SDLPinchGestureZero;
+- (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch;
 
-SDLPinchGesture SDLPinchGestureMake(SDLTouch firstTouch, SDLTouch secondTouch);
+@property (nonatomic, strong) SDLTouch* firstTouch;
+@property (nonatomic, strong) SDLTouch* secondTouch;
 
-SDLPinchGesture SDLPinchGestureUpdateFromTouch(SDLPinchGesture pinch, SDLTouch touch);
+@property (nonatomic, readonly) CGFloat distance;
+@property (nonatomic, readonly) CGPoint center;
+@property (nonatomic, readonly) BOOL isValid;
 
-bool SDLPinchGestureIsValid(SDLPinchGesture pinch);
-
-#endif /* SDLPinchGesture_h */
+@end
