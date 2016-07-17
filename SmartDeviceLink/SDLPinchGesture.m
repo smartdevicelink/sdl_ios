@@ -18,12 +18,15 @@
 
 - (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch {
     self = [super init];
-    if (self) {
-        _firstTouch = firstTouch;
-        _secondTouch = secondTouch;
-        _distance = -1;
-        _center = CGPointZero;
+    if (!self) {
+        return nil;
     }
+    
+    _firstTouch = firstTouch;
+    _secondTouch = secondTouch;
+    _distance = -1;
+    _center = CGPointZero;
+    
     return self;
 }
 

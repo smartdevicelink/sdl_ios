@@ -50,12 +50,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 @implementation SDLTouchManager
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _movementTimeThreshold = 0.5f;
-        _tapTimeThreshold = 0.4f;
-        _tapDistanceThreshold = 50.0f;
-        _touchEnabled = YES;
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+    
+    _movementTimeThreshold = 0.5f;
+    _tapTimeThreshold = 0.4f;
+    _tapDistanceThreshold = 50.0f;
+    _touchEnabled = YES;
+    
     return self;
 }
 

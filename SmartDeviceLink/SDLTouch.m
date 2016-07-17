@@ -15,11 +15,14 @@
 
 - (instancetype)init {
     self = [super init];
-    if (self) {
-        _identifier = -1;
-        _location = CGPointZero;
-        _timeStamp = 0;
+    if (!self) {
+        return nil;
     }
+    
+    _identifier = -1;
+    _location = CGPointZero;
+    _timeStamp = 0;
+
     return self;
 }
 
