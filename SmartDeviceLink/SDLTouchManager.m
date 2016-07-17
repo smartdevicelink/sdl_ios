@@ -28,23 +28,48 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
     SDLPerformingTouchTypePanningTouch
 };
 
+/*!
+ *  @abstract 
+ *      Touch Manager will ignore touches that represent more than 2 fingers on the screen.
+ */
 static NSUInteger const MaximumNumberOfTouches = 2;
 
 @interface SDLTouchManager () <SDLProxyListener>
 
+/*!
+ *  @abstract 
+ *      First Touch received from onOnTouchEvent.
+ */
 @property (nonatomic, strong, nullable) SDLTouch* previousTouch;
 
-/*
- * Only used for caching previous single taps for double tap detection
+/*!
+ * @abstract 
+ *      Cached previous single tap used for double tap detection.
  */
 @property (nonatomic, strong, nullable) SDLTouch* singleTapTouch;
 
+/*!
+ *  @abstract
+ *      Distance of a previously generated pinch event. Used to calculate the scale of zoom motion.
+ */
 @property (nonatomic, assign) CGFloat previousPinchDistance;
 
+/*!
+ *  @abstract
+ *      Current in-progress pinch gesture.
+ */
 @property (nonatomic, strong, nullable) SDLPinchGesture* currentPinchGesture;
 
+/*!
+ *  @abstract
+ *      Timer used for distinguishing between single & double taps.
+ */
 @property (nonatomic, strong, nullable) dispatch_source_t singleTapTimer;
 
+/*!
+ *  @abstract
+ *      Current touch type being performed.
+ */
 @property (nonatomic, assign) SDLPerformingTouchType performingTouchType;
 
 @end

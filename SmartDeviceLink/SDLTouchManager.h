@@ -15,21 +15,39 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak, nullable) id<SDLTouchManagerListener> touchEventListener;
 
-/*
- *  Distance between taps.
+/**
+ *  @abstract
+ *      Distance between two taps on the screen, in the head unit's coordinate system, used
+ *      for registering double-tap callbacks.
+ *  @remark
+ *      Default is 50 pixels.
  */
 @property (nonatomic, assign) CGFloat tapDistanceThreshold;
 
-/*
- *  Duration between taps (in seconds).
+/**
+ *  @abstract
+ *      Time (in seconds) between tap events to register a double-tap callback.
+ *  @remark
+ *      Default is 0.4 seconds.
  */
 @property (nonatomic, assign) CGFloat tapTimeThreshold;
 
-/*
- *  Time between pan events (in seconds).
+/**
+ *  @abstract
+ *      Time (in seconds) between movement events to register panning or pinching 
+ *      callbacks.
+ *  @remark
+ *      Default is 0.5 seconds.
  */
 @property (nonatomic, assign) CGFloat movementTimeThreshold;
 
+/**
+ *  @abstract
+ *      Boolean denoting whether or not the touch manager should deliver touch event
+ *      callbacks.
+ *  @remark
+ *      Default is true.
+ */
 @property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
 
 @end

@@ -14,13 +14,47 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPinchGesture : NSObject
 
+/**
+ *  @abstract
+ *      Initializes a pinch gesture.
+ *  @param firstTouch
+ *      First touch of the gesture
+ *  @param secondTouch
+ *      Second touch of the gesture
+ *  @return SDLPinchGesture
+ *      Instance of SDLPinchGesture.
+ */
 - (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch;
 
+/**
+ *  @abstract
+ *      First touch of a pinch gesture.
+ */
 @property (nonatomic, copy) SDLTouch* firstTouch;
+
+/**
+ *  @abstract
+ *      Second touch of a pinch gesture.
+ */
 @property (nonatomic, copy) SDLTouch* secondTouch;
 
+/**
+ *  @abstract
+ *      Distance between first and second touches.
+ */
 @property (nonatomic, assign, readonly) CGFloat distance;
+
+/**
+ *  @abstract
+ *      Center point between first and second touches.
+ */
 @property (nonatomic, assign, readonly) CGPoint center;
+
+/**
+ *  @abstract
+ *      Returns whether or not the pinch gesture is valid. This is true if both touches
+ *      are non null.
+ */
 @property (nonatomic, assign, readonly) BOOL isValid;
 
 @end
