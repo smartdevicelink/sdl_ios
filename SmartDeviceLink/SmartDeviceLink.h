@@ -37,7 +37,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAbstractProtocol.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolListener.h"
-#import "SDLTouchManagerListener.h"
+#import "SDLTouchManagerDelegate.h"
 
 // Header
 #import "SDLProtocolHeader.h"

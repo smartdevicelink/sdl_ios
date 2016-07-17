@@ -801,7 +801,7 @@
 		DAC572671D10C5640004288B /* CGPoint_Util.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572651D10C5640004288B /* CGPoint_Util.h */; };
 		DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572681D10D5FC0004288B /* dispatch_timer.m */; };
 		DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572691D10D5FC0004288B /* dispatch_timer.h */; };
-		DAC5726C1D11B4840004288B /* SDLTouchManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC5725F1D10BD690004288B /* SDLTouchManagerListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DACBA1DC1D22D46D002356F8 /* SDLOnTouchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB331A84238B00846EE7 /* SDLOnTouchEvent.m */; };
 		DACBA1DE1D22D642002356F8 /* SDLTouchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBEB1A84238C00846EE7 /* SDLTouchType.m */; };
 		DACBA1DF1D22D6CE002356F8 /* SDLTouchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBE71A84238C00846EE7 /* SDLTouchEvent.m */; };
@@ -1689,7 +1689,7 @@
 		DAC572561D1067270004288B /* SDLTouchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManager.m; sourceTree = "<group>"; };
 		DAC572591D10B81E0004288B /* SDLTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouch.m; sourceTree = "<group>"; };
 		DAC5725A1D10B81E0004288B /* SDLTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouch.h; sourceTree = "<group>"; };
-		DAC5725F1D10BD690004288B /* SDLTouchManagerListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTouchManagerListener.h; sourceTree = "<group>"; };
+		DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTouchManagerDelegate.h; sourceTree = "<group>"; };
 		DAC572601D10C5020004288B /* SDLPinchGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPinchGesture.m; sourceTree = "<group>"; };
 		DAC572611D10C5020004288B /* SDLPinchGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPinchGesture.h; sourceTree = "<group>"; };
 		DAC572641D10C5640004288B /* CGPoint_Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPoint_Util.m; sourceTree = "<group>"; };
@@ -3009,7 +3009,7 @@
 			children = (
 				DAC572551D1067270004288B /* SDLTouchManager.h */,
 				DAC572561D1067270004288B /* SDLTouchManager.m */,
-				DAC5725F1D10BD690004288B /* SDLTouchManagerListener.h */,
+				DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */,
 				DAC5725A1D10B81E0004288B /* SDLTouch.h */,
 				DAC572591D10B81E0004288B /* SDLTouch.m */,
 				DAC572611D10C5020004288B /* SDLPinchGesture.h */,
@@ -3305,7 +3305,7 @@
 				5D61FDFB1A84238C00846EE7 /* SDLV2ProtocolMessage.h in Headers */,
 				5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */,
 				5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */,
-				DAC5726C1D11B4840004288B /* SDLTouchManagerListener.h in Headers */,
+				DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */,
 				5D61FD3F1A84238C00846EE7 /* SDLPrioritizedObjectCollection.h in Headers */,
 				5D61FCBF1A84238C00846EE7 /* SDLHexUtility.h in Headers */,
 				5D61FCA21A84238C00846EE7 /* SDLEncoder.h in Headers */,

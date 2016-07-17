@@ -17,7 +17,6 @@
 #import "SDLTouchEvent.h"
 #import "SDLTouchManager.h"
 #import "SDLTouchType.h"
-//#import "CGPoint_Util.h"
 
 QuickSpecBegin(SDLTouchManagerSpec)
 
@@ -67,7 +66,7 @@ describe(@"SDLTouchManager Tests", ^{
         
         beforeEach(^{
             touchManager = [[SDLTouchManager alloc] init];
-            delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerListener));
+            delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventListener = delegateMock;
             controlPoint = CGPointMake(100, 200);
             

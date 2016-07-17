@@ -1,5 +1,5 @@
 //
-//  SDLTouchManagerListener.h
+//  SDLTouchManagerDelegate.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 6/14/16.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLTouchManagerListener <NSObject>
+@protocol SDLTouchManagerDelegate <NSObject>
 
 @optional
 

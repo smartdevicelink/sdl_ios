@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SDLTouchManagerListener.h"
+#import "SDLTouchManagerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTouchManager : NSObject
 
-@property (nonatomic, weak, nullable) id<SDLTouchManagerListener> touchEventListener;
+@property (nonatomic, weak, nullable) id<SDLTouchManagerDelegate> touchEventListener;
 
 /**
  *  @abstract
