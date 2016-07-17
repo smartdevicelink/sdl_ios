@@ -51,7 +51,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _panTimeThreshold = 50.0f;
+        _movementTimeThreshold = 0.5f;
         _tapTimeThreshold = 0.4f;
         _tapDistanceThreshold = 50.0f;
         _touchEnabled = YES;
@@ -114,7 +114,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 - (void)sdl_handleMovedTouch:(SDLTouch*)touch {
-    if ((touch.timeStamp - self.previousTouch.timeStamp) <= self.panTimeThreshold
+    if ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC)
         || !self.isTouchEnabled) {
         return; // no-op
     }

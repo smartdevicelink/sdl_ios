@@ -24,9 +24,9 @@
 @property (nonatomic) CGFloat tapTimeThreshold;
 
 /*
- *  Time between pan events (in milliseconds).
+ *  Time between pan events (in seconds).
  */
-@property (nonatomic) CGFloat panTimeThreshold;
+@property (nonatomic) CGFloat movementTimeThreshold;
 
 @property (nonatomic, getter=isTouchEnabled) BOOL touchEnabled;
 
