@@ -15,12 +15,6 @@ CGPoint CGPointCenterOfPoints(CGPoint point1, CGPoint point2) {
     return CGPointMake(xCenter, yCenter);
 }
 
-CGPoint CGPointDisplacementOfPoints(CGPoint point1, CGPoint point2) {
-    CGFloat xDisplacement = point1.x - point2.x;
-    CGFloat yDisplacement = point1.y - point2.y;
-    return CGPointMake(xDisplacement, yDisplacement);
-}
-
 CGFloat CGPointDistanceBetweenPoints(CGPoint point1, CGPoint point2) {
     return hypotf(point1.x - point2.x, point1.y - point2.y);
 }

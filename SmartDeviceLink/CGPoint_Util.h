@@ -13,7 +13,6 @@
 #include <CoreGraphics/CGGeometry.h>
 
 CGPoint CGPointCenterOfPoints(CGPoint point1, CGPoint point2);
-CGPoint CGPointDisplacementOfPoints(CGPoint point1, CGPoint point2);
 CGFloat CGPointDistanceBetweenPoints(CGPoint point1, CGPoint point2);
 
 #endif /* CGPoint_Util_h */
