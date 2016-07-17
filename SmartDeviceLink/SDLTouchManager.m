@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
     SDLPerformingTouchTypePanningTouch
 };
 
-static NSUInteger const kMaximumNumberOfTouches = 2;
+static NSUInteger const MaximumNumberOfTouches = 2;
 
 @interface SDLTouchManager () <SDLProxyListener>
 
@@ -73,8 +73,8 @@ static NSUInteger const kMaximumNumberOfTouches = 2;
     SDLTouchEvent* touchEvent = notification.event.firstObject;
     
     SDLTouch* touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
-    
-    if (touch.identifier > kMaximumNumberOfTouches) {
+
+    if (touch.identifier > MaximumNumberOfTouches) {
         return;
     }
     
