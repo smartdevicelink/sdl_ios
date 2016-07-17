@@ -25,11 +25,6 @@ describe(@"CGPoint_Util Tests", ^{
             second = CGPointMake(300, 400);
         });
         
-        it(@"should properly calculate the average between points", ^{
-            CGPoint average = CGPointAverageOfPoints(first, second);
-            expect(@(average.x)).to(equal(@200));
-            expect(@(average.y)).to(equal(@300));
-        });
         it(@"should properly calculate the center between points", ^{
             CGPoint center = CGPointCenterOfPoints(first, second);
             expect(@(center.x)).to(equal(@200));
@@ -51,11 +46,6 @@ describe(@"CGPoint_Util Tests", ^{
             second = CGPointMake(-300, -400);
         });
         
-        it(@"should properly calculate the average between points", ^{
-            CGPoint average = CGPointAverageOfPoints(first, second);
-            expect(@(average.x)).to(equal(@(-200)));
-            expect(@(average.y)).to(equal(@(-300)));
-        });
         it(@"should properly calculate the center between points", ^{
             CGPoint center = CGPointCenterOfPoints(first, second);
             expect(@(center.x)).to(equal(@(-200)));
@@ -77,11 +67,6 @@ describe(@"CGPoint_Util Tests", ^{
             second = CGPointMake(-300, -400);
         });
         
-        it(@"should properly calculate the average between points", ^{
-            CGPoint average = CGPointAverageOfPoints(first, second);
-            expect(@(average.x)).to(equal(@(-100)));
-            expect(@(average.y)).to(equal(@(-100)));
-        });
         it(@"should properly calculate the center between points", ^{
             CGPoint center = CGPointCenterOfPoints(first, second);
             expect(@(center.x)).to(equal(@(-100)));

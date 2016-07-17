@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <CoreGraphics/CGGeometry.h>
 
-CGPoint CGPointAverageOfPoints(CGPoint point1, CGPoint point2);
 CGPoint CGPointCenterOfPoints(CGPoint point1, CGPoint point2);
 CGPoint CGPointDisplacementOfPoints(CGPoint point1, CGPoint point2);
 CGFloat CGPointDistanceBetweenPoints(CGPoint point1, CGPoint point2);

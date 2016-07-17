@@ -210,11 +210,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 if (timeStampDelta <= self.tapTimeThreshold * NSEC_PER_USEC
                     && xDelta <= self.tapDistanceThreshold
                     && yDelta <= self.tapDistanceThreshold) {
-                    CGPoint averagePoint = CGPointAverageOfPoints(touch.location,
-                                                                  self.singleTapTouch.location);
+                    CGPoint centerPoint = CGPointCenterOfPoints(touch.location,
+                                                                self.singleTapTouch.location);
                     if ([self.touchEventListener respondsToSelector:@selector(touchManager:didReceiveDoubleTapAtPoint:)]) {
                         [self.touchEventListener touchManager:self
-                                   didReceiveDoubleTapAtPoint:averagePoint];
+                                   didReceiveDoubleTapAtPoint:centerPoint];
                     }
                 }
         
