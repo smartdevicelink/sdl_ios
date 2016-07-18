@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _canPresent = NO;
     _config = config; // TODO: Don't want to copy this, it could have View Controllers or images, and could be kind large
+    _presenter = presenter;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveVehicleIconNotification object:dispatcher];
