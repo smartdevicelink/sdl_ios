@@ -11,6 +11,7 @@
 #import "SDLHMILevel.h"
 #import "SDLHMIPermissions.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
 #import "SDLStateMachine.h"
@@ -217,13 +218,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLHMILevel class]], @"The SDLPermissionManager HMI level observer got something other than a HMI level");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLHMILevel class]]) {
-        return;
-    }
+    SDLOnHMIStatus *hmiStatus = notification.userInfo[SDLNotificationUserInfoObject];
     
     SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
-    self.currentHMILevel = notification.userInfo[SDLNotificationUserInfoObject];
+    self.currentHMILevel = hmiStatus.hmiLevel;
     NSArray *filters = [self.filters copy];
     
     

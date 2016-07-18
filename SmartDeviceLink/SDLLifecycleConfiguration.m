@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     _initialDisplayLayout = nil;
     _shortAppName = nil;
     _ttsName = nil;
-    _voiceRecognitionSynonyms = @[];
+    _voiceRecognitionSynonyms = @[appName];
     
     return self;
 }

@@ -174,9 +174,7 @@ NSString *const SDLLifecycleStateReady = @"Ready";
         regRequest.hashID = self.resumeHash.hashID;
     }
     
-    if (self.configuration.lifecycleConfig.voiceRecognitionSynonyms != nil) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
-    }
+    regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     
     // Send the request and depending on the response, post the notification
     [self sdl_sendRequest:regRequest withCompletionHandler:nil];
