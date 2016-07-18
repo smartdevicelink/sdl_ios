@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenManager : NSObject
 
 @property (assign, nonatomic, readonly) BOOL lockScreenPresented;
+@property (copy, nonatomic, readonly) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic, readonly, nullable) UIViewController *lockScreenViewController;
 
 - (instancetype)init NS_UNAVAILABLE;

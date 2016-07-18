@@ -10,8 +10,12 @@
 
 @implementation SDLLockScreenPresenter
 
-+ (void)presentViewController:(UIViewController *)viewController {
-    [[self sdl_getCurrentViewController] presentViewController:viewController animated:YES completion:nil];
+- (void)presentViewController:(UIViewController *)viewController {
+    [[self.class sdl_getCurrentViewController] presentViewController:viewController animated:YES completion:nil];
+}
+
+- (void)dismissViewController:(UIViewController *)viewController {
+    [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 + (UIViewController *)sdl_getCurrentViewController {

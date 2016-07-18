@@ -9,6 +9,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLockScreenManager.h"
+#import "SDLLockScreenPresenter.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLResponseDispatcher.h"
 #import "SDLStateMachine.h"
@@ -91,7 +92,7 @@ NSString *const SDLLifecycleStateReady = @"Ready";
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
-    _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher];
+    _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppInterfaceResponseRecieved:) name:SDLDidReceiveRegisterAppInterfaceResponse object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];

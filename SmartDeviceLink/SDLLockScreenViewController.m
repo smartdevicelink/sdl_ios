@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)sdl_sdlImage {
     NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
     
-    return [UIImage imageNamed:@"sdl_logo" inBundle:sdlBundle compatibleWithTraitCollection:nil];
+    return [UIImage imageNamed:@"sdl-logo" inBundle:sdlBundle compatibleWithTraitCollection:nil];
 }
 
 @end

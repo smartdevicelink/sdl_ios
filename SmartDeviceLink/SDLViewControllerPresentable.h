@@ -10,6 +10,7 @@
 
 @protocol SDLViewControllerPresentable <NSObject>
 
-+ (void)presentViewController:(UIViewController *)viewController;
+- (void)presentViewController:(UIViewController *)viewController;
+- (void)dismissViewController:(UIViewController *)viewController;
 
 @end

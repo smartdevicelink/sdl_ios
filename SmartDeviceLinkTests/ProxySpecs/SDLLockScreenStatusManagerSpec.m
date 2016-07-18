@@ -1,5 +1,5 @@
 //
-//  SDLHexUtilitySpec.m
+//  SDLLockScreenStatusManagerSpec
 //  SmartDeviceLink-iOS
 
 #import <Quick/Quick.h>
@@ -11,9 +11,9 @@
 #import "SDLLockScreenStatus.h"
 
 
-QuickSpecBegin(SDLLockScreenManagerSpec)
+QuickSpecBegin(SDLLockScreenStatusManagerSpec)
 
-describe(@"the lockscreen manager", ^{
+describe(@"the lockscreen status manager", ^{
     __block SDLLockScreenStatusManager *lockScreenManager;
     beforeEach(^{
         lockScreenManager = [[SDLLockScreenStatusManager alloc] init];

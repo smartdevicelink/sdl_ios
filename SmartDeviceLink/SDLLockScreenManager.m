@@ -8,6 +8,7 @@
 
 #import "SDLLockScreenManager.h"
 
+#import "SDLDebugTool.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLLockScreenStatus.h"
@@ -20,9 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenManager ()
 
-@property (assign, nonatomic, readwrite) BOOL lockScreenPresented;
-
-@property (copy, nonatomic) SDLLockScreenConfiguration *config;
+@property (copy, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 
 @property (assign, nonatomic) BOOL canPresent;
@@ -39,7 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _lockScreenPresented = NO;
     _canPresent = NO;
     _config = config; // TODO: Don't want to copy this, it could have View Controllers or images, and could be kind large
     
@@ -59,8 +57,17 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (self.config.customViewController != nil) {
         self.lockScreenViewController = self.config.customViewController;
     } else {
-        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
-        SDLLockScreenViewController *lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
+        NSBundle *sdlBundle = [NSBundle bundleForClass:[self class]];
+//        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"];
+        
+        SDLLockScreenViewController *lockScreenVC = nil;
+        @try {
+            lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
+        } @catch (NSException *exception) {
+            [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
+            return;
+        }
+        
         lockScreenVC.appIcon = self.config.appIcon;
         lockScreenVC.backgroundColor = self.config.backgroundColor;
         self.lockScreenViewController = lockScreenVC;
@@ -73,7 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
     self.canPresent = NO;
     
     // Remove the lock screen if presented, don't allow it to present again until we start
-    [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presenter dismissViewController:self.lockScreenViewController];
+}
+
+- (BOOL)lockScreenPresented {
+    return (self.lockScreenViewController.isViewLoaded && self.lockScreenViewController.view.window);
 }
 
 
@@ -89,21 +100,17 @@ NS_ASSUME_NONNULL_BEGIN
     // Present the VC depending on the lock screen status
     if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
         if (!self.lockScreenPresented && self.canPresent) {
-            [self.presenter.class presentViewController:self.lockScreenViewController];
-            self.lockScreenPresented = YES;
+            [self.presenter presentViewController:self.lockScreenViewController];
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
         if (self.config.showInOptional && !self.lockScreenPresented && self.canPresent) {
-            [self.presenter.class presentViewController:self.lockScreenViewController];
-            self.lockScreenPresented = YES;
+            [self.presenter presentViewController:self.lockScreenViewController];
         } else if (self.lockScreenPresented) {
             [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
-            self.lockScreenPresented = NO;
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
         if (self.lockScreenPresented) {
             [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
-            self.lockScreenPresented = NO;
         }
     }
 }
