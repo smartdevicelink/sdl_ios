@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.lockScreenViewController = self.config.customViewController;
     } else {
         NSBundle *sdlBundle = [NSBundle bundleForClass:[self class]];
-//        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"];
+//        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]; TODO: Remove if no longer needed. Tests pass, but need real world usage.
         
         SDLLockScreenViewController *lockScreenVC = nil;
         @try {
@@ -106,11 +106,11 @@ NS_ASSUME_NONNULL_BEGIN
         if (self.config.showInOptional && !self.lockScreenPresented && self.canPresent) {
             [self.presenter presentViewController:self.lockScreenViewController];
         } else if (self.lockScreenPresented) {
-            [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
+            [self.presenter dismissViewController:self.lockScreenViewController];
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
         if (self.lockScreenPresented) {
-            [self.lockScreenViewController dismissViewControllerAnimated:YES completion:nil];
+            [self.presenter dismissViewController:self.lockScreenViewController];
         }
     }
 }

@@ -78,6 +78,54 @@ fdescribe(@"a lock screen manager", ^{
                 expect(testManager.lockScreenViewController).toNot(beNil());
                 expect(testManager.lockScreenViewController).to(beAnInstanceOf([SDLLockScreenViewController class]));
             });
+            
+            describe(@"when the lock screen status becomes REQUIRED", ^{
+                __block SDLOnLockScreenStatus *testRequiredStatus = nil;
+                
+                beforeEach(^{
+                    testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
+                    testRequiredStatus.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testRequiredStatus}];
+                });
+                
+                it(@"should have presented the lock screen", ^{
+                    expect(@(fakePresenter.presented)).to(beTruthy());
+                });
+                
+                it(@"should not have a vehicle icon", ^{
+                    expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(beNil());
+                });
+                
+                describe(@"when a vehicle icon is received", ^{
+                    __block UIImage *testIcon = nil;
+                    
+                    beforeEach(^{
+                        testIcon = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon}];
+                    });
+                    
+                    it(@"should have a vehicle icon", ^{
+                        expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).toNot(beNil());
+                        expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(equal(testIcon));
+                    });
+                });
+                
+                describe(@"then the status becomes OFF", ^{
+                    __block SDLOnLockScreenStatus *testOffStatus = nil;
+                    
+                    beforeEach(^{
+                        testOffStatus = [[SDLOnLockScreenStatus alloc] init];
+                        testOffStatus.lockScreenStatus = [SDLLockScreenStatus OFF];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testOffStatus}];
+                    });
+                    
+                    it(@"should have dismissed the lock screen", ^{
+                        expect(@(fakePresenter.presented)).to(beFalsy());
+                    });
+                });
+            });
         });
     });
     
