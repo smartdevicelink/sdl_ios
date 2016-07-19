@@ -13,7 +13,7 @@ NSString *const SDLAppName = @"SDL Test";
 NSString *const SDLAppId = @"9999";
 
 
-@interface ProxyManager ()
+@interface ProxyManager () <SDLManagerDelegate>
 
 @property (strong, nonatomic) SDLManager *sdlManager;
 
@@ -64,8 +64,19 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)showInitialData {
-    //    SDLShow *showRPC = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test" alignment:[SDLTextAlignment CENTERED] correlationID:[self nextCorrelationID]];
-    //    [self.proxy sendRPC:showRPC];
+    SDLShow *initalData = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED] correlationID:@0];
+    [self.sdlManager sendRequest:initalData];
+}
+
+
+#pragma mark - SDLManagerDelegate
+
+- (void)managerDidBecomeReady {
+    [self showInitialData];
+}
+
+- (void)managerDidDisconnect {
+    
 }
 
 @end
