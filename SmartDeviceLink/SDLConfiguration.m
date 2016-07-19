@@ -15,24 +15,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLConfiguration
 
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig {
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:( SDLLockScreenConfiguration *)lockScreenConfig {
     self = [super init];
     if (!self) {
         return nil;
     }
     
     _lifecycleConfig = lifecycleConfig;
-    
-    if (lockScreenConfig != nil) {
-        _lockScreenConfig = lockScreenConfig;
-    } else {
-        _lockScreenConfig = [SDLLockScreenConfiguration enabledConfiguration];
-    }
+    _lockScreenConfig = lockScreenConfig;
     
     return self;
 }
 
-+ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig {
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:( SDLLockScreenConfiguration *)lockScreenConfig {
     return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig];
 }
 
