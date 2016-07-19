@@ -136,8 +136,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch
                                                                        secondTouch:touch];
             self.previousPinchDistance = self.currentPinchGesture.distance;
-            if ([self.touchEventListener respondsToSelector:@selector(touchManager:pinchDidStartAtCenterPoint:)]) {
-                [self.touchEventListener touchManager:self
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartAtCenterPoint:)]) {
+                [self.touchEventDelegate touchManager:self
                            pinchDidStartAtCenterPoint:self.currentPinchGesture.center];
             }
             break;
@@ -162,9 +162,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             }
             
             
-            if ([self.touchEventListener respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
                 CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
-                [self.touchEventListener touchManager:self
+                [self.touchEventDelegate touchManager:self
                          didReceivePinchAtCenterPoint:self.currentPinchGesture.center
                                             withScale:scale];
             }
@@ -173,14 +173,14 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             break;
         case SDLPerformingTouchTypeSingleTouch:
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
-            if ([self.touchEventListener respondsToSelector:@selector(touchManager:panningDidStartAtPoint:)]) {
-                [self.touchEventListener touchManager:self
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartAtPoint:)]) {
+                [self.touchEventDelegate touchManager:self
                                panningDidStartAtPoint:touch.location];
             }
             break;
         case SDLPerformingTouchTypePanningTouch:
-            if ([self.touchEventListener respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
-                [self.touchEventListener touchManager:self
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
+                [self.touchEventDelegate touchManager:self
                            didReceivePanningFromPoint:self.previousTouch.location toPoint:touch.location];
             }
             break;
@@ -208,16 +208,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             }
             
             if (self.currentPinchGesture.isValid) {
-                if ([self.touchEventListener respondsToSelector:@selector(touchManager:pinchDidEndAtCenterPoint:)]) {
-                    [self.touchEventListener touchManager:self
+                if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndAtCenterPoint:)]) {
+                    [self.touchEventDelegate touchManager:self
                                     pinchDidEndAtCenterPoint:self.currentPinchGesture.center];
                 }
                 self.currentPinchGesture = nil;
             }
             break;
         case SDLPerformingTouchTypePanningTouch:
-            if ([self.touchEventListener respondsToSelector:@selector(touchManager:panningDidEndAtPoint:)]) {
-                [self.touchEventListener touchManager:self
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndAtPoint:)]) {
+                [self.touchEventDelegate touchManager:self
                                    panningDidEndAtPoint:touch.location];
             }
             break;
@@ -237,8 +237,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                     && yDelta <= self.tapDistanceThreshold) {
                     CGPoint centerPoint = CGPointCenterOfPoints(touch.location,
                                                                 self.singleTapTouch.location);
-                    if ([self.touchEventListener respondsToSelector:@selector(touchManager:didReceiveDoubleTapAtPoint:)]) {
-                        [self.touchEventListener touchManager:self
+                    if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveDoubleTapAtPoint:)]) {
+                        [self.touchEventDelegate touchManager:self
                                    didReceiveDoubleTapAtPoint:centerPoint];
                     }
                 }
@@ -258,8 +258,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     self.singleTapTimer = dispatch_create_timer(self.tapTimeThreshold, NO, ^{
         typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.singleTapTouch = nil;
-        if ([strongSelf.touchEventListener respondsToSelector:@selector(touchManager:didReceiveSingleTapAtPoint:)]) {
-            [strongSelf.touchEventListener touchManager:strongSelf
+        if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapAtPoint:)]) {
+            [strongSelf.touchEventDelegate touchManager:strongSelf
                              didReceiveSingleTapAtPoint:point];
         }
     });
