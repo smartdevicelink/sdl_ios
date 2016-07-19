@@ -8,14 +8,32 @@
 
 #import "SDLLockScreenPresenter.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLLockScreenPresenter ()
+
+@end
+
+
 @implementation SDLLockScreenPresenter
 
-- (void)presentViewController:(UIViewController *)viewController {
-    [[self.class sdl_getCurrentViewController] presentViewController:viewController animated:YES completion:nil];
+- (void)present {
+    if (!self.viewController) { return; }
+    
+    [[self.class sdl_getCurrentViewController] presentViewController:self.viewController animated:YES completion:nil];
 }
 
-- (void)dismissViewController:(UIViewController *)viewController {
-    [viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+- (void)dismiss {
+    if (!self.viewController) { return; }
+    
+    [self.viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)presented {
+    if (!self.viewController) { return NO; }
+    
+    return (self.viewController.isViewLoaded && self.viewController.view.window);
 }
 
 + (UIViewController *)sdl_getCurrentViewController {
@@ -29,3 +47,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

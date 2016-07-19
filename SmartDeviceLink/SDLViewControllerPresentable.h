@@ -10,7 +10,10 @@
 
 @protocol SDLViewControllerPresentable <NSObject>
 
-- (void)presentViewController:(UIViewController *)viewController;
-- (void)dismissViewController:(UIViewController *)viewController;
+@property (strong, nonatomic) UIViewController *viewController;
+@property (assign, nonatomic, readonly) BOOL presented;
+
+- (void)present;
+- (void)dismiss;
 
 @end

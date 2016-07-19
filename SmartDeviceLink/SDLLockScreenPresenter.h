@@ -12,4 +12,7 @@
 
 @interface SDLLockScreenPresenter : NSObject <SDLViewControllerPresentable>
 
+@property (strong, nonatomic) UIViewController *viewController;
+@property (assign, nonatomic, readonly) BOOL presented;
+
 @end

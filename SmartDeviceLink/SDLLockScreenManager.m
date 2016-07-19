@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 
 @property (assign, nonatomic) BOOL canPresent;
-@property (strong, nonatomic, nullable) UIViewController *lockScreenViewController;
 
 @end
 
@@ -43,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     _presenter = presenter;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveVehicleIconNotification object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
     
     return self;
 }
@@ -53,10 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Create and initialize the lock screen controller depending on the configuration
     if (!self.config.enableAutomaticLockScreen) {
-        self.lockScreenViewController = nil;
+        self.presenter.viewController = nil;
         return;
     } else if (self.config.customViewController != nil) {
-        self.lockScreenViewController = self.config.customViewController;
+        self.presenter.viewController = self.config.customViewController;
     } else {
         NSBundle *sdlBundle = [NSBundle bundleForClass:[self class]];
 //        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]; TODO: Remove if no longer needed. Tests pass, but need real world usage.
@@ -71,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
         
         lockScreenVC.appIcon = self.config.appIcon;
         lockScreenVC.backgroundColor = self.config.backgroundColor;
-        self.lockScreenViewController = lockScreenVC;
+        self.presenter.viewController = lockScreenVC;
     }
     
     self.canPresent = YES;
@@ -81,11 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
     self.canPresent = NO;
     
     // Remove the lock screen if presented, don't allow it to present again until we start
-    [self.presenter dismissViewController:self.lockScreenViewController];
+    [self.presenter dismiss];
 }
 
-- (BOOL)lockScreenPresented {
-    return (self.lockScreenViewController.isViewLoaded && self.lockScreenViewController.view.window);
+- (nullable UIViewController *)lockScreenViewController {
+    return self.presenter.viewController;
 }
 
 
@@ -100,18 +99,18 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Present the VC depending on the lock screen status
     if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
-        if (!self.lockScreenPresented && self.canPresent) {
-            [self.presenter presentViewController:self.lockScreenViewController];
+        if (!self.presenter.presented && self.canPresent) {
+            [self.presenter present];
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
-        if (self.config.showInOptional && !self.lockScreenPresented && self.canPresent) {
-            [self.presenter presentViewController:self.lockScreenViewController];
-        } else if (self.lockScreenPresented) {
-            [self.presenter dismissViewController:self.lockScreenViewController];
+        if (self.config.showInOptional && !self.presenter.presented && self.canPresent) {
+            [self.presenter present];
+        } else if (self.presenter.presented) {
+            [self.presenter dismiss];
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
-        if (self.lockScreenPresented) {
-            [self.presenter dismissViewController:self.lockScreenViewController];
+        if (self.presenter.presented) {
+            [self.presenter dismiss];
         }
     }
 }

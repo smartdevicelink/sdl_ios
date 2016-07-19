@@ -238,6 +238,7 @@
 		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
 		5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */; };
 		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
+		5D1654561D3E754F00554D93 /* SDLManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1654551D3E754F00554D93 /* SDLManagerSpec.m */; };
 		5D16659D1CF498FF00CC4CA1 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		5D16659F1CF4991200CC4CA1 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		5D1665AA1CF5F7D000CC4CA1 /* (null) in Headers */ = {isa = PBXBuildFile; };
@@ -1175,6 +1176,7 @@
 		5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
+		5D1654551D3E754F00554D93 /* SDLManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLManagerSpec.m; path = DevAPISpecs/SDLManagerSpec.m; sourceTree = "<group>"; };
 		5D1665A01CF5D5DA00CC4CA1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		5D1665A11CF5D5DA00CC4CA1 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = SOURCE_ROOT; };
 		5D1665A21CF5D5DA00CC4CA1 /* Cartfile.private */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.private; sourceTree = SOURCE_ROOT; };
@@ -2223,6 +2225,14 @@
 				5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */,
 			);
 			name = Connection;
+			sourceTree = "<group>";
+		};
+		5D1654541D3E753100554D93 /* Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				5D1654551D3E754F00554D93 /* SDLManagerSpec.m */,
+			);
+			name = Lifecycle;
 			sourceTree = "<group>";
 		};
 		5D4019A61A76EC350006B0C2 = {
@@ -3410,6 +3420,7 @@
 		5DBAE0A81D35886E00CE00BF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				5D1654541D3E753100554D93 /* Lifecycle */,
 				5D76E31A1D3805E600647CFA /* LockScreen */,
 				5D9F507F1BE7E6C900FEF399 /* Permissions */,
 				5D9F507E1BE7E46600FEF399 /* Files */,
@@ -4238,6 +4249,7 @@
 				162E82E01A9BDE8B00906325 /* SDLHMILevelSpec.m in Sources */,
 				162E83041A9BDE8B00906325 /* SDLUpdateModeSpec.m in Sources */,
 				162E83801A9BDE8B00906325 /* SDLHMIPermissionsSpec.m in Sources */,
+				5D1654561D3E754F00554D93 /* SDLManagerSpec.m in Sources */,
 				162E83021A9BDE8B00906325 /* SDLTouchTypeSpec.m in Sources */,
 				5DB92D2F1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m in Sources */,
 				162E838A1A9BDE8B00906325 /* SDLSingleTireStatusSpec.m in Sources */,

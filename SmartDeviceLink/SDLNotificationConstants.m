@@ -74,7 +74,6 @@ NSString *const SDLDidReceiveEncodedDataNotification = @"com.sdl.notification.en
 NSString *const SDLDidReceiveNewHashNotification = @"com.sdl.notification.newHash";
 NSString *const SDLDidChangeLanguageNotification = @"com.sdl.notification.changeLanguage";
 NSString *const SDLDidChangeLockScreenStatusNotification = @"com.sdl.notification.lockScreenStatus";
-NSString *const SDLDidReceiveVehicleIconNotification = @"com.sdl.notification.vehicleIcon";
 NSString *const SDLDidChangePermissionsNotification = @"com.sdl.notification.changePermission";
 NSString *const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.receiveSystemRequest";
 NSString *const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.notification.changeTurnByTurnState";

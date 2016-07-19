@@ -12,7 +12,7 @@
 
 QuickSpecBegin(SDLLockScreenManagerSpec)
 
-fdescribe(@"a lock screen manager", ^{
+describe(@"a lock screen manager", ^{
     __block SDLLockScreenManager *testManager = nil;
     __block SDLFakeViewControllerPresenter *fakePresenter = nil;
     
@@ -108,6 +108,16 @@ fdescribe(@"a lock screen manager", ^{
                     it(@"should have a vehicle icon", ^{
                         expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).toNot(beNil());
                         expect(((SDLLockScreenViewController *)testManager.lockScreenViewController).vehicleIcon).to(equal(testIcon));
+                    });
+                });
+                
+                describe(@"then the manager is stopped", ^{
+                    beforeEach(^{
+                        [testManager stop];
+                    });
+                    
+                    it(@"should have dismissed the lock screen", ^{
+                        expect(@(fakePresenter.presented)).to(beFalsy());
                     });
                 });
                 

@@ -8,22 +8,25 @@
 
 #import "SDLFakeViewControllerPresenter.h"
 
+
+@interface SDLFakeViewControllerPresenter ()
+
+@property (assign, nonatomic, readwrite) BOOL presented;
+
+@end
+
+
 @implementation SDLFakeViewControllerPresenter
 
-- (instancetype)init {
-    self = [super init];
-    if (!self) { return nil; }
+- (void)present {
+    if (!self.viewController) { return; }
     
-    _presented = NO;
-    
-    return self;
-}
-
-- (void)presentViewController:(UIViewController *)viewController {
     _presented = YES;
 }
 
-- (void)dismissViewController:(UIViewController *)viewController {
+- (void)dismiss {
+    if (!self.viewController) { return; }
+    
     _presented = NO;
 }
 
