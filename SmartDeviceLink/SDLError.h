@@ -27,8 +27,9 @@ typedef NS_ENUM(NSInteger, SDLStateMachineError) {
 };
 
 #pragma mark Error Domains
-extern NSString *const SDLManagerErrorDomain;
-extern NSString *const SDLFileManagerErrorDomain;
+typedef NSString SDLErrorDomain;
+extern SDLErrorDomain *const SDLErrorDomainLifecycleManager;
+extern SDLErrorDomain *const SDLErrorDomainFileManager;
 
 @interface NSError (SDLErrors)
 

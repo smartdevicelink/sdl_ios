@@ -16,9 +16,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const SDLFileManagerStateShutdown;
-extern NSString *const SDLFileManagerStateFetchingInitialList;
-extern NSString *const SDLFileManagerStateReady;
+typedef NSString SDLFileManagerState;
+extern SDLFileManagerState *const SDLFileManagerStateShutdown;
+extern SDLFileManagerState *const SDLFileManagerStateFetchingInitialList;
+extern SDLFileManagerState *const SDLFileManagerStateReady;
 
 
 typedef NSString SDLFileName;

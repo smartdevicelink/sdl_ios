@@ -27,9 +27,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const SDLFileManagerStateShutdown = @"Shutdown";
-NSString *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
-NSString *const SDLFileManagerStateReady = @"Ready";
+SDLFileManagerState *const SDLFileManagerStateShutdown = @"Shutdown";
+SDLFileManagerState *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
+SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 
 
 #pragma mark - SDLFileManager class

@@ -1,5 +1,12 @@
+//
+//  SDLLifecycleManager.h
+//  SmartDeviceLink-iOS
+//
+//  Created by Joel Fischer on 7/19/16.
+//  Copyright © 2016 smartdevicelink. All rights reserved.
+//
 
-
+#import <Foundation/Foundation.h>
 #import "SDLNotificationConstants.h"
 
 @class SDLConfiguration;
@@ -8,8 +15,14 @@
 @class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
+@class SDLLockScreenManager;
+@class SDLNotificationDispatcher;
+@class SDLOnHashChange;
 @class SDLPermissionManager;
+@class SDLProxy;
 @class SDLPutFile;
+@class SDLRegisterAppInterfaceResponse;
+@class SDLResponseDispatcher;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
@@ -20,14 +33,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLManager : NSObject
+typedef NSString SDLLifecycleState;
+extern SDLLifecycleState *const SDLLifecycleStateDisconnected;
+extern SDLLifecycleState *const SDLLifecycleStateTransportConnected;
+extern SDLLifecycleState *const SDLLifecycleStateRegistered;
+extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
+extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
+extern SDLLifecycleState *const SDLLifecycleStateReady;
 
-@property (assign, nonatomic, readonly) NSString *lifecycleState;
+
+@interface SDLLifecycleManager : NSObject
+
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
-@property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;
 @property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
+@property (strong, nonatomic, readonly) SDLLockScreenManager *lockScreenManager;
+@property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
+@property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
+@property (weak, nonatomic, readonly, nullable) id<SDLManagerDelegate> delegate;
+
+// Deprecated internal proxy object
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+@property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
+#pragma clang diagnostic pop
+
+@property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
+@property (strong, nonatomic, readonly, nullable) SDLOnHashChange *resumeHash;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
+@property (assign, nonatomic, readonly) NSString *lifecycleState;
+@property (assign, nonatomic, readonly) BOOL firstHMIFullOccurred;
+@property (assign, nonatomic, readonly) BOOL firstHMINotNoneOccurred;
+@property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
 
 #pragma mark Lifecycle
 /**
@@ -50,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 
 
-#pragma mark Manually Send RPC Requests
+#pragma mark Send RPC Requests
 
 /**
  *  Send an RPC request and don't bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.

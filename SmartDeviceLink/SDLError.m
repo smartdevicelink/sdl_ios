@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
 
-NSString *const SDLManagerErrorDomain = @"com.sdl.manager";
-NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
+SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
+SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -25,7 +25,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
-    return [NSError errorWithDomain:SDLManagerErrorDomain
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRPCRequestFailed
                            userInfo:userInfo];
 }
@@ -37,7 +37,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
     
-    return [NSError errorWithDomain:SDLManagerErrorDomain
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorNotConnected
                            userInfo:userInfo];
 }
@@ -49,7 +49,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
     
-    return [NSError errorWithDomain:SDLManagerErrorDomain
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorNotConnected
                            userInfo:userInfo];
 }
@@ -60,7 +60,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
                                };
-    return [NSError errorWithDomain:SDLManagerErrorDomain
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
                            userInfo:userInfo];
 }
@@ -74,7 +74,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files", nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:", nil)
                                };
-    return [NSError errorWithDomain:SDLFileManagerErrorDomain code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_noKnownFileError {
@@ -83,7 +83,7 @@ NSString *const SDLFileManagerErrorDomain = @"com.sdl.filemanager";
                                NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file is not currently known by the file manager. It could be that this file does not exist on the remote system or that the file manager has not completed its initialization and received a list of files from the remote system.", nil),
                                NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure a file with this name is present on the remote system and that the file manager has finished its initialization.", nil)
                                };
-    return [NSError errorWithDomain:SDLFileManagerErrorDomain code:SDLFileManagerErrorNoKnownFile userInfo:userInfo];
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorNoKnownFile userInfo:userInfo];
 }
 
 @end

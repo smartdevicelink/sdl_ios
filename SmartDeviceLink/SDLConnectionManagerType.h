@@ -14,11 +14,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// TODO: May want to rename
 @protocol SDLConnectionManagerType <NSObject>
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request;
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block;
+- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block;
 
 @end
 
