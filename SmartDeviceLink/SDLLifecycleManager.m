@@ -97,9 +97,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppInterfaceResponseRecieved:) name:SDLDidReceiveRegisterAppInterfaceResponse object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hashDidChange:) name:SDLDidReceiveNewHashNotification object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unregisterAppInterfaceResponseReceived:) name:SDLDidReceiveUnregisterAppInterfaceResponse object:_notificationDispatcher];
     
     return self;
 }
@@ -243,6 +247,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }];
 }
 
+
 #pragma mark Post Manager Setup Processing
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void(^)(void))completion {
@@ -286,7 +291,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [SDLDebugTool logInfo:@"Manager not ready, will not send RPC until state is Ready"];
         if (handler) {
-            handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
+            handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
         }
         
         return;
@@ -332,6 +337,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 
 #pragma mark SDLProxyListener Methods
+
+- (void)transportDidConnect {
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected];
+}
+
+- (void)transportDidDisconnect {
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+}
 
 - (void)registerAppInterfaceResponseRecieved:(NSNotification *)notification {
     SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = notification.userInfo[SDLNotificationUserInfoObject];
@@ -379,6 +392,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)remoteHardwareDidUnregister:(NSNotification *)notification {
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.userInfo[SDLNotificationUserInfoObject];
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
+    
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+}
+
+- (void)unregisterAppInterfaceResponseReceived:(NSNotification *)notification {
+    [SDLDebugTool logFormat:@"App unregister successful"];
     
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
