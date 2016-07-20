@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLNotificationDispatcher : NSObject <SDLProxyListener>
 
-- (void)postNotification:(NSString *)name info:(nullable id)info;
+- (void)postNotificationName:(NSString *)name infoObject:(nullable id)info;
 
 @end
 

@@ -226,7 +226,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateReady {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.notificationDispatcher postNotification:SDLDidBecomeReady info:nil];
+        [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
         
         if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
             [self.delegate managerDidBecomeReady];
@@ -376,7 +376,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
     
     self.currentHMILevel = hmiStatusNotification.hmiLevel;
-    [self.notificationDispatcher postNotification:SDLDidChangeHMIStatusNotification info:notification];
 }
 
 - (void)hashDidChange:(NSNotification *)notification {
