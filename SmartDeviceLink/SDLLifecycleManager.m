@@ -281,7 +281,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 
-#pragma mark SDLConnectionManager Protocol
+#pragma mark Sending Requests
 
 - (void)sendRequest:(SDLRPCRequest *)request {
     [self sendRequest:request withCompletionHandler:nil];
@@ -300,7 +300,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self sdl_sendRequest:request withCompletionHandler:handler];
 }
 
-// Managers need to avoid state checking
+// Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block {
     [self sdl_sendRequest:request withCompletionHandler:block];
 }
@@ -336,7 +336,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 
-#pragma mark SDLProxyListener Methods
+#pragma mark SDL notification observers
 
 - (void)transportDidConnect {
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected];

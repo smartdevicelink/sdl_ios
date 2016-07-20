@@ -5,11 +5,16 @@
 #import "SDLLifecycleManager.h"
 
 #import "SDLConfiguration.h"
+#import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
+#import "SDLRPCRequestFactory.h"
+#import "SDLShow.h"
+#import "SDLTextAlignment.h"
 
 
 // Ignore the deprecated proxy methods
@@ -53,10 +58,36 @@ fdescribe(@"a lifecycle manager", ^{
         expect(testManager.lockScreenManager).toNot(beNil());
         expect(testManager.notificationDispatcher).toNot(beNil());
         expect(testManager.responseDispatcher).toNot(beNil());
+        expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
+    });
+    
+    describe(@"calling stop", ^{
+        beforeEach(^{
+            [testManager stop];
+        });
+        
+        it(@"should do nothing", ^{
+            expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+        });
+    });
+    
+    describe(@"attempting to send a request", ^{
+        __block SDLShow *testShow = nil;
+        __block NSError *returnError = nil;
+        
+        beforeEach(^{
+            testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"Test" mainField2:@"Test2" alignment:[SDLTextAlignment CENTERED] correlationID:@1];
+            [testManager sendRequest:testShow withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                returnError = error;
+            }];
+        });
+        
+        it(@"should throw an error when sending a request", ^{
+            expect(returnError).to(equal([NSError sdl_lifecycle_notReadyError]));
+        });
     });
     
     describe(@"when started", ^{
-        
         beforeEach(^{
             OCMExpect([proxyBuilderClassMock buildSDLProxyWithListener:[OCMArg isEqual:testManager.notificationDispatcher]]);
             [testManager start];
@@ -65,6 +96,7 @@ fdescribe(@"a lifecycle manager", ^{
         it(@"should initialize the proxy property", ^{
             OCMVerifyAll(proxyBuilderClassMock);
             expect(testManager.proxy).toNot(beNil());
+            expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
         });
     });
 });

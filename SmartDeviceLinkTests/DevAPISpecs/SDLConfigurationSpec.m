@@ -20,7 +20,7 @@ describe(@"a configuration", ^{
             someAppId = @"some id";
             someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
             
-            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:nil];
+            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
         });
         
         it(@"should contain the correct configs", ^{
