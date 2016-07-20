@@ -161,16 +161,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lockScreenManager stop];
     
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
-    [self.notificationDispatcher postNotification:SDLTransportDidDisconnect info:nil];
     [self.delegate managerDidDisconnect];
     
     [self start]; // Start up again to start watching for new connections
 }
 
 - (void)didEnterStateTransportConnected {
-    // Make sure to post the did connect notification to start preheating some other objects as well while we wait for the RAIR
-    [self.notificationDispatcher postNotification:SDLTransportDidConnect info:nil];
-    
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
