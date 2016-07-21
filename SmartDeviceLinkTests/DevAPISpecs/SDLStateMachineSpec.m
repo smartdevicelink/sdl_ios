@@ -40,10 +40,7 @@ describe(@"A state machine", ^{
         });
         
         describe(@"when transitioning correctly", ^{
-            __block BOOL willLeaveNotificationCalled = NO;
-            __block BOOL willTransitionNotificationCalled = NO;
             __block BOOL didTransitionNotificationCalled = NO;
-            __block BOOL didEnterNotificationCalled = NO;
             
             __block NSDictionary<NSString *, NSString *> *willLeaveMethodInfo = nil;
             __block NSDictionary<NSString *, NSString *> *willTransitionMethodInfo = nil;
@@ -52,11 +49,7 @@ describe(@"A state machine", ^{
             
             beforeEach(^{
                 [[NSNotificationCenter defaultCenter] addObserverForName:testStateMachine.transitionNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-                    if ([note.userInfo[SDLStateMachineNotificationInfoKeyType] isEqualToString:SDLStateMachineTransitionTypeWillLeave]) { willLeaveNotificationCalled = YES; }
-                    else if ([note.userInfo[SDLStateMachineNotificationInfoKeyType] isEqualToString:SDLStateMachineTransitionTypeWillTransition]) { willTransitionNotificationCalled = YES; }
-                    else if ([note.userInfo[SDLStateMachineNotificationInfoKeyType] isEqualToString:SDLStateMachineTransitionTypeDidTransition]) { didTransitionNotificationCalled = YES; }
-                    else if ([note.userInfo[SDLStateMachineNotificationInfoKeyType] isEqualToString:SDLStateMachineTransitionTypeDidEnter]) { didEnterNotificationCalled = YES; }
-                    else { failWithMessage(@"Unknown info came back from the state machine's notification"); }
+                    didTransitionNotificationCalled = YES;
                 }];
                 
                 testTarget.callback = ^(NSString * _Nonnull type, NSString * _Nullable oldState, NSString * _Nullable newState) {
@@ -80,10 +73,7 @@ describe(@"A state machine", ^{
             });
             
             it(@"should call all appropriate notifications", ^{
-                expect(@(willLeaveNotificationCalled)).to(equal(@YES));
-                expect(@(willTransitionNotificationCalled)).to(equal(@YES));
                 expect(@(didTransitionNotificationCalled)).to(equal(@YES));
-                expect(@(didEnterNotificationCalled)).to(equal(@YES));
             });
             
             it(@"should call all the appropriate state methods", ^{

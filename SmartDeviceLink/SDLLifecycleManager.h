@@ -33,11 +33,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// TODO: Should these be private only (and those like them) so that we can change them without requiring minor / major version changes?
 typedef NSString SDLLifecycleState;
 extern SDLLifecycleState *const SDLLifecycleStateDisconnected;
 extern SDLLifecycleState *const SDLLifecycleStateTransportConnected;
 extern SDLLifecycleState *const SDLLifecycleStateRegistered;
 extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
+extern SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing;
 extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
 extern SDLLifecycleState *const SDLLifecycleStateReady;
 
@@ -45,13 +47,14 @@ extern SDLLifecycleState *const SDLLifecycleStateReady;
 @interface SDLLifecycleManager : NSObject
 
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
-@property (strong, nonatomic, readonly) SDLFileManager *fileManager;
-@property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
+@property (strong, nonatomic) SDLFileManager *fileManager;
+@property (strong, nonatomic) SDLPermissionManager *permissionManager;
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
-@property (strong, nonatomic, readonly) SDLLockScreenManager *lockScreenManager;
+@property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
 @property (weak, nonatomic, readonly, nullable) id<SDLManagerDelegate> delegate;
+@property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push

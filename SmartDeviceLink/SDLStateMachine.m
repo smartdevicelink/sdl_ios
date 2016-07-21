@@ -13,12 +13,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeWillLeave = @"willLeave";
-SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeWillTransition = @"willTransition";
-SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeDidTransition = @"didTransition";
-SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeDidEnter = @"didEnter";
-
-SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyType = @"type";
 SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyOldState = @"oldState";
 SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewState = @"newState";
 
@@ -69,12 +63,10 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     
     // Pre state transition calls
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyType: SDLStateMachineTransitionTypeWillLeave, SDLStateMachineNotificationInfoKeyOldState: oldState, SDLStateMachineNotificationInfoKeyNewState: state  }];
     if ([self.target respondsToSelector:willLeave]) {
         [self.target performSelector:willLeave];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyType: SDLStateMachineTransitionTypeWillTransition, SDLStateMachineNotificationInfoKeyOldState: oldState, SDLStateMachineNotificationInfoKeyNewState: state }];
     if ([self.target respondsToSelector:willTransition]) {
         [self.target performSelector:willTransition];
     }
@@ -83,12 +75,11 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
     self.currentState = state;
     
     // Post state transition calls
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyType: SDLStateMachineTransitionTypeDidTransition, SDLStateMachineNotificationInfoKeyOldState: oldState,SDLStateMachineNotificationInfoKeyNewState: state }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyOldState: oldState,SDLStateMachineNotificationInfoKeyNewState: state }];
     if ([self.target respondsToSelector:didTransition]) {
         [self.target performSelector:didTransition];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyType: SDLStateMachineTransitionTypeDidEnter, SDLStateMachineNotificationInfoKeyOldState: oldState, SDLStateMachineNotificationInfoKeyNewState: state }];
     if ([self.target respondsToSelector:didEnter]) {
         [self.target performSelector:didEnter];
     }

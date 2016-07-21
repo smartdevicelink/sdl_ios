@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithNotificationDispatcher:(nullable id)dispatcher NS_DESIGNATED_INITIALIZER;
 
 - (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLRequestCompletionHandler)handler;
+- (void)clear;
 
 @end
 

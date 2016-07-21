@@ -43,12 +43,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (assign, nonatomic, readwrite) BOOL firstHMINotNoneOccurred;
 @property (copy, nonatomic, readwrite) SDLHMILevel *currentHMILevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
-@property (strong, nonatomic, readwrite) SDLFileManager *fileManager;
-@property (strong, nonatomic, readwrite) SDLPermissionManager *permissionManager;
+//@property (strong, nonatomic, readwrite) SDLLockScreenManager *lockScreenManager;
+//@property (strong, nonatomic, readwrite) SDLFileManager *fileManager;
+//@property (strong, nonatomic, readwrite) SDLPermissionManager *permissionManager;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLOnHashChange *resumeHash;
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
-@property (strong, nonatomic, readwrite) SDLLockScreenManager *lockScreenManager;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (weak, nonatomic, readwrite, nullable) id<SDLManagerDelegate> delegate;
@@ -122,10 +122,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)stop {
-    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
-    } else {
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+    } else {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
     }
 }
 
@@ -138,6 +138,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (SDLState *)lifecycleState {
     return self.lifecycleStateMachine.currentState;
+}
+
+- (NSString *)stateTransitionNotificationName {
+    return self.lifecycleStateMachine.transitionNotificationName;
 }
 
 
@@ -159,6 +163,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
+    [self.responseDispatcher clear];
     
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.delegate managerDidDisconnect];
@@ -171,13 +176,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    
+    regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     // TODO: Should the hash be removed under any conditions?
     if (self.resumeHash != nil) {
         regRequest.hashID = self.resumeHash.hashID;
     }
-    
-    regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionSynonyms];
     
     // Send the request and depending on the response, post the notification
     [self sdl_sendRequest:regRequest withCompletionHandler:nil];
@@ -196,11 +199,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     [self.lockScreenManager start];
     
-    // When done, we want to transition
-    dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
-    });
-    
+    // TODO: Does success / error matter here? Probably. What should we do if it fails?
     dispatch_group_enter(managerGroup);
     [self.fileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
         dispatch_group_leave(managerGroup);
@@ -213,6 +212,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
+    
+    // When done, we want to transition
+    dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
+    });
 }
 
 - (void)didEnterStatePostManagerProcessing {
@@ -343,6 +347,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)registerAppInterfaceResponseRecieved:(NSNotification *)notification {
+    // TODO: Check for success, don't just blindly go on
     SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = notification.userInfo[SDLNotificationUserInfoObject];
     self.registerAppInterfaceResponse = registerAppInterfaceResponse;
     

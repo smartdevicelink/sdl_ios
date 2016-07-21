@@ -8,7 +8,9 @@
 
 #import "SDLResponseDispatcher.h"
 
-#import "SmartDeviceLink.h"
+#import "SmartDeviceLink.h" // TODO: Only the things we need
+
+#import "NSMutableDictionary+SafeRemove.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -126,6 +128,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)clear {
+    [self.rpcRequestDictionary removeAllObjects];
+    [self.rpcResponseHandlerMap removeAllObjects];
+    [self.commandHandlerMap removeAllObjects];
+    [self.buttonHandlerMap removeAllObjects];
+    [self.customButtonHandlerMap removeAllObjects];
+}
+
 - (void)sdl_addToHandlerMapWithSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
     for (SDLSoftButton *sb in softButtons) {
         if (!sb.softButtonID) {
@@ -153,8 +163,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Find the appropriate request completion handler, remove the request and response handler
     SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
     SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
-    [self.rpcRequestDictionary removeObjectForKey:response.correlationID];
-    [self.rpcResponseHandlerMap removeObjectForKey:response.correlationID];
+    [self.rpcRequestDictionary safeRemoveObjectForKey:response.correlationID];
+    [self.rpcResponseHandlerMap safeRemoveObjectForKey:response.correlationID];
     
     // Run the response handler
     if (handler) {
@@ -168,11 +178,11 @@ NS_ASSUME_NONNULL_BEGIN
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
         SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
         NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
-        [self.commandHandlerMap removeObjectForKey:deleteCommandId];
+        [self.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
     } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
         SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
         NSString *unsubscribeButtonName = unsubscribeButtonRequest.buttonName.value;
-        [self.buttonHandlerMap removeObjectForKey:unsubscribeButtonName];
+        [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
     }
 }
 

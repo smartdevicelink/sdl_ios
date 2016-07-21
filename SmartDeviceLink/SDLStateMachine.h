@@ -13,14 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString SDLState;
 typedef NSArray<SDLState *> SDLAllowableStateTransitions;
 
-typedef NSString SDLStateMachineTransitionType;
-extern SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeWillLeave;
-extern SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeWillTransition;
-extern SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeDidTransition;
-extern SDLStateMachineTransitionType *const SDLStateMachineTransitionTypeDidEnter;
-
 typedef NSString SDLStateMachineNotificationInfoKey;
-extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyType;
 extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyOldState;
 extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewState;
 
@@ -43,6 +36,9 @@ extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfo
 @property (copy, nonatomic, readonly) SDLState *currentState;
 @property (weak, nonatomic, readonly) id target;
 
+/**
+ *  This transition will be sent right after the state changes, but before `didTransition` or `didEnter` method calls occur.
+ */
 @property (copy, nonatomic, readonly) NSString *transitionNotificationName;
 
 /**

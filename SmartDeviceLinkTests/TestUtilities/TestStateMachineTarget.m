@@ -13,6 +13,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+TestStateMachineTransitionType *const SDLStateMachineTransitionTypeWillLeave = @"willLeave";
+TestStateMachineTransitionType *const SDLStateMachineTransitionTypeWillTransition = @"willTransition";
+TestStateMachineTransitionType *const SDLStateMachineTransitionTypeDidTransition = @"didTransition";
+TestStateMachineTransitionType *const SDLStateMachineTransitionTypeDidEnter = @"didEnter";
+
 @implementation TestStateMachineTarget
 
 - (void)willLeaveStateInitial {

@@ -819,6 +819,8 @@
 		5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */; };
 		5D9F50871BED412E00FEF399 /* TestConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9F50861BED412E00FEF399 /* TestConnectionManager.m */; };
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
+		5DA102A41D4122C700C15826 /* NSMutableDictionary+SafeRemove.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA102A21D4122C700C15826 /* NSMutableDictionary+SafeRemove.h */; };
+		5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */; };
 		5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB31D075CF200245F5F /* Nimble.framework */; };
 		5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB41D075CF200245F5F /* OCMock.framework */; };
 		5DA22CB91D075CF200245F5F /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */; };
@@ -1768,6 +1770,8 @@
 		5D9F50851BED412E00FEF399 /* TestConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestConnectionManager.h; path = TestUtilities/TestConnectionManager.h; sourceTree = "<group>"; };
 		5D9F50861BED412E00FEF399 /* TestConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestConnectionManager.m; path = TestUtilities/TestConnectionManager.m; sourceTree = "<group>"; };
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
+		5DA102A21D4122C700C15826 /* NSMutableDictionary+SafeRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeRemove.h"; sourceTree = "<group>"; };
+		5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeRemove.m"; sourceTree = "<group>"; };
 		5DA22CB31D075CF200245F5F /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = sdl_ios/Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5DA22CB41D075CF200245F5F /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = sdl_ios/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
 		5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = sdl_ios/Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -3290,6 +3294,8 @@
 				5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */,
 				5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */,
 				5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */,
+				5DA102A21D4122C700C15826 /* NSMutableDictionary+SafeRemove.h */,
+				5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3718,6 +3724,7 @@
 				5D61FDA11A84238C00846EE7 /* SDLSoftButtonCapabilities.h in Headers */,
 				5D6F7A2B1BC45BF70070BF37 /* SDLRequestHandler.h in Headers */,
 				5D61FDB51A84238C00846EE7 /* SDLSyncMsgVersion.h in Headers */,
+				5DA102A41D4122C700C15826 /* NSMutableDictionary+SafeRemove.h in Headers */,
 				5D61FE031A84238C00846EE7 /* SDLVehicleDataResult.h in Headers */,
 				5D61FD911A84238C00846EE7 /* SDLShowConstantTBT.h in Headers */,
 				5D61FC331A84238C00846EE7 /* SDLAddSubMenuResponse.h in Headers */,
@@ -4182,6 +4189,7 @@
 				5D61FE021A84238C00846EE7 /* SDLVehicleDataNotificationStatus.m in Sources */,
 				5D61FDD81A84238C00846EE7 /* SDLTouchType.m in Sources */,
 				5D61FDD61A84238C00846EE7 /* SDLTouchEventCapabilities.m in Sources */,
+				5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */,
 				5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */,
 				5D61FDAC1A84238C00846EE7 /* SDLStartTime.m in Sources */,
 				5D61FDA01A84238C00846EE7 /* SDLSoftButton.m in Sources */,

@@ -10,6 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString TestStateMachineTransitionType;
+extern TestStateMachineTransitionType *const SDLStateMachineTransitionTypeWillLeave;
+extern TestStateMachineTransitionType *const SDLStateMachineTransitionTypeWillTransition;
+extern TestStateMachineTransitionType *const SDLStateMachineTransitionTypeDidTransition;
+extern TestStateMachineTransitionType *const SDLStateMachineTransitionTypeDidEnter;
+
 /**
  *  Callback block that fires whenever one of the TestStateMachineTarget class' state transition methods is called.
  *
@@ -17,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param oldState The old state, if available
  *  @param newState The new state, if available
  */
-typedef void (^TestStateMachineCallback)(NSString *__nonnull type, NSString *__nullable oldState, NSString *__nullable newState);
+typedef void (^TestStateMachineCallback)(NSString *type, NSString *__nullable oldState, NSString *__nullable newState);
 
 @interface TestStateMachineTarget : NSObject
 
