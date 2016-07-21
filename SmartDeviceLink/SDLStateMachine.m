@@ -75,7 +75,7 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
     self.currentState = state;
     
     // Post state transition calls
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyOldState: oldState,SDLStateMachineNotificationInfoKeyNewState: state }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyOldState: oldState, SDLStateMachineNotificationInfoKeyNewState: state }];
     if ([self.target respondsToSelector:didTransition]) {
         [self.target performSelector:didTransition];
     }

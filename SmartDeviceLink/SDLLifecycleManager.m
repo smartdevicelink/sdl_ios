@@ -103,7 +103,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hashDidChange:) name:SDLDidReceiveNewHashNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unregisterAppInterfaceResponseReceived:) name:SDLDidReceiveUnregisterAppInterfaceResponse object:_notificationDispatcher];
     
     return self;
 }
@@ -346,6 +345,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
 
+// TODO: This could go inline on the request
 - (void)registerAppInterfaceResponseRecieved:(NSNotification *)notification {
     // TODO: Check for success, don't just blindly go on
     SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = notification.userInfo[SDLNotificationUserInfoObject];
@@ -392,12 +392,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)remoteHardwareDidUnregister:(NSNotification *)notification {
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.userInfo[SDLNotificationUserInfoObject];
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
-    
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
-}
-
-- (void)unregisterAppInterfaceResponseReceived:(NSNotification *)notification {
-    [SDLDebugTool logFormat:@"App unregister successful"];
     
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
