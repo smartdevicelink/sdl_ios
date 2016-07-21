@@ -92,7 +92,7 @@ describe(@"a notification dispatcher", ^{
                 returnNotification = note;
             }];
             
-            [testDispatcher postNotification:testNotificationName info:testUserInfo];
+            [testDispatcher postNotificationName:testNotificationName infoObject:testUserInfo];
         });
         
         it(@"should post", ^{
