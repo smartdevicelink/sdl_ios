@@ -342,6 +342,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // TODO: This could go inline on the request
 - (void)registerAppInterfaceResponseRecieved:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRegisterAppInterfaceResponse class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRegisterAppInterfaceResponse class]]) {
+        return;
+    }
+    
     // TODO: Check for success, don't just blindly go on
     SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = notification.userInfo[SDLNotificationUserInfoObject];
     self.registerAppInterfaceResponse = registerAppInterfaceResponse;
@@ -350,6 +355,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
+        return;
+    }
+    
     SDLOnHMIStatus *hmiStatusNotification = notification.userInfo[SDLNotificationUserInfoObject];
     
     if ([hmiStatusNotification.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
@@ -379,12 +389,22 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hashDidChange:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHashChange class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHashChange class]]) {
+        return;
+    }
+    
     SDLOnHashChange *hashChangeNotification = notification.userInfo[SDLNotificationUserInfoObject];
     
     self.resumeHash = hashChangeNotification;
 }
 
 - (void)remoteHardwareDidUnregister:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnAppInterfaceUnregistered class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+        return;
+    }
+    
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.userInfo[SDLNotificationUserInfoObject];
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
     

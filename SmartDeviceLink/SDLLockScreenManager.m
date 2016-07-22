@@ -91,6 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnLockScreenStatus class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnLockScreenStatus class]]) {
+        return;
+    }
+    
     if (self.lockScreenViewController == nil) {
         return;
     }
@@ -116,6 +121,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_lockScreenIconReceived:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[UIImage class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[UIImage class]]) {
+        return;
+    }
+    
     UIImage *icon = notification.userInfo[SDLNotificationUserInfoObject];
     
     // If the VC is our special type, then add the vehicle icon. If they passed in a custom VC, there's no current way to show the vehicle icon. If they're managing it themselves, they can grab the notification themselves.

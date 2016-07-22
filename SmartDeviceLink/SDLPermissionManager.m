@@ -12,6 +12,7 @@
 #import "SDLHMIPermissions.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLOnPermissionsChange.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
 #import "SDLStateMachine.h"
@@ -175,16 +176,17 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDL Notification Observers
 
 - (void)sdl_permissionsDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[NSArray class]], @"The SDLPermissionManager permissions  observer got something other than an array of permissions level");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[NSArray class]]) {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnPermissionsChange class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnPermissionsChange class]]) {
         return;
     }
     
-    NSArray<SDLPermissionItem *> *newPermissionItems = notification.userInfo[SDLNotificationUserInfoObject];
-    NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
+    SDLOnPermissionsChange *onPermissionChange = notification.userInfo[SDLNotificationUserInfoObject];
+    NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
+    NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
     
     // We can eliminate calling those filters who had no permission changes, so we'll filter down and see which had permissions that changed
-    NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:filters updatedPermissions:newPermissionItems];
+    NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:currentFilters updatedPermissions:newPermissionItems];
     
     // We need the old group status and new group status for all allowed filters so we know if they should be called
     NSDictionary<NSUUID *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
@@ -218,6 +220,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
+        return;
+    }
+    
     SDLOnHMIStatus *hmiStatus = notification.userInfo[SDLNotificationUserInfoObject];
     
     SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
@@ -242,6 +249,9 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_callFilterObserver:filter];
     }
 }
+
+
+#pragma mark Helper Methods
 
 /**
  *  Determine if a filter changes based on an HMI level change and the filter's group type settings. This will run through the filter's RPCs, check the permission for each and see if any permission within the filter changes based on some permission now being allowed when it wasn't, or not allowed when it was. This also takes into account the group type setting, so an All Allowed filter will return YES if and only if some permission changed *and* that causes a status change *to* or *from* Allowed.

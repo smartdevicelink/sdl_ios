@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Private Image
 
 + (UIImage *)sdl_sdlImage {
-    NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]];
+    NSBundle *sdlBundle = [NSBundle bundleForClass:[self class]];
     
     return [UIImage imageNamed:@"sdl-logo" inBundle:sdlBundle compatibleWithTraitCollection:nil];
 }

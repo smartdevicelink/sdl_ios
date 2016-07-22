@@ -148,11 +148,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - Handlers
-#pragma mark Response
+#pragma mark - Notification Handler
 
 // Called by notifications
 - (void)sdl_runHandlersForResponse:(NSNotification *)notification {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]]) {
+        return;
+    }
+    
     __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
     
     NSError *error = nil;
