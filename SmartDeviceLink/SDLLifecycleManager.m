@@ -81,7 +81,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
-    _lastCorrelationId = 1;
+    _lastCorrelationId = 0;
     _firstHMIFullOccurred = NO;
     _firstHMINotNoneOccurred = NO;
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
@@ -224,13 +224,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
-        
-        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
-            [self.delegate managerDidBecomeReady];
-        }
-    });
+    [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
+
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
+        [self.delegate managerDidBecomeReady];
+    }
 }
 
 - (void)didEnterStateUnregistering {
@@ -325,10 +323,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (NSNumber *)sdl_getNextCorrelationId {
     if (self.lastCorrelationId == UINT16_MAX) {
-        self.lastCorrelationId = 1;
+        self.lastCorrelationId = 0;
     }
     
-    return @(self.lastCorrelationId++);
+    return @(++self.lastCorrelationId);
 }
 
 
@@ -354,7 +352,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)hmiStatusDidChange:(NSNotification *)notification {
     SDLOnHMIStatus *hmiStatusNotification = notification.userInfo[SDLNotificationUserInfoObject];
     
-    if (hmiStatusNotification.hmiLevel == [SDLHMILevel FULL]) {
+    if ([hmiStatusNotification.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
         BOOL occurred = NO;
         occurred = self.firstHMINotNoneOccurred;
         if (!occurred) {

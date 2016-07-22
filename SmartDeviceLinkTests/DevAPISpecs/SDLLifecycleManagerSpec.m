@@ -8,12 +8,14 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLHMILevel.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnHashChange.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
@@ -54,7 +56,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-describe(@"a lifecycle manager", ^{
+fdescribe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
@@ -82,7 +84,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.configuration).to(equal(testConfig));
         expect(testManager.delegate).to(equal(managerDelegateMock));
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
-        expect(@(testManager.lastCorrelationId)).to(equal(@1));
+        expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(@(testManager.firstHMIFullOccurred)).to(beFalsy());
         expect(@(testManager.firstHMINotNoneOccurred)).to(beFalsy());
         expect(testManager.fileManager).toNot(beNil());
@@ -111,6 +113,60 @@ describe(@"a lifecycle manager", ^{
         
         it(@"should have stored the new hash", ^{
             expect(testManager.resumeHash).toEventually(equal(testHashChange));
+        });
+    });
+    
+    describe(@"after receiving an HMI Status", ^{
+        __block SDLOnHMIStatus *testHMIStatus = nil;
+        __block SDLHMILevel *testHMILevel = nil;
+        
+        beforeEach(^{
+            testHMIStatus = [[SDLOnHMIStatus alloc] init];
+        });
+        
+        context(@"a non-none hmi level", ^{
+            beforeEach(^{
+                testHMILevel = [SDLHMILevel NONE];
+                testHMIStatus.hmiLevel = testHMILevel;
+                
+                [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+            });
+            
+            it(@"should set the hmi level", ^{
+                expect(testManager.currentHMILevel).toEventually(equal(testHMILevel));
+                expect(@(testManager.firstHMIFullOccurred)).toEventually(beFalsy());
+                expect(@(testManager.firstHMINotNoneOccurred)).toEventually(beFalsy());
+            });
+        });
+        
+        context(@"a non-full, non-none hmi level", ^{
+            beforeEach(^{
+                testHMILevel = [SDLHMILevel BACKGROUND];
+                testHMIStatus.hmiLevel = testHMILevel;
+                
+                [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+            });
+            
+            it(@"should set the hmi level", ^{
+                expect(testManager.currentHMILevel).toEventually(equal(testHMILevel));
+                expect(@(testManager.firstHMIFullOccurred)).toEventually(beFalsy());
+                expect(@(testManager.firstHMINotNoneOccurred)).toEventually(beTruthy());
+            });
+        });
+        
+        context(@"a full hmi level", ^{
+            beforeEach(^{
+                testHMILevel = [SDLHMILevel FULL];
+                testHMIStatus.hmiLevel = testHMILevel;
+                
+                [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+            });
+            
+            it(@"should set the hmi level", ^{
+                expect(testManager.currentHMILevel).toEventually(equal(testHMILevel));
+                expect(@(testManager.firstHMIFullOccurred)).toEventually(beTruthy());
+                expect(@(testManager.firstHMINotNoneOccurred)).toEventually(beTruthy());
+            });
         });
     });
     
@@ -241,14 +297,19 @@ describe(@"a lifecycle manager", ^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady];
             });
             
+            it(@"can send an RPC", ^{
+                SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
+                [testManager sendRequest:testShow];
+                
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
+            });
+            
             describe(@"stopping the manager", ^{
                 beforeEach(^{
-                    //                        OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
                     [testManager stop];
-                    [NSThread sleepForTimeInterval:0.5];
                 });
                 
-                fit(@"should attempt to unregister", ^{
+                it(@"should attempt to unregister", ^{
                     OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
                 });
@@ -259,6 +320,7 @@ describe(@"a lifecycle manager", ^{
                     beforeEach(^{
                         testUnregisterResponse = [[SDLUnregisterAppInterfaceResponse alloc] init];
                         testUnregisterResponse.success = @YES;
+                        testUnregisterResponse.correlationID = @(testManager.lastCorrelationId);
                         
                         [testManager.notificationDispatcher postNotificationName:SDLDidReceiveUnregisterAppInterfaceResponse infoObject:testUnregisterResponse];
                     });
