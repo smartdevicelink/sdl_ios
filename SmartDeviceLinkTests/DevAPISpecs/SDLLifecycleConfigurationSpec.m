@@ -33,7 +33,8 @@ describe(@"a lifecycle configuration", ^{
             expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
-            expect(testConfig.voiceRecognitionSynonyms).to(beEmpty());
+            expect(testConfig.voiceRecognitionSynonyms).to(haveCount(@1));
+            expect(testConfig.voiceRecognitionSynonyms.firstObject).to(match(someAppName));
         });
         
         describe(@"after setting properties manually", ^{
@@ -97,7 +98,8 @@ describe(@"a lifecycle configuration", ^{
             expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
-            expect(testConfig.voiceRecognitionSynonyms).to(beEmpty());
+            expect(testConfig.voiceRecognitionSynonyms).to(haveCount(@1));
+            expect(testConfig.voiceRecognitionSynonyms.firstObject).to(match(someAppName));
         });
         
         describe(@"after setting properties manually", ^{

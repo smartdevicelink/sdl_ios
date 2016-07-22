@@ -31,9 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *name;
 
 /**
- *  The url the local file is stored at while waiting to push it to the remote system.
+ *  The url the local file is stored at while waiting to push it to the remote system. If the data has not been passed to the file URL, this will be nil.
  */
-@property (copy, nonatomic, readonly) NSURL *fileURL;
+@property (copy, nonatomic, readonly, nullable) NSURL *fileURL;
 
 /**
  *  The binary data of the local file.

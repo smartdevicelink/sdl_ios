@@ -56,7 +56,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-fdescribe(@"a lifecycle manager", ^{
+describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     

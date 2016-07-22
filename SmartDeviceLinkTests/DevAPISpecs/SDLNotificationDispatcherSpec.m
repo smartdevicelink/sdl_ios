@@ -96,8 +96,8 @@ describe(@"a notification dispatcher", ^{
         });
         
         it(@"should post", ^{
-            expect(returnNotification.userInfo[SDLNotificationUserInfoObject]).to(match(testUserInfo));
-            expect(returnNotification.object).to(equal(testDispatcher));
+            expect(returnNotification.userInfo[SDLNotificationUserInfoObject]).toEventually(match(testUserInfo));
+            expect(returnNotification.object).toEventually(equal(testDispatcher));
         });
     });
 });

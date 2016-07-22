@@ -5,6 +5,7 @@
 #import "SDLHMILevel.h"
 #import "SDLHMIPermissions.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionManager.h"
@@ -13,11 +14,12 @@ QuickSpecBegin(SDLPermissionsManagerSpec)
 
 describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionManager *testPermissionsManager = nil;
-    __block NSNotification *testPermissionsNotification = nil;
+    
     __block NSString *testRPCNameAllAllowed = nil;
     __block NSString *testRPCNameAllDisallowed = nil;
     __block NSString *testRPCNameFullLimitedAllowed = nil;
     __block NSString *testRPCNameFullLimitedBackgroundAllowed = nil;
+    
     __block SDLPermissionItem *testPermissionAllAllowed = nil;
     __block SDLHMIPermissions *testHMIPermissionsAllAllowed = nil;
     __block SDLPermissionItem *testPermissionAllDisallowed = nil;
@@ -27,6 +29,11 @@ describe(@"SDLPermissionsManager", ^{
     __block SDLPermissionItem *testPermissionFullLimitedBackgroundAllowed = nil;
     __block SDLHMIPermissions *testHMIPermissionsFullLimitedBackgroundAllowed = nil;
     
+    __block SDLOnHMIStatus *testLimitedHMIStatus = nil;
+    __block SDLOnHMIStatus *testBackgroundHMIStatus = nil;
+    __block SDLOnHMIStatus *testNoneHMIStatus = nil;
+    
+    __block NSNotification *testPermissionsNotification = nil;
     __block NSNotification *limitedHMINotification = nil;
     __block NSNotification *backgroundHMINotification = nil;
     __block NSNotification *noneHMINotification = nil;
@@ -79,11 +86,21 @@ describe(@"SDLPermissionsManager", ^{
         testPermissionFullLimitedBackgroundAllowed.hmiPermissions = testHMIPermissionsFullLimitedBackgroundAllowed;
         testPermissionFullLimitedBackgroundAllowed.parameterPermissions = testParameterPermissions;
         
+        // Create OnHMIStatus objects
+        testLimitedHMIStatus = [[SDLOnHMIStatus alloc] init];
+        testLimitedHMIStatus.hmiLevel = [SDLHMILevel LIMITED];
+        
+        testBackgroundHMIStatus = [[SDLOnHMIStatus alloc] init];
+        testBackgroundHMIStatus.hmiLevel = [SDLHMILevel BACKGROUND];
+        
+        testNoneHMIStatus = [[SDLOnHMIStatus alloc] init];
+        testNoneHMIStatus.hmiLevel = [SDLHMILevel NONE];
+        
         // Permission Notifications
         testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]}];
-        limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: [SDLHMILevel LIMITED]}];
-        backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: [SDLHMILevel BACKGROUND]}];
-        noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: [SDLHMILevel NONE]}];
+        limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testLimitedHMIStatus}];
+        backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testBackgroundHMIStatus}];
+        noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testNoneHMIStatus}];
     });
     
     describe(@"checking if a permission is allowed", ^{
@@ -204,11 +221,8 @@ describe(@"SDLPermissionsManager", ^{
                 testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
             });
             
-            it(@"should return NO for RPC All Allowed", ^{
+            it(@"should return correct permission statuses", ^{
                 expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@NO));
-            });
-            
-            it(@"should return NO for RPC All Disallowed", ^{
                 expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
             });
         });
@@ -221,11 +235,8 @@ describe(@"SDLPermissionsManager", ^{
                 testResultPermissionStatusDict = [testPermissionsManager statusOfRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed]];
             });
             
-            it(@"should return YES for RPC All Allowed", ^{
+            it(@"should return correct permission statuses", ^{
                 expect(testResultPermissionStatusDict[testRPCNameAllAllowed]).to(equal(@YES));
-            });
-            
-            it(@"should return NO for RPC All Disallowed", ^{
                 expect(testResultPermissionStatusDict[testRPCNameAllDisallowed]).to(equal(@NO));
             });
         });
@@ -250,19 +261,10 @@ describe(@"SDLPermissionsManager", ^{
                     }];
                 });
                 
-                it(@"should call the observer", ^{
+                it(@"should return correct permission statuses", ^{
                     expect(@(testObserverCalled)).to(equal(@YES));
-                });
-                
-                it(@"should return Unknown for the group status", ^{
                     expect(@(testObserverStatus)).to(equal(@(SDLPermissionGroupStatusUnknown)));
-                });
-                
-                it(@"should return NO for All Allowed RPC allowed", ^{
                     expect(testObserverChangeDict[testRPCNameAllAllowed]).to(equal(@NO));
-                });
-                
-                it(@"should return NO for All Disallowed RPC allowed", ^{
                     expect(testObserverChangeDict[testRPCNameAllDisallowed]).to(equal(@NO));
                 });
             });
@@ -290,23 +292,11 @@ describe(@"SDLPermissionsManager", ^{
                         }];
                     });
                     
-                    it(@"should call the observer once", ^{
+                    it(@"should call the observer with proper status", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the all allowed rpc as YES", ^{
                         expect(testObserverBlockChangedDict[testRPCNameAllAllowed]).to(equal(@YES));
-                    });
-                    
-                    it(@"should have the all disallowed rpc as NO", ^{
                         expect(testObserverBlockChangedDict[testRPCNameAllDisallowed]).to(equal(@NO));
-                    });
-                    
-                    it(@"should only have the two rpcs in the dictionary", ^{
                         expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
-                    });
-                    
-                    it(@"should return the proper status", ^{
                         expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusMixed)));
                     });
                 });
@@ -329,23 +319,11 @@ describe(@"SDLPermissionsManager", ^{
                         }];
                     });
                     
-                    it(@"should call the observer once", ^{
+                    it(@"should call the observer with proper status", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the all allowed rpc as YES", ^{
                         expect(testObserverBlockChangedDict[testRPCNameAllAllowed]).to(equal(@YES));
-                    });
-                    
-                    it(@"should have the full & limited rpc as YES", ^{
                         expect(testObserverBlockChangedDict[testRPCNameFullLimitedAllowed]).to(equal(@YES));
-                    });
-                    
-                    it(@"should only have the two rpcs in the dictionary", ^{
                         expect(testObserverBlockChangedDict.allKeys).to(haveCount(@2));
-                    });
-                    
-                    it(@"should return allowed for the group status", ^{
                         expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusAllowed)));
                     });
                 });
@@ -367,11 +345,8 @@ describe(@"SDLPermissionsManager", ^{
                         }];
                     });
                     
-                    it(@"should call the observer", ^{
+                    it(@"should call the observer with status Disallowed", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should tell us the status is Disallowed", ^{
                         expect(@(testObserverReturnStatus)).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                     });
                 });
@@ -423,40 +398,26 @@ describe(@"SDLPermissionsManager", ^{
                     expect(@(numberOfTimesObserverCalled)).to(equal(@2));
                 });
                 
-                it(@"should have the All Allowed RPC in the first change dict", ^{
+                it(@"should have proper data in the first change dict", ^{
                     expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
-                });
-                
-                it(@"should have the All Disallowed RPC in the first change dict", ^{
                     expect(changeDicts[0].allKeys).to(contain(testRPCNameAllDisallowed));
+                    
+                    NSNumber<SDLBool> *allAllowed = changeDicts[0][testRPCNameAllAllowed];
+                    expect(allAllowed).to(equal(@YES));
+                    
+                    NSNumber<SDLBool> *allDisallowed = changeDicts[0][testRPCNameAllDisallowed];
+                    expect(allDisallowed).to(equal(@NO));
                 });
                 
-                it(@"should have the All Allowed RPC in the second change dict", ^{
+                it(@"should have the proper data in the second change dict", ^{
                     expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
-                });
-                
-                it(@"should have the All Disallowed RPC in the second change dict", ^{
                     expect(changeDicts[1].allKeys).to(contain(testRPCNameAllDisallowed));
-                });
-                
-                it(@"should have the correct permission state for the all allowed RPC in the first change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameAllAllowed];
-                    expect(isAllowed).to(equal(@YES));
-                });
-                
-                it(@"should have the correct permission state for the all disallowed RPC in the first change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameAllDisallowed];
-                    expect(isAllowed).to(equal(@NO));
-                });
-                
-                it(@"should have the correct permission state for the all allowed RPC in the updated change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameAllAllowed];
-                    expect(isAllowed).to(equal(@NO));
-                });
-                
-                it(@"should have the correct permission state for the all disallowed RPC in the updated change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameAllDisallowed];
-                    expect(isAllowed).to(equal(@NO));
+                    
+                    NSNumber<SDLBool> *allAllowed = changeDicts[1][testRPCNameAllAllowed];
+                    expect(allAllowed).to(equal(@NO));
+                    
+                    NSNumber<SDLBool> *allDisallowed = changeDicts[1][testRPCNameAllDisallowed];
+                    expect(allDisallowed).to(equal(@NO));
                 });
             });
             
@@ -502,19 +463,13 @@ describe(@"SDLPermissionsManager", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@2));
                     });
                     
-                    it(@"should have two RPCs in the first change dict", ^{
+                    it(@"should have proper data in the first change dict", ^{
                         expect(changeDicts[0].allKeys).to(haveCount(@2));
-                    });
-                    
-                    it(@"should have two RPCs in the second change dict", ^{
-                        expect(changeDicts[1].allKeys).to(haveCount(@2));
-                    });
-                    
-                    it(@"should have the first status should be mixed", ^{
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
                     });
                     
-                    it(@"should have the second status as allowed", ^{
+                    it(@"should have the proper data in the second change dict", ^{
+                        expect(changeDicts[1].allKeys).to(haveCount(@2));
                         expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                     });
                 });
@@ -548,28 +503,18 @@ describe(@"SDLPermissionsManager", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@2));
                     });
                     
-                    it(@"should have Allowed as the first status", ^{
+                    it(@"should have proper data in the first change dict", ^{
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
-                    });
-                    
-                    it(@"should have Disallowed as the second status", ^{
-                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                    });
-                    
-                    it(@"should have the RPC in the first change dict", ^{
                         expect(changeDicts[0].allKeys).to(contain(testRPCNameAllAllowed));
-                    });
-                    
-                    it(@"should have the RPC in the second change dict", ^{
-                        expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
-                    });
-                    
-                    it(@"should have the correct permissions for the RPC in the first change dict", ^{
+                        
                         NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameAllAllowed];
                         expect(isAllowed).to(equal(@YES));
                     });
                     
-                    it(@"should have the correct permissions for the RPC in the second change dict", ^{
+                    it(@"should have the proper data in the second change dict", ^{
+                        expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
+                        expect(changeDicts[1].allKeys).to(contain(testRPCNameAllAllowed));
+                        
                         NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameAllAllowed];
                         expect(isAllowed).to(equal(@NO));
                     });
@@ -614,11 +559,8 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
-                    it(@"should only call the observer once", ^{
+                    it(@"should call the observer with a mixed status", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the first status as mixed", ^{
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
                     });
                 });
@@ -648,11 +590,8 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
-                    it(@"should only call the observer once", ^{
+                    it(@"should call the observer", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the first status as disallowed", ^{
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                     });
                 });
@@ -691,31 +630,23 @@ describe(@"SDLPermissionsManager", ^{
                     expect(@(numberOfTimesObserverCalled)).to(equal(@2));
                 });
                 
-                it(@"should have the correct permission state for the all allowed RPC in the first change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameAllAllowed];
-                    expect(isAllowed).to(equal(@YES));
-                });
-                
-                it(@"should have the correct permissions for the full / limited RPC in the first change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameFullLimitedAllowed];
-                    expect(isAllowed).to(equal(@NO));
-                });
-                
-                it(@"should have the correct permission state for the all allowed RPC in the updated change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameAllAllowed];
-                    expect(isAllowed).to(equal(@YES));
-                });
-                
-                it(@"should have the correct permission state for the full / limited RPC in the updated change dict", ^{
-                    NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameFullLimitedAllowed];
-                    expect(isAllowed).to(equal(@YES));
-                });
-                
-                it(@"should have the first status as mixed", ^{
+                it(@"should have proper data in the first change dict", ^{
+                    NSNumber<SDLBool> *allAllowed = changeDicts[0][testRPCNameAllAllowed];
+                    expect(allAllowed).to(equal(@YES));
+                    
+                    NSNumber<SDLBool> *fullLimitedAllowed = changeDicts[0][testRPCNameFullLimitedAllowed];
+                    expect(fullLimitedAllowed).to(equal(@NO));
+                    
                     expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
                 });
                 
-                it(@"should have the second status as allowed", ^{
+                it(@"should have the proper data in the second change dict", ^{
+                    NSNumber<SDLBool> *allAllowed = changeDicts[1][testRPCNameAllAllowed];
+                    expect(allAllowed).to(equal(@YES));
+                    
+                    NSNumber<SDLBool> *fullLimitedAllowed = changeDicts[1][testRPCNameFullLimitedAllowed];
+                    expect(fullLimitedAllowed).to(equal(@YES));
+                    
                     expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                 });
             });
@@ -745,15 +676,10 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     });
                     
-                    it(@"should call the observer once", ^{
+                    it(@"should call the observer", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@2));
-                    });
-                    
-                    it(@"should have the first status as disallowed", ^{
+                        
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
-                    });
-                    
-                    it(@"should have the second status as allowed", ^{
                         expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                     });
                 });
@@ -774,29 +700,21 @@ describe(@"SDLPermissionsManager", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@2));
                     });
                     
-                    it(@"should have the RPC in the first change dict", ^{
+                    it(@"should have proper data in the first change dict", ^{
                         expect(changeDicts[0].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
-                    });
-                    
-                    it(@"should have the RPC in the second change dict", ^{
-                        expect(changeDicts[1].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
-                    });
-                    
-                    it(@"should have the correct permissions for the RPC in the first change dict", ^{
+                        
                         NSNumber<SDLBool> *isAllowed = changeDicts[0][testRPCNameFullLimitedBackgroundAllowed];
                         expect(isAllowed).to(equal(@YES));
-                    });
-                    
-                    it(@"should have the RPC in the updated change dict", ^{
-                        NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameFullLimitedBackgroundAllowed];
-                        expect(isAllowed).to(equal(@NO));
-                    });
-                    
-                    it(@"should have the first status as allowed", ^{
+                        
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusAllowed)));
                     });
                     
-                    it(@"should have the second status as disallowed", ^{
+                    it(@"should have the proper data in the second change dict", ^{
+                        expect(changeDicts[1].allKeys).to(contain(testRPCNameFullLimitedBackgroundAllowed));
+                        
+                        NSNumber<SDLBool> *isAllowed = changeDicts[1][testRPCNameFullLimitedBackgroundAllowed];
+                        expect(isAllowed).to(equal(@NO));
+                        
                         expect(testStatuses[1]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                     });
                 });
@@ -827,11 +745,9 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:limitedHMINotification];
                     });
                     
-                    it(@"should only call the observer once", ^{
+                    it(@"should call the observer", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the first status as disallowed", ^{
+                        
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusDisallowed)));
                     });
                 });
@@ -848,11 +764,8 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:noneHMINotification];
                     });
                     
-                    it(@"should only call the observer once", ^{
+                    it(@"should call the observer", ^{
                         expect(@(numberOfTimesObserverCalled)).to(equal(@1));
-                    });
-                    
-                    it(@"should have the first status as disallowed", ^{
                         expect(testStatuses[0]).to(equal(@(SDLPermissionGroupStatusMixed)));
                     });
                 });

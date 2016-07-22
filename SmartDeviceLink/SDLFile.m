@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFile ()
 
-@property (copy, nonatomic, readwrite) NSURL *fileURL;
+@property (copy, nonatomic, nullable, readwrite) NSURL *fileURL;
 @property (strong, nonatomic, readwrite) SDLFileType *fileType;
 
 @property (assign, nonatomic, readwrite) BOOL persistent;
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *error = nil;
     NSString *tempFileName = [NSString stringWithFormat:@"%@_%@.%@", [NSProcessInfo processInfo].globallyUniqueString, name, extension];
     NSURL *fileURL = [[SDLFileManager temporaryFileDirectory] URLByAppendingPathComponent:tempFileName];
-    [data writeToURL:_fileURL options:NSDataWritingAtomic error:&error];
+    [data writeToURL:fileURL options:NSDataWritingAtomic error:&error];
     if (error) {
         return nil;
     }
