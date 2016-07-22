@@ -48,10 +48,10 @@
             [[ProxyManager sharedManager] startIAP];
         } break;
         case ProxyStateSearchingForConnection: {
-            [[ProxyManager sharedManager] stop];
+            [[ProxyManager sharedManager] reset];
         } break;
         case ProxyStateConnected: {
-            [[ProxyManager sharedManager] stop];
+            [[ProxyManager sharedManager] reset];
         } break;
         default: break;
     }
