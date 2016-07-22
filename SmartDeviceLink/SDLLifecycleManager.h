@@ -26,6 +26,7 @@
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
+@class SDLStateMachine;
 @class SDLStreamingMediaManager;
 
 @protocol SDLManagerDelegate;
@@ -55,6 +56,7 @@ extern SDLLifecycleState *const SDLLifecycleStateReady;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
 @property (weak, nonatomic, readonly, nullable) id<SDLManagerDelegate> delegate;
 @property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
+@property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push

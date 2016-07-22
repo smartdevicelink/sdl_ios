@@ -7,32 +7,63 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
+#import "SDLFileManager.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
+#import "SDLLockScreenManager.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
+#import "SDLOnHashChange.h"
+#import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCRequestFactory.h"
 #import "SDLShow.h"
+#import "SDLStateMachine.h"
 #import "SDLTextAlignment.h"
+#import "SDLUnregisterAppInterface.h"
+#import "SDLUnregisterAppInterfaceResponse.h"
 
 
 // Ignore the deprecated proxy methods
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
+QuickConfigurationBegin(SendingRPCsConfiguration)
+
++ (void)configure:(Configuration *)configuration {
+    sharedExamples(@"unable to send an RPC", ^(QCKDSLSharedExampleContext exampleContext) {
+        it(@"cannot publicly send RPCs", ^{
+            __block NSError *testError = nil;
+            SDLLifecycleManager *testManager = exampleContext()[@"manager"];
+            SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
+            
+            [testManager sendRequest:testShow withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                testError = error;
+            }];
+            
+            expect(testError).to(equal([NSError sdl_lifecycle_notReadyError]));
+        });
+    });
+}
+
+QuickConfigurationEnd
+
+
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-fdescribe(@"a lifecycle manager", ^{
+describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
     __block id managerDelegateMock = OCMProtocolMock(@protocol(SDLManagerDelegate));
     __block id proxyBuilderClassMock = OCMStrictClassMock([SDLProxyFactory class]);
-    __block id proxyMock = OCMStrictClassMock([SDLProxy class]);
+    __block id proxyMock = OCMClassMock([SDLProxy class]);
+    __block id lockScreenManagerMock = OCMClassMock([SDLLockScreenManager class]);
+    __block id fileManagerMock = OCMClassMock([SDLFileManager class]);
+    __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
     
     beforeEach(^{
         OCMStub([proxyBuilderClassMock buildSDLProxyWithListener:[OCMArg any]]).andReturn(proxyMock);
@@ -42,6 +73,9 @@ fdescribe(@"a lifecycle manager", ^{
         
         testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration]];
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:managerDelegateMock];
+        testManager.lockScreenManager = lockScreenManagerMock;
+        testManager.fileManager = fileManagerMock;
+        testManager.permissionManager = permissionManagerMock;
     });
     
     it(@"should initialize properties", ^{
@@ -63,6 +97,23 @@ fdescribe(@"a lifecycle manager", ^{
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
     });
     
+    itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
+    
+    describe(@"after receiving a resume hash", ^{
+        __block SDLOnHashChange *testHashChange = nil;
+        
+        beforeEach(^{
+            testHashChange = [[SDLOnHashChange alloc] init];
+            testHashChange.hashID = @"someHashId";
+            
+            [testManager.notificationDispatcher postNotificationName:SDLDidReceiveNewHashNotification infoObject:testHashChange];
+        });
+        
+        it(@"should have stored the new hash", ^{
+            expect(testManager.resumeHash).toEventually(equal(testHashChange));
+        });
+    });
+    
     describe(@"calling stop", ^{
         beforeEach(^{
             [testManager stop];
@@ -70,22 +121,6 @@ fdescribe(@"a lifecycle manager", ^{
         
         it(@"should do nothing", ^{
             expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
-        });
-    });
-    
-    describe(@"attempting to send a request", ^{
-        __block SDLShow *testShow = nil;
-        __block NSError *returnError = nil;
-        
-        beforeEach(^{
-            testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"Test" mainField2:@"Test2" alignment:[SDLTextAlignment CENTERED] correlationID:@1];
-            [testManager sendRequest:testShow withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-                returnError = error;
-            }];
-        });
-        
-        it(@"should throw an error when sending a request", ^{
-            expect(returnError).to(equal([NSError sdl_lifecycle_notReadyError]));
         });
     });
     
@@ -116,6 +151,7 @@ fdescribe(@"a lifecycle manager", ^{
                 }]]);
                 
                 [testManager.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
+                [NSThread sleepForTimeInterval:0.5];
             });
             
             it(@"should send a register app interface request and be in the connected state", ^{
@@ -123,23 +159,113 @@ fdescribe(@"a lifecycle manager", ^{
                 expect(testManager.lifecycleState).to(match(SDLLifecycleStateTransportConnected));
             });
             
-            it(@"cannot publicly send RPCs", ^{
-                __block NSError *testError = nil;
-                SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
-                [testManager sendRequest:testShow withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-                    testError = error;
-                }];
+            itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
+            
+            describe(@"after receiving a disconnect notification", ^{
+                beforeEach(^{
+                    [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+                    [NSThread sleepForTimeInterval:0.5];
+                });
                 
-                expect(testError).to(equal([NSError sdl_lifecycle_notReadyError]));
+                it(@"should be in the disconnect state", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                });
+            });
+            
+            describe(@"stopping the manager", ^{
+                beforeEach(^{
+                    [testManager stop];
+                });
+                
+                it(@"should simply disconnect", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                });
+            });
+        });
+        
+        describe(@"in the connected state", ^{
+            beforeEach(^{
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateTransportConnected];
             });
             
             describe(@"after receiving a register app interface response", ^{
                 __block SDLRegisterAppInterfaceResponse *testRAIResponse = nil;
+                __block NSError *fileManagerStartError = [[NSError alloc] init];
+                __block NSError *permissionManagerStartError = [[NSError alloc] init];
                 
                 beforeEach(^{
-                    testRAIResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
+                    OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
+                    OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     
+                    // Send an RAI response to move the lifecycle forward
+                    testRAIResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    testRAIResponse.success = @YES;
                     [testManager.notificationDispatcher postNotificationName:SDLDidReceiveRegisterAppInterfaceResponse infoObject:testRAIResponse];
+                    [NSThread sleepForTimeInterval:0.5];
+                });
+                
+                it(@"should eventually reach the ready state", ^{
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateReady));
+                    OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
+                    OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
+                    OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
+                });
+                
+                itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
+            });
+            
+            describe(@"after receiving a disconnect notification", ^{
+                beforeEach(^{
+                    [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+                });
+                
+                it(@"should enter the disconnect state", ^{
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                });
+            });
+            
+            describe(@"stopping the manager", ^{
+                beforeEach(^{
+                    [testManager stop];
+                });
+                
+                it(@"should enter the disconnect state", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                });
+            });
+        });
+        
+        describe(@"in the ready state", ^{
+            beforeEach(^{
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady];
+            });
+            
+            describe(@"stopping the manager", ^{
+                beforeEach(^{
+                    //                        OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    [testManager stop];
+                    [NSThread sleepForTimeInterval:0.5];
+                });
+                
+                fit(@"should attempt to unregister", ^{
+                    OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLUnregisterAppInterface class]]]);
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateUnregistering));
+                });
+                
+                describe(@"when receiving an unregister response", ^{
+                    __block SDLUnregisterAppInterfaceResponse *testUnregisterResponse = nil;
+                    
+                    beforeEach(^{
+                        testUnregisterResponse = [[SDLUnregisterAppInterfaceResponse alloc] init];
+                        testUnregisterResponse.success = @YES;
+                        
+                        [testManager.notificationDispatcher postNotificationName:SDLDidReceiveUnregisterAppInterfaceResponse infoObject:testUnregisterResponse];
+                    });
+                    
+                    it(@"should disconnect", ^{
+                        expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                    });
                 });
             });
         });

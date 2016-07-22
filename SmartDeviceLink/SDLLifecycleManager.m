@@ -43,9 +43,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (assign, nonatomic, readwrite) BOOL firstHMINotNoneOccurred;
 @property (copy, nonatomic, readwrite) SDLHMILevel *currentHMILevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
-//@property (strong, nonatomic, readwrite) SDLLockScreenManager *lockScreenManager;
-//@property (strong, nonatomic, readwrite) SDLFileManager *fileManager;
-//@property (strong, nonatomic, readwrite) SDLPermissionManager *permissionManager;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLOnHashChange *resumeHash;
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
@@ -59,8 +56,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
-// Internal properties
-@property (strong, nonatomic) SDLStateMachine *lifecycleStateMachine;
+@property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 
 @end
 
@@ -241,7 +237,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
     
     __weak typeof(self) weakSelf = self;
-    [self sendRequest:unregisterRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self sdl_sendRequest:unregisterRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        // TODO: Do I care about the success / failure?
         [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
     }];
 }

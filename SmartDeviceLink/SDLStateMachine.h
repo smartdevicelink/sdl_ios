@@ -60,6 +60,13 @@ extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfo
 - (void)transitionToState:(SDLState *)state;
 
 /**
+ *  Set the state machine to a particular state without transitioning. No methods will be called or notifications sent. This is primarily used for testing.
+ *
+ *  @param state The state to set to
+ */
+- (void)setToState:(SDLState *)state;
+
+/**
  *  Return whether or not the current state is the passed state
  *
  *  @param state The state to check

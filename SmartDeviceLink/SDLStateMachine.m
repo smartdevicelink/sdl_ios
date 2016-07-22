@@ -94,6 +94,14 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
 
 #pragma mark - Helpers
 
+- (void)setToState:(SDLState *)state {
+    if (![self.states.allKeys containsObject:state]) {
+        return;
+    }
+    
+    self.currentState = state;
+}
+
 /**
  *  Determine if a state transition is valid. Returns YES if the state transition dictionary's fromState key contains toState in its value array, or if fromState and toState are the same state.
  *
