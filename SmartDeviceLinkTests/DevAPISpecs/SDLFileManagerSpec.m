@@ -66,7 +66,8 @@ describe(@"SDLFileManager", ^{
             
             testFileManager.suspended = NO;
             
-            [NSThread sleepForTimeInterval:0.5];
+            // TODO: These suck, we should probably try to mock to avoid them
+            [NSThread sleepForTimeInterval:0.1];
         });
         
         it(@"should have queued a ListFiles request", ^{
@@ -113,7 +114,7 @@ describe(@"SDLFileManager", ^{
                             completionError = error;
                         }];
                         
-                        [NSThread sleepForTimeInterval:0.5];
+                        [NSThread sleepForTimeInterval:0.1];
                     });
                     
                     it(@"should return the correct data", ^{
@@ -146,7 +147,7 @@ describe(@"SDLFileManager", ^{
                         deleteResponse.success = @YES;
                         deleteResponse.spaceAvailable = @(newSpaceAvailable);
                         
-                        [NSThread sleepForTimeInterval: 0.5];
+                        [NSThread sleepForTimeInterval:0.1];
                         
                         [testConnectionManager respondToLastRequestWithResponse:deleteResponse];
                     });
@@ -191,7 +192,7 @@ describe(@"SDLFileManager", ^{
                                 completionError = error;
                             }];
                             
-                            [NSThread sleepForTimeInterval:0.5];
+                            [NSThread sleepForTimeInterval:0.1];
                             
                             sentPutFile = testConnectionManager.receivedRequests.lastObject;
                         });
@@ -292,7 +293,7 @@ describe(@"SDLFileManager", ^{
                                 completionError = error;
                             }];
                             
-                            [NSThread sleepForTimeInterval:0.5];
+                            [NSThread sleepForTimeInterval:0.1];
                             
                             lastRequest = testConnectionManager.receivedRequests.lastObject;
                         });
@@ -318,7 +319,7 @@ describe(@"SDLFileManager", ^{
                             completionError = error;
                         }];
                         
-                        [NSThread sleepForTimeInterval:0.5];
+                        [NSThread sleepForTimeInterval:0.1];
                         
                         sentPutFile = (SDLPutFile *)testConnectionManager.receivedRequests.lastObject;
                     });

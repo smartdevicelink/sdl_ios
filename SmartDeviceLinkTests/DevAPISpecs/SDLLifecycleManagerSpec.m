@@ -193,21 +193,10 @@ describe(@"a lifecycle manager", ^{
         describe(@"after receiving a connect notification", ^{
             beforeEach(^{
                 // When we connect, we should be creating an sending an RAI
-                OCMExpect([proxyMock sendRPC:[OCMArg checkWithBlock:^BOOL(id obj) {
-                    if (![obj isMemberOfClass:[SDLRegisterAppInterface class]]) {
-                        return NO;
-                    }
-                    
-                    SDLRegisterAppInterface *testRAObj = (SDLRegisterAppInterface *)obj;
-                    return ([testRAObj.appName isEqualToString:testConfig.lifecycleConfig.appName]
-                            && [testRAObj.appID isEqualToString:testConfig.lifecycleConfig.appId]
-                            && [testRAObj.isMediaApplication isEqual:@(testConfig.lifecycleConfig.isMedia)]
-                            && [testRAObj.ngnMediaScreenAppName isEqualToString:testConfig.lifecycleConfig.shortAppName]
-                            && (testRAObj.vrSynonyms.count == testConfig.lifecycleConfig.voiceRecognitionSynonyms.count));
-                }]]);
+                OCMExpect([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLRegisterAppInterface class]]]);
                 
                 [testManager.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
-                [NSThread sleepForTimeInterval:0.5];
+                [NSThread sleepForTimeInterval:0.1];
             });
             
             it(@"should send a register app interface request and be in the connected state", ^{
@@ -220,7 +209,7 @@ describe(@"a lifecycle manager", ^{
             describe(@"after receiving a disconnect notification", ^{
                 beforeEach(^{
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
-                    [NSThread sleepForTimeInterval:0.5];
+                    [NSThread sleepForTimeInterval:0.1];
                 });
                 
                 it(@"should be in the disconnect state", ^{
@@ -246,8 +235,8 @@ describe(@"a lifecycle manager", ^{
             
             describe(@"after receiving a register app interface response", ^{
                 __block SDLRegisterAppInterfaceResponse *testRAIResponse = nil;
-                __block NSError *fileManagerStartError = [[NSError alloc] init];
-                __block NSError *permissionManagerStartError = [[NSError alloc] init];
+                __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
+                __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 
                 beforeEach(^{
                     OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
@@ -258,7 +247,7 @@ describe(@"a lifecycle manager", ^{
                     testRAIResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
                     testRAIResponse.success = @YES;
                     [testManager.notificationDispatcher postNotificationName:SDLDidReceiveRegisterAppInterfaceResponse infoObject:testRAIResponse];
-                    [NSThread sleepForTimeInterval:0.5];
+                    [NSThread sleepForTimeInterval:0.1];
                 });
                 
                 it(@"should eventually reach the ready state", ^{
