@@ -64,11 +64,13 @@ NS_ASSUME_NONNULL_BEGIN
         self.vehicleIconImageView.image = self.vehicleIcon;
     }
     
+    UIImage *sdlLogo = [self.class sdl_logoImageForBackgroundColor:self.backgroundColor];
+    
     if (self.appIcon != nil) {
         self.primaryImageView.image = self.appIcon;
-        self.secondaryImageView.image = [self.class sdl_sdlImage];
+        self.secondaryImageView.image = sdlLogo;
     } else {
-        self.primaryImageView.image = [self.class sdl_sdlImage];
+        self.primaryImageView.image = sdlLogo;
         self.secondaryImageView.image = nil;
     }
 }
@@ -80,10 +82,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Image
 
-+ (UIImage *)sdl_sdlImage {
++ (UIImage *)sdl_logoImageForBackgroundColor:(UIColor *)backgroundColor {
     NSBundle *sdlBundle = [NSBundle bundleForClass:[self class]];
+    CGFloat red, green, blue;
     
-    return [UIImage imageNamed:@"sdl-logo" inBundle:sdlBundle compatibleWithTraitCollection:nil];
+    [backgroundColor getRed:&red green:&green blue:&blue alpha:nil];
+    
+    // http://stackoverflow.com/a/3943023
+    red = (red <= 0.3928) ? (red / 12.92) : pow(((red + 0.055) / 1.055), 2.4);
+    green = (green <= 0.3928) ? (green / 12.92) : pow(((green + 0.055) / 1.055), 2.4);
+    blue = (blue <= 0.3928) ? (blue / 12.92) : pow(((blue + 0.055) / 1.055), 2.4);
+    CGFloat luminescence = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+    
+    if (luminescence > 0.179) {
+        // Use black icon
+        return [UIImage imageNamed:@"sdl-logo-black" inBundle:sdlBundle compatibleWithTraitCollection:nil];
+    } else {
+        // Use white icon
+        return [UIImage imageNamed:@"sdl-logo-white" inBundle:sdlBundle compatibleWithTraitCollection:nil];
+    }
 }
 
 @end
