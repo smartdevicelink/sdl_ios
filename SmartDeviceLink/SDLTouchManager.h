@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      Time (in seconds) between movement events to register panning or pinching 
  *      callbacks.
  *  @remark
- *      Default is 0.5 seconds.
+ *      Default is 0.05 seconds.
  */
 @property (nonatomic, assign) CGFloat movementTimeThreshold;
 

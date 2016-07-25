@@ -82,7 +82,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return nil;
     }
     
-    _movementTimeThreshold = 0.5f;
+    _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
