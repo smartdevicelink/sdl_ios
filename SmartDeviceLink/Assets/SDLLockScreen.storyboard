@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Lock Screen View Controller-->
+        <!--SDL Lock Screen-->
         <scene sceneID="sER-HO-a0H">
             <objects>
-                <viewController storyboardIdentifier="SDLLockScreenViewController" id="KFL-L4-LT4" customClass="SDLLockScreenViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SDLLockScreenViewController" title="SDL Lock Screen" id="KFL-L4-LT4" customClass="SDLLockScreenViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fQj-wc-g5d"/>
                         <viewControllerLayoutGuide type="bottom" id="4zz-lw-Azz"/>
@@ -58,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxa-WF-EY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="179" y="583"/>
+            <point key="canvasLocation" x="486" y="843"/>
         </scene>
     </scenes>
 </document>

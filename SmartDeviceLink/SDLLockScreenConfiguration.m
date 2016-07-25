@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Defaults
 
 + (UIColor *)sdl_defaultBackgroundColor {
-    return [UIColor blackColor];
+    return [UIColor colorWithRed:(57/255) green:(78/255) blue:(96/255) alpha:1.0];
 }
 
 

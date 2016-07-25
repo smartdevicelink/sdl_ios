@@ -21,10 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenManager ()
 
+@property (assign, nonatomic) BOOL canPresent;
 @property (copy, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
-
-@property (assign, nonatomic) BOOL canPresent;
 
 @end
 
@@ -53,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Create and initialize the lock screen controller depending on the configuration
     if (!self.config.enableAutomaticLockScreen) {
         self.presenter.viewController = nil;
+        
         return;
     } else if (self.config.customViewController != nil) {
         self.presenter.viewController = self.config.customViewController;
