@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithAutoLockScreen:YES enableInOptional:NO backgroundColor:[self sdl_defaultBackgroundColor] appIcon:nil viewController:nil];
 }
 
-+ (instancetype)enabledConfigurationWithBackgroundColor:(nullable UIColor *)lockScreenBackgroundColor appIcon:(UIImage *)lockScreenAppIcon {
++ (instancetype)enabledConfigurationWithAppIcon:(UIImage *)lockScreenAppIcon backgroundColor:(nullable UIColor *)lockScreenBackgroundColor {
     if (lockScreenBackgroundColor == nil) {
         lockScreenBackgroundColor = [self.class sdl_defaultBackgroundColor];
     }
