@@ -1194,7 +1194,7 @@
 		5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
 		5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
-		5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D4019AF1A76EC350006B0C2 /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
 		5D4029E01A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = SmartDeviceLink_Example/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
@@ -2261,7 +2261,7 @@
 		5D4019B01A76EC350006B0C2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */,
+				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
 			);
@@ -3816,7 +3816,7 @@
 			);
 			name = "SmartDeviceLink-Example";
 			productName = "SmartDeviceLink-iOS";
-			productReference = 5D4019AF1A76EC350006B0C2 /* SmartDeviceLink-Example.app */;
+			productReference = 5D4019AF1A76EC350006B0C2 /* SDL Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5D61FA1B1A84237100846EE7 /* SmartDeviceLink */ = {
@@ -4661,7 +4661,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "SDL Example";
 			};
 			name = Debug;
 		};
@@ -4674,7 +4674,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "SDL Example";
 			};
 			name = Release;
 		};

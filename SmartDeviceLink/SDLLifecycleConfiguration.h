@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Additional voice recognition commands. May not interfere with any other app name or global commands.
  */
-@property (copy, nonatomic) NSArray<NSString *> *voiceRecognitionCommandNames;
+@property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionCommandNames;
 
 @end
 

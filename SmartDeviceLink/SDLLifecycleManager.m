@@ -171,7 +171,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
+    
+    if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
+        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
+    }
+    
     // TODO: Should the hash be removed under any conditions?
     if (self.resumeHash != nil) {
         regRequest.hashID = self.resumeHash.hashID;

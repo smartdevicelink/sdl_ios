@@ -29,6 +29,4 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 - (void)startTCP;
 - (void)reset;
 
-@property (strong, nonatomic, readonly) SDLStreamingMediaManager *mediaManager;
-
 @end
