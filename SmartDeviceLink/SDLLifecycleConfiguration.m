@@ -18,6 +18,13 @@ static NSString *const DefaultTCPIPPort = @"12345";
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLLifecycleConfiguration ()
+
+@property (assign, nonatomic, readwrite) BOOL tcpDebugMode;
+
+@end
+
+
 @implementation SDLLifecycleConfiguration
 
 #pragma mark Lifecycle
@@ -39,10 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
     _language = [SDLLanguage EN_US];
     _languagesSupported = @[_language];
     _appIcon = nil;
-    _initialDisplayLayout = nil;
     _shortAppName = nil;
     _ttsName = nil;
-    _voiceRecognitionSynonyms = @[appName];
+    _voiceRecognitionCommandNames = nil;
     
     return self;
 }
@@ -106,10 +112,9 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig -> _language = _language;
     newConfig -> _languagesSupported = _languagesSupported;
     newConfig -> _appIcon = _appIcon;
-    newConfig -> _initialDisplayLayout = _initialDisplayLayout;
     newConfig -> _shortAppName = _shortAppName;
     newConfig -> _ttsName = _ttsName;
-    newConfig -> _voiceRecognitionSynonyms = _voiceRecognitionSynonyms;
+    newConfig -> _voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
     
     return newConfig;
 }
