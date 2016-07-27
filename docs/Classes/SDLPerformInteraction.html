@@ -1,0 +1,251 @@
+<h1>SDLPerformInteraction Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-initialText">initialText</a></li>
+  <li><a href="#section-initialPrompt">initialPrompt</a></li>
+  <li><a href="#section-interactionMode">interactionMode</a></li>
+  <li><a href="#section-interactionChoiceSetIDList">interactionChoiceSetIDList</a></li>
+  <li><a href="#section-helpPrompt">helpPrompt</a></li>
+  <li><a href="#section-timeoutPrompt">timeoutPrompt</a></li>
+  <li><a href="#section-timeout">timeout</a></li>
+  <li><a href="#section-vrHelp">vrHelp</a></li>
+  <li><a href="#section-interactionLayout">interactionLayout</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Performs an application-initiated interaction in which the user can select a
+ {@linkplain Choice} from among the specified Choice Sets. For instance, an
+ application may use a PerformInteraction to ask a user to say the name of a
+ song to play. The user&rsquo;s response is only valid if it appears in the
+ specified Choice Sets and is recognized by SDL
+ <p>
+ Function Group: Base
+ <p>
+ <b>HMILevel needs to be FULL</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0<br/>
+ See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>@abstract Constructs a new SDLPerformInteraction object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a new SDLPerformInteraction object indicated by the NSMutableDictionary
+- parameter: dict The dictionary to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      initialText
+  </h3>
+  
+  <p>@abstract The Text that Displayed when the interaction begins. This text may
+be overlaid by the <q>Listening</q> prompt during the interaction. Text is
+displayed on first line of multiline display, and is centered. If text
+does not fit on line, it will be truncated</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">initialText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">initialText</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      initialPrompt
+  </h3>
+  
+  <p>@abstract An array of one or more TTSChunks that, taken together, specify
+what is to be spoken to the user at the start of an interaction</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">initialPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">initialPrompt</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      interactionMode
+  </h3>
+  
+  <p>@abstract The Indicates mode that indicate how user selects interaction
+choice. User can choose either by voice (VR_ONLY), by visual selection
+from the menu (MANUAL_ONLY), or by either mode (BOTH)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLInteractionMode</span> <span class="o">*</span><span class="n">interactionMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">interactionMode</span><span class="p">:</span> <span class="kt">SDLInteractionMode</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      interactionChoiceSetIDList
+  </h3>
+  
+  <p>@abstract A Vector<Integer> value representing an Array of one or more Choice
+Set IDs</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">interactionChoiceSetIDList</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">interactionChoiceSetIDList</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      helpPrompt
+  </h3>
+  
+  <p>@abstract A Vector<TTSChunk> which taken together, specify the help phrase to
+be spoken when the user says <q>help</q> during the VR session</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">helpPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">helpPrompt</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      timeoutPrompt
+  </h3>
+  
+  <p>@abstract An array of TTSChunks which, taken together, specify the phrase to
+be spoken when the listen times out during the VR session</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">timeoutPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeoutPrompt</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      timeout
+  </h3>
+  
+  <p>@abstract An Integer value representing the amount of time, in milliseconds,
+SDL will wait for the user to make a choice (VR or Menu)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">timeout</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      vrHelp
+  </h3>
+  
+  <p>@abstract A Voice recognition Help, which is a suggested VR Help Items to
+display on-screen during Perform Interaction
+@since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">vrHelp</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrHelp</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      interactionLayout
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteraction</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+</section>

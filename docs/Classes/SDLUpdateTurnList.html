@@ -1,0 +1,87 @@
+<h1>SDLUpdateTurnList Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-turnList">turnList</a></li>
+  <li><a href="#section-softButtons">softButtons</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Updates the list of next maneuvers, which can be requested by the user pressing the softbutton<br>
+ * “Turns” on the Navigation base screen. Three softbuttons are predefined by the system: Up, Down, Close.
+ *<p>
+ * @since SmartDeviceLink 2.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnList</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnList</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      turnList
+  </h3>
+  
+  <p>Optional, SDLTurn, 1 - 100 entries</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">turnList</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">turnList</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      softButtons
+  </h3>
+  
+  <p>Required, SDLSoftButton, 0 - 1 Entries</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
