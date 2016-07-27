@@ -1,0 +1,223 @@
+<h1>SDLIgnitionStatus Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-+valueOf:">+valueOf:</a></li>
+  <li><a href="#section-+values">+values</a></li>
+  <li><a href="#section-+UNKNOWN">+UNKNOWN</a></li>
+  <li><a href="#section-+OFF">+OFF</a></li>
+  <li><a href="#section-+ACCESSORY">+ACCESSORY</a></li>
+  <li><a href="#section-+RUN">+RUN</a></li>
+  <li><a href="#section-+START">+START</a></li>
+  <li><a href="#section-+INVALID">+INVALID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Reflects the status of ignition..</p>
+
+<p>@since SDL 2.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      +valueOf:
+  </h3>
+  
+  <p>@abstract return SDLIgnitionStatus
+- parameter: value The value of the string to get an object for
+- returns: SDLIgnitionStatus object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="nf">valueOf</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">valueOf</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>value</dt>
+      <dd><p>The value of the string to get an object for</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLIgnitionStatus object</p>
+
+  </div>
+  
+  <h3>
+      +values
+  </h3>
+  
+  <p>@abstract store all possible SDLIgnitionStatus values
+- returns: an array with all possible SDLIgnitionStatus values inside</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">values</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>an array with all possible SDLIgnitionStatus values inside</p>
+
+  </div>
+  
+  <h3>
+      +UNKNOWN
+  </h3>
+  
+  <p>@abstract Ignition status currently unknown
+- returns: Ignition Status with value of <em>UNKNOWN</em></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="n">UNKNOWN</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">UNKNOWN</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Ignition Status with value of <em>UNKNOWN</em></p>
+
+  </div>
+  
+  <h3>
+      +OFF
+  </h3>
+  
+  <p>@abstract Ignition is off
+- returns: Ignition Status with value of <em>OFF</em></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="n">OFF</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">OFF</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Ignition Status with value of <em>OFF</em></p>
+
+  </div>
+  
+  <h3>
+      +ACCESSORY
+  </h3>
+  
+  <p>@abstract Ignition is in mode accessory
+- returns: Ignition Status with value of <em>ACCESSORY</em></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="n">ACCESSORY</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">ACCESSORY</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Ignition Status with value of <em>ACCESSORY</em></p>
+
+  </div>
+  
+  <h3>
+      +RUN
+  </h3>
+  
+  <p>@abstract Ignition is in mode run
+- returns: Ignition Status with value of <em>RUN</em></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="n">RUN</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">RUN</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Ignition Status with value of <em>RUN</em></p>
+
+  </div>
+  
+  <h3>
+      +START
+  </h3>
+  
+  <p>@abstract Ignition is in mode start
+- returns: Ignition Status with value of <em>START</em></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="n">START</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">START</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Ignition Status with value of <em>START</em></p>
+
+  </div>
+  
+  <h3>
+      +INVALID
+  </h3>
+  
+  <p>@abstract Signal is invalid
+- returns: Ignition Status with value of <em>INVALID</em></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLIgnitionStatus</span> <span class="o">*</span><span class="p">)</span><span class="n">INVALID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">INVALID</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLIgnitionStatus</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Ignition Status with value of <em>INVALID</em></p>
+
+  </div>
+  
+</section>

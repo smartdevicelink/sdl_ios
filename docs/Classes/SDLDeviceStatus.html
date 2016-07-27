@@ -1,0 +1,395 @@
+<h1>SDLDeviceStatus Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-voiceRecOn">voiceRecOn</a></li>
+  <li><a href="#section-btIconOn">btIconOn</a></li>
+  <li><a href="#section-callActive">callActive</a></li>
+  <li><a href="#section-phoneRoaming">phoneRoaming</a></li>
+  <li><a href="#section-textMsgAvailable">textMsgAvailable</a></li>
+  <li><a href="#section-battLevelStatus">battLevelStatus</a></li>
+  <li><a href="#section-stereoAudioOutputMuted">stereoAudioOutputMuted</a></li>
+  <li><a href="#section-monoAudioOutputMuted">monoAudioOutputMuted</a></li>
+  <li><a href="#section-signalLevelStatus">signalLevelStatus</a></li>
+  <li><a href="#section-primaryAudioSource">primaryAudioSource</a></li>
+  <li><a href="#section-eCallEventActive">eCallEventActive</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Describes the status related to a connected mobile device or SDL and if or how  it is represented in the vehicle.</p>
+
+<p>Parameter List
+ <table border="1" rules="all">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>SmartDeviceLink Ver. Available</th>
+        </tr>
+        <tr>
+            <td>voiceRecOn</td>
+            <td>NSNumber * </td>
+            <td>Voice recognition is on
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>btIconOn</td>
+            <td>NSNumber * </td>
+            <td>Bluetooth connection established
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>callActive</td>
+            <td>NSNumber * </td>
+            <td>A call is being active
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>phoneRoaming</td>
+            <td>NSNumber * </td>
+            <td>The phone is in roaming mode
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>textMsgAvailable</td>
+            <td>NSNumber * </td>
+            <td>A textmessage is available
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>battLevelStatus</td>
+            <td>SDLDeviceLevelStatus * </td>
+            <td>Battery level status
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>stereoAudioOutputMuted</td>
+            <td>NSNumber * </td>
+            <td>Status of the stereo audio output channel
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>monoAudioOutputMuted</td>
+            <td>NSNumber * </td>
+            <td>Status of the mono audio output channel
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>signalLevelStatus</td>
+            <td>SDLDeviceLevelStatus * </td>
+            <td>Signal level status
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>primaryAudioSource</td>
+            <td>PrimaryAudioSource * </td>
+            <td>Reflects the current primary audio source of SDL (if selected).
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>eCallEventActive</td>
+            <td>NSNumber * </td>
+            <td>Reflects, if an eCall event is active
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+  </table>
+ @since SDL 2.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Constructs a newly allocated SDLDeviceStatus object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLDeviceStatus object indicated by the dictionary parameter</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use to construct the object</p>
+</dd>
+  </dl>
+  
+  <h3>
+      voiceRecOn
+  </h3>
+  
+  <p>@abstract Indicates whether the voice recognition is on or off</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">voiceRecOn</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">voiceRecOn</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      btIconOn
+  </h3>
+  
+  <p>@abstract Indicates whether the bluetooth connection established</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">btIconOn</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">btIconOn</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      callActive
+  </h3>
+  
+  <p>@abstract Indicates whether a call is being active</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">callActive</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">callActive</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      phoneRoaming
+  </h3>
+  
+  <p>@abstract Indicates whether the phone is in roaming mode</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">phoneRoaming</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">phoneRoaming</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      textMsgAvailable
+  </h3>
+  
+  <p>@abstract Indicates whether a textmessage is available</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">textMsgAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">textMsgAvailable</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      battLevelStatus
+  </h3>
+  
+  <p>@abstract Battery level status</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDeviceLevelStatus
+
+</div>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLDeviceLevelStatus</span> <span class="o">*</span><span class="n">battLevelStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">battLevelStatus</span><span class="p">:</span> <span class="kt">SDLDeviceLevelStatus</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      stereoAudioOutputMuted
+  </h3>
+  
+  <p>@abstract The status of the stereo audio output channel</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">stereoAudioOutputMuted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">stereoAudioOutputMuted</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      monoAudioOutputMuted
+  </h3>
+  
+  <p>@abstract The status of the mono audio output channel</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">monoAudioOutputMuted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">monoAudioOutputMuted</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      signalLevelStatus
+  </h3>
+  
+  <p>@abstract Signal level status</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDeviceLevelStatus
+
+</div>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLDeviceLevelStatus</span> <span class="o">*</span><span class="n">signalLevelStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">signalLevelStatus</span><span class="p">:</span> <span class="kt">SDLDeviceLevelStatus</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      primaryAudioSource
+  </h3>
+  
+  <p>@abstract The current primary audio source of SDL (if selected).</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLPrimaryAudioSource
+
+</div>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLPrimaryAudioSource</span> <span class="o">*</span><span class="n">primaryAudioSource</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">primaryAudioSource</span><span class="p">:</span> <span class="kt">SDLPrimaryAudioSource</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      eCallEventActive
+  </h3>
+  
+  <p>@abstract Indicates if an emergency call is active</p>
+
+<p>Required, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">eCallEventActive</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">eCallEventActive</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

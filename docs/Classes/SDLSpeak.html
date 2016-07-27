@@ -1,0 +1,118 @@
+<h1>SDLSpeak Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-ttsChunks">ttsChunks</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Speaks a phrase over the vehicle audio system using SDL&rsquo;s TTS (text-to-speech) engine. The provided text to be spoken can be simply a text phrase, or it can consist of phoneme specifications to direct SDL&rsquo;s TTS engine to speak a <q>speech-sculpted</q> phrase.</p>
+
+<p>Receipt of the Response indicates the completion of the Speak operation, regardless of how the Speak operation may have completed (i.e. successfully, interrupted, terminated, etc.).</p>
+
+<p>Requesting a new Speak operation while the application has another Speak operation already in progress (i.e. no corresponding Response for that in-progress Speak operation has been received yet) will terminate the in-progress Speak operation (causing its corresponding Response to be sent by SDL) and begin the requested Speak operation</p>
+
+<p>Requesting a new Speak operation while the application has an <i>SDLAlert</i> operation already in progress (i.e. no corresponding Response for that in-progress <i>SDLAlert</i> operation has been received yet) will result in the Speak operation request being rejected (indicated in the Response to the Request)</p>
+
+<p>Requesting a new <i>SDLAlert</i> operation while the application has a Speak operation already in progress (i.e. no corresponding Response for that in-progress Speak operation has been received yet) will terminate the in-progress Speak operation (causing its corresponding Response to be sent by SDL) and begin the requested <i>SDLAlert</i> operation</p>
+
+<p>Requesting a new Speak operation while the application has a <i>SDLPerformInteraction</i> operation already in progress (i.e. no corresponding Response for that in-progress <i>SDLPerformInteraction</i> operation has been received yet) will result in the Speak operation request being rejected (indicated in the Response to the Request)</p>
+
+<p>Requesting a <i>SDLPerformInteraction</i> operation while the application has a Speak operation already in progress (i.e. no corresponding Response for that in-progress Speak operation has been received yet) will terminate the in-progress Speak operation (causing its corresponding Response to be sent by SDL) and begin the requested <i>SDLPerformInteraction</i> operation</p>
+
+<p>HMI Status Requirements:
+ <li>HMILevel: FULL, Limited</li>
+ <li>AudioStreamingState: Any</li>
+ <li>SystemContext: MAIN, MENU, VR</li></p>
+
+<p><b>Notes:</b>
+ <li>When <i>SDLAlert</i> is issued with MENU in effect, <i>SDLAlert</i> is queued and <q>played</q> when MENU interaction is completed (i.e. SystemContext reverts to MAIN). When <i>SDLAlert
+ </i> is issued with VR in effect, <i>SDLAlert</i> is queued and <q>played</q> when VR interaction is completed (i.e. SystemContext reverts to MAIN)</li>
+ <li>When both <i>SDLAlert</i> and Speak are queued during MENU or VR, they are <q>played</q> back in the order in which they were queued, with all existing rules for <q>collisions</q> still in effect</li></p>
+
+<p><b>Additional Notes:</b>
+ <li>Total character limit depends on platform.</li>
+ <li>Chunks are limited to 500 characters; however you can have multiple TTS chunks.</li>
+ <li>On old systems there is a total character limit of 500 characters across all chunks. This could vary according to the VCA.</li></p>
+
+<p>@since SmartDeviceLink 1.0
+ - see: SDLAlert</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSpeak object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSpeak object indicated by the dictionary parameter
+- parameter: dict The dictionary to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      ttsChunks
+  </h3>
+  
+  <p>@abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken</p>
+
+<p>@discussion The total length of the phrase composed from the ttsChunks provided must be less than 500 characters or the request will be rejected</p>
+
+<p>Required, Array of SDLTTSChunk, Array size 1 - 100</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLTTSChunk
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">ttsChunks</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">ttsChunks</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
