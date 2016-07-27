@@ -1,0 +1,145 @@
+<h1>SDLAddSubMenu Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-menuID">menuID</a></li>
+  <li><a href="#section-position">position</a></li>
+  <li><a href="#section-menuName">menuName</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Add a SDLSubMenu to the Command Menu
+ <p>
+ A SDLSubMenu can only be added to the Top Level Menu (i.e.a SDLSubMenu cannot be
+ added to a SDLSubMenu), and may only contain commands as children
+ <p>
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b>
+ </p></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br>
+ see SDLDeleteSubMenu SDLAddCommand SDLDeleteCommand</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Constructs a new SDLAddSubMenu object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Constructs a new SDLAddSubMenu object indicated by the dictionary parameter
+ <p></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      menuID
+  </h3>
+  
+  <p>@abstract a Menu ID that identifies a sub menu
+@discussion This value is used in
+<i>SDLAddCommand</i> to which SDLSubMenu is the parent of the command being added
+<p></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">menuID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">menuID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      position
+  </h3>
+  
+  <p>@abstract a position of menu
+@discussion An NSNumber pointer representing the position within the items
+           of the top level Command Menu. 0 will insert at the front, 1
+           will insert after the first existing element, etc. Position of
+           any submenu will always be located before the return and exit
+           options
+           <p>
+           <b>Notes: </b><br/>
+           <ul>
+           <li>
+           Min Value: 0; Max Value: 1000</li>
+           <li>If position is greater or equal than the number of items
+           on top level, the sub menu will be appended by the end</li>
+           <li>If this parameter is omitted, the entry will be added at
+           the end of the list</li>
+           </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">position</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      menuName
+  </h3>
+  
+  <p>@abstract a menuName which is displayed representing this submenu item
+@discussion NSString which will be displayed representing this submenu item</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">menuName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

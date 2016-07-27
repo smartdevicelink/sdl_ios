@@ -1,0 +1,445 @@
+<h1>SDLShow Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-mainField1">mainField1</a></li>
+  <li><a href="#section-mainField2">mainField2</a></li>
+  <li><a href="#section-mainField3">mainField3</a></li>
+  <li><a href="#section-mainField4">mainField4</a></li>
+  <li><a href="#section-alignment">alignment</a></li>
+  <li><a href="#section-statusBar">statusBar</a></li>
+  <li><a href="#section-mediaClock">mediaClock</a></li>
+  <li><a href="#section-mediaTrack">mediaTrack</a></li>
+  <li><a href="#section-graphic">graphic</a></li>
+  <li><a href="#section-secondaryGraphic">secondaryGraphic</a></li>
+  <li><a href="#section-softButtons">softButtons</a></li>
+  <li><a href="#section-customPresets">customPresets</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Updates the application&rsquo;s display text area, regardless of whether or not
+ this text area is visible to the user at the time of the request. The
+ application&rsquo;s display text area remains unchanged until updated by subsequent
+ calls to Show
+ <p>
+ The content of the application&rsquo;s display text area is visible to the user
+ when the application
+ is FULL or LIMITED, and the
+ SDLSystemContext=MAIN and no
+ SDLAlert is in progress
+ <p>
+ The Show operation cannot be used to create an animated scrolling screen. To
+ avoid distracting the driver, Show commands cannot be issued more than once
+ every 4 seconds. Requests made more frequently than this will be rejected
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0
+ See SDLAlert SDLSetMediaClockTimer</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>@abstract Constructs a new SDLShow object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a new SDLShow object indicated by the dictionary parameter
+- parameter: dict The dictionary to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      mainField1
+  </h3>
+  
+  <p>@abstract The text displayed in a single-line display, or in the upper display
+line in a two-line display
+@discussion The String value representing the text displayed in a
+           single-line display, or in the upper display line in a
+           two-line display
+           <p>
+           <b>Notes: </b>
+           <ul>
+           <li>If this parameter is omitted, the text of mainField1 does
+           not change</li>
+           <li>If this parameter is an empty string, the field will be
+           cleared</li>
+           </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mainField1</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">mainField1</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      mainField2
+  </h3>
+  
+  <p>@abstract The text displayed on the second display line of a two-line display</p>
+
+<p>@discussion The String value representing the text displayed on the second
+            display line of a two-line display
+            <p>
+            <b>Notes: </b>
+            <ul>
+            <li>If this parameter is omitted, the text of mainField2 does
+            not change</li>
+            <li>If this parameter is an empty string, the field will be
+            cleared</li>
+            <li>If provided and the display is a single-line display, the
+            parameter is ignored</li>
+            <li>Maxlength = 500</li>
+            </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mainField2</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">mainField2</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      mainField3
+  </h3>
+  
+  <p>@abstract The text displayed on the first display line of the second page</p>
+
+<p>@discussion The String value representing the text displayed on the first
+            display line of the second page
+            <p>
+            <b>Notes: </b>
+            <ul>
+            <li>If this parameter is omitted, the text of mainField3 does
+            not change</li>
+            <li>If this parameter is an empty string, the field will be
+            cleared</li>
+            <li>If provided and the display is a single-line display, the
+            parameter is ignored</li>
+            <li>Maxlength = 500</li>
+            </ul>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mainField3</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">mainField3</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      mainField4
+  </h3>
+  
+  <p>@abstract The text displayed on the second display line of the second page</p>
+
+<p>@discussion The String value representing the text displayed on the second
+            display line of the second page
+            <p>
+            <b>Notes: </b>
+            <ul>
+            <li>If this parameter is omitted, the text of mainField4 does
+            not change</li>
+            <li>If this parameter is an empty string, the field will be
+            cleared</li>
+            <li>If provided and the display is a single-line display, the
+            parameter is ignored</li>
+            <li>Maxlength = 500</li>
+            </ul>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mainField4</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">mainField4</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      alignment
+  </h3>
+  
+  <p>@abstract The alignment that Specifies how mainField1 and mainField2 text
+ should be aligned on display</p>
+
+<p>@discussion An Enumeration value
+            <p>
+            <b>Notes: </b>
+            <ul>
+            <li>Applies only to mainField1 and mainField2 provided on this
+            call, not to what is already showing in display</li>
+            <li>If this parameter is omitted, text in both mainField1 and
+            mainField2 will be centered</li>
+            <li>Has no effect with navigation display</li>
+            </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLTextAlignment</span> <span class="o">*</span><span class="n">alignment</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">alignment</span><span class="p">:</span> <span class="kt">SDLTextAlignment</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      statusBar
+  </h3>
+  
+  <p>@abstract Text in the Status Bar</p>
+
+<p>@discussion A String representing the text you want to add in the Status
+            Bar
+            <p>
+            <b>Notes: </b><i>The status bar only exists on navigation
+            displays</i><br/>
+            <ul>
+            <li>If this parameter is omitted, the status bar text will
+            remain unchanged</li>
+            <li>If this parameter is an empty string, the field will be
+            cleared</li>
+            <li>If provided and the display has no status bar, this
+            parameter is ignored</li>
+            </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">statusBar</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">statusBar</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      mediaClock
+  </h3>
+  
+  <p>@abstract This property is deprecated use SetMediaClockTimer instead.
+ <p> The value for the MediaClock field using a format described in the
+ MediaClockFormat enumeration</p>
+
+<p>@discussion A String value for the MediaClock
+            <p>
+            <b>Notes: </b><br/>
+            <ul>
+            <li>Must be properly formatted as described in the
+            MediaClockFormat enumeration</li>
+            <li>If a value of five spaces is provided, this will clear
+            that field on the display (i.e. the media clock timer field
+            will not display anything)</li>
+            </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaClock</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">mediaClock</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      mediaTrack
+  </h3>
+  
+  <p>@abstract The text in the track field</p>
+
+<p>@discussion A String value disaplayed in the track field
+            <p>
+            <b>Notes: </b><br/>
+            <ul>
+            <li>If parameter is omitted, the track field remains unchanged</li>
+            <li>If an empty string is provided, the field will be cleared</li>
+            <li>This field is only valid for media applications on navigation displays</li>
+            </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaTrack</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">mediaTrack</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      graphic
+  </h3>
+  
+  <p>@abstract An image to be shown on supported displays</p>
+
+<p>@discussion The value representing the image shown on supported displays
+            <p>
+            <b>Notes: </b>If omitted on supported displays, the displayed
+            graphic shall not change<br/>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLImage</span> <span class="o">*</span><span class="n">graphic</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">graphic</span><span class="p">:</span> <span class="kt">SDLImage</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      secondaryGraphic
+  </h3>
+  
+  <p>@abstract An image to be shown on supported displays</p>
+
+<p>@discussion The value representing the image shown on supported displays
+            <p>
+            <b>Notes: </b>If omitted on supported displays, the displayed
+            graphic shall not change<br/>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLImage</span> <span class="o">*</span><span class="n">secondaryGraphic</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">secondaryGraphic</span><span class="p">:</span> <span class="kt">SDLImage</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      softButtons
+  </h3>
+  
+  <p>@abstract The the Soft buttons defined by the App</p>
+
+<p>@discussion A Vector value represemting the Soft buttons defined by the
+            App
+            <p>
+            <b>Notes: </b><br/>
+            <ul>
+            <li>If omitted on supported displays, the currently displayed
+            SoftButton values will not change</li>
+            <li>Array Minsize: 0</li>
+            <li>Array Maxsize: 8</li>
+            </ul></p>
+
+<p>@since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      customPresets
+  </h3>
+  
+  <p>@abstract The Custom Presets defined by the App</p>
+
+<p>@discussion A Vector value representing the Custom Presets defined by the
+            App
+            <p>
+            <ul>
+            <li>If omitted on supported displays, the presets will be shown as not defined</li>
+            <li>Array Minsize: 0</li>
+            <li>Array Maxsize: 6</li>
+            </ul>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">customPresets</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">customPresets</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

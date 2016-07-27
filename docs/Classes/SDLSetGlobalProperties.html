@@ -1,0 +1,232 @@
+<h1>SDLSetGlobalProperties Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-helpPrompt">helpPrompt</a></li>
+  <li><a href="#section-timeoutPrompt">timeoutPrompt</a></li>
+  <li><a href="#section-vrHelpTitle">vrHelpTitle</a></li>
+  <li><a href="#section-vrHelp">vrHelp</a></li>
+  <li><a href="#section-menuTitle">menuTitle</a></li>
+  <li><a href="#section-menuIcon">menuIcon</a></li>
+  <li><a href="#section-keyboardProperties">keyboardProperties</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Sets value(s) for the specified global property(ies)
+ <p>
+ Function Group: Base <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0
+ See SDLResetGlobalProperties</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSetGlobalProperties object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSetGlobalProperties object indicated by the NSMutableDictionary
+parameter
+- parameter: dict The dictionary to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      helpPrompt
+  </h3>
+  
+  <p>@abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more
+TTSChunk elements specifying the help prompt used in an interaction
+started by PTT
+@discussion helpPrompt
+           a Vector<TTSChunk> of one or more TTSChunk elements
+           <p>
+           <b>Notes: </b>
+           <ul>
+           <li>Array must have at least one element</li>
+           <li>Only optional it timeoutPrompt has been specified</li>
+           </ul></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">helpPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">helpPrompt</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      timeoutPrompt
+  </h3>
+  
+  <p>@abstract A Vector<TTSChunk> for Timeout Prompt representing Array of one or
+ more TTSChunk elements specifying the help prompt used in an interaction
+ started by PTT</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">timeoutPrompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeoutPrompt</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      vrHelpTitle
+  </h3>
+  
+  <p>@abstract Sets a voice recognition Help Title</p>
+
+<p>@discussion A String value representing a voice recognition Help Title
+            <p>
+            <b>Notes: </b><br/>
+            <ul>
+            <li>If omitted on supported displays, the default SDL help
+            title will be used</li>
+            <li>If omitted and one or more vrHelp items are provided, the
+            request will be rejected.</li>
+            <li>String Maxlength = 500</li>
+            </ul>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">vrHelpTitle</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrHelpTitle</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      vrHelp
+  </h3>
+  
+  <p>@abstract Sets the items listed in the VR help screen used in an interaction
+ started by PTT</p>
+
+<p>@discussion A Vector value representing items listed in the VR help screen
+            used in an interaction started by PTT
+            <p>
+            <b>Notes: </b><br/>
+            <ul>
+            <li>If omitted on supported displays, the default SmartDeviceLink VR
+            help / What Can I Say? screen will be used</li>
+            <li>If the list of VR Help Items contains nonsequential
+            positions (e.g. [1,2,4]), the RPC will be rejected</li>
+            <li>If omitted and a vrHelpTitle is provided, the request
+            will be rejected</li>
+            <li>Array Minsize: = 1</li>
+            <li>Array Maxsize = 100</li>
+            </ul>
+ @since SmartDeviceLink 2.0</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">vrHelp</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrHelp</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      menuTitle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      menuIcon
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      keyboardProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  
+</section>
