@@ -29,6 +29,7 @@
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessage.h"
 #import "SDLPutFile.h"
+#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCRequestFactory.h"
@@ -56,7 +57,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
-@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong, nullable) SDLDisplayCapabilities* displayCapabilities;
 
 @end
 
@@ -101,6 +103,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         _transport = nil;
         _protocol = nil;
         _mutableProxyListeners = nil;
+        _streamingMediaManager = nil;
+        _displayCapabilities = nil;
     }
 }
 
@@ -166,7 +170,10 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
-        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
+        if (self.displayCapabilities == nil) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
+        }
+        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
     }
 
@@ -328,6 +335,10 @@ const int POLICIES_CORRELATION_ID = 65535;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
+    
+    // Extract the display capabilties to successfully build SDLStreamingMediaManager's video encoder.
+    SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)response;
+    self.displayCapabilities = registerResponse.displayCapabilities;
 }
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
