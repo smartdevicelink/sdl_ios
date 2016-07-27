@@ -12,6 +12,7 @@
 #import "SDLProtocolListener.h"
 
 @class SDLAbstractProtocol;
+@class SDLDisplayCapabilities;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -82,6 +83,9 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  */
 - (BOOL)sendAudioData:(NSData *)pcmAudioData;
 
+@property (assign, nonatomic, readonly) BOOL videoSessionConnected;
+@property (assign, nonatomic, readonly) BOOL audioSessionConnected;
+
 /**
  *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.
  *
@@ -89,14 +93,21 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  */
 @property (strong, nonatomic, null_resettable) NSDictionary* videoEncoderSettings;
 
-@property (assign, nonatomic, readonly) BOOL videoSessionConnected;
-@property (assign, nonatomic, readonly) BOOL audioSessionConnected;
-
 /**
- *  Provides default video encoder settings used. 
+ *  Provides default video encoder settings used.
  */
 @property (strong, nonatomic, readonly) NSDictionary* defaultVideoEncoderSettings;
 
+/**
+ *  The capabilities of the display that is currently connected to.
+ *
+ */
+@property (strong, nonatomic) SDLDisplayCapabilities* displayCapabilities;
+
+/**
+ *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
+ */
+@property (assign, nonatomic, readonly) CGSize screenSize;
 
 @end
 

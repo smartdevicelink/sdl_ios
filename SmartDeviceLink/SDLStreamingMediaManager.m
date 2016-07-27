@@ -11,8 +11,10 @@
 @import UIKit;
 
 #import "SDLAbstractProtocol.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
-
+#import "SDLImageResolution.h"
+#import "SDLScreenParams.h"
 
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
 NSString *const SDLErrorDomainStreamingMediaAudio = @"com.sdl.streamingmediamanager.audio";
@@ -58,6 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     _videoStartBlock = nil;
     _audioStartBlock = nil;
+    
+    _screenSize = CGSizeMake(640, 480);
 
     return self;
 }
@@ -162,6 +166,19 @@ NS_ASSUME_NONNULL_BEGIN
     return defaultVideoEncoderSettings;
 }
 
+- (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+    _displayCapabilities = displayCapabilities;
+    
+    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
+    if (resolution != nil) {
+        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
+                                 resolution.resolutionHeight.floatValue);
+    } else {
+        NSLog(@"Could not retrieve screen size. Defaulting to 640 x 480.");
+        _screenSize = CGSizeMake(640,
+                                 480);
+    }
+}
 
 #pragma mark - SDLProtocolListener Methods
 
@@ -259,8 +276,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     OSStatus status;
 
     // Create a compression session
-    // TODO (Joel F.)[2015-08-18]: Dimensions should be from the Head Unit
-    status = VTCompressionSessionCreate(NULL, 640, 480, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
         // TODO: Log the error
