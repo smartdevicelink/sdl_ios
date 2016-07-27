@@ -143,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (defaultVideoEncoderSettings == nil) {
         defaultVideoEncoderSettings = @{
                                         (__bridge NSString*)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString*)kVTProfileLevel_H264_Baseline_AutoLevel,
-                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @(YES)
+                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @YES
                                         };
     }
     return defaultVideoEncoderSettings;
