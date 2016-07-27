@@ -186,8 +186,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - SecurityManager
 
-- (void)addSecurityManager:(Class)securityManagerClass forMakes:(NSArray<NSString *> *)vehicleMakes {
-    NSParameterAssert(vehicleMakes != nil);
+- (void)addSecurityManager:(Class)securityManagerClass {
     NSParameterAssert(securityManagerClass != nil);
     
     if (self.appId == nil) {
@@ -195,11 +194,19 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
     
     if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
+        NSSet<NSString *> *vehicleMakes = [securityManagerClass availableMakes];
+        
+        if (vehicleMakes == nil || vehicleMakes.count == 0) {
+            NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Failed to retrieve makes for class %@", NSStringFromClass(securityManagerClass)];
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
+        }
+        
         for (NSString *vehicleMake in vehicleMakes) {
             self.securityManagers[vehicleMake] = securityManagerClass;
         }
     } else {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"A security manager was set that does not conform to the SDLSecurityType protocol" userInfo:nil];
+        NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Class %@ does not conform to SDLSecurityType protocol", NSStringFromClass(securityManagerClass)];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
     }
 }
 

@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSData *)encryptData:(NSData *)data withError:(NSError **)error;
 - (nullable NSData *)decryptData:(NSData *)data withError:(NSError **)error;
 
++ (NSSet<NSString *> *)availableMakes;
+
 @end
 
 NS_ASSUME_NONNULL_END
