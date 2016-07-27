@@ -6,6 +6,7 @@
 #import "SDLHMIPermissions.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLOnPermissionsChange.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionManager.h"
@@ -28,6 +29,8 @@ describe(@"SDLPermissionsManager", ^{
     __block SDLHMIPermissions *testHMIPermissionsFullLimitedAllowed = nil;
     __block SDLPermissionItem *testPermissionFullLimitedBackgroundAllowed = nil;
     __block SDLHMIPermissions *testHMIPermissionsFullLimitedBackgroundAllowed = nil;
+    
+    __block SDLOnPermissionsChange *testPermissionsChange = nil;
     
     __block SDLOnHMIStatus *testLimitedHMIStatus = nil;
     __block SDLOnHMIStatus *testBackgroundHMIStatus = nil;
@@ -96,8 +99,12 @@ describe(@"SDLPermissionsManager", ^{
         testNoneHMIStatus = [[SDLOnHMIStatus alloc] init];
         testNoneHMIStatus.hmiLevel = [SDLHMILevel NONE];
         
+        // Create OnPermissionsChange object
+        testPermissionsChange = [[SDLOnPermissionsChange alloc] init];
+        testPermissionsChange.permissionItem = [NSMutableArray arrayWithArray:@[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]];
+        
         // Permission Notifications
-        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]}];
+        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionsChange}];
         limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testLimitedHMIStatus}];
         backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testBackgroundHMIStatus}];
         noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testNoneHMIStatus}];
@@ -356,6 +363,7 @@ describe(@"SDLPermissionsManager", ^{
         context(@"updating an observer with new permission data", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
             
+            __block SDLOnPermissionsChange *testPermissionChangeUpdate = nil;
             __block SDLPermissionItem *testPermissionUpdated = nil;
             __block NSMutableArray<NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *> *changeDicts = nil;
             __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
@@ -389,8 +397,11 @@ describe(@"SDLPermissionsManager", ^{
                     testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
                     testPermissionUpdated.parameterPermissions = testParameterPermissions;
                     
+                    testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                    testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                    
                     // Send the permission update
-                    NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
+                    NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
                     [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                 });
                 
@@ -454,8 +465,11 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
+                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -494,8 +508,11 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
+                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -554,8 +571,11 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
+                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -585,8 +605,11 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.hmiPermissions = testHMIPermissionsUpdated;
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
+                        testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
+                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: @[testPermissionUpdated]}];
+                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     

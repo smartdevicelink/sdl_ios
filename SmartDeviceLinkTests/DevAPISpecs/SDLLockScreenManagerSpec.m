@@ -7,6 +7,7 @@
 #import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
+#import "SDLNotificationDispatcher.h"
 #import "SDLOnLockScreenStatus.h"
 
 
@@ -15,6 +16,7 @@ QuickSpecBegin(SDLLockScreenManagerSpec)
 describe(@"a lock screen manager", ^{
     __block SDLLockScreenManager *testManager = nil;
     __block SDLFakeViewControllerPresenter *fakePresenter = nil;
+    __block SDLNotificationDispatcher *testNotificationDispatcher = nil;
     
     beforeEach(^{
         fakePresenter = [[SDLFakeViewControllerPresenter alloc] init];
@@ -48,7 +50,7 @@ describe(@"a lock screen manager", ^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
                     testRequiredStatus.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
                     
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:testRequiredStatus];
+                    [testNotificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:testRequiredStatus];
                 });
                 
                 it(@"should not have presented the lock screen", ^{

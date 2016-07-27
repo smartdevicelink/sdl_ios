@@ -81,30 +81,71 @@ NS_ASSUME_NONNULL_BEGIN
     
     UIImage *sdlLogo = [self.class sdl_logoImageWithColor:useWhiteIcon];
     self.sdlIconImageView.image = sdlLogo;
-    self.sdlIconImageView.alpha = 1.0;
     
     self.arrowUpImageView.image = [self.class sdl_arrowUpImageWithColor:useWhiteIcon];
     self.arrowDownImageView.image = [self.class sdl_arrowDownImageWithColor:useWhiteIcon];
-    self.arrowUpImageView.alpha = 0.0;
-    self.arrowDownImageView.alpha = 0.0;
     
     self.lockedLabel.textColor = useWhiteIcon ? [UIColor whiteColor] : [UIColor blackColor];
     
     if (self.vehicleIcon != nil && self.appIcon != nil) {
-        self.primaryVehicleIconImageView.image = self.vehicleIcon;
-        self.primaryAppIconImageView.image = self.appIcon;
-        self.arrowUpImageView.alpha = 1.0;
-        self.arrowDownImageView.alpha = 1.0;
+        [self sdl_setVehicleAndAppIconsLayout];
     } else if (self.vehicleIcon != nil) {
-        self.backupImageView.image = self.vehicleIcon;
+        [self sdl_setVehicleIconOnlyLayout];
     } else if (self.appIcon != nil) {
-        self.backupImageView.image = self.appIcon;
+        [self sdl_setAppIconOnlyLayout];
     } else {
-        self.backupImageView.image = sdlLogo;
-        self.sdlIconImageView.alpha = 0.0;
+        [self sdl_setNoIconsLayout];
     }
     
     [self.view layoutIfNeeded];
+}
+
+- (void)sdl_setVehicleAndAppIconsLayout {
+    self.primaryAppIconImageView.image = self.appIcon;
+    self.primaryVehicleIconImageView.image = self.vehicleIcon;
+    
+    self.backupImageView.image = nil;
+    
+    self.arrowUpImageView.alpha = 1.0;
+    self.arrowDownImageView.alpha = 1.0;
+    
+    self.sdlIconImageView.alpha = 1.0;
+}
+
+- (void)sdl_setAppIconOnlyLayout {
+    self.primaryAppIconImageView.image = nil;
+    self.primaryVehicleIconImageView.image = nil;
+    
+    self.backupImageView.image = self.appIcon;
+    
+    self.arrowUpImageView.alpha = 0.0;
+    self.arrowDownImageView.alpha = 0.0;
+    
+    self.sdlIconImageView.alpha = 1.0;
+}
+
+- (void)sdl_setVehicleIconOnlyLayout {
+    self.primaryAppIconImageView.image = nil;
+    self.primaryVehicleIconImageView.image = nil;
+    
+    self.backupImageView.image = self.vehicleIcon;
+    
+    self.arrowUpImageView.alpha = 0.0;
+    self.arrowDownImageView.alpha = 0.0;
+    
+    self.sdlIconImageView.alpha = 1.0;
+}
+
+- (void)sdl_setNoIconsLayout {
+    self.primaryAppIconImageView.image = nil;
+    self.primaryVehicleIconImageView.image = nil;
+    
+    self.backupImageView.image = self.sdlIconImageView.image;
+    
+    self.arrowUpImageView.alpha = 0.0;
+    self.arrowDownImageView.alpha = 0.0;
+    
+    self.sdlIconImageView.alpha = 0.0;
 }
 
 

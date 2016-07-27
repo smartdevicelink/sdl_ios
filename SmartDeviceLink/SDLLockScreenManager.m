@@ -57,12 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (self.config.customViewController != nil) {
         self.presenter.viewController = self.config.customViewController;
     } else {
-        NSBundle *sdlBundle = [NSBundle bundleForClass:[self class]];
 //        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]; TODO: Remove if no longer needed. Tests pass, but need real world usage.
         
         SDLLockScreenViewController *lockScreenVC = nil;
         @try {
-            lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
+            lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
         } @catch (NSException *exception) {
             [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
             return;

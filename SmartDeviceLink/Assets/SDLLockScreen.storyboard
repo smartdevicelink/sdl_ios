@@ -6,60 +6,6 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--SDL Lock Screen-->
-        <scene sceneID="sER-HO-a0H">
-            <objects>
-                <viewController storyboardIdentifier="SDLLockScreenViewController" title="SDL Lock Screen" id="KFL-L4-LT4" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fQj-wc-g5d"/>
-                        <viewControllerLayoutGuide type="bottom" id="4zz-lw-Azz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gV2-gK-B4a">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nyP-UN-vxs">
-                                <rect key="frame" x="508" y="508" width="72" height="72"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="72" id="7Cg-GD-Q4l"/>
-                                    <constraint firstAttribute="width" constant="72" id="ggB-8K-Sdg"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fJC-mK-uiE">
-                                <rect key="frame" x="20" y="508" width="72" height="72"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="72" id="NRl-Uv-YGt"/>
-                                    <constraint firstAttribute="width" constant="72" id="Tvh-e7-KTq"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lzC-yT-PhW">
-                                <rect key="frame" x="172" y="172" width="256" height="256"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="256" id="6ue-Yd-C5s"/>
-                                    <constraint firstAttribute="width" constant="256" id="tME-R2-fbt"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="4zz-lw-Azz" firstAttribute="top" secondItem="fJC-mK-uiE" secondAttribute="bottom" constant="20" id="Ea1-cc-s1b"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nyP-UN-vxs" secondAttribute="trailing" id="HiO-KM-vcQ"/>
-                            <constraint firstItem="4zz-lw-Azz" firstAttribute="top" secondItem="nyP-UN-vxs" secondAttribute="bottom" constant="20" id="MLA-tE-Jcq"/>
-                            <constraint firstItem="lzC-yT-PhW" firstAttribute="centerX" secondItem="gV2-gK-B4a" secondAttribute="centerX" id="NcG-E1-Enw"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="fJC-mK-uiE" secondAttribute="leading" id="YYV-bO-7R6"/>
-                            <constraint firstItem="lzC-yT-PhW" firstAttribute="centerY" secondItem="gV2-gK-B4a" secondAttribute="centerY" id="gXk-Fx-sCA"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="primaryImageView" destination="lzC-yT-PhW" id="aSo-hQ-BJK"/>
-                        <outlet property="secondaryImageView" destination="nyP-UN-vxs" id="3IV-h3-57i"/>
-                        <outlet property="vehicleIconImageView" destination="fJC-mK-uiE" id="hdW-80-5Wb"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lxa-WF-EY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="219" y="843"/>
-        </scene>
         <!--Lock Screen View Controller-->
         <scene sceneID="390-LV-jKT">
             <objects>
@@ -72,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fyC-E0-YKF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fyC-E0-YKF">
                                 <rect key="frame" x="240" y="527" width="120" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="Pm5-yr-PT3"/>
@@ -98,14 +44,14 @@
                                     <rect key="frame" x="20" y="575" width="360" height="17"/>
                                 </variation>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="lock_arrow_up_black" translatesAutoresizingMaskIntoConstraints="NO" id="bgC-hp-jto">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock_arrow_up_black" translatesAutoresizingMaskIntoConstraints="NO" id="bgC-hp-jto">
                                 <rect key="frame" x="261" y="266" width="30" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="68" id="TX0-CV-jWt"/>
                                     <constraint firstAttribute="width" constant="30" id="qg1-7M-JOH"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="lock_arrow_down_black" translatesAutoresizingMaskIntoConstraints="NO" id="QwS-i6-nIR">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock_arrow_down_black" translatesAutoresizingMaskIntoConstraints="NO" id="QwS-i6-nIR">
                                 <rect key="frame" x="309" y="266" width="30" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="dH7-wX-ij9"/>
@@ -122,7 +68,14 @@
                                     <rect key="frame" x="80" y="309" width="240" height="126"/>
                                 </variation>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yyo-mJ-82g" userLabel="Center Spacer View">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b2o-8D-i9T">
+                                <rect key="frame" x="208" y="262" width="185" height="76"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="185" id="CE6-0z-Lmn"/>
+                                    <constraint firstAttribute="height" constant="76" id="emS-mJ-Ryy"/>
+                                </constraints>
+                            </imageView>
+                            <view opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yyo-mJ-82g" userLabel="Center Spacer View">
                                 <rect key="frame" x="299" y="299" width="2" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -130,13 +83,6 @@
                                     <constraint firstAttribute="width" constant="2" id="BOG-80-2W5"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b2o-8D-i9T">
-                                <rect key="frame" x="208" y="262" width="185" height="76"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="185" id="CE6-0z-Lmn"/>
-                                    <constraint firstAttribute="height" constant="76" id="emS-mJ-Ryy"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -158,11 +104,6 @@
                             <constraint firstItem="bgC-hp-jto" firstAttribute="top" secondItem="qlE-SZ-K9i" secondAttribute="bottom" constant="16" id="gwo-mS-ib9"/>
                             <constraint firstAttribute="leadingMargin" secondItem="2GC-iG-Bjq" secondAttribute="leading" id="vFo-Ag-WyF"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="yyo-mJ-82g"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="arrowDownImageView" destination="QwS-i6-nIR" id="saq-rY-Rze"/>
