@@ -4,6 +4,8 @@
 #import "SDLAppHMIType.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLTTSChunk.h"
 
 QuickSpecBegin(SDLLifecycleConfigurationSpec)
 
@@ -33,18 +35,21 @@ describe(@"a lifecycle configuration", ^{
             expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
-            expect(testConfig.voiceRecognitionSynonyms).to(haveCount(@1));
-            expect(testConfig.voiceRecognitionSynonyms.firstObject).to(match(someAppName));
+            expect(testConfig.voiceRecognitionCommandNames).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
             __block NSString *someShortAppName = nil;
-            __block NSString *someTTSName = nil;
+            __block NSArray *someTTSName = nil;
             __block NSArray *someSynonyms = nil;
             
             beforeEach(^{
+                SDLTTSChunk *someTTSChunk = [[SDLTTSChunk alloc] init];
+                someTTSChunk.text = @"some tts name";
+                someTTSChunk.type = [SDLSpeechCapabilities TEXT];
+                
+                someTTSName = @[someTTSChunk];
                 someShortAppName = @"Short Name";
-                someTTSName = @"TTS Name";
                 someSynonyms = @[@"Test 1", @"Test 2", @"Test 3", @"Test 4"];
                 
                 testConfig.appType = [SDLAppHMIType MEDIA];
@@ -52,7 +57,7 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.languagesSupported = @[[SDLLanguage AR_SA], [SDLLanguage EN_AU], [SDLLanguage EN_US]];
                 testConfig.shortAppName = someShortAppName;
                 testConfig.ttsName = someTTSName;
-                testConfig.voiceRecognitionSynonyms = someSynonyms;
+                testConfig.voiceRecognitionCommandNames = someSynonyms;
             });
             
             it(@"should have properly set properties", ^{
@@ -67,7 +72,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.shortAppName).to(match(someShortAppName));
                 expect(testConfig.ttsName).to(match(someTTSName));
-                expect(testConfig.voiceRecognitionSynonyms).to(haveCount(@(someSynonyms.count)));
+                expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
             });
         });
     });
@@ -98,18 +103,21 @@ describe(@"a lifecycle configuration", ^{
             expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
-            expect(testConfig.voiceRecognitionSynonyms).to(haveCount(@1));
-            expect(testConfig.voiceRecognitionSynonyms.firstObject).to(match(someAppName));
+            expect(testConfig.voiceRecognitionCommandNames).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
             __block NSString *someShortAppName = nil;
-            __block NSString *someTTSName = nil;
+            __block NSArray *someTTSName = nil;
             __block NSArray *someSynonyms = nil;
             
             beforeEach(^{
+                SDLTTSChunk *someTTSChunk = [[SDLTTSChunk alloc] init];
+                someTTSChunk.text = @"some tts name";
+                someTTSChunk.type = [SDLSpeechCapabilities TEXT];
+                
                 someShortAppName = @"Short Name 2";
-                someTTSName = @"TTS Name 2";
+                someTTSName = @[someTTSChunk];
                 someSynonyms = @[@"Test 1", @"Test 2"];
                 
                 testConfig.appType = [SDLAppHMIType MEDIA];
@@ -117,7 +125,7 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.languagesSupported = @[[SDLLanguage AR_SA], [SDLLanguage EN_AU], [SDLLanguage EN_US]];
                 testConfig.shortAppName = someShortAppName;
                 testConfig.ttsName = someTTSName;
-                testConfig.voiceRecognitionSynonyms = someSynonyms;
+                testConfig.voiceRecognitionCommandNames = someSynonyms;
             });
             
             it(@"should have properly set properties", ^{
@@ -132,7 +140,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.shortAppName).to(match(someShortAppName));
                 expect(testConfig.ttsName).to(match(someTTSName));
-                expect(testConfig.voiceRecognitionSynonyms).to(haveCount(@(someSynonyms.count)));
+                expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
             });
         });
     });

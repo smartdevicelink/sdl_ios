@@ -44,7 +44,7 @@ describe(@"a lock screen configuration", ^{
             testBackgroundColor = [UIColor blueColor];
             testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             
-            testConfig = [SDLLockScreenConfiguration enabledConfigurationWithBackgroundColor:testBackgroundColor appIcon:testImage];
+            testConfig = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:testImage backgroundColor:testBackgroundColor];
         });
         
         it(@"should properly set properties", ^{

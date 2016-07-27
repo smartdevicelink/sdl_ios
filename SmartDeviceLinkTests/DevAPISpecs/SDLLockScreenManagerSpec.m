@@ -147,7 +147,7 @@ describe(@"a lock screen manager", ^{
             testColor = [UIColor blueColor];
             testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
             
-            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithBackgroundColor:testColor appIcon:testImage] notificationDispatcher:nil presenter:fakePresenter];
+            testManager = [[SDLLockScreenManager alloc] initWithConfiguration:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:testImage backgroundColor:testColor] notificationDispatcher:nil presenter:fakePresenter];
         });
         
         it(@"should set properties correctly", ^{

@@ -45,7 +45,7 @@ describe(@"a configuration", ^{
             someImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             
             someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
-            someLockscreenConfig = [SDLLockScreenConfiguration enabledConfigurationWithBackgroundColor:someBackgroundColor appIcon:someImage];
+            someLockscreenConfig = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:someImage backgroundColor:someBackgroundColor];
             
             testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig];
         });
