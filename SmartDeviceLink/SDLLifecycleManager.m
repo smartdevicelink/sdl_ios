@@ -219,8 +219,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStatePostManagerProcessing {
-    // TODO: SetDisplayLayout (only after HMI_FULL?)
-    
     // We only want to send the app icon when the file manager is complete, and when that's done, set the state to ready
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^{
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
