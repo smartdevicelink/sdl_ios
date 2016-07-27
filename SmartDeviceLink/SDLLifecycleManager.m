@@ -262,12 +262,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 [SDLDebugTool logInfo:@"Failed to upload app icon: A file with this name already exists on the system"];
             } else {
                 [SDLDebugTool logFormat:@"Unexpected error uploading app icon: %@", error];
+                return;
             }
         }
         
         // Once we've tried to put the file on the remote system, try to set the app icon
-        SDLSetAppIcon *setAppIconRequest = [[SDLSetAppIcon alloc] initWithName:appIcon.name];
-        [self sendRequest:setAppIconRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        SDLSetAppIcon *setAppIconRequest = [SDLRPCRequestFactory buildSetAppIconWithFileName:appIcon.name correlationID:@0];
+        [self sdl_sendRequest:setAppIconRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error != nil) {
                 [SDLDebugTool logFormat:@"Error setting app icon: ", error];
             }

@@ -9,7 +9,7 @@
 #import "Preferences.h"
 
 
-NSString *const SDLAppName = @"SDL Test";
+NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
 
@@ -44,7 +44,7 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)startIAP {
-    SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
@@ -52,7 +52,7 @@ NSString *const SDLAppId = @"9999";
 }
 
 - (void)startTCP {
-    SDLLifecycleConfiguration *lifecycleConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
@@ -68,15 +68,22 @@ NSString *const SDLAppId = @"9999";
     [self.sdlManager sendRequest:initalData];
 }
 
++ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
+    
+    config.shortAppName = @"SDL Example";
+    config.appIcon = appIconArt;
+    
+    return config;
+}
+
 
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidBecomeReady {
-    [self showInitialData];
+    [self showInitialData]; // TODO: This should only happen in HMI_FULL
 }
 
-- (void)managerDidDisconnect {
-    
-}
+- (void)managerDidDisconnect {}
 
 @end
