@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingMediaManager
 
+@synthesize videoEncoderSettings = _videoEncoderSettings;
+
 #pragma mark - Class Lifecycle
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
@@ -129,13 +131,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Update video encoder
 
-- (void)setVideoEncoderSettings:( NSDictionary * _Nullable)videoEncoderSettings {
+- (void)setVideoEncoderSettings:(NSDictionary * _Nullable)videoEncoderSettings {
     if (self.videoSessionConnected) {
         @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
         return;
     }
     
-    _videoEncoderSettings = videoEncoderSettings;
+    if (videoEncoderSettings) {
+        _videoEncoderSettings = videoEncoderSettings;
+    } else {
+        _videoEncoderSettings = self.defaultVideoEncoderSettings;
+    }
+}
+
+- (NSDictionary*)videoEncoderSettings {
+    if (!_videoEncoderSettings) {
+        _videoEncoderSettings = self.defaultVideoEncoderSettings;
+    }
+    return _videoEncoderSettings;
 }
 
 - (NSDictionary*)defaultVideoEncoderSettings {
@@ -256,10 +269,6 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         }
 
         return NO;
-    }
-    
-    if (self.videoEncoderSettings == nil) {
-        self.videoEncoderSettings = self.defaultVideoEncoderSettings;
     }
 
     // Validate that the video encoder properties are valid.

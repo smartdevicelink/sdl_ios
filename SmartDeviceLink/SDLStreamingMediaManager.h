@@ -87,7 +87,7 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
  *
  *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
  */
-@property (strong, nonatomic, nullable) NSDictionary* videoEncoderSettings;
+@property (strong, nonatomic, null_resettable) NSDictionary* videoEncoderSettings;
 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
