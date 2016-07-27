@@ -56,7 +56,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
-@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
 
 @end
 
@@ -101,6 +101,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         _transport = nil;
         _protocol = nil;
         _mutableProxyListeners = nil;
+        _streamingMediaManager = nil;
     }
 }
 
