@@ -47,7 +47,7 @@
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
-- (void)addSecurityManager:(Class)securityManagerClass;
+- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses;
 
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;

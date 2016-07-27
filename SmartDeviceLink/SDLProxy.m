@@ -186,14 +186,19 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - SecurityManager
 
-- (void)addSecurityManager:(Class)securityManagerClass {
-    NSParameterAssert(securityManagerClass != nil);
+- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses {
+    NSParameterAssert(securityManagerClasses != nil);
     
     if (self.appId == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"The App Id must be set on SDLProxy before calling this method" userInfo:nil];
     }
     
-    if ([securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
+    for (Class securityManagerClass in securityManagerClasses) {
+        if (![securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
+            NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Class %@ does not conform to SDLSecurityType protocol", NSStringFromClass(securityManagerClass)];
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
+        }
+        
         NSSet<NSString *> *vehicleMakes = [securityManagerClass availableMakes];
         
         if (vehicleMakes == nil || vehicleMakes.count == 0) {
@@ -204,9 +209,6 @@ const int POLICIES_CORRELATION_ID = 65535;
         for (NSString *vehicleMake in vehicleMakes) {
             self.securityManagers[vehicleMake] = securityManagerClass;
         }
-    } else {
-        NSString *reason = [NSString stringWithFormat:@"Invalid security manager: Class %@ does not conform to SDLSecurityType protocol", NSStringFromClass(securityManagerClass)];
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
     }
 }
 
