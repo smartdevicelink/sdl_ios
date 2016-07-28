@@ -11,6 +11,7 @@
 #import "dispatch_timer.h"
 #import "CGPoint_Util.h"
 
+#import "SDLDebugTool.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLProxyListener.h"
@@ -86,6 +87,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationDidResignActive:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
     
     return self;
 }
@@ -268,6 +279,20 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 - (void)sdl_cancelSingleTapTimer {
     dispatch_stop_timer(self.singleTapTimer);
     self.singleTapTimer = NULL;
+}
+
+- (void)sdl_applicationDidEnterBackground:(NSNotification*)notification {
+    if (self.singleTapTimer != NULL) {
+        [SDLDebugTool logInfo:@"Application is Entering Background. Canceling Single Touch Timer."];
+        [self sdl_cancelSingleTapTimer];
+    }
+}
+
+- (void)sdl_applicationDidResignActive:(NSNotification*)notification {
+    if (self.singleTapTimer != NULL) {
+        [SDLDebugTool logInfo:@"Application is Resigning Active State. Canceling Single Touch Timer."];
+        [self sdl_cancelSingleTapTimer];
+    }
 }
 
 @end
