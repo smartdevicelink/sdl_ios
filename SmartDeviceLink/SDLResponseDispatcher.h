@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLResponseDispatcher : NSObject
 
-// TODO: Immutable versions?
 // Dictionaries to link handlers with requests/commands/etc
 @property (strong, nonatomic, readonly) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
 @property (strong, nonatomic, readonly) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;

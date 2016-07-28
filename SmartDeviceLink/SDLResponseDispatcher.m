@@ -8,9 +8,25 @@
 
 #import "SDLResponseDispatcher.h"
 
-#import "SmartDeviceLink.h" // TODO: Only the things we need
-
 #import "NSMutableDictionary+SafeRemove.h"
+#import "SDLAddCommand.h"
+#import "SDLAlert.h"
+#import "SDLButtonName.h"
+#import "SDLDeleteCommand.h"
+#import "SDLDeleteCommandResponse.h"
+#import "SDLError.h"
+#import "SDLOnButtonEvent.h"
+#import "SDLOnButtonPress.h"
+#import "SDLOnCommand.h"
+#import "SDLResult.h"
+#import "SDLRPCResponse.h"
+#import "SDLScrollableMessage.h"
+#import "SDLShow.h"
+#import "SDLSoftButton.h"
+#import "SDLSubscribeButton.h"
+#import "SDLUnsubscribeButton.h"
+#import "SDLUnsubscribeButtonResponse.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -91,11 +107,9 @@ NS_ASSUME_NONNULL_BEGIN
     
     // Check for RPCs that require an extra handler
     if ([request isKindOfClass:[SDLShow class]]) {
-        // TODO: Can we create soft button ids ourselves?
         SDLShow *show = (SDLShow *)request;
         [self sdl_addToHandlerMapWithSoftButtons:show.softButtons];
     } else if ([request isKindOfClass:[SDLAddCommand class]]) {
-        // TODO: Can we create CmdIDs ourselves?
         SDLAddCommand *addCommand = (SDLAddCommand *)request;
         if (!addCommand.cmdID) {
             @throw [NSException sdl_missingIdException];

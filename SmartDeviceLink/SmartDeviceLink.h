@@ -274,20 +274,28 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"
 
-// TODO: Separate better
 // Enhancements
-#import "NSNumber+NumberType.h"
-#import "SDLArtwork.h"
+// Configurations
 #import "SDLConfiguration.h"
-#import "SDLError.h"
+#import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+
+// Files
+#import "SDLArtwork.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConstants.h"
-#import "SDLLifecycleConfiguration.h"
-#import "SDLLockScreenConfiguration.h"
+
+// Lifecycle
 #import "SDLManager.h"
 #import "SDLManagerDelegate.h"
-#import "SDLNotificationConstants.h"
+
+// Permissions
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
+
+// Utilities
+#import "NSNumber+NumberType.h"
+#import "SDLError.h"
+#import "SDLNotificationConstants.h"
 #import "SDLRequestHandler.h"

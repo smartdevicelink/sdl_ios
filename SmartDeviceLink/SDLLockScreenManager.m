@@ -57,8 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (self.config.customViewController != nil) {
         self.presenter.viewController = self.config.customViewController;
     } else {
-//        NSBundle *sdlBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"SmartDeviceLink" ofType:@"bundle"]; TODO: Remove if no longer needed. Tests pass, but need real world usage.
-        
         SDLLockScreenViewController *lockScreenVC = nil;
         @try {
             lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
