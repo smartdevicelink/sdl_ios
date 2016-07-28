@@ -110,16 +110,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
     
     if ([notification.type isEqualToEnum:SDLTouchType.BEGIN]) {
-        [self sdl_handleBeginTouch:touch];
+        [self sdl_handleTouchBegan:touch];
     } else if ([notification.type isEqualToEnum:SDLTouchType.MOVE]) {
-        [self sdl_handleMovedTouch:touch];
+        [self sdl_handleTouchMoved:touch];
     } else if ([notification.type isEqualToEnum:SDLTouchType.END]) {
-        [self sdl_handleEndTouch:touch];
+        [self sdl_handleTouchEnded:touch];
     }
 }
 
 #pragma mark - Private
-- (void)sdl_handleBeginTouch:(SDLTouch*)touch {
+- (void)sdl_handleTouchBegan:(SDLTouch*)touch {
     if (!touch.isFirstFinger
         && !self.isTouchEnabled) {
         return; // no-op
@@ -144,7 +144,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 }
 
-- (void)sdl_handleMovedTouch:(SDLTouch*)touch {
+- (void)sdl_handleTouchMoved:(SDLTouch*)touch {
     if ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC)
         || !self.isTouchEnabled) {
         return; // no-op
@@ -191,7 +191,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     self.previousTouch = touch;
 }
 
-- (void)sdl_handleEndTouch:(SDLTouch*)touch {
+- (void)sdl_handleTouchEnded:(SDLTouch*)touch {
     if (!self.isTouchEnabled) {
         return; // no-op
     }
