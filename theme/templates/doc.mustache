@@ -1,0 +1,16 @@
+{{#hide_name}}
+{{> nav}}
+{{/hide_name}}
+{{^hide_name}}
+<h1>{{name}} {{kind}} Reference</h1>
+
+<h3>Section Contents</h3>
+
+{{> task_links}}
+
+<h3>Overview</h3>
+
+{{{overview}}}
+
+{{> tasks}}
+{{/hide_name}}

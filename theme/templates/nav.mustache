@@ -1,0 +1,8 @@
+{{#structure}}
+- name: {{section}}
+  sub_nav:
+{{#children}}
+    - name: {{name}}
+      url: {{path_to_root}}{{url}}
+{{/children}}
+{{/structure}}

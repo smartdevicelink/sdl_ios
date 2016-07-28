@@ -1,0 +1,127 @@
+<h1>SDLSubscribeButton Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-buttonName">buttonName</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Establishes a subscription to button notifications for HMI buttons. Buttons
+ are not necessarily physical buttons, but can also be <q>soft</q> buttons on a
+ touch screen, depending on the display in the vehicle. Once subscribed to a
+ particular button, an application will receive both
+ SDLOnButtonEvent and SDLOnButtonPress notifications
+ whenever that button is pressed. The application may also unsubscribe from
+ notifications for a button by invoking the SDLUnsubscribeButton
+ operation
+ <p>
+ When a button is depressed, an SDLOnButtonEvent notification is
+ sent to the application with a ButtonEventMode of BUTTONDOWN. When that same
+ button is released, an SDLOnButtonEvent notification is sent to the
+ application with a ButtonEventMode of BUTTONUP
+ <p>
+ When the duration of a button depression (that is, time between depression
+ and release) is less than two seconds, an SDLOnButtonPress
+ notification is sent to the application (at the moment the button is
+ released) with a ButtonPressMode of SHORT. When the duration is two or more
+ seconds, an SDLOnButtonPress notification is sent to the
+ application (at the moment the two seconds have elapsed) with a
+ ButtonPressMode of LONG
+ <p>
+ The purpose of SDLOnButtonPress notifications is to allow for
+ programmatic detection of long button presses similar to those used to store
+ presets while listening to the radio, for example
+ <p>
+ When a button is depressed and released, the sequence in which notifications
+ will be sent to the application is as follows:
+ <p>
+ For short presses:<br/>
+ <ul>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONDOWN)</li>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONUP)</li>
+ <li>OnButtonPress (ButtonPressMode = SHORT)</li>
+ </ul>
+ <p>
+ For long presses:<br/>
+ <ul>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONDOWN)</li>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONUP)</li>
+ <li>OnButtonPress (ButtonPressMode = LONG)</li>
+ </ul>
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0<br/>
+ See SDLUnsubscribeButton</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSubscribeButton object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>@abstract Constructs a new SDLSubscribeButton object indicated by the NSMutableDictionary
+parameter
+- parameter: dict The dictionary to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      buttonName
+  </h3>
+  
+  <p>@abstract The name of the button to subscribe to
+@discussion An enum value, see <i>SDLButtonName</i></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLButtonName</span> <span class="o">*</span><span class="n">buttonName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt">SDLButtonName</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

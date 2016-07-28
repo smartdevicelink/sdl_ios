@@ -1,0 +1,313 @@
+<h1>SDLProxy Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-_version">_version</a></li>
+  <li><a href="#section-_bulkSessionID">_bulkSessionID</a></li>
+  <li><a href="#section-_isConnected">_isConnected</a></li>
+  <li><a href="#section-_alreadyDestructed">_alreadyDestructed</a></li>
+  <li><a href="#section-protocol">protocol</a></li>
+  <li><a href="#section-transport">transport</a></li>
+  <li><a href="#section-proxyListeners">proxyListeners</a></li>
+  <li><a href="#section-startSessionTimer">startSessionTimer</a></li>
+  <li><a href="#section-debugConsoleGroupName">debugConsoleGroupName</a></li>
+  <li><a href="#section-proxyVersion">proxyVersion</a></li>
+  <li><a href="#section-streamingMediaManager">streamingMediaManager</a></li>
+  <li><a href="#section--initWithTransport:protocol:delegate:">-initWithTransport:protocol:delegate:</a></li>
+  <li><a href="#section--dispose">-dispose</a></li>
+  <li><a href="#section--addDelegate:">-addDelegate:</a></li>
+  <li><a href="#section--removeDelegate:">-removeDelegate:</a></li>
+  <li><a href="#section--sendRPC:">-sendRPC:</a></li>
+  <li><a href="#section--sendRPCRequest:">-sendRPCRequest:</a></li>
+  <li><a href="#section--handleRPCDictionary:">-handleRPCDictionary:</a></li>
+  <li><a href="#section--handleRpcMessage:">-handleRpcMessage:</a></li>
+  <li><a href="#section--handleProtocolMessage:">-handleProtocolMessage:</a></li>
+  <li><a href="#section-+enableSiphonDebug">+enableSiphonDebug</a></li>
+  <li><a href="#section-+disableSiphonDebug">+disableSiphonDebug</a></li>
+  <li><a href="#section--putFileStream:withRequest:">-putFileStream:withRequest:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      _version
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      _bulkSessionID
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      _isConnected
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      _alreadyDestructed
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      protocol
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      transport
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      proxyListeners
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      startSessionTimer
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      debugConsoleGroupName
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      proxyVersion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      streamingMediaManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -initWithTransport:protocol:delegate:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -dispose
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -addDelegate:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -removeDelegate:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -sendRPC:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -sendRPCRequest:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -handleRPCDictionary:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -handleRpcMessage:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -handleProtocolMessage:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      +enableSiphonDebug
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      +disableSiphonDebug
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3>
+      -putFileStream:withRequest:
+  </h3>
+  
+  <p>Puts data into a file on the module
+@abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.
+- parameter: inputStream A stream containing the data to put to the module.
+- parameter: putFileRPCRequest A SDLPutFile object containing the parameters for the put(s)
+@discussion  The proxy will read from the stream based on the max MTU size and send them in individual putFile requests.
+This may result in multiple responses being received, one for each request.
+Note: the length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">putFileStream</span><span class="p">:(</span><span class="n">NSInputStream</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputStream</span>
+          <span class="nf">withRequest</span><span class="p">:(</span><span class="n">SDLPutFile</span> <span class="o">*</span><span class="p">)</span><span class="nv">putFileRPCRequest</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">putFileStream</span><span class="p">(</span><span class="nv">inputStream</span><span class="p">:</span> <span class="kt">NSInputStream</span><span class="o">!</span><span class="p">,</span> <span class="n">withRequest</span> <span class="nv">putFileRPCRequest</span><span class="p">:</span> <span class="kt">SDLPutFile</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>inputStream</dt>
+      <dd><p>A stream containing the data to put to the module.</p>
+</dd>
+      <dt>putFileRPCRequest</dt>
+      <dd><p>A SDLPutFile object containing the parameters for the put(s)</p>
+</dd>
+  </dl>
+  
+</section>

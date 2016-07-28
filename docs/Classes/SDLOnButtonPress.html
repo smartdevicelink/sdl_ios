@@ -1,0 +1,183 @@
+<h1>SDLOnButtonPress Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-buttonName">buttonName</a></li>
+  <li><a href="#section-buttonPressMode">buttonPressMode</a></li>
+  <li><a href="#section-customButtonID">customButtonID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Notifies application of button press events for buttons to which the
+ application is subscribed. SDL supports two button press events defined as
+ follows:</p>
+
+<p><ul>
+ <li>SHORT - Occurs when a button is depressed, then released within two
+ seconds. The event is considered to occur immediately after the button is
+ released.</li>
+ <li>LONG - Occurs when a button is depressed and held for two seconds or
+ more. The event is considered to occur immediately after the two second
+ threshold has been crossed, before the button is released</li>
+ </ul>
+ <b>HMI Status Requirements:</b>
+ <ul>
+ HMILevel:
+ <ul>
+ <li>The application will receive OnButtonPress notifications for all
+ subscribed buttons when HMILevel is FULL.</li>
+ <li>The application will receive OnButtonPress notifications for subscribed
+ media buttons when HMILevel is LIMITED.</li>
+ <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
+ PRESET_0-PRESET_9.</li>
+ <li>The application will not receive OnButtonPress notification when HMILevel
+ is BACKGROUND or NONE.</li>
+ </ul>
+ AudioStreamingState:
+ <ul>
+ <li> Any </li>
+ </ul>
+ SystemContext:
+ <ul>
+ <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
+ button will cancel VR.</li>
+ </ul>
+ </ul></p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSubscribeButton
+
+</div>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLUnsubscribeButton
+
+</div>
+
+<p>@since SDL 1.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Constructs a newly allocated SDLOnButtonPress object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLOnButtonPress object indicated by the dictionary parameter</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      buttonName
+  </h3>
+  
+  <p>@abstract the button&rsquo;s name</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLButtonName
+
+</div>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLButtonName</span> <span class="o">*</span><span class="n">buttonName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt">SDLButtonName</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      buttonPressMode
+  </h3>
+  
+  <p>@abstract Indicates whether this is a LONG or SHORT button press event</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLButtonPressMode
+
+</div>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLButtonPressMode</span> <span class="o">*</span><span class="n">buttonPressMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonPressMode</span><span class="p">:</span> <span class="kt">SDLButtonPressMode</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      customButtonID
+  </h3>
+  
+  <p>@abstract If ButtonName is <q>CUSTOM_BUTTON</q>, this references the integer ID passed by a custom button. (e.g. softButton ID)</p>
+
+<p>@since SDL 2.0</p>
+
+<p>Optional, Integer 0 - 65536</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">customButtonID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">customButtonID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
