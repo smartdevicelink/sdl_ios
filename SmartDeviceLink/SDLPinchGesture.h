@@ -30,13 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @abstract
  *      First touch of a pinch gesture.
  */
-@property (nonatomic, copy) SDLTouch* firstTouch;
+@property (nonatomic, strong) SDLTouch* firstTouch;
 
 /**
  *  @abstract
  *      Second touch of a pinch gesture.
  */
-@property (nonatomic, copy) SDLTouch* secondTouch;
+@property (nonatomic, strong) SDLTouch* secondTouch;
 
 /**
  *  @abstract
