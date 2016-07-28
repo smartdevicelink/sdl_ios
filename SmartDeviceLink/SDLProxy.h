@@ -28,7 +28,6 @@
 @property (strong) SDLTimer *startSessionTimer;
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
-@property (copy, nonatomic) NSString *appId;
 @property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
@@ -47,7 +46,7 @@
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 
-- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses;
+- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId;
 
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;

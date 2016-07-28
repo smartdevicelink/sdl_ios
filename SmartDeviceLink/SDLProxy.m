@@ -62,6 +62,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     SDLLockScreenManager *_lsm;
 }
 
+@property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
 @property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
@@ -186,12 +187,10 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - SecurityManager
 
-- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses {
+- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId {
     NSParameterAssert(securityManagerClasses != nil);
-    
-    if (self.appId == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"The App Id must be set on SDLProxy before calling this method" userInfo:nil];
-    }
+    NSParameterAssert(appId != nil);
+    self.appId = appId;
     
     for (Class securityManagerClass in securityManagerClasses) {
         if (![securityManagerClass conformsToProtocol:@protocol(SDLSecurityType)]) {
