@@ -41,8 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStreamingMediaManager
 
-@synthesize videoEncoderSettings = _videoEncoderSettings;
-
 #pragma mark - Class Lifecycle
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities {
@@ -86,6 +84,8 @@ NS_ASSUME_NONNULL_BEGIN
     _audioStartBlock = nil;
     
     _screenSize = CGSizeMake(640, 480);
+    
+    _videoEncoderSettings = self.defaultVideoEncoderSettings;
 
     return self;
 }
@@ -170,13 +170,6 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         _videoEncoderSettings = self.defaultVideoEncoderSettings;
     }
-}
-
-- (NSDictionary*)videoEncoderSettings {
-    if (!_videoEncoderSettings) {
-        _videoEncoderSettings = self.defaultVideoEncoderSettings;
-    }
-    return _videoEncoderSettings;
 }
 
 - (NSDictionary*)defaultVideoEncoderSettings {
