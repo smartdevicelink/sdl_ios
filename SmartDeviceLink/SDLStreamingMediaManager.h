@@ -12,7 +12,7 @@
 #import "SDLProtocolListener.h"
 
 @class SDLAbstractProtocol;
-
+@class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -84,6 +84,11 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
+
+/**
+ *  Touch Manager responsible for providing touch event notifications.
+ */
+@property (nonatomic, strong, readonly) SDLTouchManager* touchManager;
 
 
 @end

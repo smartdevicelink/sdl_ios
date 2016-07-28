@@ -12,7 +12,7 @@
 
 #import "SDLAbstractProtocol.h"
 #import "SDLGlobals.h"
-
+#import "SDLTouchManager.h"
 
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
 NSString *const SDLErrorDomainStreamingMediaAudio = @"com.sdl.streamingmediamanager.audio";
@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, nullable) SDLStreamingStartBlock videoStartBlock;
 @property (copy, nonatomic, nullable) SDLStreamingStartBlock audioStartBlock;
+
+@property (nonatomic, strong, readwrite) SDLTouchManager *touchManager;
 
 @end
 
@@ -56,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     _videoStartBlock = nil;
     _audioStartBlock = nil;
+    
+    _touchManager = [[SDLTouchManager alloc] init];
 
     return self;
 }

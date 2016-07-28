@@ -39,7 +39,6 @@
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLTimer.h"
-#import "SDLTouchManager.h"
 #import "SDLURLSession.h"
 
 
@@ -58,7 +57,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
 @property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
-@property (nonatomic, strong, readwrite) SDLTouchManager *touchManager;
 
 @end
 
@@ -100,7 +98,6 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self.protocol dispose];
         [self.transport dispose];
 
-        _touchManager = nil;
         _transport = nil;
         _protocol = nil;
         _mutableProxyListeners = nil;
@@ -171,20 +168,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     if (_streamingMediaManager == nil) {
         _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
+        [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
     }
 
     return _streamingMediaManager;
 }
-
-- (SDLTouchManager*)touchManager {
-    if (_touchManager == nil) {
-        _touchManager = [[SDLTouchManager alloc] init];
-        [self.mutableProxyListeners addObject:_touchManager];
-    }
-    
-    return _touchManager;
-}
-
 
 #pragma mark - SDLProtocolListener Implementation
 - (void)onProtocolOpened {
