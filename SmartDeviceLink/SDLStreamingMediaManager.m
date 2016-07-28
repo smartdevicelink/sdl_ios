@@ -45,6 +45,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Class Lifecycle
 
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _compressionSession = NULL;
+    
+    _currentFrameNumber = 0;
+    _videoSessionConnected = NO;
+    _audioSessionConnected = NO;
+    _protocol = protocol;
+    
+    _videoStartBlock = nil;
+    _audioStartBlock = nil;
+    
+    _screenSize = CGSizeMake(640, 480);
+    
+    self.displayCapabilities = displayCapabilities;
+    
+    return self;
+
+}
+
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
     self = [super init];
     if (!self) {

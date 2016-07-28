@@ -172,8 +172,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         if (self.displayCapabilities == nil) {
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
         }
-        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
-        _streamingMediaManager.displayCapabilities = self.displayCapabilities;
+        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
     }
 

@@ -37,7 +37,9 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 
 @interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
+
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities;
 
 /**
  *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session.
