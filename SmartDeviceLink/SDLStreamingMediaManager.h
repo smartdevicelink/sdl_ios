@@ -24,6 +24,12 @@ typedef NS_ENUM(NSInteger, SDLStreamingVideoError) {
     SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure
 };
 
+typedef NS_ENUM(NSInteger, SDLEncryptionFlag) {
+    SDLEncryptionFlagNone,
+    SDLEncryptionFlagAuthenticateOnly,
+    SDLEncryptionFlagAuthenticateAndEncrypt
+};
+
 typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
     SDLStreamingAudioErrorHeadUnitNACK
 };
@@ -35,7 +41,16 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError *__nullable error);
 
 
+#pragma mark - Interface
+
 @interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
+
+@property (assign, nonatomic, readonly) BOOL videoSessionConnected;
+@property (assign, nonatomic, readonly) BOOL audioSessionConnected;
+
+@property (assign, nonatomic, readonly) BOOL videoSessionAuthenticated;
+@property (assign, nonatomic, readonly) BOOL audioSessionAuthenticated;
+
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
 
@@ -49,7 +64,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 // TODO: Documentation
-- (void)startVideoSessionWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
+- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**
  *  This method will stop a running video session if there is one running.
@@ -73,7 +88,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 // TODO: Documentation
-- (void)startAudioStreamingWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingStartBlock)startBlock;
 
 /**
  *  This method will stop a running audio session if there is one running.
@@ -88,12 +103,6 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  *  @return Whether or not the data was successfully sent.
  */
 - (BOOL)sendAudioData:(NSData *)pcmAudioData;
-
-@property (assign, nonatomic, readonly) BOOL videoSessionConnected;
-@property (assign, nonatomic, readonly) BOOL audioSessionConnected;
-
-@property (assign, nonatomic, readonly) BOOL videoSessionAuthenticated;
-@property (assign, nonatomic, readonly) BOOL audioSessionAuthenticated;
 
 @end
 

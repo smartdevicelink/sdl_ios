@@ -73,14 +73,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithTLSAuthentication:NO
-                                      encryption:NO
+    [self startVideoSessionWithTLS:SDLEncryptionFlagNone
                                       startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
                                           startBlock(success, error);
                                       }];
 }
 
-- (void)startVideoSessionWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
+- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLSTreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
@@ -89,9 +88,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.videoStartBlock = [startBlock copy];
-    self.encryptVideoSession = encryption;
+    self.encryptVideoSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
-    if (authentication) {
+    if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
         [self.protocol startSecureServiceWithType:SDLServiceType_Video
                                 completionHandler:^(BOOL success, NSError *error) {
@@ -116,18 +115,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startAudioStreamingWithTLSAuthentication:NO
-                                        encryption:NO
+    [self startAudioStreamingWithTLS:SDLEncryptionFlagNone
                                         startBlock:^(BOOL success, NSError *_Nullable error) {
                                             startBlock(success, error);
                                         }];
 }
 
-- (void)startAudioStreamingWithTLSAuthentication:(BOOL)authentication encryption:(BOOL)encryption startBlock:(SDLStreamingStartBlock)startBlock {
+- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
-    self.encryptAudioSession = encryption;
-
-    if (authentication) {
+    self.encryptAudioSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
+    
+    if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
         [self.protocol startSecureServiceWithType:SDLServiceType_Audio
                                 completionHandler:^(BOOL success, NSError *error) {
