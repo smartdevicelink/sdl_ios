@@ -50,6 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign, getter=isTouchEnabled) BOOL touchEnabled;
 
+/**
+ *  @abstract
+ *      Cancels pending touch event timers that may be in progress.
+ *  @remark
+ *      Currently only impacts the timer used to register single taps.
+ */
+- (void)cancelPendingTouches;
+
 @end
 
 NS_ASSUME_NONNULL_END

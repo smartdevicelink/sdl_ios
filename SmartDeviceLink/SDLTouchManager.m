@@ -88,17 +88,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationDidResignActive:)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
-    
     return self;
+}
+
+#pragma mark - Public
+- (void)cancelPendingTouches {
+    [self sdl_cancelSingleTapTimer];
 }
 
 #pragma mark - SDLProxyListener Delegate
@@ -279,20 +274,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 - (void)sdl_cancelSingleTapTimer {
     dispatch_stop_timer(self.singleTapTimer);
     self.singleTapTimer = NULL;
-}
-
-- (void)sdl_applicationDidEnterBackground:(NSNotification*)notification {
-    if (self.singleTapTimer != NULL) {
-        [SDLDebugTool logInfo:@"Application is Entering Background. Canceling Single Touch Timer."];
-        [self sdl_cancelSingleTapTimer];
-    }
-}
-
-- (void)sdl_applicationDidResignActive:(NSNotification*)notification {
-    if (self.singleTapTimer != NULL) {
-        [SDLDebugTool logInfo:@"Application is Resigning Active State. Canceling Single Touch Timer."];
-        [self sdl_cancelSingleTapTimer];
-    }
 }
 
 @end

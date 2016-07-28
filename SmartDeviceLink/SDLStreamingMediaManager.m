@@ -60,6 +60,16 @@ NS_ASSUME_NONNULL_BEGIN
     _audioStartBlock = nil;
     
     _touchManager = [[SDLTouchManager alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationDidResignActive:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 
     return self;
 }
@@ -356,6 +366,15 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     });
 
     return streamingDataQueue;
+}
+
+#pragma mark - Private Functions
+- (void)sdl_applicationDidEnterBackground:(NSNotification*)notification {
+    [self.touchManager cancelPendingTouches];
+}
+
+- (void)sdl_applicationDidResignActive:(NSNotification*)notification {
+    [self.touchManager cancelPendingTouches];
 }
 
 @end
