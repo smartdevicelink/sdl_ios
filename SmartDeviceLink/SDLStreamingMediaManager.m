@@ -51,7 +51,15 @@ NS_ASSUME_NONNULL_BEGIN
     
     _protocol = protocol;
         
-    self.displayCapabilities = displayCapabilities;
+    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
+    if (resolution != nil) {
+        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
+                                 resolution.resolutionHeight.floatValue);
+    } else {
+        NSLog(@"Could not retrieve screen size. Defaulting to 640 x 480.");
+        _screenSize = CGSizeMake(640,
+                                 480);
+    }
     
     return self;
 
@@ -181,20 +189,6 @@ NS_ASSUME_NONNULL_BEGIN
                                         };
     }
     return defaultVideoEncoderSettings;
-}
-
-- (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
-    _displayCapabilities = displayCapabilities;
-    
-    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
-    if (resolution != nil) {
-        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
-                                 resolution.resolutionHeight.floatValue);
-    } else {
-        NSLog(@"Could not retrieve screen size. Defaulting to 640 x 480.");
-        _screenSize = CGSizeMake(640,
-                                 480);
-    }
 }
 
 #pragma mark - SDLProtocolListener Methods

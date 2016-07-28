@@ -101,12 +101,6 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 @property (strong, nonatomic, readonly) NSDictionary* defaultVideoEncoderSettings;
 
 /**
- *  The capabilities of the display that is currently connected to.
- *
- */
-@property (strong, nonatomic) SDLDisplayCapabilities* displayCapabilities;
-
-/**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
