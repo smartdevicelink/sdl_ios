@@ -30,7 +30,7 @@ describe(@"SDLTouchManager Tests", ^{
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
-            expect(@(touchManager.movementTimeThreshold)).to(beCloseTo(@0.5).within(0.0001));
+            expect(@(touchManager.movementTimeThreshold)).to(beCloseTo(@0.05).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
         });
         
@@ -336,7 +336,9 @@ describe(@"SDLTouchManager Tests", ^{
                 panStartTouchCoord.x = @(panStartPoint.x);
                 panStartTouchCoord.y = @(panStartPoint.y);
                 
-                NSUInteger panStartTimeStamp = ([[NSDate date] timeIntervalSince1970] + ((touchManager.movementTimeThreshold + .1) * 1000)) * 1000;
+                CGFloat movementTimeThresholdOffset = (touchManager.movementTimeThreshold + .01) * 1000;
+                
+                NSUInteger panStartTimeStamp = ([[NSDate date] timeIntervalSince1970] * 1000) + movementTimeThresholdOffset;
                 
                 SDLTouchEvent* panStartTouchEvent = [[SDLTouchEvent alloc] init];
                 panStartTouchEvent.coord = [NSMutableArray arrayWithObject:panStartTouchCoord];
@@ -353,7 +355,7 @@ describe(@"SDLTouchManager Tests", ^{
                 panMoveTouchCoord.x = @(panMovePoint.x);
                 panMoveTouchCoord.y = @(panMovePoint.y);
                 
-                NSUInteger panMoveTimeStamp = panStartTimeStamp + ((touchManager.movementTimeThreshold + .1) * 1000);
+                NSUInteger panMoveTimeStamp = panStartTimeStamp + movementTimeThresholdOffset;
                 
                 SDLTouchEvent* panMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 panMoveTouchEvent.coord = [NSMutableArray arrayWithObject:panMoveTouchCoord];
@@ -370,7 +372,7 @@ describe(@"SDLTouchManager Tests", ^{
                 panSecondMoveTouchCoord.x = @(panSecondMovePoint.x);
                 panSecondMoveTouchCoord.y = @(panSecondMovePoint.y);
                 
-                NSUInteger panSecondMoveTimeStamp = panMoveTimeStamp + ((touchManager.movementTimeThreshold + .1) * 1000);
+                NSUInteger panSecondMoveTimeStamp = panMoveTimeStamp + movementTimeThresholdOffset;
                 
                 SDLTouchEvent* panSecondMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 panSecondMoveTouchEvent.coord = [NSMutableArray arrayWithObject:panSecondMoveTouchCoord];
@@ -387,7 +389,7 @@ describe(@"SDLTouchManager Tests", ^{
                 panEndTouchCoord.x = @(panEndPoint.x);
                 panEndTouchCoord.y = @(panEndPoint.y);
                 
-                NSUInteger panEndTimeStamp = panSecondMoveTimeStamp + ((touchManager.movementTimeThreshold + .1) * 1000);
+                NSUInteger panEndTimeStamp = panSecondMoveTimeStamp + movementTimeThresholdOffset;
                 
                 SDLTouchEvent* panEndTouchEvent = [[SDLTouchEvent alloc] init];
                 panEndTouchEvent.coord = [NSMutableArray arrayWithObject:panEndTouchCoord];
