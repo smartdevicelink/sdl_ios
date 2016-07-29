@@ -11,8 +11,10 @@
 @import UIKit;
 
 #import "SDLAbstractProtocol.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
-
+#import "SDLImageResolution.h"
+#import "SDLScreenParams.h"
 
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
 NSString *const SDLErrorDomainStreamingMediaAudio = @"com.sdl.streamingmediamanager.audio";
@@ -41,21 +43,57 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Class Lifecycle
 
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    _protocol = protocol;
+        
+    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
+    if (resolution != nil) {
+        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
+                                 resolution.resolutionHeight.floatValue);
+    } else {
+        NSLog(@"Could not retrieve screen size. Defaulting to 640 x 480.");
+        _screenSize = CGSizeMake(640,
+                                 480);
+    }
+    
+    return self;
+
+}
+
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
-    self = [super init];
+    self = [self init];
     if (!self) {
         return nil;
     }
 
-    _compressionSession = NULL;
+    _protocol = protocol;
 
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    _compressionSession = NULL;
+    
     _currentFrameNumber = 0;
     _videoSessionConnected = NO;
     _audioSessionConnected = NO;
-    _protocol = protocol;
-
+    
     _videoStartBlock = nil;
     _audioStartBlock = nil;
+    
+    _screenSize = CGSizeMake(640, 480);
+    
+    _videoEncoderSettings = self.defaultVideoEncoderSettings;
 
     return self;
 }
@@ -127,6 +165,31 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
+#pragma mark - Update video encoder
+
+- (void)setVideoEncoderSettings:(NSDictionary * _Nullable)videoEncoderSettings {
+    if (self.videoSessionConnected) {
+        @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
+        return;
+    }
+    
+    if (videoEncoderSettings) {
+        _videoEncoderSettings = videoEncoderSettings;
+    } else {
+        _videoEncoderSettings = self.defaultVideoEncoderSettings;
+    }
+}
+
+- (NSDictionary*)defaultVideoEncoderSettings {
+    static NSDictionary* defaultVideoEncoderSettings = nil;
+    if (defaultVideoEncoderSettings == nil) {
+        defaultVideoEncoderSettings = @{
+                                        (__bridge NSString*)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString*)kVTProfileLevel_H264_Baseline_AutoLevel,
+                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @YES
+                                        };
+    }
+    return defaultVideoEncoderSettings;
+}
 
 #pragma mark - SDLProtocolListener Methods
 
@@ -224,36 +287,52 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     OSStatus status;
 
     // Create a compression session
-    // TODO (Joel F.)[2015-08-18]: Dimensions should be from the Head Unit
-    status = VTCompressionSessionCreate(NULL, 640, 480, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
         // TODO: Log the error
-        if (*error != nil) {
+        if (*error == nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
 
         return NO;
     }
 
-    // Set the profile level of the video stream
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Baseline_AutoLevel);
+    // Validate that the video encoder properties are valid.
+    CFDictionaryRef supportedProperties;
+    status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
-        if (*error != nil) {
+        if (*error == nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
-
+        
         return NO;
     }
-
-    // Set the session to compress in real time
-    status = VTSessionSetProperty(self.compressionSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
-    if (status != noErr) {
-        if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+    
+    for (NSString* key in self.videoEncoderSettings.allKeys) {
+        if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
+            if (*error == nil) {
+                NSString* description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
+                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey : description}];
+            }
+            CFRelease(supportedProperties);
+            return NO;
         }
-
-        return NO;
+    }
+    CFRelease(supportedProperties);
+    
+    // Populate the video encoder settings from provided dictionary.
+    for (NSString* key in self.videoEncoderSettings.allKeys) {
+        id value = self.videoEncoderSettings[key];
+        
+        status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
+        if (status != noErr) {
+            if (*error == nil) {
+                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+            }
+            
+            return NO;
+        }
     }
 
     return YES;

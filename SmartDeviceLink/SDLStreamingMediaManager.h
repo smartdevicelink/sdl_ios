@@ -12,6 +12,7 @@
 #import "SDLProtocolListener.h"
 
 @class SDLAbstractProtocol;
+@class SDLDisplayCapabilities;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,7 +38,9 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 
 @interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol;
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
+
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities;
 
 /**
  *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session.
@@ -86,6 +89,22 @@ typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
 
+/**
+ *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.
+ *
+ *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+ */
+@property (strong, nonatomic, null_resettable) NSDictionary* videoEncoderSettings;
+
+/**
+ *  Provides default video encoder settings used.
+ */
+@property (strong, nonatomic, readonly) NSDictionary* defaultVideoEncoderSettings;
+
+/**
+ *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
+ */
+@property (assign, nonatomic, readonly) CGSize screenSize;
 
 @end
 
