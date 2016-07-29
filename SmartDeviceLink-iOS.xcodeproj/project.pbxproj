@@ -787,6 +787,26 @@
 		5DEE55C51B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */; };
 		5DEE55C61B8666A8004F0D0F /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
+		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
+		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
+		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
+		DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */; };
+		DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */; };
+		DAC572571D1067270004288B /* SDLTouchManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572551D1067270004288B /* SDLTouchManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DAC572581D1067270004288B /* SDLTouchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572561D1067270004288B /* SDLTouchManager.m */; };
+		DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572591D10B81E0004288B /* SDLTouch.m */; };
+		DAC5725C1D10B81E0004288B /* SDLTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC5725A1D10B81E0004288B /* SDLTouch.h */; };
+		DAC572621D10C5020004288B /* SDLPinchGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572601D10C5020004288B /* SDLPinchGesture.m */; };
+		DAC572631D10C5020004288B /* SDLPinchGesture.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572611D10C5020004288B /* SDLPinchGesture.h */; };
+		DAC572661D10C5640004288B /* CGPoint_Util.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572641D10C5640004288B /* CGPoint_Util.m */; };
+		DAC572671D10C5640004288B /* CGPoint_Util.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572651D10C5640004288B /* CGPoint_Util.h */; };
+		DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572681D10D5FC0004288B /* dispatch_timer.m */; };
+		DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572691D10D5FC0004288B /* dispatch_timer.h */; };
+		DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DACBA1DC1D22D46D002356F8 /* SDLOnTouchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB331A84238B00846EE7 /* SDLOnTouchEvent.m */; };
+		DACBA1DE1D22D642002356F8 /* SDLTouchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBEB1A84238C00846EE7 /* SDLTouchType.m */; };
+		DACBA1DF1D22D6CE002356F8 /* SDLTouchEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBE71A84238C00846EE7 /* SDLTouchEvent.m */; };
+		DACBA1E01D22E856002356F8 /* SDLTouchCoord.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FBE51A84238C00846EE7 /* SDLTouchCoord.m */; };
 		E9C32B861AB20B4300F283AF /* NSThread+ThreadIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */; };
 		E9C32B871AB20B4300F283AF /* NSThread+ThreadIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */; };
 		E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B891AB20BA200F283AF /* SDLIAPSession.h */; };
@@ -1662,6 +1682,22 @@
 		5DEE55C11B864A7D004F0D0F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5DEE55C41B864AB3004F0D0F /* OHHTTPStubs.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OHHTTPStubs.framework.dSYM; path = Carthage/Build/iOS/OHHTTPStubs.framework.dSYM; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
+		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
+		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
+		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
+		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
+		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
+		DAC572551D1067270004288B /* SDLTouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchManager.h; sourceTree = "<group>"; };
+		DAC572561D1067270004288B /* SDLTouchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManager.m; sourceTree = "<group>"; };
+		DAC572591D10B81E0004288B /* SDLTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouch.m; sourceTree = "<group>"; };
+		DAC5725A1D10B81E0004288B /* SDLTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouch.h; sourceTree = "<group>"; };
+		DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTouchManagerDelegate.h; sourceTree = "<group>"; };
+		DAC572601D10C5020004288B /* SDLPinchGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPinchGesture.m; sourceTree = "<group>"; };
+		DAC572611D10C5020004288B /* SDLPinchGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPinchGesture.h; sourceTree = "<group>"; };
+		DAC572641D10C5640004288B /* CGPoint_Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPoint_Util.m; sourceTree = "<group>"; };
+		DAC572651D10C5640004288B /* CGPoint_Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGPoint_Util.h; sourceTree = "<group>"; };
+		DAC572681D10D5FC0004288B /* dispatch_timer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dispatch_timer.m; sourceTree = "<group>"; };
+		DAC572691D10D5FC0004288B /* dispatch_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dispatch_timer.h; sourceTree = "<group>"; };
 		E9C32B841AB20B4300F283AF /* NSThread+ThreadIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+ThreadIndex.h"; sourceTree = "<group>"; };
 		E9C32B851AB20B4300F283AF /* NSThread+ThreadIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+ThreadIndex.m"; sourceTree = "<group>"; };
 		E9C32B891AB20BA200F283AF /* SDLIAPSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLIAPSession.h; sourceTree = "<group>"; };
@@ -2669,6 +2705,7 @@
 		5D5934F61A85189500687FB9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				DAC5724C1D0FE3B60004288B /* Touches */,
 				5DCC199D1B8221D2004FFAD9 /* HTTP Connection */,
 				E9C32B831AB20B2900F283AF /* @categories */,
 				5D5934F71A8519A700687FB9 /* JSON */,
@@ -2919,6 +2956,7 @@
 		5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				DA1166D71D14601C00438CEA /* Touches */,
 				5DEE55BE1B8509A5004F0D0F /* HTTP Connection */,
 				5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */,
 				5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */,
@@ -2965,6 +3003,36 @@
 			name = "HTTP Connection";
 			sourceTree = "<group>";
 		};
+		DA1166D71D14601C00438CEA /* Touches */ = {
+			isa = PBXGroup;
+			children = (
+				DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */,
+				DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */,
+				DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */,
+				DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */,
+				DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */,
+			);
+			name = Touches;
+			sourceTree = "<group>";
+		};
+		DAC5724C1D0FE3B60004288B /* Touches */ = {
+			isa = PBXGroup;
+			children = (
+				DAC572551D1067270004288B /* SDLTouchManager.h */,
+				DAC572561D1067270004288B /* SDLTouchManager.m */,
+				DAC5725F1D10BD690004288B /* SDLTouchManagerDelegate.h */,
+				DAC5725A1D10B81E0004288B /* SDLTouch.h */,
+				DAC572591D10B81E0004288B /* SDLTouch.m */,
+				DAC572611D10C5020004288B /* SDLPinchGesture.h */,
+				DAC572601D10C5020004288B /* SDLPinchGesture.m */,
+				DAC572651D10C5640004288B /* CGPoint_Util.h */,
+				DAC572641D10C5640004288B /* CGPoint_Util.m */,
+				DAC572691D10D5FC0004288B /* dispatch_timer.h */,
+				DAC572681D10D5FC0004288B /* dispatch_timer.m */,
+			);
+			name = Touches;
+			sourceTree = "<group>";
+		};
 		E9C32B831AB20B2900F283AF /* @categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -2997,6 +3065,7 @@
 				5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */,
 				5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */,
 				5D61FD291A84238C00846EE7 /* SDLPerformInteraction.h in Headers */,
+				DAC572571D1067270004288B /* SDLTouchManager.h in Headers */,
 				5D61FD521A84238C00846EE7 /* SDLProxyFactory.h in Headers */,
 				5D61FCDA1A84238C00846EE7 /* SDLJingle.h in Headers */,
 				5D61FE0D1A84238C00846EE7 /* SDLVRCapabilities.h in Headers */,
@@ -3047,6 +3116,7 @@
 				5D61FD091A84238C00846EE7 /* SDLOnDriverDistraction.h in Headers */,
 				E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */,
 				5D61FC4B1A84238C00846EE7 /* SDLBeltStatus.h in Headers */,
+				DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */,
 				5D61FC351A84238C00846EE7 /* SDLAirbagStatus.h in Headers */,
 				5D61FC8A1A84238C00846EE7 /* SDLDiagnosticMessageResponse.h in Headers */,
 				5D61FC2D1A84238C00846EE7 /* SDLAddCommand.h in Headers */,
@@ -3120,6 +3190,7 @@
 				5D61FC981A84238C00846EE7 /* SDLECallInfo.h in Headers */,
 				5D61FD7B1A84238C00846EE7 /* SDLScrollableMessage.h in Headers */,
 				5D61FD3D1A84238C00846EE7 /* SDLPrimaryAudioSource.h in Headers */,
+				DAC5725C1D10B81E0004288B /* SDLTouch.h in Headers */,
 				5D61FCCD1A84238C00846EE7 /* SDLImage.h in Headers */,
 				5D61FD481A84238C00846EE7 /* SDLProtocolMessage.h in Headers */,
 				5D61FC8C1A84238C00846EE7 /* SDLDIDResult.h in Headers */,
@@ -3169,6 +3240,7 @@
 				5D61FC611A84238C00846EE7 /* SDLChoice.h in Headers */,
 				5D61FC7C1A84238C00846EE7 /* SDLDeleteInteractionChoiceSetResponse.h in Headers */,
 				5D61FDB91A84238C00846EE7 /* SDLSyncPDataResponse.h in Headers */,
+				DAC572631D10C5020004288B /* SDLPinchGesture.h in Headers */,
 				5D61FC311A84238C00846EE7 /* SDLAddSubMenu.h in Headers */,
 				5D61FD171A84238C00846EE7 /* SDLOnPermissionsChange.h in Headers */,
 				5D61FDD51A84238C00846EE7 /* SDLTouchEventCapabilities.h in Headers */,
@@ -3236,6 +3308,7 @@
 				5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */,
 				5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */,
 				5D61FDF51A84238C00846EE7 /* SDLV1ProtocolHeader.h in Headers */,
+				DAC572671D10C5640004288B /* CGPoint_Util.h in Headers */,
 				5D61FDF91A84238C00846EE7 /* SDLV2ProtocolHeader.h in Headers */,
 				5D61FD4A1A84238C00846EE7 /* SDLProtocolMessageAssembler.h in Headers */,
 				5D61FD4C1A84238C00846EE7 /* SDLProtocolMessageDisassembler.h in Headers */,
@@ -3244,6 +3317,7 @@
 				5D61FDFB1A84238C00846EE7 /* SDLV2ProtocolMessage.h in Headers */,
 				5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */,
 				5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */,
+				DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */,
 				5D61FD3F1A84238C00846EE7 /* SDLPrioritizedObjectCollection.h in Headers */,
 				5D61FCBF1A84238C00846EE7 /* SDLHexUtility.h in Headers */,
 				5D61FCA21A84238C00846EE7 /* SDLEncoder.h in Headers */,
@@ -3493,6 +3567,7 @@
 				5D61FDB21A84238C00846EE7 /* SDLSubscribeVehicleData.m in Sources */,
 				5D61FC991A84238C00846EE7 /* SDLECallInfo.m in Sources */,
 				5D61FD601A84238C00846EE7 /* SDLRegisterAppInterfaceResponse.m in Sources */,
+				DAC572621D10C5020004288B /* SDLPinchGesture.m in Sources */,
 				5D61FCF51A84238C00846EE7 /* SDLMaintenanceModeStatus.m in Sources */,
 				5D61FCD81A84238C00846EE7 /* SDLInteractionMode.m in Sources */,
 				5D61FCB01A84238C00846EE7 /* SDLGenericResponse.m in Sources */,
@@ -3512,6 +3587,7 @@
 				5D61FDA41A84238C00846EE7 /* SDLSoftButtonType.m in Sources */,
 				5D61FC521A84238C00846EE7 /* SDLButtonCapabilities.m in Sources */,
 				5D61FC791A84238C00846EE7 /* SDLDeleteFileResponse.m in Sources */,
+				DAC572581D1067270004288B /* SDLTouchManager.m in Sources */,
 				5D61FC641A84238C00846EE7 /* SDLClusterModeStatus.m in Sources */,
 				5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */,
 				5D61FD7C1A84238C00846EE7 /* SDLScrollableMessage.m in Sources */,
@@ -3556,6 +3632,7 @@
 				5D61FC3A1A84238C00846EE7 /* SDLAlertManeuver.m in Sources */,
 				5D61FC5E1A84238C00846EE7 /* SDLChangeRegistrationResponse.m in Sources */,
 				5D61FC7D1A84238C00846EE7 /* SDLDeleteInteractionChoiceSetResponse.m in Sources */,
+				DAC572661D10C5640004288B /* CGPoint_Util.m in Sources */,
 				E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */,
 				5D61FCC61A84238C00846EE7 /* SDLHMIZoneCapabilities.m in Sources */,
 				5D61FD161A84238C00846EE7 /* SDLOnLockScreenStatus.m in Sources */,
@@ -3616,6 +3693,7 @@
 				5D61FD5C1A84238C00846EE7 /* SDLReadDIDResponse.m in Sources */,
 				5D61FD321A84238C00846EE7 /* SDLPolicyDataParser.m in Sources */,
 				5D61FC621A84238C00846EE7 /* SDLChoice.m in Sources */,
+				DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */,
 				5D61FCEB1A84238C00846EE7 /* SDLLayoutMode.m in Sources */,
 				5D61FC2E1A84238C00846EE7 /* SDLAddCommand.m in Sources */,
 				5D61FE021A84238C00846EE7 /* SDLVehicleDataNotificationStatus.m in Sources */,
@@ -3651,6 +3729,7 @@
 				5D61FE0E1A84238C00846EE7 /* SDLVRCapabilities.m in Sources */,
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,
+				DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */,
 				5D61FC6C1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.m in Sources */,
 				5D61FD081A84238C00846EE7 /* SDLOnCommand.m in Sources */,
 				5D53C46E1B7A99B9003526EA /* SDLStreamingMediaManager.m in Sources */,
@@ -3729,6 +3808,7 @@
 				162E83121A9BDE8B00906325 /* SDLOnButtonPressSpec.m in Sources */,
 				162E838D1A9BDE8B00906325 /* SDLStartTimeSpec.m in Sources */,
 				162E836E1A9BDE8B00906325 /* SDLUnsubscribeButtonResponseSpec.m in Sources */,
+				DACBA1DC1D22D46D002356F8 /* SDLOnTouchEvent.m in Sources */,
 				162E835B1A9BDE8B00906325 /* SDLPerformInteractionResponseSpec.m in Sources */,
 				162E832D1A9BDE8B00906325 /* SDLEncodedSyncPDataSpec.m in Sources */,
 				5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */,
@@ -3754,6 +3834,7 @@
 				162E83811A9BDE8B00906325 /* SDLImageFieldSpec.m in Sources */,
 				162E834F1A9BDE8B00906325 /* SDLDeleteCommandResponseSpec.m in Sources */,
 				162E83231A9BDE8B00906325 /* SDLAddSubMenuSpec.m in Sources */,
+				DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */,
 				162E82F21A9BDE8B00906325 /* SDLPredefinedLayoutSpec.m in Sources */,
 				162E83521A9BDE8B00906325 /* SDLDeleteSubMenuResponseSpec.m in Sources */,
 				162E82E91A9BDE8B00906325 /* SDLKeypressModeSpec.m in Sources */,
@@ -3775,6 +3856,7 @@
 				162E83831A9BDE8B00906325 /* SDLKeyboardPropertiesSpec.m in Sources */,
 				162E82D11A9BDE8A00906325 /* SDLButtonNameSpec.m in Sources */,
 				162E839E1A9BDE8B00906325 /* SDLRPCStructSpec.m in Sources */,
+				DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */,
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
 				162E838E1A9BDE8B00906325 /* SDLSyncMsgVersionSpec.m in Sources */,
@@ -3808,6 +3890,7 @@
 				5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */,
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
+				DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */,
 				162E83541A9BDE8B00906325 /* SDLEncodedSyncPDataResponseSpec.m in Sources */,
 				162E83161A9BDE8B00906325 /* SDLOnHashChangeSpec.m in Sources */,
 				162E82FE1A9BDE8B00906325 /* SDLTBTStateSpec.m in Sources */,
@@ -3820,6 +3903,7 @@
 				162E82CD1A9BDE8A00906325 /* SDLAudioStreamingStateSpec.m in Sources */,
 				162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */,
 				162E83431A9BDE8B00906325 /* SDLSyncPDataSpec.m in Sources */,
+				DACBA1E01D22E856002356F8 /* SDLTouchCoord.m in Sources */,
 				167ED9461A9BCE5D00797BE5 /* SwiftSpec.swift in Sources */,
 				162E838B1A9BDE8B00906325 /* SDLSoftButtonCapabilitiesSpec.m in Sources */,
 				162E834C1A9BDE8B00906325 /* SDLAlertResponseSpec.m in Sources */,
@@ -3832,6 +3916,7 @@
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
 				162E83641A9BDE8B00906325 /* SDLSetMediaClockTimerResponseSpec.m in Sources */,
 				162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */,
+				DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */,
 				5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */,
 				162E833D1A9BDE8B00906325 /* SDLShowConstantTBTSpec.m in Sources */,
 				162E83651A9BDE8B00906325 /* SDLShowConstantTBTResponseSpec.m in Sources */,
@@ -3881,6 +3966,7 @@
 				162E83891A9BDE8B00906325 /* SDLScreenParamsSpec.m in Sources */,
 				162E83441A9BDE8B00906325 /* SDLSystemRequestSpec.m in Sources */,
 				162E83001A9BDE8B00906325 /* SDLTextFieldNameSpec.m in Sources */,
+				DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */,
 				162E82FC1A9BDE8B00906325 /* SDLSystemAction.m in Sources */,
 				162E82CC1A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m in Sources */,
 				162E83321A9BDE8B00906325 /* SDLPerformAudioPassThruSpec.m in Sources */,
@@ -3900,6 +3986,7 @@
 				162E83561A9BDE8B00906325 /* SDLGenericResponseSpec.m in Sources */,
 				162E82D51A9BDE8A00906325 /* SDLCompassDirectionSpec.m in Sources */,
 				162E83861A9BDE8B00906325 /* SDLParameterPermissionsSpec.m in Sources */,
+				DACBA1DF1D22D6CE002356F8 /* SDLTouchEvent.m in Sources */,
 				162E831B1A9BDE8B00906325 /* SDLOnPermissionsChangeSpec.m in Sources */,
 				162E83711A9BDE8B00906325 /* SDLAirbagStatusSpec.m in Sources */,
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
@@ -3915,6 +4002,7 @@
 				162E82F41A9BDE8B00906325 /* SDLPrimaryAudioSource.m in Sources */,
 				162E83461A9BDE8B00906325 /* SDLUnsubscribeButtonSpec.m in Sources */,
 				162E82EB1A9BDE8B00906325 /* SDLLayoutModeSpec.m in Sources */,
+				DACBA1DE1D22D642002356F8 /* SDLTouchType.m in Sources */,
 				1680B1181A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m in Sources */,
 				162E82EC1A9BDE8B00906325 /* SDLLockScreenStatusSpec.m in Sources */,
 				162E832F1A9BDE8B00906325 /* SDLGetDTCsSpec.m in Sources */,

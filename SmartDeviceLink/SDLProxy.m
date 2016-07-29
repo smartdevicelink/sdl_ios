@@ -29,7 +29,7 @@
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessage.h"
 #import "SDLPutFile.h"
-#import "SDLRequestType.h"
+#import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
@@ -64,7 +64,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
-@property (nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
+@property (nonatomic, strong, nullable) SDLDisplayCapabilities* displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
 @end
@@ -111,6 +112,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         _transport = nil;
         _protocol = nil;
         _mutableProxyListeners = nil;
+        _streamingMediaManager = nil;
+        _displayCapabilities = nil;
     }
 }
 
@@ -177,8 +180,12 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
-        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol];
+        if (self.displayCapabilities == nil) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
+        }
+        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
+        [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
     }
     
     return _streamingMediaManager;
@@ -373,6 +380,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString *logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+    self.displayCapabilities = registerResponse.displayCapabilities;
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
     
     if ([SDLGlobals globals].protocolVersion >= 4) {
