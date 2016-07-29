@@ -27,7 +27,7 @@ describe(@"SDLTouchManager Tests", ^{
     context(@"initializing", ^{
         it(@"should correctly have default properties", ^{
             SDLTouchManager* touchManager = [[SDLTouchManager alloc] init];
-            expect(touchManager.touchEventListener).to(beNil());
+            expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
             expect(@(touchManager.movementTimeThreshold)).to(beCloseTo(@0.5).within(0.0001));
@@ -67,7 +67,7 @@ describe(@"SDLTouchManager Tests", ^{
         beforeEach(^{
             touchManager = [[SDLTouchManager alloc] init];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
-            touchManager.touchEventListener = delegateMock;
+            touchManager.touchEventDelegate = delegateMock;
             controlPoint = CGPointMake(100, 200);
             
             didCallSingleTap = NO;
