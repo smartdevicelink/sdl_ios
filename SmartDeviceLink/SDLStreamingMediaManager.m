@@ -291,7 +291,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
     if (status != noErr) {
         // TODO: Log the error
-        if (*error == nil) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
 
@@ -302,7 +302,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     CFDictionaryRef supportedProperties;
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
-        if (*error == nil) {
+        if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
         
@@ -311,7 +311,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     
     for (NSString* key in self.videoEncoderSettings.allKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
-            if (*error == nil) {
+            if (*error != nil) {
                 NSString* description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
                 *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey : description}];
             }
@@ -327,7 +327,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
-            if (*error == nil) {
+            if (*error != nil) {
                 *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
             }
             
