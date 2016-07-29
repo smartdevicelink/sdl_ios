@@ -114,14 +114,14 @@ NS_ASSUME_NONNULL_BEGIN
     [self.protocol endServiceWithType:SDLServiceType_Video];
 }
 
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startAudioStreamingWithTLS:SDLEncryptionFlagNone
+- (void)startAudioSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
+    [self startAudioSessionWithTLS:SDLEncryptionFlagNone
                                         startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
                                             startBlock(success, error);
                                         }];
 }
 
-- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
+- (void)startAudioSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     self.encryptAudioSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
     

@@ -86,10 +86,10 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  *
  *  @param startBlock A block that will be called with the result of attempting to start an audio session
  */
-- (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startAudioSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 // TODO: Documentation
-- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
+- (void)startAudioSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**
  *  This method will stop a running audio session if there is one running.
