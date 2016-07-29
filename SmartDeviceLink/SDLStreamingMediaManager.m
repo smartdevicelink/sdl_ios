@@ -116,12 +116,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock {
     [self startAudioStreamingWithTLS:SDLEncryptionFlagNone
-                                        startBlock:^(BOOL success, NSError *_Nullable error) {
+                                        startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
                                             startBlock(success, error);
                                         }];
 }
 
-- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingStartBlock)startBlock {
+- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
     self.encryptAudioSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
     
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.protocol startSecureServiceWithType:SDLServiceType_Audio
                                 completionHandler:^(BOOL success, NSError *error) {
                                     typeof(weakSelf) strongSelf = weakSelf;
-                                    // If this passes, we will get an ACK or NACK, so those methods will handle calling the video block
+                                    // If this passes, we will get an ACK or NACK, so those methods will handle calling the audio block
                                     if (!success) {
                                         strongSelf.audioStartBlock(NO, NO, error);
                                         strongSelf.audioStartBlock = nil;

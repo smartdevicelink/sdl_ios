@@ -89,7 +89,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (void)startAudioStreamingWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 // TODO: Documentation
-- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startAudioStreamingWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**
  *  This method will stop a running audio session if there is one running.
