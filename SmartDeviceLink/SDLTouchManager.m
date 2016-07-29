@@ -272,6 +272,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 - (void)sdl_cancelSingleTapTimer {
+    if (self.singleTapTimer == NULL) {
+        return;
+    }
     dispatch_stop_timer(self.singleTapTimer);
     self.singleTapTimer = NULL;
 }
