@@ -9,6 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppHMIType.h"
+#import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
@@ -22,6 +23,7 @@ QuickSpecBegin(SDLRegisterAppInterfaceSpec)
 SDLSyncMsgVersion* version = [[SDLSyncMsgVersion alloc] init];
 SDLTTSChunk* chunk = [[SDLTTSChunk alloc] init];
 SDLDeviceInfo* info = [[SDLDeviceInfo alloc] init];
+SDLAppInfo* appInfo = [[SDLAppInfo alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -39,6 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.hashID = @"gercd35grw2";
         testRequest.deviceInfo = info;
         testRequest.appID = @"123456789";
+        testRequest.appInfo = appInfo;
         
         expect(testRequest.syncMsgVersion).to(equal(version));
         expect(testRequest.appName).to(equal(@"app56"));
@@ -52,6 +55,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.hashID).to(equal(@"gercd35grw2"));
         expect(testRequest.deviceInfo).to(equal(info));
         expect(testRequest.appID).to(equal(@"123456789"));
+        expect(testRequest.appInfo).to(equal(appInfo));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -68,7 +72,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy],
                                                    NAMES_hashID:@"gercd35grw2",
                                                    NAMES_deviceInfo:info,
-                                                   NAMES_appID:@"123456789"},
+                                                   NAMES_appID:@"123456789",
+                                                   NAMES_appInfo:appInfo},
                                              NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
         
@@ -84,6 +89,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.hashID).to(equal(@"gercd35grw2"));
         expect(testRequest.deviceInfo).to(equal(info));
         expect(testRequest.appID).to(equal(@"123456789"));
+        expect(testRequest.appInfo).to(equal(appInfo));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -101,6 +107,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.hashID).to(beNil());
         expect(testRequest.deviceInfo).to(beNil());
         expect(testRequest.appID).to(beNil());
+        expect(testRequest.appInfo).to(beNil());
     });
 });
 

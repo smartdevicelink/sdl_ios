@@ -7,6 +7,7 @@
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <OCMock/OCMock.h>
 
 #import "SmartDeviceLink.h"
 
@@ -481,6 +482,11 @@ describe(@"BuildReadDID Tests", ^ {
 
 describe(@"BuildRegisterAppInterface Tests", ^ {
     it(@"Should build correctly", ^ {
+        // Mock the infomation that will be pulled from the mainBundle.
+        id bundleMock = OCMPartialMock([NSBundle mainBundle]);
+        OCMStub([bundleMock infoDictionary]).andReturn(@{@"CFBundleShortVersionString" : @"1.2.3.4"});
+        OCMStub([bundleMock bundleIdentifier]).andReturn(@"com.register.test");
+        
         NSMutableArray *ttsName = [NSMutableArray arrayWithArray:@[[[SDLTTSChunk alloc] init]]];
         NSMutableArray *synonyms = [NSMutableArray arrayWithArray:@[@"Q", @"W", @"E", @"R"]];
         SDLRegisterAppInterface* message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Interface" ttsName:ttsName vrSynonyms:synonyms
@@ -490,6 +496,10 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.syncMsgVersion).toNot(beNil());
         expect(message.syncMsgVersion.majorVersion).to(equal(@1));
         expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        
+        expect(message.appInfo.appBundleID).to(equal(@"com.register.test"));
+        expect(message.appInfo.appDisplayName).to(equal(@"Interface"));
+        expect(message.appInfo.appVersion).to(equal(@"1.2.3.4"));
         
         expect(message.appName).to(equal(@"Interface"));
         expect(message.ttsName).to(equal(ttsName));
@@ -510,6 +520,10 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.syncMsgVersion.majorVersion).to(equal(@1));
         expect(message.syncMsgVersion.minorVersion).to(equal(@0));
         
+        expect(message.appInfo.appBundleID).to(equal(@"com.register.test"));
+        expect(message.appInfo.appDisplayName).to(equal(@"Register App Interface"));
+        expect(message.appInfo.appVersion).to(equal(@"1.2.3.4"));
+        
         expect(message.appName).to(equal(@"Register App Interface"));
         expect(message.ttsName).to(beNil());
         expect(message.ngnMediaScreenAppName).to(equal(@"Register App Interface"));
@@ -528,6 +542,10 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         expect(message.syncMsgVersion).toNot(beNil());
         expect(message.syncMsgVersion.majorVersion).to(equal(@1));
         expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        
+        expect(message.appInfo.appBundleID).to(equal(@"com.register.test"));
+        expect(message.appInfo.appDisplayName).to(equal(@"..."));
+        expect(message.appInfo.appVersion).to(equal(@"1.2.3.4"));
         
         expect(message.appName).to(equal(@"..."));
         expect(message.ttsName).to(beNil());
