@@ -1,7 +1,7 @@
 //  SDLAppInfo.h
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLRPCStruct.h"
 
 @interface SDLAppInfo : SDLRPCStruct
 
