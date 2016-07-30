@@ -1,0 +1,523 @@
+<h1>SDLLanguage Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-+valueOf:">+valueOf:</a></li>
+  <li><a href="#section-+values">+values</a></li>
+  <li><a href="#section-+EN_US">+EN_US</a></li>
+  <li><a href="#section-+ES_MX">+ES_MX</a></li>
+  <li><a href="#section-+FR_CA">+FR_CA</a></li>
+  <li><a href="#section-+DE_DE">+DE_DE</a></li>
+  <li><a href="#section-+ES_ES">+ES_ES</a></li>
+  <li><a href="#section-+EN_GB">+EN_GB</a></li>
+  <li><a href="#section-+RU_RU">+RU_RU</a></li>
+  <li><a href="#section-+TR_TR">+TR_TR</a></li>
+  <li><a href="#section-+PL_PL">+PL_PL</a></li>
+  <li><a href="#section-+FR_FR">+FR_FR</a></li>
+  <li><a href="#section-+IT_IT">+IT_IT</a></li>
+  <li><a href="#section-+SV_SE">+SV_SE</a></li>
+  <li><a href="#section-+PT_PT">+PT_PT</a></li>
+  <li><a href="#section-+NL_NL">+NL_NL</a></li>
+  <li><a href="#section-+EN_AU">+EN_AU</a></li>
+  <li><a href="#section-+ZH_CN">+ZH_CN</a></li>
+  <li><a href="#section-+ZH_TW">+ZH_TW</a></li>
+  <li><a href="#section-+JA_JP">+JA_JP</a></li>
+  <li><a href="#section-+AR_SA">+AR_SA</a></li>
+  <li><a href="#section-+KO_KR">+KO_KR</a></li>
+  <li><a href="#section-+PT_BR">+PT_BR</a></li>
+  <li><a href="#section-+CS_CZ">+CS_CZ</a></li>
+  <li><a href="#section-+DA_DK">+DA_DK</a></li>
+  <li><a href="#section-+NO_NO">+NO_NO</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Specifies the language to be used for TTS, VR, displayed messages/menus</p>
+
+<p>@since SDL 1.0</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      +valueOf:
+  </h3>
+  
+  <p>@abstract Get a Langusge according to a String</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="nf">valueOf</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">valueOf</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>value</dt>
+      <dd><p>The value of the string to get an object for</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The Language</p>
+
+  </div>
+  
+  <h3>
+      +values
+  </h3>
+  
+  <p>@abstract store all possible Language values</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">values</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>an array with all possible Language values inside</p>
+
+  </div>
+  
+  <h3>
+      +EN_US
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLanguage</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      +ES_MX
+  </h3>
+  
+  <p>@abstract Spanish - Mexico</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">ES_MX</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">ES_MX</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +FR_CA
+  </h3>
+  
+  <p>@abstract French - Canada</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">FR_CA</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">FR_CA</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +DE_DE
+  </h3>
+  
+  <p>@abstract German - Germany</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">DE_DE</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">DE_DE</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +ES_ES
+  </h3>
+  
+  <p>@abstract Spanish - Spain</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">ES_ES</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">ES_ES</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +EN_GB
+  </h3>
+  
+  <p>@abstract English - Great Britain</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">EN_GB</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">EN_GB</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +RU_RU
+  </h3>
+  
+  <p>@abstract Russian - Russia</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">RU_RU</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">RU_RU</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +TR_TR
+  </h3>
+  
+  <p>@abstract Turkish - Turkey</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">TR_TR</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">TR_TR</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +PL_PL
+  </h3>
+  
+  <p>@abstract Polish - Poland</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">PL_PL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">PL_PL</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +FR_FR
+  </h3>
+  
+  <p>@abstract French - France</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">FR_FR</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">FR_FR</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +IT_IT
+  </h3>
+  
+  <p>@abstract Italian - Italy</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">IT_IT</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">IT_IT</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +SV_SE
+  </h3>
+  
+  <p>@abstract Swedish - Sweden</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">SV_SE</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">SV_SE</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +PT_PT
+  </h3>
+  
+  <p>@abstract Portuguese - Portugal</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">PT_PT</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">PT_PT</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +NL_NL
+  </h3>
+  
+  <p>@abstract Dutch (Standard) - Netherlands</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">NL_NL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">NL_NL</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +EN_AU
+  </h3>
+  
+  <p>@abstract English - Australia</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">EN_AU</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">EN_AU</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +ZH_CN
+  </h3>
+  
+  <p>@abstract Mandarin - China</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">ZH_CN</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">ZH_CN</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +ZH_TW
+  </h3>
+  
+  <p>@abstract Mandarin - Taiwan</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">ZH_TW</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">ZH_TW</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +JA_JP
+  </h3>
+  
+  <p>@abstract Japanese - Japan</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">JA_JP</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">JA_JP</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +AR_SA
+  </h3>
+  
+  <p>@abstract Arabic - Saudi Arabia</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">AR_SA</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">AR_SA</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +KO_KR
+  </h3>
+  
+  <p>@abstract Korean - South Korea</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">KO_KR</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">KO_KR</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +PT_BR
+  </h3>
+  
+  <p>@abstract Portuguese - Brazil</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">PT_BR</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">PT_BR</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +CS_CZ
+  </h3>
+  
+  <p>@abstract Czech - Czech Republic</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">CS_CZ</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">CS_CZ</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +DA_DK
+  </h3>
+  
+  <p>@abstract Danish - Denmark</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">DA_DK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">DA_DK</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+  <h3>
+      +NO_NO
+  </h3>
+  
+  <p>@abstract Norwegian - Norway</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLanguage</span> <span class="o">*</span><span class="p">)</span><span class="n">NO_NO</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="kt">NO_NO</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLanguage</span><span class="o">!</span></code></pre>
+
+  
+  
+  
+</section>

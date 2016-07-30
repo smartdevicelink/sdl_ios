@@ -1,0 +1,182 @@
+<h1>SDLAddCommand Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-cmdID">cmdID</a></li>
+  <li><a href="#section-menuParams">menuParams</a></li>
+  <li><a href="#section-vrCommands">vrCommands</a></li>
+  <li><a href="#section-cmdIcon">cmdIcon</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This class will add a command to the application&rsquo;s Command Menu SDLMenuParams</p>
+
+<p>A command will be added to the end of the list of elements in
+ the Command Menu under the following conditions:
+ <li>When a SDLCommand is added with no SDLMenuParams value provided</li>
+ <li>When a SDLMenuParams value is provided with a SDLMenuParam.position value
+ greater than or equal to the number of menu items currently defined in the
+ menu specified by the SDLMenuParam.parentID value</li></p>
+
+<p>The set of choices which the application builds using SDLAddCommand can be a
+ mixture of:
+ <li>Choices having only VR synonym definitions, but no SDLMenuParams definitions
+ </li>
+ <li>Choices having only SDLMenuParams definitions, but no VR synonym definitions
+ </li>
+ <li>Choices having both SDLMenuParams and VR synonym definitions</li></p>
+
+<p>HMILevel needs to be FULL, LIMITED or BACKGROUD</p>
+
+<p>@since SDL 1.0</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
+
+</div>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Constructs a new SDLAddCommand object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Constructs a new <em>SDLAddCommand</em> object indicated by the dictionary parameter</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p>
+</dd>
+  </dl>
+  
+  <h3>
+      cmdID
+  </h3>
+  
+  <p>@abstract A Unique Command ID that identifies the command</p>
+
+<p>@discussion Is returned in an <em>SDLOnCommand</em> notification to identify the command selected by the user</p>
+
+<p>Required, Integer, 0 - 2,000,000,000</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">cmdID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">cmdID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      menuParams
+  </h3>
+  
+  <p>@abstract a <em>SDLMenuParams</em> pointer which will defined the command and how it is added to the Command Menu</p>
+
+<p>@discussion  If provided, this will define the command and how it is added to the
+ Command Menu</p>
+
+<p>If null, commands will not be accessible through the HMI application menu</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLMenuParams</span> <span class="o">*</span><span class="n">menuParams</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">menuParams</span><span class="p">:</span> <span class="kt">SDLMenuParams</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      vrCommands
+  </h3>
+  
+  <p>@abstract An array of strings to be used as VR synonyms for this command.</p>
+
+<p>@discussion If provided, defines one or more VR phrases the recognition of any of which triggers the <em>SDLOnCommand</em> notification with this cmdID</p>
+
+<p>If null, commands will not be accessible by voice commands (when the user hits push-to-talk)</p>
+
+<p>Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">vrCommands</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrCommands</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3>
+      cmdIcon
+  </h3>
+  
+  <p>@abstract Image struct containing a static or dynamic icon</p>
+
+<p>@discussion If provided, defines the image to be be shown along with a command</p>
+
+<p>If omitted on supported displays, no (or the default if applicable) icon will be displayed</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLImage</span> <span class="o">*</span><span class="n">cmdIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">cmdIcon</span><span class="p">:</span> <span class="kt">SDLImage</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

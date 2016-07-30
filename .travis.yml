@@ -1,23 +1,39 @@
 language: objective-c
-osx_image: xcode7.1
+osx_image: xcode7.3
+xcode_project: SmartDeviceLink-iOS
+xcode_scheme: SmartDeviceLink
+xcode_sdk: iphonesimulator9.3
+env:
+  global:
+    - FRAMEWORK_NAME=SmartDeviceLink
 
 notifications:
   email: false
 
 before_install:
-  - brew update
-  - brew outdated xctool || brew upgrade xctool
-  - curl -OlL "https://github.com/Carthage/Carthage/releases/download/0.11/Carthage.pkg"
-  - sudo installer -pkg "Carthage.pkg" -target /
-  - rm "Carthage.pkg"
+- brew update
+- brew outdated xctool || brew upgrade xctool
+- brew outdated carthage || brew upgrade carthage
 
 before_script:
-  - cd SmartDeviceLink-iOS
-  - carthage bootstrap --platform ios
-  - cd ../
+- carthage bootstrap --platform ios
 
 script:
-  - xctool -project SmartDeviceLink-iOS/SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test
+- xctool -project SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test
 
 after_script:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+
+before_deploy:
+  - carthage build --no-skip-current --platform ios
+  - carthage archive $FRAMEWORK_NAME
+
+deploy:
+  provider: releases
+  api_key:
+    secure: p28zh58SsuOu7kD1/OhTklKsuAGD/DbSjBHDW7Tz1Yw+KDOm/RZZwdCmm9s3aroK7imtzSePj16v6Wxg4JT1JbVdNo2meEg/b6Ue0BcifEOx6dxKqeAtutQQdG3xqRIJxPZaK1nm6BSUZ5haaLMEKIFfiumQSaVwQVhs0chP0d4=
+  file: "$FRAMEWORK_NAME.framework.zip"
+  skip_cleanup: true
+  on:
+    repo: smartdevicelink/sdl_ios
+    tags: true

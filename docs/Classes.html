@@ -1,0 +1,5187 @@
+<h1>Classes  Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-SDLAbstractProtocol">SDLAbstractProtocol</a></li>
+  <li><a href="#section-SDLAbstractTransport">SDLAbstractTransport</a></li>
+  <li><a href="#section-SDLAddCommand">SDLAddCommand</a></li>
+  <li><a href="#section-SDLAddCommandResponse">SDLAddCommandResponse</a></li>
+  <li><a href="#section-SDLAddSubMenu">SDLAddSubMenu</a></li>
+  <li><a href="#section-SDLAddSubMenuResponse">SDLAddSubMenuResponse</a></li>
+  <li><a href="#section-SDLAirbagStatus">SDLAirbagStatus</a></li>
+  <li><a href="#section-SDLAlert">SDLAlert</a></li>
+  <li><a href="#section-SDLAlertManeuver">SDLAlertManeuver</a></li>
+  <li><a href="#section-SDLAlertManeuverResponse">SDLAlertManeuverResponse</a></li>
+  <li><a href="#section-SDLAlertResponse">SDLAlertResponse</a></li>
+  <li><a href="#section-SDLAmbientLightStatus">SDLAmbientLightStatus</a></li>
+  <li><a href="#section-SDLAppHMIType">SDLAppHMIType</a></li>
+  <li><a href="#section-SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></li>
+  <li><a href="#section-SDLAudioPassThruCapabilities">SDLAudioPassThruCapabilities</a></li>
+  <li><a href="#section-SDLAudioStreamingState">SDLAudioStreamingState</a></li>
+  <li><a href="#section-SDLAudioType">SDLAudioType</a></li>
+  <li><a href="#section-SDLBeltStatus">SDLBeltStatus</a></li>
+  <li><a href="#section-SDLBitsPerSample">SDLBitsPerSample</a></li>
+  <li><a href="#section-SDLBodyInformation">SDLBodyInformation</a></li>
+  <li><a href="#section-SDLButtonCapabilities">SDLButtonCapabilities</a></li>
+  <li><a href="#section-SDLButtonEventMode">SDLButtonEventMode</a></li>
+  <li><a href="#section-SDLButtonName">SDLButtonName</a></li>
+  <li><a href="#section-SDLButtonPressMode">SDLButtonPressMode</a></li>
+  <li><a href="#section-SDLCarModeStatus">SDLCarModeStatus</a></li>
+  <li><a href="#section-SDLChangeRegistration">SDLChangeRegistration</a></li>
+  <li><a href="#section-SDLChangeRegistrationResponse">SDLChangeRegistrationResponse</a></li>
+  <li><a href="#section-SDLCharacterSet">SDLCharacterSet</a></li>
+  <li><a href="#section-SDLChoice">SDLChoice</a></li>
+  <li><a href="#section-SDLClusterModeStatus">SDLClusterModeStatus</a></li>
+  <li><a href="#section-SDLCompassDirection">SDLCompassDirection</a></li>
+  <li><a href="#section-SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></li>
+  <li><a href="#section-SDLConsoleController">SDLConsoleController</a></li>
+  <li><a href="#section-SDLCreateInteractionChoiceSet">SDLCreateInteractionChoiceSet</a></li>
+  <li><a href="#section-SDLCreateInteractionChoiceSetResponse">SDLCreateInteractionChoiceSetResponse</a></li>
+  <li><a href="#section-SDLDIDResult">SDLDIDResult</a></li>
+  <li><a href="#section-SDLDebugTool">SDLDebugTool</a></li>
+  <li><a href="#section-SDLDeleteCommand">SDLDeleteCommand</a></li>
+  <li><a href="#section-SDLDeleteCommandResponse">SDLDeleteCommandResponse</a></li>
+  <li><a href="#section-SDLDeleteFile">SDLDeleteFile</a></li>
+  <li><a href="#section-SDLDeleteFileResponse">SDLDeleteFileResponse</a></li>
+  <li><a href="#section-SDLDeleteInteractionChoiceSet">SDLDeleteInteractionChoiceSet</a></li>
+  <li><a href="#section-SDLDeleteInteractionChoiceSetResponse">SDLDeleteInteractionChoiceSetResponse</a></li>
+  <li><a href="#section-SDLDeleteSubMenu">SDLDeleteSubMenu</a></li>
+  <li><a href="#section-SDLDeleteSubMenuResponse">SDLDeleteSubMenuResponse</a></li>
+  <li><a href="#section-SDLDeviceInfo">SDLDeviceInfo</a></li>
+  <li><a href="#section-SDLDeviceLevelStatus">SDLDeviceLevelStatus</a></li>
+  <li><a href="#section-SDLDeviceStatus">SDLDeviceStatus</a></li>
+  <li><a href="#section-SDLDiagnosticMessage">SDLDiagnosticMessage</a></li>
+  <li><a href="#section-SDLDiagnosticMessageResponse">SDLDiagnosticMessageResponse</a></li>
+  <li><a href="#section-SDLDialNumber">SDLDialNumber</a></li>
+  <li><a href="#section-SDLDialNumberResponse">SDLDialNumberResponse</a></li>
+  <li><a href="#section-SDLDimension">SDLDimension</a></li>
+  <li><a href="#section-SDLDisplayCapabilities">SDLDisplayCapabilities</a></li>
+  <li><a href="#section-SDLDisplayType">SDLDisplayType</a></li>
+  <li><a href="#section-SDLDriverDistractionState">SDLDriverDistractionState</a></li>
+  <li><a href="#section-SDLECallConfirmationStatus">SDLECallConfirmationStatus</a></li>
+  <li><a href="#section-SDLECallInfo">SDLECallInfo</a></li>
+  <li><a href="#section-SDLEmergencyEvent">SDLEmergencyEvent</a></li>
+  <li><a href="#section-SDLEmergencyEventType">SDLEmergencyEventType</a></li>
+  <li><a href="#section-SDLEncodedSyncPData">SDLEncodedSyncPData</a></li>
+  <li><a href="#section-SDLEncodedSyncPDataResponse">SDLEncodedSyncPDataResponse</a></li>
+  <li><a href="#section-SDLEndAudioPassThru">SDLEndAudioPassThru</a></li>
+  <li><a href="#section-SDLEndAudioPassThruResponse">SDLEndAudioPassThruResponse</a></li>
+  <li><a href="#section-SDLEnum">SDLEnum</a></li>
+  <li><a href="#section-SDLFileType">SDLFileType</a></li>
+  <li><a href="#section-SDLFuelCutoffStatus">SDLFuelCutoffStatus</a></li>
+  <li><a href="#section-SDLGPSData">SDLGPSData</a></li>
+  <li><a href="#section-SDLGenericResponse">SDLGenericResponse</a></li>
+  <li><a href="#section-SDLGetDTCs">SDLGetDTCs</a></li>
+  <li><a href="#section-SDLGetDTCsResponse">SDLGetDTCsResponse</a></li>
+  <li><a href="#section-SDLGetVehicleData">SDLGetVehicleData</a></li>
+  <li><a href="#section-SDLGetVehicleDataResponse">SDLGetVehicleDataResponse</a></li>
+  <li><a href="#section-SDLGlobalProperty">SDLGlobalProperty</a></li>
+  <li><a href="#section-SDLHMICapabilities">SDLHMICapabilities</a></li>
+  <li><a href="#section-SDLHMILevel">SDLHMILevel</a></li>
+  <li><a href="#section-SDLHMIPermissions">SDLHMIPermissions</a></li>
+  <li><a href="#section-SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></li>
+  <li><a href="#section-SDLHeadLampStatus">SDLHeadLampStatus</a></li>
+  <li><a href="#section-SDLIAPTransport">SDLIAPTransport</a></li>
+  <li><a href="#section-SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></li>
+  <li><a href="#section-SDLIgnitionStatus">SDLIgnitionStatus</a></li>
+  <li><a href="#section-SDLImage">SDLImage</a></li>
+  <li><a href="#section-SDLImageField">SDLImageField</a></li>
+  <li><a href="#section-SDLImageFieldName">SDLImageFieldName</a></li>
+  <li><a href="#section-SDLImageResolution">SDLImageResolution</a></li>
+  <li><a href="#section-SDLImageType">SDLImageType</a></li>
+  <li><a href="#section-SDLInteractionMode">SDLInteractionMode</a></li>
+  <li><a href="#section-SDLJingle">SDLJingle</a></li>
+  <li><a href="#section-SDLKeyboardEvent">SDLKeyboardEvent</a></li>
+  <li><a href="#section-SDLKeyboardLayout">SDLKeyboardLayout</a></li>
+  <li><a href="#section-SDLKeyboardProperties">SDLKeyboardProperties</a></li>
+  <li><a href="#section-SDLKeypressMode">SDLKeypressMode</a></li>
+  <li><a href="#section-SDLLanguage">SDLLanguage</a></li>
+  <li><a href="#section-SDLLayoutMode">SDLLayoutMode</a></li>
+  <li><a href="#section-SDLListFiles">SDLListFiles</a></li>
+  <li><a href="#section-SDLListFilesResponse">SDLListFilesResponse</a></li>
+  <li><a href="#section-SDLLockScreenStatus">SDLLockScreenStatus</a></li>
+  <li><a href="#section-SDLMaintenanceModeStatus">SDLMaintenanceModeStatus</a></li>
+  <li><a href="#section-SDLMediaClockFormat">SDLMediaClockFormat</a></li>
+  <li><a href="#section-SDLMenuParams">SDLMenuParams</a></li>
+  <li><a href="#section-SDLMyKey">SDLMyKey</a></li>
+  <li><a href="#section-SDLOnAppInterfaceUnregistered">SDLOnAppInterfaceUnregistered</a></li>
+  <li><a href="#section-SDLOnAudioPassThru">SDLOnAudioPassThru</a></li>
+  <li><a href="#section-SDLOnButtonEvent">SDLOnButtonEvent</a></li>
+  <li><a href="#section-SDLOnButtonPress">SDLOnButtonPress</a></li>
+  <li><a href="#section-SDLOnCommand">SDLOnCommand</a></li>
+  <li><a href="#section-SDLOnDriverDistraction">SDLOnDriverDistraction</a></li>
+  <li><a href="#section-SDLOnEncodedSyncPData">SDLOnEncodedSyncPData</a></li>
+  <li><a href="#section-SDLOnHMIStatus">SDLOnHMIStatus</a></li>
+  <li><a href="#section-SDLOnHashChange">SDLOnHashChange</a></li>
+  <li><a href="#section-SDLOnKeyboardInput">SDLOnKeyboardInput</a></li>
+  <li><a href="#section-SDLOnLanguageChange">SDLOnLanguageChange</a></li>
+  <li><a href="#section-SDLOnLockScreenStatus">SDLOnLockScreenStatus</a></li>
+  <li><a href="#section-SDLOnPermissionsChange">SDLOnPermissionsChange</a></li>
+  <li><a href="#section-SDLOnSyncPData">SDLOnSyncPData</a></li>
+  <li><a href="#section-SDLOnSystemRequest">SDLOnSystemRequest</a></li>
+  <li><a href="#section-SDLOnTBTClientState">SDLOnTBTClientState</a></li>
+  <li><a href="#section-SDLOnTouchEvent">SDLOnTouchEvent</a></li>
+  <li><a href="#section-SDLOnVehicleData">SDLOnVehicleData</a></li>
+  <li><a href="#section-SDLPRNDL">SDLPRNDL</a></li>
+  <li><a href="#section-SDLParameterPermissions">SDLParameterPermissions</a></li>
+  <li><a href="#section-SDLPerformAudioPassThru">SDLPerformAudioPassThru</a></li>
+  <li><a href="#section-SDLPerformAudioPassThruResponse">SDLPerformAudioPassThruResponse</a></li>
+  <li><a href="#section-SDLPerformInteraction">SDLPerformInteraction</a></li>
+  <li><a href="#section-SDLPerformInteractionResponse">SDLPerformInteractionResponse</a></li>
+  <li><a href="#section-SDLPermissionItem">SDLPermissionItem</a></li>
+  <li><a href="#section-SDLPermissionStatus">SDLPermissionStatus</a></li>
+  <li><a href="#section-SDLPowerModeQualificationStatus">SDLPowerModeQualificationStatus</a></li>
+  <li><a href="#section-SDLPowerModeStatus">SDLPowerModeStatus</a></li>
+  <li><a href="#section-SDLPredefinedLayout">SDLPredefinedLayout</a></li>
+  <li><a href="#section-SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></li>
+  <li><a href="#section-SDLPresetBankCapabilities">SDLPresetBankCapabilities</a></li>
+  <li><a href="#section-SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></li>
+  <li><a href="#section-SDLProtocol">SDLProtocol</a></li>
+  <li><a href="#section-SDLProtocolHeader">SDLProtocolHeader</a></li>
+  <li><a href="#section-SDLProtocolMessage">SDLProtocolMessage</a></li>
+  <li><a href="#section-SDLProxy">SDLProxy</a></li>
+  <li><a href="#section-SDLProxyFactory">SDLProxyFactory</a></li>
+  <li><a href="#section-SDLPutFile">SDLPutFile</a></li>
+  <li><a href="#section-SDLPutFileResponse">SDLPutFileResponse</a></li>
+  <li><a href="#section-SDLRPCMessage">SDLRPCMessage</a></li>
+  <li><a href="#section-SDLRPCNotification">SDLRPCNotification</a></li>
+  <li><a href="#section-SDLRPCRequest">SDLRPCRequest</a></li>
+  <li><a href="#section-SDLRPCRequestFactory">SDLRPCRequestFactory</a></li>
+  <li><a href="#section-SDLRPCResponse">SDLRPCResponse</a></li>
+  <li><a href="#section-SDLRPCStruct">SDLRPCStruct</a></li>
+  <li><a href="#section-SDLReadDID">SDLReadDID</a></li>
+  <li><a href="#section-SDLReadDIDResponse">SDLReadDIDResponse</a></li>
+  <li><a href="#section-SDLRegisterAppInterface">SDLRegisterAppInterface</a></li>
+  <li><a href="#section-SDLRegisterAppInterfaceResponse">SDLRegisterAppInterfaceResponse</a></li>
+  <li><a href="#section-SDLRequestType">SDLRequestType</a></li>
+  <li><a href="#section-SDLResetGlobalProperties">SDLResetGlobalProperties</a></li>
+  <li><a href="#section-SDLResetGlobalPropertiesResponse">SDLResetGlobalPropertiesResponse</a></li>
+  <li><a href="#section-SDLResult">SDLResult</a></li>
+  <li><a href="#section-SDLSamplingRate">SDLSamplingRate</a></li>
+  <li><a href="#section-SDLScreenParams">SDLScreenParams</a></li>
+  <li><a href="#section-SDLScrollableMessage">SDLScrollableMessage</a></li>
+  <li><a href="#section-SDLScrollableMessageResponse">SDLScrollableMessageResponse</a></li>
+  <li><a href="#section-SDLSendLocation">SDLSendLocation</a></li>
+  <li><a href="#section-SDLSendLocationResponse">SDLSendLocationResponse</a></li>
+  <li><a href="#section-SDLSetAppIcon">SDLSetAppIcon</a></li>
+  <li><a href="#section-SDLSetAppIconResponse">SDLSetAppIconResponse</a></li>
+  <li><a href="#section-SDLSetDisplayLayout">SDLSetDisplayLayout</a></li>
+  <li><a href="#section-SDLSetDisplayLayoutResponse">SDLSetDisplayLayoutResponse</a></li>
+  <li><a href="#section-SDLSetGlobalProperties">SDLSetGlobalProperties</a></li>
+  <li><a href="#section-SDLSetGlobalPropertiesResponse">SDLSetGlobalPropertiesResponse</a></li>
+  <li><a href="#section-SDLSetMediaClockTimer">SDLSetMediaClockTimer</a></li>
+  <li><a href="#section-SDLSetMediaClockTimerResponse">SDLSetMediaClockTimerResponse</a></li>
+  <li><a href="#section-SDLShow">SDLShow</a></li>
+  <li><a href="#section-SDLShowConstantTBT">SDLShowConstantTBT</a></li>
+  <li><a href="#section-SDLShowConstantTBTResponse">SDLShowConstantTBTResponse</a></li>
+  <li><a href="#section-SDLShowResponse">SDLShowResponse</a></li>
+  <li><a href="#section-SDLSingleTireStatus">SDLSingleTireStatus</a></li>
+  <li><a href="#section-SDLSiphonServer">SDLSiphonServer</a></li>
+  <li><a href="#section-SDLSlider">SDLSlider</a></li>
+  <li><a href="#section-SDLSliderResponse">SDLSliderResponse</a></li>
+  <li><a href="#section-SDLSoftButton">SDLSoftButton</a></li>
+  <li><a href="#section-SDLSoftButtonCapabilities">SDLSoftButtonCapabilities</a></li>
+  <li><a href="#section-SDLSoftButtonType">SDLSoftButtonType</a></li>
+  <li><a href="#section-SDLSpeak">SDLSpeak</a></li>
+  <li><a href="#section-SDLSpeakResponse">SDLSpeakResponse</a></li>
+  <li><a href="#section-SDLSpeechCapabilities">SDLSpeechCapabilities</a></li>
+  <li><a href="#section-SDLStartTime">SDLStartTime</a></li>
+  <li><a href="#section-SDLStreamingMediaManager">SDLStreamingMediaManager</a></li>
+  <li><a href="#section-SDLSubscribeButton">SDLSubscribeButton</a></li>
+  <li><a href="#section-SDLSubscribeButtonResponse">SDLSubscribeButtonResponse</a></li>
+  <li><a href="#section-SDLSubscribeVehicleData">SDLSubscribeVehicleData</a></li>
+  <li><a href="#section-SDLSubscribeVehicleDataResponse">SDLSubscribeVehicleDataResponse</a></li>
+  <li><a href="#section-SDLSyncMsgVersion">SDLSyncMsgVersion</a></li>
+  <li><a href="#section-SDLSyncPData">SDLSyncPData</a></li>
+  <li><a href="#section-SDLSyncPDataResponse">SDLSyncPDataResponse</a></li>
+  <li><a href="#section-SDLSystemAction">SDLSystemAction</a></li>
+  <li><a href="#section-SDLSystemContext">SDLSystemContext</a></li>
+  <li><a href="#section-SDLTBTState">SDLTBTState</a></li>
+  <li><a href="#section-SDLTCPTransport">SDLTCPTransport</a></li>
+  <li><a href="#section-SDLTTSChunk">SDLTTSChunk</a></li>
+  <li><a href="#section-SDLTTSChunkFactory">SDLTTSChunkFactory</a></li>
+  <li><a href="#section-SDLTextAlignment">SDLTextAlignment</a></li>
+  <li><a href="#section-SDLTextField">SDLTextField</a></li>
+  <li><a href="#section-SDLTextFieldName">SDLTextFieldName</a></li>
+  <li><a href="#section-SDLTimerMode">SDLTimerMode</a></li>
+  <li><a href="#section-SDLTireStatus">SDLTireStatus</a></li>
+  <li><a href="#section-SDLTouchCoord">SDLTouchCoord</a></li>
+  <li><a href="#section-SDLTouchEvent">SDLTouchEvent</a></li>
+  <li><a href="#section-SDLTouchEventCapabilities">SDLTouchEventCapabilities</a></li>
+  <li><a href="#section-SDLTouchType">SDLTouchType</a></li>
+  <li><a href="#section-SDLTriggerSource">SDLTriggerSource</a></li>
+  <li><a href="#section-SDLTurn">SDLTurn</a></li>
+  <li><a href="#section-SDLUnregisterAppInterface">SDLUnregisterAppInterface</a></li>
+  <li><a href="#section-SDLUnregisterAppInterfaceResponse">SDLUnregisterAppInterfaceResponse</a></li>
+  <li><a href="#section-SDLUnsubscribeButton">SDLUnsubscribeButton</a></li>
+  <li><a href="#section-SDLUnsubscribeButtonResponse">SDLUnsubscribeButtonResponse</a></li>
+  <li><a href="#section-SDLUnsubscribeVehicleData">SDLUnsubscribeVehicleData</a></li>
+  <li><a href="#section-SDLUnsubscribeVehicleDataResponse">SDLUnsubscribeVehicleDataResponse</a></li>
+  <li><a href="#section-SDLUpdateMode">SDLUpdateMode</a></li>
+  <li><a href="#section-SDLUpdateTurnList">SDLUpdateTurnList</a></li>
+  <li><a href="#section-SDLUpdateTurnListResponse">SDLUpdateTurnListResponse</a></li>
+  <li><a href="#section-SDLVRCapabilities">SDLVRCapabilities</a></li>
+  <li><a href="#section-SDLVRHelpItem">SDLVRHelpItem</a></li>
+  <li><a href="#section-SDLVehicleDataActiveStatus">SDLVehicleDataActiveStatus</a></li>
+  <li><a href="#section-SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></li>
+  <li><a href="#section-SDLVehicleDataNotificationStatus">SDLVehicleDataNotificationStatus</a></li>
+  <li><a href="#section-SDLVehicleDataResult">SDLVehicleDataResult</a></li>
+  <li><a href="#section-SDLVehicleDataResultCode">SDLVehicleDataResultCode</a></li>
+  <li><a href="#section-SDLVehicleDataStatus">SDLVehicleDataStatus</a></li>
+  <li><a href="#section-SDLVehicleDataType">SDLVehicleDataType</a></li>
+  <li><a href="#section-SDLVehicleType">SDLVehicleType</a></li>
+  <li><a href="#section-SDLWarningLightStatus">SDLWarningLightStatus</a></li>
+  <li><a href="#section-SDLWiperStatus">SDLWiperStatus</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>The following classes are available globally.</p>
+
+
+<section class="section task-group-section">
+  <h3>
+      SDLAbstractProtocol
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAbstractProtocol.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLAbstractTransport
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAbstractTransport.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLAddCommand
+  </h3>
+  
+  <p>This class will add a command to the application&rsquo;s Command Menu SDLMenuParams</p>
+
+<p>A command will be added to the end of the list of elements in
+ the Command Menu under the following conditions:
+ <li>When a SDLCommand is added with no SDLMenuParams value provided</li>
+ <li>When a SDLMenuParams value is provided with a SDLMenuParam.position value
+ greater than or equal to the number of menu items currently defined in the
+ menu specified by the SDLMenuParam.parentID value</li></p>
+
+<p>The set of choices which the application builds using SDLAddCommand can be a
+ mixture of:
+ <li>Choices having only VR synonym definitions, but no SDLMenuParams definitions
+ </li>
+ <li>Choices having only SDLMenuParams definitions, but no VR synonym definitions
+ </li>
+ <li>Choices having both SDLMenuParams and VR synonym definitions</li></p>
+
+<p>HMILevel needs to be FULL, LIMITED or BACKGROUD</p>
+
+<p>@since SDL 1.0</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
+
+</div>
+
+  <a href="Classes/SDLAddCommand.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAddCommand</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAddCommandResponse
+  </h3>
+  
+  <p>SDLAddCommandResponse is sent, when SDLAddCommand has been called</p>
+
+<p>Since <b>SmartDeviceLink 1.0</b></p>
+
+  <a href="Classes/SDLAddCommandResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommandResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAddCommandResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAddSubMenu
+  </h3>
+  
+  <p>Add a SDLSubMenu to the Command Menu
+ <p>
+ A SDLSubMenu can only be added to the Top Level Menu (i.e.a SDLSubMenu cannot be
+ added to a SDLSubMenu), and may only contain commands as children
+ <p>
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b>
+ </p></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br>
+ see SDLDeleteSubMenu SDLAddCommand SDLDeleteCommand</p>
+
+  <a href="Classes/SDLAddSubMenu.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddSubMenu</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAddSubMenu</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAddSubMenuResponse
+  </h3>
+  
+  <p>SDLAddSubMenuResponse is sent, when SDLAddSubMenu has been called
+Since <b>SmartDeviceLink 1.0</b></p>
+
+  <a href="Classes/SDLAddSubMenuResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddSubMenuResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAddSubMenuResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAirbagStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAirbagStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLAlert
+  </h3>
+  
+  <p>Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.</p>
+
+<p><ul>
+ <li>The displayed portion of the SDLAlert, if any, will persist until the
+ specified timeout has elapsed, or the SDLAlert is preempted</li>
+ <li>An SDLAlert will preempt (abort) any SmartDeviceLink Operation that is in-progress,
+ except an already-in-progress SDLAlert</li>
+ <li>An SDLAlert cannot be preempted by any SmartDeviceLink Operation</li>
+ <li>An SDLAlert can be preempted by a user action (button push)</li>
+ <li>An SDLAlert will fail if it is issued while another SDLAlert is in progress</li>
+ <li>Although each Alert parameter is optional, in fact each SDLAlert request
+ must supply at least one of the following parameters:<br/>
+ <ul>
+ <li>alertText1</li>
+ <li>alertText2</li>
+ <li>alertText3</li>
+ <li>ttsChunks</li>
+ </ul>
+ </li>
+ </ul>
+ <br/>
+ <b>HMILevel needs to be FULL or LIMITED.</b><br/>
+ <b>If the app has been granted function group Notification the SDLHMILevel can
+ also be BACKGROUND</b><br/></p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLAlert.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlert</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAlert</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAlertManeuver
+  </h3>
+  
+  <p>@since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLAlertManeuver.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAlertManeuver</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAlertManeuverResponse
+  </h3>
+  
+  <p>SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.
+ * @since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLAlertManeuverResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuverResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAlertManeuverResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAlertResponse
+  </h3>
+  
+  <p>Sent after SDLAlert has been sent
+@since SDL 1.0</p>
+
+  <a href="Classes/SDLAlertResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAlertResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAmbientLightStatus
+  </h3>
+  
+  <p>Reflects the status of the ambient light sensor
+@since SDL 3.0</p>
+
+  <a href="Classes/SDLAmbientLightStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAppHMIType
+  </h3>
+  
+  <p>Enumeration listing possible app hmi types.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLAppHMIType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAppHMIType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAppHMIType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAppInterfaceUnregisteredReason
+  </h3>
+  
+  <p>Indicates reason why app interface was unregistered. The application is being disconnected by SDL.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLAppInterfaceUnregisteredReason.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAudioPassThruCapabilities
+  </h3>
+  
+  <p>Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}
+<p><b>Parameter List</b>
+<table border="1" rules="all">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>SmartDeviceLink Ver. Available</th>
+        </tr>
+        <tr>
+            <td>samplingRate</td>
+            <td>SDLSamplingRate * </td>
+            <td>Describes the sampling rate for AudioPassThru
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>bitsPerSample</td>
+            <td>SDLBitsPerSample * </td>
+            <td>Describes the sample depth in bit for AudioPassThru
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>audioType</td>
+            <td>SDLAudioType * </td>
+            <td>Describes the audiotype for AudioPassThru
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+ </table>
+Since <b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLAudioPassThruCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioPassThruCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAudioPassThruCapabilities</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAudioStreamingState
+  </h3>
+  
+  <p>Describes whether or not streaming audio is currently audible to the user. Though provided in every OnHMIStatus notification, this information is only relevant for applications that declare themselves as media apps in RegisterAppInterface</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLAudioStreamingState.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioStreamingState</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAudioStreamingState</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLAudioType
+  </h3>
+  
+  <p>Describes different audio type options for PerformAudioPassThru</p>
+
+  <a href="Classes/SDLAudioType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAudioType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLBeltStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLBeltStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLBitsPerSample
+  </h3>
+  
+  <p>Describes different bit depth options for PerformAudioPassThru</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLBitsPerSample.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLBitsPerSample</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLBitsPerSample</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLBodyInformation
+  </h3>
+  
+  <p>The body information including power modes.</p>
+
+  <a href="Classes/SDLBodyInformation.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLBodyInformation</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLBodyInformation</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLButtonCapabilities
+  </h3>
+  
+  <p>Provides information about the capabilities of a SDL HMI button.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLButtonCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLButtonCapabilities</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLButtonEventMode
+  </h3>
+  
+  <p>Indicates whether the button was depressed or released. A BUTTONUP event will always be preceded by a BUTTONDOWN event.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLButtonEventMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonEventMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLButtonEventMode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLButtonName
+  </h3>
+  
+  <p>Defines logical buttons which, on a given SDL unit, would correspond to
+ either physical or soft (touchscreen) buttons. These logical buttons present
+ a standard functional abstraction which the developer can rely upon,
+ independent of the SDL unit. For example, the developer can rely upon the OK
+ button having the same meaning to the user across SDL platforms.</p>
+
+<p>The preset buttons (0-9) can typically be interpreted by the application as
+ corresponding to some user-configured choices, though the application is free
+ to interpret these button presses as it sees fit.</p>
+
+<p>The application can discover which buttons a given SDL unit implements by
+ interrogating the ButtonCapabilities parameter of the
+ RegisterAppInterface response.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLButtonName.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonName</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLButtonName</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLButtonPressMode
+  </h3>
+  
+  <p>Indicates whether this is a LONG or SHORT button press</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLButtonPressMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonPressMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLButtonPressMode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLCarModeStatus
+  </h3>
+  
+  <p>Describes the carmode the vehicle is in.
+ * <b>Since</b> SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLCarModeStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCarModeStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLCarModeStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLChangeRegistration
+  </h3>
+  
+  <p>If the app recognizes during the app registration that the SDL HMI language (voice/TTS and/or display) does not match the app language, the app will be able (but does not need) to change this registration with changeRegistration prior to app being brought into focus.</p>
+
+<p>Any HMILevel allowed</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLChangeRegistration.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChangeRegistration</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLChangeRegistration</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLChangeRegistrationResponse
+  </h3>
+  
+  <p>SDLChangeRegistrationResponse is sent, when SDLChangeRegistration has been called</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLChangeRegistrationResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChangeRegistrationResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLChangeRegistrationResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLCharacterSet
+  </h3>
+  
+  <p>Character sets supported by SDL.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLCharacterSet.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCharacterSet</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLCharacterSet</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLChoice
+  </h3>
+  
+  <p>A choice is an option which a user can select either via the menu or via voice recognition (VR) during an application initiated interaction.
+ <p><b> Parameter List</b>
+ <table border="1" rules="all">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>SmartDeviceLink Ver. Available</th>
+        </tr>
+        <tr>
+            <td>choiceID</td>
+            <td>NSNumber * </td>
+            <td>Application-scoped identifier that uniquely identifies this choice.
+             <br/>Min: 0
+                <br/>Max: 65535
+            </td>
+            <td>SmartDeviceLink 1.0</td>
+        </tr>
+        <tr>
+            <td>menuName</td>
+            <td>NSString * </td>
+            <td>Text which appears in menu, representing this choice.
+                <br/>Min: 1
+                <br/>Max: 100
+            </td>
+            <td>SmartDeviceLink 1.0</td>
+        </tr>
+     <tr>
+            <td>vrCommands</td>
+            <td>NSMutableArray *</td>
+            <td>An array of strings to be used as VR synonyms for this choice. If this array is provided, it must have at least one non-empty element</td>
+            <td>SmartDeviceLink 1.0</td>
+        </tr>
+     <tr>
+            <td>image</td>
+            <td>SDLImage * </td>
+            <td>Either a static hex icon value or a binary image file  name identifier (sent by PutFile).</td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+ </table></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br></p>
+
+  <a href="Classes/SDLChoice.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChoice</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLChoice</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLClusterModeStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLClusterModeStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLCompassDirection
+  </h3>
+  
+  <p>The list of potential compass directions.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLCompassDirection.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCompassDirection</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLCompassDirection</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLComponentVolumeStatus
+  </h3>
+  
+  <p>The volume status of a vehicle component.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLComponentVolumeStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLConsoleController
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLConsoleController.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLCreateInteractionChoiceSet
+  </h3>
+  
+  <p>Creates a Choice Set which can be used in subsequent <em>SDLPerformInteraction</em> Operations.</p>
+
+<p>HMILevel needs to be FULL, LIMITED or BACKGROUND</p>
+
+<p>Before a perform interaction is sent you MUST wait for the success from the CreateInteractionChoiceSet RPC.</p>
+
+<p>If you do not wait the system may not recognize the first utterance from the user.</p>
+
+<p>@since SDL 1.0</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDeleteInteractionChoiceSet SDLPerformInteraction
+
+</div>
+
+  <a href="Classes/SDLCreateInteractionChoiceSet.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSet</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLCreateInteractionChoiceSet</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLCreateInteractionChoiceSetResponse
+  </h3>
+  
+  <p>SDLCreateInteractionChoiceSetResponse is sent, when SDLCreateInteractionChoiceSet
+ has been called</p>
+
+<p>Since <b>SmartDeviceLink 1.0</b></p>
+
+  <a href="Classes/SDLCreateInteractionChoiceSetResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLCreateInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDIDResult
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLDIDResult.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLDebugTool
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLDebugTool.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLDeleteCommand
+  </h3>
+  
+  <p>Removes a command from the Command Menu
+ <p>
+ <b>HMI Status Requirements:</b><br/>
+ HMILevel: FULL, LIMITED or BACKGROUND<br/>
+ AudioStreamingState: N/A<br/>
+ SystemContext: Should not be attempted when VRSESSION or MENU
+ </p></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br>
+ see SDLAddCommand SDLAddSubMenu SDLDeleteSubMenu</p>
+
+  <a href="Classes/SDLDeleteCommand.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteCommand</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteCommandResponse
+  </h3>
+  
+  <p>SDLDeleteCommandResponse is sent, when SDLDeleteCommand has been called</p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br></p>
+
+  <a href="Classes/SDLDeleteCommandResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteCommandResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteCommandResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteFile
+  </h3>
+  
+  <p>Used to delete a file resident on the SDL module in the app&rsquo;s local cache.
+ Not supported on first generation SDL vehicles
+ <p></p>
+
+<p>Since <b>SmartDeviceLink 2.0</b><br>
+ see SDLPutFile SDLListFiles</p>
+
+  <a href="Classes/SDLDeleteFile.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteFile</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteFile</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteFileResponse
+  </h3>
+  
+  <p>Delete File Response is sent, when DeleteFile has been called</p>
+
+<p>Since <b>SmartDeviceLink 2.0</b><br></p>
+
+  <a href="Classes/SDLDeleteFileResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteFileResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteFileResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteInteractionChoiceSet
+  </h3>
+  
+  <p>Deletes an existing Choice Set identified by the parameter
+ interactionChoiceSetID. If the specified interactionChoiceSetID is currently
+ in use by an active <i> SDLPerformInteraction</i> this call to
+ delete the Choice Set will fail returning an IN_USE resultCode
+ <p>
+ Function Group: Base
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUD</b><br/>
+ </p></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br>
+ see SDLCreateInteractionChoiceSet SDLPerformInteraction</p>
+
+  <a href="Classes/SDLDeleteInteractionChoiceSet.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteInteractionChoiceSet</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteInteractionChoiceSet</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteInteractionChoiceSetResponse
+  </h3>
+  
+  <p>SDLDeleteInteractionChoiceSetResponse is sent, when SDLDeleteInteractionChoiceSet has been called</p>
+
+<p>Since <b>SmartDeviceLink 1.0</b></p>
+
+  <a href="Classes/SDLDeleteInteractionChoiceSetResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteSubMenu
+  </h3>
+  
+  <p>Deletes a submenu from the Command Menu
+ <p>
+ <b>Notes: </b>When an app deletes a submenu that has child commands, those
+ child commands are also deleted
+ <p>
+ <b>HMILevel needs to be  FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since <b>SmartDeviceLink 1.0</b><br>
+ see SDLAddCommand SDLAddSubMenu SDLDeleteCommand</p>
+
+  <a href="Classes/SDLDeleteSubMenu.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteSubMenu</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteSubMenu</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeleteSubMenuResponse
+  </h3>
+  
+  <p>SDLDeleteSubMenuResponse is sent, when SDLDeleteSubMenu has been called</p>
+
+<p>Since <b>SmartDeviceLink 1.0</b></p>
+
+  <a href="Classes/SDLDeleteSubMenuResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteSubMenuResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteSubMenuResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeviceInfo
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLDeviceInfo.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLDeviceLevelStatus
+  </h3>
+  
+  <p>Reflects the reported battery status of the connected device, if reported.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLDeviceLevelStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeviceLevelStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeviceLevelStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDeviceStatus
+  </h3>
+  
+  <p>Describes the status related to a connected mobile device or SDL and if or how  it is represented in the vehicle.</p>
+
+<p>Parameter List
+ <table border="1" rules="all">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>SmartDeviceLink Ver. Available</th>
+        </tr>
+        <tr>
+            <td>voiceRecOn</td>
+            <td>NSNumber * </td>
+            <td>Voice recognition is on
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>btIconOn</td>
+            <td>NSNumber * </td>
+            <td>Bluetooth connection established
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>callActive</td>
+            <td>NSNumber * </td>
+            <td>A call is being active
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>phoneRoaming</td>
+            <td>NSNumber * </td>
+            <td>The phone is in roaming mode
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>textMsgAvailable</td>
+            <td>NSNumber * </td>
+            <td>A textmessage is available
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>battLevelStatus</td>
+            <td>SDLDeviceLevelStatus * </td>
+            <td>Battery level status
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>stereoAudioOutputMuted</td>
+            <td>NSNumber * </td>
+            <td>Status of the stereo audio output channel
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>monoAudioOutputMuted</td>
+            <td>NSNumber * </td>
+            <td>Status of the mono audio output channel
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>signalLevelStatus</td>
+            <td>SDLDeviceLevelStatus * </td>
+            <td>Signal level status
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>primaryAudioSource</td>
+            <td>PrimaryAudioSource * </td>
+            <td>Reflects the current primary audio source of SDL (if selected).
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+        <tr>
+            <td>eCallEventActive</td>
+            <td>NSNumber * </td>
+            <td>Reflects, if an eCall event is active
+            </td>
+            <td>SmartDeviceLink 2.0</td>
+        </tr>
+  </table>
+ @since SDL 2.0</p>
+
+  <a href="Classes/SDLDeviceStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeviceStatus</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeviceStatus</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDiagnosticMessage
+  </h3>
+  
+  <p>Non periodic vehicle diagnostic request</p>
+
+<p>@since SDL 3.0</p>
+
+  <a href="Classes/SDLDiagnosticMessage.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessage</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDiagnosticMessage</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDiagnosticMessageResponse
+  </h3>
+  
+  <p>SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
+ * Since<b>SmartDeviceLink 3.0</b></p>
+
+  <a href="Classes/SDLDiagnosticMessageResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessageResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDiagnosticMessageResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDialNumber
+  </h3>
+  
+  <p>This RPC is used to tell the head unit to use bluetooth to dial a phone number using the phone.</p>
+
+<p>@since SDL 4.0</p>
+
+  <a href="Classes/SDLDialNumber.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDialNumber</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDialNumber</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDialNumberResponse
+  </h3>
+  
+  <p>Indicates the result, success, or failure of the SDLDialNumber request.</p>
+
+<p>@since SDL 4.0</p>
+
+  <a href="Classes/SDLDialNumberResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDialNumberResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDialNumberResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDimension
+  </h3>
+  
+  <p>The supported dimensions of the GPS.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLDimension.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDimension</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDimension</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDisplayCapabilities
+  </h3>
+  
+  <p>Contains information about the display for the SDL system to which the application is currently connected.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLDisplayCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDisplayCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDisplayCapabilities</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDisplayType
+  </h3>
+  
+  <p>Identifies the various display types used by SDL.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLDisplayType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDisplayType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDisplayType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLDriverDistractionState
+  </h3>
+  
+  <p>Enumeration that describes possible states of driver distraction.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLDriverDistractionState.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDriverDistractionState</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDriverDistractionState</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLECallConfirmationStatus
+  </h3>
+  
+  <p>Reflects the status of the eCall Notification.
+ *<b>Since</b> SmartDeviceLink 2.0
+ <p></p>
+
+  <a href="Classes/SDLECallConfirmationStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLECallConfirmationStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLECallConfirmationStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLECallInfo
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLECallInfo.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLEmergencyEvent
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLEmergencyEvent.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLEmergencyEventType
+  </h3>
+  
+  <p>Reflects the emergency event status of the vehicle.
+ *<b> Since:</b> SmartDeviceLink 2.0
+ *<p></p>
+
+  <a href="Classes/SDLEmergencyEventType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEmergencyEventType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLEmergencyEventType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLEncodedSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLEncodedSyncPData.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLEncodedSyncPDataResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLEncodedSyncPDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLEndAudioPassThru
+  </h3>
+  
+  <p>When this request is invoked, the audio capture stops
+<p>
+Function Group: AudioPassThru
+<p>
+<b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+</p>
+
+<p>Since <b>SmartDeviceLink 2.0</b><br>
+see SDLPerformAudioPassThru</p></p>
+
+  <a href="Classes/SDLEndAudioPassThru.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEndAudioPassThru</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLEndAudioPassThru</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLEndAudioPassThruResponse
+  </h3>
+  
+  <p>SDLEndAudioPassThruResponse is sent, when SDLEndAudioPassThru has been called</p>
+
+<p>Since <b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLEndAudioPassThruResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEndAudioPassThruResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLEndAudioPassThruResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLEnum
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLEnum.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLFileType
+  </h3>
+  
+  <p>Enumeration listing possible file types.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLFileType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFileType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLFileType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLFuelCutoffStatus
+  </h3>
+  
+  <p>Reflects the status of the Restraints Control Module fuel pump cutoff.
+ The fuel pump is cut off typically after the vehicle has had a collision.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLFuelCutoffStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFuelCutoffStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLFuelCutoffStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGPSData
+  </h3>
+  
+  <p>Describes the GPS data. Not all data will be available on all carlines.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLGPSData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGPSData</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGPSData</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGenericResponse
+  </h3>
+  
+  <p>Generic Response is sent, when the name of a received msg cannot be
+retrieved. Only used in case of an error. Currently, only resultCode
+INVALID_DATA is used.</p>
+
+  <a href="Classes/SDLGenericResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGenericResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGenericResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGetDTCs
+  </h3>
+  
+  <p>This RPC allows to request diagnostic module trouble codes from a certain
+vehicle module
+<p>
+Function Group: ProprietaryData
+<p>
+<b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+<p></p>
+
+  <a href="Classes/SDLGetDTCs.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetDTCs</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGetDTCs</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGetDTCsResponse
+  </h3>
+  
+  <p>SDLGetDTCsResponse is sent, when SDLGetDTCs has been called</p>
+
+<p>Since <b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLGetDTCsResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetDTCsResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGetDTCsResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGetVehicleData
+  </h3>
+  
+  <p>Requests surrent values of specific published vehicle data items.
+ <p>
+ Function Group: Location, VehicleInfo and DrivingChara
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 2.0<br/>
+ See SDLSubscribeVehicleData SDLUnsubscribeVehicleData</p>
+
+  <a href="Classes/SDLGetVehicleData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGetVehicleData</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGetVehicleDataResponse
+  </h3>
+  
+  <p>Get Vehicle Data Response is sent, when SDLGetVehicleData has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLGetVehicleDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetVehicleDataResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGetVehicleDataResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLGlobalProperty
+  </h3>
+  
+  <p>Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button).</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLGlobalProperty.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGlobalProperty</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGlobalProperty</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLHMICapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLHMICapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLHMILevel
+  </h3>
+  
+  <p>Specifies current level of the HMI. An HMI level indicates the degree of user interaction possible through the HMI (e.g. TTS only, display only, VR, etc.). The HMI level varies for an application based on the type of display (i.e. Nav or non-Nav) and the user directing <q>focus</q> to other applications (e.g. phone, other mobile applications, etc.)</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLHMILevel.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMILevel</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLHMILevel</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLHMIPermissions
+  </h3>
+  
+  <p>Defining sets of HMI levels, which are permitted or prohibited for a given RPC.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLHMIPermissions.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMIPermissions</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLHMIPermissions</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLHMIZoneCapabilities
+  </h3>
+  
+  <p>Specifies HMI Zones in the vehicle.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLHMIZoneCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLHeadLampStatus
+  </h3>
+  
+  <p>Status of the head lamps</p>
+
+  <a href="Classes/SDLHeadLampStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHeadLampStatus</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLHeadLampStatus</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLIAPTransport
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLIAPTransport.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLIgnitionStableStatus
+  </h3>
+  
+  <p>Reflects the ignition switch stability.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLIgnitionStableStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLIgnitionStableStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLIgnitionStableStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLIgnitionStatus
+  </h3>
+  
+  <p>Reflects the status of ignition..</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLIgnitionStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLIgnitionStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLIgnitionStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLImage
+  </h3>
+  
+  <p>Specifies, which image shall be used, e.g. in SDLAlerts or on SDLSoftbuttons provided the display supports it.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLImage.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImage</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLImage</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLImageField
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLImageField.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLImageFieldName
+  </h3>
+  
+  <p>The name that identifies the filed.
+ *
+ *
+ * @since SmartDeviceLink 3.0
+ *</p>
+
+  <a href="Classes/SDLImageFieldName.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImageFieldName</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLImageFieldName</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLImageResolution
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLImageResolution.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLImageType
+  </h3>
+  
+  <p>Contains information about the type of image.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLImageType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImageType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLImageType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLInteractionMode
+  </h3>
+  
+  <p>For application-initiated interactions (SDLPerformInteraction), this specifies the mode by which the user is prompted and by which the user&rsquo;s selection is indicated</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLInteractionMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLInteractionMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLInteractionMode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLJingle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLJingle.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLKeyboardEvent
+  </h3>
+  
+  <p>Enumeration listing possible keyboard events.
+ *
+ * @since SmartDeviceLink 3.0
+ *</p>
+
+  <a href="Classes/SDLKeyboardEvent.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardEvent</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLKeyboardEvent</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLKeyboardLayout
+  </h3>
+  
+  <p>Enumeration listing possible keyboard layouts
+ *
+ *<b>Since</b> SmartDeviceLink 3.0
+ *</p>
+
+  <a href="Classes/SDLKeyboardLayout.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardLayout</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLKeyboardLayout</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLKeyboardProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLKeyboardProperties.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLKeypressMode
+  </h3>
+  
+  <p>Enumeration listing possible keyboard events.
+ * <p>
+ * <b>Note:</b> Depending on keypressMode value (from keyboardProperties structure of UI.SetGlobalProperties),<br>HMI must send the onKeyboardInput notification with the following data:<br>
+ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.
+ * @since SmartDeviceLink 3.0
+ *</p>
+
+  <a href="Classes/SDLKeypressMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeypressMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLKeypressMode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLLanguage
+  </h3>
+  
+  <p>Specifies the language to be used for TTS, VR, displayed messages/menus</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLLanguage.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLanguage</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLLanguage</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLLayoutMode
+  </h3>
+  
+  <p>For touchscreen interactions, the mode of how the choices are presented.</p>
+
+<p>@since SDL 3.0</p>
+
+  <a href="Classes/SDLLayoutMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLayoutMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLLayoutMode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLListFiles
+  </h3>
+  
+  <p>Requests the current list of resident filenames for the registered app. Not
+ supported on First generation SDL vehicles
+ <p></p>
+
+<p>Since <b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLListFiles.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLListFiles</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLListFiles</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLListFilesResponse
+  </h3>
+  
+  <p>SDLListFilesResponse is sent, when SDLListFiles has been called</p>
+
+<p>Since <b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLListFilesResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLListFilesResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLListFilesResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLLockScreenStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLockScreenStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLMaintenanceModeStatus
+  </h3>
+  
+  <p>The SDLMaintenanceModeStatus class.</p>
+
+  <a href="Classes/SDLMaintenanceModeStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLMediaClockFormat
+  </h3>
+  
+  <p>Indicates the format of the time displayed on the connected SDL unit.</p>
+
+<p>Format description follows the following nomenclature: <br>
+ Sp = Space <br>
+ | = or <br>
+ c = character <br></p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLMediaClockFormat.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMediaClockFormat</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLMediaClockFormat</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLMenuParams
+  </h3>
+  
+  <p>Used when adding a sub menu to an application menu or existing sub menu.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLMenuParams.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMenuParams</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLMenuParams</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLMyKey
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLMyKey.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnAppInterfaceUnregistered
+  </h3>
+  
+  <p>Notifies an application that its interface registration has been terminated. This means that all SDL resources associated with the application are discarded, including the Command Menu, Choice Sets, button subscriptions, etc.</p>
+
+<p>For more information about SDL resources related to an interface registration, see <i>SDLRegisterAppInterface</i>.</p>
+
+<p>@since SDL 1.0
+ - see: SDLRegisterAppInterface</p>
+
+  <a href="Classes/SDLOnAppInterfaceUnregistered.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnAppInterfaceUnregistered</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnAppInterfaceUnregistered</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnAudioPassThru
+  </h3>
+  
+  <p>Binary data is in binary part of hybrid msg.</p>
+
+<p>HMI Status Requirements:
+ <ul>
+ HMILevel:
+ <ul>
+ <li>BACKGROUND, FULL, LIMITED</li>
+ </ul>
+ AudioStreamingState:
+ <ul>
+ <li>TBD</li>
+ </ul>
+ SystemContext:
+ <ul>
+ <li>TBD</li>
+ </ul>
+ </ul></p>
+
+  <a href="Classes/SDLOnAudioPassThru.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnAudioPassThru</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnAudioPassThru</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnButtonEvent
+  </h3>
+  
+  <p>Notifies application that user has depressed or released a button to which
+ the application has subscribed.</p>
+
+<p>Further information about button events
+ and button-presses can be found at SDLSubscribeButton.
+ <p>
+ </p>
+
+<p><b>HMI Status Requirements:</b>
+ <ul>
+ HMILevel:
+ <ul>
+ <li>The application will receive <i>SDLOnButtonEvent</i> notifications for all
+ subscribed buttons when HMILevel is FULL.</li>
+ <li>The application will receive <i>SDLOnButtonEvent</i> notifications for subscribed
+ media buttons when HMILevel is LIMITED.</li>
+ <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
+ PRESET_0-PRESET_9.</li>
+ <li>The application will not receive <i>SDLOnButtonEvent</i> notification when HMILevel
+ is BACKGROUND.</li>
+ </ul>
+ AudioStreamingState:
+ <ul>
+ <li> Any </li>
+ </ul>
+ SystemContext:
+ <ul>
+ <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
+ button will cancel VR.</li>
+ </ul>
+ </ul>
+ <p></p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSubscribeButton</p>
+
+<p></div></p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLOnButtonEvent.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnButtonEvent</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnButtonEvent</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnButtonPress
+  </h3>
+  
+  <p>Notifies application of button press events for buttons to which the
+ application is subscribed. SDL supports two button press events defined as
+ follows:</p>
+
+<p><ul>
+ <li>SHORT - Occurs when a button is depressed, then released within two
+ seconds. The event is considered to occur immediately after the button is
+ released.</li>
+ <li>LONG - Occurs when a button is depressed and held for two seconds or
+ more. The event is considered to occur immediately after the two second
+ threshold has been crossed, before the button is released</li>
+ </ul>
+ <b>HMI Status Requirements:</b>
+ <ul>
+ HMILevel:
+ <ul>
+ <li>The application will receive OnButtonPress notifications for all
+ subscribed buttons when HMILevel is FULL.</li>
+ <li>The application will receive OnButtonPress notifications for subscribed
+ media buttons when HMILevel is LIMITED.</li>
+ <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
+ PRESET_0-PRESET_9.</li>
+ <li>The application will not receive OnButtonPress notification when HMILevel
+ is BACKGROUND or NONE.</li>
+ </ul>
+ AudioStreamingState:
+ <ul>
+ <li> Any </li>
+ </ul>
+ SystemContext:
+ <ul>
+ <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
+ button will cancel VR.</li>
+ </ul>
+ </ul></p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSubscribeButton
+
+</div>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLUnsubscribeButton
+
+</div>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLOnButtonPress.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnButtonPress</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnButtonPress</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnCommand
+  </h3>
+  
+  <p>This is called when a command was selected via VR after pressing the PTT button, or selected from the menu after
+ pressing the MENU button.</p>
+
+<p><b>Note:</b> The sequence of <em>SDLOnHMIStatus</em> and <em>SDLOnCommand</em> notifications for user-initiated interactions is indeterminate.</p>
+
+<p>@since SDL 1.0
+ - see: SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu</p>
+
+  <a href="Classes/SDLOnCommand.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnCommand</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnCommand</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnDriverDistraction
+  </h3>
+  
+  <p>Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
+ not).</p>
+
+<p>HMI Status Requirements:</p>
+
+<p><ul>
+ HMILevel:
+ <ul><li>Can be sent with FULL, LIMITED or BACKGROUND</li></ul>
+ AudioStreamingState:
+ <ul><li>Any</li></ul>
+ SystemContext:
+ <ul><li>Any</li></ul>
+ </ul></p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLOnDriverDistraction.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnDriverDistraction</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnDriverDistraction</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnEncodedSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnEncodedSyncPData.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnHMIStatus
+  </h3>
+  
+  <p>Notifies an application that HMI conditions have changed for the application. This indicates whether the application
+ can speak phrases, display text, perform interactions, receive button presses and events, stream audio, etc. This
+ notification will be sent to the application when there has been a change in any one or several of the indicated
+ states (<i>SDLHMILevel</i>, <i>SDLAudioStreamingState</i> or <i>SDLSystemContext</i>) for the application.</p>
+
+<p>All three values are, in principle, independent of each other (though there may be some relationships). A value for
+ one parameter should not be interpreted from the value of another parameter.</p>
+
+<p>There are no guarantees about the timeliness or latency of the SDLOnHMIStatus notification. Therefore, for example,
+ information such as <i>SDLAudioStreamingState</i> may not indicate that the audio stream became inaudible to the user
+ exactly when the SDLOnHMIStatus notification was received.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLOnHMIStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnHMIStatus</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnHMIStatus</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnHashChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnHashChange.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnKeyboardInput
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnKeyboardInput.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnLanguageChange
+  </h3>
+  
+  <p>Provides information to what language the SDL HMI language was changed</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLOnLanguageChange.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLanguageChange</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnLanguageChange</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnLockScreenStatus
+  </h3>
+  
+  <pre class="highlight plaintext"><code>To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
+
+This lockscreen must perform the following:
+Limit all application control usability from the mobile device with a full-screen static image overlay or separate view.
+For simplicity, the OnLockScreenStatus RPC will be provided via the onOnLockScreenNotification call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.
+The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.
+</code></pre>
+
+  <a href="Classes/SDLOnLockScreenStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnPermissionsChange
+  </h3>
+  
+  <p>Provides update to app of which sets of functions are available</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLOnPermissionsChange.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnPermissionsChange</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnPermissionsChange</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLOnSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnSyncPData.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnSystemRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnSystemRequest.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnTBTClientState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnTBTClientState.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnTouchEvent
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnTouchEvent.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLOnVehicleData
+  </h3>
+  
+  <p>Request vehicle data.</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLOnVehicleData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnVehicleData</span> <span class="p">:</span> <span class="kt">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPRNDL
+  </h3>
+  
+  <p>The selected gear the car is in.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLPRNDL.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPRNDL</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPRNDL</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLParameterPermissions
+  </h3>
+  
+  <p>Defining sets of parameters, which are permitted or prohibited for a given RPC.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLParameterPermissions.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLParameterPermissions</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLParameterPermissions</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPerformAudioPassThru
+  </h3>
+  
+  <p>This will open an audio pass thru session. By doing so the app can receive
+ audio data through the vehicle microphone
+ <p>
+ Function Group: AudioPassThru
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p><p>Since SmartDeviceLink 2.0</p>
+
+<p><p>See SDLEndAudioPassThru</p></p></p>
+
+  <a href="Classes/SDLPerformAudioPassThru.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformAudioPassThru</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPerformAudioPassThru</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPerformAudioPassThruResponse
+  </h3>
+  
+  <p>Perform Audio Pass Thru Response is sent, when PerformAudioPassThru has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLPerformAudioPassThruResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformAudioPassThruResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPerformAudioPassThruResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPerformInteraction
+  </h3>
+  
+  <p>Performs an application-initiated interaction in which the user can select a
+ {@linkplain Choice} from among the specified Choice Sets. For instance, an
+ application may use a PerformInteraction to ask a user to say the name of a
+ song to play. The user&rsquo;s response is only valid if it appears in the
+ specified Choice Sets and is recognized by SDL
+ <p>
+ Function Group: Base
+ <p>
+ <b>HMILevel needs to be FULL</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0<br/>
+ See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet</p>
+
+  <a href="Classes/SDLPerformInteraction.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteraction</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPerformInteraction</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPerformInteractionResponse
+  </h3>
+  
+  <p>PerformInteraction Response is sent, when SDLPerformInteraction has been called</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLPerformInteractionResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteractionResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPerformInteractionResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPermissionItem
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPermissionItem.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLPermissionStatus
+  </h3>
+  
+  <p>Enumeration that describes possible permission states of a policy table entry.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLPermissionStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPermissionStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPermissionStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPowerModeQualificationStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPowerModeQualificationStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLPowerModeStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPowerModeStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLPredefinedLayout
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPredefinedLayout.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLPrerecordedSpeech
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPrerecordedSpeech.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLPresetBankCapabilities
+  </h3>
+  
+  <p>Contains information about on-screen preset capabilities.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLPresetBankCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPresetBankCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPresetBankCapabilities</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPrimaryAudioSource
+  </h3>
+  
+  <p>Reflects the current primary audio source of SDL (if selected).</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLPrimaryAudioSource.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLProtocol
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLProtocol.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLProtocolHeader
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLProtocolHeader.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLProtocolMessage
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLProtocolMessage.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLProxy
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLProxy.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLProxyFactory
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLProxyFactory.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLPutFile
+  </h3>
+  
+  <p>Used to push a binary data onto the SDL module from a mobile device, such as
+ icons and album art</p>
+
+<p>Since SmartDeviceLink 2.0
+ - see: SDLDeleteFile
+ - see: SDLListFiles</p>
+
+  <a href="Classes/SDLPutFile.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPutFile</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPutFile</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLPutFileResponse
+  </h3>
+  
+  <p>Put File Response is sent, when SDLPutFile has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLPutFileResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPutFileResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPutFileResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLRPCMessage
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCMessage.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLRPCNotification
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCNotification.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLRPCRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCRequest.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLRPCRequestFactory
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCRequestFactory.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLRPCResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLRPCStruct
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCStruct.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLReadDID
+  </h3>
+  
+  <p>Non periodic vehicle data read request. This is an RPC to get diagnostics
+ data from certain vehicle modules. DIDs of a certain module might differ from
+ vehicle type to vehicle type
+ <p>
+ Function Group: ProprietaryData
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ <p></p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLReadDID.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLReadDID</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLReadDID</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLReadDIDResponse
+  </h3>
+  
+  <p>Read DID Response is sent, when ReadDID has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLReadDIDResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLReadDIDResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLReadDIDResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLRegisterAppInterface
+  </h3>
+  
+  <p>Registers the application&rsquo;s interface with SDL&reg;, declaring properties of
+ the registration, including the messaging interface version, the app name,
+ etc. The mobile application must establish its interface registration with
+ SDL before any other interaction with SDL&reg; can take place. The
+ registration lasts until it is terminated either by the application calling
+ the <i> SDLUnregisterAppInterface</i> method, or by SDL&reg;
+ sending an <i> SDLOnAppInterfaceUnregistered</i> notification, or
+ by loss of the underlying transport connection, or closing of the underlying
+ message transmission protocol RPC session
+ <p>
+ Until the application receives its first <i>SDLOnHMIStatus</i>
+ Notification, its HMI Status is assumed to be: <i>
+ SDLHMILevel</i>=NONE, <i>
+ SDLAudioStreamingState
+ </i>=NOT_AUDIBLE, <i>
+ SDLSystemContext</i>=MAIN
+ <p>
+ All SDL&reg; resources which the application creates or uses (e.g. Choice
+ Sets, Command Menu, etc.) are associated with the application&rsquo;s interface
+ registration. Therefore, when the interface registration ends, the SDL&reg;
+ resources associated with the application are disposed of. As a result, even
+ though the application itself may continue to run on its host platform (e.g.
+ mobile device) after the interface registration terminates, the application
+ will not be able to use the SDL&reg; HMI without first establishing a new
+ interface registration and re-creating its required SDL&reg; resources. That
+ is, SDL&reg; resources created by (or on behalf of) an application do not
+ persist beyond the life-span of the interface registration
+ <p>
+ Resources and settings whose lifespan is tied to the duration of an
+ application&rsquo;s interface registration:<br/>
+ <ul>
+ <li>Choice Sets</li>
+ <li>Command Menus (built by successive calls to <i>SDLAddCommand
+ </i>)</li>
+ <li>Media clock timer display value</li>
+ <li>Media clock timer display value</li>
+ <li>Media clock timer display value</li>
+ </ul>
+ <p>
+ The autoActivateID is used to grant an application the HMILevel and
+ AudioStreamingState it had when it last disconnected
+ <p>
+ <b>Notes: </b>The autoActivateID parameter, and associated behavior, is
+ currently ignored by SDL&reg;
+ <p>
+ When first calling this method (i.e. first time within life cycle of mobile
+ app), an autoActivateID should not be included. After successfully
+ registering an interface, an autoActivateID is returned to the mobile
+ application for it to use in subsequent connections. If the connection
+ between SDL&reg; and the mobile application is lost, such as the vehicle is
+ turned off while the application is running, the autoActivateID can then be
+ passed in another call to RegisterAppInterface to re-acquire <i>
+ SDLHMILevel</i>=FULL
+ <p>
+ If the application intends to stream audio it is important to indicate so via
+ the isMediaApp parameter. When set to true, audio will reliably stream
+ without any configuration required by the user. When not set, audio may
+ stream, depending on what the user might have manually configured as a media
+ source on SDL&reg;
+ <p>
+ There is no time limit for how long the autoActivateID is <q>valid</q> (i.e. would
+ confer focus and opt-in)
+ <p>
+ <b>HMILevel is not defined before registering</b><br/>
+ </p></p>
+
+<p>@since SDL 1.0</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
+
+</div>
+
+  <a href="Classes/SDLRegisterAppInterface.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLRegisterAppInterfaceResponse
+  </h3>
+  
+  <p>@abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLRegisterAppInterfaceResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterfaceResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLRegisterAppInterfaceResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLRequestType
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRequestType.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLResetGlobalProperties
+  </h3>
+  
+  <p>Resets the passed global properties to their default values as defined by
+ SDL
+ <p>
+ The HELPPROMPT global property default value is generated by SDL consists of
+ the first vrCommand of each Command Menu item defined at the moment PTT is
+ pressed<br/>
+ The TIMEOUTPROMPT global property default value is the same as the HELPPROMPT
+ global property default value
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0
+ See SetGlobalProperties</p>
+
+  <a href="Classes/SDLResetGlobalProperties.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLResetGlobalProperties</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLResetGlobalPropertiesResponse
+  </h3>
+  
+  <p>Reset Global Properties Response is sent, when SDLResetGlobalProperties has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLResetGlobalPropertiesResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLResetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLResult
+  </h3>
+  
+  <p>Defines the possible result codes returned by SDL to the application in a response to a requested operation</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLResult.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResult</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLResult</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSamplingRate
+  </h3>
+  
+  <p>Describes different sampling rates for PerformAudioPassThru</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLSamplingRate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSamplingRate</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSamplingRate</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLScreenParams
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLScreenParams.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLScrollableMessage
+  </h3>
+  
+  <p>Creates a full screen overlay containing a large block of formatted text that
+can be scrolled with up to 8 SoftButtons defined
+<p>
+Function Group: ScrollableMessage
+<p>
+<b>HMILevel needs to be FULL</b>
+<p></p>
+
+  <a href="Classes/SDLScrollableMessage.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLScrollableMessage</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLScrollableMessage</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLScrollableMessageResponse
+  </h3>
+  
+  <p>Scrollable Message Response is sent, when SDLScrollableMessage has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLScrollableMessageResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLScrollableMessageResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLScrollableMessageResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSendLocation
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSendLocation.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSendLocationResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSendLocationResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSetAppIcon
+  </h3>
+  
+  <p>Used to set existing local file on SDL as the app&rsquo;s icon. Not supported on
+ first generation SDL modules.
+ <p></p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSetAppIcon.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetAppIcon</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetAppIcon</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetAppIconResponse
+  </h3>
+  
+  <p>SDLSetAppIconResponse is sent, when SDLSetAppIcon has been called.
+ * Since<b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLSetAppIconResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetAppIconResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetAppIconResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetDisplayLayout
+  </h3>
+  
+  <p>Used to set an alternate display layout. If not sent, default screen for
+ given platform will be shown</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSetDisplayLayout.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayout</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetDisplayLayout</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetDisplayLayoutResponse
+  </h3>
+  
+  <p>Set Display Layout Response is sent, when SetDisplayLayout has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSetDisplayLayoutResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayoutResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetDisplayLayoutResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetGlobalProperties
+  </h3>
+  
+  <p>Sets value(s) for the specified global property(ies)
+ <p>
+ Function Group: Base <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0
+ See SDLResetGlobalProperties</p>
+
+  <a href="Classes/SDLSetGlobalProperties.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetGlobalPropertiesResponse
+  </h3>
+  
+  <p>Set Global Properties Response is sent, when SDLSetGlobalProperties has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLSetGlobalPropertiesResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetMediaClockTimer
+  </h3>
+  
+  <p>Sets the media clock/timer value and the update method (e.g.count-up,
+ count-down, etc.)
+ <p>
+ Function Group: Base <p>
+ <b>HMILevel needs to be FULL, LIMITIED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLSetMediaClockTimer.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetMediaClockTimer</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetMediaClockTimer</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSetMediaClockTimerResponse
+  </h3>
+  
+  <p>Set Media Clock Timer Response is sent, when SDLSetMediaClockTimer has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLSetMediaClockTimerResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetMediaClockTimerResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSetMediaClockTimerResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLShow
+  </h3>
+  
+  <p>Updates the application&rsquo;s display text area, regardless of whether or not
+ this text area is visible to the user at the time of the request. The
+ application&rsquo;s display text area remains unchanged until updated by subsequent
+ calls to Show
+ <p>
+ The content of the application&rsquo;s display text area is visible to the user
+ when the application
+ is FULL or LIMITED, and the
+ SDLSystemContext=MAIN and no
+ SDLAlert is in progress
+ <p>
+ The Show operation cannot be used to create an animated scrolling screen. To
+ avoid distracting the driver, Show commands cannot be issued more than once
+ every 4 seconds. Requests made more frequently than this will be rejected
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0
+ See SDLAlert SDLSetMediaClockTimer</p>
+
+  <a href="Classes/SDLShow.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShow</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLShow</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLShowConstantTBT
+  </h3>
+  
+  <p>This RPC is used to update the user with navigation information<br>
+ *  for the constantly shown screen (base screen),but also for the<br>
+ *  alert type screen.
+ *<p>
+ * @since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLShowConstantTBT.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLShowConstantTBT</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLShowConstantTBTResponse
+  </h3>
+  
+  <p>SDLShowConstantTBTResponse is sent, when SDLShowConstantTBT has been called.
+ * Since<b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLShowConstantTBTResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBTResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLShowConstantTBTResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLShowResponse
+  </h3>
+  
+  <p>Show Response is sent, when Show has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLShowResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLShowResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSingleTireStatus
+  </h3>
+  
+  <p>Tire pressure status of a single tire.</p>
+
+<p>@since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSingleTireStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSingleTireStatus</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSingleTireStatus</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSiphonServer
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSiphonServer.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSlider
+  </h3>
+  
+  <p>Creates a full screen or pop-up overlay (depending on platform) with a single user controlled slider</p>
+
+<p>HMILevel needs to be FULL</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSlider.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSlider</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSlider</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSliderResponse
+  </h3>
+  
+  <p>Slider Response is sent, when Slider has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSliderResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSliderResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSliderResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSoftButton
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSoftButton.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSoftButtonCapabilities
+  </h3>
+  
+  <p>Contains information about a SoftButton&rsquo;s capabilities.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLSoftButtonCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSoftButtonCapabilities</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSoftButtonType
+  </h3>
+  
+  <p>SoftButtonType (TEXT / IMAGE / BOTH)</p>
+
+  <a href="Classes/SDLSoftButtonType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSoftButtonType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSpeak
+  </h3>
+  
+  <p>Speaks a phrase over the vehicle audio system using SDL&rsquo;s TTS (text-to-speech) engine. The provided text to be spoken can be simply a text phrase, or it can consist of phoneme specifications to direct SDL&rsquo;s TTS engine to speak a <q>speech-sculpted</q> phrase.</p>
+
+<p>Receipt of the Response indicates the completion of the Speak operation, regardless of how the Speak operation may have completed (i.e. successfully, interrupted, terminated, etc.).</p>
+
+<p>Requesting a new Speak operation while the application has another Speak operation already in progress (i.e. no corresponding Response for that in-progress Speak operation has been received yet) will terminate the in-progress Speak operation (causing its corresponding Response to be sent by SDL) and begin the requested Speak operation</p>
+
+<p>Requesting a new Speak operation while the application has an <i>SDLAlert</i> operation already in progress (i.e. no corresponding Response for that in-progress <i>SDLAlert</i> operation has been received yet) will result in the Speak operation request being rejected (indicated in the Response to the Request)</p>
+
+<p>Requesting a new <i>SDLAlert</i> operation while the application has a Speak operation already in progress (i.e. no corresponding Response for that in-progress Speak operation has been received yet) will terminate the in-progress Speak operation (causing its corresponding Response to be sent by SDL) and begin the requested <i>SDLAlert</i> operation</p>
+
+<p>Requesting a new Speak operation while the application has a <i>SDLPerformInteraction</i> operation already in progress (i.e. no corresponding Response for that in-progress <i>SDLPerformInteraction</i> operation has been received yet) will result in the Speak operation request being rejected (indicated in the Response to the Request)</p>
+
+<p>Requesting a <i>SDLPerformInteraction</i> operation while the application has a Speak operation already in progress (i.e. no corresponding Response for that in-progress Speak operation has been received yet) will terminate the in-progress Speak operation (causing its corresponding Response to be sent by SDL) and begin the requested <i>SDLPerformInteraction</i> operation</p>
+
+<p>HMI Status Requirements:
+ <li>HMILevel: FULL, Limited</li>
+ <li>AudioStreamingState: Any</li>
+ <li>SystemContext: MAIN, MENU, VR</li></p>
+
+<p><b>Notes:</b>
+ <li>When <i>SDLAlert</i> is issued with MENU in effect, <i>SDLAlert</i> is queued and <q>played</q> when MENU interaction is completed (i.e. SystemContext reverts to MAIN). When <i>SDLAlert
+ </i> is issued with VR in effect, <i>SDLAlert</i> is queued and <q>played</q> when VR interaction is completed (i.e. SystemContext reverts to MAIN)</li>
+ <li>When both <i>SDLAlert</i> and Speak are queued during MENU or VR, they are <q>played</q> back in the order in which they were queued, with all existing rules for <q>collisions</q> still in effect</li></p>
+
+<p><b>Additional Notes:</b>
+ <li>Total character limit depends on platform.</li>
+ <li>Chunks are limited to 500 characters; however you can have multiple TTS chunks.</li>
+ <li>On old systems there is a total character limit of 500 characters across all chunks. This could vary according to the VCA.</li></p>
+
+<p>@since SmartDeviceLink 1.0
+ - see: SDLAlert</p>
+
+  <a href="Classes/SDLSpeak.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSpeak</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSpeak</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSpeakResponse
+  </h3>
+  
+  <p>Speak Response is sent, when Speak has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLSpeakResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSpeakResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSpeakResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSpeechCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSpeechCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLStartTime
+  </h3>
+  
+  <p>Describes the hour, minute and second values used to set the media clock.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLStartTime.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLStartTime</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLStartTime</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLStreamingMediaManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLStreamingMediaManager.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSubscribeButton
+  </h3>
+  
+  <p>Establishes a subscription to button notifications for HMI buttons. Buttons
+ are not necessarily physical buttons, but can also be <q>soft</q> buttons on a
+ touch screen, depending on the display in the vehicle. Once subscribed to a
+ particular button, an application will receive both
+ SDLOnButtonEvent and SDLOnButtonPress notifications
+ whenever that button is pressed. The application may also unsubscribe from
+ notifications for a button by invoking the SDLUnsubscribeButton
+ operation
+ <p>
+ When a button is depressed, an SDLOnButtonEvent notification is
+ sent to the application with a ButtonEventMode of BUTTONDOWN. When that same
+ button is released, an SDLOnButtonEvent notification is sent to the
+ application with a ButtonEventMode of BUTTONUP
+ <p>
+ When the duration of a button depression (that is, time between depression
+ and release) is less than two seconds, an SDLOnButtonPress
+ notification is sent to the application (at the moment the button is
+ released) with a ButtonPressMode of SHORT. When the duration is two or more
+ seconds, an SDLOnButtonPress notification is sent to the
+ application (at the moment the two seconds have elapsed) with a
+ ButtonPressMode of LONG
+ <p>
+ The purpose of SDLOnButtonPress notifications is to allow for
+ programmatic detection of long button presses similar to those used to store
+ presets while listening to the radio, for example
+ <p>
+ When a button is depressed and released, the sequence in which notifications
+ will be sent to the application is as follows:
+ <p>
+ For short presses:<br/>
+ <ul>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONDOWN)</li>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONUP)</li>
+ <li>OnButtonPress (ButtonPressMode = SHORT)</li>
+ </ul>
+ <p>
+ For long presses:<br/>
+ <ul>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONDOWN)</li>
+ <li>OnButtonEvent (ButtonEventMode = BUTTONUP)</li>
+ <li>OnButtonPress (ButtonPressMode = LONG)</li>
+ </ul>
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 1.0<br/>
+ See SDLUnsubscribeButton</p>
+
+  <a href="Classes/SDLSubscribeButton.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButton</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeButton</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSubscribeButtonResponse
+  </h3>
+  
+  <p>SubscribeButton Response is sent, when SDLSubscribeButton has been called</p>
+
+<p>Since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLSubscribeButtonResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButtonResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeButtonResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSubscribeVehicleData
+  </h3>
+  
+  <p>Subscribes for specific published vehicle data items. The data will be only
+ sent, if it has changed. The application will be notified by the
+ onVehicleData notification whenever new data is available. The update rate is
+ very much dependent on sensors, vehicle architecture and vehicle type. Be
+ also prepared for the situation that a signal is not available on a vehicle
+ <p>
+ Function Group: Location, VehicleInfo and DrivingChara
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>Since SmartDeviceLink 2.0<br/>
+ See SDLUnsubscribeVehicleData SDLGetVehicleData</p>
+
+  <a href="Classes/SDLSubscribeVehicleData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeVehicleData</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSubscribeVehicleDataResponse
+  </h3>
+  
+  <p>Subscribe Vehicle Data Response is sent, when SDLSubscribeVehicleData has been called</p>
+
+<p>Since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLSubscribeVehicleDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSyncMsgVersion
+  </h3>
+  
+  <p>Specifies the version number of the SDL V4 interface. This is used by both the application and SDL to declare what interface version each is using.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLSyncMsgVersion.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSyncPData.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSyncPDataResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSyncPDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLSystemAction
+  </h3>
+  
+  <p>Enumeration that describes system actions that can be triggered.</p>
+
+  <a href="Classes/SDLSystemAction.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemAction</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSystemAction</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLSystemContext
+  </h3>
+  
+  <p>Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR).</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLSystemContext.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemContext</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSystemContext</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLTBTState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTBTState.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTCPTransport
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTCPTransport.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTTSChunk
+  </h3>
+  
+  <p>Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules. It can also be phonemes from either the Microsoft SAPI phoneme set, or from the LHPLUS phoneme set. It can also be a pre-recorded sound in WAV format (either developer-defined, or provided by the SDL platform).</p>
+
+<p>In SDL, words, and therefore sentences, can be built up from phonemes and are used to explicitly provide the proper pronounciation to the TTS engine. For example, to have SDL pronounce the word <q>read</q> as <q>red</q>, rather than as when it is pronounced like <q>reed</q>, the developer would use phonemes to express this desired pronounciation.</p>
+
+<p>For more information about phonemes, see <a href="http://en.wikipedia.org/wiki/Phoneme"><a href="http://en.wikipedia.org/wiki/Phoneme">http://en.wikipedia.org/wiki/Phoneme</a></a>.</p>
+
+<p>Parameter List
+  <table border="1" rules="all">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>SmartDeviceLink Ver. Available</th>
+        </tr>
+        <tr>
+            <td>text</td>
+            <td>String</td>
+            <td>Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the <q>type</q> field.</td>
+            <td>SmartDeviceLink 1.0</td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>SpeechCapabilities</td>
+            <td>Indicates the type of information in the <q>text</q> field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound). </td>
+            <td>SmartDeviceLink 1.0</td>
+        </tr>
+  </table></p>
+
+<p>@since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLTTSChunk.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTTSChunk</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLTTSChunk</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLTTSChunkFactory
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTTSChunkFactory.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTextAlignment
+  </h3>
+  
+  <p>The list of possible alignments of text in a field. May only work on some display types.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLTextAlignment.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextAlignment</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLTextAlignment</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLTextField
+  </h3>
+  
+  <p>Struct defining the characteristics of a displayed field on the HMI.</p>
+
+<p>Parameter List
+ <table border="1" rules="all">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>SmartDeviceLink Ver. Available</th>
+        </tr>
+        <tr>
+            <td>name</td>
+            <td>TextFieldName</td>
+            <td>Enumeration identifying the field.  </td>
+            <td>SDL 1.0</td>
+        </tr>
+        <tr>
+            <td>characterSet</td>
+            <td>CharacterSet</td>
+            <td>The character set that is supported in this field.  </td>
+            <td>SDL 1.0</td>
+        </tr>
+        <tr>
+            <td>width</td>
+            <td>Int16</td>
+            <td>The number of characters in one row of this field.
+                    <ul>
+                    <li>Minvalue=<q>1</q></li>
+                    <li>maxvalue=<q>500</q></li>
+                    </ul>
+            </td>
+            <td>SDL 1.0</td>
+        </tr>
+        <tr>
+            <td>rows</td>
+            <td>Int16</td>
+            <td>The number of rows for this text field.
+                    <ul>
+                    <li>Minvalue=<q>1</q></li>
+                    <li>maxvalue=<q>3</q></li>
+                    </ul>
+            </td>
+            <td>SDL 1.0</td>
+        </tr>
+ </table></p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLTextField.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextField</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLTextField</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLTextFieldName
+  </h3>
+  
+  <p>Names of the text fields that can appear on a SDL display.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLTextFieldName.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextFieldName</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLTextFieldName</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLTimerMode
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTimerMode.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTireStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTireStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTouchCoord
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTouchCoord.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTouchEvent
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTouchEvent.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTouchEventCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTouchEventCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTouchType
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTouchType.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLTriggerSource
+  </h3>
+  
+  <p>Indicates whether choice/command was selected via VR or via a menu selection (using SEEKRIGHT/SEEKLEFT, TUNEUP, TUNEDOWN, OK buttons)</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLTriggerSource.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTriggerSource</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLTriggerSource</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLTurn
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTurn.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLUnregisterAppInterface
+  </h3>
+  
+  <p>Terminates an application&rsquo;s interface registration. This causes SDL&reg; to
+ dispose of all resources associated with the application&rsquo;s interface
+ registration (e.g. Command Menu items, Choice Sets, button subscriptions,
+ etc.)
+ <p>
+ After the UnregisterAppInterface operation is performed, no other operations
+ can be performed until a new app interface registration is established by
+ calling <i>{@linkplain RegisterAppInterface}</i>
+ <p>
+ <b>HMILevel can be FULL, LIMITED, BACKGROUND or NONE</b>
+ </p></p>
+
+<p>See SDLRegisterAppInterface SDLOnAppInterfaceUnregistered</p>
+
+  <a href="Classes/SDLUnregisterAppInterface.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnregisterAppInterface</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUnregisterAppInterface</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUnregisterAppInterfaceResponse
+  </h3>
+  
+  <p>Unregister AppInterface Response is sent, when SDLUnregisterAppInterface has been called</p>
+
+<p>@since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLUnregisterAppInterfaceResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnregisterAppInterfaceResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUnregisterAppInterfaceResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUnsubscribeButton
+  </h3>
+  
+  <p>Deletes a subscription to button notifications for the specified button. For
+more information about button subscriptions, see SDLSubscribeButton
+<p>
+Application can unsubscribe from a button that is currently being pressed
+(i.e. has not yet been released), but app will not get button event
+<p>
+<b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+<p></p>
+
+<p>@since SmartDeviceLink 1.0<br/>
+See SDLSubscribeButton</p>
+
+  <a href="Classes/SDLUnsubscribeButton.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeButton</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUnsubscribeButton</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUnsubscribeButtonResponse
+  </h3>
+  
+  <p>Unsubscribe Button Response is sent, when SDLUnsubscribeButton has been called</p>
+
+<p>@since SmartDeviceLink 1.0</p>
+
+  <a href="Classes/SDLUnsubscribeButtonResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeButtonResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUnsubscribeButtonResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUnsubscribeVehicleData
+  </h3>
+  
+  <p>This function is used to unsubscribe the notifications from the
+ subscribeVehicleData function
+ <p>
+ Function Group: Location, VehicleInfo and DrivingChara
+ <p>
+ <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
+ </p></p>
+
+<p>@since SmartDeviceLink 2.0<br/>
+ See SDLSubscribeVehicleData SDLGetVehicleData</p>
+
+  <a href="Classes/SDLUnsubscribeVehicleData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUnsubscribeVehicleData</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUnsubscribeVehicleDataResponse
+  </h3>
+  
+  <p>Unsubscribe Vehicle Data Response is sent, when UnsubscribeVehicleData has been called</p>
+
+<p>@since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLUnsubscribeVehicleDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUnsubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUpdateMode
+  </h3>
+  
+  <p>Specifies what function should be performed on the media clock/counter</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLUpdateMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUpdateMode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUpdateTurnList
+  </h3>
+  
+  <p>Updates the list of next maneuvers, which can be requested by the user pressing the softbutton<br>
+ * “Turns” on the Navigation base screen. Three softbuttons are predefined by the system: Up, Down, Close.
+ *<p>
+ * @since SmartDeviceLink 2.0</p>
+
+  <a href="Classes/SDLUpdateTurnList.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnList</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUpdateTurnList</span> <span class="p">:</span> <span class="kt">SDLRPCRequest</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLUpdateTurnListResponse
+  </h3>
+  
+  <p>SDLUpdateTurnListResponse is sent, when SDLUpdateTurnList has been called.
+ * Since<b>SmartDeviceLink 2.0</b></p>
+
+  <a href="Classes/SDLUpdateTurnListResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnListResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLUpdateTurnListResponse</span> <span class="p">:</span> <span class="kt">SDLRPCResponse</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVRCapabilities
+  </h3>
+  
+  <p>The VR capabilities of the connected SDL platform.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLVRCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVRCapabilities</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVRCapabilities</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVRHelpItem
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLVRHelpItem.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLVehicleDataActiveStatus
+  </h3>
+  
+  <p>Vehicle Data Activity Status</p>
+
+  <a href="Classes/SDLVehicleDataActiveStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataActiveStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleDataActiveStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVehicleDataEventStatus
+  </h3>
+  
+  <p>Reflects the status of a vehicle data event; e.g. a seat belt event status.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLVehicleDataEventStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataEventStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleDataEventStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVehicleDataNotificationStatus
+  </h3>
+  
+  <p>Reflects the status of a vehicle data notification.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLVehicleDataNotificationStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataNotificationStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleDataNotificationStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVehicleDataResult
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLVehicleDataResult.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3>
+      SDLVehicleDataResultCode
+  </h3>
+  
+  <p>Vehicle Data Result Code</p>
+
+  <a href="Classes/SDLVehicleDataResultCode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataResultCode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleDataResultCode</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVehicleDataStatus
+  </h3>
+  
+  <p>Reflects the status of a binary vehicle data item.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLVehicleDataStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleDataStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVehicleDataType
+  </h3>
+  
+  <p>Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData</p>
+
+  <a href="Classes/SDLVehicleDataType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleDataType</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLVehicleType
+  </h3>
+  
+  <p>Describes the type of vehicle the mobile phone is connected with.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLVehicleType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleType</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleType</span> <span class="p">:</span> <span class="kt">SDLRPCStruct</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLWarningLightStatus
+  </h3>
+  
+  <p>Reflects the status of a cluster instrument warning light.</p>
+
+<p>@since SDL 2.0</p>
+
+  <a href="Classes/SDLWarningLightStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLWarningLightStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLWarningLightStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+  <h3>
+      SDLWiperStatus
+  </h3>
+  
+  <p>Wiper Status</p>
+
+  <a href="Classes/SDLWiperStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLWiperStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLWiperStatus</span> <span class="p">:</span> <span class="kt">SDLEnum</span></code></pre>
+
+  
+  
+  
+</section>

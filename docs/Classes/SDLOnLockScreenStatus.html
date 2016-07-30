@@ -1,0 +1,150 @@
+<h1>SDLOnLockScreenStatus Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section-driverDistractionStatus">driverDistractionStatus</a></li>
+  <li><a href="#section-userSelected">userSelected</a></li>
+  <li><a href="#section-lockScreenStatus">lockScreenStatus</a></li>
+  <li><a href="#section-hmiLevel">hmiLevel</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<pre class="highlight plaintext"><code>To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
+
+This lockscreen must perform the following:
+Limit all application control usability from the mobile device with a full-screen static image overlay or separate view.
+For simplicity, the OnLockScreenStatus RPC will be provided via the onOnLockScreenNotification call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.
+The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.
+</code></pre>
+
+
+<section class="section task-group-section">
+  <h3>
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      -initWithDictionary:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+
+  
+  
+  
+  
+  <h3>
+      driverDistractionStatus
+  </h3>
+  
+  <p>Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">driverDistractionStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">driverDistractionStatus</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>String</p>
+
+  </div>
+  
+  <h3>
+      userSelected
+  </h3>
+  
+  <p>Get user selection status for the application (has the app been selected via hmi or voice command)</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">userSelected</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">userSelected</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Boolean the current user selection status</p>
+
+  </div>
+  
+  <h3>
+      lockScreenStatus
+  </h3>
+  
+  <p>Get the {@linkplain LockScreenStatus} enumeration, indicating if the lockscreen should be required, optional or off </p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLLockScreenStatus</span> <span class="o">*</span><span class="n">lockScreenStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">lockScreenStatus</span><span class="p">:</span> <span class="kt">SDLLockScreenStatus</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>{@linkplain
+LockScreenStatus}</p>
+
+  </div>
+  
+  <h3>
+      hmiLevel
+  </h3>
+  
+  <p>Get HMILevel in effect for the application</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLHMILevel</span> <span class="o">*</span><span class="n">hmiLevel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiLevel</span><span class="p">:</span> <span class="kt">SDLHMILevel</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>{@linkplain
+HMILevel} the current HMI Level in effect for the application</p>
+
+  </div>
+  
+</section>
