@@ -5,6 +5,7 @@
 #import "SDLRegisterAppInterface.h"
 
 #import "SDLAppHMIType.h"
+#import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
@@ -206,6 +207,23 @@
 
 - (NSString *)appID {
     return [parameters objectForKey:NAMES_appID];
+}
+
+- (void)setAppInfo:(SDLAppInfo *)appInfo {
+    if (appInfo != nil) {
+        [parameters setObject:appInfo forKey:NAMES_appInfo];
+    } else {
+        [parameters removeObjectForKey:NAMES_appInfo];
+    }
+}
+
+- (SDLAppInfo *)appInfo {
+    NSObject *obj = [parameters objectForKey:NAMES_appInfo];
+    if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
+        return (SDLAppInfo *)obj;
+    } else {
+        return [[SDLAppInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
 }
 
 @end
