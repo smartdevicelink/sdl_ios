@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;
 @property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
+@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 
 #pragma mark Lifecycle
 /**

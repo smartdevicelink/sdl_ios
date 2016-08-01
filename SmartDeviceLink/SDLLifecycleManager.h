@@ -54,7 +54,7 @@ extern SDLLifecycleState *const SDLLifecycleStateReady;
 @property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
-@property (weak, nonatomic, readonly, nullable) id<SDLManagerDelegate> delegate;
+@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 @property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 

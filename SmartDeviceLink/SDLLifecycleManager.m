@@ -48,7 +48,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
-@property (weak, nonatomic, readwrite, nullable) id<SDLManagerDelegate> delegate;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push

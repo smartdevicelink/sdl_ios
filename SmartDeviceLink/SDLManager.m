@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - Passthrough getters
+#pragma mark - Passthrough getters / setters
 
 - (NSString *)lifecycleState {
     return self.lifecycleManager.lifecycleState;
@@ -82,6 +82,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLStreamingMediaManager *)streamManager {
     return self.lifecycleManager.streamManager;
+}
+
+- (nullable id<SDLManagerDelegate>)delegate {
+    return self.lifecycleManager.delegate;
+}
+
+- (void)setDelegate:(nullable id<SDLManagerDelegate>)delegate {
+    self.lifecycleManager.delegate = delegate;
 }
 
 
