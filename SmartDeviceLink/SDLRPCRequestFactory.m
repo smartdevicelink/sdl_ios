@@ -58,7 +58,7 @@
 #import "SDLUpdateTurnList.h"
 #import "SDLAppInfo.h"
 
-static NSString*  const kBundleShortVersionStringKey = @"CFBundleShortVersionString";
+static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
 
 @implementation SDLRPCRequestFactory
 
@@ -402,7 +402,7 @@ static NSString*  const kBundleShortVersionStringKey = @"CFBundleShortVersionStr
     SDLAppInfo* appInfo = [[SDLAppInfo alloc] init];
     NSBundle* mainBundle = [NSBundle mainBundle];
     NSDictionary* bundleDictionary = mainBundle.infoDictionary;
-    appInfo.appVersion = [bundleDictionary objectForKey:kBundleShortVersionStringKey];
+    appInfo.appVersion = bundleDictionary[SDLBundleShortVersionStringKey];
     appInfo.appBundleID = mainBundle.bundleIdentifier;
     return appInfo;
 }
