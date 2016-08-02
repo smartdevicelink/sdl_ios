@@ -180,9 +180,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
-        if (self.displayCapabilities == nil) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
-        }
         _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
         [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
@@ -381,6 +378,9 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
     self.displayCapabilities = registerResponse.displayCapabilities;
+    if (_streamingMediaManager) {
+        _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
+    }
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
     
     if ([SDLGlobals globals].protocolVersion >= 4) {

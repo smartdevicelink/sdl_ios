@@ -40,6 +40,8 @@ typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
 extern NSString *const SDLErrorDomainStreamingMediaVideo;
 extern NSString *const SDLErrorDomainStreamingMediaAudio;
 
+extern CGSize const SDLDefaultScreenSize;
+
 typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError *__nullable error);
 
@@ -65,6 +67,13 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
  */
 @property (strong, nonatomic, null_resettable) NSDictionary* videoEncoderSettings;
+
+/**
+ *  Display capabilties that will set the screenSize property. If set to nil, the SDLDefaultScreenSize will be used.
+ *
+ *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+ */
+@property (strong, nonatomic, null_resettable) SDLDisplayCapabilities* displayCapabilties;
 
 /**
  *  Provides default video encoder settings used.

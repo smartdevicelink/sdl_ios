@@ -21,6 +21,7 @@
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
 NSString *const SDLErrorDomainStreamingMediaAudio = @"com.sdl.streamingmediamanager.audio";
 
+CGSize const SDLDefaultScreenSize = {800,480};
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,16 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _protocol = protocol;
-        
-    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
-    if (resolution != nil) {
-        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
-                                 resolution.resolutionHeight.floatValue);
-    } else {
-        NSLog(@"Could not retrieve screen size. Defaulting to 640 x 480.");
-        _screenSize = CGSizeMake(640,
-                                 480);
-    }
+    
+    _displayCapabilties = displayCapabilities;
+    [self sdl_updateScreenSizeFromDisplayCapabilities:displayCapabilities];
     
     return self;
 
@@ -105,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
     _videoStartBlock = nil;
     _audioStartBlock = nil;
 	
-	_screenSize = CGSizeMake(640, 480);
+	_screenSize = SDLDefaultScreenSize;
     _videoEncoderSettings = self.defaultVideoEncoderSettings;
 	_touchManager = [[SDLTouchManager alloc] init];
     
@@ -248,6 +242,16 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         _videoEncoderSettings = self.defaultVideoEncoderSettings;
     }
+}
+
+- (void)setDisplayCapabilties:(SDLDisplayCapabilities * _Nullable)displayCapabilties {
+    if (self.videoSessionConnected) {
+        @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
+        return;
+    }
+    
+    _displayCapabilties = displayCapabilties;
+    [self sdl_updateScreenSizeFromDisplayCapabilities:displayCapabilties];
 }
 
 - (NSDictionary*)defaultVideoEncoderSettings {
@@ -518,6 +522,16 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
 - (void)sdl_applicationDidResignActive:(NSNotification*)notification {
     [self.touchManager cancelPendingTouches];
+}
+
+- (void)sdl_updateScreenSizeFromDisplayCapabilities:(SDLDisplayCapabilities*)displayCapabilities {
+    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
+    if (resolution != nil) {
+        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
+                                 resolution.resolutionHeight.floatValue);
+    } else {
+        _screenSize = SDLDefaultScreenSize;
+    }
 }
 
 @end
