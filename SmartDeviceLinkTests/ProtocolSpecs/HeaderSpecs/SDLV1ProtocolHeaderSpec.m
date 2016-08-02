@@ -20,7 +20,7 @@ beforeSuite(^ {
     //Set up test header
     testHeader = [[SDLV1ProtocolHeader alloc] init];
  
-    testHeader.compressed = YES;
+    testHeader.encrypted = YES;
     testHeader.frameType = SDLFrameType_Control;
     testHeader.serviceType = SDLServiceType_RPC;
     testHeader.frameData = SDLFrameData_StartSession;
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should set and get correctly", ^ {
-        expect(@(testHeader.compressed)).to(equal(@YES));
+        expect(@(testHeader.encrypted)).to(equal(@YES));
         expect(@(testHeader.frameType)).to(equal(@(SDLFrameType_Control)));
         expect(@(testHeader.serviceType)).to(equal(@(SDLServiceType_RPC)));
         expect(@(testHeader.frameData)).to(equal(@(SDLFrameData_StartSession)));
@@ -54,7 +54,7 @@ describe(@"Copy Tests", ^ {
         expect(@(headerCopy.version)).to(equal(@1));
         expect(@(headerCopy.size)).to(equal(@8));
         
-        expect(@(headerCopy.compressed)).to(equal(@YES));
+        expect(@(headerCopy.encrypted)).to(equal(@YES));
         expect(@(headerCopy.frameType)).to(equal(@(SDLFrameType_Control)));
         expect(@(headerCopy.serviceType)).to(equal(@(SDLServiceType_RPC)));
         expect(@(headerCopy.frameData)).to(equal(@(SDLFrameData_StartSession)));
@@ -77,7 +77,7 @@ describe(@"RPCPayloadWithData Test", ^ {
         
         [constructedHeader parse:testData];
         
-        expect(@(constructedHeader.compressed)).to(equal(@YES));
+        expect(@(constructedHeader.encrypted)).to(equal(@YES));
         expect(@(constructedHeader.frameType)).to(equal(@(SDLFrameType_Control)));
         expect(@(constructedHeader.serviceType)).to(equal(@(SDLServiceType_RPC)));
         expect(@(constructedHeader.frameData)).to(equal(@(SDLFrameData_StartSession)));

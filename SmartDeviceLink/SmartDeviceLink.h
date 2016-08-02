@@ -16,6 +16,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLProxyListener.h"
+#import "SDLProxyFactory.h"
+#import "SDLSecurityType.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLTouchManager.h"
 #import "SDLTTSChunkFactory.h"

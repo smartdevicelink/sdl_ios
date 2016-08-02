@@ -20,12 +20,29 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)startServiceWithType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)endServiceWithType:(SDLServiceType)serviceType {
     [self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)sendRPC:(SDLRPCMessage *)message {
     [self doesNotRecognizeSelector:_cmd];
+}
+
+- (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
+    [self doesNotRecognizeSelector:_cmd];
+    return NO;
 }
 
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
@@ -40,11 +57,15 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
 - (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)sendRawData:(NSData *)data withServiceType:(SDLServiceType)serviceType {
+- (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
     [self doesNotRecognizeSelector:_cmd];
 }
 

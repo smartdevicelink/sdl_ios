@@ -21,7 +21,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     Byte headerBytes[V1PROTOCOL_HEADERSIZE] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = (self.compressed ? 1 : 0) << 3; // next 1 bit
+    Byte compressed = (self.encrypted ? 1 : 0) << 3; // next 1 bit
     Byte frameType = (self.frameType & 0x7); // last 3 bits
 
     headerBytes[0] = version | compressed | frameType;
@@ -41,7 +41,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 
 - (id)copyWithZone:(NSZone *)zone {
     SDLV1ProtocolHeader *newHeader = [[SDLV1ProtocolHeader allocWithZone:zone] init];
-    newHeader.compressed = self.compressed;
+    newHeader.encrypted = self.encrypted;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
     newHeader.frameData = self.frameData;
@@ -57,7 +57,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 
     Byte *bytePointer = (Byte *)data.bytes;
     Byte firstByte = bytePointer[0];
-    self.compressed = ((firstByte & 8) != 0);
+    self.encrypted = ((firstByte & 8) != 0);
     self.frameType = (firstByte & 7);
     self.serviceType = bytePointer[1];
     self.frameData = bytePointer[2];
@@ -71,7 +71,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     NSMutableString *description = [[NSMutableString alloc] init];
     [description appendFormat:@"Version:%i, compressed:%i, frameType:%i, serviceType:%i, frameData:%i, sessionID:%i, dataSize:%i",
                               self.version,
-                              self.compressed,
+                              self.encrypted,
                               self.frameType,
                               self.serviceType,
                               self.frameData,

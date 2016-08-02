@@ -32,10 +32,10 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     Byte headerBytes[V2PROTOCOL_HEADERSIZE] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = (self.compressed ? 1 : 0) << 3; // next 1 bit
+    Byte encrypted = (self.encrypted ? 1 : 0) << 3; // next 1 bit
     Byte frameType = (self.frameType & 0x7); // last 3 bits
 
-    headerBytes[0] = version | compressed | frameType;
+    headerBytes[0] = version | encrypted | frameType;
     headerBytes[1] = self.serviceType;
     headerBytes[2] = self.frameData;
     headerBytes[3] = self.sessionID;
@@ -56,7 +56,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 - (id)copyWithZone:(NSZone *)zone {
     SDLV2ProtocolHeader *newHeader = [[SDLV2ProtocolHeader allocWithZone:zone] init];
     newHeader->_version = self.version;
-    newHeader.compressed = self.compressed;
+    newHeader.encrypted = self.encrypted;
     newHeader.frameType = self.frameType;
     newHeader.serviceType = self.serviceType;
     newHeader.frameData = self.frameData;
@@ -73,7 +73,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 
     Byte *bytePointer = (Byte *)data.bytes;
     Byte firstByte = bytePointer[0];
-    self.compressed = ((firstByte & 8) != 0);
+    self.encrypted = ((firstByte & 8) != 0);
     self.frameType = (firstByte & 7);
     self.serviceType = bytePointer[1];
     self.frameData = bytePointer[2];
@@ -109,7 +109,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     NSMutableString *description = [[NSMutableString alloc] init];
     [description appendFormat:@"Version:%i, compressed:%i, frameType:%@(%i), serviceType:%i, frameData:%@(%i), sessionID:%i, dataSize:%i, messageID:%i ",
                               self.version,
-                              self.compressed,
+                              self.encrypted,
                               frameTypeString,
                               self.frameType,
                               self.serviceType,

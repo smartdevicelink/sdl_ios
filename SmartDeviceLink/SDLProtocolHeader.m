@@ -20,6 +20,14 @@
     return self;
 }
 
+- (BOOL)compressed {
+    return _encrypted;
+}
+
+- (void)setCompressed:(BOOL)compressed {
+    _encrypted = compressed;
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     [self doesNotRecognizeSelector:_cmd];
     return 0;
@@ -39,7 +47,7 @@
     return description;
 }
 
-+ (SDLProtocolHeader *)headerForVersion:(UInt8)version {
++ (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version {
     // VERSION DEPENDENT CODE
     switch (version) {
         case 1: {

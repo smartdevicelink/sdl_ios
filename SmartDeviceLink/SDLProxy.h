@@ -12,6 +12,7 @@
 
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
+#import "SDLSecurityType.h"
 
 
 @interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
@@ -44,6 +45,8 @@
 - (void)handleRpcMessage:(NSDictionary *)msg __deprecated_msg("use -handleRPCDictionary: instead");
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
+
+- (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId;
 
 + (void)enableSiphonDebug;
 + (void)disableSiphonDebug;
