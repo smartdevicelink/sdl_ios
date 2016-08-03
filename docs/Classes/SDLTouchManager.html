@@ -1,0 +1,125 @@
+<h1>SDLTouchManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-touchEventDelegate">touchEventDelegate</a></li>
+  <li><a href="#section-tapDistanceThreshold">tapDistanceThreshold</a></li>
+  <li><a href="#section-tapTimeThreshold">tapTimeThreshold</a></li>
+  <li><a href="#section-movementTimeThreshold">movementTimeThreshold</a></li>
+  <li><a href="#section-touchEnabled">touchEnabled</a></li>
+  <li><a href="#section--cancelPendingTouches">-cancelPendingTouches</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-touchEventDelegate">
+      touchEventDelegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-tapDistanceThreshold">
+      tapDistanceThreshold
+  </h3>
+  
+  <p>@abstract
+    Distance between two taps on the screen, in the head unit&rsquo;s coordinate system, used
+    for registering double-tap callbacks.
+@remark
+    Default is 50 pixels.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapDistanceThreshold</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-tapTimeThreshold">
+      tapTimeThreshold
+  </h3>
+  
+  <p>@abstract
+    Time (in seconds) between tap events to register a double-tap callback.
+@remark
+    Default is 0.4 seconds.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapTimeThreshold</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-movementTimeThreshold">
+      movementTimeThreshold
+  </h3>
+  
+  <p>@abstract
+    Time (in seconds) between movement events to register panning or pinching 
+    callbacks.
+@remark
+    Default is 0.05 seconds.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">movementTimeThreshold</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-touchEnabled">
+      touchEnabled
+  </h3>
+  
+  <p>@abstract
+    Boolean denoting whether or not the touch manager should deliver touch event
+    callbacks.
+@remark
+    Default is true.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">getter</span><span class="o">=</span><span class="n">isTouchEnabled</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">touchEnabled</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--cancelPendingTouches">
+      -cancelPendingTouches
+  </h3>
+  
+  <p>@abstract
+    Cancels pending touch event timers that may be in progress.
+@remark
+    Currently only impacts the timer used to register single taps.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">cancelPendingTouches</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+</section>

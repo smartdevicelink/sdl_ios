@@ -28,7 +28,7 @@ dispatch_source_t dispatch_create_timer(double afterInterval, bool repeating, di
         }
     });
     dispatch_resume(timer);
-    
+
     return timer;
 }
 

@@ -8,8 +8,8 @@
 
 #import "SDLTouch.h"
 
-#import "SDLTouchEvent.h"
 #import "SDLTouchCoord.h"
+#import "SDLTouchEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _identifier = -1;
     _location = CGPointZero;
     _timeStamp = 0;
@@ -28,22 +28,21 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithTouchEvent:(SDLTouchEvent*)touchEvent {
+- (instancetype)initWithTouchEvent:(SDLTouchEvent *)touchEvent {
     self = [self init];
     if (self) {
         _identifier = touchEvent.touchEventId.unsignedIntegerValue;
-        
+
         id firstTimeStamp = touchEvent.timeStamp.firstObject;
         // In the event we receive a null timestamp, we will supply a device timestamp.
-        if ([firstTimeStamp isKindOfClass:[NSNull class]]
-            && [firstTimeStamp isEqual:[NSNull null]]) {
+        if ([firstTimeStamp isKindOfClass:[NSNull class]] && [firstTimeStamp isEqual:[NSNull null]]) {
             _timeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
         } else {
-            NSNumber* timeStampNumber = (NSNumber*)firstTimeStamp;
+            NSNumber *timeStampNumber = (NSNumber *)firstTimeStamp;
             _timeStamp = timeStampNumber.unsignedIntegerValue;
         }
 
-        SDLTouchCoord* coord = touchEvent.coord.firstObject;
+        SDLTouchCoord *coord = touchEvent.coord.firstObject;
         _location = CGPointMake(coord.x.floatValue,
                                 coord.y.floatValue);
     }
