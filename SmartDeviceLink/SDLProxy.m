@@ -121,6 +121,10 @@ const int POLICIES_CORRELATION_ID = 65535;
     if (self.transport != nil) {
         [self.transport disconnect];
     }
+    
+    if (self.protocol.securityManager != nil) {
+        [self.protocol.securityManager stop];
+    }
 
     [self destructObjects];
 }
