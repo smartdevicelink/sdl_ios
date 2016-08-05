@@ -94,7 +94,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppInterfaceResponseRecieved:) name:SDLDidReceiveRegisterAppInterfaceResponse object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hashDidChange:) name:SDLDidReceiveNewHashNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
@@ -181,7 +180,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
     
     // Send the request and depending on the response, post the notification
-    [self sdl_sendRequest:regRequest withCompletionHandler:nil];
+    [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        // TODO: Check for success, don't just blindly go on
+        self.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+    }];
 }
 
 - (void)didEnterStateRegistered {
@@ -342,20 +345,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
 
-// TODO: This could go inline on the request
-- (void)registerAppInterfaceResponseRecieved:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRegisterAppInterfaceResponse class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRegisterAppInterfaceResponse class]]) {
-        return;
-    }
-    
-    // TODO: Check for success, don't just blindly go on
-    SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse = notification.userInfo[SDLNotificationUserInfoObject];
-    self.registerAppInterfaceResponse = registerAppInterfaceResponse;
-    
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
-}
-
 - (void)hmiStatusDidChange:(NSNotification *)notification {
     NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
@@ -363,31 +352,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
     
     SDLOnHMIStatus *hmiStatusNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    SDLHMILevel *oldHMILevel = self.currentHMILevel;
+    self.currentHMILevel = hmiStatusNotification.hmiLevel;
     
-    if ([hmiStatusNotification.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
-        BOOL occurred = NO;
-        occurred = self.firstHMINotNoneOccurred;
-        if (!occurred) {
-            // TODO
-            //            [self.notificationDispatcher postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
-        }
-        self.firstHMINotNoneOccurred = YES;
-        
-        occurred = self.firstHMIFullOccurred;
-        if (!occurred) {
-            //            [self.notificationDispatcher postNotification:SDLDidReceiveFirstFullHMIStatusNotification info:notification];
-        }
-        self.firstHMIFullOccurred = YES;
-    } else if (hmiStatusNotification.hmiLevel == [SDLHMILevel BACKGROUND] || hmiStatusNotification.hmiLevel == [SDLHMILevel LIMITED]) {
-        BOOL occurred = NO;
-        occurred = self.firstHMINotNoneOccurred;
-        if (!occurred) {
-            //            [self.notificationDispatcher postNotification:SDLDidReceiveFirstNonNoneHMIStatusNotification info:notification];
-        }
-        self.firstHMINotNoneOccurred = YES;
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        return;
     }
     
-    self.currentHMILevel = hmiStatusNotification.hmiLevel;
+    [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.currentHMILevel];
 }
 
 - (void)hashDidChange:(NSNotification *)notification {
@@ -397,7 +369,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
     
     SDLOnHashChange *hashChangeNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    
     self.resumeHash = hashChangeNotification;
 }
 

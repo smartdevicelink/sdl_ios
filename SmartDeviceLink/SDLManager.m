@@ -68,8 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.configuration;
 }
 
-- (SDLHMILevel *)currentHMILevel {
-    return self.lifecycleManager.currentHMILevel;
+- (SDLHMILevel *)hmiLevel {
+    return self.lifecycleManager.hmiLevel;
 }
 
 - (SDLFileManager *)fileManager {
@@ -82,6 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLStreamingMediaManager *)streamManager {
     return self.lifecycleManager.streamManager;
+}
+
+- (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
+    return self.lifecycleManager.registerAppInterfaceResponse;
 }
 
 - (nullable id<SDLManagerDelegate>)delegate {

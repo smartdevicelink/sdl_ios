@@ -10,6 +10,7 @@
 @class SDLLockScreenConfiguration;
 @class SDLPermissionManager;
 @class SDLPutFile;
+@class SDLRegisterAppInterfaceResponse;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
@@ -24,11 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readonly) NSString *lifecycleState;
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
-@property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
+@property (copy, nonatomic, readonly) SDLHMILevel *hmiLevel;
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;
 @property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 #pragma mark Lifecycle
 /**

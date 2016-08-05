@@ -12,5 +12,6 @@
 
 - (void)managerDidBecomeReady;
 - (void)managerDidDisconnect;
+- (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel;
 
 @end

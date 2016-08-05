@@ -57,6 +57,7 @@ extern SDLLifecycleState *const SDLLifecycleStateReady;
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 @property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push
@@ -66,11 +67,8 @@ extern SDLLifecycleState *const SDLLifecycleStateReady;
 
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readonly, nullable) SDLOnHashChange *resumeHash;
-@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 @property (assign, nonatomic, readonly) NSString *lifecycleState;
-@property (assign, nonatomic, readonly) BOOL firstHMIFullOccurred;
-@property (assign, nonatomic, readonly) BOOL firstHMINotNoneOccurred;
-@property (copy, nonatomic, readonly) SDLHMILevel *currentHMILevel;
+@property (copy, nonatomic, readonly) SDLHMILevel *hmiLevel;
 
 #pragma mark Lifecycle
 /**
