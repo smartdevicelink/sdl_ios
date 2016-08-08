@@ -85,8 +85,6 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.delegate).to(equal(managerDelegateMock));
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
-        expect(@(testManager.firstHMIFullOccurred)).to(beFalsy());
-        expect(@(testManager.firstHMINotNoneOccurred)).to(beFalsy());
         expect(testManager.fileManager).toNot(beNil());
         expect(testManager.permissionManager).toNot(beNil());
         expect(testManager.streamManager).to(beNil());
@@ -133,9 +131,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"should set the hmi level", ^{
-                expect(testManager.currentHMILevel).toEventually(equal(testHMILevel));
-                expect(@(testManager.firstHMIFullOccurred)).toEventually(beFalsy());
-                expect(@(testManager.firstHMINotNoneOccurred)).toEventually(beFalsy());
+                expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
         
@@ -148,9 +144,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"should set the hmi level", ^{
-                expect(testManager.currentHMILevel).toEventually(equal(testHMILevel));
-                expect(@(testManager.firstHMIFullOccurred)).toEventually(beFalsy());
-                expect(@(testManager.firstHMINotNoneOccurred)).toEventually(beTruthy());
+                expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
         
@@ -163,9 +157,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"should set the hmi level", ^{
-                expect(testManager.currentHMILevel).toEventually(equal(testHMILevel));
-                expect(@(testManager.firstHMIFullOccurred)).toEventually(beTruthy());
-                expect(@(testManager.firstHMINotNoneOccurred)).toEventually(beTruthy());
+                expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
             });
         });
     });
@@ -234,7 +226,6 @@ describe(@"a lifecycle manager", ^{
             });
             
             describe(@"after receiving a register app interface response", ^{
-                __block SDLRegisterAppInterfaceResponse *testRAIResponse = nil;
                 __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 
@@ -244,17 +235,15 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     
                     // Send an RAI response to move the lifecycle forward
-                    testRAIResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    testRAIResponse.success = @YES;
-                    [testManager.notificationDispatcher postNotificationName:SDLDidReceiveRegisterAppInterfaceResponse infoObject:testRAIResponse];
-                    [NSThread sleepForTimeInterval:0.1];
+                    [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+                    [NSThread sleepForTimeInterval:0.3];
                 });
                 
                 it(@"should eventually reach the ready state", ^{
                     expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
-                    OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
+                    OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
                 });
                 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -316,6 +305,34 @@ describe(@"a lifecycle manager", ^{
                     
                     it(@"should disconnect", ^{
                         expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                    });
+                });
+            });
+            
+            describe(@"receiving an HMI level change", ^{
+                __block SDLOnHMIStatus *testHMIStatus = nil;
+                __block SDLHMILevel *testHMILevel = nil;
+                __block SDLHMILevel *oldHMILevel = nil;
+                
+                beforeEach(^{
+                    oldHMILevel = testManager.hmiLevel;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                });
+                
+                context(@"a full hmi level", ^{
+                    beforeEach(^{
+                        testHMILevel = [SDLHMILevel FULL];
+                        testHMIStatus.hmiLevel = testHMILevel;
+                        
+                        [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+                    });
+                    
+                    it(@"should set the hmi level", ^{
+                        expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
+                    });
+                    
+                    it(@"should call the delegate", ^{
+                        OCMVerify([managerDelegateMock hmiLevel:oldHMILevel didChangeToLevel:testHMILevel]);
                     });
                 });
             });

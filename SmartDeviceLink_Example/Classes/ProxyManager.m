@@ -86,4 +86,8 @@ NSString *const SDLAppId = @"9999";
 
 - (void)managerDidDisconnect {}
 
+- (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
+    
+}
+
 @end

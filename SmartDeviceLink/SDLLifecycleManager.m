@@ -8,17 +8,33 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SmartDeviceLink.h"
-
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLDebugTool.h"
+#import "SDLError.h"
+#import "SDLFile.h"
+#import "SDLFileManager.h"
+#import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenPresenter.h"
+#import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
+#import "SDLOnAppInterfaceUnregistered.h"
+#import "SDLOnHashChange.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLPermissionManager.h"
+#import "SDLProxy.h"
+#import "SDLProxyFactory.h"
+#import "SDLRegisterAppInterface.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLRPCRequestFactory.h"
+#import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
+#import "SDLUnregisterAppInterface.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,9 +55,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (assign, nonatomic, readwrite) BOOL firstHMIFullOccurred;
-@property (assign, nonatomic, readwrite) BOOL firstHMINotNoneOccurred;
-@property (copy, nonatomic, readwrite) SDLHMILevel *currentHMILevel;
+@property (copy, nonatomic, readwrite) SDLHMILevel *hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLOnHashChange *resumeHash;
@@ -81,8 +95,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
     _lastCorrelationId = 0;
-    _firstHMIFullOccurred = NO;
-    _firstHMINotNoneOccurred = NO;
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerAppInterfaceResponse = nil;
@@ -322,8 +334,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [SDLDebugTool logInfo:@"Stop Proxy"];
     [self.proxy dispose];
     self.proxy = nil;
-    self.firstHMIFullOccurred = NO;
-    self.firstHMINotNoneOccurred = NO;
 }
 
 - (NSNumber *)sdl_getNextCorrelationId {
@@ -352,14 +362,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
     
     SDLOnHMIStatus *hmiStatusNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    SDLHMILevel *oldHMILevel = self.currentHMILevel;
-    self.currentHMILevel = hmiStatusNotification.hmiLevel;
+    SDLHMILevel *oldHMILevel = self.hmiLevel;
+    self.hmiLevel = hmiStatusNotification.hmiLevel;
     
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         return;
     }
     
-    [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.currentHMILevel];
+    [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
 }
 
 - (void)hashDidChange:(NSNotification *)notification {
