@@ -1,4 +1,4 @@
-# 4.3.0 Release Notes
+# 4.3.0 Alpha 1 Release Notes
 ### Breaking Changes
 * Deprecate SDLProxy in favor of SDLManager. A future major release will remove and alter many public APIs, but they will not be deprecated in this release because they will not be replaced in this release.
 
