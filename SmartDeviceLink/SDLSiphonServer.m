@@ -369,7 +369,7 @@ void _startServerOnPort(int port) {
             if (err == 0) {
                 openPortFound = true;
                 success = (err == 0);
-                port = bindPort;
+//                port = bindPort;
             } else {
                 bindPort++;
             }
@@ -388,7 +388,7 @@ void _startServerOnPort(int port) {
 
         if (success) {
             assert(addrLen == sizeof(addr));
-            port = ntohs(addr.sin_port);
+//            port = ntohs(addr.sin_port);
         }
 #ifdef DEBUG_SIPHON
         NSLog(@"siphon: my port is %d ", port);
@@ -405,7 +405,7 @@ void _startServerOnPort(int port) {
 
         if (success) {
             CFRunLoopSourceRef rls;
-            fd = -1;
+//            fd = -1;
             rls = CFSocketCreateRunLoopSource(NULL, _listeningSocket, 0);
             assert(rls != NULL);
             CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);

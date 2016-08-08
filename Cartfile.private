@@ -2,3 +2,4 @@ github "Quick/Quick" ~> 0.9
 github "Quick/Nimble" ~> 4.0
 github "AliSoftware/OHHTTPStubs" ~> 5.0
 github "erikdoe/ocmock" ~> 3.3
+github "facebook/ios-snapshot-test-case" ~> 2.1

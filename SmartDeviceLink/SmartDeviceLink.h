@@ -278,3 +278,29 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataType.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"
+
+// Enhancements
+// Configurations
+#import "SDLConfiguration.h"
+#import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+
+// Files
+#import "SDLArtwork.h"
+#import "SDLFile.h"
+#import "SDLFileManager.h"
+#import "SDLFileManagerConstants.h"
+
+// Lifecycle
+#import "SDLManager.h"
+#import "SDLManagerDelegate.h"
+
+// Permissions
+#import "SDLPermissionConstants.h"
+#import "SDLPermissionManager.h"
+
+// Utilities
+#import "NSNumber+NumberType.h"
+#import "SDLErrorConstants.h"
+#import "SDLNotificationConstants.h"
+#import "SDLRequestHandler.h"

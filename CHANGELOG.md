@@ -1,3 +1,18 @@
+# 4.3.0 Alpha 1 Release Notes
+### Breaking Changes
+* Deprecate SDLProxy in favor of SDLManager. A future major release will remove and alter many public APIs, but they will not be deprecated in this release because they will not be replaced in this release.
+
+### Enhancements
+* Release a whole new way of reasoning about interacting with SDL. This new high-level API, and it is largely modular with "managers" for various aspects of SDL. This will be extended as time goes on with various new managers based on aspects of SDL and app development (#223, #241, #298). @joeljfischer, @adein, @justinjdickow, @asm09fsu
+  * Add a new set of configurations that will be set before startup and allows the manager to take care of quite a bit of setup boilerplate on its own.
+  * Release a Permission Manager that allows a developer to check which SDL RPCs are avaiable to use and monitor the ability to use them.
+  * Release a File Manager that abstracts the process of tracking files on the remote head unit, uploading, and deleting files.
+  * Release a Lock Screen Manager that tracks appropriate times to show a lock screen and comes with a default lock screen view controller that allows for some customizability.
+  * All RPCs sent through the primary manager (SDLManager) are tracked and can have a block called with the request and response when the response is returned from the remote head unit.
+  * All RPCs sent will have their correlation ids managed by the SDL library.
+  * Particular RPCs can now have an additional block used with them that can be called under certain conditions. For example, RPCs that create buttons (such as soft buttons) can have a block handler that will be called when an event occurs on the button.
+  * Underlying the new high-level API are a few dispatchers, particularly the Notification Dispatcher which sends many notifications when new RPC notifications and responses are sent from the remote head unit. This may be used by the developer now, but will become less useful as more managers are released.
+
 # 4.1.4 Release Notes
 ### Bug Fixes
 * Fixed exception causing app to crash when SDL Core disconnects in TCP debug mode. Warning: The app may enter an undefined connection state as there is currently no retry strategy in TCP debug mode.

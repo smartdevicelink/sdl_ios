@@ -9,16 +9,14 @@
 #import "Preferences.h"
 
 
-NSString *const SDLAppName = @"SDL Test";
+NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
 
-@interface ProxyManager () <SDLProxyListener>
+@interface ProxyManager () <SDLManagerDelegate>
 
-@property (strong, nonatomic) SDLProxy *proxy;
-@property (assign, nonatomic, readwrite) ProxyState state;
-@property (assign, nonatomic) BOOL isFirstHMIFull;
-@property (assign, nonatomic) ProxyTransportType currentTransportType;
+@property (strong, nonatomic) SDLManager *sdlManager;
+
 @end
 
 
@@ -42,107 +40,54 @@ NSString *const SDLAppId = @"9999";
         return nil;
     }
     
-    _proxy = nil;
-    _state = ProxyStateStopped;
-    _isFirstHMIFull = NO;
-    _currentTransportType = ProxyTransportTypeUnknown;
-    
     return self;
 }
 
-
-#pragma mark - Public Proxy Setup
-
-- (void)resetProxyWithTransportType:(ProxyTransportType)transportType {
-    [self stopProxy];
-    [self startProxyWithTransportType:transportType];
+- (void)startIAP {
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+    
+    [self.sdlManager start];
 }
 
-
-#pragma mark - Private Proxy Setup
-
-- (void)startProxyWithTransportType:(ProxyTransportType)transportType {
-    if (self.proxy != nil) {
-        return;
-    }
-
-    self.currentTransportType = transportType;
-    self.isFirstHMIFull = YES;
-    self.state = ProxyStateSearchingForConnection;
+- (void)startTCP {
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
-    switch (transportType) {
-        case ProxyTransportTypeTCP: {
-            self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:[Preferences sharedPreferences].ipAddress tcpPort:[Preferences sharedPreferences].port];
-        } break;
-        case ProxyTransportTypeIAP: {
-            self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-        } break;
-        default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
-    }
+    [self.sdlManager start];
 }
 
-- (void)stopProxy {
-    self.state = ProxyStateStopped;
-    
-    if (self.proxy != nil) {
-        [self.proxy dispose];
-        self.proxy = nil;
-    }
+- (void)reset {
+    [self.sdlManager stop];
 }
 
 - (void)showInitialData {
-    SDLShow *showRPC = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test" alignment:[SDLTextAlignment CENTERED] correlationID:[self nextCorrelationID]];
-    [self.proxy sendRPC:showRPC];
+    SDLShow *initalData = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED] correlationID:@0];
+    [self.sdlManager sendRequest:initalData];
 }
 
-
-#pragma mark - Private Proxy Helpers
-
-- (NSNumber *)nextCorrelationID {
-    static NSInteger _correlationID = 1;
-    return @(_correlationID++);
-}
-
-- (UInt32)nextMessageNumber {
-    static UInt32 _messageNumber = 1;
-    return _messageNumber++;
-}
-
-
-#pragma mark - SDLProxyListner delegate methods
-
-- (void)onProxyOpened {
-    self.state = ProxyStateConnected;
++ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
     
-    SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
-    registerRequest.appHMIType = [NSMutableArray arrayWithObjects:[SDLAppHMIType MEDIA], nil];
-    [self.proxy sendRPC:registerRequest];
-}
-
-- (void)onProxyClosed {
-    [self resetProxyWithTransportType:self.currentTransportType];
-}
-
-- (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
+    config.shortAppName = @"SDL Example";
+    config.appIcon = appIconArt;
     
+    return config;
 }
 
-- (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-    if ((notification.hmiLevel == [SDLHMILevel FULL]) && self.isFirstHMIFull) {
-        [self showInitialData];
-        self.isFirstHMIFull = NO;
-    }
+
+#pragma mark - SDLManagerDelegate
+
+- (void)managerDidBecomeReady {
+    [self showInitialData]; // TODO: This should only happen in HMI_FULL
 }
 
-- (void)onReceivedLockScreenIcon:(UIImage *)icon {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Lock Screen Icon" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:icon];
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
-        [alert setValue:imageView forKey:@"accessoryView"];
-    }else{
-        [alert addSubview:imageView];
-    }
-    [alert show];
+- (void)managerDidDisconnect {}
+
+- (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
+    
 }
 
 @end

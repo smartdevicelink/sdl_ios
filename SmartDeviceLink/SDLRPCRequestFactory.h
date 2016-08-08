@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLNotificationConstants.h"
+
 @class SDLAddCommand;
 @class SDLAddSubMenu;
 @class SDLAlert;
@@ -43,9 +45,12 @@
 @class SDLShow;
 @class SDLShowConstantTBT;
 @class SDLSlider;
+@class SDLSoftButton;
+@class SDLSoftButtonType;
 @class SDLSpeak;
 @class SDLSubscribeButton;
 @class SDLSubscribeVehicleData;
+@class SDLSystemAction;
 @class SDLTextAlignment;
 @class SDLUnregisterAppInterface;
 @class SDLUnsubscribeButton;
@@ -58,11 +63,17 @@
 }
 
 //***** AddCommand *****
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID;
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:parentID:position:vrCommands:iconValue:iconType:handler: with SDLManager instead");;
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID;
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:vrCommands:handler: with SDLManager instead");
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID;
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:vrCommands:handler: with SDLManager instead");
+
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
+
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
+
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
 //*****
 
 
@@ -187,6 +198,8 @@
 + (SDLSlider *)buildSliderStaticFooterWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(NSNumber *)timeout correlationID:(NSNumber *)correlationID;
 //*****
 
++ (SDLSoftButton *)buildSoftButtonWithType:(SDLSoftButtonType *)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonID:(UInt16)buttonID systemAction:(SDLSystemAction *)systemAction handler:(SDLRPCNotificationHandler)handler;
+
 //***** Speak *****
 + (SDLSpeak *)buildSpeakWithTTSChunks:(NSArray *)ttsChunks correlationID:(NSNumber *)correlationID;
 
@@ -194,7 +207,9 @@
 + (SDLSpeak *)buildSpeakWithTTS:(NSString *)ttsText correlationID:(NSNumber *)correlationID;
 //*****
 
-+ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID;
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID __deprecated_msg("use buildSubscribeButtonWithName:handler: with SDLManager instead");
+
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler;
 
 + (SDLSubscribeVehicleData *)buildSubscribeVehicleDataWithGPS:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel fuelLevelState:(NSNumber *)fuelLevelState instantFuelConsumption:(NSNumber *)instantFuelConsumption externalTemperature:(NSNumber *)externalTemperature prndl:(NSNumber *)prndl tirePressure:(NSNumber *)tirePressure odometer:(NSNumber *)odometer beltStatus:(NSNumber *)beltStatus bodyInformation:(NSNumber *)bodyInformation deviceStatus:(NSNumber *)deviceStatus driverBraking:(NSNumber *)driverBraking wiperStatus:(NSNumber *)wiperStatus headLampStatus:(NSNumber *)headLampStatus engineTorque:(NSNumber *)engineTorque accPedalPosition:(NSNumber *)accPedalPosition steeringWheelAngle:(NSNumber *)steeringWheelAngle correlationID:(NSNumber *)correlationID;
 

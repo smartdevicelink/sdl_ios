@@ -14,7 +14,7 @@
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
 
-
+__deprecated_msg("Use SDLManager instead")
 @interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
     Byte _bulkSessionID;
