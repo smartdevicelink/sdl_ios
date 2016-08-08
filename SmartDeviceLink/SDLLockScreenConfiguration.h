@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenConfiguration : NSObject <NSCopying>
 
+/**
+ *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to 'NO'.
+ */
 @property (assign, nonatomic) BOOL showInOptional;
 
 /**

@@ -32,8 +32,19 @@ extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfo
  */
 @interface SDLStateMachine : NSObject
 
+/**
+ *  A dictionary of states and their allowed transitions.
+ */
 @property (copy, nonatomic, readonly) NSDictionary<SDLState *, SDLAllowableStateTransitions *> *states;
+
+/**
+ *  The current state of the state machine.
+ */
 @property (copy, nonatomic, readonly) SDLState *currentState;
+
+/**
+ *  The object that will have selector methods called upon it.
+ */
 @property (weak, nonatomic, readonly) id target;
 
 /**

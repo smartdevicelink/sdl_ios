@@ -13,8 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  The SDLNotificationDispatcher subscribes to SDLProxy notifications through SDLProxyListener and sends out actual NSNotifications with those contents. It can also be told to send out other types of notifications.
+ */
 @interface SDLNotificationDispatcher : NSObject <SDLProxyListener>
 
+/**
+ *  Post a notification with a specified name and object.
+ *
+ *  @param name The name of the notification to be dispatched.
+ *  @param info The object to be send along in the `userInfo` dictionary.
+ */
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)info;
 
 @end

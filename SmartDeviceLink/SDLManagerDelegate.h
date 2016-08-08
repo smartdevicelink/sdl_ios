@@ -10,8 +10,22 @@
 
 @protocol SDLManagerDelegate <NSObject>
 
+/**
+ *  Called when the manager is ready to be used by the application. Any RPCs that attempt to be set before this readiness call will be ignored.
+ */
 - (void)managerDidBecomeReady;
+
+/**
+ *  Called upon a disconnection from the remote system.
+ */
 - (void)managerDidDisconnect;
+
+/**
+ *  Called when the HMI level state of this application changes on the remote system. This is equivalent to the application's state changes in iOS such as foreground, background, or closed.
+ *
+ *  @param oldLevel The previous level which has now been left.
+ *  @param newLevel The current level.
+ */
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel;
 
 @end

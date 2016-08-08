@@ -18,12 +18,31 @@ typedef NSString SDLNotificationName;
 typedef NSString SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
+/**
+ *  A handler used on certain RPCs, primarily buttons or commands, when an event occurs.
+ *
+ *  @param notification The RPC Notification that was fired.
+ */
 typedef void (^SDLRPCNotificationHandler) (__kindof SDLRPCNotification *notification);
+
+/**
+ *  A handler used on all RPC requests which fires when the response is received.
+ *
+ *  @param request  The request which was sent.
+ *  @param response The response which was received.
+ *  @param error    If sending the request encountered an error, this parameter will not be nil.
+ */
 typedef void (^SDLRequestCompletionHandler) (__kindof SDLRPCRequest * __nullable request,  __kindof SDLRPCResponse * __nullable response, NSError * __nullable error);
 
+/**
+ *  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
+ */
 #pragma mark - Notification info dictionary keys
 extern SDLNotificationUserInfoKey *const SDLNotificationUserInfoObject;
 
+/**
+ *  Some general NSNotification names not associated with any specific RPC response or request.
+ */
 #pragma mark - General notifications
 extern SDLNotificationName *const SDLTransportDidDisconnect;
 extern SDLNotificationName *const SDLTransportDidConnect;
@@ -31,6 +50,9 @@ extern SDLNotificationName *const SDLDidReceiveError;
 extern SDLNotificationName *const SDLDidReceiveLockScreenIcon;
 extern SDLNotificationName *const SDLDidBecomeReady;
 
+/**
+ *  NSNotification names associated with specific RPC responses.
+ */
 #pragma mark - RPC responses
 extern SDLNotificationName *const SDLDidReceiveAddCommandResponse;
 extern SDLNotificationName *const SDLDidReceiveAddSubMenuResponse;
@@ -74,6 +96,9 @@ extern SDLNotificationName *const SDLDidReceiveUnregisterAppInterfaceResponse;
 extern SDLNotificationName *const SDLDidReceiveUnsubscribeButtonResponse;
 extern SDLNotificationName *const SDLDidReceiveUnsubscribeVehicleDataResponse;
 
+/**
+ *  NSNotification names associated with specific RPC notifications.
+ */
 #pragma mark - RPC Notifications
 extern SDLNotificationName *const SDLDidChangeDriverDistractionStateNotification;
 extern SDLNotificationName *const SDLDidChangeHMIStatusNotification;

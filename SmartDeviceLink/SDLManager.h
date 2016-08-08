@@ -23,16 +23,49 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLManager : NSObject
 
+/**
+ *  The current state of the lifecycle.
+ */
 @property (assign, nonatomic, readonly) NSString *lifecycleState;
+
+/**
+ *  The configuration the manager was set up with.
+ */
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
+
+/**
+ *  The current HMI level of the running app.
+ */
 @property (copy, nonatomic, readonly) SDLHMILevel *hmiLevel;
+
+/**
+ *  The file manager to be used by the running app.
+ */
 @property (strong, nonatomic, readonly) SDLFileManager *fileManager;
+
+/**
+ *  The permission manager monitoring RPC permissions.
+ */
 @property (strong, nonatomic, readonly) SDLPermissionManager *permissionManager;
+
+/**
+ *  The streaming media manager to be used for starting video sessions.
+ */
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
+
+/**
+ *  The manager's delegate.
+ */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+
+/**
+ *  The response of a register call after it has been received.
+ */
 @property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
+
 #pragma mark Lifecycle
+
 /**
  *  Start the manager with a configuration. The manager will then begin waiting for a connection to occur. Once one does, it will automatically run the setup process. You will be notified of its completion via an NSNotification you will want to observe, `SDLDidBecomeReadyNotification`.
  *

@@ -18,8 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager : NSObject
 
+/**
+ *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLPermissionManager, you should use the manager found on `SDLManager`.
+ *
+ *  @param completionHandler The block to be called when the manager's setup is complete.
+ */
 - (void)startWithCompletionHandler:(void(^)(BOOL success, NSError *__nullable error))completionHandler;
 
+/**
+ *  Stop the manager. This method is used internally.
+ */
 - (void)stop;
 
 /**

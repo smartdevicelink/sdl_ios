@@ -281,6 +281,7 @@
 		5D60088B1BE3ED540094A505 /* SDLStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D6008891BE3ED540094A505 /* SDLStateMachine.m */; };
 		5D616B451D552F7A00553F6B /* SDLLockScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */; };
 		5D616B461D552F7A00553F6B /* SDLLockScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */; };
+		5D616B531D59044400553F6B /* SDLErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D616B511D59044400553F6B /* SDLErrorConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA201A84237100846EE7 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5D61FA341A84237100846EE7 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -835,7 +836,7 @@
 		5DA22CBF1D075DEC00245F5F /* SmartDeviceLink.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; };
 		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; };
-		5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3581BC448480026F2D0 /* SDLError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3581BC448480026F2D0 /* SDLError.h */; };
 		5DA3F35B1BC448480026F2D0 /* SDLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3591BC448480026F2D0 /* SDLError.m */; };
 		5DA3F35F1BC448590026F2D0 /* SDLNotificationConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F35D1BC448590026F2D0 /* SDLNotificationConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DA3F3601BC448590026F2D0 /* SDLNotificationConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */; };
@@ -1230,6 +1231,7 @@
 		5D6008881BE3ED540094A505 /* SDLStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStateMachine.h; sourceTree = "<group>"; };
 		5D6008891BE3ED540094A505 /* SDLStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStateMachine.m; sourceTree = "<group>"; };
 		5D616B471D552F7A00553F6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SDLLockScreen.storyboard; sourceTree = "<group>"; };
+		5D616B511D59044400553F6B /* SDLErrorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLErrorConstants.h; sourceTree = "<group>"; };
 		5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA1F1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
@@ -3043,6 +3045,16 @@
 			name = "State Machine";
 			sourceTree = "<group>";
 		};
+		5D616B501D59042B00553F6B /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				5DA3F3581BC448480026F2D0 /* SDLError.h */,
+				5DA3F3591BC448480026F2D0 /* SDLError.m */,
+				5D616B511D59044400553F6B /* SDLErrorConstants.h */,
+			);
+			name = Errors;
+			sourceTree = "<group>";
+		};
 		5D61FA1D1A84237100846EE7 /* SmartDeviceLink */ = {
 			isa = PBXGroup;
 			children = (
@@ -3289,7 +3301,8 @@
 			isa = PBXGroup;
 			children = (
 				5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */,
-				5DA3F35C1BC4484B0026F2D0 /* Constants */,
+				5D616B501D59042B00553F6B /* Errors */,
+				5DA3F35C1BC4484B0026F2D0 /* Notifications */,
 				5DA3F3571BC448160026F2D0 /* Categories */,
 				5D6008871BE3ED470094A505 /* State Machine */,
 			);
@@ -3308,15 +3321,13 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		5DA3F35C1BC4484B0026F2D0 /* Constants */ = {
+		5DA3F35C1BC4484B0026F2D0 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
 				5DA3F35D1BC448590026F2D0 /* SDLNotificationConstants.h */,
 				5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */,
-				5DA3F3581BC448480026F2D0 /* SDLError.h */,
-				5DA3F3591BC448480026F2D0 /* SDLError.m */,
 			);
-			name = Constants;
+			name = Notifications;
 			sourceTree = "<group>";
 		};
 		5DA3F3611BC448690026F2D0 /* Handler Additions */ = {
@@ -3564,6 +3575,7 @@
 				5D61FDFD1A84238C00846EE7 /* SDLVehicleDataActiveStatus.h in Headers */,
 				5D61FD811A84238C00846EE7 /* SDLSetAppIconResponse.h in Headers */,
 				5D61FC551A84238C00846EE7 /* SDLButtonName.h in Headers */,
+				5D616B531D59044400553F6B /* SDLErrorConstants.h in Headers */,
 				5D61FD9F1A84238C00846EE7 /* SDLSoftButton.h in Headers */,
 				5D61FD551A84238C00846EE7 /* SDLPutFile.h in Headers */,
 				5DE372A61ACC35B400849FAA /* SDLDebugToolConsole.h in Headers */,

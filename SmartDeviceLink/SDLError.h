@@ -8,23 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLErrorConstants.h"
+
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NS_ENUM(NSInteger, SDLManagerError) {
-    SDLManagerErrorRPCRequestFailed = -1,
-    SDLManagerErrorNotConnected = -2,
-    SDLManagerErrorNotReady = -3,
-    SDLManagerErrorUnknownRemoteError = -4
-};
-
-typedef NS_ENUM(NSInteger, SDLFileManagerError) {
-    SDLFileManagerErrorCannotOverwrite = -1,
-    SDLFileManagerErrorNoKnownFile = -2
-};
-
-typedef NS_ENUM(NSInteger, SDLStateMachineError) {
-    SDLStateMachineErrorInvalidTransitionOccurred = -1
-};
 
 #pragma mark Error Domains
 typedef NSString SDLErrorDomain;

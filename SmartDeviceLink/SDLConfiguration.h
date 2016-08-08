@@ -15,7 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLConfiguration : NSObject <NSCopying>
 
+/**
+ *  The lifecycle configuration.
+ */
 @property (copy, nonatomic, readonly) SDLLifecycleConfiguration *lifecycleConfig;
+
+/**
+ *  The lock screen configuration.
+ */
 @property (copy, nonatomic, readonly) SDLLockScreenConfiguration *lockScreenConfig;
 
 /**

@@ -20,18 +20,56 @@ typedef NSNumber SDLSoftButtonId;
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  The SDLResponseDispatcher tracks RPC requests and watches for corresponding responses. When one is seen, it fires a completion handler if one was set. It also stores extra completion handlers for specific types of RPCs such as buttons, and fires those handlers if event notifications for those buttons were sent.
+ */
 @interface SDLResponseDispatcher : NSObject
 
-// Dictionaries to link handlers with requests/commands/etc
+/**
+ *  Holds a map of RPC request correlation ids and corresponding blocks.
+ */
 @property (strong, nonatomic, readonly) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
+
+/**
+ *  Holds a dictionary of RPC request correlation ids and their corresponding RPC request.
+ */
 @property (strong, nonatomic, readonly) NSMutableDictionary<SDLRPCCorrelationId *, SDLRPCRequest *> *rpcRequestDictionary;
+
+/**
+ *  Holds a map of command ids and their corresponding blocks.
+ */
 @property (strong, nonatomic, readonly) NSMapTable<SDLAddCommandCommandId *, SDLRPCNotificationHandler> *commandHandlerMap;
+
+/**
+ *  Holds a map of button names and their corresponding blocks.
+ */
 @property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCNotificationHandler> *buttonHandlerMap;
+
+/**
+ *  Holds a map of soft button ids and their corresponding blocks.
+ */
 @property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCNotificationHandler> *customButtonHandlerMap;
 
+/**
+ *  Create a new response dispatcher.
+ *
+ *  @param dispatcher A notification dispatcher to watch only its notifications.
+ *
+ *  @return An instance of `SDLResponseDispatcher`.
+ */
 - (instancetype)initWithNotificationDispatcher:(nullable id)dispatcher NS_DESIGNATED_INITIALIZER;
 
+/**
+ *  Store an RPC request to later call that handler. This will also store the command or button handlers on the RPC request if they exist.
+ *
+ *  @param request The RPC request to track.
+ *  @param handler The handler to invoke when a corresponding response returns.
+ */
 - (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLRequestCompletionHandler)handler;
+
+/**
+ *  Clear all maps and dictionaries of objects.
+ */
 - (void)clear;
 
 @end

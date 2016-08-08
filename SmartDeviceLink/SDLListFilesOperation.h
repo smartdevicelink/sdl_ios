@@ -16,6 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLListFilesOperation : NSOperation
 
+/**
+ *  Create an instance of a list files operation which will ask the remote system which files it has on its system already.
+ *
+ *  @param connectionManager The connection manager which will handle transporting the request to the remote system.
+ *  @param completionHandler A completion handler for when the response returns.
+ *
+ *  @return An instance of SDLListFilesOperation
+ */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletion)completionHandler;
 
 @end

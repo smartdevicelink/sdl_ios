@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ *  A protocol used to tell a view controller to present another view controller. This makes testing of modal VCs' presentation easier.
+ */
 @protocol SDLViewControllerPresentable <NSObject>
 
 @property (strong, nonatomic) UIViewController *viewController;

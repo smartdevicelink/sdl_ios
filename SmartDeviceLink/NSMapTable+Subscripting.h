@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Implement subscripting methods for NSMapTable to allow for easily pushing and pulling objects.
+ */
 @interface NSMapTable (Subscripting)
 
 - (void)setObject:(nullable id)anObject forKeyedSubscript:(id<NSCopying>)key;

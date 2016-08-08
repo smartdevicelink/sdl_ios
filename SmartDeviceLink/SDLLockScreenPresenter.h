@@ -10,9 +10,23 @@
 
 #import "SDLViewControllerPresentable.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ *  An instance of `SDLViewControllerPresentable` used in production (not testing) for presenting the SDL lock screen.
+ */
 @interface SDLLockScreenPresenter : NSObject <SDLViewControllerPresentable>
 
+/**
+ *  The view controller to be presented.
+ */
 @property (strong, nonatomic) UIViewController *viewController;
+
+/**
+ *  Whether or not `viewController` is currently presented.
+ */
 @property (assign, nonatomic, readonly) BOOL presented;
 
 @end
+
+NS_ASSUME_NONNULL_END
