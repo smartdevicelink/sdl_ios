@@ -17,6 +17,7 @@
   <li><a href="#section-hashID">hashID</a></li>
   <li><a href="#section-deviceInfo">deviceInfo</a></li>
   <li><a href="#section-appID">appID</a></li>
+  <li><a href="#section-appInfo">appInfo</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -97,7 +98,7 @@
 
 
 <section class="section task-group-section">
-  <h3>
+  <h3 id="section--init">
       -init
   </h3>
   
@@ -115,7 +116,7 @@
   
   
   
-  <h3>
+  <h3 id="section--initWithDictionary:">
       -initWithDictionary:
   </h3>
   
@@ -139,7 +140,7 @@
 </dd>
   </dl>
   
-  <h3>
+  <h3 id="section-syncMsgVersion">
       syncMsgVersion
   </h3>
   
@@ -150,16 +151,16 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLSyncMsgVersion</span> <span class="o">*</span><span class="n">syncMsgVersion</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="n">syncMsgVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">syncMsgVersion</span><span class="p">:</span> <span class="kt">SDLSyncMsgVersion</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">syncMsgVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
   
-  <h3>
+  <h3 id="section-appName">
       appName
   </h3>
   
@@ -186,7 +187,7 @@
   
   
   
-  <h3>
+  <h3 id="section-ttsName">
       ttsName
   </h3>
   
@@ -214,7 +215,7 @@
   
   
   
-  <h3>
+  <h3 id="section-ngnMediaScreenAppName">
       ngnMediaScreenAppName
   </h3>
   
@@ -236,7 +237,7 @@
   
   
   
-  <h3>
+  <h3 id="section-vrSynonyms">
       vrSynonyms
   </h3>
   
@@ -258,7 +259,7 @@
   
   
   
-  <h3>
+  <h3 id="section-isMediaApplication">
       isMediaApplication
   </h3>
   
@@ -280,7 +281,7 @@
   
   
   
-  <h3>
+  <h3 id="section-languageDesired">
       languageDesired
   </h3>
   
@@ -293,16 +294,16 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLLanguage</span> <span class="o">*</span><span class="n">languageDesired</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*</span><span class="n">languageDesired</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt">SDLLanguage</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
   
-  <h3>
+  <h3 id="section-hmiDisplayLanguageDesired">
       hmiDisplayLanguageDesired
   </h3>
   
@@ -317,16 +318,16 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLLanguage</span> <span class="o">*</span><span class="n">hmiDisplayLanguageDesired</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*</span><span class="n">hmiDisplayLanguageDesired</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiDisplayLanguageDesired</span><span class="p">:</span> <span class="kt">SDLLanguage</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiDisplayLanguageDesired</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
   
-  <h3>
+  <h3 id="section-appHMIType">
       appHMIType
   </h3>
   
@@ -349,7 +350,7 @@
   
   
   
-  <h3>
+  <h3 id="section-hashID">
       hashID
   </h3>
   
@@ -373,7 +374,7 @@
   
   
   
-  <h3>
+  <h3 id="section-deviceInfo">
       deviceInfo
   </h3>
   
@@ -384,16 +385,16 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">SDLDeviceInfo</span> <span class="o">*</span><span class="n">deviceInfo</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDeviceInfo.html">SDLDeviceInfo</a></span> <span class="o">*</span><span class="n">deviceInfo</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">deviceInfo</span><span class="p">:</span> <span class="kt">SDLDeviceInfo</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">deviceInfo</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDeviceInfo.html">SDLDeviceInfo</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
   
-  <h3>
+  <h3 id="section-appID">
       appID
   </h3>
   
@@ -411,6 +412,26 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="k">var</span> <span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appInfo">
+      appInfo
+  </h3>
+  
+  <p>@abstract Information about the application running</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAppInfo.html">SDLAppInfo</a></span> <span class="o">*</span><span class="n">appInfo</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appInfo</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppInfo.html">SDLAppInfo</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

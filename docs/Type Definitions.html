@@ -3,7 +3,21 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section-SDLFileManagerState">SDLFileManagerState</a></li>
+  <li><a href="#section-SDLFileName">SDLFileName</a></li>
+  <li><a href="#section-SDLFileManagerStartupCompletion">SDLFileManagerStartupCompletion</a></li>
+  <li><a href="#section-SDLFileManagerUploadCompletion">SDLFileManagerUploadCompletion</a></li>
+  <li><a href="#section-SDLFileManagerDeleteCompletion">SDLFileManagerDeleteCompletion</a></li>
+  <li><a href="#section-SDLFileManagerListFilesCompletion">SDLFileManagerListFilesCompletion</a></li>
+  <li><a href="#section-SDLNotificationName">SDLNotificationName</a></li>
+  <li><a href="#section-SDLNotificationUserInfoKey">SDLNotificationUserInfoKey</a></li>
+  <li><a href="#section-SDLRPCNotificationHandler">SDLRPCNotificationHandler</a></li>
+  <li><a href="#section-SDLRequestCompletionHandler">SDLRequestCompletionHandler</a></li>
+  <li><a href="#section-SDLPermissionRPCName">SDLPermissionRPCName</a></li>
+  <li><a href="#section-SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></li>
+  <li><a href="#section-SDLPermissionObserver">SDLPermissionObserver</a></li>
   <li><a href="#section-SDLStreamingStartBlock">SDLStreamingStartBlock</a></li>
+  <li><a href="#section-SDLStreamingEncryptionStartBlock">SDLStreamingEncryptionStartBlock</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -12,8 +26,216 @@
 
 
 <section class="section task-group-section">
-  <h3>
+  <h3 id="section-SDLFileManagerState">
+      SDLFileManagerState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLFileName">
+      SDLFileName
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLFileManagerStartupCompletion">
+      SDLFileManagerStartupCompletion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLFileManagerUploadCompletion">
+      SDLFileManagerUploadCompletion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLFileManagerDeleteCompletion">
+      SDLFileManagerDeleteCompletion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLFileManagerListFilesCompletion">
+      SDLFileManagerListFilesCompletion
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLNotificationName">
+      SDLNotificationName
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLNotificationUserInfoKey">
+      SDLNotificationUserInfoKey
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLRPCNotificationHandler">
+      SDLRPCNotificationHandler
+  </h3>
+  
+  <p>A handler used on certain RPCs, primarily buttons or commands, when an event occurs.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRPCNotificationHandler</span><span class="p">)(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLRPCNotificationHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>notification</dt>
+      <dd><p>The RPC Notification that was fired.</p>
+</dd>
+  </dl>
+  
+  <h3 id="section-SDLRequestCompletionHandler">
+      SDLRequestCompletionHandler
+  </h3>
+  
+  <p>A handler used on all RPC requests which fires when the response is received.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRequestCompletionHandler</span><span class="p">)(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                            <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                            <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLRequestCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">?,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The request which was sent.</p>
+</dd>
+      <dt>response</dt>
+      <dd><p>The response which was received.</p>
+</dd>
+      <dt>error</dt>
+      <dd><p>If sending the request encountered an error, this parameter will not be nil.</p>
+</dd>
+  </dl>
+  
+  <h3 id="section-SDLPermissionRPCName">
+      SDLPermissionRPCName
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLPermissionObserverIdentifier">
+      SDLPermissionObserverIdentifier
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLPermissionObserver">
+      SDLPermissionObserver
+  </h3>
+  
+  <p>The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLPermissionObserver</span><span class="p">)(</span>
+    <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*</span><span class="p">,</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span>
+    <span class="n"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionObserver</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>change</dt>
+      <dd><p>A dictionary of permission changes containing 
+<key
+(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed></p>
+</dd>
+      <dt>status</dt>
+      <dd><p>The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed</p>
+</dd>
+  </dl>
+  
+  <h3 id="section-SDLStreamingStartBlock">
       SDLStreamingStartBlock
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLStreamingEncryptionStartBlock">
+      SDLStreamingEncryptionStartBlock
   </h3>
   
   <p>Undocumented</p>

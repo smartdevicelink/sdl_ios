@@ -1,0 +1,247 @@
+<h1>SDLPermissionManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--startWithCompletionHandler:">-startWithCompletionHandler:</a></li>
+  <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--isRPCAllowed:">-isRPCAllowed:</a></li>
+  <li><a href="#section--groupStatusOfRPCs:">-groupStatusOfRPCs:</a></li>
+  <li><a href="#section--statusOfRPCs:">-statusOfRPCs:</a></li>
+  <li><a href="#section--addObserverForRPCs:groupType:withBlock:">-addObserverForRPCs:groupType:withBlock:</a></li>
+  <li><a href="#section--removeAllObservers">-removeAllObservers</a></li>
+  <li><a href="#section--removeObserverForIdentifier:">-removeObserverForIdentifier:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--startWithCompletionHandler:">
+      -startWithCompletionHandler:
+  </h3>
+  
+  <p>Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLPermissionManager, you should use the manager found on <code><a href="../Classes/SDLManager.html">SDLManager</a></code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithCompletionHandler</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startWithCompletionHandler</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>completionHandler</dt>
+      <dd><p>The block to be called when the manager&rsquo;s setup is complete.</p>
+</dd>
+  </dl>
+  
+  <h3 id="section--stop">
+      -stop
+  </h3>
+  
+  <p>Stop the manager. This method is used internally.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--isRPCAllowed:">
+      -isRPCAllowed:
+  </h3>
+  
+  <p>Determine if an individual RPC is allowed for the current HMI level</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isRPCAllowed</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isRPCAllowed</span><span class="p">(</span><span class="nv">rpcName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcName</dt>
+      <dd><p>The name of the RPC to be tested, // TODO: add an example</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>YES if the RPC is allowed at the current HMI level, NO if not</p>
+
+  </div>
+  
+  <h3 id="section--groupStatusOfRPCs:">
+      -groupStatusOfRPCs:
+  </h3>
+  
+  <p>Determine if all RPCs are allowed for the current HMI level</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span><span class="nf">groupStatusOfRPCs</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">groupStatusOfRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcNames</dt>
+      <dd><p>The RPCs to check</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed</p>
+
+  </div>
+  
+  <h3 id="section--statusOfRPCs:">
+      -statusOfRPCs:
+  </h3>
+  
+  <p>Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*</span><span class="p">,</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+<span class="nf">statusOfRPCs</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">statusOfRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">]</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcNames</dt>
+      <dd><p>An array of RPC names to check</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A dictionary specifying if the passed in RPC names are currently allowed or not</p>
+
+  </div>
+  
+  <h3 id="section--addObserverForRPCs:groupType:withBlock:">
+      -addObserverForRPCs:groupType:withBlock:
+  </h3>
+  
+  <p>Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>This block will be captured by the SDLPermissionsManager, be sure to use <a href="http://www.logicsector.com/ios/avoiding-objc-retain-cycles-with-weakself-and-strongself-the-easy-way/">weakself/strongself</a> if you are referencing self within your observer block.</p>
+
+</div>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>The observer may be called before this method returns, do not attempt to remove the observer from within the observer. That could send <code>nil</code> to removeObserverForIdentifier:. If you want functionality like that, call groupStatusOfRPCs: instead.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span> <span class="o">*</span><span class="p">)</span>
+<span class="nf">addObserverForRPCs</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span>
+         <span class="nf">groupType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">)</span><span class="nv">groupType</span>
+         <span class="nf">withBlock</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserver">SDLPermissionObserver</a></span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addObserverForRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">groupType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">,</span> <span class="n">withBlock</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserver">SDLPermissionObserver</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSUUID</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>rpcNames</dt>
+      <dd><p>The RPCs to be observed</p>
+</dd>
+      <dt>groupType</dt>
+      <dd><p>Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.</p>
+</dd>
+      <dt>observer</dt>
+      <dd><p>The block that will be called whenever permissions change.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An identifier that can be passed to removeObserverForIdentifer: to remove the observer</p>
+
+  </div>
+  
+  <h3 id="section--removeAllObservers">
+      -removeAllObservers
+  </h3>
+  
+  <p>Remove every current observer</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">removeAllObservers</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">removeAllObservers</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--removeObserverForIdentifier:">
+      -removeObserverForIdentifier:
+  </h3>
+  
+  <p>Remove block observers for the specified RPC</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserverForIdentifier</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">identifier</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">removeObserverForIdentifier</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">NSUUID</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>identifier</dt>
+      <dd><p>The identifier specifying which observer to remove</p>
+</dd>
+  </dl>
+  
+</section>

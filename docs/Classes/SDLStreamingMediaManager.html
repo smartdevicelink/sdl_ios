@@ -3,15 +3,24 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--initWithProtocol:">-initWithProtocol:</a></li>
-  <li><a href="#section--startVideoSessionWithStartBlock:">-startVideoSessionWithStartBlock:</a></li>
-  <li><a href="#section--stopVideoSession">-stopVideoSession</a></li>
-  <li><a href="#section--sendVideoData:">-sendVideoData:</a></li>
-  <li><a href="#section--startAudioStreamingWithStartBlock:">-startAudioStreamingWithStartBlock:</a></li>
-  <li><a href="#section--stopAudioSession">-stopAudioSession</a></li>
-  <li><a href="#section--sendAudioData:">-sendAudioData:</a></li>
   <li><a href="#section-videoSessionConnected">videoSessionConnected</a></li>
   <li><a href="#section-audioSessionConnected">audioSessionConnected</a></li>
+  <li><a href="#section-videoSessionAuthenticated">videoSessionAuthenticated</a></li>
+  <li><a href="#section-audioSessionAuthenticated">audioSessionAuthenticated</a></li>
+  <li><a href="#section-touchManager">touchManager</a></li>
+  <li><a href="#section-videoEncoderSettings">videoEncoderSettings</a></li>
+  <li><a href="#section-defaultVideoEncoderSettings">defaultVideoEncoderSettings</a></li>
+  <li><a href="#section-screenSize">screenSize</a></li>
+  <li><a href="#section--initWithProtocol:">-initWithProtocol:</a></li>
+  <li><a href="#section--initWithProtocol:displayCapabilities:">-initWithProtocol:displayCapabilities:</a></li>
+  <li><a href="#section--startVideoSessionWithStartBlock:">-startVideoSessionWithStartBlock:</a></li>
+  <li><a href="#section--startVideoSessionWithTLS:startBlock:">-startVideoSessionWithTLS:startBlock:</a></li>
+  <li><a href="#section--stopVideoSession">-stopVideoSession</a></li>
+  <li><a href="#section--sendVideoData:">-sendVideoData:</a></li>
+  <li><a href="#section--startAudioSessionWithStartBlock:">-startAudioSessionWithStartBlock:</a></li>
+  <li><a href="#section--startAudioSessionWithTLS:startBlock:">-startAudioSessionWithTLS:startBlock:</a></li>
+  <li><a href="#section--stopAudioSession">-stopAudioSession</a></li>
+  <li><a href="#section--sendAudioData:">-sendAudioData:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -20,7 +29,131 @@
 
 
 <section class="section task-group-section">
-  <h3>
+  <h3 id="section-videoSessionConnected">
+      videoSessionConnected
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-audioSessionConnected">
+      audioSessionConnected
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-videoSessionAuthenticated">
+      videoSessionAuthenticated
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-audioSessionAuthenticated">
+      audioSessionAuthenticated
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-touchManager">
+      touchManager
+  </h3>
+  
+  <p>Touch Manager responsible for providing touch event notifications.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">touchManager</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">touchManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-videoEncoderSettings">
+      videoEncoderSettings
+  </h3>
+  
+  <p>The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span>
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">videoEncoderSettings</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">videoEncoderSettings</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-defaultVideoEncoderSettings">
+      defaultVideoEncoderSettings
+  </h3>
+  
+  <p>Provides default video encoder settings used.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">defaultVideoEncoderSettings</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">defaultVideoEncoderSettings</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-screenSize">
+      screenSize
+  </h3>
+  
+  <p>This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGSize</span> <span class="n">screenSize</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">screenSize</span><span class="p">:</span> <span class="kt">CGSize</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithProtocol:">
       -initWithProtocol:
   </h3>
   
@@ -31,7 +164,18 @@
   
   
   
-  <h3>
+  <h3 id="section--initWithProtocol:displayCapabilities:">
+      -initWithProtocol:displayCapabilities:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section--startVideoSessionWithStartBlock:">
       -startVideoSessionWithStartBlock:
   </h3>
   
@@ -47,11 +191,11 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startVideoSessionWithStartBlock</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLStreamingStartBlock</span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock">SDLStreamingStartBlock</a></span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startVideoSessionWithStartBlock</span><span class="p">(</span><span class="nv">startBlock</span><span class="p">:</span> <span class="kt">SDLStreamingStartBlock</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startVideoSessionWithStartBlock</span><span class="p">(</span><span class="nv">startBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock">SDLStreamingStartBlock</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -62,7 +206,18 @@
 </dd>
   </dl>
   
-  <h3>
+  <h3 id="section--startVideoSessionWithTLS:startBlock:">
+      -startVideoSessionWithTLS:startBlock:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section--stopVideoSession">
       -stopVideoSession
   </h3>
   
@@ -80,7 +235,7 @@
   
   
   
-  <h3>
+  <h3 id="section--sendVideoData:">
       -sendVideoData:
   </h3>
   
@@ -109,8 +264,8 @@
 
   </div>
   
-  <h3>
-      -startAudioStreamingWithStartBlock:
+  <h3 id="section--startAudioSessionWithStartBlock:">
+      -startAudioSessionWithStartBlock:
   </h3>
   
   <p>This method will attempt to start an audio session</p>
@@ -118,12 +273,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startAudioStreamingWithStartBlock</span><span class="p">:</span>
-    <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLStreamingStartBlock</span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startAudioSessionWithStartBlock</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock">SDLStreamingStartBlock</a></span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startAudioStreamingWithStartBlock</span><span class="p">(</span><span class="nv">startBlock</span><span class="p">:</span> <span class="kt">SDLStreamingStartBlock</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startAudioSessionWithStartBlock</span><span class="p">(</span><span class="nv">startBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock">SDLStreamingStartBlock</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -134,7 +289,18 @@
 </dd>
   </dl>
   
-  <h3>
+  <h3 id="section--startAudioSessionWithTLS:startBlock:">
+      -startAudioSessionWithTLS:startBlock:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section--stopAudioSession">
       -stopAudioSession
   </h3>
   
@@ -152,7 +318,7 @@
   
   
   
-  <h3>
+  <h3 id="section--sendAudioData:">
       -sendAudioData:
   </h3>
   
@@ -180,27 +346,5 @@
     <p>Whether or not the data was successfully sent.</p>
 
   </div>
-  
-  <h3>
-      videoSessionConnected
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3>
-      audioSessionConnected
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
   
 </section>

@@ -1,3 +1,7 @@
+- name: Categories
+  sub_nav:
+    - name: NSNumber(NumberType)
+      url: Categories.html#/c:objc(cy)NSNumber@NumberType
 - name: Classes
   sub_nav:
     - name: SDLAbstractProtocol
@@ -26,8 +30,12 @@
       url: Classes/SDLAmbientLightStatus.html
     - name: SDLAppHMIType
       url: Classes/SDLAppHMIType.html
+    - name: SDLAppInfo
+      url: Classes/SDLAppInfo.html
     - name: SDLAppInterfaceUnregisteredReason
       url: Classes/SDLAppInterfaceUnregisteredReason.html
+    - name: SDLArtwork
+      url: Classes/SDLArtwork.html
     - name: SDLAudioPassThruCapabilities
       url: Classes/SDLAudioPassThruCapabilities.html
     - name: SDLAudioStreamingState
@@ -64,6 +72,8 @@
       url: Classes/SDLCompassDirection.html
     - name: SDLComponentVolumeStatus
       url: Classes/SDLComponentVolumeStatus.html
+    - name: SDLConfiguration
+      url: Classes/SDLConfiguration.html
     - name: SDLConsoleController
       url: Classes/SDLConsoleController.html
     - name: SDLCreateInteractionChoiceSet
@@ -130,6 +140,12 @@
       url: Classes/SDLEndAudioPassThruResponse.html
     - name: SDLEnum
       url: Classes/SDLEnum.html
+    - name: SDLFile
+      url: Classes/SDLFile.html
+    - name: SDLFileManager
+      url: Classes/SDLFileManager.html
+    - name: SDLFileManagerConstants
+      url: Classes.html#/c:objc(cs)SDLFileManagerConstants
     - name: SDLFileType
       url: Classes/SDLFileType.html
     - name: SDLFuelCutoffStatus
@@ -190,14 +206,20 @@
       url: Classes/SDLLanguage.html
     - name: SDLLayoutMode
       url: Classes/SDLLayoutMode.html
+    - name: SDLLifecycleConfiguration
+      url: Classes/SDLLifecycleConfiguration.html
     - name: SDLListFiles
       url: Classes/SDLListFiles.html
     - name: SDLListFilesResponse
       url: Classes/SDLListFilesResponse.html
+    - name: SDLLockScreenConfiguration
+      url: Classes/SDLLockScreenConfiguration.html
     - name: SDLLockScreenStatus
       url: Classes/SDLLockScreenStatus.html
     - name: SDLMaintenanceModeStatus
       url: Classes/SDLMaintenanceModeStatus.html
+    - name: SDLManager
+      url: Classes/SDLManager.html
     - name: SDLMediaClockFormat
       url: Classes/SDLMediaClockFormat.html
     - name: SDLMenuParams
@@ -254,6 +276,8 @@
       url: Classes/SDLPerformInteractionResponse.html
     - name: SDLPermissionItem
       url: Classes/SDLPermissionItem.html
+    - name: SDLPermissionManager
+      url: Classes/SDLPermissionManager.html
     - name: SDLPermissionStatus
       url: Classes/SDLPermissionStatus.html
     - name: SDLPowerModeQualificationStatus
@@ -412,6 +436,8 @@
       url: Classes/SDLTouchEvent.html
     - name: SDLTouchEventCapabilities
       url: Classes/SDLTouchEventCapabilities.html
+    - name: SDLTouchManager
+      url: Classes/SDLTouchManager.html
     - name: SDLTouchType
       url: Classes/SDLTouchType.html
     - name: SDLTriggerSource
@@ -462,24 +488,174 @@
       url: Classes/SDLWiperStatus.html
 - name: Constants
   sub_nav:
+    - name: SDLDidBecomeReady
+      url: Constants.html#/c:@SDLDidBecomeReady
+    - name: SDLDidChangeDriverDistractionStateNotification
+      url: Constants.html#/c:@SDLDidChangeDriverDistractionStateNotification
+    - name: SDLDidChangeHMIStatusNotification
+      url: Constants.html#/c:@SDLDidChangeHMIStatusNotification
+    - name: SDLDidChangeLanguageNotification
+      url: Constants.html#/c:@SDLDidChangeLanguageNotification
+    - name: SDLDidChangeLockScreenStatusNotification
+      url: Constants.html#/c:@SDLDidChangeLockScreenStatusNotification
+    - name: SDLDidChangePermissionsNotification
+      url: Constants.html#/c:@SDLDidChangePermissionsNotification
+    - name: SDLDidChangeTurnByTurnStateNotification
+      url: Constants.html#/c:@SDLDidChangeTurnByTurnStateNotification
+    - name: SDLDidReceiveAddCommandResponse
+      url: Constants.html#/c:@SDLDidReceiveAddCommandResponse
+    - name: SDLDidReceiveAddSubMenuResponse
+      url: Constants.html#/c:@SDLDidReceiveAddSubMenuResponse
+    - name: SDLDidReceiveAlertManeuverResponse
+      url: Constants.html#/c:@SDLDidReceiveAlertManeuverResponse
+    - name: SDLDidReceiveAlertResponse
+      url: Constants.html#/c:@SDLDidReceiveAlertResponse
+    - name: SDLDidReceiveAppUnregisteredNotification
+      url: Constants.html#/c:@SDLDidReceiveAppUnregisteredNotification
+    - name: SDLDidReceiveAudioPassThruNotification
+      url: Constants.html#/c:@SDLDidReceiveAudioPassThruNotification
+    - name: SDLDidReceiveButtonEventNotification
+      url: Constants.html#/c:@SDLDidReceiveButtonEventNotification
+    - name: SDLDidReceiveButtonPressNotification
+      url: Constants.html#/c:@SDLDidReceiveButtonPressNotification
+    - name: SDLDidReceiveChangeRegistrationResponse
+      url: Constants.html#/c:@SDLDidReceiveChangeRegistrationResponse
+    - name: SDLDidReceiveCommandNotification
+      url: Constants.html#/c:@SDLDidReceiveCommandNotification
+    - name: SDLDidReceiveCreateInteractionChoiceSetResponse
+      url: Constants.html#/c:@SDLDidReceiveCreateInteractionChoiceSetResponse
+    - name: SDLDidReceiveDeleteCommandResponse
+      url: Constants.html#/c:@SDLDidReceiveDeleteCommandResponse
+    - name: SDLDidReceiveDeleteFileResponse
+      url: Constants.html#/c:@SDLDidReceiveDeleteFileResponse
+    - name: SDLDidReceiveDeleteInteractionChoiceSetResponse
+      url: Constants.html#/c:@SDLDidReceiveDeleteInteractionChoiceSetResponse
+    - name: SDLDidReceiveDeleteSubmenuResponse
+      url: Constants.html#/c:@SDLDidReceiveDeleteSubmenuResponse
+    - name: SDLDidReceiveDiagnosticMessageResponse
+      url: Constants.html#/c:@SDLDidReceiveDiagnosticMessageResponse
+    - name: SDLDidReceiveDialNumberResponse
+      url: Constants.html#/c:@SDLDidReceiveDialNumberResponse
+    - name: SDLDidReceiveEncodedDataNotification
+      url: Constants.html#/c:@SDLDidReceiveEncodedDataNotification
+    - name: SDLDidReceiveEncodedSyncPDataResponse
+      url: Constants.html#/c:@SDLDidReceiveEncodedSyncPDataResponse
+    - name: SDLDidReceiveEndAudioPassThruResponse
+      url: Constants.html#/c:@SDLDidReceiveEndAudioPassThruResponse
+    - name: SDLDidReceiveError
+      url: Constants.html#/c:@SDLDidReceiveError
+    - name: SDLDidReceiveGenericResponse
+      url: Constants.html#/c:@SDLDidReceiveGenericResponse
+    - name: SDLDidReceiveGetDTCsResponse
+      url: Constants.html#/c:@SDLDidReceiveGetDTCsResponse
+    - name: SDLDidReceiveGetVehicleDataResponse
+      url: Constants.html#/c:@SDLDidReceiveGetVehicleDataResponse
+    - name: SDLDidReceiveListFilesResponse
+      url: Constants.html#/c:@SDLDidReceiveListFilesResponse
+    - name: SDLDidReceiveLockScreenIcon
+      url: Constants.html#/c:@SDLDidReceiveLockScreenIcon
+    - name: SDLDidReceiveNewHashNotification
+      url: Constants.html#/c:@SDLDidReceiveNewHashNotification
+    - name: SDLDidReceivePerformAudioPassThruResponse
+      url: Constants.html#/c:@SDLDidReceivePerformAudioPassThruResponse
+    - name: SDLDidReceivePerformInteractionResponse
+      url: Constants.html#/c:@SDLDidReceivePerformInteractionResponse
+    - name: SDLDidReceivePutFileResponse
+      url: Constants.html#/c:@SDLDidReceivePutFileResponse
+    - name: SDLDidReceiveReadDIDResponse
+      url: Constants.html#/c:@SDLDidReceiveReadDIDResponse
+    - name: SDLDidReceiveRegisterAppInterfaceResponse
+      url: Constants.html#/c:@SDLDidReceiveRegisterAppInterfaceResponse
+    - name: SDLDidReceiveResetGlobalPropertiesResponse
+      url: Constants.html#/c:@SDLDidReceiveResetGlobalPropertiesResponse
+    - name: SDLDidReceiveScrollableMessageResponse
+      url: Constants.html#/c:@SDLDidReceiveScrollableMessageResponse
+    - name: SDLDidReceiveSendLocationResponse
+      url: Constants.html#/c:@SDLDidReceiveSendLocationResponse
+    - name: SDLDidReceiveSetAppIconResponse
+      url: Constants.html#/c:@SDLDidReceiveSetAppIconResponse
+    - name: SDLDidReceiveSetDisplayLayoutResponse
+      url: Constants.html#/c:@SDLDidReceiveSetDisplayLayoutResponse
+    - name: SDLDidReceiveSetGlobalPropertiesResponse
+      url: Constants.html#/c:@SDLDidReceiveSetGlobalPropertiesResponse
+    - name: SDLDidReceiveSetMediaClockTimerResponse
+      url: Constants.html#/c:@SDLDidReceiveSetMediaClockTimerResponse
+    - name: SDLDidReceiveShowConstantTBTResponse
+      url: Constants.html#/c:@SDLDidReceiveShowConstantTBTResponse
+    - name: SDLDidReceiveShowResponse
+      url: Constants.html#/c:@SDLDidReceiveShowResponse
+    - name: SDLDidReceiveSliderResponse
+      url: Constants.html#/c:@SDLDidReceiveSliderResponse
+    - name: SDLDidReceiveSpeakResponse
+      url: Constants.html#/c:@SDLDidReceiveSpeakResponse
+    - name: SDLDidReceiveSubscribeButtonResponse
+      url: Constants.html#/c:@SDLDidReceiveSubscribeButtonResponse
+    - name: SDLDidReceiveSubscribeVehicleDataResponse
+      url: Constants.html#/c:@SDLDidReceiveSubscribeVehicleDataResponse
+    - name: SDLDidReceiveSyncPDataResponse
+      url: Constants.html#/c:@SDLDidReceiveSyncPDataResponse
+    - name: SDLDidReceiveSystemRequestNotification
+      url: Constants.html#/c:@SDLDidReceiveSystemRequestNotification
+    - name: SDLDidReceiveTouchEventNotification
+      url: Constants.html#/c:@SDLDidReceiveTouchEventNotification
+    - name: SDLDidReceiveUnregisterAppInterfaceResponse
+      url: Constants.html#/c:@SDLDidReceiveUnregisterAppInterfaceResponse
+    - name: SDLDidReceiveUnsubscribeButtonResponse
+      url: Constants.html#/c:@SDLDidReceiveUnsubscribeButtonResponse
+    - name: SDLDidReceiveUnsubscribeVehicleDataResponse
+      url: Constants.html#/c:@SDLDidReceiveUnsubscribeVehicleDataResponse
+    - name: SDLDidReceiveUpdateTurnListResponse
+      url: Constants.html#/c:@SDLDidReceiveUpdateTurnListResponse
+    - name: SDLDidReceiveVehicleDataNotification
+      url: Constants.html#/c:@SDLDidReceiveVehicleDataNotification
+    - name: SDLDidReceiveVehicleIconNotification
+      url: Constants.html#/c:@SDLDidReceiveVehicleIconNotification
     - name: SDLErrorDomainStreamingMediaAudio
       url: Constants.html#/c:@SDLErrorDomainStreamingMediaAudio
     - name: SDLErrorDomainStreamingMediaVideo
       url: Constants.html#/c:@SDLErrorDomainStreamingMediaVideo
+    - name: SDLFileManagerStateFetchingInitialList
+      url: Constants.html#/c:@SDLFileManagerStateFetchingInitialList
+    - name: SDLFileManagerStateReady
+      url: Constants.html#/c:@SDLFileManagerStateReady
+    - name: SDLFileManagerStateShutdown
+      url: Constants.html#/c:@SDLFileManagerStateShutdown
+    - name: SDLNotificationUserInfoObject
+      url: Constants.html#/c:@SDLNotificationUserInfoObject
+    - name: SDLProtocolSecurityErrorDomain
+      url: Constants.html#/c:@SDLProtocolSecurityErrorDomain
+    - name: SDLTransportDidConnect
+      url: Constants.html#/c:@SDLTransportDidConnect
+    - name: SDLTransportDidDisconnect
+      url: Constants.html#/c:@SDLTransportDidDisconnect
     - name: SmartDeviceLinkVersionNumber
       url: Constants.html#/c:@SmartDeviceLinkVersionNumber
     - name: SmartDeviceLinkVersionString
       url: Constants.html#/c:@SmartDeviceLinkVersionString
 - name: Enums
   sub_nav:
+    - name: SDLArtworkImageFormat
+      url: Enums/SDLArtworkImageFormat.html
     - name: SDLDebugOutput
       url: Enums/SDLDebugOutput.html
     - name: SDLDebugType
       url: Enums/SDLDebugType.html
+    - name: SDLEncryptionFlag
+      url: Enums/SDLEncryptionFlag.html
+    - name: SDLFileManagerError
+      url: Enums/SDLFileManagerError.html
     - name: SDLFrameData
       url: Enums/SDLFrameData.html
     - name: SDLFrameType
       url: Enums/SDLFrameType.html
+    - name: SDLManagerError
+      url: Enums/SDLManagerError.html
+    - name: SDLPermissionGroupStatus
+      url: Enums/SDLPermissionGroupStatus.html
+    - name: SDLPermissionGroupType
+      url: Enums/SDLPermissionGroupType.html
+    - name: SDLProtocolError
+      url: Enums/SDLProtocolError.html
     - name: SDLRPCMessageType
       url: Enums/SDLRPCMessageType.html
     - name: SDLServiceType
@@ -490,17 +666,61 @@
       url: Enums/SDLStreamingVideoError.html
 - name: Protocols
   sub_nav:
+    - name: SDLBool
+      url: Protocols.html#/c:objc(pl)SDLBool
     - name: SDLDebugToolConsole
       url: Protocols/SDLDebugToolConsole.html
+    - name: SDLFloat
+      url: Protocols.html#/c:objc(pl)SDLFloat
     - name: SDLIAPSessionDelegate
       url: Protocols/SDLIAPSessionDelegate.html
+    - name: SDLInt
+      url: Protocols.html#/c:objc(pl)SDLInt
+    - name: SDLManagerDelegate
+      url: Protocols/SDLManagerDelegate.html
     - name: SDLProtocolListener
       url: Protocols/SDLProtocolListener.html
     - name: SDLProxyListener
       url: Protocols/SDLProxyListener.html
+    - name: SDLRequestHandler
+      url: Protocols/SDLRequestHandler.html
+    - name: SDLSecurityType
+      url: Protocols/SDLSecurityType.html
+    - name: SDLTouchManagerDelegate
+      url: Protocols/SDLTouchManagerDelegate.html
     - name: SDLTransportDelegate
       url: Protocols/SDLTransportDelegate.html
+    - name: SDLUInt
+      url: Protocols.html#/c:objc(pl)SDLUInt
 - name: Type Definitions
   sub_nav:
+    - name: SDLFileManagerDeleteCompletion
+      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletion
+    - name: SDLFileManagerListFilesCompletion
+      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerListFilesCompletion
+    - name: SDLFileManagerStartupCompletion
+      url: Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerStartupCompletion
+    - name: SDLFileManagerState
+      url: Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerState
+    - name: SDLFileManagerUploadCompletion
+      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadCompletion
+    - name: SDLFileName
+      url: Type Definitions.html#/c:SDLFileManager.h@T@SDLFileName
+    - name: SDLNotificationName
+      url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName
+    - name: SDLNotificationUserInfoKey
+      url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationUserInfoKey
+    - name: SDLPermissionObserver
+      url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserver
+    - name: SDLPermissionObserverIdentifier
+      url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier
+    - name: SDLPermissionRPCName
+      url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName
+    - name: SDLRPCNotificationHandler
+      url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCNotificationHandler
+    - name: SDLRequestCompletionHandler
+      url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRequestCompletionHandler
+    - name: SDLStreamingEncryptionStartBlock
+      url: Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingEncryptionStartBlock
     - name: SDLStreamingStartBlock
       url: Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock

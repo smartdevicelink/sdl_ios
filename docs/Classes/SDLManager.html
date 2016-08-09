@@ -1,0 +1,287 @@
+<h1>SDLManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-lifecycleState">lifecycleState</a></li>
+  <li><a href="#section-configuration">configuration</a></li>
+  <li><a href="#section-hmiLevel">hmiLevel</a></li>
+  <li><a href="#section-fileManager">fileManager</a></li>
+  <li><a href="#section-permissionManager">permissionManager</a></li>
+  <li><a href="#section-streamManager">streamManager</a></li>
+  <li><a href="#section-delegate">delegate</a></li>
+  <li><a href="#section-registerResponse">registerResponse</a></li>
+  <li><a href="#section--initWithConfiguration:delegate:">-initWithConfiguration:delegate:</a></li>
+  <li><a href="#section--start">-start</a></li>
+  <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--sendRequest:">-sendRequest:</a></li>
+  <li><a href="#section--sendRequest:withCompletionHandler:">-sendRequest:withCompletionHandler:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-lifecycleState">
+      lifecycleState
+  </h3>
+  
+  <p>The current state of the lifecycle.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">lifecycleState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">lifecycleState</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-configuration">
+      configuration
+  </h3>
+  
+  <p>The configuration the manager was set up with.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLConfiguration.html">SDLConfiguration</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">configuration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLConfiguration.html">SDLConfiguration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hmiLevel">
+      hmiLevel
+  </h3>
+  
+  <p>The current HMI level of the running app.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">hmiLevel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">hmiLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileManager">
+      fileManager
+  </h3>
+  
+  <p>The file manager to be used by the running app.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">fileManager</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fileManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-permissionManager">
+      permissionManager
+  </h3>
+  
+  <p>The permission manager monitoring RPC permissions.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLPermissionManager.html">SDLPermissionManager</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">permissionManager</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">permissionManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPermissionManager.html">SDLPermissionManager</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-streamManager">
+      streamManager
+  </h3>
+  
+  <p>The streaming media manager to be used for starting video sessions.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLStreamingMediaManager.html">SDLStreamingMediaManager</a></span> <span class="o">*</span><span class="n">streamManager</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">streamManager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLStreamingMediaManager.html">SDLStreamingMediaManager</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-delegate">
+      delegate
+  </h3>
+  
+  <p>The manager&rsquo;s delegate.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLManagerDelegate.html">SDLManagerDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-registerResponse">
+      registerResponse
+  </h3>
+  
+  <p>The response of a register call after it has been received.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLRegisterAppInterfaceResponse.html">SDLRegisterAppInterfaceResponse</a></span> <span class="o">*</span><span class="n">registerResponse</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">registerResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRegisterAppInterfaceResponse.html">SDLRegisterAppInterfaceResponse</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithConfiguration:delegate:">
+      -initWithConfiguration:delegate:
+  </h3>
+  
+  <p>Start the manager with a configuration. The manager will then begin waiting for a connection to occur. Once one does, it will automatically run the setup process. You will be notified of its completion via an NSNotification you will want to observe, <code>SDLDidBecomeReadyNotification</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+<span class="nf">initWithConfiguration</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLConfiguration.html">SDLConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span>
+             <span class="nf">delegate</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLManagerDelegate.html">SDLManagerDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>configuration</dt>
+      <dd><p>Your app&rsquo;s unique configuration for setup.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of SDLManager</p>
+
+  </div>
+  
+  <h3 id="section--start">
+      -start
+  </h3>
+  
+  <p>Start the manager, which will tell it to start looking for a connection.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">start</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--stop">
+      -stop
+  </h3>
+  
+  <p>Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don&rsquo;t need to call this method ever.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--sendRequest:">
+      -sendRequest:
+  </h3>
+  
+  <p>Send an RPC request and don&rsquo;t bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequest</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The RPC request to send</p>
+</dd>
+  </dl>
+  
+  <h3 id="section--sendRequest:withCompletionHandler:">
+      -sendRequest:withCompletionHandler:
+  </h3>
+  
+  <p>Send an RPC request and set a completion handler that will be called with the response when the response returns.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequest</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span>
+    <span class="nf">withCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRequestCompletionHandler">SDLRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="n">withCompletionHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRequestCompletionHandler">SDLRequestCompletionHandler</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The RPC request to send</p>
+</dd>
+      <dt>handler</dt>
+      <dd><p>The handler that will be called when the response returns</p>
+</dd>
+  </dl>
+  
+</section>
