@@ -27,6 +27,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString SDLFileManagerState;
 SDLFileManagerState *const SDLFileManagerStateShutdown = @"Shutdown";
 SDLFileManagerState *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
 SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";

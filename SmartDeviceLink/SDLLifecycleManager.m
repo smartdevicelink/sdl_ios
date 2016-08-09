@@ -30,6 +30,7 @@
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLRegisterAppInterface.h"
+#import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
 #import "SDLRPCRequestFactory.h"
 #import "SDLSetAppIcon.h"
@@ -41,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Typedefs and Constants
 
+typedef NSString SDLLifecycleState;
 SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
 SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
@@ -55,7 +57,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLOnHashChange *resumeHash;
@@ -170,6 +172,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lockScreenManager stop];
     [self.responseDispatcher clear];
     
+    self.registerAppInterfaceResponse = nil;
+    self.lastCorrelationId = 0;
+    self.hmiLevel = nil;
+    
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.delegate managerDidDisconnect];
     
@@ -193,14 +199,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     // Send the request and depending on the response, post the notification
     [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        // TODO: Check for success, don't just blindly go on
+        if (error != nil || ![response.success boolValue]) {
+            [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+        }
+        
         self.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
     }];
 }
 
 - (void)didEnterStateRegistered {
-    // TODO: Anything?
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
@@ -252,6 +261,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil || ![response.success boolValue]) {
+            [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
+        }
+        
         // TODO: Do I care about the success / failure?
         [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
     }];

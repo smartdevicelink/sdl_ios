@@ -66,7 +66,6 @@ describe(@"SDLFileManager", ^{
             
             testFileManager.suspended = NO;
             
-            // TODO: These suck, we should probably try to mock to avoid them
             [NSThread sleepForTimeInterval:0.1];
         });
         

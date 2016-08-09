@@ -1258,6 +1258,12 @@
 		5D6008891BE3ED540094A505 /* SDLStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStateMachine.m; sourceTree = "<group>"; };
 		5D616B471D552F7A00553F6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SDLLockScreen.storyboard; sourceTree = "<group>"; };
 		5D616B511D59044400553F6B /* SDLErrorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLErrorConstants.h; sourceTree = "<group>"; };
+		5D616B561D5A233100553F6B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SDLLockScreen.strings; sourceTree = "<group>"; };
+		5D616B571D5A23C500553F6B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SDLLockScreen.strings; sourceTree = "<group>"; };
+		5D616B581D5A23CC00553F6B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SDLLockScreen.strings; sourceTree = "<group>"; };
+		5D616B591D5A23D400553F6B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/SDLLockScreen.strings; sourceTree = "<group>"; };
+		5D616B5A1D5A23DC00553F6B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SDLLockScreen.strings"; sourceTree = "<group>"; };
+		5D616B5B1D5A23E400553F6B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/SDLLockScreen.strings; sourceTree = "<group>"; };
 		5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA1F1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
@@ -4709,6 +4715,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				5D616B471D552F7A00553F6B /* Base */,
+				5D616B561D5A233100553F6B /* en */,
+				5D616B571D5A23C500553F6B /* fr */,
+				5D616B581D5A23CC00553F6B /* de */,
+				5D616B591D5A23D400553F6B /* ja */,
+				5D616B5A1D5A23DC00553F6B /* zh-Hans */,
+				5D616B5B1D5A23E400553F6B /* es */,
 			);
 			name = SDLLockScreen.storyboard;
 			path = Assets;

@@ -34,17 +34,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// TODO: Should these be private only (and those like them) so that we can change them without requiring minor / major version changes?
-typedef NSString SDLLifecycleState;
-extern SDLLifecycleState *const SDLLifecycleStateDisconnected;
-extern SDLLifecycleState *const SDLLifecycleStateTransportConnected;
-extern SDLLifecycleState *const SDLLifecycleStateRegistered;
-extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
-extern SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing;
-extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
-extern SDLLifecycleState *const SDLLifecycleStateReady;
-
-
 @interface SDLLifecycleManager : NSObject
 
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
@@ -68,7 +57,7 @@ extern SDLLifecycleState *const SDLLifecycleStateReady;
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readonly, nullable) SDLOnHashChange *resumeHash;
 @property (assign, nonatomic, readonly) NSString *lifecycleState;
-@property (copy, nonatomic, readonly) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
 
 #pragma mark Lifecycle
 /**
