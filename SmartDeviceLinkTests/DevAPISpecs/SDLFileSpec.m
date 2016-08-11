@@ -26,9 +26,9 @@ describe(@"SDLFile", ^{
                 testFile = [[SDLFile alloc] initWithData:testData name:testName fileExtension:testFileType persistent:testPersistence];
             });
             
-            it(@"should store the data in a temp file", ^{
-                expect(testFile.fileURL).toNot(beNil());
-                expect(@([[NSFileManager defaultManager] fileExistsAtPath:testFile.fileURL.path])).to(equal(@YES));
+            it(@"should not store the data in a temp file", ^{
+                expect(testFile.fileURL).to(beNil());
+                expect(@([[NSFileManager defaultManager] fileExistsAtPath:testFile.fileURL.path])).to(beFalsy());
             });
             
             it(@"should correctly store data", ^{

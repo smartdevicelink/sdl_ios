@@ -29,6 +29,16 @@
 #import "SDLUnregisterAppInterfaceResponse.h"
 
 
+typedef NSString SDLLifecycleState;
+SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
+SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
+SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
+SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
+SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
+SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
+SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
+
+
 // Ignore the deprecated proxy methods
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

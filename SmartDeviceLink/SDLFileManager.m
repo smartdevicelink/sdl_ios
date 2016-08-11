@@ -217,10 +217,6 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
     [self sdl_uploadFile:file completionHandler:completion];
 }
 
-- (void)forceUploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
-    [self sdl_uploadFile:file completionHandler:completion];
-}
-
 - (void)sdl_uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion {
     __block NSString *fileName = file.name;
     __block SDLFileManagerUploadCompletion uploadCompletion = [completion copy];
@@ -280,7 +276,6 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
         [SDLDebugTool logInfo:debugString];
     }
 }
-
 
 @end
 

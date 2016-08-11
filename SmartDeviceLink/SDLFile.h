@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class
  */
-- (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent;
+- (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.

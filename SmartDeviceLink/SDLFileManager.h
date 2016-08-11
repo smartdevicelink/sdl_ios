@@ -52,7 +52,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
 @property (assign, nonatomic) BOOL suspended;
 
 /**
- *  Initialize the class...or not since this method is unavailable. Dependencies must be injected using initWithConnectionManager:
+ *  Initialize the class...or not, since this method is unavailable. Dependencies must be injected using initWithConnectionManager:
  *
  *  @return nil
  */

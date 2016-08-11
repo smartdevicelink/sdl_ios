@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLockScreenManager ()
 
 @property (assign, nonatomic) BOOL canPresent;
-@property (copy, nonatomic, readwrite) SDLLockScreenConfiguration *config;
+@property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
 
 @end
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _canPresent = NO;
-    _config = config; // TODO: Don't want to copy this, it could have View Controllers or images, and could be kind of large
+    _config = config;
     _presenter = presenter;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];

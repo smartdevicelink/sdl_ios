@@ -15,7 +15,13 @@
 #import "SDLRPCResponse.h"
 #import "TestConnectionManager.h"
 
-// Not ideal, create a private backing _SDLFileManager class with more exposed for testing purposes and use SDLFileManager as the public facade?
+
+typedef NSString SDLFileManagerState;
+SDLFileManagerState *const SDLFileManagerStateShutdown = @"Shutdown";
+SDLFileManagerState *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
+SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
+
+
 @interface SDLFileManager ()
 
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;

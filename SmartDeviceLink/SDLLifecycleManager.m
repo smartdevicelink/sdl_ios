@@ -214,6 +214,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateSettingUpManagers {
+    __block BOOL setupSuccess = YES;
     dispatch_group_t managerGroup = dispatch_group_create();
     
     // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
@@ -221,14 +222,23 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     [self.lockScreenManager start];
     
-    // TODO: Does success / error matter here? Probably. What should we do if it fails?
     dispatch_group_enter(managerGroup);
     [self.fileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            setupSuccess = NO;
+            [SDLDebugTool logFormat:@"File manager was unable to start; error: %@", error];
+        }
+        
         dispatch_group_leave(managerGroup);
     }];
     
     dispatch_group_enter(managerGroup);
     [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            setupSuccess = NO;
+            [SDLDebugTool logFormat:@"Permission manager was unable to start; error: %@", error];
+        }
+        
         dispatch_group_leave(managerGroup);
     }];
     
@@ -237,7 +247,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     // When done, we want to transition
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
+        if (setupSuccess) {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
+        } else {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+        }
     });
 }
 

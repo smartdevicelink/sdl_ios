@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The lock screen configuration used to set up the manager
  */
-@property (copy, nonatomic, readonly) SDLLockScreenConfiguration *config;
+@property (strong, nonatomic, readonly) SDLLockScreenConfiguration *config;
 
 /**
  *  The view controller to be shown as a lock screen.

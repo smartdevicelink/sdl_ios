@@ -16,9 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLFile ()
 
-@property (copy, nonatomic, nullable, readwrite) NSURL *fileURL;
-@property (strong, nonatomic, readwrite) SDLFileType *fileType;
+@property (copy, nonatomic, readwrite, nullable) NSURL *fileURL;
+@property (copy, nonatomic, readwrite) NSData *data;
 
+@property (strong, nonatomic, readwrite) SDLFileType *fileType;
 @property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
 
@@ -41,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _fileURL = url;
+    _data = [NSData data];
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
@@ -58,18 +60,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent {
+    self = [super init];
+    if (!self) { return nil; }
     if (data.length == 0) { return nil; }
     
-    // TODO: Only flush to file URL when under memory pressure? Most of the time this won't be needed
-    NSError *error = nil;
-    NSString *tempFileName = [NSString stringWithFormat:@"%@_%@.%@", [NSProcessInfo processInfo].globallyUniqueString, name, extension];
-    NSURL *fileURL = [[SDLFileManager temporaryFileDirectory] URLByAppendingPathComponent:tempFileName];
-    [data writeToURL:fileURL options:NSDataWritingAtomic error:&error];
-    if (error) {
-        return nil;
-    }
+    _fileURL = nil;
+    _name = name;
+    _persistent = persistent;
+    _fileType = [self.class sdl_fileTypeFromFileExtension:extension];
+    _overwrite = NO;
     
-    return [self initWithFileURL:fileURL name:name persistent:persistent];
+    _data = data;
+    
+    return self;
 }
 
 + (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension {
@@ -81,10 +84,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - Readonly Getters
+#pragma mark - Getters
 
 - (NSData *)data {
-    return [NSData dataWithContentsOfURL:_fileURL];
+    if (_data.length == 0 && _fileURL != nil) {
+        return [NSData dataWithContentsOfURL:_fileURL];
+    } else {
+        return _data;
+    }
 }
 
 

@@ -62,7 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Permissions available
 
 - (BOOL)isRPCAllowed:(NSString *)rpcName {
-    // TODO: Use an enum to specify unknown?
     if (self.permissions[rpcName] == nil || self.currentHMILevel == nil) {
         return NO;
     }
