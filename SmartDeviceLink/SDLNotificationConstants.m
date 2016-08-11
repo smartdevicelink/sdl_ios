@@ -10,7 +10,7 @@
 
 SDLNotificationUserInfoKey *const SDLNotificationUserInfoObject = @"SDLNotificationUserInfoObject";
 
-// TODO: Further namespace since other notification types will be firing, e.g. state machine notifications
+
 #pragma mark - General notifications
 SDLNotificationName *const SDLTransportDidDisconnect = @"com.sdl.transport.disconnect";
 SDLNotificationName *const SDLTransportDidConnect = @"com.sdl.transport.connect";

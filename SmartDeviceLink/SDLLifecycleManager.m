@@ -265,7 +265,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
         }
         
-        // TODO: Do I care about the success / failure?
         [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
     }];
 }

@@ -119,7 +119,7 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
 }
 
 - (NSString *)transitionNotificationName {
-    return [NSString stringWithFormat:@"com.sdl.notification.statemachine.%@", [self.target class]];
+    return [NSString stringWithFormat:@"com.sdl.statemachine.%@", [self.target class]];
 }
 
 @end
