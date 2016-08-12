@@ -6,8 +6,8 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "SDLTouchManagerDelegate.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

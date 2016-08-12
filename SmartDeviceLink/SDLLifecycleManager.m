@@ -24,15 +24,15 @@
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnAppInterfaceUnregistered.h"
-#import "SDLOnHashChange.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
+#import "SDLRPCRequestFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
 #import "SDLUnregisterAppInterface.h"
@@ -89,29 +89,29 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (!self) {
         return nil;
     }
-    
+
     // Dependencies
     _configuration = configuration;
     _delegate = delegate;
-    
+
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
     _lastCorrelationId = 0;
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerAppInterfaceResponse = nil;
-    
+
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hashDidChange:) name:SDLDidReceiveNewHashNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
-    
+
     return self;
 }
 
@@ -119,7 +119,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
-    
+
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:self.configuration.lifecycleConfig.tcpDebugPort];
     } else {
@@ -156,14 +156,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-             SDLLifecycleStateDisconnected: @[SDLLifecycleStateTransportConnected],
-             SDLLifecycleStateTransportConnected: @[SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered],
-             SDLLifecycleStateRegistered: @[SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers],
-             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing],
-             SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateDisconnected, SDLLifecycleStateReady],
-             SDLLifecycleStateUnregistering: @[SDLLifecycleStateDisconnected],
-             SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering,SDLLifecycleStateDisconnected]
-             };
+        SDLLifecycleStateDisconnected : @[ SDLLifecycleStateTransportConnected ],
+        SDLLifecycleStateTransportConnected : @[ SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered ],
+        SDLLifecycleStateRegistered : @[ SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers ],
+        SDLLifecycleStateSettingUpManagers : @[ SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing ],
+        SDLLifecycleStatePostManagerProcessing : @[ SDLLifecycleStateDisconnected, SDLLifecycleStateReady ],
+        SDLLifecycleStateUnregistering : @[ SDLLifecycleStateDisconnected ],
+        SDLLifecycleStateReady : @[ SDLLifecycleStateUnregistering, SDLLifecycleStateDisconnected ]
+    };
 }
 
 - (void)didEnterStateTransportDisconnected {
@@ -171,14 +171,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.permissionManager stop];
     [self.lockScreenManager stop];
     [self.responseDispatcher clear];
-    
+
     self.registerAppInterfaceResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
-    
+
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.delegate managerDidDisconnect];
-    
+
     [self start]; // Start up again to start watching for new connections
 }
 
@@ -187,26 +187,27 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    
+
     if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
     }
-    
+
     // TODO: Should the hash be removed under any conditions?
     if (self.resumeHash != nil) {
         regRequest.hashID = self.resumeHash.hashID;
     }
-    
+
     // Send the request and depending on the response, post the notification
-    [self sdl_sendRequest:regRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil || ![response.success boolValue]) {
-            [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
-        }
-        
-        self.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
-    }];
+    [self sdl_sendRequest:regRequest
+        withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+            if (error != nil || ![response.success boolValue]) {
+                [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
+                [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+            }
+
+            self.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+        }];
 }
 
 - (void)didEnterStateRegistered {
@@ -216,35 +217,35 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateSettingUpManagers {
     __block BOOL setupSuccess = YES;
     dispatch_group_t managerGroup = dispatch_group_create();
-    
+
     // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
     dispatch_group_enter(managerGroup);
-    
+
     [self.lockScreenManager start];
-    
+
     dispatch_group_enter(managerGroup);
-    [self.fileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.fileManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
             setupSuccess = NO;
             [SDLDebugTool logFormat:@"File manager was unable to start; error: %@", error];
         }
-        
+
         dispatch_group_leave(managerGroup);
     }];
-    
+
     dispatch_group_enter(managerGroup);
-    [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
             setupSuccess = NO;
             [SDLDebugTool logFormat:@"Permission manager was unable to start; error: %@", error];
         }
-        
+
         dispatch_group_leave(managerGroup);
     }];
-    
+
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
-    
+
     // When done, we want to transition
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
         if (setupSuccess) {
@@ -257,9 +258,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStatePostManagerProcessing {
     // We only want to send the app icon when the file manager is complete, and when that's done, set the state to ready
-    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
-    }];
+    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
+           withCompletion:^{
+               [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+           }];
 }
 
 - (void)didEnterStateReady {
@@ -272,49 +274,52 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateUnregistering {
     SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
-    
+
     __weak typeof(self) weakSelf = self;
-    [self sdl_sendRequest:unregisterRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil || ![response.success boolValue]) {
-            [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
-        }
-        
-        [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
-    }];
+    [self sdl_sendRequest:unregisterRequest
+        withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+            if (error != nil || ![response.success boolValue]) {
+                [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
+            }
+
+            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+        }];
 }
 
 
 #pragma mark Post Manager Setup Processing
 
-- (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void(^)(void))completion {
+- (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
     if (appIcon == nil) {
         completion();
         return;
     }
-    
-    [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-        // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
-        if (error != nil) {
-            if (error.code == SDLFileManagerErrorCannotOverwrite) {
-                [SDLDebugTool logInfo:@"Failed to upload app icon: A file with this name already exists on the system"];
-            } else {
-                [SDLDebugTool logFormat:@"Unexpected error uploading app icon: %@", error];
-                return;
-            }
-        }
-        
-        // Once we've tried to put the file on the remote system, try to set the app icon
-        SDLSetAppIcon *setAppIconRequest = [SDLRPCRequestFactory buildSetAppIconWithFileName:appIcon.name correlationID:@0];
-        [self sdl_sendRequest:setAppIconRequest withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if (error != nil) {
-                [SDLDebugTool logFormat:@"Error setting app icon: ", error];
-            }
-            
-            // We've succeeded or failed
-            completion();
-        }];
-    }];
+
+    [self.fileManager uploadFile:appIcon
+               completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+                   // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
+                   if (error != nil) {
+                       if (error.code == SDLFileManagerErrorCannotOverwrite) {
+                           [SDLDebugTool logInfo:@"Failed to upload app icon: A file with this name already exists on the system"];
+                       } else {
+                           [SDLDebugTool logFormat:@"Unexpected error uploading app icon: %@", error];
+                           return;
+                       }
+                   }
+
+                   // Once we've tried to put the file on the remote system, try to set the app icon
+                   SDLSetAppIcon *setAppIconRequest = [SDLRPCRequestFactory buildSetAppIconWithFileName:appIcon.name correlationID:@0];
+                   [self sdl_sendRequest:setAppIconRequest
+                       withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+                           if (error != nil) {
+                               [SDLDebugTool logFormat:@"Error setting app icon: ", error];
+                           }
+
+                           // We've succeeded or failed
+                           completion();
+                       }];
+               }];
 }
 
 
@@ -330,10 +335,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         if (handler) {
             handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
         }
-        
+
         return;
     }
-    
+
     [self sdl_sendRequest:request withCompletionHandler:handler];
 }
 
@@ -344,11 +349,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     // We will allow things to be sent in a "SDLLifeCycleStateTransportConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
-    
+
     // Add a correlation ID to the request
     NSNumber *corrID = [self sdl_getNextCorrelationId];
     request.correlationID = corrID;
-    
+
     [self.responseDispatcher storeRequest:request handler:handler];
     [self.proxy sendRPC:request];
 }
@@ -366,7 +371,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (self.lastCorrelationId == UINT16_MAX) {
         self.lastCorrelationId = 0;
     }
-    
+
     return @(++self.lastCorrelationId);
 }
 
@@ -386,15 +391,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
-    
+
     SDLOnHMIStatus *hmiStatusNotification = notification.userInfo[SDLNotificationUserInfoObject];
     SDLHMILevel *oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-    
+
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         return;
     }
-    
+
     [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
 }
 
@@ -403,7 +408,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHashChange class]]) {
         return;
     }
-    
+
     SDLOnHashChange *hashChangeNotification = notification.userInfo[SDLNotificationUserInfoObject];
     self.resumeHash = hashChangeNotification;
 }
@@ -413,10 +418,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
-    
+
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.userInfo[SDLNotificationUserInfoObject];
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
-    
+
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
 

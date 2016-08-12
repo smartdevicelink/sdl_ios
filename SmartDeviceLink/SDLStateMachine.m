@@ -26,21 +26,21 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
 
 @implementation SDLStateMachine
 
-- (instancetype)initWithTarget:(id)target initialState:(SDLState *)initialState states:(NSDictionary<SDLState *,SDLAllowableStateTransitions *> *)states {
+- (instancetype)initWithTarget:(id)target initialState:(SDLState *)initialState states:(NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)states {
     self = [super init];
-    
+
     if (!self) {
         return nil;
     }
-    
+
     if (states[initialState] == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to start with an SDLState that is not in the states dictionary" userInfo:nil];
     }
-    
+
     _target = target;
     _states = states;
     _currentState = initialState;
-    
+
     return self;
 }
 
@@ -49,41 +49,45 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
     if ([self isCurrentState:state]) {
         return;
     }
-    
+
     if (![self sdl_canState:self.currentState transitionToState:state]) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Invalid state machine transition occurred" userInfo:@{ @"targetClass": NSStringFromClass([self.target class]), @"fromState": self.currentState, @"toState": state}];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:@"Invalid state machine transition occurred"
+                                     userInfo:@{ @"targetClass" : NSStringFromClass([self.target class]),
+                                                 @"fromState" : self.currentState,
+                                                 @"toState" : state }];
     }
-    
+
     SEL willLeave = NSSelectorFromString([NSString stringWithFormat:@"willLeaveState%@", oldState]);
     SEL willTransition = NSSelectorFromString([NSString stringWithFormat:@"willTransitionFromState%@ToState%@", oldState, state]);
     SEL didTransition = NSSelectorFromString([NSString stringWithFormat:@"didTransitionFromState%@ToState%@", oldState, state]);
     SEL didEnter = NSSelectorFromString([NSString stringWithFormat:@"didEnterState%@", state]);
-    
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    
+
     // Pre state transition calls
     if ([self.target respondsToSelector:willLeave]) {
         [self.target performSelector:willLeave];
     }
-    
+
     if ([self.target respondsToSelector:willTransition]) {
         [self.target performSelector:willTransition];
     }
-    
+
     // Transition the state
     self.currentState = state;
-    
+
     // Post state transition calls
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{ SDLStateMachineNotificationInfoKeyOldState: oldState, SDLStateMachineNotificationInfoKeyNewState: state }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{SDLStateMachineNotificationInfoKeyOldState : oldState, SDLStateMachineNotificationInfoKeyNewState : state}];
     if ([self.target respondsToSelector:didTransition]) {
         [self.target performSelector:didTransition];
     }
-    
+
     if ([self.target respondsToSelector:didEnter]) {
         [self.target performSelector:didEnter];
     }
-    
+
 #pragma clang diagnostic pop
 }
 
@@ -98,7 +102,7 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
     if (![self.states.allKeys containsObject:state]) {
         return;
     }
-    
+
     self.currentState = state;
 }
 
@@ -114,7 +118,7 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
     if ([self.states[fromState] containsObject:toState] || [fromState isEqualToString:toState]) {
         return YES;
     }
-    
+
     return NO;
 }
 

@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
     NSDictionary<NSString *, id> *userInfo = nil;
     if (infoObject != nil) {
-        userInfo = @{ SDLNotificationUserInfoObject: infoObject };
+        userInfo = @{SDLNotificationUserInfoObject : infoObject};
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });

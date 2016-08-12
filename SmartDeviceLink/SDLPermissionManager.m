@@ -38,19 +38,19 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _currentHMILevel = nil;
     _permissions = [NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> dictionary];
     _filters = [NSMutableArray<SDLPermissionFilter *> array];
-    
+
     // Set up SDL status notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_permissionsDidChange:) name:SDLDidChangePermissionsNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-    
+
     return self;
 }
 
-- (void)startWithCompletionHandler:(void (^)(BOOL, NSError * _Nullable))completionHandler {
+- (void)startWithCompletionHandler:(void (^)(BOOL, NSError *_Nullable))completionHandler {
     completionHandler(YES, nil);
 }
 
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.permissions[rpcName] == nil || self.currentHMILevel == nil) {
         return NO;
     }
-    
+
     SDLPermissionItem *item = self.permissions[rpcName];
     return [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
 }
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.currentHMILevel == nil) {
         return SDLPermissionGroupStatusUnknown;
     }
-    
+
     return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 
@@ -83,23 +83,23 @@ NS_ASSUME_NONNULL_BEGIN
     if (hmiLevel == nil) {
         return SDLPermissionGroupStatusUnknown;
     }
-    
+
     BOOL hasAllowed = NO;
     BOOL hasDisallowed = NO;
-    
+
     // Loop through all the RPCs we need to check
     for (NSString *rpcName in rpcNames) {
         // If at this point in the loop, we have both allowed and disallowed RPCs, return the mixed result
         if (hasAllowed && hasDisallowed) {
             return SDLPermissionGroupStatusMixed;
         }
-        
+
         // If we don't have a status for this permission, set it as disallowed
         if (permissions[rpcName] == nil) {
             hasDisallowed = YES;
             continue;
         }
-        
+
         // Check the permission's "allowed" array for the current HMI level
         if ([permissions[rpcName].hmiPermissions.allowed containsObject:hmiLevel]) {
             hasAllowed = YES;
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
             hasDisallowed = YES;
         }
     }
-    
+
     if (hasAllowed && hasDisallowed) {
         return SDLPermissionGroupStatusMixed;
     } else if (hasAllowed) {
@@ -119,12 +119,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames {
     NSMutableDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *permissionAllowedDict = [NSMutableDictionary dictionary];
-    
+
     for (NSString *rpcName in rpcNames) {
         BOOL allowed = [self isRPCAllowed:rpcName];
         permissionAllowedDict[rpcName] = @(allowed);
     }
-    
+
     return [permissionAllowedDict copy];
 }
 
@@ -135,20 +135,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withBlock:(nonnull SDLPermissionObserver)observer {
     SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:observer];
-    
+
     // Store the filter for later use
     [self.filters addObject:filter];
-    
+
     // If there are permissions that fit the specifications, send immediately. Then return the identifier.
     [self sdl_callFilterObserver:filter];
-    
+
     return filter.identifier;
 }
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
     NSDictionary *allowedDict = [self statusOfRPCs:filter.rpcNames];
-    
+
     filter.observer(allowedDict, permissionStatus);
 }
 
@@ -160,10 +160,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier *)identifier {
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
-    
+
     for (int i = 0; i < filters.count; i++) {
         SDLPermissionFilter *filter = filters[i];
-        
+
         if ([filter.identifier isEqual:identifier]) {
             [self.filters removeObjectAtIndex:i];
             break;
@@ -179,29 +179,29 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnPermissionsChange class]]) {
         return;
     }
-    
+
     SDLOnPermissionsChange *onPermissionChange = notification.userInfo[SDLNotificationUserInfoObject];
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
-    
+
     // We can eliminate calling those filters who had no permission changes, so we'll filter down and see which had permissions that changed
     NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:currentFilters updatedPermissions:newPermissionItems];
-    
+
     // We need the old group status and new group status for all allowed filters so we know if they should be called
     NSDictionary<NSUUID *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
-    
+
     // Set the updated permissions on our stored permissions object
     for (SDLPermissionItem *item in newPermissionItems) {
         self.permissions[item.rpcName] = item;
     }
-    
+
     // Check if the observer should be called based on the group type
     NSMutableArray<SDLPermissionFilter *> *filtersToCall = [NSMutableArray array];
     for (SDLPermissionFilter *filter in modifiedFilters) {
         if (filter.groupType == SDLPermissionGroupTypeAllAllowed) {
             SDLPermissionGroupStatus oldStatus = [allAllowedFiltersWithOldStatus[filter.identifier] unsignedIntegerValue];
             SDLPermissionGroupStatus newStatus = [self groupStatusOfRPCs:filter.rpcNames];
-            
+
             // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
             if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
                 [filtersToCall addObject:filter];
@@ -211,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
             [filtersToCall addObject:filter];
         }
     }
-    
+
     // For all the modified filters we care about, call them
     for (SDLPermissionFilter *filter in filtersToCall) {
         [self sdl_callFilterObserver:filter];
@@ -223,26 +223,26 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
-    
+
     SDLOnHMIStatus *hmiStatus = notification.userInfo[SDLNotificationUserInfoObject];
-    
+
     SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
     NSArray *filters = [self.filters copy];
-    
-    
+
+
     NSMutableArray<SDLPermissionFilter *> *mutableFiltersToCall = [NSMutableArray arrayWithCapacity:filters.count];
     for (SDLPermissionFilter *filter in filters) {
         // Check if the filter changed, according to its group type settings.
         BOOL filterChanged = [self sdl_didFilterChange:filter fromHMILevel:oldHMILevel toHMILevel:self.currentHMILevel];
-        
+
         if (filterChanged) {
             [mutableFiltersToCall addObject:filter];
         }
     }
-    
+
     NSArray *filtersToCall = [mutableFiltersToCall copy];
-    
+
     // For all the modified filters, call if necessary
     for (SDLPermissionFilter *filter in filtersToCall) {
         [self sdl_callFilterObserver:filter];
@@ -267,7 +267,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLPermissionItem *item = self.permissions[rpcName];
         BOOL newAllowed = [item.hmiPermissions.allowed containsObject:self.currentHMILevel];
         BOOL oldAllowed = [item.hmiPermissions.allowed containsObject:oldHMILevel];
-        
+
         if ((newAllowed && !oldAllowed) || (!newAllowed && oldAllowed)) {
             // Now permitted when it was not before, or not permitted when it was before
             if (filter.groupType == SDLPermissionGroupTypeAny) {
@@ -278,18 +278,18 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
     }
-    
+
     // This is only for the All Allowed group type. Unlike with the Any group type, we need to know if the group status has changed
     if (changed) {
         SDLPermissionGroupStatus oldStatus = [self.class sdl_groupStatusOfRPCs:filter.rpcNames withPermissions:self.permissions hmiLevel:oldHMILevel];
         SDLPermissionGroupStatus newStatus = [self.class sdl_groupStatusOfRPCs:filter.rpcNames withPermissions:self.permissions hmiLevel:newHMILevel];
-        
+
         // We've already eliminated the case where the permissions could stay the same, so if the permissions changed *to* allowed or *away* from allowed, we need to call the observer.
         if (newStatus == SDLPermissionGroupStatusAllowed || oldStatus == SDLPermissionGroupStatusAllowed) {
             return YES;
         }
     }
-    
+
     return NO;
 }
 
@@ -308,7 +308,7 @@ NS_ASSUME_NONNULL_BEGIN
             filtersWithStatus[filter.identifier] = @([self groupStatusOfRPCs:filter.rpcNames]);
         }
     }
-    
+
     return [filtersWithStatus copy];
 }
 
@@ -322,7 +322,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSArray<SDLPermissionFilter *> *)sdl_filterPermissionChangesForFilters:(NSArray<SDLPermissionFilter *> *)filters updatedPermissions:(NSArray<SDLPermissionItem *> *)permissionItems {
     NSMutableArray<SDLPermissionFilter *> *modifiedFilters = [NSMutableArray arrayWithCapacity:filters.count];
-    
+
     // Loop through each updated permission item for each filter, if the filter had something modified, store it and go to the next filter
     for (SDLPermissionFilter *filter in filters) {
         for (SDLPermissionItem *item in permissionItems) {
@@ -332,7 +332,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
     }
-    
+
     return [modifiedFilters copy];
 }
 

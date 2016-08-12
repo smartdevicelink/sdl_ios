@@ -19,20 +19,26 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLLockScreenPresenter
 
 - (void)present {
-    if (!self.viewController) { return; }
-    
+    if (!self.viewController) {
+        return;
+    }
+
     [[self.class sdl_getCurrentViewController] presentViewController:self.viewController animated:YES completion:nil];
 }
 
 - (void)dismiss {
-    if (!self.viewController) { return; }
-    
+    if (!self.viewController) {
+        return;
+    }
+
     [self.viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)presented {
-    if (!self.viewController) { return NO; }
-    
+    if (!self.viewController) {
+        return NO;
+    }
+
     return (self.viewController.isViewLoaded && self.viewController.view.window);
 }
 
@@ -42,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     while (topController.presentedViewController != nil) {
         topController = topController.presentedViewController;
     }
-    
+
     return topController;
 }
 

@@ -21,9 +21,9 @@
     if (!self) {
         return nil;
     }
-    
+
     _handler = handler;
-    
+
     return self;
 }
 

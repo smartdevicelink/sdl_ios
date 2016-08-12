@@ -12,6 +12,7 @@
 #import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
+#import "SDLAppInfo.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLDebugTool.h"
@@ -57,18 +58,17 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
 #import "SDLUpdateTurnList.h"
-#import "SDLAppInfo.h"
 
-static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
+static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
 
 @implementation SDLRPCRequestFactory
 
 //***** AddCommand *****
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID {
     SDLAddCommand *msg = [[SDLAddCommand alloc] init];
-    
+
     msg.cmdID = cmdID;
-    
+
     if (menuName != nil || parentID != nil || position != nil) {
         SDLMenuParams *menuParams = [[SDLMenuParams alloc] init];
         menuParams.menuName = menuName;
@@ -77,16 +77,16 @@ static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionS
         msg.menuParams = menuParams;
     }
     msg.vrCommands = [vrCommands mutableCopy];
-    
+
     if (iconValue != nil || iconType != nil) {
         SDLImage *icon = [[SDLImage alloc] init];
         icon.value = iconValue;
         icon.imageType = iconType;
         msg.cmdIcon = icon;
     }
-    
+
     msg.correlationID = correlationID;
-    
+
     return msg;
 }
 
@@ -413,7 +413,7 @@ static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionS
     msg.appID = appID;
     msg.deviceInfo = [self sdl_buildDeviceInfo];
     msg.correlationID = [NSNumber numberWithInt:1];
-    SDLAppInfo* appInfo = [self sdl_buildAppInfo];
+    SDLAppInfo *appInfo = [self sdl_buildAppInfo];
     appInfo.appDisplayName = appName;
     msg.appInfo = appInfo;
     return msg;
@@ -432,10 +432,10 @@ static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionS
     return deviceInfo;
 }
 
-+ (SDLAppInfo*)sdl_buildAppInfo {
-    SDLAppInfo* appInfo = [[SDLAppInfo alloc] init];
-    NSBundle* mainBundle = [NSBundle mainBundle];
-    NSDictionary* bundleDictionary = mainBundle.infoDictionary;
++ (SDLAppInfo *)sdl_buildAppInfo {
+    SDLAppInfo *appInfo = [[SDLAppInfo alloc] init];
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSDictionary *bundleDictionary = mainBundle.infoDictionary;
     appInfo.appVersion = bundleDictionary[SDLBundleShortVersionStringKey];
     appInfo.appBundleID = mainBundle.bundleIdentifier;
     return appInfo;
@@ -636,7 +636,7 @@ static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionS
     button.isHighlighted = @(highlighted);
     button.softButtonID = @(buttonID);
     button.systemAction = systemAction;
-    
+
     return button;
 }
 
@@ -665,7 +665,7 @@ static NSString*  const SDLBundleShortVersionStringKey = @"CFBundleShortVersionS
     SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] init];
     msg.buttonName = buttonName;
     msg.correlationID = correlationID;
-    
+
     return msg;
 }
 

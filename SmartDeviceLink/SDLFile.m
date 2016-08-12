@@ -35,19 +35,19 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     BOOL exists = url.isFileURL && [url checkResourceIsReachableAndReturnError:nil];
     if (!exists) {
         return nil;
     }
-    
+
     _fileURL = url;
     _data = [NSData data];
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
     _overwrite = NO;
-    
+
     return self;
 }
 
@@ -61,17 +61,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension persistent:(BOOL)persistent {
     self = [super init];
-    if (!self) { return nil; }
-    if (data.length == 0) { return nil; }
-    
+    if (!self) {
+        return nil;
+    }
+    if (data.length == 0) {
+        return nil;
+    }
+
     _fileURL = nil;
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:extension];
     _overwrite = NO;
-    
+
     _data = data;
-    
+
     return self;
 }
 

@@ -13,10 +13,10 @@
 - (BOOL)safeRemoveObjectForKey:(id)aKey {
     if ([self objectForKey:aKey] != nil) {
         [self removeObjectForKey:aKey];
-        
+
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -27,10 +27,10 @@
 - (BOOL)safeRemoveObjectForKey:(id)aKey {
     if ([self objectForKey:aKey] != nil) {
         [self removeObjectForKey:aKey];
-        
+
         return YES;
     }
-    
+
     return NO;
 }
 

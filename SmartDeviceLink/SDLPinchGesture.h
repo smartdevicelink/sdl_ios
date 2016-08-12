@@ -24,19 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return SDLPinchGesture
  *      Instance of SDLPinchGesture.
  */
-- (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch;
+- (instancetype)initWithFirstTouch:(SDLTouch *)firstTouch secondTouch:(SDLTouch *)secondTouch;
 
 /**
  *  @abstract
  *      First touch of a pinch gesture.
  */
-@property (nonatomic, strong) SDLTouch* firstTouch;
+@property (nonatomic, strong) SDLTouch *firstTouch;
 
 /**
  *  @abstract
  *      Second touch of a pinch gesture.
  */
-@property (nonatomic, strong) SDLTouch* secondTouch;
+@property (nonatomic, strong) SDLTouch *secondTouch;
 
 /**
  *  @abstract

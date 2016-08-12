@@ -16,7 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle
 
 - (instancetype)init {
-    return [self initWithRPCNames:@[] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {}];
+    return [self initWithRPCNames:@[]
+                        groupType:SDLPermissionGroupTypeAny
+                         observer:^(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){
+                         }];
 }
 
 - (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer {
@@ -24,12 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _identifier = [NSUUID UUID];
     _rpcNames = rpcNames;
     _groupType = groupType;
     _observer = observer;
-    
+
     return self;
 }
 
@@ -43,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_rpcNames copyWithZone:zone] groupType:_groupType observer:[_observer copyWithZone:zone]];
     newFilter->_identifier = _identifier;
-    
+
     return newFilter;
 }
 
@@ -53,11 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
     if (object == self) {
         return YES;
     }
-    
+
     if (![object isMemberOfClass:[self class]]) {
         return NO;
     }
-    
+
     return [self isEqualToFilter:object];
 }
 

@@ -18,8 +18,8 @@
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnCommand.h"
-#import "SDLResult.h"
 #import "SDLRPCResponse.h"
+#import "SDLResult.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -41,13 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _rpcResponseHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _rpcRequestDictionary = [NSMutableDictionary dictionary];
     _commandHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _buttonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
     _customButtonHandlerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableCopyIn];
-    
+
     // Responses
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveAddCommandResponse object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveAddSubMenuResponse object:dispatcher];
@@ -90,12 +90,12 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveUnregisterAppInterfaceResponse object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveUnsubscribeButtonResponse object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlersForResponse:) name:SDLDidReceiveUnsubscribeVehicleDataResponse object:dispatcher];
-    
+
     // Buttons and Commands
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForButton:) name:SDLDidReceiveButtonEventNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForButton:) name:SDLDidReceiveButtonPressNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForCommand:) name:SDLDidReceiveCommandNotification object:dispatcher];
-    
+
     return self;
 }
 
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLRequestCompletionHandler)handler {
     NSNumber *correlationId = request.correlationID;
-    
+
     // Check for RPCs that require an extra handler
     if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
@@ -134,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
         [self sdl_addToHandlerMapWithSoftButtons:scrollableMessage.softButtons];
     }
-    
+
     // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
     self.rpcRequestDictionary[correlationId] = request;
     if (handler) {
@@ -170,28 +170,30 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]]) {
         return;
     }
-    
+
     __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
-    
+
     NSError *error = nil;
     if (![response.success boolValue]) {
         error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
     }
-    
+
     // Find the appropriate request completion handler, remove the request and response handler
     SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
     SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
     [self.rpcRequestDictionary safeRemoveObjectForKey:response.correlationID];
     [self.rpcResponseHandlerMap safeRemoveObjectForKey:response.correlationID];
-    
+
     // Run the response handler
     if (handler) {
         handler(request, response, error);
     }
-    
+
     // If we errored on the response, the delete / unsubscribe was unsuccessful
-    if (error) { return; }
-    
+    if (error) {
+        return;
+    }
+
     // If it's a DeleteCommand or UnsubscribeButton, we need to remove handlers for the corresponding commands / buttons
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
         SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
@@ -209,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_runHandlerForCommand:(NSNotification *)notification {
     SDLOnCommand *onCommandNotification = notification.userInfo[SDLNotificationUserInfoObject];
     SDLRPCNotificationHandler handler = nil;
-    
+
     handler = self.commandHandlerMap[onCommandNotification.cmdID];
     if (handler) {
         handler(onCommandNotification);
@@ -220,11 +222,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_runHandlerForButton:(NSNotification *)notification {
     __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    
+
     SDLRPCNotificationHandler handler = nil;
     SDLButtonName *name = nil;
     NSNumber *customID = nil;
-    
+
     if ([rpcNotification isKindOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
         customID = ((SDLOnButtonEvent *)rpcNotification).customButtonID;
@@ -232,13 +234,13 @@ NS_ASSUME_NONNULL_BEGIN
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
-    
+
     if ([name isEqual:[SDLButtonName CUSTOM_BUTTON]]) {
         handler = self.customButtonHandlerMap[customID];
     } else {
         handler = self.buttonHandlerMap[name.value];
     }
-    
+
     if (handler) {
         handler(rpcNotification);
     }

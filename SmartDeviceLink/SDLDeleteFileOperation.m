@@ -32,12 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletion)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
-    
+    if (!self) {
+        return nil;
+    }
+
     _fileName = fileName;
     _connectionManager = connectionManager;
     _completionHandler = completionHandler;
-    
+
     return self;
 }
 
@@ -46,34 +48,35 @@ NS_ASSUME_NONNULL_BEGIN
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
-        
+
         return;
     }
-    
+
     [self willChangeValueForKey:@"isExecuting"];
     executing = YES;
     [self didChangeValueForKey:@"isExecuting"];
-    
+
     [self sdl_deleteFile];
 }
 
 - (void)sdl_deleteFile {
     SDLDeleteFile *deleteFile = [SDLRPCRequestFactory buildDeleteFileWithName:self.fileName correlationID:@0];
-    
+
     typeof(self) weakself = self;
-    [self.connectionManager sendManagerRequest:deleteFile withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        // Pull out the parameters
-        SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
-        BOOL success = [deleteFileResponse.success boolValue];
-        NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
-        
-        // Callback
-        if (weakself.completionHandler != nil) {
-            weakself.completionHandler(success, bytesAvailable, error);
-        }
-        
-        [self sdl_finishOperation];
-    }];
+    [self.connectionManager sendManagerRequest:deleteFile
+                         withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                             // Pull out the parameters
+                             SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
+                             BOOL success = [deleteFileResponse.success boolValue];
+                             NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
+
+                             // Callback
+                             if (weakself.completionHandler != nil) {
+                                 weakself.completionHandler(success, bytesAvailable, error);
+                             }
+
+                             [self sdl_finishOperation];
+                         }];
 }
 
 - (void)sdl_finishOperation {

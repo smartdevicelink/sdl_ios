@@ -8,8 +8,8 @@
 
 #import "SDLPinchGesture.h"
 
-#import "SDLTouch.h"
 #import "CGPoint_Util.h"
+#import "SDLTouch.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,17 +18,17 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize distance = _distance;
 @synthesize center = _center;
 
-- (instancetype)initWithFirstTouch:(SDLTouch*)firstTouch secondTouch:(SDLTouch*)secondTouch {
+- (instancetype)initWithFirstTouch:(SDLTouch *)firstTouch secondTouch:(SDLTouch *)secondTouch {
     self = [super init];
     if (!self) {
         return nil;
     }
-    
+
     _firstTouch = firstTouch;
     _secondTouch = secondTouch;
     _distance = -1;
     _center = CGPointZero;
-    
+
     return self;
 }
 

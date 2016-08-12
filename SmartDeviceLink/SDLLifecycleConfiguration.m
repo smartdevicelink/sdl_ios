@@ -34,22 +34,22 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _tcpDebugMode = NO;
     _tcpDebugIPAddress = DefaultTCPIPAddress;
     _tcpDebugPort = DefaultTCPIPPort;
-    
+
     _appName = appName;
     _appId = appId;
-    
+
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
-    _languagesSupported = @[_language];
+    _languagesSupported = @[ _language ];
     _appIcon = nil;
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
-    
+
     return self;
 }
 
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
-    
+
     return config;
 }
 
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self.appType isEqualToEnum:[SDLAppHMIType MEDIA]]) {
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (appType == nil) {
         _appType = [SDLAppHMIType DEFAULT];
     }
-    
+
     _appType = appType;
 }
 
@@ -105,17 +105,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName appId:_appId];
-    newConfig -> _tcpDebugMode = _tcpDebugMode;
-    newConfig -> _tcpDebugIPAddress = _tcpDebugIPAddress;
-    newConfig -> _tcpDebugPort = _tcpDebugPort;
-    newConfig -> _appType = _appType;
-    newConfig -> _language = _language;
-    newConfig -> _languagesSupported = _languagesSupported;
-    newConfig -> _appIcon = _appIcon;
-    newConfig -> _shortAppName = _shortAppName;
-    newConfig -> _ttsName = _ttsName;
-    newConfig -> _voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
-    
+    newConfig->_tcpDebugMode = _tcpDebugMode;
+    newConfig->_tcpDebugIPAddress = _tcpDebugIPAddress;
+    newConfig->_tcpDebugPort = _tcpDebugPort;
+    newConfig->_appType = _appType;
+    newConfig->_language = _language;
+    newConfig->_languagesSupported = _languagesSupported;
+    newConfig->_appIcon = _appIcon;
+    newConfig->_shortAppName = _shortAppName;
+    newConfig->_ttsName = _ttsName;
+    newConfig->_voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
+
     return newConfig;
 }
 

@@ -6,8 +6,8 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "SDLNotificationConstants.h"
+#import <Foundation/Foundation.h>
 
 @class SDLConfiguration;
 @class SDLFileManager;

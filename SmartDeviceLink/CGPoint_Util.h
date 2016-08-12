@@ -9,8 +9,8 @@
 #ifndef CGPoint_Util_h
 #define CGPoint_Util_h
 
-#include <stdio.h>
 #include <CoreGraphics/CGGeometry.h>
+#include <stdio.h>
 
 /**
  *  @abstract

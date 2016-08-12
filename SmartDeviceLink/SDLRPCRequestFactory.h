@@ -63,7 +63,8 @@
 }
 
 //***** AddCommand *****
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:parentID:position:vrCommands:iconValue:iconType:handler: with SDLManager instead");;
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:parentID:position:vrCommands:iconValue:iconType:handler: with SDLManager instead");
+;
 
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:vrCommands:handler: with SDLManager instead");
 

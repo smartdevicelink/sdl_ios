@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param completionHandler The block to be called when the manager's setup is complete.
  */
-- (void)startWithCompletionHandler:(void(^)(BOOL success, NSError *__nullable error))completionHandler;
+- (void)startWithCompletionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
 
 /**
  *  Stop the manager. This method is used internally.

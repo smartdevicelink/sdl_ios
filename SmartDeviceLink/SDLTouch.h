@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return SDLTouch
  *      Instance of SDLTouch.
  */
-- (instancetype)initWithTouchEvent:(SDLTouchEvent*)touchEvent;
+- (instancetype)initWithTouchEvent:(SDLTouchEvent *)touchEvent;
 
 /**
  *  @abstract

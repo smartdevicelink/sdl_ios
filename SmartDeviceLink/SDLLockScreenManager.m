@@ -10,10 +10,10 @@
 
 #import "SDLDebugTool.h"
 #import "SDLLockScreenConfiguration.h"
-#import "SDLLockScreenViewController.h"
 #import "SDLLockScreenStatus.h"
-#import "SDLOnLockScreenStatus.h"
+#import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnLockScreenStatus.h"
 #import "SDLViewControllerPresentable.h"
 
 
@@ -35,24 +35,24 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _canPresent = NO;
     _config = config;
     _presenter = presenter;
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
-    
+
     return self;
 }
 
 - (void)start {
     self.canPresent = NO;
-    
+
     // Create and initialize the lock screen controller depending on the configuration
     if (!self.config.enableAutomaticLockScreen) {
         self.presenter.viewController = nil;
-        
+
         return;
     } else if (self.config.customViewController != nil) {
         self.presenter.viewController = self.config.customViewController;
@@ -64,18 +64,18 @@ NS_ASSUME_NONNULL_BEGIN
             [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
             return;
         }
-        
+
         lockScreenVC.appIcon = self.config.appIcon;
         lockScreenVC.backgroundColor = self.config.backgroundColor;
         self.presenter.viewController = lockScreenVC;
     }
-    
+
     self.canPresent = YES;
 }
 
 - (void)stop {
     self.canPresent = NO;
-    
+
     // Remove the lock screen if presented, don't allow it to present again until we start
     [self.presenter dismiss];
 }
@@ -92,13 +92,13 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnLockScreenStatus class]]) {
         return;
     }
-    
+
     if (self.lockScreenViewController == nil) {
         return;
     }
-    
+
     SDLOnLockScreenStatus *onLockScreenNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    
+
     // Present the VC depending on the lock screen status
     if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
         if (!self.presenter.presented && self.canPresent) {
@@ -122,9 +122,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[UIImage class]]) {
         return;
     }
-    
+
     UIImage *icon = notification.userInfo[SDLNotificationUserInfoObject];
-    
+
     // If the VC is our special type, then add the vehicle icon. If they passed in a custom VC, there's no current way to show the vehicle icon. If they're managing it themselves, they can grab the notification themselves.
     if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
         ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;

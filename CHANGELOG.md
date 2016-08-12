@@ -1,3 +1,16 @@
+# 4.3.0 Beta 1 Release Notes
+### Breaking Changes
+* State machine transition names are no longer public to allow for behind the scenes changes without minor or major version changes.
+
+### Enhancements
+* SDLFile, if initialized with NSData, will no longer write that data to disk, instead, it is stored in RAM. SDLFiles initialized with a file URL will continue to keep that data on disk until needed.
+* The default lock screen text is now localized into Spanish, French, German, Japenese, and Chinese.
+
+### Bug Fixes
+* If the lifecycle manager or any of its consituent managers fail to start, the lifecycle manager will disconnect or unregister and an error will be logged.
+* SDLLockScreenManager should use less RAM.
+* Fixed test failures.
+
 # 4.3.0 Alpha 1 Release Notes
 ### Breaking Changes
 * Deprecate SDLProxy in favor of SDLManager. A future major release will remove and alter many public APIs, but they will not be deprecated in this release because they will not be replaced in this release.

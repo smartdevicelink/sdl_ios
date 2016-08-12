@@ -14,8 +14,8 @@
 #import "SDLGlobals.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
-#import "SDLRPCResponse.h"
 #import "SDLRPCRequestFactory.h"
+#import "SDLRPCResponse.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,14 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];
-    if (!self) { return nil; }
-    
+    if (!self) {
+        return nil;
+    }
+
     executing = NO;
     finished = NO;
-    
+
     _fileWrapper = file;
     _connectionManager = connectionManager;
-    
+
     return self;
 }
 
@@ -53,14 +55,14 @@ NS_ASSUME_NONNULL_BEGIN
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
-        
+
         return;
     }
-    
+
     [self willChangeValueForKey:@"isExecuting"];
     executing = YES;
     [self didChangeValueForKey:@"isExecuting"];
-    
+
     [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file] withCompletion:self.fileWrapper.completionHandler];
 }
 
@@ -69,10 +71,10 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
-    
+
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
-    
+
     // When the putfiles all complete, run this block
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         if (streamError != nil || stop) {
@@ -80,52 +82,53 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             completion(YES, bytesAvailable, nil);
         }
-        
+
         [self sdl_finishOperation];
     });
-    
+
     for (SDLPutFile *putFile in putFiles) {
         dispatch_group_enter(putFileGroup);
         __weak typeof(self) weakself = self;
-        [self.connectionManager sendManagerRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            typeof(weakself) strongself = weakself;
-            // If we've already encountered an error, then just abort
-            // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
-            if (strongself.isCancelled) {
-                stop = YES;
-            }
-            
-            if (stop) {
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-            
-            // If we encounted an error, abort in the future and call the completion handler
-            if (error != nil || response == nil || ![response.success boolValue]) {
-                stop = YES;
-                streamError = error;
-                
-                if (completion != nil) {
-                    completion(NO, 0, error);
-                }
-                
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-            
-            // If we haven't encounted an error
-            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            
-            // We need to do this to make sure our bytesAvailable is accurate
-            if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
-                highestCorrelationIDReceived = [request.correlationID integerValue];
-                bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
-            }
-            
-            dispatch_group_leave(putFileGroup);
-        }];
+        [self.connectionManager sendManagerRequest:putFile
+                             withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+                                 typeof(weakself) strongself = weakself;
+                                 // If we've already encountered an error, then just abort
+                                 // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
+                                 if (strongself.isCancelled) {
+                                     stop = YES;
+                                 }
+
+                                 if (stop) {
+                                     dispatch_group_leave(putFileGroup);
+                                     BLOCK_RETURN;
+                                 }
+
+                                 // If we encounted an error, abort in the future and call the completion handler
+                                 if (error != nil || response == nil || ![response.success boolValue]) {
+                                     stop = YES;
+                                     streamError = error;
+
+                                     if (completion != nil) {
+                                         completion(NO, 0, error);
+                                     }
+
+                                     dispatch_group_leave(putFileGroup);
+                                     BLOCK_RETURN;
+                                 }
+
+                                 // If we haven't encounted an error
+                                 SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
+
+                                 // We need to do this to make sure our bytesAvailable is accurate
+                                 if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
+                                     highestCorrelationIDReceived = [request.correlationID integerValue];
+                                     bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
+                                 }
+
+                                 dispatch_group_leave(putFileGroup);
+                             }];
     }
-    
+
     dispatch_group_leave(putFileGroup);
 }
 
@@ -133,25 +136,25 @@ NS_ASSUME_NONNULL_BEGIN
     NSData *fileData = [file.data copy];
     NSUInteger currentOffset = 0;
     NSMutableArray<SDLPutFile *> *putFiles = [NSMutableArray array];
-    
+
     for (int i = 0; i < ((fileData.length / [SDLGlobals globals].maxMTUSize) + 1); i++) {
         SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:@0];
         putFile.offset = @(currentOffset);
-        
+
         if (currentOffset == 0) {
             putFile.length = @(fileData.length);
-        } else if((fileData.length - currentOffset) < [SDLGlobals globals].maxMTUSize) {
+        } else if ((fileData.length - currentOffset) < [SDLGlobals globals].maxMTUSize) {
             putFile.length = @(fileData.length - currentOffset);
         } else {
             putFile.length = @([SDLGlobals globals].maxMTUSize);
         }
-        
+
         putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
         currentOffset = [putFile.length unsignedIntegerValue] + 1;
-        
+
         [putFiles addObject:putFile];
     }
-    
+
     return putFiles;
 }
 

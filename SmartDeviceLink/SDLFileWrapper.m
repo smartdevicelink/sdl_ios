@@ -20,10 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _file = file;
     _completionHandler = completionHandler;
-    
+
     return self;
 }
 

@@ -46,7 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLFileType *fileType;
 
 
-
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

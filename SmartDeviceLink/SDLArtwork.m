@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
     NSData *imageData = nil;
     NSString *fileExtension = nil;
-    
+
     switch (imageFormat) {
         case SDLArtworkImageFormatPNG: {
             imageData = UIImagePNGRepresentation(image);
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
             fileExtension = @"jpg";
         } break;
     }
-    
+
     return [super initWithData:imageData name:name fileExtension:fileExtension persistent:persistent];
 }
 

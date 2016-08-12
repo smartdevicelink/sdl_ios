@@ -98,7 +98,7 @@
 + (void)logFormat:(NSString *)info, ... {
     va_list args;
     va_start(args, info);
-    
+
     NSString *format = [[NSString alloc] initWithFormat:info arguments:args];
     [self logInfo:format];
 }

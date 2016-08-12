@@ -31,11 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletion)completionHandler {
     self = [super init];
-    if (!self) { return nil; }
-    
+    if (!self) {
+        return nil;
+    }
+
     _connectionManager = connectionManager;
     _completionHandler = completionHandler;
-    
+
     return self;
 }
 
@@ -44,33 +46,34 @@ NS_ASSUME_NONNULL_BEGIN
         [self willChangeValueForKey:@"isFinished"];
         finished = YES;
         [self didChangeValueForKey:@"isFinished"];
-        
+
         return;
     }
-    
+
     [self willChangeValueForKey:@"isExecuting"];
     executing = YES;
     [self didChangeValueForKey:@"isExecuting"];
-    
+
     [self sdl_listFiles];
 }
 
 - (void)sdl_listFiles {
     SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
-    
+
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendManagerRequest:listFiles withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-        BOOL success = [listFilesResponse.success boolValue];
-        NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
-        NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
-        
-        if (weakSelf.completionHandler != nil) {
-            weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
-        }
-        
-        [weakSelf sdl_finishOperation];
-    }];
+    [self.connectionManager sendManagerRequest:listFiles
+                         withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                             SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
+                             BOOL success = [listFilesResponse.success boolValue];
+                             NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
+                             NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
+
+                             if (weakSelf.completionHandler != nil) {
+                                 weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
+                             }
+
+                             [weakSelf sdl_finishOperation];
+                         }];
 }
 
 - (void)sdl_finishOperation {
