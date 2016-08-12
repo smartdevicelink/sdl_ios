@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Determine if an individual RPC is allowed for the current HMI level
  *
- *  @param rpcName  The name of the RPC to be tested, // TODO: add an example
+ *  @param rpcName  The name of the RPC to be tested, for example, SDLShow
  *
  *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */

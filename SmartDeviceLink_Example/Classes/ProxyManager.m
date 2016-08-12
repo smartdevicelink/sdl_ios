@@ -81,13 +81,17 @@ NSString *const SDLAppId = @"9999";
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidBecomeReady {
-    [self showInitialData]; // TODO: This should only happen in HMI_FULL
+    if ([self.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+        [self showInitialData];
+    }
 }
 
 - (void)managerDidDisconnect {}
 
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
-    
+    if ([newLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+        [self showInitialData];
+    }
 }
 
 @end
