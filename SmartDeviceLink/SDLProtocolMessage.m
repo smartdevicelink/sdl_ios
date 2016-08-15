@@ -91,6 +91,8 @@
         newMessage = [[SDLV1ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
     } else if (version >= 2) {
         newMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to create an SDLMessage, but the version of the header passed was 0" userInfo:nil];
     }
 
     return newMessage;

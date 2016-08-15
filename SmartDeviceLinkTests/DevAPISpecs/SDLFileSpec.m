@@ -186,8 +186,6 @@ describe(@"SDLFile", ^{
                 });
             });
             
-            // TODO: Audio tests
-            
             context(@"json", ^{
                 beforeEach(^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
