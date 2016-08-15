@@ -198,15 +198,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Send the request and depending on the response, post the notification
+    __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
-                [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
             }
 
-            self.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+            weakSelf.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
+            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
         }];
 }
 
