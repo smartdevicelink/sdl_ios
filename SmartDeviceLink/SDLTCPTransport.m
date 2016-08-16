@@ -89,7 +89,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 - (void)destructObjects {
     [SDLDebugTool logInfo:@"SDLTCPTransport invalidate and dispose"];
-    
+
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
         if (socket != nil) {
@@ -156,15 +156,15 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         [transport.delegate onTransportConnected];
     } else if (kCFSocketDataCallBack == type) {
         SDLTCPTransport *transport = (__bridge SDLTCPTransport *)info;
-        
+
         // Check if Core disconnected from us
         if (CFDataGetLength((CFDataRef)data) <= 0) {
             [SDLDebugTool logInfo:@"TCPCallback Got a data packet with length 0, the connection was terminated on the other side"];
             [transport.delegate onTransportDisconnected];
-            
+
             return;
         }
-        
+
         // Handle the data we received
         NSMutableString *byteStr = [NSMutableString stringWithCapacity:((int)CFDataGetLength((CFDataRef)data) * 2)];
         for (int i = 0; i < (int)CFDataGetLength((CFDataRef)data); i++) {

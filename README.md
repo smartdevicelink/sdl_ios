@@ -190,7 +190,7 @@ self.proxy = nil;
 ```
 
 #### onOnHMIStatus
-When your app receives `onOnHMIStatus` it has changed HMI states on the head unit. For example, your application can be put into `HMI_FULL` meaning that it has full access to the vehicle screen. For more info on HMI Levels, [see the Cocoadoc documentation on the enum](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/4.1.4/Classes/SDLHMILevel.html).
+When your app receives `onOnHMIStatus` it has changed HMI states on the head unit. For example, your application can be put into `HMI_FULL` meaning that it has full access to the vehicle screen. For more info on HMI Levels, [see the Cocoadoc documentation on the enum](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/4.1.5/Classes/SDLHMILevel.html).
 
 You will want to track your first HMI FULL, for instance with a boolean value. The example application has extremely basic tracking of this type in the `onOnHMIStatus` callback.
 
