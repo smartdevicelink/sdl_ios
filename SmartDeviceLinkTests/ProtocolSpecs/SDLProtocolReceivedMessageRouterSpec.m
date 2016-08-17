@@ -36,7 +36,6 @@ describe(@"HandleReceivedMessage Tests", ^ {
             
             SDLProtocolReceivedMessageRouter* router = [[SDLProtocolReceivedMessageRouter alloc] init];
             router.delegate = delegateMock;
-            
             [router handleReceivedMessage:testMessage];
             
             OCMVerify([delegateMock handleProtocolStartSessionACK:testMessage.header]);

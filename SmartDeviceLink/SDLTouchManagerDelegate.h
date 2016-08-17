@@ -6,6 +6,8 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
+@import UIKit;
+
 @class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param point
  *      Location of the single tap in the head unit's coordinate system.
  */
-- (void)touchManager:(SDLTouchManager*)manager didReceiveSingleTapAtPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager didReceiveSingleTapAtPoint:(CGPoint)point;
 
 /**
  *  @abstract
@@ -33,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *      Location of the double tap in the head unit's coordinate system. This is the
  *      average of the first and second tap.
  */
-- (void)touchManager:(SDLTouchManager*)manager didReceiveDoubleTapAtPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager didReceiveDoubleTapAtPoint:(CGPoint)point;
 
 /**
  *  @abstract
@@ -43,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param point
  *      Location of the panning start point in the head unit's coordinate system.
  */
-- (void)touchManager:(SDLTouchManager*)manager panningDidStartAtPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager panningDidStartAtPoint:(CGPoint)point;
 
 /**
  *  @abstract
@@ -55,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param toPoint
  *      Location of the panning's new point in the head unit's coordinate system.
  */
-- (void)touchManager:(SDLTouchManager*)manager didReceivePanningFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint;
+- (void)touchManager:(SDLTouchManager *)manager didReceivePanningFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint;
 
 /**
  *  @abstract
@@ -65,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param point
  *      Location of the panning's end point in the head unit's coordinate system.
  */
-- (void)touchManager:(SDLTouchManager*)manager panningDidEndAtPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager panningDidEndAtPoint:(CGPoint)point;
 
 /**
  *  @abstract
@@ -75,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param point
  *      Center point of the pinch in the head unit's coordinate system.
  */
-- (void)touchManager:(SDLTouchManager*)manager pinchDidStartAtCenterPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager pinchDidStartAtCenterPoint:(CGPoint)point;
 
 /**
  *  @abstract
@@ -87,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param scale
  *      Scale relative to the distance between touch points.
  */
-- (void)touchManager:(SDLTouchManager*)manager didReceivePinchAtCenterPoint:(CGPoint)point withScale:(CGFloat)scale;
+- (void)touchManager:(SDLTouchManager *)manager didReceivePinchAtCenterPoint:(CGPoint)point withScale:(CGFloat)scale;
 
 /**
  *  @abstract
@@ -97,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param point
  *      Center point of the pinch in the head unit's coordinate system.
  */
-- (void)touchManager:(SDLTouchManager*)manager pinchDidEndAtCenterPoint:(CGPoint)point;
+- (void)touchManager:(SDLTouchManager *)manager pinchDidEndAtCenterPoint:(CGPoint)point;
 
 @end
 

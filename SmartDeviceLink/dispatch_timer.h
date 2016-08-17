@@ -9,8 +9,8 @@
 #ifndef dispatch_timer_h
 #define dispatch_timer_h
 
-#include <stdio.h>
 #include <dispatch/dispatch.h>
+#include <stdio.h>
 
 dispatch_source_t dispatch_create_timer(double afterInterval, bool repeating, dispatch_block_t block);
 void dispatch_stop_timer(dispatch_source_t timer);

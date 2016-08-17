@@ -13,6 +13,28 @@
   * Particular RPCs can now have an additional block used with them that can be called under certain conditions. For example, RPCs that create buttons (such as soft buttons) can have a block handler that will be called when an event occurs on the button.
   * Underlying the new high-level API are a few dispatchers, particularly the Notification Dispatcher which sends many notifications when new RPC notifications and responses are sent from the remote head unit. This may be used by the developer now, but will become less useful as more managers are released.
 
+# 4.2.0 Release Notes (since Beta 1)
+### Enhancements
+* The Streaming Media Manager will now provide a CVPixelBufferPool with default settings so that you don't have to create one yourself.
+* Modified Streaming Media Manager `videoSessionAuthenticated` to be `videoSessionEncrypted` and modify the value based on the Start Session ACK encryption flag.
+
+### Bug Fixes
+* Make sure to release some C objects in Streaming Media Manager
+
+### Other
+* Documentation updates.
+
+# 4.2.0 Beta 1 Release Notes
+### Enhancements
+* Add an AppInfo struct to RegisterAppInterface automatically with some application details, so that the head unit may automatically launch some apps via IAP if supported (#398, #431).
+* Add a touch manager to the streaming media manager. The touch manager will watch for touch events and generate gesture recognizer-like callbacks (#402, #423).
+* The streaming media manager now supports custom encoder settings and better default settings, as well as automatically creates a video based on the display capabilites sent by the head unit in register app interface response (#400, #406).
+* Add support for linking an external encryption library to the SDL iOS library so that SDL data on the transport may be TLS encrypted (#348).
+
+### Bug Fixes
+* Store sessionIds and service metadata together in the protocol code (#350).
+* Fixed a streaming media manager enum casing issue by deprecating the incorrect cased enum and adding a correctly cased one (#383, #411).
+
 # 4.1.5 Release Notes
 ### Bug Fixes
 * Since Apple is disallowing virtually all HTTP requests in Jan. 2017, SDLURLSession will now take all HTTP requests and attempt them over HTTPS. Some cars off the line still have HTTP URLs hardcoded into them, therefore this is a necessary precaution.

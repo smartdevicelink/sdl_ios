@@ -21,12 +21,15 @@
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
 NSString *const SDLErrorDomainStreamingMediaAudio = @"com.sdl.streamingmediamanager.audio";
 
+CGSize const SDLDefaultScreenSize = {800, 480};
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
+
+@property (assign, nonatomic, nullable) CFDictionaryRef pixelBufferOptions;
 
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 
@@ -35,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readwrite) BOOL videoSessionAuthenticated;
 @property (assign, nonatomic, readwrite) BOOL audioSessionAuthenticated;
-@property (assign, nonatomic, readwrite) BOOL encryptVideoSession;
-@property (assign, nonatomic, readwrite) BOOL encryptAudioSession;
+@property (assign, nonatomic, readwrite) BOOL videoSessionEncrypted;
+@property (assign, nonatomic, readwrite) BOOL audioSessionEncrypted;
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
@@ -52,26 +55,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Class Lifecycle
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities*)displayCapabilities {
+- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
     self = [self init];
     if (!self) {
         return nil;
     }
-    
-    _protocol = protocol;
-        
-    SDLImageResolution* resolution = displayCapabilities.screenParams.resolution;
-    if (resolution != nil) {
-        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
-                                 resolution.resolutionHeight.floatValue);
-    } else {
-        NSLog(@"Could not retrieve screen size. Defaulting to 640 x 480.");
-        _screenSize = CGSizeMake(640,
-                                 480);
-    }
-    
-    return self;
 
+    _protocol = protocol;
+
+    _displayCapabilties = displayCapabilities;
+    [self sdl_updateScreenSizeFromDisplayCapabilities:displayCapabilities];
+
+    return self;
 }
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
@@ -90,30 +85,30 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _compressionSession = NULL;
-    
+
     _currentFrameNumber = 0;
     _videoSessionConnected = NO;
     _audioSessionConnected = NO;
     _videoSessionAuthenticated = NO;
     _audioSessionAuthenticated = NO;
-    _encryptVideoSession = NO;
-    _encryptAudioSession = NO;
+    _videoSessionEncrypted = NO;
+    _audioSessionEncrypted = NO;
     _protocol = nil;
 
     _videoStartBlock = nil;
     _audioStartBlock = nil;
-	
-	_screenSize = CGSizeMake(640, 480);
+
+    _screenSize = SDLDefaultScreenSize;
     _videoEncoderSettings = self.defaultVideoEncoderSettings;
-	_touchManager = [[SDLTouchManager alloc] init];
-    
+    _touchManager = [[SDLTouchManager alloc] init];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationDidEnterBackground:)
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationDidResignActive:)
                                                  name:UIApplicationWillResignActiveNotification
@@ -122,14 +117,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)dealloc {
+    _pixelBufferOptions = nil;
+}
 
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
     [self startVideoSessionWithTLS:SDLEncryptionFlagNone
-                                      startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
-                                          startBlock(success, error);
-                                      }];
+                        startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
+                            startBlock(success, error);
+                        }];
 }
 
 - (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
@@ -141,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.videoStartBlock = [startBlock copy];
-    self.encryptVideoSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
+    self.videoSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
@@ -169,15 +167,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startAudioSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
     [self startAudioSessionWithTLS:SDLEncryptionFlagNone
-                                        startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
-                                            startBlock(success, error);
-                                        }];
+                        startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
+                            startBlock(success, error);
+                        }];
 }
 
 - (void)startAudioSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
-    self.encryptAudioSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
-    
+    self.audioSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
+
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
         [self.protocol startSecureServiceWithType:SDLServiceType_Audio
@@ -224,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         @autoreleasepool {
-            if (self.encryptAudioSession) {
+            if (self.audioSessionEncrypted) {
                 [self.protocol sendEncryptedRawData:pcmAudioData onService:SDLServiceType_Audio];
             } else {
                 [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
@@ -237,12 +235,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Update video encoder
 
-- (void)setVideoEncoderSettings:(NSDictionary * _Nullable)videoEncoderSettings {
+- (void)setVideoEncoderSettings:(NSDictionary *_Nullable)videoEncoderSettings {
     if (self.videoSessionConnected) {
         @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
         return;
     }
-    
+
     if (videoEncoderSettings) {
         _videoEncoderSettings = videoEncoderSettings;
     } else {
@@ -250,15 +248,29 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSDictionary*)defaultVideoEncoderSettings {
-    static NSDictionary* defaultVideoEncoderSettings = nil;
+- (void)setDisplayCapabilties:(SDLDisplayCapabilities *_Nullable)displayCapabilties {
+    if (self.videoSessionConnected) {
+        @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
+        return;
+    }
+
+    _displayCapabilties = displayCapabilties;
+    [self sdl_updateScreenSizeFromDisplayCapabilities:displayCapabilties];
+}
+
+- (NSDictionary *)defaultVideoEncoderSettings {
+    static NSDictionary *defaultVideoEncoderSettings = nil;
     if (defaultVideoEncoderSettings == nil) {
         defaultVideoEncoderSettings = @{
-                                        (__bridge NSString*)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString*)kVTProfileLevel_H264_Baseline_AutoLevel,
-                                        (__bridge NSString*)kVTCompressionPropertyKey_RealTime : @YES
-                                        };
+            (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
+            (__bridge NSString *)kVTCompressionPropertyKey_RealTime : @YES
+        };
     }
     return defaultVideoEncoderSettings;
+}
+
+- (CVPixelBufferPoolRef _Nullable)pixelBufferPool {
+    return VTCompressionSessionGetPixelBufferPool(self.compressionSession);
 }
 
 #pragma mark - SDLProtocolListener Methods
@@ -351,7 +363,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
 
-    if (mediaManager.encryptVideoSession) {
+    if (mediaManager.videoSessionEncrypted) {
         [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceType_Video];
     } else {
         [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
@@ -365,7 +377,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     OSStatus status;
 
     // Create a compression session
-    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, self.pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
         // TODO: Log the error
@@ -376,6 +388,9 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         return NO;
     }
 
+    CFRelease(self.pixelBufferOptions);
+    _pixelBufferOptions = nil;
+
     // Validate that the video encoder properties are valid.
     CFDictionaryRef supportedProperties;
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
@@ -383,14 +398,14 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         if (*error != nil) {
             *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
         }
-        
+
         return NO;
     }
-    
-    for (NSString* key in self.videoEncoderSettings.allKeys) {
+
+    for (NSString *key in self.videoEncoderSettings.allKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
             if (*error != nil) {
-                NSString* description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
+                NSString *description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
                 *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey : description}];
             }
             CFRelease(supportedProperties);
@@ -398,17 +413,17 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         }
     }
     CFRelease(supportedProperties);
-    
+
     // Populate the video encoder settings from provided dictionary.
-    for (NSString* key in self.videoEncoderSettings.allKeys) {
+    for (NSString *key in self.videoEncoderSettings.allKeys) {
         id value = self.videoEncoderSettings[key];
-        
+
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
             if (*error != nil) {
                 *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
             }
-            
+
             return NO;
         }
     }
@@ -496,7 +511,8 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
 
-    return [elementaryStream copy];
+
+    return elementaryStream;
 }
 
 #pragma mark - Private static singleton variables
@@ -511,13 +527,43 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     return streamingDataQueue;
 }
 
+- (CFDictionaryRef _Nullable)pixelBufferOptions {
+    if (_pixelBufferOptions == nil) {
+        CFMutableDictionaryRef pixelBufferOptions = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+
+        OSType pixelFormatType = kCVPixelFormatType_32BGRA;
+
+        CFNumberRef pixelFormatNumberRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &pixelFormatType);
+
+        CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGImageCompatibilityKey, kCFBooleanFalse);
+        CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGBitmapContextCompatibilityKey, kCFBooleanFalse);
+        CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferPixelFormatTypeKey, pixelFormatNumberRef);
+
+        CFRelease(pixelFormatNumberRef);
+
+        _pixelBufferOptions = pixelBufferOptions;
+    }
+    return _pixelBufferOptions;
+}
+
 #pragma mark - Private Functions
-- (void)sdl_applicationDidEnterBackground:(NSNotification*)notification {
+- (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
     [self.touchManager cancelPendingTouches];
 }
 
-- (void)sdl_applicationDidResignActive:(NSNotification*)notification {
+- (void)sdl_applicationDidResignActive:(NSNotification *)notification {
     [self.touchManager cancelPendingTouches];
+}
+
+- (void)sdl_updateScreenSizeFromDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+    SDLImageResolution *resolution = displayCapabilities.screenParams.resolution;
+    if (resolution != nil) {
+        _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,
+                                 resolution.resolutionHeight.floatValue);
+    } else {
+        _screenSize = SDLDefaultScreenSize;
+    }
+    _pixelBufferOptions = nil;
 }
 
 @end
