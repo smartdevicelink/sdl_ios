@@ -21,6 +21,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
+
+
 @interface SDLManager : NSObject
 
 /**
@@ -78,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Start the manager, which will tell it to start looking for a connection.
  */
-- (void)start;
+- (void)startWithHandler:(SDLManagerReadyBlock)readyBlock;
 
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.

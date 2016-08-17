@@ -10,6 +10,9 @@
 
 #import "SDLErrorConstants.h"
 
+@class SDLResult;
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
@@ -25,6 +28,9 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_lifecycle_notConnectedError;
 + (NSError *)sdl_lifecycle_notReadyError;
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
++ (NSError *)sdl_lifecycle_managersFailedToStart;
++ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result;
++ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result;
 
 #pragma mark SDLFileManager
 

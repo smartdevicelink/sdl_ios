@@ -10,6 +10,7 @@
 
 @protocol SDLManagerDelegate <NSObject>
 
+@optional
 /**
  *  Called when the manager is ready to be used by the application. Any RPCs that attempt to be set before this readiness call will be ignored.
  */

@@ -33,6 +33,7 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLResult.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
 #import "SDLUnregisterAppInterface.h"
@@ -60,10 +61,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
-@property (strong, nonatomic, readwrite, nullable) SDLOnHashChange *resumeHash;
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
+@property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push
@@ -71,7 +72,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
-@property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
+// Private properties
+@property (copy, nonatomic) SDLManagerReadyBlock readyBlock;
 
 @end
 
@@ -109,13 +111,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hashDidChange:) name:SDLDidReceiveNewHashNotification object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remoteHardwareDidUnregister:) name:SDLDidReceiveAppUnregisteredNotification object:_notificationDispatcher];
 
     return self;
 }
 
-- (void)start {
+- (void)startWithHandler:(SDLManagerReadyBlock)readyBlock {
+    self.readyBlock = [readyBlock copy];
+    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
@@ -179,7 +182,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.delegate managerDidDisconnect];
 
-    [self start]; // Start up again to start watching for new connections
+    [self startWithHandler:self.readyBlock]; // Start up again to start watching for new connections
 }
 
 - (void)didEnterStateTransportConnected {
@@ -190,11 +193,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
-    }
-
-    // TODO: Should the hash be removed under any conditions?
-    if (self.resumeHash != nil) {
-        regRequest.hashID = self.resumeHash.hashID;
     }
 
     // Send the request and depending on the response, post the notification
@@ -252,6 +250,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         if (setupSuccess) {
             [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
         } else {
+            self.readyBlock(NO, [NSError sdl_lifecycle_managersFailedToStart]);
             [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
         }
     });
@@ -267,7 +266,22 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateReady {
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
-
+    
+    SDLResult *registerResult = self.registerAppInterfaceResponse.resultCode;
+    
+    BOOL success = NO;
+    NSError *startError = nil;
+    
+    if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
+        // We did not succeed in registering
+        startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult];
+    } else {
+        // We succeeded in registering
+        success = YES;
+    }
+    
+    // Notify the block and delegate if it exists
+    self.readyBlock(success, startError);
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
         [self.delegate managerDidBecomeReady];
     }
@@ -402,16 +416,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
-}
-
-- (void)hashDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHashChange class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHashChange class]]) {
-        return;
-    }
-
-    SDLOnHashChange *hashChangeNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    self.resumeHash = hashChangeNotification;
 }
 
 - (void)remoteHardwareDidUnregister:(NSNotification *)notification {

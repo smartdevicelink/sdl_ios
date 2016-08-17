@@ -49,8 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)start {
-    [self.lifecycleManager start];
+- (void)startWithHandler:(SDLManagerReadyBlock)startBlock {
+    [self.lifecycleManager startWithHandler:startBlock];
 }
 
 - (void)stop {

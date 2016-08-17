@@ -34,19 +34,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
+
+
 @interface SDLLifecycleManager : NSObject
 
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
+@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
+
 @property (strong, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLPermissionManager *permissionManager;
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 @property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
+
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
-@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+
 @property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
-@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push
@@ -55,7 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic pop
 
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
-@property (strong, nonatomic, readonly, nullable) SDLOnHashChange *resumeHash;
 @property (assign, nonatomic, readonly) NSString *lifecycleState;
 @property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
 
@@ -72,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Start the manager, which will tell it to start looking for a connection.
  */
-- (void)start;
+- (void)startWithHandler:(SDLManagerReadyBlock)readyBlock;
 
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.

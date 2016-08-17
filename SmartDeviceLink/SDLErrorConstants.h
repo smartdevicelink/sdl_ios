@@ -27,7 +27,15 @@ typedef NS_ENUM(NSInteger, SDLManagerError) {
     /**
      *  The remote system encountered an unknown error.
      */
-    SDLManagerErrorUnknownRemoteError = -4
+    SDLManagerErrorUnknownRemoteError = -4,
+    /**
+     *  One or more of the sub-managers failed to start.
+     */
+    SDLManagerErrorManagersFailedToStart = -5,
+    /**
+     *  Registering with the remote system failed.
+     */
+    SDLManagerErrorRegistrationFailed = -6,
 };
 
 /**

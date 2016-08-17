@@ -8,6 +8,9 @@
 
 #import "SDLError.h"
 
+#import "SDLResult.h"
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
@@ -62,6 +65,30 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_lifecycle_managersFailedToStart {
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
+                               code:SDLManagerErrorManagersFailedToStart
+                           userInfo:nil];
+}
+
++ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey : NSLocalizedString(result.value, nil)
+                               };
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
+                               code:SDLManagerErrorRegistrationFailed
+                           userInfo:userInfo];
+}
+
++ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey : NSLocalizedString(result.value, nil)
+                               };
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
+                               code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
 }
 
