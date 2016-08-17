@@ -118,7 +118,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     _pixelBufferOptions = nil;
 }
 
