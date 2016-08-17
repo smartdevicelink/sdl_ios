@@ -1,4 +1,15 @@
-# 4.2.0 Release Notes
+# 4.2.0 Release Notes (since Beta 1)
+### Enhancements
+* The Streaming Media Manager will now provide a CVPixelBufferPool with default settings so that you don't have to create one yourself.
+* Modified Streaming Media Manager `videoSessionAuthenticated` to be `videoSessionEncrypted` and modify the value based on the Start Session ACK encryption flag.
+
+### Bug Fixes
+* Make sure to release some C objects in Streaming Media Manager
+
+### Other
+* Documentation updates.
+
+# 4.2.0 Beta 1 Release Notes
 ### Enhancements
 * Add an AppInfo struct to RegisterAppInterface automatically with some application details, so that the head unit may automatically launch some apps via IAP if supported (#398, #431).
 * Add a touch manager to the streaming media manager. The touch manager will watch for touch events and generate gesture recognizer-like callbacks (#402, #423).

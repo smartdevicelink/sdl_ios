@@ -387,7 +387,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
         return NO;
     }
-    
+
     CFRelease(self.pixelBufferOptions);
     _pixelBufferOptions = nil;
 
@@ -510,8 +510,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         // Move to the next NAL unit in the block buffer
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
-    
-    
+
 
     return elementaryStream;
 }
@@ -531,17 +530,17 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 - (CFDictionaryRef _Nullable)pixelBufferOptions {
     if (_pixelBufferOptions == nil) {
         CFMutableDictionaryRef pixelBufferOptions = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-        
+
         OSType pixelFormatType = kCVPixelFormatType_32BGRA;
-        
+
         CFNumberRef pixelFormatNumberRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &pixelFormatType);
-        
+
         CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGImageCompatibilityKey, kCFBooleanFalse);
         CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGBitmapContextCompatibilityKey, kCFBooleanFalse);
         CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferPixelFormatTypeKey, pixelFormatNumberRef);
-        
+
         CFRelease(pixelFormatNumberRef);
-        
+
         _pixelBufferOptions = pixelBufferOptions;
     }
     return _pixelBufferOptions;
