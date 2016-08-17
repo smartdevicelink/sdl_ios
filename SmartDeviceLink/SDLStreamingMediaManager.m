@@ -36,8 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL videoSessionConnected;
 @property (assign, nonatomic, readwrite) BOOL audioSessionConnected;
 
-@property (assign, nonatomic, readwrite) BOOL videoSessionAuthenticated;
-@property (assign, nonatomic, readwrite) BOOL audioSessionAuthenticated;
 @property (assign, nonatomic, readwrite) BOOL videoSessionEncrypted;
 @property (assign, nonatomic, readwrite) BOOL audioSessionEncrypted;
 
@@ -91,8 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
     _currentFrameNumber = 0;
     _videoSessionConnected = NO;
     _audioSessionConnected = NO;
-    _videoSessionAuthenticated = NO;
-    _audioSessionAuthenticated = NO;
     _videoSessionEncrypted = NO;
     _audioSessionEncrypted = NO;
     _protocol = nil;
@@ -279,7 +275,7 @@ NS_ASSUME_NONNULL_BEGIN
     switch (header.serviceType) {
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
-            self.audioSessionAuthenticated = header.encrypted;
+            self.audioSessionEncrypted = header.encrypted;
             self.audioStartBlock(YES, header.encrypted, nil);
             self.audioStartBlock = nil;
         } break;
@@ -297,7 +293,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             self.videoSessionConnected = YES;
-            self.videoSessionAuthenticated = header.encrypted;
+            self.videoSessionEncrypted = header.encrypted;
             self.videoStartBlock(YES, header.encrypted, nil);
             self.videoStartBlock = nil;
         } break;
