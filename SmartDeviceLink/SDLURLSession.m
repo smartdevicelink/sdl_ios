@@ -62,6 +62,11 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - URL Request Methods
 
 - (void)dataFromURL:(NSURL *)url completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
+    // Apple no longer allows HTTP URLs without a special exception as of Jan. 2017
+    if ([url.scheme isEqualToString:@"http"]) {
+        url = [NSURL URLWithString:[url.absoluteString stringByReplacingOccurrencesOfString:@"http" withString:@"https"]];
+    }
+
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:self.cachePolicy timeoutInterval:self.connectionTimeout];
 
     SDLURLRequestTask *task = [[SDLURLRequestTask alloc] initWithURLRequest:request completionHandler:completionHandler];
@@ -71,7 +76,13 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
+    NSURL *newURL = nil;
+    if ([request.URL.scheme isEqualToString:@"http"]) {
+        newURL = [NSURL URLWithString:[request.URL.absoluteString stringByReplacingOccurrencesOfString:@"http" withString:@"https"]];
+    }
+
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
+    mutableRequest.URL = newURL;
     mutableRequest.HTTPBody = data;
     mutableRequest.HTTPMethod = @"POST";
 
