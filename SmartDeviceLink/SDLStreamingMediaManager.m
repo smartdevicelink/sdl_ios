@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 
-@property (assign, nonatomic, nullable) NSDictionary* pixelBufferOptions;
+@property (assign, nonatomic, nullable) CFDictionaryRef pixelBufferOptions;
 
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 
@@ -380,7 +380,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     OSStatus status;
 
     // Create a compression session
-    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, (__bridge CFDictionaryRef)self.pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, self.pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
         // TODO: Log the error
@@ -390,6 +390,9 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 
         return NO;
     }
+    
+    CFRelease(self.pixelBufferOptions);
+    _pixelBufferOptions = nil;
 
     // Validate that the video encoder properties are valid.
     CFDictionaryRef supportedProperties;
@@ -526,13 +529,21 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     return streamingDataQueue;
 }
 
-- (NSDictionary* _Nullable)pixelBufferOptions {
+- (CFDictionaryRef _Nullable)pixelBufferOptions {
     if (_pixelBufferOptions == nil) {
-        _pixelBufferOptions = @{
-                                (__bridge NSString*)kCVPixelBufferCGImageCompatibilityKey : @(NO),
-                                (__bridge NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @(NO),
-                                (__bridge NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA)
-                                };
+        CFMutableDictionaryRef pixelBufferOptions = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        
+        OSType pixelFormatType = kCVPixelFormatType_32BGRA;
+        
+        CFNumberRef pixelFormatNumberRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &pixelFormatType);
+        
+        CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGImageCompatibilityKey, kCFBooleanFalse);
+        CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferCGBitmapContextCompatibilityKey, kCFBooleanFalse);
+        CFDictionarySetValue(pixelBufferOptions, kCVPixelBufferPixelFormatTypeKey, pixelFormatNumberRef);
+        
+        CFRelease(pixelFormatNumberRef);
+        
+        _pixelBufferOptions = pixelBufferOptions;
     }
     return _pixelBufferOptions;
 }
