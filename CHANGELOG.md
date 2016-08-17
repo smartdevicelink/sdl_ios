@@ -1,3 +1,7 @@
+# 4.2.1 Release Notes
+### Bug Fixes
+* Fixed SDLStreamingMediaManager encryption status not being set properly.
+
 # 4.2.0 Release Notes (since Beta 1)
 ### Enhancements
 * The Streaming Media Manager will now provide a CVPixelBufferPool with default settings so that you don't have to create one yourself.
