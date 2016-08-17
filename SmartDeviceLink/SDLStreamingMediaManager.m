@@ -38,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readwrite) BOOL videoSessionAuthenticated;
 @property (assign, nonatomic, readwrite) BOOL audioSessionAuthenticated;
-@property (assign, nonatomic, readwrite) BOOL encryptVideoSession;
-@property (assign, nonatomic, readwrite) BOOL encryptAudioSession;
+@property (assign, nonatomic, readwrite) BOOL videoSessionEncrypted;
+@property (assign, nonatomic, readwrite) BOOL audioSessionEncrypted;
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
@@ -93,8 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
     _audioSessionConnected = NO;
     _videoSessionAuthenticated = NO;
     _audioSessionAuthenticated = NO;
-    _encryptVideoSession = NO;
-    _encryptAudioSession = NO;
+    _videoSessionEncrypted = NO;
+    _audioSessionEncrypted = NO;
     _protocol = nil;
 
     _videoStartBlock = nil;
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.videoStartBlock = [startBlock copy];
-    self.encryptVideoSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
+    self.videoSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startAudioSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     self.audioStartBlock = [startBlock copy];
-    self.encryptAudioSession = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
+    self.audioSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         @autoreleasepool {
-            if (self.encryptAudioSession) {
+            if (self.audioSessionEncrypted) {
                 [self.protocol sendEncryptedRawData:pcmAudioData onService:SDLServiceType_Audio];
             } else {
                 [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
@@ -363,7 +363,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     SDLStreamingMediaManager *mediaManager = (__bridge SDLStreamingMediaManager *)sourceFrameRefCon;
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
 
-    if (mediaManager.encryptVideoSession) {
+    if (mediaManager.videoSessionEncrypted) {
         [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceType_Video];
     } else {
         [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
@@ -510,6 +510,8 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         // Move to the next NAL unit in the block buffer
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
+    
+    
 
     return elementaryStream;
 }

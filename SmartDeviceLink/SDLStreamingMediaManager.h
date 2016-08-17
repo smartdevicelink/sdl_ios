@@ -53,8 +53,8 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
 
-@property (assign, nonatomic, readonly) BOOL videoSessionAuthenticated;
-@property (assign, nonatomic, readonly) BOOL audioSessionAuthenticated;
+@property (assign, nonatomic, readonly) BOOL videoSessionEncrypted;
+@property (assign, nonatomic, readonly) BOOL audioSessionEncrypted;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
