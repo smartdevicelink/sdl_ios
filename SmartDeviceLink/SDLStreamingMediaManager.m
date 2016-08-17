@@ -509,7 +509,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
 
-    return [elementaryStream copy];
+    return elementaryStream;
 }
 
 #pragma mark - Private static singleton variables
