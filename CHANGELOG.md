@@ -1,6 +1,6 @@
 # 4.2.1 Release Notes
 ### Bug Fixes
-* Fixed SDLStreamingMediaManager encryption status not being set properly.
+* Fixed SDLStreamingMediaManager encryption status not being set properly (#433, #434).
 
 # 4.2.0 Release Notes (since Beta 1)
 ### Enhancements
