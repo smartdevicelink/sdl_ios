@@ -13,6 +13,10 @@
   * Particular RPCs can now have an additional block used with them that can be called under certain conditions. For example, RPCs that create buttons (such as soft buttons) can have a block handler that will be called when an event occurs on the button.
   * Underlying the new high-level API are a few dispatchers, particularly the Notification Dispatcher which sends many notifications when new RPC notifications and responses are sent from the remote head unit. This may be used by the developer now, but will become less useful as more managers are released.
 
+# 4.2.1 Release Notes
+### Bug Fixes
+* Fixed SDLStreamingMediaManager encryption status not being set properly (#433, #434).
+
 # 4.2.0 Release Notes (since Beta 1)
 ### Enhancements
 * The Streaming Media Manager will now provide a CVPixelBufferPool with default settings so that you don't have to create one yourself.
