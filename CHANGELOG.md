@@ -26,6 +26,10 @@
   * Particular RPCs can now have an additional block used with them that can be called under certain conditions. For example, RPCs that create buttons (such as soft buttons) can have a block handler that will be called when an event occurs on the button.
   * Underlying the new high-level API are a few dispatchers, particularly the Notification Dispatcher which sends many notifications when new RPC notifications and responses are sent from the remote head unit. This may be used by the developer now, but will become less useful as more managers are released.
 
+# 4.1.5 Release Notes
+### Bug Fixes
+* Since Apple is disallowing virtually all HTTP requests in Jan. 2017, SDLURLSession will now take all HTTP requests and attempt them over HTTPS. Some cars off the line still have HTTP URLs hardcoded into them, therefore this is a necessary precaution.
+
 # 4.1.4 Release Notes
 ### Bug Fixes
 * Fixed exception causing app to crash when SDL Core disconnects in TCP debug mode. Warning: The app may enter an undefined connection state as there is currently no retry strategy in TCP debug mode.
