@@ -85,6 +85,14 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
 
+/**
+ *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
+ *
+ *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
+ *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
+ */
+@property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
+
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
 

@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 
+@property (assign, nonatomic, nullable) NSDictionary* pixelBufferOptions;
+
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 
 @property (assign, nonatomic, readwrite) BOOL videoSessionConnected;
@@ -117,6 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _pixelBufferOptions = nil;
 }
 
 #pragma mark - Streaming media lifecycle
@@ -267,6 +270,10 @@ NS_ASSUME_NONNULL_BEGIN
     return defaultVideoEncoderSettings;
 }
 
+- (CVPixelBufferPoolRef _Nullable)pixelBufferPool {
+    return VTCompressionSessionGetPixelBufferPool(self.compressionSession);
+}
+
 #pragma mark - SDLProtocolListener Methods
 
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
@@ -371,7 +378,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     OSStatus status;
 
     // Create a compression session
-    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    status = VTCompressionSessionCreate(NULL, self.screenSize.width, self.screenSize.height, kCMVideoCodecType_H264, NULL, (__bridge CFDictionaryRef)self.pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
 
     if (status != noErr) {
         // TODO: Log the error
@@ -517,6 +524,17 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     return streamingDataQueue;
 }
 
+- (NSDictionary* _Nullable)pixelBufferOptions {
+    if (_pixelBufferOptions == nil) {
+        _pixelBufferOptions = @{
+                                (__bridge NSString*)kCVPixelBufferCGImageCompatibilityKey : @(NO),
+                                (__bridge NSString*)kCVPixelBufferCGBitmapContextCompatibilityKey : @(NO),
+                                (__bridge NSString*)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA)
+                                };
+    }
+    return _pixelBufferOptions;
+}
+
 #pragma mark - Private Functions
 - (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
     [self.touchManager cancelPendingTouches];
@@ -534,6 +552,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     } else {
         _screenSize = SDLDefaultScreenSize;
     }
+    _pixelBufferOptions = nil;
 }
 
 @end
