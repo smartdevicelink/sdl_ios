@@ -40,6 +40,8 @@ typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
 extern NSString *const SDLErrorDomainStreamingMediaVideo;
 extern NSString *const SDLErrorDomainStreamingMediaAudio;
 
+extern CGSize const SDLDefaultScreenSize;
+
 typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
 typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError *__nullable error);
 
@@ -51,8 +53,8 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (assign, nonatomic, readonly) BOOL videoSessionConnected;
 @property (assign, nonatomic, readonly) BOOL audioSessionConnected;
 
-@property (assign, nonatomic, readonly) BOOL videoSessionAuthenticated;
-@property (assign, nonatomic, readonly) BOOL audioSessionAuthenticated;
+@property (assign, nonatomic, readonly) BOOL videoSessionEncrypted;
+@property (assign, nonatomic, readonly) BOOL audioSessionEncrypted;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
@@ -67,6 +69,13 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (strong, nonatomic, null_resettable) NSDictionary *videoEncoderSettings;
 
 /**
+ *  Display capabilties that will set the screenSize property. If set to nil, the SDLDefaultScreenSize will be used.
+ *
+ *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+ */
+@property (strong, nonatomic, null_resettable) SDLDisplayCapabilities *displayCapabilties;
+
+/**
  *  Provides default video encoder settings used.
  */
 @property (strong, nonatomic, readonly) NSDictionary *defaultVideoEncoderSettings;
@@ -76,13 +85,21 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
 
+/**
+ *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
+ *
+ *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
+ *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
+ */
+@property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
+
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
 
 - (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities;
 
 /**
- *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session.
+ *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session. This will not use encryption.
  *
  *  @warning If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).
  *
@@ -90,7 +107,12 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  */
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
-// TODO: Documentation
+/**
+ *  Start a video session either with with no encryption (the default), with authentication but no encryption (this will attempt a TLS authentication with the other side, but will not physically encrypt the data after that), or authentication and encryption, which will encrypt all video data being sent.
+ *
+ *  @param encryptionFlag Whether and how much security to apply to the video session.
+ *  @param startBlock     A block that will be called with the result of attempting to start a video session
+ */
 - (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**

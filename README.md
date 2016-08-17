@@ -16,6 +16,7 @@
 * The [Core](https://github.com/smartdevicelink/sdl_core) component is the software which Vehicle Manufacturers (OEMs)  implement in their vehicle head units. Integrating this component into their head unit and HMI based on a set of guidelines and templates enables access to various smartphone applications.
 * The optional [SDL Server](https://github.com/smartdevicelink/sdl_server) can be used by Vehicle OEMs to update application policies and gather usage information for connected applications.
 * The [iOS](https://github.com/smartdevicelink/sdl_ios) and [Android](https://github.com/smartdevicelink/sdl_android) libraries are implemented by app developers into their applications to enable command and control via the connected head unit.
+* To suggest new features to SDL, including the iOS library, go to the [SDL Evolution](https://github.com/smartdevicelink/sdl_evolution) github project
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=AzdQdSCS24M" target="_blank"><img src="http://i.imgur.com/nm8UujD.png?1" alt="SmartDeviceLink" border="10" /></a>
 
@@ -31,13 +32,15 @@ We're still working on creating documentation for each of these individual repos
 
 See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
 
+See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to see what we have planned for future versions.
+
 ### Installing
 
 ##### Cocoapods
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '~> 4.3'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '~> 4.3.0-alpha.1'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
 
 ##### Carthage
 
@@ -190,7 +193,7 @@ self.proxy = nil;
 ```
 
 #### onOnHMIStatus
-When your app receives `onOnHMIStatus` it has changed HMI states on the head unit. For example, your application can be put into `HMI_FULL` meaning that it has full access to the vehicle screen. For more info on HMI Levels, [see the Cocoadoc documentation on the enum](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/4.3.0/Classes/SDLHMILevel.html).
+When your app receives `onOnHMIStatus` it has changed HMI states on the head unit. For example, your application can be put into `HMI_FULL` meaning that it has full access to the vehicle screen. For more info on HMI Levels, [see the Cocoadoc documentation on the enum](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/4.1.5/Classes/SDLHMILevel.html).
 
 You will want to track your first HMI FULL, for instance with a boolean value. The example application has extremely basic tracking of this type in the `onOnHMIStatus` callback.
 

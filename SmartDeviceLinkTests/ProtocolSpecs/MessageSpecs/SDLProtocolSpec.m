@@ -220,108 +220,108 @@ describe(@"SendRPCRequest Tests", ^ {
 
 describe(@"HandleBytesFromTransport Tests", ^ {
     context(@"During V1 session", ^ {
-        //        it(@"Should parse the data correctly", ^ {
-        //            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
-        //
-        //            //Override initialization methods so that our protocol will use our object instead
-        //            [[[routerMock stub] andReturn:routerMock] alloc];
-        //            (void)[[[routerMock stub] andReturn:routerMock] init];
-        //
-        //            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-        //            SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
-        //            testHeader.serviceType = SDLServiceType_RPC;
-        //            testHeader.sessionID = 0x03;
-        //            [testProtocol handleProtocolStartSessionACK:testHeader];
-        //
-        //            NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV1 options:0 error:0];
-        //            NSUInteger dataLength = jsonTestData.length;
-        //
-        //            __block BOOL verified = NO;
-        //            [[[routerMock stub] andDo:^(NSInvocation* invocation) {
-        //                verified = YES;
-        //
-        //                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
-        //                __unsafe_unretained SDLV1ProtocolMessage* message;
-        //                [invocation getArgument:&message atIndex:2];
-        //
-        //                SDLV1ProtocolMessage* messageReceived = message;
-        //
-        //                expect(messageReceived.payload).to(equal(jsonTestData));
-        //                expect(@(messageReceived.header.version)).to(equal(@1));
-        //                expect(@(messageReceived.header.encrypted)).to(equal(@NO));
-        //                expect(@(messageReceived.header.frameType)).to(equal(@(SDLFrameType_Single)));
-        //                expect(@(messageReceived.header.sessionID)).to(equal(@0xFF));
-        //                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
-        //                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
-        //                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(dataLength)));
-        //            }] handleReceivedMessage:[OCMArg any]];
-        //
-        //            const char testHeader2Data[8] = {0x10 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0xFF, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
-        //            NSMutableData* testData = [NSMutableData dataWithBytes:testHeader2Data length:8];
-        //            [testData appendData:jsonTestData];
-        //
-        //            [testProtocol handleBytesFromTransport:testData];
-        //
-        //            expect(@(verified)).toEventually(beTruthy());
-        //        });
+//        it(@"Should parse the data correctly", ^ {
+//            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
+//            
+//            //Override initialization methods so that our protocol will use our object instead
+//            [[[routerMock stub] andReturn:routerMock] alloc];
+//            (void)[[[routerMock stub] andReturn:routerMock] init];
+//            
+//            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+//            SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
+//            testHeader.serviceType = SDLServiceType_RPC;
+//            testHeader.sessionID = 0x03;
+//            [testProtocol handleProtocolStartSessionACK:testHeader];
+//            
+//            NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV1 options:0 error:0];
+//            NSUInteger dataLength = jsonTestData.length;
+//            
+//            __block BOOL verified = NO;
+//            [[[routerMock stub] andDo:^(NSInvocation* invocation) {
+//                verified = YES;
+//                
+//                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
+//                __unsafe_unretained SDLV1ProtocolMessage* message;
+//                [invocation getArgument:&message atIndex:2];
+//                
+//                SDLV1ProtocolMessage* messageReceived = message;
+//                
+//                expect(messageReceived.payload).to(equal(jsonTestData));
+//                expect(@(messageReceived.header.version)).to(equal(@1));
+//                expect(@(messageReceived.header.encrypted)).to(equal(@NO));
+//                expect(@(messageReceived.header.frameType)).to(equal(@(SDLFrameType_Single)));
+//                expect(@(messageReceived.header.sessionID)).to(equal(@0xFF));
+//                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
+//                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+//                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(dataLength)));
+//            }] handleReceivedMessage:[OCMArg any]];
+//            
+//            const char testHeader2Data[8] = {0x10 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0xFF, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
+//            NSMutableData* testData = [NSMutableData dataWithBytes:testHeader2Data length:8];
+//            [testData appendData:jsonTestData];
+//            
+//            [testProtocol handleBytesFromTransport:testData];
+//            
+//            expect(@(verified)).toEventually(beTruthy());
+//        });
     });
     
     context(@"During V2 session", ^ {
-        //        it(@"Should parse the data correctly", ^ {
-        //            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
-        //
-        //            //Override initialization methods so that our protocol will use our object instead
-        //            [[[routerMock stub] andReturn:routerMock] alloc];
-        //            (void)[[[routerMock stub] andReturn:routerMock] init];
-        //
-        //            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-        //            SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
-        //            testHeader.serviceType = SDLServiceType_RPC;
-        //            testHeader.sessionID = 0xF5;
-        //            [testProtocol handleProtocolStartSessionACK:testHeader];
-        //
-        //            NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV2 options:0 error:0];
-        //            NSUInteger dataLength = jsonTestData.length;
-        //
-        //            const char testPayloadHeader[12] = {0x00, 0x00, 0x00, 0x06, 0x00, 0x09, 0x87, 0x65, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
-        //
-        //            NSMutableData* payloadData = [NSMutableData dataWithBytes:testPayloadHeader length:12];
-        //            [payloadData appendData:jsonTestData];
-        //            [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
-        //
-        //            __block BOOL verified = NO;
-        //            [[[routerMock stub] andDo:^(NSInvocation* invocation) {
-        //                verified = YES;
-        //
-        //                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
-        //                __unsafe_unretained SDLV2ProtocolMessage* message;
-        //                [invocation getArgument:&message atIndex:2];
-        //
-        //                SDLV2ProtocolMessage* messageReceived = message;
-        //
-        //                expect(messageReceived.payload).to(equal(payloadData));
-        //                expect(@(messageReceived.header.version)).to(equal(@2));
-        //                expect(@(messageReceived.header.encrypted)).to(equal(@NO));
-        //                expect(@(messageReceived.header.frameType)).to(equal(@(SDLFrameType_Single)));
-        //                expect(@(messageReceived.header.sessionID)).to(equal(@0x01));
-        //                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
-        //                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
-        //                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(payloadData.length)));
-        //                expect(@(((SDLV2ProtocolHeader*)messageReceived.header).messageID)).to(equal(@1));
-        //
-        //            }] handleReceivedMessage:[OCMArg any]];
-        //            testProtocol.transport = routerMock;
-        //
-        //            const char testHeader2Data[12] = {0x20 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,
-        //                (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
-        //
-        //            NSMutableData* testData = [NSMutableData dataWithBytes:testHeader2Data length:12];
-        //            [testData appendData:payloadData];
-        //
-        //            [testProtocol handleBytesFromTransport:testData];
-        //
-        //            expect(@(verified)).toEventually(beTruthy());
-        //        });
+//        it(@"Should parse the data correctly", ^ {
+//            id routerMock = OCMClassMock(SDLProtocolReceivedMessageRouter.class);
+//            
+//            //Override initialization methods so that our protocol will use our object instead
+//            [[[routerMock stub] andReturn:routerMock] alloc];
+//            (void)[[[routerMock stub] andReturn:routerMock] init];
+//            
+//            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+//            SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
+//            testHeader.serviceType = SDLServiceType_RPC;
+//            testHeader.sessionID = 0xF5;
+//            [testProtocol handleProtocolStartSessionACK:testHeader];
+//            
+//            NSData* jsonTestData = [NSJSONSerialization dataWithJSONObject:dictionaryV2 options:0 error:0];
+//            NSUInteger dataLength = jsonTestData.length;
+//            
+//            const char testPayloadHeader[12] = {0x00, 0x00, 0x00, 0x06, 0x00, 0x09, 0x87, 0x65, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
+//            
+//            NSMutableData* payloadData = [NSMutableData dataWithBytes:testPayloadHeader length:12];
+//            [payloadData appendData:jsonTestData];
+//            [payloadData appendBytes:"COMMAND" length:strlen("COMMAND")];
+//            
+//            __block BOOL verified = NO;
+//            [[[routerMock stub] andDo:^(NSInvocation* invocation) {
+//                verified = YES;
+//                
+//                //Without the __unsafe_unretained, a double release will occur. More information: https://github.com/erikdoe/ocmock/issues/123
+//                __unsafe_unretained SDLV2ProtocolMessage* message;
+//                [invocation getArgument:&message atIndex:2];
+//                
+//                SDLV2ProtocolMessage* messageReceived = message;
+//                
+//                expect(messageReceived.payload).to(equal(payloadData));
+//                expect(@(messageReceived.header.version)).to(equal(@2));
+//                expect(@(messageReceived.header.encrypted)).to(equal(@NO));
+//                expect(@(messageReceived.header.frameType)).to(equal(@(SDLFrameType_Single)));
+//                expect(@(messageReceived.header.sessionID)).to(equal(@0x01));
+//                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
+//                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+//                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(payloadData.length)));
+//                expect(@(((SDLV2ProtocolHeader*)messageReceived.header).messageID)).to(equal(@1));
+//                
+//            }] handleReceivedMessage:[OCMArg any]];
+//            testProtocol.transport = routerMock;
+//            
+//            const char testHeader2Data[12] = {0x20 | SDLFrameType_Single, SDLServiceType_RPC, SDLFrameData_SingleFrame, 0x01, (payloadData.length >> 24) & 0xFF, (payloadData.length >> 16) & 0xFF,
+//                (payloadData.length >> 8) & 0xFF, payloadData.length & 0xFF, 0x00, 0x00, 0x00, 0x01};
+//            
+//            NSMutableData* testData = [NSMutableData dataWithBytes:testHeader2Data length:12];
+//            [testData appendData:payloadData];
+//            
+//            [testProtocol handleBytesFromTransport:testData];
+//            
+//            expect(@(verified)).toEventually(beTruthy());
+//        });
     });
 });
 
