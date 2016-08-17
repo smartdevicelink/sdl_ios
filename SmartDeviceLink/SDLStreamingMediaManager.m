@@ -347,6 +347,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (void)sdl_teardownCompressionSession {
+    CVPixelBufferPoolRelease(_pixelBufferPool);
+    _pixelBufferPool = nil;
     VTCompressionSessionInvalidate(self.compressionSession);
     CFRelease(self.compressionSession);
 }
