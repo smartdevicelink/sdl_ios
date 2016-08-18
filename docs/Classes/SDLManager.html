@@ -12,8 +12,9 @@
   <li><a href="#section-delegate">delegate</a></li>
   <li><a href="#section-registerResponse">registerResponse</a></li>
   <li><a href="#section--initWithConfiguration:delegate:">-initWithConfiguration:delegate:</a></li>
-  <li><a href="#section--start">-start</a></li>
+  <li><a href="#section--startWithHandler:">-startWithHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--applicationWillTerminate">-applicationWillTerminate</a></li>
   <li><a href="#section--sendRequest:">-sendRequest:</a></li>
   <li><a href="#section--sendRequest:withCompletionHandler:">-sendRequest:withCompletionHandler:</a></li>
 </ul>
@@ -196,8 +197,8 @@
 
   </div>
   
-  <h3 id="section--start">
-      -start
+  <h3 id="section--startWithHandler:">
+      -startWithHandler:
   </h3>
   
   <p>Start the manager, which will tell it to start looking for a connection.</p>
@@ -205,11 +206,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">start</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithHandler</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock">SDLManagerReadyBlock</a></span><span class="p">)</span><span class="nv">readyBlock</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">()</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startWithHandler</span><span class="p">(</span><span class="nv">readyBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock">SDLManagerReadyBlock</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -228,6 +229,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--applicationWillTerminate">
+      -applicationWillTerminate
+  </h3>
+  
+  <p>Call this method within your AppDelegate&rsquo;s <code>applicationWillTerminate</code> method to properly shut down SDL. If you do not, you will not be able to reregister with the remote device.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">applicationWillTerminate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">applicationWillTerminate</span><span class="p">()</span></code></pre>
 
   
   

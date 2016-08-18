@@ -118,7 +118,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)startWithHandler:(SDLManagerReadyBlock)readyBlock {
     self.readyBlock = [readyBlock copy];
-    
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [SDLProxy enableSiphonDebug];
@@ -270,12 +270,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateReady {
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
-    
+
     SDLResult *registerResult = self.registerAppInterfaceResponse.resultCode;
-    
+
     BOOL success = NO;
     NSError *startError = nil;
-    
+
     if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
         // We did not succeed in registering
         startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult];
@@ -283,7 +283,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         // We succeeded in registering
         success = YES;
     }
-    
+
     // Notify the block and delegate if it exists
     self.readyBlock(success, startError);
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {

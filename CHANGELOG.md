@@ -1,3 +1,14 @@
+# 4.3.0 Beta 2 Release Notes (Since Beta 1)
+### Enhancements
+* Starting up `SDLManager` now requires a block which will pass back an error if it failed.
+* `SDLManager` now provides a method to call in `AppDelegate applicationWillTerminate:` that will prevent killed apps from being unable to re-register.
+
+### Bug Fixes
+* Fixed a memory leak caused by the strong / weak block dance.
+
+### Other
+* Currently removed automatic resumption. Resumption will return in a future build as a manual configuration pass in.
+
 # 4.3.0 Beta 1 Release Notes (Since Alpha 1)
 ### Breaking Changes
 * State machine transition names are no longer public to allow for behind the scenes changes without minor or major version changes.

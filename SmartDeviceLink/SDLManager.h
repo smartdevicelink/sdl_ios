@@ -21,7 +21,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
+typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 
 @interface SDLManager : NSObject

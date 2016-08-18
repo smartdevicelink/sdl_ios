@@ -89,45 +89,46 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLPutFile *putFile in putFiles) {
         dispatch_group_enter(putFileGroup);
         __weak typeof(self) weakself = self;
-        [self.connectionManager sendManagerRequest:putFile withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            typeof(weakself) strongself = weakself;
-            // If we've already encountered an error, then just abort
-            // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
-            if (strongself.isCancelled) {
-                stop = YES;
-            }
-            
-            if (stop) {
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-            
-            // If we encounted an error, abort in the future and call the completion handler
-            if (error != nil || response == nil || ![response.success boolValue]) {
-                stop = YES;
-                streamError = error;
-                
-                if (completion != nil) {
-                    completion(NO, 0, error);
-                }
-                
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-            
-            // If we haven't encounted an error
-            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            
-            // We need to do this to make sure our bytesAvailable is accurate
-            if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
-                highestCorrelationIDReceived = [request.correlationID integerValue];
-                bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
-            }
-            
-            dispatch_group_leave(putFileGroup);
-        }];
+        [self.connectionManager sendManagerRequest:putFile
+                             withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+                                 typeof(weakself) strongself = weakself;
+                                 // If we've already encountered an error, then just abort
+                                 // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
+                                 if (strongself.isCancelled) {
+                                     stop = YES;
+                                 }
+
+                                 if (stop) {
+                                     dispatch_group_leave(putFileGroup);
+                                     BLOCK_RETURN;
+                                 }
+
+                                 // If we encounted an error, abort in the future and call the completion handler
+                                 if (error != nil || response == nil || ![response.success boolValue]) {
+                                     stop = YES;
+                                     streamError = error;
+
+                                     if (completion != nil) {
+                                         completion(NO, 0, error);
+                                     }
+
+                                     dispatch_group_leave(putFileGroup);
+                                     BLOCK_RETURN;
+                                 }
+
+                                 // If we haven't encounted an error
+                                 SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
+
+                                 // We need to do this to make sure our bytesAvailable is accurate
+                                 if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
+                                     highestCorrelationIDReceived = [request.correlationID integerValue];
+                                     bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
+                                 }
+
+                                 dispatch_group_leave(putFileGroup);
+                             }];
     }
-    
+
     dispatch_group_leave(putFileGroup);
 }
 
