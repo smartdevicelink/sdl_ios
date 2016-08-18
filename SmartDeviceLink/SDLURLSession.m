@@ -64,7 +64,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)dataFromURL:(NSURL *)url completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     // Apple no longer allows HTTP URLs without a special exception as of Jan. 2017
     if ([url.scheme isEqualToString:@"http"]) {
-         url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
     }
 
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:self.cachePolicy timeoutInterval:self.connectionTimeout];
