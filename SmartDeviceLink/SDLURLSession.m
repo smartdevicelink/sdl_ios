@@ -64,7 +64,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)dataFromURL:(NSURL *)url completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     // Apple no longer allows HTTP URLs without a special exception as of Jan. 2017
     if ([url.scheme isEqualToString:@"http"]) {
-        url = [NSURL URLWithString:[url.absoluteString stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"]];
+         url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
     }
 
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:self.cachePolicy timeoutInterval:self.connectionTimeout];
@@ -78,7 +78,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
     NSURL *newURL = nil;
     if ([request.URL.scheme isEqualToString:@"http"]) {
-        newURL = [NSURL URLWithString:[request.URL.absoluteString stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"]];
+        newURL = [NSURL URLWithString:[request.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
     }
 
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
