@@ -15,8 +15,6 @@ NSString *const SDLAppId = @"9999";
 
 @interface ProxyManager () <SDLManagerDelegate>
 
-@property (strong, nonatomic) SDLManager *sdlManager;
-
 @end
 
 

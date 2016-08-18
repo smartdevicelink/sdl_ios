@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class SDLManager;
 @class SDLStreamingMediaManager;
 
 
@@ -23,6 +24,7 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 @interface ProxyManager : NSObject
 
 @property (assign, nonatomic, readonly) ProxyState state;
+@property (strong, nonatomic) SDLManager *sdlManager;
 
 + (instancetype)sharedManager;
 - (void)startIAP;

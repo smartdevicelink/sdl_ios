@@ -84,6 +84,8 @@ typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
  */
 - (void)stop;
 
+- (void)applicationWillTerminate;
+
 
 #pragma mark Send RPC Requests
 

@@ -139,6 +139,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 }
 
+- (void)applicationWillTerminate {
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+}
+
 
 #pragma mark Getters
 

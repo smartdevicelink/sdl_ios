@@ -57,6 +57,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lifecycleManager stop];
 }
 
+- (void)applicationWillTerminate {
+    [self.lifecycleManager applicationWillTerminate];
+}
+
 
 #pragma mark - Passthrough getters / setters
 
