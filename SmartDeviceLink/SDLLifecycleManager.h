@@ -84,6 +84,9 @@ typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
  */
 - (void)stop;
 
+/**
+ *  Call this method within your AppDelegate's `applicationWillTerminate` method to properly shut down SDL. If you do not, you will not be able to reregister with the remote device.
+ */
 - (void)applicationWillTerminate;
 
 
