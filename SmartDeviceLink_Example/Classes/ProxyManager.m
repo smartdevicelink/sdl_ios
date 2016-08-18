@@ -15,7 +15,6 @@ NSString *const SDLAppId = @"9999";
 
 @interface ProxyManager () <SDLProxyListener>
 
-@property (strong, nonatomic) SDLProxy *proxy;
 @property (assign, nonatomic, readwrite) ProxyState state;
 @property (assign, nonatomic) BOOL isFirstHMIFull;
 @property (assign, nonatomic) ProxyTransportType currentTransportType;

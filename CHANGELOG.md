@@ -1,3 +1,7 @@
+# 4.2.2 Release Notes
+### Bug Fixes
+* Fixed HTTP URL schemes not being properly altered to HTTPS to account for App Transport Security (#432, #436).
+
 # 4.2.1 Release Notes
 ### Bug Fixes
 * Fixed SDLStreamingMediaManager encryption status not being set properly (#433, #434).
