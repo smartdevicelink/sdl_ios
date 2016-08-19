@@ -73,6 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *appId;
 
 /**
+ *  A hash id which should be passed to the remote system in the RegisterAppInterface
+ */
+@property (copy, nonatomic, nullable) NSString *resumeHash;
+
+/**
  *  This is an automatically set based on the app type
  */
 @property (assign, nonatomic, readonly) BOOL isMedia;

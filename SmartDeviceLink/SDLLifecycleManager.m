@@ -194,6 +194,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
+    regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;
 
     if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];

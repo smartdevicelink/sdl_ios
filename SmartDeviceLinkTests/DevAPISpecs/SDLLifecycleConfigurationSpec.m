@@ -36,6 +36,7 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
+            expect(testConfig.resumeHash).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
@@ -43,6 +44,7 @@ describe(@"a lifecycle configuration", ^{
             __block SDLTTSChunk *someTTSChunk = nil;
             __block NSArray *someTTSName = nil;
             __block NSArray *someSynonyms = nil;
+            __block NSString *someResumeHashString = nil;
             
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
@@ -52,6 +54,7 @@ describe(@"a lifecycle configuration", ^{
                 someTTSName = @[someTTSChunk];
                 someShortAppName = @"Short Name";
                 someSynonyms = @[@"Test 1", @"Test 2", @"Test 3", @"Test 4"];
+                someResumeHashString = @"testing";
                 
                 testConfig.appType = [SDLAppHMIType MEDIA];
                 testConfig.language = [SDLLanguage AR_SA];
@@ -59,6 +62,7 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.shortAppName = someShortAppName;
                 testConfig.ttsName = someTTSName;
                 testConfig.voiceRecognitionCommandNames = someSynonyms;
+                testConfig.resumeHash = someResumeHashString;
             });
             
             it(@"should have properly set properties", ^{
@@ -75,6 +79,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
+                expect(testConfig.resumeHash).to(match(someResumeHashString));
             });
         });
     });
@@ -106,6 +111,7 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
+            expect(testConfig.resumeHash).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
@@ -113,6 +119,7 @@ describe(@"a lifecycle configuration", ^{
             __block SDLTTSChunk *someTTSChunk = nil;
             __block NSArray *someTTSName = nil;
             __block NSArray *someSynonyms = nil;
+            __block NSString *someResumeHashString = nil;
             
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
@@ -129,6 +136,7 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.shortAppName = someShortAppName;
                 testConfig.ttsName = someTTSName;
                 testConfig.voiceRecognitionCommandNames = someSynonyms;
+                testConfig.resumeHash = someResumeHashString;
             });
             
             it(@"should have properly set properties", ^{
@@ -145,6 +153,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
+                expect(testConfig.resumeHash).to(match(someResumeHashString));
             });
         });
     });
