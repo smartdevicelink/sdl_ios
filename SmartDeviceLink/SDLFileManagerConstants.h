@@ -14,8 +14,4 @@ typedef void (^SDLFileManagerUploadCompletion)(BOOL success, NSUInteger bytesAva
 typedef void (^SDLFileManagerDeleteCompletion)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 typedef void (^SDLFileManagerListFilesCompletion)(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *fileNames, NSError *__nullable error);
 
-@interface SDLFileManagerConstants : NSObject
-
-@end
-
 NS_ASSUME_NONNULL_END

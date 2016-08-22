@@ -125,10 +125,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLDidReceiveListFilesResponse infoObject:response];
 }
 
-- (void)onReceivedLockScreenIcon:(UIImage *)icon {
-    [self postNotificationName:SDLDidReceiveLockScreenIcon infoObject:icon];
-}
-
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
     [self postNotificationName:SDLDidReceivePerformAudioPassThruResponse infoObject:response];
 }
@@ -143,6 +139,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onReadDIDResponse:(SDLReadDIDResponse *)response {
     [self postNotificationName:SDLDidReceiveReadDIDResponse infoObject:response];
+}
+
+- (void)onReceivedLockScreenIcon:(UIImage *)icon {
+    [self postNotificationName:SDLDidReceiveLockScreenIcon infoObject:icon];
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
@@ -251,6 +251,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
     [self postNotificationName:SDLDidReceiveNewHashNotification infoObject:notification];
+}
+
+- (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification {
+    [self postNotificationName:SDLDidReceiveKeyboardInputNotification infoObject:notification];
 }
 
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification {

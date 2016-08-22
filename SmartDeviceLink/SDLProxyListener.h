@@ -30,6 +30,7 @@
 @class SDLOnEncodedSyncPData;
 @class SDLOnHashChange;
 @class SDLOnHMIStatus;
+@class SDLOnKeyboardInput;
 @class SDLOnLanguageChange;
 @class SDLOnLockScreenStatus;
 @class SDLOnPermissionsChange;
@@ -100,6 +101,7 @@
 - (void)onOnCommand:(SDLOnCommand *)notification;
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
 - (void)onOnHashChange:(SDLOnHashChange *)notification;
+- (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification;
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
