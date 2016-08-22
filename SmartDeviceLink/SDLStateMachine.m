@@ -13,8 +13,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyOldState = @"oldState";
-SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewState = @"newState";
+NSString *const SDLStateMachineNotificationFormat = @"com.sdl.statemachine.%@";
+
+SDLStateMachineNotificationInfoKey const SDLStateMachineNotificationInfoKeyOldState = @"oldState";
+SDLStateMachineNotificationInfoKey const SDLStateMachineNotificationInfoKeyNewState = @"newState";
+
+SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyTargetClass = @"targetClass";
+SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyFromState = @"fromState";
+SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyToClass = @"toState";
+
+SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatWillLeave = @"willLeaveState%@";
+SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatWillTransition = @"willTransitionFromState%@ToState%@";
+SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidTransition = @"didTransitionFromState%@ToState%@";
+SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = @"didEnterState%@";
 
 
 @interface SDLStateMachine ()
@@ -53,15 +64,15 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
     if (![self sdl_canState:self.currentState transitionToState:state]) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:@"Invalid state machine transition occurred"
-                                     userInfo:@{ @"targetClass" : NSStringFromClass([self.target class]),
-                                                 @"fromState" : self.currentState,
-                                                 @"toState" : state }];
+                                     userInfo:@{ SDLStateMachineExceptionInfoKeyTargetClass : NSStringFromClass([self.target class]),
+                                                 SDLStateMachineExceptionInfoKeyFromState : self.currentState,
+                                                 SDLStateMachineExceptionInfoKeyToClass : state }];
     }
 
-    SEL willLeave = NSSelectorFromString([NSString stringWithFormat:@"willLeaveState%@", oldState]);
-    SEL willTransition = NSSelectorFromString([NSString stringWithFormat:@"willTransitionFromState%@ToState%@", oldState, state]);
-    SEL didTransition = NSSelectorFromString([NSString stringWithFormat:@"didTransitionFromState%@ToState%@", oldState, state]);
-    SEL didEnter = NSSelectorFromString([NSString stringWithFormat:@"didEnterState%@", state]);
+    SEL willLeave = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatWillLeave, oldState]);
+    SEL willTransition = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatWillTransition, oldState, state]);
+    SEL didTransition = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatDidTransition, oldState, state]);
+    SEL didEnter = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatDidEnter, state]);
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -123,7 +134,7 @@ SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewS
 }
 
 - (NSString *)transitionNotificationName {
-    return [NSString stringWithFormat:@"com.sdl.statemachine.%@", [self.target class]];
+    return [NSString stringWithFormat:SDLStateMachineNotificationFormat, [self.target class]];
 }
 
 @end
