@@ -153,7 +153,6 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
-                expect(testConfig.resumeHash).to(match(someResumeHashString));
             });
         });
     });
