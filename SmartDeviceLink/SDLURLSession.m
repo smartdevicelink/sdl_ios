@@ -76,7 +76,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
-    NSURL *newURL = nil;
+    NSURL *newURL = request.URL;
     if ([request.URL.scheme isEqualToString:@"http"]) {
         newURL = [NSURL URLWithString:[request.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
     }
