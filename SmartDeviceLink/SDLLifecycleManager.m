@@ -154,10 +154,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return self.lifecycleStateMachine.currentState;
 }
 
-- (NSString *)stateTransitionNotificationName {
-    return self.lifecycleStateMachine.transitionNotificationName;
-}
-
 
 #pragma mark State Machine
 
@@ -270,10 +266,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
-
     SDLResult *registerResult = self.registerAppInterfaceResponse.resultCode;
-
     BOOL success = NO;
     NSError *startError = nil;
 
@@ -285,11 +278,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         success = YES;
     }
 
-    // Notify the block and delegate if it exists
+    // Notify the block, only notify the delegate and notification if we succeeded.
     self.readyBlock(success, startError);
+    
+    if (!success) {
+        return;
+    }
+    
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
         [self.delegate managerDidBecomeReady];
     }
+    [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 }
 
 - (void)didEnterStateUnregistering {
@@ -329,8 +328,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                    }
 
                    // Once we've tried to put the file on the remote system, try to set the app icon
-                   SDLSetAppIcon *setAppIconRequest = [SDLRPCRequestFactory buildSetAppIconWithFileName:appIcon.name correlationID:@0];
-                   [self sdl_sendRequest:setAppIconRequest
+                   SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
+                   setAppIcon.syncFileName = appIcon.name;
+                   
+                   [self sdl_sendRequest:setAppIcon
                        withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
                            if (error != nil) {
                                [SDLDebugTool logFormat:@"Error setting app icon: ", error];
@@ -351,7 +352,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        [SDLDebugTool logInfo:@"Manager not ready, will not send RPC until state is Ready"];
+        [SDLDebugTool logInfo:@"Manager not ready, message not sent"];
         if (handler) {
             handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
         }
@@ -395,6 +396,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
++ (BOOL)sdl_checkNotification:(NSNotification *)notification isKindOfClass:(Class)class {
+    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
+    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 
 #pragma mark SDL notification observers
 
@@ -407,8 +417,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![self.class sdl_checkNotification:notification isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
@@ -424,8 +433,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)remoteHardwareDidUnregister:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnAppInterfaceUnregistered class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+    if (![self.class sdl_checkNotification:notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 

@@ -51,7 +51,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
 
-@property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 
 // Deprecated internal proxy object
@@ -66,16 +65,19 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 #pragma mark Lifecycle
 /**
- *  Start the manager with a configuration. The manager will then begin waiting for a connection to occur. Once one does, it will automatically run the setup process. You will be notified of its completion via an NSNotification you will want to observe, `SDLDidBecomeReadyNotification`.
+ *  Initialize the manager with a configuration. Call `startWithHandler` to begin waiting for a connection.
  *
  *  @param configuration Your app's unique configuration for setup.
+ *  @param delegate An optional delegate to be notified of hmi level changes and startup and shutdown. It is recommended that you implement this.
  *
  *  @return An instance of SDLManager
  */
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Start the manager, which will tell it to start looking for a connection.
+ *  Start the manager, which will tell it to start looking for a connection. Once one does, it will automatically run the setup process and call the readyBlock when done.
+ *
+ *  @param readyBlock The block called when the manager is ready to be used or an error occurs while attempting to become ready.
  */
 - (void)startWithHandler:(SDLManagerReadyBlock)readyBlock;
 
