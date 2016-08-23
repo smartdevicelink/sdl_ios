@@ -80,7 +80,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceiveSingleTapAtPoint:CGPointZero];
 
             singleTapTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Single Tap Tests.");
             };
             
             didCallDoubleTap = NO;
@@ -91,7 +91,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceiveDoubleTapAtPoint:CGPointZero];
             
             doubleTapTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Double Tap Tests.");
             };
             
             didCallBeginPan = NO;
@@ -102,7 +102,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] panningDidStartAtPoint:CGPointZero];
             
             panStartTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Pan Start Tests.");
             };
             
             didCallMovePan = NO;
@@ -113,7 +113,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceivePanningFromPoint:CGPointZero toPoint:CGPointZero];
             
             panMoveTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Pan Move Tests.");
             };
             
             didCallEndPan = NO;
@@ -124,7 +124,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] panningDidEndAtPoint:CGPointZero];
         
             panEndTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Pan End Tests.");
             };
             
             didCallBeginPinch = NO;
@@ -135,7 +135,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] pinchDidStartAtCenterPoint:CGPointZero];
 
             pinchStartTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Pinch Start Tests.");
             };
             
             didCallMovePinch = NO;
@@ -146,7 +146,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceivePinchAtCenterPoint:CGPointZero withScale:0];
 
             pinchMoveTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Pinch Move Tests.");
             };
             
             didCallEndPinch = NO;
@@ -157,7 +157,7 @@ describe(@"SDLTouchManager Tests", ^{
             }] ignoringNonObjectArgs] touchManager:[OCMArg any] pinchDidEndAtCenterPoint:CGPointZero];
             
             pinchEndTests = ^(NSInvocation* invocation) {
-                fail();
+                failWithMessage(@"Failed to call Pinch End Tests.");
             };
         });
         
