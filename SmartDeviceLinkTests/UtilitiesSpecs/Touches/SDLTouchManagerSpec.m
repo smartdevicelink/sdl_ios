@@ -338,7 +338,7 @@ describe(@"SDLTouchManager Tests", ^{
                 panStartTouchCoord.x = @(panStartPoint.x);
                 panStartTouchCoord.y = @(panStartPoint.y);
                 
-                CGFloat movementTimeThresholdOffset = (touchManager.movementTimeThreshold + .01) * 1000;
+                double movementTimeThresholdOffset = (touchManager.movementTimeThreshold + .01) * 1000;
                 
                 NSUInteger panStartTimeStamp = ([[NSDate date] timeIntervalSince1970] * 1000) + movementTimeThresholdOffset;
                 
