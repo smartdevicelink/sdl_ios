@@ -76,13 +76,13 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)uploadWithURLRequest:(NSURLRequest *)request data:(NSData *)data completionHandler:(SDLURLConnectionRequestCompletionHandler)completionHandler {
-    NSURL *newURL = nil;
-    if ([request.URL.scheme isEqualToString:@"http"]) {
-        newURL = [NSURL URLWithString:[request.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+    NSURL *url = request.URL;
+    if ([url.scheme isEqualToString:@"http"]) {
+        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
     }
 
     NSMutableURLRequest *mutableRequest = [request mutableCopy];
-    mutableRequest.URL = newURL;
+    mutableRequest.URL = url;
     mutableRequest.HTTPBody = data;
     mutableRequest.HTTPMethod = @"POST";
 
