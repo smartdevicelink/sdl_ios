@@ -37,6 +37,10 @@
   * Particular RPCs can now have an additional block used with them that can be called under certain conditions. For example, RPCs that create buttons (such as soft buttons) can have a block handler that will be called when an event occurs on the button.
   * Underlying the new high-level API are a few dispatchers, particularly the Notification Dispatcher which sends many notifications when new RPC notifications and responses are sent from the remote head unit. This may be used by the developer now, but will become less useful as more managers are released.
 
+# 4.2.3 Release Notes
+### Bug Fixes
+* Fixed HTTPS URL schemes not properly uploading data (#432, #438).
+
 # 4.2.2 Release Notes
 ### Bug Fixes
 * Fixed HTTP URL schemes not being properly altered to HTTPS to account for App Transport Security (#432, #436).

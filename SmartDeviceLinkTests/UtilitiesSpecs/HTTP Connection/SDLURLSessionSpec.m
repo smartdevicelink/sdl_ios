@@ -10,7 +10,7 @@ describe(@"the url session", ^{
     __block SDLURLSession *testSession = nil;
     
     describe(@"attempting to get good data", ^{
-        context(@"from an http address", ^{
+        context(@"from an https address", ^{
             context(@"uploading data", ^{
                 NSData *testData = [@"testData" dataUsingEncoding:NSUTF8StringEncoding];
                 NSArray *someJSONObject = @[@"one", @"two"];
