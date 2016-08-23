@@ -17,6 +17,7 @@
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
+#import "SDLHMILevel.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
@@ -124,7 +125,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [SDLProxy enableSiphonDebug];
 
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:self.configuration.lifecycleConfig.tcpDebugPort];
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:[@(self.configuration.lifecycleConfig.tcpDebugPort) stringValue]];
     } else {
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher];
     }
@@ -191,7 +192,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
     regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;
-
+    regRequest.appHMIType = [NSMutableArray arrayWithObject:self.configuration.lifecycleConfig.appType];
+    
+    if (self.configuration.lifecycleConfig.ttsName != nil) {
+        regRequest.ttsName = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.ttsName];
+    }
+    
     if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
     }
@@ -278,17 +284,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         success = YES;
     }
 
-    // Notify the block, only notify the delegate and notification if we succeeded.
+    // Notify the block, send the notification if we succeeded.
     self.readyBlock(success, startError);
     
     if (!success) {
         return;
     }
     
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(managerDidBecomeReady)]) {
-        [self.delegate managerDidBecomeReady];
-    }
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
+    
+    // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
+    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
 }
 
 - (void)didEnterStateUnregistering {

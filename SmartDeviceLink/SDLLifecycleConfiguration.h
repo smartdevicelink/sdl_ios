@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port;
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port;
 
 /**
  *  Whether or not debug mode is enabled
@@ -55,12 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The ip address at which the library will look for a server
  */
-@property (copy, nonatomic, readonly) NSString *tcpDebugIPAddress;
+@property (copy, nonatomic, readonly, null_resettable) NSString *tcpDebugIPAddress;
 
 /**
  *  The port at which the library will look for a server
  */
-@property (copy, nonatomic, readonly) NSString *tcpDebugPort;
+@property (assign, nonatomic, readonly) UInt16 tcpDebugPort;
 
 /**
  *  The full name of the app

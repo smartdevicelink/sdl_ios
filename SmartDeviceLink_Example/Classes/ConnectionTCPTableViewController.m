@@ -35,7 +35,7 @@
     // Tableview setup
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     self.ipAddressTextField.text = [Preferences sharedPreferences].ipAddress;
-    self.portTextField.text = [Preferences sharedPreferences].port;
+    self.portTextField.text = [@([Preferences sharedPreferences].port) stringValue];
     
     // Connect Button setup
     self.connectButton.tintColor = [UIColor whiteColor];
@@ -56,7 +56,7 @@
 
 - (IBAction)connectButtonWasPressed:(UIButton *)sender {
     [Preferences sharedPreferences].ipAddress = self.ipAddressTextField.text;
-    [Preferences sharedPreferences].port = self.portTextField.text;
+    [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
     
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to 'NO'.
  */
-@property (assign, nonatomic) BOOL showInOptional;
+@property (assign, nonatomic) BOOL showInOptionalState;
 
 /**
  *  If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged.

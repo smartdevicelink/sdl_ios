@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
             [self.presenter present];
         }
     } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
-        if (self.config.showInOptional && !self.presenter.presented && self.canPresent) {
+        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
             [self.presenter present];
         } else if (self.presenter.presented) {
             [self.presenter dismiss];

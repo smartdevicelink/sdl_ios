@@ -147,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
-    NSDictionary *allowedDict = [self statusOfRPCs:filter.rpcNames];
+    NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *allowedDict = [self statusOfRPCs:filter.rpcNames];
 
     filter.observer(allowedDict, permissionStatus);
 }
@@ -185,10 +185,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
 
     // We can eliminate calling those filters who had no permission changes, so we'll filter down and see which had permissions that changed
-    NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:currentFilters updatedPermissions:newPermissionItems];
+    NSArray<SDLPermissionFilter *> *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:currentFilters updatedPermissions:newPermissionItems];
 
     // We need the old group status and new group status for all allowed filters so we know if they should be called
-    NSDictionary<NSUUID *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
+    NSDictionary<SDLPermissionObserverIdentifier *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
 
     // Set the updated permissions on our stored permissions object
     for (SDLPermissionItem *item in newPermissionItems) {
@@ -228,7 +228,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
-    NSArray *filters = [self.filters copy];
+    NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
 
 
     NSMutableArray<SDLPermissionFilter *> *mutableFiltersToCall = [NSMutableArray arrayWithCapacity:filters.count];
