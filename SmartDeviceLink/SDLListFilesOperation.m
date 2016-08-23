@@ -11,7 +11,6 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesResponse.h"
-#import "SDLRPCRequestFactory.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -58,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_listFiles {
-    SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
+    SDLListFiles *listFiles = [[SDLListFiles alloc] init];
 
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendManagerRequest:listFiles

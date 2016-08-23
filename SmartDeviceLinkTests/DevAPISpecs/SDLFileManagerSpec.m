@@ -184,7 +184,7 @@ describe(@"SDLFileManager", ^{
                     beforeEach(^{
                         testFileName = [testInitialFileNames anyObject];
                         testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
+                        testUploadFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
                     });
                     
                     context(@"when the file's overwrite property is YES", ^{
@@ -316,7 +316,7 @@ describe(@"SDLFileManager", ^{
                     beforeEach(^{
                         testFileName = @"not a test file";
                         testFileData = [@"someData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testUploadFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
+                        testUploadFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
                         
                         [testFileManager uploadFile:testUploadFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                             completionSuccess = success;

@@ -57,17 +57,17 @@ NS_ASSUME_NONNULL_BEGIN
     } else if (self.config.customViewController != nil) {
         self.presenter.viewController = self.config.customViewController;
     } else {
-        SDLLockScreenViewController *lockScreenVC = nil;
+        SDLLockScreenViewController *viewController = nil;
         @try {
-            lockScreenVC = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
+            viewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle bundleForClass:[self class]]] instantiateInitialViewController];
         } @catch (NSException *exception) {
             [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
             return;
         }
 
-        lockScreenVC.appIcon = self.config.appIcon;
-        lockScreenVC.backgroundColor = self.config.backgroundColor;
-        self.presenter.viewController = lockScreenVC;
+        viewController.appIcon = self.config.appIcon;
+        viewController.backgroundColor = self.config.backgroundColor;
+        self.presenter.viewController = viewController;
     }
 
     self.canPresent = YES;

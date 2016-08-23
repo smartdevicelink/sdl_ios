@@ -74,7 +74,7 @@ describe(@"SDLFile", ^{
                     testFileURL = [testBundle URLForResource:@"testImageJPG" withExtension:@"jpg"];
                     testFileName = @"someImage";
                     
-                    testFile = [SDLFile ephemeralFileAtFileURL:testFileURL name:testFileName];
+                    testFile = [SDLFile fileAtFileURL:testFileURL name:testFileName];
                 });
                 
                 it(@"should correctly store data", ^{

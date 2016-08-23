@@ -27,7 +27,7 @@ describe(@"Upload File Operation", ^{
     beforeEach(^{
         testFileName = @"test file";
         testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
-        testFile = [SDLFile ephemeralFileWithData:testFileData name:testFileName fileExtension:@"bin"];
+        testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
         testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             successResult = success;
             bytesAvailableResult = bytesAvailable;
