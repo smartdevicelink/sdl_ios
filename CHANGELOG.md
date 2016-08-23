@@ -1,3 +1,7 @@
+# 4.2.3 Release Notes
+### Bug Fixes
+* Fixed HTTPS URL schemes not properly uploading data (#432, #438).
+
 # 4.2.2 Release Notes
 ### Bug Fixes
 * Fixed HTTP URL schemes not being properly altered to HTTPS to account for App Transport Security (#432, #436).
