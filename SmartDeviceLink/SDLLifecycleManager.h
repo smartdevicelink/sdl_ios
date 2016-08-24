@@ -72,7 +72,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
 @property (assign, nonatomic, readonly) SDLLifecycleState *lifecycleState;
-@property (copy, nonatomic, readonly, nullable) SDLOnHMIStatus *hmiStatus;
+@property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
 
 #pragma mark Lifecycle
 /**
