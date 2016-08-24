@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
  */
-@property (copy, nonatomic, nullable) NSArray<id<SDLSecurityType>> *securityManagers;
+@property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
 
 @end
 
