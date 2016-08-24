@@ -43,7 +43,6 @@ SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManager
 SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
 SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
 SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
-SDLLifecycleState *const SDLLifecycleStateError = @"Error";
 
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 

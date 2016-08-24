@@ -288,15 +288,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.readyBlock(success, startError);
     
     if (!success) {
-        // TODO: Should we be disconnecting?
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateError];
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
         return;
     }
     
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
     
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiStatus.hmiLevel];
+    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
 }
 
 - (void)didEnterStateError {
