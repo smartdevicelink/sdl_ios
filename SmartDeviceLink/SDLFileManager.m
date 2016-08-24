@@ -237,8 +237,10 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
                                                     if (success) {
                                                         [weakSelf.mutableRemoteFileNames addObject:fileName];
                                                     }
-
-                                                    uploadCompletion(success, bytesAvailable, error);
+                                                    
+                                                    if (uploadCompletion != nil) {
+                                                        uploadCompletion(success, bytesAvailable, error);
+                                                    }
                                                 }];
 
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
