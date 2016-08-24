@@ -42,24 +42,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - Private Typedefs and Constants
-
-typedef NSString SDLLifecycleState;
-SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
-SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
-SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
-SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
-SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
-SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
-SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
-
-
 #pragma mark - SDLManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLOnHMIStatus *hmiStatus;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
@@ -301,13 +289,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     if (!success) {
         // TODO: Should we be disconnecting?
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateError];
         return;
     }
     
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
     
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
+    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiStatus.hmiLevel];
+}
+
+- (void)didEnterStateError {
+    
 }
 
 - (void)didEnterStateUnregistering {

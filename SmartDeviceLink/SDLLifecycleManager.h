@@ -35,6 +35,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString SDLLifecycleState;
+SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
+SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
+SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
+SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
+SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
+SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
+SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
+SDLLifecycleState *const SDLLifecycleStateError = @"Error";
+
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 
@@ -61,8 +71,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 #pragma clang diagnostic pop
 
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
-@property (assign, nonatomic, readonly) NSString *lifecycleState;
-@property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
+@property (assign, nonatomic, readonly) SDLLifecycleState *lifecycleState;
+@property (copy, nonatomic, readonly, nullable) SDLOnHMIStatus *hmiStatus;
 
 #pragma mark Lifecycle
 /**

@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class SDLHMILevel;
+
+
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol SDLManagerDelegate <NSObject>
 
 /**
@@ -23,4 +28,7 @@
  */
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel;
 
+
 @end
+
+NS_ASSUME_NONNULL_END
