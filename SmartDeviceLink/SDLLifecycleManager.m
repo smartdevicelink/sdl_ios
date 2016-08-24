@@ -187,6 +187,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateTransportConnected {
+    // If we have security managers, add them to the proxy
+    if (self.configuration.lifecycleConfig.securityManagers != nil) {
+        [self.proxy addSecurityManagers:self.configuration.lifecycleConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+    }
+    
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
@@ -281,11 +286,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
         // We did not succeed in registering
         startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
+        success = NO;
     } else if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
+        // We succeeded, but with warnings
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
         success = YES;
     } else {
-        // We succeeded in registering
+        // We succeeded
         success = YES;
     }
 
@@ -293,6 +300,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.readyBlock(success, startError);
     
     if (!success) {
+        // TODO: Should we be disconnecting?
         return;
     }
     

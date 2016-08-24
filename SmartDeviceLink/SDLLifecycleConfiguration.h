@@ -15,6 +15,8 @@
 @class SDLLanguage;
 @class SDLTTSChunk;
 
+@protocol SDLSecurityType;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -116,6 +118,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Additional voice recognition commands. May not interfere with any other app name or global commands.
  */
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionCommandNames;
+
+/**
+ *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
+ */
+@property (copy, nonatomic, nullable) NSArray<id<SDLSecurityType>> *securityManagers;
 
 @end
 
