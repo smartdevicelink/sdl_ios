@@ -74,18 +74,20 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                            userInfo:nil];
 }
 
-+ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result {
++ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result info:(NSString *)info {
     NSDictionary *userInfo = @{
-        NSLocalizedDescriptionKey : NSLocalizedString(result.value, nil)
+        NSLocalizedDescriptionKey : NSLocalizedString(result.value, nil),
+        NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
     };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result {
++ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result info:(NSString *)info {
     NSDictionary *userInfo = @{
-        NSLocalizedDescriptionKey : NSLocalizedString(result.value, nil)
+        NSLocalizedDescriptionKey : NSLocalizedString(result.value, nil),
+        NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
     };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
