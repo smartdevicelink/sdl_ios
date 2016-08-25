@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-+ (instancetype)ephemeralArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
++ (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
     return [[self alloc] initWithImage:image name:name persistent:NO asImageFormat:imageFormat];
 }
 

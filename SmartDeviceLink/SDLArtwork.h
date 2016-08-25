@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class to be passed to the file manager.
  */
-+ (instancetype)ephemeralArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
++ (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
 
 /**
  *  Convenience Helper to create a persistent artwork from an image.
