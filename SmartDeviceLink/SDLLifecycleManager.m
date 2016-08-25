@@ -270,15 +270,17 @@ NS_ASSUME_NONNULL_BEGIN
     
     BOOL success = NO;
     NSError *startError = nil;
-
-    if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
-        // We did not succeed in registering
-        startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
-        success = NO;
-    } else if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
+    
+    
+    
+    if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
         // We succeeded, but with warnings
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
         success = YES;
+    } else if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
+        // We did not succeed in registering
+        startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
+        success = NO;
     } else {
         // We succeeded
         success = YES;
