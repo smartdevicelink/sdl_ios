@@ -20,14 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *fileName;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLFileManagerDeleteCompletion completionHandler;
+@property (copy, nonatomic, nullable) SDLFileManagerDeleteCompletionHandler completionHandler;
 
 @end
 
 
 @implementation SDLDeleteFileOperation
 
-- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletion)completionHandler {
+- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
         return nil;
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     typeof(self) weakself = self;
     [self.connectionManager sendManagerRequest:deleteFile
-                         withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                         withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
                              // Pull out the parameters
                              SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
                              BOOL success = [deleteFileResponse.success boolValue];

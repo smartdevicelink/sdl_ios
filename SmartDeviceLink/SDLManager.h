@@ -27,11 +27,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @interface SDLManager : NSObject
 
 /**
- *  The current state of the lifecycle.
- */
-@property (assign, nonatomic, readonly) NSString *lifecycleState;
-
-/**
  *  The configuration the manager was set up with.
  */
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
@@ -82,9 +77,9 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 /**
  *  Start the manager, which will tell it to start looking for a connection. Once one does, it will automatically run the setup process and call the readyBlock when done.
  *
- *  @param readyBlock The block called when the manager is ready to be used or an error occurs while attempting to become ready.
+ *  @param readyHandler The block called when the manager is ready to be used or an error occurs while attempting to become ready.
  */
-- (void)startWithHandler:(SDLManagerReadyBlock)readyBlock;
+- (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler;
 
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
@@ -112,7 +107,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param request The RPC request to send
  *  @param handler The handler that will be called when the response returns
  */
-- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler;
+- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 @end
 

@@ -18,14 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLListFilesOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLFileManagerListFilesCompletion completionHandler;
+@property (copy, nonatomic, nullable) SDLFileManagerListFilesCompletionHandler completionHandler;
 
 @end
 
 
 @implementation SDLListFilesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletion)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
         return nil;
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendManagerRequest:listFiles
-                         withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                         withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
                              SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
                              BOOL success = [listFilesResponse.success boolValue];
                              NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];

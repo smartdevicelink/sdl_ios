@@ -33,29 +33,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The block that will be called on status changes to this filter group.
  */
-@property (copy, nonatomic, readonly) SDLPermissionObserver observer;
+@property (copy, nonatomic, readonly) SDLPermissionsChangedHandler handler;
 
 /**
  *  Create a new permission filter group.
  *
  *  @param rpcNames  The names of the RPCs to watch permissions of.
  *  @param groupType The type of notifications to be sent for this filter group.
- *  @param observer  The block observer to be called when changes occur.
+ *  @param handler  The block observer to be called when changes occur.
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create a new permission filter group.
  *
  *  @param rpcNames  The names of the RPCs to watch permissions of.
  *  @param groupType The type of notifications to be sent for this filter group.
- *  @param observer  The block observer to be called when changes occur.
+ *  @param handler  The block observer to be called when changes occur.
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer;
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler;
 
 /**
  *  Whether the current filter is equivalent with another filter or not.

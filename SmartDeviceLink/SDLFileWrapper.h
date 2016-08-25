@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLFileWrapper : NSObject
 
 @property (strong, nonatomic, readonly) SDLFile *file;
-@property (copy, nonatomic, readonly) SDLFileManagerUploadCompletion completionHandler;
+@property (copy, nonatomic, readonly) SDLFileManagerUploadCompletionHandler completionHandler;
 
-- (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler;
+- (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletionHandler)completionHandler;
 
-+ (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler;
++ (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletionHandler)completionHandler;
 
 @end
 

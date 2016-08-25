@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of SDLDeleteFilesOperation
  */
-- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletion)completionHandler;
+- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler;
 
 @end
 

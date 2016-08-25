@@ -32,7 +32,7 @@ typedef void (^SDLRPCNotificationHandler)(__kindof SDLRPCNotification *notificat
  *  @param response The response which was received.
  *  @param error    If sending the request encountered an error, this parameter will not be nil.
  */
-typedef void (^SDLRequestCompletionHandler)(__kindof SDLRPCRequest *__nullable request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error);
+typedef void (^SDLResponseHandler)(__kindof SDLRPCRequest *__nullable request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error);
 
 /**
  *  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.

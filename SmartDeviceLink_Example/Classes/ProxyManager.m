@@ -46,7 +46,7 @@ NSString *const SDLAppId = @"9999";
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
-    [self.sdlManager startWithHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
             NSLog(@"SDL errored starting up: %@", error);
         }
@@ -58,7 +58,7 @@ NSString *const SDLAppId = @"9999";
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
-    [self.sdlManager startWithHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
             NSLog(@"SDL errored starting up: %@", error);
         }

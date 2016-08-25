@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Storage
 
-- (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLRequestCompletionHandler)handler {
+- (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLResponseHandler)handler {
     NSNumber *correlationId = request.correlationID;
 
     // Check for RPCs that require an extra handler
@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Find the appropriate request completion handler, remove the request and response handler
-    SDLRequestCompletionHandler handler = self.rpcResponseHandlerMap[response.correlationID];
+    SDLResponseHandler handler = self.rpcResponseHandlerMap[response.correlationID];
     SDLRPCRequest *request = self.rpcRequestDictionary[response.correlationID];
     [self.rpcRequestDictionary safeRemoveObjectForKey:response.correlationID];
     [self.rpcResponseHandlerMap safeRemoveObjectForKey:response.correlationID];

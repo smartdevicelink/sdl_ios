@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFileWrapper
 
-- (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler {
+- (instancetype)initWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
         return nil;
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-+ (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletion)completionHandler {
++ (instancetype)wrapperWithFile:(SDLFile *)file completionHandler:(SDLFileManagerUploadCompletionHandler)completionHandler {
     return [[self alloc] initWithFile:file completionHandler:completionHandler];
 }
 

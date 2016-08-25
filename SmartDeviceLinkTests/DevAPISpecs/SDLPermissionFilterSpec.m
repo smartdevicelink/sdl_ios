@@ -52,7 +52,7 @@ describe(@"A filter", ^{
                                                 testRPCName2: testRPCName2Bool};
                     testObserverGroupStatus = SDLPermissionGroupStatusMixed;
                     
-                    testFilter.observer(testObserverChangedDict, testObserverGroupStatus);
+                    testFilter.handler(testObserverChangedDict, testObserverGroupStatus);
                 });
                 
                 it(@"should call the changedDict correctly", ^{
@@ -89,7 +89,7 @@ describe(@"A filter", ^{
                                                 testRPCName2: testRPCName2Bool};
                     testObserverGroupStatus = SDLPermissionGroupStatusMixed;
                     
-                    testFilter.observer(testObserverChangedDict, testObserverGroupStatus);
+                    testFilter.handler(testObserverChangedDict, testObserverGroupStatus);
                 });
                 
                 it(@"should call the changedDict correctly", ^{
@@ -129,7 +129,7 @@ describe(@"A filter", ^{
         });
         
         it(@"should copy the observer correctly", ^{
-            expect(testCopiedFilter.observer).to(equal(testFilter.observer));
+            expect(testCopiedFilter.handler).to(equal(testFilter.handler));
         });
     });
     

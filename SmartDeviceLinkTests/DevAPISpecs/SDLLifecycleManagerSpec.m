@@ -42,7 +42,7 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
             SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
             
-            [testManager sendRequest:testShow withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
                 testError = error;
             }];
             
@@ -158,7 +158,7 @@ describe(@"a lifecycle manager", ^{
     
     describe(@"when started", ^{
         beforeEach(^{
-            [testManager startWithHandler:^(BOOL success, NSError * _Nullable error) {}];
+            [testManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {}];
         });
         
         it(@"should initialize the proxy property", ^{

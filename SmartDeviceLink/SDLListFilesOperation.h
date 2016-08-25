@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of SDLListFilesOperation
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletion)completionHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletionHandler)completionHandler;
 
 @end
 

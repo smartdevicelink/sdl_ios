@@ -70,7 +70,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma clang diagnostic pop
 
 // Private properties
-@property (copy, nonatomic) SDLManagerReadyBlock readyBlock;
+@property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 
 @end
 
@@ -113,8 +113,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return self;
 }
 
-- (void)startWithHandler:(SDLManagerReadyBlock)readyBlock {
-    self.readyBlock = [readyBlock copy];
+- (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
+    self.readyHandler = [readyHandler copy];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -179,7 +179,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.delegate managerDidDisconnect];
 
-    [self startWithHandler:self.readyBlock]; // Start up again to start watching for new connections
+    [self startWithReadyHandler:self.readyHandler]; // Start up again to start watching for new connections
 }
 
 - (void)didEnterStateTransportConnected {
@@ -206,7 +206,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
-        withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
@@ -258,7 +258,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         if (setupSuccess) {
             [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
         } else {
-            self.readyBlock(NO, [NSError sdl_lifecycle_managersFailedToStart]);
+            self.readyHandler(NO, [NSError sdl_lifecycle_managersFailedToStart]);
             [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
         }
     });
@@ -295,7 +295,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Notify the block, send the notification if we succeeded.
-    self.readyBlock(success, startError);
+    self.readyHandler(success, startError);
     
     if (!success) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
@@ -317,7 +317,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
-        withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
             }
@@ -353,7 +353,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                    setAppIcon.syncFileName = appIcon.name;
                    
                    [self sdl_sendRequest:setAppIcon
-                       withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+                       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
                            if (error != nil) {
                                [SDLDebugTool logFormat:@"Error setting app icon: ", error];
                            }
@@ -368,10 +368,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Sending Requests
 
 - (void)sendRequest:(SDLRPCRequest *)request {
-    [self sendRequest:request withCompletionHandler:nil];
+    [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
+- (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [SDLDebugTool logInfo:@"Manager not ready, message not sent"];
         if (handler) {
@@ -381,15 +381,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    [self sdl_sendRequest:request withCompletionHandler:handler];
+    [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
-- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block {
-    [self sdl_sendRequest:request withCompletionHandler:block];
+- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)block {
+    [self sdl_sendRequest:request withResponseHandler:block];
 }
 
-- (void)sdl_sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
+- (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifeCycleStateTransportConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
 
     // Add a correlation ID to the request

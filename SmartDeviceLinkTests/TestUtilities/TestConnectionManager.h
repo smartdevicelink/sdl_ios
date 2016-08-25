@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TestConnectionManager : NSObject<SDLConnectionManagerType>
+@interface TestConnectionManager : NSObject <SDLConnectionManagerType>
 
 /**
  *  All received requests. Chronological order. The 0th element will be the first request received; the nth request will be the n+1th request received.
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The block passed for the last request send with sendRequest:withCompletionHandler:
  */
-@property (copy, nonatomic, nullable) SDLRequestCompletionHandler lastRequestBlock;
+@property (copy, nonatomic, nullable) SDLResponseHandler lastRequestBlock;
 
 /**
  *  Call the last request's block with a specific response.

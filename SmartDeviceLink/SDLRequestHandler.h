@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A special init function on any RPC implementing this protocol.
  *
- *  @param handler The handler to be called at specified times.
+ *  @param handler The handler to be called at specified times, such as events for buttons.
  *
  *  @return An instance of the class implementing this protocol.
  */

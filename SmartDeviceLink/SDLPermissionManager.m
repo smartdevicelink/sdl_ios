@@ -133,8 +133,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Add Observers
 
-- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withBlock:(nonnull SDLPermissionObserver)observer {
-    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:observer];
+- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionsChangedHandler)handler {
+    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use
     [self.filters addObject:filter];
@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
     NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *allowedDict = [self statusOfRPCs:filter.rpcNames];
 
-    filter.observer(allowedDict, permissionStatus);
+    filter.handler(allowedDict, permissionStatus);
 }
 
 #pragma mark Remove Observers

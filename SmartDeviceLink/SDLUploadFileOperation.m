@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file] withCompletion:self.fileWrapper.completionHandler];
 }
 
-- (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletion)completion {
+- (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletionHandler)completion {
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
         dispatch_group_enter(putFileGroup);
         __weak typeof(self) weakself = self;
         [self.connectionManager sendManagerRequest:putFile
-                             withCompletionHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+                             withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
                                  typeof(weakself) strongself = weakself;
                                  // If we've already encountered an error, then just abort
                                  // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?

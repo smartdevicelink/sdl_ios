@@ -26,8 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)block {
-    self.lastRequestBlock = block;
+- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    self.lastRequestBlock = handler;
     request.correlationID = [self test_nextCorrelationID];
     
     [self.receivedRequests addObject:request];
