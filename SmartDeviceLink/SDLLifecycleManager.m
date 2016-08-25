@@ -42,6 +42,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
+SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
+SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
+SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
+SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
+SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
+SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
+
 #pragma mark - SDLManager Private Interface
 
 @interface SDLLifecycleManager () <SDLConnectionManagerType>

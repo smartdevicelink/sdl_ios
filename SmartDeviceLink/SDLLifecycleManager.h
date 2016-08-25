@@ -36,13 +36,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLLifecycleState;
-SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
-SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
-SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
-SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
-SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
-SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
-SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
+extern SDLLifecycleState *const SDLLifecycleStateDisconnected;
+extern SDLLifecycleState *const SDLLifecycleStateTransportConnected;
+extern SDLLifecycleState *const SDLLifecycleStateRegistered;
+extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
+extern SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing;
+extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
+extern SDLLifecycleState *const SDLLifecycleStateReady;
+
 
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
