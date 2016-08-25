@@ -51,17 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    if (self.isCancelled) {
-        [self willChangeValueForKey:@"isFinished"];
-        finished = YES;
-        [self didChangeValueForKey:@"isFinished"];
-
-        return;
-    }
-
-    [self willChangeValueForKey:@"isExecuting"];
-    executing = YES;
-    [self didChangeValueForKey:@"isExecuting"];
+    [super start];
 
     [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file] withCompletion:self.fileWrapper.completionHandler];
 }
@@ -76,6 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_group_enter(putFileGroup);
 
     // When the putfiles all complete, run this block
+    __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         if (streamError != nil || stop) {
             completion(NO, bytesAvailable, streamError);
@@ -83,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
             completion(YES, bytesAvailable, nil);
         }
 
-        [self sdl_finishOperation];
+        [weakself finishOperation];
     });
 
     for (SDLPutFile *putFile in putFiles) {
@@ -158,29 +149,8 @@ NS_ASSUME_NONNULL_BEGIN
     return putFiles;
 }
 
-- (void)sdl_finishOperation {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    executing = NO;
-    finished = YES;
-    [self didChangeValueForKey:@"isFinished"];
-    [self didChangeValueForKey:@"isExecuting"];
-}
-
 
 #pragma mark Property Overrides
-
-- (BOOL)isAsynchronous {
-    return YES;
-}
-
-- (BOOL)isExecuting {
-    return executing;
-}
-
-- (BOOL)isFinished {
-    return finished;
-}
 
 - (nullable NSString *)name {
     return self.fileWrapper.file.name;

@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLAsynchronousOperation.h"
 #import "SDLFileManagerConstants.h"
 
 @protocol SDLConnectionManagerType;
 
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLListFilesOperation : NSOperation
+@interface SDLListFilesOperation : SDLAsynchronousOperation
 
 /**
  *  Create an instance of a list files operation which will ask the remote system which files it has on its system already.

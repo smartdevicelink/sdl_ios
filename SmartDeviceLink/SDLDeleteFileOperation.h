@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLAsynchronousOperation.h"
 #import "SDLFileManagerConstants.h"
 
 @protocol SDLConnectionManagerType;
@@ -15,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLDeleteFileOperation : NSOperation
+@interface SDLDeleteFileOperation : SDLAsynchronousOperation
 
 /**
  *  Create an instance of a delete files operation which will tell the remote system to remove a file form its storage.

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLAsynchronousOperation.h"
 #import "SDLFileManagerConstants.h"
 
 @protocol SDLConnectionManagerType;
@@ -17,7 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface SDLUploadFileOperation : NSOperation
+@interface SDLUploadFileOperation : SDLAsynchronousOperation
 
 /**
  *  Create an instance of an upload files operation which will send a file to a remote system when added to an operation queue.

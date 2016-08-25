@@ -23,10 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@implementation SDLListFilesOperation {
-    BOOL executing;
-    BOOL finished;
-}
+@implementation SDLListFilesOperation
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletion)completionHandler {
     self = [super init];
@@ -41,17 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    if (self.isCancelled) {
-        [self willChangeValueForKey:@"isFinished"];
-        finished = YES;
-        [self didChangeValueForKey:@"isFinished"];
-
-        return;
-    }
-
-    [self willChangeValueForKey:@"isExecuting"];
-    executing = YES;
-    [self didChangeValueForKey:@"isExecuting"];
+    [super start];
 
     [self sdl_listFiles];
 }
@@ -71,33 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
                                  weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
                              }
 
-                             [weakSelf sdl_finishOperation];
+                             [weakSelf finishOperation];
                          }];
-}
-
-- (void)sdl_finishOperation {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    executing = NO;
-    finished = YES;
-    [self didChangeValueForKey:@"isFinished"];
-    [self didChangeValueForKey:@"isExecuting"];
 }
 
 
 #pragma mark Property Overrides
-
-- (BOOL)isAsynchronous {
-    return YES;
-}
-
-- (BOOL)isExecuting {
-    return executing;
-}
-
-- (BOOL)isFinished {
-    return finished;
-}
 
 - (nullable NSString *)name {
     return @"List Files";

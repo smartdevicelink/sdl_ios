@@ -256,6 +256,8 @@
 		5D2996ED1BFCC5DA006106BF /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Public, ); }; };
 		5D2996F91BFE5B29006106BF /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Public, ); }; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
+		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
 		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
@@ -1224,6 +1226,8 @@
 		5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
 		5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
+		5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAsynchronousOperation.h; sourceTree = "<group>"; };
+		5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousOperation.m; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -2307,6 +2311,15 @@
 			name = Lifecycle;
 			sourceTree = "<group>";
 		};
+		5D3E48771D6F3DA40000BFEF /* Superclass Operation */ = {
+			isa = PBXGroup;
+			children = (
+				5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */,
+				5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */,
+			);
+			name = "Superclass Operation";
+			sourceTree = "<group>";
+		};
 		5D4019A61A76EC350006B0C2 = {
 			isa = PBXGroup;
 			children = (
@@ -3242,6 +3255,7 @@
 		5D7F87F61CE51CE1002DD7C4 /* Transaction Operations */ = {
 			isa = PBXGroup;
 			children = (
+				5D3E48771D6F3DA40000BFEF /* Superclass Operation */,
 				5D1665C21CF8CA2700CC4CA1 /* SDLListFilesOperation.h */,
 				5D1665C31CF8CA2700CC4CA1 /* SDLListFilesOperation.m */,
 				5D79A0391CE36F030035797B /* SDLUploadFileOperation.h */,
@@ -3683,6 +3697,7 @@
 				5D61FCB71A84238C00846EE7 /* SDLGetVehicleDataResponse.h in Headers */,
 				5D61FDA91A84238C00846EE7 /* SDLSpeechCapabilities.h in Headers */,
 				5D61FCE01A84238C00846EE7 /* SDLKeyboardEvent.h in Headers */,
+				5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */,
 				5D61FCEA1A84238C00846EE7 /* SDLLayoutMode.h in Headers */,
 				5D61FD7F1A84238C00846EE7 /* SDLSetAppIcon.h in Headers */,
 				5D61FDD11A84238C00846EE7 /* SDLTouchCoord.h in Headers */,
@@ -4320,6 +4335,7 @@
 				E9C32B951AB20BA200F283AF /* SDLStreamDelegate.m in Sources */,
 				5D61FCD21A84238C00846EE7 /* SDLImageFieldName.m in Sources */,
 				5D61FD761A84238C00846EE7 /* SDLRPCResponse.m in Sources */,
+				5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */,
 				5D61FE081A84238C00846EE7 /* SDLVehicleDataStatus.m in Sources */,
 				E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */,
 				5D61FDA81A84238C00846EE7 /* SDLSpeakResponse.m in Sources */,
