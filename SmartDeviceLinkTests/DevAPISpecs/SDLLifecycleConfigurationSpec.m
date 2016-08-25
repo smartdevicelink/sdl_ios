@@ -28,7 +28,7 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.appId).to(match(someAppId));
             expect(@(testConfig.tcpDebugMode)).to(beFalsy());
             expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
-            expect(testConfig.tcpDebugPort).to(match(@"12345"));
+            expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
             expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType DEFAULT]])).to(equal(@YES));
             expect(@(testConfig.isMedia)).to(beFalsy());
             expect(@([testConfig.language isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
@@ -71,7 +71,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.appId).to(match(someAppId));
                 expect(@(testConfig.tcpDebugMode)).to(beFalsy());
                 expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
-                expect(testConfig.tcpDebugPort).to(match(@"12345"));
+                expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
                 expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType MEDIA]])).to(equal(@YES));
                 expect(@(testConfig.isMedia)).to(beTruthy());
                 expect(@([testConfig.language isEqualToEnum:[SDLLanguage AR_SA]])).to(equal(@YES));
@@ -90,13 +90,13 @@ describe(@"a lifecycle configuration", ^{
         __block NSString *someAppName = nil;
         __block NSString *someAppId = nil;
         __block NSString *someIPAddress = nil;
-        __block NSString *somePort = nil;
+        __block UInt16 somePort = 0;
         
         beforeEach(^{
             someAppName = @"An App Name";
             someAppId = @"00542596432764329684352896423679";
             someIPAddress = @"1.1.1.1";
-            somePort = @"42";
+            somePort = 42;
             
             testConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:someAppName appId:someAppId ipAddress:someIPAddress port:somePort];
         });
@@ -106,7 +106,7 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.appId).to(match(someAppId));
             expect(@(testConfig.tcpDebugMode)).to(beTruthy());
             expect(testConfig.tcpDebugIPAddress).to(match(someIPAddress));
-            expect(testConfig.tcpDebugPort).to(match(somePort));
+            expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
             expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType DEFAULT]])).to(equal(@YES));
             expect(@([testConfig.language isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
             expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
@@ -147,7 +147,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.appId).to(match(someAppId));
                 expect(@(testConfig.tcpDebugMode)).to(beTruthy());
                 expect(testConfig.tcpDebugIPAddress).to(match(someIPAddress));
-                expect(testConfig.tcpDebugPort).to(match(somePort));
+                expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
                 expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType MEDIA]])).to(equal(@YES));
                 expect(@(testConfig.isMedia)).to(beTruthy());
                 expect(@([testConfig.language isEqualToEnum:[SDLLanguage AR_SA]])).to(equal(@YES));
