@@ -52,7 +52,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
-@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 
 @property (strong, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLPermissionManager *permissionManager;
@@ -73,6 +72,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
 @property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+
 
 #pragma mark Lifecycle
 /**
@@ -96,11 +97,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
  */
 - (void)stop;
-
-/**
- *  Call this method within your AppDelegate's `applicationWillTerminate` method to properly shut down SDL. If you do not, you will not be able to reregister with the remote device.
- */
-- (void)applicationWillTerminate;
 
 
 #pragma mark Send RPC Requests

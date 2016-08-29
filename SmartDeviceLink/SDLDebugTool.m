@@ -11,6 +11,7 @@
 
 @interface SDLDebugTool ()
 
+@property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL debugToLogFile;
 @property (nonatomic, strong) NSMutableDictionary *namedConsoleSets;
 @property (nonatomic, strong) NSDateFormatter *logDateFormatter;
@@ -29,7 +30,8 @@
     if (!self) {
         return nil;
     }
-
+    
+    _enabled = YES;
     _debugToLogFile = NO;
     _logQueue = dispatch_queue_create("com.sdl.log.file", DISPATCH_QUEUE_SERIAL);
 
@@ -40,10 +42,18 @@
     static SDLDebugTool *sharedTool = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedTool = [[self.class alloc] init];
+
     });
 
     return sharedTool;
+}
+
++ (void)enable {
+    [SDLDebugTool sharedTool].enabled = YES;
+}
+
++ (void)disable {
+    [SDLDebugTool sharedTool].enabled = NO;
 }
 
 
@@ -112,6 +122,10 @@
 }
 
 + (void)logInfo:(NSString *)info andBinaryData:(NSData *)data withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output {
+    if (![SDLDebugTool sharedTool].enabled) {
+        return;
+    }
+    
     // convert binary data to string, append the two strings, then pass to usual log method.
     NSMutableString *outputString = [[NSMutableString alloc] init];
     if (info) {
@@ -132,18 +146,22 @@
 
 // The designated logInfo method. All outputs should be performed here.
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output toGroup:(NSString *)consoleGroupName {
+    if (![SDLDebugTool sharedTool].enabled) {
+        return;
+    }
+    
     // Format the message, prepend the thread id
     NSString *outputString = [NSString stringWithFormat:@"[%li] %@", (long)[[NSThread currentThread] threadIndex], info];
 
     //  Output to the various destinations
 
     //Output To DeviceConsole
-    if (output & SDLDebugOutput_DeviceConsole) {
+    if ((output & SDLDebugOutput_DeviceConsole) == SDLDebugOutput_DeviceConsole) {
         NSLog(@"%@", outputString);
     }
 
     //Output To DebugToolConsoles
-    if (output & SDLDebugOutput_DebugToolConsole) {
+    if ((output & SDLDebugOutput_DebugToolConsole) == SDLDebugOutput_DebugToolConsole) {
         NSSet *consoleListeners = [self getConsoleListenersForGroup:consoleGroupName];
         for (NSObject<SDLDebugToolConsole> *console in consoleListeners) {
             [console logInfo:outputString];
@@ -151,7 +169,7 @@
     }
 
     //Output To LogFile
-    if (output & SDLDebugOutput_File) {
+    if ((output & SDLDebugOutput_File) == SDLDebugOutput_File) {
         [SDLDebugTool writeToLogFile:outputString];
     }
 

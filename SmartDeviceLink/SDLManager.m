@@ -57,10 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.lifecycleManager stop];
 }
 
-- (void)applicationWillTerminate {
-    [self.lifecycleManager applicationWillTerminate];
-}
-
 
 #pragma mark - Passthrough getters / setters
 
@@ -85,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
-    return self.lifecycleManager.registerAppInterfaceResponse;
+    return self.lifecycleManager.registerResponse;
 }
 
 - (nullable id<SDLManagerDelegate>)delegate {

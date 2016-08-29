@@ -58,7 +58,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
-@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
+@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
@@ -98,7 +98,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _lastCorrelationId = 0;
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
-    _registerAppInterfaceResponse = nil;
+    _registerResponse = nil;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -118,8 +118,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [SDLProxy enableSiphonDebug];
-
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:[@(self.configuration.lifecycleConfig.tcpDebugPort) stringValue]];
     } else {
@@ -134,10 +132,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     } else {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
     }
-}
-
-- (void)applicationWillTerminate {
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
 }
 
 
@@ -172,7 +166,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lockScreenManager stop];
     [self.responseDispatcher clear];
 
-    self.registerAppInterfaceResponse = nil;
+    self.registerResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
 
@@ -212,7 +206,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
             }
 
-            weakSelf.registerAppInterfaceResponse = (SDLRegisterAppInterfaceResponse *)response;
+            weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
             [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
         }];
 }
@@ -273,8 +267,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    SDLResult *registerResult = self.registerAppInterfaceResponse.resultCode;
-    NSString *registerInfo = self.registerAppInterfaceResponse.info;
+    SDLResult *registerResult = self.registerResponse.resultCode;
+    NSString *registerInfo = self.registerResponse.info;
     
     BOOL success = NO;
     NSError *startError = nil;
@@ -424,6 +418,39 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
     
     return YES;
+}
+
++ (void)updateLoggingWithFlags:(SDLLogging)logFlags {
+    if ((logFlags & SDLLoggingNone) == SDLLoggingNone) {
+        [SDLDebugTool disable];
+        [SDLDebugTool disableDebugToLogFile];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [SDLProxy disableSiphonDebug];
+#pragma clang diagnostic pop
+        
+        return;
+    }
+    
+    if ((logFlags & SDLLoggingConsole) == SDLLoggingConsole) {
+        [SDLDebugTool enable];
+    }
+    
+    if ((logFlags & SDLLoggingFile) == SDLLoggingFile) {
+        [SDLDebugTool enableDebugToLogFile];
+    } else {
+        [SDLDebugTool disableDebugToLogFile];
+    }
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if ((logFlags & SDLLoggingSiphon) == SDLLoggingSiphon) {
+        [SDLProxy enableSiphonDebug];
+    } else {
+        [SDLProxy disableSiphonDebug];
+    }
+#pragma clang diagnostic pop
 }
 
 

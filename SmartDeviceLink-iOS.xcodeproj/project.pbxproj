@@ -3529,9 +3529,9 @@
 				5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */,
 				5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */,
 				5D1654571D3E79CA00554D93 /* Lifecycle */,
+				5DBAE0A51D355EE700CE00BF /* Lock Screen */,
 				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
-				5DBAE0A51D355EE700CE00BF /* Lock Screen */,
 			);
 			name = Managers;
 			sourceTree = "<group>";

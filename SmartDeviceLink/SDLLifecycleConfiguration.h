@@ -18,6 +18,14 @@
 @protocol SDLSecurityType;
 
 
+typedef NS_OPTIONS(NSUInteger, SDLLogging) {
+    SDLLoggingNone = 0,
+    SDLLoggingConsole = 1 << 0,
+    SDLLoggingFile = 1 << 1,
+    SDLLoggingSiphon = 1 << 2
+};
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -123,6 +131,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
  */
 @property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
+
+/**
+ *  Which logging capabilities are currently enabled. The default is Console logging only.
+ */
+@property (assign, nonatomic) SDLLogging logFlags;
 
 @end
 

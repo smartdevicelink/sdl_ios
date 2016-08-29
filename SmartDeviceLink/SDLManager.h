@@ -52,14 +52,14 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
 /**
- *  The manager's delegate.
- */
-@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
-
-/**
  *  The response of a register call after it has been received.
  */
 @property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+
+/**
+ *  The manager's delegate.
+ */
+@property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 
 
 #pragma mark Lifecycle
@@ -85,11 +85,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
  */
 - (void)stop;
-
-/**
- *  Call this method within your AppDelegate's `applicationWillTerminate` method to properly shut down SDL. If you do not, you will not be able to reregister with the remote device.
- */
-- (void)applicationWillTerminate;
 
 
 #pragma mark Manually Send RPC Requests

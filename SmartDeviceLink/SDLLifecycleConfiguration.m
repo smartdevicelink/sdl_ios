@@ -51,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
+    _logFlags = SDLLoggingConsole;
 
     return self;
 }
