@@ -2341,6 +2341,15 @@
 			name = Notifications;
 			sourceTree = "<group>";
 		};
+		5D3E48821D74813B0000BFEF /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */,
+				5D4D67AF1D2FE2F900468B4A /* SDLResponseDispatcher.m */,
+			);
+			name = Responses;
+			sourceTree = "<group>";
+		};
 		5D4019A61A76EC350006B0C2 = {
 			isa = PBXGroup;
 			children = (
@@ -3531,8 +3540,7 @@
 			isa = PBXGroup;
 			children = (
 				5D3E48781D6F86EC0000BFEF /* Notifications */,
-				5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */,
-				5D4D67AF1D2FE2F900468B4A /* SDLResponseDispatcher.m */,
+				5D3E48821D74813B0000BFEF /* Responses */,
 			);
 			name = Dispatchers;
 			sourceTree = "<group>";
