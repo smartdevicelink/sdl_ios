@@ -115,7 +115,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
     self.readyHandler = [readyHandler copy];
-
+    
+    // Set up our logging capabilities based on the config
+    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
+    
+    // Start up the internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
@@ -302,10 +306,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
 }
 
-- (void)didEnterStateError {
-    
-}
-
 - (void)didEnterStateUnregistering {
     SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
 
@@ -420,18 +420,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-+ (void)updateLoggingWithFlags:(SDLLogging)logFlags {
-    if ((logFlags & SDLLoggingNone) == SDLLoggingNone) {
-        [SDLDebugTool disable];
-        [SDLDebugTool disableDebugToLogFile];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [SDLProxy disableSiphonDebug];
-#pragma clang diagnostic pop
-        
-        return;
-    }
++ (void)sdl_updateLoggingWithFlags:(SDLLogging)logFlags {
+    [SDLDebugTool disable];
     
     if ((logFlags & SDLLoggingConsole) == SDLLoggingConsole) {
         [SDLDebugTool enable];

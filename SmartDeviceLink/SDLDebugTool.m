@@ -7,7 +7,6 @@
 #import "SDLRPCMessage.h"
 #import "SDLSiphonServer.h"
 
-#define LOG_ERROR_ENABLED
 
 @interface SDLDebugTool ()
 
@@ -42,7 +41,7 @@
     static SDLDebugTool *sharedTool = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-
+        sharedTool = [[self alloc] init];
     });
 
     return sharedTool;

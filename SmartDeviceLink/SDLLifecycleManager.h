@@ -60,7 +60,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
-
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 
 // Deprecated internal proxy object
