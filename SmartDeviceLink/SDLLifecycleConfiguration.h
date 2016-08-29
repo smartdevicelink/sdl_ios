@@ -18,11 +18,11 @@
 @protocol SDLSecurityType;
 
 
-typedef NS_OPTIONS(NSUInteger, SDLLogging) {
-    SDLLoggingNone = 0,
-    SDLLoggingConsole = 1 << 0,
-    SDLLoggingFile = 1 << 1,
-    SDLLoggingSiphon = 1 << 2
+typedef NS_OPTIONS(NSUInteger, SDLLogOutput) {
+    SDLLogOutputNone = 0,
+    SDLLogOutputConsole = 1 << 0,
+    SDLLogOutputFile = 1 << 1,
+    SDLLogOutputSiphon = 1 << 2
 };
 
 
@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Which logging capabilities are currently enabled. The default is Console logging only.
  */
-@property (assign, nonatomic) SDLLogging logFlags;
+@property (assign, nonatomic) SDLLogOutput logFlags;
 
 @end
 

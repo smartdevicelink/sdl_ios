@@ -420,14 +420,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-+ (void)sdl_updateLoggingWithFlags:(SDLLogging)logFlags {
++ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
     [SDLDebugTool disable];
     
-    if ((logFlags & SDLLoggingConsole) == SDLLoggingConsole) {
+    if ((logFlags & SDLLogOutputConsole) == SDLLogOutputConsole) {
         [SDLDebugTool enable];
     }
     
-    if ((logFlags & SDLLoggingFile) == SDLLoggingFile) {
+    if ((logFlags & SDLLogOutputFile) == SDLLogOutputFile) {
         [SDLDebugTool enableDebugToLogFile];
     } else {
         [SDLDebugTool disableDebugToLogFile];
@@ -435,7 +435,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if ((logFlags & SDLLoggingSiphon) == SDLLoggingSiphon) {
+    if ((logFlags & SDLLogOutputSiphon) == SDLLogOutputSiphon) {
         [SDLProxy enableSiphonDebug];
     } else {
         [SDLProxy disableSiphonDebug];
