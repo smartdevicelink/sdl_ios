@@ -29,7 +29,7 @@
     if (!self) {
         return nil;
     }
-    
+
     _enabled = YES;
     _debugToLogFile = NO;
     _logQueue = dispatch_queue_create("com.sdl.log.file", DISPATCH_QUEUE_SERIAL);
@@ -124,7 +124,7 @@
     if (![SDLDebugTool sharedTool].enabled) {
         return;
     }
-    
+
     // convert binary data to string, append the two strings, then pass to usual log method.
     NSMutableString *outputString = [[NSMutableString alloc] init];
     if (info) {
@@ -148,7 +148,7 @@
     if (![SDLDebugTool sharedTool].enabled) {
         return;
     }
-    
+
     // Format the message, prepend the thread id
     NSString *outputString = [NSString stringWithFormat:@"[%li] %@", (long)[[NSThread currentThread] threadIndex], info];
 

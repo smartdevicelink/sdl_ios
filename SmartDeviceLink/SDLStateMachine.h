@@ -15,16 +15,16 @@ typedef NSArray<SDLState *> SDLAllowableStateTransitions;
 
 extern NSString *const SDLStateMachineNotificationFormat;
 
-typedef NSString * SDLStateMachineNotificationInfoKey;
+typedef NSString *SDLStateMachineNotificationInfoKey;
 extern SDLStateMachineNotificationInfoKey const SDLStateMachineNotificationInfoKeyOldState;
 extern SDLStateMachineNotificationInfoKey const SDLStateMachineNotificationInfoKeyNewState;
 
-typedef NSString * SDLStateMachineExceptionInfoKey;
+typedef NSString *SDLStateMachineExceptionInfoKey;
 extern SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyTargetClass;
 extern SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyFromState;
 extern SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyToClass;
 
-typedef NSString * SDLStateMachineTransitionFormat;
+typedef NSString *SDLStateMachineTransitionFormat;
 extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatWillLeave;
 extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatWillTransition;
 extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidTransition;

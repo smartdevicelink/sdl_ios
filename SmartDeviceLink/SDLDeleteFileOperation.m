@@ -51,19 +51,19 @@ NS_ASSUME_NONNULL_BEGIN
 
     typeof(self) weakself = self;
     [self.connectionManager sendManagerRequest:deleteFile
-                         withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-                             // Pull out the parameters
-                             SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
-                             BOOL success = [deleteFileResponse.success boolValue];
-                             NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
+                           withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                               // Pull out the parameters
+                               SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
+                               BOOL success = [deleteFileResponse.success boolValue];
+                               NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
 
-                             // Callback
-                             if (weakself.completionHandler != nil) {
-                                 weakself.completionHandler(success, bytesAvailable, error);
-                             }
+                               // Callback
+                               if (weakself.completionHandler != nil) {
+                                   weakself.completionHandler(success, bytesAvailable, error);
+                               }
 
-                             [weakself finishOperation];
-                         }];
+                               [weakself finishOperation];
+                           }];
 }
 
 

@@ -14,8 +14,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * SDLNotificationName;
-typedef NSString * SDLNotificationUserInfoKey;
+typedef NSString *SDLNotificationName;
+typedef NSString *SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
 /**

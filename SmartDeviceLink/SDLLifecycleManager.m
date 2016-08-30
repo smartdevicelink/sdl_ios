@@ -115,11 +115,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
     self.readyHandler = [readyHandler copy];
-    
+
     // Set up our logging capabilities based on the config
     [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
-    
-    // Start up the internal proxy object
+
+// Start up the internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
@@ -185,18 +185,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (self.configuration.lifecycleConfig.securityManagers != nil) {
         [self.proxy addSecurityManagers:self.configuration.lifecycleConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
-    
+
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
     regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;
     regRequest.appHMIType = [NSMutableArray arrayWithObject:self.configuration.lifecycleConfig.appType];
-    
+
     if (self.configuration.lifecycleConfig.ttsName != nil) {
         regRequest.ttsName = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.ttsName];
     }
-    
+
     if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
         regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
     }
@@ -273,12 +273,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateReady {
     SDLResult *registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
-    
+
     BOOL success = NO;
     NSError *startError = nil;
-    
-    
-    
+
+
     if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
         // We succeeded, but with warnings
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
@@ -294,14 +293,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // Notify the block, send the notification if we succeeded.
     self.readyHandler(success, startError);
-    
+
     if (!success) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
         return;
     }
-    
+
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
-    
+
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
     [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
 }
@@ -345,7 +344,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                    // Once we've tried to put the file on the remote system, try to set the app icon
                    SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
                    setAppIcon.syncFileName = appIcon.name;
-                   
+
                    [self sdl_sendRequest:setAppIcon
                        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
                            if (error != nil) {
@@ -411,28 +410,28 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification isKindOfClass:(Class)class {
++ (BOOL)sdl_checkNotification:(NSNotification *)notification isKindOfClass:(Class) class {
     NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
         return NO;
     }
-    
+
     return YES;
 }
 
-+ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
+    + (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
     [SDLDebugTool disable];
-    
+
     if ((logFlags & SDLLogOutputConsole) == SDLLogOutputConsole) {
         [SDLDebugTool enable];
     }
-    
+
     if ((logFlags & SDLLogOutputFile) == SDLLogOutputFile) {
         [SDLDebugTool enableDebugToLogFile];
     } else {
         [SDLDebugTool disableDebugToLogFile];
     }
-    
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if ((logFlags & SDLLogOutputSiphon) == SDLLogOutputSiphon) {

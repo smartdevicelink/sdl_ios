@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [self sdl_layoutViews];
 }
 
@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Image
 
-// TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:` 
+// TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:`
 + (UIImage *)sdl_logoImageWithColor:(BOOL)white {
     if (white) {
         return [UIImage imageNamed:@"sdl_logo_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];

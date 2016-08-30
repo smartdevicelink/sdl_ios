@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (_data.length == 0 && _fileURL != nil) {
         _data = [NSData dataWithContentsOfURL:_fileURL];
     }
-    
+
     return _data;
 }
 

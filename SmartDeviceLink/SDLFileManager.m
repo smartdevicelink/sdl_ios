@@ -196,7 +196,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
                                                                                  if (success) {
                                                                                      [strongSelf.mutableRemoteFileNames removeObject:name];
                                                                                  }
-                                                                                 
+
                                                                                  if (handler != nil) {
                                                                                      handler(YES, self.bytesAvailable, nil);
                                                                                  }
@@ -237,7 +237,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
                                                     if (success) {
                                                         [weakSelf.mutableRemoteFileNames addObject:fileName];
                                                     }
-                                                    
+
                                                     if (uploadCompletion != nil) {
                                                         uploadCompletion(success, bytesAvailable, error);
                                                     }
@@ -269,7 +269,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
     if (![[NSFileManager defaultManager] fileExistsAtPath:[self.class sdl_temporaryFileDirectoryName].absoluteString]) {
         [[NSFileManager defaultManager] removeItemAtURL:[self.class sdl_temporaryFileDirectoryName] error:&error];
     }
-    
+
     if (error != nil) {
         NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@", error];
         [SDLDebugTool logInfo:debugString];

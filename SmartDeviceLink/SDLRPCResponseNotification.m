@@ -14,16 +14,15 @@
 
 @implementation SDLRPCResponseNotification
 
-@synthesize name=_name;
-@synthesize object=_object;
-@synthesize userInfo=_userInfo;
+@synthesize name = _name;
+@synthesize object = _object;
+@synthesize userInfo = _userInfo;
 
 - (instancetype)initWithName:(NSString *)name object:(id)object rpcResponse:(SDLRPCResponse *)response {
-    
     _name = name;
     _object = object;
     _userInfo = @{SDLNotificationUserInfoObject : response};
-    
+
     return self;
 }
 

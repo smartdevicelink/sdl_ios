@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLNotificationName buttonNotificationName in [SDLNotificationConstants allButtonEventNotifications]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForButton:) name:buttonNotificationName object:dispatcher];
     }
-    
+
     // Commands
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForCommand:) name:SDLDidReceiveCommandNotification object:dispatcher];
 

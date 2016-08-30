@@ -11,8 +11,8 @@
 #import "SDLError.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRPCNotification.h"
-#import "SDLRPCResponseNotification.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (infoObject != nil) {
         userInfo = @{SDLNotificationUserInfoObject : infoObject};
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });
