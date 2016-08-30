@@ -3,7 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section-+ephemeralArtworkWithImage:name:asImageFormat:">+ephemeralArtworkWithImage:name:asImageFormat:</a></li>
+  <li><a href="#section-+artworkWithImage:name:asImageFormat:">+artworkWithImage:name:asImageFormat:</a></li>
   <li><a href="#section-+persistentArtworkWithImage:name:asImageFormat:">+persistentArtworkWithImage:name:asImageFormat:</a></li>
   <li><a href="#section--initWithImage:name:persistent:asImageFormat:">-initWithImage:name:persistent:asImageFormat:</a></li>
 </ul>
@@ -14,8 +14,8 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section-+ephemeralArtworkWithImage:name:asImageFormat:">
-      +ephemeralArtworkWithImage:name:asImageFormat:
+  <h3 id="section-+artworkWithImage:name:asImageFormat:">
+      +artworkWithImage:name:asImageFormat:
   </h3>
   
   <p>Convenience Helper to create an ephemeral artwork from an image.</p>
@@ -33,14 +33,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">ephemeralArtworkWithImage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
-                                             <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
-                                    <span class="nf">asImageFormat</span><span class="p">:</span>
-                                        <span class="p">(</span><span class="n"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
+                                    <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                           <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">ephemeralArtworkWithImage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">as</span><span class="kt">ImageFormat</span> <span class="nv">imageFormat</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+  <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">as</span><span class="kt">ImageFormat</span> <span class="nv">imageFormat</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span></code></pre>
 
   
   
