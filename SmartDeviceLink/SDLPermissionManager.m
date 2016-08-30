@@ -15,6 +15,7 @@
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLStateMachine.h"
 
 
@@ -218,9 +219,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
+- (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
+    NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
+    if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 

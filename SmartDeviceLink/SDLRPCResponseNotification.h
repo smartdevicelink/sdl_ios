@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRPCResponseNotification : NSNotification
 
-@property (copy, nonatomic, readonly) SDLRPCResponse *response;
+@property (copy, nonatomic, readonly) __kindof SDLRPCResponse *response;
 
 - (instancetype)initWithName:(NSString *)name object:(id)object rpcResponse:(__kindof SDLRPCResponse *)response;
 

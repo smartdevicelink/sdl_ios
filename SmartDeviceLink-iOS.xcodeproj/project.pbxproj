@@ -258,9 +258,9 @@
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
-		5D3E487B1D6F888E0000BFEF /* SDLRPCResponseNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48791D6F888E0000BFEF /* SDLRPCResponseNotification.h */; };
+		5D3E487B1D6F888E0000BFEF /* SDLRPCResponseNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48791D6F888E0000BFEF /* SDLRPCResponseNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E487C1D6F888E0000BFEF /* SDLRPCResponseNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E487A1D6F888E0000BFEF /* SDLRPCResponseNotification.m */; };
-		5D3E487F1D6F88A30000BFEF /* SDLRPCNotificationNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E487D1D6F88A30000BFEF /* SDLRPCNotificationNotification.h */; };
+		5D3E487F1D6F88A30000BFEF /* SDLRPCNotificationNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E487D1D6F88A30000BFEF /* SDLRPCNotificationNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48801D6F88A30000BFEF /* SDLRPCNotificationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E487E1D6F88A30000BFEF /* SDLRPCNotificationNotification.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };

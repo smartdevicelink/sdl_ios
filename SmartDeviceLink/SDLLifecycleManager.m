@@ -30,6 +30,7 @@
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLRPCRequestFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -154,13 +155,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLLifecycleStateDisconnected : @[ SDLLifecycleStateTransportConnected ],
-        SDLLifecycleStateTransportConnected : @[ SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered ],
-        SDLLifecycleStateRegistered : @[ SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers ],
-        SDLLifecycleStateSettingUpManagers : @[ SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing ],
-        SDLLifecycleStatePostManagerProcessing : @[ SDLLifecycleStateDisconnected, SDLLifecycleStateReady ],
-        SDLLifecycleStateUnregistering : @[ SDLLifecycleStateDisconnected ],
-        SDLLifecycleStateReady : @[ SDLLifecycleStateUnregistering, SDLLifecycleStateDisconnected ]
+        SDLLifecycleStateDisconnected: @[SDLLifecycleStateTransportConnected],
+        SDLLifecycleStateTransportConnected: @[SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered],
+        SDLLifecycleStateRegistered: @[SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers],
+        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing],
+        SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateDisconnected, SDLLifecycleStateReady],
+        SDLLifecycleStateUnregistering: @[SDLLifecycleStateDisconnected],
+        SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateDisconnected]
     };
 }
 
@@ -453,12 +454,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
 }
 
-- (void)hmiStatusDidChange:(NSNotification *)notification {
+- (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
     if (![self.class sdl_checkNotification:notification isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
-    SDLOnHMIStatus *hmiStatusNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel *oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 
@@ -469,12 +470,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
 }
 
-- (void)remoteHardwareDidUnregister:(NSNotification *)notification {
+- (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
     if (![self.class sdl_checkNotification:notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 
-    SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.notification;
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
 
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];

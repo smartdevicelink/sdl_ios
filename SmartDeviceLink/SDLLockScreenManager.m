@@ -14,6 +14,7 @@
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLViewControllerPresentable.h"
 
 
@@ -87,9 +88,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Notification Selectors
 
-- (void)sdl_lockScreenStatusDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnLockScreenStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnLockScreenStatus class]]) {
+- (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
+    NSAssert([notification.notification isKindOfClass:[SDLOnLockScreenStatus class]], @"A notification was sent with an unanticipated object");
+    if (![notification.notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
         return;
     }
 
@@ -97,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLOnLockScreenStatus *onLockScreenNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    SDLOnLockScreenStatus *onLockScreenNotification = notification.notification;
 
     // Present the VC depending on the lock screen status
     if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {

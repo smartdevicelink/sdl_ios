@@ -21,12 +21,12 @@
 - (instancetype)initWithName:(NSString *)name object:(id)object rpcResponse:(SDLRPCResponse *)response {
     _name = name;
     _object = object;
-    _userInfo = @{SDLNotificationUserInfoObject : response};
+    _userInfo = @{SDLNotificationUserInfoObject: response};
 
     return self;
 }
 
-- (SDLRPCResponse *)response {
+- (__kindof SDLRPCResponse *)response {
     return _userInfo[SDLNotificationUserInfoObject];
 }
 

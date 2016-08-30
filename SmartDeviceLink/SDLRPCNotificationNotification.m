@@ -22,12 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(NSString *)name object:(id)object rpcNotification:(SDLRPCNotification *)notification {
     _name = name;
     _object = object;
-    _userInfo = @{SDLNotificationUserInfoObject : notification};
+    _userInfo = @{SDLNotificationUserInfoObject: notification};
 
     return self;
 }
 
-- (SDLRPCNotification *)notification {
+- (__kindof SDLRPCNotification *)notification {
     return _userInfo[SDLNotificationUserInfoObject];
 }
 
