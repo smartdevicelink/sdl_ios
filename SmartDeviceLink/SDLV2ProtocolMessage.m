@@ -47,7 +47,7 @@
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
-    NSArray *rpcTypeNames = @[ NAMES_request, NAMES_response, NAMES_notification ];
+    NSArray *rpcTypeNames = @[NAMES_request, NAMES_response, NAMES_notification];
     [rpcMessageAsDictionary setObject:innerDictionary forKey:rpcTypeNames[rpcType]];
 
     // The bulk data also goes in the dictionary

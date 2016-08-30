@@ -64,9 +64,9 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
     if (![self sdl_canState:self.currentState transitionToState:state]) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:@"Invalid state machine transition occurred"
-                                     userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass : NSStringFromClass([self.target class]),
-                                                SDLStateMachineExceptionInfoKeyFromState : self.currentState,
-                                                SDLStateMachineExceptionInfoKeyToClass : state}];
+                                     userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: NSStringFromClass([self.target class]),
+                                                SDLStateMachineExceptionInfoKeyFromState: self.currentState,
+                                                SDLStateMachineExceptionInfoKeyToClass: state}];
     }
 
     SEL willLeave = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatWillLeave, oldState]);
@@ -90,7 +90,7 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
     self.currentState = state;
 
     // Post state transition calls
-    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{SDLStateMachineNotificationInfoKeyOldState : oldState, SDLStateMachineNotificationInfoKeyNewState : state}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:self.transitionNotificationName object:self userInfo:@{SDLStateMachineNotificationInfoKeyOldState: oldState, SDLStateMachineNotificationInfoKeyNewState: state}];
     if ([self.target respondsToSelector:didTransition]) {
         [self.target performSelector:didTransition];
     }

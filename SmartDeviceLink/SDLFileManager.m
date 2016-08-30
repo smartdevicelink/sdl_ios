@@ -122,9 +122,9 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLFileManagerStateShutdown : @[ SDLFileManagerStateFetchingInitialList ],
-        SDLFileManagerStateFetchingInitialList : @[ SDLFileManagerStateShutdown, SDLFileManagerStateReady ],
-        SDLFileManagerStateReady : @[ SDLFileManagerStateShutdown ]
+        SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
+        SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady],
+        SDLFileManagerStateReady: @[SDLFileManagerStateShutdown]
     };
 }
 

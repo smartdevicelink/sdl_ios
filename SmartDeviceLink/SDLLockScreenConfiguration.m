@@ -66,11 +66,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLockScreenConfiguration *new = [ [SDLLockScreenConfiguration allocWithZone:zone] initWithAutoLockScreen : _enableAutomaticLockScreen
-                                            enableInOptional : _showInOptionalState
-                                                backgroundColor : _backgroundColor
-                                                    appIcon : _appIcon
-                                                        viewController : _customViewController ];
+    SDLLockScreenConfiguration *new = [[SDLLockScreenConfiguration allocWithZone:zone] initWithAutoLockScreen : _enableAutomaticLockScreen
+                                           enableInOptional : _showInOptionalState
+                                               backgroundColor : _backgroundColor
+                                                   appIcon : _appIcon
+                                                       viewController : _customViewController];
 
     return new;
 }

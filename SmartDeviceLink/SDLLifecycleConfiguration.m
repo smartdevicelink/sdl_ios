@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
-    _languagesSupported = @[ _language ];
+    _languagesSupported = @[_language];
     _appIcon = nil;
     _shortAppName = nil;
     _ttsName = nil;
