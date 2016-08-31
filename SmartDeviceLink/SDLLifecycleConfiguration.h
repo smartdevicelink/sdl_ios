@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSString *shortAppName;
 
 /**
- *  A TTS String for voice recognition of the mobile application name.
+ *  A Text to Speech String for voice recognition of the mobile application name.
  */
 @property (copy, nonatomic, nullable) NSArray<SDLTTSChunk *> *ttsName;
 
