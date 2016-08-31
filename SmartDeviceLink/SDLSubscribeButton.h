@@ -89,7 +89,7 @@
  *
  *  @warning This will only work if you use SDLManager.
  */
-@property (copy, nonatomic, readonly) SDLRPCNotificationHandler handler;
+@property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
 /**
  * @abstract The name of the button to subscribe to

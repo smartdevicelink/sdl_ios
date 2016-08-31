@@ -18,7 +18,7 @@
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property (copy, nonatomic, readonly) SDLRPCNotificationHandler handler;
+@property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
 @property (strong) SDLSoftButtonType *type;
 @property (strong) NSString *text;
