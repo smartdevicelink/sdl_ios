@@ -145,25 +145,25 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:`
 + (UIImage *)sdl_logoImageWithColor:(BOOL)white {
     if (white) {
-        return [UIImage imageNamed:@"sdl_logo_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"sdl_logo_white" inBundle:[self podBundle] compatibleWithTraitCollection:nil];
     } else {
-        return [UIImage imageNamed:@"sdl_logo_black" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"sdl_logo_black" inBundle:[self podBundle] compatibleWithTraitCollection:nil];
     }
 }
 
 + (UIImage *)sdl_arrowUpImageWithColor:(BOOL)white {
     if (white) {
-        return [UIImage imageNamed:@"lock_arrow_up_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_up_white" inBundle:[self podBundle] compatibleWithTraitCollection:nil];
     } else {
-        return [UIImage imageNamed:@"lock_arrow_up_black" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_up_black" inBundle:[self podBundle] compatibleWithTraitCollection:nil];
     }
 }
 
 + (UIImage *)sdl_arrowDownImageWithColor:(BOOL)white {
     if (white) {
-        return [UIImage imageNamed:@"lock_arrow_down_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_down_white" inBundle:[self podBundle] compatibleWithTraitCollection:nil];
     } else {
-        return [UIImage imageNamed:@"lock_arrow_down_black" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_down_black" inBundle:[self podBundle] compatibleWithTraitCollection:nil];
     }
 }
 
@@ -179,6 +179,16 @@ NS_ASSUME_NONNULL_BEGIN
     CGFloat luminescence = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
 
     return (luminescence <= 0.179);
+}
+
++ (nullable NSBundle *)podBundle {
+    NSURL *sdlBundleURL = [[NSBundle mainBundle] URLForResource:@"SmartDeviceLink" withExtension:@"bundle"];
+    NSBundle *sdlBundle = [NSBundle bundleWithURL:sdlBundleURL];
+    if (sdlBundle == nil) {
+        sdlBundle = [NSBundle bundleForClass:[self class]];
+    }
+    
+    return sdlBundle;
 }
 
 @end
