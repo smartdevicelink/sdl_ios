@@ -8,6 +8,7 @@
 
 #import "SDLLockScreenManager.h"
 
+#import "NSBundle+SDLBundle.h"
 #import "SDLDebugTool.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenStatus.h"
@@ -60,16 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLockScreenViewController *viewController = nil;
         
-        // Attempt to find it using cocoapods weirdness
-        NSURL *sdlBundleURL = [[NSBundle mainBundle] URLForResource:@"SmartDeviceLink" withExtension:@"bundle"];
-        NSBundle *sdlBundle = [NSBundle bundleWithURL:sdlBundleURL];
-        if (sdlBundle == nil) {
-            sdlBundle = [NSBundle bundleForClass:[self class]];
-        }
-        
-        // Attempt to find it using frameworks
         @try {
-            viewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:sdlBundle] instantiateInitialViewController];
+            viewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle sdlBundle]] instantiateInitialViewController];
         } @catch (NSException *exception) {
             [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
             return;

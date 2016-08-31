@@ -262,6 +262,8 @@
 		5D3E487C1D6F888E0000BFEF /* SDLRPCResponseNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E487A1D6F888E0000BFEF /* SDLRPCResponseNotification.m */; };
 		5D3E487F1D6F88A30000BFEF /* SDLRPCNotificationNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E487D1D6F88A30000BFEF /* SDLRPCNotificationNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48801D6F88A30000BFEF /* SDLRPCNotificationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E487E1D6F88A30000BFEF /* SDLRPCNotificationNotification.m */; };
+		5D3E48CB1D7722FE0000BFEF /* NSBundle+SDLBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */; };
+		5D3E48CC1D7722FE0000BFEF /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */; };
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
 		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
@@ -1236,6 +1238,8 @@
 		5D3E487A1D6F888E0000BFEF /* SDLRPCResponseNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseNotification.m; sourceTree = "<group>"; };
 		5D3E487D1D6F88A30000BFEF /* SDLRPCNotificationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCNotificationNotification.h; sourceTree = "<group>"; };
 		5D3E487E1D6F88A30000BFEF /* SDLRPCNotificationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCNotificationNotification.m; sourceTree = "<group>"; };
+		5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SDLBundle.h"; sourceTree = "<group>"; };
+		5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -3411,6 +3415,8 @@
 				5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */,
 				5DA102A21D4122C700C15826 /* NSMutableDictionary+SafeRemove.h */,
 				5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */,
+				5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */,
+				5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3651,6 +3657,7 @@
 				E9C32B931AB20BA200F283AF /* SDLIAPSessionDelegate.h in Headers */,
 				5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */,
 				5D61FCA51A84238C00846EE7 /* SDLEndAudioPassThruResponse.h in Headers */,
+				5D3E48CB1D7722FE0000BFEF /* NSBundle+SDLBundle.h in Headers */,
 				5D61FD851A84238C00846EE7 /* SDLSetDisplayLayoutResponse.h in Headers */,
 				5D61FD751A84238C00846EE7 /* SDLRPCResponse.h in Headers */,
 				5D61FC901A84238C00846EE7 /* SDLDisplayCapabilities.h in Headers */,
@@ -4224,6 +4231,7 @@
 				5D61FDE21A84238C00846EE7 /* SDLTurn.m in Sources */,
 				5D61FC5A1A84238C00846EE7 /* SDLCarModeStatus.m in Sources */,
 				5D82041B1BCD80BA00D0A41B /* SDLLockScreenConfiguration.m in Sources */,
+				5D3E48CC1D7722FE0000BFEF /* NSBundle+SDLBundle.m in Sources */,
 				5D61FCBC1A84238C00846EE7 /* SDLGPSData.m in Sources */,
 				5D61FD341A84238C00846EE7 /* SDLPowerModeQualificationStatus.m in Sources */,
 				5D61FC891A84238C00846EE7 /* SDLDiagnosticMessage.m in Sources */,
