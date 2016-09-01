@@ -3,7 +3,7 @@
 //
 
 #import "SDLPolicyDataParser.h"
-
+#import "SDLDebugTool.h"
 
 @implementation SDLPolicyDataParser
 
@@ -27,7 +27,7 @@
     }
     @catch (NSException *exception) {
         decodedData = nil;
-        NSLog(@"Error in PolicyDataParser::unwrap()");
+        [SDLDebugTool logInfo:@"Error in PolicyDataParser::unwrap()"];
     }
 
     return decodedData;
@@ -110,7 +110,7 @@
 
     }
     @catch (NSException *exception) {
-        NSLog(@"Error in PolicyDataParser::parsePolicyData()");
+        [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
     }
 }
 
