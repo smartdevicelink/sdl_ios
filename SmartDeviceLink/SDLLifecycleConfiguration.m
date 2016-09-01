@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
-    _logFlags = SDLLogOutputConsole;
+    _logFlags = SDLLogOutputNone;
 
     return self;
 }
@@ -65,6 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
     config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
+    
+    config.logFlags = SDLLogOutputConsole;
 
     return config;
 }
