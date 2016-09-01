@@ -12,6 +12,7 @@
 
 #import "SDLAbstractProtocol.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLDebugTool.h"
 #import "SDLGlobals.h"
 #import "SDLImageResolution.h"
 #import "SDLScreenParams.h"
@@ -352,7 +353,7 @@ NS_ASSUME_NONNULL_BEGIN
 void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
-        NSLog(@"Error encoding video, err=%lld", (int64_t)status);
+        [SDLDebugTool logFormat:@"Error encoding video, err=%lld", (int64_t)status];
         return;
     }
 
