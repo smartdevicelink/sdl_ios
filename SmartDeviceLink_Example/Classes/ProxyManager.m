@@ -221,6 +221,7 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
     if (![newLevel isEqualToEnum:[SDLHMILevel NONE]] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
+        self.firstTimeState = SDLHMIFirstStateNonNone;
         
         // Send AddCommands
         [self.sdlManager sendRequest:[self speakNameCommand]];
@@ -229,6 +230,8 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     
     if ([newLevel isEqualToEnum:[SDLHMILevel FULL]] && (self.firstTimeState != SDLHMIFirstStateFull)) {
         // This is our first time in a FULL state
+        self.firstTimeState = SDLHMIFirstStateFull;
+        
         [self showInitialData];
     }
 }
