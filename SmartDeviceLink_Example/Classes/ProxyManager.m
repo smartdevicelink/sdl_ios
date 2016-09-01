@@ -61,11 +61,7 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
-    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
-        if (!success) {
-            NSLog(@"SDL errored starting up: %@", error);
-        }
-    }];
+    [self.sdlManager startWithReadyHandler:[[self readyBlock] copy]];
 }
 
 - (void)startTCP {
@@ -73,11 +69,19 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
-    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.sdlManager startWithReadyHandler:[[self readyBlock] copy]];
+}
+
+- (SDLManagerReadyBlock)readyBlock {
+    return ^(BOOL success, NSError * _Nullable error) {
         if (!success) {
             NSLog(@"SDL errored starting up: %@", error);
         }
-    }];
+        
+        if ([self.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+            [self showInitialData];
+        }
+    };
 }
 
 - (void)reset {
@@ -207,12 +211,6 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
 
 
 #pragma mark - SDLManagerDelegate
-
-- (void)managerDidBecomeReady {
-    if ([self.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
-        [self showInitialData];
-    }
-}
 
 - (void)managerDidDisconnect {
     self.firstTimeState = SDLHMIFirstStateNone;
