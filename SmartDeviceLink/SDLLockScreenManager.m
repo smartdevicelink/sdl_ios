@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.presenter.viewController = self.config.customViewController;
     } else {
         SDLLockScreenViewController *viewController = nil;
-        
+
         @try {
             viewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle sdlBundle]] instantiateInitialViewController];
         } @catch (NSException *exception) {

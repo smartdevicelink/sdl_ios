@@ -1,3 +1,10 @@
+# 4.3.0 Beta 4 Release Notes (Since Beta 3)
+### Enhancements
+* Fix resource bundle not being included via cocoapods, causing a failure on the default lock screen. Also added better failure messages. The resource bundle will still have to be manually added to your app's copy resources build phase.
+* Reduced resource bundle size by optimizing lock screen images.
+* RPC handlers are no longer readonly and can now be set outside of the init.
+* Improved the example app with additional code and features to see how the new dev api works. Stay tuned for a few additional features.
+
 # 4.3.0 Beta 3 Release Notes (Since Beta 2)
 ### Breaking Changes
 * `resumeHash` is now a configuration property and is not automatically handled.
