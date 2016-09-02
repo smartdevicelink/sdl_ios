@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
+    _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
     _initialShowState = SDLHMIInitialShowStateNone;
     
@@ -65,6 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startIAP {
+    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
     // Assume this is production and disable logging
@@ -77,6 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startTCP {
+    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
@@ -89,6 +92,9 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
             NSLog(@"SDL errored starting up: %@", error);
+            [weakSelf sdlex_updateProxyState:ProxyStateStopped];
+        } else {
+            [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         }
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
@@ -126,6 +132,13 @@ NS_ASSUME_NONNULL_BEGIN
     return config;
 }
 
+- (void)sdlex_updateProxyState:(ProxyState)newState {
+    if (self.state != newState) {
+        [self willChangeValueForKey:@"state"];
+        _state = newState;
+        [self didChangeValueForKey:@"state"];
+    }
+}
 
 #pragma mark - RPC builders
 
@@ -293,6 +306,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
     self.initialShowState = SDLHMIInitialShowStateNone;
+    _state = ProxyStateStopped;
 }
 
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {

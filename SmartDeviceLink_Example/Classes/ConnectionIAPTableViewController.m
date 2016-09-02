@@ -71,20 +71,30 @@
 #pragma mark - Private Methods
 
 - (void)proxyManagerDidChangeState:(ProxyState)newState {
+    UIColor* newColor = nil;
+    NSString* newTitle = nil;
+    
     switch (newState) {
         case ProxyStateStopped: {
-            self.connectTableViewCell.backgroundColor = [UIColor redColor];
-            self.connectButton.titleLabel.text = @"Connect";
+            newColor = [UIColor redColor];
+            newTitle = @"Connect";
         } break;
         case ProxyStateSearchingForConnection: {
-            self.connectTableViewCell.backgroundColor = [UIColor blueColor];
-            self.connectButton.titleLabel.text = @"Stop Searching";
+            newColor = [UIColor blueColor];
+            newTitle = @"Stop Searching";
         } break;
         case ProxyStateConnected: {
-            self.connectTableViewCell.backgroundColor = [UIColor greenColor];
-            self.connectButton.titleLabel.text = @"Disconnect";
+            newColor = [UIColor greenColor];
+            newTitle = @"Disconnect";
         } break;
         default: break;
+    }
+    
+    if (newColor && newTitle) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.connectTableViewCell.backgroundColor = newColor;
+            self.connectButton.titleLabel.text = newTitle;
+        });
     }
 }
 
