@@ -243,7 +243,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
-    [self postRPCNotificationNotification:SDLDidReceiveUnregisterAppInterfaceResponse notification:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveAppUnregisteredNotification notification:notification];
 }
 
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
