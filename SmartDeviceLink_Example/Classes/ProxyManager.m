@@ -12,17 +12,28 @@
 NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
+NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
+
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateNone,
     SDLHMIFirstStateNonNone,
     SDLHMIFirstStateFull
 };
 
+typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
+    SDLHMIInitialShowStateNone,
+    SDLHMIInitialShowStateDataAvailable,
+    SDLHMIInitialShowStateShown
+};
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ProxyManager () <SDLManagerDelegate>
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
+@property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
 
 @end
 
@@ -48,12 +59,13 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     }
     
     _firstTimeState = SDLHMIFirstStateNone;
+    _initialShowState = SDLHMIInitialShowStateNone;
     
     return self;
 }
 
 - (void)startIAP {
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
     // Assume this is production and disable logging
     lifecycleConfig.logFlags = SDLLogOutputNone;
@@ -65,7 +77,7 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
 }
 
 - (void)startTCP {
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
@@ -90,37 +102,20 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
 }
 
 - (void)showInitialData {
-    SDLArtwork* softButtonImage = [self softButtonImage];
-    if ([self.sdlManager.fileManager.remoteFileNames containsObject:softButtonImage.name] == NO) {
-        [self uploadInterfaceFiles];
-    } else {
-        __weak typeof(self) weakSelf = self;
-        SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(__kindof SDLRPCNotification * _Nonnull notification) {
-            if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-                SDLOnButtonPress* buttonPress = (SDLOnButtonPress*)notification;
-                if ([buttonPress.customButtonID isEqualToNumber:@100]) {
-                    SDLAlert* alert = [[SDLAlert alloc] init];
-                    alert.alertText1 = @"You pushed the button!";
-                    [weakSelf.sdlManager sendRequest:alert];
-                }
-            }
-        }];
-        softButton.text = @"Press";
-        softButton.softButtonID = @100;
-        softButton.type = SDLSoftButtonType.BOTH;
-        
-        SDLImage* image = [[SDLImage alloc] init];
-        image.imageType = SDLImageType.DYNAMIC;
-        image.value = softButtonImage.name;
-        softButton.image = image;
-
-        SDLShow *initialData = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED] correlationID:@0];
-        initialData.softButtons = [@[softButton] mutableCopy];
-        [self.sdlManager sendRequest:initialData];
+    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+        return;
     }
+    
+    self.initialShowState = SDLHMIInitialShowStateShown;
+    
+    SDLShow *initialData = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED] correlationID:@0];
+    SDLSoftButton *pointingSoftButton = [self.class pointingSoftButtonWithManager:self.sdlManager];
+    initialData.softButtons = [@[pointingSoftButton] mutableCopy];
+    
+    [self.sdlManager sendRequest:initialData];
 }
 
-+ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
++ (SDLLifecycleConfiguration *)setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
     SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
     
     config.shortAppName = @"SDL Example";
@@ -134,7 +129,7 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
 
 #pragma mark - RPC builders
 
-- (SDLAddCommand *)speakNameCommand {
++ (SDLAddCommand *)speakNameCommandWithManager:(SDLManager *)manager {
     NSString *commandName = @"Speak App Name";
     
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
@@ -145,15 +140,14 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     speakNameCommand.menuParams = commandMenuParams;
     speakNameCommand.cmdID = @0;
     
-    __weak typeof(self) weakSelf = self;
     speakNameCommand.handler = ^void(SDLOnCommand *notification) {
-        [weakSelf.sdlManager sendRequest:[self.class appNameSpeak]];
+        [manager sendRequest:[self.class appNameSpeak]];
     };
     
     return speakNameCommand;
 }
 
-- (SDLAddCommand *)interactionSetCommand {
++ (SDLAddCommand *)interactionSetCommandWithManager:(SDLManager *)manager {
     NSString *commandName = @"Perform Interaction";
     
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
@@ -167,18 +161,10 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     // NOTE: You may want to preload your interaction sets, because they can take a while for the remote system to process. We're going to ignore our own advice here.
     __weak typeof(self) weakSelf = self;
     performInteractionCommand.handler = ^void(SDLOnCommand *notification) {
-        [weakSelf.sdlManager sendRequest:[self.class createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            [weakSelf.class sendPerformOnlyChoiceInteractionWithManager:weakSelf.sdlManager];
-        }];
+        [weakSelf sendPerformOnlyChoiceInteractionWithManager:manager];
     };
     
     return performInteractionCommand;
-}
-
-- (SDLArtwork*)softButtonImage {
-    SDLArtwork* softButtonImage = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:@"SoftButtonIcon" asImageFormat:SDLArtworkImageFormatPNG];
-    
-    return softButtonImage;
 }
 
 + (SDLSpeak *)appNameSpeak {
@@ -241,33 +227,77 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     }];
 }
 
-- (void)uploadInterfaceFiles {
-    __weak typeof(self) weakSelf = self;
-    [self.sdlManager.fileManager uploadFile:[self softButtonImage] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-        if (success == NO) {
-            if (error) {
-                NSLog(@"Something went wrong, image could not upload: %@", error);
-            } else {
-                // This will never happen
-                NSLog(@"Something went wrong, and we don't know what happened.");
-            }
-        } else {
-            if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
-                [weakSelf showInitialData];
-            }
++ (SDLSoftButton *)pointingSoftButtonWithManager:(SDLManager *)manager {
+    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(__kindof SDLRPCNotification *notification) {
+        if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
+            SDLAlert* alert = [[SDLAlert alloc] init];
+            alert.alertText1 = @"You pushed the button!";
+            [manager sendRequest:alert];
         }
     }];
+    softButton.text = @"Press";
+    softButton.softButtonID = @100;
+    softButton.type = SDLSoftButtonType.BOTH;
+    
+    SDLImage* image = [[SDLImage alloc] init];
+    image.imageType = SDLImageType.DYNAMIC;
+    image.value = PointingSoftButtonArtworkName;
+    softButton.image = image;
+    
+    return softButton;
 }
+
+
+#pragma mark - Files / Artwork 
+
++ (SDLArtwork*)pointingSoftButtonArtwork {
+    SDLArtwork* softButtonImage = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
+    
+    return softButtonImage;
+}
+
+- (void)prepareRemoteSystem {
+    [self.sdlManager sendRequest:[self.class speakNameCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequest:[self.class interactionSetCommandWithManager:self.sdlManager]];
+    
+    dispatch_group_t dataDispatchGroup = dispatch_group_create();
+    dispatch_group_enter(dataDispatchGroup);
+    
+    dispatch_group_enter(dataDispatchGroup);
+    [self.sdlManager.fileManager uploadFile:[self.class pointingSoftButtonArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        dispatch_group_leave(dataDispatchGroup);
+        
+        if (success == NO) {
+            NSLog(@"Something went wrong, image could not upload: %@", error);
+            return;
+        }
+    }];
+    
+    dispatch_group_enter(dataDispatchGroup);
+    [self.sdlManager sendRequest:[self.class createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        // Interaction choice set ready
+        dispatch_group_leave(dataDispatchGroup);
+    }];
+    
+    dispatch_group_leave(dataDispatchGroup);
+    dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
+        self.initialShowState = SDLHMIInitialShowStateDataAvailable;
+        [self showInitialData];
+    });
+}
+
 
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
+    // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
+    self.initialShowState = SDLHMIInitialShowStateNone;
 }
 
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
     if (self.firstTimeState == SDLHMIFirstStateNone) {
-        [self uploadInterfaceFiles];
+        [self prepareRemoteSystem];
     }
     
     if (![newLevel isEqualToEnum:[SDLHMILevel NONE]] && (self.firstTimeState == SDLHMIFirstStateNone)) {
@@ -275,16 +305,20 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
         self.firstTimeState = SDLHMIFirstStateNonNone;
         
         // Send AddCommands
-        [self.sdlManager sendRequest:[self speakNameCommand]];
-        [self.sdlManager sendRequest:[self interactionSetCommand]];
+        [self prepareRemoteSystem];
     }
     
     if ([newLevel isEqualToEnum:[SDLHMILevel FULL]] && (self.firstTimeState != SDLHMIFirstStateFull)) {
         // This is our first time in a FULL state
         self.firstTimeState = SDLHMIFirstStateFull;
-        
+    }
+    
+    if ([newLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+        // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self showInitialData];
     }
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
