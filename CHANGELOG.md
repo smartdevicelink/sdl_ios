@@ -1,3 +1,20 @@
+# 4.3.0 Release Candidate 1 Release Notes (Since Beta 4)
+### Enhancements
+* Removed all usages of NSLog. Now all logs can be turned on or off.
+* SDL logs are now off by default in the default lifecycle configuration, console logs are on by default in the debug lifecycle configuration.
+* SDLLockScreenViewController is now public and may be subclassed and used as a custom view controller. If subclassed, the vehicleIcon property will be set if the remote system sends one.
+
+### Bug Fixes
+* Fixed an issue with dynamic frameworks accessing the default lock screen resources.
+* Fixed a crash relating to an OnAppInterfaceUnregistered notification.
+
+### Example App
+* Fixed initial data being sent multiple times.
+* Fixed CreateInteractionChoiceSet being sent multiple times and sometimes not working.
+* Fixed implementing a delegate method that no longer exists.
+* Fixed UI buttons not updating upon connecting.
+* Added a soft button.
+
 # 4.3.0 Beta 4 Release Notes (Since Beta 3)
 ### Enhancements
 * Fix resource bundle not being included via cocoapods, causing a failure on the default lock screen. Also added better failure messages. The resource bundle will still have to be manually added to your app's copy resources build phase.
