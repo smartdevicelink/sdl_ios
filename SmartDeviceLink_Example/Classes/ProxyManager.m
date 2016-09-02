@@ -97,7 +97,6 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
     SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
     
-    config.appType = [SDLAppHMIType DEFAULT];
     config.shortAppName = @"SDL Example";
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
