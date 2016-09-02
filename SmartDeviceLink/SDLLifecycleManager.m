@@ -411,7 +411,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification isKindOfClass:(Class) class {
++ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class) class {
     NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
         return NO;
@@ -455,7 +455,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification isKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
@@ -471,7 +471,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification isKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 
