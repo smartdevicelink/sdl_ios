@@ -1,3 +1,76 @@
+# 4.3.0 Release Candidate 1 Release Notes (Since Beta 4)
+### Enhancements
+* Removed all usages of NSLog. Now all logs can be turned on or off.
+* SDL logs are now off by default in the default lifecycle configuration, console logs are on by default in the debug lifecycle configuration.
+* SDLLockScreenViewController is now public and may be subclassed and used as a custom view controller. If subclassed, the vehicleIcon property will be set if the remote system sends one.
+
+### Bug Fixes
+* Fixed an issue with dynamic frameworks accessing the default lock screen resources.
+* Fixed a crash relating to an OnAppInterfaceUnregistered notification.
+
+### Example App
+* Fixed initial data being sent multiple times.
+* Fixed CreateInteractionChoiceSet being sent multiple times and sometimes not working.
+* Fixed implementing a delegate method that no longer exists.
+* Fixed UI buttons not updating upon connecting.
+* Added a soft button.
+
+# 4.3.0 Beta 4 Release Notes (Since Beta 3)
+### Enhancements
+* Fix resource bundle not being included via cocoapods, causing a failure on the default lock screen. Also added better failure messages. The resource bundle will still have to be manually added to your app's copy resources build phase.
+* Reduced resource bundle size by optimizing lock screen images.
+* RPC handlers are no longer readonly and can now be set outside of the init.
+* Improved the example app with additional code and features to see how the new dev api works. Stay tuned for a few additional features.
+
+# 4.3.0 Beta 3 Release Notes (Since Beta 2)
+### Breaking Changes
+* `resumeHash` is now a configuration property and is not automatically handled.
+* `SDLFile` and `SDLArtwork` initializers no longer contain "ephemeral", these are renamed to simply start with "file" since they are the default case.
+* `SDLManagerDelegate` no longer has the method `managerDidBecomeReady`. Use the ready block on `start` instead.
+* `SDLManagerDelegate` parameters are now nonnull.
+* `SDLLockScreenConfiguration` `showInOptional` is now `showInOptionalState`.
+* `SDLLifecycleConfiguration` `port` is now a `UInt16` instead of a `NSString`.
+* Many block parameters changed names to be more consistent and descriptive.
+
+### Enhancements
+* The `OnKeyboardInput` RPC notification is now properly included and sent.
+* `SDLLifecycleManager` now only sends the "Ready" notification if registration succeeded.
+* `SDLManagerDelegate` `hmiLevel:didChangeToLevel:` is now sent right after becoming ready with the current HMI level.
+* `SDLLifecycleConfiguration` `ipAddress` is now null_resettable.
+* `SDLLifecycleConfiguration` can now contain security managers which will properly be added to the internal `SDLProxy` as appropriate.
+* `SDLLifecycleConfiguration` now has a `logFlags` parameter which can be set to alter how SDL logs out data or to prevent it from doing so at all.
+* If `RegisterAppInterfaceResponse` returns `WARNINGS` or `RESUME_FAILED` still successfully connect, but set the error properly of the ready block with the relevant information.
+* Added backward compatible `NSNotification` subclasses to more clearly describe what type of object it contains.
+* Documentation enhancements.
+
+### Bug Fixes
+* `SDLFileManager` `deleteRemoteFileWithName:completionHandler:` no longer crashes if no completion handler is set.
+* `SDLFileManager` `uploadRemoteFileWithName:completionHandler:` no longer crashes if no completion handler is set.
+* `SDLFileManager` will more efficiently clean up temporary files.
+* Remove some unneeded methods from `SDLLockScreenViewController`.
+* Properly send `AppHMIType` and `TTSName` set in `SDLLifecycleConfiguration` to the `RegisterAppInterface`.
+* Strong / weak dance bugs fixed.
+* Unit test fixes.
+
+### Internal enhancements
+* `SDLStateMachine` now has some public keys to help accessing data internally.
+* `SDLResponseDispatcher` updates: fixing a method name, fixing an enum equality check, clarity updates.
+* `SDLLifecycleManager` remove `stateTransitionNotificationName`.
+* Some `NSOperation` subclass code was shifted to an intermediate superclass.
+* Fixed some instance variables not having generics.
+* Updated code to match v4.2.3.
+
+# 4.3.0 Beta 2 Release Notes (Since Beta 1)
+### Enhancements
+* Starting up `SDLManager` now requires a block which will pass back an error if it failed.
+* `SDLManager` now provides a method to call in `AppDelegate applicationWillTerminate:` that will prevent killed apps from being unable to re-register.
+
+### Bug Fixes
+* Fixed a memory leak caused by the strong / weak block dance.
+
+### Other
+* Currently removed automatic resumption. Resumption will return in a future build as a manual configuration pass in.
+
 # 4.3.0 Beta 1 Release Notes (Since Alpha 1)
 ### Breaking Changes
 * State machine transition names are no longer public to allow for behind the scenes changes without minor or major version changes.
@@ -12,7 +85,7 @@
 * Fixed test failures.
 
 # 4.3.0 Alpha 1 Release Notes
-### Breaking Changes
+### Deprecations
 * Deprecate SDLProxy in favor of SDLManager. A future major release will remove and alter many public APIs, but they will not be deprecated in this release because they will not be replaced in this release.
 
 ### Enhancements

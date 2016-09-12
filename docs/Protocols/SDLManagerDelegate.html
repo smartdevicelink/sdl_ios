@@ -3,7 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--managerDidBecomeReady">-managerDidBecomeReady</a></li>
   <li><a href="#section--managerDidDisconnect">-managerDidDisconnect</a></li>
   <li><a href="#section--hmiLevel:didChangeToLevel:">-hmiLevel:didChangeToLevel:</a></li>
 </ul>
@@ -14,24 +13,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--managerDidBecomeReady">
-      -managerDidBecomeReady
-  </h3>
-  
-  <p>Called when the manager is ready to be used by the application. Any RPCs that attempt to be set before this readiness call will be ignored.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">managerDidBecomeReady</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">managerDidBecomeReady</span><span class="p">()</span></code></pre>
-
-  
-  
-  
   <h3 id="section--managerDidDisconnect">
       -managerDidDisconnect
   </h3>
@@ -59,12 +40,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hmiLevel</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLevel</span>
-<span class="nf">didChangeToLevel</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">newLevel</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hmiLevel</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLevel</span>
+<span class="nf">didChangeToLevel</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">newLevel</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">hmiLevel</span><span class="p">(</span><span class="nv">oldLevel</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="n">didChangeToLevel</span> <span class="nv">newLevel</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">hmiLevel</span><span class="p">(</span><span class="nv">oldLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span><span class="p">,</span> <span class="n">didChangeToLevel</span> <span class="nv">newLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span><span class="p">)</span></code></pre>
 
   
   

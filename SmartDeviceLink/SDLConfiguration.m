@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLConfiguration *new = [ [SDLConfiguration allocWithZone:zone] initWithLifecycle : _lifecycleConfig lockScreen : _lockScreenConfig ];
+    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle : _lifecycleConfig lockScreen : _lockScreenConfig];
 
     return new;
 }

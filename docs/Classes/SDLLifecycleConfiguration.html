@@ -11,6 +11,7 @@
   <li><a href="#section-tcpDebugPort">tcpDebugPort</a></li>
   <li><a href="#section-appName">appName</a></li>
   <li><a href="#section-appId">appId</a></li>
+  <li><a href="#section-resumeHash">resumeHash</a></li>
   <li><a href="#section-isMedia">isMedia</a></li>
   <li><a href="#section-appType">appType</a></li>
   <li><a href="#section-language">language</a></li>
@@ -19,6 +20,8 @@
   <li><a href="#section-shortAppName">shortAppName</a></li>
   <li><a href="#section-ttsName">ttsName</a></li>
   <li><a href="#section-voiceRecognitionCommandNames">voiceRecognitionCommandNames</a></li>
+  <li><a href="#section-securityManagers">securityManagers</a></li>
+  <li><a href="#section-logFlags">logFlags</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -89,11 +92,11 @@
 <span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
                         <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
                     <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
-                         <span class="nf">port</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
+                         <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debugConfigurationWithAppName</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debugConfigurationWithAppName</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
 
   
   
@@ -145,11 +148,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">tcpDebugIPAddress</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">tcpDebugIPAddress</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugIPAddress</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugIPAddress</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -163,11 +167,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">tcpDebugPort</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt16</span> <span class="n">tcpDebugPort</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugPort</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugPort</span><span class="p">:</span> <span class="kt">UInt16</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -204,6 +208,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-resumeHash">
+      resumeHash
+  </h3>
+  
+  <p>A hash id which should be passed to the remote system in the RegisterAppInterface</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">resumeHash</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">resumeHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -321,7 +343,7 @@
       ttsName
   </h3>
   
-  <p>A TTS String for voice recognition of the mobile application name.</p>
+  <p>A Text to Speech String for voice recognition of the mobile application name.</p>
 
   
   
@@ -350,6 +372,43 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="k">var</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-securityManagers">
+      securityManagers
+  </h3>
+  
+  <p>Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">securityManagers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="o">.</span><span class="k">Type</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-logFlags">
+      logFlags
+  </h3>
+  
+  <p>Which logging capabilities are currently enabled. The default is Console logging only.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="n">logFlags</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">logFlags</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

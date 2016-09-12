@@ -13,7 +13,7 @@
 #import "SDLLanguage.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
-static NSString *const DefaultTCPIPPort = @"12345";
+static UInt16 const DefaultTCPIPPort = 12345;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLifecycleConfiguration ()
 
 @property (assign, nonatomic, readwrite) BOOL tcpDebugMode;
+@property (copy, nonatomic, readwrite, null_resettable) NSString *tcpDebugIPAddress;
+@property (assign, nonatomic, readwrite) UInt16 tcpDebugPort;
 
 @end
 
@@ -44,11 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     _appType = [SDLAppHMIType DEFAULT];
     _language = [SDLLanguage EN_US];
-    _languagesSupported = @[ _language ];
+    _languagesSupported = @[_language];
     _appIcon = nil;
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
+    _logFlags = SDLLogOutputNone;
 
     return self;
 }
@@ -57,11 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
 }
 
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port {
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
     SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
     config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
+
+    config.logFlags = SDLLogOutputConsole;
 
     return config;
 }
@@ -81,14 +86,6 @@ NS_ASSUME_NONNULL_BEGIN
         _tcpDebugIPAddress = DefaultTCPIPAddress;
     } else {
         _tcpDebugIPAddress = tcpDebugIPAddress;
-    }
-}
-
-- (void)setTcpDebugPort:(nullable NSString *)tcpDebugPort {
-    if (tcpDebugPort == nil) {
-        _tcpDebugPort = DefaultTCPIPPort;
-    } else {
-        _tcpDebugPort = tcpDebugPort;
     }
 }
 

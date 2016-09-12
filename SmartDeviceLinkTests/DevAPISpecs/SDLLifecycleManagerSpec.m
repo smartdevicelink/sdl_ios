@@ -29,16 +29,6 @@
 #import "SDLUnregisterAppInterfaceResponse.h"
 
 
-typedef NSString SDLLifecycleState;
-SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
-SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
-SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
-SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
-SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
-SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
-SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
-
-
 // Ignore the deprecated proxy methods
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -52,7 +42,7 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
             SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
             
-            [testManager sendRequest:testShow withCompletionHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
                 testError = error;
             }];
             
@@ -99,7 +89,6 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.permissionManager).toNot(beNil());
         expect(testManager.streamManager).to(beNil());
         expect(testManager.proxy).to(beNil());
-        expect(testManager.resumeHash).to(beNil());
         expect(testManager.registerAppInterfaceResponse).to(beNil());
         expect(testManager.lockScreenManager).toNot(beNil());
         expect(testManager.notificationDispatcher).toNot(beNil());
@@ -108,21 +97,6 @@ describe(@"a lifecycle manager", ^{
     });
     
     itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
-    
-    describe(@"after receiving a resume hash", ^{
-        __block SDLOnHashChange *testHashChange = nil;
-        
-        beforeEach(^{
-            testHashChange = [[SDLOnHashChange alloc] init];
-            testHashChange.hashID = @"someHashId";
-            
-            [testManager.notificationDispatcher postNotificationName:SDLDidReceiveNewHashNotification infoObject:testHashChange];
-        });
-        
-        it(@"should have stored the new hash", ^{
-            expect(testManager.resumeHash).toEventually(equal(testHashChange));
-        });
-    });
     
     describe(@"after receiving an HMI Status", ^{
         __block SDLOnHMIStatus *testHMIStatus = nil;
@@ -184,7 +158,7 @@ describe(@"a lifecycle manager", ^{
     
     describe(@"when started", ^{
         beforeEach(^{
-            [testManager start];
+            [testManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {}];
         });
         
         it(@"should initialize the proxy property", ^{

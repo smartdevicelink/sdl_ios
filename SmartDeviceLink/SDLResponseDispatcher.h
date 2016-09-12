@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Holds a map of RPC request correlation ids and corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLRPCCorrelationId *, SDLRequestCompletionHandler> *rpcResponseHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLRPCCorrelationId *, SDLResponseHandler> *rpcResponseHandlerMap;
 
 /**
  *  Holds a dictionary of RPC request correlation ids and their corresponding RPC request.
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request The RPC request to track.
  *  @param handler The handler to invoke when a corresponding response returns.
  */
-- (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLRequestCompletionHandler)handler;
+- (void)storeRequest:(SDLRPCRequest *)request handler:(nullable SDLResponseHandler)handler;
 
 /**
  *  Clear all maps and dictionaries of objects.

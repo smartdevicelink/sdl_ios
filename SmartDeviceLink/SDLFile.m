@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithFileURL:url name:name persistent:YES];
 }
 
-+ (instancetype)ephemeralFileAtFileURL:(NSURL *)url name:(NSString *)name {
++ (instancetype)fileAtFileURL:(NSURL *)url name:(NSString *)name {
     return [[self alloc] initWithFileURL:url name:name persistent:NO];
 }
 
@@ -69,12 +69,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _fileURL = nil;
+    _data = data;
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:extension];
     _overwrite = NO;
-
-    _data = data;
 
     return self;
 }
@@ -83,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithData:data name:name fileExtension:extension persistent:YES];
 }
 
-+ (instancetype)ephemeralFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension {
++ (instancetype)fileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension {
     return [[self alloc] initWithData:data name:name fileExtension:extension persistent:NO];
 }
 
@@ -92,10 +91,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSData *)data {
     if (_data.length == 0 && _fileURL != nil) {
-        return [NSData dataWithContentsOfURL:_fileURL];
-    } else {
-        return _data;
+        _data = [NSData dataWithContentsOfURL:_fileURL];
     }
+
+    return _data;
 }
 
 

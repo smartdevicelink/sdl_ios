@@ -10,6 +10,9 @@
 
 #import "SDLError.h"
 #import "SDLNotificationConstants.h"
+#import "SDLRPCNotification.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,13 +22,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
     NSDictionary<NSString *, id> *userInfo = nil;
     if (infoObject != nil) {
-        userInfo = @{SDLNotificationUserInfoObject : infoObject};
+        userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });
 }
+
+- (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    });
+}
+
+- (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    });
+}
+
 
 #pragma mark - SDLProxyListener Delegate Methods
 
@@ -37,12 +55,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincompatible-pointer-types"
+
 - (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-    [self postNotificationName:SDLDidChangeHMIStatusNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:notification];
 }
 
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-    [self postNotificationName:SDLDidChangeDriverDistractionStateNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidChangeDriverDistractionStateNotification notification:notification];
 }
 
 
@@ -53,233 +74,239 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLDidReceiveError infoObject:error];
 }
 
-- (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
-    [self postNotificationName:SDLDidReceiveAddCommandResponse infoObject:response];
-}
-
-- (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response {
-    [self postNotificationName:SDLDidReceiveAddSubMenuResponse infoObject:response];
-}
-
-- (void)onAlertManeuverResponse:(SDLAlertManeuverResponse *)response {
-    [self postNotificationName:SDLDidReceiveAlertManeuverResponse infoObject:response];
-}
-
-- (void)onAlertResponse:(SDLAlertResponse *)response {
-    [self postNotificationName:SDLDidReceiveAlertResponse infoObject:response];
-}
-
-- (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
-    [self postNotificationName:SDLDidReceiveChangeRegistrationResponse infoObject:response];
-}
-
-- (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response {
-    [self postNotificationName:SDLDidReceiveCreateInteractionChoiceSetResponse infoObject:response];
-}
-
-- (void)onDeleteCommandResponse:(SDLDeleteCommandResponse *)response {
-    [self postNotificationName:SDLDidReceiveDeleteCommandResponse infoObject:response];
-}
-
-- (void)onDeleteFileResponse:(SDLDeleteFileResponse *)response {
-    [self postNotificationName:SDLDidReceiveDeleteFileResponse infoObject:response];
-}
-
-- (void)onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse *)response {
-    [self postNotificationName:SDLDidReceiveDeleteInteractionChoiceSetResponse infoObject:response];
-}
-
-- (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response {
-    [self postNotificationName:SDLDidReceiveDeleteSubmenuResponse infoObject:response];
-}
-
-- (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response {
-    [self postNotificationName:SDLDidReceiveDiagnosticMessageResponse infoObject:response];
-}
-
-- (void)onDialNumberResponse:(SDLDialNumberResponse *)response {
-    [self postNotificationName:SDLDidReceiveDialNumberResponse infoObject:response];
-}
-
-- (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response {
-    [self postNotificationName:SDLDidReceiveEncodedSyncPDataResponse infoObject:response];
-}
-
-- (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response {
-    [self postNotificationName:SDLDidReceiveEndAudioPassThruResponse infoObject:response];
-}
-
-- (void)onGenericResponse:(SDLGenericResponse *)response {
-    [self postNotificationName:SDLDidReceiveGenericResponse infoObject:response];
-}
-
-- (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
-    [self postNotificationName:SDLDidReceiveGetDTCsResponse infoObject:response];
-}
-
-- (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response {
-    [self postNotificationName:SDLDidReceiveGetVehicleDataResponse infoObject:response];
-}
-
-- (void)onListFilesResponse:(SDLListFilesResponse *)response {
-    [self postNotificationName:SDLDidReceiveListFilesResponse infoObject:response];
-}
-
 - (void)onReceivedLockScreenIcon:(UIImage *)icon {
     [self postNotificationName:SDLDidReceiveLockScreenIcon infoObject:icon];
 }
 
+- (void)onAddCommandResponse:(SDLAddCommandResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveAddCommandResponse response:response];
+}
+
+- (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveAddSubMenuResponse response:response];
+}
+
+- (void)onAlertManeuverResponse:(SDLAlertManeuverResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveAlertManeuverResponse response:response];
+}
+
+- (void)onAlertResponse:(SDLAlertResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveAlertResponse response:response];
+}
+
+- (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveChangeRegistrationResponse response:response];
+}
+
+- (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveCreateInteractionChoiceSetResponse response:response];
+}
+
+- (void)onDeleteCommandResponse:(SDLDeleteCommandResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDeleteCommandResponse response:response];
+}
+
+- (void)onDeleteFileResponse:(SDLDeleteFileResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDeleteFileResponse response:response];
+}
+
+- (void)onDeleteInteractionChoiceSetResponse:(SDLDeleteInteractionChoiceSetResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDeleteInteractionChoiceSetResponse response:response];
+}
+
+- (void)onDeleteSubMenuResponse:(SDLDeleteSubMenuResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDeleteSubmenuResponse response:response];
+}
+
+- (void)onDiagnosticMessageResponse:(SDLDiagnosticMessageResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDiagnosticMessageResponse response:response];
+}
+
+- (void)onDialNumberResponse:(SDLDialNumberResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveDialNumberResponse response:response];
+}
+
+- (void)onEncodedSyncPDataResponse:(SDLEncodedSyncPDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveEncodedSyncPDataResponse response:response];
+}
+
+- (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveEndAudioPassThruResponse response:response];
+}
+
+- (void)onGenericResponse:(SDLGenericResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
+}
+
+- (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
+}
+
+- (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetVehicleDataResponse response:response];
+}
+
+- (void)onListFilesResponse:(SDLListFilesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
+}
+
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
-    [self postNotificationName:SDLDidReceivePerformAudioPassThruResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceivePerformAudioPassThruResponse response:response];
 }
 
 - (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response {
-    [self postNotificationName:SDLDidReceivePerformInteractionResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceivePerformInteractionResponse response:response];
 }
 
 - (void)onPutFileResponse:(SDLPutFileResponse *)response {
-    [self postNotificationName:SDLDidReceivePutFileResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceivePutFileResponse response:response];
 }
 
 - (void)onReadDIDResponse:(SDLReadDIDResponse *)response {
-    [self postNotificationName:SDLDidReceiveReadDIDResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveReadDIDResponse response:response];
 }
 
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response {
-    [self postNotificationName:SDLDidReceiveRegisterAppInterfaceResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveRegisterAppInterfaceResponse response:response];
 }
 
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response {
-    [self postNotificationName:SDLDidReceiveResetGlobalPropertiesResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveResetGlobalPropertiesResponse response:response];
 }
 
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response {
-    [self postNotificationName:SDLDidReceiveScrollableMessageResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveScrollableMessageResponse response:response];
 }
 
 - (void)onSendLocationResponse:(SDLSendLocationResponse *)response {
-    [self postNotificationName:SDLDidReceiveSendLocationResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSendLocationResponse response:response];
 }
 
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response {
-    [self postNotificationName:SDLDidReceiveSetAppIconResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSetAppIconResponse response:response];
 }
 
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response {
-    [self postNotificationName:SDLDidReceiveSetDisplayLayoutResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSetDisplayLayoutResponse response:response];
 }
 
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response {
-    [self postNotificationName:SDLDidReceiveSetGlobalPropertiesResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSetGlobalPropertiesResponse response:response];
 }
 
 - (void)onSetMediaClockTimerResponse:(SDLSetMediaClockTimerResponse *)response {
-    [self postNotificationName:SDLDidReceiveSetMediaClockTimerResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSetMediaClockTimerResponse response:response];
 }
 
 - (void)onShowConstantTBTResponse:(SDLShowConstantTBTResponse *)response {
-    [self postNotificationName:SDLDidReceiveShowConstantTBTResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveShowConstantTBTResponse response:response];
 }
 
 - (void)onShowResponse:(SDLShowResponse *)response {
-    [self postNotificationName:SDLDidReceiveShowResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveShowResponse response:response];
 }
 
 - (void)onSliderResponse:(SDLSliderResponse *)response {
-    [self postNotificationName:SDLDidReceiveSliderResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSliderResponse response:response];
 }
 
 - (void)onSpeakResponse:(SDLSpeakResponse *)response {
-    [self postNotificationName:SDLDidReceiveSpeakResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSpeakResponse response:response];
 }
 
 - (void)onSubscribeButtonResponse:(SDLSubscribeButtonResponse *)response {
-    [self postNotificationName:SDLDidReceiveSubscribeButtonResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSubscribeButtonResponse response:response];
 }
 
 - (void)onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse *)response {
-    [self postNotificationName:SDLDidReceiveSubscribeVehicleDataResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSubscribeVehicleDataResponse response:response];
 }
 
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
-    [self postNotificationName:SDLDidReceiveSyncPDataResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveSyncPDataResponse response:response];
 }
 
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response {
-    [self postNotificationName:SDLDidReceiveUpdateTurnListResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveUpdateTurnListResponse response:response];
 }
 
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response {
-    [self postNotificationName:SDLDidReceiveUnregisterAppInterfaceResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:response];
 }
 
 - (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response {
-    [self postNotificationName:SDLDidReceiveUnsubscribeButtonResponse infoObject:response];
+    [self postRPCResponseNotification:SDLDidReceiveUnsubscribeButtonResponse response:response];
 }
 
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response {
-    [self postNotificationName:SDLDidReceiveUnsubscribeVehicleDataResponse infoObject:response];
-}
-
-- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
-    [self postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:notification];
+    [self postRPCResponseNotification:SDLDidReceiveUnsubscribeVehicleDataResponse response:response];
 }
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
-    [self postNotificationName:SDLDidReceiveUnregisterAppInterfaceResponse infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveAppUnregisteredNotification notification:notification];
 }
 
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
-    [self postNotificationName:SDLDidReceiveAudioPassThruNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveAudioPassThruNotification notification:notification];
 }
 
 - (void)onOnButtonEvent:(SDLOnButtonEvent *)notification {
-    [self postNotificationName:SDLDidReceiveButtonEventNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveButtonEventNotification notification:notification];
 }
 
 - (void)onOnButtonPress:(SDLOnButtonPress *)notification {
-    [self postNotificationName:SDLDidReceiveButtonPressNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveButtonPressNotification notification:notification];
 }
 
 - (void)onOnCommand:(SDLOnCommand *)notification {
-    [self postNotificationName:SDLDidReceiveCommandNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveCommandNotification notification:notification];
 }
 
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification {
-    [self postNotificationName:SDLDidReceiveEncodedDataNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveEncodedDataNotification notification:notification];
 }
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
-    [self postNotificationName:SDLDidReceiveNewHashNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveNewHashNotification notification:notification];
+}
+
+- (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveKeyboardInputNotification notification:notification];
 }
 
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification {
-    [self postNotificationName:SDLDidChangeLanguageNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidChangeLanguageNotification notification:notification];
+}
+
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification {
+    [self postRPCNotificationNotification:SDLDidChangeLockScreenStatusNotification notification:notification];
 }
 
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
-    [self postNotificationName:SDLDidChangePermissionsNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
-    [self postNotificationName:SDLDidReceiveSystemRequestNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
 }
 
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
-    [self postNotificationName:SDLDidReceiveSystemRequestNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
 }
 
 - (void)onOnTBTClientState:(SDLOnTBTClientState *)notification {
-    [self postNotificationName:SDLDidChangeTurnByTurnStateNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidChangeTurnByTurnStateNotification notification:notification];
 }
 
 - (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
-    [self postNotificationName:SDLDidReceiveTouchEventNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveTouchEventNotification notification:notification];
 }
 
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification {
-    [self postNotificationName:SDLDidReceiveVehicleDataNotification infoObject:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveVehicleDataNotification notification:notification];
 }
+
+#pragma clang diagnostic pop
 
 @end
 

@@ -20,17 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *fileName;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLFileManagerDeleteCompletion completionHandler;
+@property (copy, nonatomic, nullable) SDLFileManagerDeleteCompletionHandler completionHandler;
 
 @end
 
 
-@implementation SDLDeleteFileOperation {
-    BOOL executing;
-    BOOL finished;
-}
+@implementation SDLDeleteFileOperation
 
-- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletion)completionHandler {
+- (instancetype)initWithFileName:(NSString *)fileName connectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
         return nil;
@@ -44,17 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    if (self.isCancelled) {
-        [self willChangeValueForKey:@"isFinished"];
-        finished = YES;
-        [self didChangeValueForKey:@"isFinished"];
-
-        return;
-    }
-
-    [self willChangeValueForKey:@"isExecuting"];
-    executing = YES;
-    [self didChangeValueForKey:@"isExecuting"];
+    [super start];
 
     [self sdl_deleteFile];
 }
@@ -64,43 +51,23 @@ NS_ASSUME_NONNULL_BEGIN
 
     typeof(self) weakself = self;
     [self.connectionManager sendManagerRequest:deleteFile
-                         withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-                             // Pull out the parameters
-                             SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
-                             BOOL success = [deleteFileResponse.success boolValue];
-                             NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
+                           withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                               // Pull out the parameters
+                               SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
+                               BOOL success = [deleteFileResponse.success boolValue];
+                               NSUInteger bytesAvailable = [deleteFileResponse.spaceAvailable unsignedIntegerValue];
 
-                             // Callback
-                             if (weakself.completionHandler != nil) {
-                                 weakself.completionHandler(success, bytesAvailable, error);
-                             }
+                               // Callback
+                               if (weakself.completionHandler != nil) {
+                                   weakself.completionHandler(success, bytesAvailable, error);
+                               }
 
-                             [self sdl_finishOperation];
-                         }];
+                               [weakself finishOperation];
+                           }];
 }
 
-- (void)sdl_finishOperation {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    executing = NO;
-    finished = YES;
-    [self didChangeValueForKey:@"isFinished"];
-    [self didChangeValueForKey:@"isExecuting"];
-}
 
 #pragma mark Property Overrides
-
-- (BOOL)isAsynchronous {
-    return YES;
-}
-
-- (BOOL)isExecuting {
-    return executing;
-}
-
-- (BOOL)isFinished {
-    return finished;
-}
 
 - (nullable NSString *)name {
     return self.fileName;

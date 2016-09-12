@@ -11,7 +11,6 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesResponse.h"
-#import "SDLRPCRequestFactory.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,17 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLListFilesOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLFileManagerListFilesCompletion completionHandler;
+@property (copy, nonatomic, nullable) SDLFileManagerListFilesCompletionHandler completionHandler;
 
 @end
 
 
-@implementation SDLListFilesOperation {
-    BOOL executing;
-    BOOL finished;
-}
+@implementation SDLListFilesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletion)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(nullable SDLFileManagerListFilesCompletionHandler)completionHandler {
     self = [super init];
     if (!self) {
         return nil;
@@ -42,63 +38,32 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)start {
-    if (self.isCancelled) {
-        [self willChangeValueForKey:@"isFinished"];
-        finished = YES;
-        [self didChangeValueForKey:@"isFinished"];
-
-        return;
-    }
-
-    [self willChangeValueForKey:@"isExecuting"];
-    executing = YES;
-    [self didChangeValueForKey:@"isExecuting"];
+    [super start];
 
     [self sdl_listFiles];
 }
 
 - (void)sdl_listFiles {
-    SDLListFiles *listFiles = [SDLRPCRequestFactory buildListFilesWithCorrelationID:@0];
+    SDLListFiles *listFiles = [[SDLListFiles alloc] init];
 
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendManagerRequest:listFiles
-                         withCompletionHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-                             SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-                             BOOL success = [listFilesResponse.success boolValue];
-                             NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
-                             NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
+                           withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                               SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
+                               BOOL success = [listFilesResponse.success boolValue];
+                               NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
+                               NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
 
-                             if (weakSelf.completionHandler != nil) {
-                                 weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
-                             }
+                               if (weakSelf.completionHandler != nil) {
+                                   weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
+                               }
 
-                             [weakSelf sdl_finishOperation];
-                         }];
-}
-
-- (void)sdl_finishOperation {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    executing = NO;
-    finished = YES;
-    [self didChangeValueForKey:@"isFinished"];
-    [self didChangeValueForKey:@"isExecuting"];
+                               [weakSelf finishOperation];
+                           }];
 }
 
 
 #pragma mark Property Overrides
-
-- (BOOL)isAsynchronous {
-    return YES;
-}
-
-- (BOOL)isExecuting {
-    return executing;
-}
-
-- (BOOL)isFinished {
-    return finished;
-}
 
 - (nullable NSString *)name {
     return @"List Files";

@@ -13,9 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString SDLState;
 typedef NSArray<SDLState *> SDLAllowableStateTransitions;
 
-typedef NSString SDLStateMachineNotificationInfoKey;
-extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyOldState;
-extern SDLStateMachineNotificationInfoKey *const SDLStateMachineNotificationInfoKeyNewState;
+extern NSString *const SDLStateMachineNotificationFormat;
+
+typedef NSString *SDLStateMachineNotificationInfoKey;
+extern SDLStateMachineNotificationInfoKey const SDLStateMachineNotificationInfoKeyOldState;
+extern SDLStateMachineNotificationInfoKey const SDLStateMachineNotificationInfoKeyNewState;
+
+typedef NSString *SDLStateMachineExceptionInfoKey;
+extern SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyTargetClass;
+extern SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyFromState;
+extern SDLStateMachineExceptionInfoKey const SDLStateMachineExceptionInfoKeyToClass;
+
+typedef NSString *SDLStateMachineTransitionFormat;
+extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatWillLeave;
+extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatWillTransition;
+extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidTransition;
+extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter;
 
 
 /**

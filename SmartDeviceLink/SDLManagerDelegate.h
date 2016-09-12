@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SDLManagerDelegate <NSObject>
+@class SDLHMILevel;
 
-@optional
-/**
- *  Called when the manager is ready to be used by the application. Any RPCs that attempt to be set before this readiness call will be ignored.
- */
-- (void)managerDidBecomeReady;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol SDLManagerDelegate <NSObject>
 
 /**
  *  Called upon a disconnection from the remote system.
@@ -29,4 +28,7 @@
  */
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel;
 
+
 @end
+
+NS_ASSUME_NONNULL_END

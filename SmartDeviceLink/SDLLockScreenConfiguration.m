@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _enableAutomaticLockScreen = enableAutomatic;
-    _showInOptional = enableOptional;
+    _showInOptionalState = enableOptional;
     _backgroundColor = backgroundColor;
     _appIcon = appIcon;
     _customViewController = customViewController;
@@ -66,7 +66,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLockScreenConfiguration *new = [ [SDLLockScreenConfiguration allocWithZone:zone] initWithAutoLockScreen : _enableAutomaticLockScreen enableInOptional : _showInOptional backgroundColor : _backgroundColor appIcon : _appIcon viewController : _customViewController ];
+    SDLLockScreenConfiguration *new = [[SDLLockScreenConfiguration allocWithZone:zone] initWithAutoLockScreen : _enableAutomaticLockScreen
+                                           enableInOptional : _showInOptionalState
+                                               backgroundColor : _backgroundColor
+                                                   appIcon : _appIcon
+                                                       viewController : _customViewController];
 
     return new;
 }

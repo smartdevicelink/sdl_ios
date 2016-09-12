@@ -15,6 +15,16 @@
 @class SDLLanguage;
 @class SDLTTSChunk;
 
+@protocol SDLSecurityType;
+
+
+typedef NS_OPTIONS(NSUInteger, SDLLogOutput) {
+    SDLLogOutputNone = 0,
+    SDLLogOutputConsole = 1 << 0,
+    SDLLogOutputFile = 1 << 1,
+    SDLLogOutputSiphon = 1 << 2
+};
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(NSString *)port;
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port;
 
 /**
  *  Whether or not debug mode is enabled
@@ -55,12 +65,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The ip address at which the library will look for a server
  */
-@property (copy, nonatomic, readonly) NSString *tcpDebugIPAddress;
+@property (copy, nonatomic, readonly, null_resettable) NSString *tcpDebugIPAddress;
 
 /**
  *  The port at which the library will look for a server
  */
-@property (copy, nonatomic, readonly) NSString *tcpDebugPort;
+@property (assign, nonatomic, readonly) UInt16 tcpDebugPort;
 
 /**
  *  The full name of the app
@@ -71,6 +81,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The app id. This must be the same as the app id received from the SDL developer portal or OEM.
  */
 @property (copy, nonatomic, readonly) NSString *appId;
+
+/**
+ *  A hash id which should be passed to the remote system in the RegisterAppInterface
+ */
+@property (copy, nonatomic, nullable) NSString *resumeHash;
 
 /**
  *  This is an automatically set based on the app type
@@ -103,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSString *shortAppName;
 
 /**
- *  A TTS String for voice recognition of the mobile application name.
+ *  A Text to Speech String for voice recognition of the mobile application name.
  */
 @property (copy, nonatomic, nullable) NSArray<SDLTTSChunk *> *ttsName;
 
@@ -111,6 +126,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  Additional voice recognition commands. May not interfere with any other app name or global commands.
  */
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionCommandNames;
+
+/**
+ *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
+ */
+@property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
+
+/**
+ *  Which logging capabilities are currently enabled. The default is Console logging only.
+ */
+@property (assign, nonatomic) SDLLogOutput logFlags;
 
 @end
 

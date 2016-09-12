@@ -49,24 +49,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)startWithHandler:(SDLManagerReadyBlock)startBlock {
-    [self.lifecycleManager startWithHandler:startBlock];
+- (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
+    [self.lifecycleManager startWithReadyHandler:readyHandler];
 }
 
 - (void)stop {
     [self.lifecycleManager stop];
 }
 
-- (void)applicationWillTerminate {
-    [self.lifecycleManager applicationWillTerminate];
-}
-
 
 #pragma mark - Passthrough getters / setters
-
-- (NSString *)lifecycleState {
-    return self.lifecycleManager.lifecycleState;
-}
 
 - (SDLConfiguration *)configuration {
     return self.lifecycleManager.configuration;
@@ -89,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
-    return self.lifecycleManager.registerAppInterfaceResponse;
+    return self.lifecycleManager.registerResponse;
 }
 
 - (nullable id<SDLManagerDelegate>)delegate {
@@ -104,11 +96,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark SDLConnectionManager Protocol
 
 - (void)sendRequest:(SDLRPCRequest *)request {
-    [self sendRequest:request withCompletionHandler:nil];
+    [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler {
-    [self.lifecycleManager sendRequest:request withCompletionHandler:handler];
+- (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [self.lifecycleManager sendRequest:request withResponseHandler:handler];
 }
 
 @end

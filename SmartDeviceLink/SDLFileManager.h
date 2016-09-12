@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLFileName;
 
-typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullable error);
+typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__nullable error);
 
 
 /**
@@ -72,7 +72,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  *
  *  @param completionHandler The handler called when the manager is set up or failed to set up with an error. Use weak self when accessing self from the completion handler.
  */
-- (void)startWithCompletionHandler:(nullable SDLFileManagerStartupCompletion)completionHandler;
+- (void)startWithCompletionHandler:(nullable SDLFileManagerStartupCompletionHandler)completionHandler;
 
 /**
  *  Cancels all file manager operations and deletes all associated data.
@@ -85,7 +85,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  *  @param name       The name of the remote file. It should be a name currently stored in remoteFileNames
  *  @param completion An optional completion handler that sends an error should one occur.
  */
-- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletion)completion;
+- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion;
 
 /**
  *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading, or change allowOverwrite to NO.
@@ -93,7 +93,7 @@ typedef void (^SDLFileManagerStartupCompletion)(BOOL success, NSError *__nullabl
  *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
-- (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletion)completion;
+- (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion;
 
 /**
  *  A URL to the directory where temporary files are stored. When an SDLFile is created with NSData, it writes to a temporary file until the file manager finishes uploading it.

@@ -9,6 +9,7 @@
 #import "SDLNotificationConstants.h"
 #import <Foundation/Foundation.h>
 
+
 @class SDLConfiguration;
 @class SDLFileManager;
 @class SDLHMILevel;
@@ -34,14 +35,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
+typedef NSString SDLLifecycleState;
+extern SDLLifecycleState *const SDLLifecycleStateDisconnected;
+extern SDLLifecycleState *const SDLLifecycleStateTransportConnected;
+extern SDLLifecycleState *const SDLLifecycleStateRegistered;
+extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
+extern SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing;
+extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
+extern SDLLifecycleState *const SDLLifecycleStateReady;
+
+
+typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 
 @interface SDLLifecycleManager : NSObject
 
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
-@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerAppInterfaceResponse;
 
 @property (strong, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLPermissionManager *permissionManager;
@@ -50,8 +60,6 @@ typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
 
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;
-
-@property (copy, nonatomic, readonly) NSString *stateTransitionNotificationName;
 @property (strong, nonatomic, readonly) SDLStateMachine *lifecycleStateMachine;
 
 // Deprecated internal proxy object
@@ -61,33 +69,33 @@ typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
 #pragma clang diagnostic pop
 
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
-@property (assign, nonatomic, readonly) NSString *lifecycleState;
+@property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
 @property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
+@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+
 
 #pragma mark Lifecycle
 /**
- *  Start the manager with a configuration. The manager will then begin waiting for a connection to occur. Once one does, it will automatically run the setup process. You will be notified of its completion via an NSNotification you will want to observe, `SDLDidBecomeReadyNotification`.
+ *  Initialize the manager with a configuration. Call `startWithHandler` to begin waiting for a connection.
  *
  *  @param configuration Your app's unique configuration for setup.
+ *  @param delegate An optional delegate to be notified of hmi level changes and startup and shutdown. It is recommended that you implement this.
  *
  *  @return An instance of SDLManager
  */
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Start the manager, which will tell it to start looking for a connection.
+ *  Start the manager, which will tell it to start looking for a connection. Once one does, it will automatically run the setup process and call the readyBlock when done.
+ *
+ *  @param readyHandler The block called when the manager is ready to be used or an error occurs while attempting to become ready.
  */
-- (void)startWithHandler:(SDLManagerReadyBlock)readyBlock;
+- (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler;
 
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
  */
 - (void)stop;
-
-/**
- *  Call this method within your AppDelegate's `applicationWillTerminate` method to properly shut down SDL. If you do not, you will not be able to reregister with the remote device.
- */
-- (void)applicationWillTerminate;
 
 
 #pragma mark Send RPC Requests
@@ -105,7 +113,7 @@ typedef void(^SDLManagerReadyBlock)(BOOL success, NSError  *_Nullable error);
  *  @param request The RPC request to send
  *  @param handler The handler that will be called when the response returns
  */
-- (void)sendRequest:(SDLRPCRequest *)request withCompletionHandler:(nullable SDLRequestCompletionHandler)handler;
+- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 @end
 

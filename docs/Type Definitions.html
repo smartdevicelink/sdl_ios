@@ -4,17 +4,18 @@
 
 <ul>
   <li><a href="#section-SDLFileName">SDLFileName</a></li>
-  <li><a href="#section-SDLFileManagerStartupCompletion">SDLFileManagerStartupCompletion</a></li>
-  <li><a href="#section-SDLFileManagerUploadCompletion">SDLFileManagerUploadCompletion</a></li>
-  <li><a href="#section-SDLFileManagerDeleteCompletion">SDLFileManagerDeleteCompletion</a></li>
-  <li><a href="#section-SDLFileManagerListFilesCompletion">SDLFileManagerListFilesCompletion</a></li>
+  <li><a href="#section-SDLFileManagerStartupCompletionHandler">SDLFileManagerStartupCompletionHandler</a></li>
+  <li><a href="#section-SDLFileManagerUploadCompletionHandler">SDLFileManagerUploadCompletionHandler</a></li>
+  <li><a href="#section-SDLFileManagerDeleteCompletionHandler">SDLFileManagerDeleteCompletionHandler</a></li>
+  <li><a href="#section-SDLFileManagerListFilesCompletionHandler">SDLFileManagerListFilesCompletionHandler</a></li>
+  <li><a href="#section-SDLManagerReadyBlock">SDLManagerReadyBlock</a></li>
   <li><a href="#section-SDLNotificationName">SDLNotificationName</a></li>
   <li><a href="#section-SDLNotificationUserInfoKey">SDLNotificationUserInfoKey</a></li>
   <li><a href="#section-SDLRPCNotificationHandler">SDLRPCNotificationHandler</a></li>
-  <li><a href="#section-SDLRequestCompletionHandler">SDLRequestCompletionHandler</a></li>
+  <li><a href="#section-SDLResponseHandler">SDLResponseHandler</a></li>
   <li><a href="#section-SDLPermissionRPCName">SDLPermissionRPCName</a></li>
   <li><a href="#section-SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></li>
-  <li><a href="#section-SDLPermissionObserver">SDLPermissionObserver</a></li>
+  <li><a href="#section-SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></li>
   <li><a href="#section-SDLStreamingStartBlock">SDLStreamingStartBlock</a></li>
   <li><a href="#section-SDLStreamingEncryptionStartBlock">SDLStreamingEncryptionStartBlock</a></li>
 </ul>
@@ -36,8 +37,8 @@
   
   
   
-  <h3 id="section-SDLFileManagerStartupCompletion">
-      SDLFileManagerStartupCompletion
+  <h3 id="section-SDLFileManagerStartupCompletionHandler">
+      SDLFileManagerStartupCompletionHandler
   </h3>
   
   <p>Undocumented</p>
@@ -47,8 +48,8 @@
   
   
   
-  <h3 id="section-SDLFileManagerUploadCompletion">
-      SDLFileManagerUploadCompletion
+  <h3 id="section-SDLFileManagerUploadCompletionHandler">
+      SDLFileManagerUploadCompletionHandler
   </h3>
   
   <p>Undocumented</p>
@@ -58,8 +59,8 @@
   
   
   
-  <h3 id="section-SDLFileManagerDeleteCompletion">
-      SDLFileManagerDeleteCompletion
+  <h3 id="section-SDLFileManagerDeleteCompletionHandler">
+      SDLFileManagerDeleteCompletionHandler
   </h3>
   
   <p>Undocumented</p>
@@ -69,8 +70,19 @@
   
   
   
-  <h3 id="section-SDLFileManagerListFilesCompletion">
-      SDLFileManagerListFilesCompletion
+  <h3 id="section-SDLFileManagerListFilesCompletionHandler">
+      SDLFileManagerListFilesCompletionHandler
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLManagerReadyBlock">
+      SDLManagerReadyBlock
   </h3>
   
   <p>Undocumented</p>
@@ -126,8 +138,8 @@
 </dd>
   </dl>
   
-  <h3 id="section-SDLRequestCompletionHandler">
-      SDLRequestCompletionHandler
+  <h3 id="section-SDLResponseHandler">
+      SDLResponseHandler
   </h3>
   
   <p>A handler used on all RPC requests which fires when the response is received.</p>
@@ -135,13 +147,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLRequestCompletionHandler</span><span class="p">)(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
-                                            <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
-                                            <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLResponseHandler</span><span class="p">)(</span><span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                   <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                   <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLRequestCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">?,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLResponseHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">?,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
   
   
@@ -180,8 +192,8 @@
   
   
   
-  <h3 id="section-SDLPermissionObserver">
-      SDLPermissionObserver
+  <h3 id="section-SDLPermissionsChangedHandler">
+      SDLPermissionsChangedHandler
   </h3>
   
   <p>The PermissionObserver is a block that is passed in to some methods that will be stored and called when specified permissions change.</p>
@@ -189,13 +201,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLPermissionObserver</span><span class="p">)(</span>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLPermissionsChangedHandler</span><span class="p">)(</span>
     <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*</span><span class="p">,</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span>
     <span class="n"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionObserver</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionsChangedHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
   
   

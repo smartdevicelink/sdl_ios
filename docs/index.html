@@ -144,8 +144,6 @@
       url: Classes/SDLFile.html
     - name: SDLFileManager
       url: Classes/SDLFileManager.html
-    - name: SDLFileManagerConstants
-      url: Classes.html#/c:objc(cs)SDLFileManagerConstants
     - name: SDLFileType
       url: Classes/SDLFileType.html
     - name: SDLFuelCutoffStatus
@@ -216,6 +214,8 @@
       url: Classes/SDLLockScreenConfiguration.html
     - name: SDLLockScreenStatus
       url: Classes/SDLLockScreenStatus.html
+    - name: SDLLockScreenViewController
+      url: Classes/SDLLockScreenViewController.html
     - name: SDLMaintenanceModeStatus
       url: Classes/SDLMaintenanceModeStatus.html
     - name: SDLManager
@@ -226,6 +226,8 @@
       url: Classes/SDLMenuParams.html
     - name: SDLMyKey
       url: Classes/SDLMyKey.html
+    - name: SDLNotificationConstants
+      url: Classes/SDLNotificationConstants.html
     - name: SDLOnAppInterfaceUnregistered
       url: Classes/SDLOnAppInterfaceUnregistered.html
     - name: SDLOnAudioPassThru
@@ -310,12 +312,16 @@
       url: Classes/SDLRPCMessage.html
     - name: SDLRPCNotification
       url: Classes/SDLRPCNotification.html
+    - name: SDLRPCNotificationNotification
+      url: Classes/SDLRPCNotificationNotification.html
     - name: SDLRPCRequest
       url: Classes/SDLRPCRequest.html
     - name: SDLRPCRequestFactory
       url: Classes/SDLRPCRequestFactory.html
     - name: SDLRPCResponse
       url: Classes/SDLRPCResponse.html
+    - name: SDLRPCResponseNotification
+      url: Classes/SDLRPCResponseNotification.html
     - name: SDLRPCStruct
       url: Classes/SDLRPCStruct.html
     - name: SDLReadDID
@@ -488,6 +494,8 @@
       url: Classes/SDLWiperStatus.html
 - name: Constants
   sub_nav:
+    - name: SDLDefaultScreenSize
+      url: Constants.html#/c:@SDLDefaultScreenSize
     - name: SDLDidBecomeReady
       url: Constants.html#/c:@SDLDidBecomeReady
     - name: SDLDidChangeDriverDistractionStateNotification
@@ -550,6 +558,8 @@
       url: Constants.html#/c:@SDLDidReceiveGetDTCsResponse
     - name: SDLDidReceiveGetVehicleDataResponse
       url: Constants.html#/c:@SDLDidReceiveGetVehicleDataResponse
+    - name: SDLDidReceiveKeyboardInputNotification
+      url: Constants.html#/c:@SDLDidReceiveKeyboardInputNotification
     - name: SDLDidReceiveListFilesResponse
       url: Constants.html#/c:@SDLDidReceiveListFilesResponse
     - name: SDLDidReceiveLockScreenIcon
@@ -642,6 +652,8 @@
       url: Enums/SDLFrameData.html
     - name: SDLFrameType
       url: Enums/SDLFrameType.html
+    - name: SDLLogOutput
+      url: Enums/SDLLogOutput.html
     - name: SDLManagerError
       url: Enums/SDLManagerError.html
     - name: SDLPermissionGroupStatus
@@ -688,30 +700,32 @@
       url: Protocols.html#/c:objc(pl)SDLUInt
 - name: Type Definitions
   sub_nav:
-    - name: SDLFileManagerDeleteCompletion
-      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletion
-    - name: SDLFileManagerListFilesCompletion
-      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerListFilesCompletion
-    - name: SDLFileManagerStartupCompletion
-      url: Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerStartupCompletion
-    - name: SDLFileManagerUploadCompletion
-      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadCompletion
+    - name: SDLFileManagerDeleteCompletionHandler
+      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletionHandler
+    - name: SDLFileManagerListFilesCompletionHandler
+      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerListFilesCompletionHandler
+    - name: SDLFileManagerStartupCompletionHandler
+      url: Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerStartupCompletionHandler
+    - name: SDLFileManagerUploadCompletionHandler
+      url: Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadCompletionHandler
     - name: SDLFileName
       url: Type Definitions.html#/c:SDLFileManager.h@T@SDLFileName
+    - name: SDLManagerReadyBlock
+      url: Type Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock
     - name: SDLNotificationName
       url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName
     - name: SDLNotificationUserInfoKey
       url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationUserInfoKey
-    - name: SDLPermissionObserver
-      url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserver
     - name: SDLPermissionObserverIdentifier
       url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier
     - name: SDLPermissionRPCName
       url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName
+    - name: SDLPermissionsChangedHandler
+      url: Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler
     - name: SDLRPCNotificationHandler
       url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCNotificationHandler
-    - name: SDLRequestCompletionHandler
-      url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRequestCompletionHandler
+    - name: SDLResponseHandler
+      url: Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler
     - name: SDLStreamingEncryptionStartBlock
       url: Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingEncryptionStartBlock
     - name: SDLStreamingStartBlock

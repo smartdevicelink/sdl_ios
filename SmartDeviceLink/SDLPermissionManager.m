@@ -15,6 +15,7 @@
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLStateMachine.h"
 
 
@@ -133,8 +134,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Add Observers
 
-- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withBlock:(nonnull SDLPermissionObserver)observer {
-    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:observer];
+- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(nonnull SDLPermissionsChangedHandler)handler {
+    SDLPermissionFilter *filter = [SDLPermissionFilter filterWithRPCNames:rpcNames groupType:groupType observer:handler];
 
     // Store the filter for later use
     [self.filters addObject:filter];
@@ -147,9 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_callFilterObserver:(SDLPermissionFilter *)filter {
     SDLPermissionGroupStatus permissionStatus = [self groupStatusOfRPCs:filter.rpcNames];
-    NSDictionary *allowedDict = [self statusOfRPCs:filter.rpcNames];
+    NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *allowedDict = [self statusOfRPCs:filter.rpcNames];
 
-    filter.observer(allowedDict, permissionStatus);
+    filter.handler(allowedDict, permissionStatus);
 }
 
 #pragma mark Remove Observers
@@ -185,10 +186,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
 
     // We can eliminate calling those filters who had no permission changes, so we'll filter down and see which had permissions that changed
-    NSArray *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:currentFilters updatedPermissions:newPermissionItems];
+    NSArray<SDLPermissionFilter *> *modifiedFilters = [self.class sdl_filterPermissionChangesForFilters:currentFilters updatedPermissions:newPermissionItems];
 
     // We need the old group status and new group status for all allowed filters so we know if they should be called
-    NSDictionary<NSUUID *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
+    NSDictionary<SDLPermissionObserverIdentifier *, NSNumber<SDLInt> *> *allAllowedFiltersWithOldStatus = [self sdl_currentStatusForFilters:modifiedFilters];
 
     // Set the updated permissions on our stored permissions object
     for (SDLPermissionItem *item in newPermissionItems) {
@@ -218,9 +219,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_hmiLevelDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnHMIStatus class]]) {
+- (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
+    NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
+    if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
@@ -228,7 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
-    NSArray *filters = [self.filters copy];
+    NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
 
 
     NSMutableArray<SDLPermissionFilter *> *mutableFiltersToCall = [NSMutableArray arrayWithCapacity:filters.count];

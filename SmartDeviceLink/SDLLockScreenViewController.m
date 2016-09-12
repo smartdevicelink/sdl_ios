@@ -8,6 +8,8 @@
 
 #import "SDLLockScreenViewController.h"
 
+#import "NSBundle+SDLBundle.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenViewController ()
@@ -26,18 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    self.lockedLabel.text = NSLocalizedString(@"Locked for your safety", nil);
     [self sdl_layoutViews];
 }
 
@@ -151,27 +144,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Image
 
+// TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:`
 + (UIImage *)sdl_logoImageWithColor:(BOOL)white {
     if (white) {
-        return [UIImage imageNamed:@"sdl_logo_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"sdl_logo_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     } else {
-        return [UIImage imageNamed:@"sdl_logo_black" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"sdl_logo_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     }
 }
 
 + (UIImage *)sdl_arrowUpImageWithColor:(BOOL)white {
     if (white) {
-        return [UIImage imageNamed:@"lock_arrow_up_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_up_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     } else {
-        return [UIImage imageNamed:@"lock_arrow_up_black" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_up_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     }
 }
 
 + (UIImage *)sdl_arrowDownImageWithColor:(BOOL)white {
     if (white) {
-        return [UIImage imageNamed:@"lock_arrow_down_white" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_down_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     } else {
-        return [UIImage imageNamed:@"lock_arrow_down_black" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:@"lock_arrow_down_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     }
 }
 

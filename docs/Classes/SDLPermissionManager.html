@@ -8,7 +8,7 @@
   <li><a href="#section--isRPCAllowed:">-isRPCAllowed:</a></li>
   <li><a href="#section--groupStatusOfRPCs:">-groupStatusOfRPCs:</a></li>
   <li><a href="#section--statusOfRPCs:">-statusOfRPCs:</a></li>
-  <li><a href="#section--addObserverForRPCs:groupType:withBlock:">-addObserverForRPCs:groupType:withBlock:</a></li>
+  <li><a href="#section--addObserverForRPCs:groupType:withHandler:">-addObserverForRPCs:groupType:withHandler:</a></li>
   <li><a href="#section--removeAllObservers">-removeAllObservers</a></li>
   <li><a href="#section--removeObserverForIdentifier:">-removeObserverForIdentifier:</a></li>
 </ul>
@@ -151,8 +151,8 @@
 
   </div>
   
-  <h3 id="section--addObserverForRPCs:groupType:withBlock:">
-      -addObserverForRPCs:groupType:withBlock:
+  <h3 id="section--addObserverForRPCs:groupType:withHandler:">
+      -addObserverForRPCs:groupType:withHandler:
   </h3>
   
   <p>Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.</p>
@@ -175,11 +175,11 @@
   <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserverIdentifier">SDLPermissionObserverIdentifier</a></span> <span class="o">*</span><span class="p">)</span>
 <span class="nf">addObserverForRPCs</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">rpcNames</span>
          <span class="nf">groupType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">)</span><span class="nv">groupType</span>
-         <span class="nf">withBlock</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserver">SDLPermissionObserver</a></span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span></code></pre>
+       <span class="nf">withHandler</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addObserverForRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">groupType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">,</span> <span class="n">withBlock</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionObserver">SDLPermissionObserver</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSUUID</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addObserverForRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">groupType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">,</span> <span class="n">withHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSUUID</span></code></pre>
 
   
   
@@ -191,7 +191,7 @@
       <dt>groupType</dt>
       <dd><p>Affects the times that the observer block will be called. If Any, any change to any RPC in rpcNames will cause the observer block to be called. If AllAllowed, the block will be called when: 1. Every RPC in rpcNames becomes allowed 2. The group of rpcNames goes from all being allowed to some or all being disallowed.</p>
 </dd>
-      <dt>observer</dt>
+      <dt>handler</dt>
       <dd><p>The block that will be called whenever permissions change.</p>
 </dd>
   </dl>

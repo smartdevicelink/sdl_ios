@@ -279,7 +279,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"
 
-// Enhancements
+// Developer API
 // Configurations
 #import "SDLConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
@@ -290,6 +290,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConstants.h"
+
+// Lockscreen
+#import "SDLLockScreenViewController.h"
 
 // Lifecycle
 #import "SDLManager.h"
@@ -304,3 +307,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLErrorConstants.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRequestHandler.h"
+
+// Notifications
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"

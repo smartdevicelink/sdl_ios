@@ -36,12 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly, nullable) NSURL *fileURL;
 
 /**
- *  The binary data of the local file.
+ *  The binary data of the SDLFile. If initialized with data, this will be a relatively quick call, but if initialized with a file URL, this is a rather expensive call the first time. The data will be cached in RAM after the first call.
  */
 @property (copy, nonatomic, readonly) NSData *data;
 
 /**
- *  Unless set manually, the system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.
+ *  The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.
  */
 @property (strong, nonatomic, readonly) SDLFileType *fileType;
 
@@ -84,12 +84,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @warning If this is not a readable file, this will return nil
  *
- *  @param url The url to the file that will be uploaded
+ *  @param url The url to the file on disk that will be uploaded
  *  @param name The name of the file that will be used to reference the file in the future (for example on the remote file system).
  *
  *  @return An instance of this class, or nil if a readable file at the url could not be found.
  */
-+ (instancetype)ephemeralFileAtFileURL:(NSURL *)url name:(NSString *)name;
++ (instancetype)fileAtFileURL:(NSURL *)url name:(NSString *)name;
 
 /**
  *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class
  */
-+ (instancetype)ephemeralFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
++ (instancetype)fileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
 
 @end
 

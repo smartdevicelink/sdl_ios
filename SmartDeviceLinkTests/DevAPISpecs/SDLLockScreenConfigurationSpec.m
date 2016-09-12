@@ -15,7 +15,7 @@ describe(@"a lock screen configuration", ^{
         
         it(@"should properly set properties", ^{
             expect(@(testConfig.enableAutomaticLockScreen)).to(beFalsy());
-            expect(@(testConfig.showInOptional)).to(beFalsy());
+            expect(@(testConfig.showInOptionalState)).to(beFalsy());
             expect(testConfig.backgroundColor).to(equal([UIColor colorWithRed:(57.0/255.0) green:(78.0/255.0) blue:(96.0/255.0) alpha:1.0]));
             expect(testConfig.appIcon).to(beNil());
             expect(testConfig.customViewController).to(beNil());
@@ -29,7 +29,7 @@ describe(@"a lock screen configuration", ^{
         
         it(@"should properly set properties", ^{
             expect(@(testConfig.enableAutomaticLockScreen)).to(beTruthy());
-            expect(@(testConfig.showInOptional)).to(beFalsy());
+            expect(@(testConfig.showInOptionalState)).to(beFalsy());
             expect(testConfig.backgroundColor).to(equal([UIColor colorWithRed:(57.0/255.0) green:(78.0/255.0) blue:(96.0/255.0) alpha:1.0]));
             expect(testConfig.appIcon).to(beNil());
             expect(testConfig.customViewController).to(beNil());
@@ -49,7 +49,7 @@ describe(@"a lock screen configuration", ^{
         
         it(@"should properly set properties", ^{
             expect(@(testConfig.enableAutomaticLockScreen)).to(beTruthy());
-            expect(@(testConfig.showInOptional)).to(beFalsy());
+            expect(@(testConfig.showInOptionalState)).to(beFalsy());
             expect(testConfig.backgroundColor).to(equal([UIColor blueColor]));
             expect(testConfig.appIcon).to(equal(testImage));
             expect(testConfig.customViewController).to(beNil());
@@ -67,7 +67,7 @@ describe(@"a lock screen configuration", ^{
         
         it(@"should properly set properties", ^{
             expect(@(testConfig.enableAutomaticLockScreen)).to(beTruthy());
-            expect(@(testConfig.showInOptional)).to(beFalsy());
+            expect(@(testConfig.showInOptionalState)).to(beFalsy());
             expect(testConfig.backgroundColor).to(equal([UIColor colorWithRed:(57.0/255.0) green:(78.0/255.0) blue:(96.0/255.0) alpha:1.0]));
             expect(testConfig.appIcon).to(beNil());
             expect(testConfig.customViewController).to(equal(testVC));

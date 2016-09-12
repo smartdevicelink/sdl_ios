@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @implementation SDLPermissionFilter
 
 #pragma mark - Lifecycle
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
                          }];
 }
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer {
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     self = [super init];
     if (!self) {
         return nil;
@@ -31,12 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
     _identifier = [NSUUID UUID];
     _rpcNames = rpcNames;
     _groupType = groupType;
-    _observer = observer;
+    _handler = observer;
 
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionObserver)observer {
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 
@@ -44,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_rpcNames copyWithZone:zone] groupType:_groupType observer:[_observer copyWithZone:zone]];
+    SDLPermissionFilter *newFilter = [[self.class allocWithZone:zone] initWithRPCNames:[_rpcNames copyWithZone:zone] groupType:_groupType observer:[_handler copyWithZone:zone]];
     newFilter->_identifier = _identifier;
 
     return newFilter;

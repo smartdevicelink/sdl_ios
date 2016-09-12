@@ -12,10 +12,10 @@
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithFileURL:name:persistent:">-initWithFileURL:name:persistent:</a></li>
   <li><a href="#section-+persistentFileAtFileURL:name:">+persistentFileAtFileURL:name:</a></li>
-  <li><a href="#section-+ephemeralFileAtFileURL:name:">+ephemeralFileAtFileURL:name:</a></li>
+  <li><a href="#section-+fileAtFileURL:name:">+fileAtFileURL:name:</a></li>
   <li><a href="#section--initWithData:name:fileExtension:persistent:">-initWithData:name:fileExtension:persistent:</a></li>
   <li><a href="#section-+persistentFileWithData:name:fileExtension:">+persistentFileWithData:name:fileExtension:</a></li>
-  <li><a href="#section-+ephemeralFileWithData:name:fileExtension:">+ephemeralFileWithData:name:fileExtension:</a></li>
+  <li><a href="#section-+fileWithData:name:fileExtension:">+fileWithData:name:fileExtension:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -100,7 +100,7 @@
       data
   </h3>
   
-  <p>The binary data of the local file.</p>
+  <p>The binary data of the SDLFile. If initialized with data, this will be a relatively quick call, but if initialized with a file URL, this is a rather expensive call the first time. The data will be cached in RAM after the first call.</p>
 
   
   
@@ -118,7 +118,7 @@
       fileType
   </h3>
   
-  <p>Unless set manually, the system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.</p>
+  <p>The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.</p>
 
   
   
@@ -223,8 +223,8 @@
 
   </div>
   
-  <h3 id="section-+ephemeralFileAtFileURL:name:">
-      +ephemeralFileAtFileURL:name:
+  <h3 id="section-+fileAtFileURL:name:">
+      +fileAtFileURL:name:
   </h3>
   
   <p>Create an SDL file using a local file URL.</p>
@@ -242,19 +242,19 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">ephemeralFileAtFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
-                                          <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">fileAtFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
+                                 <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">ephemeralFileAtFileURL</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+  <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="n">atFileURL</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
   
   
   <h4>Parameters</h4>
   <dl>
       <dt>url</dt>
-      <dd><p>The url to the file that will be uploaded</p>
+      <dd><p>The url to the file on disk that will be uploaded</p>
 </dd>
       <dt>name</dt>
       <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
@@ -346,8 +346,8 @@
 
   </div>
   
-  <h3 id="section-+ephemeralFileWithData:name:fileExtension:">
-      +ephemeralFileWithData:name:fileExtension:
+  <h3 id="section-+fileWithData:name:fileExtension:">
+      +fileWithData:name:fileExtension:
   </h3>
   
   <p>Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.</p>
@@ -357,13 +357,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">ephemeralFileWithData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
-                                         <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
-                                <span class="nf">fileExtension</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">extension</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">fileWithData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                                <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                       <span class="nf">fileExtension</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">extension</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">ephemeralFileWithData</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="nv">extension</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+  <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="nv">extension</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
   
   
