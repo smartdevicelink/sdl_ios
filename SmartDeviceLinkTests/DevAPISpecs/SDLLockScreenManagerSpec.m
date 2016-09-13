@@ -9,6 +9,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnLockScreenStatus.h"
+#import "SDLRPCNotificationNotification.h"
 
 
 QuickSpecBegin(SDLLockScreenManagerSpec)
@@ -88,7 +89,8 @@ describe(@"a lock screen manager", ^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
                     testRequiredStatus.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
                     
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testRequiredStatus}];
+                    SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
+                    [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
                 });
                 
                 it(@"should have presented the lock screen", ^{
@@ -104,7 +106,7 @@ describe(@"a lock screen manager", ^{
                     
                     beforeEach(^{
                         testIcon = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:self.class] compatibleWithTraitCollection:nil];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon}];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveLockScreenIcon object:nil userInfo:@{ SDLNotificationUserInfoObject: testIcon }];
                     });
                     
                     it(@"should have a vehicle icon", ^{
@@ -130,7 +132,8 @@ describe(@"a lock screen manager", ^{
                         testOffStatus = [[SDLOnLockScreenStatus alloc] init];
                         testOffStatus.lockScreenStatus = [SDLLockScreenStatus OFF];
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidChangeLockScreenStatusNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testOffStatus}];
+                        SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOffStatus];
+                        [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
                     });
                     
                     it(@"should have dismissed the lock screen", ^{

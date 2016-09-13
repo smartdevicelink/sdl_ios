@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, readonly) __kindof SDLRPCNotification *notification;
 
-- (instancetype)initWithName:(NSString *)name object:(id)object rpcNotification:(__kindof SDLRPCNotification *)notification;
+- (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcNotification:(__kindof SDLRPCNotification *)notification;
 
 @end
 

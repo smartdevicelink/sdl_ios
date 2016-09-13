@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize object = _object;
 @synthesize userInfo = _userInfo;
 
-- (instancetype)initWithName:(NSString *)name object:(id)object rpcNotification:(SDLRPCNotification *)notification {
+- (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcNotification:(SDLRPCNotification *)notification {
     _name = name;
     _object = object;
     _userInfo = @{SDLNotificationUserInfoObject: notification};

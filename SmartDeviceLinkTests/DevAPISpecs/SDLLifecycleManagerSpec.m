@@ -89,7 +89,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.permissionManager).toNot(beNil());
         expect(testManager.streamManager).to(beNil());
         expect(testManager.proxy).to(beNil());
-        expect(testManager.registerAppInterfaceResponse).to(beNil());
+        expect(testManager.registerResponse).to(beNil());
         expect(testManager.lockScreenManager).toNot(beNil());
         expect(testManager.notificationDispatcher).toNot(beNil());
         expect(testManager.responseDispatcher).toNot(beNil());
@@ -111,7 +111,7 @@ describe(@"a lifecycle manager", ^{
                 testHMILevel = [SDLHMILevel NONE];
                 testHMIStatus.hmiLevel = testHMILevel;
                 
-                [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+                [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
             });
             
             it(@"should set the hmi level", ^{
@@ -124,7 +124,7 @@ describe(@"a lifecycle manager", ^{
                 testHMILevel = [SDLHMILevel BACKGROUND];
                 testHMIStatus.hmiLevel = testHMILevel;
                 
-                [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+                [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
             });
             
             it(@"should set the hmi level", ^{
@@ -137,7 +137,7 @@ describe(@"a lifecycle manager", ^{
                 testHMILevel = [SDLHMILevel FULL];
                 testHMIStatus.hmiLevel = testHMILevel;
                 
-                [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+                [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
             });
             
             it(@"should set the hmi level", ^{
@@ -284,7 +284,7 @@ describe(@"a lifecycle manager", ^{
                         testUnregisterResponse.success = @YES;
                         testUnregisterResponse.correlationID = @(testManager.lastCorrelationId);
                         
-                        [testManager.notificationDispatcher postNotificationName:SDLDidReceiveUnregisterAppInterfaceResponse infoObject:testUnregisterResponse];
+                        [testManager.notificationDispatcher postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:testUnregisterResponse];
                     });
                     
                     it(@"should disconnect", ^{
@@ -308,7 +308,7 @@ describe(@"a lifecycle manager", ^{
                         testHMILevel = [SDLHMILevel FULL];
                         testHMIStatus.hmiLevel = testHMILevel;
                         
-                        [testManager.notificationDispatcher postNotificationName:SDLDidChangeHMIStatusNotification infoObject:testHMIStatus];
+                        [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
                     });
                     
                     it(@"should set the hmi level", ^{
