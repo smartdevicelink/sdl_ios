@@ -1,3 +1,13 @@
+# 4.3.0 Release Candidate 2 Release Notes (Since RC 1)
+### Bug Fixes
+* Updated project to Xcode 8 settings and turn on additional warnings and analyzer settings.
+* Fixed `SDLConsoleController` not using `NSLocalizedString` macro.
+* Fixed example app declaring a `UIModalPresentationStyle` enum as `UIModalTransitionStyle` causing a build error in Xcode 8.
+* Update testing deps to work with Xcode 8.
+
+### Example App
+* Add iTunes file sharing to the example app to allow for easier file log retrieval
+
 # 4.3.0 Release Candidate 1 Release Notes (Since Beta 4)
 ### Enhancements
 * Removed all usages of NSLog. Now all logs can be turned on or off.
