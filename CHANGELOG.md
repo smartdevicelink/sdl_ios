@@ -1,3 +1,10 @@
+# # 4.3.0 Release Candidate 3 Release Notes (Since RC 2)
+### Bug Fixes
+* Fixed a bug where large putfiles would crash.
+
+### Other
+* Updated to base v4.2.4
+
 # 4.3.0 Release Candidate 2 Release Notes (Since RC 1)
 ### Bug Fixes
 * Updated project to Xcode 8 settings and turn on additional warnings and analyzer settings.
