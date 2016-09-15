@@ -265,6 +265,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     self.singleTapTimer = dispatch_create_timer(self.tapTimeThreshold, NO, ^{
         typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.singleTapTouch = nil;
+        [strongSelf sdl_cancelSingleTapTimer];
         if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapAtPoint:)]) {
             [strongSelf.touchEventDelegate touchManager:strongSelf
                              didReceiveSingleTapAtPoint:point];
