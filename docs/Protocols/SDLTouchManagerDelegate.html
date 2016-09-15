@@ -38,7 +38,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceiveSingleTapAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceiveSingleTapAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -72,7 +72,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceiveDoubleTapAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceiveDoubleTapAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -106,7 +106,7 @@ average of the first and second tap.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">panningDidStartAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">panningDidStartAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -142,7 +142,7 @@ average of the first and second tap.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceivePanningFromPoint</span> <span class="nv">fromPoint</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">toPoint</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceivePanningFromPoint</span> <span class="nv">fromPoint</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">toPoint</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -174,11 +174,11 @@ average of the first and second tap.</p>
   
   <h4>Objective-C</h4>
   <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span>
-<span class="nf">panningDidEndAtPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
+    <span class="nf">panningDidEndAtPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">panningDidEndAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">panningDidEndAtPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -211,7 +211,7 @@ average of the first and second tap.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">pinchDidStartAtCenterPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">pinchDidStartAtCenterPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -247,7 +247,7 @@ average of the first and second tap.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceivePinchAtCenterPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="n">withScale</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">didReceivePinchAtCenterPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n">withScale</span> <span class="nv">scale</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   
@@ -283,7 +283,7 @@ average of the first and second tap.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">pinchDidEndAtCenterPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">touchManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchManager.html">SDLTouchManager</a></span><span class="o">!</span><span class="p">,</span> <span class="n">pinchDidEndAtCenterPoint</span> <span class="nv">point</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
   
   

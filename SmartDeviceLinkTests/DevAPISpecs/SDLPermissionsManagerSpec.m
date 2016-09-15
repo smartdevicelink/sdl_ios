@@ -10,6 +10,8 @@
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionManager.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
@@ -36,10 +38,10 @@ describe(@"SDLPermissionsManager", ^{
     __block SDLOnHMIStatus *testBackgroundHMIStatus = nil;
     __block SDLOnHMIStatus *testNoneHMIStatus = nil;
     
-    __block NSNotification *testPermissionsNotification = nil;
-    __block NSNotification *limitedHMINotification = nil;
-    __block NSNotification *backgroundHMINotification = nil;
-    __block NSNotification *noneHMINotification = nil;
+    __block SDLRPCNotificationNotification *testPermissionsNotification = nil;
+    __block SDLRPCNotificationNotification *limitedHMINotification = nil;
+    __block SDLRPCNotificationNotification *backgroundHMINotification = nil;
+    __block SDLRPCNotificationNotification *noneHMINotification = nil;
     
     beforeEach(^{
         // Permission Names
@@ -104,10 +106,10 @@ describe(@"SDLPermissionsManager", ^{
         testPermissionsChange.permissionItem = [NSMutableArray arrayWithArray:@[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]];
         
         // Permission Notifications
-        testPermissionsNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionsChange}];
-        limitedHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testLimitedHMIStatus}];
-        backgroundHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testBackgroundHMIStatus}];
-        noneHMINotification = [NSNotification notificationWithName:SDLDidChangeHMIStatusNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testNoneHMIStatus}];
+        testPermissionsNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionsChange];
+        limitedHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testLimitedHMIStatus];
+        backgroundHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testBackgroundHMIStatus];
+        noneHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testNoneHMIStatus];
     });
     
     describe(@"checking if a permission is allowed", ^{

@@ -193,7 +193,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startWithReadyHandler</span><span class="p">(</span><span class="nv">readyHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock">SDLManagerReadyBlock</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">readyHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLManagerReadyBlock">SDLManagerReadyBlock</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -235,7 +235,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -256,11 +256,11 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequest</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span>
-<span class="nf">withResponseHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+    <span class="nf">withResponseHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRequest</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="n">withResponseHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">?)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="n">withResponseHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   

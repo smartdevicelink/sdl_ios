@@ -1,3 +1,20 @@
+# # 4.3.0 Release Candidate 3 Release Notes (Since RC 2)
+### Bug Fixes
+* Fixed a bug where large putfiles would crash.
+
+### Other
+* Updated to base v4.2.4
+
+# 4.3.0 Release Candidate 2 Release Notes (Since RC 1)
+### Bug Fixes
+* Updated project to Xcode 8 settings and turn on additional warnings and analyzer settings.
+* Fixed `SDLConsoleController` not using `NSLocalizedString` macro.
+* Fixed example app declaring a `UIModalPresentationStyle` enum as `UIModalTransitionStyle` causing a build error in Xcode 8.
+* Update testing deps to work with Xcode 8.
+
+### Example App
+* Add iTunes file sharing to the example app to allow for easier file log retrieval.
+
 # 4.3.0 Release Candidate 1 Release Notes (Since Beta 4)
 ### Enhancements
 * Removed all usages of NSLog. Now all logs can be turned on or off.
@@ -98,6 +115,14 @@
   * All RPCs sent will have their correlation ids managed by the SDL library.
   * Particular RPCs can now have an additional block used with them that can be called under certain conditions. For example, RPCs that create buttons (such as soft buttons) can have a block handler that will be called when an event occurs on the button.
   * Underlying the new high-level API are a few dispatchers, particularly the Notification Dispatcher which sends many notifications when new RPC notifications and responses are sent from the remote head unit. This may be used by the developer now, but will become less useful as more managers are released.
+
+# 4.2.4 Release Notes
+### Bug Fixes
+* Fixed Touch Manager not always firing single touches.
+
+### Other
+* Updated testing frameworks to support Xcode 8.
+* Updated example app to support Xcode 8.
 
 # 4.2.3 Release Notes
 ### Bug Fixes

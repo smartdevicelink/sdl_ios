@@ -8,9 +8,9 @@
 
 @interface ConnectionTransitionContext ()
 
-@property (assign, nonatomic) UIModalTransitionStyle presentationStyle;
+@property (assign, nonatomic) UIModalPresentationStyle presentationStyle;
 
-@property (weak, nonatomic) UIView *containerView;
+@property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) NSDictionary *viewControllers;
 
 @property (assign, nonatomic) CGRect disappearingFromRect;
@@ -50,6 +50,7 @@
     
     return self;
 }
+
 
 #pragma mark - UIViewControllerContextTransitioning
 

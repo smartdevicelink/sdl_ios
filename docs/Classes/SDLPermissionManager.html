@@ -33,7 +33,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startWithCompletionHandler</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
   
   
@@ -75,7 +75,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isRPCAllowed</span><span class="p">(</span><span class="nv">rpcName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isRPCAllowed</span><span class="p">(</span><span class="n">_</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
   
   
@@ -105,7 +105,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">groupStatusOfRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">groupStatus</span><span class="p">(</span><span class="n">ofRPCs</span> <span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span></code></pre>
 
   
   
@@ -135,7 +135,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">statusOfRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">]</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">status</span><span class="p">(</span><span class="n">ofRPCs</span> <span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">]</span></code></pre>
 
   
   
@@ -179,7 +179,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addObserverForRPCs</span><span class="p">(</span><span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">groupType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">,</span> <span class="n">withHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSUUID</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addObserver</span><span class="p">(</span><span class="n">forRPCs</span> <span class="nv">rpcNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">groupType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLPermissionGroupType.html">SDLPermissionGroupType</a></span><span class="p">,</span> <span class="n">withHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionsChangedHandler">SDLPermissionsChangedHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UUID</span></code></pre>
 
   
   
@@ -233,7 +233,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">removeObserverForIdentifier</span><span class="p">(</span><span class="nv">identifier</span><span class="p">:</span> <span class="kt">NSUUID</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">removeObserver</span><span class="p">(</span><span class="n">forIdentifier</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">UUID</span><span class="p">)</span></code></pre>
 
   
   
