@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     [super start];
 
-    [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file] withCompletion:self.fileWrapper.completionHandler];
+    [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file mtuSize:[SDLGlobals globals].maxMTUSize] withCompletion:self.fileWrapper.completionHandler];
 }
 
 - (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletionHandler)completion {
@@ -123,26 +123,37 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_group_leave(putFileGroup);
 }
 
-+ (NSArray<SDLPutFile *> *)sdl_splitFile:(SDLFile *)file {
++ (NSArray<SDLPutFile *> *)sdl_splitFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize {
     NSData *fileData = [file.data copy];
     NSUInteger currentOffset = 0;
     NSMutableArray<SDLPutFile *> *putFiles = [NSMutableArray array];
-
-    for (int i = 0; i < ((fileData.length / [SDLGlobals globals].maxMTUSize) + 1); i++) {
+    
+    // http://stackoverflow.com/a/503201 Make sure we get the exact number of packets we need
+    for (int i = 0; i < (((fileData.length - 1) / mtuSize) + 1); i++) {
         SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:nil];
         putFile.offset = @(currentOffset);
-
+        
+        // Set the length putfile based on the offset
         if (currentOffset == 0) {
+            // If the offset is 0, the putfile expects to have the full file length within it
             putFile.length = @(fileData.length);
-        } else if ((fileData.length - currentOffset) < [SDLGlobals globals].maxMTUSize) {
+        } else if ((fileData.length - currentOffset) < mtuSize) {
+            // The file length remaining is less than our total MTU size, so use the file length remaining
             putFile.length = @(fileData.length - currentOffset);
         } else {
-            putFile.length = @([SDLGlobals globals].maxMTUSize);
+            // The file length remaining is greater than our total MTU size, and the offset is not zero, we will fill the packet with our max MTU size
+            putFile.length = @(mtuSize);
         }
-
-        putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
-        currentOffset = [putFile.length unsignedIntegerValue] + 1;
-
+        
+        // Place the data and set the new offset
+        if (currentOffset == 0 && (mtuSize < [putFile.length unsignedIntegerValue])) {
+            putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, mtuSize)];
+            currentOffset = mtuSize;
+        } else {
+            putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
+            currentOffset = [putFile.length unsignedIntegerValue];
+        }
+        
         [putFiles addObject:putFile];
     }
 

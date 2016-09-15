@@ -4,10 +4,12 @@
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileWrapper.h"
+#import "SDLGlobals.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLUploadFileOperation.h"
 #import "TestConnectionManager.h"
+
 
 QuickSpecBegin(SDLUploadFileOperationSpec)
 
@@ -25,31 +27,40 @@ describe(@"Upload File Operation", ^{
     __block NSError *errorResult = nil;
     
     beforeEach(^{
-        testFileName = @"test file";
-        testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
-        testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
-        testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            successResult = success;
-            bytesAvailableResult = bytesAvailable;
-            errorResult = error;
-        }];
-        
-        testConnectionManager = [[TestConnectionManager alloc] init];
-        testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+        // Set the head unit size small so we have a low MTU size
+        [SDLGlobals globals].maxHeadUnitVersion = 2;
     });
     
-    it(@"should have a priority of 'very high'", ^{
-        expect(@(testOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
-    });
-    
-    describe(@"running the operation", ^{
+    context(@"running a small file operation", ^{
         beforeEach(^{
+            testFileName = @"test file";
+            testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = error;
+            }];
+            
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            
             [testOperation start];
             [NSThread sleepForTimeInterval:0.5];
         });
         
-        it(@"should send a list files request", ^{
+        it(@"should have a priority of 'normal'", ^{
+            expect(@(testOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
+        });
+        
+        it(@"should send putfiles", ^{
+            SDLPutFile *putFile = testConnectionManager.receivedRequests.lastObject;
             expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLPutFile class]));
+            expect(putFile.bulkData).to(equal(testFileData));
+            expect(putFile.length).to(equal(@(testFileData.length)));
+            expect(putFile.offset).to(equal(@0));
+            expect(putFile.persistentFile).to(equal(@NO));
+            expect(putFile.syncFileName).to(equal(testFileName));
         });
         
         context(@"when a good response comes back", ^{
@@ -106,6 +117,42 @@ describe(@"Upload File Operation", ^{
                 expect(@(successResult)).toEventually(equal(@NO));
                 expect(@(bytesAvailableResult)).toEventually(equal(@0));
             });
+        });
+    });
+    
+    context(@"sending a large file", ^{
+        beforeEach(^{
+            UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            
+            testFileName = @"test file";
+            testFileData = UIImageJPEGRepresentation(testImage, 0.80);
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = error;
+            }];
+            
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            
+            [testOperation start];
+            [NSThread sleepForTimeInterval:0.5];
+        });
+        
+        it(@"should send correct putfiles", ^{
+            NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
+            SDLPutFile *firstPutFile = putFiles.firstObject;
+            
+            // First putfile
+            expect(firstPutFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange(0, [SDLGlobals globals].maxMTUSize)]));
+            expect(firstPutFile.length).to(equal(@(testFileData.length)));
+            expect(firstPutFile.offset).to(equal(@0));
+            expect(firstPutFile.persistentFile).to(equal(@NO));
+            expect(firstPutFile.syncFileName).to(equal(testFileName));
+            
+            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals globals].maxMTUSize) + 1);
+            expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
         });
     });
 });
