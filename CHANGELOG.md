@@ -6,7 +6,7 @@
 * Update testing deps to work with Xcode 8.
 
 ### Example App
-* Add iTunes file sharing to the example app to allow for easier file log retrieval
+* Add iTunes file sharing to the example app to allow for easier file log retrieval.
 
 # 4.3.0 Release Candidate 1 Release Notes (Since Beta 4)
 ### Enhancements
