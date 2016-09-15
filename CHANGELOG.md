@@ -1,3 +1,11 @@
+# 4.2.4 Release Notes
+### Bug Fixes
+* Fixed Touch Manager not always firing single touches.
+
+### Other
+* Updated testing frameworks to support Xcode 8.
+* Updated example app to support Xcode 8.
+
 # 4.2.3 Release Notes
 ### Bug Fixes
 * Fixed HTTPS URL schemes not properly uploading data (#432, #438).
