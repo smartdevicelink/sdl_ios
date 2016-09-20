@@ -9,7 +9,7 @@ SDLCarModeStatus *SDLCarModeStatus_FACTORY = nil;
 SDLCarModeStatus *SDLCarModeStatus_TRANSPORT = nil;
 SDLCarModeStatus *SDLCarModeStatus_CRASH = nil;
 
-NSArray *SDLCarModeStatus_values = nil;
+NSArray<SDLCarModeStatus *> *SDLCarModeStatus_values = nil;
 
 @implementation SDLCarModeStatus
 
@@ -22,7 +22,7 @@ NSArray *SDLCarModeStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLCarModeStatus *> *)values {
     if (SDLCarModeStatus_values == nil) {
         SDLCarModeStatus_values = @[
             SDLCarModeStatus.NORMAL,

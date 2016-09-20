@@ -14,7 +14,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -32,7 +32,7 @@
     return [parameters objectForKey:NAMES_ecuName];
 }
 
-- (void)setDidLocation:(NSMutableArray *)didLocation {
+- (void)setDidLocation:(NSMutableArray<NSNumber *> *)didLocation {
     if (didLocation != nil) {
         [parameters setObject:didLocation forKey:NAMES_didLocation];
     } else {
@@ -40,7 +40,7 @@
     }
 }
 
-- (NSMutableArray *)didLocation {
+- (NSMutableArray<NSNumber *> *)didLocation {
     return [parameters objectForKey:NAMES_didLocation];
 }
 

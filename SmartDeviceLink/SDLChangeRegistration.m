@@ -15,7 +15,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -67,7 +67,7 @@
     return [parameters[NAMES_appName] copy];
 }
 
-- (void)setTtsName:(NSArray *)ttsName {
+- (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:[ttsName copy] forKey:NAMES_ttsName];
     } else {
@@ -75,7 +75,7 @@
     }
 }
 
-- (NSArray *)ttsName {
+- (NSArray<SDLTTSChunk *> *)ttsName {
     return [parameters[NAMES_ttsName] copy];
 }
 
@@ -91,7 +91,7 @@
     return [parameters[NAMES_ngnMediaScreenAppName] copy];
 }
 
-- (void)setVrSynonyms:(NSArray *)vrSynonyms {
+- (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:[vrSynonyms copy] forKey:NAMES_vrSynonyms];
     } else {
@@ -99,7 +99,7 @@
     }
 }
 
-- (NSArray *)vrSynonyms {
+- (NSArray<NSString *> *)vrSynonyms {
     return [parameters[NAMES_vrSynonyms] copy];
 }
 

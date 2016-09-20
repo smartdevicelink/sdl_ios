@@ -11,7 +11,7 @@ SDLIgnitionStatus *SDLIgnitionStatus_RUN = nil;
 SDLIgnitionStatus *SDLIgnitionStatus_START = nil;
 SDLIgnitionStatus *SDLIgnitionStatus_INVALID = nil;
 
-NSArray *SDLIgnitionStatus_values = nil;
+NSArray<SDLIgnitionStatus *> *SDLIgnitionStatus_values = nil;
 
 @implementation SDLIgnitionStatus
 
@@ -24,7 +24,7 @@ NSArray *SDLIgnitionStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLIgnitionStatus *> *)values {
     if (SDLIgnitionStatus_values == nil) {
         SDLIgnitionStatus_values = @[
             SDLIgnitionStatus.UNKNOWN,

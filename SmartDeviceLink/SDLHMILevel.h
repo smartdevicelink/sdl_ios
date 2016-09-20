@@ -26,7 +26,7 @@
  *
  * @return an array with all possible HMILevel values inside
  */
-+ (NSArray *)values;
++ (NSArray<SDLHMILevel *> *)values;
 
 /**
  * The application has full use of the SDL HMI. The app may output via TTS, display, or streaming audio and may gather input via VR, Menu, and button presses

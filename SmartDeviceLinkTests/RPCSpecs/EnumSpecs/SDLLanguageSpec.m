@@ -74,8 +74,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLLanguage values];
-    __block NSArray* definedValues;
+    NSArray<SDLLanguage *> *storedValues = [SDLLanguage values];
+    __block NSArray<SDLLanguage *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLanguage EN_US],
                         [SDLLanguage ES_MX],

@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTimerMode values];
-    __block NSArray* definedValues;
+    NSArray<SDLTimerMode *> *storedValues = [SDLTimerMode values];
+    __block NSArray<SDLTimerMode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTimerMode UP],
                         [SDLTimerMode DOWN],

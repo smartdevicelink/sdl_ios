@@ -28,7 +28,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -63,7 +63,7 @@
     }
 }
 
-- (void)setVrCommands:(NSMutableArray *)vrCommands {
+- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
     if (vrCommands != nil) {
         [parameters setObject:vrCommands forKey:NAMES_vrCommands];
     } else {
@@ -71,7 +71,7 @@
     }
 }
 
-- (NSMutableArray *)vrCommands {
+- (NSMutableArray<NSString *> *)vrCommands {
     return [parameters objectForKey:NAMES_vrCommands];
 }
 

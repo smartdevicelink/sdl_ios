@@ -46,8 +46,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLAppHMIType values];
-    __block NSArray* definedValues;
+    NSArray<SDLAppHMIType *> *storedValues = [SDLAppHMIType values];
+    __block NSArray<SDLAppHMIType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAppHMIType DEFAULT],
                            [SDLAppHMIType COMMUNICATION],

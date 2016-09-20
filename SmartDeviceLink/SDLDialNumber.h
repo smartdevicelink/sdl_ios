@@ -12,7 +12,7 @@
 @interface SDLDialNumber : SDLRPCRequest
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  *  Up to 40 character string representing the phone number. All characters stripped except for '0'-'9', '*', '#', ',', ';', and '+'

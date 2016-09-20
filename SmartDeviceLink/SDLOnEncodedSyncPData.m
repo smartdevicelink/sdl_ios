@@ -14,13 +14,13 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
 }
 
-- (void)setData:(NSMutableArray *)data {
+- (void)setData:(NSMutableArray<NSString *> *)data {
     if (data != nil) {
         [parameters setObject:data forKey:NAMES_data];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSMutableArray *)data {
+- (NSMutableArray<NSString *> *)data {
     return [parameters objectForKey:NAMES_data];
 }
 

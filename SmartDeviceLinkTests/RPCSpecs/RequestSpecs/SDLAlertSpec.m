@@ -42,17 +42,17 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_alertText1:@"alert#1",
-                                                   NAMES_alertText2:@"alert#2",
-                                                   NAMES_alertText3:@"alert#3",
-                                                   NAMES_ttsChunks:[@[tts] mutableCopy],
-                                                   NAMES_duration:@4357,
-                                                   NAMES_playTone:@YES,
-                                                   NAMES_progressIndicator:@NO,
-                                                   NAMES_softButtons:[@[button] mutableCopy]},
-                                             NAMES_operation_name:NAMES_Alert}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_alertText1:@"alert#1",
+                                                                   NAMES_alertText2:@"alert#2",
+                                                                   NAMES_alertText3:@"alert#3",
+                                                                   NAMES_ttsChunks:[@[tts] mutableCopy],
+                                                                   NAMES_duration:@4357,
+                                                                   NAMES_playTone:@YES,
+                                                                   NAMES_progressIndicator:@NO,
+                                                                   NAMES_softButtons:[@[button] mutableCopy]},
+                                                             NAMES_operation_name:NAMES_Alert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
         
         expect(testRequest.alertText1).to(equal(@"alert#1"));

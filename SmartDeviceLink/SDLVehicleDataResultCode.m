@@ -14,7 +14,7 @@ SDLVehicleDataResultCode *SDLVehicleDataResultCode_DATA_ALREADY_SUBSCRIBED = nil
 SDLVehicleDataResultCode *SDLVehicleDataResultCode_DATA_NOT_SUBSCRIBED = nil;
 SDLVehicleDataResultCode *SDLVehicleDataResultCode_IGNORED = nil;
 
-NSArray *SDLVehicleDataResultCode_values = nil;
+NSArray<SDLVehicleDataResultCode *> *SDLVehicleDataResultCode_values = nil;
 
 @implementation SDLVehicleDataResultCode
 
@@ -27,7 +27,7 @@ NSArray *SDLVehicleDataResultCode_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLVehicleDataResultCode *> *)values {
     if (SDLVehicleDataResultCode_values == nil) {
         SDLVehicleDataResultCode_values = @[
             SDLVehicleDataResultCode.SUCCESS,

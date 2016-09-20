@@ -19,7 +19,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -42,7 +42,7 @@
     }
 }
 
-- (void)setTextFields:(NSMutableArray *)textFields {
+- (void)setTextFields:(NSMutableArray<SDLTextField *> *)textFields {
     if (textFields != nil) {
         [store setObject:textFields forKey:NAMES_textFields];
     } else {
@@ -50,20 +50,20 @@
     }
 }
 
-- (NSMutableArray *)textFields {
-    NSMutableArray *array = [store objectForKey:NAMES_textFields];
+- (NSMutableArray<SDLTextField *> *)textFields {
+    NSMutableArray<SDLTextField *> *array = [store objectForKey:NAMES_textFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTextField.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLTextField *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTextField alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTextField alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
         }
         return newList;
     }
 }
 
-- (void)setImageFields:(NSMutableArray *)imageFields {
+- (void)setImageFields:(NSMutableArray<SDLImageField *> *)imageFields {
     if (imageFields != nil) {
         [store setObject:imageFields forKey:NAMES_imageFields];
     } else {
@@ -71,20 +71,20 @@
     }
 }
 
-- (NSMutableArray *)imageFields {
-    NSMutableArray *array = [store objectForKey:NAMES_imageFields];
+- (NSMutableArray<SDLImageField *> *)imageFields {
+    NSMutableArray<SDLImageField *> *array = [store objectForKey:NAMES_imageFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLImageField.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLImageField *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLImageField alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLImageField alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
         }
         return newList;
     }
 }
 
-- (void)setMediaClockFormats:(NSMutableArray *)mediaClockFormats {
+- (void)setMediaClockFormats:(NSMutableArray<SDLMediaClockFormat *> *)mediaClockFormats {
     if (mediaClockFormats != nil) {
         [store setObject:mediaClockFormats forKey:NAMES_mediaClockFormats];
     } else {
@@ -92,12 +92,12 @@
     }
 }
 
-- (NSMutableArray *)mediaClockFormats {
-    NSMutableArray *array = [store objectForKey:NAMES_mediaClockFormats];
+- (NSMutableArray<SDLMediaClockFormat *> *)mediaClockFormats {
+    NSMutableArray<SDLMediaClockFormat *> *array = [store objectForKey:NAMES_mediaClockFormats];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLMediaClockFormat.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLMediaClockFormat *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLMediaClockFormat valueOf:enumString]];
         }
@@ -117,7 +117,7 @@
     return [store objectForKey:NAMES_graphicSupported];
 }
 
-- (void)setTemplatesAvailable:(NSMutableArray *)templatesAvailable {
+- (void)setTemplatesAvailable:(NSMutableArray<NSString *> *)templatesAvailable {
     if (templatesAvailable != nil) {
         [store setObject:templatesAvailable forKey:NAMES_templatesAvailable];
     } else {
@@ -125,7 +125,7 @@
     }
 }
 
-- (NSMutableArray *)templatesAvailable {
+- (NSMutableArray<NSString *> *)templatesAvailable {
     return [store objectForKey:NAMES_templatesAvailable];
 }
 

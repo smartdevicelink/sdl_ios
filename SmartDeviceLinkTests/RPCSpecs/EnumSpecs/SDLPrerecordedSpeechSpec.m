@@ -36,8 +36,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPrerecordedSpeech values];
-    __block NSArray* definedValues;
+    NSArray<SDLPrerecordedSpeech *> *storedValues = [SDLPrerecordedSpeech values];
+    __block NSArray<SDLPrerecordedSpeech *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPrerecordedSpeech HELP_JINGLE],
                         [SDLPrerecordedSpeech INITIAL_JINGLE],

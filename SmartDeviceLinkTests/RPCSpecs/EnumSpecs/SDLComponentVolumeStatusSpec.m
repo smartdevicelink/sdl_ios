@@ -38,8 +38,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLComponentVolumeStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLComponentVolumeStatus *> *storedValues = [SDLComponentVolumeStatus values];
+    __block NSArray<SDLComponentVolumeStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLComponentVolumeStatus UNKNOWN],
                         [SDLComponentVolumeStatus NORMAL],

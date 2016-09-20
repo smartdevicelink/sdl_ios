@@ -8,7 +8,7 @@ SDLSoftButtonType *SDLSoftButtonType_TEXT = nil;
 SDLSoftButtonType *SDLSoftButtonType_IMAGE = nil;
 SDLSoftButtonType *SDLSoftButtonType_BOTH = nil;
 
-NSArray *SDLSoftButtonType_values = nil;
+NSArray<SDLSoftButtonType *> *SDLSoftButtonType_values = nil;
 
 @implementation SDLSoftButtonType
 
@@ -21,7 +21,7 @@ NSArray *SDLSoftButtonType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLSoftButtonType *> *)values {
     if (SDLSoftButtonType_values == nil) {
         SDLSoftButtonType_values = @[
             SDLSoftButtonType.TEXT,

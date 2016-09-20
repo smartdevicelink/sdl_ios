@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLSoftButton;
+
 /**
  * Creates a full screen overlay containing a large block of formatted text that
  * can be scrolled with up to 8 SoftButtons defined
@@ -25,7 +27,7 @@
  * parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract A Body of text that can include newlines and tabs
@@ -51,6 +53,6 @@
  *            <p>
  *            <b>Notes: </b>Minsize=0, Maxsize=8
  */
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

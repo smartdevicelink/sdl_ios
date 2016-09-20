@@ -8,7 +8,7 @@ SDLTouchType *SDLTouchType_BEGIN = nil;
 SDLTouchType *SDLTouchType_MOVE = nil;
 SDLTouchType *SDLTouchType_END = nil;
 
-NSArray *SDLTouchType_values = nil;
+NSArray<SDLTouchType *> *SDLTouchType_values = nil;
 
 @implementation SDLTouchType
 
@@ -21,7 +21,7 @@ NSArray *SDLTouchType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLTouchType *> *)values {
     if (SDLTouchType_values == nil) {
         SDLTouchType_values = @[
             SDLTouchType.BEGIN,

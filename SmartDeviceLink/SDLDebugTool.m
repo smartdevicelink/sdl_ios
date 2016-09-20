@@ -12,7 +12,7 @@
 
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL debugToLogFile;
-@property (nonatomic, strong) NSMutableDictionary *namedConsoleSets;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableSet<NSObject<SDLDebugToolConsole> *> *> *namedConsoleSets;
 @property (nonatomic, strong) NSDateFormatter *logDateFormatter;
 @property (nonatomic, strong) NSFileHandle *logFileHandle;
 @property (nonatomic, strong) dispatch_queue_t logQueue;
@@ -89,11 +89,11 @@
     [[SDLDebugTool getConsoleListenersForGroup:groupName] removeObject:console];
 }
 
-+ (NSMutableSet *)getConsoleListenersForGroup:(NSString *)groupName {
++ (NSMutableSet<NSObject<SDLDebugToolConsole> *> *)getConsoleListenersForGroup:(NSString *)groupName {
     return [[self sharedTool] sdl_getConsoleListenersForGroup:groupName];
 }
 
-- (NSMutableSet *)sdl_getConsoleListenersForGroup:(NSString *)groupName {
+- (NSMutableSet<NSObject<SDLDebugToolConsole> *> *)sdl_getConsoleListenersForGroup:(NSString *)groupName {
     return [self.namedConsoleSets valueForKey:groupName];
 }
 
@@ -161,7 +161,7 @@
 
     //Output To DebugToolConsoles
     if ((output & SDLDebugOutput_DebugToolConsole) == SDLDebugOutput_DebugToolConsole) {
-        NSSet *consoleListeners = [self getConsoleListenersForGroup:consoleGroupName];
+        NSSet<NSObject<SDLDebugToolConsole> *> *consoleListeners = [self getConsoleListenersForGroup:consoleGroupName];
         for (NSObject<SDLDebugToolConsole> *console in consoleListeners) {
             [console logInfo:outputString];
         }
@@ -190,7 +190,7 @@
     self.debugToLogFile = YES;
 
     //Delete Log File If It Exists
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray<NSString *> *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"smartdevicelink.log"];
 

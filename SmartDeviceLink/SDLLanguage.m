@@ -29,7 +29,7 @@ SDLLanguage *SDLLanguage_CS_CZ = nil;
 SDLLanguage *SDLLanguage_DA_DK = nil;
 SDLLanguage *SDLLanguage_NO_NO = nil;
 
-NSArray *SDLLanguage_values = nil;
+NSArray<SDLLanguage *> *SDLLanguage_values = nil;
 
 @implementation SDLLanguage
 
@@ -42,7 +42,7 @@ NSArray *SDLLanguage_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLLanguage *> *)values {
     if (SDLLanguage_values == nil) {
         SDLLanguage_values = @[
             SDLLanguage.EN_US,

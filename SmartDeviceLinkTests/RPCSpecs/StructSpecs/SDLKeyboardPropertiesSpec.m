@@ -35,11 +35,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_language:[SDLLanguage DA_DK],
-                                       NAMES_keyboardLayout:[SDLKeyboardLayout QWERTZ],
-                                       NAMES_keypressMode:[SDLKeypressMode RESEND_CURRENT_ENTRY],
-                                       NAMES_limitedCharacterList:[@[@"s", @"r", @"f", @"q"] mutableCopy],
-                                       NAMES_autoCompleteText:@"Auto Carrot"} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_language:[SDLLanguage DA_DK],
+                                                       NAMES_keyboardLayout:[SDLKeyboardLayout QWERTZ],
+                                                       NAMES_keypressMode:[SDLKeypressMode RESEND_CURRENT_ENTRY],
+                                                       NAMES_limitedCharacterList:[@[@"s", @"r", @"f", @"q"] mutableCopy],
+                                                       NAMES_autoCompleteText:@"Auto Carrot"} mutableCopy];
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] initWithDictionary:dict];
         
         expect(testStruct.language).to(equal([SDLLanguage DA_DK]));

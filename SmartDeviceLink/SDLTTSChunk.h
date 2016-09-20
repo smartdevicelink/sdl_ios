@@ -50,7 +50,7 @@
  *
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.

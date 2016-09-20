@@ -30,7 +30,7 @@
  *
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract the Command ID that identifies the Command to be deleted from Command Menu

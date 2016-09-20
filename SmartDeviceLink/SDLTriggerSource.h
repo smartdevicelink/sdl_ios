@@ -23,7 +23,7 @@
  @abstract Store the enumeration of all possible SDLTriggerSource
  @return an array that store all possible SDLTriggerSource
  */
-+ (NSArray *)values;
++ (NSArray<SDLTriggerSource *> *)values;
 
 /**
  * @abstract Selection made via menu

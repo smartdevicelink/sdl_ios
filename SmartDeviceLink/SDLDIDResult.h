@@ -10,7 +10,7 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 @property (strong) SDLVehicleDataResultCode *resultCode;
 @property (strong) NSNumber *didLocation;

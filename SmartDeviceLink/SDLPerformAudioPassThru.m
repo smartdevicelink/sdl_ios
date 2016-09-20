@@ -19,13 +19,13 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
 }
 
-- (void)setInitialPrompt:(NSMutableArray *)initialPrompt {
+- (void)setInitialPrompt:(NSMutableArray<SDLTTSChunk *> *)initialPrompt {
     if (initialPrompt != nil) {
         [parameters setObject:initialPrompt forKey:NAMES_initialPrompt];
     } else {
@@ -33,14 +33,14 @@
     }
 }
 
-- (NSMutableArray *)initialPrompt {
-    NSMutableArray *array = [parameters objectForKey:NAMES_initialPrompt];
+- (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:NAMES_initialPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
         }
         return newList;
     }

@@ -26,11 +26,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_event:[SDLKeyboardEvent ENTRY_SUBMITTED],
-                                                   NAMES_data:@"qwertyg"},
-                                             NAMES_operation_name:NAMES_OnKeyboardInput}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_notification:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_event:[SDLKeyboardEvent ENTRY_SUBMITTED],
+                                                                   NAMES_data:@"qwertyg"},
+                                                             NAMES_operation_name:NAMES_OnKeyboardInput}} mutableCopy];
         SDLOnKeyboardInput* testNotification = [[SDLOnKeyboardInput alloc] initWithDictionary:dict];
         
         expect(testNotification.event).to(equal([SDLKeyboardEvent ENTRY_SUBMITTED]));

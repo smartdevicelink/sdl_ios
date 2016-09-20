@@ -8,7 +8,7 @@
 }
 
 + (SDLTBTState *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLTBTState *> *)values;
 
 + (SDLTBTState *)ROUTE_UPDATE_REQUEST;
 + (SDLTBTState *)ROUTE_ACCEPTED;

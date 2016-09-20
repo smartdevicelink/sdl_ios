@@ -31,10 +31,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_name:[SDLButtonName CUSTOM_BUTTON],
-                                       NAMES_shortPressAvailable:@YES,
-                                       NAMES_longPressAvailable:@YES,
-                                       NAMES_upDownAvailable:@NO} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_name:[SDLButtonName CUSTOM_BUTTON],
+                                                       NAMES_shortPressAvailable:@YES,
+                                                       NAMES_longPressAvailable:@YES,
+                                                       NAMES_upDownAvailable:@NO} mutableCopy];
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal([SDLButtonName CUSTOM_BUTTON]));

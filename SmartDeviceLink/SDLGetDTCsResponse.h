@@ -13,9 +13,9 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 @property (strong) NSNumber *ecuHeader;
-@property (strong) NSMutableArray *dtc;
+@property (strong) NSMutableArray<NSString *> *dtc;
 
 @end

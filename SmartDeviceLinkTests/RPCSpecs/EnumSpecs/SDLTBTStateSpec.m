@@ -46,8 +46,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTBTState values];
-    __block NSArray* definedValues;
+    NSArray<SDLTBTState *> *storedValues = [SDLTBTState values];
+    __block NSArray<SDLTBTState *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTBTState ROUTE_UPDATE_REQUEST],
                         [SDLTBTState ROUTE_ACCEPTED],

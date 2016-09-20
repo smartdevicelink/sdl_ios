@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLSystemAction values];
-    __block NSArray* definedValues;
+    NSArray<SDLSystemAction *> *storedValues = [SDLSystemAction values];
+    __block NSArray<SDLSystemAction *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSystemAction DEFAULT_ACTION],
                         [SDLSystemAction STEAL_FOCUS],

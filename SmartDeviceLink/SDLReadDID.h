@@ -28,7 +28,7 @@
  * @abstract Constructs a new SDLReadDID object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract An ID of the vehicle module
@@ -47,6 +47,6 @@
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
  */
-@property (strong) NSMutableArray *didLocation;
+@property (strong) NSMutableArray<NSNumber *> *didLocation;
 
 @end

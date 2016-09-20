@@ -14,7 +14,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -56,7 +56,7 @@
     return [parameters objectForKey:NAMES_sliderHeader];
 }
 
-- (void)setSliderFooter:(NSMutableArray *)sliderFooter {
+- (void)setSliderFooter:(NSMutableArray<NSString *> *)sliderFooter {
     if (sliderFooter != nil) {
         [parameters setObject:sliderFooter forKey:NAMES_sliderFooter];
     } else {
@@ -64,7 +64,7 @@
     }
 }
 
-- (NSMutableArray *)sliderFooter {
+- (NSMutableArray<NSString *> *)sliderFooter {
     return [parameters objectForKey:NAMES_sliderFooter];
 }
 

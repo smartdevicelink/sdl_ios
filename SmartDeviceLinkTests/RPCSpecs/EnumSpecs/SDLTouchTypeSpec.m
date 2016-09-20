@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTouchType values];
-    __block NSArray* definedValues;
+    NSArray<SDLTouchType *> *storedValues = [SDLTouchType values];
+    __block NSArray<SDLTouchType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTouchType BEGIN],
                         [SDLTouchType MOVE],

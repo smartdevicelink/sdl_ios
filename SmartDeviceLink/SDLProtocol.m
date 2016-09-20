@@ -255,7 +255,7 @@ typedef NSNumber SDLServiceTypeBox;
         [self sdl_logRPCSend:protocolMessage];
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceType_RPC];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals globals].maxMTUSize];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self sdl_logRPCSend:smallerMessage];
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceType_RPC];
@@ -322,7 +322,7 @@ typedef NSNumber SDLServiceTypeBox;
         [self sdl_logRPCSend:message];
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals globals].maxMTUSize];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals globals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self sdl_logRPCSend:smallerMessage];
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];

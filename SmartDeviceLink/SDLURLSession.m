@@ -18,7 +18,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 @interface SDLURLSession () <SDLURLRequestTaskDelegate>
 
-@property (strong, nonatomic) NSMutableSet *activeTasks;
+@property (strong, nonatomic) NSMutableSet<SDLURLRequestTask *> *activeTasks;
 
 @end
 

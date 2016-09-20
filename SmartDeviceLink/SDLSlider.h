@@ -23,7 +23,7 @@
  * @abstract Constructs a new SDLSlider object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract Represents a number of selectable items on a horizontal axis
@@ -59,7 +59,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray *sliderFooter;
+@property (strong) NSMutableArray<NSString *> *sliderFooter;
 
 /**
  * @abstract An App defined timeout

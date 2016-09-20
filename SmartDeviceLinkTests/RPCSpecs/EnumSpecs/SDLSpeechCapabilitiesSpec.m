@@ -36,8 +36,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLSpeechCapabilities values];
-    __block NSArray* definedValues;
+    NSArray<SDLSpeechCapabilities *> *storedValues = [SDLSpeechCapabilities values];
+    __block NSArray<SDLSpeechCapabilities *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSpeechCapabilities TEXT],
                         [SDLSpeechCapabilities SAPI_PHONEMES],

@@ -48,18 +48,18 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_initialText:@"a",
-                                                   NAMES_initialPrompt:[@[chunk1] mutableCopy],
-                                                   NAMES_interactionMode:[SDLInteractionMode VR_ONLY],
-                                                   NAMES_interactionChoiceSetIDList:[@[@1, @2, @3] mutableCopy],
-                                                   NAMES_helpPrompt:[@[chunk2] mutableCopy],
-                                                   NAMES_timeoutPrompt:[@[chunk3] mutableCopy],
-                                                   NAMES_timeout:@42000,
-                                                   NAMES_vrHelp:[@[helpItem] mutableCopy],
-                                                   NAMES_interactionLayout:[SDLLayoutMode ICON_WITH_SEARCH]},
-                                             NAMES_operation_name:NAMES_PerformInteraction}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_initialText:@"a",
+                                                                   NAMES_initialPrompt:[@[chunk1] mutableCopy],
+                                                                   NAMES_interactionMode:[SDLInteractionMode VR_ONLY],
+                                                                   NAMES_interactionChoiceSetIDList:[@[@1, @2, @3] mutableCopy],
+                                                                   NAMES_helpPrompt:[@[chunk2] mutableCopy],
+                                                                   NAMES_timeoutPrompt:[@[chunk3] mutableCopy],
+                                                                   NAMES_timeout:@42000,
+                                                                   NAMES_vrHelp:[@[helpItem] mutableCopy],
+                                                                   NAMES_interactionLayout:[SDLLayoutMode ICON_WITH_SEARCH]},
+                                                             NAMES_operation_name:NAMES_PerformInteraction}} mutableCopy];
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];
         
         expect(testRequest.initialText).to(equal(@"a"));

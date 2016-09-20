@@ -24,7 +24,7 @@
  * @abstract Constructs a new SDLPerformInteractionResponse object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract ID of the choice that was selected in response to PerformInteraction. 

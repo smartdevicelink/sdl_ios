@@ -13,7 +13,7 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * Name of target ECU
@@ -34,6 +34,6 @@
  *
  * Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255
  */
-@property (strong) NSMutableArray *messageData;
+@property (strong) NSMutableArray<NSNumber *> *messageData;
 
 @end

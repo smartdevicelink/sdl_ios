@@ -25,7 +25,7 @@
  *
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 /**
  * @abstract a name of the module to receive the DTC form
  * @discussion an NSNumber value representing a name of the module to receive

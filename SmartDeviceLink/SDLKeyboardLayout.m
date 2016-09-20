@@ -8,7 +8,7 @@ SDLKeyboardLayout *SDLKeyboardLayout_QWERTY = nil;
 SDLKeyboardLayout *SDLKeyboardLayout_QWERTZ = nil;
 SDLKeyboardLayout *SDLKeyboardLayout_AZERTY = nil;
 
-NSArray *SDLKeyboardLayout_values = nil;
+NSArray<SDLKeyboardLayout *> *SDLKeyboardLayout_values = nil;
 
 @implementation SDLKeyboardLayout
 
@@ -21,7 +21,7 @@ NSArray *SDLKeyboardLayout_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLKeyboardLayout *> *)values {
     if (SDLKeyboardLayout_values == nil) {
         SDLKeyboardLayout_values = @[
             SDLKeyboardLayout.QWERTY,

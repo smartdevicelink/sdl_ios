@@ -24,7 +24,7 @@
  *
  * @return an array that store all possible SDLVehicleDataType
  */
-+ (NSArray *)values;
++ (NSArray<SDLVehicleDataType *> *)values;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_GPS*

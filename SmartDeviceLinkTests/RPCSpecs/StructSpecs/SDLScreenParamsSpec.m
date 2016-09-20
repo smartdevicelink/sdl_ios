@@ -31,8 +31,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_resolution:resolution,
-                                       NAMES_touchEventAvailable:capabilities} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_resolution:resolution,
+                                                       NAMES_touchEventAvailable:capabilities} mutableCopy];
         SDLScreenParams* testStruct = [[SDLScreenParams alloc] initWithDictionary:dict];
         
         expect(testStruct.resolution).to(equal(resolution));

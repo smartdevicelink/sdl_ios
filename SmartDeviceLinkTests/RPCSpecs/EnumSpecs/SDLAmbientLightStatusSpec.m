@@ -42,8 +42,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLAmbientLightStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLAmbientLightStatus *> *storedValues = [SDLAmbientLightStatus values];
+    __block NSArray<SDLAmbientLightStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAmbientLightStatus NIGHT],
                            [SDLAmbientLightStatus TWILIGHT_1],

@@ -27,7 +27,7 @@
  * Constructs a new SDLDeleteSubMenu object indicated by the dictionary parameter<p>
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract the MenuID that identifies the SDLSubMenu to be delete

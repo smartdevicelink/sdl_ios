@@ -8,7 +8,7 @@ SDLSystemAction *SDLSystemAction_DEFAULT_ACTION = nil;
 SDLSystemAction *SDLSystemAction_STEAL_FOCUS = nil;
 SDLSystemAction *SDLSystemAction_KEEP_CONTEXT = nil;
 
-NSArray *SDLSystemAction_values = nil;
+NSArray<SDLSystemAction *> *SDLSystemAction_values = nil;
 
 @implementation SDLSystemAction
 
@@ -21,7 +21,7 @@ NSArray *SDLSystemAction_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLSystemAction *> *)values {
     if (SDLSystemAction_values == nil) {
         SDLSystemAction_values = @[
             SDLSystemAction.DEFAULT_ACTION,

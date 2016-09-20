@@ -13,13 +13,13 @@ describe(@"the url session", ^{
         context(@"from an https address", ^{
             context(@"uploading data", ^{
                 NSData *testData = [@"testData" dataUsingEncoding:NSUTF8StringEncoding];
-                NSArray *someJSONObject = @[@"one", @"two"];
+                NSArray<NSString *> *someJSONObject = @[@"one", @"two"];
                 NSData *testJSONData = [NSJSONSerialization dataWithJSONObject:someJSONObject options:0 error:nil];
                 
                 __block NSData *testReturnData = nil;
                 __block NSURLResponse *testReturnResponse = nil;
                 __block NSError *testReturnError = nil;
-                __block NSArray *testReturnJSONObject = nil;
+                __block NSArray<id> *testReturnJSONObject = nil;
                 
                 beforeEach(^{
                     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -93,7 +93,7 @@ describe(@"the url session", ^{
         
         context(@"from an http address", ^{
             NSData *testData = [@"testData" dataUsingEncoding:NSUTF8StringEncoding];
-            NSArray *someJSONObject = @[@"one", @"two"];
+            NSArray<NSString *> *someJSONObject = @[@"one", @"two"];
             NSData *testJSONData = [NSJSONSerialization dataWithJSONObject:someJSONObject options:0 error:nil];
             
             __block NSString *testURLRequestComponent = nil;

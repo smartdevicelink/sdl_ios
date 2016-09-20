@@ -14,7 +14,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -32,7 +32,7 @@
     return [parameters objectForKey:NAMES_ecuHeader];
 }
 
-- (void)setDtc:(NSMutableArray *)dtc {
+- (void)setDtc:(NSMutableArray<NSString *> *)dtc {
     if (dtc != nil) {
         [parameters setObject:dtc forKey:NAMES_dtc];
     } else {
@@ -40,7 +40,7 @@
     }
 }
 
-- (NSMutableArray *)dtc {
+- (NSMutableArray<NSString *> *)dtc {
     return [parameters objectForKey:NAMES_dtc];
 }
 

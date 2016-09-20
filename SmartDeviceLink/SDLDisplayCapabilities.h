@@ -4,7 +4,10 @@
 #import "SDLRPCMessage.h"
 
 @class SDLDisplayType;
+@class SDLImageField;
+@class SDLMediaClockFormat;
 @class SDLScreenParams;
+@class SDLTextField;
 
 
 /**
@@ -25,7 +28,7 @@
  *
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract The type of display
@@ -43,7 +46,7 @@
  *
  * Required, Array of SDLTextField, 1 - 100 objects
  */
-@property (strong) NSMutableArray *textFields;
+@property (strong) NSMutableArray<SDLTextField *> *textFields;
 
 /**
  * @abstract An array of SDLImageField elements
@@ -54,7 +57,7 @@
  *
  * Optional, Array of SDLImageField, 1 - 100 objects
  */
-@property (strong) NSMutableArray *imageFields;
+@property (strong) NSMutableArray<SDLImageField *> *imageFields;
 
 /**
  * @abstract An array of SDLMediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field
@@ -63,7 +66,7 @@
  *
  * Required, Array of SDLMediaClockFormats, 0 - 100 objects
  */
-@property (strong) NSMutableArray *mediaClockFormats;
+@property (strong) NSMutableArray<SDLMediaClockFormat *> *mediaClockFormats;
 
 /**
  * @abstract The display's persistent screen supports.
@@ -81,7 +84,7 @@
  *
  * Optional, Array of String, max string size 100, 0 - 100 objects
  */
-@property (strong) NSMutableArray *templatesAvailable;
+@property (strong) NSMutableArray<NSString *> *templatesAvailable;
 
 /**
  * @abstract A set of all parameters related to a prescribed screen area (e.g. for video / touch input)

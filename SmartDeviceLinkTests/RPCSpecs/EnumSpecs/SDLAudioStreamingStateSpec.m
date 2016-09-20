@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLAudioStreamingState values];
-    __block NSArray* definedValues;
+    NSArray<SDLAudioStreamingState *> *storedValues = [SDLAudioStreamingState values];
+    __block NSArray<SDLAudioStreamingState *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAudioStreamingState AUDIBLE],
                         [SDLAudioStreamingState ATTENUATED],

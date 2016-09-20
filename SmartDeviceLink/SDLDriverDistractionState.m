@@ -7,7 +7,7 @@
 SDLDriverDistractionState *SDLDriverDistractionState_DD_ON = nil;
 SDLDriverDistractionState *SDLDriverDistractionState_DD_OFF = nil;
 
-NSArray *SDLDriverDistractionState_values = nil;
+NSArray<SDLDriverDistractionState *> *SDLDriverDistractionState_values = nil;
 
 @implementation SDLDriverDistractionState
 
@@ -20,7 +20,7 @@ NSArray *SDLDriverDistractionState_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLDriverDistractionState *> *)values {
     if (SDLDriverDistractionState_values == nil) {
         SDLDriverDistractionState_values = @[
             SDLDriverDistractionState.DD_ON,

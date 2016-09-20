@@ -7,7 +7,7 @@
 SDLButtonPressMode *SDLButtonPressMode_LONG = nil;
 SDLButtonPressMode *SDLButtonPressMode_SHORT = nil;
 
-NSArray *SDLButtonPressMode_values = nil;
+NSArray<SDLButtonPressMode *> *SDLButtonPressMode_values = nil;
 
 @implementation SDLButtonPressMode
 
@@ -20,7 +20,7 @@ NSArray *SDLButtonPressMode_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLButtonPressMode *> *)values {
     if (SDLButtonPressMode_values == nil) {
         SDLButtonPressMode_values = @[
             SDLButtonPressMode.LONG,

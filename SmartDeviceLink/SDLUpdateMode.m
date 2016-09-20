@@ -10,7 +10,7 @@ SDLUpdateMode *SDLUpdateMode_PAUSE = nil;
 SDLUpdateMode *SDLUpdateMode_RESUME = nil;
 SDLUpdateMode *SDLUpdateMode_CLEAR = nil;
 
-NSArray *SDLUpdateMode_values = nil;
+NSArray<SDLUpdateMode *> *SDLUpdateMode_values = nil;
 
 @implementation SDLUpdateMode
 
@@ -23,7 +23,7 @@ NSArray *SDLUpdateMode_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLUpdateMode *> *)values {
     if (SDLUpdateMode_values == nil) {
         SDLUpdateMode_values = @[
             SDLUpdateMode.COUNTUP,

@@ -4,6 +4,7 @@
 #import "SDLRPCRequest.h"
 
 @class SDLImage;
+@class SDLSoftButton;
 @class SDLTextAlignment;
 
 
@@ -40,7 +41,7 @@
  * @abstract Constructs a new SDLShow object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display
@@ -214,7 +215,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -228,6 +229,6 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *customPresets;
+@property (strong) NSMutableArray<NSString *> *customPresets;
 
 @end

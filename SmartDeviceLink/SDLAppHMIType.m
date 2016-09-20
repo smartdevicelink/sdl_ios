@@ -15,7 +15,7 @@ SDLAppHMIType *SDLAppHMIType_BACKGROUND_PROCESS = nil;
 SDLAppHMIType *SDLAppHMIType_TESTING = nil;
 SDLAppHMIType *SDLAppHMIType_SYSTEM = nil;
 
-NSArray *SDLAppHMIType_values = nil;
+NSArray<SDLAppHMIType *> *SDLAppHMIType_values = nil;
 
 @implementation SDLAppHMIType
 
@@ -28,7 +28,7 @@ NSArray *SDLAppHMIType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLAppHMIType *> *)values {
     if (SDLAppHMIType_values == nil) {
         SDLAppHMIType_values = @[
             SDLAppHMIType.DEFAULT,

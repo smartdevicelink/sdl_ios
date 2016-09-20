@@ -31,13 +31,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{@"driverdistractionstatus":@NO,
-                                                   @"userselected":@3,
-                                                   @"OnLockScreenStatus":[SDLLockScreenStatus REQUIRED],
-                                                   @"hmilevel":[SDLHMILevel NONE]},
-                                             NAMES_operation_name:@"OnLockScreenStatus"}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_notification:
+                                                           @{NAMES_parameters:
+                                                                 @{@"driverdistractionstatus":@NO,
+                                                                   @"userselected":@3,
+                                                                   @"OnLockScreenStatus":[SDLLockScreenStatus REQUIRED],
+                                                                   @"hmilevel":[SDLHMILevel NONE]},
+                                                             NAMES_operation_name:@"OnLockScreenStatus"}} mutableCopy];
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));

@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLFuelCutoffStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLFuelCutoffStatus *> *storedValues = [SDLFuelCutoffStatus values];
+    __block NSArray<SDLFuelCutoffStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLFuelCutoffStatus TERMINATE_FUEL],
                         [SDLFuelCutoffStatus NORMAL_OPERATION],

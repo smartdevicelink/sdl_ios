@@ -20,19 +20,19 @@
 }
 
 // Convert RPC payload to dictionary (for consumption by RPC layer)
-- (NSDictionary *)rpcDictionary {
+- (NSDictionary<NSString *, id> *)rpcDictionary {
     // Only applicable to RPCs
     if ((self.header.serviceType != SDLServiceType_RPC) && (self.header.serviceType != SDLServiceType_BulkData)) {
         return nil;
     }
 
-    NSMutableDictionary *rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSString *, id> *rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
 
     // Parse the payload as RPC struct
     SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
 
     // Create the inner dictionary with the RPC properties
-    NSMutableDictionary *innerDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary <NSString *, id> *innerDictionary = [[NSMutableDictionary alloc] init];
     NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];
     [innerDictionary setObject:functionName forKey:NAMES_operation_name];
     [innerDictionary setObject:[NSNumber numberWithInt:rpcPayload.correlationID] forKey:NAMES_correlationID];
@@ -47,7 +47,7 @@
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
-    NSArray *rpcTypeNames = @[NAMES_request, NAMES_response, NAMES_notification];
+    NSArray<NSString *> *rpcTypeNames = @[NAMES_request, NAMES_response, NAMES_notification];
     [rpcMessageAsDictionary setObject:innerDictionary forKey:rpcTypeNames[rpcType]];
 
     // The bulk data also goes in the dictionary

@@ -9,7 +9,7 @@ SDLHMILevel *SDLHMILevel_LIMITED = nil;
 SDLHMILevel *SDLHMILevel_BACKGROUND = nil;
 SDLHMILevel *SDLHMILevel_NONE = nil;
 
-NSArray *SDLHMILevel_values = nil;
+NSArray<SDLHMILevel *> *SDLHMILevel_values = nil;
 
 @implementation SDLHMILevel
 
@@ -22,7 +22,7 @@ NSArray *SDLHMILevel_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLHMILevel *> *)values {
     if (SDLHMILevel_values == nil) {
         SDLHMILevel_values = @[
             [SDLHMILevel FULL],

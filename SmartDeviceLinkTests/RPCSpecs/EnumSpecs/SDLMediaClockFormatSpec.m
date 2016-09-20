@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLMediaClockFormat values];
-    __block NSArray* definedValues;
+    NSArray<SDLMediaClockFormat *> *storedValues = [SDLMediaClockFormat values];
+    __block NSArray<SDLMediaClockFormat *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLMediaClockFormat CLOCK1],
                         [SDLMediaClockFormat CLOCK2],

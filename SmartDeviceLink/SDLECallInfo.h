@@ -11,7 +11,7 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 @property (strong) SDLVehicleDataNotificationStatus *eCallNotificationStatus;
 @property (strong) SDLVehicleDataNotificationStatus *auxECallNotificationStatus;

@@ -27,7 +27,7 @@
  *
  * @return an array that stores all possible SDLFuelCutoffStatus
  */
-+ (NSArray *)values;
++ (NSArray<SDLFuelCutoffStatus *> *)values;
 
 /** 
  * @abstract Fuel is cut off

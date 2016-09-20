@@ -52,8 +52,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLImageFieldName values];
-    __block NSArray* definedValues;
+    NSArray<SDLImageFieldName *> *storedValues = [SDLImageFieldName values];
+    __block NSArray<SDLImageFieldName *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLImageFieldName softButtonImage],
                         [SDLImageFieldName choiceImage],

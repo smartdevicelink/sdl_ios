@@ -18,7 +18,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     self = [super initWithDictionary:dict];
     if (!self) {
         return nil;
@@ -63,12 +63,16 @@
     return parameters[NAMES_locationName];
 }
 
-- (void)setAddressLines:(NSArray *)addressLines {
+- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
     if (addressLines != nil) {
         parameters[NAMES_addressLines] = addressLines;
     } else {
         [parameters removeObjectForKey:NAMES_addressLines];
     }
+}
+
+- (NSArray<NSString *> *)addressLines {
+    return parameters[NAMES_addressLines];
 }
 
 - (NSString *)locationDescription {
@@ -81,10 +85,6 @@
     } else {
         [parameters removeObjectForKey:NAMES_locationDescription];
     }
-}
-
-- (NSArray *)addressLines {
-    return parameters[NAMES_addressLines];
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {

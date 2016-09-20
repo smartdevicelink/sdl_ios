@@ -23,7 +23,7 @@
  * Constructs a newly allocated SDLImage object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract The static hex icon value or the binary image file name identifier (sent by SDLPutFile)

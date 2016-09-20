@@ -12,7 +12,7 @@
 }
 
 - (instancetype)initWithName:(NSString *)name;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 - (NSString *)getFunctionName;
 - (void)setFunctionName:(NSString *)functionName;
 - (NSObject *)getParameters:(NSString *)functionName;

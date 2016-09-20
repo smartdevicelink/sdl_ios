@@ -42,8 +42,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLFileType values];
-    __block NSArray* definedValues;
+    NSArray<SDLFileType *> *storedValues = [SDLFileType values];
+    __block NSArray<SDLFileType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLFileType GRAPHIC_BMP],
                         [SDLFileType GRAPHIC_JPEG],

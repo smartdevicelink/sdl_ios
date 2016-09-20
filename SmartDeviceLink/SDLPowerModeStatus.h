@@ -8,7 +8,7 @@
 }
 
 + (SDLPowerModeStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLPowerModeStatus *> *)values;
 
 + (SDLPowerModeStatus *)KEY_OUT;
 + (SDLPowerModeStatus *)KEY_RECENTLY_OUT;

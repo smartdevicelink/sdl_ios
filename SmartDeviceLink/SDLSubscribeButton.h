@@ -82,7 +82,7 @@
  * parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  *  A handler that will let you know when the button you subscribed to is selected.

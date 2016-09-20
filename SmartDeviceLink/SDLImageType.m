@@ -7,7 +7,7 @@
 SDLImageType *SDLImageType_STATIC = nil;
 SDLImageType *SDLImageType_DYNAMIC = nil;
 
-NSArray *SDLImageType_values = nil;
+NSArray<SDLImageType *> *SDLImageType_values = nil;
 
 @implementation SDLImageType
 
@@ -20,7 +20,7 @@ NSArray *SDLImageType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLImageType *> *)values {
     if (SDLImageType_values == nil) {
         SDLImageType_values = @[
             SDLImageType.STATIC,

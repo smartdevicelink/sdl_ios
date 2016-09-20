@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLEmergencyEventType values];
-    __block NSArray* definedValues;
+    NSArray<SDLEmergencyEventType *> *storedValues = [SDLEmergencyEventType values];
+    __block NSArray<SDLEmergencyEventType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLEmergencyEventType NO_EVENT],
                         [SDLEmergencyEventType FRONTAL],

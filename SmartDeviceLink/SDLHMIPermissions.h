@@ -4,6 +4,8 @@
 
 #import "SDLRPCMessage.h"
 
+@class SDLHMILevel;
+
 /**
  * Defining sets of HMI levels, which are permitted or prohibited for a given RPC.
  * 
@@ -21,7 +23,7 @@
  * Constructs a newly allocated SDLHMIPermissions object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract a set of all HMI levels that are permitted for this given RPC
@@ -30,7 +32,7 @@
  *
  * Required, Array of SDLHMILevel, Array size 0 - 100
  */
-@property (strong) NSMutableArray *allowed;
+@property (strong) NSMutableArray<SDLHMILevel *> *allowed;
 
 /**
  * @abstract a set of all HMI levels that are prohibited for this given RPC
@@ -39,6 +41,6 @@
  *
  * Required, Array of SDLHMILevel, Array size 0 - 100
  */
-@property (strong) NSMutableArray *userDisallowed;
+@property (strong) NSMutableArray<SDLHMILevel *> *userDisallowed;
 
 @end

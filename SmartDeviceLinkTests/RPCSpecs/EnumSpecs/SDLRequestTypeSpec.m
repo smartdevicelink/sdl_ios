@@ -67,8 +67,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLRequestType values];
-    __block NSArray* definedValues;
+    NSArray<SDLRequestType *> *storedValues = [SDLRequestType values];
+    __block NSArray<SDLRequestType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLRequestType HTTP],
                            [SDLRequestType FILE_RESUME],

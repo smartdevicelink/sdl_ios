@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLKeypressMode values];
-    __block NSArray* definedValues;
+    NSArray<SDLKeypressMode *> *storedValues = [SDLKeypressMode values];
+    __block NSArray<SDLKeypressMode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeypressMode SINGLE_KEYPRESS],
                         [SDLKeypressMode QUEUE_KEYPRESSES],

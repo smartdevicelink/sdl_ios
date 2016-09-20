@@ -10,7 +10,7 @@ SDLSpeechCapabilities *SDLSpeechCapabilities_LHPLUS_PHONEMES = nil;
 SDLSpeechCapabilities *SDLSpeechCapabilities_PRE_RECORDED = nil;
 SDLSpeechCapabilities *SDLSpeechCapabilities_SILENCE = nil;
 
-NSArray *SDLSpeechCapabilities_values = nil;
+NSArray<SDLSpeechCapabilities *> *SDLSpeechCapabilities_values = nil;
 
 @implementation SDLSpeechCapabilities
 
@@ -23,7 +23,7 @@ NSArray *SDLSpeechCapabilities_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLSpeechCapabilities *> *)values {
     if (SDLSpeechCapabilities_values == nil) {
         SDLSpeechCapabilities_values = @[
             SDLSpeechCapabilities.TEXT,

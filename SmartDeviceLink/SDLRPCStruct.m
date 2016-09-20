@@ -10,7 +10,7 @@
 
 @implementation SDLRPCStruct
 
-- (id)initWithDictionary:(NSMutableDictionary *)dict {
+- (id)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super init]) {
         if (dict != nil) {
             store = dict;
@@ -28,8 +28,8 @@
     return self;
 }
 
-- (NSMutableDictionary *)serializeDictionary:(NSDictionary *)dict version:(Byte)version {
-    NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
+- (NSMutableDictionary<NSString *, id> *)serializeDictionary:(NSDictionary<NSString *, id> *)dict version:(Byte)version {
+    NSMutableDictionary<NSString *, id> *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
     for (NSString *key in [dict keyEnumerator]) {
         NSObject *value = [dict objectForKey:key];
         if ([value isKindOfClass:SDLRPCStruct.class]) {
@@ -37,16 +37,16 @@
         } else if ([value isKindOfClass:NSDictionary.class]) {
             [ret setObject:[self serializeDictionary:(NSDictionary *)value version:version] forKey:key];
         } else if ([value isKindOfClass:NSArray.class]) {
-            NSArray *arrayVal = (NSArray *)value;
+            NSArray<id> *arrayVal = (NSArray<id> *)value;
 
             if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLRPCStruct.class])) {
-                NSMutableArray *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
+                NSMutableArray<NSMutableDictionary<NSString *, id>*> *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
                 for (SDLRPCStruct *serializeable in arrayVal) {
                     [serializedList addObject:[serializeable serializeAsDictionary:version]];
                 }
                 [ret setObject:serializedList forKey:key];
             } else if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLEnum.class])) {
-                NSMutableArray *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
+                NSMutableArray<NSString *> *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
                 for (SDLEnum *anEnum in arrayVal) {
                     [serializedList addObject:anEnum.value];
                 }
@@ -63,12 +63,12 @@
     return ret;
 }
 
-- (NSMutableDictionary *)serializeAsDictionary:(Byte)version {
+- (NSMutableDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version {
     if (version >= 2) {
         NSString *messageType = [[store keyEnumerator] nextObject];
-        NSMutableDictionary *function = [store objectForKey:messageType];
+        NSMutableDictionary<NSString *, id> *function = [store objectForKey:messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
-            NSMutableDictionary *parameters = [function objectForKey:NAMES_parameters];
+            NSMutableDictionary<NSString *, id> *parameters = [function objectForKey:NAMES_parameters];
             return [self serializeDictionary:parameters version:version];
         } else {
             return [self serializeDictionary:store version:version];

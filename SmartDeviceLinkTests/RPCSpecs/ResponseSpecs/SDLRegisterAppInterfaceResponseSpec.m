@@ -65,27 +65,27 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_syncMsgVersion:version,
-                                                   NAMES_language:[SDLLanguage ES_MX],
-                                                   NAMES_hmiDisplayLanguage:[SDLLanguage RU_RU],
-                                                   NAMES_displayCapabilities:info,
-                                                   NAMES_buttonCapabilities:[@[button] mutableCopy],
-                                                   NAMES_softButtonCapabilities:[@[softButton] mutableCopy],
-                                                   NAMES_presetBankCapabilities:presetBank,
-                                                   NAMES_hmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy],
-                                                   NAMES_speechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy],
-                                                   NAMES_vrCapabilities:[@[[SDLVRCapabilities TEXT]] copy],
-                                                   NAMES_audioPassThruCapabilities:[@[audioPassThru] mutableCopy],
-                                                   NAMES_vehicleType:vehicle,
-                                                   NAMES_prerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy],
-                                                   NAMES_supportedDiagModes:[@[@67, @99, @111] mutableCopy],
-                                                   NAMES_hmiCapabilities: hmiCapabilities,
-                                                   NAMES_sdlVersion: @"sdlVersion",
-                                                   NAMES_systemSoftwareVersion: @"systemSoftwareVersion"
-                                                   },
-                                             NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_syncMsgVersion:version,
+                                                                   NAMES_language:[SDLLanguage ES_MX],
+                                                                   NAMES_hmiDisplayLanguage:[SDLLanguage RU_RU],
+                                                                   NAMES_displayCapabilities:info,
+                                                                   NAMES_buttonCapabilities:[@[button] mutableCopy],
+                                                                   NAMES_softButtonCapabilities:[@[softButton] mutableCopy],
+                                                                   NAMES_presetBankCapabilities:presetBank,
+                                                                   NAMES_hmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy],
+                                                                   NAMES_speechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy],
+                                                                   NAMES_vrCapabilities:[@[[SDLVRCapabilities TEXT]] copy],
+                                                                   NAMES_audioPassThruCapabilities:[@[audioPassThru] mutableCopy],
+                                                                   NAMES_vehicleType:vehicle,
+                                                                   NAMES_prerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy],
+                                                                   NAMES_supportedDiagModes:[@[@67, @99, @111] mutableCopy],
+                                                                   NAMES_hmiCapabilities: hmiCapabilities,
+                                                                   NAMES_sdlVersion: @"sdlVersion",
+                                                                   NAMES_systemSoftwareVersion: @"systemSoftwareVersion"
+                                                                   },
+                                                             NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.syncMsgVersion).to(equal(version));

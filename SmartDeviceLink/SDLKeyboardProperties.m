@@ -17,7 +17,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -74,7 +74,7 @@
     }
 }
 
-- (void)setLimitedCharacterList:(NSMutableArray *)limitedCharacterList {
+- (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
     if (limitedCharacterList != nil) {
         [store setObject:limitedCharacterList forKey:NAMES_limitedCharacterList];
     } else {
@@ -82,7 +82,7 @@
     }
 }
 
-- (NSMutableArray *)limitedCharacterList {
+- (NSMutableArray<NSString *> *)limitedCharacterList {
     return [store objectForKey:NAMES_limitedCharacterList];
 }
 

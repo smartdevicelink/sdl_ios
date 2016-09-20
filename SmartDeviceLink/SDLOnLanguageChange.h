@@ -23,7 +23,7 @@
  * Constructs a newly allocated SDLOnLanguageChange object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract Current SDL voice engine (VR+TTS) language

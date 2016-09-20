@@ -17,7 +17,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -40,7 +40,7 @@
     }
 }
 
-- (void)setImageTypeSupported:(NSMutableArray *)imageTypeSupported {
+- (void)setImageTypeSupported:(NSMutableArray<SDLFileType *> *)imageTypeSupported {
     if (imageTypeSupported != nil) {
         [store setObject:imageTypeSupported forKey:NAMES_imageTypeSupported];
     } else {
@@ -48,12 +48,12 @@
     }
 }
 
-- (NSMutableArray *)imageTypeSupported {
-    NSMutableArray *array = [store objectForKey:NAMES_imageTypeSupported];
+- (NSMutableArray<SDLFileType *> *)imageTypeSupported {
+    NSMutableArray<SDLFileType *> *array = [store objectForKey:NAMES_imageTypeSupported];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLFileType.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLFileType *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLFileType valueOf:enumString]];
         }

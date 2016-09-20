@@ -13,7 +13,7 @@
 }
 
 + (SDLEmergencyEventType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLEmergencyEventType *> *)values;
 
 /** No emergency event has happened.
  */

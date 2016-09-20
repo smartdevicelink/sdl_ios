@@ -12,7 +12,7 @@
 
 + (SDLCarModeStatus *)valueOf:(NSString *)value;
 
-+ (NSArray *)values;
++ (NSArray<SDLCarModeStatus *> *)values;
 /** Provides carmode NORMAL to each module.
  */
 + (SDLCarModeStatus *)NORMAL;

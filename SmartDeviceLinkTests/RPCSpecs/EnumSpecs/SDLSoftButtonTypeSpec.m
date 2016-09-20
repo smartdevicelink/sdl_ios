@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLSoftButtonType values];
-    __block NSArray* definedValues;
+    NSArray<SDLSoftButtonType *> *storedValues = [SDLSoftButtonType values];
+    __block NSArray<SDLSoftButtonType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSoftButtonType TEXT],
                         [SDLSoftButtonType IMAGE],

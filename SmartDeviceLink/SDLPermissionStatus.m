@@ -9,7 +9,7 @@ SDLPermissionStatus *SDLPermissionStatus_DISALLOWED = nil;
 SDLPermissionStatus *SDLPermissionStatus_USER_DISALLOWED = nil;
 SDLPermissionStatus *SDLPermissionStatus_USER_CONSENT_PENDING = nil;
 
-NSArray *SDLPermissionStatus_values = nil;
+NSArray<SDLPermissionStatus *> *SDLPermissionStatus_values = nil;
 
 @implementation SDLPermissionStatus
 
@@ -22,7 +22,7 @@ NSArray *SDLPermissionStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLPermissionStatus *> *)values {
     if (SDLPermissionStatus_values == nil) {
         SDLPermissionStatus_values = @[
             SDLPermissionStatus.ALLOWED,

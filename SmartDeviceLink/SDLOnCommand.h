@@ -27,7 +27,7 @@
  * Constructs a newly allocated SDLRPCNotification object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract The command ID of the command the user selected. This is the command ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.

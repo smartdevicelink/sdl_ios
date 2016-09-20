@@ -14,13 +14,13 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
 }
 
-- (void)setAllowed:(NSMutableArray *)allowed {
+- (void)setAllowed:(NSMutableArray<NSString*> *)allowed {
     if (allowed != nil) {
         [store setObject:allowed forKey:NAMES_allowed];
     } else {
@@ -28,11 +28,11 @@
     }
 }
 
-- (NSMutableArray *)allowed {
+- (NSMutableArray<NSString*> *)allowed {
     return [store objectForKey:NAMES_allowed];
 }
 
-- (void)setUserDisallowed:(NSMutableArray *)userDisallowed {
+- (void)setUserDisallowed:(NSMutableArray<NSString*> *)userDisallowed {
     if (userDisallowed != nil) {
         [store setObject:userDisallowed forKey:NAMES_userDisallowed];
     } else {
@@ -40,7 +40,7 @@
     }
 }
 
-- (NSMutableArray *)userDisallowed {
+- (NSMutableArray<NSString*> *)userDisallowed {
     return [store objectForKey:NAMES_userDisallowed];
 }
 

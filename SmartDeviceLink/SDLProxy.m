@@ -61,7 +61,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (copy, nonatomic) NSString *appId;
-@property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
+@property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
 @property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
 @property (nonatomic, strong, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
@@ -169,7 +169,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - Accessors
 
-- (NSSet *)proxyListeners {
+- (NSSet<NSObject<SDLProxyListener> *> *)proxyListeners {
     return [self.mutableProxyListeners copy];
 }
 
@@ -717,7 +717,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
-    NSArray *array = [NSArray arrayWithObject:encodedSyncPDataString];
+    NSArray<NSString *> *array = [NSArray arrayWithObject:encodedSyncPDataString];
     NSDictionary *dictionary = @{ @"data": array };
     NSError *JSONSerializationError = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];

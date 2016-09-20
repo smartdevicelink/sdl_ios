@@ -10,7 +10,7 @@ SDLVehicleDataEventStatus *SDLVehicleDataEventStatus_YES = nil;
 SDLVehicleDataEventStatus *SDLVehicleDataEventStatus_NOT_SUPPORTED = nil;
 SDLVehicleDataEventStatus *SDLVehicleDataEventStatus_FAULT = nil;
 
-NSArray *SDLVehicleDataEventStatus_values = nil;
+NSArray<SDLVehicleDataEventStatus *> *SDLVehicleDataEventStatus_values = nil;
 
 @implementation SDLVehicleDataEventStatus
 
@@ -23,7 +23,7 @@ NSArray *SDLVehicleDataEventStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLVehicleDataEventStatus *> *)values {
     if (SDLVehicleDataEventStatus_values == nil) {
         SDLVehicleDataEventStatus_values = @[
             SDLVehicleDataEventStatus.NO_EVENT,

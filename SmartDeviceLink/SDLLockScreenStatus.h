@@ -8,7 +8,7 @@
 
 @interface SDLLockScreenStatus : SDLEnum
 + (SDLLockScreenStatus *)valueOf:(NSString *)value;
-+ (NSMutableArray *)values;
++ (NSMutableArray<SDLLockScreenStatus *> *)values;
 /**
  * LockScreen is Not Required
  */

@@ -8,8 +8,8 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
-@property (strong) NSMutableArray *data;
+@property (strong) NSMutableArray<NSString *> *data;
 
 @end

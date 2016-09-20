@@ -35,7 +35,7 @@
  *<p>Constructs a newly allocated SDLOnHMIStatus object indicated by the dictionary parameter</p>
  *@param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract SDLHMILevel in effect for the application

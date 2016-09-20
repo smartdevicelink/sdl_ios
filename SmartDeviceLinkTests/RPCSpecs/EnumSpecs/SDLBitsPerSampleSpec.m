@@ -30,8 +30,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLBitsPerSample values];
-    __block NSArray* definedValues;
+    NSArray<SDLBitsPerSample *> *storedValues = [SDLBitsPerSample values];
+    __block NSArray<SDLBitsPerSample *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLBitsPerSample _8_BIT],
                         [SDLBitsPerSample _16_BIT]] copy];

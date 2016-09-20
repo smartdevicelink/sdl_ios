@@ -91,8 +91,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLResult values];
-    __block NSArray* definedValues;
+    NSArray<SDLResult *> *storedValues = [SDLResult values];
+    __block NSArray<SDLResult *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLResult SUCCESS],
                         [SDLResult UNSUPPORTED_REQUEST],

@@ -28,8 +28,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLAudioType values];
-    __block NSArray* definedValues;
+    NSArray<SDLAudioType *> *storedValues = [SDLAudioType values];
+    __block NSArray<SDLAudioType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLAudioType PCM]] copy];
     });

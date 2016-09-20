@@ -14,7 +14,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -44,7 +44,7 @@
     return [parameters objectForKey:NAMES_messageLength];
 }
 
-- (void)setMessageData:(NSMutableArray *)messageData {
+- (void)setMessageData:(NSMutableArray<NSNumber *> *)messageData {
     if (messageData != nil) {
         [parameters setObject:messageData forKey:NAMES_messageData];
     } else {
@@ -52,7 +52,7 @@
     }
 }
 
-- (NSMutableArray *)messageData {
+- (NSMutableArray<NSNumber *> *)messageData {
     return [parameters objectForKey:NAMES_messageData];
 }
 

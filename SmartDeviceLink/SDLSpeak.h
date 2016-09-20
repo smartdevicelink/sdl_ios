@@ -3,6 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLTTSChunk;
+
 /**
  * Speaks a phrase over the vehicle audio system using SDL's TTS (text-to-speech) engine. The provided text to be spoken can be simply a text phrase, or it can consist of phoneme specifications to direct SDL's TTS engine to speak a "speech-sculpted" phrase.
  *
@@ -48,7 +50,7 @@
  * @abstract Constructs a new SDLSpeak object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken
@@ -59,6 +61,6 @@
  * 
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray *ttsChunks;
+@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 
 @end

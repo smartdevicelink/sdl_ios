@@ -11,7 +11,7 @@
 @interface SDLSendLocation : SDLRPCRequest
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * The longitudinal coordinate of the location.
@@ -46,7 +46,7 @@
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */
-@property (copy, nonatomic) NSArray *addressLines;
+@property (copy, nonatomic) NSArray<NSString *> *addressLines;
 
 /**
  * Phone number of intended location / establishment

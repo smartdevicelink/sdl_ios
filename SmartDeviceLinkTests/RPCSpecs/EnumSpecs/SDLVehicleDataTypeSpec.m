@@ -78,8 +78,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLVehicleDataType values];
-    __block NSArray* definedValues;
+    NSArray<SDLVehicleDataType *> *storedValues = [SDLVehicleDataType values];
+    __block NSArray<SDLVehicleDataType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataType VEHICLEDATA_GPS],
                         [SDLVehicleDataType VEHICLEDATA_SPEED],

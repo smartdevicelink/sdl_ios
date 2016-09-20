@@ -6,7 +6,7 @@
 
 SDLVRCapabilities *SDLVRCapabilities_TEXT = nil;
 
-NSArray *SDLVRCapabilities_values = nil;
+NSArray<SDLVRCapabilities *> *SDLVRCapabilities_values = nil;
 
 @implementation SDLVRCapabilities
 
@@ -23,7 +23,7 @@ NSArray *SDLVRCapabilities_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLVRCapabilities *> *)values {
     if (SDLVRCapabilities_values == nil) {
         SDLVRCapabilities_values = @[
             SDLVRCapabilities.TEXT,

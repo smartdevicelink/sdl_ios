@@ -59,22 +59,22 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_syncMsgVersion:version,
-                                                   NAMES_appName:@"app56",
-                                                   NAMES_ttsName:[@[chunk] mutableCopy],
-                                                   NAMES_ngnMediaScreenAppName:@"whatisanngn",
-                                                   NAMES_vrSynonyms:[@[@"paraphrase of the original name"] mutableCopy],
-                                                   NAMES_isMediaApplication:@NO,
-                                                   NAMES_languageDesired:[SDLLanguage NO_NO],
-                                                   NAMES_hmiDisplayLanguageDesired:[SDLLanguage PT_PT],
-                                                   NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy],
-                                                   NAMES_hashID:@"gercd35grw2",
-                                                   NAMES_deviceInfo:info,
-                                                   NAMES_appID:@"123456789",
-                                                   NAMES_appInfo:appInfo},
-                                             NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_syncMsgVersion:version,
+                                                                   NAMES_appName:@"app56",
+                                                                   NAMES_ttsName:[@[chunk] mutableCopy],
+                                                                   NAMES_ngnMediaScreenAppName:@"whatisanngn",
+                                                                   NAMES_vrSynonyms:[@[@"paraphrase of the original name"] mutableCopy],
+                                                                   NAMES_isMediaApplication:@NO,
+                                                                   NAMES_languageDesired:[SDLLanguage NO_NO],
+                                                                   NAMES_hmiDisplayLanguageDesired:[SDLLanguage PT_PT],
+                                                                   NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy],
+                                                                   NAMES_hashID:@"gercd35grw2",
+                                                                   NAMES_deviceInfo:info,
+                                                                   NAMES_appID:@"123456789",
+                                                                   NAMES_appInfo:appInfo},
+                                                             NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
         
         expect(testRequest.syncMsgVersion).to(equal(version));

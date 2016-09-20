@@ -69,33 +69,33 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_gps:@YES,
-                                                   NAMES_speed:@YES,
-                                                   NAMES_rpm:@YES,
-                                                   NAMES_fuelLevel:@YES,
-                                                   NAMES_fuelLevel_State:@YES,
-                                                   NAMES_instantFuelConsumption:@YES,
-                                                   NAMES_externalTemperature:@YES,
-                                                   NAMES_prndl:@YES,
-                                                   NAMES_tirePressure:@YES,
-                                                   NAMES_odometer:@YES,
-                                                   NAMES_beltStatus:@YES,
-                                                   NAMES_bodyInformation:@YES,
-                                                   NAMES_deviceStatus:@YES,
-                                                   NAMES_driverBraking:@YES,
-                                                   NAMES_wiperStatus:@YES,
-                                                   NAMES_headLampStatus:@YES,
-                                                   NAMES_engineTorque:@YES,
-                                                   NAMES_accPedalPosition:@YES,
-                                                   NAMES_steeringWheelAngle:@YES,
-                                                   NAMES_eCallInfo:@YES,
-                                                   NAMES_airbagStatus:@YES,
-                                                   NAMES_emergencyEvent:@YES,
-                                                   NAMES_clusterModeStatus:@YES,
-                                                   NAMES_myKey:@YES},
-                                             NAMES_operation_name:NAMES_UnsubscribeVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_gps:@YES,
+                                                                   NAMES_speed:@YES,
+                                                                   NAMES_rpm:@YES,
+                                                                   NAMES_fuelLevel:@YES,
+                                                                   NAMES_fuelLevel_State:@YES,
+                                                                   NAMES_instantFuelConsumption:@YES,
+                                                                   NAMES_externalTemperature:@YES,
+                                                                   NAMES_prndl:@YES,
+                                                                   NAMES_tirePressure:@YES,
+                                                                   NAMES_odometer:@YES,
+                                                                   NAMES_beltStatus:@YES,
+                                                                   NAMES_bodyInformation:@YES,
+                                                                   NAMES_deviceStatus:@YES,
+                                                                   NAMES_driverBraking:@YES,
+                                                                   NAMES_wiperStatus:@YES,
+                                                                   NAMES_headLampStatus:@YES,
+                                                                   NAMES_engineTorque:@YES,
+                                                                   NAMES_accPedalPosition:@YES,
+                                                                   NAMES_steeringWheelAngle:@YES,
+                                                                   NAMES_eCallInfo:@YES,
+                                                                   NAMES_airbagStatus:@YES,
+                                                                   NAMES_emergencyEvent:@YES,
+                                                                   NAMES_clusterModeStatus:@YES,
+                                                                   NAMES_myKey:@YES},
+                                                             NAMES_operation_name:NAMES_UnsubscribeVehicleData}} mutableCopy];
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.gps).to(equal(@YES));

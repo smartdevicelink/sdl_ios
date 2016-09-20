@@ -24,7 +24,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_status:[SDLComponentVolumeStatus LOW]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_status:[SDLComponentVolumeStatus LOW]} mutableCopy];
         SDLSingleTireStatus* testStruct = [[SDLSingleTireStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.status).to(equal([SDLComponentVolumeStatus LOW]));

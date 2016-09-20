@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLFileType
  */
-+ (NSArray *)values;
++ (NSArray<SDLFileType *> *)values;
 
 /**
  * @abstract file type: Bitmap (BMP)

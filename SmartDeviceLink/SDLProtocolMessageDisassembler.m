@@ -11,7 +11,7 @@
 
 // Use to break up a large message into a sequence of smaller messages,
 // each of which is less than 'mtu' number of bytes total size.
-+ (NSArray *)disassemble:(SDLProtocolMessage *)incomingMessage withLimit:(NSUInteger)mtu {
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)incomingMessage withLimit:(NSUInteger)mtu {
     // Questions:
     // What message IDs does the current system use? Same messageIDs? Same CorrelationIDs?
     // What gets simply copied from incoming header to created headers; and what needs adjustment?
@@ -32,7 +32,7 @@
     NSUInteger numberOfDataBytesPerMessage = mtu - headerSize;
 
     // Create the outgoing array to hold the messages we will create.
-    NSMutableArray *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired + 1];
+    NSMutableArray<SDLProtocolMessage *> *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired + 1];
 
 
     // Create the first message

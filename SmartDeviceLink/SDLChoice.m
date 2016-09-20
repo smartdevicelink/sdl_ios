@@ -15,7 +15,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString*, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
@@ -45,7 +45,7 @@
     return [store objectForKey:NAMES_menuName];
 }
 
-- (void)setVrCommands:(NSMutableArray *)vrCommands {
+- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
     if (vrCommands != nil) {
         [store setObject:vrCommands forKey:NAMES_vrCommands];
     } else {
@@ -53,7 +53,7 @@
     }
 }
 
-- (NSMutableArray *)vrCommands {
+- (NSMutableArray<NSString *> *)vrCommands {
     return [store objectForKey:NAMES_vrCommands];
 }
 

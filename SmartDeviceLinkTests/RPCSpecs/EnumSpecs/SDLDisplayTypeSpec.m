@@ -48,8 +48,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLDisplayType values];
-    __block NSArray* definedValues;
+    NSArray<SDLDisplayType *> *storedValues = [SDLDisplayType values];
+    __block NSArray<SDLDisplayType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDisplayType CID],
                         [SDLDisplayType TYPE2],

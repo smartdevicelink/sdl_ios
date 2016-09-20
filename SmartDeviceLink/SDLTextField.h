@@ -69,7 +69,7 @@
  *
  * @param dict The dictionary to use to construct the object
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract The enumeration identifying the field.

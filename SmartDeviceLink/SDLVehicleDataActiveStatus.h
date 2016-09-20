@@ -20,7 +20,7 @@
 /**
  @abstract return the array that store all possible SDLVehicleDataActiveStatus values
  */
-+ (NSArray *)values;
++ (NSArray<SDLVehicleDataActiveStatus *> *)values;
 
 /**
  @abstract SDLVehicleDataActiveStatus : Inactive not confirmed

@@ -4,6 +4,9 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLSoftButton;
+@class SDLTTSChunk;
+
 /**
  *  @since SmartDeviceLink 1.0
  */
@@ -11,9 +14,9 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
-@property (strong) NSMutableArray *ttsChunks;
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

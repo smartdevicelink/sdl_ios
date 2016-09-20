@@ -31,9 +31,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_samplingRate:[SDLSamplingRate _22KHZ],
-                                       NAMES_bitsPerSample:[SDLBitsPerSample _8_BIT],
-                                       NAMES_audioType:[SDLAudioType PCM]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_samplingRate:[SDLSamplingRate _22KHZ],
+                                                       NAMES_bitsPerSample:[SDLBitsPerSample _8_BIT],
+                                                       NAMES_audioType:[SDLAudioType PCM]} mutableCopy];
         SDLAudioPassThruCapabilities* testStruct = [[SDLAudioPassThruCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.samplingRate).to(equal([SDLSamplingRate _22KHZ]));

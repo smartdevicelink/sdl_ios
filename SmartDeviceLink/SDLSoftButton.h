@@ -16,7 +16,7 @@
 
 - (instancetype)init;
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 

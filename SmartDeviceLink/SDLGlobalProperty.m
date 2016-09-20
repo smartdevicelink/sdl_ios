@@ -12,7 +12,7 @@ SDLGlobalProperty *SDLGlobalProperty_MENUNAME = nil;
 SDLGlobalProperty *SDLGlobalProperty_MENUICON = nil;
 SDLGlobalProperty *SDLGlobalProperty_KEYBOARDPROPERTIES = nil;
 
-NSArray *SDLGlobalProperty_values = nil;
+NSArray<SDLGlobalProperty *> *SDLGlobalProperty_values = nil;
 
 @implementation SDLGlobalProperty
 
@@ -25,7 +25,7 @@ NSArray *SDLGlobalProperty_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLGlobalProperty *> *)values {
     if (SDLGlobalProperty_values == nil) {
         SDLGlobalProperty_values = @[
             SDLGlobalProperty.HELPPROMPT,

@@ -55,7 +55,7 @@
  *
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.
@@ -94,7 +94,7 @@
  *
  * Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100
  */
-@property (strong) NSMutableArray *vrCommands;
+@property (strong) NSMutableArray<NSString *> *vrCommands;
 
 /**
  * @abstract Image struct containing a static or dynamic icon

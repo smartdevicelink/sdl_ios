@@ -43,8 +43,8 @@ describe(@"a lifecycle configuration", ^{
         describe(@"after setting properties manually", ^{
             __block NSString *someShortAppName = nil;
             __block SDLTTSChunk *someTTSChunk = nil;
-            __block NSArray *someTTSName = nil;
-            __block NSArray *someSynonyms = nil;
+            __block NSArray<SDLTTSChunk *> *someTTSName = nil;
+            __block NSArray<NSString *> *someSynonyms = nil;
             __block NSString *someResumeHashString = nil;
             
             beforeEach(^{
@@ -120,8 +120,8 @@ describe(@"a lifecycle configuration", ^{
         describe(@"after setting properties manually", ^{
             __block NSString *someShortAppName = nil;
             __block SDLTTSChunk *someTTSChunk = nil;
-            __block NSArray *someTTSName = nil;
-            __block NSArray *someSynonyms = nil;
+            __block NSArray<SDLTTSChunk *> *someTTSName = nil;
+            __block NSArray<NSString *> *someSynonyms = nil;
             __block NSString *someResumeHashString = nil;
             
             beforeEach(^{

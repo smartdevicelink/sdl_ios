@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLMaintenanceModeStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLMaintenanceModeStatus *> *storedValues = [SDLMaintenanceModeStatus values];
+    __block NSArray<SDLMaintenanceModeStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLMaintenanceModeStatus NORMAL],
                         [SDLMaintenanceModeStatus NEAR],

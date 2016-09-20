@@ -9,7 +9,7 @@ SDLMaintenanceModeStatus *SDLMaintenanceModeStatus_NEAR = nil;
 SDLMaintenanceModeStatus *SDLMaintenanceModeStatus_ACTIVE = nil;
 SDLMaintenanceModeStatus *SDLMaintenanceModeStatus_FEATURE_NOT_PRESENT = nil;
 
-NSArray *SDLMaintenanceModeStatus_values = nil;
+NSArray<SDLMaintenanceModeStatus *> *SDLMaintenanceModeStatus_values = nil;
 
 @implementation SDLMaintenanceModeStatus
 
@@ -22,7 +22,7 @@ NSArray *SDLMaintenanceModeStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLMaintenanceModeStatus *> *)values {
     if (SDLMaintenanceModeStatus_values == nil) {
         SDLMaintenanceModeStatus_values = @[
             SDLMaintenanceModeStatus.NORMAL,

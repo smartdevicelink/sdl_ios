@@ -25,7 +25,7 @@ SDLRequestType *SDLRequestType_EMERGENCY = nil;
 SDLRequestType *SDLRequestType_MEDIA = nil;
 SDLRequestType *SDLRequestType_FOTA = nil;
 
-NSArray *SDLRequestType_values = nil;
+NSArray<SDLRequestType *> *SDLRequestType_values = nil;
 
 
 @implementation SDLRequestType
@@ -39,7 +39,7 @@ NSArray *SDLRequestType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLRequestType *> *)values {
     if (SDLRequestType_values == nil) {
         SDLRequestType_values = @[
             [SDLRequestType HTTP],

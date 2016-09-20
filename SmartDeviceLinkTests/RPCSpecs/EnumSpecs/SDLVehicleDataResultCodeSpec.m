@@ -44,8 +44,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLVehicleDataResultCode values];
-    __block NSArray* definedValues;
+    NSArray<SDLVehicleDataResultCode *> *storedValues = [SDLVehicleDataResultCode values];
+    __block NSArray<SDLVehicleDataResultCode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataResultCode SUCCESS],
                         [SDLVehicleDataResultCode TRUNCATED_DATA],

@@ -8,7 +8,7 @@ SDLTriggerSource *SDLTriggerSource_MENU = nil;
 SDLTriggerSource *SDLTriggerSource_VR = nil;
 SDLTriggerSource *SDLTriggerSource_KEYBOARD = nil;
 
-NSArray *SDLTriggerSource_values = nil;
+NSArray<SDLTriggerSource *> *SDLTriggerSource_values = nil;
 
 @implementation SDLTriggerSource
 
@@ -21,7 +21,7 @@ NSArray *SDLTriggerSource_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLTriggerSource *> *)values {
     if (SDLTriggerSource_values == nil) {
         SDLTriggerSource_values = @[
             SDLTriggerSource.MENU,

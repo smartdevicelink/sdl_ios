@@ -15,13 +15,13 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
     return self;
 }
 
-- (void)setTtsChunks:(NSMutableArray *)ttsChunks {
+- (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
     if (ttsChunks != nil) {
         [parameters setObject:ttsChunks forKey:NAMES_ttsChunks];
     } else {
@@ -29,14 +29,14 @@
     }
 }
 
-- (NSMutableArray *)ttsChunks {
-    NSMutableArray *array = [parameters objectForKey:NAMES_ttsChunks];
+- (NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:NAMES_ttsChunks];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
         }
         return newList;
     }

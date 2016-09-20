@@ -24,7 +24,7 @@ __deprecated_msg("Use SDLManager instead")
 
 @property (strong) SDLAbstractProtocol *protocol;
 @property (strong) SDLAbstractTransport *transport;
-@property (readonly, copy) NSSet *proxyListeners;
+@property (readonly, copy) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
 @property (strong) SDLTimer *startSessionTimer;
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;

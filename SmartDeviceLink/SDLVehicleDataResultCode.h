@@ -21,7 +21,7 @@
  @abstract Store the enumeration of all possible SDLVehicleDataResultCode
  @return an array that store all possible SDLVehicleDataResultCode
  */
-+ (NSArray *)values;
++ (NSArray<SDLVehicleDataResultCode *> *)values;
 
 /**
  * Individual vehicle data item / DTC / DID request or subscription successful

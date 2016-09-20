@@ -4,6 +4,8 @@
 
 #import "SDLRPCResponse.h"
 
+@class SDLDIDResult;
+
 /**
  * Read DID Response is sent, when ReadDID has been called
  *
@@ -13,8 +15,8 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
-@property (strong) NSMutableArray *didResult;
+@property (strong) NSMutableArray<SDLDIDResult *> *didResult;
 
 @end

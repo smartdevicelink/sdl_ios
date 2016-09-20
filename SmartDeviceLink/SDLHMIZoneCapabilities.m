@@ -7,7 +7,7 @@
 SDLHMIZoneCapabilities *SDLHMIZoneCapabilities_FRONT = nil;
 SDLHMIZoneCapabilities *SDLHMIZoneCapabilities_BACK = nil;
 
-NSArray *SDLHMIZoneCapabilities_values = nil;
+NSArray<SDLHMIZoneCapabilities *> *SDLHMIZoneCapabilities_values = nil;
 
 @implementation SDLHMIZoneCapabilities
 
@@ -20,7 +20,7 @@ NSArray *SDLHMIZoneCapabilities_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLHMIZoneCapabilities *> *)values {
     if (SDLHMIZoneCapabilities_values == nil) {
         SDLHMIZoneCapabilities_values = @[
             SDLHMIZoneCapabilities.FRONT,

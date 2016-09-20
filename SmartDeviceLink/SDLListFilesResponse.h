@@ -13,9 +13,9 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
-@property (strong) NSMutableArray *filenames;
+@property (strong) NSMutableArray<NSString *> *filenames;
 @property (strong) NSNumber *spaceAvailable;
 
 @end

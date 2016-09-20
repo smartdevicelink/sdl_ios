@@ -3,8 +3,10 @@
 
 #import "SDLRPCResponse.h"
 
+@class SDLButtonCapabilities;
 @class SDLDisplayCapabilities;
 @class SDLPresetBankCapabilities;
+@class SDLSoftButtonCapabilities;
 
 
 /**
@@ -19,11 +21,11 @@
  * @abstract Constructs a new SDLSetDisplayLayoutResponse object
  */
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 @property (strong) SDLDisplayCapabilities *displayCapabilities;
-@property (strong) NSMutableArray *buttonCapabilities;
-@property (strong) NSMutableArray *softButtonCapabilities;
+@property (strong) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (strong) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 @property (strong) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end

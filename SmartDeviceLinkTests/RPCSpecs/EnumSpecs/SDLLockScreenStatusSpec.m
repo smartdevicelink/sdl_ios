@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLLockScreenStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLLockScreenStatus *> *storedValues = [SDLLockScreenStatus values];
+    __block NSArray<SDLLockScreenStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLockScreenStatus OFF],
                         [SDLLockScreenStatus OPTIONAL],

@@ -27,9 +27,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_pressAvailable:@YES,
-                                       NAMES_multiTouchAvailable:@NO,
-                                       NAMES_doublePressAvailable:@NO} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_pressAvailable:@YES,
+                                                       NAMES_multiTouchAvailable:@NO,
+                                                       NAMES_doublePressAvailable:@NO} mutableCopy];
         SDLTouchEventCapabilities* testStruct = [[SDLTouchEventCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.pressAvailable).to(equal(@YES));

@@ -23,7 +23,7 @@
  * Constructs a newly allocated SDLButtonCapabilities object indicated by the Hashtable parameter
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract The name of the SDL HMI button.

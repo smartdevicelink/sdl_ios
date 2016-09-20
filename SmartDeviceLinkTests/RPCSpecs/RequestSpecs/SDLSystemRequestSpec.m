@@ -26,11 +26,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_requestType:[SDLRequestType AUTH_REQUEST],
-                                                   NAMES_fileName:@"AnotherFile"},
-                                             NAMES_operation_name:NAMES_SystemRequest}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
+                                                           @{NAMES_parameters:
+                                                                 @{NAMES_requestType:[SDLRequestType AUTH_REQUEST],
+                                                                   NAMES_fileName:@"AnotherFile"},
+                                                             NAMES_operation_name:NAMES_SystemRequest}} mutableCopy];
         SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
         
         expect(testRequest.requestType).to(equal([SDLRequestType AUTH_REQUEST]));

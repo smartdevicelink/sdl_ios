@@ -14,7 +14,7 @@
 
 @property (strong) NSString *debugConsoleGroupName;
 @property (weak) SDLAbstractTransport *transport;
-@property (strong) NSHashTable *protocolDelegateTable; // table of id<SDLProtocolListener>
+@property (strong) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
 @property (nonatomic, strong) id<SDLSecurityType> securityManager;
 @property (nonatomic, copy) NSString *appId;
 

@@ -29,9 +29,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_lowBeamsOn:@YES,
-                                       NAMES_highBeamsOn:@NO,
-                                       NAMES_ambientLightSensorStatus:[SDLAmbientLightStatus TWILIGHT_3]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_lowBeamsOn:@YES,
+                                                       NAMES_highBeamsOn:@NO,
+                                                       NAMES_ambientLightSensorStatus:[SDLAmbientLightStatus TWILIGHT_3]} mutableCopy];
         SDLHeadLampStatus* testStruct = [[SDLHeadLampStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.lowBeamsOn).to(equal(@YES));

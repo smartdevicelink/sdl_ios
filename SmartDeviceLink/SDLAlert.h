@@ -4,6 +4,9 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLSoftButton;
+@class SDLTTSChunk;
+
 /**
  * Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.
  *
@@ -45,7 +48,7 @@
  *
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 
 /**
@@ -97,7 +100,7 @@
  *
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray *ttsChunks;
+@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 
 /**
  * @abstract The duration of the displayed portion of the alert, in milliseconds.
@@ -139,6 +142,6 @@
  *
  * @see SDLSoftButton
  */
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

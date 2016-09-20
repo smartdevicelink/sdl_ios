@@ -4,6 +4,7 @@
 #import "SDLRPCRequest.h"
 
 @class SDLImage;
+@class SDLSoftButton;
 
 
 /** This RPC is used to update the user with navigation information<br>
@@ -16,7 +17,7 @@
 }
 
 - (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 @property (strong) NSString *navigationText1;
 @property (strong) NSString *navigationText2;
@@ -28,6 +29,6 @@
 @property (strong) NSNumber *distanceToManeuver;
 @property (strong) NSNumber *distanceToManeuverScale;
 @property (strong) NSNumber *maneuverComplete;
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

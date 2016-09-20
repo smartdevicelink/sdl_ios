@@ -8,7 +8,7 @@
 }
 
 + (SDLPowerModeQualificationStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLPowerModeQualificationStatus *> *)values;
 
 + (SDLPowerModeQualificationStatus *)POWER_MODE_UNDEFINED;
 + (SDLPowerModeQualificationStatus *)POWER_MODE_EVALUATION_IN_PROGRESS;

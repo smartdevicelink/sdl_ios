@@ -38,8 +38,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLKeyboardEvent values];
-    __block NSArray* definedValues;
+    NSArray<SDLKeyboardEvent *> *storedValues = [SDLKeyboardEvent values];
+    __block NSArray<SDLKeyboardEvent *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeyboardEvent KEYPRESS],
                            [SDLKeyboardEvent ENTRY_SUBMITTED],

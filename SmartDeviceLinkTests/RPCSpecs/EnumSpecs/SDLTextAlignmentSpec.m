@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTextAlignment values];
-    __block NSArray* definedValues;
+    NSArray<SDLTextAlignment *> *storedValues = [SDLTextAlignment values];
+    __block NSArray<SDLTextAlignment *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTextAlignment LEFT_ALIGNED],
                         [SDLTextAlignment RIGHT_ALIGNED],

@@ -3,9 +3,10 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLSamplingRate;
-@class SDLBitsPerSample;
 @class SDLAudioType;
+@class SDLBitsPerSample;
+@class SDLSamplingRate;
+@class SDLTTSChunk;
 
 
 /**
@@ -31,7 +32,7 @@
  * @abstract Constructs a new SDLPerformAudioPassThru object indicated by the NSMutableDictionary
  * @param dict The dictionary to use
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass
@@ -50,7 +51,7 @@
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (strong) NSMutableArray *initialPrompt;
+@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1
