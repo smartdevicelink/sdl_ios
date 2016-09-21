@@ -5,12 +5,12 @@
 #import "SDLReadDIDResponse.h"
 
 #import "SDLDIDResult.h"
-#import "SDLNames.h"
+
 
 @implementation SDLReadDIDResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ReadDID]) {
+    if (self = [super initWithName:SDLNameReadDid]) {
     }
     return self;
 }
@@ -23,14 +23,14 @@
 
 - (void)setDidResult:(NSMutableArray *)didResult {
     if (didResult != nil) {
-        [parameters setObject:didResult forKey:NAMES_didResult];
+        [parameters setObject:didResult forKey:SDLNameDidResult];
     } else {
-        [parameters removeObjectForKey:NAMES_didResult];
+        [parameters removeObjectForKey:SDLNameDidResult];
     }
 }
 
 - (NSMutableArray *)didResult {
-    NSMutableArray *array = [parameters objectForKey:NAMES_didResult];
+    NSMutableArray *array = [parameters objectForKey:SDLNameDidResult];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLDIDResult.class]) {
         return array;
     } else {

@@ -47,14 +47,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_displayType:[SDLDisplayType GEN2_6_DMA],
-                                       NAMES_textFields:[@[textField] mutableCopy],
-                                       NAMES_imageFields:[@[imageField] mutableCopy],
-                                       NAMES_mediaClockFormats:[@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] copy],
-                                       NAMES_graphicSupported:@YES,
-                                       NAMES_templatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
-                                       NAMES_screenParams:screenParams,
-                                       NAMES_numCustomPresetsAvailable:@43} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameDisplayType:[SDLDisplayType GEN2_6_DMA],
+                                       SDLNameTextFields:[@[textField] mutableCopy],
+                                       SDLNameImageFields:[@[imageField] mutableCopy],
+                                       SDLNameMediaClockFormats:[@[[SDLMediaClockFormat CLOCKTEXT1], [SDLMediaClockFormat CLOCK3], [SDLMediaClockFormat CLOCKTEXT3]] copy],
+                                       SDLNameGraphicSupported:@YES,
+                                       SDLNameTemplatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
+                                       SDLNameScreenParams:screenParams,
+                                       SDLNameNumCustomPresetsAvailable:@43} mutableCopy];
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.displayType).to(equal([SDLDisplayType GEN2_6_DMA]));

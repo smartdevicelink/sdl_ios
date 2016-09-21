@@ -4,7 +4,7 @@
 
 #import "SDLTouchEvent.h"
 
-#import "SDLNames.h"
+
 #import "SDLTouchCoord.h"
 
 @implementation SDLTouchEvent
@@ -23,38 +23,38 @@
 
 - (void)setTouchEventId:(NSNumber *)touchEventId {
     if (touchEventId != nil) {
-        [store setObject:touchEventId forKey:NAMES_id];
+        [store setObject:touchEventId forKey:SDLNameId];
     } else {
-        [store removeObjectForKey:NAMES_id];
+        [store removeObjectForKey:SDLNameId];
     }
 }
 
 - (NSNumber *)touchEventId {
-    return [store objectForKey:NAMES_id];
+    return [store objectForKey:SDLNameId];
 }
 
 - (void)setTimeStamp:(NSMutableArray *)timeStamp {
     if (timeStamp != nil) {
-        [store setObject:timeStamp forKey:NAMES_ts];
+        [store setObject:timeStamp forKey:SDLNameTs];
     } else {
-        [store removeObjectForKey:NAMES_ts];
+        [store removeObjectForKey:SDLNameTs];
     }
 }
 
 - (NSMutableArray *)timeStamp {
-    return [store objectForKey:NAMES_ts];
+    return [store objectForKey:SDLNameTs];
 }
 
 - (void)setCoord:(NSMutableArray *)coord {
     if (coord != nil) {
-        [store setObject:coord forKey:NAMES_c];
+        [store setObject:coord forKey:SDLNameCoord];
     } else {
-        [store removeObjectForKey:NAMES_c];
+        [store removeObjectForKey:SDLNameCoord];
     }
 }
 
 - (NSMutableArray *)coord {
-    NSMutableArray *array = [store objectForKey:NAMES_c];
+    NSMutableArray *array = [store objectForKey:SDLNameCoord];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchCoord.class]) {
         return array;
     } else {

@@ -4,14 +4,14 @@
 
 #import "SDLAlertManeuver.h"
 
-#import "SDLNames.h"
+
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
 
 @implementation SDLAlertManeuver
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_AlertManeuver]) {
+    if (self = [super initWithName:SDLNameAlertManeuver]) {
     }
     return self;
 }
@@ -24,14 +24,14 @@
 
 - (void)setTtsChunks:(NSMutableArray *)ttsChunks {
     if (ttsChunks != nil) {
-        [parameters setObject:ttsChunks forKey:NAMES_ttsChunks];
+        [parameters setObject:ttsChunks forKey:SDLNameTtsChunks];
     } else {
-        [parameters removeObjectForKey:NAMES_ttsChunks];
+        [parameters removeObjectForKey:SDLNameTtsChunks];
     }
 }
 
 - (NSMutableArray *)ttsChunks {
-    NSMutableArray *array = [parameters objectForKey:NAMES_ttsChunks];
+    NSMutableArray *array = [parameters objectForKey:SDLNameTtsChunks];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -45,14 +45,14 @@
 
 - (void)setSoftButtons:(NSMutableArray *)softButtons {
     if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
+        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
+        [parameters removeObjectForKey:SDLNameSoftButtons];
     }
 }
 
 - (NSMutableArray *)softButtons {
-    NSMutableArray *array = [parameters objectForKey:NAMES_softButtons];
+    NSMutableArray *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {

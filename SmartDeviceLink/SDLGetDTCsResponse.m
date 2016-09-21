@@ -4,12 +4,12 @@
 
 #import "SDLGetDTCsResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLGetDTCsResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_GetDTCs]) {
+    if (self = [super initWithName:SDLNameGetDtcs]) {
     }
     return self;
 }
@@ -22,26 +22,26 @@
 
 - (void)setEcuHeader:(NSNumber *)ecuHeader {
     if (ecuHeader != nil) {
-        [parameters setObject:ecuHeader forKey:NAMES_ecuHeader];
+        [parameters setObject:ecuHeader forKey:SDLNameEcuHeader];
     } else {
-        [parameters removeObjectForKey:NAMES_ecuHeader];
+        [parameters removeObjectForKey:SDLNameEcuHeader];
     }
 }
 
 - (NSNumber *)ecuHeader {
-    return [parameters objectForKey:NAMES_ecuHeader];
+    return [parameters objectForKey:SDLNameEcuHeader];
 }
 
 - (void)setDtc:(NSMutableArray *)dtc {
     if (dtc != nil) {
-        [parameters setObject:dtc forKey:NAMES_dtc];
+        [parameters setObject:dtc forKey:SDLNameDtc];
     } else {
-        [parameters removeObjectForKey:NAMES_dtc];
+        [parameters removeObjectForKey:SDLNameDtc];
     }
 }
 
 - (NSMutableArray *)dtc {
-    return [parameters objectForKey:NAMES_dtc];
+    return [parameters objectForKey:SDLNameDtc];
 }
 
 @end

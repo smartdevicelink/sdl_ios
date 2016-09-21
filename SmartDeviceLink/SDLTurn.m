@@ -4,7 +4,7 @@
 #import "SDLTurn.h"
 
 #import "SDLImage.h"
-#import "SDLNames.h"
+
 
 
 @implementation SDLTurn
@@ -23,26 +23,26 @@
 
 - (void)setNavigationText:(NSString *)navigationText {
     if (navigationText != nil) {
-        [store setObject:navigationText forKey:NAMES_navigationText];
+        [store setObject:navigationText forKey:SDLNameNavigationText];
     } else {
-        [store removeObjectForKey:NAMES_navigationText];
+        [store removeObjectForKey:SDLNameNavigationText];
     }
 }
 
 - (NSString *)navigationText {
-    return [store objectForKey:NAMES_navigationText];
+    return [store objectForKey:SDLNameNavigationText];
 }
 
 - (void)setTurnIcon:(SDLImage *)turnIcon {
     if (turnIcon != nil) {
-        [store setObject:turnIcon forKey:NAMES_turnIcon];
+        [store setObject:turnIcon forKey:SDLNameTurnIcon];
     } else {
-        [store removeObjectForKey:NAMES_turnIcon];
+        [store removeObjectForKey:SDLNameTurnIcon];
     }
 }
 
 - (SDLImage *)turnIcon {
-    NSObject *obj = [store objectForKey:NAMES_turnIcon];
+    NSObject *obj = [store objectForKey:SDLNameTurnIcon];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {

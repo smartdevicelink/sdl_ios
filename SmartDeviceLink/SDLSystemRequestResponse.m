@@ -4,12 +4,12 @@
 
 #import "SDLSystemRequestResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLSystemRequestResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SystemRequest]) {
+    if (self = [super initWithName:SDLNameSystemRequest]) {
     }
     return self;
 }

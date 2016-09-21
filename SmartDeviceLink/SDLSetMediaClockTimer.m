@@ -4,7 +4,7 @@
 
 #import "SDLSetMediaClockTimer.h"
 
-#import "SDLNames.h"
+
 #import "SDLStartTime.h"
 #import "SDLUpdateMode.h"
 
@@ -12,7 +12,7 @@
 @implementation SDLSetMediaClockTimer
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetMediaClockTimer]) {
+    if (self = [super initWithName:SDLNameSetMediaClockTimer]) {
     }
     return self;
 }
@@ -25,14 +25,14 @@
 
 - (void)setStartTime:(SDLStartTime *)startTime {
     if (startTime != nil) {
-        [parameters setObject:startTime forKey:NAMES_startTime];
+        [parameters setObject:startTime forKey:SDLNameStartTime];
     } else {
-        [parameters removeObjectForKey:NAMES_startTime];
+        [parameters removeObjectForKey:SDLNameStartTime];
     }
 }
 
 - (SDLStartTime *)startTime {
-    NSObject *obj = [parameters objectForKey:NAMES_startTime];
+    NSObject *obj = [parameters objectForKey:SDLNameStartTime];
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
@@ -42,14 +42,14 @@
 
 - (void)setEndTime:(SDLStartTime *)endTime {
     if (endTime != nil) {
-        [parameters setObject:endTime forKey:NAMES_endTime];
+        [parameters setObject:endTime forKey:SDLNameEndTime];
     } else {
-        [parameters removeObjectForKey:NAMES_endTime];
+        [parameters removeObjectForKey:SDLNameEndTime];
     }
 }
 
 - (SDLStartTime *)endTime {
-    NSObject *obj = [parameters objectForKey:NAMES_endTime];
+    NSObject *obj = [parameters objectForKey:SDLNameEndTime];
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
@@ -59,14 +59,14 @@
 
 - (void)setUpdateMode:(SDLUpdateMode *)updateMode {
     if (updateMode != nil) {
-        [parameters setObject:updateMode forKey:NAMES_updateMode];
+        [parameters setObject:updateMode forKey:SDLNameUpdateMode];
     } else {
-        [parameters removeObjectForKey:NAMES_updateMode];
+        [parameters removeObjectForKey:SDLNameUpdateMode];
     }
 }
 
 - (SDLUpdateMode *)updateMode {
-    NSObject *obj = [parameters objectForKey:NAMES_updateMode];
+    NSObject *obj = [parameters objectForKey:SDLNameUpdateMode];
     if (obj == nil || [obj isKindOfClass:SDLUpdateMode.class]) {
         return (SDLUpdateMode *)obj;
     } else {

@@ -2,44 +2,44 @@
 //
 
 #import "SDLAppInfo.h"
-#import "SDLNames.h"
+
 
 @implementation SDLAppInfo
 
 - (void)setAppDisplayName:(NSString *)appDisplayName {
     if (appDisplayName != nil) {
-        [store setObject:appDisplayName forKey:NAMES_appDisplayName];
+        [store setObject:appDisplayName forKey:SDLNameAppDisplayName];
     } else {
-        [store removeObjectForKey:NAMES_appDisplayName];
+        [store removeObjectForKey:SDLNameAppDisplayName];
     }
 }
 
 - (NSString *)appDisplayName {
-    return [store objectForKey:NAMES_appDisplayName];
+    return [store objectForKey:SDLNameAppDisplayName];
 }
 
 - (void)setAppBundleID:(NSString *)appBundleID {
     if (appBundleID != nil) {
-        [store setObject:appBundleID forKey:NAMES_appBundleID];
+        [store setObject:appBundleID forKey:SDLNameAppBundleId];
     } else {
-        [store removeObjectForKey:NAMES_appBundleID];
+        [store removeObjectForKey:SDLNameAppBundleId];
     }
 }
 
 - (NSString *)appBundleID {
-    return [store objectForKey:NAMES_appBundleID];
+    return [store objectForKey:SDLNameAppBundleId];
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
     if (appVersion != nil) {
-        [store setObject:appVersion forKey:NAMES_appVersion];
+        [store setObject:appVersion forKey:SDLNameAppVersion];
     } else {
-        [store removeObjectForKey:NAMES_appVersion];
+        [store removeObjectForKey:SDLNameAppVersion];
     }
 }
 
 - (NSString *)appVersion {
-    return [store objectForKey:NAMES_appVersion];
+    return [store objectForKey:SDLNameAppVersion];
 }
 
 @end

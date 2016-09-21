@@ -4,12 +4,12 @@
 
 #import "SDLResetGlobalPropertiesResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLResetGlobalPropertiesResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ResetGlobalProperties]) {
+    if (self = [super initWithName:SDLNameResetGlobalProperties]) {
     }
     return self;
 }

@@ -3,7 +3,7 @@
 
 #import "SDLTTSChunk.h"
 
-#import "SDLNames.h"
+
 #import "SDLSpeechCapabilities.h"
 
 
@@ -23,26 +23,26 @@
 
 - (void)setText:(NSString *)text {
     if (text != nil) {
-        [store setObject:text forKey:NAMES_text];
+        [store setObject:text forKey:SDLNameText];
     } else {
-        [store removeObjectForKey:NAMES_text];
+        [store removeObjectForKey:SDLNameText];
     }
 }
 
 - (NSString *)text {
-    return [store objectForKey:NAMES_text];
+    return [store objectForKey:SDLNameText];
 }
 
 - (void)setType:(SDLSpeechCapabilities *)type {
     if (type != nil) {
-        [store setObject:type forKey:NAMES_type];
+        [store setObject:type forKey:SDLNameType];
     } else {
-        [store removeObjectForKey:NAMES_type];
+        [store removeObjectForKey:SDLNameType];
     }
 }
 
 - (SDLSpeechCapabilities *)type {
-    NSObject *obj = [store objectForKey:NAMES_type];
+    NSObject *obj = [store objectForKey:SDLNameType];
     if (obj == nil || [obj isKindOfClass:SDLSpeechCapabilities.class]) {
         return (SDLSpeechCapabilities *)obj;
     } else {

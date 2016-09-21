@@ -4,12 +4,12 @@
 
 #import "SDLOnAudioPassThru.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLOnAudioPassThru
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnAudioPassThru]) {
+    if (self = [super initWithName:SDLNameOnAudioPassThru]) {
     }
     return self;
 }

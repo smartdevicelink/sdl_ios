@@ -4,12 +4,12 @@
 
 #import "SDLGenericResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLGenericResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_GenericResponse]) {
+    if (self = [super initWithName:SDLNameGenericResponse]) {
     }
     return self;
 }

@@ -4,12 +4,12 @@
 
 #import "SDLDeleteInteractionChoiceSet.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLDeleteInteractionChoiceSet
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {
+    if (self = [super initWithName:SDLNameDeleteInteractionChoiceSet]) {
     }
     return self;
 }
@@ -22,14 +22,14 @@
 
 - (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
-        [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
+        [parameters setObject:interactionChoiceSetID forKey:SDLNameInteractionChoiceSetId];
     } else {
-        [parameters removeObjectForKey:NAMES_interactionChoiceSetID];
+        [parameters removeObjectForKey:SDLNameInteractionChoiceSetId];
     }
 }
 
 - (NSNumber *)interactionChoiceSetID {
-    return [parameters objectForKey:NAMES_interactionChoiceSetID];
+    return [parameters objectForKey:SDLNameInteractionChoiceSetId];
 }
 
 @end

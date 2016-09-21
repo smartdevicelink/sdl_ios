@@ -4,12 +4,12 @@
 
 #import "SDLReadDID.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLReadDID
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ReadDID]) {
+    if (self = [super initWithName:SDLNameReadDid]) {
     }
     return self;
 }
@@ -22,26 +22,26 @@
 
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:NAMES_ecuName];
+        [parameters setObject:ecuName forKey:SDLNameEcuName];
     } else {
-        [parameters removeObjectForKey:NAMES_ecuName];
+        [parameters removeObjectForKey:SDLNameEcuName];
     }
 }
 
 - (NSNumber *)ecuName {
-    return [parameters objectForKey:NAMES_ecuName];
+    return [parameters objectForKey:SDLNameEcuName];
 }
 
 - (void)setDidLocation:(NSMutableArray *)didLocation {
     if (didLocation != nil) {
-        [parameters setObject:didLocation forKey:NAMES_didLocation];
+        [parameters setObject:didLocation forKey:SDLNameDidLocation];
     } else {
-        [parameters removeObjectForKey:NAMES_didLocation];
+        [parameters removeObjectForKey:SDLNameDidLocation];
     }
 }
 
 - (NSMutableArray *)didLocation {
-    return [parameters objectForKey:NAMES_didLocation];
+    return [parameters objectForKey:SDLNameDidLocation];
 }
 
 @end

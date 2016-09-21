@@ -4,12 +4,12 @@
 
 #import "SDLSyncPDataResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLSyncPDataResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SyncPData]) {
+    if (self = [super initWithName:SDLNameSyncPData]) {
     }
     return self;
 }

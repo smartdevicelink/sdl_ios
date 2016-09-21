@@ -4,12 +4,12 @@
 
 #import "SDLOnSyncPData.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLOnSyncPData
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnSyncPData]) {
+    if (self = [super initWithName:SDLNameOnSyncPData]) {
     }
     return self;
 }
@@ -22,26 +22,26 @@
 
 - (void)setURL:(NSString *)URL {
     if (URL != nil) {
-        [parameters setObject:URL forKey:NAMES_URL];
+        [parameters setObject:URL forKey:SDLNameUrlUppercase];
     } else {
-        [parameters removeObjectForKey:NAMES_URL];
+        [parameters removeObjectForKey:SDLNameUrlUppercase];
     }
 }
 
 - (NSString *)URL {
-    return [parameters objectForKey:NAMES_URL];
+    return [parameters objectForKey:SDLNameUrlUppercase];
 }
 
 - (void)setTimeout:(NSNumber *)Timeout {
     if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:NAMES_Timeout];
+        [parameters setObject:Timeout forKey:SDLNameTimeoutCapitalized];
     } else {
-        [parameters removeObjectForKey:NAMES_Timeout];
+        [parameters removeObjectForKey:SDLNameTimeoutCapitalized];
     }
 }
 
 - (NSNumber *)Timeout {
-    return [parameters objectForKey:NAMES_Timeout];
+    return [parameters objectForKey:SDLNameTimeoutCapitalized];
 }
 
 @end

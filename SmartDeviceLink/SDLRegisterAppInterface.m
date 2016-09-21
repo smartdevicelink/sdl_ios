@@ -8,7 +8,7 @@
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
 #import "SDLLanguage.h"
-#import "SDLNames.h"
+
 #import "SDLSyncMsgVersion.h"
 #import "SDLTTSChunk.h"
 
@@ -16,7 +16,7 @@
 @implementation SDLRegisterAppInterface
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_RegisterAppInterface]) {
+    if (self = [super initWithName:SDLNameRegisterAppInterface]) {
     }
     return self;
 }
@@ -29,14 +29,14 @@
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
-        [parameters setObject:syncMsgVersion forKey:NAMES_syncMsgVersion];
+        [parameters setObject:syncMsgVersion forKey:SDLNameSyncMsgVersion];
     } else {
-        [parameters removeObjectForKey:NAMES_syncMsgVersion];
+        [parameters removeObjectForKey:SDLNameSyncMsgVersion];
     }
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
-    NSObject *obj = [parameters objectForKey:NAMES_syncMsgVersion];
+    NSObject *obj = [parameters objectForKey:SDLNameSyncMsgVersion];
     if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
@@ -46,26 +46,26 @@
 
 - (void)setAppName:(NSString *)appName {
     if (appName != nil) {
-        [parameters setObject:appName forKey:NAMES_appName];
+        [parameters setObject:appName forKey:SDLNameAppName];
     } else {
-        [parameters removeObjectForKey:NAMES_appName];
+        [parameters removeObjectForKey:SDLNameAppName];
     }
 }
 
 - (NSString *)appName {
-    return [parameters objectForKey:NAMES_appName];
+    return [parameters objectForKey:SDLNameAppName];
 }
 
 - (void)setTtsName:(NSMutableArray *)ttsName {
     if (ttsName != nil) {
-        [parameters setObject:ttsName forKey:NAMES_ttsName];
+        [parameters setObject:ttsName forKey:SDLNameTtsName];
     } else {
-        [parameters removeObjectForKey:NAMES_ttsName];
+        [parameters removeObjectForKey:SDLNameTtsName];
     }
 }
 
 - (NSMutableArray *)ttsName {
-    NSMutableArray *array = [parameters objectForKey:NAMES_ttsName];
+    NSMutableArray *array = [parameters objectForKey:SDLNameTtsName];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -79,50 +79,50 @@
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
-        [parameters setObject:ngnMediaScreenAppName forKey:NAMES_ngnMediaScreenAppName];
+        [parameters setObject:ngnMediaScreenAppName forKey:SDLNameNgnMediaScreenAppName];
     } else {
-        [parameters removeObjectForKey:NAMES_ngnMediaScreenAppName];
+        [parameters removeObjectForKey:SDLNameNgnMediaScreenAppName];
     }
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return [parameters objectForKey:NAMES_ngnMediaScreenAppName];
+    return [parameters objectForKey:SDLNameNgnMediaScreenAppName];
 }
 
 - (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
     if (vrSynonyms != nil) {
-        [parameters setObject:vrSynonyms forKey:NAMES_vrSynonyms];
+        [parameters setObject:vrSynonyms forKey:SDLNameVrSynonyms];
     } else {
-        [parameters removeObjectForKey:NAMES_vrSynonyms];
+        [parameters removeObjectForKey:SDLNameVrSynonyms];
     }
 }
 
 - (NSMutableArray *)vrSynonyms {
-    return [parameters objectForKey:NAMES_vrSynonyms];
+    return [parameters objectForKey:SDLNameVrSynonyms];
 }
 
 - (void)setIsMediaApplication:(NSNumber *)isMediaApplication {
     if (isMediaApplication != nil) {
-        [parameters setObject:isMediaApplication forKey:NAMES_isMediaApplication];
+        [parameters setObject:isMediaApplication forKey:SDLNameIsMediaApplication];
     } else {
-        [parameters removeObjectForKey:NAMES_isMediaApplication];
+        [parameters removeObjectForKey:SDLNameIsMediaApplication];
     }
 }
 
 - (NSNumber *)isMediaApplication {
-    return [parameters objectForKey:NAMES_isMediaApplication];
+    return [parameters objectForKey:SDLNameIsMediaApplication];
 }
 
 - (void)setLanguageDesired:(SDLLanguage *)languageDesired {
     if (languageDesired != nil) {
-        [parameters setObject:languageDesired forKey:NAMES_languageDesired];
+        [parameters setObject:languageDesired forKey:SDLNameLanguageDesired];
     } else {
-        [parameters removeObjectForKey:NAMES_languageDesired];
+        [parameters removeObjectForKey:SDLNameLanguageDesired];
     }
 }
 
 - (SDLLanguage *)languageDesired {
-    NSObject *obj = [parameters objectForKey:NAMES_languageDesired];
+    NSObject *obj = [parameters objectForKey:SDLNameLanguageDesired];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -132,14 +132,14 @@
 
 - (void)setHmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
     if (hmiDisplayLanguageDesired != nil) {
-        [parameters setObject:hmiDisplayLanguageDesired forKey:NAMES_hmiDisplayLanguageDesired];
+        [parameters setObject:hmiDisplayLanguageDesired forKey:SDLNameHmiDisplayLanguageDesired];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiDisplayLanguageDesired];
+        [parameters removeObjectForKey:SDLNameHmiDisplayLanguageDesired];
     }
 }
 
 - (SDLLanguage *)hmiDisplayLanguageDesired {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguageDesired];
+    NSObject *obj = [parameters objectForKey:SDLNameHmiDisplayLanguageDesired];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -149,14 +149,14 @@
 
 - (void)setAppHMIType:(NSMutableArray *)appHMIType {
     if (appHMIType != nil) {
-        [parameters setObject:appHMIType forKey:NAMES_appHMIType];
+        [parameters setObject:appHMIType forKey:SDLNameAppHmiType];
     } else {
-        [parameters removeObjectForKey:NAMES_appHMIType];
+        [parameters removeObjectForKey:SDLNameAppHmiType];
     }
 }
 
 - (NSMutableArray *)appHMIType {
-    NSMutableArray *array = [parameters objectForKey:NAMES_appHMIType];
+    NSMutableArray *array = [parameters objectForKey:SDLNameAppHmiType];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAppHMIType.class]) {
         return array;
     } else {
@@ -170,26 +170,26 @@
 
 - (void)setHashID:(NSString *)hashID {
     if (hashID != nil) {
-        [parameters setObject:hashID forKey:NAMES_hashID];
+        [parameters setObject:hashID forKey:SDLNameHashId];
     } else {
-        [parameters removeObjectForKey:NAMES_hashID];
+        [parameters removeObjectForKey:SDLNameHashId];
     }
 }
 
 - (NSString *)hashID {
-    return [parameters objectForKey:NAMES_hashID];
+    return [parameters objectForKey:SDLNameHashId];
 }
 
 - (void)setDeviceInfo:(SDLDeviceInfo *)deviceInfo {
     if (deviceInfo != nil) {
-        [parameters setObject:deviceInfo forKey:NAMES_deviceInfo];
+        [parameters setObject:deviceInfo forKey:SDLNameDeviceInfo];
     } else {
-        [parameters removeObjectForKey:NAMES_deviceInfo];
+        [parameters removeObjectForKey:SDLNameDeviceInfo];
     }
 }
 
 - (SDLDeviceInfo *)deviceInfo {
-    NSObject *obj = [parameters objectForKey:NAMES_deviceInfo];
+    NSObject *obj = [parameters objectForKey:SDLNameDeviceInfo];
     if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
         return (SDLDeviceInfo *)obj;
     } else {
@@ -199,26 +199,26 @@
 
 - (void)setAppID:(NSString *)appID {
     if (appID != nil) {
-        [parameters setObject:appID forKey:NAMES_appID];
+        [parameters setObject:appID forKey:SDLNameAppId];
     } else {
-        [parameters removeObjectForKey:NAMES_appID];
+        [parameters removeObjectForKey:SDLNameAppId];
     }
 }
 
 - (NSString *)appID {
-    return [parameters objectForKey:NAMES_appID];
+    return [parameters objectForKey:SDLNameAppId];
 }
 
 - (void)setAppInfo:(SDLAppInfo *)appInfo {
     if (appInfo != nil) {
-        [parameters setObject:appInfo forKey:NAMES_appInfo];
+        [parameters setObject:appInfo forKey:SDLNameAppInfo];
     } else {
-        [parameters removeObjectForKey:NAMES_appInfo];
+        [parameters removeObjectForKey:SDLNameAppInfo];
     }
 }
 
 - (SDLAppInfo *)appInfo {
-    NSObject *obj = [parameters objectForKey:NAMES_appInfo];
+    NSObject *obj = [parameters objectForKey:SDLNameAppInfo];
     if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
         return (SDLAppInfo *)obj;
     } else {

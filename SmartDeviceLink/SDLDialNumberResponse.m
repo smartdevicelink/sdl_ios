@@ -4,13 +4,13 @@
 
 #import "SDLDialNumberResponse.h"
 
-#import "SDLNames.h"
+
 
 
 @implementation SDLDialNumberResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DialNumber]) {
+    if (self = [super initWithName:SDLNameDialNumber]) {
     }
     return self;
 }

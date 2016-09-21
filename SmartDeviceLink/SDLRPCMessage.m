@@ -4,7 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
-#import "SDLNames.h"
+
 
 
 @implementation SDLRPCMessage
@@ -15,10 +15,10 @@
     if (self = [super init]) {
         function = [[NSMutableDictionary alloc] initWithCapacity:3];
         parameters = [[NSMutableDictionary alloc] init];
-        messageType = NAMES_request;
+        messageType = SDLNameRequest;
         [store setObject:function forKey:messageType];
-        [function setObject:parameters forKey:NAMES_parameters];
-        [function setObject:name forKey:NAMES_operation_name];
+        [function setObject:parameters forKey:SDLNameParameters];
+        [function setObject:name forKey:SDLNameOperationName];
     }
     return self;
 }
@@ -27,27 +27,27 @@
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if ([messageType isEqualToString:@"bulkData"] == FALSE) {
+            if ([messageType isEqualToString:SDLNameBulkData] == FALSE) {
                 break;
             }
         }
 
         function = [store objectForKey:messageType];
-        parameters = [function objectForKey:NAMES_parameters];
-        self.bulkData = [dict objectForKey:@"bulkData"];
+        parameters = [function objectForKey:SDLNameParameters];
+        self.bulkData = [dict objectForKey:SDLNameBulkData];
     }
     return self;
 }
 
 - (NSString *)getFunctionName {
-    return [function objectForKey:NAMES_operation_name];
+    return [function objectForKey:SDLNameOperationName];
 }
 
 - (void)setFunctionName:(NSString *)functionName {
     if (functionName != nil) {
-        [function setObject:functionName forKey:NAMES_operation_name];
+        [function setObject:functionName forKey:SDLNameOperationName];
     } else {
-        [function removeObjectForKey:NAMES_operation_name];
+        [function removeObjectForKey:SDLNameOperationName];
     }
 }
 
@@ -69,7 +69,7 @@
 }
 
 - (NSString *)name {
-    return [function objectForKey:NAMES_operation_name];
+    return [function objectForKey:SDLNameOperationName];
 }
 
 - (NSString *)description {

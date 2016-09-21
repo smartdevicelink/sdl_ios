@@ -4,7 +4,7 @@
 
 #import "SDLPresetBankCapabilities.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLPresetBankCapabilities
 
@@ -22,14 +22,14 @@
 
 - (void)setOnScreenPresetsAvailable:(NSNumber *)onScreenPresetsAvailable {
     if (onScreenPresetsAvailable != nil) {
-        [store setObject:onScreenPresetsAvailable forKey:NAMES_onScreenPresetsAvailable];
+        [store setObject:onScreenPresetsAvailable forKey:SDLNameOnScreenPresetsAvailable];
     } else {
-        [store removeObjectForKey:NAMES_onScreenPresetsAvailable];
+        [store removeObjectForKey:SDLNameOnScreenPresetsAvailable];
     }
 }
 
 - (NSNumber *)onScreenPresetsAvailable {
-    return [store objectForKey:NAMES_onScreenPresetsAvailable];
+    return [store objectForKey:SDLNameOnScreenPresetsAvailable];
 }
 
 @end

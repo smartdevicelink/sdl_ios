@@ -4,12 +4,12 @@
 
 #import "SDLScrollableMessageResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLScrollableMessageResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ScrollableMessage]) {
+    if (self = [super initWithName:SDLNameScrollableMessage]) {
     }
     return self;
 }

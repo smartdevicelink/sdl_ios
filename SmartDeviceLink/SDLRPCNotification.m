@@ -4,7 +4,7 @@
 
 #import "SDLRPCNotification.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLRPCNotification
 
@@ -14,7 +14,7 @@
         return nil;
     }
 
-    messageType = NAMES_notification;
+    messageType = SDLNameNotification;
     [store setObject:function forKey:messageType];
 
     return self;
@@ -26,7 +26,7 @@
         return nil;
     }
 
-    messageType = NAMES_notification;
+    messageType = SDLNameNotification;
     [store setObject:function forKey:messageType];
 
     return self;

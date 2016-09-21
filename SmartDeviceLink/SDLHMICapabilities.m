@@ -4,7 +4,7 @@
 
 #import "SDLHMICapabilities.h"
 
-#import "SDLNames.h"
+
 
 
 @implementation SDLHMICapabilities
@@ -29,26 +29,26 @@
 
 - (void)setNavigation:(NSNumber *)navigation {
     if (navigation != nil) {
-        store[NAMES_navigation] = navigation;
+        store[SDLNameNavigation] = navigation;
     } else {
-        [store removeObjectForKey:NAMES_navigation];
+        [store removeObjectForKey:SDLNameNavigation];
     }
 }
 
 - (NSNumber *)navigation {
-    return store[NAMES_navigation];
+    return store[SDLNameNavigation];
 }
 
 - (void)setPhoneCall:(NSNumber *)phoneCall {
     if (phoneCall != nil) {
-        store[NAMES_phoneCall] = phoneCall;
+        store[SDLNamePhoneCall] = phoneCall;
     } else {
-        [store removeObjectForKey:NAMES_phoneCall];
+        [store removeObjectForKey:SDLNamePhoneCall];
     }
 }
 
 - (NSNumber *)phoneCall {
-    return store[NAMES_phoneCall];
+    return store[SDLNamePhoneCall];
 }
 
 @end

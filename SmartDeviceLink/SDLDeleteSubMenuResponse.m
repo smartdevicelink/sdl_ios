@@ -4,12 +4,12 @@
 
 #import "SDLDeleteSubMenuResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLDeleteSubMenuResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteSubMenu]) {
+    if (self = [super initWithName:SDLNameDeleteSubMenu]) {
     }
     return self;
 }

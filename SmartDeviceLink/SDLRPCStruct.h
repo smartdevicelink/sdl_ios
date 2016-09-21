@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLNames.h"
+
 @interface SDLRPCStruct : NSObject {
     NSMutableDictionary *store;
 }

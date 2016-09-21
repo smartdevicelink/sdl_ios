@@ -4,12 +4,12 @@
 
 #import "SDLSetAppIconResponse.h"
 
-#import "SDLNames.h"
+
 
 @implementation SDLSetAppIconResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetAppIcon]) {
+    if (self = [super initWithName:SDLNameSetAppIcon]) {
     }
     return self;
 }

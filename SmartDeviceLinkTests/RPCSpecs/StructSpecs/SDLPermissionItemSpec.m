@@ -32,9 +32,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_rpcName:@"RPCNameThing",
-                                       NAMES_hmiPermissions:hmiPermissions,
-                                       NAMES_parameterPermissions:parameterPermissions} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRpcName:@"RPCNameThing",
+                                       SDLNameHmiPermissions:hmiPermissions,
+                                       SDLNameParameterPermissions:parameterPermissions} mutableCopy];
         SDLPermissionItem* testStruct = [[SDLPermissionItem alloc] initWithDictionary:dict];
         
         expect(testStruct.rpcName).to(equal(@"RPCNameThing"));

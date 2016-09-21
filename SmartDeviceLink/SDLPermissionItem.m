@@ -4,7 +4,7 @@
 #import "SDLPermissionItem.h"
 
 #import "SDLHMIPermissions.h"
-#import "SDLNames.h"
+
 #import "SDLParameterPermissions.h"
 
 
@@ -24,26 +24,26 @@
 
 - (void)setRpcName:(NSString *)rpcName {
     if (rpcName != nil) {
-        [store setObject:rpcName forKey:NAMES_rpcName];
+        [store setObject:rpcName forKey:SDLNameRpcName];
     } else {
-        [store removeObjectForKey:NAMES_rpcName];
+        [store removeObjectForKey:SDLNameRpcName];
     }
 }
 
 - (NSString *)rpcName {
-    return [store objectForKey:NAMES_rpcName];
+    return [store objectForKey:SDLNameRpcName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
     if (hmiPermissions != nil) {
-        [store setObject:hmiPermissions forKey:NAMES_hmiPermissions];
+        [store setObject:hmiPermissions forKey:SDLNameHmiPermissions];
     } else {
-        [store removeObjectForKey:NAMES_hmiPermissions];
+        [store removeObjectForKey:SDLNameHmiPermissions];
     }
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    NSObject *obj = [store objectForKey:NAMES_hmiPermissions];
+    NSObject *obj = [store objectForKey:SDLNameHmiPermissions];
     if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
         return (SDLHMIPermissions *)obj;
     } else {
@@ -53,14 +53,14 @@
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
     if (parameterPermissions != nil) {
-        [store setObject:parameterPermissions forKey:NAMES_parameterPermissions];
+        [store setObject:parameterPermissions forKey:SDLNameParameterPermissions];
     } else {
-        [store removeObjectForKey:NAMES_parameterPermissions];
+        [store removeObjectForKey:SDLNameParameterPermissions];
     }
 }
 
 - (SDLParameterPermissions *)parameterPermissions {
-    NSObject *obj = [store objectForKey:NAMES_parameterPermissions];
+    NSObject *obj = [store objectForKey:SDLNameParameterPermissions];
     if (obj == nil || [obj isKindOfClass:SDLParameterPermissions.class]) {
         return (SDLParameterPermissions *)obj;
     } else {

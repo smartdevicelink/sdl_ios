@@ -5,13 +5,13 @@
 
 #import "SDLButtonName.h"
 #import "SDLButtonPressMode.h"
-#import "SDLNames.h"
+
 
 
 @implementation SDLOnButtonPress
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnButtonPress]) {
+    if (self = [super initWithName:SDLNameOnButtonPress]) {
     }
     return self;
 }
@@ -24,14 +24,14 @@
 
 - (void)setButtonName:(SDLButtonName *)buttonName {
     if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:NAMES_buttonName];
+        [parameters setObject:buttonName forKey:SDLNameButtonName];
     } else {
-        [parameters removeObjectForKey:NAMES_buttonName];
+        [parameters removeObjectForKey:SDLNameButtonName];
     }
 }
 
 - (SDLButtonName *)buttonName {
-    NSObject *obj = [parameters objectForKey:NAMES_buttonName];
+    NSObject *obj = [parameters objectForKey:SDLNameButtonName];
     if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
         return (SDLButtonName *)obj;
     } else {
@@ -41,14 +41,14 @@
 
 - (void)setButtonPressMode:(SDLButtonPressMode *)buttonPressMode {
     if (buttonPressMode != nil) {
-        [parameters setObject:buttonPressMode forKey:NAMES_buttonPressMode];
+        [parameters setObject:buttonPressMode forKey:SDLNameButtonPressMode];
     } else {
-        [parameters removeObjectForKey:NAMES_buttonPressMode];
+        [parameters removeObjectForKey:SDLNameButtonPressMode];
     }
 }
 
 - (SDLButtonPressMode *)buttonPressMode {
-    NSObject *obj = [parameters objectForKey:NAMES_buttonPressMode];
+    NSObject *obj = [parameters objectForKey:SDLNameButtonPressMode];
     if (obj == nil || [obj isKindOfClass:SDLButtonPressMode.class]) {
         return (SDLButtonPressMode *)obj;
     } else {
@@ -58,14 +58,14 @@
 
 - (void)setCustomButtonID:(NSNumber *)customButtonID {
     if (customButtonID != nil) {
-        [parameters setObject:customButtonID forKey:NAMES_customButtonID];
+        [parameters setObject:customButtonID forKey:SDLNameCustomButtonId];
     } else {
-        [parameters removeObjectForKey:NAMES_customButtonID];
+        [parameters removeObjectForKey:SDLNameCustomButtonId];
     }
 }
 
 - (NSNumber *)customButtonID {
-    return [parameters objectForKey:NAMES_customButtonID];
+    return [parameters objectForKey:SDLNameCustomButtonId];
 }
 
 @end
