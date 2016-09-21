@@ -3,8 +3,6 @@
 
 #import "SDLGPSData.h"
 
-#import "SDLCompassDirection.h"
-#import "SDLDimension.h"
 #import "SDLNames.h"
 
 
@@ -118,7 +116,7 @@
     return [store objectForKey:NAMES_utcSeconds];
 }
 
-- (void)setCompassDirection:(SDLCompassDirection *)compassDirection {
+- (void)setCompassDirection:(SDLCompassDirection)compassDirection {
     if (compassDirection != nil) {
         [store setObject:compassDirection forKey:NAMES_compassDirection];
     } else {
@@ -126,13 +124,9 @@
     }
 }
 
-- (SDLCompassDirection *)compassDirection {
+- (SDLCompassDirection)compassDirection {
     NSObject *obj = [store objectForKey:NAMES_compassDirection];
-    if (obj == nil || [obj isKindOfClass:SDLCompassDirection.class]) {
-        return (SDLCompassDirection *)obj;
-    } else {
-        return [SDLCompassDirection valueOf:(NSString *)obj];
-    }
+    return (SDLCompassDirection)obj;
 }
 
 - (void)setPdop:(NSNumber *)pdop {
@@ -195,7 +189,7 @@
     return [store objectForKey:NAMES_satellites];
 }
 
-- (void)setDimension:(SDLDimension *)dimension {
+- (void)setDimension:(SDLDimension)dimension {
     if (dimension != nil) {
         [store setObject:dimension forKey:NAMES_dimension];
     } else {
@@ -203,13 +197,9 @@
     }
 }
 
-- (SDLDimension *)dimension {
+- (SDLDimension)dimension {
     NSObject *obj = [store objectForKey:NAMES_dimension];
-    if (obj == nil || [obj isKindOfClass:SDLDimension.class]) {
-        return (SDLDimension *)obj;
-    } else {
-        return [SDLDimension valueOf:(NSString *)obj];
-    }
+    return (SDLDimension)obj;
 }
 
 - (void)setAltitude:(NSNumber *)altitude {

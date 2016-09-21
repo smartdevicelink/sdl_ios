@@ -8,7 +8,6 @@
 #import "SDLBeltStatus.h"
 #import "SDLBodyInformation.h"
 #import "SDLClusterModeStatus.h"
-#import "SDLComponentVolumeStatus.h"
 #import "SDLDeviceStatus.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
@@ -16,10 +15,7 @@
 #import "SDLHeadLampStatus.h"
 #import "SDLMyKey.h"
 #import "SDLNames.h"
-#import "SDLPRNDL.h"
 #import "SDLTireStatus.h"
-#import "SDLVehicleDataEventStatus.h"
-#import "SDLWiperStatus.h"
 
 
 @implementation SDLGetVehicleDataResponse
@@ -89,7 +85,7 @@
     return [parameters objectForKey:NAMES_fuelLevel];
 }
 
-- (void)setFuelLevel_State:(SDLComponentVolumeStatus *)fuelLevel_State {
+- (void)setFuelLevel_State:(SDLComponentVolumeStatus)fuelLevel_State {
     if (fuelLevel_State != nil) {
         [parameters setObject:fuelLevel_State forKey:NAMES_fuelLevel_State];
     } else {
@@ -97,13 +93,9 @@
     }
 }
 
-- (SDLComponentVolumeStatus *)fuelLevel_State {
+- (SDLComponentVolumeStatus)fuelLevel_State {
     NSObject *obj = [parameters objectForKey:NAMES_fuelLevel_State];
-    if (obj == nil || [obj isKindOfClass:SDLComponentVolumeStatus.class]) {
-        return (SDLComponentVolumeStatus *)obj;
-    } else {
-        return [SDLComponentVolumeStatus valueOf:(NSString *)obj];
-    }
+    return (SDLComponentVolumeStatus)obj;
 }
 
 - (void)setInstantFuelConsumption:(NSNumber *)instantFuelConsumption {
@@ -142,7 +134,7 @@
     return [parameters objectForKey:NAMES_vin];
 }
 
-- (void)setPrndl:(SDLPRNDL *)prndl {
+- (void)setPrndl:(SDLPRNDL)prndl {
     if (prndl != nil) {
         [parameters setObject:prndl forKey:NAMES_prndl];
     } else {
@@ -150,13 +142,9 @@
     }
 }
 
-- (SDLPRNDL *)prndl {
+- (SDLPRNDL)prndl {
     NSObject *obj = [parameters objectForKey:NAMES_prndl];
-    if (obj == nil || [obj isKindOfClass:SDLPRNDL.class]) {
-        return (SDLPRNDL *)obj;
-    } else {
-        return [SDLPRNDL valueOf:(NSString *)obj];
-    }
+    return (SDLPRNDL)obj;
 }
 
 - (void)setTirePressure:(SDLTireStatus *)tirePressure {
@@ -239,7 +227,7 @@
     }
 }
 
-- (void)setDriverBraking:(SDLVehicleDataEventStatus *)driverBraking {
+- (void)setDriverBraking:(SDLVehicleDataEventStatus)driverBraking {
     if (driverBraking != nil) {
         [parameters setObject:driverBraking forKey:NAMES_driverBraking];
     } else {
@@ -247,16 +235,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverBraking {
+- (SDLVehicleDataEventStatus)driverBraking {
     NSObject *obj = [parameters objectForKey:NAMES_driverBraking];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setWiperStatus:(SDLWiperStatus *)wiperStatus {
+- (void)setWiperStatus:(SDLWiperStatus)wiperStatus {
     if (wiperStatus != nil) {
         [parameters setObject:wiperStatus forKey:NAMES_wiperStatus];
     } else {
@@ -264,13 +248,9 @@
     }
 }
 
-- (SDLWiperStatus *)wiperStatus {
+- (SDLWiperStatus)wiperStatus {
     NSObject *obj = [parameters objectForKey:NAMES_wiperStatus];
-    if (obj == nil || [obj isKindOfClass:SDLWiperStatus.class]) {
-        return (SDLWiperStatus *)obj;
-    } else {
-        return [SDLWiperStatus valueOf:(NSString *)obj];
-    }
+    return (SDLWiperStatus)obj;
 }
 
 - (void)setHeadLampStatus:(SDLHeadLampStatus *)headLampStatus {

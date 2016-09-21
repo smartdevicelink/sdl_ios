@@ -3,21 +3,23 @@
 
 #import "SDLRPCResponse.h"
 
+#import "SDLComponentVolumeStatus.h"
+#import "SDLPRNDL.h"
+#import "SDLVehicleDataEventStatus.h"
+#import "SDLWiperStatus.h"
+
 @class SDLAirbagStatus;
 @class SDLBeltStatus;
 @class SDLBodyInformation;
 @class SDLClusterModeStatus;
-@class SDLComponentVolumeStatus;
 @class SDLDeviceStatus;
 @class SDLECallInfo;
 @class SDLEmergencyEvent;
 @class SDLGPSData;
 @class SDLHeadLampStatus;
 @class SDLMyKey;
-@class SDLPRNDL;
 @class SDLTireStatus;
-@class SDLVehicleDataEventStatus;
-@class SDLWiperStatus;
+
 
 
 /**
@@ -65,7 +67,7 @@
 /**
  * @abstract A SDLComponentVolumeStatus* value. The fuel level state.
  */
-@property (strong) SDLComponentVolumeStatus *fuelLevel_State;
+@property (strong) SDLComponentVolumeStatus fuelLevel_State;
 
 /**
  * @abstract The instantaneous fuel consumption in microlitres.
@@ -85,7 +87,7 @@
 /**
  * @abstract See PRNDL.
  */
-@property (strong) SDLPRNDL *prndl;
+@property (strong) SDLPRNDL prndl;
 
 /**
  * @abstract A SDLTireStatus* value. See TireStatus.
@@ -115,12 +117,12 @@
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the brake pedal.
  */
-@property (strong) SDLVehicleDataEventStatus *driverBraking;
+@property (strong) SDLVehicleDataEventStatus driverBraking;
 
 /**
  * @abstract A SDLWiperStatus* value. The status of the wipers.
  */
-@property (strong) SDLWiperStatus *wiperStatus;
+@property (strong) SDLWiperStatus wiperStatus;
 
 /**
  * @abstract A SDLHeadLampStatus* value. Status of the head lamps.

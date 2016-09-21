@@ -3,9 +3,8 @@
 
 #import "SDLImageField.h"
 
-#import "SDLFileType.h"
-#import "SDLImageFieldName.h"
 #import "SDLImageResolution.h"
+#import "SDLFileType.h"
 #import "SDLNames.h"
 
 
@@ -23,7 +22,7 @@
     return self;
 }
 
-- (void)setName:(SDLImageFieldName *)name {
+- (void)setName:(SDLImageFieldName)name {
     if (name != nil) {
         [store setObject:name forKey:NAMES_name];
     } else {
@@ -31,13 +30,9 @@
     }
 }
 
-- (SDLImageFieldName *)name {
+- (SDLImageFieldName)name {
     NSObject *obj = [store objectForKey:NAMES_name];
-    if (obj == nil || [obj isKindOfClass:SDLImageFieldName.class]) {
-        return (SDLImageFieldName *)obj;
-    } else {
-        return [SDLImageFieldName valueOf:(NSString *)obj];
-    }
+    return (SDLImageFieldName)obj;
 }
 
 - (void)setImageTypeSupported:(NSMutableArray *)imageTypeSupported {
@@ -50,12 +45,12 @@
 
 - (NSMutableArray *)imageTypeSupported {
     NSMutableArray *array = [store objectForKey:NAMES_imageTypeSupported];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLFileType.class]) {
+    if ([array count] < 1) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLFileType valueOf:enumString]];
+            [newList addObject:(SDLFileType)enumString];
         }
         return newList;
     }

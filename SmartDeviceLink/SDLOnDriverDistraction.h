@@ -3,8 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLDriverDistractionState;
-
+#import "SDLDriverDistractionState.h"
 
 /**
  * Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
@@ -41,6 +40,6 @@
 /**
  * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
-@property (strong) SDLDriverDistractionState *state;
+@property (strong) SDLDriverDistractionState state;
 
 @end

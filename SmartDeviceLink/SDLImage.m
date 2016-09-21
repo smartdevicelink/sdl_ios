@@ -3,7 +3,6 @@
 
 #import "SDLImage.h"
 
-#import "SDLImageType.h"
 #import "SDLNames.h"
 
 
@@ -33,7 +32,7 @@
     return [store objectForKey:NAMES_value];
 }
 
-- (void)setImageType:(SDLImageType *)imageType {
+- (void)setImageType:(SDLImageType)imageType {
     if (imageType != nil) {
         [store setObject:imageType forKey:NAMES_imageType];
     } else {
@@ -41,13 +40,9 @@
     }
 }
 
-- (SDLImageType *)imageType {
+- (SDLImageType)imageType {
     NSObject *obj = [store objectForKey:NAMES_imageType];
-    if (obj == nil || [obj isKindOfClass:SDLImageType.class]) {
-        return (SDLImageType *)obj;
-    } else {
-        return [SDLImageType valueOf:(NSString *)obj];
-    }
+        return (SDLImageType)obj;
 }
 
 @end

@@ -5,7 +5,6 @@
 
 #import "SDLNames.h"
 #import "SDLTouchEvent.h"
-#import "SDLTouchType.h"
 
 
 @implementation SDLOnTouchEvent
@@ -22,7 +21,7 @@
     return self;
 }
 
-- (void)setType:(SDLTouchType *)type {
+- (void)setType:(SDLTouchType)type {
     if (type != nil) {
         [parameters setObject:type forKey:NAMES_type];
     } else {
@@ -30,13 +29,9 @@
     }
 }
 
-- (SDLTouchType *)type {
+- (SDLTouchType)type {
     NSObject *obj = [parameters objectForKey:NAMES_type];
-    if (obj == nil || [obj isKindOfClass:SDLTouchType.class]) {
-        return (SDLTouchType *)obj;
-    } else {
-        return [SDLTouchType valueOf:(NSString *)obj];
-    }
+    return (SDLTouchType)obj;
 }
 
 - (void)setEvent:(NSMutableArray *)event {

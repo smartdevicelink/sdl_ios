@@ -3,8 +3,7 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLFileType;
-
+#import "SDLFileType.h"
 
 /**
  * Used to push a binary data onto the SDL module from a mobile device, such as
@@ -41,7 +40,7 @@
  *
  * Required
  */
-@property (strong) SDLFileType *fileType;
+@property (strong) SDLFileType fileType;
 
 /**
  * A value to indicates if the file is meant to persist between

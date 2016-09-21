@@ -9,53 +9,30 @@
  *
  * @since SDL 1.0
  */
-@interface SDLDisplayType : SDLEnum {
-}
-
-/**
- * Convert String to SDLDisplayType
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLDisplayType
- */
-+ (SDLDisplayType *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLDisplayType
- *
- * @return an array that store all possible SDLDisplayType
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLDisplayType NS_EXTENSIBLE_STRING_ENUM;
 
 /**
  * @abstract This display type provides a 2-line x 20 character "dot matrix" display.
- *
- * @return SDLDisplayType with value of *CID*
  */
-+ (SDLDisplayType *)CID;
+extern SDLDisplayType const SDLDisplayTypeCid;
 
-+ (SDLDisplayType *)TYPE2;
+extern SDLDisplayType const SDLDisplayTypeType2;
 
-+ (SDLDisplayType *)TYPE5;
+extern SDLDisplayType const SDLDisplayTypeType5;
 
 /**
  * @abstract This display type provides an 8 inch touchscreen display.
- *
- * @return SDLDisplayType with value of *NGN*
  */
-+ (SDLDisplayType *)NGN;
+extern SDLDisplayType const SDLDisplayTypeNgn;
 
-+ (SDLDisplayType *)GEN2_8_DMA;
+extern SDLDisplayType const SDLDisplayTypeGen28Dma;
 
-+ (SDLDisplayType *)GEN2_6_DMA;
+extern SDLDisplayType const SDLDisplayTypeGen26Dma;
 
-+ (SDLDisplayType *)MFD3;
+extern SDLDisplayType const SDLDisplayTypeMfd3;
 
-+ (SDLDisplayType *)MFD4;
+extern SDLDisplayType const SDLDisplayTypeMfd4;
 
-+ (SDLDisplayType *)MFD5;
+extern SDLDisplayType const SDLDisplayTypeMfd5;
 
-+ (SDLDisplayType *)GEN3_8_INCH;
-
-@end
+extern SDLDisplayType const SDLDisplayTypeGen38Inch;

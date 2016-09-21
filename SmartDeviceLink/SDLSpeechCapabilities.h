@@ -9,38 +9,17 @@
  *
  * @since SDL 1.0
  */
-@interface SDLSpeechCapabilities : SDLEnum {
-}
-
-/**
- * @abstract get SDLSpeechCapabilities according value string
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLSpeechCapabilities object
- */
-+ (SDLSpeechCapabilities *)valueOf:(NSString *)value;
-
-/**
- * @abstract declare an array to store all possible SDLSpeechCapabilities values
- *
- * @return the array of all possible values
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLSpeechCapabilities NS_EXTENSIBLE_STRING_ENUM;
 
 /**
  * @abstract The SDL platform can speak text phrases.
- *
- * @return SDLSpeechCapabilities of value: *TEXT*
  */
-+ (SDLSpeechCapabilities *)TEXT;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesText;
 
-+ (SDLSpeechCapabilities *)SAPI_PHONEMES;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSapiPhonemes;
 
-+ (SDLSpeechCapabilities *)LHPLUS_PHONEMES;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesLhplusPhonemes;
 
-+ (SDLSpeechCapabilities *)PRE_RECORDED;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesPreRecorded;
 
-+ (SDLSpeechCapabilities *)SILENCE;
-
-@end
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSilence;

@@ -3,13 +3,12 @@
 
 #import "SDLTTSChunkFactory.h"
 
-#import "SDLSpeechCapabilities.h"
 #import "SDLTTSChunk.h"
 
 
 @implementation SDLTTSChunkFactory
 
-+ (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities *)type {
++ (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities)type {
     SDLTTSChunk *ret = [[SDLTTSChunk alloc] init];
     ret.text = text;
     ret.type = type;
@@ -21,7 +20,7 @@
     if (simple == nil)
         return nil;
 
-    return [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:simple type:[SDLSpeechCapabilities TEXT]]];
+    return [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:simple type:SDLSpeechCapabilitiesText]];
 }
 
 @end

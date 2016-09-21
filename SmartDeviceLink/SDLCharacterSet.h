@@ -9,31 +9,13 @@
  *
  * @since SDL 1.0
  */
-@interface SDLCharacterSet : SDLEnum {
-}
+typedef SDLEnum SDLCharacterSet NS_EXTENSIBLE_STRING_ENUM;
 
-/**
- * @abstract Convert String to SDLCharacterSet
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLCharacterSet
- */
-+ (SDLCharacterSet *)valueOf:(NSString *)value;
+extern SDLCharacterSet const SDLCharacterSetType2Set;
 
-/**
- * @abstract Store the enumeration of all possible SDLCharacterSet
- *
- * @return an array that store all possible SDLCharacterSet
- */
-+ (NSArray *)values;
+extern SDLCharacterSet const SDLCharacterSetType5Set;
 
-+ (SDLCharacterSet *)TYPE2SET;
+extern SDLCharacterSet const SDLCharacterSetCid1Set;
 
-+ (SDLCharacterSet *)TYPE5SET;
+extern SDLCharacterSet const SDLCharacterSetCid2Set;
 
-+ (SDLCharacterSet *)CID1SET;
-
-+ (SDLCharacterSet *)CID2SET;
-
-@end

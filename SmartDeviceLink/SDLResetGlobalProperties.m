@@ -31,12 +31,12 @@
 
 - (NSMutableArray *)properties {
     NSMutableArray *array = [parameters objectForKey:NAMES_properties];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLGlobalProperty.class]) {
+    if ([array count] < 1) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLGlobalProperty valueOf:enumString]];
+            [newList addObject:(SDLGlobalProperty)enumString];
         }
         return newList;
     }

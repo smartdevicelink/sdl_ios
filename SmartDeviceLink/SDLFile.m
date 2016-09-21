@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSURL *fileURL;
 @property (copy, nonatomic, readwrite) NSData *data;
 
-@property (strong, nonatomic, readwrite) SDLFileType *fileType;
+@property (strong, nonatomic, readwrite) SDLFileType fileType;
 @property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
 
@@ -100,24 +100,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - File Type
 
-+ (SDLFileType *)sdl_fileTypeFromFileExtension:(NSString *)fileExtension {
++ (SDLFileType)sdl_fileTypeFromFileExtension:(NSString *)fileExtension {
     if ([fileExtension caseInsensitiveCompare:@"bmp"] == NSOrderedSame) {
-        return [SDLFileType GRAPHIC_BMP];
+        return SDLFileTypeGraphicBmp;
     } else if (([fileExtension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
                ([fileExtension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame)) {
-        return [SDLFileType GRAPHIC_JPEG];
+        return SDLFileTypeGraphicJpeg;
     } else if ([fileExtension caseInsensitiveCompare:@"png"] == NSOrderedSame) {
-        return [SDLFileType GRAPHIC_PNG];
+        return SDLFileTypeGraphicPng;
     } else if ([fileExtension caseInsensitiveCompare:@"wav"] == NSOrderedSame) {
-        return [SDLFileType AUDIO_WAVE];
+        return SDLFileTypeAudioWave;
     } else if ([fileExtension caseInsensitiveCompare:@"mp3"] == NSOrderedSame) {
-        return [SDLFileType AUDIO_MP3];
+        return SDLFileTypeAudioMp3;
     } else if ([fileExtension caseInsensitiveCompare:@"aac"] == NSOrderedSame) {
-        return [SDLFileType AUDIO_AAC];
+        return SDLFileTypeAudioAac;
     } else if ([fileExtension caseInsensitiveCompare:@"json"] == NSOrderedSame) {
-        return [SDLFileType JSON];
+        return SDLFileTypeJson;
     } else {
-        return [SDLFileType BINARY];
+        return SDLFileTypeBinary;
     }
 }
 

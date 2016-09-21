@@ -3,14 +3,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLSpeechCapabilities.h"
+
 @class SDLTTSChunk;
-@class SDLSpeechCapabilities;
 
 
 @interface SDLTTSChunkFactory : NSObject {
 }
 
-+ (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities *)type;
++ (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities)type;
 + (NSMutableArray *)buildTTSChunksFromSimple:(NSString *)simple;
 
 @end

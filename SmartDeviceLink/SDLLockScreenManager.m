@@ -103,17 +103,17 @@ NS_ASSUME_NONNULL_BEGIN
     SDLOnLockScreenStatus *onLockScreenNotification = notification.notification;
 
     // Present the VC depending on the lock screen status
-    if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
+    if ([onLockScreenNotification.lockScreenStatus isEqualToString:SDLLockScreenStatusRequired]) {
         if (!self.presenter.presented && self.canPresent) {
             [self.presenter present];
         }
-    } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
+    } else if ([onLockScreenNotification.lockScreenStatus isEqualToString:SDLLockScreenStatusOptional]) {
         if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
             [self.presenter present];
         } else if (self.presenter.presented) {
             [self.presenter dismiss];
         }
-    } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
+    } else if ([onLockScreenNotification.lockScreenStatus isEqualToString:SDLLockScreenStatusOff]) {
         if (self.presenter.presented) {
             [self.presenter dismiss];
         }

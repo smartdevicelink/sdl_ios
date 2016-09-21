@@ -10,7 +10,7 @@
 
 #import "SDLErrorConstants.h"
 
-@class SDLResult;
+#import "SDLResult.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -29,8 +29,8 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_lifecycle_notReadyError;
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
 + (NSError *)sdl_lifecycle_managersFailedToStart;
-+ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result info:(NSString *)info;
-+ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result info:(NSString *)info;
++ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info;
++ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info;
 
 #pragma mark SDLFileManager
 

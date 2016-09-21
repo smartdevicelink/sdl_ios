@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLFileType;
+#import "SDLFileType.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.
  */
-@property (strong, nonatomic, readonly) SDLFileType *fileType;
+@property (strong, nonatomic, readonly) SDLFileType fileType;
 
 
 - (instancetype)init NS_UNAVAILABLE;

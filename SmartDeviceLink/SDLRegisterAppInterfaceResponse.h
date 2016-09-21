@@ -4,12 +4,12 @@
 
 #import "SDLRPCResponse.h"
 
-@class SDLLanguage;
-@class SDLDisplayCapabilities;
-@class SDLHMICapabilities;
-@class SDLPresetBankCapabilities;
-@class SDLSyncMsgVersion;
-@class SDLVehicleType;
+#import "SDLLanguage.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLHMICapabilities.h"
+#import "SDLPresetBankCapabilities.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLVehicleType.h"
 
 
 /**
@@ -46,7 +46,7 @@
  *
  * Optional
  */
-@property (strong) SDLLanguage *language;
+@property (strong) SDLLanguage language;
 
 /**
  * The currently active display language on Sync
@@ -56,7 +56,7 @@
  *
  * Optional
  */
-@property (strong) SDLLanguage *hmiDisplayLanguage;
+@property (strong) SDLLanguage hmiDisplayLanguage;
 
 /**
  * @see SDLDisplayCapabilities

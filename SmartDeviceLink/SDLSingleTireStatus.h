@@ -3,8 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLComponentVolumeStatus;
-
+#import "SDLComponentVolumeStatus.h"
 
 /**
  * Tire pressure status of a single tire.
@@ -28,6 +27,6 @@
 /**
  * @abstract The volume status of a single tire
  */
-@property (strong) SDLComponentVolumeStatus *status;
+@property (strong) SDLComponentVolumeStatus status;
 
 @end

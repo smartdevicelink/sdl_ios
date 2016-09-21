@@ -5,8 +5,6 @@
 #import "SDLSystemRequest.h"
 
 #import "SDLNames.h"
-#import "SDLRequestType.h"
-
 
 @implementation SDLSystemRequest
 
@@ -22,7 +20,7 @@
     return self;
 }
 
-- (void)setRequestType:(SDLRequestType *)requestType {
+- (void)setRequestType:(SDLRequestType)requestType {
     if (requestType != nil) {
         [parameters setObject:requestType forKey:NAMES_requestType];
     } else {
@@ -30,13 +28,9 @@
     }
 }
 
-- (SDLRequestType *)requestType {
+- (SDLRequestType)requestType {
     NSObject *obj = [parameters objectForKey:NAMES_requestType];
-    if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
-        return (SDLRequestType *)obj;
-    } else {
-        return [SDLRequestType valueOf:(NSString *)obj];
-    }
+    return (SDLRequestType)obj;
 }
 
 - (void)setFileName:(NSString *)fileName {

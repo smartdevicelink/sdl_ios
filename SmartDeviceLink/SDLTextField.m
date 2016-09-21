@@ -22,7 +22,7 @@
     return self;
 }
 
-- (void)setName:(SDLTextFieldName *)name {
+- (void)setName:(SDLTextFieldName)name {
     if (name != nil) {
         [store setObject:name forKey:NAMES_name];
     } else {
@@ -30,16 +30,12 @@
     }
 }
 
-- (SDLTextFieldName *)name {
+- (SDLTextFieldName)name {
     NSObject *obj = [store objectForKey:NAMES_name];
-    if (obj == nil || [obj isKindOfClass:SDLTextFieldName.class]) {
-        return (SDLTextFieldName *)obj;
-    } else {
-        return [SDLTextFieldName valueOf:(NSString *)obj];
-    }
+    return (SDLTextFieldName)obj;
 }
 
-- (void)setCharacterSet:(SDLCharacterSet *)characterSet {
+- (void)setCharacterSet:(SDLCharacterSet)characterSet {
     if (characterSet != nil) {
         [store setObject:characterSet forKey:NAMES_characterSet];
     } else {
@@ -47,13 +43,9 @@
     }
 }
 
-- (SDLCharacterSet *)characterSet {
+- (SDLCharacterSet)characterSet {
     NSObject *obj = [store objectForKey:NAMES_characterSet];
-    if (obj == nil || [obj isKindOfClass:SDLCharacterSet.class]) {
-        return (SDLCharacterSet *)obj;
-    } else {
-        return [SDLCharacterSet valueOf:(NSString *)obj];
-    }
+    return (SDLCharacterSet)obj;
 }
 
 - (void)setWidth:(NSNumber *)width {

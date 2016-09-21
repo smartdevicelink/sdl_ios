@@ -9,88 +9,51 @@
  *
  * @since SDL 2.0
  */
-@interface SDLAppHMIType : SDLEnum {
-}
-
-/**
- * @abstract Convert String to AppHMIType
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLAppHMIType
- */
-+ (SDLAppHMIType *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLAppHMIType
- *
- * @return an array that store all possible SDLAppHMIType
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLAppHMIType NS_EXTENSIBLE_STRING_ENUM;
 
 /**
  * @abstract The App will have default rights.
- *
- * @return SDLAppHMIType with value *DEFAULT*
  */
-+ (SDLAppHMIType *)DEFAULT;
+extern SDLAppHMIType SDLAppHMITypeDefault;
 
 /**
  * @abstract Communication type of App
- *
- * @return SDLAppHMIType with value *COMMUNICATION*
  */
-+ (SDLAppHMIType *)COMMUNICATION;
+extern SDLAppHMIType SDLAppHMITypeCommunication;
 
 /**
  * @abstract App dealing with Media
- *
- * @return SDLAppHMIType with value *MEDIA*
  */
-+ (SDLAppHMIType *)MEDIA;
+extern SDLAppHMIType SDLAppHMITypeMedia;
 
 /**
  * @abstract Messaging App
- *
- * @return SDLAppHMIType with value *MESSAGING*
  */
-+ (SDLAppHMIType *)MESSAGING;
+extern SDLAppHMIType SDLAppHMITypeMessaging;
 
 /**
  * @abstract Navigation App
- *
- * @return SDLAppHMIType with value *NAVIGATION*
  */
-+ (SDLAppHMIType *)NAVIGATION;
+extern SDLAppHMIType SDLAppHMITypeNavigation;
 
 /**
  * @abstract Information App
- *
- * @return SDLAppHMIType with value *INFORMATION*
  */
-+ (SDLAppHMIType *)INFORMATION;
+extern SDLAppHMIType SDLAppHMITypeInformation;
 
 /**
  * @abstract App dealing with social media
- *
- * @return SDLAppHMIType with value *SOCIAL*
  */
-+ (SDLAppHMIType *)SOCIAL;
+extern SDLAppHMIType SDLAppHMITypeSocial;
 
-+ (SDLAppHMIType *)BACKGROUND_PROCESS;
+extern SDLAppHMIType SDLAppHMITypeBackgroundProcess;
 
 /**
  * @abstract App only for Testing purposes
- *
- * @return SDLAppHMIType with value *TESTING*
  */
-+ (SDLAppHMIType *)TESTING;
+extern SDLAppHMIType SDLAppHMITypeTesting;
 
 /**
  * @abstract System App
- *
- * @return SDLAppHMIType with value *SYSTEM*
  */
-+ (SDLAppHMIType *)SYSTEM;
-
-@end
+extern SDLAppHMIType SDLAppHMITypeSystem;

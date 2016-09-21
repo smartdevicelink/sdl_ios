@@ -3,9 +3,8 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLButtonName;
-@class SDLButtonEventMode;
-
+#import "SDLButtonName.h"
+#import "SDLButtonEventMode.h"
 
 /**
  * Notifies application that user has depressed or released a button to which
@@ -62,12 +61,12 @@
 /**
  * @abstract The name of the button
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong) SDLButtonName buttonName;
 
 /**
  * @abstract Indicates whether this is an UP or DOWN event
  */
-@property (strong) SDLButtonEventMode *buttonEventMode;
+@property (strong) SDLButtonEventMode buttonEventMode;
 
 /**
  * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)

@@ -4,10 +4,7 @@
 
 #import "SDLPerformAudioPassThru.h"
 
-#import "SDLAudioType.h"
-#import "SDLBitsPerSample.h"
 #import "SDLNames.h"
-#import "SDLSamplingRate.h"
 #import "SDLTTSChunk.h"
 
 
@@ -70,7 +67,7 @@
     return [parameters objectForKey:NAMES_audioPassThruDisplayText2];
 }
 
-- (void)setSamplingRate:(SDLSamplingRate *)samplingRate {
+- (void)setSamplingRate:(SDLSamplingRate)samplingRate {
     if (samplingRate != nil) {
         [parameters setObject:samplingRate forKey:NAMES_samplingRate];
     } else {
@@ -78,13 +75,9 @@
     }
 }
 
-- (SDLSamplingRate *)samplingRate {
+- (SDLSamplingRate)samplingRate {
     NSObject *obj = [parameters objectForKey:NAMES_samplingRate];
-    if (obj == nil || [obj isKindOfClass:SDLSamplingRate.class]) {
-        return (SDLSamplingRate *)obj;
-    } else {
-        return [SDLSamplingRate valueOf:(NSString *)obj];
-    }
+    return (SDLSamplingRate )obj;
 }
 
 - (void)setMaxDuration:(NSNumber *)maxDuration {
@@ -99,7 +92,7 @@
     return [parameters objectForKey:NAMES_maxDuration];
 }
 
-- (void)setBitsPerSample:(SDLBitsPerSample *)bitsPerSample {
+- (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
     if (bitsPerSample != nil) {
         [parameters setObject:bitsPerSample forKey:NAMES_bitsPerSample];
     } else {
@@ -107,16 +100,12 @@
     }
 }
 
-- (SDLBitsPerSample *)bitsPerSample {
+- (SDLBitsPerSample)bitsPerSample {
     NSObject *obj = [parameters objectForKey:NAMES_bitsPerSample];
-    if (obj == nil || [obj isKindOfClass:SDLBitsPerSample.class]) {
-        return (SDLBitsPerSample *)obj;
-    } else {
-        return [SDLBitsPerSample valueOf:(NSString *)obj];
-    }
+    return (SDLBitsPerSample)obj;
 }
 
-- (void)setAudioType:(SDLAudioType *)audioType {
+- (void)setAudioType:(SDLAudioType)audioType {
     if (audioType != nil) {
         [parameters setObject:audioType forKey:NAMES_audioType];
     } else {
@@ -124,13 +113,9 @@
     }
 }
 
-- (SDLAudioType *)audioType {
+- (SDLAudioType)audioType {
     NSObject *obj = [parameters objectForKey:NAMES_audioType];
-    if (obj == nil || [obj isKindOfClass:SDLAudioType.class]) {
-        return (SDLAudioType *)obj;
-    } else {
-        return [SDLAudioType valueOf:(NSString *)obj];
-    }
+    return (SDLAudioType)obj;
 }
 
 - (void)setMuteAudio:(NSNumber *)muteAudio {

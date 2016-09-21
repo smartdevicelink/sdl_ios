@@ -3,7 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataResultCode;
+#import "SDLVehicleDataResultCode.h"
 
 
 @interface SDLDIDResult : SDLRPCStruct {
@@ -12,7 +12,7 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property (strong) SDLVehicleDataResultCode *resultCode;
+@property (strong) SDLVehicleDataResultCode resultCode;
 @property (strong) NSNumber *didLocation;
 @property (strong) NSString *data;
 

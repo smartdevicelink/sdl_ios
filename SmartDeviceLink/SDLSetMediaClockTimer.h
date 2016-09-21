@@ -3,9 +3,9 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLStartTime;
-@class SDLUpdateMode;
+#import "SDLUpdateMode.h"
 
+@class SDLStartTime;
 
 /**
  * Sets the media clock/timer value and the update method (e.g.count-up,
@@ -63,6 +63,6 @@
  *            the timer's value when it was paused</li>
  *            </ul>
  */
-@property (strong) SDLUpdateMode *updateMode;
+@property (strong) SDLUpdateMode updateMode;
 
 @end

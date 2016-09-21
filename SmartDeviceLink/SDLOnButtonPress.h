@@ -3,9 +3,8 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLButtonName;
-@class SDLButtonPressMode;
-
+#import "SDLButtonName.h"
+#import "SDLButtonPressMode.h"
 
 /**
  * Notifies application of button press events for buttons to which the
@@ -71,7 +70,7 @@
  *
  * Required
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong) SDLButtonName buttonName;
 
 /**
  * @abstract Indicates whether this is a LONG or SHORT button press event
@@ -80,7 +79,7 @@
  *
  * Required
  */
-@property (strong) SDLButtonPressMode *buttonPressMode;
+@property (strong) SDLButtonPressMode buttonPressMode;
 
 /**
  * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)

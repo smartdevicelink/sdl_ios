@@ -146,22 +146,22 @@ const int POLICIES_CORRELATION_ID = 65535;
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
-    HMIStatusRPC.audioStreamingState = [SDLAudioStreamingState NOT_AUDIBLE];
-    HMIStatusRPC.systemContext = [SDLSystemContext MAIN];
+    HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
+    HMIStatusRPC.systemContext = SDLSystemContextMain;
 
     switch (appState) {
         case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel FULL];
+            HMIStatusRPC.hmiLevel = SDLHMILevelFull;
         } break;
         case UIApplicationStateBackground: // Fallthrough
         case UIApplicationStateInactive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
+            HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
         } break;
         default:
             break;
     }
 
-    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
+    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel];
     [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     [self sendRPC:HMIStatusRPC];
@@ -414,16 +414,16 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
-    SDLRequestType *requestType = systemRequest.requestType;
+    SDLRequestType requestType = systemRequest.requestType;
 
     // Handle the various OnSystemRequest types
-    if (requestType == [SDLRequestType PROPRIETARY]) {
+    if ([requestType isEqualToString:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
-    } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeLockScreenIconUrl]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if (requestType == [SDLRequestType HTTP]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeHttp]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if (requestType == [SDLRequestType LAUNCH_APP]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeLaunchApp]) {
         [self sdl_handleSystemRequestLaunchApp:systemRequest];
     }
 }
@@ -436,8 +436,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    NSString *statusString = (NSString *)[message getParameters:NAMES_hmiLevel];
-    SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
+    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:NAMES_hmiLevel];
     _lsm.hmiLevel = hmiLevel;
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
@@ -513,7 +512,7 @@ const int POLICIES_CORRELATION_ID = 65535;
                         // Create the SystemRequest RPC to send to module.
                         SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
                         request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
-                        request.requestType = [SDLRequestType PROPRIETARY];
+                        request.requestType = SDLRequestTypeProprietary;
                         request.bulkData = data;
 
                         // Parse and display the policy data.
@@ -573,7 +572,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
             // Create the SystemRequest RPC to send to module.
             SDLPutFile *putFile = [[SDLPutFile alloc] init];
-            putFile.fileType = [SDLFileType JSON];
+            putFile.fileType = SDLFileTypeJson;
             putFile.correlationID = @(POLICIES_CORRELATION_ID);
             putFile.syncFileName = @"response_data";
             putFile.bulkData = data;
@@ -594,7 +593,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  */
 - (NSDictionary *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
-    SDLFileType *fileType = request.fileType;
+    SDLFileType fileType = request.fileType;
 
     // Validate input
     if (urlString == nil || [NSURL URLWithString:urlString] == nil) {
@@ -602,7 +601,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         return nil;
     }
 
-    if (fileType != [SDLFileType JSON]) {
+    if (![fileType isEqualToString:SDLFileTypeJson]) {
         [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
     }

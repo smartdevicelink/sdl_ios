@@ -3,8 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLIgnitionStableStatus;
-@class SDLIgnitionStatus;
+#import "SDLIgnitionStableStatus.h"
+#import "SDLIgnitionStatus.h"
 
 
 /**
@@ -33,12 +33,12 @@
 /**
  * @abstract References signal "Ignition_Switch_Stable". See IgnitionStableStatus.
  */
-@property (strong) SDLIgnitionStableStatus *ignitionStableStatus;
+@property (strong) SDLIgnitionStableStatus ignitionStableStatus;
 
 /**
  * @abstract References signal "Ignition_status". See IgnitionStatus.
  */
-@property (strong) SDLIgnitionStatus *ignitionStatus;
+@property (strong) SDLIgnitionStatus ignitionStatus;
 
 /**
  * @abstract References signal "DrStatDrv_B_Actl".

@@ -3,8 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLCharacterSet;
-@class SDLTextFieldName;
+#import "SDLCharacterSet.h"
+#import "SDLTextFieldName.h"
 
 
 /**
@@ -78,7 +78,7 @@
  *
  * Required
  */
-@property (strong) SDLTextFieldName *name;
+@property (strong) SDLTextFieldName name;
 
 /**
  * @abstract The character set that is supported in this field.
@@ -87,7 +87,7 @@
  *
  * Required
  */
-@property (strong) SDLCharacterSet *characterSet;
+@property (strong) SDLCharacterSet characterSet;
 
 /**
  * @abstract The number of characters in one row of this field.

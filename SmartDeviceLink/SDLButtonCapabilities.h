@@ -3,7 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLButtonName;
+#import "SDLButtonName.h"
 
 
 /**
@@ -28,7 +28,7 @@
 /**
  * @abstract The name of the SDL HMI button.
  */
-@property (strong) SDLButtonName *name;
+@property (strong) SDLButtonName name;
 
 /**
  * @abstract A NSNumber value indicates whether the button supports a SHORT press

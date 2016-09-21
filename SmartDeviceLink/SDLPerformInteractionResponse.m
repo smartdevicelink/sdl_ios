@@ -5,8 +5,6 @@
 #import "SDLPerformInteractionResponse.h"
 
 #import "SDLNames.h"
-#import "SDLTriggerSource.h"
-
 
 @implementation SDLPerformInteractionResponse
 
@@ -46,7 +44,7 @@
     return [parameters objectForKey:NAMES_manualTextEntry];
 }
 
-- (void)setTriggerSource:(SDLTriggerSource *)triggerSource {
+- (void)setTriggerSource:(SDLTriggerSource)triggerSource {
     if (triggerSource != nil) {
         [parameters setObject:triggerSource forKey:NAMES_triggerSource];
     } else {
@@ -54,13 +52,9 @@
     }
 }
 
-- (SDLTriggerSource *)triggerSource {
+- (SDLTriggerSource)triggerSource {
     NSObject *obj = [parameters objectForKey:NAMES_triggerSource];
-    if (obj == nil || [obj isKindOfClass:SDLTriggerSource.class]) {
-        return (SDLTriggerSource *)obj;
-    } else {
-        return [SDLTriggerSource valueOf:(NSString *)obj];
-    }
+    return (SDLTriggerSource)obj;
 }
 
 @end

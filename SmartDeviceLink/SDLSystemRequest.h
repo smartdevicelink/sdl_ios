@@ -3,8 +3,7 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLRequestType;
-
+#import "SDLRequestType.h"
 
 /** An asynchronous request from the device; binary data can be included in hybrid part of message for some requests<br> (such as HTTP, Proprietary, or Authentication requests)
  * <p>
@@ -17,7 +16,7 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property (strong) SDLRequestType *requestType;
+@property (strong) SDLRequestType requestType;
 @property (strong) NSString *fileName;
 
 @end

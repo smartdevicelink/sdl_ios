@@ -4,7 +4,6 @@
 #import "SDLTTSChunk.h"
 
 #import "SDLNames.h"
-#import "SDLSpeechCapabilities.h"
 
 
 @implementation SDLTTSChunk
@@ -33,7 +32,7 @@
     return [store objectForKey:NAMES_text];
 }
 
-- (void)setType:(SDLSpeechCapabilities *)type {
+- (void)setType:(SDLSpeechCapabilities)type {
     if (type != nil) {
         [store setObject:type forKey:NAMES_type];
     } else {
@@ -41,13 +40,9 @@
     }
 }
 
-- (SDLSpeechCapabilities *)type {
+- (SDLSpeechCapabilities)type {
     NSObject *obj = [store objectForKey:NAMES_type];
-    if (obj == nil || [obj isKindOfClass:SDLSpeechCapabilities.class]) {
-        return (SDLSpeechCapabilities *)obj;
-    } else {
-        return [SDLSpeechCapabilities valueOf:(NSString *)obj];
-    }
+    return (SDLSpeechCapabilities)obj;
 }
 
 @end

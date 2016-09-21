@@ -3,8 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLCompassDirection;
-@class SDLDimension;
+#import "SDLCompassDirection.h"
+#import "SDLDimension.h"
 
 
 /**
@@ -85,7 +85,7 @@
 /**
  * Potential Compass Directions
  */
-@property (strong) SDLCompassDirection *compassDirection;
+@property (strong) SDLCompassDirection compassDirection;
 
 /**
  * @abstract The 3D positional dilution of precision.
@@ -135,7 +135,7 @@
  *
  * Required
  */
-@property (strong) SDLDimension *dimension;
+@property (strong) SDLDimension dimension;
 
 /**
  * @abstract altitude in meters

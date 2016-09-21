@@ -21,7 +21,7 @@
     return self;
 }
 
-- (void)setLanguage:(SDLLanguage *)language {
+- (void)setLanguage:(SDLLanguage)language {
     if (language != nil) {
         [parameters setObject:language forKey:NAMES_language];
     } else {
@@ -29,16 +29,12 @@
     }
 }
 
-- (SDLLanguage *)language {
+- (SDLLanguage)language {
     NSObject *obj = [parameters objectForKey:NAMES_language];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
+    return (SDLLanguage)obj;
 }
 
-- (void)setHmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
+- (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
     if (hmiDisplayLanguage != nil) {
         [parameters setObject:hmiDisplayLanguage forKey:NAMES_hmiDisplayLanguage];
     } else {
@@ -46,13 +42,10 @@
     }
 }
 
-- (SDLLanguage *)hmiDisplayLanguage {
+- (SDLLanguage)hmiDisplayLanguage {
     NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
+    return (SDLLanguage)obj;
 }
+
 
 @end

@@ -31,12 +31,12 @@
 
 - (NSMutableArray *)allowed {
     NSMutableArray *array = [store objectForKey:NAMES_allowed];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMILevel.class]) {
+    if ([array count] < 1) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLHMILevel valueOf:enumString]];
+            [newList addObject:(SDLHMILevel)enumString];
         }
         return newList;
     }
@@ -52,12 +52,12 @@
 
 - (NSMutableArray *)userDisallowed {
     NSMutableArray *array = [store objectForKey:NAMES_userDisallowed];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMILevel.class]) {
+    if ([array count] < 1) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLHMILevel valueOf:enumString]];
+            [newList addObject:(SDLHMILevel)enumString];
         }
         return newList;
     }

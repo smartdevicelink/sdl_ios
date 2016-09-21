@@ -2,10 +2,11 @@
 
 #import "SDLNotificationConstants.h"
 
+#import "SDLHMILevel.h"
+#import "SDLLanguage.h"
+
 @class SDLConfiguration;
 @class SDLFileManager;
-@class SDLHMILevel;
-@class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLPermissionManager;
@@ -34,7 +35,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 /**
  *  The current HMI level of the running app.
  */
-@property (copy, nonatomic, readonly) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readonly) SDLHMILevel hmiLevel;
 
 /**
  *  The file manager to be used by the running app.

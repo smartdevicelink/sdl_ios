@@ -3,8 +3,9 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLLanguage.h"
+
 @class SDLDeviceInfo;
-@class SDLLanguage;
 @class SDLSyncMsgVersion;
 @class SDLAppInfo;
 
@@ -164,7 +165,7 @@
  *
  * Required
  */
-@property (strong) SDLLanguage *languageDesired;
+@property (strong) SDLLanguage languageDesired;
 
 /**
  * @abstract An enumeration indicating what language the application intends to use for user interaction (Display).
@@ -175,7 +176,7 @@
  *
  * @since SDL 2.0
  */
-@property (strong) SDLLanguage *hmiDisplayLanguageDesired;
+@property (strong) SDLLanguage hmiDisplayLanguageDesired;
 
 /**
  * @abstract A list of all applicable app types stating which classifications to be given to the app.

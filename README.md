@@ -198,7 +198,7 @@ When your app receives `onOnHMIStatus` it has changed HMI states on the head uni
 You will want to track your first HMI FULL, for instance with a boolean value. The example application has extremely basic tracking of this type in the `onOnHMIStatus` callback.
 
 ```objc
-if ((notification.hmiLevel == [SDLHMILevel FULL]) && self.isFirstHMIFull) {
+if ((notification.hmiLevel == SDLHMILevelFull) && self.isFirstHMIFull) {
 [self showInitialData];
 self.isFirstHMIFull = NO;
 }

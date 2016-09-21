@@ -3,7 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLImageFieldName;
+#import "SDLImageFieldName.h"
+
 @class SDLImageResolution;
 
 
@@ -13,7 +14,7 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property (strong) SDLImageFieldName *name;
+@property (strong) SDLImageFieldName name;
 @property (strong) NSMutableArray *imageTypeSupported;
 @property (strong) SDLImageResolution *imageResolution;
 

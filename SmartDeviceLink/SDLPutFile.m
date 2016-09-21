@@ -3,7 +3,6 @@
 
 #import "SDLPutFile.h"
 
-#import "SDLFileType.h"
 #import "SDLNames.h"
 
 
@@ -33,7 +32,7 @@
     return [parameters objectForKey:NAMES_syncFileName];
 }
 
-- (void)setFileType:(SDLFileType *)fileType {
+- (void)setFileType:(SDLFileType)fileType {
     if (fileType != nil) {
         [parameters setObject:fileType forKey:NAMES_fileType];
     } else {
@@ -41,13 +40,9 @@
     }
 }
 
-- (SDLFileType *)fileType {
+- (SDLFileType)fileType {
     NSObject *obj = [parameters objectForKey:NAMES_fileType];
-    if (obj == nil || [obj isKindOfClass:SDLFileType.class]) {
-        return (SDLFileType *)obj;
-    } else {
-        return [SDLFileType valueOf:(NSString *)obj];
-    }
+    return (SDLFileType)obj;
 }
 
 - (void)setPersistentFile:(NSNumber *)persistentFile {

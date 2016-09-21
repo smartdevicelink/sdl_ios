@@ -3,9 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLDisplayType;
+#import "SDLDisplayType.h"
 @class SDLScreenParams;
-
 
 /**
  * Contains information about the display for the SDL system to which the application is currently connected.
@@ -32,7 +31,7 @@
  *
  * Required
  */
-@property (strong) SDLDisplayType *displayType;
+@property (strong) SDLDisplayType displayType;
 
 /**
  * @abstract An array of SDLTextField structures, each of which describes a field in the HMI which the application can write to using operations such as *SDLShow*, *SDLSetMediaClockTimer*, etc.

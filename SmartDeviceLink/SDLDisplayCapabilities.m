@@ -25,7 +25,7 @@
     return self;
 }
 
-- (void)setDisplayType:(SDLDisplayType *)displayType {
+- (void)setDisplayType:(SDLDisplayType)displayType {
     if (displayType != nil) {
         [store setObject:displayType forKey:NAMES_displayType];
     } else {
@@ -33,13 +33,9 @@
     }
 }
 
-- (SDLDisplayType *)displayType {
+- (SDLDisplayType)displayType {
     NSObject *obj = [store objectForKey:NAMES_displayType];
-    if (obj == nil || [obj isKindOfClass:SDLDisplayType.class]) {
-        return (SDLDisplayType *)obj;
-    } else {
-        return [SDLDisplayType valueOf:(NSString *)obj];
-    }
+    return (SDLDisplayType)obj;
 }
 
 - (void)setTextFields:(NSMutableArray *)textFields {
@@ -94,12 +90,12 @@
 
 - (NSMutableArray *)mediaClockFormats {
     NSMutableArray *array = [store objectForKey:NAMES_mediaClockFormats];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLMediaClockFormat.class]) {
+    if ([array count] < 1) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLMediaClockFormat valueOf:enumString]];
+            [newList addObject:(SDLMediaClockFormat)enumString];
         }
         return newList;
     }

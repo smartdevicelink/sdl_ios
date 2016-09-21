@@ -4,8 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLInteractionMode;
-@class SDLLayoutMode;
+#import "SDLInteractionMode.h"
+#import "SDLLayoutMode.h"
 
 
 /**
@@ -53,7 +53,7 @@
  * choice. User can choose either by voice (VR_ONLY), by visual selection
  * from the menu (MANUAL_ONLY), or by either mode (BOTH)
  */
-@property (strong) SDLInteractionMode *interactionMode;
+@property (strong) SDLInteractionMode interactionMode;
 /**
  * @abstract A Vector<Integer> value representing an Array of one or more Choice
  * Set IDs
@@ -80,6 +80,6 @@
  * @since SmartDeviceLink 2.0
  */
 @property (strong) NSMutableArray *vrHelp;
-@property (strong) SDLLayoutMode *interactionLayout;
+@property (strong) SDLLayoutMode interactionLayout;
 
 @end

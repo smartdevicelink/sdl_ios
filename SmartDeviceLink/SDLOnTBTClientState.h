@@ -3,8 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTBTState;
-
+#import "SDLTBTState.h"
 
 @interface SDLOnTBTClientState : SDLRPCNotification {
 }
@@ -12,6 +11,6 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-@property (strong) SDLTBTState *state;
+@property (strong) SDLTBTState state;
 
 @end

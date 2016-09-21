@@ -9,25 +9,19 @@
  *<b>Since</b> SmartDeviceLink 3.0
  *
  */
-@interface SDLKeyboardLayout : SDLEnum {
-}
+typedef SDLEnum SDLKeyboardLayout NS_EXTENSIBLE_STRING_ENUM;
 
-+ (SDLKeyboardLayout *)valueOf:(NSString *)value;
-+ (NSArray *)values;
 /** QWERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */
-+ (SDLKeyboardLayout *)QWERTY;
+extern SDLKeyboardLayout const SDLKeyboardLayoutQwerty;
 
 /** QWERTZ layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */
-+ (SDLKeyboardLayout *)QWERTZ;
+extern SDLKeyboardLayout const SDLKeyboardLayoutQwertz;
 
 /** AZERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */
-
-+ (SDLKeyboardLayout *)AZERTY;
-
-@end
+extern SDLKeyboardLayout const SDLKeyboardLayoutAzerty;

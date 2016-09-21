@@ -3,8 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTriggerSource;
-
+#import "SDLTriggerSource.h"
 
 /**
  * This is called when a command was selected via VR after pressing the PTT button, or selected from the menu after
@@ -37,6 +36,6 @@
 /**
  * @abstract Indicates whether command was selected via voice or via a menu selection (using the OK button).
  */
-@property (strong) SDLTriggerSource *triggerSource;
+@property (strong) SDLTriggerSource triggerSource;
 
 @end

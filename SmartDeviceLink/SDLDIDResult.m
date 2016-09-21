@@ -4,8 +4,6 @@
 #import "SDLDIDResult.h"
 
 #import "SDLNames.h"
-#import "SDLVehicleDataResultCode.h"
-
 
 @implementation SDLDIDResult
 
@@ -21,7 +19,7 @@
     return self;
 }
 
-- (void)setResultCode:(SDLVehicleDataResultCode *)resultCode {
+- (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
     if (resultCode != nil) {
         [store setObject:resultCode forKey:NAMES_resultCode];
     } else {
@@ -29,13 +27,9 @@
     }
 }
 
-- (SDLVehicleDataResultCode *)resultCode {
+- (SDLVehicleDataResultCode)resultCode {
     NSObject *obj = [store objectForKey:NAMES_resultCode];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataResultCode.class]) {
-        return (SDLVehicleDataResultCode *)obj;
-    } else {
-        return [SDLVehicleDataResultCode valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataResultCode)obj;
 }
 
 - (void)setDidLocation:(NSNumber *)didLocation {

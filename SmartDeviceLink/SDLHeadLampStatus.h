@@ -3,7 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLAmbientLightStatus;
+#import "SDLAmbientLightStatus.h"
 
 
 /**
@@ -29,5 +29,5 @@
  * @abstract A boolean value. Status of the high beam lamps.
  */
 @property (strong) NSNumber *highBeamsOn;
-@property (strong) SDLAmbientLightStatus *ambientLightSensorStatus;
+@property (strong) SDLAmbientLightStatus ambientLightSensorStatus;
 @end

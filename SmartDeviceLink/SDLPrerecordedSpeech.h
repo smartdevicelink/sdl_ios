@@ -4,16 +4,10 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPrerecordedSpeech : SDLEnum {
-}
+typedef SDLEnum SDLPrerecordedSpeech NS_EXTENSIBLE_STRING_ENUM;
 
-+ (SDLPrerecordedSpeech *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLPrerecordedSpeech *)HELP_JINGLE;
-+ (SDLPrerecordedSpeech *)INITIAL_JINGLE;
-+ (SDLPrerecordedSpeech *)LISTEN_JINGLE;
-+ (SDLPrerecordedSpeech *)POSITIVE_JINGLE;
-+ (SDLPrerecordedSpeech *)NEGATIVE_JINGLE;
-
-@end
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelpJingle;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechInitialJingle;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechListenJingle;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechPositiveJingle;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechNegativeJingle;

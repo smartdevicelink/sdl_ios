@@ -3,7 +3,7 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLButtonName;
+#import "SDLButtonName.h"
 
 
 /**
@@ -38,6 +38,6 @@
  * @discussion An Enumeration value, see <i>
  *         SDLButtonName</i>
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong) SDLButtonName buttonName;
 
 @end

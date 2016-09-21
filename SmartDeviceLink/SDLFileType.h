@@ -9,79 +9,44 @@
  *
  * @since SDL 2.0
  */
-@interface SDLFileType : SDLEnum {
-}
-
-/**
- * @abstract Convert String to SDLFileType
- *
- * @param value String value to retrieve the object for
- *
- * @return SDLFileType
- */
-+ (SDLFileType *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLFileType
- *
- * @return an array that store all possible SDLFileType
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLFileType NS_EXTENSIBLE_STRING_ENUM;
 
 /**
  * @abstract file type: Bitmap (BMP)
- *
- * @return SDLFileType with value of *GRAPHIC_BMP*
  */
-+ (SDLFileType *)GRAPHIC_BMP;
+extern SDLFileType const SDLFileTypeGraphicBmp;
 
 /**
  * @abstract file type: JPEG
- *
- * @return SDLFileType with value of *GRAPHIC_JPEG*
  */
-+ (SDLFileType *)GRAPHIC_JPEG;
+extern SDLFileType const SDLFileTypeGraphicJpeg;
 
 /**
  * @abstract file type: PNG
- *
- * @return SDLFileType with value of *GRAPHIC_PNG*
  */
-+ (SDLFileType *)GRAPHIC_PNG;
+extern SDLFileType const SDLFileTypeGraphicPng;
 
 /**
  * @abstract file type: WAVE (WAV)
- *
- * @return SDLFileType with value of *AUDIO_WAVE*
  */
-+ (SDLFileType *)AUDIO_WAVE;
+extern SDLFileType const SDLFileTypeAudioWave;
 
 /**
  * @abstract file type: MP3
- *
- * @return SDLFileType with value of *AUDIO_MP3*
  */
-+ (SDLFileType *)AUDIO_MP3;
+extern SDLFileType const SDLFileTypeAudioMp3;
 
 /**
  * @abstract file type: AAC
- *
- * @return SDLFileType with value of *AUDIO_AAC*
  */
-+ (SDLFileType *)AUDIO_AAC;
+extern SDLFileType const SDLFileTypeAudioAac;
 
 /**
  * @abstract file type: BINARY
- *
- * @return SDLFileType with value of *BINARY*
  */
-+ (SDLFileType *)BINARY;
+extern SDLFileType const SDLFileTypeBinary;
 
 /**
  * @abstract file type: JSON
- *
- * @return SDLFileType with value of *JSON*
  */
-+ (SDLFileType *)JSON;
-
-@end
+extern SDLFileType const SDLFileTypeJson;

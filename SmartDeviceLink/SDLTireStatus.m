@@ -22,7 +22,7 @@
     return self;
 }
 
-- (void)setPressureTelltale:(SDLWarningLightStatus *)pressureTelltale {
+- (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
     if (pressureTelltale != nil) {
         [store setObject:pressureTelltale forKey:NAMES_pressureTelltale];
     } else {
@@ -30,13 +30,9 @@
     }
 }
 
-- (SDLWarningLightStatus *)pressureTelltale {
+- (SDLWarningLightStatus)pressureTelltale {
     NSObject *obj = [store objectForKey:NAMES_pressureTelltale];
-    if (obj == nil || [obj isKindOfClass:SDLWarningLightStatus.class]) {
-        return (SDLWarningLightStatus *)obj;
-    } else {
-        return [SDLWarningLightStatus valueOf:(NSString *)obj];
-    }
+    return (SDLWarningLightStatus)obj;
 }
 
 - (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
