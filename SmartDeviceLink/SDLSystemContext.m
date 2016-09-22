@@ -4,8 +4,8 @@
 
 #import "SDLSystemContext.h"
 
-SDLSystemContext SDLSystemContextMain = @"MAIN";
-SDLSystemContext SDLSystemContextVrSession = @"VRSESSION";
-SDLSystemContext SDLSystemContextMenu = @"MENU";
-SDLSystemContext SDLSystemContextHmiObscured = @"HMI_OBSCURED";
-SDLSystemContext SDLSystemContextAlert = @"ALERT";
+SDLSystemContext const SDLSystemContextMain = @"MAIN";
+SDLSystemContext const SDLSystemContextVrSession = @"VRSESSION";
+SDLSystemContext const SDLSystemContextMenu = @"MENU";
+SDLSystemContext const SDLSystemContextHmiObscured = @"HMI_OBSCURED";
+SDLSystemContext const SDLSystemContextAlert = @"ALERT";

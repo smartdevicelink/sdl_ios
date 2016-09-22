@@ -15,14 +15,14 @@ typedef SDLEnum SDLFuelCutoffStatus NS_EXTENSIBLE_STRING_ENUM;
 /** 
  * @abstract Fuel is cut off
  */
-extern SDLFuelCutoffStatus SDLFuelCutoffStatusTerminateFuel;
+extern SDLFuelCutoffStatus const SDLFuelCutoffStatusTerminateFuel;
 
 /** 
  * @abstract Fuel is not cut off
  */
-extern SDLFuelCutoffStatus SDLFuelCutoffStatusNormalOperation;
+extern SDLFuelCutoffStatus const SDLFuelCutoffStatusNormalOperation;
 
 /** 
  * @abstract Status of the fuel pump cannot be determined
  */
-extern SDLFuelCutoffStatus SDLFuelCutoffStatusFault;
+extern SDLFuelCutoffStatus const SDLFuelCutoffStatusFault;

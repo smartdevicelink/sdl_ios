@@ -4,13 +4,13 @@
 
 #import "SDLAppHMIType.h"
 
-SDLAppHMIType SDLAppHMITypeDefault = @"DEFAULT";
-SDLAppHMIType SDLAppHMITypeCommunication = @"COMMUNICATION";
-SDLAppHMIType SDLAppHMITypeMedia = @"MEDIA";
-SDLAppHMIType SDLAppHMITypeMessaging = @"MESSAGING";
-SDLAppHMIType SDLAppHMITypeNavigation = @"NAVIGATION";
-SDLAppHMIType SDLAppHMITypeInformation = @"INFORMATION";
-SDLAppHMIType SDLAppHMITypeSocial = @"SOCIAL";
-SDLAppHMIType SDLAppHMITypeBackgroundProcess = @"BACKGROUND_PROCESS";
-SDLAppHMIType SDLAppHMITypeTesting = @"TESTING";
-SDLAppHMIType SDLAppHMITypeSystem = @"SYSTEM";
+SDLAppHMIType const SDLAppHMITypeDefault = @"DEFAULT";
+SDLAppHMIType const SDLAppHMITypeCommunication = @"COMMUNICATION";
+SDLAppHMIType const SDLAppHMITypeMedia = @"MEDIA";
+SDLAppHMIType const SDLAppHMITypeMessaging = @"MESSAGING";
+SDLAppHMIType const SDLAppHMITypeNavigation = @"NAVIGATION";
+SDLAppHMIType const SDLAppHMITypeInformation = @"INFORMATION";
+SDLAppHMIType const SDLAppHMITypeSocial = @"SOCIAL";
+SDLAppHMIType const SDLAppHMITypeBackgroundProcess = @"BACKGROUND_PROCESS";
+SDLAppHMIType const SDLAppHMITypeTesting = @"TESTING";
+SDLAppHMIType const SDLAppHMITypeSystem = @"SYSTEM";

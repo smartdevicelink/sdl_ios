@@ -14,16 +14,16 @@ typedef SDLEnum SDLAudioStreamingState NS_EXTENSIBLE_STRING_ENUM;
 /**
  * @abstract Currently streaming audio, if any, is audible to user.
  */
-extern SDLAudioStreamingState SDLAudioStreamingStateAudible;
+extern SDLAudioStreamingState const SDLAudioStreamingStateAudible;
 
 /**
  * @abstract Some kind of audio mixing is taking place. Currently streaming audio, if any, is audible to the user at a lowered volume.
  *
  * @since SDL 2.0
  */
-extern SDLAudioStreamingState SDLAudioStreamingStateAttenuated;
+extern SDLAudioStreamingState const SDLAudioStreamingStateAttenuated;
 
 /**
  * @abstract Currently streaming audio, if any, is not audible to user. made via VR session.
  */
-extern SDLAudioStreamingState SDLAudioStreamingStateNotAudible;
+extern SDLAudioStreamingState const SDLAudioStreamingStateNotAudible;

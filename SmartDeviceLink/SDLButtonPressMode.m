@@ -4,5 +4,5 @@
 
 #import "SDLButtonPressMode.h"
 
-SDLButtonPressMode SDLButtonPressModeLong = @"LONG";
-SDLButtonPressMode SDLButtonPressModeShort = @"SHORT";
+SDLButtonPressMode const SDLButtonPressModeLong = @"LONG";
+SDLButtonPressMode const SDLButtonPressModeShort = @"SHORT";

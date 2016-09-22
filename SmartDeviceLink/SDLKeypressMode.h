@@ -26,4 +26,4 @@ extern SDLKeypressMode const SDLKeypressModeQueueKeypresses;
 /** RESEND_CURRENT_ENTRY:<br>The whole entry must be reported each and every time the User makes a new keypress<br> (new notification with all previously entered symbols and a newly entered one appended).
  *
  */
-extern SDLKeypressMode const SDLKeypressModeResentCurrentEntry;
+extern SDLKeypressMode const SDLKeypressModeResendCurrentEntry;

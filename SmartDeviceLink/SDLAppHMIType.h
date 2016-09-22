@@ -14,46 +14,46 @@ typedef SDLEnum SDLAppHMIType NS_EXTENSIBLE_STRING_ENUM;
 /**
  * @abstract The App will have default rights.
  */
-extern SDLAppHMIType SDLAppHMITypeDefault;
+extern SDLAppHMIType const SDLAppHMITypeDefault;
 
 /**
  * @abstract Communication type of App
  */
-extern SDLAppHMIType SDLAppHMITypeCommunication;
+extern SDLAppHMIType const SDLAppHMITypeCommunication;
 
 /**
  * @abstract App dealing with Media
  */
-extern SDLAppHMIType SDLAppHMITypeMedia;
+extern SDLAppHMIType const SDLAppHMITypeMedia;
 
 /**
  * @abstract Messaging App
  */
-extern SDLAppHMIType SDLAppHMITypeMessaging;
+extern SDLAppHMIType const SDLAppHMITypeMessaging;
 
 /**
  * @abstract Navigation App
  */
-extern SDLAppHMIType SDLAppHMITypeNavigation;
+extern SDLAppHMIType const SDLAppHMITypeNavigation;
 
 /**
  * @abstract Information App
  */
-extern SDLAppHMIType SDLAppHMITypeInformation;
+extern SDLAppHMIType const SDLAppHMITypeInformation;
 
 /**
  * @abstract App dealing with social media
  */
-extern SDLAppHMIType SDLAppHMITypeSocial;
+extern SDLAppHMIType const SDLAppHMITypeSocial;
 
-extern SDLAppHMIType SDLAppHMITypeBackgroundProcess;
+extern SDLAppHMIType const SDLAppHMITypeBackgroundProcess;
 
 /**
  * @abstract App only for Testing purposes
  */
-extern SDLAppHMIType SDLAppHMITypeTesting;
+extern SDLAppHMIType const SDLAppHMITypeTesting;
 
 /**
  * @abstract System App
  */
-extern SDLAppHMIType SDLAppHMITypeSystem;
+extern SDLAppHMIType const SDLAppHMITypeSystem;

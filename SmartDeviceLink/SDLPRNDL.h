@@ -79,7 +79,7 @@ extern SDLPRNDL const SDLPRNDLSeventh;
 /**
  * @abstract Eighth gear
  */
-extern SDLPRNDL const SDLPRNDLEigth;
+extern SDLPRNDL const SDLPRNDLEighth;
 
 /**
  * @abstract Unknown

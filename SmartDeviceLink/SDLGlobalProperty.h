@@ -29,4 +29,4 @@ extern SDLGlobalProperty const SDLGlobalPropertyMenuName;
 
 extern SDLGlobalProperty const SDLGlobalPropertyMenuIcon;
 
-extern SDLGlobalProperty const SDLGlobalPropertyKeyboardProperties;
+extern SDLGlobalProperty const SDLGlobalPropertyKeyboard;

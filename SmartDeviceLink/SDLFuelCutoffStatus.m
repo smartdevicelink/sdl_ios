@@ -4,6 +4,6 @@
 
 #import "SDLFuelCutoffStatus.h"
 
-SDLFuelCutoffStatus SDLFuelCutoffStatusTerminateFuel = @"TERMINATE_FUEL";
-SDLFuelCutoffStatus SDLFuelCutoffStatusNormalOperation = @"NORMAL_OPERATION";
-SDLFuelCutoffStatus SDLFuelCutoffStatusFault = @"FAULT";
+SDLFuelCutoffStatus const SDLFuelCutoffStatusTerminateFuel = @"TERMINATE_FUEL";
+SDLFuelCutoffStatus const SDLFuelCutoffStatusNormalOperation = @"NORMAL_OPERATION";
+SDLFuelCutoffStatus const SDLFuelCutoffStatusFault = @"FAULT";

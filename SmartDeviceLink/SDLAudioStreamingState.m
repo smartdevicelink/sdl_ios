@@ -4,6 +4,6 @@
 
 #import "SDLAudioStreamingState.h"
 
-SDLAudioStreamingState SDLAudioStreamingStateAudible = @"AUDIBLE";
-SDLAudioStreamingState SDLAudioStreamingStateAttentuated = @"ATTENUATED";
-SDLAudioStreamingState SDLAudioStreamingStateNotAudible = @"NOT_AUDIBLE";
+SDLAudioStreamingState const SDLAudioStreamingStateAudible = @"AUDIBLE";
+SDLAudioStreamingState const SDLAudioStreamingStateAttenuated = @"ATTENUATED";
+SDLAudioStreamingState const SDLAudioStreamingStateNotAudible = @"NOT_AUDIBLE";
