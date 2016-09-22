@@ -6,7 +6,7 @@
 
 SDLPredefinedLayout const SDLPredefinedLayoutDefault = @"DEFAULT";
 SDLPredefinedLayout const SDLPredefinedLayoutMedia = @"MEDIA";
-SDLPredefinedLayout const SDLPredefinedLayoutNonMedia = @"NON_MEDIA";
+SDLPredefinedLayout const SDLPredefinedLayoutNonMedia = @"NON-MEDIA";
 SDLPredefinedLayout const SDLPredefinedLayoutOnscreenPresets = @"ONSCREEN_PRESETS";
 SDLPredefinedLayout const SDLPredefinedLayoutNavFullscreenMap = @"NAV_FULLSCREEN_MAP";
 SDLPredefinedLayout const SDLPredefinedLayoutNavList = @"NAV_LIST";
