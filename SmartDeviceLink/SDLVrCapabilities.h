@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLVRCapabilities NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLVRCapabilities NS_STRING_ENUM;
 
 /**
  * @abstract The SDL platform is capable of recognizing spoken text in the current language.

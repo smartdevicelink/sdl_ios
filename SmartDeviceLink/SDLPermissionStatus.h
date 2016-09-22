@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLPermissionStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLPermissionStatus NS_STRING_ENUM;
 
 /**
  * @abstract permission: allowed

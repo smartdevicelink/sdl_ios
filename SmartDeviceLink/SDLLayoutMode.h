@@ -9,7 +9,7 @@
  *
  * @since SDL 3.0
  */
-typedef SDLEnum SDLLayoutMode NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLLayoutMode NS_STRING_ENUM;
 
 /**
  * This mode causes the interaction to display the previous set of choices as icons.

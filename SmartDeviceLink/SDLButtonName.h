@@ -21,7 +21,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLButtonName NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLButtonName NS_STRING_ENUM;
 
 /**
  * @abstract Represents the button usually labeled "OK". A typical use of this button is for the user to press it to make a selection.

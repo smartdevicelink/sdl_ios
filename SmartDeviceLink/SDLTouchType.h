@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLTouchType NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLTouchType NS_STRING_ENUM;
 
 extern SDLTouchType const SDLTouchTypeBegin;
 extern SDLTouchType const SDLTouchTypeMove;

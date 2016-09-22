@@ -8,7 +8,7 @@
  *
  * Enumeration that describes system actions that can be triggered.
  */
-typedef SDLEnum SDLSystemAction NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLSystemAction NS_STRING_ENUM;
 
 /**
  @abstract Default_Action

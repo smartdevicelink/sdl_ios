@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLAppHMIType NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLAppHMIType NS_STRING_ENUM;
 
 /**
  * @abstract The App will have default rights.

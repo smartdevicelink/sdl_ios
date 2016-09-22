@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLTextAlignment NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLTextAlignment NS_STRING_ENUM;
 
 /**
  * @abstract Text aligned left.

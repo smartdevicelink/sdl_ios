@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLInteractionMode NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLInteractionMode NS_STRING_ENUM;
 
 /**
  * @abstract Interaction Mode : Manual Only

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLIgnitionStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLIgnitionStatus NS_STRING_ENUM;
 
 /**
  * @abstract Ignition status currently unknown

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLTextFieldName NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLTextFieldName NS_STRING_ENUM;
 
 /**
  * @abstract The first line of the first set of main fields of the persistent display. Applies to SDLShow.

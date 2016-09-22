@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLUpdateMode NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLUpdateMode NS_STRING_ENUM;
 
 /**
  * @abstract Starts the media clock timer counting upward, in increments of 1 second.

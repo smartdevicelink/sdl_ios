@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLSystemContext NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLSystemContext NS_STRING_ENUM;
 
 /**
  * @abstract No user interaction (user-initiated or app-initiated) is in progress.

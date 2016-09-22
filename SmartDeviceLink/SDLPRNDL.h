@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLPRNDL NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLPRNDL NS_STRING_ENUM;
 
 /**
  *  @abstract Park

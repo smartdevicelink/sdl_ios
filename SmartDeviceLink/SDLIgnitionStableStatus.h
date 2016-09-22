@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLIgnitionStableStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLIgnitionStableStatus NS_STRING_ENUM;
 
 /**
  * @abstract The current ignition switch status is considered not to be stable.

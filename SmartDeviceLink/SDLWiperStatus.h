@@ -7,7 +7,7 @@
 /**
  * Wiper Status
  */
-typedef SDLEnum SDLWiperStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLWiperStatus NS_STRING_ENUM;
 
 /**
  * @abstract SDLWiperStatus: *OFF*

@@ -7,7 +7,7 @@
 /** Describes the carmode the vehicle is in.
  * <b>Since</b> SmartDeviceLink 2.0
  */
-typedef SDLEnum SDLCarModeStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLCarModeStatus NS_STRING_ENUM;
 
 /** Provides carmode NORMAL to each module.
  */

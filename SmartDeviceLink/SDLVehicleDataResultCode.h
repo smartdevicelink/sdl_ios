@@ -7,7 +7,7 @@
 /**
  Vehicle Data Result Code
  */
-typedef SDLEnum SDLVehicleDataResultCode NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLVehicleDataResultCode NS_STRING_ENUM;
 
 /**
  * Individual vehicle data item / DTC / DID request or subscription successful

@@ -7,7 +7,7 @@
 /**
  * The SDLMaintenanceModeStatus class.
  */
-typedef SDLEnum SDLMaintenanceModeStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLMaintenanceModeStatus NS_STRING_ENUM;
 
 /**
  * @abstract Maintenance Mode Status : Normal

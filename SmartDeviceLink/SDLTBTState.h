@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLTBTState NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLTBTState NS_STRING_ENUM;
 
 extern SDLTBTState const SDLTBTStateRouteUpdateRequest;
 extern SDLTBTState const SDLTBTStateRouteAccepted;

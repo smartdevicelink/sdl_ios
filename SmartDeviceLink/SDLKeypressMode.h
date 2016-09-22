@@ -11,7 +11,7 @@
  * @since SmartDeviceLink 3.0
  *
  */
-typedef SDLEnum SDLKeypressMode NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLKeypressMode NS_STRING_ENUM;
 
 /** SINGLE_KEYPRESS:<br>Each and every User`s keypress must be reported (new notification for every newly entered single symbol).
  *

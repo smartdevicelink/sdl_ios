@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLGlobalProperty NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLGlobalProperty NS_STRING_ENUM;
 
 /**
  * @abstract The help prompt to be spoken if the user needs assistance during a user-initiated interaction.

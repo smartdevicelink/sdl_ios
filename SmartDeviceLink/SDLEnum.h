@@ -4,4 +4,4 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NSString* SDLEnum;
+typedef NSString* SDLEnum NS_STRING_ENUM;

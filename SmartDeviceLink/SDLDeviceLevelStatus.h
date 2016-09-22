@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLDeviceLevelStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLDeviceLevelStatus NS_STRING_ENUM;
 
 /**
  * @abstract Device battery level is zero bars

@@ -10,7 +10,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLFuelCutoffStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLFuelCutoffStatus NS_STRING_ENUM;
 
 /** 
  * @abstract Fuel is cut off

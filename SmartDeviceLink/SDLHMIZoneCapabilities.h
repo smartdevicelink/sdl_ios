@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLHMIZoneCapabilities NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLHMIZoneCapabilities NS_STRING_ENUM;
 
 /**
  * @abstract Indicates HMI available for front seat passengers.

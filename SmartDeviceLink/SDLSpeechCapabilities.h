@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLSpeechCapabilities NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLSpeechCapabilities NS_STRING_ENUM;
 
 /**
  * @abstract The SDL platform can speak text phrases.

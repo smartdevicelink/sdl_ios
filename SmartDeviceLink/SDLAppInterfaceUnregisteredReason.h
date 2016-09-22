@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLAppInterfaceUnregisteredReason NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLAppInterfaceUnregisteredReason NS_STRING_ENUM;
 
 
 /**

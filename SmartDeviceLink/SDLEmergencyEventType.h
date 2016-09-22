@@ -8,7 +8,7 @@
  *<b> Since:</b> SmartDeviceLink 2.0
  *<p>
  */
-typedef SDLEnum SDLEmergencyEventType NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLEmergencyEventType NS_STRING_ENUM;
 
 /** No emergency event has happened.
  */

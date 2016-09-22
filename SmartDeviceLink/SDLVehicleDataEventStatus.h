@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLVehicleDataEventStatus NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLVehicleDataEventStatus NS_STRING_ENUM;
 
 extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNoEvent;
 

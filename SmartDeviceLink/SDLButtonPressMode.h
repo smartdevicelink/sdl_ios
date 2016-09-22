@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLButtonPressMode NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLButtonPressMode NS_STRING_ENUM;
 
 /**
  * @abstract A button was released, after it was pressed for a long time. Actual timing is defined by the head unit and may vary.

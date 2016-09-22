@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLFileType NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLFileType NS_STRING_ENUM;
 
 /**
  * @abstract file type: Bitmap (BMP)

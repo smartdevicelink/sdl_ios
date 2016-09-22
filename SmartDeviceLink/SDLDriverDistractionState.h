@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLDriverDistractionState NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLDriverDistractionState NS_STRING_ENUM;
 
 /**
  * @abstract Driver distraction rules are in effect.

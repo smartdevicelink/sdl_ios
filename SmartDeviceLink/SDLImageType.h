@@ -9,7 +9,7 @@
 *
 * @since SDL 2.0
 */
-typedef SDLEnum SDLImageType NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLImageType NS_STRING_ENUM;
 
 /**
  * @abstract Just the static hex icon value to be used

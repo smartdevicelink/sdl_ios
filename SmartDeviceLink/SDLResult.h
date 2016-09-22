@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLResult NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLResult NS_STRING_ENUM;
 
 /**
  * @abstract The request succeeded

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLBitsPerSample NS_EXTENSIBLE_STRING_ENUM;
+typedef SDLEnum SDLBitsPerSample NS_STRING_ENUM;
 
 /**
  * @abstract 8 bits per sample
