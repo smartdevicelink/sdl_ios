@@ -134,13 +134,13 @@ The example app's `startProxyWithTransportType` handles starting up the proxy wh
 
 ```objc
 switch (transportType) {
-case ProxyTransportTypeTCP: {
-self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
-} break;
-case ProxyTransportTypeIAP: {
-self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-} break;
-default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
+    case ProxyTransportTypeTCP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
+    } break;
+    case ProxyTransportTypeIAP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+    } break;
+    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
 }
 ```
 
@@ -170,8 +170,8 @@ The `SDLProxyListener` protocol has four required methods:
 ```objc
 self.state = ProxyStateConnected;
 
-SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:[SDLLanguage EN_US] appID:SDLAppId];
-[self.proxy sendRPC:registerRequest];
+    SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:SDLLanguageEnUs appID:SDLAppId];
+    [self.proxy sendRPC:registerRequest];
 ```
 
 When the proxy is closed, you will receive a call to `onProxyClosed`. This is where you will reset the state of the proxy, because remember, when a connection is closed, it is assumed that you will destroy the current proxy. The example app runs a method called `resetProxyWithTransportType:` that runs the following:
@@ -187,8 +187,8 @@ When the proxy is closed, you will receive a call to `onProxyClosed`. This is wh
 self.state = ProxyStateStopped;
 
 if (self.proxy != nil) {
-[self.proxy dispose];
-self.proxy = nil;
+    [self.proxy dispose];
+    self.proxy = nil;
 }
 ```
 
@@ -198,9 +198,9 @@ When your app receives `onOnHMIStatus` it has changed HMI states on the head uni
 You will want to track your first HMI FULL, for instance with a boolean value. The example application has extremely basic tracking of this type in the `onOnHMIStatus` callback.
 
 ```objc
-if ((notification.hmiLevel == SDLHMILevelFull) && self.isFirstHMIFull) {
-[self showInitialData];
-self.isFirstHMIFull = NO;
+if (([notification.hmiLevel isEqualToString:SDLHMILevelFull]) && self.isFirstHMIFull) {
+    [self showInitialData];
+    self.isFirstHMIFull = NO;
 }
 ```
 
@@ -210,13 +210,13 @@ As described in the section "Creating the SDLProxy", you need will have separate
 
 ```objc
 switch (transportType) {
-case ProxyTransportTypeTCP: {
-self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
-} break;
-case ProxyTransportTypeIAP: {
-self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-} break;
-default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
+    case ProxyTransportTypeTCP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
+    } break;
+    case ProxyTransportTypeIAP: {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+    } break;
+    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
 }
 ```
 
