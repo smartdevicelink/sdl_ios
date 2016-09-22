@@ -4,7 +4,7 @@
 
 #import "SDLRPCNotification.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLRPCNotification
 

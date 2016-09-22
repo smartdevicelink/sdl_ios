@@ -5,7 +5,7 @@
 #import "SDLChangeRegistration.h"
 
 #import "SDLLanguage.h"
-
+#import "SDLNames.h"
 
 @implementation SDLChangeRegistration
 

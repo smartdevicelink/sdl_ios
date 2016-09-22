@@ -4,8 +4,7 @@
 #import "SDLOnLanguageChange.h"
 
 #import "SDLLanguage.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLOnLanguageChange
 

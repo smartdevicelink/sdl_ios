@@ -4,7 +4,7 @@
 
 #import "SDLSetAppIcon.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSetAppIcon
 

@@ -4,7 +4,7 @@
 
 #import "SDLDiagnosticMessage.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLDiagnosticMessage
 

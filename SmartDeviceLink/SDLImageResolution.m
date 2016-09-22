@@ -4,7 +4,7 @@
 
 #import "SDLImageResolution.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLImageResolution
 

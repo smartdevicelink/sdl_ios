@@ -4,7 +4,7 @@
 
 #import "SDLDialNumberResponse.h"
 
-
+#import "SDLNames.h"
 
 
 @implementation SDLDialNumberResponse

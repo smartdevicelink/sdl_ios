@@ -4,7 +4,7 @@
 
 #import "SDLSyncPDataResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSyncPDataResponse
 

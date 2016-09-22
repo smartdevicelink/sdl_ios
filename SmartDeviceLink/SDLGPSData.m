@@ -5,8 +5,7 @@
 
 #import "SDLCompassDirection.h"
 #import "SDLDimension.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLGPSData
 

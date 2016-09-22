@@ -4,7 +4,7 @@
 
 #import "SDLMenuParams.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLMenuParams
 

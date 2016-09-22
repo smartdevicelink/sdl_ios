@@ -4,7 +4,7 @@
 
 #import "SDLScrollableMessageResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLScrollableMessageResponse
 

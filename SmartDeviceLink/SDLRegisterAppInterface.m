@@ -8,7 +8,7 @@
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
 #import "SDLLanguage.h"
-
+#import "SDLNames.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLTTSChunk.h"
 

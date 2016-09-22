@@ -4,8 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
-
-
+#import "SDLNames.h"
 
 @implementation SDLRPCMessage
 

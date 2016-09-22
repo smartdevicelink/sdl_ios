@@ -4,7 +4,7 @@
 
 #import "SDLDeleteInteractionChoiceSetResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLDeleteInteractionChoiceSetResponse
 

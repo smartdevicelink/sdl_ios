@@ -4,7 +4,7 @@
 
 #import "SDLOnAudioPassThru.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLOnAudioPassThru
 

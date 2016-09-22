@@ -4,7 +4,7 @@
 
 #import "SDLSetGlobalPropertiesResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSetGlobalPropertiesResponse
 

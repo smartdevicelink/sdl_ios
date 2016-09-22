@@ -4,7 +4,7 @@
 
 #import "SDLDeleteSubMenu.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLDeleteSubMenu
 

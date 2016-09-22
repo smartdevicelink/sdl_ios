@@ -4,7 +4,7 @@
 
 #import "SDLSyncMsgVersion.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSyncMsgVersion
 

@@ -4,7 +4,7 @@
 
 #import "SDLGetDTCsResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLGetDTCsResponse
 

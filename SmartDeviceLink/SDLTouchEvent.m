@@ -4,7 +4,7 @@
 
 #import "SDLTouchEvent.h"
 
-
+#import "SDLNames.h"
 #import "SDLTouchCoord.h"
 
 @implementation SDLTouchEvent

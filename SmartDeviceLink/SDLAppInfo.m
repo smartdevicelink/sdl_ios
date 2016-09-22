@@ -3,6 +3,7 @@
 
 #import "SDLAppInfo.h"
 
+#import "SDLNames.h"
 
 @implementation SDLAppInfo
 

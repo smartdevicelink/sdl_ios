@@ -4,8 +4,7 @@
 
 #import "SDLHMICapabilities.h"
 
-
-
+#import "SDLNames.h"
 
 @implementation SDLHMICapabilities
 

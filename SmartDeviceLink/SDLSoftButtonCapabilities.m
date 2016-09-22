@@ -4,7 +4,7 @@
 
 #import "SDLSoftButtonCapabilities.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSoftButtonCapabilities
 

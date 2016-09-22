@@ -4,7 +4,7 @@
 
 #import "SDLRPCRequest.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLRPCRequest
 

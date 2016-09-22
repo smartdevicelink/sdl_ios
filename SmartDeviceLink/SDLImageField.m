@@ -6,8 +6,7 @@
 #import "SDLFileType.h"
 #import "SDLImageFieldName.h"
 #import "SDLImageResolution.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLImageField
 

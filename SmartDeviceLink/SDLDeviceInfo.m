@@ -3,8 +3,7 @@
 
 #import "SDLDeviceInfo.h"
 
-
-
+#import "SDLNames.h"
 
 @implementation SDLDeviceInfo
 

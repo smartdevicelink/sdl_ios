@@ -6,10 +6,9 @@
 
 #import "SDLAudioType.h"
 #import "SDLBitsPerSample.h"
-
+#import "SDLNames.h"
 #import "SDLSamplingRate.h"
 #import "SDLTTSChunk.h"
-
 
 @implementation SDLPerformAudioPassThru
 

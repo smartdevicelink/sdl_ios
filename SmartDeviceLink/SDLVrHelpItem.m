@@ -5,7 +5,7 @@
 #import "SDLVRHelpItem.h"
 
 #import "SDLImage.h"
-
+#import "SDLNames.h"
 
 @implementation SDLVRHelpItem
 

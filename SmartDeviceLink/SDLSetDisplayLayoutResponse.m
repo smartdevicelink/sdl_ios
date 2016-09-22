@@ -6,10 +6,9 @@
 
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
-
+#import "SDLNames.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
-
 
 @implementation SDLSetDisplayLayoutResponse
 

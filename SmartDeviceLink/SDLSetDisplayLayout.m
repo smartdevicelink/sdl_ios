@@ -4,7 +4,7 @@
 
 #import "SDLSetDisplayLayout.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSetDisplayLayout
 

@@ -4,7 +4,7 @@
 
 #import "SDLUnregisterAppInterface.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLUnregisterAppInterface
 

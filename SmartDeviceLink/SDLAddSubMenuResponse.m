@@ -2,7 +2,7 @@
 
 #import "SDLAddSubMenuResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLAddSubMenuResponse
 

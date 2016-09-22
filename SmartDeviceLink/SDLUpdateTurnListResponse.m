@@ -4,7 +4,7 @@
 
 #import "SDLUpdateTurnListResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLUpdateTurnListResponse
 

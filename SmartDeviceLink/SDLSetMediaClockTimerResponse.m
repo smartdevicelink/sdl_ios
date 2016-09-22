@@ -4,7 +4,7 @@
 
 #import "SDLSetMediaClockTimerResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSetMediaClockTimerResponse
 

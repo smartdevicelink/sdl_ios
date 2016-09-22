@@ -2,9 +2,8 @@
 
 #import "SDLAirbagStatus.h"
 
-
+#import "SDLNames.h"
 #import "SDLVehicleDataEventStatus.h"
-
 
 @implementation SDLAirbagStatus
 

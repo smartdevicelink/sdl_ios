@@ -4,7 +4,7 @@
 
 #import "SDLReadDID.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLReadDID
 

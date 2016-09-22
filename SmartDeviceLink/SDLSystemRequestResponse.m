@@ -4,7 +4,7 @@
 
 #import "SDLSystemRequestResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSystemRequestResponse
 

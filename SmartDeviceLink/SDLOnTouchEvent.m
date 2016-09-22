@@ -3,10 +3,9 @@
 
 #import "SDLOnTouchEvent.h"
 
-
+#import "SDLNames.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchType.h"
-
 
 @implementation SDLOnTouchEvent
 

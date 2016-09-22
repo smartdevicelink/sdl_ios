@@ -4,7 +4,7 @@
 
 #import "SDLScrollableMessage.h"
 
-
+#import "SDLNames.h"
 #import "SDLSoftButton.h"
 
 @implementation SDLScrollableMessage

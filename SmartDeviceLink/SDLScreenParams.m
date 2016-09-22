@@ -4,9 +4,8 @@
 #import "SDLScreenParams.h"
 
 #import "SDLImageResolution.h"
-
+#import "SDLNames.h"
 #import "SDLTouchEventCapabilities.h"
-
 
 @implementation SDLScreenParams
 

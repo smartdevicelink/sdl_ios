@@ -4,7 +4,7 @@
 
 #import "SDLEncodedSyncPData.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLEncodedSyncPData
 

@@ -4,7 +4,7 @@
 
 #import "SDLSpeakResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSpeakResponse
 

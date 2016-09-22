@@ -3,9 +3,8 @@
 
 #import "SDLOnPermissionsChange.h"
 
-
+#import "SDLNames.h"
 #import "SDLPermissionItem.h"
-
 
 @implementation SDLOnPermissionsChange
 

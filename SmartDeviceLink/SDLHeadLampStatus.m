@@ -4,8 +4,7 @@
 #import "SDLHeadLampStatus.h"
 
 #import "SDLAmbientLightStatus.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLHeadLampStatus
 

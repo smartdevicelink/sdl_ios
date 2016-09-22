@@ -4,7 +4,7 @@
 
 #import "SDLDeleteFile.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLDeleteFile
 

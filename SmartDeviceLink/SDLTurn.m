@@ -4,8 +4,7 @@
 #import "SDLTurn.h"
 
 #import "SDLImage.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLTurn
 

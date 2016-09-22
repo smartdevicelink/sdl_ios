@@ -4,7 +4,7 @@
 
 #import "SDLSubscribeVehicleData.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSubscribeVehicleData
 

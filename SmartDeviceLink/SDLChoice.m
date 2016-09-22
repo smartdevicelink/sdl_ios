@@ -4,8 +4,7 @@
 #import "SDLChoice.h"
 
 #import "SDLImage.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLChoice
 

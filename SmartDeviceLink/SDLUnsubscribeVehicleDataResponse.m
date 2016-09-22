@@ -4,9 +4,8 @@
 
 #import "SDLUnsubscribeVehicleDataResponse.h"
 
-
+#import "SDLNames.h"
 #import "SDLVehicleDataResult.h"
-
 
 @implementation SDLUnsubscribeVehicleDataResponse
 

@@ -4,7 +4,7 @@
 
 #import "SDLChangeRegistrationResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLChangeRegistrationResponse
 

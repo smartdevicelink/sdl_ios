@@ -3,9 +3,8 @@
 
 #import "SDLTTSChunk.h"
 
-
+#import "SDLNames.h"
 #import "SDLSpeechCapabilities.h"
-
 
 @implementation SDLTTSChunk
 

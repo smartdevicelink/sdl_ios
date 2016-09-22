@@ -6,8 +6,7 @@
 #import "SDLKeyboardLayout.h"
 #import "SDLKeypressMode.h"
 #import "SDLLanguage.h"
-
-
+#import "SDLNames.h"
 
 @implementation SDLKeyboardProperties
 

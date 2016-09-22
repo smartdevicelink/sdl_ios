@@ -5,6 +5,7 @@
 #import "SDLRPCStruct.h"
 
 #import "SDLEnum.h"
+#import "SDLNames.h"
 
 @implementation SDLRPCStruct
 

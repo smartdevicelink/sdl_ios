@@ -4,7 +4,7 @@
 
 #import "SDLVehicleType.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLVehicleType
 

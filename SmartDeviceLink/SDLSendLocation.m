@@ -4,8 +4,7 @@
 
 #import "SDLSendLocation.h"
 
-
-
+#import "SDLNames.h"
 
 @implementation SDLSendLocation
 

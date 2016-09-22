@@ -4,7 +4,7 @@
 
 #import "SDLTouchEventCapabilities.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLTouchEventCapabilities
 

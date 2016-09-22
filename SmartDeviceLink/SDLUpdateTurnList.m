@@ -4,7 +4,7 @@
 
 #import "SDLUpdateTurnList.h"
 
-
+#import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTurn.h"
 

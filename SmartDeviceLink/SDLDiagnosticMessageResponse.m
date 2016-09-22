@@ -3,7 +3,7 @@
 
 #import "SDLDiagnosticMessageResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLDiagnosticMessageResponse
 

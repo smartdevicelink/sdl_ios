@@ -5,7 +5,7 @@
 #import "SDLCreateInteractionChoiceSet.h"
 
 #import "SDLChoice.h"
-
+#import "SDLNames.h"
 
 @implementation SDLCreateInteractionChoiceSet
 

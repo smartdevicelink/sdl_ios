@@ -4,7 +4,7 @@
 
 #import "SDLOnHashChange.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLOnHashChange
 

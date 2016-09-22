@@ -4,7 +4,7 @@
 
 #import "SDLPutFileResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLPutFileResponse
 

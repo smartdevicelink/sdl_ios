@@ -10,7 +10,7 @@
 #import "SDLHMICapabilities.h"
 #import "SDLHMIZoneCapabilities.h"
 #import "SDLLanguage.h"
-
+#import "SDLNames.h"
 #import "SDLPrerecordedSpeech.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
@@ -18,7 +18,6 @@
 #import "SDLSyncMsgVersion.h"
 #import "SDLVRCapabilities.h"
 #import "SDLVehicleType.h"
-
 
 @implementation SDLRegisterAppInterfaceResponse
 

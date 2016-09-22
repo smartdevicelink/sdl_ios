@@ -5,7 +5,7 @@
 #import "SDLShow.h"
 
 #import "SDLImage.h"
-
+#import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTextAlignment.h"
 

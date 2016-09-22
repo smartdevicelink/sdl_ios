@@ -2,7 +2,7 @@
 
 #import "SDLAddCommandResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLAddCommandResponse
 

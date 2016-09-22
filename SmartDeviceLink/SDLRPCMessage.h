@@ -4,7 +4,6 @@
 #import "SDLEnum.h"
 
 #import "SDLRPCStruct.h"
-#import "SDLNames.h"
 
 @interface SDLRPCMessage : SDLRPCStruct {
     NSMutableDictionary *function;

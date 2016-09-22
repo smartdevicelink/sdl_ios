@@ -4,7 +4,7 @@
 
 #import "SDLParameterPermissions.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLParameterPermissions
 

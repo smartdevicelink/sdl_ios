@@ -3,7 +3,7 @@
 
 #import "SDLAlertResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLAlertResponse
 

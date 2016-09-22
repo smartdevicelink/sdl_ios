@@ -4,7 +4,7 @@
 
 #import "SDLEndAudioPassThruResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLEndAudioPassThruResponse
 

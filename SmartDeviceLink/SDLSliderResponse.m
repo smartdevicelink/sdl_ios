@@ -4,7 +4,7 @@
 
 #import "SDLSliderResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLSliderResponse
 

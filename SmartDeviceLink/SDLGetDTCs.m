@@ -4,7 +4,7 @@
 
 #import "SDLGetDTCs.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLGetDTCs
 

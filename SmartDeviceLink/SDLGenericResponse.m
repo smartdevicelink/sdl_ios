@@ -4,7 +4,7 @@
 
 #import "SDLGenericResponse.h"
 
-
+#import "SDLNames.h"
 
 @implementation SDLGenericResponse
 

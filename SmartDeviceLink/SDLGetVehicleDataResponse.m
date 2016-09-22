@@ -15,7 +15,7 @@
 #import "SDLGPSData.h"
 #import "SDLHeadLampStatus.h"
 #import "SDLMyKey.h"
-
+#import "SDLNames.h"
 #import "SDLPRNDL.h"
 #import "SDLTireStatus.h"
 #import "SDLVehicleDataEventStatus.h"

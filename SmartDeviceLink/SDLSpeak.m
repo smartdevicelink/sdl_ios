@@ -4,7 +4,7 @@
 
 #import "SDLSpeak.h"
 
-
+#import "SDLNames.h"
 #import "SDLTTSChunk.h"
 
 @implementation SDLSpeak
