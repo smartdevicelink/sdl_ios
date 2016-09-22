@@ -46,14 +46,14 @@
 
 - (void)setVrCommands:(NSMutableArray *)vrCommands {
     if (vrCommands != nil) {
-        [store setObject:vrCommands forKey:SDLNameVrCommands];
+        [store setObject:vrCommands forKey:SDLNameVRCommands];
     } else {
-        [store removeObjectForKey:SDLNameVrCommands];
+        [store removeObjectForKey:SDLNameVRCommands];
     }
 }
 
 - (NSMutableArray *)vrCommands {
-    return [store objectForKey:SDLNameVrCommands];
+    return [store objectForKey:SDLNameVRCommands];
 }
 
 - (void)setImage:(SDLImage *)image {

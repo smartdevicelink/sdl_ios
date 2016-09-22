@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameState:[SDLTBTState ETA_REQUEST]},
-                                             SDLNameOperationName:SDLNameOnTbtClientState}} mutableCopy];
+                                             SDLNameOperationName:SDLNameOnTBTClientState}} mutableCopy];
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] initWithDictionary:dict];
         
         expect(testNotification.state).to(equal([SDLTBTState ETA_REQUEST]));

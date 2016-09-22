@@ -71,14 +71,14 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameGps:@YES,
+                                                 @{SDLNameGPS:@YES,
                                                    SDLNameSpeed:@YES,
-                                                   SDLNameRpm:@YES,
+                                                   SDLNameRPM:@YES,
                                                    SDLNameFuelLevel:@YES,
                                                    SDLNameFuelLevelState:@YES,
                                                    SDLNameInstantFuelConsumption:@YES,
                                                    SDLNameExternalTemperature:@YES,
-                                                   SDLNamePrndl:@YES,
+                                                   SDLNamePRNDL:@YES,
                                                    SDLNameTirePressure:@YES,
                                                    SDLNameOdometer:@YES,
                                                    SDLNameBeltStatus:@YES,
@@ -88,7 +88,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameWiperStatus:@YES,
                                                    SDLNameHeadLampStatus:@YES,
                                                    SDLNameEngineTorque:@YES,
-                                                   SDLNameAccPedalPosition:@YES,
+                                                   SDLNameAccelerationPedalPosition:@YES,
                                                    SDLNameSteeringWheelAngle:@YES,
                                                    SDLNameECallInfo:@YES,
                                                    SDLNameAirbagStatus:@YES,

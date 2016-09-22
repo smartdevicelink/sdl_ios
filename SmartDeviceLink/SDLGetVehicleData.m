@@ -22,14 +22,14 @@
 
 - (void)setGps:(NSNumber *)gps {
     if (gps != nil) {
-        [parameters setObject:gps forKey:SDLNameGps];
+        [parameters setObject:gps forKey:SDLNameGPS];
     } else {
-        [parameters removeObjectForKey:SDLNameGps];
+        [parameters removeObjectForKey:SDLNameGPS];
     }
 }
 
 - (NSNumber *)gps {
-    return [parameters objectForKey:SDLNameGps];
+    return [parameters objectForKey:SDLNameGPS];
 }
 
 - (void)setSpeed:(NSNumber *)speed {
@@ -46,14 +46,14 @@
 
 - (void)setRpm:(NSNumber *)rpm {
     if (rpm != nil) {
-        [parameters setObject:rpm forKey:SDLNameRpm];
+        [parameters setObject:rpm forKey:SDLNameRPM];
     } else {
-        [parameters removeObjectForKey:SDLNameRpm];
+        [parameters removeObjectForKey:SDLNameRPM];
     }
 }
 
 - (NSNumber *)rpm {
-    return [parameters objectForKey:SDLNameRpm];
+    return [parameters objectForKey:SDLNameRPM];
 }
 
 - (void)setFuelLevel:(NSNumber *)fuelLevel {
@@ -106,26 +106,26 @@
 
 - (void)setVin:(NSNumber *)vin {
     if (vin != nil) {
-        [parameters setObject:vin forKey:SDLNameVin];
+        [parameters setObject:vin forKey:SDLNameVIN];
     } else {
-        [parameters removeObjectForKey:SDLNameVin];
+        [parameters removeObjectForKey:SDLNameVIN];
     }
 }
 
 - (NSNumber *)vin {
-    return [parameters objectForKey:SDLNameVin];
+    return [parameters objectForKey:SDLNameVIN];
 }
 
 - (void)setPrndl:(NSNumber *)prndl {
     if (prndl != nil) {
-        [parameters setObject:prndl forKey:SDLNamePrndl];
+        [parameters setObject:prndl forKey:SDLNamePRNDL];
     } else {
-        [parameters removeObjectForKey:SDLNamePrndl];
+        [parameters removeObjectForKey:SDLNamePRNDL];
     }
 }
 
 - (NSNumber *)prndl {
-    return [parameters objectForKey:SDLNamePrndl];
+    return [parameters objectForKey:SDLNamePRNDL];
 }
 
 - (void)setTirePressure:(NSNumber *)tirePressure {
@@ -238,14 +238,14 @@
 
 - (void)setAccPedalPosition:(NSNumber *)accPedalPosition {
     if (accPedalPosition != nil) {
-        [parameters setObject:accPedalPosition forKey:SDLNameAccPedalPosition];
+        [parameters setObject:accPedalPosition forKey:SDLNameAccelerationPedalPosition];
     } else {
-        [parameters removeObjectForKey:SDLNameAccPedalPosition];
+        [parameters removeObjectForKey:SDLNameAccelerationPedalPosition];
     }
 }
 
 - (NSNumber *)accPedalPosition {
-    return [parameters objectForKey:SDLNameAccPedalPosition];
+    return [parameters objectForKey:SDLNameAccelerationPedalPosition];
 }
 
 - (void)setSteeringWheelAngle:(NSNumber *)steeringWheelAngle {

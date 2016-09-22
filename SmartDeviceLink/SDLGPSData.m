@@ -47,74 +47,74 @@
 
 - (void)setUtcYear:(NSNumber *)utcYear {
     if (utcYear != nil) {
-        [store setObject:utcYear forKey:SDLNameUtcYear];
+        [store setObject:utcYear forKey:SDLNameUTCYear];
     } else {
-        [store removeObjectForKey:SDLNameUtcYear];
+        [store removeObjectForKey:SDLNameUTCYear];
     }
 }
 
 - (NSNumber *)utcYear {
-    return [store objectForKey:SDLNameUtcYear];
+    return [store objectForKey:SDLNameUTCYear];
 }
 
 - (void)setUtcMonth:(NSNumber *)utcMonth {
     if (utcMonth != nil) {
-        [store setObject:utcMonth forKey:SDLNameUtcMonth];
+        [store setObject:utcMonth forKey:SDLNameUTCMonth];
     } else {
-        [store removeObjectForKey:SDLNameUtcMonth];
+        [store removeObjectForKey:SDLNameUTCMonth];
     }
 }
 
 - (NSNumber *)utcMonth {
-    return [store objectForKey:SDLNameUtcMonth];
+    return [store objectForKey:SDLNameUTCMonth];
 }
 
 - (void)setUtcDay:(NSNumber *)utcDay {
     if (utcDay != nil) {
-        [store setObject:utcDay forKey:SDLNameUtcDay];
+        [store setObject:utcDay forKey:SDLNameUTCDay];
     } else {
-        [store removeObjectForKey:SDLNameUtcDay];
+        [store removeObjectForKey:SDLNameUTCDay];
     }
 }
 
 - (NSNumber *)utcDay {
-    return [store objectForKey:SDLNameUtcDay];
+    return [store objectForKey:SDLNameUTCDay];
 }
 
 - (void)setUtcHours:(NSNumber *)utcHours {
     if (utcHours != nil) {
-        [store setObject:utcHours forKey:SDLNameUtcHours];
+        [store setObject:utcHours forKey:SDLNameUTCHours];
     } else {
-        [store removeObjectForKey:SDLNameUtcHours];
+        [store removeObjectForKey:SDLNameUTCHours];
     }
 }
 
 - (NSNumber *)utcHours {
-    return [store objectForKey:SDLNameUtcHours];
+    return [store objectForKey:SDLNameUTCHours];
 }
 
 - (void)setUtcMinutes:(NSNumber *)utcMinutes {
     if (utcMinutes != nil) {
-        [store setObject:utcMinutes forKey:SDLNameUtcMinutes];
+        [store setObject:utcMinutes forKey:SDLNameUTCMinutes];
     } else {
-        [store removeObjectForKey:SDLNameUtcMinutes];
+        [store removeObjectForKey:SDLNameUTCMinutes];
     }
 }
 
 - (NSNumber *)utcMinutes {
-    return [store objectForKey:SDLNameUtcMinutes];
+    return [store objectForKey:SDLNameUTCMinutes];
 }
 
 - (void)setUtcSeconds:(NSNumber *)utcSeconds {
     if (utcSeconds != nil) {
-        [store setObject:utcSeconds forKey:SDLNameUtcSeconds];
+        [store setObject:utcSeconds forKey:SDLNameUTCSeconds];
     } else {
-        [store removeObjectForKey:SDLNameUtcSeconds];
+        [store removeObjectForKey:SDLNameUTCSeconds];
     }
 }
 
 - (NSNumber *)utcSeconds {
-    return [store objectForKey:SDLNameUtcSeconds];
+    return [store objectForKey:SDLNameUTCSeconds];
 }
 
 - (void)setCompassDirection:(SDLCompassDirection *)compassDirection {
@@ -136,38 +136,38 @@
 
 - (void)setPdop:(NSNumber *)pdop {
     if (pdop != nil) {
-        [store setObject:pdop forKey:SDLNamePdop];
+        [store setObject:pdop forKey:SDLNamePDOP];
     } else {
-        [store removeObjectForKey:SDLNamePdop];
+        [store removeObjectForKey:SDLNamePDOP];
     }
 }
 
 - (NSNumber *)pdop {
-    return [store objectForKey:SDLNamePdop];
+    return [store objectForKey:SDLNamePDOP];
 }
 
 - (void)setHdop:(NSNumber *)hdop {
     if (hdop != nil) {
-        [store setObject:hdop forKey:SDLNameHdop];
+        [store setObject:hdop forKey:SDLNameHDOP];
     } else {
-        [store removeObjectForKey:SDLNameHdop];
+        [store removeObjectForKey:SDLNameHDOP];
     }
 }
 
 - (NSNumber *)hdop {
-    return [store objectForKey:SDLNameHdop];
+    return [store objectForKey:SDLNameHDOP];
 }
 
 - (void)setVdop:(NSNumber *)vdop {
     if (vdop != nil) {
-        [store setObject:vdop forKey:SDLNameVdop];
+        [store setObject:vdop forKey:SDLNameVDOP];
     } else {
-        [store removeObjectForKey:SDLNameVdop];
+        [store removeObjectForKey:SDLNameVDOP];
     }
 }
 
 - (NSNumber *)vdop {
-    return [store objectForKey:SDLNameVdop];
+    return [store objectForKey:SDLNameVDOP];
 }
 
 - (void)setActual:(NSNumber *)actual {

@@ -32,7 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameTtsChunks:[@[tts] mutableCopy],
+                                                 @{SDLNameTTSChunks:[@[tts] mutableCopy],
                                                    SDLNameSoftButtons:[@[button] mutableCopy]},
                                              SDLNameOperationName:SDLNameAlertManeuver}} mutableCopy];
         SDLAlertManeuver* testRequest = [[SDLAlertManeuver alloc] initWithDictionary:dict];

@@ -33,14 +33,14 @@
 
 - (void)setURL:(NSString *)URL {
     if (URL != nil) {
-        [parameters setObject:URL forKey:SDLNameUrlUppercase];
+        [parameters setObject:URL forKey:SDLNameURLUppercase];
     } else {
-        [parameters removeObjectForKey:SDLNameUrlUppercase];
+        [parameters removeObjectForKey:SDLNameURLUppercase];
     }
 }
 
 - (NSString *)URL {
-    return [parameters objectForKey:SDLNameUrlUppercase];
+    return [parameters objectForKey:SDLNameURLUppercase];
 }
 
 - (void)setTimeout:(NSNumber *)Timeout {

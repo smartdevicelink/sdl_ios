@@ -33,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameNumTicks:@2,
+                                                 @{SDLNameNumberTicks:@2,
                                                    SDLNamePosition:@1,
                                                    SDLNameSliderHeader:@"Head",
                                                    SDLNameSliderFooter:[@[@"LeftFoot", @"RightFoot"] mutableCopy],

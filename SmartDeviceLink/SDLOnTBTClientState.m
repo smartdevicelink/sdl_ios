@@ -9,7 +9,7 @@
 @implementation SDLOnTBTClientState
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnTbtClientState]) {
+    if (self = [super initWithName:SDLNameOnTBTClientState]) {
     }
     return self;
 }

@@ -115,11 +115,11 @@ describe(@"change registration", ^ {
                 NSMutableDictionary* dict = [@{SDLNameRequest:
                                                    @{SDLNameParameters:
                                                          @{SDLNameLanguage:someLanguage,
-                                                           SDLNameHmiDisplayLanguage:someOtherLanguage,
+                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
                                                            SDLNameAppName:someAppName,
-                                                           SDLNameTtsName:someTTSChunks,
-                                                           SDLNameNgnMediaScreenAppName:someNGNMediaAppName,
-                                                           SDLNameVrSynonyms:someVRSynonyms},
+                                                           SDLNameTTSName:someTTSChunks,
+                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
+                                                           SDLNameVRSynonyms:someVRSynonyms},
                                                         SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
                 
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];

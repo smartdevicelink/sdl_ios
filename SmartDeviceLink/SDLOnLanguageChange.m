@@ -39,14 +39,14 @@
 
 - (void)setHmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
     if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHmiDisplayLanguage];
+        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
     } else {
-        [parameters removeObjectForKey:SDLNameHmiDisplayLanguage];
+        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
     }
 }
 
 - (SDLLanguage *)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:SDLNameHmiDisplayLanguage];
+    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {

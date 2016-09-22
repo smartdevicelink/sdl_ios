@@ -40,14 +40,14 @@
 
 - (void)setFileName:(NSString *)fileName {
     if (fileName != nil) {
-        [parameters setObject:fileName forKey:SDLNameFileName];
+        [parameters setObject:fileName forKey:SDLNameFilename];
     } else {
-        [parameters removeObjectForKey:SDLNameFileName];
+        [parameters removeObjectForKey:SDLNameFilename];
     }
 }
 
 - (NSString *)fileName {
-    return [parameters objectForKey:SDLNameFileName];
+    return [parameters objectForKey:SDLNameFilename];
 }
 
 @end

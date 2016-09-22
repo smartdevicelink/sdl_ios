@@ -73,15 +73,15 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameGps:@NO,
+                                                 @{SDLNameGPS:@NO,
                                                    SDLNameSpeed:@YES,
-                                                   SDLNameRpm:@NO,
+                                                   SDLNameRPM:@NO,
                                                    SDLNameFuelLevel:@YES,
                                                    SDLNameFuelLevelState:@NO,
                                                    SDLNameInstantFuelConsumption:@YES,
                                                    SDLNameExternalTemperature:@NO,
-                                                   SDLNameVin:@YES,
-                                                   SDLNamePrndl:@NO,
+                                                   SDLNameVIN:@YES,
+                                                   SDLNamePRNDL:@NO,
                                                    SDLNameTirePressure:@YES,
                                                    SDLNameOdometer:@NO,
                                                    SDLNameBeltStatus:@YES,
@@ -91,7 +91,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameWiperStatus:@YES,
                                                    SDLNameHeadLampStatus:@NO,
                                                    SDLNameEngineTorque:@YES,
-                                                   SDLNameAccPedalPosition:@NO,
+                                                   SDLNameAccelerationPedalPosition:@NO,
                                                    SDLNameSteeringWheelAngle:@YES,
                                                    SDLNameECallInfo:@NO,
                                                    SDLNameAirbagStatus:@YES,

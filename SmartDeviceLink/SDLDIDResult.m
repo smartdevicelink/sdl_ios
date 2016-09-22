@@ -39,14 +39,14 @@
 
 - (void)setDidLocation:(NSNumber *)didLocation {
     if (didLocation != nil) {
-        [store setObject:didLocation forKey:SDLNameDidLocation];
+        [store setObject:didLocation forKey:SDLNameDIDLocation];
     } else {
-        [store removeObjectForKey:SDLNameDidLocation];
+        [store removeObjectForKey:SDLNameDIDLocation];
     }
 }
 
 - (NSNumber *)didLocation {
-    return [store objectForKey:SDLNameDidLocation];
+    return [store objectForKey:SDLNameDIDLocation];
 }
 
 - (void)setData:(NSString *)data {

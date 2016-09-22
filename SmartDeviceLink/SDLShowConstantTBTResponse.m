@@ -8,7 +8,7 @@
 @implementation SDLShowConstantTBTResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameShowConstantTbt]) {
+    if (self = [super initWithName:SDLNameShowConstantTBT]) {
     }
     return self;
 }

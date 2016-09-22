@@ -32,8 +32,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRpcName:@"RPCNameThing",
-                                       SDLNameHmiPermissions:hmiPermissions,
+        NSMutableDictionary* dict = [@{SDLNameRPCName:@"RPCNameThing",
+                                       SDLNameHMIPermissions:hmiPermissions,
                                        SDLNameParameterPermissions:parameterPermissions} mutableCopy];
         SDLPermissionItem* testStruct = [[SDLPermissionItem alloc] initWithDictionary:dict];
         

@@ -147,14 +147,14 @@
 
 - (void)setNumCustomPresetsAvailable:(NSNumber *)numCustomPresetsAvailable {
     if (numCustomPresetsAvailable != nil) {
-        [store setObject:numCustomPresetsAvailable forKey:SDLNameNumCustomPresetsAvailable];
+        [store setObject:numCustomPresetsAvailable forKey:SDLNameNumberCustomPresetsAvailable];
     } else {
-        [store removeObjectForKey:SDLNameNumCustomPresetsAvailable];
+        [store removeObjectForKey:SDLNameNumberCustomPresetsAvailable];
     }
 }
 
 - (NSNumber *)numCustomPresetsAvailable {
-    return [store objectForKey:SDLNameNumCustomPresetsAvailable];
+    return [store objectForKey:SDLNameNumberCustomPresetsAvailable];
 }
 
 @end

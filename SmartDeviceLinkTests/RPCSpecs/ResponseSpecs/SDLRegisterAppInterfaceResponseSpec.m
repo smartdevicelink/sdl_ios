@@ -27,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
         
-        testResponse.syncMsgVersion = version;
+        testResponse.syncMessageVersion = version;
         testResponse.language = [SDLLanguage ES_MX];
         testResponse.hmiDisplayLanguage = [SDLLanguage RU_RU];
         testResponse.displayCapabilities = info;
@@ -45,7 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
         
-        expect(testResponse.syncMsgVersion).to(equal(version));
+        expect(testResponse.syncMessageVersion).to(equal(version));
         expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
         expect(testResponse.hmiDisplayLanguage).to(equal([SDLLanguage RU_RU]));
         expect(testResponse.displayCapabilities).to(equal(info));
@@ -67,28 +67,28 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameSyncMsgVersion:version,
+                                                 @{SDLNameSyncMessageVersion:version,
                                                    SDLNameLanguage:[SDLLanguage ES_MX],
-                                                   SDLNameHmiDisplayLanguage:[SDLLanguage RU_RU],
+                                                   SDLNameHMIDisplayLanguage:[SDLLanguage RU_RU],
                                                    SDLNameDisplayCapabilities:info,
                                                    SDLNameButtonCapabilities:[@[button] mutableCopy],
                                                    SDLNameSoftButtonCapabilities:[@[softButton] mutableCopy],
                                                    SDLNamePresetBankCapabilities:presetBank,
-                                                   SDLNameHmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy],
+                                                   SDLNameHMIZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy],
                                                    SDLNameSpeechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy],
-                                                   SDLNameVrCapabilities:[@[[SDLVRCapabilities TEXT]] copy],
+                                                   SDLNameVRCapabilities:[@[[SDLVRCapabilities TEXT]] copy],
                                                    SDLNameAudioPassThruCapabilities:[@[audioPassThru] mutableCopy],
                                                    SDLNameVehicleType:vehicle,
                                                    SDLNamePrerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy],
-                                                   SDLNameSupportedDiagModes:[@[@67, @99, @111] mutableCopy],
-                                                   SDLNameHmiCapabilities: hmiCapabilities,
-                                                   SDLNameSdlVersion: @"sdlVersion",
+                                                   SDLNameSupportedDiagnosticModes:[@[@67, @99, @111] mutableCopy],
+                                                   SDLNameHMICapabilities: hmiCapabilities,
+                                                   SDLNameSDLVersion: @"sdlVersion",
                                                    SDLNameSystemSoftwareVersion: @"systemSoftwareVersion"
                                                    },
                                              SDLNameOperationName:SDLNameRegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
-        expect(testResponse.syncMsgVersion).to(equal(version));
+        expect(testResponse.syncMessageVersion).to(equal(version));
         expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
         expect(testResponse.hmiDisplayLanguage).to(equal([SDLLanguage RU_RU]));
         expect(testResponse.displayCapabilities).to(equal(info));
@@ -110,7 +110,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should return nil if not set", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
         
-        expect(testResponse.syncMsgVersion).to(beNil());
+        expect(testResponse.syncMessageVersion).to(beNil());
         expect(testResponse.language).to(beNil());
         expect(testResponse.hmiDisplayLanguage).to(beNil());
         expect(testResponse.displayCapabilities).to(beNil());

@@ -23,14 +23,14 @@
 
 - (void)setGps:(SDLVehicleDataResult *)gps {
     if (gps != nil) {
-        [parameters setObject:gps forKey:SDLNameGps];
+        [parameters setObject:gps forKey:SDLNameGPS];
     } else {
-        [parameters removeObjectForKey:SDLNameGps];
+        [parameters removeObjectForKey:SDLNameGPS];
     }
 }
 
 - (SDLVehicleDataResult *)gps {
-    NSObject *obj = [parameters objectForKey:SDLNameGps];
+    NSObject *obj = [parameters objectForKey:SDLNameGPS];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
@@ -57,14 +57,14 @@
 
 - (void)setRpm:(SDLVehicleDataResult *)rpm {
     if (rpm != nil) {
-        [parameters setObject:rpm forKey:SDLNameRpm];
+        [parameters setObject:rpm forKey:SDLNameRPM];
     } else {
-        [parameters removeObjectForKey:SDLNameRpm];
+        [parameters removeObjectForKey:SDLNameRPM];
     }
 }
 
 - (SDLVehicleDataResult *)rpm {
-    NSObject *obj = [parameters objectForKey:SDLNameRpm];
+    NSObject *obj = [parameters objectForKey:SDLNameRPM];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
@@ -142,14 +142,14 @@
 
 - (void)setPrndl:(SDLVehicleDataResult *)prndl {
     if (prndl != nil) {
-        [parameters setObject:prndl forKey:SDLNamePrndl];
+        [parameters setObject:prndl forKey:SDLNamePRNDL];
     } else {
-        [parameters removeObjectForKey:SDLNamePrndl];
+        [parameters removeObjectForKey:SDLNamePRNDL];
     }
 }
 
 - (SDLVehicleDataResult *)prndl {
-    NSObject *obj = [parameters objectForKey:SDLNamePrndl];
+    NSObject *obj = [parameters objectForKey:SDLNamePRNDL];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
@@ -312,14 +312,14 @@
 
 - (void)setAccPedalPosition:(SDLVehicleDataResult *)accPedalPosition {
     if (accPedalPosition != nil) {
-        [parameters setObject:accPedalPosition forKey:SDLNameAccPedalPosition];
+        [parameters setObject:accPedalPosition forKey:SDLNameAccelerationPedalPosition];
     } else {
-        [parameters removeObjectForKey:SDLNameAccPedalPosition];
+        [parameters removeObjectForKey:SDLNameAccelerationPedalPosition];
     }
 }
 
 - (SDLVehicleDataResult *)accPedalPosition {
-    NSObject *obj = [parameters objectForKey:SDLNameAccPedalPosition];
+    NSObject *obj = [parameters objectForKey:SDLNameAccelerationPedalPosition];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {

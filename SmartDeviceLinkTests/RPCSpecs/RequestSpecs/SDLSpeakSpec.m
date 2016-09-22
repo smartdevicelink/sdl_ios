@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameTtsChunks:[@[chunk] mutableCopy]},
+                                                 @{SDLNameTTSChunks:[@[chunk] mutableCopy]},
                                              SDLNameOperationName:SDLNameSpeak}} mutableCopy];
         SDLSpeak* testRequest = [[SDLSpeak alloc] initWithDictionary:dict];
         

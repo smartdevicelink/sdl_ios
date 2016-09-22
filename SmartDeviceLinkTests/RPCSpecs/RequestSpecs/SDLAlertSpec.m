@@ -47,7 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLNameAlertText1:@"alert#1",
                                                    SDLNameAlertText2:@"alert#2",
                                                    SDLNameAlertText3:@"alert#3",
-                                                   SDLNameTtsChunks:[@[tts] mutableCopy],
+                                                   SDLNameTTSChunks:[@[tts] mutableCopy],
                                                    SDLNameDuration:@4357,
                                                    SDLNamePlayTone:@YES,
                                                    SDLNameProgressIndicator:@NO,

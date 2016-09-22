@@ -39,7 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameRequestType:[SDLRequestType FILE_RESUME],
-                                                   SDLNameUrl:[@[@"www.google.com"] mutableCopy],
+                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
                                                    SDLNameTimeout:@52345,
                                                    SDLNameFileType:[SDLFileType GRAPHIC_PNG],
                                                    SDLNameOffset:@2532678684,

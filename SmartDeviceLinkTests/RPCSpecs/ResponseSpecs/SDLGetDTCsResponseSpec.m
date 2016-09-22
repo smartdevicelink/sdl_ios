@@ -27,9 +27,9 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameResponse:
                                           @{SDLNameParameters:
-                                                @{SDLNameEcuHeader:@404,
-                                                  SDLNameDtc:[@[@"FFFF", @"FFFE", @"FFFD"] mutableCopy]},
-                                            SDLNameOperationName:SDLNameGetDtcs}} mutableCopy];
+                                                @{SDLNameECUHeader:@404,
+                                                  SDLNameDTC:[@[@"FFFF", @"FFFE", @"FFFD"] mutableCopy]},
+                                            SDLNameOperationName:SDLNameGetDTCs}} mutableCopy];
         SDLGetDTCsResponse* testResponse = [[SDLGetDTCsResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.ecuHeader).to(equal(@404));

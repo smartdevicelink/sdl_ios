@@ -23,14 +23,14 @@
 
 - (void)setVoiceRecOn:(NSNumber *)voiceRecOn {
     if (voiceRecOn != nil) {
-        [store setObject:voiceRecOn forKey:SDLNameVoiceRecOn];
+        [store setObject:voiceRecOn forKey:SDLNameVoiceRecognitionOn];
     } else {
-        [store removeObjectForKey:SDLNameVoiceRecOn];
+        [store removeObjectForKey:SDLNameVoiceRecognitionOn];
     }
 }
 
 - (NSNumber *)voiceRecOn {
-    return [store objectForKey:SDLNameVoiceRecOn];
+    return [store objectForKey:SDLNameVoiceRecognitionOn];
 }
 
 - (void)setBtIconOn:(NSNumber *)btIconOn {
@@ -71,26 +71,26 @@
 
 - (void)setTextMsgAvailable:(NSNumber *)textMsgAvailable {
     if (textMsgAvailable != nil) {
-        [store setObject:textMsgAvailable forKey:SDLNameTextMsgAvailable];
+        [store setObject:textMsgAvailable forKey:SDLNameTextMessageAvailable];
     } else {
-        [store removeObjectForKey:SDLNameTextMsgAvailable];
+        [store removeObjectForKey:SDLNameTextMessageAvailable];
     }
 }
 
 - (NSNumber *)textMsgAvailable {
-    return [store objectForKey:SDLNameTextMsgAvailable];
+    return [store objectForKey:SDLNameTextMessageAvailable];
 }
 
 - (void)setBattLevelStatus:(SDLDeviceLevelStatus *)battLevelStatus {
     if (battLevelStatus != nil) {
-        [store setObject:battLevelStatus forKey:SDLNameBattLevelStatus];
+        [store setObject:battLevelStatus forKey:SDLNameBatteryLevelStatus];
     } else {
-        [store removeObjectForKey:SDLNameBattLevelStatus];
+        [store removeObjectForKey:SDLNameBatteryLevelStatus];
     }
 }
 
 - (SDLDeviceLevelStatus *)battLevelStatus {
-    NSObject *obj = [store objectForKey:SDLNameBattLevelStatus];
+    NSObject *obj = [store objectForKey:SDLNameBatteryLevelStatus];
     if (obj == nil || [obj isKindOfClass:SDLDeviceLevelStatus.class]) {
         return (SDLDeviceLevelStatus *)obj;
     } else {

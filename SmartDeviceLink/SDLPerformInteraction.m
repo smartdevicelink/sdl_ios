@@ -142,14 +142,14 @@
 
 - (void)setVrHelp:(NSMutableArray *)vrHelp {
     if (vrHelp != nil) {
-        [parameters setObject:vrHelp forKey:SDLNameVrHelp];
+        [parameters setObject:vrHelp forKey:SDLNameVRHelp];
     } else {
-        [parameters removeObjectForKey:SDLNameVrHelp];
+        [parameters removeObjectForKey:SDLNameVRHelp];
     }
 }
 
 - (NSMutableArray *)vrHelp {
-    NSMutableArray *array = [parameters objectForKey:SDLNameVrHelp];
+    NSMutableArray *array = [parameters objectForKey:SDLNameVRHelp];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {

@@ -506,9 +506,9 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
                                                                  isMediaApp:@YES languageDesired:[SDLLanguage EN_US]
                                                                  hmiDisplayLanguageDesired:[SDLLanguage ES_MX] appID:@"6h43g"];
         
-        expect(message.syncMsgVersion).toNot(beNil());
-        expect(message.syncMsgVersion.majorVersion).to(equal(@1));
-        expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        expect(message.syncMessageVersion).toNot(beNil());
+        expect(message.syncMessageVersion.majorVersion).to(equal(@1));
+        expect(message.syncMessageVersion.minorVersion).to(equal(@0));
         
         expect(message.appInfo.appBundleID).to(equal(@"com.register.test"));
         expect(message.appInfo.appDisplayName).to(equal(@"Interface"));
@@ -529,9 +529,9 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         
         message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Register App Interface" isMediaApp:@NO languageDesired:[SDLLanguage PT_BR] appID:@"36g6rsw4"];
         
-        expect(message.syncMsgVersion).toNot(beNil());
-        expect(message.syncMsgVersion.majorVersion).to(equal(@1));
-        expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        expect(message.syncMessageVersion).toNot(beNil());
+        expect(message.syncMessageVersion.majorVersion).to(equal(@1));
+        expect(message.syncMessageVersion.minorVersion).to(equal(@0));
         
         expect(message.appInfo.appBundleID).to(equal(@"com.register.test"));
         expect(message.appInfo.appDisplayName).to(equal(@"Register App Interface"));
@@ -552,9 +552,9 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         
         message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"..." languageDesired:[SDLLanguage CS_CZ] appID:@"56ht5j"];
         
-        expect(message.syncMsgVersion).toNot(beNil());
-        expect(message.syncMsgVersion.majorVersion).to(equal(@1));
-        expect(message.syncMsgVersion.minorVersion).to(equal(@0));
+        expect(message.syncMessageVersion).toNot(beNil());
+        expect(message.syncMessageVersion.majorVersion).to(equal(@1));
+        expect(message.syncMessageVersion.minorVersion).to(equal(@0));
         
         expect(message.appInfo.appBundleID).to(equal(@"com.register.test"));
         expect(message.appInfo.appDisplayName).to(equal(@"..."));

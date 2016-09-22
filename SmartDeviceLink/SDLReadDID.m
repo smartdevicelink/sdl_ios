@@ -9,7 +9,7 @@
 @implementation SDLReadDID
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameReadDid]) {
+    if (self = [super initWithName:SDLNameReadDID]) {
     }
     return self;
 }
@@ -22,26 +22,26 @@
 
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:SDLNameEcuName];
+        [parameters setObject:ecuName forKey:SDLNameECUName];
     } else {
-        [parameters removeObjectForKey:SDLNameEcuName];
+        [parameters removeObjectForKey:SDLNameECUName];
     }
 }
 
 - (NSNumber *)ecuName {
-    return [parameters objectForKey:SDLNameEcuName];
+    return [parameters objectForKey:SDLNameECUName];
 }
 
 - (void)setDidLocation:(NSMutableArray *)didLocation {
     if (didLocation != nil) {
-        [parameters setObject:didLocation forKey:SDLNameDidLocation];
+        [parameters setObject:didLocation forKey:SDLNameDIDLocation];
     } else {
-        [parameters removeObjectForKey:SDLNameDidLocation];
+        [parameters removeObjectForKey:SDLNameDIDLocation];
     }
 }
 
 - (NSMutableArray *)didLocation {
-    return [parameters objectForKey:SDLNameDidLocation];
+    return [parameters objectForKey:SDLNameDIDLocation];
 }
 
 @end

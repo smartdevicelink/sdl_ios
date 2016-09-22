@@ -23,26 +23,26 @@
 
 - (void)setRpcName:(NSString *)rpcName {
     if (rpcName != nil) {
-        [store setObject:rpcName forKey:SDLNameRpcName];
+        [store setObject:rpcName forKey:SDLNameRPCName];
     } else {
-        [store removeObjectForKey:SDLNameRpcName];
+        [store removeObjectForKey:SDLNameRPCName];
     }
 }
 
 - (NSString *)rpcName {
-    return [store objectForKey:SDLNameRpcName];
+    return [store objectForKey:SDLNameRPCName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
     if (hmiPermissions != nil) {
-        [store setObject:hmiPermissions forKey:SDLNameHmiPermissions];
+        [store setObject:hmiPermissions forKey:SDLNameHMIPermissions];
     } else {
-        [store removeObjectForKey:SDLNameHmiPermissions];
+        [store removeObjectForKey:SDLNameHMIPermissions];
     }
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    NSObject *obj = [store objectForKey:SDLNameHmiPermissions];
+    NSObject *obj = [store objectForKey:SDLNameHMIPermissions];
     if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
         return (SDLHMIPermissions *)obj;
     } else {

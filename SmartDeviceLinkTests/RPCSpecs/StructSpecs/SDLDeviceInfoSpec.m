@@ -34,11 +34,11 @@ describe(@"Getter/Setter Tests", ^ {
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameHardware:@"GDFR34F",
-                                       SDLNameFirmwareRev:@"4.2a",
-                                       SDLNameOs:@"Robot",
-                                       SDLNameOsVersion:@"9.9",
+                                       SDLNameFirmwareRevision:@"4.2a",
+                                       SDLNameOS:@"Robot",
+                                       SDLNameOSVersion:@"9.9",
                                        SDLNameCarrier:@"ThatOneWirelessCompany",
-                                       SDLNameMaxNumberRfcommPorts:@20} mutableCopy];
+                                       SDLNameMaxNumberRFCOMMPorts:@20} mutableCopy];
         SDLDeviceInfo* testStruct = [[SDLDeviceInfo alloc] initWithDictionary:dict];
         
         expect(testStruct.hardware).to(equal(@"GDFR34F"));

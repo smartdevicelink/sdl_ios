@@ -28,8 +28,8 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameResponse:
                                            @{SDLNameParameters:
-                                                 @{SDLNameDidResult:[@[result] mutableCopy]},
-                                             SDLNameOperationName:SDLNameReadDid}} mutableCopy];
+                                                 @{SDLNameDIDResult:[@[result] mutableCopy]},
+                                             SDLNameOperationName:SDLNameReadDID}} mutableCopy];
         SDLReadDIDResponse* testResponse = [[SDLReadDIDResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.didResult).to(equal([@[result] mutableCopy]));

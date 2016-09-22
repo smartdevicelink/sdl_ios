@@ -22,14 +22,14 @@
 
 - (void)setNumTicks:(NSNumber *)numTicks {
     if (numTicks != nil) {
-        [parameters setObject:numTicks forKey:SDLNameNumTicks];
+        [parameters setObject:numTicks forKey:SDLNameNumberTicks];
     } else {
-        [parameters removeObjectForKey:SDLNameNumTicks];
+        [parameters removeObjectForKey:SDLNameNumberTicks];
     }
 }
 
 - (NSNumber *)numTicks {
-    return [parameters objectForKey:SDLNameNumTicks];
+    return [parameters objectForKey:SDLNameNumberTicks];
 }
 
 - (void)setPosition:(NSNumber *)position {

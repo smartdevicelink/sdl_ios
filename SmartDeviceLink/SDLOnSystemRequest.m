@@ -40,14 +40,14 @@
 
 - (void)setUrl:(NSString *)url {
     if (url != nil) {
-        [parameters setObject:url forKey:SDLNameUrl];
+        [parameters setObject:url forKey:SDLNameURL];
     } else {
-        [parameters removeObjectForKey:SDLNameUrl];
+        [parameters removeObjectForKey:SDLNameURL];
     }
 }
 
 - (NSString *)url {
-    return [parameters objectForKey:SDLNameUrl];
+    return [parameters objectForKey:SDLNameURL];
 }
 
 - (void)setTimeout:(NSNumber *)timeout {

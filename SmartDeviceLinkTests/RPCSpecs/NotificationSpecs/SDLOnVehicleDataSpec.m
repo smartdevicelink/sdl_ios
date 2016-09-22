@@ -86,15 +86,15 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
-                                                 @{SDLNameGps:gps,
+                                                 @{SDLNameGPS:gps,
                                                    SDLNameSpeed:@70.1,
-                                                   SDLNameRpm:@4242,
+                                                   SDLNameRPM:@4242,
                                                    SDLNameFuelLevel:@10.3,
                                                    SDLNameFuelLevelState:[SDLComponentVolumeStatus ALERT],
                                                    SDLNameInstantFuelConsumption:@4000.63,
                                                    SDLNameExternalTemperature:@-10,
-                                                   SDLNameVin:@"222222222722",
-                                                   SDLNamePrndl:[SDLPRNDL DRIVE],
+                                                   SDLNameVIN:@"222222222722",
+                                                   SDLNamePRNDL:[SDLPRNDL DRIVE],
                                                    SDLNameTirePressure:tires,
                                                    SDLNameOdometer:@100050,
                                                    SDLNameBeltStatus:belt,
@@ -104,7 +104,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameWiperStatus:[SDLWiperStatus STALLED],
                                                    SDLNameHeadLampStatus:headLamp,
                                                    SDLNameEngineTorque:@-200.124,
-                                                   SDLNameAccPedalPosition:@99.99999999,
+                                                   SDLNameAccelerationPedalPosition:@99.99999999,
                                                    SDLNameSteeringWheelAngle:@0.000000001,
                                                    SDLNameECallInfo:eCall,
                                                    SDLNameAirbagStatus:airbag,

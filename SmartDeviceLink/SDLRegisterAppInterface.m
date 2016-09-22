@@ -29,14 +29,14 @@
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
-        [parameters setObject:syncMsgVersion forKey:SDLNameSyncMsgVersion];
+        [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
     } else {
-        [parameters removeObjectForKey:SDLNameSyncMsgVersion];
+        [parameters removeObjectForKey:SDLNameSyncMessageVersion];
     }
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
-    NSObject *obj = [parameters objectForKey:SDLNameSyncMsgVersion];
+    NSObject *obj = [parameters objectForKey:SDLNameSyncMessageVersion];
     if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
@@ -58,14 +58,14 @@
 
 - (void)setTtsName:(NSMutableArray *)ttsName {
     if (ttsName != nil) {
-        [parameters setObject:ttsName forKey:SDLNameTtsName];
+        [parameters setObject:ttsName forKey:SDLNameTTSName];
     } else {
-        [parameters removeObjectForKey:SDLNameTtsName];
+        [parameters removeObjectForKey:SDLNameTTSName];
     }
 }
 
 - (NSMutableArray *)ttsName {
-    NSMutableArray *array = [parameters objectForKey:SDLNameTtsName];
+    NSMutableArray *array = [parameters objectForKey:SDLNameTTSName];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -79,26 +79,26 @@
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
-        [parameters setObject:ngnMediaScreenAppName forKey:SDLNameNgnMediaScreenAppName];
+        [parameters setObject:ngnMediaScreenAppName forKey:SDLNameNGNMediaScreenAppName];
     } else {
-        [parameters removeObjectForKey:SDLNameNgnMediaScreenAppName];
+        [parameters removeObjectForKey:SDLNameNGNMediaScreenAppName];
     }
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return [parameters objectForKey:SDLNameNgnMediaScreenAppName];
+    return [parameters objectForKey:SDLNameNGNMediaScreenAppName];
 }
 
 - (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
     if (vrSynonyms != nil) {
-        [parameters setObject:vrSynonyms forKey:SDLNameVrSynonyms];
+        [parameters setObject:vrSynonyms forKey:SDLNameVRSynonyms];
     } else {
-        [parameters removeObjectForKey:SDLNameVrSynonyms];
+        [parameters removeObjectForKey:SDLNameVRSynonyms];
     }
 }
 
 - (NSMutableArray *)vrSynonyms {
-    return [parameters objectForKey:SDLNameVrSynonyms];
+    return [parameters objectForKey:SDLNameVRSynonyms];
 }
 
 - (void)setIsMediaApplication:(NSNumber *)isMediaApplication {
@@ -132,14 +132,14 @@
 
 - (void)setHmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
     if (hmiDisplayLanguageDesired != nil) {
-        [parameters setObject:hmiDisplayLanguageDesired forKey:SDLNameHmiDisplayLanguageDesired];
+        [parameters setObject:hmiDisplayLanguageDesired forKey:SDLNameHMIDisplayLanguageDesired];
     } else {
-        [parameters removeObjectForKey:SDLNameHmiDisplayLanguageDesired];
+        [parameters removeObjectForKey:SDLNameHMIDisplayLanguageDesired];
     }
 }
 
 - (SDLLanguage *)hmiDisplayLanguageDesired {
-    NSObject *obj = [parameters objectForKey:SDLNameHmiDisplayLanguageDesired];
+    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguageDesired];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -149,14 +149,14 @@
 
 - (void)setAppHMIType:(NSMutableArray *)appHMIType {
     if (appHMIType != nil) {
-        [parameters setObject:appHMIType forKey:SDLNameAppHmiType];
+        [parameters setObject:appHMIType forKey:SDLNameAppHMIType];
     } else {
-        [parameters removeObjectForKey:SDLNameAppHmiType];
+        [parameters removeObjectForKey:SDLNameAppHMIType];
     }
 }
 
 - (NSMutableArray *)appHMIType {
-    NSMutableArray *array = [parameters objectForKey:SDLNameAppHmiType];
+    NSMutableArray *array = [parameters objectForKey:SDLNameAppHMIType];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAppHMIType.class]) {
         return array;
     } else {

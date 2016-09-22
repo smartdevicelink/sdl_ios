@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameLanguage:[SDLLanguage ES_ES],
-                                                   SDLNameHmiDisplayLanguage:[SDLLanguage DE_DE]},
+                                                   SDLNameHMIDisplayLanguage:[SDLLanguage DE_DE]},
                                              SDLNameOperationName:SDLNameOnLanguageChange}} mutableCopy];
         SDLOnLanguageChange* testNotification = [[SDLOnLanguageChange alloc] initWithDictionary:dict];
         

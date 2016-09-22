@@ -75,14 +75,14 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameResponse:
                                            @{SDLNameParameters:
-                                                 @{SDLNameGps:vehicleDataResult,
+                                                 @{SDLNameGPS:vehicleDataResult,
                                                    SDLNameSpeed:vehicleDataResult,
-                                                   SDLNameRpm:vehicleDataResult,
+                                                   SDLNameRPM:vehicleDataResult,
                                                    SDLNameFuelLevel:vehicleDataResult,
                                                    SDLNameFuelLevelState:vehicleDataResult,
                                                    SDLNameInstantFuelConsumption:vehicleDataResult,
                                                    SDLNameExternalTemperature:vehicleDataResult,
-                                                   SDLNamePrndl:vehicleDataResult,
+                                                   SDLNamePRNDL:vehicleDataResult,
                                                    SDLNameTirePressure:vehicleDataResult,
                                                    SDLNameOdometer:vehicleDataResult,
                                                    SDLNameBeltStatus:vehicleDataResult,
@@ -92,7 +92,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameWiperStatus:vehicleDataResult,
                                                    SDLNameHeadLampStatus:vehicleDataResult,
                                                    SDLNameEngineTorque:vehicleDataResult,
-                                                   SDLNameAccPedalPosition:vehicleDataResult,
+                                                   SDLNameAccelerationPedalPosition:vehicleDataResult,
                                                    SDLNameSteeringWheelAngle:vehicleDataResult,
                                                    SDLNameECallInfo:vehicleDataResult,
                                                    SDLNameAirbagStatus:vehicleDataResult,

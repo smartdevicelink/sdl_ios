@@ -64,14 +64,14 @@
 
 - (void)setVrCommands:(NSMutableArray *)vrCommands {
     if (vrCommands != nil) {
-        [parameters setObject:vrCommands forKey:SDLNameVrCommands];
+        [parameters setObject:vrCommands forKey:SDLNameVRCommands];
     } else {
-        [parameters removeObjectForKey:SDLNameVrCommands];
+        [parameters removeObjectForKey:SDLNameVRCommands];
     }
 }
 
 - (NSMutableArray *)vrCommands {
-    return [parameters objectForKey:SDLNameVrCommands];
+    return [parameters objectForKey:SDLNameVRCommands];
 }
 
 - (void)setCmdIcon:(SDLImage *)cmdIcon {

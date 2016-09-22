@@ -54,7 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameNavigationText1:@"nav1",
                                                    SDLNameNavigationText2:@"nav2",
-                                                   SDLNameEta:@"4/1/7015",
+                                                   SDLNameETA:@"4/1/7015",
                                                    SDLNameTimeToDestination:@"5000 Years",
                                                    SDLNameTotalDistance:@"1 parsec",
                                                    SDLNameTurnIcon:image1,
@@ -63,7 +63,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameDistanceToManeuverScale:@4,
                                                    SDLNameManeuverComplete:@NO,
                                                    SDLNameSoftButtons:[@[button] mutableCopy]},
-                                             SDLNameOperationName:SDLNameShowConstantTbt}} mutableCopy];
+                                             SDLNameOperationName:SDLNameShowConstantTBT}} mutableCopy];
         SDLShowConstantTBT* testRequest = [[SDLShowConstantTBT alloc] initWithDictionary:dict];
         
         expect(testRequest.navigationText1).to(equal(@"nav1"));

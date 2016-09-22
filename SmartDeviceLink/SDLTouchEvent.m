@@ -35,26 +35,26 @@
 
 - (void)setTimeStamp:(NSMutableArray *)timeStamp {
     if (timeStamp != nil) {
-        [store setObject:timeStamp forKey:SDLNameTs];
+        [store setObject:timeStamp forKey:SDLNameTimestamp];
     } else {
-        [store removeObjectForKey:SDLNameTs];
+        [store removeObjectForKey:SDLNameTimestamp];
     }
 }
 
 - (NSMutableArray *)timeStamp {
-    return [store objectForKey:SDLNameTs];
+    return [store objectForKey:SDLNameTimestamp];
 }
 
 - (void)setCoord:(NSMutableArray *)coord {
     if (coord != nil) {
-        [store setObject:coord forKey:SDLNameCoord];
+        [store setObject:coord forKey:SDLNameCoordinate];
     } else {
-        [store removeObjectForKey:SDLNameCoord];
+        [store removeObjectForKey:SDLNameCoordinate];
     }
 }
 
 - (NSMutableArray *)coord {
-    NSMutableArray *array = [store objectForKey:SDLNameCoord];
+    NSMutableArray *array = [store objectForKey:SDLNameCoordinate];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchCoord.class]) {
         return array;
     } else {

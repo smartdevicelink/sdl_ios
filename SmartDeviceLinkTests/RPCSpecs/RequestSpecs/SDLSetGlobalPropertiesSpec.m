@@ -50,8 +50,8 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameHelpPrompt:[@[chunk1] mutableCopy],
                                                    SDLNameTimeoutPrompt:[@[chunk2] mutableCopy],
-                                                   SDLNameVrHelpTitle:@"vr",
-                                                   SDLNameVrHelp:[@[help] mutableCopy],
+                                                   SDLNameVRHelpTitle:@"vr",
+                                                   SDLNameVRHelp:[@[help] mutableCopy],
                                                    SDLNameMenuTitle:@"TheNewMenu",
                                                    SDLNameMenuIcon:image,
                                                    SDLNameKeyboardProperties:keyboard},

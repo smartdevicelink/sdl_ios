@@ -11,7 +11,7 @@
 @implementation SDLShowConstantTBT
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameShowConstantTbt]) {
+    if (self = [super initWithName:SDLNameShowConstantTBT]) {
     }
     return self;
 }
@@ -48,14 +48,14 @@
 
 - (void)setEta:(NSString *)eta {
     if (eta != nil) {
-        [parameters setObject:eta forKey:SDLNameEta];
+        [parameters setObject:eta forKey:SDLNameETA];
     } else {
-        [parameters removeObjectForKey:SDLNameEta];
+        [parameters removeObjectForKey:SDLNameETA];
     }
 }
 
 - (NSString *)eta {
-    return [parameters objectForKey:SDLNameEta];
+    return [parameters objectForKey:SDLNameETA];
 }
 
 - (void)setTimeToDestination:(NSString *)timeToDestination {

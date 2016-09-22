@@ -69,26 +69,26 @@
 
 - (void)setVrHelpTitle:(NSString *)vrHelpTitle {
     if (vrHelpTitle != nil) {
-        [parameters setObject:vrHelpTitle forKey:SDLNameVrHelpTitle];
+        [parameters setObject:vrHelpTitle forKey:SDLNameVRHelpTitle];
     } else {
-        [parameters removeObjectForKey:SDLNameVrHelpTitle];
+        [parameters removeObjectForKey:SDLNameVRHelpTitle];
     }
 }
 
 - (NSString *)vrHelpTitle {
-    return [parameters objectForKey:SDLNameVrHelpTitle];
+    return [parameters objectForKey:SDLNameVRHelpTitle];
 }
 
 - (void)setVrHelp:(NSMutableArray *)vrHelp {
     if (vrHelp != nil) {
-        [parameters setObject:vrHelp forKey:SDLNameVrHelp];
+        [parameters setObject:vrHelp forKey:SDLNameVRHelp];
     } else {
-        [parameters removeObjectForKey:SDLNameVrHelp];
+        [parameters removeObjectForKey:SDLNameVRHelp];
     }
 }
 
 - (NSMutableArray *)vrHelp {
-    NSMutableArray *array = [parameters objectForKey:SDLNameVrHelp];
+    NSMutableArray *array = [parameters objectForKey:SDLNameVRHelp];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {

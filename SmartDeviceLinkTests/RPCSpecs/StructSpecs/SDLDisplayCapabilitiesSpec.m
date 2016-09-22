@@ -54,7 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLNameGraphicSupported:@YES,
                                        SDLNameTemplatesAvailable:[@[@"String", @"String", @"String"] mutableCopy],
                                        SDLNameScreenParams:screenParams,
-                                       SDLNameNumCustomPresetsAvailable:@43} mutableCopy];
+                                       SDLNameNumberCustomPresetsAvailable:@43} mutableCopy];
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.displayType).to(equal([SDLDisplayType GEN2_6_DMA]));

@@ -29,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
                                                  @{SDLNameRequestType:[SDLRequestType AUTH_REQUEST],
-                                                   SDLNameFileName:@"AnotherFile"},
+                                                   SDLNameFilename:@"AnotherFile"},
                                              SDLNameOperationName:SDLNameSystemRequest}} mutableCopy];
         SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
         

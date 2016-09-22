@@ -27,8 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameEcuName:@4321,
-                                                   SDLNameDtcMask:@22},
+                                                 @{SDLNameECUName:@4321,
+                                                   SDLNameDTCMask:@22},
                                              SDLNameOperationName:SDLNameEndAudioPassThru}} mutableCopy];
         SDLGetDTCs* testRequest = [[SDLGetDTCs alloc] initWithDictionary:dict];
         

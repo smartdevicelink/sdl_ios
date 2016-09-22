@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameResultCode:[SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED],
-                                       SDLNameDidLocation:@300,
+                                       SDLNameDIDLocation:@300,
                                        SDLNameData:@"gertwydhty4235tdhedt4tue"} mutableCopy];
         SDLDIDResult* testStruct = [[SDLDIDResult alloc] initWithDictionary:dict];
         

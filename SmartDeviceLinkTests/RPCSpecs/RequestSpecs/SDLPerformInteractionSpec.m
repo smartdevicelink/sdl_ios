@@ -57,7 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameHelpPrompt:[@[chunk2] mutableCopy],
                                                    SDLNameTimeoutPrompt:[@[chunk3] mutableCopy],
                                                    SDLNameTimeout:@42000,
-                                                   SDLNameVrHelp:[@[helpItem] mutableCopy],
+                                                   SDLNameVRHelp:[@[helpItem] mutableCopy],
                                                    SDLNameInteractionLayout:[SDLLayoutMode ICON_WITH_SEARCH]},
                                              SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];

@@ -27,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
-                                                 @{SDLNameUrlUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
+                                                 @{SDLNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
                                                    SDLNameTimeoutCapitalized:@8357},
                                              SDLNameOperationName:SDLNameOnSyncPData}} mutableCopy];
         SDLOnSyncPData* testNotification = [[SDLOnSyncPData alloc] initWithDictionary:dict];

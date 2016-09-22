@@ -11,7 +11,7 @@
 @implementation SDLOnHMIStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnHmiStatus]) {
+    if (self = [super initWithName:SDLNameOnHMIStatus]) {
     }
     return self;
 }
@@ -24,14 +24,14 @@
 
 - (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
     if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:SDLNameHmiLevel];
+        [parameters setObject:hmiLevel forKey:SDLNameHMILevel];
     } else {
-        [parameters removeObjectForKey:SDLNameHmiLevel];
+        [parameters removeObjectForKey:SDLNameHMILevel];
     }
 }
 
 - (SDLHMILevel *)hmiLevel {
-    NSObject *obj = [parameters objectForKey:SDLNameHmiLevel];
+    NSObject *obj = [parameters objectForKey:SDLNameHMILevel];
     if (obj == nil || [obj isKindOfClass:SDLHMILevel.class]) {
         return (SDLHMILevel *)obj;
     } else {

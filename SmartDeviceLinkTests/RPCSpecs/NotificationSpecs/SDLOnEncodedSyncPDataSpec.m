@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameData:[@[@0] mutableCopy],
-                                                   SDLNameUrlUppercase:@"www.zombo.com",
+                                                   SDLNameURLUppercase:@"www.zombo.com",
                                                    SDLNameTimeoutCapitalized:@564},
                                              SDLNameOperationName:SDLNameOnEncodedSyncPData}} mutableCopy];
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];

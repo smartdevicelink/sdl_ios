@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameCommandId:@434577,
                                                    SDLNameMenuParams:menu,
-                                                   SDLNameVrCommands:[@[@"name", @"anotherName"] mutableCopy],
+                                                   SDLNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
                                                    SDLNameCommandIcon:image},
                                              SDLNameOperationName:SDLNameAddCommand}} mutableCopy];
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];

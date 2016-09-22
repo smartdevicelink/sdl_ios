@@ -364,7 +364,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleRpcMessage:(NSDictionary *)msg {
+- (void)handleRPCMessage:(NSDictionary *)msg {
     [self handleRPCDictionary:msg];
 }
 
@@ -436,7 +436,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    NSString *statusString = (NSString *)[message getParameters:SDLNameHmiLevel];
+    NSString *statusString = (NSString *)[message getParameters:SDLNameHMILevel];
     SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
     _lsm.hmiLevel = hmiLevel;
 

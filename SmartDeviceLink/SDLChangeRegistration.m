@@ -40,14 +40,14 @@
 
 - (void)setHmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
     if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHmiDisplayLanguage];
+        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
     } else {
-        [parameters removeObjectForKey:SDLNameHmiDisplayLanguage];
+        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
     }
 }
 
 - (SDLLanguage *)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:SDLNameHmiDisplayLanguage];
+    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -69,38 +69,38 @@
 
 - (void)setTtsName:(NSArray *)ttsName {
     if (ttsName != nil) {
-        [parameters setObject:[ttsName copy] forKey:SDLNameTtsName];
+        [parameters setObject:[ttsName copy] forKey:SDLNameTTSName];
     } else {
-        [parameters removeObjectForKey:SDLNameTtsName];
+        [parameters removeObjectForKey:SDLNameTTSName];
     }
 }
 
 - (NSArray *)ttsName {
-    return [parameters[SDLNameTtsName] copy];
+    return [parameters[SDLNameTTSName] copy];
 }
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
-        parameters[SDLNameNgnMediaScreenAppName] = [ngnMediaScreenAppName copy];
+        parameters[SDLNameNGNMediaScreenAppName] = [ngnMediaScreenAppName copy];
     } else {
-        [parameters removeObjectForKey:SDLNameNgnMediaScreenAppName];
+        [parameters removeObjectForKey:SDLNameNGNMediaScreenAppName];
     }
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return [parameters[SDLNameNgnMediaScreenAppName] copy];
+    return [parameters[SDLNameNGNMediaScreenAppName] copy];
 }
 
 - (void)setVrSynonyms:(NSArray *)vrSynonyms {
     if (vrSynonyms != nil) {
-        [parameters setObject:[vrSynonyms copy] forKey:SDLNameVrSynonyms];
+        [parameters setObject:[vrSynonyms copy] forKey:SDLNameVRSynonyms];
     } else {
-        [parameters removeObjectForKey:SDLNameVrSynonyms];
+        [parameters removeObjectForKey:SDLNameVRSynonyms];
     }
 }
 
 - (NSArray *)vrSynonyms {
-    return [parameters[SDLNameVrSynonyms] copy];
+    return [parameters[SDLNameVRSynonyms] copy];
 }
 
 @end
