@@ -29,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.mainField2 = @"field2";
         testRequest.mainField3 = @"field3";
         testRequest.mainField4 = @"field4";
-        testRequest.alignment = [SDLTextAlignment LEFT_ALIGNED];
+        testRequest.alignment = SDLTextAlignmentLeftAligned;
         testRequest.statusBar = @"status";
         testRequest.mediaClock = @"TheTime";
         testRequest.mediaTrack = @"In The Clear";
@@ -42,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.mainField2).to(equal(@"field2"));
         expect(testRequest.mainField3).to(equal(@"field3"));
         expect(testRequest.mainField4).to(equal(@"field4"));
-        expect(testRequest.alignment).to(equal([SDLTextAlignment LEFT_ALIGNED]));
+        expect(testRequest.alignment).to(equal(SDLTextAlignmentLeftAligned));
         expect(testRequest.statusBar).to(equal(@"status"));
         expect(testRequest.mediaClock).to(equal(@"TheTime"));
         expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
@@ -59,7 +59,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_mainField2:@"field2",
                                                    NAMES_mainField3:@"field3",
                                                    NAMES_mainField4:@"field4",
-                                                   NAMES_alignment:[SDLTextAlignment LEFT_ALIGNED],
+                                                   NAMES_alignment:SDLTextAlignmentLeftAligned,
                                                    NAMES_statusBar:@"status",
                                                    NAMES_mediaClock:@"TheTime",
                                                    NAMES_mediaTrack:@"In The Clear",
@@ -74,7 +74,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.mainField2).to(equal(@"field2"));
         expect(testRequest.mainField3).to(equal(@"field3"));
         expect(testRequest.mainField4).to(equal(@"field4"));
-        expect(testRequest.alignment).to(equal([SDLTextAlignment LEFT_ALIGNED]));
+        expect(testRequest.alignment).to(equal(SDLTextAlignmentLeftAligned));
         expect(testRequest.statusBar).to(equal(@"status"));
         expect(testRequest.mediaClock).to(equal(@"TheTime"));
         expect(testRequest.mediaTrack).to(equal(@"In The Clear"));

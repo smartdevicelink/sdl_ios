@@ -213,7 +213,6 @@
 		162E83961A9BDE8B00906325 /* SDLVehicleDataResultSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82B41A9BDE8A00906325 /* SDLVehicleDataResultSpec.m */; };
 		162E83971A9BDE8B00906325 /* SDLVehicleTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82B51A9BDE8A00906325 /* SDLVehicleTypeSpec.m */; };
 		162E83981A9BDE8B00906325 /* SDLVrHelpItemSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82B61A9BDE8A00906325 /* SDLVrHelpItemSpec.m */; };
-		162E83991A9BDE8B00906325 /* SDLEnumSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82B81A9BDE8A00906325 /* SDLEnumSpec.m */; };
 		162E839A1A9BDE8B00906325 /* SDLRPCMessageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82B91A9BDE8A00906325 /* SDLRPCMessageSpec.m */; };
 		162E839B1A9BDE8B00906325 /* SDLRPCNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82BA1A9BDE8A00906325 /* SDLRPCNotificationSpec.m */; };
 		162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82BB1A9BDE8A00906325 /* SDLRPCRequestSpec.m */; };
@@ -1184,7 +1183,6 @@
 		162E82B41A9BDE8A00906325 /* SDLVehicleDataResultSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVehicleDataResultSpec.m; sourceTree = "<group>"; };
 		162E82B51A9BDE8A00906325 /* SDLVehicleTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVehicleTypeSpec.m; sourceTree = "<group>"; };
 		162E82B61A9BDE8A00906325 /* SDLVrHelpItemSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVrHelpItemSpec.m; sourceTree = "<group>"; };
-		162E82B81A9BDE8A00906325 /* SDLEnumSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEnumSpec.m; sourceTree = "<group>"; };
 		162E82B91A9BDE8A00906325 /* SDLRPCMessageSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCMessageSpec.m; sourceTree = "<group>"; };
 		162E82BA1A9BDE8A00906325 /* SDLRPCNotificationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCNotificationSpec.m; sourceTree = "<group>"; };
 		162E82BB1A9BDE8A00906325 /* SDLRPCRequestSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestSpec.m; sourceTree = "<group>"; };
@@ -2216,7 +2214,6 @@
 		162E82B71A9BDE8A00906325 /* SuperclassSpecs */ = {
 			isa = PBXGroup;
 			children = (
-				162E82B81A9BDE8A00906325 /* SDLEnumSpec.m */,
 				162E82B91A9BDE8A00906325 /* SDLRPCMessageSpec.m */,
 				162E82BA1A9BDE8A00906325 /* SDLRPCNotificationSpec.m */,
 				162E82BB1A9BDE8A00906325 /* SDLRPCRequestSpec.m */,
@@ -4469,7 +4466,6 @@
 				162E83511A9BDE8B00906325 /* SDLDeleteInteractionChoiceSetResponseSpec.m in Sources */,
 				162E830E1A9BDE8B00906325 /* SDLRPCRequestFactorySpec.m in Sources */,
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
-				162E83991A9BDE8B00906325 /* SDLEnumSpec.m in Sources */,
 				162E82ED1A9BDE8B00906325 /* SDLMaintenanceModeStatusSpec.m in Sources */,
 				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
 				1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */,

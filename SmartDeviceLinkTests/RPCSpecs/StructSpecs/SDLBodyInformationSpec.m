@@ -20,16 +20,16 @@ describe(@"Getter/Setter Tests", ^ {
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] init];
         
         testStruct.parkBrakeActive = @YES;
-        testStruct.ignitionStableStatus = [SDLIgnitionStableStatus IGNITION_SWITCH_STABLE];
-        testStruct.ignitionStatus = [SDLIgnitionStatus START];
+        testStruct.ignitionStableStatus = SDLIgnitionStableStatusStable;
+        testStruct.ignitionStatus = SDLIgnitionStatusStart;
         testStruct.driverDoorAjar = @NO;
         testStruct.passengerDoorAjar = @NO;
         testStruct.rearLeftDoorAjar = @NO;
         testStruct.rearRightDoorAjar = @YES;
         
         expect(testStruct.parkBrakeActive).to(equal(@YES));
-        expect(testStruct.ignitionStableStatus).to(equal([SDLIgnitionStableStatus IGNITION_SWITCH_STABLE]));
-        expect(testStruct.ignitionStatus).to(equal([SDLIgnitionStatus START]));
+        expect(testStruct.ignitionStableStatus).to(equal(SDLIgnitionStableStatusStable));
+        expect(testStruct.ignitionStatus).to(equal(SDLIgnitionStatusStart));
         expect(testStruct.driverDoorAjar).to(equal(@NO));
         expect(testStruct.passengerDoorAjar).to(equal(@NO));
         expect(testStruct.rearLeftDoorAjar).to(equal(@NO));
@@ -38,8 +38,8 @@ describe(@"Getter/Setter Tests", ^ {
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{NAMES_parkBrakeActive:@YES,
-                                       NAMES_ignitionStableStatus:[SDLIgnitionStableStatus IGNITION_SWITCH_NOT_STABLE],
-                                       NAMES_ignitionStatus:[SDLIgnitionStatus START],
+                                       NAMES_ignitionStableStatus:SDLIgnitionStableStatusNotStable,
+                                       NAMES_ignitionStatus:SDLIgnitionStatusStart,
                                        NAMES_driverDoorAjar:@NO,
                                        NAMES_passengerDoorAjar:@NO,
                                        NAMES_rearLeftDoorAjar:@NO,
@@ -47,8 +47,8 @@ describe(@"Getter/Setter Tests", ^ {
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
         
         expect(testStruct.parkBrakeActive).to(equal(@YES));
-        expect(testStruct.ignitionStableStatus).to(equal([SDLIgnitionStableStatus IGNITION_SWITCH_NOT_STABLE]));
-        expect(testStruct.ignitionStatus).to(equal([SDLIgnitionStatus START]));
+        expect(testStruct.ignitionStableStatus).to(equal(SDLIgnitionStableStatusNotStable));
+        expect(testStruct.ignitionStatus).to(equal(SDLIgnitionStatusStart));
         expect(testStruct.driverDoorAjar).to(equal(@NO));
         expect(testStruct.passengerDoorAjar).to(equal(@NO));
         expect(testStruct.rearLeftDoorAjar).to(equal(@NO));

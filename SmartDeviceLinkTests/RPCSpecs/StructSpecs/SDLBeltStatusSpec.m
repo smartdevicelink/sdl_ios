@@ -19,72 +19,72 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLBeltStatus* testStruct = [[SDLBeltStatus alloc] init];
         
-        testStruct.driverBeltDeployed = [SDLVehicleDataEventStatus _YES];
-        testStruct.passengerBeltDeployed = [SDLVehicleDataEventStatus NO_EVENT];
-        testStruct.passengerBuckleBelted = [SDLVehicleDataEventStatus FAULT];
-        testStruct.driverBuckleBelted = [SDLVehicleDataEventStatus _YES];
-        testStruct.leftRow2BuckleBelted = [SDLVehicleDataEventStatus FAULT];
-        testStruct.passengerChildDetected = [SDLVehicleDataEventStatus NOT_SUPPORTED];
-        testStruct.rightRow2BuckleBelted = [SDLVehicleDataEventStatus _YES];
-        testStruct.middleRow2BuckleBelted = [SDLVehicleDataEventStatus NO_EVENT];
-        testStruct.middleRow3BuckleBelted = [SDLVehicleDataEventStatus NOT_SUPPORTED];
-        testStruct.leftRow3BuckleBelted = [SDLVehicleDataEventStatus _YES];
-        testStruct.rightRow3BuckleBelted = [SDLVehicleDataEventStatus _NO];
-        testStruct.leftRearInflatableBelted = [SDLVehicleDataEventStatus NOT_SUPPORTED];
-        testStruct.rightRearInflatableBelted = [SDLVehicleDataEventStatus FAULT];
-        testStruct.middleRow1BeltDeployed = [SDLVehicleDataEventStatus _YES];
-        testStruct.middleRow1BuckleBelted = [SDLVehicleDataEventStatus _NO];
+        testStruct.driverBeltDeployed = SDLVehicleDataEventStatusYes;
+        testStruct.passengerBeltDeployed = SDLVehicleDataEventStatusNoEvent;
+        testStruct.passengerBuckleBelted = SDLVehicleDataEventStatusFault;
+        testStruct.driverBuckleBelted = SDLVehicleDataEventStatusYes;
+        testStruct.leftRow2BuckleBelted = SDLVehicleDataEventStatusFault;
+        testStruct.passengerChildDetected = SDLVehicleDataEventStatusNotSupported;
+        testStruct.rightRow2BuckleBelted = SDLVehicleDataEventStatusYes;
+        testStruct.middleRow2BuckleBelted = SDLVehicleDataEventStatusNoEvent;
+        testStruct.middleRow3BuckleBelted = SDLVehicleDataEventStatusNotSupported;
+        testStruct.leftRow3BuckleBelted = SDLVehicleDataEventStatusYes;
+        testStruct.rightRow3BuckleBelted = SDLVehicleDataEventStatusNo;
+        testStruct.leftRearInflatableBelted = SDLVehicleDataEventStatusNotSupported;
+        testStruct.rightRearInflatableBelted = SDLVehicleDataEventStatusFault;
+        testStruct.middleRow1BeltDeployed = SDLVehicleDataEventStatusYes;
+        testStruct.middleRow1BuckleBelted = SDLVehicleDataEventStatusNo;
         
-        expect(testStruct.driverBeltDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.passengerBeltDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.passengerBuckleBelted).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.driverBuckleBelted).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.leftRow2BuckleBelted).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.passengerChildDetected).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.rightRow2BuckleBelted).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.middleRow2BuckleBelted).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.middleRow3BuckleBelted).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.leftRow3BuckleBelted).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.rightRow3BuckleBelted).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.leftRearInflatableBelted).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.rightRearInflatableBelted).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.middleRow1BeltDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.middleRow1BuckleBelted).to(equal([SDLVehicleDataEventStatus _NO]));
+        expect(testStruct.driverBeltDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.passengerBeltDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.passengerBuckleBelted).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.driverBuckleBelted).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.leftRow2BuckleBelted).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.passengerChildDetected).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.rightRow2BuckleBelted).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.middleRow2BuckleBelted).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.middleRow3BuckleBelted).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.leftRow3BuckleBelted).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.rightRow3BuckleBelted).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.leftRearInflatableBelted).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.rightRearInflatableBelted).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.middleRow1BeltDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.middleRow1BuckleBelted).to(equal(SDLVehicleDataEventStatusNo));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_driverBeltDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       NAMES_passengerBeltDeployed:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_passengerBuckleBelted:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_driverBuckleBelted:[SDLVehicleDataEventStatus FAULT],
-                                       NAMES_leftRow2BuckleBelted:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_passengerChildDetected:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_rightRow2BuckleBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       NAMES_middleRow2BuckleBelted:[SDLVehicleDataEventStatus NO_EVENT],
-                                       NAMES_middleRow3BuckleBelted:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_leftRow3BuckleBelted:[SDLVehicleDataEventStatus FAULT],
-                                       NAMES_rightRow3BuckleBelted:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_leftRearInflatableBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       NAMES_rightRearInflatableBelted:[SDLVehicleDataEventStatus FAULT],
-                                       NAMES_middleRow1BeltDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       NAMES_middleRow1BuckleBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED]} mutableCopy];
+        NSMutableDictionary* dict = [@{NAMES_driverBeltDeployed:SDLVehicleDataEventStatusNoEvent,
+                                       NAMES_passengerBeltDeployed:SDLVehicleDataEventStatusYes,
+                                       NAMES_passengerBuckleBelted:SDLVehicleDataEventStatusNo,
+                                       NAMES_driverBuckleBelted:SDLVehicleDataEventStatusFault,
+                                       NAMES_leftRow2BuckleBelted:SDLVehicleDataEventStatusYes,
+                                       NAMES_passengerChildDetected:SDLVehicleDataEventStatusNo,
+                                       NAMES_rightRow2BuckleBelted:SDLVehicleDataEventStatusNotSupported,
+                                       NAMES_middleRow2BuckleBelted:SDLVehicleDataEventStatusNoEvent,
+                                       NAMES_middleRow3BuckleBelted:SDLVehicleDataEventStatusYes,
+                                       NAMES_leftRow3BuckleBelted:SDLVehicleDataEventStatusFault,
+                                       NAMES_rightRow3BuckleBelted:SDLVehicleDataEventStatusNo,
+                                       NAMES_leftRearInflatableBelted:SDLVehicleDataEventStatusNotSupported,
+                                       NAMES_rightRearInflatableBelted:SDLVehicleDataEventStatusFault,
+                                       NAMES_middleRow1BeltDeployed:SDLVehicleDataEventStatusNoEvent,
+                                       NAMES_middleRow1BuckleBelted:SDLVehicleDataEventStatusNotSupported} mutableCopy];
         SDLBeltStatus* testStruct = [[SDLBeltStatus alloc] initWithDictionary:dict];
         
-        expect(testStruct.driverBeltDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.passengerBeltDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.passengerBuckleBelted).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.driverBuckleBelted).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.leftRow2BuckleBelted).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.passengerChildDetected).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.rightRow2BuckleBelted).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.middleRow2BuckleBelted).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.middleRow3BuckleBelted).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.leftRow3BuckleBelted).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.rightRow3BuckleBelted).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.leftRearInflatableBelted).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.rightRearInflatableBelted).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.middleRow1BeltDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.middleRow1BuckleBelted).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
+        expect(testStruct.driverBeltDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.passengerBeltDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.passengerBuckleBelted).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.driverBuckleBelted).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.leftRow2BuckleBelted).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.passengerChildDetected).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.rightRow2BuckleBelted).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.middleRow2BuckleBelted).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.middleRow3BuckleBelted).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.leftRow3BuckleBelted).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.rightRow3BuckleBelted).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.leftRearInflatableBelted).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.rightRearInflatableBelted).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.middleRow1BeltDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.middleRow1BuckleBelted).to(equal(SDLVehicleDataEventStatusNotSupported));
     });
     
     it(@"Should return nil if not set", ^ {

@@ -28,23 +28,23 @@ describe(@"Getter/Setter Tests", ^ {
         
         testRequest.initialText = @"a";
         testRequest.initialPrompt = [@[chunk1] mutableCopy];
-        testRequest.interactionMode = [SDLInteractionMode VR_ONLY];
+        testRequest.interactionMode = SDLInteractionModeVrOnly;
         testRequest.interactionChoiceSetIDList = [@[@1, @2, @3] mutableCopy];
         testRequest.helpPrompt = [@[chunk2] mutableCopy];
         testRequest.timeoutPrompt = [@[chunk3] mutableCopy];
         testRequest.timeout = @42000;
         testRequest.vrHelp = [@[helpItem] mutableCopy];
-        testRequest.interactionLayout = [SDLLayoutMode ICON_WITH_SEARCH];
+        testRequest.interactionLayout = SDLLayoutModeIconWithSearch;
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));
-        expect(testRequest.interactionMode).to(equal([SDLInteractionMode VR_ONLY]));
+        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVrOnly));
         expect(testRequest.interactionChoiceSetIDList).to(equal([@[@1, @2, @3] mutableCopy]));
         expect(testRequest.helpPrompt).to(equal([@[chunk2] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk3] mutableCopy]));
         expect(testRequest.timeout).to(equal(@42000));
         expect(testRequest.vrHelp).to(equal([@[helpItem] mutableCopy]));
-        expect(testRequest.interactionLayout).to(equal([SDLLayoutMode ICON_WITH_SEARCH]));
+        expect(testRequest.interactionLayout).to(equal(SDLLayoutModeIconWithSearch));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -52,25 +52,25 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{NAMES_parameters:
                                                  @{NAMES_initialText:@"a",
                                                    NAMES_initialPrompt:[@[chunk1] mutableCopy],
-                                                   NAMES_interactionMode:[SDLInteractionMode VR_ONLY],
+                                                   NAMES_interactionMode:SDLInteractionModeVrOnly,
                                                    NAMES_interactionChoiceSetIDList:[@[@1, @2, @3] mutableCopy],
                                                    NAMES_helpPrompt:[@[chunk2] mutableCopy],
                                                    NAMES_timeoutPrompt:[@[chunk3] mutableCopy],
                                                    NAMES_timeout:@42000,
                                                    NAMES_vrHelp:[@[helpItem] mutableCopy],
-                                                   NAMES_interactionLayout:[SDLLayoutMode ICON_WITH_SEARCH]},
+                                                   NAMES_interactionLayout:SDLLayoutModeIconWithSearch},
                                              NAMES_operation_name:NAMES_PerformInteraction}} mutableCopy];
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));
-        expect(testRequest.interactionMode).to(equal([SDLInteractionMode VR_ONLY]));
+        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVrOnly));
         expect(testRequest.interactionChoiceSetIDList).to(equal([@[@1, @2, @3] mutableCopy]));
         expect(testRequest.helpPrompt).to(equal([@[chunk2] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk3] mutableCopy]));
         expect(testRequest.timeout).to(equal(@42000));
         expect(testRequest.vrHelp).to(equal([@[helpItem] mutableCopy]));
-        expect(testRequest.interactionLayout).to(equal([SDLLayoutMode ICON_WITH_SEARCH]));
+        expect(testRequest.interactionLayout).to(equal(SDLLayoutModeIconWithSearch));
     });
     
     it(@"Should return nil if not set", ^ {

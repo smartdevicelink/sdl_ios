@@ -100,7 +100,7 @@ describe(@"a lifecycle manager", ^{
     
     describe(@"after receiving an HMI Status", ^{
         __block SDLOnHMIStatus *testHMIStatus = nil;
-        __block SDLHMILevel *testHMILevel = nil;
+        __block SDLHMILevel testHMILevel = nil;
         
         beforeEach(^{
             testHMIStatus = [[SDLOnHMIStatus alloc] init];
@@ -108,7 +108,7 @@ describe(@"a lifecycle manager", ^{
         
         context(@"a non-none hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel NONE];
+                testHMILevel = SDLHMILevelNone;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -121,7 +121,7 @@ describe(@"a lifecycle manager", ^{
         
         context(@"a non-full, non-none hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel BACKGROUND];
+                testHMILevel = SDLHMILevelBackground;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -134,7 +134,7 @@ describe(@"a lifecycle manager", ^{
         
         context(@"a full hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel FULL];
+                testHMILevel = SDLHMILevelFull;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -295,8 +295,8 @@ describe(@"a lifecycle manager", ^{
             
             describe(@"receiving an HMI level change", ^{
                 __block SDLOnHMIStatus *testHMIStatus = nil;
-                __block SDLHMILevel *testHMILevel = nil;
-                __block SDLHMILevel *oldHMILevel = nil;
+                __block SDLHMILevel testHMILevel = nil;
+                __block SDLHMILevel oldHMILevel = nil;
                 
                 beforeEach(^{
                     oldHMILevel = testManager.hmiLevel;
@@ -305,7 +305,7 @@ describe(@"a lifecycle manager", ^{
                 
                 context(@"a full hmi level", ^{
                     beforeEach(^{
-                        testHMILevel = [SDLHMILevel FULL];
+                        testHMILevel = SDLHMILevelFull;
                         testHMIStatus.hmiLevel = testHMILevel;
                         
                         [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];

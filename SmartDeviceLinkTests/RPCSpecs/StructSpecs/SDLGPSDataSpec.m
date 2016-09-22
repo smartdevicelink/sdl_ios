@@ -28,13 +28,13 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.utcHours = @23;
         testStruct.utcMinutes = @59;
         testStruct.utcSeconds = @59;
-        testStruct.compassDirection = [SDLCompassDirection SOUTHEAST];
+        testStruct.compassDirection = SDLCompassDirectionSoutheast;
         testStruct.pdop = @3.4;
         testStruct.hdop = @9.9;
         testStruct.vdop = @0;
         testStruct.actual = @NO;
         testStruct.satellites = @12;
-        testStruct.dimension = [SDLDimension _3D];
+        testStruct.dimension = SDLDimension3d;
         testStruct.altitude = @3000;
         testStruct.heading = @96;
         testStruct.speed = @64;
@@ -47,13 +47,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.utcHours).to(equal(@23));
         expect(testStruct.utcMinutes).to(equal(@59));
         expect(testStruct.utcSeconds).to(equal(@59));
-        expect(testStruct.compassDirection).to(equal([SDLCompassDirection SOUTHEAST]));
+        expect(testStruct.compassDirection).to(equal(SDLCompassDirectionSoutheast));
         expect(testStruct.pdop).to(equal(@3.4));
         expect(testStruct.hdop).to(equal(@9.9));
         expect(testStruct.vdop).to(equal(@0));
         expect(testStruct.actual).to(equal(@NO));
         expect(testStruct.satellites).to(equal(@12));
-        expect(testStruct.dimension).to(equal([SDLDimension _3D]));
+        expect(testStruct.dimension).to(equal(SDLDimension3d));
         expect(testStruct.altitude).to(equal(@3000));
         expect(testStruct.heading).to(equal(@96));
         expect(testStruct.speed).to(equal(@64));
@@ -68,13 +68,13 @@ describe(@"Getter/Setter Tests", ^ {
                                        NAMES_utcHours:@23,
                                        NAMES_utcMinutes:@59,
                                        NAMES_utcSeconds:@59,
-                                       NAMES_compassDirection:[SDLCompassDirection SOUTHEAST],
+                                       NAMES_compassDirection:SDLCompassDirectionSoutheast,
                                        NAMES_pdop:@3.4,
                                        NAMES_hdop:@9.9,
                                        NAMES_vdop:@0,
                                        NAMES_actual:@NO,
                                        NAMES_satellites:@12,
-                                       NAMES_dimension:[SDLDimension _3D],
+                                       NAMES_dimension:SDLDimension3d,
                                        NAMES_altitude:@3000,
                                        NAMES_heading:@96,
                                        NAMES_speed:@64} mutableCopy];
@@ -88,13 +88,13 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.utcHours).to(equal(@23));
         expect(testStruct.utcMinutes).to(equal(@59));
         expect(testStruct.utcSeconds).to(equal(@59));
-        expect(testStruct.compassDirection).to(equal([SDLCompassDirection SOUTHEAST]));
+        expect(testStruct.compassDirection).to(equal(SDLCompassDirectionSoutheast));
         expect(testStruct.pdop).to(equal(@3.4));
         expect(testStruct.hdop).to(equal(@9.9));
         expect(testStruct.vdop).to(equal(@0));
         expect(testStruct.actual).to(equal(@NO));
         expect(testStruct.satellites).to(equal(@12));
-        expect(testStruct.dimension).to(equal([SDLDimension _3D]));
+        expect(testStruct.dimension).to(equal(SDLDimension3d));
         expect(testStruct.altitude).to(equal(@3000));
         expect(testStruct.heading).to(equal(@96));
         expect(testStruct.speed).to(equal(@64));

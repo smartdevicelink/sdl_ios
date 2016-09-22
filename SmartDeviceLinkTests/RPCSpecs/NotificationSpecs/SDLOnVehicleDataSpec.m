@@ -34,18 +34,18 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.speed = @70.1;
         testNotification.rpm = @4242;
         testNotification.fuelLevel = @10.3;
-        testNotification.fuelLevel_State = [SDLComponentVolumeStatus ALERT];
+        testNotification.fuelLevel_State = SDLComponentVolumeStatusAlert;
         testNotification.instantFuelConsumption = @4000.63;
         testNotification.externalTemperature = @-10;
         testNotification.vin = @"222222222722";
-        testNotification.prndl = [SDLPRNDL DRIVE];
+        testNotification.prndl = SDLPRNDLDrive;
         testNotification.tirePressure = tires;
         testNotification.odometer = @100050;
         testNotification.beltStatus = belt;
         testNotification.bodyInformation = body;
         testNotification.deviceStatus = device;
-        testNotification.driverBraking = [SDLVehicleDataEventStatus _YES];
-        testNotification.wiperStatus = [SDLWiperStatus STALLED];
+        testNotification.driverBraking = SDLVehicleDataEventStatusYes;
+        testNotification.wiperStatus = SDLWiperStatusStalled;
         testNotification.headLampStatus = headLamp;
         testNotification.engineTorque = @-200.124;
         testNotification.accPedalPosition = @99.99999999;
@@ -60,18 +60,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.fuelLevel).to(equal(@10.3));
-        expect(testNotification.fuelLevel_State).to(equal([SDLComponentVolumeStatus ALERT]));
+        expect(testNotification.fuelLevel_State).to(equal(SDLComponentVolumeStatusAlert));
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
         expect(testNotification.externalTemperature).to(equal(@-10));
         expect(testNotification.vin).to(equal(@"222222222722"));
-        expect(testNotification.prndl).to(equal([SDLPRNDL DRIVE]));
+        expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
         expect(testNotification.tirePressure).to(equal(tires));
         expect(testNotification.odometer).to(equal(@100050));
         expect(testNotification.beltStatus).to(equal(belt));
         expect(testNotification.bodyInformation).to(equal(body));
         expect(testNotification.deviceStatus).to(equal(device));
-        expect(testNotification.driverBraking).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testNotification.wiperStatus).to(equal([SDLWiperStatus STALLED]));
+        expect(testNotification.driverBraking).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
         expect(testNotification.headLampStatus).to(equal(headLamp));
         expect(testNotification.engineTorque).to(equal(@-200.124));
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));
@@ -90,18 +90,18 @@ describe(@"Getter/Setter Tests", ^ {
                                                    NAMES_speed:@70.1,
                                                    NAMES_rpm:@4242,
                                                    NAMES_fuelLevel:@10.3,
-                                                   NAMES_fuelLevel_State:[SDLComponentVolumeStatus ALERT],
+                                                   NAMES_fuelLevel_State:SDLComponentVolumeStatusAlert,
                                                    NAMES_instantFuelConsumption:@4000.63,
                                                    NAMES_externalTemperature:@-10,
                                                    NAMES_vin:@"222222222722",
-                                                   NAMES_prndl:[SDLPRNDL DRIVE],
+                                                   NAMES_prndl:SDLPRNDLDrive,
                                                    NAMES_tirePressure:tires,
                                                    NAMES_odometer:@100050,
                                                    NAMES_beltStatus:belt,
                                                    NAMES_bodyInformation:body,
                                                    NAMES_deviceStatus:device,
-                                                   NAMES_driverBraking:[SDLVehicleDataEventStatus _YES],
-                                                   NAMES_wiperStatus:[SDLWiperStatus STALLED],
+                                                   NAMES_driverBraking:SDLVehicleDataEventStatusYes,
+                                                   NAMES_wiperStatus:SDLWiperStatusStalled,
                                                    NAMES_headLampStatus:headLamp,
                                                    NAMES_engineTorque:@-200.124,
                                                    NAMES_accPedalPosition:@99.99999999,
@@ -118,18 +118,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.fuelLevel).to(equal(@10.3));
-        expect(testNotification.fuelLevel_State).to(equal([SDLComponentVolumeStatus ALERT]));
+        expect(testNotification.fuelLevel_State).to(equal(SDLComponentVolumeStatusAlert));
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
         expect(testNotification.externalTemperature).to(equal(@-10));
         expect(testNotification.vin).to(equal(@"222222222722"));
-        expect(testNotification.prndl).to(equal([SDLPRNDL DRIVE]));
+        expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
         expect(testNotification.tirePressure).to(equal(tires));
         expect(testNotification.odometer).to(equal(@100050));
         expect(testNotification.beltStatus).to(equal(belt));
         expect(testNotification.bodyInformation).to(equal(body));
         expect(testNotification.deviceStatus).to(equal(device));
-        expect(testNotification.driverBraking).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testNotification.wiperStatus).to(equal([SDLWiperStatus STALLED]));
+        expect(testNotification.driverBraking).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
         expect(testNotification.headLampStatus).to(equal(headLamp));
         expect(testNotification.engineTorque).to(equal(@-200.124));
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));

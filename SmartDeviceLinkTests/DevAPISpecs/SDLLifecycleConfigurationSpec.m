@@ -29,10 +29,10 @@ describe(@"a lifecycle configuration", ^{
             expect(@(testConfig.tcpDebugMode)).to(beFalsy());
             expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
             expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
-            expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType DEFAULT]])).to(equal(@YES));
+            expect(@([testConfig.appType isEqualToString:SDLAppHMITypeDefault])).to(equal(@YES));
             expect(@(testConfig.isMedia)).to(beFalsy());
-            expect(@([testConfig.language isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
-            expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
+            expect(@([testConfig.language isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
+            expect(@([[testConfig.languagesSupported firstObject] isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
@@ -50,16 +50,16 @@ describe(@"a lifecycle configuration", ^{
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
                 someTTSChunk.text = @"some tts name";
-                someTTSChunk.type = [SDLSpeechCapabilities TEXT];
+                someTTSChunk.type = SDLSpeechCapabilitiesText;
                 
                 someTTSName = @[someTTSChunk];
                 someShortAppName = @"Short Name";
                 someSynonyms = @[@"Test 1", @"Test 2", @"Test 3", @"Test 4"];
                 someResumeHashString = @"testing";
                 
-                testConfig.appType = [SDLAppHMIType MEDIA];
-                testConfig.language = [SDLLanguage AR_SA];
-                testConfig.languagesSupported = @[[SDLLanguage AR_SA], [SDLLanguage EN_AU], [SDLLanguage EN_US]];
+                testConfig.appType = SDLAppHMITypeMedia;
+                testConfig.language = SDLLanguageArSa;
+                testConfig.languagesSupported = @[SDLLanguageArSa, SDLLanguageEnAu, SDLLanguageEnUs];
                 testConfig.shortAppName = someShortAppName;
                 testConfig.ttsName = someTTSName;
                 testConfig.voiceRecognitionCommandNames = someSynonyms;
@@ -72,9 +72,9 @@ describe(@"a lifecycle configuration", ^{
                 expect(@(testConfig.tcpDebugMode)).to(beFalsy());
                 expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
                 expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
-                expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType MEDIA]])).to(equal(@YES));
+                expect(@([testConfig.appType isEqualToString:SDLAppHMITypeMedia])).to(equal(@YES));
                 expect(@(testConfig.isMedia)).to(beTruthy());
-                expect(@([testConfig.language isEqualToEnum:[SDLLanguage AR_SA]])).to(equal(@YES));
+                expect(@([testConfig.language isEqualToString:SDLLanguageArSa])).to(equal(@YES));
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.shortAppName).to(match(someShortAppName));
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
@@ -107,9 +107,9 @@ describe(@"a lifecycle configuration", ^{
             expect(@(testConfig.tcpDebugMode)).to(beTruthy());
             expect(testConfig.tcpDebugIPAddress).to(match(someIPAddress));
             expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
-            expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType DEFAULT]])).to(equal(@YES));
-            expect(@([testConfig.language isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
-            expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:[SDLLanguage EN_US]])).to(equal(@YES));
+            expect(@([testConfig.appType isEqualToString:SDLAppHMITypeDefault])).to(equal(@YES));
+            expect(@([testConfig.language isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
+            expect(@([[testConfig.languagesSupported firstObject] isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
@@ -127,15 +127,15 @@ describe(@"a lifecycle configuration", ^{
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
                 someTTSChunk.text = @"some tts name";
-                someTTSChunk.type = [SDLSpeechCapabilities TEXT];
+                someTTSChunk.type = SDLSpeechCapabilitiesText;
                 
                 someShortAppName = @"Short Name 2";
                 someTTSName = @[someTTSChunk];
                 someSynonyms = @[@"Test 1", @"Test 2"];
                 
-                testConfig.appType = [SDLAppHMIType MEDIA];
-                testConfig.language = [SDLLanguage AR_SA];
-                testConfig.languagesSupported = @[[SDLLanguage AR_SA], [SDLLanguage EN_AU], [SDLLanguage EN_US]];
+                testConfig.appType = SDLAppHMITypeMedia;
+                testConfig.language = SDLLanguageArSa;
+                testConfig.languagesSupported = @[SDLLanguageArSa, SDLLanguageEnAu, SDLLanguageEnUs];
                 testConfig.shortAppName = someShortAppName;
                 testConfig.ttsName = someTTSName;
                 testConfig.voiceRecognitionCommandNames = someSynonyms;
@@ -148,9 +148,9 @@ describe(@"a lifecycle configuration", ^{
                 expect(@(testConfig.tcpDebugMode)).to(beTruthy());
                 expect(testConfig.tcpDebugIPAddress).to(match(someIPAddress));
                 expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
-                expect(@([testConfig.appType isEqualToEnum:[SDLAppHMIType MEDIA]])).to(equal(@YES));
+                expect(@([testConfig.appType isEqualToString:SDLAppHMITypeMedia])).to(equal(@YES));
                 expect(@(testConfig.isMedia)).to(beTruthy());
-                expect(@([testConfig.language isEqualToEnum:[SDLLanguage AR_SA]])).to(equal(@YES));
+                expect(@([testConfig.language isEqualToString:SDLLanguageArSa])).to(equal(@YES));
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.shortAppName).to(match(someShortAppName));
                 expect(testConfig.ttsName).to(contain(someTTSChunk));

@@ -18,8 +18,8 @@ QuickSpecBegin(SDLChangeRegistrationSpec)
 
 describe(@"change registration", ^ {
     __block SDLChangeRegistration *testRequest = nil;
-    __block SDLLanguage *someLanguage = nil;
-    __block SDLLanguage *someOtherLanguage = nil;
+    __block SDLLanguage someLanguage = nil;
+    __block SDLLanguage someOtherLanguage = nil;
     __block NSString *someAppName = nil;
     __block NSArray *someTTSChunks = nil;
     __block NSString *someNGNMediaAppName = nil;
@@ -30,8 +30,8 @@ describe(@"change registration", ^ {
             beforeEach(^{
                 testRequest = [[SDLChangeRegistration alloc] init];
                 
-                someLanguage = [SDLLanguage IT_IT];
-                someOtherLanguage = [SDLLanguage KO_KR];
+                someLanguage = SDLLanguageItIt;
+                someOtherLanguage = SDLLanguageKoKr;
                 someAppName = @"someAppName";
                 someTTSChunks = @[[[SDLTTSChunk alloc] init]];
                 someNGNMediaAppName = @"some media app name";
@@ -105,8 +105,8 @@ describe(@"change registration", ^ {
     describe(@"when initializing with a dictionary", ^{
         context(@"when parameters are set", ^{
             beforeEach(^{
-                someLanguage = [SDLLanguage IT_IT];
-                someOtherLanguage = [SDLLanguage KO_KR];
+                someLanguage = SDLLanguageItIt;
+                someOtherLanguage = SDLLanguageKoKr;
                 someAppName = @"someAppName";
                 someTTSChunks = @[[[SDLTTSChunk alloc] init]];
                 someNGNMediaAppName = @"some media app name";

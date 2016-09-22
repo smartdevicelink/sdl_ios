@@ -23,18 +23,18 @@ describe(@"Getter/Setter Tests", ^ {
         
         testRequest.audioPassThruDisplayText1 = @"passthru#1";
         testRequest.audioPassThruDisplayText2 = @"passthru#2";
-        testRequest.samplingRate = [SDLSamplingRate _22KHZ];
+        testRequest.samplingRate = SDLSamplingRate22Khz;
         testRequest.maxDuration = @34563;
-        testRequest.bitsPerSample = [SDLBitsPerSample _16_BIT];
-        testRequest.audioType = [SDLAudioType PCM];
+        testRequest.bitsPerSample = SDLBitsPerSample16Bit;
+        testRequest.audioType = SDLAudioTypePcm;
         testRequest.muteAudio = @NO;
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));
         expect(testRequest.audioPassThruDisplayText2).to(equal(@"passthru#2"));
-        expect(testRequest.samplingRate).to(equal([SDLSamplingRate _22KHZ]));
+        expect(testRequest.samplingRate).to(equal(SDLSamplingRate22Khz));
         expect(testRequest.maxDuration).to(equal(@34563));
-        expect(testRequest.bitsPerSample).to(equal([SDLBitsPerSample _16_BIT]));
-        expect(testRequest.audioType).to(equal([SDLAudioType PCM]));
+        expect(testRequest.bitsPerSample).to(equal(SDLBitsPerSample16Bit));
+        expect(testRequest.audioType).to(equal(SDLAudioTypePcm));
         expect(testRequest.muteAudio).to(equal(@NO));
     });
     
@@ -43,20 +43,20 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{NAMES_parameters:
                                                  @{NAMES_audioPassThruDisplayText1:@"passthru#1",
                                                    NAMES_audioPassThruDisplayText2:@"passthru#2",
-                                                   NAMES_samplingRate:[SDLSamplingRate _22KHZ],
+                                                   NAMES_samplingRate:SDLSamplingRate22Khz,
                                                    NAMES_maxDuration:@34563,
-                                                   NAMES_bitsPerSample:[SDLBitsPerSample _16_BIT],
-                                                   NAMES_audioType:[SDLAudioType PCM],
+                                                   NAMES_bitsPerSample:SDLBitsPerSample16Bit,
+                                                   NAMES_audioType:SDLAudioTypePcm,
                                                    NAMES_muteAudio:@NO},
                                              NAMES_operation_name:NAMES_PerformAudioPassThru}} mutableCopy];
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));
         expect(testRequest.audioPassThruDisplayText2).to(equal(@"passthru#2"));
-        expect(testRequest.samplingRate).to(equal([SDLSamplingRate _22KHZ]));
+        expect(testRequest.samplingRate).to(equal(SDLSamplingRate22Khz));
         expect(testRequest.maxDuration).to(equal(@34563));
-        expect(testRequest.bitsPerSample).to(equal([SDLBitsPerSample _16_BIT]));
-        expect(testRequest.audioType).to(equal([SDLAudioType PCM]));
+        expect(testRequest.bitsPerSample).to(equal(SDLBitsPerSample16Bit));
+        expect(testRequest.audioType).to(equal(SDLAudioTypePcm));
         expect(testRequest.muteAudio).to(equal(@NO));
     });
     

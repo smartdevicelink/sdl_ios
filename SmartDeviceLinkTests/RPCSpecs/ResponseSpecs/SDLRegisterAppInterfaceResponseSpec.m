@@ -28,36 +28,36 @@ describe(@"Getter/Setter Tests", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
         
         testResponse.syncMsgVersion = version;
-        testResponse.language = [SDLLanguage ES_MX];
-        testResponse.hmiDisplayLanguage = [SDLLanguage RU_RU];
+        testResponse.language = SDLLanguageEsMx;
+        testResponse.hmiDisplayLanguage = SDLLanguageRuRu;
         testResponse.displayCapabilities = info;
         testResponse.buttonCapabilities = [@[button] mutableCopy];
         testResponse.softButtonCapabilities = [@[softButton] mutableCopy];
         testResponse.presetBankCapabilities = presetBank;
-        testResponse.hmiZoneCapabilities = [@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy];
-        testResponse.speechCapabilities = [@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy];
-        testResponse.vrCapabilities = [@[[SDLVRCapabilities TEXT]] copy];
+        testResponse.hmiZoneCapabilities = [@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront] copy];
+        testResponse.speechCapabilities = [@[SDLSpeechCapabilitiesSapiPhonemes, SDLSpeechCapabilitiesSilence] copy];
+        testResponse.vrCapabilities = [@[SDLVRCapabilitiesText] copy];
         testResponse.audioPassThruCapabilities = [@[audioPassThru] mutableCopy];
         testResponse.vehicleType = vehicle;
-        testResponse.prerecordedSpeech = [@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy];
+        testResponse.prerecordedSpeech = [@[SDLPrerecordedSpeechListenJingle, SDLPrerecordedSpeechHelpJingle] copy];
         testResponse.supportedDiagModes = [@[@67, @99, @111] mutableCopy];
         testResponse.hmiCapabilities = hmiCapabilities;
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
         
         expect(testResponse.syncMsgVersion).to(equal(version));
-        expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
-        expect(testResponse.hmiDisplayLanguage).to(equal([SDLLanguage RU_RU]));
+        expect(testResponse.language).to(equal(SDLLanguageEsMx));
+        expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
         expect(testResponse.displayCapabilities).to(equal(info));
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));
         expect(testResponse.softButtonCapabilities).to(equal([@[softButton] mutableCopy]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy]));
-        expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy]));
-        expect(testResponse.vrCapabilities).to(equal([@[[SDLVRCapabilities TEXT]] copy]));
+        expect(testResponse.hmiZoneCapabilities).to(equal([@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront] copy]));
+        expect(testResponse.speechCapabilities).to(equal([@[SDLSpeechCapabilitiesSapiPhonemes, SDLSpeechCapabilitiesSilence] copy]));
+        expect(testResponse.vrCapabilities).to(equal([@[SDLVRCapabilitiesText] copy]));
         expect(testResponse.audioPassThruCapabilities).to(equal([@[audioPassThru] mutableCopy]));
         expect(testResponse.vehicleType).to(equal(vehicle));
-        expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy]));
+        expect(testResponse.prerecordedSpeech).to(equal([@[SDLPrerecordedSpeechListenJingle, SDLPrerecordedSpeechHelpJingle] copy]));
         expect(testResponse.supportedDiagModes).to(equal([@[@67, @99, @111] mutableCopy]));
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
@@ -68,18 +68,17 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{NAMES_request:
                                            @{NAMES_parameters:
                                                  @{NAMES_syncMsgVersion:version,
-                                                   NAMES_language:[SDLLanguage ES_MX],
-                                                   NAMES_hmiDisplayLanguage:[SDLLanguage RU_RU],
-                                                   NAMES_displayCapabilities:info,
+                                                   NAMES_language:SDLLanguageEsMx,
+                                                   NAMES_hmiDisplayLanguage:SDLLanguageRuRu,                                                   NAMES_displayCapabilities:info,
                                                    NAMES_buttonCapabilities:[@[button] mutableCopy],
                                                    NAMES_softButtonCapabilities:[@[softButton] mutableCopy],
                                                    NAMES_presetBankCapabilities:presetBank,
-                                                   NAMES_hmiZoneCapabilities:[@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy],
-                                                   NAMES_speechCapabilities:[@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy],
-                                                   NAMES_vrCapabilities:[@[[SDLVRCapabilities TEXT]] copy],
+                                                   NAMES_hmiZoneCapabilities:[@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront] copy],
+                                                   NAMES_speechCapabilities:[@[SDLSpeechCapabilitiesSapiPhonemes, SDLSpeechCapabilitiesSilence] copy],
+                                                   NAMES_vrCapabilities:[@[SDLVRCapabilitiesText] copy],
                                                    NAMES_audioPassThruCapabilities:[@[audioPassThru] mutableCopy],
                                                    NAMES_vehicleType:vehicle,
-                                                   NAMES_prerecordedSpeech:[@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] mutableCopy],
+                                                   NAMES_prerecordedSpeech:[@[SDLPrerecordedSpeechListenJingle, SDLPrerecordedSpeechHelpJingle] mutableCopy],
                                                    NAMES_supportedDiagModes:[@[@67, @99, @111] mutableCopy],
                                                    NAMES_hmiCapabilities: hmiCapabilities,
                                                    NAMES_sdlVersion: @"sdlVersion",
@@ -89,18 +88,18 @@ describe(@"Getter/Setter Tests", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.syncMsgVersion).to(equal(version));
-        expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
-        expect(testResponse.hmiDisplayLanguage).to(equal([SDLLanguage RU_RU]));
+        expect(testResponse.language).to(equal(SDLLanguageEsMx));
+        expect(testResponse.hmiDisplayLanguage).to(equal(SDLLanguageRuRu));
         expect(testResponse.displayCapabilities).to(equal(info));
         expect(testResponse.buttonCapabilities).to(equal([@[button] mutableCopy]));
         expect(testResponse.softButtonCapabilities).to(equal([@[softButton] mutableCopy]));
         expect(testResponse.presetBankCapabilities).to(equal(presetBank));
-        expect(testResponse.hmiZoneCapabilities).to(equal([@[[SDLHMIZoneCapabilities BACK], [SDLHMIZoneCapabilities FRONT]] copy]));
-        expect(testResponse.speechCapabilities).to(equal([@[[SDLSpeechCapabilities SAPI_PHONEMES], [SDLSpeechCapabilities SILENCE]] copy]));
-        expect(testResponse.vrCapabilities).to(equal([@[[SDLVRCapabilities TEXT]] copy]));
+        expect(testResponse.hmiZoneCapabilities).to(equal([@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront] copy]));
+        expect(testResponse.speechCapabilities).to(equal([@[SDLSpeechCapabilitiesSapiPhonemes, SDLSpeechCapabilitiesSilence] copy]));
+        expect(testResponse.vrCapabilities).to(equal([@[SDLVRCapabilitiesText] copy]));
         expect(testResponse.audioPassThruCapabilities).to(equal([@[audioPassThru] mutableCopy]));
         expect(testResponse.vehicleType).to(equal(vehicle));
-        expect(testResponse.prerecordedSpeech).to(equal([@[[SDLPrerecordedSpeech LISTEN_JINGLE], [SDLPrerecordedSpeech HELP_JINGLE]] copy]));
+        expect(testResponse.prerecordedSpeech).to(equal([@[SDLPrerecordedSpeechListenJingle, SDLPrerecordedSpeechHelpJingle] copy]));
         expect(testResponse.supportedDiagModes).to(equal([@[@67, @99, @111] mutableCopy]));
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
