@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NSString* SDLName NS_EXTENSIBLE_STRING_ENUM;
+typedef NSString* SDLName NS_STRING_ENUM;
 
 extern SDLName const SDLNameAccPedalPosition;
 extern SDLName const SDLNameActual;
