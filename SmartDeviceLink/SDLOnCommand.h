@@ -15,19 +15,7 @@
  * @since SDL 1.0
  * @see SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
  */
-@interface SDLOnCommand : SDLRPCNotification {
-}
-
-/**
- *Constructs a newly allocated SDLRPCNotification object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLRPCNotification object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnCommand : SDLRPCNotification
 
 /**
  * @abstract The command ID of the command the user selected. This is the command ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.

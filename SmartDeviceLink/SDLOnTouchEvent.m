@@ -16,12 +16,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setType:(SDLTouchType *)type {
     if (type != nil) {
         [parameters setObject:type forKey:NAMES_type];
@@ -54,7 +48,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTouchEvent alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTouchEvent alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

@@ -13,18 +13,6 @@
 
 @implementation SDLDisplayCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDisplayType:(SDLDisplayType *)displayType {
     if (displayType != nil) {
         [store setObject:displayType forKey:NAMES_displayType];
@@ -57,7 +45,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTextField alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTextField alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -78,7 +66,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLImageField alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLImageField alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -142,7 +130,7 @@
     if (obj == nil || [obj isKindOfClass:SDLScreenParams.class]) {
         return (SDLScreenParams *)obj;
     } else {
-        return [[SDLScreenParams alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLScreenParams alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

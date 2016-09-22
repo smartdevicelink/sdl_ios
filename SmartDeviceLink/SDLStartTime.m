@@ -8,18 +8,6 @@
 
 @implementation SDLStartTime
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setHours:(NSNumber *)hours {
     if (hours != nil) {
         [store setObject:hours forKey:NAMES_hours];

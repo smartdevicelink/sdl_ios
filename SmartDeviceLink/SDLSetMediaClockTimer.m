@@ -17,12 +17,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setStartTime:(SDLStartTime *)startTime {
     if (startTime != nil) {
         [parameters setObject:startTime forKey:NAMES_startTime];
@@ -36,7 +30,7 @@
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
-        return [[SDLStartTime alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLStartTime alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -53,7 +47,7 @@
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
-        return [[SDLStartTime alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLStartTime alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

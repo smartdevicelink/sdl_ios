@@ -9,18 +9,6 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSubscribeButtonResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLSubscribeButtonResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSubscribeButtonResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSubscribeButtonResponse : SDLRPCResponse
 
 @end

@@ -9,11 +9,7 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLGetDTCsResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLGetDTCsResponse : SDLRPCResponse
 
 @property (strong) NSNumber *ecuHeader;
 @property (strong) NSMutableArray *dtc;

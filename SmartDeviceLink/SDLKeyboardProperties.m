@@ -11,18 +11,6 @@
 
 @implementation SDLKeyboardProperties
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
         [store setObject:language forKey:NAMES_language];

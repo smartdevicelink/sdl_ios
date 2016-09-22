@@ -12,14 +12,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetDisplayLayoutResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLSetDisplayLayoutResponse object
- */
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
 @property (strong) SDLDisplayCapabilities *displayCapabilities;
 @property (strong) NSMutableArray *buttonCapabilities;

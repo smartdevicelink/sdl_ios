@@ -16,12 +16,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setRequestType:(SDLRequestType *)requestType {
     if (requestType != nil) {
         [parameters setObject:requestType forKey:NAMES_requestType];

@@ -11,18 +11,6 @@
 
 @implementation SDLImageField
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setName:(SDLImageFieldName *)name {
     if (name != nil) {
         [store setObject:name forKey:NAMES_name];
@@ -74,7 +62,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
         return (SDLImageResolution *)obj;
     } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

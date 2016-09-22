@@ -10,18 +10,6 @@
 
 @implementation SDLDeviceStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setVoiceRecOn:(NSNumber *)voiceRecOn {
     if (voiceRecOn != nil) {
         [store setObject:voiceRecOn forKey:NAMES_voiceRecOn];

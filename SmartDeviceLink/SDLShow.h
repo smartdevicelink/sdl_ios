@@ -29,18 +29,7 @@
  * Since SmartDeviceLink 1.0
  * See SDLAlert SDLSetMediaClockTimer
  */
-@interface SDLShow : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLShow object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLShow object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLShow : SDLRPCRequest
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display

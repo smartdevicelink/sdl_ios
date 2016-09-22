@@ -13,19 +13,7 @@
  * <b>HMILevel needs to be FULL</b>
  * <p>
  */
-@interface SDLScrollableMessage : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLScrollableMessage object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLScrollableMessage object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLScrollableMessage : SDLRPCRequest
 
 /**
  * @abstract A Body of text that can include newlines and tabs

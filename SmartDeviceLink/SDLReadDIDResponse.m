@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDidResult:(NSMutableArray *)didResult {
     if (didResult != nil) {
         [parameters setObject:didResult forKey:NAMES_didResult];
@@ -36,7 +30,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

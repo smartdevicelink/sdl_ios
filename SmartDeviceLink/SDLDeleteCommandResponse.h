@@ -9,10 +9,6 @@
  *
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLDeleteCommandResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLDeleteCommandResponse : SDLRPCResponse
 
 @end

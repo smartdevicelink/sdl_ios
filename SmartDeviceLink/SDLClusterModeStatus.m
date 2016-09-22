@@ -11,18 +11,6 @@
 
 @implementation SDLClusterModeStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setPowerModeActive:(NSNumber *)powerModeActive {
     if (powerModeActive != nil) {
         [store setObject:powerModeActive forKey:NAMES_powerModeActive];

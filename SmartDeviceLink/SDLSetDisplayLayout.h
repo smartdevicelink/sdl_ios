@@ -10,19 +10,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetDisplayLayout : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLSetDisplayLayout object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetDisplayLayout object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSetDisplayLayout : SDLRPCRequest
 
 /**
  * @abstract A display layout. Predefined or dynamically created screen layout.

@@ -10,18 +10,6 @@
 
 @implementation SDLPermissionItem
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setRpcName:(NSString *)rpcName {
     if (rpcName != nil) {
         [store setObject:rpcName forKey:NAMES_rpcName];
@@ -47,7 +35,7 @@
     if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
         return (SDLHMIPermissions *)obj;
     } else {
-        return [[SDLHMIPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLHMIPermissions alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -64,7 +52,7 @@
     if (obj == nil || [obj isKindOfClass:SDLParameterPermissions.class]) {
         return (SDLParameterPermissions *)obj;
     } else {
-        return [[SDLParameterPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLParameterPermissions alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

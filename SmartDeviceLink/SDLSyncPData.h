@@ -4,10 +4,6 @@
 
 #import "SDLRPCRequest.h"
 
-@interface SDLSyncPData : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSyncPData : SDLRPCRequest
 
 @end

@@ -17,12 +17,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
     if (hmiLevel != nil) {
         [parameters setObject:hmiLevel forKey:NAMES_hmiLevel];

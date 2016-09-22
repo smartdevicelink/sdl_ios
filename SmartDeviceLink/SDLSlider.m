@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setNumTicks:(NSNumber *)numTicks {
     if (numTicks != nil) {
         [parameters setObject:numTicks forKey:NAMES_numTicks];

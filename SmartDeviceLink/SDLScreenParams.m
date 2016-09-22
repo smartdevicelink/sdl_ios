@@ -10,18 +10,6 @@
 
 @implementation SDLScreenParams
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setResolution:(SDLImageResolution *)resolution {
     if (resolution != nil) {
         [store setObject:resolution forKey:NAMES_resolution];
@@ -35,7 +23,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
         return (SDLImageResolution *)obj;
     } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -52,7 +40,7 @@
     if (obj == nil || [obj isKindOfClass:SDLTouchEventCapabilities.class]) {
         return (SDLTouchEventCapabilities *)obj;
     } else {
-        return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

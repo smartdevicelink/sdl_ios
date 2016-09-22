@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setGps:(NSNumber *)gps {
     if (gps != nil) {
         [parameters setObject:gps forKey:NAMES_gps];

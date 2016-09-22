@@ -12,11 +12,7 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLShowConstantTBT : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLShowConstantTBT : SDLRPCRequest
 
 @property (strong) NSString *navigationText1;
 @property (strong) NSString *navigationText2;

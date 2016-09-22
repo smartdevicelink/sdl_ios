@@ -4,11 +4,7 @@
 #import "SDLRPCMessage.h"
 
 
-@interface SDLDeviceInfo : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLDeviceInfo : SDLRPCStruct
 
 @property (strong) NSString *hardware;
 @property (strong) NSString *firmwareRev;

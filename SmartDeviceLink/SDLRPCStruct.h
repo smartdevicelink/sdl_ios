@@ -8,9 +8,9 @@
     NSMutableDictionary *store;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (instancetype)init;
 
-- (NSMutableDictionary *)serializeAsDictionary:(Byte)version;
+- (NSDictionary *)serializeAsDictionary:(Byte)version;
 
 @end

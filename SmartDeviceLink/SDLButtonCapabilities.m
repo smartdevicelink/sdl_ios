@@ -9,18 +9,6 @@
 
 @implementation SDLButtonCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setName:(SDLButtonName *)name {
     if (name != nil) {
         [store setObject:name forKey:NAMES_name];

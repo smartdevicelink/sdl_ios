@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setTargetID:(NSNumber *)targetID {
     if (targetID != nil) {
         [parameters setObject:targetID forKey:NAMES_targetID];

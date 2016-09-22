@@ -9,19 +9,7 @@
  *
  * @since SDL 2.0
  */
-@interface SDLParameterPermissions : SDLRPCStruct {
-}
-
-/**
- * @abstract  Constructs a newly allocated SDLParameterPermissions object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a newly allocated SDLParameterPermissions object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLParameterPermissions : SDLRPCStruct
 
 /**
  * @abstract A set of all parameters that are permitted for this given RPC.

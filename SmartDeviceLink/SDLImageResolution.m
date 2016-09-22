@@ -8,18 +8,6 @@
 
 @implementation SDLImageResolution
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setResolutionWidth:(NSNumber *)resolutionWidth {
     if (resolutionWidth != nil) {
         [store setObject:resolutionWidth forKey:NAMES_resolutionWidth];

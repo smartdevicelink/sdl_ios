@@ -10,18 +10,6 @@
 
 @implementation SDLGPSData
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
     if (longitudeDegrees != nil) {
         [store setObject:longitudeDegrees forKey:NAMES_longitudeDegrees];

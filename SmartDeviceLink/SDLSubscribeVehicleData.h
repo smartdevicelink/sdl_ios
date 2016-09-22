@@ -19,20 +19,7 @@
  * Since SmartDeviceLink 2.0<br/>
  * See SDLUnsubscribeVehicleData SDLGetVehicleData
  */
-@interface SDLSubscribeVehicleData : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLSubscribeVehicleData object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLSubscribeVehicleData object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSubscribeVehicleData : SDLRPCRequest
 
 /**
  * @abstract A boolean value. If true, subscribes Gps data

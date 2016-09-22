@@ -11,7 +11,4 @@
  */
 @interface SDLDialNumberResponse : SDLRPCResponse
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
 @end

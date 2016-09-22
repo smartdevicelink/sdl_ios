@@ -13,12 +13,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setTryAgainTime:(NSNumber *)tryAgainTime {
     if (tryAgainTime != nil) {
         [parameters setObject:tryAgainTime forKey:NAMES_tryAgainTime];

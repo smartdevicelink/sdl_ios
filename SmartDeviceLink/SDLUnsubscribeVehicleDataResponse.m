@@ -16,12 +16,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setGps:(SDLVehicleDataResult *)gps {
     if (gps != nil) {
         [parameters setObject:gps forKey:NAMES_gps];
@@ -35,7 +29,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -52,7 +46,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -69,7 +63,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -86,7 +80,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -103,7 +97,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -120,7 +114,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -137,7 +131,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -154,7 +148,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -171,7 +165,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -188,7 +182,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -205,7 +199,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -222,7 +216,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -239,7 +233,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -256,7 +250,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -273,7 +267,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -290,7 +284,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -307,7 +301,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -324,7 +318,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -341,7 +335,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -358,7 +352,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -375,7 +369,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -392,7 +386,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -409,7 +403,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -426,7 +420,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

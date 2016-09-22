@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setCmdID:(NSNumber *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:NAMES_cmdID];
