@@ -14,5 +14,5 @@ typedef SDLEnum SDLAudioType NS_EXTENSIBLE_STRING_ENUM;
  *
  * @since SDL 2.0
  */
-extern SDLAudioType const SDLAudioTypePcm;
+extern SDLAudioType const SDLAudioTypePCM;
 

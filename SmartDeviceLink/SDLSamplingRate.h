@@ -14,19 +14,19 @@ typedef SDLEnum SDLSamplingRate NS_EXTENSIBLE_STRING_ENUM;
 /**
  * @abstract Sampling rate of 8 kHz
  */
-extern SDLSamplingRate const SDLSamplingRate8Khz;
+extern SDLSamplingRate const SDLSamplingRate8kHz;
 
 /**
  * @abstract Sampling rate of 16 kHz
  */
-extern SDLSamplingRate const SDLSamplingRate16Khz;
+extern SDLSamplingRate const SDLSamplingRate16kHz;
 
 /**
  * @abstract Sampling rate of 22 kHz
  */
-extern SDLSamplingRate const SDLSamplingRate22Khz;
+extern SDLSamplingRate const SDLSamplingRate22kHz;
 
 /**
  * @abstract Sampling rate of 44 kHz
  */
-extern SDLSamplingRate const SDLSamplingRate44Khz;
+extern SDLSamplingRate const SDLSamplingRate44kHz;

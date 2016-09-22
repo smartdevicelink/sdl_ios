@@ -25,12 +25,12 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
 /**
  * @abstract USB was disconnected, causing termination of a necessary iAP connection.
  */
-extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUsbDisconnected;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUSBDisconnected;
 
 /**
  * @abstract Application attempted SmartDeviceLink RPC request while HMILevel = NONE. App must have HMILevel other than NONE to issue RPC requests or get notifications or RPC responses.
  */
-extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHmiLevel;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHMILevel;
 
 /**
  * @abstract Either too many -- or too many per unit of time -- requests were made by the application.

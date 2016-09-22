@@ -17,7 +17,7 @@ extern SDLWiperStatus const SDLWiperStatusOff;
 /**
  * @abstract SDLWiperStatus: *AUTO_OFF*
  */
-extern SDLWiperStatus const SDLWiperStatusAutoOff;
+extern SDLWiperStatus const SDLWiperStatusAutomaticOff;
 
 /**
  * @abstract SDLWiperStatus: *OFF_MOVING*
@@ -27,27 +27,27 @@ extern SDLWiperStatus const SDLWiperStatusOffMoving;
 /**
  * @abstract SDLWiperStatus: *MAN_INT_OFF*
  */
-extern SDLWiperStatus const SDLWiperStatusManIntOff;
+extern SDLWiperStatus const SDLWiperStatusManualIntervalOff;
 
 /**
  * @abstract SDLWiperStatus: *MAN_INT_ON*
  */
-extern SDLWiperStatus const SDLWiperStatusManIntOn;
+extern SDLWiperStatus const SDLWiperStatusManualIntervalOn;
 
 /**
  * @abstract SDLWiperStatus: *MAN_LOW*
  */
-extern SDLWiperStatus const SDLWiperStatusManLow;
+extern SDLWiperStatus const SDLWiperStatusManualLow;
 
 /**
  * @abstract SDLWiperStatus: *MAN_HIGH*
  */
-extern SDLWiperStatus const SDLWiperStatusManHigh;
+extern SDLWiperStatus const SDLWiperStatusManualHigh;
 
 /**
  * @abstract SDLWiperStatus: *MAN_FLICK*
  */
-extern SDLWiperStatus const SDLWiperStatusManFlick;
+extern SDLWiperStatus const SDLWiperStatusManualFlick;
 
 /**
  * @abstract SDLWiperStatus: *WASH*
@@ -57,12 +57,12 @@ extern SDLWiperStatus const SDLWiperStatusWash;
 /**
  * @abstract SDLWiperStatus: *AUTO_LOW*
  */
-extern SDLWiperStatus const SDLWiperStatusAutoLow;
+extern SDLWiperStatus const SDLWiperStatusAutomaticLow;
 
 /**
  * @abstract SDLWiperStatus: *AUTO_HIGH*
  */
-extern SDLWiperStatus const SDLWiperStatusAutoHigh;
+extern SDLWiperStatus const SDLWiperStatusAutomaticHigh;
 
 /**
  * @abstract SDLWiperStatus: *COURTESYWIPE*
@@ -72,7 +72,7 @@ extern SDLWiperStatus const SDLWiperStatusCourtesyWipe;
 /**
  * @abstract SDLWiperStatus: *AUTO_ADJUST*
  */
-extern SDLWiperStatus const SDLWiperStatusAutoAdjust;
+extern SDLWiperStatus const SDLWiperStatusAutomaticAdjust;
 
 /**
  * @abstract SDLWiperStatus: *STALLED*

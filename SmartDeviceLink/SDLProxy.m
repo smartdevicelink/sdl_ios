@@ -419,9 +419,9 @@ const int POLICIES_CORRELATION_ID = 65535;
     // Handle the various OnSystemRequest types
     if ([requestType isEqualToString:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeLockScreenIconUrl]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeLockScreenIconURL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeHttp]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
     } else if ([requestType isEqualToString:SDLRequestTypeLaunchApp]) {
         [self sdl_handleSystemRequestLaunchApp:systemRequest];
@@ -572,7 +572,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
             // Create the SystemRequest RPC to send to module.
             SDLPutFile *putFile = [[SDLPutFile alloc] init];
-            putFile.fileType = SDLFileTypeJson;
+            putFile.fileType = SDLFileTypeJSON;
             putFile.correlationID = @(POLICIES_CORRELATION_ID);
             putFile.syncFileName = @"response_data";
             putFile.bulkData = data;
@@ -601,7 +601,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         return nil;
     }
 
-    if (![fileType isEqualToString:SDLFileTypeJson]) {
+    if (![fileType isEqualToString:SDLFileTypeJSON]) {
         [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
     }

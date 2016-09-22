@@ -21,9 +21,9 @@ extern SDLGlobalProperty const SDLGlobalPropertyHelpPrompt;
  */
 extern SDLGlobalProperty const SDLGlobalPropertyTimeoutPrompt;
 
-extern SDLGlobalProperty const SDLGlobalPropertyVrHelpTitle;
+extern SDLGlobalProperty const SDLGlobalPropertyVRHelpTitle;
 
-extern SDLGlobalProperty const SDLGlobalPropertyVrHelpItems;
+extern SDLGlobalProperty const SDLGlobalPropertyVRHelpItems;
 
 extern SDLGlobalProperty const SDLGlobalPropertyMenuName;
 

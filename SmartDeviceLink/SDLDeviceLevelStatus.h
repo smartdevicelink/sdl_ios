@@ -14,27 +14,27 @@ typedef SDLEnum SDLDeviceLevelStatus NS_EXTENSIBLE_STRING_ENUM;
 /**
  * @abstract Device battery level is zero bars
  */
-extern SDLDeviceLevelStatus const SDLDeviceLevelStatusZeroLevelBars;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusZeroBars;
 
 /**
  * @abstract Device battery level is one bar
  */
-extern SDLDeviceLevelStatus const SDLDeviceLevelStatusOneLevelBars;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusOneBar;
 
 /**
  * @abstract Device battery level is two bars
  */
-extern SDLDeviceLevelStatus const SDLDeviceLevelStatusTwoLevelBars;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusTwoBars;
 
 /**
  * @abstract Device battery level is three bars
  */
-extern SDLDeviceLevelStatus const SDLDeviceLevelStatusThreeLevelBars;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusThreeBars;
 
 /**
  * @abstract Device battery level is four bars
  */
-extern SDLDeviceLevelStatus const SDLDeviceLevelStatusFourLevelBars;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusFourBars;
 
 /**
  * @abstract Device battery level is unknown

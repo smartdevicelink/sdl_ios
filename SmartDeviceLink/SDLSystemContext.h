@@ -19,7 +19,7 @@ extern SDLSystemContext const SDLSystemContextMain;
 /**
  * @abstract VR-oriented, user-initiated or app-initiated interaction is in-progress.
  */
-extern SDLSystemContext const SDLSystemContextVrSession;
+extern SDLSystemContext const SDLSystemContextVRSession;
 
 /**
  * @abstract Menu-oriented, user-initiated or app-initiated interaction is in-progress.
@@ -31,7 +31,7 @@ extern SDLSystemContext const SDLSystemContextMenu;
  *
  * @since SDL 2.0
  */
-extern SDLSystemContext const SDLSystemContextHmiObscured;
+extern SDLSystemContext const SDLSystemContextHMIObscured;
 
 /**
  * @abstract Broadcast only to whichever app has an alert currently being displayed.

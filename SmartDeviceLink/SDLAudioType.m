@@ -3,4 +3,4 @@
 
 #import "SDLAudioType.h"
 
-SDLAudioType const SDLAudioTypePcm = @"PCM";
+SDLAudioType const SDLAudioTypePCM = @"PCM";

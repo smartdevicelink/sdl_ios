@@ -6,8 +6,8 @@
 
 typedef SDLEnum SDLPrerecordedSpeech NS_EXTENSIBLE_STRING_ENUM;
 
-extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelpJingle;
-extern SDLPrerecordedSpeech const SDLPrerecordedSpeechInitialJingle;
-extern SDLPrerecordedSpeech const SDLPrerecordedSpeechListenJingle;
-extern SDLPrerecordedSpeech const SDLPrerecordedSpeechPositiveJingle;
-extern SDLPrerecordedSpeech const SDLPrerecordedSpeechNegativeJingle;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelp;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechInitial;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechListen;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechPositive;
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechNegative;

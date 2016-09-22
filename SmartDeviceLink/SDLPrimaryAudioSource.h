@@ -19,12 +19,12 @@ extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceNoSourceSelected;
 /**
  * @abstract USB is current source
  */
-extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceUsb;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceUSB;
 
 /**
  * @abstract USB2 is current source
  */
-extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceUsb2;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceUSB2;
 
 /**
  * @abstract Bluetooth Stereo is current source

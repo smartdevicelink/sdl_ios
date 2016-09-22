@@ -4,11 +4,11 @@
 
 #import "SDLFileType.h"
 
-SDLFileType const SDLFileTypeGraphicBmp = @"GRAPHIC_BMP";
-SDLFileType const SDLFileTypeGraphicJpeg = @"GRAPHIC_JPEG";
-SDLFileType const SDLFileTypeGraphicPng = @"GRAPHIC_PNG";
-SDLFileType const SDLFileTypeAudioWave = @"AUDIO_WAVE";
-SDLFileType const SDLFileTypeAudioMp3 = @"AUDIO_MP3";
-SDLFileType const SDLFileTypeAudioAac = @"AUDIO_AAC";
+SDLFileType const SDLFileTypeGraphicBMP = @"GRAPHIC_BMP";
+SDLFileType const SDLFileTypeGraphicJPEG = @"GRAPHIC_JPEG";
+SDLFileType const SDLFileTypeGraphicPNG = @"GRAPHIC_PNG";
+SDLFileType const SDLFileTypeAudioWAV = @"AUDIO_WAVE";
+SDLFileType const SDLFileTypeAudioMP3 = @"AUDIO_MP3";
+SDLFileType const SDLFileTypeAudioAAC = @"AUDIO_AAC";
 SDLFileType const SDLFileTypeBinary = @"BINARY";
-SDLFileType const SDLFileTypeJson = @"JSON";
+SDLFileType const SDLFileTypeJSON = @"JSON";

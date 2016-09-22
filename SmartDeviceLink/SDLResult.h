@@ -174,12 +174,12 @@ extern SDLResult const SDLResultSaved;
 /**
  * The certificate provided during authentication is invalid.
  */
-extern SDLResult const SDLResultInvalidCert;
+extern SDLResult const SDLResultInvalidCertificate;
 
 /**
  * The certificate provided during authentication is expired.
  */
-extern SDLResult const SDLResultExpiredCert;
+extern SDLResult const SDLResultExpiredCertificate;
 
 /**
  * The provided hash ID does not match the hash of the current set of registered data or the core could not resume the previous data.

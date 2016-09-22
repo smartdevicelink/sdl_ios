@@ -15,7 +15,7 @@ extern SDLCharacterSet const SDLCharacterSetType2Set;
 
 extern SDLCharacterSet const SDLCharacterSetType5Set;
 
-extern SDLCharacterSet const SDLCharacterSetCid1Set;
+extern SDLCharacterSet const SDLCharacterSetCID1Set;
 
-extern SDLCharacterSet const SDLCharacterSetCid2Set;
+extern SDLCharacterSet const SDLCharacterSetCID2Set;
 

@@ -4,9 +4,9 @@
 
 #import "SDLDeviceLevelStatus.h"
 
-SDLDeviceLevelStatus const SDLDeviceLevelStatusZeroLevelBars = @"ZERO_LEVEL_BARS";
-SDLDeviceLevelStatus const SDLDeviceLevelStatusOneLevelBars = @"ONE_LEVEL_BARS";
-SDLDeviceLevelStatus const SDLDeviceLevelStatusTwoLevelBars = @"TWO_LEVEL_BARS";
-SDLDeviceLevelStatus const SDLDeviceLevelStatusThreeLevelBars = @"THREE_LEVEL_BARS";
-SDLDeviceLevelStatus const SDLDeviceLevelStatusFourLevelBars = @"FOUR_LEVEL_BARS";
+SDLDeviceLevelStatus const SDLDeviceLevelStatusZeroBars = @"ZERO_LEVEL_BARS";
+SDLDeviceLevelStatus const SDLDeviceLevelStatusOneBar = @"ONE_LEVEL_BARS";
+SDLDeviceLevelStatus const SDLDeviceLevelStatusTwoBars = @"TWO_LEVEL_BARS";
+SDLDeviceLevelStatus const SDLDeviceLevelStatusThreeBars = @"THREE_LEVEL_BARS";
+SDLDeviceLevelStatus const SDLDeviceLevelStatusFourBars = @"FOUR_LEVEL_BARS";
 SDLDeviceLevelStatus const SDLDeviceLevelStatusNotProvided = @"NOT_PROVIDED";

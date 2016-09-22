@@ -5,5 +5,5 @@
 #import "SDLTriggerSource.h"
 
 SDLTriggerSource const SDLTriggerSourceMenu = @"MENU";
-SDLTriggerSource const SDLTriggerSourceVr = @"VR";
+SDLTriggerSource const SDLTriggerSourceVR = @"VR";
 SDLTriggerSource const SDLTriggerSourceKeyboard = @"KEYBOARD";

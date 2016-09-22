@@ -45,9 +45,9 @@ extern SDLImageFieldName const SDLImageFieldNameMenuIcon;
 /** The image filed for AddCommand.
  *
  */
-extern SDLImageFieldName const SDLImageFieldNameCmdIcon;
+extern SDLImageFieldName const SDLImageFieldNameCommandIcon;
 
-/** The iamage field for the app icon ( set by setAppIcon).
+/** The image field for the app icon (set by setAppIcon).
  *
  */
 extern SDLImageFieldName const SDLImageFieldNameAppIcon;
@@ -60,12 +60,12 @@ extern SDLImageFieldName const SDLImageFieldNameGraphic;
 /** The primary image field for ShowConstant TBT.
  *
  */
-extern SDLImageFieldName const SDLImageFieldNameShowConstantTbtIcon;
+extern SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon;
 
 /** The secondary image field for ShowConstant TBT.
  *
  */
-extern SDLImageFieldName const SDLImageFieldNameShowConstantTbtNextTurnIcon;
+extern SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon;
 
 /**
  * The optional image of a destination / location

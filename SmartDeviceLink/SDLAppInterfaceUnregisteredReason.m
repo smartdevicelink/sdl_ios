@@ -6,8 +6,8 @@
 
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonIgnitionOff = @"IGNITION_OFF";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonBluetoothOff = @"BLUETOOTH_OFF";
-SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUsbDisconnected = @"USB_DISCONNECTED";
-SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHmiLevel = @"REQUEST_WHILE_IN_NONE_HMI_LEVEL";
+SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUSBDisconnected = @"USB_DISCONNECTED";
+SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHMILevel = @"REQUEST_WHILE_IN_NONE_HMI_LEVEL";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonTooManyRequests = @"TOO_MANY_REQUESTS";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonDriverDistractionViolation = @"DRIVER_DISTRACTION_VIOLATION";
 SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonLanguageChange = @"LANGUAGE_CHANGE";

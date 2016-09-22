@@ -10,7 +10,7 @@ extern SDLTBTState const SDLTBTStateRouteUpdateRequest;
 extern SDLTBTState const SDLTBTStateRouteAccepted;
 extern SDLTBTState const SDLTBTStateRouteRefused;
 extern SDLTBTState const SDLTBTStateRouteCancelled;
-extern SDLTBTState const SDLTBTStateEtaRequest;
+extern SDLTBTState const SDLTBTStateETARequest;
 extern SDLTBTState const SDLTBTStateNextTurnRequest;
 extern SDLTBTState const SDLTBTStateRouteStatusRequest;
 extern SDLTBTState const SDLTBTStateRouteSummaryRequest;

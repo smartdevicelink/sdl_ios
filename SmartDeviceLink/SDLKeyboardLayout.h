@@ -14,14 +14,14 @@ typedef SDLEnum SDLKeyboardLayout NS_EXTENSIBLE_STRING_ENUM;
 /** QWERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */
-extern SDLKeyboardLayout const SDLKeyboardLayoutQwerty;
+extern SDLKeyboardLayout const SDLKeyboardLayoutQWERTY;
 
 /** QWERTZ layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */
-extern SDLKeyboardLayout const SDLKeyboardLayoutQwertz;
+extern SDLKeyboardLayout const SDLKeyboardLayoutQWERTZ;
 
 /** AZERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *
  */
-extern SDLKeyboardLayout const SDLKeyboardLayoutAzerty;
+extern SDLKeyboardLayout const SDLKeyboardLayoutAZERTY;

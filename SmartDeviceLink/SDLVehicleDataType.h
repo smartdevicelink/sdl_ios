@@ -12,7 +12,7 @@ typedef SDLEnum SDLVehicleDataType NS_EXTENSIBLE_STRING_ENUM;
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_GPS*
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeGps;
+extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_SPEED*
@@ -22,7 +22,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeSpeed;
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_RPM*
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeRpm;
+extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELLEVEL*
@@ -42,17 +42,17 @@ extern SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption;
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_EXTERNTEMP*
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeExternalTemp;
+extern SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_VIN*
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeVin;
+extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_PRNDL*
  */
-extern SDLVehicleDataType const SDLVehicleDataTypePrndl;
+extern SDLVehicleDataType const SDLVehicleDataTypePRNDL;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_TIREPRESSURE*
@@ -82,7 +82,7 @@ extern SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus;
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_ECALLINFO*
  */
-extern SDLVehicleDataType const SDLVehicleDataTypeEcallInfo;
+extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_AIRBAGSTATUS*

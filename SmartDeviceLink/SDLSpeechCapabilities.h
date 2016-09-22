@@ -16,10 +16,10 @@ typedef SDLEnum SDLSpeechCapabilities NS_EXTENSIBLE_STRING_ENUM;
  */
 extern SDLSpeechCapabilities const SDLSpeechCapabilitiesText;
 
-extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSapiPhonemes;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSAPIPhonemes;
 
-extern SDLSpeechCapabilities const SDLSpeechCapabilitiesLhplusPhonemes;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesLHPlusPhonemes;
 
-extern SDLSpeechCapabilities const SDLSpeechCapabilitiesPreRecorded;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesPrerecorded;
 
 extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSilence;

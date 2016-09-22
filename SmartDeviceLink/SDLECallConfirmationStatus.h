@@ -36,4 +36,4 @@ extern SDLECallConfirmationStatus const SDLECallConfirmationStatusConfiguredOff;
 
 /** E-Call is considered to be complete without Emergency Operator contact.
  */
-extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleteDtmfTimeout;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleteDTMFTimeout;

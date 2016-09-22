@@ -4,6 +4,6 @@
 
 #import "SDLKeyboardLayout.h"
 
-SDLKeyboardLayout const SDLKeyboardLayoutQwerty = @"QWERTY";
-SDLKeyboardLayout const SDLKeyboardLayoutQwertz = @"QWERTZ";
-SDLKeyboardLayout const SDLKeyboardLayoutAzerty = @"AZERTY";
+SDLKeyboardLayout const SDLKeyboardLayoutQWERTY = @"QWERTY";
+SDLKeyboardLayout const SDLKeyboardLayoutQWERTZ = @"QWERTZ";
+SDLKeyboardLayout const SDLKeyboardLayoutAZERTY = @"AZERTY";

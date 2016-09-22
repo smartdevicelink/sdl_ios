@@ -4,21 +4,21 @@
 
 #import "SDLVehicleDataType.h"
 
-SDLVehicleDataType const SDLVehicleDataTypeGps = @"VEHICLEDATA_GPS";
+SDLVehicleDataType const SDLVehicleDataTypeGPS = @"VEHICLEDATA_GPS";
 SDLVehicleDataType const SDLVehicleDataTypeSpeed = @"VEHICLEDATA_SPEED";
-SDLVehicleDataType const SDLVehicleDataTypeRpm = @"VEHICLEDATA_RPM";
+SDLVehicleDataType const SDLVehicleDataTypeRPM = @"VEHICLEDATA_RPM";
 SDLVehicleDataType const SDLVehicleDataTypeFuelLevel = @"VEHICLEDATA_FUELLEVEL";
 SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState = @"VEHICLEDATA_FUELLEVEL_STATE";
 SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption = @"VEHICLEDATA_FUELCONSUMPTION";
-SDLVehicleDataType const SDLVehicleDataTypeExternalTemp = @"VEHICLEDATA_EXTERNTEMP";
-SDLVehicleDataType const SDLVehicleDataTypeVin = @"VEHICLEDATA_VIN";
-SDLVehicleDataType const SDLVehicleDataTypePrndl = @"VEHICLEDATA_PRNDL";
+SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature = @"VEHICLEDATA_EXTERNTEMP";
+SDLVehicleDataType const SDLVehicleDataTypeVIN = @"VEHICLEDATA_VIN";
+SDLVehicleDataType const SDLVehicleDataTypePRNDL = @"VEHICLEDATA_PRNDL";
 SDLVehicleDataType const SDLVehicleDataTypeTirePressure = @"VEHICLEDATA_TIREPRESSURE";
 SDLVehicleDataType const SDLVehicleDataTypeOdometer = @"VEHICLEDATA_ODOMETER";
 SDLVehicleDataType const SDLVehicleDataTypeBeltStatus = @"VEHICLEDATA_BELTSTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeBodyInfo = @"VEHICLEDATA_BODYINFO";
 SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus = @"VEHICLEDATA_DEVICESTATUS";
-SDLVehicleDataType const SDLVehicleDataTypeEcallInfo = @"VEHICLEDATA_ECALLINFO";
+SDLVehicleDataType const SDLVehicleDataTypeECallInfo = @"VEHICLEDATA_ECALLINFO";
 SDLVehicleDataType const SDLVehicleDataTypeAirbagStatus = @"VEHICLEDATA_AIRBAGSTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeEmergencyEvent = @"VEHICLEDATA_EMERGENCYEVENT";
 SDLVehicleDataType const SDLVehicleDataTypeClusterModeStatus = @"VEHICLEDATA_CLUSTERMODESTATUS";
