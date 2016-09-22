@@ -427,7 +427,7 @@
 		5D61FCAA1A84238C00846EE7 /* SDLFileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FABD1A84238A00846EE7 /* SDLFileType.m */; };
 		5D61FCAB1A84238C00846EE7 /* SDLFuelCutoffStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FABE1A84238A00846EE7 /* SDLFuelCutoffStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCAC1A84238C00846EE7 /* SDLFuelCutoffStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FABF1A84238A00846EE7 /* SDLFuelCutoffStatus.m */; };
-		5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAC01A84238A00846EE7 /* SDLFunctionID.h */; };
+		5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAC01A84238A00846EE7 /* SDLFunctionID.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D61FCAE1A84238C00846EE7 /* SDLFunctionID.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAC11A84238A00846EE7 /* SDLFunctionID.m */; };
 		5D61FCAF1A84238C00846EE7 /* SDLGenericResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAC21A84238A00846EE7 /* SDLGenericResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCB01A84238C00846EE7 /* SDLGenericResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAC31A84238A00846EE7 /* SDLGenericResponse.m */; };
@@ -505,7 +505,7 @@
 		5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB0C1A84238A00846EE7 /* SDLMenuParams.m */; };
 		5D61FCFA1A84238C00846EE7 /* SDLMyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0D1A84238A00846EE7 /* SDLMyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCFB1A84238C00846EE7 /* SDLMyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB0E1A84238A00846EE7 /* SDLMyKey.m */; };
-        5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0F1A84238A00846EE7 /* SDLNames.h */; };
+		5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0F1A84238A00846EE7 /* SDLNames.h */; };
 		5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB101A84238A00846EE7 /* SDLObjectWithPriority.h */; };
 		5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB111A84238A00846EE7 /* SDLObjectWithPriority.m */; };
 		5D61FCFF1A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB121A84238B00846EE7 /* SDLOnAppInterfaceUnregistered.h */; settings = {ATTRIBUTES = (Public, ); }; };
