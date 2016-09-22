@@ -8,7 +8,9 @@
 
 @interface SDLFunctionID : NSObject
 
-- (SDLName)getFunctionName:(int)functionID;
-- (NSNumber *)getFunctionID:(SDLName)functionName;
++ (instancetype)sharedInstance;
+
+- (SDLName)functionNameForId:(int)functionID;
+- (NSNumber *)functionIdForName:(SDLName)functionName;
 
 @end

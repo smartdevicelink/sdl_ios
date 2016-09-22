@@ -62,7 +62,7 @@ describe(@"FunctionName Tests", ^ {
         
         [testMessage setFunctionName:@"Functioning"];
         
-        expect([testMessage getFunctionName]).to(equal(@"Functioning"));
+        expect([testMessage functionNameForId]).to(equal(@"Functioning"));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -71,18 +71,18 @@ describe(@"FunctionName Tests", ^ {
                                                                                             @{@"age":@25},
                                                                                         SDLNameOperationName:@"DoNothing"}} mutableCopy]];
         
-        expect([testMessage getFunctionName]).to(equal(@"DoNothing"));
+        expect([testMessage functionNameForId]).to(equal(@"DoNothing"));
         
         testMessage = [[SDLRPCMessage alloc] initWithName:@"DoSomething"];
         
-        expect([testMessage getFunctionName]).to(equal(@"DoSomething"));
+        expect([testMessage functionNameForId]).to(equal(@"DoSomething"));
     });
     
     it(@"Should be nil if not set", ^ {
         SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLNameNotification:
                                                                                       @{SDLNameParameters:
                                                                                             @{}}} mutableCopy]];
-        expect([testMessage getFunctionName]).to(beNil());
+        expect([testMessage functionNameForId]).to(beNil());
     });
 });
 

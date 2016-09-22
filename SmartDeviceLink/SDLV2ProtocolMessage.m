@@ -33,7 +33,7 @@
 
     // Create the inner dictionary with the RPC properties
     NSMutableDictionary *innerDictionary = [[NSMutableDictionary alloc] init];
-    NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];
+    NSString *functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
     [innerDictionary setObject:functionName forKey:SDLNameOperationName];
     [innerDictionary setObject:[NSNumber numberWithInt:rpcPayload.correlationID] forKey:SDLNameCorrelationId];
 
