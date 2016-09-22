@@ -24,7 +24,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.btIconOn = @NO;
         testStruct.callActive = @YES;
         testStruct.phoneRoaming = @NO;
-        testStruct.textMessageAvailable = @YES;
+        testStruct.textMsgAvailable = @YES;
         testStruct.battLevelStatus = [SDLDeviceLevelStatus FOUR_LEVEL_BARS];
         testStruct.stereoAudioOutputMuted = @YES;
         testStruct.monoAudioOutputMuted = @YES;
@@ -36,7 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.btIconOn).to(equal(@NO));
         expect(testStruct.callActive).to(equal(@YES));
         expect(testStruct.phoneRoaming).to(equal(@NO));
-        expect(testStruct.textMessageAvailable).to(equal(@YES));
+        expect(testStruct.textMsgAvailable).to(equal(@YES));
         expect(testStruct.battLevelStatus).to(equal([SDLDeviceLevelStatus FOUR_LEVEL_BARS]));
         expect(testStruct.stereoAudioOutputMuted).to(equal(@YES));
         expect(testStruct.monoAudioOutputMuted).to(equal(@YES));
@@ -63,7 +63,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.btIconOn).to(equal(@NO));
         expect(testStruct.callActive).to(equal(@YES));
         expect(testStruct.phoneRoaming).to(equal(@NO));
-        expect(testStruct.textMessageAvailable).to(equal(@YES));
+        expect(testStruct.textMsgAvailable).to(equal(@YES));
         expect(testStruct.battLevelStatus).to(equal([SDLDeviceLevelStatus FOUR_LEVEL_BARS]));
         expect(testStruct.stereoAudioOutputMuted).to(equal(@YES));
         expect(testStruct.monoAudioOutputMuted).to(equal(@YES));
@@ -79,7 +79,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.btIconOn).to(beNil());
         expect(testStruct.callActive).to(beNil());
         expect(testStruct.phoneRoaming).to(beNil());
-        expect(testStruct.textMessageAvailable).to(beNil());
+        expect(testStruct.textMsgAvailable).to(beNil());
         expect(testStruct.battLevelStatus).to(beNil());
         expect(testStruct.stereoAudioOutputMuted).to(beNil());
         expect(testStruct.monoAudioOutputMuted).to(beNil());

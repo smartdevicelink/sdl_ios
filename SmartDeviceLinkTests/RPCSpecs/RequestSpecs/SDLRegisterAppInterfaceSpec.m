@@ -29,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] init];
         
-        testRequest.syncMessageVersion = version;
+        testRequest.syncMsgVersion = version;
         testRequest.appName = @"app56";
         testRequest.ttsName = [@[chunk] mutableCopy];
         testRequest.ngnMediaScreenAppName = @"whatisanngn";
@@ -43,7 +43,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.appID = @"123456789";
         testRequest.appInfo = appInfo;
         
-        expect(testRequest.syncMessageVersion).to(equal(version));
+        expect(testRequest.syncMsgVersion).to(equal(version));
         expect(testRequest.appName).to(equal(@"app56"));
         expect(testRequest.ttsName).to(equal([@[chunk] mutableCopy]));
         expect(testRequest.ngnMediaScreenAppName).to(equal(@"whatisanngn"));
@@ -77,7 +77,7 @@ describe(@"Getter/Setter Tests", ^ {
                                              SDLNameOperationName:SDLNameRegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
         
-        expect(testRequest.syncMessageVersion).to(equal(version));
+        expect(testRequest.syncMsgVersion).to(equal(version));
         expect(testRequest.appName).to(equal(@"app56"));
         expect(testRequest.ttsName).to(equal([@[chunk] mutableCopy]));
         expect(testRequest.ngnMediaScreenAppName).to(equal(@"whatisanngn"));
@@ -95,7 +95,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should return nil if not set", ^ {
         SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] init];
         
-        expect(testRequest.syncMessageVersion).to(beNil());
+        expect(testRequest.syncMsgVersion).to(beNil());
         expect(testRequest.appName).to(beNil());
         expect(testRequest.ttsName).to(beNil());
         expect(testRequest.ngnMediaScreenAppName).to(beNil());

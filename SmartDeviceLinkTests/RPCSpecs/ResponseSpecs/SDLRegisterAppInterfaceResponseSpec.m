@@ -27,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
         
-        testResponse.syncMessageVersion = version;
+        testResponse.syncMsgVersion = version;
         testResponse.language = [SDLLanguage ES_MX];
         testResponse.hmiDisplayLanguage = [SDLLanguage RU_RU];
         testResponse.displayCapabilities = info;
@@ -45,7 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
         
-        expect(testResponse.syncMessageVersion).to(equal(version));
+        expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
         expect(testResponse.hmiDisplayLanguage).to(equal([SDLLanguage RU_RU]));
         expect(testResponse.displayCapabilities).to(equal(info));
@@ -88,7 +88,7 @@ describe(@"Getter/Setter Tests", ^ {
                                              SDLNameOperationName:SDLNameRegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
-        expect(testResponse.syncMessageVersion).to(equal(version));
+        expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal([SDLLanguage ES_MX]));
         expect(testResponse.hmiDisplayLanguage).to(equal([SDLLanguage RU_RU]));
         expect(testResponse.displayCapabilities).to(equal(info));
@@ -110,7 +110,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should return nil if not set", ^ {
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
         
-        expect(testResponse.syncMessageVersion).to(beNil());
+        expect(testResponse.syncMsgVersion).to(beNil());
         expect(testResponse.language).to(beNil());
         expect(testResponse.hmiDisplayLanguage).to(beNil());
         expect(testResponse.displayCapabilities).to(beNil());
