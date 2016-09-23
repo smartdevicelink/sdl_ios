@@ -146,27 +146,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:`
 + (UIImage *)sdl_logoImageWithColor:(BOOL)white {
-    if (white) {
-        return [UIImage imageNamed:@"sdl_logo_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    } else {
-        return [UIImage imageNamed:@"sdl_logo_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
+    return [self sdl_imageWithName:[NSString stringWithFormat:@"sdl_logo_%@", white ? @"white" : @"black"]];
 }
 
 + (UIImage *)sdl_arrowUpImageWithColor:(BOOL)white {
-    if (white) {
-        return [UIImage imageNamed:@"lock_arrow_up_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    } else {
-        return [UIImage imageNamed:@"lock_arrow_up_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
+    return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_up_%@", white ? @"white" : @"black"]];
 }
 
 + (UIImage *)sdl_arrowDownImageWithColor:(BOOL)white {
-    if (white) {
-        return [UIImage imageNamed:@"lock_arrow_down_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    } else {
-        return [UIImage imageNamed:@"lock_arrow_down_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
+    return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_down_%@", white ? @"white" : @"black"]];
+}
+
++ (UIImage*)sdl_imageWithName:(NSString*)name {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+    return [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
+#else
+    NSString* bundlePath = [[NSBundle sdlBundle] bundlePath];
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%@/%@", bundlePath, name]];
+#endif
 }
 
 + (BOOL)shouldUseWhiteForegroundForBackgroundColor:(UIColor *)backgroundColor {
