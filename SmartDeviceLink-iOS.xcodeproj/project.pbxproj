@@ -243,7 +243,6 @@
 		5D1654561D3E754F00554D93 /* SDLLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */; };
 		5D16545A1D3E7A1600554D93 /* SDLLifecycleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1654581D3E7A1600554D93 /* SDLLifecycleManager.h */; };
 		5D16545B1D3E7A1600554D93 /* SDLLifecycleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1654591D3E7A1600554D93 /* SDLLifecycleManager.m */; };
-		5D1665AA1CF5F7D000CC4CA1 /* (null) in Headers */ = {isa = PBXBuildFile; };
 		5D1665AB1CF5F7D000CC4CA1 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		5D1665C41CF8CA2700CC4CA1 /* SDLListFilesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665C21CF8CA2700CC4CA1 /* SDLListFilesOperation.h */; };
 		5D1665C51CF8CA2700CC4CA1 /* SDLListFilesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C31CF8CA2700CC4CA1 /* SDLListFilesOperation.m */; };
@@ -251,10 +250,7 @@
 		5D1665C91CF8CA3D00CC4CA1 /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */; };
 		5D1665CB1CF8CA6700CC4CA1 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D2996E91BFCC0E3006106BF /* (null) in Headers */ = {isa = PBXBuildFile; };
 		5D2996EA1BFCC0E3006106BF /* (null) in Sources */ = {isa = PBXBuildFile; };
-		5D2996ED1BFCC5DA006106BF /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Public, ); }; };
-		5D2996F91BFE5B29006106BF /* (null) in Headers */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Public, ); }; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
@@ -3778,7 +3774,6 @@
 				5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */,
 				5D61FD0F1A84238C00846EE7 /* SDLOnHMIStatus.h in Headers */,
 				5D61FD5F1A84238C00846EE7 /* SDLRegisterAppInterfaceResponse.h in Headers */,
-				5D2996F91BFE5B29006106BF /* (null) in Headers */,
 				5D61FD191A84238C00846EE7 /* SDLOnSyncPData.h in Headers */,
 				5D61FE091A84238C00846EE7 /* SDLVehicleDataType.h in Headers */,
 				5DCC19A01B8221F3004FFAD9 /* SDLURLSession.h in Headers */,
@@ -3805,7 +3800,6 @@
 				5D6F7A2E1BC5650B0070BF37 /* SDLLifecycleConfiguration.h in Headers */,
 				5D61FCCD1A84238C00846EE7 /* SDLImage.h in Headers */,
 				5D61FD481A84238C00846EE7 /* SDLProtocolMessage.h in Headers */,
-				5D1665AA1CF5F7D000CC4CA1 /* (null) in Headers */,
 				5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */,
 				5D61FC8C1A84238C00846EE7 /* SDLDIDResult.h in Headers */,
 				5D61FD1F1A84238C00846EE7 /* SDLOnTouchEvent.h in Headers */,
@@ -3834,7 +3828,6 @@
 				5D61FD1B1A84238C00846EE7 /* SDLOnSystemRequest.h in Headers */,
 				5D61FD2F1A84238C00846EE7 /* SDLPermissionStatus.h in Headers */,
 				5D3E487F1D6F88A30000BFEF /* SDLRPCNotificationNotification.h in Headers */,
-				5D2996E91BFCC0E3006106BF /* (null) in Headers */,
 				5D4D67B01D2FE2F900468B4A /* SDLResponseDispatcher.h in Headers */,
 				5D61FCF21A84238C00846EE7 /* SDLLockScreenStatus.h in Headers */,
 				5D61FCD31A84238C00846EE7 /* SDLImageResolution.h in Headers */,
@@ -3905,7 +3898,6 @@
 				5D61FC3F1A84238C00846EE7 /* SDLAmbientLightStatus.h in Headers */,
 				5DE372A11ACB2ED300849FAA /* SDLHMICapabilities.h in Headers */,
 				E9C32B9C1AB20C5900F283AF /* EAAccessory+SDLProtocols.h in Headers */,
-				5D2996ED1BFCC5DA006106BF /* (null) in Headers */,
 				5D61FE0B1A84238C00846EE7 /* SDLVehicleType.h in Headers */,
 				5D61FCC31A84238C00846EE7 /* SDLHMIPermissions.h in Headers */,
 				5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */,
