@@ -1,8 +1,8 @@
 language: objective-c
-osx_image: xcode7.3
-xcode_project: SmartDeviceLink-iOS
+osx_image: xcode8
+xcode_project: SmartDeviceLink-iOS.xcodeproj
 xcode_scheme: SmartDeviceLink
-xcode_sdk: iphonesimulator9.3
+xcode_sdk: iphonesimulator10.0
 env:
   global:
     - FRAMEWORK_NAME=SmartDeviceLink
@@ -12,14 +12,15 @@ notifications:
 
 before_install:
 - brew update
-- brew outdated xctool || brew upgrade xctool
 - brew outdated carthage || brew upgrade carthage
 
 before_script:
 - carthage bootstrap --platform ios
 
 script:
-- xctool -project SmartDeviceLink-iOS.xcodeproj -scheme SmartDeviceLink -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test
+- xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator10.0" -destination "OS=10.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
+- xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example" -sdk "iphonesimulator10.0" -destination "OS=10.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+- pod lib lint
 
 after_script:
 - bash <(curl -s https://codecov.io/bash)
