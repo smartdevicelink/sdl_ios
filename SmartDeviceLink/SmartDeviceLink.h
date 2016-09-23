@@ -15,12 +15,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Proxy *****/
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
-#import "SDLProxyFactory.h"
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLTTSChunkFactory.h"
 #import "SDLTouchManager.h"
+#import "SDLTouchManagerDelegate.h"
 
 /***** Debug *****/
 #import "SDLConsoleController.h"
@@ -39,7 +39,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAbstractProtocol.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolListener.h"
-#import "SDLTouchManagerDelegate.h"
 
 // Header
 #import "SDLProtocolHeader.h"
