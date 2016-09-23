@@ -9,6 +9,7 @@
 #import "SDLLockScreenViewController.h"
 
 #import "NSBundle+SDLBundle.h"
+#import "SDLGlobals.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -158,12 +159,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (UIImage*)sdl_imageWithName:(NSString*)name {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-    return [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-#else
-    NSString* bundlePath = [[NSBundle sdlBundle] bundlePath];
-    return [UIImage imageNamed:[NSString stringWithFormat:@"%@/%@", bundlePath, name]];
-#endif
+    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        NSString* bundlePath = [[NSBundle sdlBundle] bundlePath];
+        return [UIImage imageNamed:[NSString stringWithFormat:@"%@/%@", bundlePath, name]];
+    } else {
+        return [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
+    }
 }
 
 + (BOOL)shouldUseWhiteForegroundForBackgroundColor:(UIColor *)backgroundColor {
