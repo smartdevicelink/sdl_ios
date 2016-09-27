@@ -23,14 +23,14 @@
 
 - (void)setAllowed:(NSMutableArray *)allowed {
     if (allowed != nil) {
-        [store setObject:allowed forKey:NAMES_allowed];
+        [store setObject:allowed forKey:SDLNameAllowed];
     } else {
-        [store removeObjectForKey:NAMES_allowed];
+        [store removeObjectForKey:SDLNameAllowed];
     }
 }
 
 - (NSMutableArray *)allowed {
-    NSMutableArray *array = [store objectForKey:NAMES_allowed];
+    NSMutableArray *array = [store objectForKey:SDLNameAllowed];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMILevel.class]) {
         return array;
     } else {
@@ -44,14 +44,14 @@
 
 - (void)setUserDisallowed:(NSMutableArray *)userDisallowed {
     if (userDisallowed != nil) {
-        [store setObject:userDisallowed forKey:NAMES_userDisallowed];
+        [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
     } else {
-        [store removeObjectForKey:NAMES_userDisallowed];
+        [store removeObjectForKey:SDLNameUserDisallowed];
     }
 }
 
 - (NSMutableArray *)userDisallowed {
-    NSMutableArray *array = [store objectForKey:NAMES_userDisallowed];
+    NSMutableArray *array = [store objectForKey:SDLNameUserDisallowed];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMILevel.class]) {
         return array;
     } else {

@@ -4,12 +4,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLNames.h"
 
-@interface SDLFunctionID : NSObject {
-    NSDictionary *functionIDs;
-}
+@interface SDLFunctionID : NSObject
 
-- (NSString *)getFunctionName:(int)functionID;
-- (NSNumber *)getFunctionID:(NSString *)functionName;
++ (instancetype)sharedInstance;
+
+- (SDLName)functionNameForId:(int)functionID;
+- (NSNumber *)functionIdForName:(SDLName)functionName;
 
 @end

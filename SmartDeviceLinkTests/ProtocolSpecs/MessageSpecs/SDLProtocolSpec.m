@@ -25,12 +25,12 @@
 QuickSpecBegin(SDLProtocolSpec)
 
 //Test dictionaries
-NSDictionary* dictionaryV1 = @{NAMES_request:
-                                   @{NAMES_operation_name:@"DeleteCommand",
-                                     NAMES_correlationID:@0x98765,
-                                     NAMES_parameters:
-                                         @{NAMES_cmdID:@55}}};
-NSDictionary* dictionaryV2 = @{NAMES_cmdID:@55};
+NSDictionary* dictionaryV1 = @{SDLNameRequest:
+                                   @{SDLNameOperationName:@"DeleteCommand",
+                                     SDLNameCorrelationId:@0x98765,
+                                     SDLNameParameters:
+                                         @{SDLNameCommandId:@55}}};
+NSDictionary* dictionaryV2 = @{SDLNameCommandId:@55};
 
 describe(@"Send StartService Tests", ^ {
     context(@"Unsecure", ^{
@@ -174,7 +174,7 @@ describe(@"SendRPCRequest Tests", ^ {
         it(@"Should send the correct data bulk data when bulk data is available", ^ {
             [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
             [[[mockRequest stub] andReturn:@0x98765] correlationID];
-            [[[mockRequest stub] andReturn:@"DeleteCommand"] getFunctionName];
+            [[[mockRequest stub] andReturn:@"DeleteCommand"] functionNameForId];
             [[[mockRequest stub] andReturn:[NSData dataWithBytes:"COMMAND" length:strlen("COMMAND")]] bulkData];
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];

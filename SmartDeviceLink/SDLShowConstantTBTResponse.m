@@ -3,13 +3,12 @@
 
 
 #import "SDLShowConstantTBTResponse.h"
-
 #import "SDLNames.h"
 
 @implementation SDLShowConstantTBTResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ShowConstantTBT]) {
+    if (self = [super initWithName:SDLNameShowConstantTBT]) {
     }
     return self;
 }

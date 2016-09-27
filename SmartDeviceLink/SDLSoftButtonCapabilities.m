@@ -22,50 +22,50 @@
 
 - (void)setShortPressAvailable:(NSNumber *)shortPressAvailable {
     if (shortPressAvailable != nil) {
-        [store setObject:shortPressAvailable forKey:NAMES_shortPressAvailable];
+        [store setObject:shortPressAvailable forKey:SDLNameShortPressAvailable];
     } else {
-        [store removeObjectForKey:NAMES_shortPressAvailable];
+        [store removeObjectForKey:SDLNameShortPressAvailable];
     }
 }
 
 - (NSNumber *)shortPressAvailable {
-    return [store objectForKey:NAMES_shortPressAvailable];
+    return [store objectForKey:SDLNameShortPressAvailable];
 }
 
 - (void)setLongPressAvailable:(NSNumber *)longPressAvailable {
     if (longPressAvailable != nil) {
-        [store setObject:longPressAvailable forKey:NAMES_longPressAvailable];
+        [store setObject:longPressAvailable forKey:SDLNameLongPressAvailable];
     } else {
-        [store removeObjectForKey:NAMES_longPressAvailable];
+        [store removeObjectForKey:SDLNameLongPressAvailable];
     }
 }
 
 - (NSNumber *)longPressAvailable {
-    return [store objectForKey:NAMES_longPressAvailable];
+    return [store objectForKey:SDLNameLongPressAvailable];
 }
 
 - (void)setUpDownAvailable:(NSNumber *)upDownAvailable {
     if (upDownAvailable != nil) {
-        [store setObject:upDownAvailable forKey:NAMES_upDownAvailable];
+        [store setObject:upDownAvailable forKey:SDLNameUpDownAvailable];
     } else {
-        [store removeObjectForKey:NAMES_upDownAvailable];
+        [store removeObjectForKey:SDLNameUpDownAvailable];
     }
 }
 
 - (NSNumber *)upDownAvailable {
-    return [store objectForKey:NAMES_upDownAvailable];
+    return [store objectForKey:SDLNameUpDownAvailable];
 }
 
 - (void)setImageSupported:(NSNumber *)imageSupported {
     if (imageSupported != nil) {
-        [store setObject:imageSupported forKey:NAMES_imageSupported];
+        [store setObject:imageSupported forKey:SDLNameImageSupported];
     } else {
-        [store removeObjectForKey:NAMES_imageSupported];
+        [store removeObjectForKey:SDLNameImageSupported];
     }
 }
 
 - (NSNumber *)imageSupported {
-    return [store objectForKey:NAMES_imageSupported];
+    return [store objectForKey:SDLNameImageSupported];
 }
 
 @end

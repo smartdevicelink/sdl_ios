@@ -15,7 +15,7 @@
         return nil;
     }
 
-    messageType = NAMES_response;
+    messageType = SDLNameResponse;
     [store setObject:function forKey:messageType];
 
     return self;
@@ -27,46 +27,46 @@
         return nil;
     }
 
-    messageType = NAMES_response;
+    messageType = SDLNameResponse;
     [store setObject:function forKey:messageType];
 
     return self;
 }
 
 - (NSNumber *)correlationID {
-    return [function objectForKey:NAMES_correlationID];
+    return [function objectForKey:SDLNameCorrelationId];
 }
 
 - (void)setCorrelationID:(NSNumber *)corrID {
     if (corrID != nil) {
-        [function setObject:corrID forKey:NAMES_correlationID];
+        [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {
-        [function removeObjectForKey:NAMES_correlationID];
+        [function removeObjectForKey:SDLNameCorrelationId];
     }
 }
 
 - (void)setSuccess:(NSNumber *)success {
     if (success != nil) {
-        [parameters setObject:success forKey:NAMES_success];
+        [parameters setObject:success forKey:SDLNameSuccess];
     } else {
-        [parameters removeObjectForKey:NAMES_success];
+        [parameters removeObjectForKey:SDLNameSuccess];
     }
 }
 
 - (NSNumber *)success {
-    return [parameters objectForKey:NAMES_success];
+    return [parameters objectForKey:SDLNameSuccess];
 }
 
 - (void)setResultCode:(SDLResult *)resultCode {
     if (resultCode != nil) {
-        [parameters setObject:resultCode forKey:NAMES_resultCode];
+        [parameters setObject:resultCode forKey:SDLNameResultCode];
     } else {
-        [parameters removeObjectForKey:NAMES_resultCode];
+        [parameters removeObjectForKey:SDLNameResultCode];
     }
 }
 
 - (SDLResult *)resultCode {
-    NSObject *obj = [parameters objectForKey:NAMES_resultCode];
+    NSObject *obj = [parameters objectForKey:SDLNameResultCode];
     if (obj == nil || [obj isKindOfClass:SDLResult.class]) {
         return (SDLResult *)obj;
     } else {
@@ -76,14 +76,14 @@
 
 - (void)setInfo:(NSString *)info {
     if (info != nil) {
-        [parameters setObject:info forKey:NAMES_info];
+        [parameters setObject:info forKey:SDLNameInfo];
     } else {
-        [parameters removeObjectForKey:NAMES_info];
+        [parameters removeObjectForKey:SDLNameInfo];
     }
 }
 
 - (NSString *)info {
-    return [parameters objectForKey:NAMES_info];
+    return [parameters objectForKey:SDLNameInfo];
 }
 
 @end

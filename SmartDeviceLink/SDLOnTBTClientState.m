@@ -6,11 +6,10 @@
 #import "SDLNames.h"
 #import "SDLTBTState.h"
 
-
 @implementation SDLOnTBTClientState
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnTBTClientState]) {
+    if (self = [super initWithName:SDLNameOnTBTClientState]) {
     }
     return self;
 }
@@ -23,14 +22,14 @@
 
 - (void)setState:(SDLTBTState *)state {
     if (state != nil) {
-        [parameters setObject:state forKey:NAMES_state];
+        [parameters setObject:state forKey:SDLNameState];
     } else {
-        [parameters removeObjectForKey:NAMES_state];
+        [parameters removeObjectForKey:SDLNameState];
     }
 }
 
 - (SDLTBTState *)state {
-    NSObject *obj = [parameters objectForKey:NAMES_state];
+    NSObject *obj = [parameters objectForKey:SDLNameState];
     if (obj == nil || [obj isKindOfClass:SDLTBTState.class]) {
         return (SDLTBTState *)obj;
     } else {

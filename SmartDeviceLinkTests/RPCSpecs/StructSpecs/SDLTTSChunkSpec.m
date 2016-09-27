@@ -27,8 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_text:@"TEXT",
-                                       NAMES_type:[SDLSpeechCapabilities PRE_RECORDED]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameText:@"TEXT",
+                                       SDLNameType:[SDLSpeechCapabilities PRE_RECORDED]} mutableCopy];
         SDLTTSChunk* testStruct = [[SDLTTSChunk alloc] initWithDictionary:dict];
         
         expect(testStruct.text).to(equal(@"TEXT"));

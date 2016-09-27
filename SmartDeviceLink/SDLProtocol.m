@@ -203,7 +203,7 @@ typedef NSNumber SDLServiceTypeBox;
             // Build a binary header
             // Serialize the RPC data into an NSData
             SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
-            rpcPayload.functionID = [[[[SDLFunctionID alloc] init] getFunctionID:[message getFunctionName]] intValue];
+            rpcPayload.functionID = [[[SDLFunctionID sharedInstance] functionIdForName:[message functionNameForId]] intValue];
             rpcPayload.jsonData = jsonData;
             rpcPayload.binaryData = message.bulkData;
 

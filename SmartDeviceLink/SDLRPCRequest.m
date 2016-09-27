@@ -9,14 +9,14 @@
 @implementation SDLRPCRequest
 
 - (NSNumber *)correlationID {
-    return [function objectForKey:NAMES_correlationID];
+    return [function objectForKey:SDLNameCorrelationId];
 }
 
 - (void)setCorrelationID:(NSNumber *)corrID {
     if (corrID != nil) {
-        [function setObject:corrID forKey:NAMES_correlationID];
+        [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {
-        [function removeObjectForKey:NAMES_correlationID];
+        [function removeObjectForKey:SDLNameCorrelationId];
     }
 }
 

@@ -7,7 +7,7 @@
 @implementation SDLAddSubMenuResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_AddSubMenu]) {
+    if (self = [super initWithName:SDLNameAddSubMenu]) {
     }
     return self;
 }

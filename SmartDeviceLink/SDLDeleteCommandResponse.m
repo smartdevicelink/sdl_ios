@@ -9,7 +9,7 @@
 @implementation SDLDeleteCommandResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteCommand]) {
+    if (self = [super initWithName:SDLNameDeleteCommand]) {
     }
     return self;
 }

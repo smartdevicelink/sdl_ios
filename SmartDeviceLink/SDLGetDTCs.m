@@ -9,7 +9,7 @@
 @implementation SDLGetDTCs
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_GetDTCs]) {
+    if (self = [super initWithName:SDLNameGetDTCs]) {
     }
     return self;
 }
@@ -22,26 +22,26 @@
 
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:NAMES_ecuName];
+        [parameters setObject:ecuName forKey:SDLNameECUName];
     } else {
-        [parameters removeObjectForKey:NAMES_ecuName];
+        [parameters removeObjectForKey:SDLNameECUName];
     }
 }
 
 - (NSNumber *)ecuName {
-    return [parameters objectForKey:NAMES_ecuName];
+    return [parameters objectForKey:SDLNameECUName];
 }
 
 - (void)setDtcMask:(NSNumber *)dtcMask {
     if (dtcMask != nil) {
-        [parameters setObject:dtcMask forKey:NAMES_dtcMask];
+        [parameters setObject:dtcMask forKey:SDLNameDTCMask];
     } else {
-        [parameters removeObjectForKey:NAMES_dtcMask];
+        [parameters removeObjectForKey:SDLNameDTCMask];
     }
 }
 
 - (NSNumber *)dtcMask {
-    return [parameters objectForKey:NAMES_dtcMask];
+    return [parameters objectForKey:SDLNameDTCMask];
 }
 
 @end

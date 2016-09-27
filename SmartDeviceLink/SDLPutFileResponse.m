@@ -9,7 +9,7 @@
 @implementation SDLPutFileResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_PutFile]) {
+    if (self = [super initWithName:SDLNamePutFile]) {
     }
     return self;
 }
@@ -22,14 +22,14 @@
 
 - (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
     if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
+        [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
     } else {
-        [parameters removeObjectForKey:NAMES_spaceAvailable];
+        [parameters removeObjectForKey:SDLNameSpaceAvailable];
     }
 }
 
 - (NSNumber *)spaceAvailable {
-    return [parameters objectForKey:NAMES_spaceAvailable];
+    return [parameters objectForKey:SDLNameSpaceAvailable];
 }
 
 @end

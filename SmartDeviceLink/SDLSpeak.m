@@ -10,7 +10,7 @@
 @implementation SDLSpeak
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Speak]) {
+    if (self = [super initWithName:SDLNameSpeak]) {
     }
     return self;
 }
@@ -23,14 +23,14 @@
 
 - (void)setTtsChunks:(NSMutableArray *)ttsChunks {
     if (ttsChunks != nil) {
-        [parameters setObject:ttsChunks forKey:NAMES_ttsChunks];
+        [parameters setObject:ttsChunks forKey:SDLNameTTSChunks];
     } else {
-        [parameters removeObjectForKey:NAMES_ttsChunks];
+        [parameters removeObjectForKey:SDLNameTTSChunks];
     }
 }
 
 - (NSMutableArray *)ttsChunks {
-    NSMutableArray *array = [parameters objectForKey:NAMES_ttsChunks];
+    NSMutableArray *array = [parameters objectForKey:SDLNameTTSChunks];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {

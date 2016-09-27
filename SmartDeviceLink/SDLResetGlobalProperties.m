@@ -10,7 +10,7 @@
 @implementation SDLResetGlobalProperties
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ResetGlobalProperties]) {
+    if (self = [super initWithName:SDLNameResetGlobalProperties]) {
     }
     return self;
 }
@@ -23,14 +23,14 @@
 
 - (void)setProperties:(NSMutableArray *)properties {
     if (properties != nil) {
-        [parameters setObject:properties forKey:NAMES_properties];
+        [parameters setObject:properties forKey:SDLNameProperties];
     } else {
-        [parameters removeObjectForKey:NAMES_properties];
+        [parameters removeObjectForKey:SDLNameProperties];
     }
 }
 
 - (NSMutableArray *)properties {
-    NSMutableArray *array = [parameters objectForKey:NAMES_properties];
+    NSMutableArray *array = [parameters objectForKey:SDLNameProperties];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLGlobalProperty.class]) {
         return array;
     } else {

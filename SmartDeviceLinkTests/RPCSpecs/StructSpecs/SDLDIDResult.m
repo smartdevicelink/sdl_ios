@@ -29,9 +29,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_resultCode:[SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED],
-                                       NAMES_didLocation:@300,
-                                       NAMES_data:@"gertwydhty4235tdhedt4tue"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameResultCode:[SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED],
+                                       SDLNameDIDLocation:@300,
+                                       SDLNameData:@"gertwydhty4235tdhedt4tue"} mutableCopy];
         SDLDIDResult* testStruct = [[SDLDIDResult alloc] initWithDictionary:dict];
         
         expect(testStruct.resultCode).to(equal([SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED]));

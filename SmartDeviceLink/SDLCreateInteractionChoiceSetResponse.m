@@ -9,7 +9,7 @@
 @implementation SDLCreateInteractionChoiceSetResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_CreateInteractionChoiceSet]) {
+    if (self = [super initWithName:SDLNameCreateInteractionChoiceSet]) {
     }
     return self;
 }

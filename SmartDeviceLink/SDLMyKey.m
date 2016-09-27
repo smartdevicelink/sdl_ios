@@ -6,7 +6,6 @@
 #import "SDLNames.h"
 #import "SDLVehicleDataStatus.h"
 
-
 @implementation SDLMyKey
 
 - (instancetype)init {
@@ -23,14 +22,14 @@
 
 - (void)setE911Override:(SDLVehicleDataStatus *)e911Override {
     if (e911Override != nil) {
-        [store setObject:e911Override forKey:NAMES_e911Override];
+        [store setObject:e911Override forKey:SDLNameE911Override];
     } else {
-        [store removeObjectForKey:NAMES_e911Override];
+        [store removeObjectForKey:SDLNameE911Override];
     }
 }
 
 - (SDLVehicleDataStatus *)e911Override {
-    NSObject *obj = [store objectForKey:NAMES_e911Override];
+    NSObject *obj = [store objectForKey:SDLNameE911Override];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataStatus.class]) {
         return (SDLVehicleDataStatus *)obj;
     } else {

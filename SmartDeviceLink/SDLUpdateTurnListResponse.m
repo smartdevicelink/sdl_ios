@@ -9,7 +9,7 @@
 @implementation SDLUpdateTurnListResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_UpdateTurnList]) {
+    if (self = [super initWithName:SDLNameUpdateTurnList]) {
     }
     return self;
 }

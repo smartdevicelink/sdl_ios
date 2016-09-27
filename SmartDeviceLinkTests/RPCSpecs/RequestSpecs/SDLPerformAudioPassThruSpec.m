@@ -39,16 +39,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_audioPassThruDisplayText1:@"passthru#1",
-                                                   NAMES_audioPassThruDisplayText2:@"passthru#2",
-                                                   NAMES_samplingRate:[SDLSamplingRate _22KHZ],
-                                                   NAMES_maxDuration:@34563,
-                                                   NAMES_bitsPerSample:[SDLBitsPerSample _16_BIT],
-                                                   NAMES_audioType:[SDLAudioType PCM],
-                                                   NAMES_muteAudio:@NO},
-                                             NAMES_operation_name:NAMES_PerformAudioPassThru}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameAudioPassThruDisplayText1:@"passthru#1",
+                                                   SDLNameAudioPassThruDisplayText2:@"passthru#2",
+                                                   SDLNameSamplingRate:[SDLSamplingRate _22KHZ],
+                                                   SDLNameMaxDuration:@34563,
+                                                   SDLNameBitsPerSample:[SDLBitsPerSample _16_BIT],
+                                                   SDLNameAudioType:[SDLAudioType PCM],
+                                                   SDLNameMuteAudio:@NO},
+                                             SDLNameOperationName:SDLNamePerformAudioPassThru}} mutableCopy];
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));

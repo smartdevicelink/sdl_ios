@@ -9,7 +9,7 @@
 @implementation SDLPerformAudioPassThruResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_PerformAudioPassThru]) {
+    if (self = [super initWithName:SDLNamePerformAudioPassThru]) {
     }
     return self;
 }

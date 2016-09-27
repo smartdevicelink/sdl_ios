@@ -9,7 +9,7 @@
 @implementation SDLSubscribeButtonResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SubscribeButton]) {
+    if (self = [super initWithName:SDLNameSubscribeButton]) {
     }
     return self;
 }

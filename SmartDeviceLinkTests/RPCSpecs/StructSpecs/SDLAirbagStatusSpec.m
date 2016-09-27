@@ -39,14 +39,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_driverAirbagDeployed:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_driverSideAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       NAMES_driverCurtainAirbagDeployed:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_passengerAirbagDeployed:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       NAMES_passengerCurtainAirbagDeployed:[SDLVehicleDataEventStatus FAULT],
-                                       NAMES_driverKneeAirbagDeployed:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_passengerSideAirbagDeployed:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_passengerKneeAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameDriverAirbagDeployed:[SDLVehicleDataEventStatus _YES],
+                                       SDLNameDriverSideAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT],
+                                       SDLNameDriverCurtainAirbagDeployed:[SDLVehicleDataEventStatus _NO],
+                                       SDLNamePassengerAirbagDeployed:[SDLVehicleDataEventStatus NOT_SUPPORTED],
+                                       SDLNamePassengerCurtainAirbagDeployed:[SDLVehicleDataEventStatus FAULT],
+                                       SDLNameDriverKneeAirbagDeployed:[SDLVehicleDataEventStatus _NO],
+                                       SDLNamePassengerSideAirbagDeployed:[SDLVehicleDataEventStatus _YES],
+                                       SDLNamePassengerKneeAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT]} mutableCopy];
         SDLAirbagStatus* testStruct = [[SDLAirbagStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.driverAirbagDeployed).to(equal([SDLVehicleDataEventStatus _YES]));

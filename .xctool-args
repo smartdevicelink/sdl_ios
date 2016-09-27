@@ -1,6 +1,6 @@
 [
     "-project", "SmartDeviceLink-iOS.xcodeproj",
-    "-scheme", "SmartDeviceLink",
+    "-scheme", "SmartDeviceLinkTests",
     "-sdk", "iphonesimulator",
     "ONLY_ACTIVE_ARCH=NO",
     "RUN_CLANG_STATIC_ANALYZER=NO"
