@@ -364,7 +364,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleRPCMessage:(NSDictionary *)msg {
+- (void)handleRpcMessage:(NSDictionary *)msg {
     [self handleRPCDictionary:msg];
 }
 
