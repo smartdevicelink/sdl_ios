@@ -91,6 +91,13 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_setNoIconsLayout];
     }
 
+    // HAX: The autolayout doesn't scale for 4s, so hide a view so it doesn't look like garbage.
+    if (CGRectGetHeight([UIScreen mainScreen].bounds) == 480) {
+        self.sdlIconImageView.hidden = YES;
+    } else {
+        self.sdlIconImageView.hidden = NO;
+    }
+
     [self.view layoutIfNeeded];
 }
 
