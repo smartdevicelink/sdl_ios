@@ -304,7 +304,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)handleRPCDictionary:(NSDictionary *)dict {
     SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:[dict mutableCopy]];
-    NSString *functionName = [message functionNameForId];
+    NSString *functionName = [message getFunctionName];
     NSString *messageType = [message messageType];
 
     // If it's a response, append response

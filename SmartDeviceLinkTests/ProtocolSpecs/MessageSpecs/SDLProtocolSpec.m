@@ -174,7 +174,7 @@ describe(@"SendRPCRequest Tests", ^ {
         it(@"Should send the correct data bulk data when bulk data is available", ^ {
             [[[[mockRequest stub] andReturn:dictionaryV2] ignoringNonObjectArgs] serializeAsDictionary:2];
             [[[mockRequest stub] andReturn:@0x98765] correlationID];
-            [[[mockRequest stub] andReturn:@"DeleteCommand"] functionNameForId];
+            [[[mockRequest stub] andReturn:@"DeleteCommand"] getFunctionName];
             [[[mockRequest stub] andReturn:[NSData dataWithBytes:"COMMAND" length:strlen("COMMAND")]] bulkData];
             
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
