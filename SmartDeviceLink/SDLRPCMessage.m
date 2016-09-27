@@ -38,7 +38,7 @@
     return self;
 }
 
-- (NSString *)functionNameForId {
+- (NSString *)getFunctionName {
     return [function objectForKey:SDLNameOperationName];
 }
 
