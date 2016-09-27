@@ -4,6 +4,7 @@
 
 #import "SDLProtocolMessage.h"
 #import "SDLFunctionID.h"
+#import "SDLNames.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
 #import "SDLV1ProtocolMessage.h"
@@ -60,7 +61,7 @@
         if (self.header.version >= 2) {
             SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
             if (rpcPayload) {
-                NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];
+                SDLName functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
 
                 UInt8 rpcType = rpcPayload.rpcType;
                 NSArray<NSString *> *rpcTypeNames = @[@"Request", @"Response", @"Notification"];

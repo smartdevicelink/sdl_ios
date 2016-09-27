@@ -25,10 +25,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_notification:
-                                                           @{NAMES_parameters:
-                                                                 @{NAMES_state:[SDLTBTState ETA_REQUEST]},
-                                                             NAMES_operation_name:NAMES_OnTBTClientState}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameState:[SDLTBTState ETA_REQUEST]},
+                                                             SDLNameOperationName:SDLNameOnTBTClientState}} mutableCopy];
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] initWithDictionary:dict];
         
         expect(testNotification.state).to(equal([SDLTBTState ETA_REQUEST]));

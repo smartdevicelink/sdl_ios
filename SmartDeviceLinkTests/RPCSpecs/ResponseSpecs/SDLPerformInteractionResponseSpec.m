@@ -29,12 +29,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_response:
-                                                          @{NAMES_parameters:
-                                                                @{NAMES_choiceID:@25,
-                                                                  NAMES_manualTextEntry:@"entry",
-                                                                  NAMES_triggerSource:[SDLTriggerSource KEYBOARD]},
-                                                            NAMES_operation_name:NAMES_PerformInteraction}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
+                                                          @{SDLNameParameters:
+                                                                @{SDLNameChoiceId:@25,
+                                                                  SDLNameManualTextEntry:@"entry",
+                                                                  SDLNameTriggerSource:[SDLTriggerSource KEYBOARD]},
+                                                            SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
         SDLPerformInteractionResponse* testResponse = [[SDLPerformInteractionResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.choiceID).to(equal(@25));

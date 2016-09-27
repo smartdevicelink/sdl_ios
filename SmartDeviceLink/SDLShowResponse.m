@@ -9,7 +9,7 @@
 @implementation SDLShowResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Show]) {
+    if (self = [super initWithName:SDLNameShow]) {
     }
     return self;
 }

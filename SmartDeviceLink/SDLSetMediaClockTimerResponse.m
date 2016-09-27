@@ -9,7 +9,7 @@
 @implementation SDLSetMediaClockTimerResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetMediaClockTimer]) {
+    if (self = [super initWithName:SDLNameSetMediaClockTimer]) {
     }
     return self;
 }

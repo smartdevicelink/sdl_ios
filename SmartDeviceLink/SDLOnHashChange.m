@@ -9,7 +9,7 @@
 @implementation SDLOnHashChange
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnHashChange]) {
+    if (self = [super initWithName:SDLNameOnHashChange]) {
     }
     return self;
 }
@@ -22,14 +22,14 @@
 
 - (void)setHashID:(NSString *)hashID {
     if (hashID != nil) {
-        [parameters setObject:hashID forKey:NAMES_hashID];
+        [parameters setObject:hashID forKey:SDLNameHashId];
     } else {
-        [parameters removeObjectForKey:NAMES_hashID];
+        [parameters removeObjectForKey:SDLNameHashId];
     }
 }
 
 - (NSString *)hashID {
-    return [parameters objectForKey:NAMES_hashID];
+    return [parameters objectForKey:SDLNameHashId];
 }
 
 @end

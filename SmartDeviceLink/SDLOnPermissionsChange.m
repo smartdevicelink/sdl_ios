@@ -6,11 +6,10 @@
 #import "SDLNames.h"
 #import "SDLPermissionItem.h"
 
-
 @implementation SDLOnPermissionsChange
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnPermissionsChange]) {
+    if (self = [super initWithName:SDLNameOnPermissionsChange]) {
     }
     return self;
 }
@@ -23,14 +22,14 @@
 
 - (void)setPermissionItem:(NSMutableArray<SDLPermissionItem *> *)permissionItem {
     if (permissionItem != nil) {
-        [parameters setObject:permissionItem forKey:NAMES_permissionItem];
+        [parameters setObject:permissionItem forKey:SDLNamePermissionItem];
     } else {
-        [parameters removeObjectForKey:NAMES_permissionItem];
+        [parameters removeObjectForKey:SDLNamePermissionItem];
     }
 }
 
 - (NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    NSMutableArray<SDLPermissionItem *> *array = [parameters objectForKey:NAMES_permissionItem];
+    NSMutableArray<SDLPermissionItem *> *array = [parameters objectForKey:SDLNamePermissionItem];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPermissionItem.class]) {
         return array;
     } else {

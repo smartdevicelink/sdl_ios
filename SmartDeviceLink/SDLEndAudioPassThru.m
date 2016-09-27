@@ -9,7 +9,7 @@
 @implementation SDLEndAudioPassThru
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_EndAudioPassThru]) {
+    if (self = [super initWithName:SDLNameEndAudioPassThru]) {
     }
     return self;
 }

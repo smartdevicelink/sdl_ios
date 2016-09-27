@@ -6,11 +6,10 @@
 
 #import "SDLNames.h"
 
-
 @implementation SDLSendLocation
 
 - (instancetype)init {
-    self = [super initWithName:NAMES_SendLocation];
+    self = [super initWithName:SDLNameSendLocation];
     if (!self) {
         return nil;
     }
@@ -29,86 +28,86 @@
 
 - (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
     if (longitudeDegrees != nil) {
-        parameters[NAMES_longitudeDegrees] = longitudeDegrees;
+        parameters[SDLNameLongitudeDegrees] = longitudeDegrees;
     } else {
-        [parameters removeObjectForKey:NAMES_longitudeDegrees];
+        [parameters removeObjectForKey:SDLNameLongitudeDegrees];
     }
 }
 
 - (NSNumber *)longitudeDegrees {
-    return parameters[NAMES_longitudeDegrees];
+    return parameters[SDLNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(NSNumber *)latitudeDegrees {
     if (latitudeDegrees != nil) {
-        parameters[NAMES_latitudeDegrees] = latitudeDegrees;
+        parameters[SDLNameLatitudeDegrees] = latitudeDegrees;
     } else {
-        [parameters removeObjectForKey:NAMES_latitudeDegrees];
+        [parameters removeObjectForKey:SDLNameLatitudeDegrees];
     }
 }
 
 - (NSNumber *)latitudeDegrees {
-    return parameters[NAMES_latitudeDegrees];
+    return parameters[SDLNameLatitudeDegrees];
 }
 
 - (void)setLocationName:(NSString *)locationName {
     if (locationName != nil) {
-        parameters[NAMES_locationName] = locationName;
+        parameters[SDLNameLocationName] = locationName;
     } else {
-        [parameters removeObjectForKey:NAMES_locationName];
+        [parameters removeObjectForKey:SDLNameLocationName];
     }
 }
 
 - (NSString *)locationName {
-    return parameters[NAMES_locationName];
+    return parameters[SDLNameLocationName];
 }
 
 - (void)setAddressLines:(NSArray<NSString *> *)addressLines {
     if (addressLines != nil) {
-        parameters[NAMES_addressLines] = addressLines;
+        parameters[SDLNameAddressLines] = addressLines;
     } else {
-        [parameters removeObjectForKey:NAMES_addressLines];
+        [parameters removeObjectForKey:SDLNameAddressLines];
     }
 }
 
 - (NSArray<NSString *> *)addressLines {
-    return parameters[NAMES_addressLines];
+    return parameters[SDLNameAddressLines];
 }
 
 - (NSString *)locationDescription {
-    return parameters[NAMES_locationDescription];
+    return parameters[SDLNameLocationDescription];
 }
 
 - (void)setLocationDescription:(NSString *)locationDescription {
     if (locationDescription != nil) {
-        parameters[NAMES_locationDescription] = locationDescription;
+        parameters[SDLNameLocationDescription] = locationDescription;
     } else {
-        [parameters removeObjectForKey:NAMES_locationDescription];
+        [parameters removeObjectForKey:SDLNameLocationDescription];
     }
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {
     if (phoneNumber != nil) {
-        parameters[NAMES_phoneNumber] = phoneNumber;
+        parameters[SDLNamePhoneNumber] = phoneNumber;
     } else {
-        [parameters removeObjectForKey:NAMES_phoneNumber];
+        [parameters removeObjectForKey:SDLNamePhoneNumber];
     }
 }
 
 - (NSString *)phoneNumber {
-    return parameters[NAMES_phoneNumber];
+    return parameters[SDLNamePhoneNumber];
 }
 
 - (void)setLocationImage:(SDLImage *)locationImage {
     if (locationImage != nil) {
-        parameters[NAMES_locationImage] = locationImage;
+        parameters[SDLNameLocationImage] = locationImage;
     } else {
-        [parameters removeObjectForKey:NAMES_locationImage];
+        [parameters removeObjectForKey:SDLNameLocationImage];
     }
 }
 
 - (SDLImage *)locationImage {
-    id obj = parameters[NAMES_locationImage];
+    id obj = parameters[SDLNameLocationImage];
     if (obj == nil || [obj isKindOfClass:[SDLImage class]]) {
         return (SDLImage *)obj;
     } else {

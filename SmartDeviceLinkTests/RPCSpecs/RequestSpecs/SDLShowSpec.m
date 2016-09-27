@@ -53,21 +53,21 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
-                                                           @{NAMES_parameters:
-                                                                 @{NAMES_mainField1:@"field1",
-                                                                   NAMES_mainField2:@"field2",
-                                                                   NAMES_mainField3:@"field3",
-                                                                   NAMES_mainField4:@"field4",
-                                                                   NAMES_alignment:[SDLTextAlignment LEFT_ALIGNED],
-                                                                   NAMES_statusBar:@"status",
-                                                                   NAMES_mediaClock:@"TheTime",
-                                                                   NAMES_mediaTrack:@"In The Clear",
-                                                                   NAMES_graphic:image1,
-                                                                   NAMES_secondaryGraphic:image2,
-                                                                   NAMES_softButtons:[@[button] mutableCopy],
-                                                                   NAMES_customPresets:[@[@"preset1", @"preset2"] mutableCopy]},
-                                                             NAMES_operation_name:NAMES_Show}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameMainField1:@"field1",
+                                                                   SDLNameMainField2:@"field2",
+                                                                   SDLNameMainField3:@"field3",
+                                                                   SDLNameMainField4:@"field4",
+                                                                   SDLNameAlignment:[SDLTextAlignment LEFT_ALIGNED],
+                                                                   SDLNameStatusBar:@"status",
+                                                                   SDLNameMediaClock:@"TheTime",
+                                                                   SDLNameMediaTrack:@"In The Clear",
+                                                                   SDLNameGraphic:image1,
+                                                                   SDLNameSecondaryGraphic:image2,
+                                                                   SDLNameSoftButtons:[@[button] mutableCopy],
+                                                                   SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameShow}} mutableCopy];
         SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
         
         expect(testRequest.mainField1).to(equal(@"field1"));

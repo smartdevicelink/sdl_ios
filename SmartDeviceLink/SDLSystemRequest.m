@@ -7,11 +7,10 @@
 #import "SDLNames.h"
 #import "SDLRequestType.h"
 
-
 @implementation SDLSystemRequest
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SystemRequest]) {
+    if (self = [super initWithName:SDLNameSystemRequest]) {
     }
     return self;
 }
@@ -24,14 +23,14 @@
 
 - (void)setRequestType:(SDLRequestType *)requestType {
     if (requestType != nil) {
-        [parameters setObject:requestType forKey:NAMES_requestType];
+        [parameters setObject:requestType forKey:SDLNameRequestType];
     } else {
-        [parameters removeObjectForKey:NAMES_requestType];
+        [parameters removeObjectForKey:SDLNameRequestType];
     }
 }
 
 - (SDLRequestType *)requestType {
-    NSObject *obj = [parameters objectForKey:NAMES_requestType];
+    NSObject *obj = [parameters objectForKey:SDLNameRequestType];
     if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
         return (SDLRequestType *)obj;
     } else {
@@ -41,14 +40,14 @@
 
 - (void)setFileName:(NSString *)fileName {
     if (fileName != nil) {
-        [parameters setObject:fileName forKey:NAMES_fileName];
+        [parameters setObject:fileName forKey:SDLNameFilename];
     } else {
-        [parameters removeObjectForKey:NAMES_fileName];
+        [parameters removeObjectForKey:SDLNameFilename];
     }
 }
 
 - (NSString *)fileName {
-    return [parameters objectForKey:NAMES_fileName];
+    return [parameters objectForKey:SDLNameFilename];
 }
 
 @end

@@ -10,7 +10,7 @@
 
 #import "SDLHMIZoneCapabilities.h"
 
-QuickSpecBegin(SDLHmiZoneCapabilitiesSpec)
+QuickSpecBegin(SDLHMIZoneCapabilitiesSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {

@@ -10,11 +10,10 @@
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
 
-
 @implementation SDLSetDisplayLayoutResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetDisplayLayout]) {
+    if (self = [super initWithName:SDLNameSetDisplayLayout]) {
     }
     return self;
 }
@@ -27,14 +26,14 @@
 
 - (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
     if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:NAMES_displayCapabilities];
+        [parameters setObject:displayCapabilities forKey:SDLNameDisplayCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_displayCapabilities];
+        [parameters removeObjectForKey:SDLNameDisplayCapabilities];
     }
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
-    NSObject *obj = [parameters objectForKey:NAMES_displayCapabilities];
+    NSObject *obj = [parameters objectForKey:SDLNameDisplayCapabilities];
     if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
         return (SDLDisplayCapabilities *)obj;
     } else {
@@ -44,14 +43,14 @@
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
     if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:NAMES_buttonCapabilities];
+        [parameters setObject:buttonCapabilities forKey:SDLNameButtonCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_buttonCapabilities];
+        [parameters removeObjectForKey:SDLNameButtonCapabilities];
     }
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:NAMES_buttonCapabilities];
+    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:SDLNameButtonCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLButtonCapabilities.class]) {
         return array;
     } else {
@@ -65,14 +64,14 @@
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
     if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:NAMES_softButtonCapabilities];
+        [parameters setObject:softButtonCapabilities forKey:SDLNameSoftButtonCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_softButtonCapabilities];
+        [parameters removeObjectForKey:SDLNameSoftButtonCapabilities];
     }
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:NAMES_softButtonCapabilities];
+    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:SDLNameSoftButtonCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButtonCapabilities.class]) {
         return array;
     } else {
@@ -86,14 +85,14 @@
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
     if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:NAMES_presetBankCapabilities];
+        [parameters setObject:presetBankCapabilities forKey:SDLNamePresetBankCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_presetBankCapabilities];
+        [parameters removeObjectForKey:SDLNamePresetBankCapabilities];
     }
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
-    NSObject *obj = [parameters objectForKey:NAMES_presetBankCapabilities];
+    NSObject *obj = [parameters objectForKey:SDLNamePresetBankCapabilities];
     if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
         return (SDLPresetBankCapabilities *)obj;
     } else {

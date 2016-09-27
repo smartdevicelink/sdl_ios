@@ -30,12 +30,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_notification:
-                                                           @{NAMES_parameters:
-                                                                 @{NAMES_buttonName:[SDLButtonName CUSTOM_BUTTON],
-                                                                   NAMES_buttonEventMode:[SDLButtonEventMode BUTTONDOWN],
-                                                                   NAMES_customButtonID:@4252},
-                                                             NAMES_operation_name:NAMES_OnButtonEvent}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameButtonName:[SDLButtonName CUSTOM_BUTTON],
+                                                                   SDLNameButtonEventMode:[SDLButtonEventMode BUTTONDOWN],
+                                                                   SDLNameCustomButtonId:@4252},
+                                                             SDLNameOperationName:SDLNameOnButtonEvent}} mutableCopy];
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] initWithDictionary:dict];
         
         expect(testNotification.buttonName).to(equal([SDLButtonName CUSTOM_BUTTON]));

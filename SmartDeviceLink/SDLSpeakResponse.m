@@ -9,7 +9,7 @@
 @implementation SDLSpeakResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Speak]) {
+    if (self = [super initWithName:SDLNameSpeak]) {
     }
     return self;
 }

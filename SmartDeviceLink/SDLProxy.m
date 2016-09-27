@@ -19,7 +19,7 @@
 #import "SDLLanguage.h"
 #import "SDLLayoutMode.h"
 #import "SDLLockScreenStatusManager.h"
-#import "SDLNames.h"
+
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLPolicyDataParser.h"
@@ -308,7 +308,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSString *messageType = [message messageType];
 
     // If it's a response, append response
-    if ([messageType isEqualToString:NAMES_response]) {
+    if ([messageType isEqualToString:SDLNameResponse]) {
         BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
         if (notGenericResponseMessage) {
             functionName = [NSString stringWithFormat:@"%@Response", functionName];
@@ -324,7 +324,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Intercept and handle several messages ourselves
-    if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered] || [functionName isEqualToString:NAMES_UnregisterAppInterface]) {
+    if ([functionName isEqualToString:SDLNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLNameUnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];
     }
 
@@ -436,7 +436,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    NSString *statusString = (NSString *)[message getParameters:NAMES_hmiLevel];
+    NSString *statusString = (NSString *)[message getParameters:SDLNameHMILevel];
     SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
     _lsm.hmiLevel = hmiLevel;
 
@@ -445,7 +445,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)[message getParameters:NAMES_state];
+    NSString *stateString = (NSString *)[message getParameters:SDLNameState];
     BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
     _lsm.driverDistracted = state;
 

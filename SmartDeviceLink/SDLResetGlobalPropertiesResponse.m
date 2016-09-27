@@ -9,7 +9,7 @@
 @implementation SDLResetGlobalPropertiesResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ResetGlobalProperties]) {
+    if (self = [super initWithName:SDLNameResetGlobalProperties]) {
     }
     return self;
 }

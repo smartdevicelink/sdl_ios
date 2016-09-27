@@ -24,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_request:
-                                                           @{NAMES_parameters:
-                                                                 @{NAMES_properties:[@[[SDLGlobalProperty MENUNAME], [SDLGlobalProperty VRHELPTITLE]] copy]},
-                                                             NAMES_operation_name:NAMES_ResetGlobalProperties}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameProperties:[@[[SDLGlobalProperty MENUNAME], [SDLGlobalProperty VRHELPTITLE]] copy]},
+                                                             SDLNameOperationName:SDLNameResetGlobalProperties}} mutableCopy];
         SDLResetGlobalProperties* testRequest = [[SDLResetGlobalProperties alloc] initWithDictionary:dict];
         
         expect(testRequest.properties).to(equal([@[[SDLGlobalProperty MENUNAME], [SDLGlobalProperty VRHELPTITLE]] copy]));

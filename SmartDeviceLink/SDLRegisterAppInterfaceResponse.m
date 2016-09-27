@@ -19,11 +19,10 @@
 #import "SDLVRCapabilities.h"
 #import "SDLVehicleType.h"
 
-
 @implementation SDLRegisterAppInterfaceResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_RegisterAppInterface]) {
+    if (self = [super initWithName:SDLNameRegisterAppInterface]) {
     }
     return self;
 }
@@ -36,14 +35,14 @@
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
-        [parameters setObject:syncMsgVersion forKey:NAMES_syncMsgVersion];
+        [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
     } else {
-        [parameters removeObjectForKey:NAMES_syncMsgVersion];
+        [parameters removeObjectForKey:SDLNameSyncMessageVersion];
     }
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
-    NSObject *obj = [parameters objectForKey:NAMES_syncMsgVersion];
+    NSObject *obj = [parameters objectForKey:SDLNameSyncMessageVersion];
     if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
@@ -53,14 +52,14 @@
 
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
-        [parameters setObject:language forKey:NAMES_language];
+        [parameters setObject:language forKey:SDLNameLanguage];
     } else {
-        [parameters removeObjectForKey:NAMES_language];
+        [parameters removeObjectForKey:SDLNameLanguage];
     }
 }
 
 - (SDLLanguage *)language {
-    NSObject *obj = [parameters objectForKey:NAMES_language];
+    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -70,14 +69,14 @@
 
 - (void)setHmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
     if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:NAMES_hmiDisplayLanguage];
+        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiDisplayLanguage];
+        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
     }
 }
 
 - (SDLLanguage *)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
+    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -87,14 +86,14 @@
 
 - (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
     if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:NAMES_displayCapabilities];
+        [parameters setObject:displayCapabilities forKey:SDLNameDisplayCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_displayCapabilities];
+        [parameters removeObjectForKey:SDLNameDisplayCapabilities];
     }
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
-    NSObject *obj = [parameters objectForKey:NAMES_displayCapabilities];
+    NSObject *obj = [parameters objectForKey:SDLNameDisplayCapabilities];
     if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
         return (SDLDisplayCapabilities *)obj;
     } else {
@@ -104,14 +103,14 @@
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
     if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:NAMES_buttonCapabilities];
+        [parameters setObject:buttonCapabilities forKey:SDLNameButtonCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_buttonCapabilities];
+        [parameters removeObjectForKey:SDLNameButtonCapabilities];
     }
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:NAMES_buttonCapabilities];
+    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:SDLNameButtonCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLButtonCapabilities.class]) {
         return array;
     } else {
@@ -125,14 +124,14 @@
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
     if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:NAMES_softButtonCapabilities];
+        [parameters setObject:softButtonCapabilities forKey:SDLNameSoftButtonCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_softButtonCapabilities];
+        [parameters removeObjectForKey:SDLNameSoftButtonCapabilities];
     }
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:NAMES_softButtonCapabilities];
+    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:SDLNameSoftButtonCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButtonCapabilities.class]) {
         return array;
     } else {
@@ -146,14 +145,14 @@
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
     if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:NAMES_presetBankCapabilities];
+        [parameters setObject:presetBankCapabilities forKey:SDLNamePresetBankCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_presetBankCapabilities];
+        [parameters removeObjectForKey:SDLNamePresetBankCapabilities];
     }
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
-    NSObject *obj = [parameters objectForKey:NAMES_presetBankCapabilities];
+    NSObject *obj = [parameters objectForKey:SDLNamePresetBankCapabilities];
     if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
         return (SDLPresetBankCapabilities *)obj;
     } else {
@@ -163,14 +162,14 @@
 
 - (void)setHmiZoneCapabilities:(NSMutableArray<SDLHMIZoneCapabilities *> *)hmiZoneCapabilities {
     if (hmiZoneCapabilities != nil) {
-        [parameters setObject:hmiZoneCapabilities forKey:NAMES_hmiZoneCapabilities];
+        [parameters setObject:hmiZoneCapabilities forKey:SDLNameHMIZoneCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiZoneCapabilities];
+        [parameters removeObjectForKey:SDLNameHMIZoneCapabilities];
     }
 }
 
 - (NSMutableArray<SDLHMIZoneCapabilities *> *)hmiZoneCapabilities {
-    NSMutableArray<SDLHMIZoneCapabilities *> *array = [parameters objectForKey:NAMES_hmiZoneCapabilities];
+    NSMutableArray<SDLHMIZoneCapabilities *> *array = [parameters objectForKey:SDLNameHMIZoneCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMIZoneCapabilities.class]) {
         return array;
     } else {
@@ -184,14 +183,14 @@
 
 - (void)setSpeechCapabilities:(NSMutableArray<SDLSpeechCapabilities *> *)speechCapabilities {
     if (speechCapabilities != nil) {
-        [parameters setObject:speechCapabilities forKey:NAMES_speechCapabilities];
+        [parameters setObject:speechCapabilities forKey:SDLNameSpeechCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_speechCapabilities];
+        [parameters removeObjectForKey:SDLNameSpeechCapabilities];
     }
 }
 
 - (NSMutableArray<SDLSpeechCapabilities *> *)speechCapabilities {
-    NSMutableArray<SDLSpeechCapabilities *> *array = [parameters objectForKey:NAMES_speechCapabilities];
+    NSMutableArray<SDLSpeechCapabilities *> *array = [parameters objectForKey:SDLNameSpeechCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSpeechCapabilities.class]) {
         return array;
     } else {
@@ -205,14 +204,14 @@
 
 - (void)setPrerecordedSpeech:(NSMutableArray<SDLPrerecordedSpeech *> *)prerecordedSpeech {
     if (prerecordedSpeech != nil) {
-        [parameters setObject:prerecordedSpeech forKey:NAMES_prerecordedSpeech];
+        [parameters setObject:prerecordedSpeech forKey:SDLNamePrerecordedSpeech];
     } else {
-        [parameters removeObjectForKey:NAMES_prerecordedSpeech];
+        [parameters removeObjectForKey:SDLNamePrerecordedSpeech];
     }
 }
 
 - (NSMutableArray<SDLPrerecordedSpeech *> *)prerecordedSpeech {
-    NSMutableArray<SDLPrerecordedSpeech *> *array = [parameters objectForKey:NAMES_prerecordedSpeech];
+    NSMutableArray<SDLPrerecordedSpeech *> *array = [parameters objectForKey:SDLNamePrerecordedSpeech];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPrerecordedSpeech.class]) {
         return array;
     } else {
@@ -226,14 +225,14 @@
 
 - (void)setVrCapabilities:(NSMutableArray<SDLVRCapabilities *> *)vrCapabilities {
     if (vrCapabilities != nil) {
-        [parameters setObject:vrCapabilities forKey:NAMES_vrCapabilities];
+        [parameters setObject:vrCapabilities forKey:SDLNameVRCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_vrCapabilities];
+        [parameters removeObjectForKey:SDLNameVRCapabilities];
     }
 }
 
 - (NSMutableArray<SDLVRCapabilities *> *)vrCapabilities {
-    NSMutableArray<SDLVRCapabilities *> *array = [parameters objectForKey:NAMES_vrCapabilities];
+    NSMutableArray<SDLVRCapabilities *> *array = [parameters objectForKey:SDLNameVRCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRCapabilities.class]) {
         return array;
     } else {
@@ -247,14 +246,14 @@
 
 - (void)setAudioPassThruCapabilities:(NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
     if (audioPassThruCapabilities != nil) {
-        [parameters setObject:audioPassThruCapabilities forKey:NAMES_audioPassThruCapabilities];
+        [parameters setObject:audioPassThruCapabilities forKey:SDLNameAudioPassThruCapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_audioPassThruCapabilities];
+        [parameters removeObjectForKey:SDLNameAudioPassThruCapabilities];
     }
 }
 
 - (NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
-    NSMutableArray<SDLAudioPassThruCapabilities *> *array = [parameters objectForKey:NAMES_audioPassThruCapabilities];
+    NSMutableArray<SDLAudioPassThruCapabilities *> *array = [parameters objectForKey:SDLNameAudioPassThruCapabilities];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAudioPassThruCapabilities.class]) {
         return array;
     } else {
@@ -268,14 +267,14 @@
 
 - (void)setVehicleType:(SDLVehicleType *)vehicleType {
     if (vehicleType != nil) {
-        [parameters setObject:vehicleType forKey:NAMES_vehicleType];
+        [parameters setObject:vehicleType forKey:SDLNameVehicleType];
     } else {
-        [parameters removeObjectForKey:NAMES_vehicleType];
+        [parameters removeObjectForKey:SDLNameVehicleType];
     }
 }
 
 - (SDLVehicleType *)vehicleType {
-    NSObject *obj = [parameters objectForKey:NAMES_vehicleType];
+    NSObject *obj = [parameters objectForKey:SDLNameVehicleType];
     if (obj == nil || [obj isKindOfClass:SDLVehicleType.class]) {
         return (SDLVehicleType *)obj;
     } else {
@@ -285,26 +284,26 @@
 
 - (void)setSupportedDiagModes:(NSMutableArray<NSNumber *> *)supportedDiagModes {
     if (supportedDiagModes != nil) {
-        [parameters setObject:supportedDiagModes forKey:NAMES_supportedDiagModes];
+        [parameters setObject:supportedDiagModes forKey:SDLNameSupportedDiagnosticModes];
     } else {
-        [parameters removeObjectForKey:NAMES_supportedDiagModes];
+        [parameters removeObjectForKey:SDLNameSupportedDiagnosticModes];
     }
 }
 
 - (NSMutableArray<NSNumber *> *)supportedDiagModes {
-    return [parameters objectForKey:NAMES_supportedDiagModes];
+    return [parameters objectForKey:SDLNameSupportedDiagnosticModes];
 }
 
 - (void)setHmiCapabilities:(SDLHMICapabilities *)hmiCapabilities {
     if (hmiCapabilities != nil) {
-        [parameters setObject:hmiCapabilities forKey:NAMES_hmiCapabilities];
+        [parameters setObject:hmiCapabilities forKey:SDLNameHMICapabilities];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiCapabilities];
+        [parameters removeObjectForKey:SDLNameHMICapabilities];
     }
 }
 
 - (SDLHMICapabilities *)hmiCapabilities {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiCapabilities];
+    NSObject *obj = [parameters objectForKey:SDLNameHMICapabilities];
     if (obj == nil || [obj isKindOfClass:[SDLHMICapabilities class]]) {
         return (SDLHMICapabilities *)obj;
     } else {
@@ -314,26 +313,26 @@
 
 - (void)setSdlVersion:(NSString *)sdlVersion {
     if (sdlVersion != nil) {
-        parameters[NAMES_sdlVersion] = sdlVersion;
+        parameters[SDLNameSDLVersion] = sdlVersion;
     } else {
-        [parameters removeObjectForKey:NAMES_sdlVersion];
+        [parameters removeObjectForKey:SDLNameSDLVersion];
     }
 }
 
 - (NSString *)sdlVersion {
-    return parameters[NAMES_sdlVersion];
+    return parameters[SDLNameSDLVersion];
 }
 
 - (void)setSystemSoftwareVersion:(NSString *)systemSoftwareVersion {
     if (systemSoftwareVersion != nil) {
-        parameters[NAMES_systemSoftwareVersion] = systemSoftwareVersion;
+        parameters[SDLNameSystemSoftwareVersion] = systemSoftwareVersion;
     } else {
-        [parameters removeObjectForKey:NAMES_systemSoftwareVersion];
+        [parameters removeObjectForKey:SDLNameSystemSoftwareVersion];
     }
 }
 
 - (NSString *)systemSoftwareVersion {
-    return parameters[NAMES_systemSoftwareVersion];
+    return parameters[SDLNameSystemSoftwareVersion];
 }
 
 @end

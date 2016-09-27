@@ -43,9 +43,9 @@ describe(@"Dial Number RPC", ^{
         beforeEach(^{
             somePhoneNumber = @"1234567890";
             NSDictionary *initDict = @{
-                                       NAMES_request: @{
-                                               NAMES_parameters: @{
-                                                       NAMES_number: [somePhoneNumber copy]
+                                       SDLNameRequest: @{
+                                               SDLNameParameters: @{
+                                                       SDLNameNumber: [somePhoneNumber copy]
                                                        }
                                                }
                                        };
@@ -62,8 +62,8 @@ describe(@"Dial Number RPC", ^{
         __block SDLDialNumber *testRequest = nil;
         beforeEach(^{
             NSDictionary *initDict = @{
-                                       NAMES_request: @{
-                                               NAMES_parameters: @{
+                                       SDLNameRequest: @{
+                                               SDLNameParameters: @{
                                                        }
                                                }
                                        };

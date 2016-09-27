@@ -25,8 +25,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{NAMES_majorVersion:@4,
-                                                       NAMES_minorVersion:@532} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameMajorVersion:@4,
+                                                       SDLNameMinorVersion:@532} mutableCopy];
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] initWithDictionary:dict];
         
         expect(testStruct.majorVersion).to(equal(@4));

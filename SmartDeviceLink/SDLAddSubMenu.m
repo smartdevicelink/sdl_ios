@@ -7,7 +7,7 @@
 @implementation SDLAddSubMenu
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_AddSubMenu]) {
+    if (self = [super initWithName:SDLNameAddSubMenu]) {
     }
     return self;
 }
@@ -20,38 +20,38 @@
 
 - (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
-        [parameters setObject:menuID forKey:NAMES_menuID];
+        [parameters setObject:menuID forKey:SDLNameMenuId];
     } else {
-        [parameters removeObjectForKey:NAMES_menuID];
+        [parameters removeObjectForKey:SDLNameMenuId];
     }
 }
 
 - (NSNumber *)menuID {
-    return [parameters objectForKey:NAMES_menuID];
+    return [parameters objectForKey:SDLNameMenuId];
 }
 
 - (void)setPosition:(NSNumber *)position {
     if (position != nil) {
-        [parameters setObject:position forKey:NAMES_position];
+        [parameters setObject:position forKey:SDLNamePosition];
     } else {
-        [parameters removeObjectForKey:NAMES_position];
+        [parameters removeObjectForKey:SDLNamePosition];
     }
 }
 
 - (NSNumber *)position {
-    return [parameters objectForKey:NAMES_position];
+    return [parameters objectForKey:SDLNamePosition];
 }
 
 - (void)setMenuName:(NSString *)menuName {
     if (menuName != nil) {
-        [parameters setObject:menuName forKey:NAMES_menuName];
+        [parameters setObject:menuName forKey:SDLNameMenuName];
     } else {
-        [parameters removeObjectForKey:NAMES_menuName];
+        [parameters removeObjectForKey:SDLNameMenuName];
     }
 }
 
 - (NSString *)menuName {
-    return [parameters objectForKey:NAMES_menuName];
+    return [parameters objectForKey:SDLNameMenuName];
 }
 
 @end
