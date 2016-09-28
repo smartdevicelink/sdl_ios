@@ -11,7 +11,6 @@
 #import "SDLIAPSession.h"
 #import "SDLIAPTransport.h"
 #import "SDLIAPTransport.h"
-#import "SDLSiphonServer.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
@@ -51,7 +50,6 @@ int const streamOpenTimeoutSeconds = 2;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
 
         [self sdl_startEventListening];
-        [SDLSiphonServer init];
     }
 
     [SDLDebugTool logInfo:@"SDLIAPTransport Init"];
