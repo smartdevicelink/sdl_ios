@@ -3,8 +3,7 @@
 
 #import "SDLV2ProtocolMessage.h"
 #import "SDLFunctionID.h"
-#import "SDLJsonDecoder.h"
-
+#import "SDLDebugTool.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
 
@@ -39,8 +38,11 @@
 
     // Get the json data from the struct
     if (rpcPayload.jsonData) {
-        NSDictionary *jsonDictionary = [[SDLJsonDecoder instance] decode:rpcPayload.jsonData];
-        if (jsonDictionary) {
+        NSError *error = nil;
+        NSDictionary * jsonDictionary = [NSJSONSerialization JSONObjectWithData:rpcPayload.jsonData options:kNilOptions error:&error];
+        if (error != nil) {
+            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
+        } else if (jsonDictionary) {
             [innerDictionary setObject:jsonDictionary forKey:SDLNameParameters];
         }
     }
