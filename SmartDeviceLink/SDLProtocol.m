@@ -185,7 +185,7 @@ typedef NSNumber SDLServiceTypeBox;
 
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion] options:kNilOptions error:error];
     
-    if (*error != nil) {
+    if (error != nil) {
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error encoding JSON data: %@", *error] withType:SDLDebugType_Protocol];
     }
     
