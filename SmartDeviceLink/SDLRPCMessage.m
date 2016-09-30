@@ -31,6 +31,10 @@
             }
         }
 
+        if (messageType == nil) {
+            return nil;
+        }
+
         function = [store objectForKey:messageType];
         parameters = [function objectForKey:SDLNameParameters];
         self.bulkData = [dict objectForKey:SDLNameBulkData];

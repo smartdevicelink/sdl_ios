@@ -187,7 +187,9 @@ const int POLICIES_CORRELATION_ID = 65535;
         }
         _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
-        [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
+
+        // HAX: The cast is a result of a compiler bug throwing a warning when it shouldn't
+        [self.mutableProxyListeners addObject:(id<SDLProxyListener>)_streamingMediaManager.touchManager];
     }
 
     return _streamingMediaManager;
