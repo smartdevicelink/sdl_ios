@@ -26,7 +26,7 @@
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if ([messageType isEqualToString:SDLNameBulkData] == FALSE) {
+            if (![messageType isEqualToString:SDLNameBulkData]) {
                 break;
             }
         }
