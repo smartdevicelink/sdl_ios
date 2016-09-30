@@ -11,18 +11,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetAppIcon : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLSetAppIcon object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetAppIcon object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSetAppIcon : SDLRPCRequest
 
 /**
  * @abstract A file reference name

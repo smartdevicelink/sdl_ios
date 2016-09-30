@@ -21,12 +21,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
         [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
@@ -40,7 +34,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
-        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -71,7 +65,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -193,7 +187,7 @@
     if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
         return (SDLDeviceInfo *)obj;
     } else {
-        return [[SDLDeviceInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLDeviceInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -222,7 +216,7 @@
     if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
         return (SDLAppInfo *)obj;
     } else {
-        return [[SDLAppInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLAppInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

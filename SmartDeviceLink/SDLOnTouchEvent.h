@@ -6,11 +6,7 @@
 @class SDLTouchType;
 
 
-@interface SDLOnTouchEvent : SDLRPCNotification {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnTouchEvent : SDLRPCNotification
 
 @property (strong) SDLTouchType *type;
 @property (strong) NSMutableArray *event;

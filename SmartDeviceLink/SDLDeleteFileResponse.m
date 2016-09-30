@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
     if (spaceAvailable != nil) {
         [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];

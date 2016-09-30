@@ -10,9 +10,6 @@
 
 @interface SDLSendLocation : SDLRPCRequest
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
 /**
  * The longitudinal coordinate of the location.
  *

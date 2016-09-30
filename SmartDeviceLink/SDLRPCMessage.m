@@ -22,7 +22,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {

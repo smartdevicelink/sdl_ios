@@ -8,18 +8,6 @@
 
 @implementation SDLSoftButtonCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setShortPressAvailable:(NSNumber *)shortPressAvailable {
     if (shortPressAvailable != nil) {
         [store setObject:shortPressAvailable forKey:SDLNameShortPressAvailable];

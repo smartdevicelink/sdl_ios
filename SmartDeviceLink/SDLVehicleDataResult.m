@@ -9,18 +9,6 @@
 
 @implementation SDLVehicleDataResult
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDataType:(SDLVehicleDataType *)dataType {
     if (dataType != nil) {
         [store setObject:dataType forKey:SDLNameDataType];

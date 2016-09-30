@@ -16,20 +16,7 @@
  * @since SmartDeviceLink 2.0<br/>
  * See SDLSubscribeVehicleData SDLGetVehicleData
  */
-@interface SDLUnsubscribeVehicleData : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLUnsubscribeVehicleData object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLUnsubscribeVehicleData object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLUnsubscribeVehicleData : SDLRPCRequest
 
 /**
  * @abstract A boolean value. If true, unsubscribes Gps data

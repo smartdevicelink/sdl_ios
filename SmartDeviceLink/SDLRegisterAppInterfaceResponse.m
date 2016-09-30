@@ -27,12 +27,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
         [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
@@ -46,7 +40,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
-        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -97,7 +91,7 @@
     if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
         return (SDLDisplayCapabilities *)obj;
     } else {
-        return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -116,7 +110,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLButtonCapabilities alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -137,7 +131,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButtonCapabilities alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLSoftButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -156,7 +150,7 @@
     if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
         return (SDLPresetBankCapabilities *)obj;
     } else {
-        return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -259,7 +253,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLAudioPassThruCapabilities alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLAudioPassThruCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -278,7 +272,7 @@
     if (obj == nil || [obj isKindOfClass:SDLVehicleType.class]) {
         return (SDLVehicleType *)obj;
     } else {
-        return [[SDLVehicleType alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleType alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -307,7 +301,7 @@
     if (obj == nil || [obj isKindOfClass:[SDLHMICapabilities class]]) {
         return (SDLHMICapabilities *)obj;
     } else {
-        return [[SDLHMICapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLHMICapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

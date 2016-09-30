@@ -9,19 +9,7 @@
  *
  * @since SDL 2.0
  */
-@interface SDLOnPermissionsChange : SDLRPCNotification {
-}
-
-/**
- * Constructs a newly allocated SDLOnPermissionsChange object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLOnPermissionsChange object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnPermissionsChange : SDLRPCNotification
 
 /**
  * @abstract Describes change in permissions for a given set of RPCs

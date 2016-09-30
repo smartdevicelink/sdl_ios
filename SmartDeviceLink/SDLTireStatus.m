@@ -9,18 +9,6 @@
 
 @implementation SDLTireStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setPressureTelltale:(SDLWarningLightStatus *)pressureTelltale {
     if (pressureTelltale != nil) {
         [store setObject:pressureTelltale forKey:SDLNamePressureTelltale];
@@ -51,7 +39,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
         return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -68,7 +56,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
         return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -85,7 +73,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
         return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -102,7 +90,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
         return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -119,7 +107,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
         return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -136,7 +124,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
         return (SDLSingleTireStatus *)obj;
     } else {
-        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

@@ -8,18 +8,6 @@
 
 @implementation SDLTouchEventCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setPressAvailable:(NSNumber *)pressAvailable {
     if (pressAvailable != nil) {
         [store setObject:pressAvailable forKey:SDLNamePressAvailable];

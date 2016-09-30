@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setReason:(SDLAppInterfaceUnregisteredReason *)reason {
     if (reason != nil) {
         [parameters setObject:reason forKey:SDLNameReason];

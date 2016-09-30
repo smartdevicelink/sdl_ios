@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
         [parameters setObject:ecuName forKey:SDLNameECUName];

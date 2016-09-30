@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDisplayLayout:(NSString *)displayLayout {
     if (displayLayout != nil) {
         [parameters setObject:displayLayout forKey:SDLNameDisplayLayout];

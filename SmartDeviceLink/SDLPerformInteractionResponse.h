@@ -12,19 +12,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLPerformInteractionResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLPerformInteractionResponse object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLPerformInteractionResponse object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLPerformInteractionResponse : SDLRPCResponse
 
 /**
  * @abstract ID of the choice that was selected in response to PerformInteraction. 

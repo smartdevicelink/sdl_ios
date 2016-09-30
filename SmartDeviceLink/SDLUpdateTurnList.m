@@ -16,12 +16,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setTurnList:(NSMutableArray *)turnList {
     if (turnList != nil) {
         [parameters setObject:turnList forKey:SDLNameTurnList];
@@ -37,7 +31,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTurn alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTurn alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -58,7 +52,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

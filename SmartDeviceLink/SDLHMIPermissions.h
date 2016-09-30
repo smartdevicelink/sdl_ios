@@ -9,19 +9,7 @@
  * 
  * @since SDL 2.0
  */
-@interface SDLHMIPermissions : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLHMIPermissions object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLHMIPermissions object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLHMIPermissions : SDLRPCStruct
 
 /**
  * @abstract a set of all HMI levels that are permitted for this given RPC

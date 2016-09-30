@@ -23,19 +23,7 @@
  * 
  * @since SDL 1.0
  */
-@interface SDLOnHMIStatus : SDLRPCNotification {
-}
-
-/**
- *Constructs a newly allocated SDLOnHMIStatus object
- */
-- (instancetype)init;
-
-/**
- *<p>Constructs a newly allocated SDLOnHMIStatus object indicated by the dictionary parameter</p>
- *@param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnHMIStatus : SDLRPCNotification
 
 /**
  * @abstract SDLHMILevel in effect for the application

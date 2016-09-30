@@ -13,19 +13,8 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * <p>
  */
-@interface SDLGetDTCs : SDLRPCRequest {
-}
-/**
- * Constructs a new SDLGetDTCs object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLGetDTCs object indicated by the dictionary parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLGetDTCs : SDLRPCRequest
+
 /**
  * @abstract a name of the module to receive the DTC form
  * @discussion an NSNumber value representing a name of the module to receive

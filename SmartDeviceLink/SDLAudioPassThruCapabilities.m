@@ -12,18 +12,6 @@
 
 @implementation SDLAudioPassThruCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setSamplingRate:(SDLSamplingRate *)samplingRate {
     if (samplingRate != nil) {
         [store setObject:samplingRate forKey:SDLNameSamplingRate];

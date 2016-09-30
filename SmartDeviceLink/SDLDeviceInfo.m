@@ -7,18 +7,6 @@
 
 @implementation SDLDeviceInfo
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setHardware:(NSString *)hardware {
     if (hardware != nil) {
         [store setObject:hardware forKey:SDLNameHardware];

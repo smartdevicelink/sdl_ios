@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setEvent:(SDLKeyboardEvent *)event {
     if (event != nil) {
         [parameters setObject:event forKey:SDLNameEvent];

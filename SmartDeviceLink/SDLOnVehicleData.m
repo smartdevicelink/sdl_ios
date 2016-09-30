@@ -29,12 +29,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setGps:(SDLGPSData *)gps {
     if (gps != nil) {
         [parameters setObject:gps forKey:SDLNameGPS];
@@ -48,7 +42,7 @@
     if (obj == nil || [obj isKindOfClass:SDLGPSData.class]) {
         return (SDLGPSData *)obj;
     } else {
-        return [[SDLGPSData alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLGPSData alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -171,7 +165,7 @@
     if (obj == nil || [obj isKindOfClass:SDLTireStatus.class]) {
         return (SDLTireStatus *)obj;
     } else {
-        return [[SDLTireStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -200,7 +194,7 @@
     if (obj == nil || [obj isKindOfClass:SDLBeltStatus.class]) {
         return (SDLBeltStatus *)obj;
     } else {
-        return [[SDLBeltStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLBeltStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -217,7 +211,7 @@
     if (obj == nil || [obj isKindOfClass:SDLBodyInformation.class]) {
         return (SDLBodyInformation *)obj;
     } else {
-        return [[SDLBodyInformation alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLBodyInformation alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -234,7 +228,7 @@
     if (obj == nil || [obj isKindOfClass:SDLDeviceStatus.class]) {
         return (SDLDeviceStatus *)obj;
     } else {
-        return [[SDLDeviceStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLDeviceStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -285,7 +279,7 @@
     if (obj == nil || [obj isKindOfClass:SDLHeadLampStatus.class]) {
         return (SDLHeadLampStatus *)obj;
     } else {
-        return [[SDLHeadLampStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLHeadLampStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -338,7 +332,7 @@
     if (obj == nil || [obj isKindOfClass:SDLECallInfo.class]) {
         return (SDLECallInfo *)obj;
     } else {
-        return [[SDLECallInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLECallInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -355,7 +349,7 @@
     if (obj == nil || [obj isKindOfClass:SDLAirbagStatus.class]) {
         return (SDLAirbagStatus *)obj;
     } else {
-        return [[SDLAirbagStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLAirbagStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -372,7 +366,7 @@
     if (obj == nil || [obj isKindOfClass:SDLEmergencyEvent.class]) {
         return (SDLEmergencyEvent *)obj;
     } else {
-        return [[SDLEmergencyEvent alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLEmergencyEvent alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -389,7 +383,7 @@
     if (obj == nil || [obj isKindOfClass:SDLClusterModeStatus.class]) {
         return (SDLClusterModeStatus *)obj;
     } else {
-        return [[SDLClusterModeStatus alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLClusterModeStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -406,7 +400,7 @@
     if (obj == nil || [obj isKindOfClass:SDLMyKey.class]) {
         return (SDLMyKey *)obj;
     } else {
-        return [[SDLMyKey alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLMyKey alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

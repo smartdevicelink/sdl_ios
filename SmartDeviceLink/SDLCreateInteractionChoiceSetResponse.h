@@ -10,10 +10,6 @@
  *
  * Since <b>SmartDeviceLink 1.0</b>
  */
-@interface SDLCreateInteractionChoiceSetResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLCreateInteractionChoiceSetResponse : SDLRPCResponse
 
 @end

@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
         [parameters setObject:language forKey:SDLNameLanguage];

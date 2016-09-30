@@ -17,15 +17,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    self = [super initWithDictionary:dict];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
 - (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
     if (longitudeDegrees != nil) {
         parameters[SDLNameLongitudeDegrees] = longitudeDegrees;

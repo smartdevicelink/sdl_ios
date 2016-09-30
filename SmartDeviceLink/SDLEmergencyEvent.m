@@ -10,18 +10,6 @@
 
 @implementation SDLEmergencyEvent
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setEmergencyEventType:(SDLEmergencyEventType *)emergencyEventType {
     if (emergencyEventType != nil) {
         [store setObject:emergencyEventType forKey:SDLNameEmergencyEventType];

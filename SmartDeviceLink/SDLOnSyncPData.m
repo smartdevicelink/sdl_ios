@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setURL:(NSString *)URL {
     if (URL != nil) {
         [parameters setObject:URL forKey:SDLNameURLUppercase];

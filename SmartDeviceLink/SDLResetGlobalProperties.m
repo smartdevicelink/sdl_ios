@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setProperties:(NSMutableArray *)properties {
     if (properties != nil) {
         [parameters setObject:properties forKey:SDLNameProperties];

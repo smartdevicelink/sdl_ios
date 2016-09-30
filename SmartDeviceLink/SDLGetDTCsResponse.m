@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setEcuHeader:(NSNumber *)ecuHeader {
     if (ecuHeader != nil) {
         [parameters setObject:ecuHeader forKey:SDLNameECUHeader];

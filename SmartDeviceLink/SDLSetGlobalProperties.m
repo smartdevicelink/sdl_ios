@@ -19,12 +19,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setHelpPrompt:(NSMutableArray *)helpPrompt {
     if (helpPrompt != nil) {
         [parameters setObject:helpPrompt forKey:SDLNameHelpPrompt];
@@ -40,7 +34,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -61,7 +55,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -94,7 +88,7 @@
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -125,7 +119,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -142,7 +136,7 @@
     if (obj == nil || [obj isKindOfClass:SDLKeyboardProperties.class]) {
         return (SDLKeyboardProperties *)obj;
     } else {
-        return [[SDLKeyboardProperties alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLKeyboardProperties alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

@@ -13,12 +13,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setMessageDataResult:(NSMutableArray *)messageDataResult {
     if (messageDataResult != nil) {
         [parameters setObject:messageDataResult forKey:SDLNameMessageDataResult];

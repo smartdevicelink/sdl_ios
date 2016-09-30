@@ -8,11 +8,7 @@
 @class SDLPowerModeStatus;
 
 
-@interface SDLClusterModeStatus : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLClusterModeStatus : SDLRPCStruct
 
 @property (strong) NSNumber *powerModeActive;
 @property (strong) SDLPowerModeQualificationStatus *powerModeQualificationStatus;

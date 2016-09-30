@@ -8,18 +8,6 @@
 
 @implementation SDLSingleTireStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setStatus:(SDLComponentVolumeStatus *)status {
     if (status != nil) {
         [store setObject:status forKey:SDLNameStatus];

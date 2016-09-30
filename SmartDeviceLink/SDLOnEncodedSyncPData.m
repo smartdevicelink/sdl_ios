@@ -13,12 +13,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setData:(NSMutableArray *)data {
     if (data != nil) {
         [parameters setObject:data forKey:SDLNameData];

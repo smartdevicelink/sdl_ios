@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setState:(SDLTBTState *)state {
     if (state != nil) {
         [parameters setObject:state forKey:SDLNameState];

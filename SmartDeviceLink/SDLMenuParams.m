@@ -8,18 +8,6 @@
 
 @implementation SDLMenuParams
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setParentID:(NSNumber *)parentID {
     if (parentID != nil) {
         [store setObject:parentID forKey:SDLNameParentId];

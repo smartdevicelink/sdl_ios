@@ -6,11 +6,7 @@
 @class SDLImage;
 
 
-@interface SDLVRHelpItem : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLVRHelpItem : SDLRPCStruct
 
 @property (strong) NSString *text;
 @property (strong) SDLImage *image;
