@@ -33,12 +33,12 @@
         NSMutableDictionary *function = [store objectForKey:messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
             NSMutableDictionary *parameters = [function objectForKey:SDLNameParameters];
-            return [self sdl_serializeDictionary:parameters version:version];
+            return [self.class sdl_serializeDictionary:parameters version:version];
         } else {
-            return [self sdl_serializeDictionary:store version:version];
+            return [self.class sdl_serializeDictionary:store version:version];
         }
     } else {
-        return [self sdl_serializeDictionary:store version:version];
+        return [self.class sdl_serializeDictionary:store version:version];
     }
 }
 
@@ -46,7 +46,7 @@
     return [store description];
 }
 
-- (NSDictionary *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {
++ (NSDictionary *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {
     NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
     for (NSString *key in [dict keyEnumerator]) {
         NSObject *value = [dict objectForKey:key];
