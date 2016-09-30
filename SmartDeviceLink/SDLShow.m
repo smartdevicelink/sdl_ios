@@ -13,69 +13,69 @@
 @implementation SDLShow
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Show]) {
+    if (self = [super initWithName:SDLNameShow]) {
     }
     return self;
 }
 
 - (void)setMainField1:(NSString *)mainField1 {
     if (mainField1 != nil) {
-        [parameters setObject:mainField1 forKey:NAMES_mainField1];
+        [parameters setObject:mainField1 forKey:SDLNameMainField1];
     } else {
-        [parameters removeObjectForKey:NAMES_mainField1];
+        [parameters removeObjectForKey:SDLNameMainField1];
     }
 }
 
 - (NSString *)mainField1 {
-    return [parameters objectForKey:NAMES_mainField1];
+    return [parameters objectForKey:SDLNameMainField1];
 }
 
 - (void)setMainField2:(NSString *)mainField2 {
     if (mainField2 != nil) {
-        [parameters setObject:mainField2 forKey:NAMES_mainField2];
+        [parameters setObject:mainField2 forKey:SDLNameMainField2];
     } else {
-        [parameters removeObjectForKey:NAMES_mainField2];
+        [parameters removeObjectForKey:SDLNameMainField2];
     }
 }
 
 - (NSString *)mainField2 {
-    return [parameters objectForKey:NAMES_mainField2];
+    return [parameters objectForKey:SDLNameMainField2];
 }
 
 - (void)setMainField3:(NSString *)mainField3 {
     if (mainField3 != nil) {
-        [parameters setObject:mainField3 forKey:NAMES_mainField3];
+        [parameters setObject:mainField3 forKey:SDLNameMainField3];
     } else {
-        [parameters removeObjectForKey:NAMES_mainField3];
+        [parameters removeObjectForKey:SDLNameMainField3];
     }
 }
 
 - (NSString *)mainField3 {
-    return [parameters objectForKey:NAMES_mainField3];
+    return [parameters objectForKey:SDLNameMainField3];
 }
 
 - (void)setMainField4:(NSString *)mainField4 {
     if (mainField4 != nil) {
-        [parameters setObject:mainField4 forKey:NAMES_mainField4];
+        [parameters setObject:mainField4 forKey:SDLNameMainField4];
     } else {
-        [parameters removeObjectForKey:NAMES_mainField4];
+        [parameters removeObjectForKey:SDLNameMainField4];
     }
 }
 
 - (NSString *)mainField4 {
-    return [parameters objectForKey:NAMES_mainField4];
+    return [parameters objectForKey:SDLNameMainField4];
 }
 
 - (void)setAlignment:(SDLTextAlignment *)alignment {
     if (alignment != nil) {
-        [parameters setObject:alignment forKey:NAMES_alignment];
+        [parameters setObject:alignment forKey:SDLNameAlignment];
     } else {
-        [parameters removeObjectForKey:NAMES_alignment];
+        [parameters removeObjectForKey:SDLNameAlignment];
     }
 }
 
 - (SDLTextAlignment *)alignment {
-    NSObject *obj = [parameters objectForKey:NAMES_alignment];
+    NSObject *obj = [parameters objectForKey:SDLNameAlignment];
     if (obj == nil || [obj isKindOfClass:SDLTextAlignment.class]) {
         return (SDLTextAlignment *)obj;
     } else {
@@ -85,50 +85,50 @@
 
 - (void)setStatusBar:(NSString *)statusBar {
     if (statusBar != nil) {
-        [parameters setObject:statusBar forKey:NAMES_statusBar];
+        [parameters setObject:statusBar forKey:SDLNameStatusBar];
     } else {
-        [parameters removeObjectForKey:NAMES_statusBar];
+        [parameters removeObjectForKey:SDLNameStatusBar];
     }
 }
 
 - (NSString *)statusBar {
-    return [parameters objectForKey:NAMES_statusBar];
+    return [parameters objectForKey:SDLNameStatusBar];
 }
 
 - (void)setMediaClock:(NSString *)mediaClock {
     if (mediaClock != nil) {
-        [parameters setObject:mediaClock forKey:NAMES_mediaClock];
+        [parameters setObject:mediaClock forKey:SDLNameMediaClock];
     } else {
-        [parameters removeObjectForKey:NAMES_mediaClock];
+        [parameters removeObjectForKey:SDLNameMediaClock];
     }
 }
 
 - (NSString *)mediaClock {
-    return [parameters objectForKey:NAMES_mediaClock];
+    return [parameters objectForKey:SDLNameMediaClock];
 }
 
 - (void)setMediaTrack:(NSString *)mediaTrack {
     if (mediaTrack != nil) {
-        [parameters setObject:mediaTrack forKey:NAMES_mediaTrack];
+        [parameters setObject:mediaTrack forKey:SDLNameMediaTrack];
     } else {
-        [parameters removeObjectForKey:NAMES_mediaTrack];
+        [parameters removeObjectForKey:SDLNameMediaTrack];
     }
 }
 
 - (NSString *)mediaTrack {
-    return [parameters objectForKey:NAMES_mediaTrack];
+    return [parameters objectForKey:SDLNameMediaTrack];
 }
 
 - (void)setGraphic:(SDLImage *)graphic {
     if (graphic != nil) {
-        [parameters setObject:graphic forKey:NAMES_graphic];
+        [parameters setObject:graphic forKey:SDLNameGraphic];
     } else {
-        [parameters removeObjectForKey:NAMES_graphic];
+        [parameters removeObjectForKey:SDLNameGraphic];
     }
 }
 
 - (SDLImage *)graphic {
-    NSObject *obj = [parameters objectForKey:NAMES_graphic];
+    NSObject *obj = [parameters objectForKey:SDLNameGraphic];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
@@ -138,14 +138,14 @@
 
 - (void)setSecondaryGraphic:(SDLImage *)secondaryGraphic {
     if (secondaryGraphic != nil) {
-        [parameters setObject:secondaryGraphic forKey:NAMES_secondaryGraphic];
+        [parameters setObject:secondaryGraphic forKey:SDLNameSecondaryGraphic];
     } else {
-        [parameters removeObjectForKey:NAMES_secondaryGraphic];
+        [parameters removeObjectForKey:SDLNameSecondaryGraphic];
     }
 }
 
 - (SDLImage *)secondaryGraphic {
-    NSObject *obj = [parameters objectForKey:NAMES_secondaryGraphic];
+    NSObject *obj = [parameters objectForKey:SDLNameSecondaryGraphic];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
@@ -155,14 +155,14 @@
 
 - (void)setSoftButtons:(NSMutableArray *)softButtons {
     if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
+        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
+        [parameters removeObjectForKey:SDLNameSoftButtons];
     }
 }
 
 - (NSMutableArray *)softButtons {
-    NSMutableArray *array = [parameters objectForKey:NAMES_softButtons];
+    NSMutableArray *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
@@ -176,14 +176,14 @@
 
 - (void)setCustomPresets:(NSMutableArray *)customPresets {
     if (customPresets != nil) {
-        [parameters setObject:customPresets forKey:NAMES_customPresets];
+        [parameters setObject:customPresets forKey:SDLNameCustomPresets];
     } else {
-        [parameters removeObjectForKey:NAMES_customPresets];
+        [parameters removeObjectForKey:SDLNameCustomPresets];
     }
 }
 
 - (NSMutableArray *)customPresets {
-    return [parameters objectForKey:NAMES_customPresets];
+    return [parameters objectForKey:SDLNameCustomPresets];
 }
 
 @end

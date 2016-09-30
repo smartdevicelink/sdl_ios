@@ -9,7 +9,7 @@
 @implementation SDLUnregisterAppInterface
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_UnregisterAppInterface]) {
+    if (self = [super initWithName:SDLNameUnregisterAppInterface]) {
     }
     return self;
 }

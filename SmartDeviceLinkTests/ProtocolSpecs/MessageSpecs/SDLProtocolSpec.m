@@ -25,12 +25,12 @@
 QuickSpecBegin(SDLProtocolSpec)
 
 //Test dictionaries
-NSDictionary* dictionaryV1 = @{NAMES_request:
-                                   @{NAMES_operation_name:@"DeleteCommand",
-                                     NAMES_correlationID:@0x98765,
-                                     NAMES_parameters:
-                                         @{NAMES_cmdID:@55}}};
-NSDictionary* dictionaryV2 = @{NAMES_cmdID:@55};
+NSDictionary* dictionaryV1 = @{SDLNameRequest:
+                                   @{SDLNameOperationName:@"DeleteCommand",
+                                     SDLNameCorrelationId:@0x98765,
+                                     SDLNameParameters:
+                                         @{SDLNameCommandId:@55}}};
+NSDictionary* dictionaryV2 = @{SDLNameCommandId:@55};
 
 describe(@"Send StartService Tests", ^ {
     context(@"Unsecure", ^{

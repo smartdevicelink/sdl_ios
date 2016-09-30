@@ -7,19 +7,18 @@
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataType.h"
 
-
 @implementation SDLVehicleDataResult
 
 - (void)setDataType:(SDLVehicleDataType *)dataType {
     if (dataType != nil) {
-        [store setObject:dataType forKey:NAMES_dataType];
+        [store setObject:dataType forKey:SDLNameDataType];
     } else {
-        [store removeObjectForKey:NAMES_dataType];
+        [store removeObjectForKey:SDLNameDataType];
     }
 }
 
 - (SDLVehicleDataType *)dataType {
-    NSObject *obj = [store objectForKey:NAMES_dataType];
+    NSObject *obj = [store objectForKey:SDLNameDataType];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataType.class]) {
         return (SDLVehicleDataType *)obj;
     } else {
@@ -29,14 +28,14 @@
 
 - (void)setResultCode:(SDLVehicleDataResultCode *)resultCode {
     if (resultCode != nil) {
-        [store setObject:resultCode forKey:NAMES_resultCode];
+        [store setObject:resultCode forKey:SDLNameResultCode];
     } else {
-        [store removeObjectForKey:NAMES_resultCode];
+        [store removeObjectForKey:SDLNameResultCode];
     }
 }
 
 - (SDLVehicleDataResultCode *)resultCode {
-    NSObject *obj = [store objectForKey:NAMES_resultCode];
+    NSObject *obj = [store objectForKey:SDLNameResultCode];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResultCode.class]) {
         return (SDLVehicleDataResultCode *)obj;
     } else {

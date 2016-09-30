@@ -2,8 +2,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class SDLProtocolHeader;
 
+@class SDLProtocolHeader;
 
 @interface SDLProtocolMessage : NSObject
 

@@ -9,7 +9,7 @@
 @implementation SDLUnsubscribeButtonResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_UnsubscribeButton]) {
+    if (self = [super initWithName:SDLNameUnsubscribeButton]) {
     }
     return self;
 }

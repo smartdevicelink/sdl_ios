@@ -7,7 +7,6 @@
 #import "SDLEnum.h"
 #import "SDLNames.h"
 
-
 @implementation SDLRPCStruct
 
 - (id)initWithDictionary:(NSDictionary *)dict {
@@ -33,7 +32,7 @@
         NSString *messageType = [[store keyEnumerator] nextObject];
         NSMutableDictionary *function = [store objectForKey:messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
-            NSMutableDictionary *parameters = [function objectForKey:NAMES_parameters];
+            NSMutableDictionary *parameters = [function objectForKey:SDLNameParameters];
             return [self sdl_serializeDictionary:parameters version:version];
         } else {
             return [self sdl_serializeDictionary:store version:version];
@@ -45,10 +44,6 @@
 
 - (NSString *)description {
     return [store description];
-}
-
-- (void)dealloc {
-    store = nil;
 }
 
 - (NSDictionary *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {

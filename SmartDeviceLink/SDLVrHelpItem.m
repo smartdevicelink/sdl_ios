@@ -11,26 +11,26 @@
 
 - (void)setText:(NSString *)text {
     if (text != nil) {
-        [store setObject:text forKey:NAMES_text];
+        [store setObject:text forKey:SDLNameText];
     } else {
-        [store removeObjectForKey:NAMES_text];
+        [store removeObjectForKey:SDLNameText];
     }
 }
 
 - (NSString *)text {
-    return [store objectForKey:NAMES_text];
+    return [store objectForKey:SDLNameText];
 }
 
 - (void)setImage:(SDLImage *)image {
     if (image != nil) {
-        [store setObject:image forKey:NAMES_image];
+        [store setObject:image forKey:SDLNameImage];
     } else {
-        [store removeObjectForKey:NAMES_image];
+        [store removeObjectForKey:SDLNameImage];
     }
 }
 
 - (SDLImage *)image {
-    NSObject *obj = [store objectForKey:NAMES_image];
+    NSObject *obj = [store objectForKey:SDLNameImage];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
@@ -40,14 +40,14 @@
 
 - (void)setPosition:(NSNumber *)position {
     if (position != nil) {
-        [store setObject:position forKey:NAMES_position];
+        [store setObject:position forKey:SDLNamePosition];
     } else {
-        [store removeObjectForKey:NAMES_position];
+        [store removeObjectForKey:SDLNamePosition];
     }
 }
 
 - (NSNumber *)position {
-    return [store objectForKey:NAMES_position];
+    return [store objectForKey:SDLNamePosition];
 }
 
 @end

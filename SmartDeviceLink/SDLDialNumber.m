@@ -9,21 +9,21 @@
 @implementation SDLDialNumber
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DialNumber]) {
+    if (self = [super initWithName:SDLNameDialNumber]) {
     }
     return self;
 }
 
 - (void)setNumber:(NSString *)number {
     if (number != nil) {
-        parameters[NAMES_number] = number;
+        parameters[SDLNameNumber] = number;
     } else {
-        [parameters removeObjectForKey:NAMES_number];
+        [parameters removeObjectForKey:SDLNameNumber];
     }
 }
 
 - (NSString *)number {
-    return parameters[NAMES_number];
+    return parameters[SDLNameNumber];
 }
 
 @end

@@ -6,11 +6,10 @@
 
 #import "SDLNames.h"
 
-
 @implementation SDLSendLocationResponse
 
 - (instancetype)init {
-    self = [super initWithName:NAMES_SendLocation];
+    self = [super initWithName:SDLNameSendLocation];
     if (!self) {
         return nil;
     }

@@ -27,8 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_value:@"value",
-                                       NAMES_imageType:[SDLImageType STATIC]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameValue:@"value",
+                                       SDLNameImageType:[SDLImageType STATIC]} mutableCopy];
         SDLImage* testStruct = [[SDLImage alloc] initWithDictionary:dict];
         
         expect(testStruct.value).to(equal(@"value"));

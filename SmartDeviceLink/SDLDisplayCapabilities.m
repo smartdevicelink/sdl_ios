@@ -10,19 +10,18 @@
 #import "SDLScreenParams.h"
 #import "SDLTextField.h"
 
-
 @implementation SDLDisplayCapabilities
 
 - (void)setDisplayType:(SDLDisplayType *)displayType {
     if (displayType != nil) {
-        [store setObject:displayType forKey:NAMES_displayType];
+        [store setObject:displayType forKey:SDLNameDisplayType];
     } else {
-        [store removeObjectForKey:NAMES_displayType];
+        [store removeObjectForKey:SDLNameDisplayType];
     }
 }
 
 - (SDLDisplayType *)displayType {
-    NSObject *obj = [store objectForKey:NAMES_displayType];
+    NSObject *obj = [store objectForKey:SDLNameDisplayType];
     if (obj == nil || [obj isKindOfClass:SDLDisplayType.class]) {
         return (SDLDisplayType *)obj;
     } else {
@@ -32,14 +31,14 @@
 
 - (void)setTextFields:(NSMutableArray *)textFields {
     if (textFields != nil) {
-        [store setObject:textFields forKey:NAMES_textFields];
+        [store setObject:textFields forKey:SDLNameTextFields];
     } else {
-        [store removeObjectForKey:NAMES_textFields];
+        [store removeObjectForKey:SDLNameTextFields];
     }
 }
 
 - (NSMutableArray *)textFields {
-    NSMutableArray *array = [store objectForKey:NAMES_textFields];
+    NSMutableArray *array = [store objectForKey:SDLNameTextFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTextField.class]) {
         return array;
     } else {
@@ -53,14 +52,14 @@
 
 - (void)setImageFields:(NSMutableArray *)imageFields {
     if (imageFields != nil) {
-        [store setObject:imageFields forKey:NAMES_imageFields];
+        [store setObject:imageFields forKey:SDLNameImageFields];
     } else {
-        [store removeObjectForKey:NAMES_imageFields];
+        [store removeObjectForKey:SDLNameImageFields];
     }
 }
 
 - (NSMutableArray *)imageFields {
-    NSMutableArray *array = [store objectForKey:NAMES_imageFields];
+    NSMutableArray *array = [store objectForKey:SDLNameImageFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLImageField.class]) {
         return array;
     } else {
@@ -74,14 +73,14 @@
 
 - (void)setMediaClockFormats:(NSMutableArray *)mediaClockFormats {
     if (mediaClockFormats != nil) {
-        [store setObject:mediaClockFormats forKey:NAMES_mediaClockFormats];
+        [store setObject:mediaClockFormats forKey:SDLNameMediaClockFormats];
     } else {
-        [store removeObjectForKey:NAMES_mediaClockFormats];
+        [store removeObjectForKey:SDLNameMediaClockFormats];
     }
 }
 
 - (NSMutableArray *)mediaClockFormats {
-    NSMutableArray *array = [store objectForKey:NAMES_mediaClockFormats];
+    NSMutableArray *array = [store objectForKey:SDLNameMediaClockFormats];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLMediaClockFormat.class]) {
         return array;
     } else {
@@ -95,38 +94,38 @@
 
 - (void)setGraphicSupported:(NSNumber *)graphicSupported {
     if (graphicSupported != nil) {
-        [store setObject:graphicSupported forKey:NAMES_graphicSupported];
+        [store setObject:graphicSupported forKey:SDLNameGraphicSupported];
     } else {
-        [store removeObjectForKey:NAMES_graphicSupported];
+        [store removeObjectForKey:SDLNameGraphicSupported];
     }
 }
 
 - (NSNumber *)graphicSupported {
-    return [store objectForKey:NAMES_graphicSupported];
+    return [store objectForKey:SDLNameGraphicSupported];
 }
 
 - (void)setTemplatesAvailable:(NSMutableArray *)templatesAvailable {
     if (templatesAvailable != nil) {
-        [store setObject:templatesAvailable forKey:NAMES_templatesAvailable];
+        [store setObject:templatesAvailable forKey:SDLNameTemplatesAvailable];
     } else {
-        [store removeObjectForKey:NAMES_templatesAvailable];
+        [store removeObjectForKey:SDLNameTemplatesAvailable];
     }
 }
 
 - (NSMutableArray *)templatesAvailable {
-    return [store objectForKey:NAMES_templatesAvailable];
+    return [store objectForKey:SDLNameTemplatesAvailable];
 }
 
 - (void)setScreenParams:(SDLScreenParams *)screenParams {
     if (screenParams != nil) {
-        [store setObject:screenParams forKey:NAMES_screenParams];
+        [store setObject:screenParams forKey:SDLNameScreenParams];
     } else {
-        [store removeObjectForKey:NAMES_screenParams];
+        [store removeObjectForKey:SDLNameScreenParams];
     }
 }
 
 - (SDLScreenParams *)screenParams {
-    NSObject *obj = [store objectForKey:NAMES_screenParams];
+    NSObject *obj = [store objectForKey:SDLNameScreenParams];
     if (obj == nil || [obj isKindOfClass:SDLScreenParams.class]) {
         return (SDLScreenParams *)obj;
     } else {
@@ -136,14 +135,14 @@
 
 - (void)setNumCustomPresetsAvailable:(NSNumber *)numCustomPresetsAvailable {
     if (numCustomPresetsAvailable != nil) {
-        [store setObject:numCustomPresetsAvailable forKey:NAMES_numCustomPresetsAvailable];
+        [store setObject:numCustomPresetsAvailable forKey:SDLNameNumberCustomPresetsAvailable];
     } else {
-        [store removeObjectForKey:NAMES_numCustomPresetsAvailable];
+        [store removeObjectForKey:SDLNameNumberCustomPresetsAvailable];
     }
 }
 
 - (NSNumber *)numCustomPresetsAvailable {
-    return [store objectForKey:NAMES_numCustomPresetsAvailable];
+    return [store objectForKey:SDLNameNumberCustomPresetsAvailable];
 }
 
 @end

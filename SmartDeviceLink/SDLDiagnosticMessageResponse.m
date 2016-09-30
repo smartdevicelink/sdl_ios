@@ -8,21 +8,21 @@
 @implementation SDLDiagnosticMessageResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DiagnosticMessage]) {
+    if (self = [super initWithName:SDLNameDiagnosticMessage]) {
     }
     return self;
 }
 
 - (void)setMessageDataResult:(NSMutableArray *)messageDataResult {
     if (messageDataResult != nil) {
-        [parameters setObject:messageDataResult forKey:NAMES_messageDataResult];
+        [parameters setObject:messageDataResult forKey:SDLNameMessageDataResult];
     } else {
-        [parameters removeObjectForKey:NAMES_messageDataResult];
+        [parameters removeObjectForKey:SDLNameMessageDataResult];
     }
 }
 
 - (NSMutableArray *)messageDataResult {
-    return [parameters objectForKey:NAMES_messageDataResult];
+    return [parameters objectForKey:SDLNameMessageDataResult];
 }
 
 @end

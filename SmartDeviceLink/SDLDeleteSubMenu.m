@@ -9,21 +9,21 @@
 @implementation SDLDeleteSubMenu
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteSubMenu]) {
+    if (self = [super initWithName:SDLNameDeleteSubMenu]) {
     }
     return self;
 }
 
 - (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
-        [parameters setObject:menuID forKey:NAMES_menuID];
+        [parameters setObject:menuID forKey:SDLNameMenuId];
     } else {
-        [parameters removeObjectForKey:NAMES_menuID];
+        [parameters removeObjectForKey:SDLNameMenuId];
     }
 }
 
 - (NSNumber *)menuID {
-    return [parameters objectForKey:NAMES_menuID];
+    return [parameters objectForKey:SDLNameMenuId];
 }
 
 @end

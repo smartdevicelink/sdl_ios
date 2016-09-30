@@ -8,21 +8,21 @@
 @implementation SDLAlertResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Alert]) {
+    if (self = [super initWithName:SDLNameAlert]) {
     }
     return self;
 }
 
 - (void)setTryAgainTime:(NSNumber *)tryAgainTime {
     if (tryAgainTime != nil) {
-        [parameters setObject:tryAgainTime forKey:NAMES_tryAgainTime];
+        [parameters setObject:tryAgainTime forKey:SDLNameTryAgainTime];
     } else {
-        [parameters removeObjectForKey:NAMES_tryAgainTime];
+        [parameters removeObjectForKey:SDLNameTryAgainTime];
     }
 }
 
 - (NSNumber *)tryAgainTime {
-    return [parameters objectForKey:NAMES_tryAgainTime];
+    return [parameters objectForKey:SDLNameTryAgainTime];
 }
 
 @end

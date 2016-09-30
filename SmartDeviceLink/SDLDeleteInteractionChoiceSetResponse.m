@@ -9,7 +9,7 @@
 @implementation SDLDeleteInteractionChoiceSetResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {
+    if (self = [super initWithName:SDLNameDeleteInteractionChoiceSet]) {
     }
     return self;
 }

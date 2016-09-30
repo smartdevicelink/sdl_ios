@@ -9,33 +9,33 @@
 @implementation SDLGetDTCsResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_GetDTCs]) {
+    if (self = [super initWithName:SDLNameGetDTCs]) {
     }
     return self;
 }
 
 - (void)setEcuHeader:(NSNumber *)ecuHeader {
     if (ecuHeader != nil) {
-        [parameters setObject:ecuHeader forKey:NAMES_ecuHeader];
+        [parameters setObject:ecuHeader forKey:SDLNameECUHeader];
     } else {
-        [parameters removeObjectForKey:NAMES_ecuHeader];
+        [parameters removeObjectForKey:SDLNameECUHeader];
     }
 }
 
 - (NSNumber *)ecuHeader {
-    return [parameters objectForKey:NAMES_ecuHeader];
+    return [parameters objectForKey:SDLNameECUHeader];
 }
 
 - (void)setDtc:(NSMutableArray *)dtc {
     if (dtc != nil) {
-        [parameters setObject:dtc forKey:NAMES_dtc];
+        [parameters setObject:dtc forKey:SDLNameDTC];
     } else {
-        [parameters removeObjectForKey:NAMES_dtc];
+        [parameters removeObjectForKey:SDLNameDTC];
     }
 }
 
 - (NSMutableArray *)dtc {
-    return [parameters objectForKey:NAMES_dtc];
+    return [parameters objectForKey:SDLNameDTC];
 }
 
 @end
