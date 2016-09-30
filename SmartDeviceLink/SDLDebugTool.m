@@ -5,8 +5,6 @@
 #import "NSThread+ThreadIndex.h"
 #import "SDLHexUtility.h"
 #import "SDLRPCMessage.h"
-#import "SDLSiphonServer.h"
-
 
 @interface SDLDebugTool ()
 
@@ -171,10 +169,6 @@
     if ((output & SDLDebugOutput_File) == SDLDebugOutput_File) {
         [SDLDebugTool writeToLogFile:outputString];
     }
-
-    //Output To Siphon
-    [SDLSiphonServer init];
-    [SDLSiphonServer _siphonNSLogData:outputString];
 }
 
 

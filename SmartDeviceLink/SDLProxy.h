@@ -48,9 +48,6 @@ __deprecated_msg("Use SDLManager instead")
 
 - (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId;
 
-+ (void)enableSiphonDebug;
-+ (void)disableSiphonDebug;
-
 /**
  * Puts data into a file on the module
  * @abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.

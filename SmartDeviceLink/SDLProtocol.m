@@ -3,7 +3,6 @@
 
 
 #import "SDLFunctionID.h"
-#import "SDLJsonEncoder.h"
 
 #import "SDLAbstractTransport.h"
 #import "SDLDebugTool.h"
@@ -184,7 +183,12 @@ typedef NSNumber SDLServiceTypeBox;
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
 
-    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion]];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion] options:kNilOptions error:error];
+    
+    if (error != nil) {
+        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error encoding JSON data: %@", *error] withType:SDLDebugType_Protocol];
+    }
+    
     NSData *messagePayload = nil;
 
     NSString *logMessage = [NSString stringWithFormat:@"%@", message];
