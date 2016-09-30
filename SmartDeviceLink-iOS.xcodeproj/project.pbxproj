@@ -882,6 +882,24 @@
 		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
 		DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */; };
 		DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */; };
+		DA7515B11D95FAA000F29323 /* lock_arrow_down_black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */; };
+		DA7515B21D95FAA000F29323 /* lock_arrow_down_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */; };
+		DA7515B31D95FAA000F29323 /* lock_arrow_down_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */; };
+		DA7515B41D95FAA000F29323 /* lock_arrow_down_white.png in Resources */ = {isa = PBXBuildFile; fileRef = DA75159C1D95FAA000F29323 /* lock_arrow_down_white.png */; };
+		DA7515B51D95FAA000F29323 /* lock_arrow_down_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA75159D1D95FAA000F29323 /* lock_arrow_down_white@2x.png */; };
+		DA7515B61D95FAA000F29323 /* lock_arrow_down_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA75159E1D95FAA000F29323 /* lock_arrow_down_white@3x.png */; };
+		DA7515B71D95FAA000F29323 /* lock_arrow_up_black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515A11D95FAA000F29323 /* lock_arrow_up_black.png */; };
+		DA7515B81D95FAA000F29323 /* lock_arrow_up_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515A21D95FAA000F29323 /* lock_arrow_up_black@2x.png */; };
+		DA7515B91D95FAA000F29323 /* lock_arrow_up_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515A31D95FAA000F29323 /* lock_arrow_up_black@3x.png */; };
+		DA7515BA1D95FAA000F29323 /* lock_arrow_up_white.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515A51D95FAA000F29323 /* lock_arrow_up_white.png */; };
+		DA7515BB1D95FAA000F29323 /* lock_arrow_up_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515A61D95FAA000F29323 /* lock_arrow_up_white@2x.png */; };
+		DA7515BC1D95FAA000F29323 /* lock_arrow_up_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515A71D95FAA000F29323 /* lock_arrow_up_white@3x.png */; };
+		DA7515BD1D95FAA000F29323 /* sdl_logo_black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515AA1D95FAA000F29323 /* sdl_logo_black.png */; };
+		DA7515BE1D95FAA000F29323 /* sdl_logo_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515AB1D95FAA000F29323 /* sdl_logo_black@2x.png */; };
+		DA7515BF1D95FAA000F29323 /* sdl_logo_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515AC1D95FAA000F29323 /* sdl_logo_black@3x.png */; };
+		DA7515C01D95FAA000F29323 /* sdl_logo_white.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515AE1D95FAA000F29323 /* sdl_logo_white.png */; };
+		DA7515C11D95FAA000F29323 /* sdl_logo_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515AF1D95FAA000F29323 /* sdl_logo_white@2x.png */; };
+		DA7515C21D95FAA000F29323 /* sdl_logo_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515B01D95FAA000F29323 /* sdl_logo_white@3x.png */; };
 		DA96C0661D4D4F730022F520 /* SDLAppInfoSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */; };
 		DAB5378A1D9319E8008EB556 /* SDLNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB537891D9319E8008EB556 /* SDLNames.m */; };
 		DAC572571D1067270004288B /* SDLTouchManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572551D1067270004288B /* SDLTouchManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1861,6 +1879,24 @@
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
 		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
+		DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_down_black.png; sourceTree = "<group>"; };
+		DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@2x.png"; sourceTree = "<group>"; };
+		DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@3x.png"; sourceTree = "<group>"; };
+		DA75159C1D95FAA000F29323 /* lock_arrow_down_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_down_white.png; sourceTree = "<group>"; };
+		DA75159D1D95FAA000F29323 /* lock_arrow_down_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_white@2x.png"; sourceTree = "<group>"; };
+		DA75159E1D95FAA000F29323 /* lock_arrow_down_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_white@3x.png"; sourceTree = "<group>"; };
+		DA7515A11D95FAA000F29323 /* lock_arrow_up_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_up_black.png; sourceTree = "<group>"; };
+		DA7515A21D95FAA000F29323 /* lock_arrow_up_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_black@2x.png"; sourceTree = "<group>"; };
+		DA7515A31D95FAA000F29323 /* lock_arrow_up_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_black@3x.png"; sourceTree = "<group>"; };
+		DA7515A51D95FAA000F29323 /* lock_arrow_up_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_up_white.png; sourceTree = "<group>"; };
+		DA7515A61D95FAA000F29323 /* lock_arrow_up_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_white@2x.png"; sourceTree = "<group>"; };
+		DA7515A71D95FAA000F29323 /* lock_arrow_up_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_white@3x.png"; sourceTree = "<group>"; };
+		DA7515AA1D95FAA000F29323 /* sdl_logo_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sdl_logo_black.png; sourceTree = "<group>"; };
+		DA7515AB1D95FAA000F29323 /* sdl_logo_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_black@2x.png"; sourceTree = "<group>"; };
+		DA7515AC1D95FAA000F29323 /* sdl_logo_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_black@3x.png"; sourceTree = "<group>"; };
+		DA7515AE1D95FAA000F29323 /* sdl_logo_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sdl_logo_white.png; sourceTree = "<group>"; };
+		DA7515AF1D95FAA000F29323 /* sdl_logo_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_white@2x.png"; sourceTree = "<group>"; };
+		DA7515B01D95FAA000F29323 /* sdl_logo_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_white@3x.png"; sourceTree = "<group>"; };
 		DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfoSpec.m; sourceTree = "<group>"; };
 		DAB537891D9319E8008EB556 /* SDLNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNames.m; sourceTree = "<group>"; };
 		DAC572551D1067270004288B /* SDLTouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchManager.h; sourceTree = "<group>"; };
@@ -3198,6 +3234,7 @@
 		5D6F7A301BC5B7100070BF37 /* Lock Screen UI */ = {
 			isa = PBXGroup;
 			children = (
+				DA7515951D95FAA000F29323 /* iOS 7 Assets */,
 				5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */,
 				5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */,
 				5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */,
@@ -3569,6 +3606,103 @@
 				DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */,
 			);
 			name = Touches;
+			sourceTree = "<group>";
+		};
+		DA7515951D95FAA000F29323 /* iOS 7 Assets */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515961D95FAA000F29323 /* lock_arrow_down */,
+				DA75159F1D95FAA000F29323 /* lock_arrow_up */,
+				DA7515A81D95FAA000F29323 /* sdl_logo */,
+			);
+			path = "iOS 7 Assets";
+			sourceTree = "<group>";
+		};
+		DA7515961D95FAA000F29323 /* lock_arrow_down */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515971D95FAA000F29323 /* black */,
+				DA75159B1D95FAA000F29323 /* white */,
+			);
+			path = lock_arrow_down;
+			sourceTree = "<group>";
+		};
+		DA7515971D95FAA000F29323 /* black */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */,
+				DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */,
+				DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */,
+			);
+			path = black;
+			sourceTree = "<group>";
+		};
+		DA75159B1D95FAA000F29323 /* white */ = {
+			isa = PBXGroup;
+			children = (
+				DA75159C1D95FAA000F29323 /* lock_arrow_down_white.png */,
+				DA75159D1D95FAA000F29323 /* lock_arrow_down_white@2x.png */,
+				DA75159E1D95FAA000F29323 /* lock_arrow_down_white@3x.png */,
+			);
+			path = white;
+			sourceTree = "<group>";
+		};
+		DA75159F1D95FAA000F29323 /* lock_arrow_up */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515A01D95FAA000F29323 /* black */,
+				DA7515A41D95FAA000F29323 /* white */,
+			);
+			path = lock_arrow_up;
+			sourceTree = "<group>";
+		};
+		DA7515A01D95FAA000F29323 /* black */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515A11D95FAA000F29323 /* lock_arrow_up_black.png */,
+				DA7515A21D95FAA000F29323 /* lock_arrow_up_black@2x.png */,
+				DA7515A31D95FAA000F29323 /* lock_arrow_up_black@3x.png */,
+			);
+			path = black;
+			sourceTree = "<group>";
+		};
+		DA7515A41D95FAA000F29323 /* white */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515A51D95FAA000F29323 /* lock_arrow_up_white.png */,
+				DA7515A61D95FAA000F29323 /* lock_arrow_up_white@2x.png */,
+				DA7515A71D95FAA000F29323 /* lock_arrow_up_white@3x.png */,
+			);
+			path = white;
+			sourceTree = "<group>";
+		};
+		DA7515A81D95FAA000F29323 /* sdl_logo */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515A91D95FAA000F29323 /* black */,
+				DA7515AD1D95FAA000F29323 /* white */,
+			);
+			path = sdl_logo;
+			sourceTree = "<group>";
+		};
+		DA7515A91D95FAA000F29323 /* black */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515AA1D95FAA000F29323 /* sdl_logo_black.png */,
+				DA7515AB1D95FAA000F29323 /* sdl_logo_black@2x.png */,
+				DA7515AC1D95FAA000F29323 /* sdl_logo_black@3x.png */,
+			);
+			path = black;
+			sourceTree = "<group>";
+		};
+		DA7515AD1D95FAA000F29323 /* white */ = {
+			isa = PBXGroup;
+			children = (
+				DA7515AE1D95FAA000F29323 /* sdl_logo_white.png */,
+				DA7515AF1D95FAA000F29323 /* sdl_logo_white@2x.png */,
+				DA7515B01D95FAA000F29323 /* sdl_logo_white@3x.png */,
+			);
+			path = white;
 			sourceTree = "<group>";
 		};
 		DAC5724C1D0FE3B60004288B /* Touches */ = {
@@ -4044,8 +4178,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7515B51D95FAA000F29323 /* lock_arrow_down_white@2x.png in Resources */,
+				DA7515BE1D95FAA000F29323 /* sdl_logo_black@2x.png in Resources */,
+				DA7515B91D95FAA000F29323 /* lock_arrow_up_black@3x.png in Resources */,
+				DA7515B71D95FAA000F29323 /* lock_arrow_up_black.png in Resources */,
+				DA7515BC1D95FAA000F29323 /* lock_arrow_up_white@3x.png in Resources */,
+				DA7515B81D95FAA000F29323 /* lock_arrow_up_black@2x.png in Resources */,
+				DA7515C21D95FAA000F29323 /* sdl_logo_white@3x.png in Resources */,
+				DA7515C01D95FAA000F29323 /* sdl_logo_white.png in Resources */,
+				DA7515C11D95FAA000F29323 /* sdl_logo_white@2x.png in Resources */,
+				DA7515BD1D95FAA000F29323 /* sdl_logo_black.png in Resources */,
+				DA7515B11D95FAA000F29323 /* lock_arrow_down_black.png in Resources */,
+				DA7515BA1D95FAA000F29323 /* lock_arrow_up_white.png in Resources */,
 				5D6F7A3E1BC811FC0070BF37 /* SDLAssets.xcassets in Resources */,
 				5D616B451D552F7A00553F6B /* SDLLockScreen.storyboard in Resources */,
+				DA7515BB1D95FAA000F29323 /* lock_arrow_up_white@2x.png in Resources */,
+				DA7515B61D95FAA000F29323 /* lock_arrow_down_white@3x.png in Resources */,
+				DA7515B21D95FAA000F29323 /* lock_arrow_down_black@2x.png in Resources */,
+				DA7515B41D95FAA000F29323 /* lock_arrow_down_white.png in Resources */,
+				DA7515B31D95FAA000F29323 /* lock_arrow_down_black@3x.png in Resources */,
+				DA7515BF1D95FAA000F29323 /* sdl_logo_black@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

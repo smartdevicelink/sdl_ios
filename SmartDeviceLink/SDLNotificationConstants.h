@@ -14,7 +14,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSNotificationName SDLNotificationName;
+// Resolves issue of using Swift 3 and pre-iOS 10 versions due to NSNotificationName unavailability.
+#if __IPHONE_OS_VERSION_MAX_ALLOWED <= __IPHONE_9_3
+    #define NOTIFICATION_TYPEDEF NSString*
+#else
+    #define NOTIFICATION_TYPEDEF NSNotificationName
+#endif
+
+typedef NOTIFICATION_TYPEDEF SDLNotificationName;
+
 typedef NSString *SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
