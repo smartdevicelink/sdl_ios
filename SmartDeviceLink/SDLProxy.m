@@ -35,7 +35,6 @@
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
-#import "SDLSiphonServer.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
@@ -807,16 +806,6 @@ const int POLICIES_CORRELATION_ID = 65535;
             break;
         }
     }
-}
-
-
-#pragma mark - Siphon management
-+ (void)enableSiphonDebug {
-    [SDLSiphonServer enableSiphonDebug];
-}
-
-+ (void)disableSiphonDebug {
-    [SDLSiphonServer disableSiphonDebug];
 }
 
 @end
