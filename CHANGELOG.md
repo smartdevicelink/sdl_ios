@@ -1,4 +1,15 @@
-# # 4.3.0 Release Candidate 3 Release Notes (Since RC 2)
+# 4.3.0 Release Candidate 4 Release Notes (Since RC 3)
+### Bug Fixes
+* Notification constants should now be compatible both with Swift 3 and with iOS 6/7.
+* Fixed a few issues with the lock screen and iOS 6/7 support.
+* Fixed a layout issue with the lock screen on iPhone 4S-sized phones.
+
+### Other
+* CI builds now run on Xcode 8.
+* Removed xctest testing framework, now just uses xcodebuild.
+* Explicitly specify which headers are public in Cocoapods spec.
+
+# 4.3.0 Release Candidate 3 Release Notes (Since RC 2)
 ### Bug Fixes
 * Fixed a bug where large putfiles would crash.
 
