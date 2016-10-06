@@ -11,7 +11,9 @@ s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :ta
 s.source_files = "SmartDeviceLink/*.{h,m}"
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
-s.public_header_files = ['SmartDeviceLink/SDLJingle.h',
+s.public_header_files = [
+'SmartDeviceLink/SmartDeviceLink.h'
+'SmartDeviceLink/SDLJingle.h',
 'SmartDeviceLink/SDLProxy.h',
 'SmartDeviceLink/SDLProxyFactory.h',
 'SmartDeviceLink/SDLProxyListener.h',
