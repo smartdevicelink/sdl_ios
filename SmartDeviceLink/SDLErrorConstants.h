@@ -49,5 +49,9 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
     /**
      *  A file was attempted to be accessed but it does not exist.
      */
-    SDLFileManagerErrorNoKnownFile = -2
+    SDLFileManagerErrorNoKnownFile = -2,
+    /**
+     * The file manager attempted to start but encountered an error.
+     */
+    SDLFileManagerErrorUnableToStart = -3,
 };

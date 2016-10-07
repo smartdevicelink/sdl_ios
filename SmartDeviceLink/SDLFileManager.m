@@ -133,6 +133,11 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
     [self.mutableRemoteFileNames removeAllObjects];
     [self.class sdl_clearTemporaryFileDirectory];
     self.bytesAvailable = 0;
+
+    if (self.startupCompletionHandler != nil) {
+        self.startupCompletionHandler(NO, [NSError sdl_fileManager_unableToStartError]);
+        self.startupCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateFetchingInitialList {
@@ -153,6 +158,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 - (void)didEnterStateReady {
     if (self.startupCompletionHandler != nil) {
         self.startupCompletionHandler(YES, nil);
+        self.startupCompletionHandler = nil;
     }
 }
 
@@ -164,6 +170,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
     SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager
                                                                                   completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
                                                                                       if (error != nil || !success) {
+                                                                                          handler(success, bytesAvailable, fileNames, error);
                                                                                           BLOCK_RETURN;
                                                                                       }
 
@@ -237,7 +244,6 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
                                                     if (success) {
                                                         [weakSelf.mutableRemoteFileNames addObject:fileName];
                                                     }
-
                                                     if (uploadCompletion != nil) {
                                                         uploadCompletion(success, bytesAvailable, error);
                                                     }
