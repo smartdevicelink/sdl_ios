@@ -1,3 +1,7 @@
+# 4.3.0 Release Candidate 5 Release Notes (Since RC 4)
+### Bug Fixes
+* Fixed an issue where "SmartDeviceLink.h" would not be available through cocoapods.
+
 # 4.3.0 Release Candidate 4 Release Notes (Since RC 3)
 ### Bug Fixes
 * Notification constants should now be compatible both with Swift 3 and with iOS 6/7.
