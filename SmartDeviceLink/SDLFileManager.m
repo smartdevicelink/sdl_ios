@@ -216,6 +216,12 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 #pragma mark - Uploading
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
+    // Make sure we are able to send files
+    if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
+        handler(NO, self.bytesAvailable, nil);
+        return;
+    }
+
     // Check our overwrite settings and error out if it would overwrite
     if (file.overwrite == NO && [self.remoteFileNames containsObject:file.name]) {
         if (handler != nil) {
