@@ -221,7 +221,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateSettingUpManagers {
-    __block BOOL setupSuccess = YES;
     dispatch_group_t managerGroup = dispatch_group_create();
 
     // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
@@ -232,7 +231,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_enter(managerGroup);
     [self.fileManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
-            setupSuccess = NO;
             [SDLDebugTool logFormat:@"File manager was unable to start; error: %@", error];
         }
 
@@ -242,7 +240,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_enter(managerGroup);
     [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
-            setupSuccess = NO;
             [SDLDebugTool logFormat:@"Permission manager was unable to start; error: %@", error];
         }
 
@@ -252,14 +249,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
 
-    // When done, we want to transition
+    // When done, we want to transition, even if there were errors. They may be expected, e.g. on head units that do not support files.
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
-        if (setupSuccess) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
-        } else {
-            self.readyHandler(NO, [NSError sdl_lifecycle_managersFailedToStart]);
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
-        }
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
     });
 }
 
