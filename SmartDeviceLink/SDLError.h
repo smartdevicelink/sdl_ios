@@ -37,6 +37,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_fileManager_cannotOverwriteError;
 + (NSError *)sdl_fileManager_noKnownFileError;
 + (NSError *)sdl_fileManager_unableToStartError;
++ (NSError *)sdl_fileManager_unableToUploadError;
 
 @end
 

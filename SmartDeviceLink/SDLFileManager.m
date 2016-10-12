@@ -31,6 +31,7 @@ typedef NSString SDLFileManagerState;
 SDLFileManagerState *const SDLFileManagerStateShutdown = @"Shutdown";
 SDLFileManagerState *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
 SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
+SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 
 #pragma mark - SDLFileManager class
@@ -123,9 +124,17 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
         SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
-        SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady],
-        SDLFileManagerStateReady: @[SDLFileManagerStateShutdown]
+        SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady, SDLFileManagerStateStartupError],
+        SDLFileManagerStateReady: @[SDLFileManagerStateShutdown],
+        SDLFileManagerStateStartupError: @[SDLFileManagerStateShutdown]
     };
+}
+
+- (void)didEnterStateStartupError {
+    if (self.startupCompletionHandler != nil) {
+        self.startupCompletionHandler(NO, [NSError sdl_fileManager_unableToStartError]);
+        self.startupCompletionHandler = nil;
+    }
 }
 
 - (void)willEnterStateShutdown {
@@ -134,10 +143,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
     [self.class sdl_clearTemporaryFileDirectory];
     self.bytesAvailable = 0;
 
-    if (self.startupCompletionHandler != nil) {
-        self.startupCompletionHandler(NO, [NSError sdl_fileManager_unableToStartError]);
-        self.startupCompletionHandler = nil;
-    }
+    self.startupCompletionHandler = nil;
 }
 
 - (void)didEnterStateFetchingInitialList {
@@ -145,8 +151,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
     [self sdl_listRemoteFilesWithCompletionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
-            weakSelf.startupCompletionHandler(NO, error);
-            [weakSelf.stateMachine transitionToState:SDLFileManagerStateShutdown];
+            [weakSelf.stateMachine transitionToState:SDLFileManagerStateStartupError];
             BLOCK_RETURN;
         }
 
