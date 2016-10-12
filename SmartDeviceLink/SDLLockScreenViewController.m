@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSString *bundlePath = [[NSBundle sdlBundle] bundlePath];
         NSInteger deviceScale = [[UIScreen mainScreen] scale];
         // We assume we are only dealing with PNGs.
-        NSString *fileName = [NSString stringWithFormat:@"%@%i.png", name, deviceScale];
+        NSString *fileName = [NSString stringWithFormat:@"%@%li.png", name, (long)deviceScale];
         NSString *fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
         NSData *imageData = [NSData dataWithContentsOfFile:fullPath];
         return [UIImage imageWithData:imageData];
