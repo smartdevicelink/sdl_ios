@@ -310,10 +310,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
-    if (self.firstTimeState == SDLHMIFirstStateNone) {
-        [self prepareRemoteSystem];
-    }
-    
     if (![newLevel isEqualToEnum:[SDLHMILevel NONE]] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
         self.firstTimeState = SDLHMIFirstStateNonNone;
