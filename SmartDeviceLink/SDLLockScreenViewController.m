@@ -168,7 +168,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage*)sdl_imageWithName:(NSString*)name {
     if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         NSString* bundlePath = [[NSBundle sdlBundle] bundlePath];
-        NSInteger deviceScale = [[UIScreen mainScreen] scale];
+        int deviceScale = [[UIScreen mainScreen] scale];
         // We assume we are only dealing with PNGs.
         NSString* fileName = [NSString stringWithFormat:@"%@%i.png", name, deviceScale];
         NSString* fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
