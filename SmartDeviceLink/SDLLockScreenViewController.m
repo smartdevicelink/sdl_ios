@@ -165,14 +165,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_down_%@", white ? @"white" : @"black"]];
 }
 
-+ (UIImage*)sdl_imageWithName:(NSString*)name {
++ (UIImage *)sdl_imageWithName:(NSString *)name {
     if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        NSString* bundlePath = [[NSBundle sdlBundle] bundlePath];
+        NSString *bundlePath = [[NSBundle sdlBundle] bundlePath];
         NSInteger deviceScale = [[UIScreen mainScreen] scale];
         // We assume we are only dealing with PNGs.
-        NSString* fileName = [NSString stringWithFormat:@"%@%i.png", name, deviceScale];
-        NSString* fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
-        NSData* imageData = [NSData dataWithContentsOfFile:fullPath];
+        NSString *fileName = [NSString stringWithFormat:@"%@%li.png", name, (long)deviceScale];
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
+        NSData *imageData = [NSData dataWithContentsOfFile:fullPath];
         return [UIImage imageWithData:imageData];
     } else {
         return [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
