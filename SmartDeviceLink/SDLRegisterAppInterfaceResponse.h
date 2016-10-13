@@ -4,19 +4,12 @@
 
 #import "SDLRPCResponse.h"
 
-@class SDLAudioPassThruCapabilities;
-@class SDLButtonCapabilities;
+@class SDLLanguage;
 @class SDLDisplayCapabilities;
 @class SDLHMICapabilities;
-@class SDLHMIZoneCapabilities;
-@class SDLLanguage;
-@class SDLPrerecordedSpeech;
 @class SDLPresetBankCapabilities;
-@class SDLSoftButtonCapabilities;
-@class SDLSpeechCapabilities;
 @class SDLSyncMsgVersion;
 @class SDLVehicleType;
-@class SDLVRCapabilities;
 
 
 /**
@@ -24,20 +17,7 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLRegisterAppInterfaceResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLRegisterAppInterfaceResponse object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLRegisterAppInterfaceResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
  * @see SDLSyncMsgVersion
@@ -77,7 +57,7 @@
  *
  * Optional, Array of length 1 - 100, of SDLButtonCapabilities
  */
-@property (strong) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (strong) NSMutableArray *buttonCapabilities;
 
 /**
  * If returned, the platform supports on-screen SoftButtons
@@ -86,7 +66,7 @@
  *
  * Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
  */
-@property (strong) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (strong) NSMutableArray *softButtonCapabilities;
 
 /**
  * If returned, the platform supports custom on-screen Presets
@@ -102,35 +82,35 @@
  *
  * Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
  */
-@property (strong) NSMutableArray<SDLHMIZoneCapabilities *> *hmiZoneCapabilities;
+@property (strong) NSMutableArray *hmiZoneCapabilities;
 
 /**
  * @see SDLSpeechCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLSpeechCapabilities
  */
-@property (strong) NSMutableArray<SDLSpeechCapabilities *> *speechCapabilities;
+@property (strong) NSMutableArray *speechCapabilities;
 
 /**
  * @see SDLPrerecordedSpeech
  *
  * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
  */
-@property (strong) NSMutableArray<SDLPrerecordedSpeech *> *prerecordedSpeech;
+@property (strong) NSMutableArray *prerecordedSpeech;
 
 /**
  * @see SDLVRCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLVRCapabilities
  */
-@property (strong) NSMutableArray<SDLVRCapabilities *> *vrCapabilities;
+@property (strong) NSMutableArray *vrCapabilities;
 
 /**
  * @see SDLAudioPassThruCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
  */
-@property (strong) NSMutableArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
+@property (strong) NSMutableArray *audioPassThruCapabilities;
 
 /**
  * Specifies the vehicle's type
@@ -146,7 +126,7 @@
  *
  * Optional, Array of length 1 - 100, Integer 0 - 255
  */
-@property (strong) NSMutableArray<NSNumber *> *supportedDiagModes;
+@property (strong) NSMutableArray *supportedDiagModes;
 
 /**
  * @see SDLHMICapabilities

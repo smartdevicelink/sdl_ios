@@ -14,13 +14,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setFilenames:(NSMutableArray<NSString *> *)filenames {
+- (void)setFilenames:(NSMutableArray *)filenames {
     if (filenames != nil) {
         [parameters setObject:filenames forKey:SDLNameFilenames];
     } else {
@@ -28,7 +22,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)filenames {
+- (NSMutableArray *)filenames {
     return [parameters objectForKey:SDLNameFilenames];
 }
 

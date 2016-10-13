@@ -10,18 +10,6 @@
 
 @implementation SDLECallInfo
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus *)eCallNotificationStatus {
     if (eCallNotificationStatus != nil) {
         [store setObject:eCallNotificationStatus forKey:SDLNameECallNotificationStatus];

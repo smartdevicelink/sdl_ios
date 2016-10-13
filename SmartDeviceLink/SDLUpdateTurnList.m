@@ -16,13 +16,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setTurnList:(NSMutableArray<SDLTurn *> *)turnList {
+- (void)setTurnList:(NSMutableArray *)turnList {
     if (turnList != nil) {
         [parameters setObject:turnList forKey:SDLNameTurnList];
     } else {
@@ -30,20 +24,20 @@
     }
 }
 
-- (NSMutableArray<SDLTurn *> *)turnList {
-    NSMutableArray<SDLTurn *> *array = [parameters objectForKey:SDLNameTurnList];
+- (NSMutableArray *)turnList {
+    NSMutableArray *array = [parameters objectForKey:SDLNameTurnList];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTurn.class]) {
         return array;
     } else {
-        NSMutableArray<SDLTurn *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTurn alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLTurn alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
     if (softButtons != nil) {
         [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
@@ -51,14 +45,14 @@
     }
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
+- (NSMutableArray *)softButtons {
+    NSMutableArray *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

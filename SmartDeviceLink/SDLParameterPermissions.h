@@ -9,31 +9,19 @@
  *
  * @since SDL 2.0
  */
-@interface SDLParameterPermissions : SDLRPCStruct {
-}
-
-/**
- * @abstract  Constructs a newly allocated SDLParameterPermissions object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a newly allocated SDLParameterPermissions object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLParameterPermissions : SDLRPCStruct
 
 /**
  * @abstract A set of all parameters that are permitted for this given RPC.
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property (strong) NSMutableArray<NSString*> *allowed;
+@property (strong) NSMutableArray *allowed;
 /**
  * @abstract A set of all parameters that are prohibited for this given RPC.
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property (strong) NSMutableArray<NSString*> *userDisallowed;
+@property (strong) NSMutableArray *userDisallowed;
 
 @end

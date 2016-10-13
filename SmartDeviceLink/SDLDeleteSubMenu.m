@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:SDLNameMenuId];

@@ -7,10 +7,6 @@
 /** SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.
  * @since SmartDeviceLink 1.0
  */
-@interface SDLAlertManeuverResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLAlertManeuverResponse : SDLRPCResponse
 
 @end

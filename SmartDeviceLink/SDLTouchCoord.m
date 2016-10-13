@@ -8,18 +8,6 @@
 
 @implementation SDLTouchCoord
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setX:(NSNumber *)x {
     if (x != nil) {
         [store setObject:x forKey:SDLNameX];

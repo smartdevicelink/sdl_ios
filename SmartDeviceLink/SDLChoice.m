@@ -8,18 +8,6 @@
 
 @implementation SDLChoice
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString*, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setChoiceID:(NSNumber *)choiceID {
     if (choiceID != nil) {
         [store setObject:choiceID forKey:SDLNameChoiceId];
@@ -44,7 +32,7 @@
     return [store objectForKey:SDLNameMenuName];
 }
 
-- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
+- (void)setVrCommands:(NSMutableArray *)vrCommands {
     if (vrCommands != nil) {
         [store setObject:vrCommands forKey:SDLNameVRCommands];
     } else {
@@ -52,7 +40,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)vrCommands {
+- (NSMutableArray *)vrCommands {
     return [store objectForKey:SDLNameVRCommands];
 }
 
@@ -69,7 +57,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -110,7 +98,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

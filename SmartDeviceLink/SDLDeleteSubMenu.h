@@ -16,18 +16,7 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLAddSubMenu SDLDeleteCommand
  */
-@interface SDLDeleteSubMenu : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLDeleteSubMenu object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLDeleteSubMenu object indicated by the dictionary parameter<p>
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLDeleteSubMenu : SDLRPCRequest
 
 /**
  * @abstract the MenuID that identifies the SDLSubMenu to be delete

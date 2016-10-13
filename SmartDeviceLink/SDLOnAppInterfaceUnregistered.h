@@ -14,18 +14,7 @@
  * @since SDL 1.0
  * @see SDLRegisterAppInterface
  */
-@interface SDLOnAppInterfaceUnregistered : SDLRPCNotification {
-}
-
-/**
- * Constructs a newly allocated SDLOnAppInterfaceUnregistered object
- */
-- (instancetype)init;
-/**
- * Constructs a newly allocated SDLOnAppInterfaceUnregistered object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLOnAppInterfaceUnregistered : SDLRPCNotification
 
 /**
  * @abstract The reason application's interface was terminated

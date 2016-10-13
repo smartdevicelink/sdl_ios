@@ -6,11 +6,7 @@
 @class SDLKeyboardEvent;
 
 
-@interface SDLOnKeyboardInput : SDLRPCNotification {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLOnKeyboardInput : SDLRPCNotification
 
 @property (strong) SDLKeyboardEvent *event;
 @property (strong) NSString *data;

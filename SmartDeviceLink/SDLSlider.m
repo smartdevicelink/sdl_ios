@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setNumTicks:(NSNumber *)numTicks {
     if (numTicks != nil) {
         [parameters setObject:numTicks forKey:SDLNameNumberTicks];
@@ -56,7 +50,7 @@
     return [parameters objectForKey:SDLNameSliderHeader];
 }
 
-- (void)setSliderFooter:(NSMutableArray<NSString *> *)sliderFooter {
+- (void)setSliderFooter:(NSMutableArray *)sliderFooter {
     if (sliderFooter != nil) {
         [parameters setObject:sliderFooter forKey:SDLNameSliderFooter];
     } else {
@@ -64,7 +58,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)sliderFooter {
+- (NSMutableArray *)sliderFooter {
     return [parameters objectForKey:SDLNameSliderFooter];
 }
 

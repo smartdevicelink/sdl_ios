@@ -16,12 +16,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
     if (ttsChunks != nil) {
         [parameters setObject:ttsChunks forKey:SDLNameTTSChunks];
@@ -36,8 +30,8 @@
         return array;
     } else {
         NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:dict]];
         }
         return newList;
     }
@@ -57,8 +51,8 @@
         return array;
     } else {
         NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:dict]];
         }
         return newList;
     }

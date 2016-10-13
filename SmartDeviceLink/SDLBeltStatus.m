@@ -8,18 +8,6 @@
 
 @implementation SDLBeltStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDriverBeltDeployed:(SDLVehicleDataEventStatus *)driverBeltDeployed {
     if (driverBeltDeployed != nil) {
         [store setObject:driverBeltDeployed forKey:SDLNameDriverBeltDeployed];

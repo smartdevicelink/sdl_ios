@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:SDLNameInteractionChoiceSetId];

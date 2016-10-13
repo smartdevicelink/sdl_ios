@@ -6,11 +6,7 @@
 @class SDLVehicleDataResultCode;
 
 
-@interface SDLDIDResult : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLDIDResult : SDLRPCStruct
 
 @property (strong) SDLVehicleDataResultCode *resultCode;
 @property (strong) NSNumber *didLocation;

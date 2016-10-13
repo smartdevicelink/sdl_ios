@@ -9,18 +9,6 @@
 
 @implementation SDLVRHelpItem
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:SDLNameText];
@@ -46,7 +34,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

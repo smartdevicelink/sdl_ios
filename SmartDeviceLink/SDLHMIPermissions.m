@@ -9,19 +9,7 @@
 
 @implementation SDLHMIPermissions
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setAllowed:(NSMutableArray<SDLHMILevel *> *)allowed {
+- (void)setAllowed:(NSMutableArray *)allowed {
     if (allowed != nil) {
         [store setObject:allowed forKey:SDLNameAllowed];
     } else {
@@ -29,12 +17,12 @@
     }
 }
 
-- (NSMutableArray<SDLHMILevel *> *)allowed {
-    NSMutableArray<SDLHMILevel *> *array = [store objectForKey:SDLNameAllowed];
+- (NSMutableArray *)allowed {
+    NSMutableArray *array = [store objectForKey:SDLNameAllowed];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMILevel.class]) {
         return array;
     } else {
-        NSMutableArray<SDLHMILevel *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLHMILevel valueOf:enumString]];
         }
@@ -42,7 +30,7 @@
     }
 }
 
-- (void)setUserDisallowed:(NSMutableArray<SDLHMILevel *> *)userDisallowed {
+- (void)setUserDisallowed:(NSMutableArray *)userDisallowed {
     if (userDisallowed != nil) {
         [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
     } else {
@@ -50,12 +38,12 @@
     }
 }
 
-- (NSMutableArray<SDLHMILevel *> *)userDisallowed {
-    NSMutableArray<SDLHMILevel *> *array = [store objectForKey:SDLNameUserDisallowed];
+- (NSMutableArray *)userDisallowed {
+    NSMutableArray *array = [store objectForKey:SDLNameUserDisallowed];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLHMILevel.class]) {
         return array;
     } else {
-        NSMutableArray<SDLHMILevel *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLHMILevel valueOf:enumString]];
         }

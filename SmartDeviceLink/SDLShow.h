@@ -4,7 +4,6 @@
 #import "SDLRPCRequest.h"
 
 @class SDLImage;
-@class SDLSoftButton;
 @class SDLTextAlignment;
 
 
@@ -30,18 +29,7 @@
  * Since SmartDeviceLink 1.0
  * See SDLAlert SDLSetMediaClockTimer
  */
-@interface SDLShow : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLShow object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLShow object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLShow : SDLRPCRequest
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display
@@ -215,7 +203,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong) NSMutableArray *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -229,6 +217,6 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray<NSString *> *customPresets;
+@property (strong) NSMutableArray *customPresets;
 
 @end

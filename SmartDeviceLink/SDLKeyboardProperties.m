@@ -10,18 +10,6 @@
 
 @implementation SDLKeyboardProperties
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
         [store setObject:language forKey:SDLNameLanguage];
@@ -73,7 +61,7 @@
     }
 }
 
-- (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
+- (void)setLimitedCharacterList:(NSMutableArray *)limitedCharacterList {
     if (limitedCharacterList != nil) {
         [store setObject:limitedCharacterList forKey:SDLNameLimitedCharacterList];
     } else {
@@ -81,7 +69,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)limitedCharacterList {
+- (NSMutableArray *)limitedCharacterList {
     return [store objectForKey:SDLNameLimitedCharacterList];
 }
 

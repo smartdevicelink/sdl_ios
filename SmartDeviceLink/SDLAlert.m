@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setAlertText1:(NSString *)alertText1 {
     if (alertText1 != nil) {
         [parameters setObject:alertText1 forKey:SDLNameAlertText1];
@@ -70,8 +64,8 @@
         return array;
     } else {
         NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:dict]];
         }
         return newList;
     }
@@ -127,8 +121,8 @@
         return array;
     } else {
         NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:dict]];
         }
         return newList;
     }

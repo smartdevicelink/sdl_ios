@@ -6,11 +6,7 @@
 @class SDLVehicleDataStatus;
 
 
-@interface SDLMyKey : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLMyKey : SDLRPCStruct
 
 @property (strong) SDLVehicleDataStatus *e911Override;
 

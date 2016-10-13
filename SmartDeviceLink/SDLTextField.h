@@ -56,20 +56,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLTextField : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLTextField object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLTextField object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use to construct the object
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLTextField : SDLRPCStruct
 
 /**
  * @abstract The enumeration identifying the field.

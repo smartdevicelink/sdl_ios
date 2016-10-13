@@ -9,10 +9,6 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLEndAudioPassThruResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLEndAudioPassThruResponse : SDLRPCResponse
 
 @end

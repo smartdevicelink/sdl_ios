@@ -14,20 +14,7 @@
  *
  * @since SDL 2.0
  */
-@interface SDLChangeRegistration : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLChangeRegistration object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLChangeRegistration object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLChangeRegistration : SDLRPCRequest
 
 /**
  * @abstract The language the app wants to change to
@@ -51,7 +38,7 @@
  *
  *  Optional, Array of SDLTTSChunk, 1 - 100 elements
  */
-@property (copy, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
+@property (copy, nonatomic) NSArray *ttsName;
 
 /**
  *  Request a new app short name registration
@@ -65,6 +52,6 @@
  *
  *  Optional, Array of NSString, 1 - 100 elements, max string length 40 chars
  */
-@property (copy, nonatomic) NSArray<NSString *> *vrSynonyms;
+@property (copy, nonatomic) NSArray *vrSynonyms;
 
 @end

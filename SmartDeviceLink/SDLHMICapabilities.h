@@ -6,9 +6,6 @@
 
 @interface SDLHMICapabilities : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
-
 /**
  Availability of build in Nav. True: Available, False: Not Available
  

@@ -9,18 +9,6 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLScrollableMessageResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLScrollableMessageResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLScrollableMessageResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLScrollableMessageResponse : SDLRPCResponse
 
 @end

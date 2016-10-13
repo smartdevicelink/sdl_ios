@@ -9,19 +9,7 @@
  *
  * @since SDL 2.0
  */
-@interface SDLSoftButtonCapabilities : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLSoftButtonCapabilities object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLSoftButtonCapabilities object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLSoftButtonCapabilities : SDLRPCStruct
 
 /**
  * @abstract The button supports a short press.

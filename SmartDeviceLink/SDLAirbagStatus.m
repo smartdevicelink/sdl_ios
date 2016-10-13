@@ -7,18 +7,6 @@
 
 @implementation SDLAirbagStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDriverAirbagDeployed:(SDLVehicleDataEventStatus *)driverAirbagDeployed {
     if (driverAirbagDeployed != nil) {
         [store setObject:driverAirbagDeployed forKey:SDLNameDriverAirbagDeployed];

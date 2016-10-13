@@ -6,11 +6,7 @@
 @class SDLTBTState;
 
 
-@interface SDLOnTBTClientState : SDLRPCNotification {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLOnTBTClientState : SDLRPCNotification
 
 @property (strong) SDLTBTState *state;
 

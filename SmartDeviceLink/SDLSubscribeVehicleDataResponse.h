@@ -11,21 +11,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSubscribeVehicleDataResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLSubscribeVehicleDataResponse object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLSubscribeVehicleDataResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
-
+@interface SDLSubscribeVehicleDataResponse : SDLRPCResponse
 
 /**
  * @abstract A SDLVehicleDataResult* value. See GPSData.

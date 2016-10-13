@@ -7,10 +7,6 @@
 /** SDLUpdateTurnListResponse is sent, when SDLUpdateTurnList has been called.
  * Since<b>SmartDeviceLink 2.0</b>
  */
-@interface SDLUpdateTurnListResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLUpdateTurnListResponse : SDLRPCResponse
 
 @end

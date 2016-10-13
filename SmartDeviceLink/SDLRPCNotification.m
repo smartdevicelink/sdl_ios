@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super initWithDictionary:dict];
     if (!self) {
         return nil;

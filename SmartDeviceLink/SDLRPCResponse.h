@@ -6,8 +6,7 @@
 
 @class SDLResult;
 
-@interface SDLRPCResponse : SDLRPCMessage {
-}
+@interface SDLRPCResponse : SDLRPCMessage
 
 @property (strong) NSNumber *correlationID;
 @property (strong) NSNumber *success;

@@ -9,12 +9,12 @@
 
 @implementation SDLRPCStruct
 
-- (id)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
+- (id)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         if (dict != nil) {
-            store = dict;
+            store = [dict mutableCopy];
         } else {
-            store = [[NSMutableDictionary alloc] init];
+            store = [NSMutableDictionary dictionary];
         }
     }
     return self;
@@ -22,30 +22,49 @@
 
 - (id)init {
     if (self = [super init]) {
-        store = [[NSMutableDictionary alloc] init];
+        store = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-- (NSMutableDictionary<NSString *, id> *)serializeDictionary:(NSDictionary<NSString *, id> *)dict version:(Byte)version {
-    NSMutableDictionary<NSString *, id> *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
+- (NSDictionary *)serializeAsDictionary:(Byte)version {
+    if (version >= 2) {
+        NSString *messageType = [[store keyEnumerator] nextObject];
+        NSMutableDictionary *function = [store objectForKey:messageType];
+        if ([function isKindOfClass:NSMutableDictionary.class]) {
+            NSMutableDictionary *parameters = [function objectForKey:SDLNameParameters];
+            return [self.class sdl_serializeDictionary:parameters version:version];
+        } else {
+            return [self.class sdl_serializeDictionary:store version:version];
+        }
+    } else {
+        return [self.class sdl_serializeDictionary:store version:version];
+    }
+}
+
+- (NSString *)description {
+    return [store description];
+}
+
++ (NSDictionary *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {
+    NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
     for (NSString *key in [dict keyEnumerator]) {
         NSObject *value = [dict objectForKey:key];
         if ([value isKindOfClass:SDLRPCStruct.class]) {
             [ret setObject:[(SDLRPCStruct *)value serializeAsDictionary:version] forKey:key];
         } else if ([value isKindOfClass:NSDictionary.class]) {
-            [ret setObject:[self serializeDictionary:(NSDictionary *)value version:version] forKey:key];
+            [ret setObject:[self sdl_serializeDictionary:(NSDictionary *)value version:version] forKey:key];
         } else if ([value isKindOfClass:NSArray.class]) {
-            NSArray<id> *arrayVal = (NSArray<id> *)value;
-
+            NSArray *arrayVal = (NSArray *)value;
+            
             if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLRPCStruct.class])) {
-                NSMutableArray<NSMutableDictionary<NSString *, id>*> *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
+                NSMutableArray *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
                 for (SDLRPCStruct *serializeable in arrayVal) {
                     [serializedList addObject:[serializeable serializeAsDictionary:version]];
                 }
                 [ret setObject:serializedList forKey:key];
             } else if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLEnum.class])) {
-                NSMutableArray<NSString *> *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
+                NSMutableArray *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
                 for (SDLEnum *anEnum in arrayVal) {
                     [serializedList addObject:anEnum.value];
                 }
@@ -60,29 +79,6 @@
         }
     }
     return ret;
-}
-
-- (NSMutableDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version {
-    if (version >= 2) {
-        NSString *messageType = [[store keyEnumerator] nextObject];
-        NSMutableDictionary<NSString *, id> *function = [store objectForKey:messageType];
-        if ([function isKindOfClass:NSMutableDictionary.class]) {
-            NSMutableDictionary<NSString *, id> *parameters = [function objectForKey:SDLNameParameters];
-            return [self serializeDictionary:parameters version:version];
-        } else {
-            return [self serializeDictionary:store version:version];
-        }
-    } else {
-        return [self serializeDictionary:store version:version];
-    }
-}
-
-- (NSString *)description {
-    return [store description];
-}
-
-- (void)dealloc {
-    store = nil;
 }
 
 @end

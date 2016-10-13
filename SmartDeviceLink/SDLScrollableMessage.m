@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
     if (scrollableMessageBody != nil) {
         [parameters setObject:scrollableMessageBody forKey:SDLNameScrollableMessageBody];
@@ -45,7 +39,7 @@
     return [parameters objectForKey:SDLNameTimeout];
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
     if (softButtons != nil) {
         [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
@@ -53,14 +47,14 @@
     }
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
+- (NSMutableArray *)softButtons {
+    NSMutableArray *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

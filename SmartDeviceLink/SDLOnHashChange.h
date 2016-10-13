@@ -4,11 +4,7 @@
 
 #import "SDLRPCNotification.h"
 
-@interface SDLOnHashChange : SDLRPCNotification {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLOnHashChange : SDLRPCNotification
 
 @property (strong) NSString *hashID;
 

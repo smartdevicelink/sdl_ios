@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
         [parameters setObject:language forKey:SDLNameLanguage];
@@ -67,7 +61,7 @@
     return [parameters[SDLNameAppName] copy];
 }
 
-- (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
+- (void)setTtsName:(NSArray *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:[ttsName copy] forKey:SDLNameTTSName];
     } else {
@@ -75,7 +69,7 @@
     }
 }
 
-- (NSArray<SDLTTSChunk *> *)ttsName {
+- (NSArray *)ttsName {
     return [parameters[SDLNameTTSName] copy];
 }
 
@@ -91,7 +85,7 @@
     return [parameters[SDLNameNGNMediaScreenAppName] copy];
 }
 
-- (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
+- (void)setVrSynonyms:(NSArray *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:[vrSynonyms copy] forKey:SDLNameVRSynonyms];
     } else {
@@ -99,7 +93,7 @@
     }
 }
 
-- (NSArray<NSString *> *)vrSynonyms {
+- (NSArray *)vrSynonyms {
     return [parameters[SDLNameVRSynonyms] copy];
 }
 

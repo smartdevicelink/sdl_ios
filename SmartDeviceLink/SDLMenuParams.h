@@ -9,20 +9,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLMenuParams : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLMenuParams object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLMenuParams object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
-
+@interface SDLMenuParams : SDLRPCStruct
 
 /**
  * @abstract the unique ID of an existing submenu to which a command will be added

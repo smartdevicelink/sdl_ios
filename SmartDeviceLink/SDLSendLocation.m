@@ -17,15 +17,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    self = [super initWithDictionary:dict];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
 - (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
     if (longitudeDegrees != nil) {
         parameters[SDLNameLongitudeDegrees] = longitudeDegrees;
@@ -62,16 +53,12 @@
     return parameters[SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
+- (void)setAddressLines:(NSArray *)addressLines {
     if (addressLines != nil) {
         parameters[SDLNameAddressLines] = addressLines;
     } else {
         [parameters removeObjectForKey:SDLNameAddressLines];
     }
-}
-
-- (NSArray<NSString *> *)addressLines {
-    return parameters[SDLNameAddressLines];
 }
 
 - (NSString *)locationDescription {
@@ -84,6 +71,10 @@
     } else {
         [parameters removeObjectForKey:SDLNameLocationDescription];
     }
+}
+
+- (NSArray *)addressLines {
+    return parameters[SDLNameAddressLines];
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {

@@ -10,18 +10,6 @@
 
 @implementation SDLBodyInformation
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setParkBrakeActive:(NSNumber *)parkBrakeActive {
     if (parkBrakeActive != nil) {
         [store setObject:parkBrakeActive forKey:SDLNameParkBrakeActive];

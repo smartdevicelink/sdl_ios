@@ -11,19 +11,7 @@
  * 
  * @since SDL 1.0
  */
-@interface SDLButtonCapabilities : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLButtonCapabilities object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLButtonCapabilities object indicated by the Hashtable parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLButtonCapabilities : SDLRPCStruct
 
 /**
  * @abstract The name of the SDL HMI button.

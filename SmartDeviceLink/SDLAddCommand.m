@@ -27,12 +27,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setCmdID:(NSNumber *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:SDLNameCommandId];
@@ -58,7 +52,7 @@
     if (obj == nil || [obj isKindOfClass:SDLMenuParams.class]) {
         return (SDLMenuParams *)obj;
     } else {
-        return [[SDLMenuParams alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLMenuParams alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -87,7 +81,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

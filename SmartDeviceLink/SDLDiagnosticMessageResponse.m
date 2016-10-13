@@ -13,13 +13,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setMessageDataResult:(NSMutableArray<NSNumber *> *)messageDataResult {
+- (void)setMessageDataResult:(NSMutableArray *)messageDataResult {
     if (messageDataResult != nil) {
         [parameters setObject:messageDataResult forKey:SDLNameMessageDataResult];
     } else {
@@ -27,7 +21,7 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)messageDataResult {
+- (NSMutableArray *)messageDataResult {
     return [parameters objectForKey:SDLNameMessageDataResult];
 }
 

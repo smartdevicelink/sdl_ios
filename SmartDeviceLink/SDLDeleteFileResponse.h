@@ -9,11 +9,7 @@
  *
  * Since <b>SmartDeviceLink 2.0</b><br>
  */
-@interface SDLDeleteFileResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLDeleteFileResponse : SDLRPCResponse
 
 @property (strong) NSNumber *spaceAvailable;
 

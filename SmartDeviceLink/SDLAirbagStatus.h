@@ -6,11 +6,7 @@
 @class SDLVehicleDataEventStatus;
 
 
-@interface SDLAirbagStatus : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLAirbagStatus : SDLRPCStruct
 
 @property (strong) SDLVehicleDataEventStatus *driverAirbagDeployed;
 @property (strong) SDLVehicleDataEventStatus *driverSideAirbagDeployed;

@@ -9,19 +9,7 @@
  * 
  * @since SDL 1.0
  */
-@interface SDLSyncMsgVersion : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLSyncMsgVersion object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLSyncMsgVersion object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLSyncMsgVersion : SDLRPCStruct
 
 /**
  * @abstract The major version indicates versions that is not-compatible to previous versions

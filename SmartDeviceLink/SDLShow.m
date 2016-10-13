@@ -18,12 +18,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setMainField1:(NSString *)mainField1 {
     if (mainField1 != nil) {
         [parameters setObject:mainField1 forKey:SDLNameMainField1];
@@ -138,7 +132,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -155,11 +149,11 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(NSMutableArray *)softButtons {
     if (softButtons != nil) {
         [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
@@ -167,20 +161,20 @@
     }
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
+- (NSMutableArray *)softButtons {
+    NSMutableArray *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
 }
 
-- (void)setCustomPresets:(NSMutableArray<NSString *> *)customPresets {
+- (void)setCustomPresets:(NSMutableArray *)customPresets {
     if (customPresets != nil) {
         [parameters setObject:customPresets forKey:SDLNameCustomPresets];
     } else {
@@ -188,7 +182,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)customPresets {
+- (NSMutableArray *)customPresets {
     return [parameters objectForKey:SDLNameCustomPresets];
 }
 

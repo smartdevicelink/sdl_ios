@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setChoiceID:(NSNumber *)choiceID {
     if (choiceID != nil) {
         [parameters setObject:choiceID forKey:SDLNameChoiceId];

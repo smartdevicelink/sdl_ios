@@ -17,13 +17,4 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    self = [super initWithDictionary:dict];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
 @end

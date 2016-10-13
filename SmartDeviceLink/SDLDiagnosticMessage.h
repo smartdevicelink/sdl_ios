@@ -9,11 +9,7 @@
  *
  * @since SDL 3.0
  */
-@interface SDLDiagnosticMessage : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLDiagnosticMessage : SDLRPCRequest
 
 /**
  * Name of target ECU
@@ -34,6 +30,6 @@
  *
  * Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255
  */
-@property (strong) NSMutableArray<NSNumber *> *messageData;
+@property (strong) NSMutableArray *messageData;
 
 @end

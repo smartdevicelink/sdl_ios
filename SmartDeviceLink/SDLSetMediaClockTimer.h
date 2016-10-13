@@ -17,19 +17,7 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSetMediaClockTimer : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLSetMediaClockTimer object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetMediaClockTimer object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLSetMediaClockTimer : SDLRPCRequest
 
 /**
  * @abstract A Start Time with specifying hour, minute, second values

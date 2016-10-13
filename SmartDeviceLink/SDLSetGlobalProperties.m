@@ -19,13 +19,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setHelpPrompt:(NSMutableArray<SDLTTSChunk *> *)helpPrompt {
+- (void)setHelpPrompt:(NSMutableArray *)helpPrompt {
     if (helpPrompt != nil) {
         [parameters setObject:helpPrompt forKey:SDLNameHelpPrompt];
     } else {
@@ -33,20 +27,20 @@
     }
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameHelpPrompt];
+- (NSMutableArray *)helpPrompt {
+    NSMutableArray *array = [parameters objectForKey:SDLNameHelpPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
 }
 
-- (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
+- (void)setTimeoutPrompt:(NSMutableArray *)timeoutPrompt {
     if (timeoutPrompt != nil) {
         [parameters setObject:timeoutPrompt forKey:SDLNameTimeoutPrompt];
     } else {
@@ -54,14 +48,14 @@
     }
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTimeoutPrompt];
+- (NSMutableArray *)timeoutPrompt {
+    NSMutableArray *array = [parameters objectForKey:SDLNameTimeoutPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -79,7 +73,7 @@
     return [parameters objectForKey:SDLNameVRHelpTitle];
 }
 
-- (void)setVrHelp:(NSMutableArray<SDLVRHelpItem *> *)vrHelp {
+- (void)setVrHelp:(NSMutableArray *)vrHelp {
     if (vrHelp != nil) {
         [parameters setObject:vrHelp forKey:SDLNameVRHelp];
     } else {
@@ -87,14 +81,14 @@
     }
 }
 
-- (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    NSMutableArray<SDLVRHelpItem *> *array = [parameters objectForKey:SDLNameVRHelp];
+- (NSMutableArray *)vrHelp {
+    NSMutableArray *array = [parameters objectForKey:SDLNameVRHelp];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {
-        NSMutableArray<SDLVRHelpItem *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -125,7 +119,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -142,7 +136,7 @@
     if (obj == nil || [obj isKindOfClass:SDLKeyboardProperties.class]) {
         return (SDLKeyboardProperties *)obj;
     } else {
-        return [[SDLKeyboardProperties alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLKeyboardProperties alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

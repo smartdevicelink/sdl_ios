@@ -10,12 +10,6 @@
 
 @implementation SDLSoftButton
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
@@ -24,12 +18,6 @@
 
     _handler = handler;
 
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
     return self;
 }
 
@@ -75,7 +63,7 @@
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

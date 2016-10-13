@@ -14,13 +14,7 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setPermissionItem:(NSMutableArray<SDLPermissionItem *> *)permissionItem {
+- (void)setPermissionItem:(NSMutableArray *)permissionItem {
     if (permissionItem != nil) {
         [parameters setObject:permissionItem forKey:SDLNamePermissionItem];
     } else {
@@ -28,14 +22,14 @@
     }
 }
 
-- (NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    NSMutableArray<SDLPermissionItem *> *array = [parameters objectForKey:SDLNamePermissionItem];
+- (NSMutableArray *)permissionItem {
+    NSMutableArray *array = [parameters objectForKey:SDLNamePermissionItem];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPermissionItem.class]) {
         return array;
     } else {
-        NSMutableArray<SDLPermissionItem *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLPermissionItem alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLPermissionItem alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

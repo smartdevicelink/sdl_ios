@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:SDLNameInteractionChoiceSetId];
@@ -33,7 +27,7 @@
     return [parameters objectForKey:SDLNameInteractionChoiceSetId];
 }
 
-- (void)setChoiceSet:(NSMutableArray<SDLChoice *> *)choiceSet {
+- (void)setChoiceSet:(NSMutableArray *)choiceSet {
     if (choiceSet != nil) {
         [parameters setObject:choiceSet forKey:SDLNameChoiceSet];
     } else {
@@ -41,14 +35,14 @@
     }
 }
 
-- (NSMutableArray<SDLChoice *> *)choiceSet {
-    NSMutableArray<SDLChoice *> *array = [parameters objectForKey:SDLNameChoiceSet];
+- (NSMutableArray *)choiceSet {
+    NSMutableArray *array = [parameters objectForKey:SDLNameChoiceSet];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLChoice.class]) {
         return array;
     } else {
-        NSMutableArray<SDLChoice *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLChoice alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLChoice alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

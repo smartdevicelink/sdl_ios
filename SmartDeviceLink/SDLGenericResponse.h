@@ -9,10 +9,6 @@
  * retrieved. Only used in case of an error. Currently, only resultCode
  * INVALID_DATA is used.
  */
-@interface SDLGenericResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLGenericResponse : SDLRPCResponse
 
 @end

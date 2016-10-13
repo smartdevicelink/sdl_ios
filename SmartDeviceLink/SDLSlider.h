@@ -11,19 +11,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSlider : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLSlider object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLSlider object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLSlider : SDLRPCRequest
 
 /**
  * @abstract Represents a number of selectable items on a horizontal axis
@@ -59,7 +47,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray<NSString *> *sliderFooter;
+@property (strong) NSMutableArray *sliderFooter;
 
 /**
  * @abstract An App defined timeout

@@ -12,19 +12,7 @@
  * 
  * @since SDL 2.0
  */
-@interface SDLGPSData : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLGPSData object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLGPSData object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLGPSData : SDLRPCStruct
 
 /**
  * @abstract longitude degrees

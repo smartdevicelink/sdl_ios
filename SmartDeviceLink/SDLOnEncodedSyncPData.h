@@ -4,13 +4,9 @@
 #import "SDLRPCNotification.h"
 
 
-@interface SDLOnEncodedSyncPData : SDLRPCNotification {
-}
+@interface SDLOnEncodedSyncPData : SDLRPCNotification
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
-
-@property (strong) NSMutableArray<NSString *> *data;
+@property (strong) NSMutableArray *data;
 @property (strong) NSString *URL;
 @property (strong) NSNumber *Timeout;
 

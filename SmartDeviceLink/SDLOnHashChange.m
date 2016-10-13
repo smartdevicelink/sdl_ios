@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setHashID:(NSString *)hashID {
     if (hashID != nil) {
         [parameters setObject:hashID forKey:SDLNameHashId];

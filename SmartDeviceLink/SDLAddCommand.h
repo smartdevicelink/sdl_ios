@@ -37,11 +37,6 @@
 @interface SDLAddCommand : SDLRPCRequest <SDLRequestHandler>
 
 /**
- * Constructs a new SDLAddCommand object
- */
-- (instancetype)init;
-
-/**
  *  Construct a SDLAddCommand with a handler callback when an event occurs.
  *
  *  @param handler A callback that will be called when a button event occurs for the command
@@ -49,13 +44,6 @@
  *  @return An SDLAddCommand object
  */
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
-
-/**
- * Constructs a new *SDLAddCommand* object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.

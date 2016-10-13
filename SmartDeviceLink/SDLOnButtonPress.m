@@ -15,12 +15,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setButtonName:(SDLButtonName *)buttonName {
     if (buttonName != nil) {
         [parameters setObject:buttonName forKey:SDLNameButtonName];

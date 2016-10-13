@@ -3,10 +3,9 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLAudioType;
-@class SDLBitsPerSample;
 @class SDLSamplingRate;
-@class SDLTTSChunk;
+@class SDLBitsPerSample;
+@class SDLAudioType;
 
 
 /**
@@ -21,18 +20,7 @@
  * <p>Since SmartDeviceLink 2.0</p>
  * <p>See SDLEndAudioPassThru</p>
  */
-@interface SDLPerformAudioPassThru : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLPerformAudioPassThru object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPerformAudioPassThru object indicated by the NSMutableDictionary
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLPerformAudioPassThru : SDLRPCRequest
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass
@@ -51,7 +39,7 @@
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (strong) NSMutableArray *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1

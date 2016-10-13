@@ -8,19 +8,7 @@
 
 @implementation SDLParameterPermissions
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (void)setAllowed:(NSMutableArray<NSString*> *)allowed {
+- (void)setAllowed:(NSMutableArray *)allowed {
     if (allowed != nil) {
         [store setObject:allowed forKey:SDLNameAllowed];
     } else {
@@ -28,11 +16,11 @@
     }
 }
 
-- (NSMutableArray<NSString*> *)allowed {
+- (NSMutableArray *)allowed {
     return [store objectForKey:SDLNameAllowed];
 }
 
-- (void)setUserDisallowed:(NSMutableArray<NSString*> *)userDisallowed {
+- (void)setUserDisallowed:(NSMutableArray *)userDisallowed {
     if (userDisallowed != nil) {
         [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
     } else {
@@ -40,7 +28,7 @@
     }
 }
 
-- (NSMutableArray<NSString*> *)userDisallowed {
+- (NSMutableArray *)userDisallowed {
     return [store objectForKey:SDLNameUserDisallowed];
 }
 

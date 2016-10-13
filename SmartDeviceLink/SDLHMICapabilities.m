@@ -8,24 +8,6 @@
 
 @implementation SDLHMICapabilities
 
-- (instancetype)init {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    self = [super initWithDictionary:dict];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
 - (void)setNavigation:(NSNumber *)navigation {
     if (navigation != nil) {
         store[SDLNameNavigation] = navigation;

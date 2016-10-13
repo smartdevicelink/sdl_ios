@@ -50,19 +50,7 @@
  *
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLChoice : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLChoice object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLChoice object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLChoice : SDLRPCStruct
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
@@ -83,7 +71,7 @@
  *
  * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
  */
-@property (strong) NSMutableArray<NSString *> *vrCommands;
+@property (strong) NSMutableArray *vrCommands;
 
 /**
  * @abstract The image of the choice

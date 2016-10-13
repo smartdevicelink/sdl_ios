@@ -14,12 +14,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setTargetID:(NSNumber *)targetID {
     if (targetID != nil) {
         [parameters setObject:targetID forKey:SDLNameTargetId];
@@ -44,7 +38,7 @@
     return [parameters objectForKey:SDLNameMessageLength];
 }
 
-- (void)setMessageData:(NSMutableArray<NSNumber *> *)messageData {
+- (void)setMessageData:(NSMutableArray *)messageData {
     if (messageData != nil) {
         [parameters setObject:messageData forKey:SDLNameMessageData];
     } else {
@@ -52,7 +46,7 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)messageData {
+- (NSMutableArray *)messageData {
     return [parameters objectForKey:SDLNameMessageData];
 }
 

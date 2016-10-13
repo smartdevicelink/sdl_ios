@@ -22,17 +22,13 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if (![messageType isEqualToString:SDLNameBulkData]) {
+            if ([messageType isEqualToString:SDLNameBulkData] == FALSE) {
                 break;
             }
-        }
-
-        if (messageType == nil) {
-            return nil;
         }
 
         function = [store objectForKey:messageType];

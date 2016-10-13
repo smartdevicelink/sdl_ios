@@ -7,11 +7,7 @@
 @class SDLWarningLightStatus;
 
 
-@interface SDLTireStatus : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLTireStatus : SDLRPCStruct
 
 @property (strong) SDLWarningLightStatus *pressureTelltale;
 @property (strong) SDLSingleTireStatus *leftFront;

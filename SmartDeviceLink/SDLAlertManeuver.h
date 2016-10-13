@@ -10,11 +10,7 @@
 /**
  *  @since SmartDeviceLink 1.0
  */
-@interface SDLAlertManeuver : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLAlertManeuver : SDLRPCRequest
 
 @property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 @property (strong) NSMutableArray<SDLSoftButton *> *softButtons;

@@ -6,8 +6,7 @@
 
 @class SDLInteractionMode;
 @class SDLLayoutMode;
-@class SDLTTSChunk;
-@class SDLVRHelpItem;
+
 
 /**
  * Performs an application-initiated interaction in which the user can select a
@@ -24,18 +23,7 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet
  */
-@interface SDLPerformInteraction : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLPerformInteraction object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPerformInteraction object indicated by the NSMutableDictionary
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLPerformInteraction : SDLRPCRequest
 
 /**
  * @abstract The Text that Displayed when the interaction begins. This text may
@@ -48,7 +36,7 @@
  * @abstract An array of one or more TTSChunks that, taken together, specify
  * what is to be spoken to the user at the start of an interaction
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (strong) NSMutableArray *initialPrompt;
 /**
  * @abstract The Indicates mode that indicate how user selects interaction
  * choice. User can choose either by voice (VR_ONLY), by visual selection
@@ -59,17 +47,17 @@
  * @abstract A Vector<Integer> value representing an Array of one or more Choice
  * Set IDs
  */
-@property (strong) NSMutableArray<NSNumber *> *interactionChoiceSetIDList;
+@property (strong) NSMutableArray *interactionChoiceSetIDList;
 /**
  * @abstract A Vector<TTSChunk> which taken together, specify the help phrase to
  * be spoken when the user says "help" during the VR session
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *helpPrompt;
+@property (strong) NSMutableArray *helpPrompt;
 /**
  * @abstract An array of TTSChunks which, taken together, specify the phrase to
  * be spoken when the listen times out during the VR session
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
+@property (strong) NSMutableArray *timeoutPrompt;
 /**
  * @abstract An Integer value representing the amount of time, in milliseconds,
  * SDL will wait for the user to make a choice (VR or Menu)
@@ -80,7 +68,7 @@
  * display on-screen during Perform Interaction
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray<SDLVRHelpItem*> *vrHelp;
+@property (strong) NSMutableArray *vrHelp;
 @property (strong) SDLLayoutMode *interactionLayout;
 
 @end

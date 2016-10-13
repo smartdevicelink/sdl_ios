@@ -4,8 +4,6 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLGlobalProperty;
-
 /**
  * Resets the passed global properties to their default values as defined by
  * SDL
@@ -22,24 +20,12 @@
  * Since SmartDeviceLink 1.0
  * See SetGlobalProperties
  */
-@interface SDLResetGlobalProperties : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLResetGlobalProperties object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLResetGlobalProperties object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict;
+@interface SDLResetGlobalProperties : SDLRPCRequest
 
 /**
  * @abstract An array of one or more GlobalProperty enumeration elements
  * indicating which global properties to reset to their default value
  */
-@property (strong) NSMutableArray<SDLGlobalProperty *> *properties;
+@property (strong) NSMutableArray *properties;
 
 @end

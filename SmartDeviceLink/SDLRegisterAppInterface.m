@@ -21,12 +21,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
         [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
@@ -40,7 +34,7 @@
     if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
         return (SDLSyncMsgVersion *)obj;
     } else {
-        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -56,7 +50,7 @@
     return [parameters objectForKey:SDLNameAppName];
 }
 
-- (void)setTtsName:(NSMutableArray<SDLTTSChunk *> *)ttsName {
+- (void)setTtsName:(NSMutableArray *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:ttsName forKey:SDLNameTTSName];
     } else {
@@ -64,14 +58,14 @@
     }
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)ttsName {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTTSName];
+- (NSMutableArray *)ttsName {
+    NSMutableArray *array = [parameters objectForKey:SDLNameTTSName];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary<NSString *, id> *)dict]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
+            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }
@@ -89,7 +83,7 @@
     return [parameters objectForKey:SDLNameNGNMediaScreenAppName];
 }
 
-- (void)setVrSynonyms:(NSMutableArray<NSString *> *)vrSynonyms {
+- (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:vrSynonyms forKey:SDLNameVRSynonyms];
     } else {
@@ -97,7 +91,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)vrSynonyms {
+- (NSMutableArray *)vrSynonyms {
     return [parameters objectForKey:SDLNameVRSynonyms];
 }
 
@@ -147,7 +141,7 @@
     }
 }
 
-- (void)setAppHMIType:(NSMutableArray<SDLAppHMIType *> *)appHMIType {
+- (void)setAppHMIType:(NSMutableArray *)appHMIType {
     if (appHMIType != nil) {
         [parameters setObject:appHMIType forKey:SDLNameAppHMIType];
     } else {
@@ -155,12 +149,12 @@
     }
 }
 
-- (NSMutableArray<SDLAppHMIType *> *)appHMIType {
-    NSMutableArray<SDLAppHMIType *> *array = [parameters objectForKey:SDLNameAppHMIType];
+- (NSMutableArray *)appHMIType {
+    NSMutableArray *array = [parameters objectForKey:SDLNameAppHMIType];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAppHMIType.class]) {
         return array;
     } else {
-        NSMutableArray<SDLAppHMIType *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLAppHMIType valueOf:enumString]];
         }
@@ -193,7 +187,7 @@
     if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
         return (SDLDeviceInfo *)obj;
     } else {
-        return [[SDLDeviceInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLDeviceInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
@@ -222,7 +216,7 @@
     if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
         return (SDLAppInfo *)obj;
     } else {
-        return [[SDLAppInfo alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLAppInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
