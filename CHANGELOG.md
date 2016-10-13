@@ -1,3 +1,7 @@
+# 4.3.0 Release Candidate 6 Release Notes (Since RC 5)
+### Bug Fixes
+* Fixed several bugs and improved error messaging around what should happen if File Manager fails to start, for example because the head unit does not support files.
+
 # 4.3.0 Release Candidate 5 Release Notes (Since RC 4)
 ### Bug Fixes
 * Fixed an issue where "SmartDeviceLink.h" would not be available through cocoapods.
