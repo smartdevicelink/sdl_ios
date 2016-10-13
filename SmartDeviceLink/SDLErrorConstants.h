@@ -54,4 +54,8 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      * The file manager attempted to start but encountered an error.
      */
     SDLFileManagerErrorUnableToStart = -3,
+    /**
+     * The file manager was unable to send this file.
+     */
+    SDLFileManagerErrorUnableToUpload = -4,
 };
