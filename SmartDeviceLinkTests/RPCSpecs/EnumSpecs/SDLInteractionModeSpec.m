@@ -15,7 +15,7 @@ QuickSpecBegin(SDLInteractionModeSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLInteractionModeManualOnly).to(equal(@"MANUAL_ONLY"));
-        expect(SDLInteractionModeVrOnly).to(equal(@"VR_ONLY"));
+        expect(SDLInteractionModeVROnly).to(equal(@"VR_ONLY"));
         expect(SDLInteractionModeBoth).to(equal(@"BOTH"));
     });
 });

@@ -9,11 +9,7 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLListFilesResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLListFilesResponse : SDLRPCResponse
 
 @property (strong) NSMutableArray *filenames;
 @property (strong) NSNumber *spaceAvailable;

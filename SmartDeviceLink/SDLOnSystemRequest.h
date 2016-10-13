@@ -7,11 +7,7 @@
 #import "SDLRequestType.h"
 
 
-@interface SDLOnSystemRequest : SDLRPCNotification {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnSystemRequest : SDLRPCNotification
 
 @property (strong) SDLRequestType requestType;
 @property (strong) NSString *url;

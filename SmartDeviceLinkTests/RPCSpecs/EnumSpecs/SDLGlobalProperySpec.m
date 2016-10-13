@@ -16,8 +16,8 @@ describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLGlobalPropertyHelpPrompt).to(equal(@"HELPPROMPT"));
         expect(SDLGlobalPropertyTimeoutPrompt).to(equal(@"TIMEOUTPROMPT"));
-        expect(SDLGlobalPropertyVrHelpTitle).to(equal(@"VRHELPTITLE"));
-        expect(SDLGlobalPropertyVrHelpItems).to(equal(@"VRHELPITEMS"));
+        expect(SDLGlobalPropertyVRHelpTitle).to(equal(@"VRHELPTITLE"));
+        expect(SDLGlobalPropertyVRHelpItems).to(equal(@"VRHELPITEMS"));
         expect(SDLGlobalPropertyMenuName).to(equal(@"MENUNAME"));
         expect(SDLGlobalPropertyMenuIcon).to(equal(@"MENUICON"));
         expect(SDLGlobalPropertyKeyboard).to(equal(@"KEYBOARDPROPERTIES"));

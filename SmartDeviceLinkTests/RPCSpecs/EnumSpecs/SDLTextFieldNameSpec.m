@@ -28,7 +28,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTextFieldNameInitialInteractionText).to(equal(@"initialInteractionText"));
         expect(SDLTextFieldNameNavigationText1).to(equal(@"navigationText1"));
         expect(SDLTextFieldNameNavigationText2).to(equal(@"navigationText2"));
-        expect(SDLTextFieldNameEta).to(equal(@"ETA"));
+        expect(SDLTextFieldNameETA).to(equal(@"ETA"));
         expect(SDLTextFieldNameTotalDistance).to(equal(@"totalDistance"));
         expect(SDLTextFieldNameAudioPassThruDisplayText1).to(equal(@"audioPassThruDisplayText1"));
         expect(SDLTextFieldNameAudioPassThruDisplayText2).to(equal(@"audioPassThruDisplayText2"));

@@ -9,58 +9,46 @@
 
 @implementation SDLTouchEvent
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setTouchEventId:(NSNumber *)touchEventId {
     if (touchEventId != nil) {
-        [store setObject:touchEventId forKey:NAMES_id];
+        [store setObject:touchEventId forKey:SDLNameId];
     } else {
-        [store removeObjectForKey:NAMES_id];
+        [store removeObjectForKey:SDLNameId];
     }
 }
 
 - (NSNumber *)touchEventId {
-    return [store objectForKey:NAMES_id];
+    return [store objectForKey:SDLNameId];
 }
 
 - (void)setTimeStamp:(NSMutableArray *)timeStamp {
     if (timeStamp != nil) {
-        [store setObject:timeStamp forKey:NAMES_ts];
+        [store setObject:timeStamp forKey:SDLNameTimestamp];
     } else {
-        [store removeObjectForKey:NAMES_ts];
+        [store removeObjectForKey:SDLNameTimestamp];
     }
 }
 
 - (NSMutableArray *)timeStamp {
-    return [store objectForKey:NAMES_ts];
+    return [store objectForKey:SDLNameTimestamp];
 }
 
 - (void)setCoord:(NSMutableArray *)coord {
     if (coord != nil) {
-        [store setObject:coord forKey:NAMES_c];
+        [store setObject:coord forKey:SDLNameCoordinate];
     } else {
-        [store removeObjectForKey:NAMES_c];
+        [store removeObjectForKey:SDLNameCoordinate];
     }
 }
 
 - (NSMutableArray *)coord {
-    NSMutableArray *array = [store objectForKey:NAMES_c];
+    NSMutableArray *array = [store objectForKey:SDLNameCoordinate];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchCoord.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTouchCoord alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLTouchCoord alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

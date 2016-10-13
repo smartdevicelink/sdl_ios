@@ -7,79 +7,67 @@
 
 @implementation SDLKeyboardProperties
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLanguage:(SDLLanguage)language {
     if (language != nil) {
-        [store setObject:language forKey:NAMES_language];
+        [store setObject:language forKey:SDLNameLanguage];
     } else {
-        [store removeObjectForKey:NAMES_language];
+        [store removeObjectForKey:SDLNameLanguage];
     }
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [store objectForKey:NAMES_language];
+    NSObject *obj = [store objectForKey:SDLNameLanguage];
     return (SDLLanguage )obj;
 }
 
 - (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
     if (keyboardLayout != nil) {
-        [store setObject:keyboardLayout forKey:NAMES_keyboardLayout];
+        [store setObject:keyboardLayout forKey:SDLNameKeyboardLayout];
     } else {
-        [store removeObjectForKey:NAMES_keyboardLayout];
+        [store removeObjectForKey:SDLNameKeyboardLayout];
     }
 }
 
 - (SDLKeyboardLayout)keyboardLayout {
-    NSObject *obj = [store objectForKey:NAMES_keyboardLayout];
+    NSObject *obj = [store objectForKey:SDLNameKeyboardLayout];
     return (SDLKeyboardLayout)obj;
 }
 
 - (void)setKeypressMode:(SDLKeypressMode)keypressMode {
     if (keypressMode != nil) {
-        [store setObject:keypressMode forKey:NAMES_keypressMode];
+        [store setObject:keypressMode forKey:SDLNameKeypressMode];
     } else {
-        [store removeObjectForKey:NAMES_keypressMode];
+        [store removeObjectForKey:SDLNameKeypressMode];
     }
 }
 
 - (SDLKeypressMode)keypressMode {
-    NSObject *obj = [store objectForKey:NAMES_keypressMode];
+    NSObject *obj = [store objectForKey:SDLNameKeypressMode];
     return (SDLKeypressMode)obj;
 }
 
 - (void)setLimitedCharacterList:(NSMutableArray *)limitedCharacterList {
     if (limitedCharacterList != nil) {
-        [store setObject:limitedCharacterList forKey:NAMES_limitedCharacterList];
+        [store setObject:limitedCharacterList forKey:SDLNameLimitedCharacterList];
     } else {
-        [store removeObjectForKey:NAMES_limitedCharacterList];
+        [store removeObjectForKey:SDLNameLimitedCharacterList];
     }
 }
 
 - (NSMutableArray *)limitedCharacterList {
-    return [store objectForKey:NAMES_limitedCharacterList];
+    return [store objectForKey:SDLNameLimitedCharacterList];
 }
 
 - (void)setAutoCompleteText:(NSString *)autoCompleteText {
     if (autoCompleteText != nil) {
-        [store setObject:autoCompleteText forKey:NAMES_autoCompleteText];
+        [store setObject:autoCompleteText forKey:SDLNameAutoCompleteText];
     } else {
-        [store removeObjectForKey:NAMES_autoCompleteText];
+        [store removeObjectForKey:SDLNameAutoCompleteText];
     }
 }
 
 - (NSString *)autoCompleteText {
-    return [store objectForKey:NAMES_autoCompleteText];
+    return [store objectForKey:SDLNameAutoCompleteText];
 }
 
 @end

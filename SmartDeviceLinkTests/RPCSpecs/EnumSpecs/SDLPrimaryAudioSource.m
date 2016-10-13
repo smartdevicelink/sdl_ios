@@ -15,8 +15,8 @@ QuickSpecBegin(SDLPrimaryAudioSourceSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLPrimaryAudioSourceNoSourceSelected).to(equal(@"NO_SOURCE_SELECTED"));
-        expect(SDLPrimaryAudioSourceUsb).to(equal(@"USB"));
-        expect(SDLPrimaryAudioSourceUsb2).to(equal(@"USB2"));
+        expect(SDLPrimaryAudioSourceUSB).to(equal(@"USB"));
+        expect(SDLPrimaryAudioSourceUSB2).to(equal(@"USB2"));
         expect(SDLPrimaryAudioSourceBluetoothStereo).to(equal(@"BLUETOOTH_STEREO_BTST"));
         expect(SDLPrimaryAudioSourceLineIn).to(equal(@"LINE_IN"));
         expect(SDLPrimaryAudioSourceIpod).to(equal(@"IPOD"));

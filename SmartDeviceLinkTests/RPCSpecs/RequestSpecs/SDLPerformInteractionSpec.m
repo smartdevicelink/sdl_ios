@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         testRequest.initialText = @"a";
         testRequest.initialPrompt = [@[chunk1] mutableCopy];
-        testRequest.interactionMode = SDLInteractionModeVrOnly;
+        testRequest.interactionMode = SDLInteractionModeVROnly;
         testRequest.interactionChoiceSetIDList = [@[@1, @2, @3] mutableCopy];
         testRequest.helpPrompt = [@[chunk2] mutableCopy];
         testRequest.timeoutPrompt = [@[chunk3] mutableCopy];
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));
-        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVrOnly));
+        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVROnly));
         expect(testRequest.interactionChoiceSetIDList).to(equal([@[@1, @2, @3] mutableCopy]));
         expect(testRequest.helpPrompt).to(equal([@[chunk2] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk3] mutableCopy]));
@@ -48,23 +48,23 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_initialText:@"a",
-                                                   NAMES_initialPrompt:[@[chunk1] mutableCopy],
-                                                   NAMES_interactionMode:SDLInteractionModeVrOnly,
-                                                   NAMES_interactionChoiceSetIDList:[@[@1, @2, @3] mutableCopy],
-                                                   NAMES_helpPrompt:[@[chunk2] mutableCopy],
-                                                   NAMES_timeoutPrompt:[@[chunk3] mutableCopy],
-                                                   NAMES_timeout:@42000,
-                                                   NAMES_vrHelp:[@[helpItem] mutableCopy],
-                                                   NAMES_interactionLayout:SDLLayoutModeIconWithSearch},
-                                             NAMES_operation_name:NAMES_PerformInteraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameInitialText:@"a",
+                                                   SDLNameInitialPrompt:[@[chunk1] mutableCopy],
+                                                   SDLNameInteractionMode:SDLInteractionModeVROnly,
+                                                   SDLNameInteractionChoiceSetIdList:[@[@1, @2, @3] mutableCopy],
+                                                   SDLNameHelpPrompt:[@[chunk2] mutableCopy],
+                                                   SDLNameTimeoutPrompt:[@[chunk3] mutableCopy],
+                                                   SDLNameTimeout:@42000,
+                                                   SDLNameVRHelp:[@[helpItem] mutableCopy],
+                                                   SDLNameInteractionLayout:SDLLayoutModeIconWithSearch},
+                                             SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));
-        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVrOnly));
+        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVROnly));
         expect(testRequest.interactionChoiceSetIDList).to(equal([@[@1, @2, @3] mutableCopy]));
         expect(testRequest.helpPrompt).to(equal([@[chunk2] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk3] mutableCopy]));

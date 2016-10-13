@@ -61,13 +61,6 @@
 @interface SDLSubscribeButton : SDLRPCRequest <SDLRequestHandler>
 
 /**
- *  Construct an SDLSubscribeButton
- *
- *  @return An SDLSubscribeButton object
- */
-- (instancetype)init;
-
-/**
  *  Construct a SDLSubscribeButton with a handler callback when an event occurs.
  *
  *  @param handler A callback that will be called when a button event occurs for the subscribed button.
@@ -75,13 +68,6 @@
  *  @return An SDLSubscribeButton object
  */
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
-
-/**
- * @abstract Constructs a new SDLSubscribeButton object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  *  A handler that will let you know when the button you subscribed to is selected.

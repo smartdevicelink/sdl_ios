@@ -14,21 +14,21 @@ QuickSpecBegin(SDLVehicleDataTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLVehicleDataTypeGps).to(equal(@"VEHICLEDATA_GPS"));
+        expect(SDLVehicleDataTypeGPS).to(equal(@"VEHICLEDATA_GPS"));
         expect(SDLVehicleDataTypeSpeed).to(equal(@"VEHICLEDATA_SPEED"));
-        expect(SDLVehicleDataTypeRpm).to(equal(@"VEHICLEDATA_RPM"));
+        expect(SDLVehicleDataTypeRPM).to(equal(@"VEHICLEDATA_RPM"));
         expect(SDLVehicleDataTypeFuelLevel).to(equal(@"VEHICLEDATA_FUELLEVEL"));
         expect(SDLVehicleDataTypeFuelLevelState).to(equal(@"VEHICLEDATA_FUELLEVEL_STATE"));
         expect(SDLVehicleDataTypeFuelConsumption).to(equal(@"VEHICLEDATA_FUELCONSUMPTION"));
-        expect(SDLVehicleDataTypeExternalTemp).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
-        expect(SDLVehicleDataTypeVin).to(equal(@"VEHICLEDATA_VIN"));
-        expect(SDLVehicleDataTypePrndl).to(equal(@"VEHICLEDATA_PRNDL"));
+        expect(SDLVehicleDataTypeExternalTemperature).to(equal(@"VEHICLEDATA_EXTERNTEMP"));
+        expect(SDLVehicleDataTypeVIN).to(equal(@"VEHICLEDATA_VIN"));
+        expect(SDLVehicleDataTypePRNDL).to(equal(@"VEHICLEDATA_PRNDL"));
         expect(SDLVehicleDataTypeTirePressure).to(equal(@"VEHICLEDATA_TIREPRESSURE"));
         expect(SDLVehicleDataTypeOdometer).to(equal(@"VEHICLEDATA_ODOMETER"));
         expect(SDLVehicleDataTypeBeltStatus).to(equal(@"VEHICLEDATA_BELTSTATUS"));
         expect(SDLVehicleDataTypeBodyInfo).to(equal(@"VEHICLEDATA_BODYINFO"));
         expect(SDLVehicleDataTypeDeviceStatus).to(equal(@"VEHICLEDATA_DEVICESTATUS"));
-        expect(SDLVehicleDataTypeEcallInfo).to(equal(@"VEHICLEDATA_ECALLINFO"));
+        expect(SDLVehicleDataTypeECallInfo).to(equal(@"VEHICLEDATA_ECALLINFO"));
         expect(SDLVehicleDataTypeAirbagStatus).to(equal(@"VEHICLEDATA_AIRBAGSTATUS"));
         expect(SDLVehicleDataTypeEmergencyEvent).to(equal(@"VEHICLEDATA_EMERGENCYEVENT"));
         expect(SDLVehicleDataTypeClusterModeStatus).to(equal(@"VEHICLEDATA_CLUSTERMODESTATUS"));

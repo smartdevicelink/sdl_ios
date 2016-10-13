@@ -36,20 +36,7 @@
  *
  *  @since SmartDeviceLink 1.0
  */
-@interface SDLTTSChunk : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLTTSChunk object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLTTSChunk object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLTTSChunk : SDLRPCStruct
 
 /**
  * @abstract Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.

@@ -16,19 +16,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLReadDID : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLReadDID object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLReadDID object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLReadDID : SDLRPCRequest
 
 /**
  * @abstract An ID of the vehicle module

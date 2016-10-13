@@ -9,27 +9,21 @@
 @implementation SDLDeleteFileResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteFile]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameDeleteFile]) {
     }
     return self;
 }
 
 - (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
     if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
+        [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
     } else {
-        [parameters removeObjectForKey:NAMES_spaceAvailable];
+        [parameters removeObjectForKey:SDLNameSpaceAvailable];
     }
 }
 
 - (NSNumber *)spaceAvailable {
-    return [parameters objectForKey:NAMES_spaceAvailable];
+    return [parameters objectForKey:SDLNameSpaceAvailable];
 }
 
 @end

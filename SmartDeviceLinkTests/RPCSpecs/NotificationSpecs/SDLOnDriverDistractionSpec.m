@@ -24,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_state:SDLDriverDistractionStateOn},
-                                             NAMES_operation_name:NAMES_OnDriverDistraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameState:SDLDriverDistractionStateOn},
+                                             SDLNameOperationName:SDLNameOnDriverDistraction}} mutableCopy];
         SDLOnDriverDistraction* testNotification = [[SDLOnDriverDistraction alloc] initWithDictionary:dict];
         
         expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));

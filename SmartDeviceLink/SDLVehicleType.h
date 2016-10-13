@@ -9,19 +9,7 @@
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleType : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLVehicleType object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLVehicleType object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLVehicleType : SDLRPCStruct
 
 /**
  * @abstract The make of the vehicle

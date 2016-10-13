@@ -14,10 +14,10 @@ QuickSpecBegin(SDLSamplingRateSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLSamplingRate8Khz).to(equal(@"8KHZ"));
-        expect(SDLSamplingRate16Khz).to(equal(@"16KHZ"));
-        expect(SDLSamplingRate22Khz).to(equal(@"22KHZ"));
-        expect(SDLSamplingRate44Khz).to(equal(@"44KHZ"));
+        expect(SDLSamplingRate8KHZ).to(equal(@"8KHZ"));
+        expect(SDLSamplingRate16KHZ).to(equal(@"16KHZ"));
+        expect(SDLSamplingRate22KHZ).to(equal(@"22KHZ"));
+        expect(SDLSamplingRate44KHZ).to(equal(@"44KHZ"));
     });
 });
 

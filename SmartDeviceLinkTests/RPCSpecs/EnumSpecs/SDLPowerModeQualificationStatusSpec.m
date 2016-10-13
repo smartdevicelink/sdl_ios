@@ -14,10 +14,10 @@ QuickSpecBegin(SDLPowerModeQualificationStatusSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLPowerModeQualificationStatusPowerModeUndefined).to(equal(@"POWER_MODE_UNDEFINED"));
-        expect(SDLPowerModeQualificationStatusPowerModeEvaluationInProgress).to(equal(@"POWER_MODE_EVALUATION_IN_PROGRESS"));
+        expect(SDLPowerModeQualificationStatusUndefined).to(equal(@"POWER_MODE_UNDEFINED"));
+        expect(SDLPowerModeQualificationStatusEvaluationInProgress).to(equal(@"POWER_MODE_EVALUATION_IN_PROGRESS"));
         expect(SDLPowerModeQualificationStatusNotDefined).to(equal(@"NOT_DEFINED"));
-        expect(SDLPowerModeQualificationStatusPowerModeOk).to(equal(@"POWER_MODE_OK"));
+        expect(SDLPowerModeQualificationStatusOk).to(equal(@"POWER_MODE_OK"));
     });
 });
 

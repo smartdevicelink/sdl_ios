@@ -9,13 +9,7 @@
 @implementation SDLUnsubscribeButtonResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_UnsubscribeButton]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameUnsubscribeButton]) {
     }
     return self;
 }

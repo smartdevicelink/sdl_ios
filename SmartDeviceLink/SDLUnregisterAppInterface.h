@@ -19,18 +19,6 @@
  *
  * See SDLRegisterAppInterface SDLOnAppInterfaceUnregistered
  */
-@interface SDLUnregisterAppInterface : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLUnregisterAppInterface object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLUnregisterAppInterface object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLUnregisterAppInterface : SDLRPCRequest
 
 @end

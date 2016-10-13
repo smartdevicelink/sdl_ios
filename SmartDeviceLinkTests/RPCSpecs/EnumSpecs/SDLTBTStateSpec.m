@@ -18,7 +18,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTBTStateRouteAccepted).to(equal(@"ROUTE_ACCEPTED"));
         expect(SDLTBTStateRouteRefused).to(equal(@"ROUTE_REFUSED"));
         expect(SDLTBTStateRouteCancelled).to(equal(@"ROUTE_CANCELLED"));
-        expect(SDLTBTStateEtaRequest).to(equal(@"ETA_REQUEST"));
+        expect(SDLTBTStateETARequest).to(equal(@"ETA_REQUEST"));
         expect(SDLTBTStateNextTurnRequest).to(equal(@"NEXT_TURN_REQUEST"));
         expect(SDLTBTStateRouteStatusRequest).to(equal(@"ROUTE_STATUS_REQUEST"));
         expect(SDLTBTStateRouteSummaryRequest).to(equal(@"ROUTE_SUMMARY_REQUEST"));

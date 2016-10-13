@@ -5,11 +5,7 @@
 
 #import "SDLVehicleDataEventStatus.h"
 
-@interface SDLAirbagStatus : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLAirbagStatus : SDLRPCStruct
 
 @property (strong) SDLVehicleDataEventStatus driverAirbagDeployed;
 @property (strong) SDLVehicleDataEventStatus driverSideAirbagDeployed;

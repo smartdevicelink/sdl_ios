@@ -9,27 +9,21 @@
 @implementation SDLDeleteCommand
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteCommand]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameDeleteCommand]) {
     }
     return self;
 }
 
 - (void)setCmdID:(NSNumber *)cmdID {
     if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:NAMES_cmdID];
+        [parameters setObject:cmdID forKey:SDLNameCommandId];
     } else {
-        [parameters removeObjectForKey:NAMES_cmdID];
+        [parameters removeObjectForKey:SDLNameCommandId];
     }
 }
 
 - (NSNumber *)cmdID {
-    return [parameters objectForKey:NAMES_cmdID];
+    return [parameters objectForKey:SDLNameCommandId];
 }
 
 @end

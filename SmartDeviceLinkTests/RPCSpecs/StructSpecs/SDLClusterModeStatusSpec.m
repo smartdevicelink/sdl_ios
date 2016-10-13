@@ -21,25 +21,25 @@ describe(@"Getter/Setter Tests", ^ {
         SDLClusterModeStatus* testStruct = [[SDLClusterModeStatus alloc] init];
         
         testStruct.powerModeActive = @YES;
-        testStruct.powerModeQualificationStatus = SDLPowerModeQualificationStatusPowerModeEvaluationInProgress;
+        testStruct.powerModeQualificationStatus = SDLPowerModeQualificationStatusEvaluationInProgress;
         testStruct.carModeStatus = SDLCarModeStatusCrash;
         testStruct.powerModeStatus = SDLPowerModeStatusIgnitionOn;
         
         expect(testStruct.powerModeActive).to(equal(@YES));
-        expect(testStruct.powerModeQualificationStatus).to(equal(SDLPowerModeQualificationStatusPowerModeEvaluationInProgress));
+        expect(testStruct.powerModeQualificationStatus).to(equal(SDLPowerModeQualificationStatusEvaluationInProgress));
         expect(testStruct.carModeStatus).to(equal(SDLCarModeStatusCrash));
         expect(testStruct.powerModeStatus).to(equal(SDLPowerModeStatusIgnitionOn));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_powerModeActive:@NO,
-                                       NAMES_powerModeQualificationStatus:SDLPowerModeQualificationStatusPowerModeOk,
-                                       NAMES_carModeStatus:SDLCarModeStatusCrash,
-                                       NAMES_powerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNamePowerModeActive:@NO,
+                                       SDLNamePowerModeQualificationStatus:SDLPowerModeQualificationStatusOk,
+                                       SDLNameCarModeStatus:SDLCarModeStatusCrash,
+                                       SDLNamePowerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
         SDLClusterModeStatus* testStruct = [[SDLClusterModeStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.powerModeActive).to(equal(@NO));
-        expect(testStruct.powerModeQualificationStatus).to(equal(SDLPowerModeQualificationStatusPowerModeOk));
+        expect(testStruct.powerModeQualificationStatus).to(equal(SDLPowerModeQualificationStatusOk));
         expect(testStruct.carModeStatus).to(equal(SDLCarModeStatusCrash));
         expect(testStruct.powerModeStatus).to(equal(SDLPowerModeStatusKeyOut));
     });

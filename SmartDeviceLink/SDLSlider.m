@@ -9,75 +9,69 @@
 @implementation SDLSlider
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Slider]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameSlider]) {
     }
     return self;
 }
 
 - (void)setNumTicks:(NSNumber *)numTicks {
     if (numTicks != nil) {
-        [parameters setObject:numTicks forKey:NAMES_numTicks];
+        [parameters setObject:numTicks forKey:SDLNameNumberTicks];
     } else {
-        [parameters removeObjectForKey:NAMES_numTicks];
+        [parameters removeObjectForKey:SDLNameNumberTicks];
     }
 }
 
 - (NSNumber *)numTicks {
-    return [parameters objectForKey:NAMES_numTicks];
+    return [parameters objectForKey:SDLNameNumberTicks];
 }
 
 - (void)setPosition:(NSNumber *)position {
     if (position != nil) {
-        [parameters setObject:position forKey:NAMES_position];
+        [parameters setObject:position forKey:SDLNamePosition];
     } else {
-        [parameters removeObjectForKey:NAMES_position];
+        [parameters removeObjectForKey:SDLNamePosition];
     }
 }
 
 - (NSNumber *)position {
-    return [parameters objectForKey:NAMES_position];
+    return [parameters objectForKey:SDLNamePosition];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
     if (sliderHeader != nil) {
-        [parameters setObject:sliderHeader forKey:NAMES_sliderHeader];
+        [parameters setObject:sliderHeader forKey:SDLNameSliderHeader];
     } else {
-        [parameters removeObjectForKey:NAMES_sliderHeader];
+        [parameters removeObjectForKey:SDLNameSliderHeader];
     }
 }
 
 - (NSString *)sliderHeader {
-    return [parameters objectForKey:NAMES_sliderHeader];
+    return [parameters objectForKey:SDLNameSliderHeader];
 }
 
 - (void)setSliderFooter:(NSMutableArray *)sliderFooter {
     if (sliderFooter != nil) {
-        [parameters setObject:sliderFooter forKey:NAMES_sliderFooter];
+        [parameters setObject:sliderFooter forKey:SDLNameSliderFooter];
     } else {
-        [parameters removeObjectForKey:NAMES_sliderFooter];
+        [parameters removeObjectForKey:SDLNameSliderFooter];
     }
 }
 
 - (NSMutableArray *)sliderFooter {
-    return [parameters objectForKey:NAMES_sliderFooter];
+    return [parameters objectForKey:SDLNameSliderFooter];
 }
 
 - (void)setTimeout:(NSNumber *)timeout {
     if (timeout != nil) {
-        [parameters setObject:timeout forKey:NAMES_timeout];
+        [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
-        [parameters removeObjectForKey:NAMES_timeout];
+        [parameters removeObjectForKey:SDLNameTimeout];
     }
 }
 
 - (NSNumber *)timeout {
-    return [parameters objectForKey:NAMES_timeout];
+    return [parameters objectForKey:SDLNameTimeout];
 }
 
 @end

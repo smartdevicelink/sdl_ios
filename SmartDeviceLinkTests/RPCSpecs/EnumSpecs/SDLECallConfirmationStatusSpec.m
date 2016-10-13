@@ -20,7 +20,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLECallConfirmationStatusCompleted).to(equal(@"CALL_COMPLETED"));
         expect(SDLECallConfirmationStatusUnsuccessful).to(equal(@"CALL_UNSUCCESSFUL"));
         expect(SDLECallConfirmationStatusConfiguredOff).to(equal(@"ECALL_CONFIGURED_OFF"));
-        expect(SDLECallConfirmationStatusCompleteDtmfTimeout).to(equal(@"CALL_COMPLETE_DTMF_TIMEOUT"));
+        expect(SDLECallConfirmationStatusCompleteDTMFTimeout).to(equal(@"CALL_COMPLETE_DTMF_TIMEOUT"));
     });
 });
 

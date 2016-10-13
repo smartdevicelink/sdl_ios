@@ -8,27 +8,21 @@
 @implementation SDLOnTBTClientState
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnTBTClientState]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameOnTBTClientState]) {
     }
     return self;
 }
 
 - (void)setState:(SDLTBTState)state {
     if (state != nil) {
-        [parameters setObject:state forKey:NAMES_state];
+        [parameters setObject:state forKey:SDLNameState];
     } else {
-        [parameters removeObjectForKey:NAMES_state];
+        [parameters removeObjectForKey:SDLNameState];
     }
 }
 
 - (SDLTBTState)state {
-    NSObject *obj = [parameters objectForKey:NAMES_state];
+    NSObject *obj = [parameters objectForKey:SDLNameState];
     return (SDLTBTState)obj;
 }
 

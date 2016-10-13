@@ -15,20 +15,7 @@
  *
  * @since SDL 2.0
  */
-@interface SDLChangeRegistration : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLChangeRegistration object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLChangeRegistration object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLChangeRegistration : SDLRPCRequest
 
 /**
  * @abstract The language the app wants to change to

@@ -18,9 +18,9 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLPredefinedLayoutMedia).to(equal(@"MEDIA"));
         expect(SDLPredefinedLayoutNonMedia).to(equal(@"NON-MEDIA"));
         expect(SDLPredefinedLayoutOnscreenPresets).to(equal(@"ONSCREEN_PRESETS"));
-        expect(SDLPredefinedLayoutNavFullscreenMap).to(equal(@"NAV_FULLSCREEN_MAP"));
-        expect(SDLPredefinedLayoutNavList).to(equal(@"NAV_LIST"));
-        expect(SDLPredefinedLayoutNavKeyboard).to(equal(@"NAV_KEYBOARD"));
+        expect(SDLPredefinedLayoutNavigationFullscreenMap).to(equal(@"NAV_FULLSCREEN_MAP"));
+        expect(SDLPredefinedLayoutNavigationList).to(equal(@"NAV_LIST"));
+        expect(SDLPredefinedLayoutNavigationKeyboard).to(equal(@"NAV_KEYBOARD"));
         expect(SDLPredefinedLayoutGraphicWithText).to(equal(@"GRAPHIC_WITH_TEXT"));
         expect(SDLPredefinedLayoutTextWithGraphic).to(equal(@"TEXT_WITH_GRAPHIC"));
         expect(SDLPredefinedLayoutTilesOnly).to(equal(@"TILES_ONLY"));

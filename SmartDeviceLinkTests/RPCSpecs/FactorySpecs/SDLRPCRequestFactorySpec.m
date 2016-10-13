@@ -371,16 +371,16 @@ describe(@"BuildGetVehicleData Tests", ^ {
 describe(@"BuildPerformAudioPassThru Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLPerformAudioPassThru* message = [SDLRPCRequestFactory buildPerformAudioPassThruWithInitialPrompt:@"" audioPassThruDisplayText1:@"Display1" audioPassThruDisplayText2:@"Display2"
-                                                                 samplingRate:SDLSamplingRate44Khz maxDuration:@10 bitsPerSample:SDLBitsPerSample16Bit audioType:SDLAudioTypePcm
+                                                                 samplingRate:SDLSamplingRate44KHZ maxDuration:@10 bitsPerSample:SDLBitsPerSample16Bit audioType:SDLAudioTypePCM
                                                                  muteAudio:@NO correlationID:@2500];
         
         expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@""));
         expect(message.audioPassThruDisplayText1).to(equal(@"Display1"));
         expect(message.audioPassThruDisplayText2).to(equal(@"Display2"));
-        expect(message.samplingRate).to(equal(SDLSamplingRate44Khz));
+        expect(message.samplingRate).to(equal(SDLSamplingRate44KHZ));
         expect(message.maxDuration).to(equal(@10));
         expect(message.bitsPerSample).to(equal(SDLBitsPerSample16Bit));
-        expect(message.audioType).to(equal(SDLAudioTypePcm));
+        expect(message.audioType).to(equal(SDLAudioTypePCM));
         expect(message.muteAudio).to(equal(@NO));
         expect(message.correlationID).to(equal(@2500));
     });
@@ -414,7 +414,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
         it(@"Should build correctly", ^ {
             NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]
-                                                                   helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:SDLInteractionModeVrOnly
+                                                                   helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:SDLInteractionModeVROnly
                                                                    timeout:@5600 vrHelp:vrHelp correlationID:@31564];
             
             expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@"Nothing"));
@@ -422,7 +422,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
             expect(message.interactionChoiceSetIDList).to(equal(@[@4223, @1337]));
             expect(((SDLTTSChunk*)[message helpPrompt][0]).text).to(equal(@"A Whole Lot of Nothing"));
             expect(((SDLTTSChunk*)[message timeoutPrompt][0]).text).to(equal(@"Time Remaining"));
-            expect(message.interactionMode).to(equal(SDLInteractionModeVrOnly));
+            expect(message.interactionMode).to(equal(SDLInteractionModeVROnly));
             expect(message.timeout).to(equal(@5600));
             expect(message.vrHelp).to(equal(vrHelp));
             expect(message.interactionLayout).to(beNil());
@@ -474,10 +474,10 @@ describe(@"BuildPerformInteraction Tests", ^ {
 
 describe(@"BuildPutFile Tests", ^ {
     it(@"Should build correctly", ^ {
-        SDLPutFile *message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:SDLFileTypeGraphicBmp  persistentFile:@165636 correlationId:@147986];
+        SDLPutFile *message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:SDLFileTypeGraphicBMP  persistentFile:@165636 correlationId:@147986];
         
         expect(message.syncFileName).to(equal(@"YES!?"));
-        expect(message.fileType).to(equal(SDLFileTypeGraphicBmp));
+        expect(message.fileType).to(equal(SDLFileTypeGraphicBMP));
         expect(message.persistentFile).to(equal(@165636));
         expect(message.correlationID).to(equal(@147986));
     });

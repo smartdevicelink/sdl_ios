@@ -19,19 +19,19 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] init];
         
-        testNotification.state = SDLTBTStateEtaRequest;
+        testNotification.state = SDLTBTStateETARequest;
         
-        expect(testNotification.state).to(equal(SDLTBTStateEtaRequest));
+        expect(testNotification.state).to(equal(SDLTBTStateETARequest));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_state:SDLTBTStateEtaRequest},
-                                             NAMES_operation_name:NAMES_OnTBTClientState}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameState:SDLTBTStateETARequest},
+                                             SDLNameOperationName:SDLNameOnTBTClientState}} mutableCopy];
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] initWithDictionary:dict];
         
-        expect(testNotification.state).to(equal(SDLTBTStateEtaRequest));
+        expect(testNotification.state).to(equal(SDLTBTStateETARequest));
     });
     
     it(@"Should return nil if not set", ^ {

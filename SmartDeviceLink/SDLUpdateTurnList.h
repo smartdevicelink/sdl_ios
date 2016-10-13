@@ -9,11 +9,7 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
-@interface SDLUpdateTurnList : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLUpdateTurnList : SDLRPCRequest
 
 /**
  *  Optional, SDLTurn, 1 - 100 entries

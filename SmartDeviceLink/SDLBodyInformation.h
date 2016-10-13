@@ -10,20 +10,7 @@
 /**
  * The body information including power modes.
  */
-@interface SDLBodyInformation : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a new SDLBodyInformation object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLBodyInformation object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLBodyInformation : SDLRPCStruct
 
 /**
  * @abstract References signal "PrkBrkActv_B_Actl".

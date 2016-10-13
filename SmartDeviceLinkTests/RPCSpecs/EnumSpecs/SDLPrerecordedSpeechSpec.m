@@ -14,11 +14,11 @@ QuickSpecBegin(SDLPrerecordedSpeechSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLPrerecordedSpeechHelpJingle).to(equal(@"HELP_JINGLE"));
-        expect(SDLPrerecordedSpeechInitialJingle).to(equal(@"INITIAL_JINGLE"));
-        expect(SDLPrerecordedSpeechListenJingle).to(equal(@"LISTEN_JINGLE"));
-        expect(SDLPrerecordedSpeechPositiveJingle).to(equal(@"POSITIVE_JINGLE"));
-        expect(SDLPrerecordedSpeechNegativeJingle).to(equal(@"NEGATIVE_JINGLE"));
+        expect(SDLPrerecordedSpeechHelp).to(equal(@"HELP_JINGLE"));
+        expect(SDLPrerecordedSpeechInitial).to(equal(@"INITIAL_JINGLE"));
+        expect(SDLPrerecordedSpeechListen).to(equal(@"LISTEN_JINGLE"));
+        expect(SDLPrerecordedSpeechPositive).to(equal(@"POSITIVE_JINGLE"));
+        expect(SDLPrerecordedSpeechNegative).to(equal(@"NEGATIVE_JINGLE"));
     });
 });
 

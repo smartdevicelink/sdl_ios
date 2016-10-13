@@ -9,27 +9,21 @@
 @implementation SDLSliderResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Slider]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameSlider]) {
     }
     return self;
 }
 
 - (void)setSliderPosition:(NSNumber *)sliderPosition {
     if (sliderPosition != nil) {
-        [parameters setObject:sliderPosition forKey:NAMES_sliderPosition];
+        [parameters setObject:sliderPosition forKey:SDLNameSliderPosition];
     } else {
-        [parameters removeObjectForKey:NAMES_sliderPosition];
+        [parameters removeObjectForKey:SDLNameSliderPosition];
     }
 }
 
 - (NSNumber *)sliderPosition {
-    return [parameters objectForKey:NAMES_sliderPosition];
+    return [parameters objectForKey:SDLNameSliderPosition];
 }
 
 @end

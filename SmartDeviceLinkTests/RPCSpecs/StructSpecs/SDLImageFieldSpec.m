@@ -24,22 +24,22 @@ describe(@"Getter/Setter Tests", ^ {
         SDLImageField* testStruct = [[SDLImageField alloc] init];
         
         testStruct.name = SDLImageFieldNameTurnIcon;
-        testStruct.imageTypeSupported = [@[SDLFileTypeGraphicPng, SDLFileTypeGraphicJpeg] copy];
+        testStruct.imageTypeSupported = [@[SDLFileTypeGraphicPNG, SDLFileTypeGraphicJPEG] copy];
         testStruct.imageResolution = resolution;
         
         expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));
-        expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypeGraphicPng, SDLFileTypeGraphicJpeg] copy]));
+        expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypeGraphicPNG, SDLFileTypeGraphicJPEG] copy]));
         expect(testStruct.imageResolution).to(equal(resolution));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_name:SDLImageFieldNameTurnIcon,
-                                       NAMES_imageTypeSupported:[@[SDLFileTypeGraphicPng, SDLFileTypeGraphicJpeg] copy],
-                                       NAMES_imageResolution:resolution} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameName:SDLImageFieldNameTurnIcon,
+                                       SDLNameImageTypeSupported:[@[SDLFileTypeGraphicPNG, SDLFileTypeGraphicJPEG] copy],
+                                       SDLNameImageResolution:resolution} mutableCopy];
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));
-        expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypeGraphicPng, SDLFileTypeGraphicJpeg] copy]));
+        expect(testStruct.imageTypeSupported).to(equal([@[SDLFileTypeGraphicPNG, SDLFileTypeGraphicJPEG] copy]));
         expect(testStruct.imageResolution).to(equal(resolution));
     });
     

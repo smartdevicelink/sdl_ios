@@ -21,13 +21,13 @@ describe(@"Readonly Property Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with dictionary", ^ {
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{NAMES_notification:
-                                                                                      @{NAMES_parameters:
+        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLNameNotification:
+                                                                                      @{SDLNameParameters:
                                                                                             @{@"name":@"George"},
-                                                                                        NAMES_operation_name:@"Poorly Named"}} mutableCopy]];
+                                                                                        SDLNameOperationName:@"Poorly Named"}} mutableCopy]];
         
         expect(testMessage.name).to(equal(@"Poorly Named"));
-        expect(testMessage.messageType).to(equal(NAMES_notification));
+        expect(testMessage.messageType).to(equal(SDLNameNotification));
     });
 });
 
@@ -41,10 +41,10 @@ describe(@"Parameter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{NAMES_response:
-                                                                                      @{NAMES_parameters:
+        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLNameResponse:
+                                                                                      @{SDLNameParameters:
                                                                                             @{@"age":@25},
-                                                                                        NAMES_operation_name:@"Nameless"}} mutableCopy]];
+                                                                                        SDLNameOperationName:@"Nameless"}} mutableCopy]];
         
         expect([testMessage getParameters:@"age"]).to(equal(@25));
     });
@@ -66,10 +66,10 @@ describe(@"FunctionName Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{NAMES_request:
-                                                                                      @{NAMES_parameters:
+        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLNameRequest:
+                                                                                      @{SDLNameParameters:
                                                                                             @{@"age":@25},
-                                                                                        NAMES_operation_name:@"DoNothing"}} mutableCopy]];
+                                                                                        SDLNameOperationName:@"DoNothing"}} mutableCopy]];
         
         expect([testMessage getFunctionName]).to(equal(@"DoNothing"));
         
@@ -79,8 +79,8 @@ describe(@"FunctionName Tests", ^ {
     });
     
     it(@"Should be nil if not set", ^ {
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{NAMES_notification:
-                                                                                      @{NAMES_parameters:
+        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLNameNotification:
+                                                                                      @{SDLNameParameters:
                                                                                             @{}}} mutableCopy]];
         expect([testMessage getFunctionName]).to(beNil());
     });
@@ -97,10 +97,10 @@ describe(@"BulkDataTests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{NAMES_notification:
-                                                                                      @{NAMES_parameters:
+        SDLRPCMessage* testMessage = [[SDLRPCMessage alloc] initWithDictionary:[@{SDLNameNotification:
+                                                                                      @{SDLNameParameters:
                                                                                             @{}},
-                                                                                  NAMES_bulkData:[NSData dataWithBytes:"ImageData" length:strlen("ImageData")]} mutableCopy]];
+                                                                                  SDLNameBulkData:[NSData dataWithBytes:"ImageData" length:strlen("ImageData")]} mutableCopy]];
         
         expect(testMessage.bulkData).to(equal([NSData dataWithBytes:"ImageData" length:strlen("ImageData")]));
     });

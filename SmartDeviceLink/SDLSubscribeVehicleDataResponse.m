@@ -7,426 +7,419 @@
 #import "SDLNames.h"
 #import "SDLVehicleDataResult.h"
 
-
 @implementation SDLSubscribeVehicleDataResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SubscribeVehicleData]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameSubscribeVehicleData]) {
     }
     return self;
 }
 
 - (void)setGps:(SDLVehicleDataResult *)gps {
     if (gps != nil) {
-        [parameters setObject:gps forKey:NAMES_gps];
+        [parameters setObject:gps forKey:SDLNameGPS];
     } else {
-        [parameters removeObjectForKey:NAMES_gps];
+        [parameters removeObjectForKey:SDLNameGPS];
     }
 }
 
 - (SDLVehicleDataResult *)gps {
-    NSObject *obj = [parameters objectForKey:NAMES_gps];
+    NSObject *obj = [parameters objectForKey:SDLNameGPS];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setSpeed:(SDLVehicleDataResult *)speed {
     if (speed != nil) {
-        [parameters setObject:speed forKey:NAMES_speed];
+        [parameters setObject:speed forKey:SDLNameSpeed];
     } else {
-        [parameters removeObjectForKey:NAMES_speed];
+        [parameters removeObjectForKey:SDLNameSpeed];
     }
 }
 
 - (SDLVehicleDataResult *)speed {
-    NSObject *obj = [parameters objectForKey:NAMES_speed];
+    NSObject *obj = [parameters objectForKey:SDLNameSpeed];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setRpm:(SDLVehicleDataResult *)rpm {
     if (rpm != nil) {
-        [parameters setObject:rpm forKey:NAMES_rpm];
+        [parameters setObject:rpm forKey:SDLNameRPM];
     } else {
-        [parameters removeObjectForKey:NAMES_rpm];
+        [parameters removeObjectForKey:SDLNameRPM];
     }
 }
 
 - (SDLVehicleDataResult *)rpm {
-    NSObject *obj = [parameters objectForKey:NAMES_rpm];
+    NSObject *obj = [parameters objectForKey:SDLNameRPM];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setFuelLevel:(SDLVehicleDataResult *)fuelLevel {
     if (fuelLevel != nil) {
-        [parameters setObject:fuelLevel forKey:NAMES_fuelLevel];
+        [parameters setObject:fuelLevel forKey:SDLNameFuelLevel];
     } else {
-        [parameters removeObjectForKey:NAMES_fuelLevel];
+        [parameters removeObjectForKey:SDLNameFuelLevel];
     }
 }
 
 - (SDLVehicleDataResult *)fuelLevel {
-    NSObject *obj = [parameters objectForKey:NAMES_fuelLevel];
+    NSObject *obj = [parameters objectForKey:SDLNameFuelLevel];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setFuelLevel_State:(SDLVehicleDataResult *)fuelLevel_State {
     if (fuelLevel_State != nil) {
-        [parameters setObject:fuelLevel_State forKey:NAMES_fuelLevel_State];
+        [parameters setObject:fuelLevel_State forKey:SDLNameFuelLevelState];
     } else {
-        [parameters removeObjectForKey:NAMES_fuelLevel_State];
+        [parameters removeObjectForKey:SDLNameFuelLevelState];
     }
 }
 
 - (SDLVehicleDataResult *)fuelLevel_State {
-    NSObject *obj = [parameters objectForKey:NAMES_fuelLevel_State];
+    NSObject *obj = [parameters objectForKey:SDLNameFuelLevelState];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setInstantFuelConsumption:(SDLVehicleDataResult *)instantFuelConsumption {
     if (instantFuelConsumption != nil) {
-        [parameters setObject:instantFuelConsumption forKey:NAMES_instantFuelConsumption];
+        [parameters setObject:instantFuelConsumption forKey:SDLNameInstantFuelConsumption];
     } else {
-        [parameters removeObjectForKey:NAMES_instantFuelConsumption];
+        [parameters removeObjectForKey:SDLNameInstantFuelConsumption];
     }
 }
 
 - (SDLVehicleDataResult *)instantFuelConsumption {
-    NSObject *obj = [parameters objectForKey:NAMES_instantFuelConsumption];
+    NSObject *obj = [parameters objectForKey:SDLNameInstantFuelConsumption];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setExternalTemperature:(SDLVehicleDataResult *)externalTemperature {
     if (externalTemperature != nil) {
-        [parameters setObject:externalTemperature forKey:NAMES_externalTemperature];
+        [parameters setObject:externalTemperature forKey:SDLNameExternalTemperature];
     } else {
-        [parameters removeObjectForKey:NAMES_externalTemperature];
+        [parameters removeObjectForKey:SDLNameExternalTemperature];
     }
 }
 
 - (SDLVehicleDataResult *)externalTemperature {
-    NSObject *obj = [parameters objectForKey:NAMES_externalTemperature];
+    NSObject *obj = [parameters objectForKey:SDLNameExternalTemperature];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setPrndl:(SDLVehicleDataResult *)prndl {
     if (prndl != nil) {
-        [parameters setObject:prndl forKey:NAMES_prndl];
+        [parameters setObject:prndl forKey:SDLNamePRNDL];
     } else {
-        [parameters removeObjectForKey:NAMES_prndl];
+        [parameters removeObjectForKey:SDLNamePRNDL];
     }
 }
 
 - (SDLVehicleDataResult *)prndl {
-    NSObject *obj = [parameters objectForKey:NAMES_prndl];
+    NSObject *obj = [parameters objectForKey:SDLNamePRNDL];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setTirePressure:(SDLVehicleDataResult *)tirePressure {
     if (tirePressure != nil) {
-        [parameters setObject:tirePressure forKey:NAMES_tirePressure];
+        [parameters setObject:tirePressure forKey:SDLNameTirePressure];
     } else {
-        [parameters removeObjectForKey:NAMES_tirePressure];
+        [parameters removeObjectForKey:SDLNameTirePressure];
     }
 }
 
 - (SDLVehicleDataResult *)tirePressure {
-    NSObject *obj = [parameters objectForKey:NAMES_tirePressure];
+    NSObject *obj = [parameters objectForKey:SDLNameTirePressure];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setOdometer:(SDLVehicleDataResult *)odometer {
     if (odometer != nil) {
-        [parameters setObject:odometer forKey:NAMES_odometer];
+        [parameters setObject:odometer forKey:SDLNameOdometer];
     } else {
-        [parameters removeObjectForKey:NAMES_odometer];
+        [parameters removeObjectForKey:SDLNameOdometer];
     }
 }
 
 - (SDLVehicleDataResult *)odometer {
-    NSObject *obj = [parameters objectForKey:NAMES_odometer];
+    NSObject *obj = [parameters objectForKey:SDLNameOdometer];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setBeltStatus:(SDLVehicleDataResult *)beltStatus {
     if (beltStatus != nil) {
-        [parameters setObject:beltStatus forKey:NAMES_beltStatus];
+        [parameters setObject:beltStatus forKey:SDLNameBeltStatus];
     } else {
-        [parameters removeObjectForKey:NAMES_beltStatus];
+        [parameters removeObjectForKey:SDLNameBeltStatus];
     }
 }
 
 - (SDLVehicleDataResult *)beltStatus {
-    NSObject *obj = [parameters objectForKey:NAMES_beltStatus];
+    NSObject *obj = [parameters objectForKey:SDLNameBeltStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setBodyInformation:(SDLVehicleDataResult *)bodyInformation {
     if (bodyInformation != nil) {
-        [parameters setObject:bodyInformation forKey:NAMES_bodyInformation];
+        [parameters setObject:bodyInformation forKey:SDLNameBodyInformation];
     } else {
-        [parameters removeObjectForKey:NAMES_bodyInformation];
+        [parameters removeObjectForKey:SDLNameBodyInformation];
     }
 }
 
 - (SDLVehicleDataResult *)bodyInformation {
-    NSObject *obj = [parameters objectForKey:NAMES_bodyInformation];
+    NSObject *obj = [parameters objectForKey:SDLNameBodyInformation];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setDeviceStatus:(SDLVehicleDataResult *)deviceStatus {
     if (deviceStatus != nil) {
-        [parameters setObject:deviceStatus forKey:NAMES_deviceStatus];
+        [parameters setObject:deviceStatus forKey:SDLNameDeviceStatus];
     } else {
-        [parameters removeObjectForKey:NAMES_deviceStatus];
+        [parameters removeObjectForKey:SDLNameDeviceStatus];
     }
 }
 
 - (SDLVehicleDataResult *)deviceStatus {
-    NSObject *obj = [parameters objectForKey:NAMES_deviceStatus];
+    NSObject *obj = [parameters objectForKey:SDLNameDeviceStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setDriverBraking:(SDLVehicleDataResult *)driverBraking {
     if (driverBraking != nil) {
-        [parameters setObject:driverBraking forKey:NAMES_driverBraking];
+        [parameters setObject:driverBraking forKey:SDLNameDriverBraking];
     } else {
-        [parameters removeObjectForKey:NAMES_driverBraking];
+        [parameters removeObjectForKey:SDLNameDriverBraking];
     }
 }
 
 - (SDLVehicleDataResult *)driverBraking {
-    NSObject *obj = [parameters objectForKey:NAMES_driverBraking];
+    NSObject *obj = [parameters objectForKey:SDLNameDriverBraking];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setWiperStatus:(SDLVehicleDataResult *)wiperStatus {
     if (wiperStatus != nil) {
-        [parameters setObject:wiperStatus forKey:NAMES_wiperStatus];
+        [parameters setObject:wiperStatus forKey:SDLNameWiperStatus];
     } else {
-        [parameters removeObjectForKey:NAMES_wiperStatus];
+        [parameters removeObjectForKey:SDLNameWiperStatus];
     }
 }
 
 - (SDLVehicleDataResult *)wiperStatus {
-    NSObject *obj = [parameters objectForKey:NAMES_wiperStatus];
+    NSObject *obj = [parameters objectForKey:SDLNameWiperStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setHeadLampStatus:(SDLVehicleDataResult *)headLampStatus {
     if (headLampStatus != nil) {
-        [parameters setObject:headLampStatus forKey:NAMES_headLampStatus];
+        [parameters setObject:headLampStatus forKey:SDLNameHeadLampStatus];
     } else {
-        [parameters removeObjectForKey:NAMES_headLampStatus];
+        [parameters removeObjectForKey:SDLNameHeadLampStatus];
     }
 }
 
 - (SDLVehicleDataResult *)headLampStatus {
-    NSObject *obj = [parameters objectForKey:NAMES_headLampStatus];
+    NSObject *obj = [parameters objectForKey:SDLNameHeadLampStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setEngineTorque:(SDLVehicleDataResult *)engineTorque {
     if (engineTorque != nil) {
-        [parameters setObject:engineTorque forKey:NAMES_engineTorque];
+        [parameters setObject:engineTorque forKey:SDLNameEngineTorque];
     } else {
-        [parameters removeObjectForKey:NAMES_engineTorque];
+        [parameters removeObjectForKey:SDLNameEngineTorque];
     }
 }
 
 - (SDLVehicleDataResult *)engineTorque {
-    NSObject *obj = [parameters objectForKey:NAMES_engineTorque];
+    NSObject *obj = [parameters objectForKey:SDLNameEngineTorque];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setAccPedalPosition:(SDLVehicleDataResult *)accPedalPosition {
     if (accPedalPosition != nil) {
-        [parameters setObject:accPedalPosition forKey:NAMES_accPedalPosition];
+        [parameters setObject:accPedalPosition forKey:SDLNameAccelerationPedalPosition];
     } else {
-        [parameters removeObjectForKey:NAMES_accPedalPosition];
+        [parameters removeObjectForKey:SDLNameAccelerationPedalPosition];
     }
 }
 
 - (SDLVehicleDataResult *)accPedalPosition {
-    NSObject *obj = [parameters objectForKey:NAMES_accPedalPosition];
+    NSObject *obj = [parameters objectForKey:SDLNameAccelerationPedalPosition];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setSteeringWheelAngle:(SDLVehicleDataResult *)steeringWheelAngle {
     if (steeringWheelAngle != nil) {
-        [parameters setObject:steeringWheelAngle forKey:NAMES_steeringWheelAngle];
+        [parameters setObject:steeringWheelAngle forKey:SDLNameSteeringWheelAngle];
     } else {
-        [parameters removeObjectForKey:NAMES_steeringWheelAngle];
+        [parameters removeObjectForKey:SDLNameSteeringWheelAngle];
     }
 }
 
 - (SDLVehicleDataResult *)steeringWheelAngle {
-    NSObject *obj = [parameters objectForKey:NAMES_steeringWheelAngle];
+    NSObject *obj = [parameters objectForKey:SDLNameSteeringWheelAngle];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setECallInfo:(SDLVehicleDataResult *)eCallInfo {
     if (eCallInfo != nil) {
-        [parameters setObject:eCallInfo forKey:NAMES_eCallInfo];
+        [parameters setObject:eCallInfo forKey:SDLNameECallInfo];
     } else {
-        [parameters removeObjectForKey:NAMES_eCallInfo];
+        [parameters removeObjectForKey:SDLNameECallInfo];
     }
 }
 
 - (SDLVehicleDataResult *)eCallInfo {
-    NSObject *obj = [parameters objectForKey:NAMES_eCallInfo];
+    NSObject *obj = [parameters objectForKey:SDLNameECallInfo];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setAirbagStatus:(SDLVehicleDataResult *)airbagStatus {
     if (airbagStatus != nil) {
-        [parameters setObject:airbagStatus forKey:NAMES_airbagStatus];
+        [parameters setObject:airbagStatus forKey:SDLNameAirbagStatus];
     } else {
-        [parameters removeObjectForKey:NAMES_airbagStatus];
+        [parameters removeObjectForKey:SDLNameAirbagStatus];
     }
 }
 
 - (SDLVehicleDataResult *)airbagStatus {
-    NSObject *obj = [parameters objectForKey:NAMES_airbagStatus];
+    NSObject *obj = [parameters objectForKey:SDLNameAirbagStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setEmergencyEvent:(SDLVehicleDataResult *)emergencyEvent {
     if (emergencyEvent != nil) {
-        [parameters setObject:emergencyEvent forKey:NAMES_emergencyEvent];
+        [parameters setObject:emergencyEvent forKey:SDLNameEmergencyEvent];
     } else {
-        [parameters removeObjectForKey:NAMES_emergencyEvent];
+        [parameters removeObjectForKey:SDLNameEmergencyEvent];
     }
 }
 
 - (SDLVehicleDataResult *)emergencyEvent {
-    NSObject *obj = [parameters objectForKey:NAMES_emergencyEvent];
+    NSObject *obj = [parameters objectForKey:SDLNameEmergencyEvent];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setClusterModes:(SDLVehicleDataResult *)clusterModes {
     if (clusterModes != nil) {
-        [parameters setObject:clusterModes forKey:NAMES_clusterModes];
+        [parameters setObject:clusterModes forKey:SDLNameClusterModes];
     } else {
-        [parameters removeObjectForKey:NAMES_clusterModes];
+        [parameters removeObjectForKey:SDLNameClusterModes];
     }
 }
 
 - (SDLVehicleDataResult *)clusterModes {
-    NSObject *obj = [parameters objectForKey:NAMES_clusterModes];
+    NSObject *obj = [parameters objectForKey:SDLNameClusterModes];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 
 - (void)setMyKey:(SDLVehicleDataResult *)myKey {
     if (myKey != nil) {
-        [parameters setObject:myKey forKey:NAMES_myKey];
+        [parameters setObject:myKey forKey:SDLNameMyKey];
     } else {
-        [parameters removeObjectForKey:NAMES_myKey];
+        [parameters removeObjectForKey:SDLNameMyKey];
     }
 }
 
 - (SDLVehicleDataResult *)myKey {
-    NSObject *obj = [parameters objectForKey:NAMES_myKey];
+    NSObject *obj = [parameters objectForKey:SDLNameMyKey];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataResult.class]) {
         return (SDLVehicleDataResult *)obj;
     } else {
-        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLVehicleDataResult alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

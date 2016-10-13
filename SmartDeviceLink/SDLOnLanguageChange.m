@@ -6,44 +6,37 @@
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 
-
 @implementation SDLOnLanguageChange
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnLanguageChange]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameOnLanguageChange]) {
     }
     return self;
 }
 
 - (void)setLanguage:(SDLLanguage)language {
     if (language != nil) {
-        [parameters setObject:language forKey:NAMES_language];
+        [parameters setObject:language forKey:SDLNameLanguage];
     } else {
-        [parameters removeObjectForKey:NAMES_language];
+        [parameters removeObjectForKey:SDLNameLanguage];
     }
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [parameters objectForKey:NAMES_language];
+    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
     return (SDLLanguage)obj;
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
     if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:NAMES_hmiDisplayLanguage];
+        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiDisplayLanguage];
+        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
     }
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
+    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
     return (SDLLanguage)obj;
 }
 

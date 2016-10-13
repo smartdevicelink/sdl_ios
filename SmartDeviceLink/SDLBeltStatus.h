@@ -5,11 +5,7 @@
 
 #import "SDLVehicleDataEventStatus.h"
 
-@interface SDLBeltStatus : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLBeltStatus : SDLRPCStruct
 
 @property (strong) SDLVehicleDataEventStatus driverBeltDeployed;
 @property (strong) SDLVehicleDataEventStatus passengerBeltDeployed;

@@ -6,11 +6,7 @@
 @class SDLSingleTireStatus;
 #import "SDLWarningLightStatus.h"
 
-@interface SDLTireStatus : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLTireStatus : SDLRPCStruct
 
 @property (strong) SDLWarningLightStatus pressureTelltale;
 @property (strong) SDLSingleTireStatus *leftFront;

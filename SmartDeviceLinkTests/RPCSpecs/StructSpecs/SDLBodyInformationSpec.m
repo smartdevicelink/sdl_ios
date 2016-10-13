@@ -37,13 +37,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_parkBrakeActive:@YES,
-                                       NAMES_ignitionStableStatus:SDLIgnitionStableStatusNotStable,
-                                       NAMES_ignitionStatus:SDLIgnitionStatusStart,
-                                       NAMES_driverDoorAjar:@NO,
-                                       NAMES_passengerDoorAjar:@NO,
-                                       NAMES_rearLeftDoorAjar:@NO,
-                                       NAMES_rearRightDoorAjar:@YES} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameParkBrakeActive:@YES,
+                                       SDLNameIgnitionStableStatus:SDLIgnitionStableStatusNotStable,
+                                       SDLNameIgnitionStatus:SDLIgnitionStatusStart,
+                                       SDLNameDriverDoorAjar:@NO,
+                                       SDLNamePassengerDoorAjar:@NO,
+                                       SDLNameRearLeftDoorAjar:@NO,
+                                       SDLNameRearRightDoorAjar:@YES} mutableCopy];
         SDLBodyInformation* testStruct = [[SDLBodyInformation alloc] initWithDictionary:dict];
         
         expect(testStruct.parkBrakeActive).to(equal(@YES));

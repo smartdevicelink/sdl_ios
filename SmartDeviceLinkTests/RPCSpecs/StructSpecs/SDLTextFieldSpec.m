@@ -32,10 +32,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_name:SDLTextFieldNameTertiaryText,
-                                       NAMES_characterSet:SDLCharacterSetType5Set,
-                                       NAMES_width:@111,
-                                       NAMES_rows:@4} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameName:SDLTextFieldNameTertiaryText,
+                                       SDLNameCharacterSet:SDLCharacterSetType5Set,
+                                       SDLNameWidth:@111,
+                                       SDLNameRows:@4} mutableCopy];
         SDLTextField* testStruct = [[SDLTextField alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));

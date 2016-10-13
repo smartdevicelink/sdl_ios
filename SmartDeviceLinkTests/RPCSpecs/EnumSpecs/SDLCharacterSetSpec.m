@@ -16,8 +16,8 @@ describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLCharacterSetType2Set).to(equal(@"TYPE2SET"));
         expect(SDLCharacterSetType5Set).to(equal(@"TYPE5SET"));
-        expect(SDLCharacterSetCid1Set).to(equal(@"CID1SET"));
-        expect(SDLCharacterSetCid2Set).to(equal(@"CID2SET"));
+        expect(SDLCharacterSetCID1Set).to(equal(@"CID1SET"));
+        expect(SDLCharacterSetCID2Set).to(equal(@"CID2SET"));
     });
 });
 

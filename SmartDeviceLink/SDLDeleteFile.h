@@ -12,20 +12,7 @@
  * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLPutFile SDLListFiles
  */
-@interface SDLDeleteFile : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLDeleteFile object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLDeleteFile object indicated by the dictionary parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLDeleteFile : SDLRPCRequest
 
 /**
  * @abstract a file reference name

@@ -7,44 +7,31 @@
 #import "SDLFileType.h"
 #import "SDLNames.h"
 
-
 @implementation SDLImageField
-
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
 
 - (void)setName:(SDLImageFieldName)name {
     if (name != nil) {
-        [store setObject:name forKey:NAMES_name];
+        [store setObject:name forKey:SDLNameName];
     } else {
-        [store removeObjectForKey:NAMES_name];
+        [store removeObjectForKey:SDLNameName];
     }
 }
 
 - (SDLImageFieldName)name {
-    NSObject *obj = [store objectForKey:NAMES_name];
+    NSObject *obj = [store objectForKey:SDLNameName];
     return (SDLImageFieldName)obj;
 }
 
 - (void)setImageTypeSupported:(NSMutableArray *)imageTypeSupported {
     if (imageTypeSupported != nil) {
-        [store setObject:imageTypeSupported forKey:NAMES_imageTypeSupported];
+        [store setObject:imageTypeSupported forKey:SDLNameImageTypeSupported];
     } else {
-        [store removeObjectForKey:NAMES_imageTypeSupported];
+        [store removeObjectForKey:SDLNameImageTypeSupported];
     }
 }
 
 - (NSMutableArray *)imageTypeSupported {
-    NSMutableArray *array = [store objectForKey:NAMES_imageTypeSupported];
+    NSMutableArray *array = [store objectForKey:SDLNameImageTypeSupported];
     if ([array count] < 1) {
         return array;
     } else {
@@ -58,18 +45,18 @@
 
 - (void)setImageResolution:(SDLImageResolution *)imageResolution {
     if (imageResolution != nil) {
-        [store setObject:imageResolution forKey:NAMES_imageResolution];
+        [store setObject:imageResolution forKey:SDLNameImageResolution];
     } else {
-        [store removeObjectForKey:NAMES_imageResolution];
+        [store removeObjectForKey:SDLNameImageResolution];
     }
 }
 
 - (SDLImageResolution *)imageResolution {
-    NSObject *obj = [store objectForKey:NAMES_imageResolution];
+    NSObject *obj = [store objectForKey:SDLNameImageResolution];
     if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
         return (SDLImageResolution *)obj;
     } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
+        return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
     }
 }
 

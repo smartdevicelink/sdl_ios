@@ -23,18 +23,7 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet
  */
-@interface SDLPerformInteraction : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLPerformInteraction object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPerformInteraction object indicated by the NSMutableDictionary
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLPerformInteraction : SDLRPCRequest
 
 /**
  * @abstract The Text that Displayed when the interaction begins. This text may

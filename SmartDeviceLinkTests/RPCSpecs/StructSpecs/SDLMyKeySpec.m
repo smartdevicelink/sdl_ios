@@ -25,7 +25,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_e911Override:SDLVehicleDataStatusOn} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameE911Override:SDLVehicleDataStatusOn} mutableCopy];
         SDLMyKey* testStruct = [[SDLMyKey alloc] initWithDictionary:dict];
         
         expect(testStruct.e911Override).to(equal(SDLVehicleDataStatusOn));

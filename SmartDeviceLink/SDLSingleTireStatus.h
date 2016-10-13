@@ -10,19 +10,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@interface SDLSingleTireStatus : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLSingleTireStatus object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLSingleTireStatus object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSingleTireStatus : SDLRPCStruct
 
 /**
  * @abstract The volume status of a single tire

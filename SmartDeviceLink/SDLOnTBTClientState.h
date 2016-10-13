@@ -5,11 +5,7 @@
 
 #import "SDLTBTState.h"
 
-@interface SDLOnTBTClientState : SDLRPCNotification {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnTBTClientState : SDLRPCNotification
 
 @property (strong) SDLTBTState state;
 

@@ -26,8 +26,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_allowed:[@[SDLHMILevelBackground, SDLHMILevelFull] copy],
-                                       NAMES_userDisallowed:[@[SDLHMILevelNone, SDLHMILevelLimited] copy]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameAllowed:[@[SDLHMILevelBackground, SDLHMILevelFull] copy],
+                                       SDLNameUserDisallowed:[@[SDLHMILevelNone, SDLHMILevelLimited] copy]} mutableCopy];
         SDLParameterPermissions* testStruct = [[SDLParameterPermissions alloc] initWithDictionary:dict];
         
         expect(testStruct.allowed).to(equal([@[SDLHMILevelBackground, SDLHMILevelFull] copy]));

@@ -15,9 +15,9 @@ QuickSpecBegin(SDLSpeechCapabilitiesSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLSpeechCapabilitiesText).to(equal(@"TEXT"));
-        expect(SDLSpeechCapabilitiesSapiPhonemes).to(equal(@"SAPI_PHONEMES"));
-        expect(SDLSpeechCapabilitiesLhplusPhonemes).to(equal(@"LHPLUS_PHONEMES"));
-        expect(SDLSpeechCapabilitiesPreRecorded).to(equal(@"PRE_RECORDED"));
+        expect(SDLSpeechCapabilitiesSAPIPhonemes).to(equal(@"SAPI_PHONEMES"));
+        expect(SDLSpeechCapabilitiesLHPlusPhonemes).to(equal(@"LHPLUS_PHONEMES"));
+        expect(SDLSpeechCapabilitiesPrerecorded).to(equal(@"PRE_RECORDED"));
         expect(SDLSpeechCapabilitiesSilence).to(equal(@"SILENCE"));
     });
 });

@@ -27,9 +27,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_parentID:@504320489,
-                                       NAMES_position:@256,
-                                       NAMES_menuName:@"Menu"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameParentId:@504320489,
+                                       SDLNamePosition:@256,
+                                       SDLNameMenuName:@"Menu"} mutableCopy];
         SDLMenuParams* testStruct = [[SDLMenuParams alloc] initWithDictionary:dict];
         
         expect(testStruct.parentID).to(equal(@504320489));

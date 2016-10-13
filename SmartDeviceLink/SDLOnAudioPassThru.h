@@ -23,17 +23,6 @@
  * </ul>
  * </ul>
  */
-@interface SDLOnAudioPassThru : SDLRPCNotification {
-}
+@interface SDLOnAudioPassThru : SDLRPCNotification
 
-/**
- *Constructs a newly allocated SDLOnAudioPassThru object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLOnAudioPassThru object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 @end

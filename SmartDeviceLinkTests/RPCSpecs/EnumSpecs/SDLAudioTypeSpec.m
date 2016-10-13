@@ -14,7 +14,7 @@ QuickSpecBegin(SDLAudioTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLAudioTypePcm).to(equal(@"PCM"));
+        expect(SDLAudioTypePCM).to(equal(@"PCM"));
     });
 });
 

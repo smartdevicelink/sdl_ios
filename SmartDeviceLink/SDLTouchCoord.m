@@ -8,40 +8,28 @@
 
 @implementation SDLTouchCoord
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setX:(NSNumber *)x {
     if (x != nil) {
-        [store setObject:x forKey:NAMES_x];
+        [store setObject:x forKey:SDLNameX];
     } else {
-        [store removeObjectForKey:NAMES_x];
+        [store removeObjectForKey:SDLNameX];
     }
 }
 
 - (NSNumber *)x {
-    return [store objectForKey:NAMES_x];
+    return [store objectForKey:SDLNameX];
 }
 
 - (void)setY:(NSNumber *)y {
     if (y != nil) {
-        [store setObject:y forKey:NAMES_y];
+        [store setObject:y forKey:SDLNameY];
     } else {
-        [store removeObjectForKey:NAMES_y];
+        [store removeObjectForKey:SDLNameY];
     }
 }
 
 - (NSNumber *)y {
-    return [store objectForKey:NAMES_y];
+    return [store objectForKey:SDLNameY];
 }
 
 @end

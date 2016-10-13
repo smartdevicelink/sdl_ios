@@ -26,21 +26,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLOnVehicleData : SDLRPCNotification {
-}
-
-
-/**
- * @abstract Constructs a new SDLOnVehicleData object
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a new SDLOnVehicleData object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnVehicleData : SDLRPCNotification
 
 /**
  * @abstract A SDLGPSData* value. See GPSData.

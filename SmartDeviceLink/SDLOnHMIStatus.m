@@ -8,57 +8,50 @@
 #import "SDLNames.h"
 #import "SDLSystemContext.h"
 
-
 @implementation SDLOnHMIStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnHMIStatus]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameOnHMIStatus]) {
     }
     return self;
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
     if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:NAMES_hmiLevel];
+        [parameters setObject:hmiLevel forKey:SDLNameHMILevel];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiLevel];
+        [parameters removeObjectForKey:SDLNameHMILevel];
     }
 }
 
 - (SDLHMILevel)hmiLevel {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiLevel];
+    NSObject *obj = [parameters objectForKey:SDLNameHMILevel];
     return (SDLHMILevel)obj;
 }
 
 - (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
     if (audioStreamingState != nil) {
-        [parameters setObject:audioStreamingState forKey:NAMES_audioStreamingState];
+        [parameters setObject:audioStreamingState forKey:SDLNameAudioStreamingState];
     } else {
-        [parameters removeObjectForKey:NAMES_audioStreamingState];
+        [parameters removeObjectForKey:SDLNameAudioStreamingState];
     }
 }
 
 - (SDLAudioStreamingState)audioStreamingState {
-    NSObject *obj = [parameters objectForKey:NAMES_audioStreamingState];
+    NSObject *obj = [parameters objectForKey:SDLNameAudioStreamingState];
     return (SDLAudioStreamingState)obj;
 }
 
 - (void)setSystemContext:(SDLSystemContext)systemContext {
     if (systemContext != nil) {
-        [parameters setObject:systemContext forKey:NAMES_systemContext];
+        [parameters setObject:systemContext forKey:SDLNameSystemContext];
     } else {
-        [parameters removeObjectForKey:NAMES_systemContext];
+        [parameters removeObjectForKey:SDLNameSystemContext];
     }
 }
 
 - (SDLSystemContext)systemContext {
-    NSObject *obj = [parameters objectForKey:NAMES_systemContext];
+    NSObject *obj = [parameters objectForKey:SDLNameSystemContext];
     return (SDLSystemContext)obj;
 }
 

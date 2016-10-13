@@ -17,19 +17,7 @@
  * Since SmartDeviceLink 1.0
  * See SDLResetGlobalProperties
  */
-@interface SDLSetGlobalProperties : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLSetGlobalProperties object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetGlobalProperties object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSetGlobalProperties : SDLRPCRequest
 
 /**
  * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more

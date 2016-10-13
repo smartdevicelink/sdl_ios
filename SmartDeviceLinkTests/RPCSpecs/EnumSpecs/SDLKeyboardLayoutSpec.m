@@ -14,9 +14,9 @@ QuickSpecBegin(SDLKeyboardLayoutSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLKeyboardLayoutQwerty).to(equal(@"QWERTY"));
-        expect(SDLKeyboardLayoutQwertz).to(equal(@"QWERTZ"));
-        expect(SDLKeyboardLayoutAzerty).to(equal(@"AZERTY"));
+        expect(SDLKeyboardLayoutQWERTY).to(equal(@"QWERTY"));
+        expect(SDLKeyboardLayoutQWERTZ).to(equal(@"QWERTZ"));
+        expect(SDLKeyboardLayoutAZERTY).to(equal(@"AZERTY"));
     });
 });
 

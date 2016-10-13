@@ -8,105 +8,92 @@
 #import "SDLIgnitionStatus.h"
 #import "SDLNames.h"
 
-
 @implementation SDLBodyInformation
-
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
 
 - (void)setParkBrakeActive:(NSNumber *)parkBrakeActive {
     if (parkBrakeActive != nil) {
-        [store setObject:parkBrakeActive forKey:NAMES_parkBrakeActive];
+        [store setObject:parkBrakeActive forKey:SDLNameParkBrakeActive];
     } else {
-        [store removeObjectForKey:NAMES_parkBrakeActive];
+        [store removeObjectForKey:SDLNameParkBrakeActive];
     }
 }
 
 - (NSNumber *)parkBrakeActive {
-    return [store objectForKey:NAMES_parkBrakeActive];
+    return [store objectForKey:SDLNameParkBrakeActive];
 }
 
 - (void)setIgnitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus {
     if (ignitionStableStatus != nil) {
-        [store setObject:ignitionStableStatus forKey:NAMES_ignitionStableStatus];
+        [store setObject:ignitionStableStatus forKey:SDLNameIgnitionStableStatus];
     } else {
-        [store removeObjectForKey:NAMES_ignitionStableStatus];
+        [store removeObjectForKey:SDLNameIgnitionStableStatus];
     }
 }
 
 - (SDLIgnitionStableStatus)ignitionStableStatus {
-    NSObject *obj = [store objectForKey:NAMES_ignitionStableStatus];
+    NSObject *obj = [store objectForKey:SDLNameIgnitionStableStatus];
     return (SDLIgnitionStableStatus)obj;
 }
 
 - (void)setIgnitionStatus:(SDLIgnitionStatus)ignitionStatus {
     if (ignitionStatus != nil) {
-        [store setObject:ignitionStatus forKey:NAMES_ignitionStatus];
+        [store setObject:ignitionStatus forKey:SDLNameIgnitionStatus];
     } else {
-        [store removeObjectForKey:NAMES_ignitionStatus];
+        [store removeObjectForKey:SDLNameIgnitionStatus];
     }
 }
 
 - (SDLIgnitionStatus)ignitionStatus {
-    NSObject *obj = [store objectForKey:NAMES_ignitionStatus];
+    NSObject *obj = [store objectForKey:SDLNameIgnitionStatus];
     return (SDLIgnitionStatus)obj;
 }
 
 - (void)setDriverDoorAjar:(NSNumber *)driverDoorAjar {
     if (driverDoorAjar != nil) {
-        [store setObject:driverDoorAjar forKey:NAMES_driverDoorAjar];
+        [store setObject:driverDoorAjar forKey:SDLNameDriverDoorAjar];
     } else {
-        [store removeObjectForKey:NAMES_driverDoorAjar];
+        [store removeObjectForKey:SDLNameDriverDoorAjar];
     }
 }
 
 - (NSNumber *)driverDoorAjar {
-    return [store objectForKey:NAMES_driverDoorAjar];
+    return [store objectForKey:SDLNameDriverDoorAjar];
 }
 
 - (void)setPassengerDoorAjar:(NSNumber *)passengerDoorAjar {
     if (passengerDoorAjar != nil) {
-        [store setObject:passengerDoorAjar forKey:NAMES_passengerDoorAjar];
+        [store setObject:passengerDoorAjar forKey:SDLNamePassengerDoorAjar];
     } else {
-        [store removeObjectForKey:NAMES_passengerDoorAjar];
+        [store removeObjectForKey:SDLNamePassengerDoorAjar];
     }
 }
 
 - (NSNumber *)passengerDoorAjar {
-    return [store objectForKey:NAMES_passengerDoorAjar];
+    return [store objectForKey:SDLNamePassengerDoorAjar];
 }
 
 - (void)setRearLeftDoorAjar:(NSNumber *)rearLeftDoorAjar {
     if (rearLeftDoorAjar != nil) {
-        [store setObject:rearLeftDoorAjar forKey:NAMES_rearLeftDoorAjar];
+        [store setObject:rearLeftDoorAjar forKey:SDLNameRearLeftDoorAjar];
     } else {
-        [store removeObjectForKey:NAMES_rearLeftDoorAjar];
+        [store removeObjectForKey:SDLNameRearLeftDoorAjar];
     }
 }
 
 - (NSNumber *)rearLeftDoorAjar {
-    return [store objectForKey:NAMES_rearLeftDoorAjar];
+    return [store objectForKey:SDLNameRearLeftDoorAjar];
 }
 
 - (void)setRearRightDoorAjar:(NSNumber *)rearRightDoorAjar {
     if (rearRightDoorAjar != nil) {
-        [store setObject:rearRightDoorAjar forKey:NAMES_rearRightDoorAjar];
+        [store setObject:rearRightDoorAjar forKey:SDLNameRearRightDoorAjar];
     } else {
-        [store removeObjectForKey:NAMES_rearRightDoorAjar];
+        [store removeObjectForKey:SDLNameRearRightDoorAjar];
     }
 }
 
 - (NSNumber *)rearRightDoorAjar {
-    return [store objectForKey:NAMES_rearRightDoorAjar];
+    return [store objectForKey:SDLNameRearRightDoorAjar];
 }
 
 @end

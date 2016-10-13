@@ -8,11 +8,7 @@
 #import "SDLVehicleDataEventStatus.h"
 
 
-@interface SDLEmergencyEvent : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLEmergencyEvent : SDLRPCStruct
 
 @property (strong) SDLEmergencyEventType emergencyEventType;
 @property (strong) SDLFuelCutoffStatus fuelCutoffStatus;

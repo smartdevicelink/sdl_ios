@@ -23,7 +23,6 @@ typedef NS_OPTIONS(NSUInteger, SDLLogOutput) {
     SDLLogOutputNone = 0,
     SDLLogOutputConsole = 1 << 0,
     SDLLogOutputFile = 1 << 1,
-    SDLLogOutputSiphon = 1 << 2
 };
 
 

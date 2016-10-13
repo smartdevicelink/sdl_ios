@@ -20,19 +20,19 @@ describe(@"Getter/Setter Tests", ^ {
         SDLTTSChunk* testStruct = [[SDLTTSChunk alloc] init];
         
         testStruct.text = @"TEXT";
-        testStruct.type = SDLSpeechCapabilitiesPreRecorded;
+        testStruct.type = SDLSpeechCapabilitiesPrerecorded;
         
         expect(testStruct.text).to(equal(@"TEXT"));
-        expect(testStruct.type).to(equal(SDLSpeechCapabilitiesPreRecorded));
+        expect(testStruct.type).to(equal(SDLSpeechCapabilitiesPrerecorded));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_text:@"TEXT",
-                                       NAMES_type:SDLSpeechCapabilitiesPreRecorded} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameText:@"TEXT",
+                                       SDLNameType:SDLSpeechCapabilitiesPrerecorded} mutableCopy];
         SDLTTSChunk* testStruct = [[SDLTTSChunk alloc] initWithDictionary:dict];
         
         expect(testStruct.text).to(equal(@"TEXT"));
-        expect(testStruct.type).to(equal(SDLSpeechCapabilitiesPreRecorded));
+        expect(testStruct.type).to(equal(SDLSpeechCapabilitiesPrerecorded));
     });
     
     it(@"Should return nil if not set", ^ {

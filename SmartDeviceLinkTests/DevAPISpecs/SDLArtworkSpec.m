@@ -32,7 +32,7 @@ describe(@"SDLArtwork", ^{
             });
             
             it(@"should correctly store format", ^{
-                expect(testArtwork.fileType).to(equal(SDLFileTypeGraphicPng));
+                expect(testArtwork.fileType).to(equal(SDLFileTypeGraphicPNG));
             });
             
             it(@"should correctly store persistence", ^{
@@ -62,7 +62,7 @@ describe(@"SDLArtwork", ^{
             });
             
             it(@"should correctly store format", ^{
-                expect(testArtwork.fileType).to(equal(SDLFileTypeGraphicJpeg));
+                expect(testArtwork.fileType).to(equal(SDLFileTypeGraphicJPEG));
             });
             
             it(@"should correctly store persistence", ^{

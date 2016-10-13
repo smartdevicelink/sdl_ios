@@ -98,20 +98,7 @@
  *  </table>
  * @since SDL 2.0
  */
-@interface SDLDeviceStatus : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLDeviceStatus object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLDeviceStatus object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use to construct the object
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLDeviceStatus : SDLRPCStruct
 
 /**
  * @abstract Indicates whether the voice recognition is on or off

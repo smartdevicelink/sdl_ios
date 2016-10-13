@@ -8,52 +8,40 @@
 
 @implementation SDLMenuParams
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setParentID:(NSNumber *)parentID {
     if (parentID != nil) {
-        [store setObject:parentID forKey:NAMES_parentID];
+        [store setObject:parentID forKey:SDLNameParentId];
     } else {
-        [store removeObjectForKey:NAMES_parentID];
+        [store removeObjectForKey:SDLNameParentId];
     }
 }
 
 - (NSNumber *)parentID {
-    return [store objectForKey:NAMES_parentID];
+    return [store objectForKey:SDLNameParentId];
 }
 
 - (void)setPosition:(NSNumber *)position {
     if (position != nil) {
-        [store setObject:position forKey:NAMES_position];
+        [store setObject:position forKey:SDLNamePosition];
     } else {
-        [store removeObjectForKey:NAMES_position];
+        [store removeObjectForKey:SDLNamePosition];
     }
 }
 
 - (NSNumber *)position {
-    return [store objectForKey:NAMES_position];
+    return [store objectForKey:SDLNamePosition];
 }
 
 - (void)setMenuName:(NSString *)menuName {
     if (menuName != nil) {
-        [store setObject:menuName forKey:NAMES_menuName];
+        [store setObject:menuName forKey:SDLNameMenuName];
     } else {
-        [store removeObjectForKey:NAMES_menuName];
+        [store removeObjectForKey:SDLNameMenuName];
     }
 }
 
 - (NSString *)menuName {
-    return [store objectForKey:NAMES_menuName];
+    return [store objectForKey:SDLNameMenuName];
 }
 
 @end

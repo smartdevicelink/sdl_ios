@@ -6,8 +6,7 @@
 
 #import "SDLResult.h"
 
-@interface SDLRPCResponse : SDLRPCMessage {
-}
+@interface SDLRPCResponse : SDLRPCMessage
 
 @property (strong) NSNumber *correlationID;
 @property (strong) NSNumber *success;

@@ -8,89 +8,83 @@
 @implementation SDLOnSystemRequest
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnSystemRequest]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameOnSystemRequest]) {
     }
     return self;
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
     if (requestType != nil) {
-        [parameters setObject:requestType forKey:NAMES_requestType];
+        [parameters setObject:requestType forKey:SDLNameRequestType];
     } else {
-        [parameters removeObjectForKey:NAMES_requestType];
+        [parameters removeObjectForKey:SDLNameRequestType];
     }
 }
 
 - (SDLRequestType)requestType {
-    NSObject *obj = [parameters objectForKey:NAMES_requestType];
+    NSObject *obj = [parameters objectForKey:SDLNameRequestType];
     return (SDLRequestType)obj;
 }
 
 - (void)setUrl:(NSString *)url {
     if (url != nil) {
-        [parameters setObject:url forKey:NAMES_url];
+        [parameters setObject:url forKey:SDLNameURL];
     } else {
-        [parameters removeObjectForKey:NAMES_url];
+        [parameters removeObjectForKey:SDLNameURL];
     }
 }
 
 - (NSString *)url {
-    return [parameters objectForKey:NAMES_url];
+    return [parameters objectForKey:SDLNameURL];
 }
 
 - (void)setTimeout:(NSNumber *)timeout {
     if (timeout != nil) {
-        [parameters setObject:timeout forKey:NAMES_timeout];
+        [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
-        [parameters removeObjectForKey:NAMES_timeout];
+        [parameters removeObjectForKey:SDLNameTimeout];
     }
 }
 
 - (NSNumber *)timeout {
-    return [parameters objectForKey:NAMES_timeout];
+    return [parameters objectForKey:SDLNameTimeout];
 }
 
 - (void)setFileType:(SDLFileType)fileType {
     if (fileType != nil) {
-        [parameters setObject:fileType forKey:NAMES_fileType];
+        [parameters setObject:fileType forKey:SDLNameFileType];
     } else {
-        [parameters removeObjectForKey:NAMES_fileType];
+        [parameters removeObjectForKey:SDLNameFileType];
     }
 }
 
 - (SDLFileType)fileType {
-    NSObject *obj = [parameters objectForKey:NAMES_fileType];
+    NSObject *obj = [parameters objectForKey:SDLNameFileType];
     return (SDLFileType)obj;
 }
 
 - (void)setOffset:(NSNumber *)offset {
     if (offset != nil) {
-        [parameters setObject:offset forKey:NAMES_offset];
+        [parameters setObject:offset forKey:SDLNameOffset];
     } else {
-        [parameters removeObjectForKey:NAMES_offset];
+        [parameters removeObjectForKey:SDLNameOffset];
     }
 }
 
 - (NSNumber *)offset {
-    return [parameters objectForKey:NAMES_offset];
+    return [parameters objectForKey:SDLNameOffset];
 }
 
 - (void)setLength:(NSNumber *)length {
     if (length != nil) {
-        [parameters setObject:length forKey:NAMES_length];
+        [parameters setObject:length forKey:SDLNameLength];
     } else {
-        [parameters removeObjectForKey:NAMES_length];
+        [parameters removeObjectForKey:SDLNameLength];
     }
 }
 
 - (NSNumber *)length {
-    return [parameters objectForKey:NAMES_length];
+    return [parameters objectForKey:SDLNameLength];
 }
 
 @end

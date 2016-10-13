@@ -15,9 +15,9 @@ QuickSpecBegin(SDLSystemContextSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLSystemContextMain).to(equal(@"MAIN"));
-        expect(SDLSystemContextVrSession).to(equal(@"VRSESSION"));
+        expect(SDLSystemContextVRSession).to(equal(@"VRSESSION"));
         expect(SDLSystemContextMenu).to(equal(@"MENU"));
-        expect(SDLSystemContextHmiObscured).to(equal(@"HMI_OBSCURED"));
+        expect(SDLSystemContextHMIObscured).to(equal(@"HMI_OBSCURED"));
         expect(SDLSystemContextAlert).to(equal(@"ALERT"));
     });
 });

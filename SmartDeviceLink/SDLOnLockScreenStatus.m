@@ -17,12 +17,6 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setLockScreenStatus:(SDLLockScreenStatus)lockScreenStatus {
     if (lockScreenStatus != nil) {
         [parameters setObject:lockScreenStatus forKey:@"OnLockScreenStatus"];

@@ -4,11 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchEvent : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLTouchEvent : SDLRPCStruct
 
 /**
  A touch's unique identifier.  The application can track the current touch events by id.

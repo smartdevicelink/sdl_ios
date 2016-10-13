@@ -10,11 +10,7 @@
  * @since SmartDeviceLink 3.0
  *
  */
-@interface SDLSystemRequest : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSystemRequest : SDLRPCRequest
 
 @property (strong) SDLRequestType requestType;
 @property (strong) NSString *fileName;

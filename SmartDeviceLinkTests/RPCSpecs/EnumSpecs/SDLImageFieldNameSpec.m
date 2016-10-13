@@ -20,11 +20,11 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLImageFieldNameVrHelpItem).to(equal(@"vrHelpItem"));
         expect(SDLImageFieldNameTurnIcon).to(equal(@"turnIcon"));
         expect(SDLImageFieldNameMenuIcon).to(equal(@"menuIcon"));
-        expect(SDLImageFieldNameCmdIcon).to(equal(@"cmdIcon"));
+        expect(SDLImageFieldNameCommandIcon).to(equal(@"cmdIcon"));
         expect(SDLImageFieldNameAppIcon).to(equal(@"appIcon"));
         expect(SDLImageFieldNameGraphic).to(equal(@"graphic"));
-        expect(SDLImageFieldNameShowConstantTbtIcon).to(equal(@"showConstantTBTIcon"));
-        expect(SDLImageFieldNameShowConstantTbtNextTurnIcon).to(equal(@"showConstantTBTNextTurnIcon"));
+        expect(SDLImageFieldNameShowConstantTBTIcon).to(equal(@"showConstantTBTIcon"));
+        expect(SDLImageFieldNameShowConstantTBTNextTurnIcon).to(equal(@"showConstantTBTNextTurnIcon"));
         expect(SDLImageFieldNameLocationImage).to(equal(@"locationImage"));
     });
 });

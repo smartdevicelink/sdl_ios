@@ -22,28 +22,28 @@ describe(@"Getter/Setter Tests", ^ {
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] init];
         
         testStruct.language = SDLLanguageDaDk;
-        testStruct.keyboardLayout = SDLKeyboardLayoutQwertz;
+        testStruct.keyboardLayout = SDLKeyboardLayoutQWERTZ;
         testStruct.keypressMode = SDLKeypressModeResendCurrentEntry;
         testStruct.limitedCharacterList = [@[@"s", @"r", @"f", @"q"] mutableCopy];
         testStruct.autoCompleteText = @"Auto Carrot";
         
         expect(testStruct.language).to(equal(SDLLanguageDaDk));
-        expect(testStruct.keyboardLayout).to(equal(SDLKeyboardLayoutQwertz));
+        expect(testStruct.keyboardLayout).to(equal(SDLKeyboardLayoutQWERTZ));
         expect(testStruct.keypressMode).to(equal(SDLKeypressModeResendCurrentEntry));
         expect(testStruct.limitedCharacterList).to(equal([@[@"s", @"r", @"f", @"q"] mutableCopy]));
         expect(testStruct.autoCompleteText).to(equal(@"Auto Carrot"));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_language:SDLLanguageDaDk,
-                                       NAMES_keyboardLayout:SDLKeyboardLayoutQwertz,
-                                       NAMES_keypressMode:SDLKeypressModeResendCurrentEntry,
-                                       NAMES_limitedCharacterList:[@[@"s", @"r", @"f", @"q"] mutableCopy],
-                                       NAMES_autoCompleteText:@"Auto Carrot"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameLanguage:SDLLanguageDaDk,
+                                       SDLNameKeyboardLayout:SDLKeyboardLayoutQWERTZ,
+                                       SDLNameKeypressMode:SDLKeypressModeResendCurrentEntry,
+                                       SDLNameLimitedCharacterList:[@[@"s", @"r", @"f", @"q"] mutableCopy],
+                                       SDLNameAutoCompleteText:@"Auto Carrot"} mutableCopy];
         SDLKeyboardProperties* testStruct = [[SDLKeyboardProperties alloc] initWithDictionary:dict];
         
         expect(testStruct.language).to(equal(SDLLanguageDaDk));
-        expect(testStruct.keyboardLayout).to(equal(SDLKeyboardLayoutQwertz));
+        expect(testStruct.keyboardLayout).to(equal(SDLKeyboardLayoutQWERTZ));
         expect(testStruct.keypressMode).to(equal(SDLKeypressModeResendCurrentEntry));
         expect(testStruct.limitedCharacterList).to(equal([@[@"s", @"r", @"f", @"q"] mutableCopy]));
         expect(testStruct.autoCompleteText).to(equal(@"Auto Carrot"));

@@ -44,8 +44,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLResultCancelRoute).to(equal(@"CANCEL_ROUTE"));
         expect(SDLResultTruncatedData).to(equal(@"TRUNCATED_DATA"));
         expect(SDLResultSaved).to(equal(@"SAVED"));
-        expect(SDLResultInvalidCert).to(equal(@"INVALID_CERT"));
-        expect(SDLResultExpiredCert).to(equal(@"EXPIRED_CERT"));
+        expect(SDLResultInvalidCertificate).to(equal(@"INVALID_CERT"));
+        expect(SDLResultExpiredCertificate).to(equal(@"EXPIRED_CERT"));
         expect(SDLResultResumeFailed).to(equal(@"RESUME_FAILED"));
     });
 });

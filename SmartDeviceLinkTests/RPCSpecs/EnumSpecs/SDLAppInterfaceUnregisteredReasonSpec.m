@@ -19,8 +19,8 @@ describe(@"Individual Enum Value Tests", ^ {
         //expect(SDLAppInterfaceUnregisteredReason USER_EXIT).to(equal(@"USER_EXIT"));
         expect(SDLAppInterfaceUnregisteredReasonIgnitionOff).to(equal(@"IGNITION_OFF"));
         expect(SDLAppInterfaceUnregisteredReasonBluetoothOff).to(equal(@"BLUETOOTH_OFF"));
-        expect(SDLAppInterfaceUnregisteredReasonUsbDisconnected).to(equal(@"USB_DISCONNECTED"));
-        expect(SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHmiLevel).to(equal(@"REQUEST_WHILE_IN_NONE_HMI_LEVEL"));
+        expect(SDLAppInterfaceUnregisteredReasonUSBDisconnected).to(equal(@"USB_DISCONNECTED"));
+        expect(SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHMILevel).to(equal(@"REQUEST_WHILE_IN_NONE_HMI_LEVEL"));
         expect(SDLAppInterfaceUnregisteredReasonTooManyRequests).to(equal(@"TOO_MANY_REQUESTS"));
         expect(SDLAppInterfaceUnregisteredReasonDriverDistractionViolation).to(equal(@"DRIVER_DISTRACTION_VIOLATION"));
         expect(SDLAppInterfaceUnregisteredReasonLanguageChange).to(equal(@"LANGUAGE_CHANGE"));

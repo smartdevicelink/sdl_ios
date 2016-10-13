@@ -9,13 +9,7 @@
 @implementation SDLGenericResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_GenericResponse]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameGenericResponse]) {
     }
     return self;
 }

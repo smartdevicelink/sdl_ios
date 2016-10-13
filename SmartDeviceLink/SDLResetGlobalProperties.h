@@ -20,19 +20,7 @@
  * Since SmartDeviceLink 1.0
  * See SetGlobalProperties
  */
-@interface SDLResetGlobalProperties : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLResetGlobalProperties object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLResetGlobalProperties object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLResetGlobalProperties : SDLRPCRequest
 
 /**
  * @abstract An array of one or more GlobalProperty enumeration elements

@@ -19,18 +19,7 @@
  * <p>Since SmartDeviceLink 2.0</p>
  * <p>See SDLEndAudioPassThru</p>
  */
-@interface SDLPerformAudioPassThru : SDLRPCRequest {
-}
-
-/**
- * @abstract Constructs a new SDLPerformAudioPassThru object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPerformAudioPassThru object indicated by the NSMutableDictionary
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLPerformAudioPassThru : SDLRPCRequest
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass

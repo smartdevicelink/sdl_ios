@@ -7,41 +7,29 @@
 
 @implementation SDLVehicleDataResult
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setDataType:(SDLVehicleDataType)dataType {
     if (dataType != nil) {
-        [store setObject:dataType forKey:NAMES_dataType];
+        [store setObject:dataType forKey:SDLNameDataType];
     } else {
-        [store removeObjectForKey:NAMES_dataType];
+        [store removeObjectForKey:SDLNameDataType];
     }
 }
 
 - (SDLVehicleDataType)dataType {
-    NSObject *obj = [store objectForKey:NAMES_dataType];
+    NSObject *obj = [store objectForKey:SDLNameDataType];
     return (SDLVehicleDataType)obj;
 }
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
     if (resultCode != nil) {
-        [store setObject:resultCode forKey:NAMES_resultCode];
+        [store setObject:resultCode forKey:SDLNameResultCode];
     } else {
-        [store removeObjectForKey:NAMES_resultCode];
+        [store removeObjectForKey:SDLNameResultCode];
     }
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    NSObject *obj = [store objectForKey:NAMES_resultCode];
+    NSObject *obj = [store objectForKey:SDLNameResultCode];
     return (SDLVehicleDataResultCode)obj;
 }
 

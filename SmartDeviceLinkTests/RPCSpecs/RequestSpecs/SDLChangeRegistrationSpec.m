@@ -112,15 +112,15 @@ describe(@"change registration", ^ {
                 someNGNMediaAppName = @"some media app name";
                 someVRSynonyms = @[@"some1", @"some2"];
                 
-                NSMutableDictionary* dict = [@{NAMES_request:
-                                                   @{NAMES_parameters:
-                                                         @{NAMES_language:someLanguage,
-                                                           NAMES_hmiDisplayLanguage:someOtherLanguage,
-                                                           NAMES_appName:someAppName,
-                                                           NAMES_ttsName:someTTSChunks,
-                                                           NAMES_ngnMediaScreenAppName:someNGNMediaAppName,
-                                                           NAMES_vrSynonyms:someVRSynonyms},
-                                                        NAMES_operation_name:NAMES_ChangeRegistration}} mutableCopy];
+                NSMutableDictionary* dict = [@{SDLNameRequest:
+                                                   @{SDLNameParameters:
+                                                         @{SDLNameLanguage:someLanguage,
+                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
+                                                           SDLNameAppName:someAppName,
+                                                           SDLNameTTSName:someTTSChunks,
+                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
+                                                           SDLNameVRSynonyms:someVRSynonyms},
+                                                        SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
                 
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
             });
