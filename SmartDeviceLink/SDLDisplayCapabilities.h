@@ -12,20 +12,7 @@
  * 
  * @since SDL 1.0
  */
-@interface SDLDisplayCapabilities : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLDisplayCapabilities object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLDisplayCapabilities object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLDisplayCapabilities : SDLRPCStruct
 
 /**
  * @abstract The type of display

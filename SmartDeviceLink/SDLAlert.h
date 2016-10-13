@@ -32,21 +32,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLAlert : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLAlert object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLAlert object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
+@interface SDLAlert : SDLRPCRequest
 
 /**
  * @abstract The String to be displayed in the first field of the display during the Alert

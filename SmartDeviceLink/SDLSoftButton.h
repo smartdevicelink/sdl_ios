@@ -11,12 +11,9 @@
 @class SDLSystemAction;
 
 
-@interface SDLSoftButton : SDLRPCStruct <SDLRequestHandler> {
-}
+@interface SDLSoftButton : SDLRPCStruct <SDLRequestHandler>
 
-- (instancetype)init;
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 

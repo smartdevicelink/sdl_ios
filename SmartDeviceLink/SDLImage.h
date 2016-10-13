@@ -11,19 +11,7 @@
  * 
  * @since SDL 2.0
  */
-@interface SDLImage : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLImage object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLImage object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLImage : SDLRPCStruct
 
 /**
  * @abstract The static hex icon value or the binary image file name identifier (sent by SDLPutFile)

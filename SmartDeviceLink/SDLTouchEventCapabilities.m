@@ -8,52 +8,40 @@
 
 @implementation SDLTouchEventCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setPressAvailable:(NSNumber *)pressAvailable {
     if (pressAvailable != nil) {
-        [store setObject:pressAvailable forKey:NAMES_pressAvailable];
+        [store setObject:pressAvailable forKey:SDLNamePressAvailable];
     } else {
-        [store removeObjectForKey:NAMES_pressAvailable];
+        [store removeObjectForKey:SDLNamePressAvailable];
     }
 }
 
 - (NSNumber *)pressAvailable {
-    return [store objectForKey:NAMES_pressAvailable];
+    return [store objectForKey:SDLNamePressAvailable];
 }
 
 - (void)setMultiTouchAvailable:(NSNumber *)multiTouchAvailable {
     if (multiTouchAvailable != nil) {
-        [store setObject:multiTouchAvailable forKey:NAMES_multiTouchAvailable];
+        [store setObject:multiTouchAvailable forKey:SDLNameMultiTouchAvailable];
     } else {
-        [store removeObjectForKey:NAMES_multiTouchAvailable];
+        [store removeObjectForKey:SDLNameMultiTouchAvailable];
     }
 }
 
 - (NSNumber *)multiTouchAvailable {
-    return [store objectForKey:NAMES_multiTouchAvailable];
+    return [store objectForKey:SDLNameMultiTouchAvailable];
 }
 
 - (void)setDoublePressAvailable:(NSNumber *)doublePressAvailable {
     if (doublePressAvailable != nil) {
-        [store setObject:doublePressAvailable forKey:NAMES_doublePressAvailable];
+        [store setObject:doublePressAvailable forKey:SDLNameDoublePressAvailable];
     } else {
-        [store removeObjectForKey:NAMES_doublePressAvailable];
+        [store removeObjectForKey:SDLNameDoublePressAvailable];
     }
 }
 
 - (NSNumber *)doublePressAvailable {
-    return [store objectForKey:NAMES_doublePressAvailable];
+    return [store objectForKey:SDLNameDoublePressAvailable];
 }
 
 @end

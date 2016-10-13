@@ -9,10 +9,6 @@
  *
  * @since SDL 2.0
  */
-@interface SDLChangeRegistrationResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLChangeRegistrationResponse : SDLRPCResponse
 
 @end

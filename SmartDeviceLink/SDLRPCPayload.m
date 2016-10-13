@@ -10,12 +10,6 @@ const NSUInteger RPC_HEADER_SIZE = 12;
 
 @implementation SDLRPCPayload
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
 - (instancetype)initWithData:(NSData *)data {
     unsigned long dataLength = data.length;
 

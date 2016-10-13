@@ -7,11 +7,7 @@
 @class SDLParameterPermissions;
 
 
-@interface SDLPermissionItem : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLPermissionItem : SDLRPCStruct
 
 @property (strong) NSString *rpcName;
 @property (strong) SDLHMIPermissions *hmiPermissions;

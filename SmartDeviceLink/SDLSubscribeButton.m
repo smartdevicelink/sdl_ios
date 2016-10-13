@@ -7,11 +7,10 @@
 #import "SDLButtonName.h"
 #import "SDLNames.h"
 
-
 @implementation SDLSubscribeButton
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SubscribeButton]) {
+    if (self = [super initWithName:SDLNameSubscribeButton]) {
     }
     return self;
 }
@@ -27,22 +26,16 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setButtonName:(SDLButtonName *)buttonName {
     if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:NAMES_buttonName];
+        [parameters setObject:buttonName forKey:SDLNameButtonName];
     } else {
-        [parameters removeObjectForKey:NAMES_buttonName];
+        [parameters removeObjectForKey:SDLNameButtonName];
     }
 }
 
 - (SDLButtonName *)buttonName {
-    NSObject *obj = [parameters objectForKey:NAMES_buttonName];
+    NSObject *obj = [parameters objectForKey:SDLNameButtonName];
     if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
         return (SDLButtonName *)obj;
     } else {

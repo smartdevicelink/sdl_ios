@@ -17,20 +17,7 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLRegisterAppInterfaceResponse : SDLRPCResponse {
-}
-
-/**
- * @abstract Constructs a new SDLRegisterAppInterfaceResponse object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLRegisterAppInterfaceResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
  * @see SDLSyncMsgVersion

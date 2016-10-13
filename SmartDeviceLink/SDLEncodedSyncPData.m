@@ -9,27 +9,21 @@
 @implementation SDLEncodedSyncPData
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_EncodedSyncPData]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameEncodedSyncPData]) {
     }
     return self;
 }
 
 - (void)setData:(NSMutableArray *)data {
     if (data != nil) {
-        [parameters setObject:data forKey:NAMES_data];
+        [parameters setObject:data forKey:SDLNameData];
     } else {
-        [parameters removeObjectForKey:NAMES_data];
+        [parameters removeObjectForKey:SDLNameData];
     }
 }
 
 - (NSMutableArray *)data {
-    return [parameters objectForKey:NAMES_data];
+    return [parameters objectForKey:SDLNameData];
 }
 
 @end

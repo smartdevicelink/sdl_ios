@@ -9,6 +9,7 @@
 #import "SDLLockScreenViewController.h"
 
 #import "NSBundle+SDLBundle.h"
+#import "SDLGlobals.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -90,6 +91,13 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_setNoIconsLayout];
     }
 
+    // HAX: The autolayout doesn't scale for 4s, so hide a view so it doesn't look like garbage.
+    if (CGRectGetHeight([UIScreen mainScreen].bounds) == 480) {
+        self.sdlIconImageView.hidden = YES;
+    } else {
+        self.sdlIconImageView.hidden = NO;
+    }
+
     [self.view layoutIfNeeded];
 }
 
@@ -146,26 +154,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:`
 + (UIImage *)sdl_logoImageWithColor:(BOOL)white {
-    if (white) {
-        return [UIImage imageNamed:@"sdl_logo_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    } else {
-        return [UIImage imageNamed:@"sdl_logo_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
+    return [self sdl_imageWithName:[NSString stringWithFormat:@"sdl_logo_%@", white ? @"white" : @"black"]];
 }
 
 + (UIImage *)sdl_arrowUpImageWithColor:(BOOL)white {
-    if (white) {
-        return [UIImage imageNamed:@"lock_arrow_up_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    } else {
-        return [UIImage imageNamed:@"lock_arrow_up_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
+    return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_up_%@", white ? @"white" : @"black"]];
 }
 
 + (UIImage *)sdl_arrowDownImageWithColor:(BOOL)white {
-    if (white) {
-        return [UIImage imageNamed:@"lock_arrow_down_white" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
+    return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_down_%@", white ? @"white" : @"black"]];
+}
+
++ (UIImage*)sdl_imageWithName:(NSString*)name {
+    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        NSString* bundlePath = [[NSBundle sdlBundle] bundlePath];
+        int deviceScale = [[UIScreen mainScreen] scale];
+        // We assume we are only dealing with PNGs.
+        NSString* fileName = [NSString stringWithFormat:@"%@%i.png", name, deviceScale];
+        NSString* fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
+        NSData* imageData = [NSData dataWithContentsOfFile:fullPath];
+        return [UIImage imageWithData:imageData];
     } else {
-        return [UIImage imageNamed:@"lock_arrow_down_black" inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
+        return [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     }
 }
 

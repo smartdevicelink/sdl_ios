@@ -9,13 +9,7 @@
 @implementation SDLSetGlobalPropertiesResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetGlobalProperties]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameSetGlobalProperties]) {
     }
     return self;
 }

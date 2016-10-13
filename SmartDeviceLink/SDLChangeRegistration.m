@@ -10,27 +10,21 @@
 @implementation SDLChangeRegistration
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ChangeRegistration]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameChangeRegistration]) {
     }
     return self;
 }
 
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
-        [parameters setObject:language forKey:NAMES_language];
+        [parameters setObject:language forKey:SDLNameLanguage];
     } else {
-        [parameters removeObjectForKey:NAMES_language];
+        [parameters removeObjectForKey:SDLNameLanguage];
     }
 }
 
 - (SDLLanguage *)language {
-    NSObject *obj = [parameters objectForKey:NAMES_language];
+    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -40,14 +34,14 @@
 
 - (void)setHmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
     if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:NAMES_hmiDisplayLanguage];
+        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
     } else {
-        [parameters removeObjectForKey:NAMES_hmiDisplayLanguage];
+        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
     }
 }
 
 - (SDLLanguage *)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
+    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
     if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
         return (SDLLanguage *)obj;
     } else {
@@ -57,50 +51,50 @@
 
 - (void)setAppName:(NSString *)appName {
     if (appName != nil) {
-        parameters[NAMES_appName] = [appName copy];
+        parameters[SDLNameAppName] = [appName copy];
     } else {
-        [parameters removeObjectForKey:NAMES_appName];
+        [parameters removeObjectForKey:SDLNameAppName];
     }
 }
 
 - (NSString *)appName {
-    return [parameters[NAMES_appName] copy];
+    return [parameters[SDLNameAppName] copy];
 }
 
 - (void)setTtsName:(NSArray *)ttsName {
     if (ttsName != nil) {
-        [parameters setObject:[ttsName copy] forKey:NAMES_ttsName];
+        [parameters setObject:[ttsName copy] forKey:SDLNameTTSName];
     } else {
-        [parameters removeObjectForKey:NAMES_ttsName];
+        [parameters removeObjectForKey:SDLNameTTSName];
     }
 }
 
 - (NSArray *)ttsName {
-    return [parameters[NAMES_ttsName] copy];
+    return [parameters[SDLNameTTSName] copy];
 }
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
-        parameters[NAMES_ngnMediaScreenAppName] = [ngnMediaScreenAppName copy];
+        parameters[SDLNameNGNMediaScreenAppName] = [ngnMediaScreenAppName copy];
     } else {
-        [parameters removeObjectForKey:NAMES_ngnMediaScreenAppName];
+        [parameters removeObjectForKey:SDLNameNGNMediaScreenAppName];
     }
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return [parameters[NAMES_ngnMediaScreenAppName] copy];
+    return [parameters[SDLNameNGNMediaScreenAppName] copy];
 }
 
 - (void)setVrSynonyms:(NSArray *)vrSynonyms {
     if (vrSynonyms != nil) {
-        [parameters setObject:[vrSynonyms copy] forKey:NAMES_vrSynonyms];
+        [parameters setObject:[vrSynonyms copy] forKey:SDLNameVRSynonyms];
     } else {
-        [parameters removeObjectForKey:NAMES_vrSynonyms];
+        [parameters removeObjectForKey:SDLNameVRSynonyms];
     }
 }
 
 - (NSArray *)vrSynonyms {
-    return [parameters[NAMES_vrSynonyms] copy];
+    return [parameters[SDLNameVRSynonyms] copy];
 }
 
 @end

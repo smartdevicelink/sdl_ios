@@ -4,8 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLRPCRequest : SDLRPCMessage {
-}
+@interface SDLRPCRequest : SDLRPCMessage
 
 @property (strong) NSNumber *correlationID;
 

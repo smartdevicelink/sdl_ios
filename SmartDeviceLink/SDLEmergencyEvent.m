@@ -8,31 +8,18 @@
 #import "SDLNames.h"
 #import "SDLVehicleDataEventStatus.h"
 
-
 @implementation SDLEmergencyEvent
-
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
 
 - (void)setEmergencyEventType:(SDLEmergencyEventType *)emergencyEventType {
     if (emergencyEventType != nil) {
-        [store setObject:emergencyEventType forKey:NAMES_emergencyEventType];
+        [store setObject:emergencyEventType forKey:SDLNameEmergencyEventType];
     } else {
-        [store removeObjectForKey:NAMES_emergencyEventType];
+        [store removeObjectForKey:SDLNameEmergencyEventType];
     }
 }
 
 - (SDLEmergencyEventType *)emergencyEventType {
-    NSObject *obj = [store objectForKey:NAMES_emergencyEventType];
+    NSObject *obj = [store objectForKey:SDLNameEmergencyEventType];
     if (obj == nil || [obj isKindOfClass:SDLEmergencyEventType.class]) {
         return (SDLEmergencyEventType *)obj;
     } else {
@@ -42,14 +29,14 @@
 
 - (void)setFuelCutoffStatus:(SDLFuelCutoffStatus *)fuelCutoffStatus {
     if (fuelCutoffStatus != nil) {
-        [store setObject:fuelCutoffStatus forKey:NAMES_fuelCutoffStatus];
+        [store setObject:fuelCutoffStatus forKey:SDLNameFuelCutoffStatus];
     } else {
-        [store removeObjectForKey:NAMES_fuelCutoffStatus];
+        [store removeObjectForKey:SDLNameFuelCutoffStatus];
     }
 }
 
 - (SDLFuelCutoffStatus *)fuelCutoffStatus {
-    NSObject *obj = [store objectForKey:NAMES_fuelCutoffStatus];
+    NSObject *obj = [store objectForKey:SDLNameFuelCutoffStatus];
     if (obj == nil || [obj isKindOfClass:SDLFuelCutoffStatus.class]) {
         return (SDLFuelCutoffStatus *)obj;
     } else {
@@ -59,14 +46,14 @@
 
 - (void)setRolloverEvent:(SDLVehicleDataEventStatus *)rolloverEvent {
     if (rolloverEvent != nil) {
-        [store setObject:rolloverEvent forKey:NAMES_rolloverEvent];
+        [store setObject:rolloverEvent forKey:SDLNameRolloverEvent];
     } else {
-        [store removeObjectForKey:NAMES_rolloverEvent];
+        [store removeObjectForKey:SDLNameRolloverEvent];
     }
 }
 
 - (SDLVehicleDataEventStatus *)rolloverEvent {
-    NSObject *obj = [store objectForKey:NAMES_rolloverEvent];
+    NSObject *obj = [store objectForKey:SDLNameRolloverEvent];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {
@@ -76,26 +63,26 @@
 
 - (void)setMaximumChangeVelocity:(NSNumber *)maximumChangeVelocity {
     if (maximumChangeVelocity != nil) {
-        [store setObject:maximumChangeVelocity forKey:NAMES_maximumChangeVelocity];
+        [store setObject:maximumChangeVelocity forKey:SDLNameMaximumChangeVelocity];
     } else {
-        [store removeObjectForKey:NAMES_maximumChangeVelocity];
+        [store removeObjectForKey:SDLNameMaximumChangeVelocity];
     }
 }
 
 - (NSNumber *)maximumChangeVelocity {
-    return [store objectForKey:NAMES_maximumChangeVelocity];
+    return [store objectForKey:SDLNameMaximumChangeVelocity];
 }
 
 - (void)setMultipleEvents:(SDLVehicleDataEventStatus *)multipleEvents {
     if (multipleEvents != nil) {
-        [store setObject:multipleEvents forKey:NAMES_multipleEvents];
+        [store setObject:multipleEvents forKey:SDLNameMultipleEvents];
     } else {
-        [store removeObjectForKey:NAMES_multipleEvents];
+        [store removeObjectForKey:SDLNameMultipleEvents];
     }
 }
 
 - (SDLVehicleDataEventStatus *)multipleEvents {
-    NSObject *obj = [store objectForKey:NAMES_multipleEvents];
+    NSObject *obj = [store objectForKey:SDLNameMultipleEvents];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
         return (SDLVehicleDataEventStatus *)obj;
     } else {

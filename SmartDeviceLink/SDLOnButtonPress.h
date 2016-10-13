@@ -49,20 +49,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLOnButtonPress : SDLRPCNotification {
-}
-
-/**
- * Constructs a newly allocated SDLOnButtonPress object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLOnButtonPress object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnButtonPress : SDLRPCNotification
 
 /**
  * @abstract the button's name

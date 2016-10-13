@@ -9,39 +9,33 @@
 @implementation SDLOnSyncPData
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnSyncPData]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameOnSyncPData]) {
     }
     return self;
 }
 
 - (void)setURL:(NSString *)URL {
     if (URL != nil) {
-        [parameters setObject:URL forKey:NAMES_URL];
+        [parameters setObject:URL forKey:SDLNameURLUppercase];
     } else {
-        [parameters removeObjectForKey:NAMES_URL];
+        [parameters removeObjectForKey:SDLNameURLUppercase];
     }
 }
 
 - (NSString *)URL {
-    return [parameters objectForKey:NAMES_URL];
+    return [parameters objectForKey:SDLNameURLUppercase];
 }
 
 - (void)setTimeout:(NSNumber *)Timeout {
     if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:NAMES_Timeout];
+        [parameters setObject:Timeout forKey:SDLNameTimeoutCapitalized];
     } else {
-        [parameters removeObjectForKey:NAMES_Timeout];
+        [parameters removeObjectForKey:SDLNameTimeoutCapitalized];
     }
 }
 
 - (NSNumber *)Timeout {
-    return [parameters objectForKey:NAMES_Timeout];
+    return [parameters objectForKey:SDLNameTimeoutCapitalized];
 }
 
 @end

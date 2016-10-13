@@ -6,31 +6,18 @@
 #import "SDLButtonName.h"
 #import "SDLNames.h"
 
-
 @implementation SDLButtonCapabilities
-
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
 
 - (void)setName:(SDLButtonName *)name {
     if (name != nil) {
-        [store setObject:name forKey:NAMES_name];
+        [store setObject:name forKey:SDLNameName];
     } else {
-        [store removeObjectForKey:NAMES_name];
+        [store removeObjectForKey:SDLNameName];
     }
 }
 
 - (SDLButtonName *)name {
-    NSObject *obj = [store objectForKey:NAMES_name];
+    NSObject *obj = [store objectForKey:SDLNameName];
     if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
         return (SDLButtonName *)obj;
     } else {
@@ -40,38 +27,38 @@
 
 - (void)setShortPressAvailable:(NSNumber *)shortPressAvailable {
     if (shortPressAvailable != nil) {
-        [store setObject:shortPressAvailable forKey:NAMES_shortPressAvailable];
+        [store setObject:shortPressAvailable forKey:SDLNameShortPressAvailable];
     } else {
-        [store removeObjectForKey:NAMES_shortPressAvailable];
+        [store removeObjectForKey:SDLNameShortPressAvailable];
     }
 }
 
 - (NSNumber *)shortPressAvailable {
-    return [store objectForKey:NAMES_shortPressAvailable];
+    return [store objectForKey:SDLNameShortPressAvailable];
 }
 
 - (void)setLongPressAvailable:(NSNumber *)longPressAvailable {
     if (longPressAvailable != nil) {
-        [store setObject:longPressAvailable forKey:NAMES_longPressAvailable];
+        [store setObject:longPressAvailable forKey:SDLNameLongPressAvailable];
     } else {
-        [store removeObjectForKey:NAMES_longPressAvailable];
+        [store removeObjectForKey:SDLNameLongPressAvailable];
     }
 }
 
 - (NSNumber *)longPressAvailable {
-    return [store objectForKey:NAMES_longPressAvailable];
+    return [store objectForKey:SDLNameLongPressAvailable];
 }
 
 - (void)setUpDownAvailable:(NSNumber *)upDownAvailable {
     if (upDownAvailable != nil) {
-        [store setObject:upDownAvailable forKey:NAMES_upDownAvailable];
+        [store setObject:upDownAvailable forKey:SDLNameUpDownAvailable];
     } else {
-        [store removeObjectForKey:NAMES_upDownAvailable];
+        [store removeObjectForKey:SDLNameUpDownAvailable];
     }
 }
 
 - (NSNumber *)upDownAvailable {
-    return [store objectForKey:NAMES_upDownAvailable];
+    return [store objectForKey:SDLNameUpDownAvailable];
 }
 
 @end

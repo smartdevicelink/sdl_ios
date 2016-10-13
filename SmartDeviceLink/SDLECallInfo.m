@@ -10,28 +10,16 @@
 
 @implementation SDLECallInfo
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus *)eCallNotificationStatus {
     if (eCallNotificationStatus != nil) {
-        [store setObject:eCallNotificationStatus forKey:NAMES_eCallNotificationStatus];
+        [store setObject:eCallNotificationStatus forKey:SDLNameECallNotificationStatus];
     } else {
-        [store removeObjectForKey:NAMES_eCallNotificationStatus];
+        [store removeObjectForKey:SDLNameECallNotificationStatus];
     }
 }
 
 - (SDLVehicleDataNotificationStatus *)eCallNotificationStatus {
-    NSObject *obj = [store objectForKey:NAMES_eCallNotificationStatus];
+    NSObject *obj = [store objectForKey:SDLNameECallNotificationStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
         return (SDLVehicleDataNotificationStatus *)obj;
     } else {
@@ -41,14 +29,14 @@
 
 - (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus *)auxECallNotificationStatus {
     if (auxECallNotificationStatus != nil) {
-        [store setObject:auxECallNotificationStatus forKey:NAMES_auxECallNotificationStatus];
+        [store setObject:auxECallNotificationStatus forKey:SDLNameAuxECallNotificationStatus];
     } else {
-        [store removeObjectForKey:NAMES_auxECallNotificationStatus];
+        [store removeObjectForKey:SDLNameAuxECallNotificationStatus];
     }
 }
 
 - (SDLVehicleDataNotificationStatus *)auxECallNotificationStatus {
-    NSObject *obj = [store objectForKey:NAMES_auxECallNotificationStatus];
+    NSObject *obj = [store objectForKey:SDLNameAuxECallNotificationStatus];
     if (obj == nil || [obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
         return (SDLVehicleDataNotificationStatus *)obj;
     } else {
@@ -58,14 +46,14 @@
 
 - (void)setECallConfirmationStatus:(SDLECallConfirmationStatus *)eCallConfirmationStatus {
     if (eCallConfirmationStatus != nil) {
-        [store setObject:eCallConfirmationStatus forKey:NAMES_eCallConfirmationStatus];
+        [store setObject:eCallConfirmationStatus forKey:SDLNameECallConfirmationStatus];
     } else {
-        [store removeObjectForKey:NAMES_eCallConfirmationStatus];
+        [store removeObjectForKey:SDLNameECallConfirmationStatus];
     }
 }
 
 - (SDLECallConfirmationStatus *)eCallConfirmationStatus {
-    NSObject *obj = [store objectForKey:NAMES_eCallConfirmationStatus];
+    NSObject *obj = [store objectForKey:SDLNameECallConfirmationStatus];
     if (obj == nil || [obj isKindOfClass:SDLECallConfirmationStatus.class]) {
         return (SDLECallConfirmationStatus *)obj;
     } else {

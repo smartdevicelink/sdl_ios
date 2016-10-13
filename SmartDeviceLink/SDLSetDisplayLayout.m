@@ -9,27 +9,21 @@
 @implementation SDLSetDisplayLayout
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetDisplayLayout]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameSetDisplayLayout]) {
     }
     return self;
 }
 
 - (void)setDisplayLayout:(NSString *)displayLayout {
     if (displayLayout != nil) {
-        [parameters setObject:displayLayout forKey:NAMES_displayLayout];
+        [parameters setObject:displayLayout forKey:SDLNameDisplayLayout];
     } else {
-        [parameters removeObjectForKey:NAMES_displayLayout];
+        [parameters removeObjectForKey:SDLNameDisplayLayout];
     }
 }
 
 - (NSString *)displayLayout {
-    return [parameters objectForKey:NAMES_displayLayout];
+    return [parameters objectForKey:SDLNameDisplayLayout];
 }
 
 @end

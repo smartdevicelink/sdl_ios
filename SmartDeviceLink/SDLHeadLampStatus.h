@@ -9,18 +9,8 @@
 /**
  * Status of the head lamps
  */
-@interface SDLHeadLampStatus : SDLRPCStruct {
-}
-/**
- * @abstract Constructs a new SDLHeadLampStatus object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLHeadLampStatus object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLHeadLampStatus : SDLRPCStruct
+
 /**
  * @abstract A boolean value. Status of the low beam lamps.
  */

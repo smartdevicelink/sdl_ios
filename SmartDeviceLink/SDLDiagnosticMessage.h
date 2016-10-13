@@ -9,11 +9,7 @@
  *
  * @since SDL 3.0
  */
-@interface SDLDiagnosticMessage : SDLRPCRequest {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLDiagnosticMessage : SDLRPCRequest
 
 /**
  * Name of target ECU

@@ -46,17 +46,17 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_voiceRecOn:@NO,
-                                       NAMES_btIconOn:@NO,
-                                       NAMES_callActive:@YES,
-                                       NAMES_phoneRoaming:@NO,
-                                       NAMES_textMsgAvailable:@YES,
-                                       NAMES_battLevelStatus:[SDLDeviceLevelStatus FOUR_LEVEL_BARS],
-                                       NAMES_stereoAudioOutputMuted:@YES,
-                                       NAMES_monoAudioOutputMuted:@YES,
-                                       NAMES_signalLevelStatus:[SDLDeviceLevelStatus TWO_LEVEL_BARS],
-                                       NAMES_primaryAudioSource:[SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST],
-                                       NAMES_eCallEventActive:@NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameVoiceRecognitionOn:@NO,
+                                       SDLNameBluetoothIconOn:@NO,
+                                       SDLNameCallActive:@YES,
+                                       SDLNamePhoneRoaming:@NO,
+                                       SDLNameTextMessageAvailable:@YES,
+                                       SDLNameBatteryLevelStatus:[SDLDeviceLevelStatus FOUR_LEVEL_BARS],
+                                       SDLNameStereoAudioOutputMuted:@YES,
+                                       SDLNameMonoAudioOutputMuted:@YES,
+                                       SDLNameSignalLevelStatus:[SDLDeviceLevelStatus TWO_LEVEL_BARS],
+                                       SDLNamePrimaryAudioSource:[SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST],
+                                       SDLNameECallEventActive:@NO} mutableCopy];
         SDLDeviceStatus* testStruct = [[SDLDeviceStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.voiceRecOn).to(equal(@NO));

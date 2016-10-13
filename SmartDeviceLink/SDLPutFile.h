@@ -14,20 +14,7 @@
  * @see SDLDeleteFile
  * @see SDLListFiles
  */
-@interface SDLPutFile : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLPutFile object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLPutFile object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLPutFile : SDLRPCRequest
 
 /**
  * A file reference name

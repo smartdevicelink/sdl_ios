@@ -9,40 +9,28 @@
 
 @implementation SDLImage
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setValue:(NSString *)value {
     if (value != nil) {
-        [store setObject:value forKey:NAMES_value];
+        [store setObject:value forKey:SDLNameValue];
     } else {
-        [store removeObjectForKey:NAMES_value];
+        [store removeObjectForKey:SDLNameValue];
     }
 }
 
 - (NSString *)value {
-    return [store objectForKey:NAMES_value];
+    return [store objectForKey:SDLNameValue];
 }
 
 - (void)setImageType:(SDLImageType *)imageType {
     if (imageType != nil) {
-        [store setObject:imageType forKey:NAMES_imageType];
+        [store setObject:imageType forKey:SDLNameImageType];
     } else {
-        [store removeObjectForKey:NAMES_imageType];
+        [store removeObjectForKey:SDLNameImageType];
     }
 }
 
 - (SDLImageType *)imageType {
-    NSObject *obj = [store objectForKey:NAMES_imageType];
+    NSObject *obj = [store objectForKey:SDLNameImageType];
     if (obj == nil || [obj isKindOfClass:SDLImageType.class]) {
         return (SDLImageType *)obj;
     } else {

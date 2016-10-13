@@ -8,11 +8,7 @@
 @class SDLKeypressMode;
 
 
-@interface SDLKeyboardProperties : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLKeyboardProperties : SDLRPCStruct
 
 @property (strong) SDLLanguage *language;
 @property (strong) SDLKeyboardLayout *keyboardLayout;

@@ -4,11 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchCoord : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLTouchCoord : SDLRPCStruct
 
 @property (strong) NSNumber *x;
 @property (strong) NSNumber *y;

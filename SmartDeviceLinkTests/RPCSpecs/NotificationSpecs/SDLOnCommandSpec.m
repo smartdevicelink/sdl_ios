@@ -26,11 +26,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_cmdID:@5676544,
-                                                   NAMES_triggerSource:[SDLTriggerSource KEYBOARD]},
-                                             NAMES_operation_name:NAMES_OnCommand}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameCommandId:@5676544,
+                                                   SDLNameTriggerSource:[SDLTriggerSource KEYBOARD]},
+                                             SDLNameOperationName:SDLNameOnCommand}} mutableCopy];
         SDLOnCommand* testNotification = [[SDLOnCommand alloc] initWithDictionary:dict];
         
         expect(testNotification.cmdID).to(equal(@5676544));

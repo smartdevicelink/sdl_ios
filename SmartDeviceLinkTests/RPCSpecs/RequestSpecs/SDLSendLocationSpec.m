@@ -124,15 +124,15 @@ describe(@"Send Location RPC", ^{
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{
-                                                           NAMES_longitudeDegrees: someLongitude,
-                                                           NAMES_latitudeDegrees: someLatitude,
-                                                           NAMES_locationName: someLocation,
-                                                           NAMES_locationDescription: someLocationDescription,
-                                                           NAMES_addressLines: someAddressLines,
-                                                           NAMES_phoneNumber: somePhoneNumber,
-                                                           NAMES_locationImage: someImage
+                                           SDLNameRequest: @{
+                                                   SDLNameParameters: @{
+                                                           SDLNameLongitudeDegrees: someLongitude,
+                                                           SDLNameLatitudeDegrees: someLatitude,
+                                                           SDLNameLocationName: someLocation,
+                                                           SDLNameLocationDescription: someLocationDescription,
+                                                           SDLNameAddressLines: someAddressLines,
+                                                           SDLNamePhoneNumber: somePhoneNumber,
+                                                           SDLNameLocationImage: someImage
                                                            }
                                                    }
                                            };
@@ -180,8 +180,8 @@ describe(@"Send Location RPC", ^{
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{}
+                                           SDLNameRequest: @{
+                                                   SDLNameParameters: @{}
                                                    }
                                            };
                 

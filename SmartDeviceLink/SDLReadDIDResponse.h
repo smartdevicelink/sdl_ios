@@ -9,11 +9,7 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLReadDIDResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLReadDIDResponse : SDLRPCResponse
 
 @property (strong) NSMutableArray *didResult;
 

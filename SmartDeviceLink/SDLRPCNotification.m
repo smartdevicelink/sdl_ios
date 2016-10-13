@@ -14,19 +14,19 @@
         return nil;
     }
 
-    messageType = NAMES_notification;
+    messageType = SDLNameNotification;
     [store setObject:function forKey:messageType];
 
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super initWithDictionary:dict];
     if (!self) {
         return nil;
     }
 
-    messageType = NAMES_notification;
+    messageType = SDLNameNotification;
     [store setObject:function forKey:messageType];
 
     return self;

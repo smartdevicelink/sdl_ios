@@ -10,33 +10,27 @@
 @implementation SDLReadDIDResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ReadDID]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameReadDID]) {
     }
     return self;
 }
 
 - (void)setDidResult:(NSMutableArray *)didResult {
     if (didResult != nil) {
-        [parameters setObject:didResult forKey:NAMES_didResult];
+        [parameters setObject:didResult forKey:SDLNameDIDResult];
     } else {
-        [parameters removeObjectForKey:NAMES_didResult];
+        [parameters removeObjectForKey:SDLNameDIDResult];
     }
 }
 
 - (NSMutableArray *)didResult {
-    NSMutableArray *array = [parameters objectForKey:NAMES_didResult];
+    NSMutableArray *array = [parameters objectForKey:SDLNameDIDResult];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLDIDResult.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+            [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
     }

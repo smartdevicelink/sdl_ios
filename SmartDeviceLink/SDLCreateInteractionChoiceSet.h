@@ -17,20 +17,7 @@
  *
  * @see SDLDeleteInteractionChoiceSet SDLPerformInteraction
  */
-@interface SDLCreateInteractionChoiceSet : SDLRPCRequest {
-}
-
-/**
- * Constructs a new SDLCreateInteractionChoiceSet object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLCreateInteractionChoiceSet object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLCreateInteractionChoiceSet : SDLRPCRequest
 
 /**
  * @abstract A unique ID that identifies the Choice Set

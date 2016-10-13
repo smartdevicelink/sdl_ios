@@ -6,31 +6,24 @@
 #import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLNames.h"
 
-
 @implementation SDLOnAppInterfaceUnregistered
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnAppInterfaceUnregistered]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameOnAppInterfaceUnregistered]) {
     }
     return self;
 }
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason *)reason {
     if (reason != nil) {
-        [parameters setObject:reason forKey:NAMES_reason];
+        [parameters setObject:reason forKey:SDLNameReason];
     } else {
-        [parameters removeObjectForKey:NAMES_reason];
+        [parameters removeObjectForKey:SDLNameReason];
     }
 }
 
 - (SDLAppInterfaceUnregisteredReason *)reason {
-    NSObject *obj = [parameters objectForKey:NAMES_reason];
+    NSObject *obj = [parameters objectForKey:SDLNameReason];
     if (obj == nil || [obj isKindOfClass:SDLAppInterfaceUnregisteredReason.class]) {
         return (SDLAppInterfaceUnregisteredReason *)obj;
     } else {

@@ -50,19 +50,7 @@
  *
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLChoice : SDLRPCStruct {
-}
-
-/**
- * Constructs a newly allocated SDLChoice object
- */
-- (instancetype)init;
-
-/**
- * Constructs a newly allocated SDLChoice object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLChoice : SDLRPCStruct
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
