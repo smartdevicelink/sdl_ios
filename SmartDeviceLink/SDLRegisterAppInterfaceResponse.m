@@ -91,7 +91,7 @@
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
@@ -112,7 +112,7 @@
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLSoftButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;
@@ -236,7 +236,7 @@
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLAudioPassThruCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;

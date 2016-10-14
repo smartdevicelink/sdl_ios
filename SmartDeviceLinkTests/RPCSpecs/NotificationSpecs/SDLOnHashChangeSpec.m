@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameHashId:@"hash"},
-                                             SDLNameOperationName:SDLNameOnHashChange}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameHashId:@"hash"},
+                                                             SDLNameOperationName:SDLNameOnHashChange}} mutableCopy];
         SDLOnHashChange* testNotification = [[SDLOnHashChange alloc] initWithDictionary:dict];
         
         expect(testNotification.hashID).to(equal(@"hash"));

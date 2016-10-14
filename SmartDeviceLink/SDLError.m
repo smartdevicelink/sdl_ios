@@ -112,6 +112,24 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorNoKnownFile userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_unableToStartError {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to start", nil),
+        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This may be because files are not supported on this unit and / or LISTFILES returned an error", nil),
+        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response", nil)
+    };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToStart userInfo:userInfo];
+}
+
++ (NSError *)sdl_fileManager_unableToUploadError {
+    NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to send this file", nil),
+        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file manager has not started, or the head unit does not support files", nil),
+        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response and check the file manager's state", nil)
+    };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
+}
+
 @end
 
 

@@ -30,11 +30,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameTurnList:[@[turn] mutableCopy],
-                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                             SDLNameOperationName:SDLNameUpdateTurnList}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameTurnList:[@[turn] mutableCopy],
+                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameUpdateTurnList}} mutableCopy];
         SDLUpdateTurnList* testRequest = [[SDLUpdateTurnList alloc] initWithDictionary:dict];
         
         expect(testRequest.turnList).to(equal([@[turn] mutableCopy]));

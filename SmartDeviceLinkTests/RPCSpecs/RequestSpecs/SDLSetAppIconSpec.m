@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSyncFileName:@"A/File/Name"},
-                                             SDLNameOperationName:SDLNameSetAppIcon}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameSyncFileName:@"A/File/Name"},
+                                                             SDLNameOperationName:SDLNameSetAppIcon}} mutableCopy];
         SDLSetAppIcon* testRequest = [[SDLSetAppIcon alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"A/File/Name"));

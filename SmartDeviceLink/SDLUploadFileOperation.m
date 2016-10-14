@@ -127,12 +127,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSData *fileData = [file.data copy];
     NSUInteger currentOffset = 0;
     NSMutableArray<SDLPutFile *> *putFiles = [NSMutableArray array];
-    
+
     // http://stackoverflow.com/a/503201 Make sure we get the exact number of packets we need
     for (int i = 0; i < (((fileData.length - 1) / mtuSize) + 1); i++) {
         SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:nil];
         putFile.offset = @(currentOffset);
-        
+
         // Set the length putfile based on the offset
         if (currentOffset == 0) {
             // If the offset is 0, the putfile expects to have the full file length within it
@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
             // The file length remaining is greater than our total MTU size, and the offset is not zero, we will fill the packet with our max MTU size
             putFile.length = @(mtuSize);
         }
-        
+
         // Place the data and set the new offset
         if (currentOffset == 0 && (mtuSize < [putFile.length unsignedIntegerValue])) {
             putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, mtuSize)];
@@ -153,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
             putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
             currentOffset = [putFile.length unsignedIntegerValue];
         }
-        
+
         [putFiles addObject:putFile];
     }
 

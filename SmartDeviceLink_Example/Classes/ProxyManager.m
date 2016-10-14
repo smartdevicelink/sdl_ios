@@ -13,6 +13,7 @@ NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
 NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
+NSString *const MainGraphicArtworkName = @"MainArtwork";
 
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateNone,
@@ -108,17 +109,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
+    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || [self.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
         return;
     }
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     
-    SDLShow *initialData = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCentered correlationID:@0];
+    SDLShow *show = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCentered correlationID:@0];
     SDLSoftButton *pointingSoftButton = [self.class pointingSoftButtonWithManager:self.sdlManager];
-    initialData.softButtons = [@[pointingSoftButton] mutableCopy];
+    show.softButtons = [@[pointingSoftButton] mutableCopy];
+    show.graphic = [self.class mainGraphicImage];
     
-    [self.sdlManager sendRequest:initialData];
+    [self.sdlManager sendRequest:show];
 }
 
 + (SDLLifecycleConfiguration *)setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
@@ -260,13 +262,23 @@ NS_ASSUME_NONNULL_BEGIN
     return softButton;
 }
 
++ (SDLImage *)mainGraphicImage {
+    SDLImage* image = [[SDLImage alloc] init];
+    image.imageType = SDLImageTypeDynamic;
+    image.value = MainGraphicArtworkName;
+
+    return image;
+}
+
 
 #pragma mark - Files / Artwork 
 
 + (SDLArtwork*)pointingSoftButtonArtwork {
-    SDLArtwork* softButtonImage = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-    
-    return softButtonImage;
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
+}
+
++ (SDLArtwork *)mainGraphicArtwork {
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:MainGraphicArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 - (void)prepareRemoteSystem {
@@ -275,6 +287,16 @@ NS_ASSUME_NONNULL_BEGIN
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);
+
+    dispatch_group_enter(dataDispatchGroup);
+    [self.sdlManager.fileManager uploadFile:[self.class mainGraphicArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        dispatch_group_leave(dataDispatchGroup);
+
+        if (success == NO) {
+            NSLog(@"Something went wrong, image could not upload: %@", error);
+            return;
+        }
+    }];
     
     dispatch_group_enter(dataDispatchGroup);
     [self.sdlManager.fileManager uploadFile:[self.class pointingSoftButtonArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
@@ -310,10 +332,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
-    if (self.firstTimeState == SDLHMIFirstStateNone) {
-        [self prepareRemoteSystem];
-    }
-    
     if (![newLevel isEqualToString:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
         self.firstTimeState = SDLHMIFirstStateNonNone;

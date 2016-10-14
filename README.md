@@ -40,7 +40,7 @@ See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to se
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.3.0-rc.3'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.3.0-rc.6'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
 
 ##### Carthage
 
@@ -57,23 +57,6 @@ You can find the latest reference documentation on [Cocoadocs](http://cocoadocs.
 ### Getting Help
 
 If you see a bug, feel free to post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
-
-### Running Tests
-To run tests, you will need to bootstrap the Carthage testing libraries. To do so, first [install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
-
-Then, from the root project directory, run:
-```bash
-carthage bootstrap --platform ios
-cd ../
-```
-
-At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, run:
-
-```bash
-xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator10.0" -destination "OS=10.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test
-```
-
-You can optionally pipe the result to [xcpretty](https://github.com/supermarin/xcpretty).
 
 ### SDL iOS Getting Started
 
@@ -127,99 +110,22 @@ Your application must support a set of smartdevicelink protocol strings in order
 </array>
 ```
 
-#### Creating the SDLProxy
-When creating a proxy, you will likely want a class to manage the Proxy and related functions for you. The example project located in this repository has a class called "ProxyManager" to serve this function. One important, somewhat odd note, is that when the proxy is created, it will immediately start. This means that you should only build the Proxy object when you are ready to search for connections. For production apps using iAP, this is early, since it ought to be ready for an iAP connection the entire time your app is available. However, when debugging using Wi-Fi, you may want to tie this to a button press, since the search can timeout.
+#### Continue Integrating
+Go through the [guide documentation](https://smartdevicelink.com/en/guides/iOS/getting-started/integration-basics/) to get started setting up your app to work with SDL!
 
-Another odd note is that if a connection disconnects for any reason, you will receive an `onProxyClosed` callback through the `SDLListener` delegate (see below), and you will have to completely discard and rebuild the proxy object.
+### Running Tests
+To run tests, you will need to bootstrap the Carthage testing libraries. To do so, first [install Carthage](https://github.com/Carthage/Carthage#installing-carthage).
 
-The example app's `startProxyWithTransportType` handles starting up the proxy when necessary. The proxy object should be stored as a property of it's parent class.
-
-```objc
-switch (transportType) {
-    case ProxyTransportTypeTCP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
-    } break;
-    case ProxyTransportTypeIAP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-    } break;
-    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
-}
+Then, from the root project directory, run:
+```bash
+carthage bootstrap --platform ios
+cd ../
 ```
 
-#### SDLProxyListener
+At this point, you can run tests from Xcode, or, if you wish to run the tests exactly as they will be run on the CI server, run:
 
-Note in the following lines, that there is a call to pass a `listener` into the build method.
-
-```objc
-self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:[Preferences sharedPreferences].ipAddress tcpPort:[Preferences sharedPreferences].port]
-self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
+```bash
+xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator10.0" -destination "OS=10.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test
 ```
 
-This is an object that conforms to the `SDLProxyListener` protocol. This could be the object holding the reference to the proxy, as it is here.
-
-#### Implement onProxyOpened and other delegate methods
-The `SDLProxyListener` protocol has four required methods:
-
-```objc
-- (void)onOnDriverDistraction:(SDLOnDriverDistraction*) notification;
-- (void)onOnHMIStatus:(SDLOnHMIStatus*) notification;
-- (void)onProxyClosed;
-- (void)onProxyOpened;
-```
-
-`onProxyOpened` is called when a connection is established between the head unit and your application. This is the place to set whatever state you need to, to know that your application is connected. It is also where you must send a register request with your app's information to the vehicle. The example app uses the following basic code:
-
-```objc
-self.state = ProxyStateConnected;
-
-    SDLRegisterAppInterface *registerRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:SDLAppName languageDesired:SDLLanguageEnUs appID:SDLAppId];
-    [self.proxy sendRPC:registerRequest];
-```
-
-When the proxy is closed, you will receive a call to `onProxyClosed`. This is where you will reset the state of the proxy, because remember, when a connection is closed, it is assumed that you will destroy the current proxy. The example app runs a method called `resetProxyWithTransportType:` that runs the following:
-
-```objc
-[self stopProxy];
-[self startProxyWithTransportType:transportType];
-```
-
-`stopProxy` does the following:
-
-```objc
-self.state = ProxyStateStopped;
-
-if (self.proxy != nil) {
-    [self.proxy dispose];
-    self.proxy = nil;
-}
-```
-
-#### onOnHMIStatus
-When your app receives `onOnHMIStatus` it has changed HMI states on the head unit. For example, your application can be put into `HMI_FULL` meaning that it has full access to the vehicle screen. For more info on HMI Levels, [see the Cocoadoc documentation on the enum](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/4.1.5/Classes/SDLHMILevel.html).
-
-You will want to track your first HMI FULL, for instance with a boolean value. The example application has extremely basic tracking of this type in the `onOnHMIStatus` callback.
-
-```objc
-if (([notification.hmiLevel isEqualToString:SDLHMILevelFull]) && self.isFirstHMIFull) {
-    [self showInitialData];
-    self.isFirstHMIFull = NO;
-}
-```
-
-#### WiFi vs. iAP
-
-As described in the section "Creating the SDLProxy", you need will have separate setup for either WiFi (debugging) and iAP (production) code.
-
-```objc
-switch (transportType) {
-    case ProxyTransportTypeTCP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self tcpIPAddress:@"192.168.1.1" tcpPort:@"1234"];
-    } break;
-    case ProxyTransportTypeIAP: {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self];
-    } break;
-    default: NSAssert(NO, @"Unknown transport setup: %@", @(transportType));
-}
-```
-
-When creating for WiFi, you will want to know the IP address and port of the Core system you are testing with. With IAP connections, you will use the "build" method without setting an IP and Port, and IAP will automatically be activated.
+You can optionally pipe the result to [xcpretty](https://github.com/supermarin/xcpretty).

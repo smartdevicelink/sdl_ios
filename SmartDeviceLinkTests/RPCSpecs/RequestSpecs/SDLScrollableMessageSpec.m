@@ -30,12 +30,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameScrollableMessageBody:@"thatmessagebody",
-                                                   SDLNameTimeout:@9182,
-                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                             SDLNameOperationName:SDLNameScrollableMessage}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameScrollableMessageBody:@"thatmessagebody",
+                                                                   SDLNameTimeout:@9182,
+                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameScrollableMessage}} mutableCopy];
         SDLScrollableMessage* testRequest = [[SDLScrollableMessage alloc] initWithDictionary:dict];
         
         expect(testRequest.scrollableMessageBody).to(equal(@"thatmessagebody"));

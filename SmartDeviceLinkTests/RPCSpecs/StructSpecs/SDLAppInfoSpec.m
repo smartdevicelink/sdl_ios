@@ -28,9 +28,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameAppDisplayName:@"display name",
-                                       SDLNameAppVersion:@"1.2.3.4",
-                                       SDLNameAppBundleId:@"com.app.bundle"} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameAppDisplayName:@"display name",
+                                                       SDLNameAppVersion:@"1.2.3.4",
+                                                       SDLNameAppBundleId:@"com.app.bundle"} mutableCopy];
         SDLAppInfo* testStruct = [[SDLAppInfo alloc] initWithDictionary:dict];
         
         expect(testStruct.appDisplayName).to(equal(@"display name"));

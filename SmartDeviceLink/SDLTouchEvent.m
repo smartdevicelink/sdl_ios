@@ -47,7 +47,7 @@
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLTouchCoord alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;

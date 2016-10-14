@@ -8,12 +8,12 @@
 
 
 @interface SDLConsoleController : UITableViewController <SDLDebugToolConsole> {
-    NSMutableArray *messageList;
+    NSMutableArray<NSDictionary<NSString *, id>*> *messageList;
     BOOL atBottom;
     NSDateFormatter *dateFormatter;
 }
 
-@property (strong, readonly) NSMutableArray *messageList;
+@property (strong, readonly) NSMutableArray<NSDictionary<NSString *, id>*> *messageList;
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
 

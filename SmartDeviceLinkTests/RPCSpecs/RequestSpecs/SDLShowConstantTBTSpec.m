@@ -50,20 +50,20 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameNavigationText1:@"nav1",
-                                                   SDLNameNavigationText2:@"nav2",
-                                                   SDLNameETA:@"4/1/7015",
-                                                   SDLNameTimeToDestination:@"5000 Years",
-                                                   SDLNameTotalDistance:@"1 parsec",
-                                                   SDLNameTurnIcon:image1,
-                                                   SDLNameNextTurnIcon:image2,
-                                                   SDLNameDistanceToManeuver:@2,
-                                                   SDLNameDistanceToManeuverScale:@4,
-                                                   SDLNameManeuverComplete:@NO,
-                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                             SDLNameOperationName:SDLNameShowConstantTBT}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameNavigationText1:@"nav1",
+                                                                   SDLNameNavigationText2:@"nav2",
+                                                                   SDLNameETA:@"4/1/7015",
+                                                                   SDLNameTimeToDestination:@"5000 Years",
+                                                                   SDLNameTotalDistance:@"1 parsec",
+                                                                   SDLNameTurnIcon:image1,
+                                                                   SDLNameNextTurnIcon:image2,
+                                                                   SDLNameDistanceToManeuver:@2,
+                                                                   SDLNameDistanceToManeuverScale:@4,
+                                                                   SDLNameManeuverComplete:@NO,
+                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameShowConstantTBT}} mutableCopy];
         SDLShowConstantTBT* testRequest = [[SDLShowConstantTBT alloc] initWithDictionary:dict];
         
         expect(testRequest.navigationText1).to(equal(@"nav1"));

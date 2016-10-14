@@ -69,33 +69,33 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameGPS:@YES,
-                                                   SDLNameSpeed:@NO,
-                                                   SDLNameRPM:@YES,
-                                                   SDLNameFuelLevel:@NO,
-                                                   SDLNameFuelLevelState:@YES,
-                                                   SDLNameInstantFuelConsumption:@NO,
-                                                   SDLNameExternalTemperature:@YES,
-                                                   SDLNamePRNDL:@YES,
-                                                   SDLNameTirePressure:@NO,
-                                                   SDLNameOdometer:@YES,
-                                                   SDLNameBeltStatus:@NO,
-                                                   SDLNameBodyInformation:@YES,
-                                                   SDLNameDeviceStatus:@NO,
-                                                   SDLNameDriverBraking:@YES,
-                                                   SDLNameWiperStatus:@NO,
-                                                   SDLNameHeadLampStatus:@YES,
-                                                   SDLNameEngineTorque:@NO,
-                                                   SDLNameAccelerationPedalPosition:@YES,
-                                                   SDLNameSteeringWheelAngle:@NO,
-                                                   SDLNameECallInfo:@YES,
-                                                   SDLNameAirbagStatus:@NO,
-                                                   SDLNameEmergencyEvent:@YES,
-                                                   SDLNameClusterModeStatus:@NO,
-                                                   SDLNameMyKey:@YES},
-                                             SDLNameOperationName:SDLNameSubscribeVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameGPS:@YES,
+                                                                   SDLNameSpeed:@NO,
+                                                                   SDLNameRPM:@YES,
+                                                                   SDLNameFuelLevel:@NO,
+                                                                   SDLNameFuelLevelState:@YES,
+                                                                   SDLNameInstantFuelConsumption:@NO,
+                                                                   SDLNameExternalTemperature:@YES,
+                                                                   SDLNamePRNDL:@YES,
+                                                                   SDLNameTirePressure:@NO,
+                                                                   SDLNameOdometer:@YES,
+                                                                   SDLNameBeltStatus:@NO,
+                                                                   SDLNameBodyInformation:@YES,
+                                                                   SDLNameDeviceStatus:@NO,
+                                                                   SDLNameDriverBraking:@YES,
+                                                                   SDLNameWiperStatus:@NO,
+                                                                   SDLNameHeadLampStatus:@YES,
+                                                                   SDLNameEngineTorque:@NO,
+                                                                   SDLNameAccelerationPedalPosition:@YES,
+                                                                   SDLNameSteeringWheelAngle:@NO,
+                                                                   SDLNameECallInfo:@YES,
+                                                                   SDLNameAirbagStatus:@NO,
+                                                                   SDLNameEmergencyEvent:@YES,
+                                                                   SDLNameClusterModeStatus:@NO,
+                                                                   SDLNameMyKey:@YES},
+                                                             SDLNameOperationName:SDLNameSubscribeVehicleData}} mutableCopy];
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.gps).to(equal(@YES));

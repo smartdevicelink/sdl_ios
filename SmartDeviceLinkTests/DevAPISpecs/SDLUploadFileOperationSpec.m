@@ -66,7 +66,7 @@ describe(@"Upload File Operation", ^{
         context(@"when a good response comes back", ^{
             __block SDLPutFileResponse *goodResponse = nil;
             __block NSNumber *responseSpaceAvailable = nil;
-            __block NSMutableArray *responseFileNames = nil;
+            __block NSMutableArray<NSString *> *responseFileNames = nil;
             
             beforeEach(^{
                 responseSpaceAvailable = @(11212512);

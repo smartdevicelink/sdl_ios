@@ -17,7 +17,7 @@ describe(@"Send Location RPC", ^{
     __block NSNumber *someLatitude = nil;
     __block NSString *someLocation = nil;
     __block NSString *someLocationDescription = nil;
-    __block NSArray *someAddressLines = nil;
+    __block NSArray<NSString *> *someAddressLines = nil;
     __block NSString *somePhoneNumber = nil;
     __block SDLImage *someImage = nil;
     

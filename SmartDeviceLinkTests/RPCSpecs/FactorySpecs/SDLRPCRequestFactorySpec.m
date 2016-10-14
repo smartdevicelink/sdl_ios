@@ -31,7 +31,7 @@ describe(@"BuildAddCommand Tests", ^ {
         expect(message.cmdID).to(equal(@33));
         expect(message.correlationID).to(equal(@94));
     
-        NSArray* aliases = @[@"Joe1", @"Joe2", @"Joe3",
+        NSArray<NSString *> *aliases = @[@"Joe1", @"Joe2", @"Joe3",
                              @"--------------------------------ASLONGOFASTRINGASICANPOSSIBLYMAKEINASINGLELINE---------------------------------"];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -83,7 +83,7 @@ describe(@"BuildAddSubMenu Tests", ^ {
 describe(@"BuildAlert Tests", ^ {
     context(@"With Text", ^ {
         it(@"Should build correctly", ^ {
-            NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+            NSArray<SDLSoftButton *> *softButtons = @[[[SDLSoftButton alloc] init]];
             SDLAlert* message = [SDLRPCRequestFactory buildAlertWithAlertText1:@"String1" alertText2:@"String2" alertText3:@"String3"
                                                       duration:@9999 softButtons:softButtons correlationID:@41];
             
@@ -168,8 +168,8 @@ describe(@"BuildAlert Tests", ^ {
     
     context(@"With TTSChunks", ^ {
         it(@"Should build correctly", ^ {
-            NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
-            NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray<SDLSoftButton *> *softButtons = @[[[SDLSoftButton alloc] init]];
+            NSArray<SDLTTSChunk *> *ttsChunks = @[[[SDLTTSChunk alloc] init]];
             SDLAlert* message = [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks alertText1:@"Astonish" alertText2:@"Hi" alertText3:@"Alert"
                                                       playTone:@NO duration:@4145 softButtons:softButtons correlationID:@19];
             
@@ -200,8 +200,8 @@ describe(@"BuildAlert Tests", ^ {
 
 
 describe(@"SDLAlertManeuver Tests", ^ {
-    __block NSMutableArray *softButtons = nil;
-    __block NSMutableArray *ttsChunks = nil;
+    __block NSMutableArray<SDLSoftButton *> *softButtons = nil;
+    __block NSMutableArray<SDLTTSChunk *> *ttsChunks = nil;
     __block SDLAlertManeuver *message = nil;
     
     describe(@"Should build correctly", ^ {
@@ -238,7 +238,7 @@ describe(@"BuildChangeRegistration Tests", ^ {
 
 describe(@"BuildCreateInteractionChoiceSet Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* choices = @[[[SDLChoice alloc] init]];
+        NSArray<SDLChoice *> *choices = @[[[SDLChoice alloc] init]];
         SDLCreateInteractionChoiceSet* message = [SDLRPCRequestFactory buildCreateInteractionChoiceSetWithID:@4567654 choiceSet:choices correlationID:@0];
         
         expect(message.interactionChoiceSetID).to(equal(@4567654));
@@ -389,10 +389,10 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
 describe(@"BuildPerformInteraction Tests", ^ {
     context(@"With Initial Chunks", ^ {
         it(@"Should build correctly", ^ {
-            NSArray* initialChunks = @[[[SDLTTSChunk alloc] init]];
-            NSArray* helpChunks = @[[[SDLTTSChunk alloc] init]];
-            NSArray* timeoutChunks = @[[[SDLTTSChunk alloc] init]];
-            NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
+            NSArray<SDLTTSChunk *> *initialChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray<SDLTTSChunk *> *helpChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray<SDLTTSChunk *> *timeoutChunks = @[[[SDLTTSChunk alloc] init]];
+            NSArray<SDLVRHelpItem *> *vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:@"Start" interactionChoiceSetIDList:@[@878]
                                                                    helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:SDLInteractionModeManualOnly timeout:@7500
                                                                    vrHelp:vrHelp correlationID:@272727];
@@ -412,7 +412,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
     
     context(@"With Initial Prompt", ^ {
         it(@"Should build correctly", ^ {
-            NSArray* vrHelp = @[[[SDLVRHelpItem alloc] init]];
+            NSArray<SDLVRHelpItem *> *vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]
                                                                    helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:SDLInteractionModeVROnly
                                                                    timeout:@5600 vrHelp:vrHelp correlationID:@31564];
@@ -500,8 +500,8 @@ describe(@"BuildRegisterAppInterface Tests", ^ {
         OCMStub([bundleMock infoDictionary]).andReturn(@{@"CFBundleShortVersionString" : @"1.2.3.4"});
         OCMStub([bundleMock bundleIdentifier]).andReturn(@"com.register.test");
         
-        NSMutableArray *ttsName = [NSMutableArray arrayWithArray:@[[[SDLTTSChunk alloc] init]]];
-        NSMutableArray *synonyms = [NSMutableArray arrayWithArray:@[@"Q", @"W", @"E", @"R"]];
+        NSMutableArray<SDLTTSChunk *> *ttsName = [NSMutableArray arrayWithArray:@[[[SDLTTSChunk alloc] init]]];
+        NSMutableArray<NSString *> *synonyms = [NSMutableArray arrayWithArray:@[@"Q", @"W", @"E", @"R"]];
         SDLRegisterAppInterface* message = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:@"Interface" ttsName:ttsName vrSynonyms:synonyms
                                                                  isMediaApp:@YES languageDesired:SDLLanguageEnUs
                                                                  hmiDisplayLanguageDesired:SDLLanguageEsMx appID:@"6h43g"];
@@ -591,7 +591,7 @@ describe(@"BuildSendLocation", ^{
     __block NSNumber *someLatitude = nil;
     __block NSString *someLocation = nil;
     __block NSString *someLocationDescription = nil;
-    __block NSArray *someAddressLines = nil;
+    __block NSArray<NSString *> *someAddressLines = nil;
     __block NSString *somePhoneNumber = nil;
     __block SDLImage *someImage = nil;
     
@@ -644,7 +644,7 @@ describe(@"BuildSendLocation", ^{
 
 describe(@"BuildScrollableMessage Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        NSArray<SDLSoftButton *> *softButtons = @[[[SDLSoftButton alloc] init]];
         SDLScrollableMessage* message = [SDLRPCRequestFactory buildScrollableMessage:@"Message Box" timeout:@37821 softButtons:softButtons correlationID:@9783356];
         
         expect(message.scrollableMessageBody).to(equal(@"Message Box"));
@@ -674,7 +674,7 @@ describe(@"BuildSetDisplayLayout Tests", ^ {
 
 describe(@"BuildSetGlobalProperties Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* help = @[[[SDLVRHelpItem alloc] init]];
+        NSArray<SDLVRHelpItem *> *help = @[[[SDLVRHelpItem alloc] init]];
         SDLSetGlobalProperties* message = [SDLRPCRequestFactory buildSetGlobalPropertiesWithHelpText:@"Beyond Help" timeoutText:@"You took too long" vrHelpTitle:@"Voice"
                                                                 vrHelp:help correlationID:@5666666];
         
@@ -723,7 +723,7 @@ describe(@"BuildSetMediaClockTimer Tests", ^ {
 describe(@"BuildShow Tests", ^ {
     it(@"Should build correctly", ^ {
         SDLImage* image = [[SDLImage alloc] init];
-        NSArray* softButtons = @[[[SDLSoftButton alloc] init]];
+        NSArray<SDLSoftButton *> *softButtons = @[[[SDLSoftButton alloc] init]];
         SDLShow* message = [SDLRPCRequestFactory buildShowWithMainField1:@"11" mainField2:@"22" mainField3:@"33" mainField4:@"44" statusBar:@"Bar" mediaClock:@"Time" mediaTrack:@"Crucial Line"
                                                  alignment:SDLTextAlignmentCentered graphic:image softButtons:softButtons customPresets:@[@"w", @"x", @"y", @"z"] correlationID:@3432343];
         
@@ -776,7 +776,7 @@ describe(@"BuildShow Tests", ^ {
 });
 
 describe(@"SDLShowConstantTBT Tests", ^ {
-    __block NSMutableArray *softButtons = nil;
+    __block NSMutableArray<SDLSoftButton *> *softButtons = nil;
     __block SDLImage *image1 = nil;
     __block SDLImage *image2 = nil;
     __block SDLShowConstantTBT *message = nil;
@@ -864,7 +864,7 @@ describe(@"BuildSlider Tests", ^ {
 
 describe(@"BuildSpeak Tests", ^ {
     it(@"Should build correctly", ^ {
-        NSArray* ttsChunks = @[[[SDLTTSChunk alloc] init]];
+        NSArray<SDLTTSChunk *> *ttsChunks = @[[[SDLTTSChunk alloc] init]];
         SDLSpeak* message = [SDLRPCRequestFactory buildSpeakWithTTS:@"GREETINGS HUMAN" correlationID:@65];
         
         expect(((SDLTTSChunk*)[message ttsChunks][0]).text).to(equal(@"GREETINGS HUMAN"));

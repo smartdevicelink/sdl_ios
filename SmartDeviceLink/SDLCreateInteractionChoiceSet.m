@@ -41,7 +41,7 @@
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
+        for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLChoice alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;

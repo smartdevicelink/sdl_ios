@@ -25,11 +25,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameECUName:@4321,
-                                                   SDLNameDTCMask:@22},
-                                             SDLNameOperationName:SDLNameEndAudioPassThru}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameECUName:@4321,
+                                                                   SDLNameDTCMask:@22},
+                                                             SDLNameOperationName:SDLNameEndAudioPassThru}} mutableCopy];
         SDLGetDTCs* testRequest = [[SDLGetDTCs alloc] initWithDictionary:dict];
         
         expect(testRequest.ecuName).to(equal(@4321));

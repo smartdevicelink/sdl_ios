@@ -21,9 +21,9 @@ describe(@"change registration", ^ {
     __block SDLLanguage someLanguage = nil;
     __block SDLLanguage someOtherLanguage = nil;
     __block NSString *someAppName = nil;
-    __block NSArray *someTTSChunks = nil;
+    __block NSArray<SDLTTSChunk *> *someTTSChunks = nil;
     __block NSString *someNGNMediaAppName = nil;
-    __block NSArray *someVRSynonyms = nil;
+    __block NSArray<NSString *> *someVRSynonyms = nil;
     
     describe(@"when initializing with properites", ^{
         context(@"when parameters are set", ^{
@@ -112,15 +112,15 @@ describe(@"change registration", ^ {
                 someNGNMediaAppName = @"some media app name";
                 someVRSynonyms = @[@"some1", @"some2"];
                 
-                NSMutableDictionary* dict = [@{SDLNameRequest:
-                                                   @{SDLNameParameters:
-                                                         @{SDLNameLanguage:someLanguage,
-                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
-                                                           SDLNameAppName:someAppName,
-                                                           SDLNameTTSName:someTTSChunks,
-                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
-                                                           SDLNameVRSynonyms:someVRSynonyms},
-                                                        SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
+                NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                                   @{SDLNameParameters:
+                                                                         @{SDLNameLanguage:someLanguage,
+                                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
+                                                                           SDLNameAppName:someAppName,
+                                                                           SDLNameTTSName:someTTSChunks,
+                                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
+                                                                           SDLNameVRSynonyms:someVRSynonyms},
+                                                                     SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
                 
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
             });

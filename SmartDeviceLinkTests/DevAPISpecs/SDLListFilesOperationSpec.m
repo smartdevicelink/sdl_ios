@@ -45,7 +45,7 @@ describe(@"List Files Operation", ^{
         context(@"when a good response comes back", ^{
             __block SDLListFilesResponse *goodResponse = nil;
             __block NSNumber *responseSpaceAvailable = nil;
-            __block NSMutableArray *responseFileNames = nil;
+            __block NSMutableArray<NSString *> *responseFileNames = nil;
             
             beforeEach(^{
                 responseSpaceAvailable = @(11212512);
@@ -76,7 +76,7 @@ describe(@"List Files Operation", ^{
         context(@"when a bad response comes back", ^{
             __block SDLListFilesResponse *badResponse = nil;
             __block NSNumber *responseSpaceAvailable = nil;
-            __block NSMutableArray *responseFileNames = nil;
+            __block NSMutableArray<NSString *> *responseFileNames = nil;
             
             __block NSString *responseErrorDescription = nil;
             __block NSString *responseErrorReason = nil;

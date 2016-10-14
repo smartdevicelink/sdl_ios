@@ -24,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameResponse:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSliderPosition:@13},
-                                             SDLNameOperationName:SDLNameSlider}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameSliderPosition:@13},
+                                                             SDLNameOperationName:SDLNameSlider}} mutableCopy];
         SDLSliderResponse* testResponse = [[SDLSliderResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.sliderPosition).to(equal(@13));

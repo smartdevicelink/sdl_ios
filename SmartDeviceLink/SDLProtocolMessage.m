@@ -64,7 +64,7 @@
                 SDLName functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
 
                 UInt8 rpcType = rpcPayload.rpcType;
-                NSArray *rpcTypeNames = @[@"Request", @"Response", @"Notification"];
+                NSArray<NSString *> *rpcTypeNames = @[@"Request", @"Response", @"Notification"];
                 NSString *rpcTypeString = nil;
                 if (rpcType >= 0 && rpcType < rpcTypeNames.count) {
                     rpcTypeString = rpcTypeNames[rpcType];

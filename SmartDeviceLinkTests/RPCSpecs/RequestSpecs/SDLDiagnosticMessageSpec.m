@@ -27,12 +27,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameTargetId:@3562,
-                                                   SDLNameMessageLength:@55555,
-                                                   SDLNameMessageData:[@[@1, @4, @16, @64] mutableCopy]},
-                                             SDLNameOperationName:SDLNameDiagnosticMessage}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameTargetId:@3562,
+                                                                   SDLNameMessageLength:@55555,
+                                                                   SDLNameMessageData:[@[@1, @4, @16, @64] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameDiagnosticMessage}} mutableCopy];
         SDLDiagnosticMessage* testRequest = [[SDLDiagnosticMessage alloc] initWithDictionary:dict];
         
         expect(testRequest.targetID).to(equal(@3562));

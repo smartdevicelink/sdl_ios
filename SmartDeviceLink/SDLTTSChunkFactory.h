@@ -12,6 +12,6 @@
 }
 
 + (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities)type;
-+ (NSMutableArray *)buildTTSChunksFromSimple:(NSString *)simple;
++ (NSMutableArray<SDLTTSChunk *> *)buildTTSChunksFromSimple:(NSString *)simple;
 
 @end

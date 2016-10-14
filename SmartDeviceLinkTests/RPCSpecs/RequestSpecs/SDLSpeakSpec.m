@@ -26,10 +26,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameTTSChunks:[@[chunk] mutableCopy]},
-                                             SDLNameOperationName:SDLNameSpeak}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameTTSChunks:[@[chunk] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameSpeak}} mutableCopy];
         SDLSpeak* testRequest = [[SDLSpeak alloc] initWithDictionary:dict];
         
         expect(testRequest.ttsChunks).to(equal([@[chunk] mutableCopy]));

@@ -14,7 +14,6 @@
 #import "SDLDebugTool.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
-#import "SDLProxyListener.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
@@ -35,7 +34,7 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
  */
 static NSUInteger const MaximumNumberOfTouches = 2;
 
-@interface SDLTouchManager () <SDLProxyListener>
+@interface SDLTouchManager ()
 
 /*!
  *  @abstract 

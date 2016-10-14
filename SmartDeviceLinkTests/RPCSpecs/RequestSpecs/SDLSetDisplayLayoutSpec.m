@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameDisplayLayout:@"wat"},
-                                             SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameDisplayLayout:@"wat"},
+                                                             SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
         SDLSetDisplayLayout* testRequest = [[SDLSetDisplayLayout alloc] initWithDictionary:dict];
         
         expect(testRequest.displayLayout).to(equal(@"wat"));

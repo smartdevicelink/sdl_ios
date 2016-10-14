@@ -47,7 +47,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.3.0-rc.3";
+NSString *const SDLProxyVersion = @"4.3.0-rc.6";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
@@ -58,7 +58,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @property (copy, nonatomic) NSString *appId;
-@property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
+@property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
 @property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
 @property (nonatomic, strong, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
@@ -166,7 +166,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - Accessors
 
-- (NSSet *)proxyListeners {
+- (NSSet<NSObject<SDLProxyListener> *> *)proxyListeners {
     return [self.mutableProxyListeners copy];
 }
 
@@ -184,7 +184,9 @@ const int POLICIES_CORRELATION_ID = 65535;
         }
         _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
-        [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
+
+        // HAX: The cast is a result of a compiler bug throwing a warning when it shouldn't
+        [self.mutableProxyListeners addObject:(id<SDLProxyListener>)_streamingMediaManager.touchManager];
     }
 
     return _streamingMediaManager;
@@ -713,7 +715,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
-    NSArray *array = [NSArray arrayWithObject:encodedSyncPDataString];
+    NSArray<NSString *> *array = [NSArray arrayWithObject:encodedSyncPDataString];
     NSDictionary *dictionary = @{ @"data": array };
     NSError *JSONSerializationError = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
