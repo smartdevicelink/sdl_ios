@@ -725,7 +725,7 @@ describe(@"BuildShow Tests", ^ {
         SDLImage* image = [[SDLImage alloc] init];
         NSArray<SDLSoftButton *> *softButtons = @[[[SDLSoftButton alloc] init]];
         SDLShow* message = [SDLRPCRequestFactory buildShowWithMainField1:@"11" mainField2:@"22" mainField3:@"33" mainField4:@"44" statusBar:@"Bar" mediaClock:@"Time" mediaTrack:@"Crucial Line"
-                                                 alignment:SDLTextAlignmentCentered graphic:image softButtons:softButtons customPresets:@[@"w", @"x", @"y", @"z"] correlationID:@3432343];
+                                                 alignment:SDLTextAlignmentCenter graphic:image softButtons:softButtons customPresets:@[@"w", @"x", @"y", @"z"] correlationID:@3432343];
         
         expect(message.mainField1).to(equal(@"11"));
         expect(message.mainField2).to(equal(@"22"));
@@ -734,14 +734,14 @@ describe(@"BuildShow Tests", ^ {
         expect(message.statusBar).to(equal(@"Bar"));
         expect(message.mediaClock).to(equal(@"Time"));
         expect(message.mediaTrack).to(equal(@"Crucial Line"));
-        expect(message.alignment).to(equal(SDLTextAlignmentCentered));
+        expect(message.alignment).to(equal(SDLTextAlignmentCenter));
         expect(message.graphic).to(equal(image));
         expect(message.secondaryGraphic).to(beNil());
         expect(message.softButtons).to(equal(softButtons));
         expect(message.customPresets).to(equal(@[@"w", @"x", @"y", @"z"]));
         expect(message.correlationID).to(equal(@3432343));
         
-        message = [SDLRPCRequestFactory buildShowWithMainField1:@"A" mainField2:@"S" statusBar:@"D" mediaClock:@"F" mediaTrack:@"G" alignment:SDLTextAlignmentRightAligned correlationID:@999];
+        message = [SDLRPCRequestFactory buildShowWithMainField1:@"A" mainField2:@"S" statusBar:@"D" mediaClock:@"F" mediaTrack:@"G" alignment:SDLTextAlignmentRight correlationID:@999];
         
         expect(message.mainField1).to(equal(@"A"));
         expect(message.mainField2).to(equal(@"S"));
@@ -750,14 +750,14 @@ describe(@"BuildShow Tests", ^ {
         expect(message.statusBar).to(equal(@"D"));
         expect(message.mediaClock).to(equal(@"F"));
         expect(message.mediaTrack).to(equal(@"G"));
-        expect(message.alignment).to(equal(SDLTextAlignmentRightAligned));
+        expect(message.alignment).to(equal(SDLTextAlignmentRight));
         expect(message.graphic).to(beNil());
         expect(message.secondaryGraphic).to(beNil());
         expect(message.softButtons).to(beNil());
         expect(message.customPresets).to(beNil());
         expect(message.correlationID).to(equal(@999));
         
-        message = [SDLRPCRequestFactory buildShowWithMainField1:@"Hello" mainField2:@"World" alignment:SDLTextAlignmentLeftAligned correlationID:@38792607];
+        message = [SDLRPCRequestFactory buildShowWithMainField1:@"Hello" mainField2:@"World" alignment:SDLTextAlignmentLeft correlationID:@38792607];
         
         expect(message.mainField1).to(equal(@"Hello"));
         expect(message.mainField2).to(equal(@"World"));
@@ -766,7 +766,7 @@ describe(@"BuildShow Tests", ^ {
         expect(message.statusBar).to(beNil());
         expect(message.mediaClock).to(beNil());
         expect(message.mediaTrack).to(beNil());
-        expect(message.alignment).to(equal(SDLTextAlignmentLeftAligned));
+        expect(message.alignment).to(equal(SDLTextAlignmentLeft));
         expect(message.graphic).to(beNil());
         expect(message.secondaryGraphic).to(beNil());
         expect(message.softButtons).to(beNil());

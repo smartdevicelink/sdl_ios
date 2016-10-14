@@ -4,6 +4,6 @@
 
 #import "SDLTextAlignment.h"
 
-SDLTextAlignment const SDLTextAlignmentLeftAligned = @"LEFT_ALIGNED";
-SDLTextAlignment const SDLTextAlignmentRightAligned = @"RIGHT_ALIGNED";
-SDLTextAlignment const SDLTextAlignmentCentered = @"CENTERED";
+SDLTextAlignment const SDLTextAlignmentLeft = @"LEFT_ALIGNED";
+SDLTextAlignment const SDLTextAlignmentRight = @"RIGHT_ALIGNED";
+SDLTextAlignment const SDLTextAlignmentCenter = @"CENTERED";

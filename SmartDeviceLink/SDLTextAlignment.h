@@ -14,14 +14,14 @@ typedef SDLEnum SDLTextAlignment NS_STRING_ENUM;
 /**
  * @abstract Text aligned left.
  */
-extern SDLTextAlignment const SDLTextAlignmentLeftAligned;
+extern SDLTextAlignment const SDLTextAlignmentLeft;
 
 /**
  * @abstract Text aligned right.
  */
-extern SDLTextAlignment const SDLTextAlignmentRightAligned;
+extern SDLTextAlignment const SDLTextAlignmentRight;
 
 /**
  * @abstract Text aligned centered.
  */
-extern SDLTextAlignment const SDLTextAlignmentCentered;
+extern SDLTextAlignment const SDLTextAlignmentCenter;

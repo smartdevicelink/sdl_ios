@@ -14,9 +14,9 @@ QuickSpecBegin(SDLTextAlignmentSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLTextAlignmentLeftAligned).to(equal(@"LEFT_ALIGNED"));
-        expect(SDLTextAlignmentRightAligned).to(equal(@"RIGHT_ALIGNED"));
-        expect(SDLTextAlignmentCentered).to(equal(@"CENTERED"));
+        expect(SDLTextAlignmentLeft).to(equal(@"LEFT_ALIGNED"));
+        expect(SDLTextAlignmentRight).to(equal(@"RIGHT_ALIGNED"));
+        expect(SDLTextAlignmentCenter).to(equal(@"CENTERED"));
     });
 });
 

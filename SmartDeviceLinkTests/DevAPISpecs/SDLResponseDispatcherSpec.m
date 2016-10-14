@@ -116,7 +116,7 @@ describe(@"a response dispatcher", ^{
         __block NSUInteger numTimesHandlerCalled = 0;
         
         beforeEach(^{
-            testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCentered correlationID:@1];
+            testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter correlationID:@1];
         });
         
         context(@"with a correct soft button and handler", ^{
