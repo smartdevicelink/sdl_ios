@@ -17,7 +17,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLImageFieldNameSoftButtonImage).to(equal(@"softButtonImage"));
         expect(SDLImageFieldNameChoiceImage).to(equal(@"choiceImage"));
         expect(SDLImageFieldNameChoiceSecondaryImage).to(equal(@"choiceSecondaryImage"));
-        expect(SDLImageFieldNameVrHelpItem).to(equal(@"vrHelpItem"));
+        expect(SDLImageFieldNameVRHelpItem).to(equal(@"vrHelpItem"));
         expect(SDLImageFieldNameTurnIcon).to(equal(@"turnIcon"));
         expect(SDLImageFieldNameMenuIcon).to(equal(@"menuIcon"));
         expect(SDLImageFieldNameCommandIcon).to(equal(@"cmdIcon"));

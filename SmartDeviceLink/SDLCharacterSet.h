@@ -11,11 +11,11 @@
  */
 typedef SDLEnum SDLCharacterSet NS_STRING_ENUM;
 
-extern SDLCharacterSet const SDLCharacterSetType2Set;
+extern SDLCharacterSet const SDLCharacterSetType2;
 
-extern SDLCharacterSet const SDLCharacterSetType5Set;
+extern SDLCharacterSet const SDLCharacterSetType5;
 
-extern SDLCharacterSet const SDLCharacterSetCID1Set;
+extern SDLCharacterSet const SDLCharacterSetCID1;
 
-extern SDLCharacterSet const SDLCharacterSetCID2Set;
+extern SDLCharacterSet const SDLCharacterSetCID2;
 

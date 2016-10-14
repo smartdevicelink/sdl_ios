@@ -40,7 +40,7 @@ describe(@"SDLFile", ^{
             });
             
             it(@"should correctly store file type", ^{
-                expect(testFile.fileType).to(equal(SDLFileTypeAudioMP3));
+                expect(testFile.fileType).to(equal(SDLFileTypeMP3));
             });
             
             it(@"should correctly start as non-overwrite", ^{
@@ -86,7 +86,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should correctly store file type", ^{
-                    expect(testFile.fileType).to(equal(SDLFileTypeGraphicJPEG));
+                    expect(testFile.fileType).to(equal(SDLFileTypeJPEG));
                 });
                 
                 it(@"should correctly store persistence", ^{
@@ -116,7 +116,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should correctly store file type", ^{
-                    expect(testFile.fileType).to(equal(SDLFileTypeGraphicJPEG));
+                    expect(testFile.fileType).to(equal(SDLFileTypeJPEG));
                 });
                 
                 it(@"should correctly store persistence", ^{
@@ -140,7 +140,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should properly interpret file type", ^{
-                    expect(testFile.fileType).to(equal(SDLFileTypeGraphicJPEG));
+                    expect(testFile.fileType).to(equal(SDLFileTypeJPEG));
                 });
             });
             
@@ -154,7 +154,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should properly interpret file type", ^{
-                    expect(testFile.fileType).to(equal(SDLFileTypeGraphicJPEG));
+                    expect(testFile.fileType).to(equal(SDLFileTypeJPEG));
                 });
             });
             
@@ -168,7 +168,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should properly interpret file type", ^{
-                    expect(testFile.fileType).to(equal(SDLFileTypeGraphicPNG));
+                    expect(testFile.fileType).to(equal(SDLFileTypePNG));
                 });
             });
             
@@ -182,7 +182,7 @@ describe(@"SDLFile", ^{
                 });
                 
                 it(@"should properly interpret file type", ^{
-                    expect(testFile.fileType).to(equal(SDLFileTypeGraphicBMP));
+                    expect(testFile.fileType).to(equal(SDLFileTypeBMP));
                 });
             });
             

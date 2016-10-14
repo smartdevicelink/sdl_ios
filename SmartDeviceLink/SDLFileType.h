@@ -14,32 +14,32 @@ typedef SDLEnum SDLFileType NS_STRING_ENUM;
 /**
  * @abstract file type: Bitmap (BMP)
  */
-extern SDLFileType const SDLFileTypeGraphicBMP;
+extern SDLFileType const SDLFileTypeBMP;
 
 /**
  * @abstract file type: JPEG
  */
-extern SDLFileType const SDLFileTypeGraphicJPEG;
+extern SDLFileType const SDLFileTypeJPEG;
 
 /**
  * @abstract file type: PNG
  */
-extern SDLFileType const SDLFileTypeGraphicPNG;
+extern SDLFileType const SDLFileTypePNG;
 
 /**
  * @abstract file type: WAVE (WAV)
  */
-extern SDLFileType const SDLFileTypeAudioWAV;
+extern SDLFileType const SDLFileTypeWAV;
 
 /**
  * @abstract file type: MP3
  */
-extern SDLFileType const SDLFileTypeAudioMP3;
+extern SDLFileType const SDLFileTypeMP3;
 
 /**
  * @abstract file type: AAC
  */
-extern SDLFileType const SDLFileTypeAudioAAC;
+extern SDLFileType const SDLFileTypeAAC;
 
 /**
  * @abstract file type: BINARY

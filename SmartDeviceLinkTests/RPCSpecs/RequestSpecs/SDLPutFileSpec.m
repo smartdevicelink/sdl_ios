@@ -20,14 +20,14 @@ describe(@"Getter/Setter Tests", ^ {
         SDLPutFile* testRequest = [[SDLPutFile alloc] init];
         
         testRequest.syncFileName = @"fileName";
-        testRequest.fileType = SDLFileTypeGraphicJPEG;
+        testRequest.fileType = SDLFileTypeJPEG;
         testRequest.persistentFile = @YES;
         testRequest.systemFile = @NO;
         testRequest.offset = @987654321;
         testRequest.length = @123456789;
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal(SDLFileTypeGraphicJPEG));
+        expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
         expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
                                                  @{SDLNameSyncFileName:@"fileName",
-                                                   SDLNameFileType:SDLFileTypeGraphicJPEG,
+                                                   SDLNameFileType:SDLFileTypeJPEG,
                                                    SDLNamePersistentFile:@YES,
                                                    SDLNameSystemFile:@NO,
                                                    SDLNameOffset:@987654321,
@@ -47,7 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal(SDLFileTypeGraphicJPEG));
+        expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
         expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));

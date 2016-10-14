@@ -23,14 +23,14 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.requestType = SDLRequestTypeFileResume;
         testNotification.url = [@[@"www.google.com"] mutableCopy];
         testNotification.timeout = @52345;
-        testNotification.fileType = SDLFileTypeGraphicPNG;
+        testNotification.fileType = SDLFileTypePNG;
         testNotification.offset = @2532678684;
         testNotification.length = @50000000000;
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
-        expect(testNotification.fileType).to(equal(SDLFileTypeGraphicPNG));
+        expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
         expect(testNotification.length).to(equal(@50000000000));
     });
@@ -41,7 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLNameRequestType:SDLRequestTypeFileResume,
                                                    SDLNameURL:[@[@"www.google.com"] mutableCopy],
                                                    SDLNameTimeout:@52345,
-                                                   SDLNameFileType:SDLFileTypeGraphicPNG,
+                                                   SDLNameFileType:SDLFileTypePNG,
                                                    SDLNameOffset:@2532678684,
                                                    SDLNameLength:@50000000000},
                                              SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
@@ -50,7 +50,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
-        expect(testNotification.fileType).to(equal(SDLFileTypeGraphicPNG));
+        expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
         expect(testNotification.length).to(equal(@50000000000));
     });

@@ -21,25 +21,25 @@ describe(@"Getter/Setter Tests", ^ {
         SDLTextField* testStruct = [[SDLTextField alloc] init];
         
         testStruct.name = SDLTextFieldNameTertiaryText;
-        testStruct.characterSet = SDLCharacterSetType5Set;
+        testStruct.characterSet = SDLCharacterSetType5;
         testStruct.width = @111;
         testStruct.rows = @4;
         
         expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));
-        expect(testStruct.characterSet).to(equal(SDLCharacterSetType5Set));
+        expect(testStruct.characterSet).to(equal(SDLCharacterSetType5));
         expect(testStruct.width).to(equal(@111));
         expect(testStruct.rows).to(equal(@4));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameName:SDLTextFieldNameTertiaryText,
-                                       SDLNameCharacterSet:SDLCharacterSetType5Set,
+                                       SDLNameCharacterSet:SDLCharacterSetType5,
                                        SDLNameWidth:@111,
                                        SDLNameRows:@4} mutableCopy];
         SDLTextField* testStruct = [[SDLTextField alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));
-        expect(testStruct.characterSet).to(equal(SDLCharacterSetType5Set));
+        expect(testStruct.characterSet).to(equal(SDLCharacterSetType5));
         expect(testStruct.width).to(equal(@111));
         expect(testStruct.rows).to(equal(@4));
     });

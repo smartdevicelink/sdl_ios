@@ -102,18 +102,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLFileType)sdl_fileTypeFromFileExtension:(NSString *)fileExtension {
     if ([fileExtension caseInsensitiveCompare:@"bmp"] == NSOrderedSame) {
-        return SDLFileTypeGraphicBMP;
+        return SDLFileTypeBMP;
     } else if (([fileExtension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
                ([fileExtension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame)) {
-        return SDLFileTypeGraphicJPEG;
+        return SDLFileTypeJPEG;
     } else if ([fileExtension caseInsensitiveCompare:@"png"] == NSOrderedSame) {
-        return SDLFileTypeGraphicPNG;
+        return SDLFileTypePNG;
     } else if ([fileExtension caseInsensitiveCompare:@"wav"] == NSOrderedSame) {
-        return SDLFileTypeAudioWAV;
+        return SDLFileTypeWAV;
     } else if ([fileExtension caseInsensitiveCompare:@"mp3"] == NSOrderedSame) {
-        return SDLFileTypeAudioMP3;
+        return SDLFileTypeMP3;
     } else if ([fileExtension caseInsensitiveCompare:@"aac"] == NSOrderedSame) {
-        return SDLFileTypeAudioAAC;
+        return SDLFileTypeAAC;
     } else if ([fileExtension caseInsensitiveCompare:@"json"] == NSOrderedSame) {
         return SDLFileTypeJSON;
     } else {
