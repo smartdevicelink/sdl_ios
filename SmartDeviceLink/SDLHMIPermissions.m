@@ -4,12 +4,11 @@
 
 #import "SDLHMIPermissions.h"
 
-#import "SDLHMILevel.h"
 #import "SDLNames.h"
 
 @implementation SDLHMIPermissions
 
-- (void)setAllowed:(NSMutableArray *)allowed {
+- (void)setAllowed:(NSMutableArray<SDLHMILevel> *)allowed {
     if (allowed != nil) {
         [store setObject:allowed forKey:SDLNameAllowed];
     } else {
@@ -17,12 +16,12 @@
     }
 }
 
-- (NSMutableArray *)allowed {
-    NSMutableArray *array = [store objectForKey:SDLNameAllowed];
+- (NSMutableArray<SDLHMILevel> *)allowed {
+    NSMutableArray<SDLHMILevel> *array = [store objectForKey:SDLNameAllowed];
     if ([array count] < 1) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLHMILevel> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:(SDLHMILevel)enumString];
         }
@@ -30,7 +29,7 @@
     }
 }
 
-- (void)setUserDisallowed:(NSMutableArray *)userDisallowed {
+- (void)setUserDisallowed:(NSMutableArray<SDLHMILevel> *)userDisallowed {
     if (userDisallowed != nil) {
         [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
     } else {
@@ -38,17 +37,18 @@
     }
 }
 
-- (NSMutableArray *)userDisallowed {
-    NSMutableArray *array = [store objectForKey:SDLNameUserDisallowed];
+- (NSMutableArray<SDLHMILevel> *)userDisallowed {
+    NSMutableArray<SDLHMILevel> *array = [store objectForKey:SDLNameUserDisallowed];
     if ([array count] < 1) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLHMILevel> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:(SDLHMILevel)enumString];
         }
         return newList;
     }
+
 }
 
 @end

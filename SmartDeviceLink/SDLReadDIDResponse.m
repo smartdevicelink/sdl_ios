@@ -15,7 +15,7 @@
     return self;
 }
 
-- (void)setDidResult:(NSMutableArray *)didResult {
+- (void)setDidResult:(NSMutableArray<SDLDIDResult *> *)didResult {
     if (didResult != nil) {
         [parameters setObject:didResult forKey:SDLNameDIDResult];
     } else {
@@ -23,12 +23,12 @@
     }
 }
 
-- (NSMutableArray *)didResult {
-    NSMutableArray *array = [parameters objectForKey:SDLNameDIDResult];
+- (NSMutableArray<SDLDIDResult *> *)didResult {
+    NSMutableArray<SDLDIDResult *> *array = [parameters objectForKey:SDLNameDIDResult];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLDIDResult.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLDIDResult *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSDictionary *)dict]];
         }

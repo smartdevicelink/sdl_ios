@@ -16,12 +16,12 @@
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property (strong) NSMutableArray *allowed;
+@property (strong) NSMutableArray<NSString *> *allowed;
 /**
  * @abstract A set of all parameters that are prohibited for this given RPC.
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property (strong) NSMutableArray *userDisallowed;
+@property (strong) NSMutableArray<NSString *> *userDisallowed;
 
 @end

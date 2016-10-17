@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setFilenames:(NSMutableArray *)filenames {
+- (void)setFilenames:(NSMutableArray<NSString *> *)filenames {
     if (filenames != nil) {
         [parameters setObject:filenames forKey:SDLNameFilenames];
     } else {
@@ -22,7 +22,7 @@
     }
 }
 
-- (NSMutableArray *)filenames {
+- (NSMutableArray<NSString *> *)filenames {
     return [parameters objectForKey:SDLNameFilenames];
 }
 

@@ -13,7 +13,7 @@
     return self;
 }
 
-- (void)setData:(NSMutableArray *)data {
+- (void)setData:(NSMutableArray<NSString *> *)data {
     if (data != nil) {
         [parameters setObject:data forKey:SDLNameData];
     } else {
@@ -21,7 +21,7 @@
     }
 }
 
-- (NSMutableArray *)data {
+- (NSMutableArray<NSString *> *)data {
     return [parameters objectForKey:SDLNameData];
 }
 

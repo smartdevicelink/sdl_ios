@@ -66,7 +66,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  *
  *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
  */
-@property (strong, nonatomic, null_resettable) NSDictionary *videoEncoderSettings;
+@property (strong, nonatomic, null_resettable) NSDictionary<NSString *, id> *videoEncoderSettings;
 
 /**
  *  Display capabilties that will set the screenSize property. If set to nil, the SDLDefaultScreenSize will be used.
@@ -78,7 +78,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 /**
  *  Provides default video encoder settings used.
  */
-@property (strong, nonatomic, readonly) NSDictionary *defaultVideoEncoderSettings;
+@property (strong, nonatomic, readonly) NSDictionary<NSString *, id> *defaultVideoEncoderSettings;
 
 /**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.

@@ -123,7 +123,7 @@ describe(@"Send Location RPC", ^{
                 someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
-                NSDictionary *initDict = @{
+                NSDictionary<NSString *, id> *initDict = @{
                                            SDLNameRequest: @{
                                                    SDLNameParameters: @{
                                                            SDLNameLongitudeDegrees: someLongitude,
@@ -179,7 +179,7 @@ describe(@"Send Location RPC", ^{
     
         context(@"when parameters are not set", ^{
             beforeEach(^{
-                NSDictionary *initDict = @{
+                NSDictionary<NSString *, id> *initDict = @{
                                            SDLNameRequest: @{
                                                    SDLNameParameters: @{}
                                                    }

@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLGlobalProperty.h"
+
 /**
  * Resets the passed global properties to their default values as defined by
  * SDL
@@ -26,6 +28,6 @@
  * @abstract An array of one or more GlobalProperty enumeration elements
  * indicating which global properties to reset to their default value
  */
-@property (strong) NSMutableArray *properties;
+@property (strong) NSMutableArray<SDLGlobalProperty> *properties;
 
 @end

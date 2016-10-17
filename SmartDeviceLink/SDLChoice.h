@@ -71,7 +71,7 @@
  *
  * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
  */
-@property (strong) NSMutableArray *vrCommands;
+@property (strong) NSMutableArray<NSString *> *vrCommands;
 
 /**
  * @abstract The image of the choice

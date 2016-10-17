@@ -3,11 +3,13 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLAppHMIType.h"
 #import "SDLLanguage.h"
 
+@class SDLAppInfo;
 @class SDLDeviceInfo;
 @class SDLSyncMsgVersion;
-@class SDLAppInfo;
+@class SDLTTSChunk;
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of
@@ -116,7 +118,7 @@
  * @since SDL 2.0
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray *ttsName;
+@property (strong) NSMutableArray<SDLTTSChunk *> *ttsName;
 
 /**
  * @abstract A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
@@ -134,7 +136,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 100, Max String length 40
  */
-@property (strong) NSMutableArray *vrSynonyms;
+@property (strong) NSMutableArray<NSString *> *vrSynonyms;
 
 /**
  * @abstract Indicates if the application is a media or a non-media application.
@@ -173,7 +175,7 @@
  * @since SDL 2.0
  * @see SDLAppHMIType
  */
-@property (strong) NSMutableArray *appHMIType;
+@property (strong) NSMutableArray<SDLAppHMIType> *appHMIType;
 
 /**
  * @abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).

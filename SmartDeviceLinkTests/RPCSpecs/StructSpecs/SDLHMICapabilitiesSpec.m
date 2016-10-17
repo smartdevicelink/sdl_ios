@@ -35,7 +35,7 @@ describe(@"SDLHMICapabilities struct", ^{
     
     context(@"When initialized with a dictionary", ^{
         beforeEach(^{
-            NSDictionary *structInitDict = @{
+            NSDictionary<NSString *, NSNumber *> *structInitDict = @{
                                              SDLNameNavigation: someNavigationState,
                                              SDLNamePhoneCall: somePhoneCallState
                                              };

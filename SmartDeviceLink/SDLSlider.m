@@ -50,7 +50,7 @@
     return [parameters objectForKey:SDLNameSliderHeader];
 }
 
-- (void)setSliderFooter:(NSMutableArray *)sliderFooter {
+- (void)setSliderFooter:(NSMutableArray<NSString *> *)sliderFooter {
     if (sliderFooter != nil) {
         [parameters setObject:sliderFooter forKey:SDLNameSliderFooter];
     } else {
@@ -58,7 +58,7 @@
     }
 }
 
-- (NSMutableArray *)sliderFooter {
+- (NSMutableArray<NSString *> *)sliderFooter {
     return [parameters objectForKey:SDLNameSliderFooter];
 }
 

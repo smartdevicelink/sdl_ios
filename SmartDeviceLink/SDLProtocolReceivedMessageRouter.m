@@ -12,7 +12,7 @@
 @interface SDLProtocolReceivedMessageRouter ()
 
 @property (assign) BOOL alreadyDestructed;
-@property (strong) NSMutableDictionary *messageAssemblers;
+@property (strong) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
 
 @end
 

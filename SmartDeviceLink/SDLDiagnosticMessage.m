@@ -38,7 +38,7 @@
     return [parameters objectForKey:SDLNameMessageLength];
 }
 
-- (void)setMessageData:(NSMutableArray *)messageData {
+- (void)setMessageData:(NSMutableArray<NSNumber *> *)messageData {
     if (messageData != nil) {
         [parameters setObject:messageData forKey:SDLNameMessageData];
     } else {
@@ -46,7 +46,7 @@
     }
 }
 
-- (NSMutableArray *)messageData {
+- (NSMutableArray<NSNumber *> *)messageData {
     return [parameters objectForKey:SDLNameMessageData];
 }
 

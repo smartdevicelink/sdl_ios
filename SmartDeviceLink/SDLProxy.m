@@ -297,11 +297,11 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)incomingMessage {
     // Convert protocol message to dictionary
-    NSDictionary *rpcMessageAsDictionary = [incomingMessage rpcDictionary];
+    NSDictionary<NSString *, id> *rpcMessageAsDictionary = [incomingMessage rpcDictionary];
     [self handleRPCDictionary:rpcMessageAsDictionary];
 }
 
-- (void)handleRPCDictionary:(NSDictionary *)dict {
+- (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dict {
     SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:[dict mutableCopy]];
     NSString *functionName = [message getFunctionName];
     NSString *messageType = [message messageType];
@@ -363,14 +363,14 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleRpcMessage:(NSDictionary *)msg {
+- (void)handleRpcMessage:(NSDictionary<NSString *, id> *)msg {
     [self handleRPCDictionary:msg];
 }
 
 
 #pragma mark - RPC Handlers
 
-- (void)handleRPCUnregistered:(NSDictionary *)messageDictionary {
+- (void)handleRPCUnregistered:(NSDictionary<NSString *, id> *)messageDictionary {
     NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", messageDictionary];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     [self notifyProxyClosed];
@@ -401,7 +401,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     NSString *urlString = (NSString *)[message getParameters:@"URL"];
-    NSDictionary *encodedSyncPData = (NSDictionary *)[message getParameters:@"data"];
+    NSDictionary<NSString *, id> *encodedSyncPData = (NSDictionary<NSString *, id> *)[message getParameters:@"data"];
     NSNumber *encodedSyncPTimeout = (NSNumber *)[message getParameters:@"Timeout"];
 
     if (urlString && encodedSyncPData && encodedSyncPTimeout) {
@@ -409,7 +409,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleSystemRequest:(NSDictionary *)dict {
+- (void)handleSystemRequest:(NSDictionary<NSString *, id> *)dict {
     [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
@@ -470,12 +470,12 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
-    NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
+    NSDictionary<NSString *, id> *JSONDictionary = [self validateAndParseSystemRequest:request];
     if (JSONDictionary == nil || request.url == nil) {
         return;
     }
 
-    NSDictionary *requestData = JSONDictionary[@"HTTPRequest"];
+    NSDictionary<NSString *, id> *requestData = JSONDictionary[@"HTTPRequest"];
     NSString *bodyString = requestData[@"body"];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -590,7 +590,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
-- (NSDictionary *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
+- (NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
     SDLFileType fileType = request.fileType;
 
@@ -607,7 +607,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Get data dictionary from the bulkData
     NSError *error = nil;
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
+    NSDictionary<NSString *, id> *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
     if (error != nil) {
         [SDLDebugTool logInfo:@"OnSystemRequest failure: notification data is not valid JSON." withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
@@ -645,13 +645,13 @@ const int POLICIES_CORRELATION_ID = 65535;
  *  @param urlString         A string containing the URL to send the upload to
  *  @param completionHandler A completion handler returning the response from the server to the upload task
  */
-- (void)uploadForBodyDataDictionary:(NSDictionary *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+- (void)uploadForBodyDataDictionary:(NSDictionary<NSString *, id> *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
     NSParameterAssert(dictionary != nil);
     NSParameterAssert(urlString != nil);
     NSParameterAssert(completionHandler != NULL);
 
     // Extract data from the dictionary
-    NSDictionary *requestData = dictionary[@"HTTPRequest"];
+    NSDictionary<NSString *, id> *requestData = dictionary[@"HTTPRequest"];
     NSDictionary *headers = requestData[@"headers"];
     NSString *contentType = headers[@"ContentType"];
     NSTimeInterval timeout = [headers[@"ConnectTimeout"] doubleValue];
@@ -705,7 +705,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - System Request and SyncP handling
 
-- (void)sendEncodedSyncPData:(NSDictionary *)encodedSyncPData toURL:(NSString *)urlString withTimeout:(NSNumber *)timeout {
+- (void)sendEncodedSyncPData:(NSDictionary<NSString *, id> *)encodedSyncPData toURL:(NSString *)urlString withTimeout:(NSNumber *)timeout {
     // Configure HTTP URL & Request
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -716,7 +716,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
     NSArray<NSString *> *array = [NSArray arrayWithObject:encodedSyncPDataString];
-    NSDictionary *dictionary = @{ @"data": array };
+    NSDictionary<NSString *, id> *dictionary = @{ @"data": array };
     NSError *JSONSerializationError = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
     if (JSONSerializationError) {
@@ -748,7 +748,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Convert data to RPCRequest
     NSError *JSONConversionError = nil;
-    NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
+    NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
     if (!JSONConversionError) {
         SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
         request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];

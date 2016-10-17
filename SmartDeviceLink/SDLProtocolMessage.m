@@ -33,7 +33,7 @@
     return self;
 }
 
-- (NSDictionary *)rpcDictionary {
+- (NSDictionary<NSString *, id> *)rpcDictionary {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }

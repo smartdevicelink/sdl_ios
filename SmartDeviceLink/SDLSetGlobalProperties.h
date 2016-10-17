@@ -5,7 +5,8 @@
 
 @class SDLImage;
 @class SDLKeyboardProperties;
-
+@class SDLTTSChunk;
+@class SDLVRHelpItem;
 
 /**
  * Sets value(s) for the specified global property(ies)
@@ -32,14 +33,14 @@
  *            <li>Only optional it timeoutPrompt has been specified</li>
  *            </ul>
  */
-@property (strong) NSMutableArray *helpPrompt;
+@property (strong) NSMutableArray<SDLTTSChunk *> *helpPrompt;
 /**
  * @abstract A Vector<TTSChunk> for Timeout Prompt representing Array of one or
  * more TTSChunk elements specifying the help prompt used in an interaction
  * started by PTT
  *
  */
-@property (strong) NSMutableArray *timeoutPrompt;
+@property (strong) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
 /**
  * @abstract Sets a voice recognition Help Title
  *
@@ -76,7 +77,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *vrHelp;
+@property (strong) NSMutableArray<SDLVRHelpItem *> *vrHelp;
 @property (strong) NSString *menuTitle;
 @property (strong) SDLImage *menuIcon;
 @property (strong) SDLKeyboardProperties *keyboardProperties;

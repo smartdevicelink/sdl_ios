@@ -7,6 +7,8 @@
 #import "SDLBitsPerSample.h"
 #import "SDLSamplingRate.h"
 
+@class SDLTTSChunk;
+
 /**
  * This will open an audio pass thru session. By doing so the app can receive
  * audio data through the vehicle microphone
@@ -38,7 +40,7 @@
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (strong) NSMutableArray *initialPrompt;
+@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1

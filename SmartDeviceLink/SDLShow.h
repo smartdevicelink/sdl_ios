@@ -6,7 +6,7 @@
 #import "SDLTextAlignment.h"
 
 @class SDLImage;
-
+@class SDLSoftButton;
 
 /**
  * Updates the application's display text area, regardless of whether or not
@@ -204,7 +204,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -218,6 +218,6 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *customPresets;
+@property (strong) NSMutableArray<NSString *> *customPresets;
 
 @end
