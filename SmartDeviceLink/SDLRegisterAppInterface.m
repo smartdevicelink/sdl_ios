@@ -50,7 +50,7 @@
     return [parameters objectForKey:SDLNameAppName];
 }
 
-- (void)setTtsName:(NSMutableArray *)ttsName {
+- (void)setTtsName:(NSMutableArray<SDLTTSChunk *> *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:ttsName forKey:SDLNameTTSName];
     } else {
@@ -58,12 +58,12 @@
     }
 }
 
-- (NSMutableArray *)ttsName {
-    NSMutableArray *array = [parameters objectForKey:SDLNameTTSName];
+- (NSMutableArray<SDLTTSChunk *> *)ttsName {
+    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTTSName];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
         }
@@ -83,7 +83,7 @@
     return [parameters objectForKey:SDLNameNGNMediaScreenAppName];
 }
 
-- (void)setVrSynonyms:(NSMutableArray *)vrSynonyms {
+- (void)setVrSynonyms:(NSMutableArray<NSString *> *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:vrSynonyms forKey:SDLNameVRSynonyms];
     } else {
@@ -91,7 +91,7 @@
     }
 }
 
-- (NSMutableArray *)vrSynonyms {
+- (NSMutableArray<NSString *> *)vrSynonyms {
     return [parameters objectForKey:SDLNameVRSynonyms];
 }
 
@@ -141,7 +141,7 @@
     }
 }
 
-- (void)setAppHMIType:(NSMutableArray *)appHMIType {
+- (void)setAppHMIType:(NSMutableArray<SDLAppHMIType *> *)appHMIType {
     if (appHMIType != nil) {
         [parameters setObject:appHMIType forKey:SDLNameAppHMIType];
     } else {
@@ -149,12 +149,12 @@
     }
 }
 
-- (NSMutableArray *)appHMIType {
-    NSMutableArray *array = [parameters objectForKey:SDLNameAppHMIType];
+- (NSMutableArray<SDLAppHMIType *> *)appHMIType {
+    NSMutableArray<SDLAppHMIType *> *array = [parameters objectForKey:SDLNameAppHMIType];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAppHMIType.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLAppHMIType *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLAppHMIType valueOf:enumString]];
         }

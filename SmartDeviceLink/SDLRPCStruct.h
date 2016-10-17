@@ -5,12 +5,12 @@
 #import <Foundation/Foundation.h>
 
 @interface SDLRPCStruct : NSObject {
-    NSMutableDictionary *store;
+    NSMutableDictionary<NSString *, id> *store;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict;
 - (instancetype)init;
 
-- (NSDictionary *)serializeAsDictionary:(Byte)version;
+- (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version;
 
 @end

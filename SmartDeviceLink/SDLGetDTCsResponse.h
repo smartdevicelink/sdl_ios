@@ -12,6 +12,6 @@
 @interface SDLGetDTCsResponse : SDLRPCResponse
 
 @property (strong) NSNumber *ecuHeader;
-@property (strong) NSMutableArray *dtc;
+@property (strong) NSMutableArray<NSString *> *dtc;
 
 @end

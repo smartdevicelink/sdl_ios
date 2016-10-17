@@ -4,6 +4,8 @@
 
 #import "SDLRPCMessage.h"
 
+@class SDLTouchCoord;
+
 @interface SDLTouchEvent : SDLRPCStruct
 
 /**
@@ -26,11 +28,11 @@
  
  Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000
  */
-@property (strong) NSMutableArray *timeStamp;
+@property (strong) NSMutableArray<NSNumber *> *timeStamp;
 
 /**
  *  Mandatory, array size 1-1000, contains SDLTouchCoord
  */
-@property (strong) NSMutableArray *coord;
+@property (strong) NSMutableArray<SDLTouchCoord *> *coord;
 
 @end

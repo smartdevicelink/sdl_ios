@@ -53,7 +53,7 @@
     return parameters[SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray *)addressLines {
+- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
     if (addressLines != nil) {
         parameters[SDLNameAddressLines] = addressLines;
     } else {
@@ -73,7 +73,7 @@
     }
 }
 
-- (NSArray *)addressLines {
+- (NSArray<NSString *> *)addressLines {
     return parameters[SDLNameAddressLines];
 }
 

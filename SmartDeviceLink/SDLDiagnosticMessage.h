@@ -30,6 +30,6 @@
  *
  * Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255
  */
-@property (strong) NSMutableArray *messageData;
+@property (strong) NSMutableArray<NSNumber *> *messageData;
 
 @end

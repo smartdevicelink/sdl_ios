@@ -26,7 +26,7 @@
     return [parameters objectForKey:SDLNameECUName];
 }
 
-- (void)setDidLocation:(NSMutableArray *)didLocation {
+- (void)setDidLocation:(NSMutableArray<NSNumber *> *)didLocation {
     if (didLocation != nil) {
         [parameters setObject:didLocation forKey:SDLNameDIDLocation];
     } else {
@@ -34,7 +34,7 @@
     }
 }
 
-- (NSMutableArray *)didLocation {
+- (NSMutableArray<NSNumber *> *)didLocation {
     return [parameters objectForKey:SDLNameDIDLocation];
 }
 

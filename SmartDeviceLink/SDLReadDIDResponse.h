@@ -4,6 +4,8 @@
 
 #import "SDLRPCResponse.h"
 
+@class SDLDIDResult;
+
 /**
  * Read DID Response is sent, when ReadDID has been called
  *
@@ -11,6 +13,6 @@
  */
 @interface SDLReadDIDResponse : SDLRPCResponse
 
-@property (strong) NSMutableArray *didResult;
+@property (strong) NSMutableArray<SDLDIDResult *> *didResult;
 
 @end

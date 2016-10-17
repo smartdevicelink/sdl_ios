@@ -26,7 +26,7 @@
     return [parameters objectForKey:SDLNameECUHeader];
 }
 
-- (void)setDtc:(NSMutableArray *)dtc {
+- (void)setDtc:(NSMutableArray<NSString *> *)dtc {
     if (dtc != nil) {
         [parameters setObject:dtc forKey:SDLNameDTC];
     } else {
@@ -34,7 +34,7 @@
     }
 }
 
-- (NSMutableArray *)dtc {
+- (NSMutableArray<NSString *> *)dtc {
     return [parameters objectForKey:SDLNameDTC];
 }
 

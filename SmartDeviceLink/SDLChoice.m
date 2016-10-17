@@ -32,7 +32,7 @@
     return [store objectForKey:SDLNameMenuName];
 }
 
-- (void)setVrCommands:(NSMutableArray *)vrCommands {
+- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
     if (vrCommands != nil) {
         [store setObject:vrCommands forKey:SDLNameVRCommands];
     } else {
@@ -40,7 +40,7 @@
     }
 }
 
-- (NSMutableArray *)vrCommands {
+- (NSMutableArray<NSString *> *)vrCommands {
     return [store objectForKey:SDLNameVRCommands];
 }
 

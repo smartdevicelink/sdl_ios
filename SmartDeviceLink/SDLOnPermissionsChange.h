@@ -3,6 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
+@class SDLPermissionItem;
 
 /**
  * Provides update to app of which sets of functions are available
@@ -18,6 +19,6 @@
  *
  * @see SDLPermissionItem
  */
-@property (strong) NSMutableArray *permissionItem;
+@property (strong) NSMutableArray<SDLPermissionItem *> *permissionItem;
 
 @end

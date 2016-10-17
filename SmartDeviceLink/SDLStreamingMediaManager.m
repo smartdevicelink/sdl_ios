@@ -232,7 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Update video encoder
 
-- (void)setVideoEncoderSettings:(NSDictionary *_Nullable)videoEncoderSettings {
+- (void)setVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)videoEncoderSettings {
     if (self.videoSessionConnected) {
         @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
         return;
@@ -255,8 +255,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_updateScreenSizeFromDisplayCapabilities:displayCapabilties];
 }
 
-- (NSDictionary *)defaultVideoEncoderSettings {
-    static NSDictionary *defaultVideoEncoderSettings = nil;
+- (NSDictionary<NSString *, id> *)defaultVideoEncoderSettings {
+    static NSDictionary<NSString *, id> *defaultVideoEncoderSettings = nil;
     if (defaultVideoEncoderSettings == nil) {
         defaultVideoEncoderSettings = @{
             (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,

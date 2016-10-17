@@ -38,7 +38,7 @@
  *
  *  Optional, Array of SDLTTSChunk, 1 - 100 elements
  */
-@property (copy, nonatomic) NSArray *ttsName;
+@property (copy, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
 
 /**
  *  Request a new app short name registration
@@ -52,6 +52,6 @@
  *
  *  Optional, Array of NSString, 1 - 100 elements, max string length 40 chars
  */
-@property (copy, nonatomic) NSArray *vrSynonyms;
+@property (copy, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 @end

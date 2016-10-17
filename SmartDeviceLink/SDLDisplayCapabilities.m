@@ -29,7 +29,7 @@
     }
 }
 
-- (void)setTextFields:(NSMutableArray *)textFields {
+- (void)setTextFields:(NSMutableArray<SDLTextField *> *)textFields {
     if (textFields != nil) {
         [store setObject:textFields forKey:SDLNameTextFields];
     } else {
@@ -37,12 +37,12 @@
     }
 }
 
-- (NSMutableArray *)textFields {
-    NSMutableArray *array = [store objectForKey:SDLNameTextFields];
+- (NSMutableArray<SDLTextField *> *)textFields {
+    NSMutableArray<SDLTextField *> *array = [store objectForKey:SDLNameTextFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTextField.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLTextField *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLTextField alloc] initWithDictionary:(NSDictionary *)dict]];
         }
@@ -50,7 +50,7 @@
     }
 }
 
-- (void)setImageFields:(NSMutableArray *)imageFields {
+- (void)setImageFields:(NSMutableArray<SDLImageField *> *)imageFields {
     if (imageFields != nil) {
         [store setObject:imageFields forKey:SDLNameImageFields];
     } else {
@@ -58,12 +58,12 @@
     }
 }
 
-- (NSMutableArray *)imageFields {
-    NSMutableArray *array = [store objectForKey:SDLNameImageFields];
+- (NSMutableArray<SDLImageField *> *)imageFields {
+    NSMutableArray<SDLImageField *> *array = [store objectForKey:SDLNameImageFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLImageField.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLImageField *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLImageField alloc] initWithDictionary:(NSDictionary *)dict]];
         }
@@ -71,7 +71,7 @@
     }
 }
 
-- (void)setMediaClockFormats:(NSMutableArray *)mediaClockFormats {
+- (void)setMediaClockFormats:(NSMutableArray<SDLMediaClockFormat *> *)mediaClockFormats {
     if (mediaClockFormats != nil) {
         [store setObject:mediaClockFormats forKey:SDLNameMediaClockFormats];
     } else {
@@ -79,12 +79,12 @@
     }
 }
 
-- (NSMutableArray *)mediaClockFormats {
-    NSMutableArray *array = [store objectForKey:SDLNameMediaClockFormats];
+- (NSMutableArray<SDLMediaClockFormat *> *)mediaClockFormats {
+    NSMutableArray<SDLMediaClockFormat *> *array = [store objectForKey:SDLNameMediaClockFormats];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLMediaClockFormat.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLMediaClockFormat *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLMediaClockFormat valueOf:enumString]];
         }
@@ -104,7 +104,7 @@
     return [store objectForKey:SDLNameGraphicSupported];
 }
 
-- (void)setTemplatesAvailable:(NSMutableArray *)templatesAvailable {
+- (void)setTemplatesAvailable:(NSMutableArray<NSString *> *)templatesAvailable {
     if (templatesAvailable != nil) {
         [store setObject:templatesAvailable forKey:SDLNameTemplatesAvailable];
     } else {
@@ -112,7 +112,7 @@
     }
 }
 
-- (NSMutableArray *)templatesAvailable {
+- (NSMutableArray<NSString *> *)templatesAvailable {
     return [store objectForKey:SDLNameTemplatesAvailable];
 }
 
