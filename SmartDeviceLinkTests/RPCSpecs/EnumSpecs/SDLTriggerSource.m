@@ -15,7 +15,7 @@ QuickSpecBegin(SDLTriggerSourceSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLTriggerSourceMenu).to(equal(@"MENU"));
-        expect(SDLTriggerSourceVR).to(equal(@"VR"));
+        expect(SDLTriggerSourceVoiceRecognition).to(equal(@"VR"));
         expect(SDLTriggerSourceKeyboard).to(equal(@"KEYBOARD"));
     });
 });

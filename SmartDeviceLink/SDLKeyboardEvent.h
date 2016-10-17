@@ -19,19 +19,19 @@ extern SDLKeyboardEvent const SDLKeyboardEventKeypress;
 /** The User has finished entering text from the keyboard and submitted the entry.
  *
  */
-extern SDLKeyboardEvent const SDLKeyboardEventEntrySubmitted;
+extern SDLKeyboardEvent const SDLKeyboardEventSubmitted;
 
 /** The User has pressed the HMI-defined "Cancel" button.
  *
  */
-extern SDLKeyboardEvent const SDLKeyboardEventEntryCancelled;
+extern SDLKeyboardEvent const SDLKeyboardEventCancelled;
 
 /** The User has not finished entering text and the keyboard is aborted with the event of higher priority.
  *
  */
-extern SDLKeyboardEvent const SDLKeyboardEventEntryAborted;
+extern SDLKeyboardEvent const SDLKeyboardEventAborted;
 
 /**
  * @since SDL 4.0
  */
-extern SDLKeyboardEvent const SDLKeyboardEventEntryVoice;
+extern SDLKeyboardEvent const SDLKeyboardEventVoice;

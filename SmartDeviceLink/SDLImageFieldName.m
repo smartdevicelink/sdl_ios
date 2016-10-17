@@ -7,7 +7,7 @@
 SDLImageFieldName const SDLImageFieldNameSoftButtonImage = @"softButtonImage";
 SDLImageFieldName const SDLImageFieldNameChoiceImage = @"choiceImage";
 SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage = @"choiceSecondaryImage";
-SDLImageFieldName const SDLImageFieldNameVRHelpItem = @"vrHelpItem";
+SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem = @"vrHelpItem";
 SDLImageFieldName const SDLImageFieldNameTurnIcon = @"turnIcon";
 SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
 SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";

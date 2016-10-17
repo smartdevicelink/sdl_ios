@@ -21,7 +21,7 @@ extern SDLInteractionMode const SDLInteractionModeManualOnly;
  * @abstract Interaction Mode : VR Only
  * @discussion This mode causes the interaction to occur only through TTS and VR. The user is prompted via TTS to select a choice by saying one of the choice's synonyms
  */
-extern SDLInteractionMode const SDLInteractionModeVROnly;
+extern SDLInteractionMode const SDLInteractionModeVoiceRecognitionOnly;
 
 /**
  * @abstract Interaction Mode : Manual & VR

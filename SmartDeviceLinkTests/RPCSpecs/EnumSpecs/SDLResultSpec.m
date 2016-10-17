@@ -26,7 +26,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLResultVehicleDataNotAvailable).to(equal(@"VEHICLE_DATA_NOT_AVAILABLE"));
         expect(SDLResultTimedOut).to(equal(@"TIMED_OUT"));
         expect(SDLResultInvalidData).to(equal(@"INVALID_DATA"));
-        expect(SDLResultCharLimitExceeded).to(equal(@"CHAR_LIMIT_EXCEEDED"));
+        expect(SDLResultCharacterLimitExceeded).to(equal(@"CHAR_LIMIT_EXCEEDED"));
         expect(SDLResultInvalidId).to(equal(@"INVALID_ID"));
         expect(SDLResultDuplicateName).to(equal(@"DUPLICATE_NAME"));
         expect(SDLResultApplicationNotRegistered).to(equal(@"APPLICATION_NOT_REGISTERED"));

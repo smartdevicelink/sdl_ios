@@ -29,7 +29,7 @@ extern SDLResult const SDLResultSuccess;
  */
 extern SDLResult const SDLResultInvalidData;
 
-extern SDLResult const SDLResultCharLimitExceeded;
+extern SDLResult const SDLResultCharacterLimitExceeded;
 
 /**
  * @abstract The request is not supported by SDL

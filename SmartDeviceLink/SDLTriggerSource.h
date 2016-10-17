@@ -19,7 +19,7 @@ extern SDLTriggerSource const SDLTriggerSourceMenu;
 /**
  * @abstract Selection made via Voice session
  */
-extern SDLTriggerSource const SDLTriggerSourceVR;
+extern SDLTriggerSource const SDLTriggerSourceVoiceRecognition;
 
 /**
  * @abstract Selection made via Keyboard

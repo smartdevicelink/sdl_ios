@@ -6,7 +6,7 @@
 
 SDLResult const SDLResultSuccess = @"SUCCESS";
 SDLResult const SDLResultInvalidData = @"INVALID_DATA";
-SDLResult const SDLResultCharLimitExceeded = @"CHAR_LIMIT_EXCEEDED";
+SDLResult const SDLResultCharacterLimitExceeded = @"CHAR_LIMIT_EXCEEDED";
 SDLResult const SDLResultUnsupportedRequest = @"UNSUPPORTED_REQUEST";
 SDLResult const SDLResultOutOfMemory = @"OUT_OF_MEMORY";
 SDLResult const SDLResultTooManyPendingRequests = @"TOO_MANY_PENDING_REQUESTS";

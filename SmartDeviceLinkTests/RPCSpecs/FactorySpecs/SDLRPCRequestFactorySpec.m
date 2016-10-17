@@ -414,7 +414,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
         it(@"Should build correctly", ^ {
             NSArray<SDLVRHelpItem *> *vrHelp = @[[[SDLVRHelpItem alloc] init]];
             SDLPerformInteraction* message = [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:@"Nothing" initialText:@"Still Nothing" interactionChoiceSetIDList:@[@4223, @1337]
-                                                                   helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:SDLInteractionModeVROnly
+                                                                   helpPrompt:@"A Whole Lot of Nothing" timeoutPrompt:@"Time Remaining" interactionMode:SDLInteractionModeVoiceRecognitionOnly
                                                                    timeout:@5600 vrHelp:vrHelp correlationID:@31564];
             
             expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@"Nothing"));
@@ -422,7 +422,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
             expect(message.interactionChoiceSetIDList).to(equal(@[@4223, @1337]));
             expect(((SDLTTSChunk*)[message helpPrompt][0]).text).to(equal(@"A Whole Lot of Nothing"));
             expect(((SDLTTSChunk*)[message timeoutPrompt][0]).text).to(equal(@"Time Remaining"));
-            expect(message.interactionMode).to(equal(SDLInteractionModeVROnly));
+            expect(message.interactionMode).to(equal(SDLInteractionModeVoiceRecognitionOnly));
             expect(message.timeout).to(equal(@5600));
             expect(message.vrHelp).to(equal(vrHelp));
             expect(message.interactionLayout).to(beNil());

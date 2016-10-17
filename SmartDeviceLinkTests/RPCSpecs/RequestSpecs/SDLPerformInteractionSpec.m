@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         testRequest.initialText = @"a";
         testRequest.initialPrompt = [@[chunk1] mutableCopy];
-        testRequest.interactionMode = SDLInteractionModeVROnly;
+        testRequest.interactionMode = SDLInteractionModeVoiceRecognitionOnly;
         testRequest.interactionChoiceSetIDList = [@[@1, @2, @3] mutableCopy];
         testRequest.helpPrompt = [@[chunk2] mutableCopy];
         testRequest.timeoutPrompt = [@[chunk3] mutableCopy];
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));
-        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVROnly));
+        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVoiceRecognitionOnly));
         expect(testRequest.interactionChoiceSetIDList).to(equal([@[@1, @2, @3] mutableCopy]));
         expect(testRequest.helpPrompt).to(equal([@[chunk2] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk3] mutableCopy]));
@@ -52,7 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameInitialText:@"a",
                                                    SDLNameInitialPrompt:[@[chunk1] mutableCopy],
-                                                   SDLNameInteractionMode:SDLInteractionModeVROnly,
+                                                   SDLNameInteractionMode:SDLInteractionModeVoiceRecognitionOnly,
                                                    SDLNameInteractionChoiceSetIdList:[@[@1, @2, @3] mutableCopy],
                                                    SDLNameHelpPrompt:[@[chunk2] mutableCopy],
                                                    SDLNameTimeoutPrompt:[@[chunk3] mutableCopy],
@@ -64,7 +64,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testRequest.initialText).to(equal(@"a"));
         expect(testRequest.initialPrompt).to(equal([@[chunk1] mutableCopy]));
-        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVROnly));
+        expect(testRequest.interactionMode).to(equal(SDLInteractionModeVoiceRecognitionOnly));
         expect(testRequest.interactionChoiceSetIDList).to(equal([@[@1, @2, @3] mutableCopy]));
         expect(testRequest.helpPrompt).to(equal([@[chunk2] mutableCopy]));
         expect(testRequest.timeoutPrompt).to(equal([@[chunk3] mutableCopy]));

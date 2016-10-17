@@ -18,19 +18,19 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLResetGlobalProperties* testRequest = [[SDLResetGlobalProperties alloc] init];
         
-        testRequest.properties = [@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVRHelpTitle] copy];
+        testRequest.properties = [@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy];
         
-        expect(testRequest.properties).to(equal([@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVRHelpTitle] copy]));
+        expect(testRequest.properties).to(equal([@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy]));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameProperties:[@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVRHelpTitle] copy]},
+                                                 @{SDLNameProperties:[@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy]},
                                              SDLNameOperationName:SDLNameResetGlobalProperties}} mutableCopy];
         SDLResetGlobalProperties* testRequest = [[SDLResetGlobalProperties alloc] initWithDictionary:dict];
         
-        expect(testRequest.properties).to(equal([@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVRHelpTitle] copy]));
+        expect(testRequest.properties).to(equal([@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy]));
     });
     
     it(@"Should return nil if not set", ^ {

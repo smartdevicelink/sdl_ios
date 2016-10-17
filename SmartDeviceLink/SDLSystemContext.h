@@ -19,7 +19,7 @@ extern SDLSystemContext const SDLSystemContextMain;
 /**
  * @abstract VR-oriented, user-initiated or app-initiated interaction is in-progress.
  */
-extern SDLSystemContext const SDLSystemContextVRSession;
+extern SDLSystemContext const SDLSystemContextVoiceRecognitionSession;
 
 /**
  * @abstract Menu-oriented, user-initiated or app-initiated interaction is in-progress.

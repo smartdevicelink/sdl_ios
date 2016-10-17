@@ -30,7 +30,7 @@ extern SDLImageFieldName const SDLImageFieldNameChoiceSecondaryImage;
 /** The image field for vrHelpItem.
  *
  */
-extern SDLImageFieldName const SDLImageFieldNameVRHelpItem;
+extern SDLImageFieldName const SDLImageFieldNameVoiceRecognitionHelpItem;
 
 /** The image field for Turn.
  *

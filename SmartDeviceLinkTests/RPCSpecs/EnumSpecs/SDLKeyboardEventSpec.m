@@ -15,10 +15,10 @@ QuickSpecBegin(SDLKeyboardEventSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLKeyboardEventKeypress).to(equal(@"KEYPRESS"));
-        expect(SDLKeyboardEventEntrySubmitted).to(equal(@"ENTRY_SUBMITTED"));
-        expect(SDLKeyboardEventEntryCancelled).to(equal(@"ENTRY_CANCELLED"));
-        expect(SDLKeyboardEventEntryAborted).to(equal(@"ENTRY_ABORTED"));
-        expect(SDLKeyboardEventEntryVoice).to(equal(@"ENTRY_VOICE"));
+        expect(SDLKeyboardEventSubmitted).to(equal(@"ENTRY_SUBMITTED"));
+        expect(SDLKeyboardEventCancelled).to(equal(@"ENTRY_CANCELLED"));
+        expect(SDLKeyboardEventAborted).to(equal(@"ENTRY_ABORTED"));
+        expect(SDLKeyboardEventVoice).to(equal(@"ENTRY_VOICE"));
     });
 });
 
