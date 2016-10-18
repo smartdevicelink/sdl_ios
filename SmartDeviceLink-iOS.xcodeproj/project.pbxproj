@@ -877,6 +877,7 @@
 		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
 		DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */; };
 		DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */; };
+		DA5B71791DB57B180087266E /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA5B71781DB57B180087266E /* SDLMacros.h */; };
 		DA7515B11D95FAA000F29323 /* lock_arrow_down_black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */; };
 		DA7515B21D95FAA000F29323 /* lock_arrow_down_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */; };
 		DA7515B31D95FAA000F29323 /* lock_arrow_down_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */; };
@@ -1865,6 +1866,7 @@
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
 		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
+		DA5B71781DB57B180087266E /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
 		DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_down_black.png; sourceTree = "<group>"; };
 		DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@2x.png"; sourceTree = "<group>"; };
 		DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@3x.png"; sourceTree = "<group>"; };
@@ -2961,6 +2963,7 @@
 				DAB537891D9319E8008EB556 /* SDLNames.m */,
 				5D535DC31B72473800CF7760 /* SDLGlobals.h */,
 				5D535DC41B72473800CF7760 /* SDLGlobals.m */,
+				DA5B71781DB57B180087266E /* SDLMacros.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -3827,6 +3830,7 @@
 				5D61FC491A84238C00846EE7 /* SDLAudioType.h in Headers */,
 				5D61FC761A84238C00846EE7 /* SDLDeleteFile.h in Headers */,
 				5D61FD211A84238C00846EE7 /* SDLOnVehicleData.h in Headers */,
+				DA5B71791DB57B180087266E /* SDLMacros.h in Headers */,
 				5D61FD7D1A84238C00846EE7 /* SDLScrollableMessageResponse.h in Headers */,
 				5D61FD431A84238C00846EE7 /* SDLProtocol.h in Headers */,
 				5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */,
