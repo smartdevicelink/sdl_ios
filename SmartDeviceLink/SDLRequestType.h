@@ -10,7 +10,7 @@ extern SDLRequestType const SDLRequestTypeHTTP;
 extern SDLRequestType const SDLRequestTypeFileResume;
 extern SDLRequestType const SDLRequestTypeAuthenticationRequest;
 extern SDLRequestType const SDLRequestTypeAuthenticationChallenge;
-extern SDLRequestType const SDLRequestTypeAuthenticationAcknowledge;
+extern SDLRequestType const SDLRequestTypeAuthenticationAck;
 extern SDLRequestType const SDLRequestTypeProprietary;
 extern SDLRequestType const SDLRequestTypeQueryApps;
 extern SDLRequestType const SDLRequestTypeLaunchApp;

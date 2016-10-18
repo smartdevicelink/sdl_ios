@@ -18,7 +18,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRequestTypeFileResume).to(equal(@"FILE_RESUME"));
         expect(SDLRequestTypeAuthenticationRequest).to(equal(@"AUTH_REQUEST"));
         expect(SDLRequestTypeAuthenticationChallenge).to(equal(@"AUTH_CHALLENGE"));
-        expect(SDLRequestTypeAuthenticationAcknowledge).to(equal(@"AUTH_ACK"));
+        expect(SDLRequestTypeAuthenticationAck).to(equal(@"AUTH_ACK"));
         expect(SDLRequestTypeProprietary).to(equal(@"PROPRIETARY"));
         expect(SDLRequestTypeQueryApps).to(equal(@"QUERY_APPS"));
         expect(SDLRequestTypeLaunchApp).to(equal(@"LAUNCH_APP"));
