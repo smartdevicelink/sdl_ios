@@ -2,8 +2,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 
-typedef NSString* SDLName NS_STRING_ENUM;
+STRING_ENUM(SDLName);
 
 extern SDLName const SDLNameAccelerationPedalPosition;
 extern SDLName const SDLNameActual;
