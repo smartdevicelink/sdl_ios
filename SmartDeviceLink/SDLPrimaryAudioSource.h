@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLPrimaryAudioSource NS_STRING_ENUM;
+SDLEnum(SDLPrimaryAudioSource);
 
 /**
  * @abstract Currently no source selected

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLHMILevel NS_STRING_ENUM;
+SDLEnum(SDLHMILevel);
 
 /**
  * The application has full use of the SDL HMI. The app may output via TTS, display, or streaming audio and may gather input via VR, Menu, and button presses

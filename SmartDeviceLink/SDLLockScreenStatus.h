@@ -6,7 +6,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLLockScreenStatus NS_STRING_ENUM;
+SDLEnum(SDLLockScreenStatus);
 
 /**
  * LockScreen is Not Required

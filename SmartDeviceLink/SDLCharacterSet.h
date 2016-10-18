@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLCharacterSet NS_STRING_ENUM;
+SDLEnum(SDLCharacterSet);
 
 extern SDLCharacterSet const SDLCharacterSetType2;
 

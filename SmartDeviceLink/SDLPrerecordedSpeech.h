@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLPrerecordedSpeech NS_STRING_ENUM;
+SDLEnum(SDLPrerecordedSpeech);
 
 extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelp;
 extern SDLPrerecordedSpeech const SDLPrerecordedSpeechInitial;

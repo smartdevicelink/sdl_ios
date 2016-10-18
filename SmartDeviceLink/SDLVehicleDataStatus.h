@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLVehicleDataStatus NS_STRING_ENUM;
+SDLEnum(SDLVehicleDataStatus);
 
 /**
  * @abstract No data avaliable

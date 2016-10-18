@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLButtonEventMode NS_STRING_ENUM;
+SDLEnum(SDLButtonEventMode);
 
 /**
  * @abstract The button was released

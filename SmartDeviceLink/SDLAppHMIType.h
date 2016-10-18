@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLAppHMIType NS_STRING_ENUM;
+SDLEnum(SDLAppHMIType);
 
 /**
  * @abstract The App will have default rights.

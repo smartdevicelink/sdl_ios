@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLPredefinedLayout NS_STRING_ENUM;
+SDLEnum(SDLPredefinedLayout);
 
 extern SDLPredefinedLayout const SDLPredefinedLayoutDefault;
 extern SDLPredefinedLayout const SDLPredefinedLayoutMedia;

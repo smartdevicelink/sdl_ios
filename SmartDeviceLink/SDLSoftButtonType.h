@@ -7,7 +7,7 @@
 /**
  SoftButtonType (TEXT / IMAGE / BOTH)
  */
-typedef SDLEnum SDLSoftButtonType NS_STRING_ENUM;
+SDLEnum(SDLSoftButtonType);
 
 /**
  @abstract Text kind Softbutton

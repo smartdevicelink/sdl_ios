@@ -7,7 +7,7 @@
 /**
  Vehicle Data Activity Status
  */
-typedef SDLEnum SDLVehicleDataActiveStatus NS_STRING_ENUM;
+SDLEnum(SDLVehicleDataActiveStatus);
 
 /**
  @abstract SDLVehicleDataActiveStatus : Inactive not confirmed

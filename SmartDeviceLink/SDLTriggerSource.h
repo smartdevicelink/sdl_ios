@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLTriggerSource NS_STRING_ENUM;
+SDLEnum(SDLTriggerSource);
 
 /**
  * @abstract Selection made via menu

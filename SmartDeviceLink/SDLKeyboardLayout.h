@@ -9,7 +9,7 @@
  *<b>Since</b> SmartDeviceLink 3.0
  *
  */
-typedef SDLEnum SDLKeyboardLayout NS_STRING_ENUM;
+SDLEnum(SDLKeyboardLayout);
 
 /** QWERTY layout (the name comes from the first six keys<br> appearing on the top left letter row of the keyboard and read from left to right)
  *

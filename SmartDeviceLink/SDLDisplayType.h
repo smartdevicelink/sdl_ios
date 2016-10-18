@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLDisplayType NS_STRING_ENUM;
+SDLEnum(SDLDisplayType);
 
 /**
  * @abstract This display type provides a 2-line x 20 character "dot matrix" display.

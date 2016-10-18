@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLPowerModeQualificationStatus NS_STRING_ENUM;
+SDLEnum(SDLPowerModeQualificationStatus);
 
 extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusUndefined;
 extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusEvaluationInProgress;

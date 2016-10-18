@@ -3,5 +3,8 @@
 
 
 #import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 
-typedef NSString* SDLEnum NS_STRING_ENUM;
+STRING_ENUM(SDLEnum);
+
+#define SDLEnum(name)   ENUM(SDLEnum, name)

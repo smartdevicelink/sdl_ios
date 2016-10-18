@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLPermissionStatus NS_STRING_ENUM;
+SDLEnum(SDLPermissionStatus);
 
 /**
  * @abstract permission: allowed

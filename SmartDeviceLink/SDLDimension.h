@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLDimension NS_STRING_ENUM;
+SDLEnum(SDLDimension);
 
 /**
  * @abstract No GPS at all

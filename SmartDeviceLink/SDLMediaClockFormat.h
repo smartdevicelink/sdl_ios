@@ -14,7 +14,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLMediaClockFormat NS_STRING_ENUM;
+SDLEnum(SDLMediaClockFormat);
 
 /**
  * @abstract Media clock format: Clock1

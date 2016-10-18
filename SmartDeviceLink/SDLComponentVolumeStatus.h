@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLComponentVolumeStatus NS_STRING_ENUM;
+SDLEnum(SDLComponentVolumeStatus);
 
 /**
  * @abstract Unknown SDLComponentVolumeStatus

@@ -9,7 +9,7 @@
  * @since SmartDeviceLink 3.0
  *
  */
-typedef SDLEnum SDLKeyboardEvent NS_STRING_ENUM;
+SDLEnum(SDLKeyboardEvent);
 
 /** The use has pressed the keyboard key (applies to both SINGLE_KEYPRESS and RESEND_CURRENT_ENTRY modes).
  *

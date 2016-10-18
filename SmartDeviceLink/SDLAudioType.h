@@ -7,7 +7,7 @@
 /**
  Describes different audio type options for PerformAudioPassThru
  */
-typedef SDLEnum SDLAudioType NS_STRING_ENUM;
+SDLEnum(SDLAudioType);
 
 /**
  * @abstract PCM raw audio

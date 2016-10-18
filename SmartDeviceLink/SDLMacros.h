@@ -17,7 +17,8 @@
 #endif
 
 #define ENUM_PTR(class, name)   typedef class* name SDL_SWIFT_ENUM
+#define ENUM(class, name)       typedef class name SDL_SWIFT_ENUM
 
-#define STRING_ENUM(name)   ENUM_PTR(NSString, name)
+#define STRING_ENUM(name)       ENUM_PTR(NSString, name)
 
 #endif /* SDLMacros_h */

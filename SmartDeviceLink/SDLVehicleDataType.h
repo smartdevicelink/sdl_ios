@@ -7,7 +7,7 @@
 /**
  * Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData
  */
-typedef SDLEnum SDLVehicleDataType NS_STRING_ENUM;
+SDLEnum(SDLVehicleDataType);
 
 /**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_GPS*

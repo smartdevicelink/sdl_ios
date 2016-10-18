@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLSamplingRate NS_STRING_ENUM;
+SDLEnum(SDLSamplingRate);
 
 /**
  * @abstract Sampling rate of 8 kHz

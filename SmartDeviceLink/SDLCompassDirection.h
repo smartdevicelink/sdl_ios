@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLCompassDirection NS_STRING_ENUM;
+SDLEnum(SDLCompassDirection);
 
 /**
  * @abstract Direction North

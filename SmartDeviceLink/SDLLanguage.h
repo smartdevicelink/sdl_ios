@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-typedef SDLEnum SDLLanguage NS_STRING_ENUM;
+SDLEnum(SDLLanguage);
 
 /*!
  @abstract English_US

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-typedef SDLEnum SDLWarningLightStatus NS_STRING_ENUM;
+SDLEnum(SDLWarningLightStatus);
 
 /**
  * @abstract Warninglight Off

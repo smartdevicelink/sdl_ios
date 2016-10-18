@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-typedef SDLEnum SDLRequestType NS_STRING_ENUM;
+SDLEnum(SDLRequestType);
 
 extern SDLRequestType const SDLRequestTypeHTTP;
 extern SDLRequestType const SDLRequestTypeFileResume;
