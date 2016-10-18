@@ -24,7 +24,7 @@ __deprecated_msg("Use SDLManager instead")
 
 @property (strong) SDLAbstractProtocol *protocol;
 @property (strong) SDLAbstractTransport *transport;
-@property (readonly, copy) NSSet *proxyListeners;
+@property (readonly, copy) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
 @property (strong) SDLTimer *startSessionTimer;
 @property (copy) NSString *debugConsoleGroupName;
 @property (readonly, copy) NSString *proxyVersion;
@@ -41,7 +41,7 @@ __deprecated_msg("Use SDLManager instead")
 - (void)sendRPC:(SDLRPCMessage *)message;
 - (void)sendRPCRequest:(SDLRPCMessage *)msg __deprecated_msg("use -sendRPC: instead");
 
-- (void)handleRPCDictionary:(NSDictionary *)dictionary;
+- (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dictionary;
 - (void)handleRpcMessage:(NSDictionary *)msg __deprecated_msg("use -handleRPCDictionary: instead");
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;

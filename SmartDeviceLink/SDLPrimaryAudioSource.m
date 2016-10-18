@@ -12,7 +12,7 @@ SDLPrimaryAudioSource *SDLPrimaryAudioSource_LINE_IN = nil;
 SDLPrimaryAudioSource *SDLPrimaryAudioSource_IPOD = nil;
 SDLPrimaryAudioSource *SDLPrimaryAudioSource_MOBILE_APP = nil;
 
-NSArray *SDLPrimaryAudioSource_values = nil;
+NSArray<SDLPrimaryAudioSource *> *SDLPrimaryAudioSource_values = nil;
 
 @implementation SDLPrimaryAudioSource
 
@@ -25,7 +25,7 @@ NSArray *SDLPrimaryAudioSource_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLPrimaryAudioSource *> *)values {
     if (SDLPrimaryAudioSource_values == nil) {
         SDLPrimaryAudioSource_values = @[
             SDLPrimaryAudioSource.NO_SOURCE_SELECTED,

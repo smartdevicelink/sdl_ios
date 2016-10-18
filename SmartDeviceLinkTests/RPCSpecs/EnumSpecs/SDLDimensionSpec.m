@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLDimension values];
-    __block NSArray* definedValues;
+    NSArray<SDLDimension *> *storedValues = [SDLDimension values];
+    __block NSArray<SDLDimension *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDimension NO_FIX],
                         [SDLDimension _2D],

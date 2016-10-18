@@ -12,7 +12,7 @@
 }
 
 + (SDLECallConfirmationStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLECallConfirmationStatus *> *)values;
 
 /** No E-Call signal triggered.
  */

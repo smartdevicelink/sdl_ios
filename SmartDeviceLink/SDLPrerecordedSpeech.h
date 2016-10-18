@@ -8,7 +8,7 @@
 }
 
 + (SDLPrerecordedSpeech *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLPrerecordedSpeech *> *)values;
 
 + (SDLPrerecordedSpeech *)HELP_JINGLE;
 + (SDLPrerecordedSpeech *)INITIAL_JINGLE;

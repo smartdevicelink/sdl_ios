@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLVehicleDataStatus
  * @return an array that store all possible SDLVehicleDataStatus
  */
-+ (NSArray *)values;
++ (NSArray<SDLVehicleDataStatus *> *)values;
 
 /**
  * @abstract No data avaliable

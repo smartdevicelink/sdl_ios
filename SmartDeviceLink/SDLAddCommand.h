@@ -82,7 +82,7 @@
  *
  * Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100
  */
-@property (strong) NSMutableArray *vrCommands;
+@property (strong) NSMutableArray<NSString *> *vrCommands;
 
 /**
  * @abstract Image struct containing a static or dynamic icon

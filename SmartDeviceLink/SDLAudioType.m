@@ -5,7 +5,7 @@
 
 SDLAudioType *SDLAudioType_PCM = nil;
 
-NSArray *SDLAudioType_values = nil;
+NSArray<SDLAudioType *> *SDLAudioType_values = nil;
 
 @implementation SDLAudioType
 
@@ -18,7 +18,7 @@ NSArray *SDLAudioType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLAudioType *> *)values {
     if (SDLAudioType_values == nil) {
         SDLAudioType_values = @[
             SDLAudioType.PCM,

@@ -38,7 +38,7 @@ SDLResult *SDLResult_INVALID_CERT = nil;
 SDLResult *SDLResult_EXPIRED_CERT = nil;
 SDLResult *SDLResult_RESUME_FAILED = nil;
 
-NSArray *SDLResult_values = nil;
+NSArray<SDLResult *> *SDLResult_values = nil;
 
 @implementation SDLResult
 
@@ -51,7 +51,7 @@ NSArray *SDLResult_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLResult *> *)values {
     if (SDLResult_values == nil) {
         SDLResult_values = @[
             [SDLResult SUCCESS],

@@ -40,7 +40,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameChoiceId:@3,
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameChoiceId:@3,
                                        SDLNameMenuName:@"Hello",
                                        SDLNameVRCommands:[@[@"1", @"2"] mutableCopy],
                                        SDLNameImage:image,

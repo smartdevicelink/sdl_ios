@@ -36,8 +36,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLVehicleDataActiveStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLVehicleDataActiveStatus *> *storedValues = [SDLVehicleDataActiveStatus values];
+    __block NSArray<SDLVehicleDataActiveStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVehicleDataActiveStatus INACTIVE_NOT_CONFIRMED],
                         [SDLVehicleDataActiveStatus INACTIVE_CONFIRMED],

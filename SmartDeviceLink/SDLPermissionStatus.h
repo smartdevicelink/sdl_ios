@@ -25,7 +25,7 @@
  * @abstract declare an array to store all possible SDLPermissionStatus values
  * @return the array
  */
-+ (NSArray *)values;
++ (NSArray<SDLPermissionStatus *> *)values;
 
 
 /**

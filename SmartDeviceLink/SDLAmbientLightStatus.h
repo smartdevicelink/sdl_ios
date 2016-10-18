@@ -12,7 +12,7 @@
 }
 
 + (SDLAmbientLightStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLAmbientLightStatus *> *)values;
 
 + (SDLAmbientLightStatus *)NIGHT;
 + (SDLAmbientLightStatus *)TWILIGHT_1;

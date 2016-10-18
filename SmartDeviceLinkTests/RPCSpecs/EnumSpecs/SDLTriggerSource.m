@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTriggerSource values];
-    __block NSArray* definedValues;
+    NSArray<SDLTriggerSource *> *storedValues = [SDLTriggerSource values];
+    __block NSArray<SDLTriggerSource *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTriggerSource MENU],
                         [SDLTriggerSource VR],

@@ -61,7 +61,7 @@
     return [parameters[SDLNameAppName] copy];
 }
 
-- (void)setTtsName:(NSArray *)ttsName {
+- (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:[ttsName copy] forKey:SDLNameTTSName];
     } else {
@@ -69,7 +69,7 @@
     }
 }
 
-- (NSArray *)ttsName {
+- (NSArray<SDLTTSChunk *> *)ttsName {
     return [parameters[SDLNameTTSName] copy];
 }
 
@@ -85,7 +85,7 @@
     return [parameters[SDLNameNGNMediaScreenAppName] copy];
 }
 
-- (void)setVrSynonyms:(NSArray *)vrSynonyms {
+- (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:[vrSynonyms copy] forKey:SDLNameVRSynonyms];
     } else {
@@ -93,7 +93,7 @@
     }
 }
 
-- (NSArray *)vrSynonyms {
+- (NSArray<NSString *> *)vrSynonyms {
     return [parameters[SDLNameVRSynonyms] copy];
 }
 

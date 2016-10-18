@@ -9,6 +9,6 @@
  */
 @interface SDLDiagnosticMessageResponse : SDLRPCResponse
 
-@property (strong) NSMutableArray *messageDataResult;
+@property (strong) NSMutableArray<NSNumber *> *messageDataResult;
 
 @end

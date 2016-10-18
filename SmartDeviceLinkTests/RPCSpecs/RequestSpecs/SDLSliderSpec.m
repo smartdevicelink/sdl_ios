@@ -31,14 +31,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameNumberTicks:@2,
-                                                   SDLNamePosition:@1,
-                                                   SDLNameSliderHeader:@"Head",
-                                                   SDLNameSliderFooter:[@[@"LeftFoot", @"RightFoot"] mutableCopy],
-                                                   SDLNameTimeout:@2000},
-                                             SDLNameOperationName:SDLNameSlider}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameNumberTicks:@2,
+                                                                   SDLNamePosition:@1,
+                                                                   SDLNameSliderHeader:@"Head",
+                                                                   SDLNameSliderFooter:[@[@"LeftFoot", @"RightFoot"] mutableCopy],
+                                                                   SDLNameTimeout:@2000},
+                                                             SDLNameOperationName:SDLNameSlider}} mutableCopy];
         SDLSlider* testRequest = [[SDLSlider alloc] initWithDictionary:dict];
         
         expect(testRequest.numTicks).to(equal(@2));

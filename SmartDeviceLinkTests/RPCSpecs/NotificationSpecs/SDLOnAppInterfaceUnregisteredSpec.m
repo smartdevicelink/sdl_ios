@@ -24,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameReason:[SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]},
-                                             SDLNameOperationName:SDLNameOnAppInterfaceUnregistered}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameReason:[SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]},
+                                                             SDLNameOperationName:SDLNameOnAppInterfaceUnregistered}} mutableCopy];
         SDLOnAppInterfaceUnregistered* testNotification = [[SDLOnAppInterfaceUnregistered alloc] initWithDictionary:dict];
         
         expect(testNotification.reason).to(equal([SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]));

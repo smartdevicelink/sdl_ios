@@ -56,7 +56,7 @@
     }
 }
 
-- (void)setVrCommands:(NSMutableArray *)vrCommands {
+- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
     if (vrCommands != nil) {
         [parameters setObject:vrCommands forKey:SDLNameVRCommands];
     } else {
@@ -64,7 +64,7 @@
     }
 }
 
-- (NSMutableArray *)vrCommands {
+- (NSMutableArray<NSString *> *)vrCommands {
     return [parameters objectForKey:SDLNameVRCommands];
 }
 

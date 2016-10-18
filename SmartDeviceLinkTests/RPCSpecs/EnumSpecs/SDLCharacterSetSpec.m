@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLCharacterSet values];
-    __block NSArray* definedValues;
+    NSArray<SDLCharacterSet *> *storedValues = [SDLCharacterSet values];
+    __block NSArray<SDLCharacterSet *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLCharacterSet TYPE2SET],
                         [SDLCharacterSet TYPE5SET],

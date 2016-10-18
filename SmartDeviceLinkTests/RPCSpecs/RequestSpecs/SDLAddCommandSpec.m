@@ -34,13 +34,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameCommandId:@434577,
-                                                   SDLNameMenuParams:menu,
-                                                   SDLNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
-                                                   SDLNameCommandIcon:image},
-                                             SDLNameOperationName:SDLNameAddCommand}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                          @{SDLNameParameters:
+                                                                @{SDLNameCommandId:@434577,
+                                                                  SDLNameMenuParams:menu,
+                                                                  SDLNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
+                                                                  SDLNameCommandIcon:image},
+                                                            SDLNameOperationName:SDLNameAddCommand}} mutableCopy];
+
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];
         
         expect(testRequest.cmdID).to(equal(@434577));

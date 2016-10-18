@@ -44,13 +44,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNamePressureTelltale:[SDLWarningLightStatus OFF],
-                                       SDLNameLeftFront:tire1,
-                                       SDLNameRightFront:tire2,
-                                       SDLNameLeftRear:tire3,
-                                       SDLNameRightRear:tire4,
-                                       SDLNameInnerLeftRear:tire5,
-                                       SDLNameInnerRightRear:tire6} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNamePressureTelltale:[SDLWarningLightStatus OFF],
+                                                       SDLNameLeftFront:tire1,
+                                                       SDLNameRightFront:tire2,
+                                                       SDLNameLeftRear:tire3,
+                                                       SDLNameRightRear:tire4,
+                                                       SDLNameInnerLeftRear:tire5,
+                                                       SDLNameInnerRightRear:tire6} mutableCopy];
         SDLTireStatus* testStruct = [[SDLTireStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.pressureTelltale).to(equal([SDLWarningLightStatus OFF]));

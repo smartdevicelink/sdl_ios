@@ -26,7 +26,7 @@
  *
  * @return the array
  */
-+ (NSArray *)values;
++ (NSArray<SDLSamplingRate *> *)values;
 
 /**
  * @abstract Sampling rate of 8 kHz

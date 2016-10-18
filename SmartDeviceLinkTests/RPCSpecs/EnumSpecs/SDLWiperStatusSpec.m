@@ -56,8 +56,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLWiperStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLWiperStatus *> *storedValues = [SDLWiperStatus values];
+    __block NSArray<SDLWiperStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLWiperStatus OFF],
                         [SDLWiperStatus AUTO_OFF],

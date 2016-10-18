@@ -25,10 +25,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameButtonName:[SDLButtonName PRESET_0]},
-                                             SDLNameOperationName:SDLNameUnsubscribeButton}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameButtonName:[SDLButtonName PRESET_0]},
+                                                             SDLNameOperationName:SDLNameUnsubscribeButton}} mutableCopy];
         SDLUnsubscribeButton* testRequest = [[SDLUnsubscribeButton alloc] initWithDictionary:dict];
         
         expect(testRequest.buttonName).to(equal([SDLButtonName PRESET_0]));

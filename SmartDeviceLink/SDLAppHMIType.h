@@ -26,7 +26,7 @@
  *
  * @return an array that store all possible SDLAppHMIType
  */
-+ (NSArray *)values;
++ (NSArray<SDLAppHMIType *> *)values;
 
 /**
  * @abstract The App will have default rights.

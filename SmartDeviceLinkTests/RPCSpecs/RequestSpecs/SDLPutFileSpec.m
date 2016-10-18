@@ -35,15 +35,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSyncFileName:@"fileName",
-                                                   SDLNameFileType:[SDLFileType GRAPHIC_JPEG],
-                                                   SDLNamePersistentFile:@YES,
-                                                   SDLNameSystemFile:@NO,
-                                                   SDLNameOffset:@987654321,
-                                                   SDLNameLength:@123456789},
-                                             SDLNameOperationName:SDLNamePutFile}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameSyncFileName:@"fileName",
+                                                                   SDLNameFileType:[SDLFileType GRAPHIC_JPEG],
+                                                                   SDLNamePersistentFile:@YES,
+                                                                   SDLNameSystemFile:@NO,
+                                                                   SDLNameOffset:@987654321,
+                                                                   SDLNameLength:@123456789},
+                                                             SDLNameOperationName:SDLNamePutFile}} mutableCopy];
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));

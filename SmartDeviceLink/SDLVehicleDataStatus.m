@@ -8,7 +8,7 @@ SDLVehicleDataStatus *SDLVehicleDataStatus_NO_DATA_EXISTS = nil;
 SDLVehicleDataStatus *SDLVehicleDataStatus_OFF = nil;
 SDLVehicleDataStatus *SDLVehicleDataStatus_ON = nil;
 
-NSArray *SDLVehicleDataStatus_values = nil;
+NSArray<SDLVehicleDataStatus *> *SDLVehicleDataStatus_values = nil;
 
 @implementation SDLVehicleDataStatus
 
@@ -21,7 +21,7 @@ NSArray *SDLVehicleDataStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLVehicleDataStatus *> *)values {
     if (SDLVehicleDataStatus_values == nil) {
         SDLVehicleDataStatus_values = @[
             SDLVehicleDataStatus.NO_DATA_EXISTS,

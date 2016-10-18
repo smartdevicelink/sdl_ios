@@ -15,13 +15,13 @@
     return self;
 }
 
-- (NSDictionary *)rpcDictionary {
+- (NSDictionary<NSString *, id> *)rpcDictionary {
     if (self.payload.length == 0) {
         return nil;
     }
     
     NSError *error = nil;
-    NSDictionary * rpcMessageAsDictionary = [NSJSONSerialization JSONObjectWithData:self.payload options:kNilOptions error:&error];
+    NSDictionary<NSString *, id> * rpcMessageAsDictionary = [NSJSONSerialization JSONObjectWithData:self.payload options:kNilOptions error:&error];
     if (error != nil) {
         [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
         return nil;

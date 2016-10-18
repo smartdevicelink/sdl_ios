@@ -30,8 +30,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLHMIZoneCapabilities values];
-    __block NSArray* definedValues;
+    NSArray<SDLHMIZoneCapabilities *> *storedValues = [SDLHMIZoneCapabilities values];
+    __block NSArray<SDLHMIZoneCapabilities *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLHMIZoneCapabilities FRONT],
                         [SDLHMIZoneCapabilities BACK]] copy];

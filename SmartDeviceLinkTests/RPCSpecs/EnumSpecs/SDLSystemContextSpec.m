@@ -36,8 +36,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLSystemContext values];
-    __block NSArray* definedValues;
+    NSArray<SDLSystemContext *> *storedValues = [SDLSystemContext values];
+    __block NSArray<SDLSystemContext *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSystemContext MAIN],
                         [SDLSystemContext VRSESSION],

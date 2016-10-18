@@ -146,7 +146,7 @@
     return [parameters objectForKey:SDLNameManeuverComplete];
 }
 
-- (void)setSoftButtons:(NSMutableArray *)softButtons {
+- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
     if (softButtons != nil) {
         [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
@@ -154,13 +154,13 @@
     }
 }
 
-- (NSMutableArray *)softButtons {
-    NSMutableArray *array = [parameters objectForKey:SDLNameSoftButtons];
+- (NSMutableArray<SDLSoftButton *> *)softButtons {
+    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
+        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
         }
         return newList;

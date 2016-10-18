@@ -33,12 +33,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameStartTime:time1,
-                                                   SDLNameEndTime:time2,
-                                                   SDLNameUpdateMode:[SDLUpdateMode COUNTUP]},
-                                             SDLNameOperationName:SDLNameSetMediaClockTimer}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameStartTime:time1,
+                                                                   SDLNameEndTime:time2,
+                                                                   SDLNameUpdateMode:[SDLUpdateMode COUNTUP]},
+                                                             SDLNameOperationName:SDLNameSetMediaClockTimer}} mutableCopy];
         SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
         
         expect(testRequest.startTime).to(equal(time1));

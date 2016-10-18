@@ -66,8 +66,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPredefinedLayout values];
-    __block NSArray* definedValues;
+    NSArray<SDLPredefinedLayout *> *storedValues = [SDLPredefinedLayout values];
+    __block NSArray<SDLPredefinedLayout *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPredefinedLayout DEFAULT],
                         [SDLPredefinedLayout MEDIA],

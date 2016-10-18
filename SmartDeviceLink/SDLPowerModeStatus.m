@@ -14,7 +14,7 @@ SDLPowerModeStatus *SDLPowerModeStatus_IGNITION_ON_2 = nil;
 SDLPowerModeStatus *SDLPowerModeStatus_RUNNING_2 = nil;
 SDLPowerModeStatus *SDLPowerModeStatus_CRANK_3 = nil;
 
-NSArray *SDLPowerModeStatus_values = nil;
+NSArray<SDLPowerModeStatus *> *SDLPowerModeStatus_values = nil;
 
 @implementation SDLPowerModeStatus
 
@@ -27,7 +27,7 @@ NSArray *SDLPowerModeStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLPowerModeStatus *> *)values {
     if (SDLPowerModeStatus_values == nil) {
         SDLPowerModeStatus_values = @[
             SDLPowerModeStatus.KEY_OUT,

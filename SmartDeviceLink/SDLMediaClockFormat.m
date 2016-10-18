@@ -12,7 +12,7 @@ SDLMediaClockFormat *SDLMediaClockFormat_CLOCKTEXT2 = nil;
 SDLMediaClockFormat *SDLMediaClockFormat_CLOCKTEXT3 = nil;
 SDLMediaClockFormat *SDLMediaClockFormat_CLOCKTEXT4 = nil;
 
-NSArray *SDLMediaClockFormat_values = nil;
+NSArray<SDLMediaClockFormat *> *SDLMediaClockFormat_values = nil;
 
 @implementation SDLMediaClockFormat
 
@@ -25,7 +25,7 @@ NSArray *SDLMediaClockFormat_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLMediaClockFormat *> *)values {
     if (SDLMediaClockFormat_values == nil) {
         SDLMediaClockFormat_values = @[
             SDLMediaClockFormat.CLOCK1,

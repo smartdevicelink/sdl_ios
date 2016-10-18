@@ -31,7 +31,7 @@
  *
  * @return the array
  */
-+ (NSArray *)values;
++ (NSArray<SDLMediaClockFormat *> *)values;
 
 /**
  * @abstract Media clock format: Clock1

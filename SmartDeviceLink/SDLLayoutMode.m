@@ -10,7 +10,7 @@ SDLLayoutMode *SDLLayoutMode_LIST_ONLY = nil;
 SDLLayoutMode *SDLLayoutMode_LIST_WITH_SEARCH = nil;
 SDLLayoutMode *SDLLayoutMode_KEYBOARD = nil;
 
-NSArray *SDLLayoutMode_values = nil;
+NSArray<SDLLayoutMode *> *SDLLayoutMode_values = nil;
 
 @implementation SDLLayoutMode
 
@@ -23,7 +23,7 @@ NSArray *SDLLayoutMode_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLLayoutMode *> *)values {
     if (SDLLayoutMode_values == nil) {
         SDLLayoutMode_values = @[
             SDLLayoutMode.ICON_ONLY,

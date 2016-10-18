@@ -39,16 +39,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameAudioPassThruDisplayText1:@"passthru#1",
-                                                   SDLNameAudioPassThruDisplayText2:@"passthru#2",
-                                                   SDLNameSamplingRate:[SDLSamplingRate _22KHZ],
-                                                   SDLNameMaxDuration:@34563,
-                                                   SDLNameBitsPerSample:[SDLBitsPerSample _16_BIT],
-                                                   SDLNameAudioType:[SDLAudioType PCM],
-                                                   SDLNameMuteAudio:@NO},
-                                             SDLNameOperationName:SDLNamePerformAudioPassThru}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameAudioPassThruDisplayText1:@"passthru#1",
+                                                                   SDLNameAudioPassThruDisplayText2:@"passthru#2",
+                                                                   SDLNameSamplingRate:[SDLSamplingRate _22KHZ],
+                                                                   SDLNameMaxDuration:@34563,
+                                                                   SDLNameBitsPerSample:[SDLBitsPerSample _16_BIT],
+                                                                   SDLNameAudioType:[SDLAudioType PCM],
+                                                                   SDLNameMuteAudio:@NO},
+                                                             SDLNameOperationName:SDLNamePerformAudioPassThru}} mutableCopy];
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));

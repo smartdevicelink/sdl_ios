@@ -30,8 +30,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLImageType values];
-    __block NSArray* definedValues;
+    NSArray<SDLImageType *> *storedValues = [SDLImageType values];
+    __block NSArray<SDLImageType *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLImageType STATIC],
                         [SDLImageType DYNAMIC]] copy];

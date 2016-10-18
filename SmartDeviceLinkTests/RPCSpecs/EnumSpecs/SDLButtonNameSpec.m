@@ -60,8 +60,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLButtonName values];
-    __block NSArray* definedValues;
+    NSArray<SDLButtonName *> *storedValues = [SDLButtonName values];
+    __block NSArray<SDLButtonName *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLButtonName OK],
                         [SDLButtonName SEEKLEFT],

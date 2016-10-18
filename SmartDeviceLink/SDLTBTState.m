@@ -15,7 +15,7 @@ SDLTBTState *SDLTBTState_ROUTE_SUMMARY_REQUEST = nil;
 SDLTBTState *SDLTBTState_TRIP_STATUS_REQUEST = nil;
 SDLTBTState *SDLTBTState_ROUTE_UPDATE_REQUEST_TIMEOUT = nil;
 
-NSArray *SDLTBTState_values = nil;
+NSArray<SDLTBTState *> *SDLTBTState_values = nil;
 
 @implementation SDLTBTState
 
@@ -28,7 +28,7 @@ NSArray *SDLTBTState_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLTBTState *> *)values {
     if (SDLTBTState_values == nil) {
         SDLTBTState_values = @[
             SDLTBTState.ROUTE_UPDATE_REQUEST,

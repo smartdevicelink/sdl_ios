@@ -84,8 +84,8 @@ describe(@"ValueOf Tests", ^ {
 });
 
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTextFieldName values];
-    __block NSArray* definedValues;
+    NSArray<SDLTextFieldName *> *storedValues = [SDLTextFieldName values];
+    __block NSArray<SDLTextFieldName *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLTextFieldName mainField1],
                            [SDLTextFieldName mainField2],

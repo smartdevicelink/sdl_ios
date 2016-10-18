@@ -44,8 +44,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPowerModeStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLPowerModeStatus *> *storedValues = [SDLPowerModeStatus values];
+    __block NSArray<SDLPowerModeStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPowerModeStatus KEY_OUT],
                         [SDLPowerModeStatus KEY_RECENTLY_OUT],

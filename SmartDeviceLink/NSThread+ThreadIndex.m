@@ -8,9 +8,9 @@
 
 - (NSInteger)threadIndex {
     NSString *description = [self description];
-    NSArray *keyValuePairs = [description componentsSeparatedByString:@","];
+    NSArray<NSString *> *keyValuePairs = [description componentsSeparatedByString:@","];
     for (NSString *keyValuePair in keyValuePairs) {
-        NSArray *components = [keyValuePair componentsSeparatedByString:@"="];
+        NSArray<NSString *> *components = [keyValuePair componentsSeparatedByString:@"="];
         NSString *key = components[0];
         key = [key stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([key rangeOfString:@"num"].location != NSNotFound) {

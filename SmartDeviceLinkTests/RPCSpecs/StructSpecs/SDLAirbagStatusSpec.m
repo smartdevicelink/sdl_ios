@@ -39,14 +39,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDriverAirbagDeployed:[SDLVehicleDataEventStatus _YES],
-                                       SDLNameDriverSideAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       SDLNameDriverCurtainAirbagDeployed:[SDLVehicleDataEventStatus _NO],
-                                       SDLNamePassengerAirbagDeployed:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       SDLNamePassengerCurtainAirbagDeployed:[SDLVehicleDataEventStatus FAULT],
-                                       SDLNameDriverKneeAirbagDeployed:[SDLVehicleDataEventStatus _NO],
-                                       SDLNamePassengerSideAirbagDeployed:[SDLVehicleDataEventStatus _YES],
-                                       SDLNamePassengerKneeAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameDriverAirbagDeployed:[SDLVehicleDataEventStatus _YES],
+                                                       SDLNameDriverSideAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT],
+                                                       SDLNameDriverCurtainAirbagDeployed:[SDLVehicleDataEventStatus _NO],
+                                                       SDLNamePassengerAirbagDeployed:[SDLVehicleDataEventStatus NOT_SUPPORTED],
+                                                       SDLNamePassengerCurtainAirbagDeployed:[SDLVehicleDataEventStatus FAULT],
+                                                       SDLNameDriverKneeAirbagDeployed:[SDLVehicleDataEventStatus _NO],
+                                                       SDLNamePassengerSideAirbagDeployed:[SDLVehicleDataEventStatus _YES],
+                                                       SDLNamePassengerKneeAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT]} mutableCopy];
         SDLAirbagStatus* testStruct = [[SDLAirbagStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.driverAirbagDeployed).to(equal([SDLVehicleDataEventStatus _YES]));

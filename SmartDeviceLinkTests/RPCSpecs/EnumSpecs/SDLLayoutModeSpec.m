@@ -36,8 +36,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLLayoutMode values];
-    __block NSArray* definedValues;
+    NSArray<SDLLayoutMode *> *storedValues = [SDLLayoutMode values];
+    __block NSArray<SDLLayoutMode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLayoutMode ICON_ONLY],
                         [SDLLayoutMode ICON_WITH_SEARCH],

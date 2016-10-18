@@ -28,8 +28,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLVRCapabilities values];
-    __block NSArray* definedValues;
+    NSArray<SDLVRCapabilities *> *storedValues = [SDLVRCapabilities values];
+    __block NSArray<SDLVRCapabilities *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLVRCapabilities TEXT]] copy];
     });

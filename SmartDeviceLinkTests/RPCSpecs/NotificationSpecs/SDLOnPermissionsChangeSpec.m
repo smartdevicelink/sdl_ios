@@ -26,10 +26,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNamePermissionItem:[@[item] mutableCopy]},
-                                             SDLNameOperationName:SDLNameOnPermissionsChange}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNamePermissionItem:[@[item] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameOnPermissionsChange}} mutableCopy];
         SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
         
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));

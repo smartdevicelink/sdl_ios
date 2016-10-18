@@ -47,7 +47,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray *sliderFooter;
+@property (strong) NSMutableArray<NSString *> *sliderFooter;
 
 /**
  * @abstract An App defined timeout

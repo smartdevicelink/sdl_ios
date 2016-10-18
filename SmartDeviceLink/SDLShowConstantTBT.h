@@ -4,7 +4,7 @@
 #import "SDLRPCRequest.h"
 
 @class SDLImage;
-
+@class SDLSoftButton;
 
 /** This RPC is used to update the user with navigation information<br>
  *  for the constantly shown screen (base screen),but also for the<br>
@@ -24,6 +24,6 @@
 @property (strong) NSNumber *distanceToManeuver;
 @property (strong) NSNumber *distanceToManeuverScale;
 @property (strong) NSNumber *maneuverComplete;
-@property (strong) NSMutableArray *softButtons;
+@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

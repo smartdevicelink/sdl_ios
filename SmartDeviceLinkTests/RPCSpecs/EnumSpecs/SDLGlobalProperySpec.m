@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLGlobalProperty values];
-    __block NSArray* definedValues;
+    NSArray<SDLGlobalProperty *> *storedValues = [SDLGlobalProperty values];
+    __block NSArray<SDLGlobalProperty *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLGlobalProperty HELPPROMPT],
                         [SDLGlobalProperty TIMEOUTPROMPT],

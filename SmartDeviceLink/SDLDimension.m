@@ -8,7 +8,7 @@ SDLDimension *SDLDimension_NO_FIX = nil;
 SDLDimension *SDLDimension_2D = nil;
 SDLDimension *SDLDimension_3D = nil;
 
-NSArray *SDLDimension_values = nil;
+NSArray<SDLDimension *> *SDLDimension_values = nil;
 
 @implementation SDLDimension
 
@@ -21,7 +21,7 @@ NSArray *SDLDimension_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLDimension *> *)values {
     if (SDLDimension_values == nil) {
         SDLDimension_values = @[
             SDLDimension.NO_FIX,

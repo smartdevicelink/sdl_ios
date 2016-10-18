@@ -25,7 +25,7 @@ SDLPredefinedLayout *SDLPredefinedLayout_LARGE_GRAPHIC_WITH_SOFTBUTTONS = nil;
 SDLPredefinedLayout *SDLPredefinedLayout_DOUBLE_GRAPHIC_WITH_SOFTBUTTONS = nil;
 SDLPredefinedLayout *SDLPredefinedLayout_LARGE_GRAPHIC_ONLY = nil;
 
-NSArray *SDLPredefinedLayout_values = nil;
+NSArray<SDLPredefinedLayout *> *SDLPredefinedLayout_values = nil;
 
 @implementation SDLPredefinedLayout
 
@@ -38,7 +38,7 @@ NSArray *SDLPredefinedLayout_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLPredefinedLayout *> *)values {
     if (SDLPredefinedLayout_values == nil) {
         SDLPredefinedLayout_values = @[
             SDLPredefinedLayout.DEFAULT,

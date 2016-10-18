@@ -8,7 +8,7 @@ SDLAudioStreamingState *SDLAudioStreamingState_AUDIBLE = nil;
 SDLAudioStreamingState *SDLAudioStreamingState_ATTENUATED = nil;
 SDLAudioStreamingState *SDLAudioStreamingState_NOT_AUDIBLE = nil;
 
-NSArray *SDLAudioStreamingState_values = nil;
+NSArray<SDLAudioStreamingState *> *SDLAudioStreamingState_values = nil;
 
 @implementation SDLAudioStreamingState
 
@@ -21,7 +21,7 @@ NSArray *SDLAudioStreamingState_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLAudioStreamingState *> *)values {
     if (SDLAudioStreamingState_values == nil) {
         SDLAudioStreamingState_values = @[
             SDLAudioStreamingState.AUDIBLE,

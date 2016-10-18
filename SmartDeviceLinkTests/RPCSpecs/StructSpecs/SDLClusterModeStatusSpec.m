@@ -32,10 +32,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNamePowerModeActive:@NO,
-                                       SDLNamePowerModeQualificationStatus:[SDLPowerModeQualificationStatus POWER_MODE_OK],
-                                       SDLNameCarModeStatus:[SDLCarModeStatus CRASH],
-                                       SDLNamePowerModeStatus:[SDLPowerModeStatus KEY_OUT]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNamePowerModeActive:@NO,
+                                                       SDLNamePowerModeQualificationStatus:[SDLPowerModeQualificationStatus POWER_MODE_OK],
+                                                       SDLNameCarModeStatus:[SDLCarModeStatus CRASH],
+                                                       SDLNamePowerModeStatus:[SDLPowerModeStatus KEY_OUT]} mutableCopy];
         SDLClusterModeStatus* testStruct = [[SDLClusterModeStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.powerModeActive).to(equal(@NO));

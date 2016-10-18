@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLKeyboardLayout values];
-    __block NSArray* definedValues;
+    NSArray<SDLKeyboardLayout *> *storedValues = [SDLKeyboardLayout values];
+    __block NSArray<SDLKeyboardLayout *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLKeyboardLayout QWERTY],
                         [SDLKeyboardLayout QWERTZ],

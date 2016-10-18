@@ -27,9 +27,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameHours:@22,
-                                       SDLNameMinutes:@39,
-                                       SDLNameSeconds:@11} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameHours:@22,
+                                                       SDLNameMinutes:@39,
+                                                       SDLNameSeconds:@11} mutableCopy];
         SDLStartTime* testStruct = [[SDLStartTime alloc] initWithDictionary:dict];
         
         expect(testStruct.hours).to(equal(@22));

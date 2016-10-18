@@ -9,7 +9,7 @@ SDLCharacterSet *SDLCharacterSet_TYPE5SET = nil;
 SDLCharacterSet *SDLCharacterSet_CID1SET = nil;
 SDLCharacterSet *SDLCharacterSet_CID2SET = nil;
 
-NSArray *SDLCharacterSet_values = nil;
+NSArray<SDLCharacterSet *> *SDLCharacterSet_values = nil;
 
 @implementation SDLCharacterSet
 
@@ -22,7 +22,7 @@ NSArray *SDLCharacterSet_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLCharacterSet *> *)values {
     if (SDLCharacterSet_values == nil) {
         SDLCharacterSet_values = @[
             SDLCharacterSet.TYPE2SET,

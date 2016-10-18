@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPermissionStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLPermissionStatus *> *storedValues = [SDLPermissionStatus values];
+    __block NSArray<SDLPermissionStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPermissionStatus ALLOWED],
                         [SDLPermissionStatus DISALLOWED],

@@ -21,7 +21,7 @@
  * @abstract Store the enumeration of all possible SDLWiperStatus
  * @return An array that store all possible SDLWiperStatus
  */
-+ (NSArray *)values;
++ (NSArray<SDLWiperStatus *> *)values;
 
 /**
  * @abstract SDLWiperStatus: *OFF*

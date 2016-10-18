@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameResponse:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSpaceAvailable:@1248},
-                                             SDLNameOperationName:SDLNamePutFile}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameSpaceAvailable:@1248},
+                                                             SDLNameOperationName:SDLNamePutFile}} mutableCopy];
         SDLPutFileResponse* testResponse = [[SDLPutFileResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.spaceAvailable).to(equal(@1248));

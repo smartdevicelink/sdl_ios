@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLECallConfirmationStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLECallConfirmationStatus *>* storedValues = [SDLECallConfirmationStatus values];
+    __block NSArray<SDLECallConfirmationStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLECallConfirmationStatus NORMAL],
                         [SDLECallConfirmationStatus CALL_IN_PROGRESS],

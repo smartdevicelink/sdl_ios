@@ -60,24 +60,24 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameLongitudeDegrees:@31.41592653589793,
-                                       SDLNameLatitudeDegrees:@45,
-                                       SDLNameUTCYear:@2015,
-                                       SDLNameUTCMonth:@1,
-                                       SDLNameUTCDay:@26,
-                                       SDLNameUTCHours:@23,
-                                       SDLNameUTCMinutes:@59,
-                                       SDLNameUTCSeconds:@59,
-                                       SDLNameCompassDirection:[SDLCompassDirection SOUTHEAST],
-                                       SDLNamePDOP:@3.4,
-                                       SDLNameHDOP:@9.9,
-                                       SDLNameVDOP:@0,
-                                       SDLNameActual:@NO,
-                                       SDLNameSatellites:@12,
-                                       SDLNameDimension:[SDLDimension _3D],
-                                       SDLNameAltitude:@3000,
-                                       SDLNameHeading:@96,
-                                       SDLNameSpeed:@64} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameLongitudeDegrees:@31.41592653589793,
+                                                       SDLNameLatitudeDegrees:@45,
+                                                       SDLNameUTCYear:@2015,
+                                                       SDLNameUTCMonth:@1,
+                                                       SDLNameUTCDay:@26,
+                                                       SDLNameUTCHours:@23,
+                                                       SDLNameUTCMinutes:@59,
+                                                       SDLNameUTCSeconds:@59,
+                                                       SDLNameCompassDirection:[SDLCompassDirection SOUTHEAST],
+                                                       SDLNamePDOP:@3.4,
+                                                       SDLNameHDOP:@9.9,
+                                                       SDLNameVDOP:@0,
+                                                       SDLNameActual:@NO,
+                                                       SDLNameSatellites:@12,
+                                                       SDLNameDimension:[SDLDimension _3D],
+                                                       SDLNameAltitude:@3000,
+                                                       SDLNameHeading:@96,
+                                                       SDLNameSpeed:@64} mutableCopy];
         SDLGPSData* testStruct = [[SDLGPSData alloc] initWithDictionary:dict];
         
         expect(testStruct.longitudeDegrees).to(equal(@31.41592653589793));

@@ -242,7 +242,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
-    NSArray *filtersToCall = [mutableFiltersToCall copy];
+    NSArray<SDLPermissionFilter *> *filtersToCall = [mutableFiltersToCall copy];
 
     // For all the modified filters, call if necessary
     for (SDLPermissionFilter *filter in filtersToCall) {

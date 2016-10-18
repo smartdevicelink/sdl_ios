@@ -61,7 +61,7 @@
     }
 }
 
-- (void)setLimitedCharacterList:(NSMutableArray *)limitedCharacterList {
+- (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
     if (limitedCharacterList != nil) {
         [store setObject:limitedCharacterList forKey:SDLNameLimitedCharacterList];
     } else {
@@ -69,7 +69,7 @@
     }
 }
 
-- (NSMutableArray *)limitedCharacterList {
+- (NSMutableArray<NSString *> *)limitedCharacterList {
     return [store objectForKey:SDLNameLimitedCharacterList];
 }
 

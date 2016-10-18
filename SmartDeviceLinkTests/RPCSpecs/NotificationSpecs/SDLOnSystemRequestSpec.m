@@ -36,15 +36,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameRequestType:[SDLRequestType FILE_RESUME],
-                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
-                                                   SDLNameTimeout:@52345,
-                                                   SDLNameFileType:[SDLFileType GRAPHIC_PNG],
-                                                   SDLNameOffset:@2532678684,
-                                                   SDLNameLength:@50000000000},
-                                             SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameRequestType:[SDLRequestType FILE_RESUME],
+                                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
+                                                                   SDLNameTimeout:@52345,
+                                                                   SDLNameFileType:[SDLFileType GRAPHIC_PNG],
+                                                                   SDLNameOffset:@2532678684,
+                                                                   SDLNameLength:@50000000000},
+                                                             SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
         
         expect(testNotification.requestType).to(equal([SDLRequestType FILE_RESUME]));

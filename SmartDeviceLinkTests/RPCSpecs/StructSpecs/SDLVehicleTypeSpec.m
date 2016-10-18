@@ -29,10 +29,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameMake:@"Make",
-                                       SDLNameModel:@"Model",
-                                       SDLNameModelYear:@"3.141*10^36",
-                                       SDLNameTrim:@"AE"} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameMake:@"Make",
+                                                       SDLNameModel:@"Model",
+                                                       SDLNameModelYear:@"3.141*10^36",
+                                                       SDLNameTrim:@"AE"} mutableCopy];
         SDLVehicleType* testStruct = [[SDLVehicleType alloc] initWithDictionary:dict];
         
         expect(testStruct.make).to(equal(@"Make"));

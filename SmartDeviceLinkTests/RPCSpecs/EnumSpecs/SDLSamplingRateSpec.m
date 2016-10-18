@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLSamplingRate values];
-    __block NSArray* definedValues;
+    NSArray<SDLSamplingRate *> *storedValues = [SDLSamplingRate values];
+    __block NSArray<SDLSamplingRate *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSamplingRate _8KHZ],
                         [SDLSamplingRate _16KHZ],

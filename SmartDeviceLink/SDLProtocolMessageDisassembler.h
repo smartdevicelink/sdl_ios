@@ -8,6 +8,6 @@
 
 @interface SDLProtocolMessageDisassembler : NSObject
 
-+ (NSArray *)disassemble:(SDLProtocolMessage *)protocolMessage withLimit:(NSUInteger)mtu;
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withLimit:(NSUInteger)mtu;
 
 @end

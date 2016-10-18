@@ -8,7 +8,7 @@
 }
 
 + (SDLTouchType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLTouchType *> *)values;
 
 + (SDLTouchType *)BEGIN;
 + (SDLTouchType *)MOVE;

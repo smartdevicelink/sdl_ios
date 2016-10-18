@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLWarningLightStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLWarningLightStatus *> *storedValues = [SDLWarningLightStatus values];
+    __block NSArray<SDLWarningLightStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLWarningLightStatus OFF],
                         [SDLWarningLightStatus ON],

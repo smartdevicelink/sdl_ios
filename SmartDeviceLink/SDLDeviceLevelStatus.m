@@ -11,7 +11,7 @@ SDLDeviceLevelStatus *SDLDeviceLevelStatus_THREE_LEVEL_BARS = nil;
 SDLDeviceLevelStatus *SDLDeviceLevelStatus_FOUR_LEVEL_BARS = nil;
 SDLDeviceLevelStatus *SDLDeviceLevelStatus_NOT_PROVIDED = nil;
 
-NSArray *SDLDeviceLevelStatus_values = nil;
+NSArray<SDLDeviceLevelStatus *> *SDLDeviceLevelStatus_values = nil;
 
 @implementation SDLDeviceLevelStatus
 
@@ -24,7 +24,7 @@ NSArray *SDLDeviceLevelStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLDeviceLevelStatus *> *)values {
     if (SDLDeviceLevelStatus_values == nil) {
         SDLDeviceLevelStatus_values = @[
             SDLDeviceLevelStatus.ZERO_LEVEL_BARS,

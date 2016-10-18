@@ -58,8 +58,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPRNDL values];
-    __block NSArray* definedValues;
+    NSArray<SDLPRNDL *> *storedValues = [SDLPRNDL values];
+    __block NSArray<SDLPRNDL *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPRNDL PARK],
                         [SDLPRNDL REVERSE],

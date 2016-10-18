@@ -24,7 +24,7 @@
 - (void)append:(id)toAppend {
     dispatch_async(dispatch_get_main_queue(), ^{
         //Insert the new data
-        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+        NSMutableDictionary<NSString *, id> *dictionary = [NSMutableDictionary dictionary];
 
         [dictionary setObject:toAppend forKey:@"object"];
         [dictionary setObject:[NSDate date] forKey:@"date"];
@@ -48,7 +48,7 @@
     } else {
         NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:(messageList.count - 1) inSection:0];
 
-        NSArray *visibleRowIndexes = [self.tableView indexPathsForVisibleRows];
+        NSArray<NSIndexPath *> *visibleRowIndexes = [self.tableView indexPathsForVisibleRows];
         for (NSIndexPath *aPath in visibleRowIndexes) {
             if ([aPath compare:lastIndex] == NSOrderedSame) {
                 return YES;
@@ -134,7 +134,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
 
-    NSDictionary *currentDictionary = [messageList objectAtIndex:indexPath.row];
+    NSDictionary<NSString *, id> *currentDictionary = [messageList objectAtIndex:indexPath.row];
     id msg = [currentDictionary objectForKey:@"object"];
 
     NSString *tempdetail = [@"Time: " stringByAppendingString:[dateFormatter stringFromDate:[currentDictionary objectForKey:@"date"]]];
@@ -167,7 +167,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *currentDictionary = [messageList objectAtIndex:indexPath.row];
+    NSDictionary<NSString *, id> *currentDictionary = [messageList objectAtIndex:indexPath.row];
     id obj = [currentDictionary objectForKey:@"object"];
 
     NSString *alertText = nil;

@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLHMILevel values];
-    __block NSArray* definedValues;
+    NSArray<SDLHMILevel *> *storedValues = [SDLHMILevel values];
+    __block NSArray<SDLHMILevel *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLHMILevel FULL],
                         [SDLHMILevel LIMITED],

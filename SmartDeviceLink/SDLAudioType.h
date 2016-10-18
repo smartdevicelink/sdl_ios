@@ -24,7 +24,7 @@
  *
  * @return an array that store all possible SDLAudioType
  */
-+ (NSArray *)values;
++ (NSArray<SDLAudioType *> *)values;
 
 /**
  * @abstract PCM raw audio

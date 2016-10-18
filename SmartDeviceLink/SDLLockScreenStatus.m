@@ -11,7 +11,7 @@ SDLLockScreenStatus *SDLLockScreenStatus_OFF = nil;
 SDLLockScreenStatus *SDLLockScreenStatus_OPTIONAL = nil;
 SDLLockScreenStatus *SDLLockScreenStatus_REQUIRED = nil;
 
-NSArray *SDLLockScreenStatus_values = nil;
+NSArray<SDLLockScreenStatus *> *SDLLockScreenStatus_values = nil;
 
 
 + (SDLLockScreenStatus *)valueOf:(NSString *)value {
@@ -23,7 +23,7 @@ NSArray *SDLLockScreenStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLLockScreenStatus *> *)values {
     if (SDLLockScreenStatus_values == nil) {
         SDLLockScreenStatus_values = @[
             SDLLockScreenStatus.OFF,

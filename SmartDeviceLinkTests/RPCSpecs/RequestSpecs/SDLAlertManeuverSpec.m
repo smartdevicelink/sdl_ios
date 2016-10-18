@@ -30,11 +30,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameTTSChunks:[@[tts] mutableCopy],
-                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
-                                             SDLNameOperationName:SDLNameAlertManeuver}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameTTSChunks:[@[tts] mutableCopy],
+                                                                   SDLNameSoftButtons:[@[button] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameAlertManeuver}} mutableCopy];
         SDLAlertManeuver* testRequest = [[SDLAlertManeuver alloc] initWithDictionary:dict];
         
         expect(testRequest.ttsChunks).to(equal([@[tts] mutableCopy]));

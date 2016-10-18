@@ -8,7 +8,7 @@
 
 @implementation SDLParameterPermissions
 
-- (void)setAllowed:(NSMutableArray *)allowed {
+- (void)setAllowed:(NSMutableArray<NSString *> *)allowed {
     if (allowed != nil) {
         [store setObject:allowed forKey:SDLNameAllowed];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSMutableArray *)allowed {
+- (NSMutableArray<NSString *> *)allowed {
     return [store objectForKey:SDLNameAllowed];
 }
 
-- (void)setUserDisallowed:(NSMutableArray *)userDisallowed {
+- (void)setUserDisallowed:(NSMutableArray<NSString *> *)userDisallowed {
     if (userDisallowed != nil) {
         [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSMutableArray *)userDisallowed {
+- (NSMutableArray<NSString *> *)userDisallowed {
     return [store objectForKey:SDLNameUserDisallowed];
 }
 

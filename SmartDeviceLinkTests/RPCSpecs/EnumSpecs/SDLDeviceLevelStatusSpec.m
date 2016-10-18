@@ -38,8 +38,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLDeviceLevelStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLDeviceLevelStatus *> *storedValues = [SDLDeviceLevelStatus values];
+    __block NSArray<SDLDeviceLevelStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDeviceLevelStatus ZERO_LEVEL_BARS],
                         [SDLDeviceLevelStatus ONE_LEVEL_BARS],

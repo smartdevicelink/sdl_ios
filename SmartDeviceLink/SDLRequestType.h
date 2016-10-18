@@ -8,7 +8,7 @@
 }
 
 + (SDLRequestType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLRequestType *> *)values;
 
 + (SDLRequestType *)HTTP;
 + (SDLRequestType *)FILE_RESUME;

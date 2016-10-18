@@ -8,7 +8,7 @@
 
 
 @interface SDLPrioritizedObjectCollection () {
-    NSMutableArray *privateArray;
+    NSMutableArray<id> *privateArray;
 }
 @end
 
@@ -18,7 +18,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        privateArray = [NSMutableArray new];
+        privateArray = [NSMutableArray<id> new];
     }
     return self;
 }

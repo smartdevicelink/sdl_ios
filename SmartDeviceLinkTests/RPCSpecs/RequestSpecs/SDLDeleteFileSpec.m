@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSyncFileName:@"synchro"},
-                                             SDLNameOperationName:SDLNameDeleteFile}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameSyncFileName:@"synchro"},
+                                                             SDLNameOperationName:SDLNameDeleteFile}} mutableCopy];
         SDLDeleteFile* testRequest = [[SDLDeleteFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"synchro"));

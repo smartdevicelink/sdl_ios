@@ -33,9 +33,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:[SDLImageFieldName turnIcon],
-                                       SDLNameImageTypeSupported:[@[[SDLFileType GRAPHIC_PNG], [SDLFileType GRAPHIC_JPEG]] copy],
-                                       SDLNameImageResolution:resolution} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameName:[SDLImageFieldName turnIcon],
+                                                       SDLNameImageTypeSupported:[@[[SDLFileType GRAPHIC_PNG], [SDLFileType GRAPHIC_JPEG]] copy],
+                                                       SDLNameImageResolution:resolution} mutableCopy];
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal([SDLImageFieldName turnIcon]));

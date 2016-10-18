@@ -9,7 +9,7 @@ SDLWarningLightStatus *SDLWarningLightStatus_ON = nil;
 SDLWarningLightStatus *SDLWarningLightStatus_FLASH = nil;
 SDLWarningLightStatus *SDLWarningLightStatus_NOT_USED = nil;
 
-NSArray *SDLWarningLightStatus_values = nil;
+NSArray<SDLWarningLightStatus *> *SDLWarningLightStatus_values = nil;
 
 @implementation SDLWarningLightStatus
 
@@ -22,7 +22,7 @@ NSArray *SDLWarningLightStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLWarningLightStatus *> *)values {
     if (SDLWarningLightStatus_values == nil) {
         SDLWarningLightStatus_values = @[
             SDLWarningLightStatus.OFF,

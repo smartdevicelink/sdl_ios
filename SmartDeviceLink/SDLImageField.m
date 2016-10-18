@@ -27,7 +27,7 @@
     }
 }
 
-- (void)setImageTypeSupported:(NSMutableArray *)imageTypeSupported {
+- (void)setImageTypeSupported:(NSMutableArray<SDLFileType *> *)imageTypeSupported {
     if (imageTypeSupported != nil) {
         [store setObject:imageTypeSupported forKey:SDLNameImageTypeSupported];
     } else {
@@ -35,12 +35,12 @@
     }
 }
 
-- (NSMutableArray *)imageTypeSupported {
-    NSMutableArray *array = [store objectForKey:SDLNameImageTypeSupported];
+- (NSMutableArray<SDLFileType *> *)imageTypeSupported {
+    NSMutableArray<SDLFileType *> *array = [store objectForKey:SDLNameImageTypeSupported];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLFileType.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLFileType *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLFileType valueOf:enumString]];
         }

@@ -8,10 +8,11 @@
 
 #import "SDLTouchManagerDelegate.h"
 #import <UIKit/UIKit.h>
+#import "SDLProxyListener.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTouchManager : NSObject
+@interface SDLTouchManager : NSObject <SDLProxyListener>
 
 @property (nonatomic, weak, nullable) id<SDLTouchManagerDelegate> touchEventDelegate;
 

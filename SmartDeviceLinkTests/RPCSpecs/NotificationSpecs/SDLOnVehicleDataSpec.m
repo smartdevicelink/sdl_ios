@@ -84,34 +84,34 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameGPS:gps,
-                                                   SDLNameSpeed:@70.1,
-                                                   SDLNameRPM:@4242,
-                                                   SDLNameFuelLevel:@10.3,
-                                                   SDLNameFuelLevelState:[SDLComponentVolumeStatus ALERT],
-                                                   SDLNameInstantFuelConsumption:@4000.63,
-                                                   SDLNameExternalTemperature:@-10,
-                                                   SDLNameVIN:@"222222222722",
-                                                   SDLNamePRNDL:[SDLPRNDL DRIVE],
-                                                   SDLNameTirePressure:tires,
-                                                   SDLNameOdometer:@100050,
-                                                   SDLNameBeltStatus:belt,
-                                                   SDLNameBodyInformation:body,
-                                                   SDLNameDeviceStatus:device,
-                                                   SDLNameDriverBraking:[SDLVehicleDataEventStatus _YES],
-                                                   SDLNameWiperStatus:[SDLWiperStatus STALLED],
-                                                   SDLNameHeadLampStatus:headLamp,
-                                                   SDLNameEngineTorque:@-200.124,
-                                                   SDLNameAccelerationPedalPosition:@99.99999999,
-                                                   SDLNameSteeringWheelAngle:@0.000000001,
-                                                   SDLNameECallInfo:eCall,
-                                                   SDLNameAirbagStatus:airbag,
-                                                   SDLNameEmergencyEvent:event,
-                                                   SDLNameClusterModeStatus:clusterMode,
-                                                   SDLNameMyKey:myKey},
-                                             SDLNameOperationName:SDLNameOnVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameGPS:gps,
+                                                                   SDLNameSpeed:@70.1,
+                                                                   SDLNameRPM:@4242,
+                                                                   SDLNameFuelLevel:@10.3,
+                                                                   SDLNameFuelLevelState:[SDLComponentVolumeStatus ALERT],
+                                                                   SDLNameInstantFuelConsumption:@4000.63,
+                                                                   SDLNameExternalTemperature:@-10,
+                                                                   SDLNameVIN:@"222222222722",
+                                                                   SDLNamePRNDL:[SDLPRNDL DRIVE],
+                                                                   SDLNameTirePressure:tires,
+                                                                   SDLNameOdometer:@100050,
+                                                                   SDLNameBeltStatus:belt,
+                                                                   SDLNameBodyInformation:body,
+                                                                   SDLNameDeviceStatus:device,
+                                                                   SDLNameDriverBraking:[SDLVehicleDataEventStatus _YES],
+                                                                   SDLNameWiperStatus:[SDLWiperStatus STALLED],
+                                                                   SDLNameHeadLampStatus:headLamp,
+                                                                   SDLNameEngineTorque:@-200.124,
+                                                                   SDLNameAccelerationPedalPosition:@99.99999999,
+                                                                   SDLNameSteeringWheelAngle:@0.000000001,
+                                                                   SDLNameECallInfo:eCall,
+                                                                   SDLNameAirbagStatus:airbag,
+                                                                   SDLNameEmergencyEvent:event,
+                                                                   SDLNameClusterModeStatus:clusterMode,
+                                                                   SDLNameMyKey:myKey},
+                                                             SDLNameOperationName:SDLNameOnVehicleData}} mutableCopy];
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
         
         expect(testNotification.gps).to(equal(gps));

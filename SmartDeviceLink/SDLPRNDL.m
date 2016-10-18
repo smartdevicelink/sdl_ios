@@ -21,7 +21,7 @@ SDLPRNDL *SDLPRNDL_EIGHTH = nil;
 SDLPRNDL *SDLPRNDL_UNKNOWN = nil;
 SDLPRNDL *SDLPRNDL_FAULT = nil;
 
-NSArray *SDLPRNDL_values = nil;
+NSArray<SDLPRNDL *> *SDLPRNDL_values = nil;
 
 @implementation SDLPRNDL
 
@@ -34,7 +34,7 @@ NSArray *SDLPRNDL_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLPRNDL *> *)values {
     if (SDLPRNDL_values == nil) {
         SDLPRNDL_values = @[
             SDLPRNDL.PARK,

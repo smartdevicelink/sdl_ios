@@ -27,11 +27,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameLanguage:[SDLLanguage ES_ES],
-                                                   SDLNameHMIDisplayLanguage:[SDLLanguage DE_DE]},
-                                             SDLNameOperationName:SDLNameOnLanguageChange}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameLanguage:[SDLLanguage ES_ES],
+                                                                   SDLNameHMIDisplayLanguage:[SDLLanguage DE_DE]},
+                                                             SDLNameOperationName:SDLNameOnLanguageChange}} mutableCopy];
         SDLOnLanguageChange* testNotification = [[SDLOnLanguageChange alloc] initWithDictionary:dict];
         
         expect(testNotification.language).to(equal([SDLLanguage ES_ES]));

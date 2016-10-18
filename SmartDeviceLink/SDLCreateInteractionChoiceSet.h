@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLChoice;
+
 /**
  * Creates a Choice Set which can be used in subsequent *SDLPerformInteraction* Operations.
  *
@@ -31,6 +33,6 @@
  *
  * Required, SDLChoice, Array size 1 - 100
  */
-@property (strong) NSMutableArray *choiceSet;
+@property (strong) NSMutableArray<SDLChoice *> *choiceSet;
 
 @end

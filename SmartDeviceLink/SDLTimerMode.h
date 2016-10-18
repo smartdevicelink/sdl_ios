@@ -8,7 +8,7 @@
 }
 
 + (SDLTimerMode *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLTimerMode *> *)values;
 
 + (SDLTimerMode *)UP;
 + (SDLTimerMode *)DOWN;

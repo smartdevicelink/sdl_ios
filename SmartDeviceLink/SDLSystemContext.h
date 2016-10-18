@@ -26,7 +26,7 @@
  *
  *  @return an array that store all possible SDLSystemContext
  */
-+ (NSArray *)values;
++ (NSArray<SDLSystemContext *> *)values;
 
 /**
  * @abstract No user interaction (user-initiated or app-initiated) is in progress.

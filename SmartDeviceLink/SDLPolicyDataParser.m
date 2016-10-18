@@ -13,7 +13,7 @@
     @try {
         NSError *errorJSONSerialization = nil;
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:wrappedData options:kNilOptions error:&errorJSONSerialization];
-        NSArray *array = dictionary[@"data"];
+        NSArray<NSString *> *array = dictionary[@"data"];
         NSString *base64EncodedString = array[0];
 
         if ([NSData instancesRespondToSelector:@selector(initWithBase64EncodedString:options:)]) {

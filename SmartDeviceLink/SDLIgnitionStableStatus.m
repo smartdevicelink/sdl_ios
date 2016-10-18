@@ -8,7 +8,7 @@ SDLIgnitionStableStatus *SDLIgnitionStableStatus_IGNITION_SWITCH_NOT_STABLE = ni
 SDLIgnitionStableStatus *SDLIgnitionStableStatus_IGNITION_SWITCH_STABLE = nil;
 SDLIgnitionStableStatus *SDLIgnitionStableStatus_MISSING_FROM_TRANSMITTER = nil;
 
-NSArray *SDLIgnitionStableStatus_values = nil;
+NSArray<SDLIgnitionStableStatus *> *SDLIgnitionStableStatus_values = nil;
 
 @implementation SDLIgnitionStableStatus
 
@@ -21,7 +21,7 @@ NSArray *SDLIgnitionStableStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLIgnitionStableStatus *> *)values {
     if (SDLIgnitionStableStatus_values == nil) {
         SDLIgnitionStableStatus_values = @[
             SDLIgnitionStableStatus.IGNITION_SWITCH_NOT_STABLE,

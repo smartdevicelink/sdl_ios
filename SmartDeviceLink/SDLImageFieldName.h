@@ -14,7 +14,7 @@
 }
 
 + (SDLImageFieldName *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLImageFieldName *> *)values;
 
 /** The image field for SoftButton
  *

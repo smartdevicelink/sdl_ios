@@ -14,7 +14,7 @@ SDLAppInterfaceUnregisteredReason *SDLAppInterfaceUnregisteredReason_MASTER_RESE
 SDLAppInterfaceUnregisteredReason *SDLAppInterfaceUnregisteredReason_FACTORY_DEFAULTS = nil;
 SDLAppInterfaceUnregisteredReason *SDLAppInterfaceUnregisteredReason_APP_UNAUTHORIZED = nil;
 
-NSArray *SDLAppInterfaceUnregisteredReason_values = nil;
+NSArray<SDLAppInterfaceUnregisteredReason *> *SDLAppInterfaceUnregisteredReason_values = nil;
 
 @implementation SDLAppInterfaceUnregisteredReason
 
@@ -27,7 +27,7 @@ NSArray *SDLAppInterfaceUnregisteredReason_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLAppInterfaceUnregisteredReason *> *)values {
     if (SDLAppInterfaceUnregisteredReason_values == nil) {
         SDLAppInterfaceUnregisteredReason_values = @[
             SDLAppInterfaceUnregisteredReason.IGNITION_OFF,

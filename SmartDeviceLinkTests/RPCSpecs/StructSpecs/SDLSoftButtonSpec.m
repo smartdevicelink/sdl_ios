@@ -39,12 +39,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameType:[SDLSoftButtonType IMAGE],
-                                       SDLNameText:@"Button",
-                                       SDLNameImage:image,
-                                       SDLNameIsHighlighted:@YES,
-                                       SDLNameSoftButtonId:@5423,
-                                       SDLNameSystemAction:[SDLSystemAction KEEP_CONTEXT]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameType:[SDLSoftButtonType IMAGE],
+                                                       SDLNameText:@"Button",
+                                                       SDLNameImage:image,
+                                                       SDLNameIsHighlighted:@YES,
+                                                       SDLNameSoftButtonId:@5423,
+                                                       SDLNameSystemAction:[SDLSystemAction KEEP_CONTEXT]} mutableCopy];
         SDLSoftButton* testStruct = [[SDLSoftButton alloc] initWithDictionary:dict];
         
         expect(testStruct.type).to(equal([SDLSoftButtonType IMAGE]));

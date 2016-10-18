@@ -13,7 +13,7 @@
 }
 
 + (SDLLayoutMode *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLLayoutMode *> *)values;
 
 /** 
  * This mode causes the interaction to display the previous set of choices as icons.

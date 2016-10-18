@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPowerModeQualificationStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLPowerModeQualificationStatus *> *storedValues = [SDLPowerModeQualificationStatus values];
+    __block NSArray<SDLPowerModeQualificationStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPowerModeQualificationStatus POWER_MODE_UNDEFINED],
                         [SDLPowerModeQualificationStatus POWER_MODE_EVALUATION_IN_PROGRESS],

@@ -8,7 +8,7 @@
 }
 
 + (SDLPredefinedLayout *)valueOf:(NSString *)value;
-+ (NSArray *)values;
++ (NSArray<SDLPredefinedLayout *> *)values;
 
 + (SDLPredefinedLayout *)DEFAULT;
 + (SDLPredefinedLayout *)MEDIA;

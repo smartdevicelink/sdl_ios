@@ -30,9 +30,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameECallNotificationStatus:[SDLVehicleDataNotificationStatus NORMAL],
-                                       SDLNameAuxECallNotificationStatus:[SDLVehicleDataNotificationStatus ACTIVE],
-                                       SDLNameECallConfirmationStatus:[SDLECallConfirmationStatus CALL_IN_PROGRESS]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameECallNotificationStatus:[SDLVehicleDataNotificationStatus NORMAL],
+                                                       SDLNameAuxECallNotificationStatus:[SDLVehicleDataNotificationStatus ACTIVE],
+                                                       SDLNameECallConfirmationStatus:[SDLECallConfirmationStatus CALL_IN_PROGRESS]} mutableCopy];
         SDLECallInfo* testStruct = [[SDLECallInfo alloc] initWithDictionary:dict];
         
         expect(testStruct.eCallNotificationStatus).to(equal([SDLVehicleDataNotificationStatus NORMAL]));

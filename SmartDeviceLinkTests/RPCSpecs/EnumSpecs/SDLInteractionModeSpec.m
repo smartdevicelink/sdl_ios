@@ -32,8 +32,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLInteractionMode values];
-    __block NSArray* definedValues;
+    NSArray<SDLInteractionMode *> *storedValues = [SDLInteractionMode values];
+    __block NSArray<SDLInteractionMode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLInteractionMode MANUAL_ONLY],
                         [SDLInteractionMode VR_ONLY],

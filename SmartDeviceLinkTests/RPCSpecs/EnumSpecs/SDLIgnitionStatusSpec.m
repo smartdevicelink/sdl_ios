@@ -38,8 +38,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLIgnitionStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLIgnitionStatus *> *storedValues = [SDLIgnitionStatus values];
+    __block NSArray<SDLIgnitionStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLIgnitionStatus UNKNOWN],
                         [SDLIgnitionStatus OFF],

@@ -35,6 +35,6 @@
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
  */
-@property (strong) NSMutableArray *didLocation;
+@property (strong) NSMutableArray<NSNumber *> *didLocation;
 
 @end

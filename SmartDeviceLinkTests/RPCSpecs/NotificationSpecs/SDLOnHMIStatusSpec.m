@@ -31,12 +31,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameHMILevel:[SDLHMILevel LIMITED],
-                                                   SDLNameAudioStreamingState:[SDLAudioStreamingState ATTENUATED],
-                                                   SDLNameSystemContext:[SDLSystemContext HMI_OBSCURED]},
-                                             SDLNameOperationName:SDLNameOnHMIStatus}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameHMILevel:[SDLHMILevel LIMITED],
+                                                                   SDLNameAudioStreamingState:[SDLAudioStreamingState ATTENUATED],
+                                                                   SDLNameSystemContext:[SDLSystemContext HMI_OBSCURED]},
+                                                             SDLNameOperationName:SDLNameOnHMIStatus}} mutableCopy];
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.hmiLevel).to(equal([SDLHMILevel LIMITED]));

@@ -53,21 +53,21 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDriverBeltDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       SDLNamePassengerBeltDeployed:[SDLVehicleDataEventStatus _YES],
-                                       SDLNamePassengerBuckleBelted:[SDLVehicleDataEventStatus _NO],
-                                       SDLNameDriverBuckleBelted:[SDLVehicleDataEventStatus FAULT],
-                                       SDLNameLeftRow2BuckleBelted:[SDLVehicleDataEventStatus _YES],
-                                       SDLNamePassengerChildDetected:[SDLVehicleDataEventStatus _NO],
-                                       SDLNameRightRow2BuckleBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       SDLNameMiddleRow2BuckleBelted:[SDLVehicleDataEventStatus NO_EVENT],
-                                       SDLNameMiddleRow3BuckleBelted:[SDLVehicleDataEventStatus _YES],
-                                       SDLNameLeftRow3BuckleBelted:[SDLVehicleDataEventStatus FAULT],
-                                       SDLNameRightRow3BuckleBelted:[SDLVehicleDataEventStatus _NO],
-                                       SDLNameLeftRearInflatableBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       SDLNameRightRearInflatableBelted:[SDLVehicleDataEventStatus FAULT],
-                                       SDLNameMiddleRow1BeltDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       SDLNameMiddleRow1BuckleBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameDriverBeltDeployed:[SDLVehicleDataEventStatus NO_EVENT],
+                                                       SDLNamePassengerBeltDeployed:[SDLVehicleDataEventStatus _YES],
+                                                       SDLNamePassengerBuckleBelted:[SDLVehicleDataEventStatus _NO],
+                                                       SDLNameDriverBuckleBelted:[SDLVehicleDataEventStatus FAULT],
+                                                       SDLNameLeftRow2BuckleBelted:[SDLVehicleDataEventStatus _YES],
+                                                       SDLNamePassengerChildDetected:[SDLVehicleDataEventStatus _NO],
+                                                       SDLNameRightRow2BuckleBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED],
+                                                       SDLNameMiddleRow2BuckleBelted:[SDLVehicleDataEventStatus NO_EVENT],
+                                                       SDLNameMiddleRow3BuckleBelted:[SDLVehicleDataEventStatus _YES],
+                                                       SDLNameLeftRow3BuckleBelted:[SDLVehicleDataEventStatus FAULT],
+                                                       SDLNameRightRow3BuckleBelted:[SDLVehicleDataEventStatus _NO],
+                                                       SDLNameLeftRearInflatableBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED],
+                                                       SDLNameRightRearInflatableBelted:[SDLVehicleDataEventStatus FAULT],
+                                                       SDLNameMiddleRow1BeltDeployed:[SDLVehicleDataEventStatus NO_EVENT],
+                                                       SDLNameMiddleRow1BuckleBelted:[SDLVehicleDataEventStatus NOT_SUPPORTED]} mutableCopy];
         SDLBeltStatus* testStruct = [[SDLBeltStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.driverBeltDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));

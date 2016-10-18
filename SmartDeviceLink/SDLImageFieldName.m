@@ -17,7 +17,7 @@ SDLImageFieldName *SDLImageFieldName_showConstantTBTIcon = nil;
 SDLImageFieldName *SDLImageFieldName_showConstantTBTNextTurnIcon = nil;
 SDLImageFieldName *SDLImageFieldName_locationImage = nil;
 
-NSArray *SDLImageFieldName_values = nil;
+NSArray<SDLImageFieldName *> *SDLImageFieldName_values = nil;
 
 @implementation SDLImageFieldName
 
@@ -30,7 +30,7 @@ NSArray *SDLImageFieldName_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLImageFieldName *> *)values {
     if (SDLImageFieldName_values == nil) {
         SDLImageFieldName_values = @[
             SDLImageFieldName.softButtonImage,

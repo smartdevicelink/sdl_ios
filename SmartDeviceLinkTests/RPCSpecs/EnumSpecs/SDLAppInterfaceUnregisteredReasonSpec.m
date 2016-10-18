@@ -52,8 +52,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLAppInterfaceUnregisteredReason values];
-    __block NSArray* definedValues;
+    NSArray<SDLAppInterfaceUnregisteredReason *> *storedValues = [SDLAppInterfaceUnregisteredReason values];
+    __block NSArray<SDLAppInterfaceUnregisteredReason *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[//[SDLAppInterfaceUnregisteredReason USER_EXIT],
                         [SDLAppInterfaceUnregisteredReason IGNITION_OFF],

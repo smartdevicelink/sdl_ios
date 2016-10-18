@@ -40,8 +40,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLPrimaryAudioSource values];
-    __block NSArray* definedValues;
+    NSArray<SDLPrimaryAudioSource *> *storedValues = [SDLPrimaryAudioSource values];
+    __block NSArray<SDLPrimaryAudioSource *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLPrimaryAudioSource NO_SOURCE_SELECTED],
                         [SDLPrimaryAudioSource USB],

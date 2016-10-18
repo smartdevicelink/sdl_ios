@@ -46,17 +46,17 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameVoiceRecognitionOn:@NO,
-                                       SDLNameBluetoothIconOn:@NO,
-                                       SDLNameCallActive:@YES,
-                                       SDLNamePhoneRoaming:@NO,
-                                       SDLNameTextMessageAvailable:@YES,
-                                       SDLNameBatteryLevelStatus:[SDLDeviceLevelStatus FOUR_LEVEL_BARS],
-                                       SDLNameStereoAudioOutputMuted:@YES,
-                                       SDLNameMonoAudioOutputMuted:@YES,
-                                       SDLNameSignalLevelStatus:[SDLDeviceLevelStatus TWO_LEVEL_BARS],
-                                       SDLNamePrimaryAudioSource:[SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST],
-                                       SDLNameECallEventActive:@NO} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameVoiceRecognitionOn:@NO,
+                                                       SDLNameBluetoothIconOn:@NO,
+                                                       SDLNameCallActive:@YES,
+                                                       SDLNamePhoneRoaming:@NO,
+                                                       SDLNameTextMessageAvailable:@YES,
+                                                       SDLNameBatteryLevelStatus:[SDLDeviceLevelStatus FOUR_LEVEL_BARS],
+                                                       SDLNameStereoAudioOutputMuted:@YES,
+                                                       SDLNameMonoAudioOutputMuted:@YES,
+                                                       SDLNameSignalLevelStatus:[SDLDeviceLevelStatus TWO_LEVEL_BARS],
+                                                       SDLNamePrimaryAudioSource:[SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST],
+                                                       SDLNameECallEventActive:@NO} mutableCopy];
         SDLDeviceStatus* testStruct = [[SDLDeviceStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.voiceRecOn).to(equal(@NO));

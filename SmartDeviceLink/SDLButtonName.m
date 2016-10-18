@@ -22,7 +22,7 @@ SDLButtonName *SDLButtonName_PRESET_9 = nil;
 SDLButtonName *SDLButtonName_CUSTOM_BUTTON = nil;
 SDLButtonName *SDLButtonName_SEARCH = nil;
 
-NSArray *SDLButtonName_values = nil;
+NSArray<SDLButtonName *> *SDLButtonName_values = nil;
 
 @implementation SDLButtonName
 
@@ -35,7 +35,7 @@ NSArray *SDLButtonName_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLButtonName *> *)values {
     if (SDLButtonName_values == nil) {
         SDLButtonName_values = @[
             SDLButtonName.OK,

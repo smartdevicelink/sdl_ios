@@ -30,8 +30,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLButtonPressMode values];
-    __block NSArray* definedValues;
+    NSArray<SDLButtonPressMode *> *storedValues = [SDLButtonPressMode values];
+    __block NSArray<SDLButtonPressMode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLButtonPressMode LONG],
                         [SDLButtonPressMode SHORT]] copy];

@@ -8,7 +8,7 @@ SDLTextAlignment *SDLTextAlignment_LEFT_ALIGNED = nil;
 SDLTextAlignment *SDLTextAlignment_RIGHT_ALIGNED = nil;
 SDLTextAlignment *SDLTextAlignment_CENTERED = nil;
 
-NSArray *SDLTextAlignment_values = nil;
+NSArray<SDLTextAlignment *> *SDLTextAlignment_values = nil;
 
 @implementation SDLTextAlignment
 
@@ -21,7 +21,7 @@ NSArray *SDLTextAlignment_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLTextAlignment *> *)values {
     if (SDLTextAlignment_values == nil) {
         SDLTextAlignment_values = @[
             SDLTextAlignment.LEFT_ALIGNED,

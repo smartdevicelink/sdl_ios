@@ -35,11 +35,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameEmergencyEventType:[SDLEmergencyEventType FRONTAL],
-                                       SDLNameFuelCutoffStatus:[SDLFuelCutoffStatus NORMAL_OPERATION],
-                                       SDLNameRolloverEvent:[SDLVehicleDataEventStatus _YES],
-                                       SDLNameMaximumChangeVelocity:@33,
-                                       SDLNameMultipleEvents:[SDLVehicleDataEventStatus _NO]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameEmergencyEventType:[SDLEmergencyEventType FRONTAL],
+                                                       SDLNameFuelCutoffStatus:[SDLFuelCutoffStatus NORMAL_OPERATION],
+                                                       SDLNameRolloverEvent:[SDLVehicleDataEventStatus _YES],
+                                                       SDLNameMaximumChangeVelocity:@33,
+                                                       SDLNameMultipleEvents:[SDLVehicleDataEventStatus _NO]} mutableCopy];
         SDLEmergencyEvent* testStruct = [[SDLEmergencyEvent alloc] initWithDictionary:dict];
         
         expect(testStruct.emergencyEventType).to(equal([SDLEmergencyEventType FRONTAL]));

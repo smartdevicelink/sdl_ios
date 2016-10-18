@@ -10,7 +10,7 @@ SDLVehicleDataActiveStatus *SDLVehicleDataActiveStatus_ACTIVE_NOT_CONFIRMED = ni
 SDLVehicleDataActiveStatus *SDLVehicleDataActiveStatus_ACTIVE_CONFIRMED = nil;
 SDLVehicleDataActiveStatus *SDLVehicleDataActiveStatus_FAULT = nil;
 
-NSArray *SDLVehicleDataActiveStatus_values = nil;
+NSArray<SDLVehicleDataActiveStatus *> *SDLVehicleDataActiveStatus_values = nil;
 
 @implementation SDLVehicleDataActiveStatus
 
@@ -23,7 +23,7 @@ NSArray *SDLVehicleDataActiveStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLVehicleDataActiveStatus *> *)values {
     if (SDLVehicleDataActiveStatus_values == nil) {
         SDLVehicleDataActiveStatus_values = @[
             SDLVehicleDataActiveStatus.INACTIVE_NOT_CONFIRMED,

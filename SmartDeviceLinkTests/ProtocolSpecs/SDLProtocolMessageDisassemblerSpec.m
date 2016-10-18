@@ -43,7 +43,7 @@ describe(@"Disassemble Tests", ^ {
         testMessage.header = testHeader;
         testMessage.payload = payloadData;
         
-        NSArray* messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withLimit:globals.maxMTUSize];
+        NSArray<SDLProtocolMessage *> *messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withLimit:globals.maxMTUSize];
         
         //Payload length per message
         UInt32 payloadLength = 1012; // v1/2 MTU(1024) - header length(12)

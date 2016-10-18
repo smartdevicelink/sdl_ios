@@ -19,19 +19,19 @@
 }
 
 // Convert RPC payload to dictionary (for consumption by RPC layer)
-- (NSDictionary *)rpcDictionary {
+- (NSDictionary<NSString *, id> *)rpcDictionary {
     // Only applicable to RPCs
     if ((self.header.serviceType != SDLServiceType_RPC) && (self.header.serviceType != SDLServiceType_BulkData)) {
         return nil;
     }
 
-    NSMutableDictionary *rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSString *, id> *rpcMessageAsDictionary = [[NSMutableDictionary alloc] init];
 
     // Parse the payload as RPC struct
     SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
 
     // Create the inner dictionary with the RPC properties
-    NSMutableDictionary *innerDictionary = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary <NSString *, id> *innerDictionary = [[NSMutableDictionary alloc] init];
     NSString *functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
     [innerDictionary setObject:functionName forKey:SDLNameOperationName];
     [innerDictionary setObject:[NSNumber numberWithInt:rpcPayload.correlationID] forKey:SDLNameCorrelationId];
@@ -39,7 +39,7 @@
     // Get the json data from the struct
     if (rpcPayload.jsonData) {
         NSError *error = nil;
-        NSDictionary * jsonDictionary = [NSJSONSerialization JSONObjectWithData:rpcPayload.jsonData options:kNilOptions error:&error];
+        NSDictionary<NSString *, id> * jsonDictionary = [NSJSONSerialization JSONObjectWithData:rpcPayload.jsonData options:kNilOptions error:&error];
         if (error != nil) {
             [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
         } else if (jsonDictionary) {
@@ -49,7 +49,7 @@
 
     // Store it in the containing dictionary
     UInt8 rpcType = rpcPayload.rpcType;
-    NSArray *rpcTypeNames = @[SDLNameRequest, SDLNameResponse, SDLNameNotification];
+    NSArray<NSString *> *rpcTypeNames = @[SDLNameRequest, SDLNameResponse, SDLNameNotification];
     [rpcMessageAsDictionary setObject:innerDictionary forKey:rpcTypeNames[rpcType]];
 
     // The bulk data also goes in the dictionary

@@ -38,7 +38,7 @@
  *
  * @return an array that store all possible SDLButtonName
  */
-+ (NSArray *)values;
++ (NSArray<SDLButtonName *> *)values;
 
 /**
  * @abstract Represents the button usually labeled "OK". A typical use of this button is for the user to press it to make a selection.

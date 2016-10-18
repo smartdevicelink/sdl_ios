@@ -36,8 +36,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLUpdateMode values];
-    __block NSArray* definedValues;
+    NSArray<SDLUpdateMode *> *storedValues = [SDLUpdateMode values];
+    __block NSArray<SDLUpdateMode *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLUpdateMode COUNTUP],
                         [SDLUpdateMode COUNTDOWN],

@@ -15,7 +15,7 @@ SDLDisplayType *SDLDisplayType_MFD4 = nil;
 SDLDisplayType *SDLDisplayType_MFD5 = nil;
 SDLDisplayType *SDLDisplayType_GEN3_8_INCH = nil;
 
-NSArray *SDLDisplayType_values = nil;
+NSArray<SDLDisplayType *> *SDLDisplayType_values = nil;
 
 @implementation SDLDisplayType
 
@@ -28,7 +28,7 @@ NSArray *SDLDisplayType_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLDisplayType *> *)values {
     if (SDLDisplayType_values == nil) {
         SDLDisplayType_values = @[
             SDLDisplayType.CID,

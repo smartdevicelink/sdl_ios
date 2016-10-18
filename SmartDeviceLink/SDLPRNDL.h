@@ -26,7 +26,7 @@
  *
  * @return the array
  */
-+ (NSArray *)values;
++ (NSArray<SDLPRNDL *> *)values;
 
 /**
  *  @abstract Park

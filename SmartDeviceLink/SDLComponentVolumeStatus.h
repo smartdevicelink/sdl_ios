@@ -23,7 +23,7 @@
  * @abstract Store the enumeration of all possible SDLComponentVolumeStatus
  * @return An array that store all possible SDLComponentVolumeStatus
  */
-+ (NSArray *)values;
++ (NSArray<SDLComponentVolumeStatus *> *)values;
 
 /**
  * @abstract Unknown SDLComponentVolumeStatus

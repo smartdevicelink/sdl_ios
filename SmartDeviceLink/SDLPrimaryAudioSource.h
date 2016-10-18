@@ -25,7 +25,7 @@
  * @abstract declare an array to store all possible SDLPrimaryAudioSource values
  * @return the array
  */
-+ (NSArray *)values;
++ (NSArray<SDLPrimaryAudioSource *> *)values;
 
 /**
  * @abstract Currently no source selected

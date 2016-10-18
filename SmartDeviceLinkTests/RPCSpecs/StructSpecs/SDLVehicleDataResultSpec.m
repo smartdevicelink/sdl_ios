@@ -27,8 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDataType:[SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS],
-                                       SDLNameResultCode:[SDLVehicleDataResultCode DISALLOWED]} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameDataType:[SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS],
+                                                       SDLNameResultCode:[SDLVehicleDataResultCode DISALLOWED]} mutableCopy];
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDictionary:dict];
         
         expect(testStruct.dataType).to(equal([SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS]));

@@ -34,8 +34,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLCarModeStatus values];
-    __block NSArray* definedValues;
+    NSArray<SDLCarModeStatus *> *storedValues = [SDLCarModeStatus values];
+    __block NSArray<SDLCarModeStatus *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLCarModeStatus NORMAL],
                         [SDLCarModeStatus FACTORY],

@@ -26,7 +26,7 @@
  *
  * @return an array that stores all possible SDLAppInterfaceUnregisteredReason
  */
-+ (NSArray *)values;
++ (NSArray<SDLAppInterfaceUnregisteredReason *> *)values;
 
 /**
  * @abstract Vehicle ignition turned off.

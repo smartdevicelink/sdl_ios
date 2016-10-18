@@ -30,8 +30,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLDriverDistractionState values];
-    __block NSArray* definedValues;
+    NSArray<SDLDriverDistractionState *> *storedValues = [SDLDriverDistractionState values];
+    __block NSArray<SDLDriverDistractionState *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLDriverDistractionState DD_OFF],
                         [SDLDriverDistractionState DD_ON]] copy];

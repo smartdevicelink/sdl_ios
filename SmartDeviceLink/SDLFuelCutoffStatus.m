@@ -8,7 +8,7 @@ SDLFuelCutoffStatus *SDLFuelCutoffStatus_TERMINATE_FUEL = nil;
 SDLFuelCutoffStatus *SDLFuelCutoffStatus_NORMAL_OPERATION = nil;
 SDLFuelCutoffStatus *SDLFuelCutoffStatus_FAULT = nil;
 
-NSArray *SDLFuelCutoffStatus_values = nil;
+NSArray<SDLFuelCutoffStatus *> *SDLFuelCutoffStatus_values = nil;
 
 @implementation SDLFuelCutoffStatus
 
@@ -21,7 +21,7 @@ NSArray *SDLFuelCutoffStatus_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLFuelCutoffStatus *> *)values {
     if (SDLFuelCutoffStatus_values == nil) {
         SDLFuelCutoffStatus_values = @[
             SDLFuelCutoffStatus.TERMINATE_FUEL,

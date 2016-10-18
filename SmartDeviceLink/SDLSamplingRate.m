@@ -9,7 +9,7 @@ SDLSamplingRate *SDLSamplingRate_16KHZ = nil;
 SDLSamplingRate *SDLSamplingRate_22KHZ = nil;
 SDLSamplingRate *SDLSamplingRate_44KHZ = nil;
 
-NSArray *SDLSamplingRate_values = nil;
+NSArray<SDLSamplingRate *> *SDLSamplingRate_values = nil;
 
 @implementation SDLSamplingRate
 
@@ -22,7 +22,7 @@ NSArray *SDLSamplingRate_values = nil;
     return nil;
 }
 
-+ (NSArray *)values {
++ (NSArray<SDLSamplingRate *> *)values {
     if (SDLSamplingRate_values == nil) {
         SDLSamplingRate_values = @[
             SDLSamplingRate._8KHZ,

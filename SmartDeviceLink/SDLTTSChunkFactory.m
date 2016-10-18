@@ -17,7 +17,7 @@
     return ret;
 }
 
-+ (NSMutableArray *)buildTTSChunksFromSimple:(NSString *)simple {
++ (NSMutableArray<SDLTTSChunk *> *)buildTTSChunksFromSimple:(NSString *)simple {
     if (simple == nil)
         return nil;
 

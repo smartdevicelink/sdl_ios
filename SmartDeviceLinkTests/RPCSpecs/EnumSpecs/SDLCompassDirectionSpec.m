@@ -42,8 +42,8 @@ describe(@"ValueOf Tests", ^ {
     });
 });
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLCompassDirection values];
-    __block NSArray* definedValues;
+    NSArray<SDLCompassDirection *> *storedValues = [SDLCompassDirection values];
+    __block NSArray<SDLCompassDirection *> *definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLCompassDirection NORTH],
                         [SDLCompassDirection NORTHWEST],

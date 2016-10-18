@@ -15,7 +15,7 @@
     return self;
 }
 
-- (void)setProperties:(NSMutableArray *)properties {
+- (void)setProperties:(NSMutableArray<SDLGlobalProperty *> *)properties {
     if (properties != nil) {
         [parameters setObject:properties forKey:SDLNameProperties];
     } else {
@@ -23,12 +23,12 @@
     }
 }
 
-- (NSMutableArray *)properties {
-    NSMutableArray *array = [parameters objectForKey:SDLNameProperties];
+- (NSMutableArray<SDLGlobalProperty *> *)properties {
+    NSMutableArray<SDLGlobalProperty *> *array = [parameters objectForKey:SDLNameProperties];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLGlobalProperty.class]) {
         return array;
     } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLGlobalProperty *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
             [newList addObject:[SDLGlobalProperty valueOf:enumString]];
         }

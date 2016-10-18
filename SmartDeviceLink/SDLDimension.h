@@ -28,7 +28,7 @@
  *
  * @return An array that store all possible SDLDimension
  */
-+ (NSArray *)values;
++ (NSArray<SDLDimension *> *)values;
 
 /**
  * @abstract No GPS at all
