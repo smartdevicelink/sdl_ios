@@ -752,9 +752,9 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     // Send the HTTP Request
-    [[[NSURLSession sharedSession] uploadTaskWithRequest:request
-                                                fromData:data
-                                       completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[self.urlSession uploadTaskWithRequest:request
+                                   fromData:data
+                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                            [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
                                        }] resume];
 
