@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLTextFieldName);
+typedef SDLEnum SDLTextFieldName SDL_SWIFT_ENUM;
 
 /**
  * @abstract The first line of the first set of main fields of the persistent display. Applies to SDLShow.

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLInteractionMode);
+typedef SDLEnum SDLInteractionMode SDL_SWIFT_ENUM;
 
 /**
  * @abstract Interaction Mode : Manual Only

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLDriverDistractionState);
+typedef SDLEnum SDLDriverDistractionState SDL_SWIFT_ENUM;
 
 /**
  * @abstract Driver distraction rules are in effect.

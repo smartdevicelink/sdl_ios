@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLAudioStreamingState);
+typedef SDLEnum SDLAudioStreamingState SDL_SWIFT_ENUM;
 
 /**
  * @abstract Currently streaming audio, if any, is audible to user.

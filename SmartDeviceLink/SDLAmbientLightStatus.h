@@ -8,7 +8,7 @@
  * Reflects the status of the ambient light sensor
  * @since SDL 3.0
  */
-SDLEnum(SDLAmbientLightStatus);
+typedef SDLEnum SDLAmbientLightStatus SDL_SWIFT_ENUM;
 
 extern SDLAmbientLightStatus const SDLAmbientLightStatusNight;
 extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight1;

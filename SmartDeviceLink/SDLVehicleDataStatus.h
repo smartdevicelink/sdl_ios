@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLVehicleDataStatus);
+typedef SDLEnum SDLVehicleDataStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract No data avaliable

@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLTouchType);
+typedef SDLEnum SDLTouchType SDL_SWIFT_ENUM;
 
 extern SDLTouchType const SDLTouchTypeBegin;
 extern SDLTouchType const SDLTouchTypeMove;

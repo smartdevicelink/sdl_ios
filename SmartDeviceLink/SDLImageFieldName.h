@@ -10,7 +10,7 @@
  * @since SmartDeviceLink 3.0
  *
  */
-SDLEnum(SDLImageFieldName);
+typedef SDLEnum SDLImageFieldName SDL_SWIFT_ENUM;
 
 /** The image field for SoftButton
  *

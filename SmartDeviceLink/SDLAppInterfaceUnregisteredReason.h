@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLAppInterfaceUnregisteredReason);
+typedef SDLEnum SDLAppInterfaceUnregisteredReason SDL_SWIFT_ENUM;
 
 
 /**

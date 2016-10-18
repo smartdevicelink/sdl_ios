@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLCharacterSet);
+typedef SDLEnum SDLCharacterSet SDL_SWIFT_ENUM;
 
 extern SDLCharacterSet const SDLCharacterSetType2;
 

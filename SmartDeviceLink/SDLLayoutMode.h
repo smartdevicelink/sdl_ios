@@ -9,7 +9,7 @@
  *
  * @since SDL 3.0
  */
-SDLEnum(SDLLayoutMode);
+typedef SDLEnum SDLLayoutMode SDL_SWIFT_ENUM;
 
 /**
  * This mode causes the interaction to display the previous set of choices as icons.

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLLanguage);
+typedef SDLEnum SDLLanguage SDL_SWIFT_ENUM;
 
 /*!
  @abstract English_US

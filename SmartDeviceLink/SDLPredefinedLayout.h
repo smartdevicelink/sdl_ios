@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLPredefinedLayout);
+typedef SDLEnum SDLPredefinedLayout SDL_SWIFT_ENUM;
 
 extern SDLPredefinedLayout const SDLPredefinedLayoutDefault;
 extern SDLPredefinedLayout const SDLPredefinedLayoutMedia;

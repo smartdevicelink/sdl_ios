@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLRequestType);
+typedef SDLEnum SDLRequestType SDL_SWIFT_ENUM;
 
 extern SDLRequestType const SDLRequestTypeHTTP;
 extern SDLRequestType const SDLRequestTypeFileResume;

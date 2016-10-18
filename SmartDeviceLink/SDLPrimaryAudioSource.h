@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLPrimaryAudioSource);
+typedef SDLEnum SDLPrimaryAudioSource SDL_SWIFT_ENUM;
 
 /**
  * @abstract Currently no source selected

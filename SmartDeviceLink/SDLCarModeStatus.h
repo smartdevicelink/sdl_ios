@@ -7,7 +7,7 @@
 /** Describes the carmode the vehicle is in.
  * <b>Since</b> SmartDeviceLink 2.0
  */
-SDLEnum(SDLCarModeStatus);
+typedef SDLEnum SDLCarModeStatus SDL_SWIFT_ENUM;
 
 /** Provides carmode NORMAL to each module.
  */

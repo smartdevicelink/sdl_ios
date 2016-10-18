@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLIgnitionStableStatus);
+typedef SDLEnum SDLIgnitionStableStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract The current ignition switch status is considered not to be stable.

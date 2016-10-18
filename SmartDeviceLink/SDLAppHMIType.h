@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLAppHMIType);
+typedef SDLEnum SDLAppHMIType SDL_SWIFT_ENUM;
 
 /**
  * @abstract The App will have default rights.

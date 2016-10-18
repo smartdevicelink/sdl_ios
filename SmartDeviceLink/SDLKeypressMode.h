@@ -11,7 +11,7 @@
  * @since SmartDeviceLink 3.0
  *
  */
-SDLEnum(SDLKeypressMode);
+typedef SDLEnum SDLKeypressMode SDL_SWIFT_ENUM;
 
 /** SINGLE_KEYPRESS:<br>Each and every User`s keypress must be reported (new notification for every newly entered single symbol).
  *

@@ -10,7 +10,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLFuelCutoffStatus);
+typedef SDLEnum SDLFuelCutoffStatus SDL_SWIFT_ENUM;
 
 /** 
  * @abstract Fuel is cut off

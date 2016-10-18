@@ -9,7 +9,7 @@
 *
 * @since SDL 2.0
 */
-SDLEnum(SDLImageType);
+typedef SDLEnum SDLImageType SDL_SWIFT_ENUM;
 
 /**
  * @abstract Just the static hex icon value to be used

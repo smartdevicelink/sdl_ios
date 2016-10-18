@@ -7,7 +7,7 @@
 /**
  Vehicle Data Result Code
  */
-SDLEnum(SDLVehicleDataResultCode);
+typedef SDLEnum SDLVehicleDataResultCode SDL_SWIFT_ENUM;
 
 /**
  * Individual vehicle data item / DTC / DID request or subscription successful

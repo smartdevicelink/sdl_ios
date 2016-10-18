@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLTimerMode);
+typedef SDLEnum SDLTimerMode SDL_SWIFT_ENUM;
 
 extern SDLTimerMode const SDLTimerModeUp;
 extern SDLTimerMode const SDLTimerModeDown;

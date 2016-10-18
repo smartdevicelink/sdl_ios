@@ -7,7 +7,7 @@
 /**
  SoftButtonType (TEXT / IMAGE / BOTH)
  */
-SDLEnum(SDLSoftButtonType);
+typedef SDLEnum SDLSoftButtonType SDL_SWIFT_ENUM;
 
 /**
  @abstract Text kind Softbutton

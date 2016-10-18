@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLPermissionStatus);
+typedef SDLEnum SDLPermissionStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract permission: allowed

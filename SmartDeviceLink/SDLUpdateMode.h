@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLUpdateMode);
+typedef SDLEnum SDLUpdateMode SDL_SWIFT_ENUM;
 
 /**
  * @abstract Starts the media clock timer counting upward, in increments of 1 second.

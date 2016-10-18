@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLDisplayType);
+typedef SDLEnum SDLDisplayType SDL_SWIFT_ENUM;
 
 /**
  * @abstract This display type provides a 2-line x 20 character "dot matrix" display.

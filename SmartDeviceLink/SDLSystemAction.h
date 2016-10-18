@@ -8,7 +8,7 @@
  *
  * Enumeration that describes system actions that can be triggered.
  */
-SDLEnum(SDLSystemAction);
+typedef SDLEnum SDLSystemAction SDL_SWIFT_ENUM;
 
 /**
  @abstract Default_Action

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLHMIZoneCapabilities);
+typedef SDLEnum SDLHMIZoneCapabilities SDL_SWIFT_ENUM;
 
 /**
  * @abstract Indicates HMI available for front seat passengers.

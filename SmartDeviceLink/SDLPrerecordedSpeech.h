@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLPrerecordedSpeech);
+typedef SDLEnum SDLPrerecordedSpeech SDL_SWIFT_ENUM;
 
 extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelp;
 extern SDLPrerecordedSpeech const SDLPrerecordedSpeechInitial;

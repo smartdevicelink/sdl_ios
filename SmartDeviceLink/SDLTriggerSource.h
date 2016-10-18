@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLTriggerSource);
+typedef SDLEnum SDLTriggerSource SDL_SWIFT_ENUM;
 
 /**
  * @abstract Selection made via menu

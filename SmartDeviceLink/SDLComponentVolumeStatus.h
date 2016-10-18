@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLComponentVolumeStatus);
+typedef SDLEnum SDLComponentVolumeStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract Unknown SDLComponentVolumeStatus

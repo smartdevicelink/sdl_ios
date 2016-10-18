@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLVehicleDataNotificationStatus);
+typedef SDLEnum SDLVehicleDataNotificationStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract SDLVehicleDataNotificationStatus: *NOT_SUPPORTED*

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLDimension);
+typedef SDLEnum SDLDimension SDL_SWIFT_ENUM;
 
 /**
  * @abstract No GPS at all

@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLBitsPerSample);
+typedef SDLEnum SDLBitsPerSample SDL_SWIFT_ENUM;
 
 /**
  * @abstract 8 bits per sample

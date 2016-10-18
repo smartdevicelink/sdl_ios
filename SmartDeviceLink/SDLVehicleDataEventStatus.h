@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLVehicleDataEventStatus);
+typedef SDLEnum SDLVehicleDataEventStatus SDL_SWIFT_ENUM;
 
 extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNoEvent;
 

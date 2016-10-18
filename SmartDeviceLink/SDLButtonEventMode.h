@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLButtonEventMode);
+typedef SDLEnum SDLButtonEventMode SDL_SWIFT_ENUM;
 
 /**
  * @abstract The button was released

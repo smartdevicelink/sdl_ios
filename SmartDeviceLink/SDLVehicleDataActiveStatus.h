@@ -7,7 +7,7 @@
 /**
  Vehicle Data Activity Status
  */
-SDLEnum(SDLVehicleDataActiveStatus);
+typedef SDLEnum SDLVehicleDataActiveStatus SDL_SWIFT_ENUM;
 
 /**
  @abstract SDLVehicleDataActiveStatus : Inactive not confirmed

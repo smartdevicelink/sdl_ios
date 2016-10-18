@@ -7,7 +7,7 @@
 /**
  * The SDLMaintenanceModeStatus class.
  */
-SDLEnum(SDLMaintenanceModeStatus);
+typedef SDLEnum SDLMaintenanceModeStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract Maintenance Mode Status : Normal

@@ -7,7 +7,7 @@
 /**
  Describes different audio type options for PerformAudioPassThru
  */
-SDLEnum(SDLAudioType);
+typedef SDLEnum SDLAudioType SDL_SWIFT_ENUM;
 
 /**
  * @abstract PCM raw audio

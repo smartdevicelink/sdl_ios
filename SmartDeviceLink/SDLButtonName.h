@@ -21,7 +21,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLButtonName);
+typedef SDLEnum SDLButtonName SDL_SWIFT_ENUM;
 
 /**
  * @abstract Represents the button usually labeled "OK". A typical use of this button is for the user to press it to make a selection.

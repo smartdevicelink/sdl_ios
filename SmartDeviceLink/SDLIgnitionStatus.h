@@ -9,7 +9,7 @@
  *
  * @since SDL 2.0
  */
-SDLEnum(SDLIgnitionStatus);
+typedef SDLEnum SDLIgnitionStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract Ignition status currently unknown

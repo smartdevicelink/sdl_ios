@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLTBTState);
+typedef SDLEnum SDLTBTState SDL_SWIFT_ENUM;
 
 extern SDLTBTState const SDLTBTStateRouteUpdateRequest;
 extern SDLTBTState const SDLTBTStateRouteAccepted;

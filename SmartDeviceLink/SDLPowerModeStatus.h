@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-SDLEnum(SDLPowerModeStatus);
+typedef SDLEnum SDLPowerModeStatus SDL_SWIFT_ENUM;
 
 extern SDLPowerModeStatus const SDLPowerModeStatusKeyOut;
 extern SDLPowerModeStatus const SDLPowerModeStatusKeyRecentlyOut;

@@ -9,7 +9,7 @@
  *
  * @since SDL 1.0
  */
-SDLEnum(SDLSpeechCapabilities);
+typedef SDLEnum SDLSpeechCapabilities SDL_SWIFT_ENUM;
 
 /**
  * @abstract The SDL platform can speak text phrases.
