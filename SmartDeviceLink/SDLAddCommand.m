@@ -37,7 +37,7 @@
 - (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
     if (self = [self initWithId:commandId menuName:menuName parentId:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil handler:handler]) {
     }
-    return nil;
+    return self;
 }
 
 - (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
