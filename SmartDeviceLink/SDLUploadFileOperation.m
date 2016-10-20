@@ -14,7 +14,6 @@
 #import "SDLGlobals.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 
 
@@ -130,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // http://stackoverflow.com/a/503201 Make sure we get the exact number of packets we need
     for (int i = 0; i < (((fileData.length - 1) / mtuSize) + 1); i++) {
-        SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:nil];
+        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
 
         // Set the length putfile based on the offset

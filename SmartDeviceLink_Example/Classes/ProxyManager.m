@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     
-    SDLShow *show = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED] correlationID:@0];
+    SDLShow* show = [[SDLShow alloc] initWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED]];
     SDLSoftButton *pointingSoftButton = [self.class pointingSoftButtonWithManager:self.sdlManager];
     show.softButtons = [@[pointingSoftButton] mutableCopy];
     show.graphic = [self.class mainGraphicImage];

@@ -31,7 +31,6 @@
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
@@ -299,7 +298,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateUnregistering {
-    SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
+    SDLUnregisterAppInterface *unregisterRequest = [[SDLUnregisterAppInterface alloc] init];
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest

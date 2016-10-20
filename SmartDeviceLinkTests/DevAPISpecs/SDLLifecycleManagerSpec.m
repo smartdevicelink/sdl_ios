@@ -39,7 +39,7 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
         it(@"cannot publicly send RPCs", ^{
             __block NSError *testError = nil;
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
-            SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
+            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
             
             [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
                 testError = error;
@@ -259,7 +259,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"can send an RPC", ^{
-                SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
+                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
                 [testManager sendRequest:testShow];
                 
                 OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
