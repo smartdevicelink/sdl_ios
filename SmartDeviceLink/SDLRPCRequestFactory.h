@@ -63,16 +63,16 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 }
 
 //***** AddCommand *****
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:parentID:position:vrCommands:iconValue:iconType:handler: with SDLManager instead");
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAddCommand's buildAddCommandWithID:vrCommands:menuName:parentID:position:iconValue:iconType:handler: instead");
 ;
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:menuName:vrCommands:handler: with SDLManager instead");
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAddCommands's initWithId:vrCommands:menuName:handler: instead");
 
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands correlationID:(NSNumber *)correlationID __deprecated_msg("use buildAddCommandWithID:vrCommands:handler: with SDLManager instead");
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler __deprecated_msg("use SDLAddCommand's initWithId:menuName:parentId:position:vrCommands:iconValue:iconType:handler: instead");
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler __deprecated_msg("use SDLAddCommand's initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:handler: instead");
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler __deprecated_msg("use SDLAddCommand's initWithId:menuName:vrCommands:handler: instead");
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler __deprecated_msg("use SDLAddCommand's initWithId:vrCommands:menuName:handler: instead");
 
 + (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler __deprecated_msg("use SDLAddCommand's initWithId:vrCommands:handler: instead");
 //*****
@@ -129,7 +129,7 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 
 + (SDLGetVehicleData *)buildGetVehicleDataWithGPS:(NSNumber *)gps speed:(NSNumber *)speed rpm:(NSNumber *)rpm fuelLevel:(NSNumber *)fuelLevel fuelLevelState:(NSNumber *)fuelLevelState instantFuelConsumption:(NSNumber *)instantFuelConsumption externalTemperature:(NSNumber *)externalTemperature vin:(NSNumber *)vin prndl:(NSNumber *)prndl tirePressure:(NSNumber *)tirePressure odometer:(NSNumber *)odometer beltStatus:(NSNumber *)beltStatus bodyInformation:(NSNumber *)bodyInformation deviceStatus:(NSNumber *)deviceStatus driverBraking:(NSNumber *)driverBraking wiperStatus:(NSNumber *)wiperStatus headLampStatus:(NSNumber *)headLampStatus engineTorque:(NSNumber *)engineTorque accPedalPosition:(NSNumber *)accPedalPosition steeringWheelAngle:(NSNumber *)steeringWheelAngle correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLGetVehicleData's initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:vin:wiperStatus: instead");
 
-+ (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLPerformAudioPassThru's initWithInitialPrompt:audioPassThruDisplayText1:audioPassThruDisplayText2:samplingRate:maxDuration:bitsPerSample:audioType:muteAudio: instead");
++ (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLPerformAudioPassThru's initWithInitialPrompt:audioPassThruDisplayText1:audioPassThruDisplayText2:samplingRate:bitsPerSample:audioType:maxDuration:muteAudio: instead");
 
 
 //***** PerformInteraction *****
@@ -151,11 +151,11 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 + (SDLReadDID *)buildReadDIDWithECUName:(NSNumber *)ecuName didLocation:(NSArray *)didLocation correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLReadDID's initWithECUName:didLocation: instead");
 
 //***** RegisterAppInterface *****
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName ttsName:(NSMutableArray *)ttsName vrSynonyms:(NSMutableArray *)vrSynonyms isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:ttsName:vrSynonyms:isMediaApp:languageDesired:hmiDisplayLanguageDesired:appId: instead");
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName ttsName:(NSMutableArray *)ttsName vrSynonyms:(NSMutableArray *)vrSynonyms isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired:isMediaApp:ttsName:vrSynonyms:hmiDisplayLanguageDesired: instead");
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:isMediaApp:languageDesired:appId: instead");
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired:isMediaApp: instead");
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)laguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:languageDesired:appId: instead");
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)laguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired: instead");
 //*****
 
 + (SDLResetGlobalProperties *)buildResetGlobalPropertiesWithProperties:(NSArray *)properties correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLResetGlobalProperties's initWithProperties: instead");
@@ -184,9 +184,9 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 
 
 //***** Show *****
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray *)softButtons customPresets:(NSArray *)customPresets correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:mainField3:mainField4:statusBar:mediaClock:mediaTrack:alignment:graphic:softButtons:customPresets: instead");
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray *)softButtons customPresets:(NSArray *)customPresets correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets: instead");
 
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:statusBar:mediaClock:mediaTrack:alignment: instead");
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack: instead");
 
 + (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:alignment: instead");
 //*****

@@ -24,7 +24,7 @@
 }
 
 
-- (instancetype)initWithHours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds updateMode:(SDLUpdateMode *)updateMode {
+- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode hours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds {
     self = [self initWithUpdateMode:updateMode];
     if (!self) {
         return nil;

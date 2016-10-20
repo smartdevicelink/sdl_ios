@@ -35,6 +35,7 @@
 
 - (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp;
 
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp menuTitle:(NSString*)menuTitle menuIcon:(SDLImage*)menuIcon keyboardProperties:(SDLKeyboardProperties*)keyboardProperties;
 
 /**
  * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more

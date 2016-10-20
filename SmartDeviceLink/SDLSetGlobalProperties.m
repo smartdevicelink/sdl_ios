@@ -31,6 +31,10 @@
 }
 
 - (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp {
+    return [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:vrHelpTitle vrHelp:vrHelp menuTitle:nil menuIcon:nil keyboardProperties:nil];
+}
+
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp menuTitle:(NSString *)menuTitle menuIcon:(SDLImage *)menuIcon keyboardProperties:(SDLKeyboardProperties *)keyboardProperties {
     self = [self init];
     if (!self) {
         return nil;
@@ -40,6 +44,9 @@
     self.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
     self.vrHelpTitle = vrHelpTitle;
     self.vrHelp = [vrHelp mutableCopy];
+    self.menuTitle = menuTitle;
+    self.menuIcon = menuIcon;
+    self.keyboardProperties = keyboardProperties;
     
     return self;
 }

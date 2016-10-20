@@ -26,8 +26,8 @@
     return self;
 }
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(BOOL)muteAudio {
-    self = [self init];
+- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio {
+    self = [self initWithSamplingRate:samplingRate bitsPerSample:bitsPerSample audioType:audioType maxDuration:maxDuration];
     if (!self) {
         return nil;
     }
@@ -35,12 +35,22 @@
     self.initialPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
     self.audioPassThruDisplayText1 = audioPassThruDisplayText1;
     self.audioPassThruDisplayText2 = audioPassThruDisplayText2;
-    self.samplingRate = samplingRate;
-    self.maxDuration = maxDuration;
-    self.bitsPerSample = bitsPerSample;
-    self.audioType = audioType;
     self.muteAudio = @(muteAudio);
 
+    return self;
+}
+
+- (instancetype)initWithSamplingRate:(SDLSamplingRate*)samplingRate bitsPerSample:(SDLBitsPerSample*)bitsPerSample audioType:(SDLAudioType*)audioType maxDuration:(UInt32)maxDuration {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.samplingRate = samplingRate;
+    self.bitsPerSample = bitsPerSample;
+    self.audioType = audioType;
+    self.maxDuration = @(maxDuration);
+    
     return self;
 }
 

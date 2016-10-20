@@ -7,6 +7,8 @@
 #import "SDLTTSChunk.h"
 #import "SDLTTSChunkFactory.h"
 
+static UInt16 const SDLDefaultDuration = 5000;
+
 @implementation SDLAlert
 
 - (instancetype)init {
@@ -21,36 +23,44 @@
     return self;
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 duration:(NSNumber *)duration {
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 {
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:SDLDefaultDuration];
+}
+
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 duration:(UInt16)duration {
     return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil duration:duration];
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration {
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration {
     return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:duration softButtons:nil];
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration softButtons:(NSArray *)softButtons {
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration softButtons:(NSArray *)softButtons {
     return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:NO duration:duration softButtons:softButtons];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText playTone:(BOOL)playTone {
-    return [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:nil];
+    return [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:SDLDefaultDuration];
 }
 
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(NSNumber *)duration {
+- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration {
     return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration];
 }
 
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(NSNumber *)duration {
+- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
     NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
     return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil];
 }
 
 - (instancetype)initWithTTSChunks:(NSArray *)ttsChunks playTone:(BOOL)playTone {
-    return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:nil softButtons:nil];
+    return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:SDLDefaultDuration softButtons:nil];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(NSNumber *)duration softButtons:(NSArray *)softButtons {
+- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone softButtons:(NSArray *)softButtons {
+    return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:SDLDefaultDuration softButtons:softButtons];
+}
+
+- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray *)softButtons {
     self = [self init];
     if (!self) {
         return nil;
@@ -61,7 +71,7 @@
     self.alertText2 = alertText2;
     self.alertText3 = alertText3;
     self.playTone = @(playTone);
-    self.duration = duration;
+    self.duration = @(duration);
     self.softButtons = [softButtons mutableCopy];
     
     return self;

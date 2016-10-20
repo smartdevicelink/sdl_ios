@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithId:(NSInteger)choiceId {
+- (instancetype)initWithId:(UInt32)choiceId {
     self = [self init];
     if (!self) {
         return nil;

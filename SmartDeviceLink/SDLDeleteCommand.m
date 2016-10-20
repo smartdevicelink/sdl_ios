@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithId:(NSInteger)commandId {
+- (instancetype)initWithId:(UInt32)commandId {
     self = [self init];
     if (!self) {
         return nil;

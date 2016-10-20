@@ -7,6 +7,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 #import "SDLSyncMsgVersion.h"
@@ -27,15 +28,19 @@
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId {
-    return [self initWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appId:appId];
+- (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    return [self initWithAppName:lifecycleConfiguration.appName appId:lifecycleConfiguration.appId languageDesired:lifecycleConfiguration.language isMediaApp:lifecycleConfiguration.isMedia ttsName:lifecycleConfiguration.ttsName vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames hmiDisplayLanguageDesired:lifecycleConfiguration.language];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId {
-    return [self initWithAppName:appName ttsName:nil vrSynonyms:@[appName] isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appId:appId];
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired {
+    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:NO];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appId:(NSString *)appId {
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp {
+    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp ttsName:nil vrSynonyms:nil hmiDisplayLanguageDesired:languageDesired];
+}
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
     self = [self init];
     if (!self) {
         return nil;

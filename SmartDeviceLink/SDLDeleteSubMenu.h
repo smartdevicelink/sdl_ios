@@ -29,7 +29,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(NSInteger)menuId;
+- (instancetype)initWithId:(UInt32)menuId;
 
 /**
  * @abstract the MenuID that identifies the SDLSubMenu to be delete

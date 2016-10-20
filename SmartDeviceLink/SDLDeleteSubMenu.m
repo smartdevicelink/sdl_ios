@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithId:(NSInteger)menuId {
+- (instancetype)initWithId:(UInt32)menuId {
     self = [self init];
     if (!self) {
         return nil;

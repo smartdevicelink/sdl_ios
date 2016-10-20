@@ -187,19 +187,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Build a register app interface request with the configuration data
-    SDLRegisterAppInterface* regRequest = [[SDLRegisterAppInterface alloc] initWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appId:self.configuration.lifecycleConfig.appId];
-    regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
-    regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;
-    regRequest.appHMIType = [NSMutableArray arrayWithObject:self.configuration.lifecycleConfig.appType];
-
-    if (self.configuration.lifecycleConfig.ttsName != nil) {
-        regRequest.ttsName = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.ttsName];
-    }
-
-    if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
-    }
+    SDLRegisterAppInterface* regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;

@@ -34,7 +34,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(NSInteger)choiceId;
+- (instancetype)initWithId:(UInt32)choiceId;
 
 /**
  * @abstract a unique ID that identifies the Choice Set

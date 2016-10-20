@@ -34,32 +34,42 @@
     return self;
 }
 
-- (instancetype)initWithId:(NSNumber *)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
-    return [self initWithId:commandId menuName:nil vrCommands:vrCommands handler:handler];
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
+    return [self initWithId:commandId vrCommands:vrCommands menuName:nil handler:handler];
 }
 
-- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
-    return [self initWithId:commandId menuName:menuName parentId:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil handler:handler];
-}
-
-- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
-    self = [self initWithHandler:handler];
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler {
+    self = [self init];
     if (!self) {
         return nil;
     }
     
-    self.cmdID = commandId;
+    self.cmdID = @(commandId);
     
-    if (menuName != nil || parentId != nil || position != nil) {
-        self.menuParams = [[SDLMenuParams alloc] initWithMenuName:menuName parentId:parentId.unsignedIntegerValue position:position.unsignedIntegerValue];
+    if (menuName != nil) {
+        self.menuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
     }
     
     self.vrCommands = [vrCommands mutableCopy];
+    self.handler = handler;
     
-    if (iconValue != nil || iconType != nil) {
-        self.cmdIcon = [[SDLImage alloc] initWithName:iconValue ofType:iconType];
+    return self;
+
+}
+
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
+    self = [self initWithId:commandId vrCommands:vrCommands menuName:menuName handler:handler];
+    if (!self) {
+        return nil;
     }
     
+    self.menuParams.parentID = @(parentId);
+    self.menuParams.position = @(position);
+    
+    if (iconValue != nil && iconType != nil) {
+        self.cmdIcon = [[SDLImage alloc] initWithName:iconValue ofType:iconType];
+    }
+
     return self;
 }
 

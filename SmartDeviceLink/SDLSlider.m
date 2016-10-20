@@ -20,8 +20,8 @@
     return self;
 }
 
-- (instancetype)initWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(NSNumber *)timeout {
-    NSMutableArray *sliderFooters = [NSMutableArray arrayWithCapacity:numTicks.unsignedIntegerValue];
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(NSNumber *)timeout {
+    NSMutableArray *sliderFooters = [NSMutableArray arrayWithCapacity:numTicks];
     
     // Populates array with the same footer value for each position
     for (int i = 0; i < sliderFooters.count; i++) {
@@ -31,14 +31,14 @@
     return [self initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:[sliderFooters copy] timeout:timeout];
 }
 
-- (instancetype)initWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray *)sliderFooters timeout:(NSNumber *)timeout {
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray *)sliderFooters timeout:(NSNumber *)timeout {
     self = [self init];
     if (!self) {
         return nil;
     }
     
-    self.numTicks = numTicks;
-    self.position = position;
+    self.numTicks = @(numTicks);
+    self.position = @(position);
     self.sliderHeader = sliderHeader;
     self.sliderFooter = [sliderFooters mutableCopy];
     self.timeout = timeout;

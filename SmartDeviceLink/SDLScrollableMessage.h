@@ -27,6 +27,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithMessage:(NSString *)message;
+
 - (instancetype)initWithMessage:(NSString *)message timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons;
 
 /**

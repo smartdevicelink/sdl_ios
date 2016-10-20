@@ -57,11 +57,11 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(NSNumber *)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
 
-- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler;
 
-- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.

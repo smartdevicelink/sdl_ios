@@ -21,7 +21,7 @@
     return self;
 }
 
-- (instancetype)initWithId:(NSInteger)choiceId choiceSet:(NSArray *)choiceSet {
+- (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray *)choiceSet {
     self = [self init];
     if (!self) {
         return nil;

@@ -212,7 +212,7 @@ describe(@"a response dispatcher", ^{
     
     context(@"storing a command request", ^{
         __block SDLAddCommand *testAddCommand = nil;
-        __block NSNumber *testCommandId = nil;
+        __block UInt32 testCommandId = 0;
         __block NSUInteger numTimesHandlerCalled = 0;
         
         __block NSNumber *testAddCommandCorrelationId = nil;
@@ -220,7 +220,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a handler", ^{
             beforeEach(^{
-                testCommandId = @1;
+                testCommandId = 1;
                 testAddCommandCorrelationId = @42;
                 numTimesHandlerCalled = 0;
                 
@@ -253,7 +253,7 @@ describe(@"a response dispatcher", ^{
                 context(@"that correspond to the created button", ^{
                     beforeEach(^{
                         testOnCommand = [[SDLOnCommand alloc] init];
-                        testOnCommand.cmdID = testCommandId;
+                        testOnCommand.cmdID = @(testCommandId);
                         
                         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveCommandNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testOnCommand }];
                     });
@@ -289,7 +289,7 @@ describe(@"a response dispatcher", ^{
                     
                     testDeleteCommand = [[SDLDeleteCommand alloc] init];
                     testDeleteCommand.correlationID = testDeleteCommandCorrelationId;
-                    testDeleteCommand.cmdID = testCommandId;
+                    testDeleteCommand.cmdID = @(testCommandId);
                     
                     [testDispatcher storeRequest:testDeleteCommand handler:nil];
                     
@@ -311,7 +311,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"without a handler", ^{
             beforeEach(^{
-                testAddCommand = [[SDLAddCommand alloc] initWithId:@1 vrCommands:nil handler:nil];
+                testAddCommand = [[SDLAddCommand alloc] initWithId:1 vrCommands:nil handler:nil];
             });
                                   
             it(@"should not add the command", ^{

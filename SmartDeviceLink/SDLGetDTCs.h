@@ -27,7 +27,9 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithECUName:(NSInteger)name;
+- (instancetype)initWithECUName:(UInt16)name;
+
+- (instancetype)initWithECUName:(UInt16)name mask:(UInt8)mask;
 
 /**
  * @abstract a name of the module to receive the DTC form

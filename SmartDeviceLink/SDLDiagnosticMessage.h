@@ -15,7 +15,7 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithTargetId:(NSUInteger)targetId length:(NSUInteger)length data:(NSArray*)data;
+- (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray*)data;
 
 /**
  * Name of target ECU

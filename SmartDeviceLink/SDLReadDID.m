@@ -20,13 +20,13 @@
     return self;
 }
 
-- (instancetype)initWithECUName:(NSNumber *)ecuName didLocation:(NSArray *)didLocation {
+- (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray *)didLocation {
     self = [self init];
     if (!self) {
         return nil;
     }
     
-    self.ecuName = ecuName;
+    self.ecuName = @(ecuName);
     self.didLocation = [didLocation mutableCopy];
     
     return self;

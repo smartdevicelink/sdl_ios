@@ -5,6 +5,7 @@
 
 @class SDLDeviceInfo;
 @class SDLLanguage;
+@class SDLLifecycleConfiguration;
 @class SDLSyncMsgVersion;
 @class SDLAppInfo;
 
@@ -94,11 +95,13 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId;
+- (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration*)lifecycleConfiguration;
 
-- (instancetype)initWithAppName:(NSString *)appName isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId;
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired;
 
-- (instancetype)initWithAppName:(NSString *)appName ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appId:(NSString *)appId;
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired;
 
 /**
  * @abstract The version of the SDL interface

@@ -12,7 +12,9 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithText:(NSString*)text image:(SDLImage*)image position:(NSNumber*)position;
+- (instancetype)initWithText:(NSString*)text image:(SDLImage*)image;
+
+- (instancetype)initWithText:(NSString*)text image:(SDLImage*)image position:(UInt8)position;
 
 @property (strong) NSString *text;
 @property (strong) SDLImage *image;

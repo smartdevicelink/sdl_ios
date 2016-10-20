@@ -31,6 +31,8 @@
 
 - (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage;
 
+- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray*)vrSynonyms;
+
 /**
  * @abstract The language the app wants to change to
  */

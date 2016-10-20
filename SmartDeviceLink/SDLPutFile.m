@@ -21,7 +21,31 @@
     return self;
 }
 
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt64)offset length:(UInt64)length {
+    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
+    if (!self) {
+        return nil;
+    }
+    
+    self.systemFile = @(systemFile);
+    self.offset = @(offset);
+    self.length = @(length);
+    
+    return self;
+}
+
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile {
+    self = [self initWithFileName:fileName fileType:fileType];
+    if (!self) {
+        return nil;
+    }
+    
+    self.persistentFile = @(persistentFile);
+
+    return self;
+}
+
+- (instancetype)initWithFileName:(NSString*)fileName fileType:(SDLFileType*)fileType {
     self = [self init];
     if (!self) {
         return nil;
@@ -29,8 +53,7 @@
     
     self.syncFileName = fileName;
     self.fileType = fileType;
-    self.persistentFile = @(persistentFile);
-
+    
     return self;
 }
 

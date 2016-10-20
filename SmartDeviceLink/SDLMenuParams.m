@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithMenuName:(NSString *)menuName parentId:(NSUInteger)parentId position:(NSUInteger)position {
+- (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position {
     self = [self initWithMenuName:menuName];
     if (!self) {
         return nil;

@@ -32,7 +32,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(NSInteger)choiceId choiceSet:(NSArray *)choiceSet;
+- (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray *)choiceSet;
 
 /**
  * @abstract A unique ID that identifies the Choice Set
