@@ -4,15 +4,12 @@
 
 #import "SDLAudioPassThruCapabilities.h"
 
-#import "SDLAudioType.h"
-#import "SDLBitsPerSample.h"
 #import "SDLNames.h"
-#import "SDLSamplingRate.h"
 
 
 @implementation SDLAudioPassThruCapabilities
 
-- (void)setSamplingRate:(SDLSamplingRate *)samplingRate {
+- (void)setSamplingRate:(SDLSamplingRate)samplingRate {
     if (samplingRate != nil) {
         [store setObject:samplingRate forKey:SDLNameSamplingRate];
     } else {
@@ -20,16 +17,12 @@
     }
 }
 
-- (SDLSamplingRate *)samplingRate {
+- (SDLSamplingRate)samplingRate {
     NSObject *obj = [store objectForKey:SDLNameSamplingRate];
-    if (obj == nil || [obj isKindOfClass:SDLSamplingRate.class]) {
-        return (SDLSamplingRate *)obj;
-    } else {
-        return [SDLSamplingRate valueOf:(NSString *)obj];
-    }
+    return (SDLSamplingRate)obj;
 }
 
-- (void)setBitsPerSample:(SDLBitsPerSample *)bitsPerSample {
+- (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
     if (bitsPerSample != nil) {
         [store setObject:bitsPerSample forKey:SDLNameBitsPerSample];
     } else {
@@ -37,16 +30,12 @@
     }
 }
 
-- (SDLBitsPerSample *)bitsPerSample {
+- (SDLBitsPerSample)bitsPerSample {
     NSObject *obj = [store objectForKey:SDLNameBitsPerSample];
-    if (obj == nil || [obj isKindOfClass:SDLBitsPerSample.class]) {
-        return (SDLBitsPerSample *)obj;
-    } else {
-        return [SDLBitsPerSample valueOf:(NSString *)obj];
-    }
+    return (SDLBitsPerSample)obj;
 }
 
-- (void)setAudioType:(SDLAudioType *)audioType {
+- (void)setAudioType:(SDLAudioType)audioType {
     if (audioType != nil) {
         [store setObject:audioType forKey:SDLNameAudioType];
     } else {
@@ -54,13 +43,9 @@
     }
 }
 
-- (SDLAudioType *)audioType {
+- (SDLAudioType)audioType {
     NSObject *obj = [store objectForKey:SDLNameAudioType];
-    if (obj == nil || [obj isKindOfClass:SDLAudioType.class]) {
-        return (SDLAudioType *)obj;
-    } else {
-        return [SDLAudioType valueOf:(NSString *)obj];
-    }
+    return (SDLAudioType)obj;
 }
 
 @end

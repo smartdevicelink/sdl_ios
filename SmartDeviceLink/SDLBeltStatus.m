@@ -8,7 +8,7 @@
 
 @implementation SDLBeltStatus
 
-- (void)setDriverBeltDeployed:(SDLVehicleDataEventStatus *)driverBeltDeployed {
+- (void)setDriverBeltDeployed:(SDLVehicleDataEventStatus)driverBeltDeployed {
     if (driverBeltDeployed != nil) {
         [store setObject:driverBeltDeployed forKey:SDLNameDriverBeltDeployed];
     } else {
@@ -16,16 +16,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverBeltDeployed {
+- (SDLVehicleDataEventStatus)driverBeltDeployed {
     NSObject *obj = [store objectForKey:SDLNameDriverBeltDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerBeltDeployed:(SDLVehicleDataEventStatus *)passengerBeltDeployed {
+- (void)setPassengerBeltDeployed:(SDLVehicleDataEventStatus)passengerBeltDeployed {
     if (passengerBeltDeployed != nil) {
         [store setObject:passengerBeltDeployed forKey:SDLNamePassengerBeltDeployed];
     } else {
@@ -33,16 +29,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerBeltDeployed {
+- (SDLVehicleDataEventStatus)passengerBeltDeployed {
     NSObject *obj = [store objectForKey:SDLNamePassengerBeltDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerBuckleBelted:(SDLVehicleDataEventStatus *)passengerBuckleBelted {
+- (void)setPassengerBuckleBelted:(SDLVehicleDataEventStatus)passengerBuckleBelted {
     if (passengerBuckleBelted != nil) {
         [store setObject:passengerBuckleBelted forKey:SDLNamePassengerBuckleBelted];
     } else {
@@ -50,16 +42,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerBuckleBelted {
+- (SDLVehicleDataEventStatus)passengerBuckleBelted {
     NSObject *obj = [store objectForKey:SDLNamePassengerBuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setDriverBuckleBelted:(SDLVehicleDataEventStatus *)driverBuckleBelted {
+- (void)setDriverBuckleBelted:(SDLVehicleDataEventStatus)driverBuckleBelted {
     if (driverBuckleBelted != nil) {
         [store setObject:driverBuckleBelted forKey:SDLNameDriverBuckleBelted];
     } else {
@@ -67,16 +55,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverBuckleBelted {
+- (SDLVehicleDataEventStatus)driverBuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameDriverBuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setLeftRow2BuckleBelted:(SDLVehicleDataEventStatus *)leftRow2BuckleBelted {
+- (void)setLeftRow2BuckleBelted:(SDLVehicleDataEventStatus)leftRow2BuckleBelted {
     if (leftRow2BuckleBelted != nil) {
         [store setObject:leftRow2BuckleBelted forKey:SDLNameLeftRow2BuckleBelted];
     } else {
@@ -84,16 +68,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)leftRow2BuckleBelted {
+- (SDLVehicleDataEventStatus)leftRow2BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameLeftRow2BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerChildDetected:(SDLVehicleDataEventStatus *)passengerChildDetected {
+- (void)setPassengerChildDetected:(SDLVehicleDataEventStatus)passengerChildDetected {
     if (passengerChildDetected != nil) {
         [store setObject:passengerChildDetected forKey:SDLNamePassengerChildDetected];
     } else {
@@ -101,16 +81,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerChildDetected {
+- (SDLVehicleDataEventStatus)passengerChildDetected {
     NSObject *obj = [store objectForKey:SDLNamePassengerChildDetected];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setRightRow2BuckleBelted:(SDLVehicleDataEventStatus *)rightRow2BuckleBelted {
+- (void)setRightRow2BuckleBelted:(SDLVehicleDataEventStatus)rightRow2BuckleBelted {
     if (rightRow2BuckleBelted != nil) {
         [store setObject:rightRow2BuckleBelted forKey:SDLNameRightRow2BuckleBelted];
     } else {
@@ -118,16 +94,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)rightRow2BuckleBelted {
+- (SDLVehicleDataEventStatus)rightRow2BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameRightRow2BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setMiddleRow2BuckleBelted:(SDLVehicleDataEventStatus *)middleRow2BuckleBelted {
+- (void)setMiddleRow2BuckleBelted:(SDLVehicleDataEventStatus)middleRow2BuckleBelted {
     if (middleRow2BuckleBelted != nil) {
         [store setObject:middleRow2BuckleBelted forKey:SDLNameMiddleRow2BuckleBelted];
     } else {
@@ -135,16 +107,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)middleRow2BuckleBelted {
+- (SDLVehicleDataEventStatus)middleRow2BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameMiddleRow2BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setMiddleRow3BuckleBelted:(SDLVehicleDataEventStatus *)middleRow3BuckleBelted {
+- (void)setMiddleRow3BuckleBelted:(SDLVehicleDataEventStatus)middleRow3BuckleBelted {
     if (middleRow3BuckleBelted != nil) {
         [store setObject:middleRow3BuckleBelted forKey:SDLNameMiddleRow3BuckleBelted];
     } else {
@@ -152,16 +120,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)middleRow3BuckleBelted {
+- (SDLVehicleDataEventStatus)middleRow3BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameMiddleRow3BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setLeftRow3BuckleBelted:(SDLVehicleDataEventStatus *)leftRow3BuckleBelted {
+- (void)setLeftRow3BuckleBelted:(SDLVehicleDataEventStatus)leftRow3BuckleBelted {
     if (leftRow3BuckleBelted != nil) {
         [store setObject:leftRow3BuckleBelted forKey:SDLNameLeftRow3BuckleBelted];
     } else {
@@ -169,16 +133,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)leftRow3BuckleBelted {
+- (SDLVehicleDataEventStatus)leftRow3BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameLeftRow3BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setRightRow3BuckleBelted:(SDLVehicleDataEventStatus *)rightRow3BuckleBelted {
+- (void)setRightRow3BuckleBelted:(SDLVehicleDataEventStatus)rightRow3BuckleBelted {
     if (rightRow3BuckleBelted != nil) {
         [store setObject:rightRow3BuckleBelted forKey:SDLNameRightRow3BuckleBelted];
     } else {
@@ -186,16 +146,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)rightRow3BuckleBelted {
+- (SDLVehicleDataEventStatus)rightRow3BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameRightRow3BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setLeftRearInflatableBelted:(SDLVehicleDataEventStatus *)leftRearInflatableBelted {
+- (void)setLeftRearInflatableBelted:(SDLVehicleDataEventStatus)leftRearInflatableBelted {
     if (leftRearInflatableBelted != nil) {
         [store setObject:leftRearInflatableBelted forKey:SDLNameLeftRearInflatableBelted];
     } else {
@@ -203,16 +159,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)leftRearInflatableBelted {
+- (SDLVehicleDataEventStatus)leftRearInflatableBelted {
     NSObject *obj = [store objectForKey:SDLNameLeftRearInflatableBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setRightRearInflatableBelted:(SDLVehicleDataEventStatus *)rightRearInflatableBelted {
+- (void)setRightRearInflatableBelted:(SDLVehicleDataEventStatus)rightRearInflatableBelted {
     if (rightRearInflatableBelted != nil) {
         [store setObject:rightRearInflatableBelted forKey:SDLNameRightRearInflatableBelted];
     } else {
@@ -220,16 +172,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)rightRearInflatableBelted {
+- (SDLVehicleDataEventStatus)rightRearInflatableBelted {
     NSObject *obj = [store objectForKey:SDLNameRightRearInflatableBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setMiddleRow1BeltDeployed:(SDLVehicleDataEventStatus *)middleRow1BeltDeployed {
+- (void)setMiddleRow1BeltDeployed:(SDLVehicleDataEventStatus)middleRow1BeltDeployed {
     if (middleRow1BeltDeployed != nil) {
         [store setObject:middleRow1BeltDeployed forKey:SDLNameMiddleRow1BeltDeployed];
     } else {
@@ -237,16 +185,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)middleRow1BeltDeployed {
+- (SDLVehicleDataEventStatus)middleRow1BeltDeployed {
     NSObject *obj = [store objectForKey:SDLNameMiddleRow1BeltDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setMiddleRow1BuckleBelted:(SDLVehicleDataEventStatus *)middleRow1BuckleBelted {
+- (void)setMiddleRow1BuckleBelted:(SDLVehicleDataEventStatus)middleRow1BuckleBelted {
     if (middleRow1BuckleBelted != nil) {
         [store setObject:middleRow1BuckleBelted forKey:SDLNameMiddleRow1BuckleBelted];
     } else {
@@ -254,13 +198,9 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)middleRow1BuckleBelted {
+- (SDLVehicleDataEventStatus)middleRow1BuckleBelted {
     NSObject *obj = [store objectForKey:SDLNameMiddleRow1BuckleBelted];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
 @end

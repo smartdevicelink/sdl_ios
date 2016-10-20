@@ -5,8 +5,6 @@
 
 #import "SDLImage.h"
 #import "SDLNames.h"
-#import "SDLSoftButtonType.h"
-#import "SDLSystemAction.h"
 
 @implementation SDLSoftButton
 
@@ -21,7 +19,7 @@
     return self;
 }
 
-- (void)setType:(SDLSoftButtonType *)type {
+- (void)setType:(SDLSoftButtonType)type {
     if (type != nil) {
         [store setObject:type forKey:SDLNameType];
     } else {
@@ -29,13 +27,9 @@
     }
 }
 
-- (SDLSoftButtonType *)type {
+- (SDLSoftButtonType)type {
     NSObject *obj = [store objectForKey:SDLNameType];
-    if (obj == nil || [obj isKindOfClass:SDLSoftButtonType.class]) {
-        return (SDLSoftButtonType *)obj;
-    } else {
-        return [SDLSoftButtonType valueOf:(NSString *)obj];
-    }
+    return (SDLSoftButtonType)obj;
 }
 
 - (void)setText:(NSString *)text {
@@ -91,7 +85,7 @@
     return [store objectForKey:SDLNameSoftButtonId];
 }
 
-- (void)setSystemAction:(SDLSystemAction *)systemAction {
+- (void)setSystemAction:(SDLSystemAction)systemAction {
     if (systemAction != nil) {
         [store setObject:systemAction forKey:SDLNameSystemAction];
     } else {
@@ -99,13 +93,9 @@
     }
 }
 
-- (SDLSystemAction *)systemAction {
+- (SDLSystemAction)systemAction {
     NSObject *obj = [store objectForKey:SDLNameSystemAction];
-    if (obj == nil || [obj isKindOfClass:SDLSystemAction.class]) {
-        return (SDLSystemAction *)obj;
-    } else {
-        return [SDLSystemAction valueOf:(NSString *)obj];
-    }
+    return (SDLSystemAction)obj;
 }
 
 @end

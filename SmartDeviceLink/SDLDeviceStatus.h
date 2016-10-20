@@ -3,8 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLDeviceLevelStatus;
-@class SDLPrimaryAudioSource;
+#import "SDLDeviceLevelStatus.h"
+#import "SDLPrimaryAudioSource.h"
 
 
 /**
@@ -142,7 +142,7 @@
  *
  * Required
  */
-@property (strong) SDLDeviceLevelStatus *battLevelStatus;
+@property (strong) SDLDeviceLevelStatus battLevelStatus;
 
 /**
  * @abstract The status of the stereo audio output channel
@@ -165,7 +165,7 @@
  *
  * Required
  */
-@property (strong) SDLDeviceLevelStatus *signalLevelStatus;
+@property (strong) SDLDeviceLevelStatus signalLevelStatus;
 
 /**
  * @abstract The current primary audio source of SDL (if selected).
@@ -174,7 +174,7 @@
  * 
  * Required
  */
-@property (strong) SDLPrimaryAudioSource *primaryAudioSource;
+@property (strong) SDLPrimaryAudioSource primaryAudioSource;
 
 /**
  * @abstract Indicates if an emergency call is active

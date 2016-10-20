@@ -20,26 +20,26 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] init];
         
-        testNotification.buttonName = [SDLButtonName CUSTOM_BUTTON];
-        testNotification.buttonEventMode = [SDLButtonEventMode BUTTONDOWN];
+        testNotification.buttonName = SDLButtonNameCustomButton;
+        testNotification.buttonEventMode = SDLButtonEventModeButtonDown;
         testNotification.customButtonID = @4252;
         
-        expect(testNotification.buttonName).to(equal([SDLButtonName CUSTOM_BUTTON]));
-        expect(testNotification.buttonEventMode).to(equal([SDLButtonEventMode BUTTONDOWN]));
+        expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));
+        expect(testNotification.buttonEventMode).to(equal(SDLButtonEventModeButtonDown));
         expect(testNotification.customButtonID).to(equal(@4252));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameButtonName:[SDLButtonName CUSTOM_BUTTON],
-                                                                   SDLNameButtonEventMode:[SDLButtonEventMode BUTTONDOWN],
-                                                                   SDLNameCustomButtonId:@4252},
-                                                             SDLNameOperationName:SDLNameOnButtonEvent}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameButtonName:SDLButtonNameCustomButton,
+                                                   SDLNameButtonEventMode:SDLButtonEventModeButtonDown,
+                                                   SDLNameCustomButtonId:@4252},
+                                             SDLNameOperationName:SDLNameOnButtonEvent}} mutableCopy];
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] initWithDictionary:dict];
         
-        expect(testNotification.buttonName).to(equal([SDLButtonName CUSTOM_BUTTON]));
-        expect(testNotification.buttonEventMode).to(equal([SDLButtonEventMode BUTTONDOWN]));
+        expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));
+        expect(testNotification.buttonEventMode).to(equal(SDLButtonEventModeButtonDown));
         expect(testNotification.customButtonID).to(equal(@4252));
     });
     

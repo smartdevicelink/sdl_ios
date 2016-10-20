@@ -3,14 +3,14 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataNotificationStatus;
-@class SDLECallConfirmationStatus;
+#import "SDLECallConfirmationStatus.h"
+#import "SDLVehicleDataNotificationStatus.h"
 
 
 @interface SDLECallInfo : SDLRPCStruct
 
-@property (strong) SDLVehicleDataNotificationStatus *eCallNotificationStatus;
-@property (strong) SDLVehicleDataNotificationStatus *auxECallNotificationStatus;
-@property (strong) SDLECallConfirmationStatus *eCallConfirmationStatus;
+@property (strong) SDLVehicleDataNotificationStatus eCallNotificationStatus;
+@property (strong) SDLVehicleDataNotificationStatus auxECallNotificationStatus;
+@property (strong) SDLECallConfirmationStatus eCallConfirmationStatus;
 
 @end

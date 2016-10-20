@@ -4,7 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLLanguage;
+#import "SDLLanguage.h"
+
 @class SDLTTSChunk;
 
 /**
@@ -19,12 +20,12 @@
 /**
  * @abstract The language the app wants to change to
  */
-@property (strong, nonatomic) SDLLanguage *language;
+@property (strong, nonatomic) SDLLanguage language;
 
 /**
  * @abstract HMI display language
  */
-@property (strong, nonatomic) SDLLanguage *hmiDisplayLanguage;
+@property (strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 /**
  *  Request a new app name registration

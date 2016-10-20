@@ -4,8 +4,7 @@
 
 #import "SDLRPCResponse.h"
 
-@class SDLTriggerSource;
-
+#import "SDLTriggerSource.h"
 
 /**
  * PerformInteraction Response is sent, when SDLPerformInteraction has been called
@@ -37,7 +36,7 @@
  *
  * @discussion Only is valid if resultCode is SUCCESS.
  */
-@property (strong) SDLTriggerSource *triggerSource;
+@property (strong) SDLTriggerSource triggerSource;
 
 
 @end

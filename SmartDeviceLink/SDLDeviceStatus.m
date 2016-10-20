@@ -69,7 +69,7 @@
     return [store objectForKey:SDLNameTextMessageAvailable];
 }
 
-- (void)setBattLevelStatus:(SDLDeviceLevelStatus *)battLevelStatus {
+- (void)setBattLevelStatus:(SDLDeviceLevelStatus )battLevelStatus {
     if (battLevelStatus != nil) {
         [store setObject:battLevelStatus forKey:SDLNameBatteryLevelStatus];
     } else {
@@ -77,13 +77,9 @@
     }
 }
 
-- (SDLDeviceLevelStatus *)battLevelStatus {
+- (SDLDeviceLevelStatus)battLevelStatus {
     NSObject *obj = [store objectForKey:SDLNameBatteryLevelStatus];
-    if (obj == nil || [obj isKindOfClass:SDLDeviceLevelStatus.class]) {
-        return (SDLDeviceLevelStatus *)obj;
-    } else {
-        return [SDLDeviceLevelStatus valueOf:(NSString *)obj];
-    }
+    return (SDLDeviceLevelStatus)obj;
 }
 
 - (void)setStereoAudioOutputMuted:(NSNumber *)stereoAudioOutputMuted {
@@ -110,7 +106,7 @@
     return [store objectForKey:SDLNameMonoAudioOutputMuted];
 }
 
-- (void)setSignalLevelStatus:(SDLDeviceLevelStatus *)signalLevelStatus {
+- (void)setSignalLevelStatus:(SDLDeviceLevelStatus)signalLevelStatus {
     if (signalLevelStatus != nil) {
         [store setObject:signalLevelStatus forKey:SDLNameSignalLevelStatus];
     } else {
@@ -118,16 +114,12 @@
     }
 }
 
-- (SDLDeviceLevelStatus *)signalLevelStatus {
+- (SDLDeviceLevelStatus)signalLevelStatus {
     NSObject *obj = [store objectForKey:SDLNameSignalLevelStatus];
-    if (obj == nil || [obj isKindOfClass:SDLDeviceLevelStatus.class]) {
-        return (SDLDeviceLevelStatus *)obj;
-    } else {
-        return [SDLDeviceLevelStatus valueOf:(NSString *)obj];
-    }
+    return (SDLDeviceLevelStatus)obj;
 }
 
-- (void)setPrimaryAudioSource:(SDLPrimaryAudioSource *)primaryAudioSource {
+- (void)setPrimaryAudioSource:(SDLPrimaryAudioSource)primaryAudioSource {
     if (primaryAudioSource != nil) {
         [store setObject:primaryAudioSource forKey:SDLNamePrimaryAudioSource];
     } else {
@@ -135,13 +127,9 @@
     }
 }
 
-- (SDLPrimaryAudioSource *)primaryAudioSource {
+- (SDLPrimaryAudioSource)primaryAudioSource {
     NSObject *obj = [store objectForKey:SDLNamePrimaryAudioSource];
-    if (obj == nil || [obj isKindOfClass:SDLPrimaryAudioSource.class]) {
-        return (SDLPrimaryAudioSource *)obj;
-    } else {
-        return [SDLPrimaryAudioSource valueOf:(NSString *)obj];
-    }
+    return (SDLPrimaryAudioSource)obj;
 }
 
 - (void)setECallEventActive:(NSNumber *)eCallEventActive {

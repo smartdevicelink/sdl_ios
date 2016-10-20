@@ -3,9 +3,10 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLAudioType;
-@class SDLBitsPerSample;
-@class SDLSamplingRate;
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
+#import "SDLSamplingRate.h"
+
 @class SDLTTSChunk;
 
 /**
@@ -63,7 +64,7 @@
  *
  * @discussion a SamplingRate value representing a 8 or 16 or 22 or 24 khz
  */
-@property (strong) SDLSamplingRate *samplingRate;
+@property (strong) SDLSamplingRate samplingRate;
 /**
  * @abstract the maximum duration of audio recording in milliseconds
  *
@@ -79,11 +80,11 @@
  *
  * @discussion a BitsPerSample value representing 8 bit or 16 bit
  */
-@property (strong) SDLBitsPerSample *bitsPerSample;
+@property (strong) SDLBitsPerSample bitsPerSample;
 /**
  * @abstract an audioType
  */
-@property (strong) SDLAudioType *audioType;
+@property (strong) SDLAudioType audioType;
 /**
  * @abstract a Boolean value representing if the current audio source should be
  * muted during the APT session<br/>

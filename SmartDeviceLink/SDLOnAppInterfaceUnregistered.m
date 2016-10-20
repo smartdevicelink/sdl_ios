@@ -3,7 +3,6 @@
 
 #import "SDLOnAppInterfaceUnregistered.h"
 
-#import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLNames.h"
 
 @implementation SDLOnAppInterfaceUnregistered
@@ -14,7 +13,7 @@
     return self;
 }
 
-- (void)setReason:(SDLAppInterfaceUnregisteredReason *)reason {
+- (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
     if (reason != nil) {
         [parameters setObject:reason forKey:SDLNameReason];
     } else {
@@ -22,13 +21,9 @@
     }
 }
 
-- (SDLAppInterfaceUnregisteredReason *)reason {
+- (SDLAppInterfaceUnregisteredReason)reason {
     NSObject *obj = [parameters objectForKey:SDLNameReason];
-    if (obj == nil || [obj isKindOfClass:SDLAppInterfaceUnregisteredReason.class]) {
-        return (SDLAppInterfaceUnregisteredReason *)obj;
-    } else {
-        return [SDLAppInterfaceUnregisteredReason valueOf:(NSString *)obj];
-    }
+    return (SDLAppInterfaceUnregisteredReason)obj;
 }
 
 @end

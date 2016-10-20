@@ -15,7 +15,7 @@
     return self;
 }
 
-- (void)setButtonName:(SDLButtonName *)buttonName {
+- (void)setButtonName:(SDLButtonName)buttonName {
     if (buttonName != nil) {
         [parameters setObject:buttonName forKey:SDLNameButtonName];
     } else {
@@ -23,13 +23,9 @@
     }
 }
 
-- (SDLButtonName *)buttonName {
+- (SDLButtonName)buttonName {
     NSObject *obj = [parameters objectForKey:SDLNameButtonName];
-    if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
-        return (SDLButtonName *)obj;
-    } else {
-        return [SDLButtonName valueOf:(NSString *)obj];
-    }
+    return (SDLButtonName)obj;
 }
 
 @end

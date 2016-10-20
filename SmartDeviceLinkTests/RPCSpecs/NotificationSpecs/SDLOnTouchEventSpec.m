@@ -22,22 +22,22 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnTouchEvent* testNotification = [[SDLOnTouchEvent alloc] init];
         
-        testNotification.type = [SDLTouchType BEGIN];
+        testNotification.type = SDLTouchTypeBegin;
         testNotification.event = [@[event] mutableCopy];
         
-        expect(testNotification.type).to(equal([SDLTouchType BEGIN]));
+        expect(testNotification.type).to(equal(SDLTouchTypeBegin));
         expect(testNotification.event).to(equal([@[event] mutableCopy]));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameType:[SDLTouchType BEGIN],
-                                                                   SDLNameEvent:[@[event] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameOnTouchEvent}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameType:SDLTouchTypeBegin,
+                                                   SDLNameEvent:[@[event] mutableCopy]},
+                                             SDLNameOperationName:SDLNameOnTouchEvent}} mutableCopy];
         SDLOnTouchEvent* testNotification = [[SDLOnTouchEvent alloc] initWithDictionary:dict];
         
-        expect(testNotification.type).to(equal([SDLTouchType BEGIN]));
+        expect(testNotification.type).to(equal(SDLTouchTypeBegin));
         expect(testNotification.event).to(equal([@[event] mutableCopy]));
     });
     

@@ -3,8 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLSpeechCapabilities;
-
+#import "SDLSpeechCapabilities.h"
 
 /**
  *  Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules. It can also be phonemes from either the Microsoft SAPI phoneme set, or from the LHPLUS phoneme set. It can also be a pre-recorded sound in WAV format (either developer-defined, or provided by the SDL platform).
@@ -51,6 +50,6 @@
  *
  * Required
  */
-@property (strong) SDLSpeechCapabilities *type;
+@property (strong) SDLSpeechCapabilities type;
 
 @end

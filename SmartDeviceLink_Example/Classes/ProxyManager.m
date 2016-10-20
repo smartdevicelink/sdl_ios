@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
             [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         }
         
-        if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+        if ([weakSelf.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
             [weakSelf showInitialData];
         }
     }];
@@ -109,13 +109,13 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || [self.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
         return;
     }
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     
-    SDLShow *show = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:[SDLTextAlignment CENTERED] correlationID:@0];
+    SDLShow *show = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCenter correlationID:@0];
     SDLSoftButton *pointingSoftButton = [self.class pointingSoftButtonWithManager:self.sdlManager];
     show.softButtons = [@[pointingSoftButton] mutableCopy];
     show.graphic = [self.class mainGraphicImage];
@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.shortAppName = @"SDL Example";
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
-    config.ttsName = @[[SDLTTSChunkFactory buildTTSChunkForString:config.shortAppName type:[SDLSpeechCapabilities TEXT]]];
+    config.ttsName = @[[SDLTTSChunkFactory buildTTSChunkForString:config.shortAppName type:SDLSpeechCapabilitiesText]];
     
     return config;
 }
@@ -184,21 +184,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLSpeak *)appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"S D L Example App" type:[SDLSpeechCapabilities TEXT]]];
+    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"S D L Example App" type:SDLSpeechCapabilitiesText]];
     
     return speak;
 }
 
 + (SDLSpeak *)goodJobSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Good job" type:[SDLSpeechCapabilities TEXT]]];
+    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Good job" type:SDLSpeechCapabilitiesText]];
     
     return speak;
 }
 
 + (SDLSpeak *)youMissedItSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"You missed it" type:[SDLSpeechCapabilities TEXT]]];
+    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"You missed it" type:SDLSpeechCapabilitiesText]];
     
     return speak;
 }
@@ -221,13 +221,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
     SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] init];
     performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
-    performOnlyChoiceInteraction.initialPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Choose it" type:[SDLSpeechCapabilities TEXT]]];
-    performOnlyChoiceInteraction.interactionMode = [SDLInteractionMode BOTH];
+    performOnlyChoiceInteraction.initialPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Choose it" type:SDLSpeechCapabilitiesText]];
+    performOnlyChoiceInteraction.interactionMode = SDLInteractionModeBoth;
     performOnlyChoiceInteraction.interactionChoiceSetIDList = [NSMutableArray arrayWithObject:@0];
-    performOnlyChoiceInteraction.helpPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Do it" type:[SDLSpeechCapabilities TEXT]]];
-    performOnlyChoiceInteraction.timeoutPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Too late" type:[SDLSpeechCapabilities TEXT]]];
+    performOnlyChoiceInteraction.helpPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Do it" type:SDLSpeechCapabilitiesText]];
+    performOnlyChoiceInteraction.timeoutPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Too late" type:SDLSpeechCapabilitiesText]];
     performOnlyChoiceInteraction.timeout = @5000;
-    performOnlyChoiceInteraction.interactionLayout = [SDLLayoutMode LIST_ONLY];
+    performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
     
     [manager sendRequest:performOnlyChoiceInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLPerformInteractionResponse * _Nullable response, NSError * _Nullable error) {
         if ((response == nil) || (error != nil)) {
@@ -252,10 +252,10 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     softButton.text = @"Press";
     softButton.softButtonID = @100;
-    softButton.type = SDLSoftButtonType.BOTH;
+    softButton.type = SDLSoftButtonTypeBoth;
     
     SDLImage* image = [[SDLImage alloc] init];
-    image.imageType = SDLImageType.DYNAMIC;
+    image.imageType = SDLImageTypeDynamic;
     image.value = PointingSoftButtonArtworkName;
     softButton.image = image;
     
@@ -264,7 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLImage *)mainGraphicImage {
     SDLImage* image = [[SDLImage alloc] init];
-    image.imageType = SDLImageType.DYNAMIC;
+    image.imageType = SDLImageTypeDynamic;
     image.value = MainGraphicArtworkName;
 
     return image;
@@ -331,8 +331,8 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
 }
 
-- (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
-    if (![newLevel isEqualToEnum:[SDLHMILevel NONE]] && (self.firstTimeState == SDLHMIFirstStateNone)) {
+- (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+    if (![newLevel isEqualToString:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
         self.firstTimeState = SDLHMIFirstStateNonNone;
         
@@ -340,12 +340,12 @@ NS_ASSUME_NONNULL_BEGIN
         [self prepareRemoteSystem];
     }
     
-    if ([newLevel isEqualToEnum:[SDLHMILevel FULL]] && (self.firstTimeState != SDLHMIFirstStateFull)) {
+    if ([newLevel isEqualToString:SDLHMILevelFull] && (self.firstTimeState != SDLHMIFirstStateFull)) {
         // This is our first time in a FULL state
         self.firstTimeState = SDLHMIFirstStateFull;
     }
     
-    if ([newLevel isEqualToEnum:[SDLHMILevel FULL]]) {
+    if ([newLevel isEqualToString:SDLHMILevelFull]) {
         // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self showInitialData];
     }

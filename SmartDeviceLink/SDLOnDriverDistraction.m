@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setState:(SDLDriverDistractionState *)state {
+- (void)setState:(SDLDriverDistractionState)state {
     if (state != nil) {
         [parameters setObject:state forKey:SDLNameState];
     } else {
@@ -22,13 +22,9 @@
     }
 }
 
-- (SDLDriverDistractionState *)state {
+- (SDLDriverDistractionState)state {
     NSObject *obj = [parameters objectForKey:SDLNameState];
-    if (obj == nil || [obj isKindOfClass:SDLDriverDistractionState.class]) {
-        return (SDLDriverDistractionState *)obj;
-    } else {
-        return [SDLDriverDistractionState valueOf:(NSString *)obj];
-    }
+    return (SDLDriverDistractionState)obj;
 }
 
 @end

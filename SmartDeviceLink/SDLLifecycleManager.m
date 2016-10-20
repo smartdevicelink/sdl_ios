@@ -56,7 +56,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
@@ -264,18 +264,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    SDLResult *registerResult = self.registerResponse.resultCode;
+    SDLResult registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
 
     BOOL success = NO;
     NSError *startError = nil;
 
 
-    if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
+    if ([registerResult isEqualToString:SDLResultWarnings] || [registerResult isEqualToString:SDLResultResumeFailed]) {
         // We succeeded, but with warnings
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
         success = YES;
-    } else if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
+    } else if (![registerResult isEqualToString:SDLResultSuccess]) {
         // We did not succeed in registering
         startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
         success = NO;
@@ -295,7 +295,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
+    [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
 }
 
 - (void)didEnterStateUnregistering {
@@ -443,7 +443,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
-    SDLHMILevel *oldHMILevel = self.hmiLevel;
+    SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {

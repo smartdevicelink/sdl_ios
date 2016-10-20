@@ -9,7 +9,7 @@
 
 @implementation SDLTireStatus
 
-- (void)setPressureTelltale:(SDLWarningLightStatus *)pressureTelltale {
+- (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
     if (pressureTelltale != nil) {
         [store setObject:pressureTelltale forKey:SDLNamePressureTelltale];
     } else {
@@ -17,13 +17,9 @@
     }
 }
 
-- (SDLWarningLightStatus *)pressureTelltale {
+- (SDLWarningLightStatus)pressureTelltale {
     NSObject *obj = [store objectForKey:SDLNamePressureTelltale];
-    if (obj == nil || [obj isKindOfClass:SDLWarningLightStatus.class]) {
-        return (SDLWarningLightStatus *)obj;
-    } else {
-        return [SDLWarningLightStatus valueOf:(NSString *)obj];
-    }
+    return (SDLWarningLightStatus)obj;
 }
 
 - (void)setLeftFront:(SDLSingleTireStatus *)leftFront {

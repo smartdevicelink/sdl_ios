@@ -4,12 +4,11 @@
 #import "SDLRPCMessage.h"
 
 @class SDLSingleTireStatus;
-@class SDLWarningLightStatus;
-
+#import "SDLWarningLightStatus.h"
 
 @interface SDLTireStatus : SDLRPCStruct
 
-@property (strong) SDLWarningLightStatus *pressureTelltale;
+@property (strong) SDLWarningLightStatus pressureTelltale;
 @property (strong) SDLSingleTireStatus *leftFront;
 @property (strong) SDLSingleTireStatus *rightFront;
 @property (strong) SDLSingleTireStatus *leftRear;

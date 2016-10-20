@@ -4,9 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLButtonName.h"
 #import "SDLRequestHandler.h"
-
-@class SDLButtonName;
 
 
 /**
@@ -81,6 +80,6 @@
  * @abstract The name of the button to subscribe to
  * @discussion An enum value, see <i>SDLButtonName</i>
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong) SDLButtonName buttonName;
 
 @end

@@ -5,10 +5,10 @@
 
 #import "SDLNotificationConstants.h"
 #import "SDLRequestHandler.h"
+#import "SDLSoftButtonType.h"
+#import "SDLSystemAction.h"
 
 @class SDLImage;
-@class SDLSoftButtonType;
-@class SDLSystemAction;
 
 
 @interface SDLSoftButton : SDLRPCStruct <SDLRequestHandler>
@@ -17,11 +17,11 @@
 
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
-@property (strong) SDLSoftButtonType *type;
+@property (strong) SDLSoftButtonType type;
 @property (strong) NSString *text;
 @property (strong) SDLImage *image;
 @property (strong) NSNumber *isHighlighted;
 @property (strong) NSNumber *softButtonID;
-@property (strong) SDLSystemAction *systemAction;
+@property (strong) SDLSystemAction systemAction;
 
 @end

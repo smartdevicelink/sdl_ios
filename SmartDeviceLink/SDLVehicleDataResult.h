@@ -3,13 +3,12 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataType;
-@class SDLVehicleDataResultCode;
-
+#import "SDLVehicleDataType.h"
+#import "SDLVehicleDataResultCode.h"
 
 @interface SDLVehicleDataResult : SDLRPCStruct
 
-@property (strong) SDLVehicleDataType *dataType;
-@property (strong) SDLVehicleDataResultCode *resultCode;
+@property (strong) SDLVehicleDataType dataType;
+@property (strong) SDLVehicleDataResultCode resultCode;
 
 @end

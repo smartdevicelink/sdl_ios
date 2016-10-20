@@ -3,10 +3,11 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLAppHMIType;
+#import "SDLAppHMIType.h"
+#import "SDLLanguage.h"
+
 @class SDLAppInfo;
 @class SDLDeviceInfo;
-@class SDLLanguage;
 @class SDLSyncMsgVersion;
 @class SDLTTSChunk;
 
@@ -153,7 +154,7 @@
  *
  * Required
  */
-@property (strong) SDLLanguage *languageDesired;
+@property (strong) SDLLanguage languageDesired;
 
 /**
  * @abstract An enumeration indicating what language the application intends to use for user interaction (Display).
@@ -164,7 +165,7 @@
  *
  * @since SDL 2.0
  */
-@property (strong) SDLLanguage *hmiDisplayLanguageDesired;
+@property (strong) SDLLanguage hmiDisplayLanguageDesired;
 
 /**
  * @abstract A list of all applicable app types stating which classifications to be given to the app.
@@ -174,7 +175,7 @@
  * @since SDL 2.0
  * @see SDLAppHMIType
  */
-@property (strong) NSMutableArray<SDLAppHMIType *> *appHMIType;
+@property (strong) NSMutableArray<SDLAppHMIType> *appHMIType;
 
 /**
  * @abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).

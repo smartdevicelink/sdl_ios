@@ -8,7 +8,6 @@
 
 #import "SDLPermissionManager.h"
 
-#import "SDLHMILevel.h"
 #import "SDLHMIPermissions.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
@@ -25,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *permissions;
 @property (copy, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
-@property (copy, nonatomic, nullable) SDLHMILevel *currentHMILevel;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
 @end
 
@@ -79,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.class sdl_groupStatusOfRPCs:rpcNames withPermissions:[self.permissions copy] hmiLevel:self.currentHMILevel];
 }
 
-+ (SDLPermissionGroupStatus)sdl_groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames withPermissions:(NSDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel *)hmiLevel {
++ (SDLPermissionGroupStatus)sdl_groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames withPermissions:(NSDictionary<SDLPermissionRPCName *, SDLPermissionItem *> *)permissions hmiLevel:(SDLHMILevel)hmiLevel {
     // If we don't have an HMI level, then just say everything is disallowed
     if (hmiLevel == nil) {
         return SDLPermissionGroupStatusUnknown;
@@ -227,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLOnHMIStatus *hmiStatus = notification.userInfo[SDLNotificationUserInfoObject];
 
-    SDLHMILevel *oldHMILevel = [self.currentHMILevel copy];
+    SDLHMILevel oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
     NSArray<SDLPermissionFilter *> *filters = [self.filters copy];
 
@@ -262,7 +261,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return Whether or not the filter changed based on the difference in HMI levels.
  */
-- (BOOL)sdl_didFilterChange:(SDLPermissionFilter *)filter fromHMILevel:(SDLHMILevel *)oldHMILevel toHMILevel:(SDLHMILevel *)newHMILevel {
+- (BOOL)sdl_didFilterChange:(SDLPermissionFilter *)filter fromHMILevel:(SDLHMILevel)oldHMILevel toHMILevel:(SDLHMILevel)newHMILevel {
     BOOL changed = NO;
     for (NSString *rpcName in filter.rpcNames) {
         SDLPermissionItem *item = self.permissions[rpcName];

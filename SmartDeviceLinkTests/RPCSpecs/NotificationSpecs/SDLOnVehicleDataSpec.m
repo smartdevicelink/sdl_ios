@@ -34,18 +34,18 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.speed = @70.1;
         testNotification.rpm = @4242;
         testNotification.fuelLevel = @10.3;
-        testNotification.fuelLevel_State = [SDLComponentVolumeStatus ALERT];
+        testNotification.fuelLevel_State = SDLComponentVolumeStatusAlert;
         testNotification.instantFuelConsumption = @4000.63;
         testNotification.externalTemperature = @-10;
         testNotification.vin = @"222222222722";
-        testNotification.prndl = [SDLPRNDL DRIVE];
+        testNotification.prndl = SDLPRNDLDrive;
         testNotification.tirePressure = tires;
         testNotification.odometer = @100050;
         testNotification.beltStatus = belt;
         testNotification.bodyInformation = body;
         testNotification.deviceStatus = device;
-        testNotification.driverBraking = [SDLVehicleDataEventStatus _YES];
-        testNotification.wiperStatus = [SDLWiperStatus STALLED];
+        testNotification.driverBraking = SDLVehicleDataEventStatusYes;
+        testNotification.wiperStatus = SDLWiperStatusStalled;
         testNotification.headLampStatus = headLamp;
         testNotification.engineTorque = @-200.124;
         testNotification.accPedalPosition = @99.99999999;
@@ -60,18 +60,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.fuelLevel).to(equal(@10.3));
-        expect(testNotification.fuelLevel_State).to(equal([SDLComponentVolumeStatus ALERT]));
+        expect(testNotification.fuelLevel_State).to(equal(SDLComponentVolumeStatusAlert));
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
         expect(testNotification.externalTemperature).to(equal(@-10));
         expect(testNotification.vin).to(equal(@"222222222722"));
-        expect(testNotification.prndl).to(equal([SDLPRNDL DRIVE]));
+        expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
         expect(testNotification.tirePressure).to(equal(tires));
         expect(testNotification.odometer).to(equal(@100050));
         expect(testNotification.beltStatus).to(equal(belt));
         expect(testNotification.bodyInformation).to(equal(body));
         expect(testNotification.deviceStatus).to(equal(device));
-        expect(testNotification.driverBraking).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testNotification.wiperStatus).to(equal([SDLWiperStatus STALLED]));
+        expect(testNotification.driverBraking).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
         expect(testNotification.headLampStatus).to(equal(headLamp));
         expect(testNotification.engineTorque).to(equal(@-200.124));
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));
@@ -84,52 +84,52 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameGPS:gps,
-                                                                   SDLNameSpeed:@70.1,
-                                                                   SDLNameRPM:@4242,
-                                                                   SDLNameFuelLevel:@10.3,
-                                                                   SDLNameFuelLevelState:[SDLComponentVolumeStatus ALERT],
-                                                                   SDLNameInstantFuelConsumption:@4000.63,
-                                                                   SDLNameExternalTemperature:@-10,
-                                                                   SDLNameVIN:@"222222222722",
-                                                                   SDLNamePRNDL:[SDLPRNDL DRIVE],
-                                                                   SDLNameTirePressure:tires,
-                                                                   SDLNameOdometer:@100050,
-                                                                   SDLNameBeltStatus:belt,
-                                                                   SDLNameBodyInformation:body,
-                                                                   SDLNameDeviceStatus:device,
-                                                                   SDLNameDriverBraking:[SDLVehicleDataEventStatus _YES],
-                                                                   SDLNameWiperStatus:[SDLWiperStatus STALLED],
-                                                                   SDLNameHeadLampStatus:headLamp,
-                                                                   SDLNameEngineTorque:@-200.124,
-                                                                   SDLNameAccelerationPedalPosition:@99.99999999,
-                                                                   SDLNameSteeringWheelAngle:@0.000000001,
-                                                                   SDLNameECallInfo:eCall,
-                                                                   SDLNameAirbagStatus:airbag,
-                                                                   SDLNameEmergencyEvent:event,
-                                                                   SDLNameClusterModeStatus:clusterMode,
-                                                                   SDLNameMyKey:myKey},
-                                                             SDLNameOperationName:SDLNameOnVehicleData}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameGPS:gps,
+                                                   SDLNameSpeed:@70.1,
+                                                   SDLNameRPM:@4242,
+                                                   SDLNameFuelLevel:@10.3,
+                                                   SDLNameFuelLevelState:SDLComponentVolumeStatusAlert,
+                                                   SDLNameInstantFuelConsumption:@4000.63,
+                                                   SDLNameExternalTemperature:@-10,
+                                                   SDLNameVIN:@"222222222722",
+                                                   SDLNamePRNDL:SDLPRNDLDrive,
+                                                   SDLNameTirePressure:tires,
+                                                   SDLNameOdometer:@100050,
+                                                   SDLNameBeltStatus:belt,
+                                                   SDLNameBodyInformation:body,
+                                                   SDLNameDeviceStatus:device,
+                                                   SDLNameDriverBraking:SDLVehicleDataEventStatusYes,
+                                                   SDLNameWiperStatus:SDLWiperStatusStalled,
+                                                   SDLNameHeadLampStatus:headLamp,
+                                                   SDLNameEngineTorque:@-200.124,
+                                                   SDLNameAccelerationPedalPosition:@99.99999999,
+                                                   SDLNameSteeringWheelAngle:@0.000000001,
+                                                   SDLNameECallInfo:eCall,
+                                                   SDLNameAirbagStatus:airbag,
+                                                   SDLNameEmergencyEvent:event,
+                                                   SDLNameClusterModeStatus:clusterMode,
+                                                   SDLNameMyKey:myKey},
+                                             SDLNameOperationName:SDLNameOnVehicleData}} mutableCopy];
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
         
         expect(testNotification.gps).to(equal(gps));
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.rpm).to(equal(@4242));
         expect(testNotification.fuelLevel).to(equal(@10.3));
-        expect(testNotification.fuelLevel_State).to(equal([SDLComponentVolumeStatus ALERT]));
+        expect(testNotification.fuelLevel_State).to(equal(SDLComponentVolumeStatusAlert));
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
         expect(testNotification.externalTemperature).to(equal(@-10));
         expect(testNotification.vin).to(equal(@"222222222722"));
-        expect(testNotification.prndl).to(equal([SDLPRNDL DRIVE]));
+        expect(testNotification.prndl).to(equal(SDLPRNDLDrive));
         expect(testNotification.tirePressure).to(equal(tires));
         expect(testNotification.odometer).to(equal(@100050));
         expect(testNotification.beltStatus).to(equal(belt));
         expect(testNotification.bodyInformation).to(equal(body));
         expect(testNotification.deviceStatus).to(equal(device));
-        expect(testNotification.driverBraking).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testNotification.wiperStatus).to(equal([SDLWiperStatus STALLED]));
+        expect(testNotification.driverBraking).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
         expect(testNotification.headLampStatus).to(equal(headLamp));
         expect(testNotification.engineTorque).to(equal(@-200.124));
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));

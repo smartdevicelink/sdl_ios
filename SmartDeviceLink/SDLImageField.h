@@ -3,14 +3,15 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLFileType;
-@class SDLImageFieldName;
+#import "SDLFileType.h"
+#import "SDLImageFieldName.h"
+
 @class SDLImageResolution;
 
 @interface SDLImageField : SDLRPCStruct
 
-@property (strong) SDLImageFieldName *name;
-@property (strong) NSMutableArray<SDLFileType *> *imageTypeSupported;
+@property (strong) SDLImageFieldName name;
+@property (strong) NSMutableArray<SDLFileType> *imageTypeSupported;
 @property (strong) SDLImageResolution *imageResolution;
 
 @end

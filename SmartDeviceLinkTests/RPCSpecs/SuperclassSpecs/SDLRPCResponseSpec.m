@@ -20,12 +20,12 @@ describe(@"Getter/Setter Tests",  ^ {
         
         response.correlationID = @14641;
         response.success = @YES;
-        response.resultCode = [SDLResult IGNORED];
+        response.resultCode = SDLResultIgnored;
         response.info = @"It has been done";
         
         expect(response.correlationID).to(equal(@14641));
         expect(response.success).to(equal(@YES));
-        expect(response.resultCode).to(equal([SDLResult IGNORED]));
+        expect(response.resultCode).to(equal(SDLResultIgnored));
         expect(response.info).to(equal(@"It has been done"));
     });
 });

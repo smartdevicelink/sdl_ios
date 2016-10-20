@@ -19,16 +19,16 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLMyKey* testStruct = [[SDLMyKey alloc] init];
         
-        testStruct.e911Override = [SDLVehicleDataStatus OFF];
+        testStruct.e911Override = SDLVehicleDataStatusOff;
         
-        expect(testStruct.e911Override).to(equal([SDLVehicleDataStatus OFF]));
+        expect(testStruct.e911Override).to(equal(SDLVehicleDataStatusOff));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameE911Override:[SDLVehicleDataStatus ON]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameE911Override:SDLVehicleDataStatusOn} mutableCopy];
         SDLMyKey* testStruct = [[SDLMyKey alloc] initWithDictionary:dict];
         
-        expect(testStruct.e911Override).to(equal([SDLVehicleDataStatus ON]));
+        expect(testStruct.e911Override).to(equal(SDLVehicleDataStatusOn));
     });
     
     it(@"Should return nil if not set", ^ {

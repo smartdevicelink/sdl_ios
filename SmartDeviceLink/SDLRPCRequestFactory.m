@@ -12,7 +12,6 @@
 #import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
-#import "SDLAppInfo.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLDebugTool.h"
@@ -23,11 +22,9 @@
 #import "SDLDeviceInfo.h"
 #import "SDLDialNumber.h"
 #import "SDLEndAudioPassThru.h"
-#import "SDLFileType.h"
 #import "SDLGetDTCs.h"
 #import "SDLGetVehicleData.h"
 #import "SDLImage.h"
-#import "SDLInteractionMode.h"
 #import "SDLListFiles.h"
 #import "SDLMenuParams.h"
 #import "SDLPerformAudioPassThru.h"
@@ -64,7 +61,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 @implementation SDLRPCRequestFactory
 
 //***** AddCommand *****
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray<NSString *> *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType correlationID:(NSNumber *)correlationID {
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray<NSString *> *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType correlationID:(NSNumber *)correlationID {
     SDLAddCommand *msg = [[SDLAddCommand alloc] init];
 
     msg.cmdID = cmdID;
@@ -90,7 +87,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray<NSString *> *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
++ (SDLAddCommand *)buildAddCommandWithID:(NSNumber *)cmdID menuName:(NSString *)menuName parentID:(NSNumber *)parentID position:(NSNumber *)position vrCommands:(NSArray<NSString *> *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(SDLRPCNotificationHandler)handler {
     SDLAddCommand *msg = [[SDLAddCommand alloc] initWithHandler:handler];
 
     msg.cmdID = cmdID;
@@ -152,7 +149,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 + (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(NSNumber *)playTone duration:(NSNumber *)duration correlationID:(NSNumber *)correlationID {
     SDLTTSChunk *simpleChunk = [[SDLTTSChunk alloc] init];
     simpleChunk.text = ttsText;
-    simpleChunk.type = SDLSpeechCapabilities.TEXT;
+    simpleChunk.type = SDLSpeechCapabilitiesText;
     NSArray<SDLTTSChunk *> *ttsChunks = [NSArray arrayWithObject:simpleChunk];
 
     return [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil correlationID:correlationID];
@@ -207,7 +204,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLChangeRegistration *)buildChangeRegistrationWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage correlationID:(NSNumber *)correlationID {
++ (SDLChangeRegistration *)buildChangeRegistrationWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage correlationID:(NSNumber *)correlationID {
     SDLChangeRegistration *msg = [[SDLChangeRegistration alloc] init];
     msg.language = language;
     msg.hmiDisplayLanguage = hmiDisplayLanguage;
@@ -313,7 +310,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID {
++ (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID {
     NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
 
     SDLPerformAudioPassThru *msg = [[SDLPerformAudioPassThru alloc] init];
@@ -332,7 +329,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 
 //***** PerformInteraction *****
-+ (SDLPerformInteraction *)buildPerformInteractionWithInitialChunks:(NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpChunks:(NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber *)correlationID {
++ (SDLPerformInteraction *)buildPerformInteractionWithInitialChunks:(NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpChunks:(NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber *)correlationID {
     SDLPerformInteraction *msg = [[SDLPerformInteraction alloc] init];
     msg.initialPrompt = [initialChunks mutableCopy];
     msg.initialText = initialText;
@@ -348,7 +345,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 
 //***
-+ (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber *)correlationID {
++ (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber *)correlationID {
     NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
     NSArray<SDLTTSChunk *> *helpChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpPrompt];
     NSArray<SDLTTSChunk *> *timeoutChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutPrompt];
@@ -360,10 +357,10 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     NSArray<NSNumber *> *interactionChoiceSetIDList = [NSArray arrayWithObject:interactionChoiceSetID];
     NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
 
-    return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:nil timeoutChunks:nil interactionMode:SDLInteractionMode.BOTH timeout:nil vrHelp:vrHelp correlationID:correlationID];
+    return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:nil timeoutChunks:nil interactionMode:SDLInteractionModeBoth timeout:nil vrHelp:vrHelp correlationID:correlationID];
 }
 
-+ (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout correlationID:(NSNumber *)correlationID {
++ (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(NSNumber *)timeout correlationID:(NSNumber *)correlationID {
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpPrompt timeoutPrompt:timeoutPrompt interactionMode:interactionMode timeout:timeout vrHelp:nil correlationID:(NSNumber *)correlationID];
 }
 
@@ -372,7 +369,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 //*****
 
-+ (SDLPutFile *)buildPutFileWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(NSNumber *)persistentFile correlationId:(NSNumber *)correlationID {
++ (SDLPutFile *)buildPutFileWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(NSNumber *)persistentFile correlationId:(NSNumber *)correlationID {
     SDLPutFile *msg = [[SDLPutFile alloc] init];
     msg.syncFileName = fileName;
 
@@ -383,7 +380,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLPutFile *)buildPutFileWithFileName:(NSString *)syncFileName fileType:(SDLFileType *)fileType persisistentFile:(NSNumber *)persistentFile correlationID:(NSNumber *)correlationID {
++ (SDLPutFile *)buildPutFileWithFileName:(NSString *)syncFileName fileType:(SDLFileType)fileType persisistentFile:(NSNumber *)persistentFile correlationID:(NSNumber *)correlationID {
     return [self buildPutFileWithFileName:syncFileName fileType:fileType persistentFile:persistentFile correlationId:correlationID];
 }
 
@@ -397,7 +394,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 
 //***** RegisterAppInterface *****
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName ttsName:(NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(NSArray<NSString *> *)vrSynonyms isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appID:(NSString *)appID {
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName ttsName:(NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(NSArray<NSString *> *)vrSynonyms isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage)languageDesired hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired appID:(NSString *)appID {
     SDLRegisterAppInterface *msg = [[SDLRegisterAppInterface alloc] init];
     SDLSyncMsgVersion *version = [[SDLSyncMsgVersion alloc] init];
     version.majorVersion = [NSNumber numberWithInt:1];
@@ -441,18 +438,18 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return appInfo;
 }
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID {
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage)languageDesired appID:(NSString *)appID {
     NSMutableArray<NSString *> *syns = [NSMutableArray arrayWithObject:appName];
     return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName ttsName:nil vrSynonyms:syns isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appID:appID];
 }
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID {
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage)languageDesired appID:(NSString *)appID {
     return [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appID:appID];
 }
 //*****
 
 
-+ (SDLResetGlobalProperties *)buildResetGlobalPropertiesWithProperties:(NSArray<SDLGlobalProperty *> *)properties correlationID:(NSNumber *)correlationID {
++ (SDLResetGlobalProperties *)buildResetGlobalPropertiesWithProperties:(NSArray<SDLGlobalProperty> *)properties correlationID:(NSNumber *)correlationID {
     SDLResetGlobalProperties *msg = [[SDLResetGlobalProperties alloc] init];
     msg.properties = [properties mutableCopy];
     msg.correlationID = correlationID;
@@ -524,7 +521,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 
 //***** SetMediaClockTimer *****
-+ (SDLSetMediaClockTimer *)buildSetMediaClockTimerWithHours:(NSNumber *)hours minutes:(NSNumber *)minutes seconds:(NSNumber *)seconds updateMode:(SDLUpdateMode *)updateMode correlationID:(NSNumber *)correlationID {
++ (SDLSetMediaClockTimer *)buildSetMediaClockTimerWithHours:(NSNumber *)hours minutes:(NSNumber *)minutes seconds:(NSNumber *)seconds updateMode:(SDLUpdateMode)updateMode correlationID:(NSNumber *)correlationID {
     SDLSetMediaClockTimer *msg = [[SDLSetMediaClockTimer alloc] init];
     SDLStartTime *startTime = [[SDLStartTime alloc] init];
     startTime.hours = hours;
@@ -537,7 +534,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLSetMediaClockTimer *)buildSetMediaClockTimerWithUpdateMode:(SDLUpdateMode *)updateMode correlationID:(NSNumber *)correlationID {
++ (SDLSetMediaClockTimer *)buildSetMediaClockTimerWithUpdateMode:(SDLUpdateMode)updateMode correlationID:(NSNumber *)correlationID {
     SDLSetMediaClockTimer *msg = [[SDLSetMediaClockTimer alloc] init];
     msg.updateMode = updateMode;
     msg.correlationID = correlationID;
@@ -548,7 +545,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 
 //***** Show *****
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets correlationID:(NSNumber *)correlationID {
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets correlationID:(NSNumber *)correlationID {
     SDLShow *msg = [[SDLShow alloc] init];
     msg.correlationID = correlationID;
     msg.mainField1 = mainField1;
@@ -566,7 +563,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment correlationID:(NSNumber *)correlationID {
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment)textAlignment correlationID:(NSNumber *)correlationID {
     SDLShow *msg = [[SDLShow alloc] init];
     msg.correlationID = correlationID;
     msg.mainField1 = mainField1;
@@ -579,7 +576,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment correlationID:(NSNumber *)correlationID {
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment)alignment correlationID:(NSNumber *)correlationID {
     return [SDLRPCRequestFactory buildShowWithMainField1:mainField1 mainField2:mainField2 statusBar:nil mediaClock:nil mediaTrack:nil alignment:alignment correlationID:correlationID];
 }
 
@@ -628,7 +625,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 //*****
 
-+ (SDLSoftButton *)buildSoftButtonWithType:(SDLSoftButtonType *)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonID:(UInt16)buttonID systemAction:(SDLSystemAction *)systemAction handler:(SDLRPCNotificationHandler)handler {
++ (SDLSoftButton *)buildSoftButtonWithType:(SDLSoftButtonType)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonID:(UInt16)buttonID systemAction:(SDLSystemAction)systemAction handler:(SDLRPCNotificationHandler)handler {
     SDLSoftButton *button = [[SDLSoftButton alloc] initWithHandler:handler];
     button.type = type;
     button.text = text;
@@ -654,14 +651,14 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 + (SDLSpeak *)buildSpeakWithTTS:(NSString *)ttsText correlationID:(NSNumber *)correlationID {
     SDLTTSChunk *simpleChunk = [[SDLTTSChunk alloc] init];
     simpleChunk.text = ttsText;
-    simpleChunk.type = SDLSpeechCapabilities.TEXT;
+    simpleChunk.type = SDLSpeechCapabilitiesText;
     NSArray<SDLTTSChunk *> *ttsChunks = [NSMutableArray arrayWithObject:simpleChunk];
 
     return [SDLRPCRequestFactory buildSpeakWithTTSChunks:ttsChunks correlationID:correlationID];
 }
 //*****
 
-+ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID {
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName)buttonName correlationID:(NSNumber *)correlationID {
     SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] init];
     msg.buttonName = buttonName;
     msg.correlationID = correlationID;
@@ -669,7 +666,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler {
++ (SDLSubscribeButton *)buildSubscribeButtonWithName:(SDLButtonName)buttonName handler:(SDLRPCNotificationHandler)handler {
     SDLSubscribeButton *msg = [[SDLSubscribeButton alloc] initWithHandler:handler];
     msg.buttonName = buttonName;
 
@@ -709,7 +706,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLUnsubscribeButton *)buildUnsubscribeButtonWithName:(SDLButtonName *)buttonName correlationID:(NSNumber *)correlationID {
++ (SDLUnsubscribeButton *)buildUnsubscribeButtonWithName:(SDLButtonName)buttonName correlationID:(NSNumber *)correlationID {
     SDLUnsubscribeButton *msg = [[SDLUnsubscribeButton alloc] init];
     msg.buttonName = buttonName;
     msg.correlationID = correlationID;

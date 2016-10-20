@@ -107,7 +107,7 @@
     return [parameters objectForKey:SDLNameIsMediaApplication];
 }
 
-- (void)setLanguageDesired:(SDLLanguage *)languageDesired {
+- (void)setLanguageDesired:(SDLLanguage)languageDesired {
     if (languageDesired != nil) {
         [parameters setObject:languageDesired forKey:SDLNameLanguageDesired];
     } else {
@@ -115,16 +115,12 @@
     }
 }
 
-- (SDLLanguage *)languageDesired {
+- (SDLLanguage)languageDesired {
     NSObject *obj = [parameters objectForKey:SDLNameLanguageDesired];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
+    return (SDLLanguage)obj;
 }
 
-- (void)setHmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
+- (void)setHmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired {
     if (hmiDisplayLanguageDesired != nil) {
         [parameters setObject:hmiDisplayLanguageDesired forKey:SDLNameHMIDisplayLanguageDesired];
     } else {
@@ -132,16 +128,12 @@
     }
 }
 
-- (SDLLanguage *)hmiDisplayLanguageDesired {
+- (SDLLanguage)hmiDisplayLanguageDesired {
     NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguageDesired];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
+    return (SDLLanguage)obj;
 }
 
-- (void)setAppHMIType:(NSMutableArray<SDLAppHMIType *> *)appHMIType {
+- (void)setAppHMIType:(NSMutableArray<SDLAppHMIType> *)appHMIType {
     if (appHMIType != nil) {
         [parameters setObject:appHMIType forKey:SDLNameAppHMIType];
     } else {
@@ -149,14 +141,14 @@
     }
 }
 
-- (NSMutableArray<SDLAppHMIType *> *)appHMIType {
-    NSMutableArray<SDLAppHMIType *> *array = [parameters objectForKey:SDLNameAppHMIType];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAppHMIType.class]) {
+- (NSMutableArray<SDLAppHMIType> *)appHMIType {
+    NSMutableArray<SDLAppHMIType> *array = [parameters objectForKey:SDLNameAppHMIType];
+    if ([array count] < 1) {
         return array;
     } else {
-        NSMutableArray<SDLAppHMIType *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLAppHMIType> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLAppHMIType valueOf:enumString]];
+            [newList addObject:(SDLAppHMIType)enumString];
         }
         return newList;
     }

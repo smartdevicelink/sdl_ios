@@ -18,22 +18,22 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] init];
         
-        testRequest.requestType = [SDLRequestType AUTH_REQUEST];
+        testRequest.requestType = SDLRequestTypeAuthenticationRequest;
         testRequest.fileName = @"AnotherFile";
         
-        expect(testRequest.requestType).to(equal([SDLRequestType AUTH_REQUEST]));
+        expect(testRequest.requestType).to(equal(SDLRequestTypeAuthenticationRequest));
         expect(testRequest.fileName).to(equal(@"AnotherFile"));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameRequestType:[SDLRequestType AUTH_REQUEST],
-                                                                   SDLNameFilename:@"AnotherFile"},
-                                                             SDLNameOperationName:SDLNameSystemRequest}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameRequestType:SDLRequestTypeAuthenticationRequest,
+                                                   SDLNameFilename:@"AnotherFile"},
+                                             SDLNameOperationName:SDLNameSystemRequest}} mutableCopy];
         SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
         
-        expect(testRequest.requestType).to(equal([SDLRequestType AUTH_REQUEST]));
+        expect(testRequest.requestType).to(equal(SDLRequestTypeAuthenticationRequest));
         expect(testRequest.fileName).to(equal(@"AnotherFile"));
     });
     

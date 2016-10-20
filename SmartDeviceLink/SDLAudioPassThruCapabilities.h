@@ -3,9 +3,9 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLAudioType;
-@class SDLBitsPerSample;
-@class SDLSamplingRate;
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
+#import "SDLSamplingRate.h"
 
 
 /**
@@ -48,16 +48,16 @@
  * @abstract The sampling rate for AudioPassThru<br>
  *
  */
-@property (strong) SDLSamplingRate *samplingRate;
+@property (strong) SDLSamplingRate samplingRate;
 /**
  * @abstract The sample depth in bit for AudioPassThru<br>
  *
  */
-@property (strong) SDLBitsPerSample *bitsPerSample;
+@property (strong) SDLBitsPerSample bitsPerSample;
 /**
  * @abstract The audiotype for AudioPassThru<br>
  *
  */
-@property (strong) SDLAudioType *audioType;
+@property (strong) SDLAudioType audioType;
 
 @end

@@ -3,11 +3,10 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTBTState;
-
+#import "SDLTBTState.h"
 
 @interface SDLOnTBTClientState : SDLRPCNotification
 
-@property (strong) SDLTBTState *state;
+@property (strong) SDLTBTState state;
 
 @end

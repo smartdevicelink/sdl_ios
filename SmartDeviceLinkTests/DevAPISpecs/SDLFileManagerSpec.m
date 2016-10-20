@@ -209,7 +209,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should create a putfile with the correct data", ^{
                             expect(sentPutFile.length).to(equal(@(testFileData.length)));
                             expect(sentPutFile.bulkData).to(equal(testFileData));
-                            expect(sentPutFile.fileType.value).to(match([SDLFileType BINARY].value));
+                            expect(sentPutFile.fileType).to(match(SDLFileTypeBinary));
                         });
                         
                         context(@"when the response returns without error", ^{

@@ -3,10 +3,11 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLDisplayType;
+#import "SDLDisplayType.h"
+#import "SDLMediaClockFormat.h"
+
 @class SDLImageField;
 @class SDLScreenParams;
-@class SDLMediaClockFormat;
 @class SDLTextField;
 
 /**
@@ -21,7 +22,7 @@
  *
  * Required
  */
-@property (strong) SDLDisplayType *displayType;
+@property (strong) SDLDisplayType displayType;
 
 /**
  * @abstract An array of SDLTextField structures, each of which describes a field in the HMI which the application can write to using operations such as *SDLShow*, *SDLSetMediaClockTimer*, etc.
@@ -52,7 +53,7 @@
  *
  * Required, Array of SDLMediaClockFormats, 0 - 100 objects
  */
-@property (strong) NSMutableArray<SDLMediaClockFormat *> *mediaClockFormats;
+@property (strong) NSMutableArray<SDLMediaClockFormat> *mediaClockFormats;
 
 /**
  * @abstract The display's persistent screen supports.

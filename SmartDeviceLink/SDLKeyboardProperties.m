@@ -3,14 +3,11 @@
 
 #import "SDLKeyboardProperties.h"
 
-#import "SDLKeyboardLayout.h"
-#import "SDLKeypressMode.h"
-#import "SDLLanguage.h"
 #import "SDLNames.h"
 
 @implementation SDLKeyboardProperties
 
-- (void)setLanguage:(SDLLanguage *)language {
+- (void)setLanguage:(SDLLanguage)language {
     if (language != nil) {
         [store setObject:language forKey:SDLNameLanguage];
     } else {
@@ -18,16 +15,12 @@
     }
 }
 
-- (SDLLanguage *)language {
+- (SDLLanguage)language {
     NSObject *obj = [store objectForKey:SDLNameLanguage];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
+    return (SDLLanguage )obj;
 }
 
-- (void)setKeyboardLayout:(SDLKeyboardLayout *)keyboardLayout {
+- (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
     if (keyboardLayout != nil) {
         [store setObject:keyboardLayout forKey:SDLNameKeyboardLayout];
     } else {
@@ -35,16 +28,12 @@
     }
 }
 
-- (SDLKeyboardLayout *)keyboardLayout {
+- (SDLKeyboardLayout)keyboardLayout {
     NSObject *obj = [store objectForKey:SDLNameKeyboardLayout];
-    if (obj == nil || [obj isKindOfClass:SDLKeyboardLayout.class]) {
-        return (SDLKeyboardLayout *)obj;
-    } else {
-        return [SDLKeyboardLayout valueOf:(NSString *)obj];
-    }
+    return (SDLKeyboardLayout)obj;
 }
 
-- (void)setKeypressMode:(SDLKeypressMode *)keypressMode {
+- (void)setKeypressMode:(SDLKeypressMode)keypressMode {
     if (keypressMode != nil) {
         [store setObject:keypressMode forKey:SDLNameKeypressMode];
     } else {
@@ -52,13 +41,9 @@
     }
 }
 
-- (SDLKeypressMode *)keypressMode {
+- (SDLKeypressMode)keypressMode {
     NSObject *obj = [store objectForKey:SDLNameKeypressMode];
-    if (obj == nil || [obj isKindOfClass:SDLKeypressMode.class]) {
-        return (SDLKeypressMode *)obj;
-    } else {
-        return [SDLKeypressMode valueOf:(NSString *)obj];
-    }
+    return (SDLKeypressMode)obj;
 }
 
 - (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {

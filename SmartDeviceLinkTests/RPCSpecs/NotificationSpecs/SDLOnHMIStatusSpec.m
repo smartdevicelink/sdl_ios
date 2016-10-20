@@ -21,27 +21,27 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] init];
         
-        testNotification.hmiLevel = [SDLHMILevel LIMITED];
-        testNotification.audioStreamingState = [SDLAudioStreamingState ATTENUATED];
-        testNotification.systemContext = [SDLSystemContext HMI_OBSCURED];
+        testNotification.hmiLevel = SDLHMILevelLimited;
+        testNotification.audioStreamingState = SDLAudioStreamingStateAttenuated;
+        testNotification.systemContext = SDLSystemContextHMIObscured;
         
-        expect(testNotification.hmiLevel).to(equal([SDLHMILevel LIMITED]));
-        expect(testNotification.audioStreamingState).to(equal([SDLAudioStreamingState ATTENUATED]));
-        expect(testNotification.systemContext).to(equal([SDLSystemContext HMI_OBSCURED]));
+        expect(testNotification.hmiLevel).to(equal(SDLHMILevelLimited));
+        expect(testNotification.audioStreamingState).to(equal(SDLAudioStreamingStateAttenuated));
+        expect(testNotification.systemContext).to(equal(SDLSystemContextHMIObscured));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameHMILevel:[SDLHMILevel LIMITED],
-                                                                   SDLNameAudioStreamingState:[SDLAudioStreamingState ATTENUATED],
-                                                                   SDLNameSystemContext:[SDLSystemContext HMI_OBSCURED]},
-                                                             SDLNameOperationName:SDLNameOnHMIStatus}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameHMILevel:SDLHMILevelLimited,
+                                                   SDLNameAudioStreamingState:SDLAudioStreamingStateAttenuated,
+                                                   SDLNameSystemContext:SDLSystemContextHMIObscured},
+                                             SDLNameOperationName:SDLNameOnHMIStatus}} mutableCopy];
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] initWithDictionary:dict];
         
-        expect(testNotification.hmiLevel).to(equal([SDLHMILevel LIMITED]));
-        expect(testNotification.audioStreamingState).to(equal([SDLAudioStreamingState ATTENUATED]));
-        expect(testNotification.systemContext).to(equal([SDLSystemContext HMI_OBSCURED]));
+        expect(testNotification.hmiLevel).to(equal(SDLHMILevelLimited));
+        expect(testNotification.audioStreamingState).to(equal(SDLAudioStreamingStateAttenuated));
+        expect(testNotification.systemContext).to(equal(SDLSystemContextHMIObscured));
     });
     
     it(@"Should return nil if not set", ^ {

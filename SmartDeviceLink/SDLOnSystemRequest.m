@@ -3,9 +3,7 @@
 
 #import "SDLOnSystemRequest.h"
 
-#import "SDLFileType.h"
 #import "SDLNames.h"
-#import "SDLRequestType.h"
 
 @implementation SDLOnSystemRequest
 
@@ -15,7 +13,7 @@
     return self;
 }
 
-- (void)setRequestType:(SDLRequestType *)requestType {
+- (void)setRequestType:(SDLRequestType)requestType {
     if (requestType != nil) {
         [parameters setObject:requestType forKey:SDLNameRequestType];
     } else {
@@ -23,13 +21,9 @@
     }
 }
 
-- (SDLRequestType *)requestType {
+- (SDLRequestType)requestType {
     NSObject *obj = [parameters objectForKey:SDLNameRequestType];
-    if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
-        return (SDLRequestType *)obj;
-    } else {
-        return [SDLRequestType valueOf:(NSString *)obj];
-    }
+    return (SDLRequestType)obj;
 }
 
 - (void)setUrl:(NSString *)url {
@@ -56,7 +50,7 @@
     return [parameters objectForKey:SDLNameTimeout];
 }
 
-- (void)setFileType:(SDLFileType *)fileType {
+- (void)setFileType:(SDLFileType)fileType {
     if (fileType != nil) {
         [parameters setObject:fileType forKey:SDLNameFileType];
     } else {
@@ -64,13 +58,9 @@
     }
 }
 
-- (SDLFileType *)fileType {
+- (SDLFileType)fileType {
     NSObject *obj = [parameters objectForKey:SDLNameFileType];
-    if (obj == nil || [obj isKindOfClass:SDLFileType.class]) {
-        return (SDLFileType *)obj;
-    } else {
-        return [SDLFileType valueOf:(NSString *)obj];
-    }
+    return (SDLFileType)obj;
 }
 
 - (void)setOffset:(NSNumber *)offset {

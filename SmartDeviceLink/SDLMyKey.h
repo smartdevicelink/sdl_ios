@@ -3,11 +3,11 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataStatus;
+#import "SDLVehicleDataStatus.h"
 
 
 @interface SDLMyKey : SDLRPCStruct
 
-@property (strong) SDLVehicleDataStatus *e911Override;
+@property (strong) SDLVehicleDataStatus e911Override;
 
 @end

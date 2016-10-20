@@ -3,10 +3,10 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLTextAlignment.h"
+
 @class SDLImage;
 @class SDLSoftButton;
-@class SDLTextAlignment;
-
 
 /**
  * Updates the application's display text area, regardless of whether or not
@@ -119,7 +119,7 @@
  *            <li>Has no effect with navigation display</li>
  *            </ul>
  */
-@property (strong) SDLTextAlignment *alignment;
+@property (strong) SDLTextAlignment alignment;
 /**
  * @abstract Text in the Status Bar
  *

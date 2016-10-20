@@ -9,11 +9,11 @@
 #import "SDLNotificationConstants.h"
 #import <Foundation/Foundation.h>
 
+#import "SDLHMILevel.h"
+#import "SDLLanguage.h"
 
 @class SDLConfiguration;
 @class SDLFileManager;
-@class SDLHMILevel;
-@class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLLockScreenManager;
@@ -70,7 +70,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
-@property (copy, nonatomic, readonly, nullable) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readonly, nullable) SDLHMILevel hmiLevel;
 @property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 

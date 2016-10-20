@@ -32,7 +32,7 @@
     return [store objectForKey:SDLNameHighBeamsOn];
 }
 
-- (void)setAmbientLightSensorStatus:(SDLAmbientLightStatus *)ambientLightSensorStatus {
+- (void)setAmbientLightSensorStatus:(SDLAmbientLightStatus)ambientLightSensorStatus {
     if (ambientLightSensorStatus != nil) {
         [store setObject:ambientLightSensorStatus forKey:SDLNameAmbientLightSensorStatus];
     } else {
@@ -40,13 +40,9 @@
     }
 }
 
-- (SDLAmbientLightStatus *)ambientLightSensorStatus {
+- (SDLAmbientLightStatus)ambientLightSensorStatus {
     NSObject *obj = [store objectForKey:SDLNameAmbientLightSensorStatus];
-    if (obj == nil || [obj isKindOfClass:SDLAmbientLightStatus.class]) {
-        return (SDLAmbientLightStatus *)obj;
-    } else {
-        return [SDLAmbientLightStatus valueOf:(NSString *)obj];
-    }
+    return (SDLAmbientLightStatus)obj;
 }
 
 @end

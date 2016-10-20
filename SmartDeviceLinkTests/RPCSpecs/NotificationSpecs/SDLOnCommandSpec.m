@@ -19,22 +19,22 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnCommand* testNotification = [[SDLOnCommand alloc] init];
         
         testNotification.cmdID = @5676544;
-        testNotification.triggerSource = [SDLTriggerSource KEYBOARD];
+        testNotification.triggerSource = SDLTriggerSourceKeyboard;
         
         expect(testNotification.cmdID).to(equal(@5676544));
-        expect(testNotification.triggerSource).to(equal([SDLTriggerSource KEYBOARD]));
+        expect(testNotification.triggerSource).to(equal(SDLTriggerSourceKeyboard));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameCommandId:@5676544,
-                                                                   SDLNameTriggerSource:[SDLTriggerSource KEYBOARD]},
-                                                             SDLNameOperationName:SDLNameOnCommand}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameCommandId:@5676544,
+                                                   SDLNameTriggerSource:SDLTriggerSourceKeyboard},
+                                             SDLNameOperationName:SDLNameOnCommand}} mutableCopy];
         SDLOnCommand* testNotification = [[SDLOnCommand alloc] initWithDictionary:dict];
         
         expect(testNotification.cmdID).to(equal(@5676544));
-        expect(testNotification.triggerSource).to(equal([SDLTriggerSource KEYBOARD]));
+        expect(testNotification.triggerSource).to(equal(SDLTriggerSourceKeyboard));
     });
     
     it(@"Should return nil if not set", ^ {

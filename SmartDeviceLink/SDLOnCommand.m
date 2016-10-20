@@ -4,7 +4,6 @@
 #import "SDLOnCommand.h"
 
 #import "SDLNames.h"
-#import "SDLTriggerSource.h"
 
 @implementation SDLOnCommand
 
@@ -26,7 +25,7 @@
     return [parameters objectForKey:SDLNameCommandId];
 }
 
-- (void)setTriggerSource:(SDLTriggerSource *)triggerSource {
+- (void)setTriggerSource:(SDLTriggerSource)triggerSource {
     if (triggerSource != nil) {
         [parameters setObject:triggerSource forKey:SDLNameTriggerSource];
     } else {
@@ -34,13 +33,9 @@
     }
 }
 
-- (SDLTriggerSource *)triggerSource {
+- (SDLTriggerSource)triggerSource {
     NSObject *obj = [parameters objectForKey:SDLNameTriggerSource];
-    if (obj == nil || [obj isKindOfClass:SDLTriggerSource.class]) {
-        return (SDLTriggerSource *)obj;
-    } else {
-        return [SDLTriggerSource valueOf:(NSString *)obj];
-    }
+    return (SDLTriggerSource)obj;
 }
 
 @end

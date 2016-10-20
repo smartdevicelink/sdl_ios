@@ -16,7 +16,7 @@
     return self;
 }
 
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
+- (void)setHmiLevel:(SDLHMILevel)hmiLevel {
     if (hmiLevel != nil) {
         [parameters setObject:hmiLevel forKey:SDLNameHMILevel];
     } else {
@@ -24,16 +24,12 @@
     }
 }
 
-- (SDLHMILevel *)hmiLevel {
+- (SDLHMILevel)hmiLevel {
     NSObject *obj = [parameters objectForKey:SDLNameHMILevel];
-    if (obj == nil || [obj isKindOfClass:SDLHMILevel.class]) {
-        return (SDLHMILevel *)obj;
-    } else {
-        return [SDLHMILevel valueOf:(NSString *)obj];
-    }
+    return (SDLHMILevel)obj;
 }
 
-- (void)setAudioStreamingState:(SDLAudioStreamingState *)audioStreamingState {
+- (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
     if (audioStreamingState != nil) {
         [parameters setObject:audioStreamingState forKey:SDLNameAudioStreamingState];
     } else {
@@ -41,16 +37,12 @@
     }
 }
 
-- (SDLAudioStreamingState *)audioStreamingState {
+- (SDLAudioStreamingState)audioStreamingState {
     NSObject *obj = [parameters objectForKey:SDLNameAudioStreamingState];
-    if (obj == nil || [obj isKindOfClass:SDLAudioStreamingState.class]) {
-        return (SDLAudioStreamingState *)obj;
-    } else {
-        return [SDLAudioStreamingState valueOf:(NSString *)obj];
-    }
+    return (SDLAudioStreamingState)obj;
 }
 
-- (void)setSystemContext:(SDLSystemContext *)systemContext {
+- (void)setSystemContext:(SDLSystemContext)systemContext {
     if (systemContext != nil) {
         [parameters setObject:systemContext forKey:SDLNameSystemContext];
     } else {
@@ -58,13 +50,9 @@
     }
 }
 
-- (SDLSystemContext *)systemContext {
+- (SDLSystemContext)systemContext {
     NSObject *obj = [parameters objectForKey:SDLNameSystemContext];
-    if (obj == nil || [obj isKindOfClass:SDLSystemContext.class]) {
-        return (SDLSystemContext *)obj;
-    } else {
-        return [SDLSystemContext valueOf:(NSString *)obj];
-    }
+    return (SDLSystemContext)obj;
 }
 
 @end

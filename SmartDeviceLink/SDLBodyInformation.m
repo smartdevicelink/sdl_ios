@@ -22,7 +22,7 @@
     return [store objectForKey:SDLNameParkBrakeActive];
 }
 
-- (void)setIgnitionStableStatus:(SDLIgnitionStableStatus *)ignitionStableStatus {
+- (void)setIgnitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus {
     if (ignitionStableStatus != nil) {
         [store setObject:ignitionStableStatus forKey:SDLNameIgnitionStableStatus];
     } else {
@@ -30,16 +30,12 @@
     }
 }
 
-- (SDLIgnitionStableStatus *)ignitionStableStatus {
+- (SDLIgnitionStableStatus)ignitionStableStatus {
     NSObject *obj = [store objectForKey:SDLNameIgnitionStableStatus];
-    if (obj == nil || [obj isKindOfClass:SDLIgnitionStableStatus.class]) {
-        return (SDLIgnitionStableStatus *)obj;
-    } else {
-        return [SDLIgnitionStableStatus valueOf:(NSString *)obj];
-    }
+    return (SDLIgnitionStableStatus)obj;
 }
 
-- (void)setIgnitionStatus:(SDLIgnitionStatus *)ignitionStatus {
+- (void)setIgnitionStatus:(SDLIgnitionStatus)ignitionStatus {
     if (ignitionStatus != nil) {
         [store setObject:ignitionStatus forKey:SDLNameIgnitionStatus];
     } else {
@@ -47,13 +43,9 @@
     }
 }
 
-- (SDLIgnitionStatus *)ignitionStatus {
+- (SDLIgnitionStatus)ignitionStatus {
     NSObject *obj = [store objectForKey:SDLNameIgnitionStatus];
-    if (obj == nil || [obj isKindOfClass:SDLIgnitionStatus.class]) {
-        return (SDLIgnitionStatus *)obj;
-    } else {
-        return [SDLIgnitionStatus valueOf:(NSString *)obj];
-    }
+    return (SDLIgnitionStatus)obj;
 }
 
 - (void)setDriverDoorAjar:(NSNumber *)driverDoorAjar {

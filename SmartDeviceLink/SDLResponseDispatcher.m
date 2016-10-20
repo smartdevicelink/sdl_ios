@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
         // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
         SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
-        NSString *buttonName = subscribeButton.buttonName.value;
+        SDLButtonName buttonName = subscribeButton.buttonName;
         if (!buttonName) {
             @throw [NSException sdl_missingIdException];
         }
@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSError *error = nil;
     if (![response.success boolValue]) {
-        error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
+        error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode andReason:response.info];
     }
 
     // Find the appropriate request completion handler, remove the request and response handler
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
     } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
         SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
-        NSString *unsubscribeButtonName = unsubscribeButtonRequest.buttonName.value;
+        SDLButtonName unsubscribeButtonName = unsubscribeButtonRequest.buttonName;
         [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
     }
 }
@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
     __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
 
     SDLRPCNotificationHandler handler = nil;
-    SDLButtonName *name = nil;
+    SDLButtonName name = nil;
     NSNumber *customID = nil;
 
     if ([rpcNotification isKindOfClass:[SDLOnButtonEvent class]]) {
@@ -200,10 +200,10 @@ NS_ASSUME_NONNULL_BEGIN
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
 
-    if ([name isEqualToEnum:[SDLButtonName CUSTOM_BUTTON]]) {
+    if ([name isEqualToString:SDLButtonNameCustomButton]) {
         handler = self.customButtonHandlerMap[customID];
     } else {
-        handler = self.buttonHandlerMap[name.value];
+        handler = self.buttonHandlerMap[name];
     }
 
     if (handler) {

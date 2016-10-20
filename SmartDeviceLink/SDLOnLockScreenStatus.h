@@ -5,8 +5,8 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLHMILevel;
-@class SDLLockScreenStatus;
+#import "SDLHMILevel.h"
+#import "SDLLockScreenStatus.h"
 
 
 /**
@@ -34,11 +34,11 @@
  * <p>Get the {@linkplain LockScreenStatus} enumeration, indicating if the lockscreen should be required, optional or off </p>
  * @return {@linkplain LockScreenStatus}
  */
-@property (strong) SDLLockScreenStatus *lockScreenStatus;
+@property (strong) SDLLockScreenStatus lockScreenStatus;
 /**
  * <p>Get HMILevel in effect for the application</p>
  * @return {@linkplain HMILevel} the current HMI Level in effect for the application
  */
-@property (strong) SDLHMILevel *hmiLevel;
+@property (strong) SDLHMILevel hmiLevel;
 
 @end

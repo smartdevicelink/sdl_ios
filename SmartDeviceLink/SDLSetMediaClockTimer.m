@@ -6,7 +6,6 @@
 
 #import "SDLNames.h"
 #import "SDLStartTime.h"
-#import "SDLUpdateMode.h"
 
 @implementation SDLSetMediaClockTimer
 
@@ -50,7 +49,7 @@
     }
 }
 
-- (void)setUpdateMode:(SDLUpdateMode *)updateMode {
+- (void)setUpdateMode:(SDLUpdateMode)updateMode {
     if (updateMode != nil) {
         [parameters setObject:updateMode forKey:SDLNameUpdateMode];
     } else {
@@ -58,13 +57,9 @@
     }
 }
 
-- (SDLUpdateMode *)updateMode {
+- (SDLUpdateMode)updateMode {
     NSObject *obj = [parameters objectForKey:SDLNameUpdateMode];
-    if (obj == nil || [obj isKindOfClass:SDLUpdateMode.class]) {
-        return (SDLUpdateMode *)obj;
-    } else {
-        return [SDLUpdateMode valueOf:(NSString *)obj];
-    }
+    return (SDLUpdateMode)obj;
 }
 
 @end

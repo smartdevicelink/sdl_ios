@@ -10,7 +10,7 @@
 
 @implementation SDLTextField
 
-- (void)setName:(SDLTextFieldName *)name {
+- (void)setName:(SDLTextFieldName)name {
     if (name != nil) {
         [store setObject:name forKey:SDLNameName];
     } else {
@@ -18,16 +18,12 @@
     }
 }
 
-- (SDLTextFieldName *)name {
+- (SDLTextFieldName)name {
     NSObject *obj = [store objectForKey:SDLNameName];
-    if (obj == nil || [obj isKindOfClass:SDLTextFieldName.class]) {
-        return (SDLTextFieldName *)obj;
-    } else {
-        return [SDLTextFieldName valueOf:(NSString *)obj];
-    }
+    return (SDLTextFieldName)obj;
 }
 
-- (void)setCharacterSet:(SDLCharacterSet *)characterSet {
+- (void)setCharacterSet:(SDLCharacterSet)characterSet {
     if (characterSet != nil) {
         [store setObject:characterSet forKey:SDLNameCharacterSet];
     } else {
@@ -35,13 +31,9 @@
     }
 }
 
-- (SDLCharacterSet *)characterSet {
+- (SDLCharacterSet)characterSet {
     NSObject *obj = [store objectForKey:SDLNameCharacterSet];
-    if (obj == nil || [obj isKindOfClass:SDLCharacterSet.class]) {
-        return (SDLCharacterSet *)obj;
-    } else {
-        return [SDLCharacterSet valueOf:(NSString *)obj];
-    }
+    return (SDLCharacterSet)obj;
 }
 
 - (void)setWidth:(NSNumber *)width {

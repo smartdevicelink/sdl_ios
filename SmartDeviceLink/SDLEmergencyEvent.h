@@ -3,17 +3,17 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLEmergencyEventType;
-@class SDLFuelCutoffStatus;
-@class SDLVehicleDataEventStatus;
+#import "SDLEmergencyEventType.h"
+#import "SDLFuelCutoffStatus.h"
+#import "SDLVehicleDataEventStatus.h"
 
 
 @interface SDLEmergencyEvent : SDLRPCStruct
 
-@property (strong) SDLEmergencyEventType *emergencyEventType;
-@property (strong) SDLFuelCutoffStatus *fuelCutoffStatus;
-@property (strong) SDLVehicleDataEventStatus *rolloverEvent;
+@property (strong) SDLEmergencyEventType emergencyEventType;
+@property (strong) SDLFuelCutoffStatus fuelCutoffStatus;
+@property (strong) SDLVehicleDataEventStatus rolloverEvent;
 @property (strong) NSNumber *maximumChangeVelocity;
-@property (strong) SDLVehicleDataEventStatus *multipleEvents;
+@property (strong) SDLVehicleDataEventStatus multipleEvents;
 
 @end

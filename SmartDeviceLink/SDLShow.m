@@ -7,7 +7,6 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
-#import "SDLTextAlignment.h"
 
 
 @implementation SDLShow
@@ -66,7 +65,7 @@
     return [parameters objectForKey:SDLNameMainField4];
 }
 
-- (void)setAlignment:(SDLTextAlignment *)alignment {
+- (void)setAlignment:(SDLTextAlignment)alignment {
     if (alignment != nil) {
         [parameters setObject:alignment forKey:SDLNameAlignment];
     } else {
@@ -74,13 +73,9 @@
     }
 }
 
-- (SDLTextAlignment *)alignment {
+- (SDLTextAlignment)alignment {
     NSObject *obj = [parameters objectForKey:SDLNameAlignment];
-    if (obj == nil || [obj isKindOfClass:SDLTextAlignment.class]) {
-        return (SDLTextAlignment *)obj;
-    } else {
-        return [SDLTextAlignment valueOf:(NSString *)obj];
-    }
+    return (SDLTextAlignment)obj;
 }
 
 - (void)setStatusBar:(NSString *)statusBar {

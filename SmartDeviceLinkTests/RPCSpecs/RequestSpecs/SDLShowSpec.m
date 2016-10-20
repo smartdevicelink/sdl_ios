@@ -29,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.mainField2 = @"field2";
         testRequest.mainField3 = @"field3";
         testRequest.mainField4 = @"field4";
-        testRequest.alignment = [SDLTextAlignment LEFT_ALIGNED];
+        testRequest.alignment = SDLTextAlignmentLeft;
         testRequest.statusBar = @"status";
         testRequest.mediaClock = @"TheTime";
         testRequest.mediaTrack = @"In The Clear";
@@ -42,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.mainField2).to(equal(@"field2"));
         expect(testRequest.mainField3).to(equal(@"field3"));
         expect(testRequest.mainField4).to(equal(@"field4"));
-        expect(testRequest.alignment).to(equal([SDLTextAlignment LEFT_ALIGNED]));
+        expect(testRequest.alignment).to(equal(SDLTextAlignmentLeft));
         expect(testRequest.statusBar).to(equal(@"status"));
         expect(testRequest.mediaClock).to(equal(@"TheTime"));
         expect(testRequest.mediaTrack).to(equal(@"In The Clear"));
@@ -53,28 +53,28 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameMainField1:@"field1",
-                                                                   SDLNameMainField2:@"field2",
-                                                                   SDLNameMainField3:@"field3",
-                                                                   SDLNameMainField4:@"field4",
-                                                                   SDLNameAlignment:[SDLTextAlignment LEFT_ALIGNED],
-                                                                   SDLNameStatusBar:@"status",
-                                                                   SDLNameMediaClock:@"TheTime",
-                                                                   SDLNameMediaTrack:@"In The Clear",
-                                                                   SDLNameGraphic:image1,
-                                                                   SDLNameSecondaryGraphic:image2,
-                                                                   SDLNameSoftButtons:[@[button] mutableCopy],
-                                                                   SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameShow}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameMainField1:@"field1",
+                                                   SDLNameMainField2:@"field2",
+                                                   SDLNameMainField3:@"field3",
+                                                   SDLNameMainField4:@"field4",
+                                                   SDLNameAlignment:SDLTextAlignmentLeft,
+                                                   SDLNameStatusBar:@"status",
+                                                   SDLNameMediaClock:@"TheTime",
+                                                   SDLNameMediaTrack:@"In The Clear",
+                                                   SDLNameGraphic:image1,
+                                                   SDLNameSecondaryGraphic:image2,
+                                                   SDLNameSoftButtons:[@[button] mutableCopy],
+                                                   SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy]},
+                                             SDLNameOperationName:SDLNameShow}} mutableCopy];
         SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
         
         expect(testRequest.mainField1).to(equal(@"field1"));
         expect(testRequest.mainField2).to(equal(@"field2"));
         expect(testRequest.mainField3).to(equal(@"field3"));
         expect(testRequest.mainField4).to(equal(@"field4"));
-        expect(testRequest.alignment).to(equal([SDLTextAlignment LEFT_ALIGNED]));
+        expect(testRequest.alignment).to(equal(SDLTextAlignmentLeft));
         expect(testRequest.statusBar).to(equal(@"status"));
         expect(testRequest.mediaClock).to(equal(@"TheTime"));
         expect(testRequest.mediaTrack).to(equal(@"In The Clear"));

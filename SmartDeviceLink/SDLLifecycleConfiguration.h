@@ -10,9 +10,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLAppHMIType;
+#import "SDLAppHMIType.h"
+#import "SDLLanguage.h"
+
 @class SDLFile;
-@class SDLLanguage;
 @class SDLTTSChunk;
 
 @protocol SDLSecurityType;
@@ -94,17 +95,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The application type
  */
-@property (strong, nonatomic, null_resettable) SDLAppHMIType *appType;
+@property (strong, nonatomic, null_resettable) SDLAppHMIType appType;
 
 /**
  *  The default language to use
  */
-@property (strong, nonatomic) SDLLanguage *language;
+@property (strong, nonatomic) SDLLanguage language;
 
 /**
  *  An array of all the supported languages
  */
-@property (strong, nonatomic) NSArray<SDLLanguage *> *languagesSupported;
+@property (strong, nonatomic) NSArray<SDLLanguage> *languagesSupported;
 
 /**
  *  The application icon to be used on an app launching screen

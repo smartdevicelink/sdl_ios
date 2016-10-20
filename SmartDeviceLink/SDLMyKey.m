@@ -8,7 +8,7 @@
 
 @implementation SDLMyKey
 
-- (void)setE911Override:(SDLVehicleDataStatus *)e911Override {
+- (void)setE911Override:(SDLVehicleDataStatus)e911Override {
     if (e911Override != nil) {
         [store setObject:e911Override forKey:SDLNameE911Override];
     } else {
@@ -16,13 +16,9 @@
     }
 }
 
-- (SDLVehicleDataStatus *)e911Override {
+- (SDLVehicleDataStatus)e911Override {
     NSObject *obj = [store objectForKey:SDLNameE911Override];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataStatus.class]) {
-        return (SDLVehicleDataStatus *)obj;
-    } else {
-        return [SDLVehicleDataStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataStatus)obj;
 }
 
 @end

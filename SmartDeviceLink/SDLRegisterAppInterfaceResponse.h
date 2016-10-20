@@ -4,19 +4,20 @@
 
 #import "SDLRPCResponse.h"
 
+#import "SDLHMIZoneCapabilities.h"
+#import "SDLLanguage.h"
+#import "SDLPrerecordedSpeech.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLVRCapabilities.h"
+
 @class SDLAudioPassThruCapabilities;
 @class SDLButtonCapabilities;
 @class SDLDisplayCapabilities;
 @class SDLHMICapabilities;
-@class SDLHMIZoneCapabilities;
-@class SDLLanguage;
-@class SDLPrerecordedSpeech;
 @class SDLPresetBankCapabilities;
 @class SDLSoftButtonCapabilities;
-@class SDLSpeechCapabilities;
 @class SDLSyncMsgVersion;
 @class SDLVehicleType;
-@class SDLVRCapabilities;
 
 
 /**
@@ -40,7 +41,7 @@
  *
  * Optional
  */
-@property (strong) SDLLanguage *language;
+@property (strong) SDLLanguage language;
 
 /**
  * The currently active display language on Sync
@@ -50,7 +51,7 @@
  *
  * Optional
  */
-@property (strong) SDLLanguage *hmiDisplayLanguage;
+@property (strong) SDLLanguage hmiDisplayLanguage;
 
 /**
  * @see SDLDisplayCapabilities
@@ -89,28 +90,28 @@
  *
  * Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
  */
-@property (strong) NSMutableArray<SDLHMIZoneCapabilities *> *hmiZoneCapabilities;
+@property (strong) NSMutableArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 
 /**
  * @see SDLSpeechCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLSpeechCapabilities
  */
-@property (strong) NSMutableArray<SDLSpeechCapabilities *> *speechCapabilities;
+@property (strong) NSMutableArray<SDLSpeechCapabilities> *speechCapabilities;
 
 /**
  * @see SDLPrerecordedSpeech
  *
  * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
  */
-@property (strong) NSMutableArray<SDLPrerecordedSpeech *> *prerecordedSpeech;
+@property (strong) NSMutableArray<SDLPrerecordedSpeech> *prerecordedSpeech;
 
 /**
  * @see SDLVRCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLVRCapabilities
  */
-@property (strong) NSMutableArray<SDLVRCapabilities *> *vrCapabilities;
+@property (strong) NSMutableArray<SDLVRCapabilities> *vrCapabilities;
 
 /**
  * @see SDLAudioPassThruCapabilities

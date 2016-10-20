@@ -3,12 +3,11 @@
 
 #import "SDLButtonCapabilities.h"
 
-#import "SDLButtonName.h"
 #import "SDLNames.h"
 
 @implementation SDLButtonCapabilities
 
-- (void)setName:(SDLButtonName *)name {
+- (void)setName:(SDLButtonName)name {
     if (name != nil) {
         [store setObject:name forKey:SDLNameName];
     } else {
@@ -16,13 +15,9 @@
     }
 }
 
-- (SDLButtonName *)name {
+- (SDLButtonName)name {
     NSObject *obj = [store objectForKey:SDLNameName];
-    if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
-        return (SDLButtonName *)obj;
-    } else {
-        return [SDLButtonName valueOf:(NSString *)obj];
-    }
+    return (SDLButtonName)obj;
 }
 
 - (void)setShortPressAvailable:(NSNumber *)shortPressAvailable {

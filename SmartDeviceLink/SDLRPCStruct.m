@@ -63,17 +63,9 @@
                     [serializedList addObject:[serializeable serializeAsDictionary:version]];
                 }
                 [ret setObject:serializedList forKey:key];
-            } else if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLEnum.class])) {
-                NSMutableArray<NSString *> *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
-                for (SDLEnum *anEnum in arrayVal) {
-                    [serializedList addObject:anEnum.value];
-                }
-                [ret setObject:serializedList forKey:key];
             } else {
                 [ret setObject:value forKey:key];
             }
-        } else if ([value isKindOfClass:SDLEnum.class]) {
-            [ret setObject:((SDLEnum *)value).value forKey:key];
         } else {
             [ret setObject:value forKey:key];
         }

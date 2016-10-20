@@ -3,16 +3,14 @@
 
 #import "SDLDisplayCapabilities.h"
 
-#import "SDLDisplayType.h"
-#import "SDLImageField.h"
-#import "SDLMediaClockFormat.h"
 #import "SDLNames.h"
+#import "SDLImageField.h"
 #import "SDLScreenParams.h"
 #import "SDLTextField.h"
 
 @implementation SDLDisplayCapabilities
 
-- (void)setDisplayType:(SDLDisplayType *)displayType {
+- (void)setDisplayType:(SDLDisplayType)displayType {
     if (displayType != nil) {
         [store setObject:displayType forKey:SDLNameDisplayType];
     } else {
@@ -20,13 +18,9 @@
     }
 }
 
-- (SDLDisplayType *)displayType {
+- (SDLDisplayType)displayType {
     NSObject *obj = [store objectForKey:SDLNameDisplayType];
-    if (obj == nil || [obj isKindOfClass:SDLDisplayType.class]) {
-        return (SDLDisplayType *)obj;
-    } else {
-        return [SDLDisplayType valueOf:(NSString *)obj];
-    }
+    return (SDLDisplayType)obj;
 }
 
 - (void)setTextFields:(NSMutableArray<SDLTextField *> *)textFields {
@@ -71,7 +65,7 @@
     }
 }
 
-- (void)setMediaClockFormats:(NSMutableArray<SDLMediaClockFormat *> *)mediaClockFormats {
+- (void)setMediaClockFormats:(NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
     if (mediaClockFormats != nil) {
         [store setObject:mediaClockFormats forKey:SDLNameMediaClockFormats];
     } else {
@@ -79,14 +73,14 @@
     }
 }
 
-- (NSMutableArray<SDLMediaClockFormat *> *)mediaClockFormats {
-    NSMutableArray<SDLMediaClockFormat *> *array = [store objectForKey:SDLNameMediaClockFormats];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLMediaClockFormat.class]) {
+- (NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
+    NSMutableArray<SDLMediaClockFormat> *array = [store objectForKey:SDLNameMediaClockFormats];
+    if ([array count] < 1) {
         return array;
     } else {
-        NSMutableArray<SDLMediaClockFormat *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLMediaClockFormat> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLMediaClockFormat valueOf:enumString]];
+            [newList addObject:(SDLMediaClockFormat)enumString];
         }
         return newList;
     }

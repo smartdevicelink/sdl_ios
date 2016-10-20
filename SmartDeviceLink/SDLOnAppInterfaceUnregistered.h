@@ -3,7 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLAppInterfaceUnregisteredReason;
+#import "SDLAppInterfaceUnregisteredReason.h"
 
 
 /**
@@ -19,6 +19,6 @@
 /**
  * @abstract The reason application's interface was terminated
  */
-@property (strong) SDLAppInterfaceUnregisteredReason *reason;
+@property (strong) SDLAppInterfaceUnregisteredReason reason;
 
 @end

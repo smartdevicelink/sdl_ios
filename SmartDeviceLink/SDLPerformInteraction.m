@@ -4,8 +4,6 @@
 
 #import "SDLPerformInteraction.h"
 
-#import "SDLInteractionMode.h"
-#import "SDLLayoutMode.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVRHelpItem.h"
@@ -51,7 +49,7 @@
     }
 }
 
-- (void)setInteractionMode:(SDLInteractionMode *)interactionMode {
+- (void)setInteractionMode:(SDLInteractionMode)interactionMode {
     if (interactionMode != nil) {
         [parameters setObject:interactionMode forKey:SDLNameInteractionMode];
     } else {
@@ -59,13 +57,9 @@
     }
 }
 
-- (SDLInteractionMode *)interactionMode {
+- (SDLInteractionMode)interactionMode {
     NSObject *obj = [parameters objectForKey:SDLNameInteractionMode];
-    if (obj == nil || [obj isKindOfClass:SDLInteractionMode.class]) {
-        return (SDLInteractionMode *)obj;
-    } else {
-        return [SDLInteractionMode valueOf:(NSString *)obj];
-    }
+    return (SDLInteractionMode)obj;
 }
 
 - (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber *> *)interactionChoiceSetIDList {
@@ -155,7 +149,7 @@
     }
 }
 
-- (void)setInteractionLayout:(SDLLayoutMode *)interactionLayout {
+- (void)setInteractionLayout:(SDLLayoutMode)interactionLayout {
     if (interactionLayout != nil) {
         [parameters setObject:interactionLayout forKey:SDLNameInteractionLayout];
     } else {
@@ -163,13 +157,9 @@
     }
 }
 
-- (SDLLayoutMode *)interactionLayout {
+- (SDLLayoutMode)interactionLayout {
     NSObject *obj = [parameters objectForKey:SDLNameInteractionLayout];
-    if (obj == nil || [obj isKindOfClass:SDLLayoutMode.class]) {
-        return (SDLLayoutMode *)obj;
-    } else {
-        return [SDLLayoutMode valueOf:(NSString *)obj];
-    }
+    return (SDLLayoutMode)obj;
 }
 
 @end

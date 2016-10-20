@@ -3,12 +3,13 @@
 
 #import "SDLRPCNotification.h"
 
+#import "SDLTouchType.h"
+
 @class SDLTouchEvent;
-@class SDLTouchType;
 
 @interface SDLOnTouchEvent : SDLRPCNotification
 
-@property (strong) SDLTouchType *type;
+@property (strong) SDLTouchType type;
 @property (strong) NSMutableArray<SDLTouchEvent *> *event;
 
 @end

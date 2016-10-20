@@ -57,7 +57,7 @@
     return [parameters objectForKey:SDLNameSuccess];
 }
 
-- (void)setResultCode:(SDLResult *)resultCode {
+- (void)setResultCode:(SDLResult)resultCode {
     if (resultCode != nil) {
         [parameters setObject:resultCode forKey:SDLNameResultCode];
     } else {
@@ -65,13 +65,9 @@
     }
 }
 
-- (SDLResult *)resultCode {
+- (SDLResult)resultCode {
     NSObject *obj = [parameters objectForKey:SDLNameResultCode];
-    if (obj == nil || [obj isKindOfClass:SDLResult.class]) {
-        return (SDLResult *)obj;
-    } else {
-        return [SDLResult valueOf:(NSString *)obj];
-    }
+    return (SDLResult)obj;
 }
 
 - (void)setInfo:(NSString *)info {
