@@ -444,7 +444,7 @@ describe(@"a response dispatcher", ^{
         __block SDLSoftButton *testSoftButton1 = nil;
         
         beforeEach(^{
-            testAlert = [[SDLAlert alloc] initWithAlertText1:@"test 1" alertText2:@"test 1" alertText3:nil duration:@1 softButtons:nil];
+            testAlert = [[SDLAlert alloc] initWithAlertText1:@"test 1" alertText2:@"test 1" alertText3:nil duration:1 softButtons:nil];
             testAlert.correlationID = @1;
         });
         
