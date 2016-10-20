@@ -22,10 +22,14 @@
 }
 
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType {
-    if (self = [super init]) {
-        self.value = name;
-        self.imageType = imageType;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.value = name;
+    self.imageType = imageType;
+    
     return self;
 }
 

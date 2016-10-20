@@ -22,15 +22,17 @@
 }
 
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout *)predefinedLayout {
-    if (self = [self initWithLayout:predefinedLayout.value]) {
-    }
-    return self;
+    return [self initWithLayout:predefinedLayout.value];
 }
 
 - (instancetype)initWithLayout:(NSString *)displayLayout {
-    if (self = [self init]) {
-        self.displayLayout = displayLayout;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.displayLayout = displayLayout;
+    
     return self;
 }
 

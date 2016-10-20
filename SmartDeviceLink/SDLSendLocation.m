@@ -28,15 +28,19 @@
 }
 
 - (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
-    if (self = [self init]) {
-        self.longitudeDegrees = @(longitude);
-        self.latitudeDegrees = @(latitude);
-        self.locationName = locationName;
-        self.locationDescription = locationDescription;
-        self.addressLines = address;
-        self.phoneNumber = phoneNumber;
-        self.locationImage = image;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.longitudeDegrees = @(longitude);
+    self.latitudeDegrees = @(latitude);
+    self.locationName = locationName;
+    self.locationDescription = locationDescription;
+    self.addressLines = address;
+    self.phoneNumber = phoneNumber;
+    self.locationImage = image;
+    
     return self;
 }
 

@@ -22,9 +22,13 @@
 }
 
 - (instancetype)initWithProperties:(NSArray *)properties {
-    if (self = [self init]) {
-        self.properties = [properties mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.properties = [properties mutableCopy];
+
     return self;
 }
 

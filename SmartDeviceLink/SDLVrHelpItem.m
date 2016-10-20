@@ -21,6 +21,19 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString*)text image:(SDLImage*)image position:(NSNumber*)position {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.text = text;
+    self.image = image;
+    self.position = position;
+    
+    return self;
+}
+
 - (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:NAMES_text];

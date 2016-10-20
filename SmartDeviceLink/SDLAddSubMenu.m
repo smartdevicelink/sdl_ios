@@ -19,17 +19,19 @@
 }
 
 - (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName {
-    if (self = [self initWithId:menuId menuName:menuName position:nil]) {
-    }
-    return self;
+    return [self initWithId:menuId menuName:menuName position:nil];
 }
 
 - (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName position:(NSNumber *)position {
-    if (self = [self init]) {
-        self.menuID = menuId;
-        self.menuName = menuName;
-        self.position = position;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.menuID = menuId;
+    self.menuName = menuName;
+    self.position = position;
+    
     return self;
 }
 

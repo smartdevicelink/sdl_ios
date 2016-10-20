@@ -22,10 +22,13 @@
 }
 
 - (instancetype)initWithId:(NSInteger)choiceId choiceSet:(NSArray *)choiceSet {
-    if (self = [self init]) {
-        self.interactionChoiceSetID = @(choiceId);
-        self.choiceSet = [choiceSet mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.interactionChoiceSetID = @(choiceId);
+    self.choiceSet = [choiceSet mutableCopy];
     return self;
 }
 

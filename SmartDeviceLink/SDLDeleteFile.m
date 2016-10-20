@@ -21,9 +21,13 @@
 }
 
 - (instancetype)initWithFileName:(NSString *)fileName {
-    if (self = [self init]) {
-        self.syncFileName = fileName;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.syncFileName = fileName;
+    
     return self;
 }
 

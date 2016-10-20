@@ -20,12 +20,26 @@
     return self;
 }
 
-- (instancetype)initWithMenuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position {
-    if (self = [self init]) {
-        self.menuName = menuName;
-        self.parentID = parentId;
-        self.position = position;
+- (instancetype)initWithMenuName:(NSString *)menuName parentId:(NSUInteger)parentId position:(NSUInteger)position {
+    self = [self initWithMenuName:menuName];
+    if (!self) {
+        return nil;
     }
+    
+    self.parentID = @(parentId);
+    self.position = @(parentId);
+    
+    return self;
+}
+
+- (instancetype)initWithMenuName:(NSString *)menuName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.menuName = menuName;
+    
     return self;
 }
 

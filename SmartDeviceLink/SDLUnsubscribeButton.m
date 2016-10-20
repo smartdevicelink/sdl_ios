@@ -23,9 +23,13 @@
 }
 
 - (instancetype)initWithButtonName:(SDLButtonName *)buttonName {
-    if (self = [self init]) {
-        self.buttonName = buttonName;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.buttonName = buttonName;
+    
     return self;
 }
 

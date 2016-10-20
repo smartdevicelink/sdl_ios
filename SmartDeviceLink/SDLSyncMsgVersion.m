@@ -21,10 +21,14 @@
 }
 
 - (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
-    if (self = [self init]) {
-        self.majorVersion = @(majorVersion);
-        self.minorVersion = @(minorVersion);
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.majorVersion = @(majorVersion);
+    self.minorVersion = @(minorVersion);
+    
     return self;
 }
 

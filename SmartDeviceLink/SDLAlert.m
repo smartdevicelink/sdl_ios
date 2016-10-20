@@ -22,58 +22,48 @@
 }
 
 - (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 duration:(NSNumber *)duration {
-    if (self = [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil duration:duration]) {
-    }
-    return self;
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil duration:duration];
 }
 
 - (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration {
-    if (self = [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:duration softButtons:nil]) {
-    }
-    return self;
+    return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:duration softButtons:nil];
 }
 
 - (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration softButtons:(NSArray *)softButtons {
-    if (self = [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:NO duration:duration softButtons:softButtons]) {
-    }
-    return self;
+    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:NO duration:duration softButtons:softButtons];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText playTone:(BOOL)playTone {
-    if (self = [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:nil]) {
-    }
-    return self;
+    return [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:nil];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(NSNumber *)duration {
-    if (self = [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration]) {
-    }
-    return self;
+    return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(NSNumber *)duration {
     NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
-    if (self = [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil]) {
-    }
-    return self;
+    return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil];
 }
 
 - (instancetype)initWithTTSChunks:(NSArray *)ttsChunks playTone:(BOOL)playTone {
-    if (self = [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:nil softButtons:nil]) {
-    }
-    return self;
+    return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:nil softButtons:nil];
 }
 
 - (instancetype)initWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(NSNumber *)duration softButtons:(NSArray *)softButtons {
-    if (self = [self init]) {
-        self.ttsChunks = [ttsChunks mutableCopy];
-        self.alertText1 = alertText1;
-        self.alertText2 = alertText2;
-        self.alertText3 = alertText3;
-        self.playTone = @(playTone);
-        self.duration = duration;
-        self.softButtons = [softButtons mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.ttsChunks = [ttsChunks mutableCopy];
+    self.alertText1 = alertText1;
+    self.alertText2 = alertText2;
+    self.alertText3 = alertText3;
+    self.playTone = @(playTone);
+    self.duration = duration;
+    self.softButtons = [softButtons mutableCopy];
+    
     return self;
 }
 

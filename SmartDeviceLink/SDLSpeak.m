@@ -24,15 +24,17 @@
 
 - (instancetype)initWithTTS:(NSString *)ttsText {
     NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
-    if (self = [self initWithTTSChunks:ttsChunks]) {
-    }
-    return self;
+    return [self initWithTTSChunks:ttsChunks];
 }
 
 - (instancetype)initWithTTSChunks:(NSArray *)ttsChunks {
-    if (self = [self init]) {
-        self.ttsChunks = [ttsChunks mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.ttsChunks = [ttsChunks mutableCopy];
+    
     return self;
 }
 

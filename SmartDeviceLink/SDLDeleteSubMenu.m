@@ -21,9 +21,13 @@
 }
 
 - (instancetype)initWithId:(NSInteger)menuId {
-    if (self = [self init]) {
-        self.menuID = @(menuId);
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.menuID = @(menuId);
+    
     return self;
 }
 

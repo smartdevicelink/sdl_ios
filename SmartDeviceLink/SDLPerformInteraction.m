@@ -26,43 +26,39 @@
 }
 
 - (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(NSNumber *)interactionChoiceSetID {
-    if (self = [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetID:interactionChoiceSetID vrHelp:nil]) {
-    }
-    return self;
+    return [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetID:interactionChoiceSetID vrHelp:nil];
 }
 
 - (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(NSNumber *)interactionChoiceSetID vrHelp:(NSArray *)vrHelp {
-    if (self = [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:@[interactionChoiceSetID] helpPrompt:nil timeoutPrompt:nil interactionMode:nil timeout:nil vrHelp:vrHelp]) {
-    }
-    return self;
+    return [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:@[interactionChoiceSetID] helpPrompt:nil timeoutPrompt:nil interactionMode:nil timeout:nil vrHelp:vrHelp];
 }
 
 - (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout {
-    if (self = [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpPrompt timeoutPrompt:timeoutPrompt interactionMode:interactionMode timeout:timeout vrHelp:nil]) {
-    }
-    return self;
+    return [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpPrompt timeoutPrompt:timeoutPrompt interactionMode:interactionMode timeout:timeout vrHelp:nil];
 }
 
 - (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray *)vrHelp {
     NSMutableArray* initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
     NSMutableArray* helpChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpPrompt];
     NSMutableArray* timeoutChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutPrompt];
-    if (self = [self initWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp]) {
-    }
-    return self;
+    return [self initWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp];
 }
 
 - (instancetype)initWithInitialChunks:(NSArray *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray *)interactionChoiceSetIDList helpChunks:(NSArray *)helpChunks timeoutChunks:(NSArray *)timeoutChunks interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray *)vrHelp {
-    if (self = [self init]) {
-        self.initialPrompt = [initialChunks mutableCopy];
-        self.initialText = initialText;
-        self.interactionChoiceSetIDList = [interactionChoiceSetIDList mutableCopy];
-        self.helpPrompt = [helpChunks mutableCopy];
-        self.timeoutPrompt = [timeoutChunks mutableCopy];
-        self.interactionMode = interactionMode;
-        self.timeout = timeout;
-        self.vrHelp = [vrHelp mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.initialPrompt = [initialChunks mutableCopy];
+    self.initialText = initialText;
+    self.interactionChoiceSetIDList = [interactionChoiceSetIDList mutableCopy];
+    self.helpPrompt = [helpChunks mutableCopy];
+    self.timeoutPrompt = [timeoutChunks mutableCopy];
+    self.interactionMode = interactionMode;
+    self.timeout = timeout;
+    self.vrHelp = [vrHelp mutableCopy];
+
     return self;
 }
 

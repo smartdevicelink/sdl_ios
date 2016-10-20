@@ -22,11 +22,15 @@
 }
 
 - (instancetype)initWithMessage:(NSString *)message timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons {
-    if (self = [self init]) {
-        self.scrollableMessageBody = message;
-        self.timeout = timeout;
-        self.softButtons = [softButtons mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.scrollableMessageBody = message;
+    self.timeout = timeout;
+    self.softButtons = [softButtons mutableCopy];
+
     return self;
 }
 

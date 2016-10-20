@@ -24,19 +24,23 @@
 }
 
 - (instancetype)initWithNavigationText1:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(NSNumber *)distanceToManeuver distanceToManeuverScale:(NSNumber *)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(NSArray *)softButtons {
-    if (self = [self init]) {
-        self.navigationText1 = navigationText1;
-        self.navigationText2 = navigationText2;
-        self.eta = eta;
-        self.timeToDestination = timeToDestination;
-        self.totalDistance = totalDistance;
-        self.turnIcon = turnIcon;
-        self.nextTurnIcon = nextTurnIcon;
-        self.distanceToManeuver = distanceToManeuver;
-        self.distanceToManeuverScale = self.distanceToManeuverScale;
-        self.maneuverComplete = @(maneuverComplete);
-        self.softButtons = [softButtons mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.navigationText1 = navigationText1;
+    self.navigationText2 = navigationText2;
+    self.eta = eta;
+    self.timeToDestination = timeToDestination;
+    self.totalDistance = totalDistance;
+    self.turnIcon = turnIcon;
+    self.nextTurnIcon = nextTurnIcon;
+    self.distanceToManeuver = distanceToManeuver;
+    self.distanceToManeuverScale = self.distanceToManeuverScale;
+    self.maneuverComplete = @(maneuverComplete);
+    self.softButtons = [softButtons mutableCopy];
+    
     return self;
 }
 

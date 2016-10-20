@@ -21,9 +21,13 @@
 }
 
 - (instancetype)initWithId:(NSInteger)choiceId {
-    if (self = [self init]) {
-        self.interactionChoiceSetID = @(choiceId);
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.interactionChoiceSetID = @(choiceId);
+    
     return self;
 }
 

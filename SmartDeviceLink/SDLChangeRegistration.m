@@ -22,10 +22,14 @@
 }
 
 - (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
-    if (self = [self init]) {
-        self.language = language;
-        self.hmiDisplayLanguage = hmiDisplayLanguage;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.language = language;
+    self.hmiDisplayLanguage = hmiDisplayLanguage;
+    
     return self;
 }
 

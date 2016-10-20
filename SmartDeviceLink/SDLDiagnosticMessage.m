@@ -20,6 +20,19 @@
     return self;
 }
 
+- (instancetype)initWithTargetId:(NSUInteger)targetId length:(NSUInteger)length data:(NSArray*)data {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.targetID = @(targetId);
+    self.messageLength = @(length);
+    self.messageData = [data mutableCopy];
+    
+    return self;
+}
+
 - (void)setTargetID:(NSNumber *)targetID {
     if (targetID != nil) {
         [parameters setObject:targetID forKey:NAMES_targetID];

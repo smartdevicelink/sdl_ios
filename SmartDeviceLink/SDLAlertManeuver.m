@@ -25,16 +25,18 @@
 
 - (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray *)softButtons {
     NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
-    if (self = [self initWithTTSChunks:ttsChunks softButtons:softButtons]) {
-    }
-    return self;
+    return [self initWithTTSChunks:ttsChunks softButtons:softButtons];
 }
 
 - (instancetype)initWithTTSChunks:(NSArray *)ttsChunks softButtons:(NSArray *)softButtons {
-    if (self = [self init]) {
-        self.ttsChunks = [ttsChunks mutableCopy];
-        self.softButtons = [softButtons mutableCopy];
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.ttsChunks = [ttsChunks mutableCopy];
+    self.softButtons = [softButtons mutableCopy];
+
     return self;
 }
 

@@ -21,9 +21,13 @@
 }
 
 - (instancetype)initWithECUName:(NSInteger)name {
-    if (self = [self init]) {
-        self.ecuName = @(name);
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.ecuName = @(name);
+    
     return self;
 }
 

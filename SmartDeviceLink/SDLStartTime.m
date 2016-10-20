@@ -21,11 +21,15 @@
 }
 
 - (instancetype)initWithHours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds {
-    if (self = [super init]) {
-        self.hours = @(hours);
-        self.minutes = @(minutes);
-        self.seconds = @(seconds);
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.hours = @(hours);
+    self.minutes = @(minutes);
+    self.seconds = @(seconds);
+
     return self;
 }
 

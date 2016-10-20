@@ -21,9 +21,13 @@
 }
 
 - (instancetype)initWithNumber:(NSString *)number {
-    if (self = [self init]) {
-        self.number = number;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.number = number;
+    
     return self;
 }
 

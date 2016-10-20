@@ -21,9 +21,13 @@
 }
 
 - (instancetype)initWithId:(NSInteger)commandId {
-    if (self = [self init]) {
-        self.cmdID = @(commandId);
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.cmdID = @(commandId);
+    
     return self;
 }
 

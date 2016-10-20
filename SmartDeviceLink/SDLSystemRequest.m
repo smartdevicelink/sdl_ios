@@ -23,10 +23,14 @@
 }
 
 - (instancetype)initWithType:(SDLRequestType *)requestType fileName:(NSString *)fileName {
-    if (self = [self init]) {
-        self.requestType = requestType;
-        self.fileName = fileName;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    
+    self.requestType = requestType;
+    self.fileName = fileName;
+
     return self;
 }
 
