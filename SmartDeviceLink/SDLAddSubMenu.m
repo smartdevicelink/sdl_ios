@@ -18,6 +18,21 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName {
+    if (self = [self initWithId:menuId menuName:menuName position:nil]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName position:(NSNumber *)position {
+    if (self = [self init]) {
+        self.menuID = menuId;
+        self.menuName = menuName;
+        self.position = position;
+    }
+    return self;
+}
+
 - (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:NAMES_menuID];

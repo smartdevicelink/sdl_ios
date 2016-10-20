@@ -27,6 +27,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithMessage:(NSString *)message timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons;
+
 /**
  * @abstract A Body of text that can include newlines and tabs
  * @discussion A String value representing the Body of text that can include

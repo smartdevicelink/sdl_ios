@@ -9,6 +9,7 @@
 #import "SDLNames.h"
 #import "SDLSamplingRate.h"
 #import "SDLTTSChunk.h"
+#import "SDLTTSChunkFactory.h"
 
 
 @implementation SDLPerformAudioPassThru
@@ -21,6 +22,20 @@
 
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(BOOL)muteAudio {
+    if (self = [self init]) {
+        self.initialPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
+        self.audioPassThruDisplayText1 = audioPassThruDisplayText1;
+        self.audioPassThruDisplayText2 = audioPassThruDisplayText2;
+        self.samplingRate = samplingRate;
+        self.maxDuration = maxDuration;
+        self.bitsPerSample = bitsPerSample;
+        self.audioType = audioType;
+        self.muteAudio = @(muteAudio);
     }
     return self;
 }

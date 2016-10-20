@@ -30,6 +30,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithECUName:(NSNumber *)ecuNumber didLocation:(NSArray *)didLocation;
+
 /**
  * @abstract An ID of the vehicle module
  *            <br/><b>Notes: </b>Minvalue:0; Maxvalue:65535

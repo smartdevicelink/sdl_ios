@@ -29,6 +29,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile;
+
 /**
  * A file reference name
  *

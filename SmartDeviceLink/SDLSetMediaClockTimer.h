@@ -31,6 +31,10 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithHours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds updateMode:(SDLUpdateMode *)updateMode;
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode;
+
 /**
  * @abstract A Start Time with specifying hour, minute, second values
  *

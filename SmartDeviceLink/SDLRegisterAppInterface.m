@@ -27,6 +27,35 @@
     return self;
 }
 
+- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId {
+    if (self = [self initWithAppName:appName isMediaApp:@NO languageDesired:languageDesired appId:appId]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithAppName:(NSString *)appName isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId {
+    if (self = [self initWithAppName:appName ttsName:nil vrSynonyms:@[appName] isMediaApp:isMediaApp languageDesired:languageDesired hmiDisplayLanguageDesired:languageDesired appId:appId]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithAppName:(NSString *)appName ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appId:(NSString *)appId {
+    if (self = [self init]) {
+        self.appID = appId;
+        self.appName = appName;
+        self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
+        self.isMediaApplication = @(isMediaApp);
+        self.ngnMediaScreenAppName = appName;
+        self.ttsName = [ttsName copy];
+        self.vrSynonyms = [vrSynonyms copy];
+        self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
+        self.appInfo = [SDLAppInfo currentAppInfo];
+        self.deviceInfo = [SDLDeviceInfo currentDevice];
+        self.correlationID = @1;
+    }
+    return self;
+}
+
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     if (syncMsgVersion != nil) {
         [parameters setObject:syncMsgVersion forKey:NAMES_syncMsgVersion];

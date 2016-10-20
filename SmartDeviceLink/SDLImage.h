@@ -25,6 +25,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType;
+
 /**
  * @abstract The static hex icon value or the binary image file name identifier (sent by SDLPutFile)
  *

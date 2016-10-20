@@ -21,6 +21,15 @@
     return self;
 }
 
+- (instancetype)initWithMessage:(NSString *)message timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons {
+    if (self = [self init]) {
+        self.scrollableMessageBody = message;
+        self.timeout = timeout;
+        self.softButtons = [softButtons mutableCopy];
+    }
+    return self;
+}
+
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
     if (scrollableMessageBody != nil) {
         [parameters setObject:scrollableMessageBody forKey:NAMES_scrollableMessageBody];

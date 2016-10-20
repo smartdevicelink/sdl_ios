@@ -29,6 +29,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithId:(NSInteger)menuId;
+
 /**
  * @abstract the MenuID that identifies the SDLSubMenu to be delete
  * @discussion  <b>Notes: </b>Min Value: 0; Max Value: 2000000000

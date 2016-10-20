@@ -20,6 +20,31 @@
     return self;
 }
 
+- (instancetype)initWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(NSNumber *)timeout {
+    
+    NSMutableArray *sliderFooters = [NSMutableArray arrayWithCapacity:numTicks.unsignedIntegerValue];
+    
+    // Populates array with the same footer value for each position
+    for (int i = 0; i < sliderFooters.count; i++) {
+        sliderFooters[0] = sliderFooter;
+    }
+    
+    if (self = [self initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:[sliderFooters copy] timeout:timeout]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithNumTicks:(NSNumber *)numTicks position:(NSNumber *)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray *)sliderFooters timeout:(NSNumber *)timeout {
+    if (self = [self init]) {
+        self.numTicks = numTicks;
+        self.position = position;
+        self.sliderHeader = sliderHeader;
+        self.sliderFooter = [sliderFooters mutableCopy];
+        self.timeout = timeout;
+    }
+    return self;
+}
+
 - (void)setNumTicks:(NSNumber *)numTicks {
     if (numTicks != nil) {
         [parameters setObject:numTicks forKey:NAMES_numTicks];

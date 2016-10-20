@@ -21,6 +21,15 @@
     return self;
 }
 
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile {
+    if (self = [self init]) {
+        self.syncFileName = fileName;
+        self.fileType = fileType;
+        self.persistentFile = @(persistentFile);
+    }
+    return self;
+}
+
 - (void)setSyncFileName:(NSString *)syncFileName {
     if (syncFileName != nil) {
         [parameters setObject:syncFileName forKey:NAMES_syncFileName];

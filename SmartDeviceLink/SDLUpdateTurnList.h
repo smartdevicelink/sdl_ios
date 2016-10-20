@@ -15,6 +15,8 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithTurnList:(NSArray *)turnList softButtons:(NSArray *)softButtons;
+
 /**
  *  Optional, SDLTurn, 1 - 100 entries
  */

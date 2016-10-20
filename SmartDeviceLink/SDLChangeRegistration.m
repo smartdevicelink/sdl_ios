@@ -21,6 +21,14 @@
     return self;
 }
 
+- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
+    if (self = [self init]) {
+        self.language = language;
+        self.hmiDisplayLanguage = hmiDisplayLanguage;
+    }
+    return self;
+}
+
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
         [parameters setObject:language forKey:NAMES_language];

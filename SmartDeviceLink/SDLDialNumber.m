@@ -20,6 +20,13 @@
     return self;
 }
 
+- (instancetype)initWithNumber:(NSString *)number {
+    if (self = [self init]) {
+        self.number = number;
+    }
+    return self;
+}
+
 - (void)setNumber:(NSString *)number {
     if (number != nil) {
         parameters[NAMES_number] = number;

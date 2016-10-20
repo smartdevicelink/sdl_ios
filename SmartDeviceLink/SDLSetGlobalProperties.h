@@ -31,6 +31,11 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText;
+
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp;
+
+
 /**
  * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more
  * TTSChunk elements specifying the help prompt used in an interaction

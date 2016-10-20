@@ -22,6 +22,14 @@
     return self;
 }
 
+- (instancetype)initWithTurnList:(NSArray *)turnList softButtons:(NSArray *)softButtons {
+    if (self = [self init]) {
+        self.turnList = [turnList mutableCopy];
+        self.softButtons = [softButtons mutableCopy];
+    }
+    return self;
+}
+
 - (void)setTurnList:(NSMutableArray *)turnList {
     if (turnList != nil) {
         [parameters setObject:turnList forKey:NAMES_turnList];

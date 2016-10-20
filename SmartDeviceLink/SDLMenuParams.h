@@ -23,6 +23,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithMenuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position;
 
 /**
  * @abstract the unique ID of an existing submenu to which a command will be added

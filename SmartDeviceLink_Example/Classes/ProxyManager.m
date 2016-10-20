@@ -273,7 +273,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Files / Artwork 
 
-+ (SDLArtwork*)pointingSoftButtonArtwork {
++ (SDLArtwork *)pointingSoftButtonArtwork {
     return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 

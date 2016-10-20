@@ -50,6 +50,10 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithTTS:(NSString *)ttsText;
+
+- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks;
+
 /**
  * @abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken
  *

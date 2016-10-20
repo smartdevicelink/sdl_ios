@@ -13,6 +13,9 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray *)softButtons;
+- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks softButtons:(NSArray *)softButtons;
+
 @property (strong) NSMutableArray *ttsChunks;
 @property (strong) NSMutableArray *softButtons;
 

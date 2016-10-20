@@ -21,6 +21,14 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSInteger)choiceId choiceSet:(NSArray *)choiceSet {
+    if (self = [self init]) {
+        self.interactionChoiceSetID = @(choiceId);
+        self.choiceSet = [choiceSet mutableCopy];
+    }
+    return self;
+}
+
 - (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];

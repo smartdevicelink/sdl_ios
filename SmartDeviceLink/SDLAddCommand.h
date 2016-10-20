@@ -8,7 +8,7 @@
 
 @class SDLMenuParams;
 @class SDLImage;
-
+@class SDLImageType;
 
 /**
  * This class will add a command to the application's Command Menu SDLMenuParams
@@ -56,6 +56,12 @@
  * @param dict The dictionary to use
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+- (instancetype)initWithId:(NSNumber *)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
+
+- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler;
+
+- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.

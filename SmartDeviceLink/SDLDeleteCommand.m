@@ -20,6 +20,13 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSInteger)commandId {
+    if (self = [self init]) {
+        self.cmdID = @(commandId);
+    }
+    return self;
+}
+
 - (void)setCmdID:(NSNumber *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:NAMES_cmdID];

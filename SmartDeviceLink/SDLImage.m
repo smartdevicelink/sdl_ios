@@ -21,6 +21,14 @@
     return self;
 }
 
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType {
+    if (self = [super init]) {
+        self.value = name;
+        self.imageType = imageType;
+    }
+    return self;
+}
+
 - (void)setValue:(NSString *)value {
     if (value != nil) {
         [store setObject:value forKey:NAMES_value];

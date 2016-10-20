@@ -28,6 +28,35 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSNumber *)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
+    if (self = [self initWithId:commandId menuName:nil vrCommands:vrCommands handler:handler]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
+    if (self = [self initWithId:commandId menuName:menuName parentId:nil position:nil vrCommands:vrCommands iconValue:nil iconType:nil handler:handler]) {
+    }
+    return nil;
+}
+
+- (instancetype)initWithId:(NSNumber *)commandId menuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position vrCommands:(NSArray *)vrCommands iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
+    if (self = [self initWithHandler:handler]) {
+        self.cmdID = commandId;
+        
+        if (menuName != nil || parentId != nil || position != nil) {
+            self.menuParams = [[SDLMenuParams alloc] initWithMenuName:menuName parentId:parentId position:position];
+        }
+        
+        self.vrCommands = [vrCommands mutableCopy];
+
+        if (iconValue != nil || iconType != nil) {
+            self.cmdIcon = [[SDLImage alloc] initWithName:iconValue ofType:iconType];
+        }
+    }
+    return self;
+}
+
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }

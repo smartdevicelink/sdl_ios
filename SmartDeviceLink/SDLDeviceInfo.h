@@ -10,6 +10,8 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
++ (instancetype)currentDevice;
+
 @property (strong) NSString *hardware;
 @property (strong) NSString *firmwareRev;
 @property (strong) NSString *os;

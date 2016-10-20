@@ -188,7 +188,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Build a register app interface request with the configuration data
-    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
+    SDLRegisterAppInterface* regRequest = [[SDLRegisterAppInterface alloc] initWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appId:self.configuration.lifecycleConfig.appId];
     regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
     regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
     regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;

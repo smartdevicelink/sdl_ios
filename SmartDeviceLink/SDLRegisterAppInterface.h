@@ -94,6 +94,12 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId;
+
+- (instancetype)initWithAppName:(NSString *)appName isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired appId:(NSString *)appId;
+
+- (instancetype)initWithAppName:(NSString *)appName ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms isMediaApp:(BOOL)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appId:(NSString *)appId;
+
 /**
  * @abstract The version of the SDL interface
  *

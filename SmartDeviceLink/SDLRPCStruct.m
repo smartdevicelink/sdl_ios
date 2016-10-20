@@ -7,7 +7,6 @@
 #import "SDLEnum.h"
 #import "SDLNames.h"
 
-
 @implementation SDLRPCStruct
 
 - (id)initWithDictionary:(NSMutableDictionary *)dict {

@@ -20,6 +20,14 @@
     return self;
 }
 
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
+    if (self = [self init]) {
+        self.majorVersion = @(majorVersion);
+        self.minorVersion = @(minorVersion);
+    }
+    return self;
+}
+
 - (void)setMajorVersion:(NSNumber *)majorVersion {
     if (majorVersion != nil) {
         [store setObject:majorVersion forKey:NAMES_majorVersion];

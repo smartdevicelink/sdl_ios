@@ -20,6 +20,13 @@
     return self;
 }
 
+- (instancetype)initWithECUName:(NSInteger)name {
+    if (self = [self init]) {
+        self.ecuName = @(name);
+    }
+    return self;
+}
+
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
         [parameters setObject:ecuName forKey:NAMES_ecuName];

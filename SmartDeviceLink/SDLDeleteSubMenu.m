@@ -20,6 +20,13 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSInteger)menuId {
+    if (self = [self init]) {
+        self.menuID = @(menuId);
+    }
+    return self;
+}
+
 - (void)setMenuID:(NSNumber *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:NAMES_menuID];

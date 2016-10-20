@@ -5,6 +5,7 @@
 #import "SDLSetDisplayLayout.h"
 
 #import "SDLNames.h"
+#import "SDLPredefinedLayout.h"
 
 @implementation SDLSetDisplayLayout
 
@@ -16,6 +17,19 @@
 
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout *)predefinedLayout {
+    if (self = [self initWithLayout:predefinedLayout.value]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithLayout:(NSString *)displayLayout {
+    if (self = [self init]) {
+        self.displayLayout = displayLayout;
     }
     return self;
 }

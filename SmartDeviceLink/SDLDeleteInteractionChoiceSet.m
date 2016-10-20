@@ -20,6 +20,13 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSInteger)choiceId {
+    if (self = [self init]) {
+        self.interactionChoiceSetID = @(choiceId);
+    }
+    return self;
+}
+
 - (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];

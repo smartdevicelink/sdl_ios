@@ -20,6 +20,15 @@
     return self;
 }
 
+- (instancetype)initWithMenuName:(NSString *)menuName parentId:(NSNumber *)parentId position:(NSNumber *)position {
+    if (self = [self init]) {
+        self.menuName = menuName;
+        self.parentID = parentId;
+        self.position = position;
+    }
+    return self;
+}
+
 - (void)setParentID:(NSNumber *)parentID {
     if (parentID != nil) {
         [store setObject:parentID forKey:NAMES_parentID];

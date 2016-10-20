@@ -34,6 +34,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithProperties:(NSArray *)properties;
+
 /**
  * @abstract An array of one or more GlobalProperty enumeration elements
  * indicating which global properties to reset to their default value

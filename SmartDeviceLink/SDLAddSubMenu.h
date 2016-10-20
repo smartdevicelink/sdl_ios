@@ -31,6 +31,10 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName;
+
+- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName position:(NSNumber *)position;
+
 /**
  * @abstract a Menu ID that identifies a sub menu
  * @discussion This value is used in

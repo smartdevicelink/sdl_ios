@@ -8,6 +8,7 @@
 #import "SDLKeyboardProperties.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
+#import "SDLTTSChunkFactory.h"
 #import "SDLVRHelpItem.h"
 
 
@@ -24,6 +25,23 @@
     }
     return self;
 }
+
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText {
+    if (self = [self initWithHelpText:helpText timeoutText:timeoutText vrHelpTitle:nil vrHelp:nil]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp {
+    if (self = [self init]) {
+        self.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
+        self.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
+        self.vrHelpTitle = vrHelpTitle;
+        self.vrHelp = [vrHelp mutableCopy];
+    }
+    return self;
+}
+
 
 - (void)setHelpPrompt:(NSMutableArray *)helpPrompt {
     if (helpPrompt != nil) {

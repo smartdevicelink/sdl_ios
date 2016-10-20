@@ -20,6 +20,13 @@
     return self;
 }
 
+- (instancetype)initWithFileName:(NSString *)fileName {
+    if (self = [self init]) {
+        self.syncFileName = fileName;
+    }
+    return self;
+}
+
 - (void)setSyncFileName:(NSString *)syncFileName {
     if (syncFileName != nil) {
         [parameters setObject:syncFileName forKey:NAMES_syncFileName];

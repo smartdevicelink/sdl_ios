@@ -20,6 +20,15 @@
     return self;
 }
 
+- (instancetype)initWithHours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds {
+    if (self = [super init]) {
+        self.hours = @(hours);
+        self.minutes = @(minutes);
+        self.seconds = @(seconds);
+    }
+    return self;
+}
+
 - (void)setHours:(NSNumber *)hours {
     if (hours != nil) {
         [store setObject:hours forKey:NAMES_hours];
