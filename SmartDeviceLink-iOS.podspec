@@ -13,6 +13,7 @@ s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
 s.public_header_files = [
 'SmartDeviceLink/SmartDeviceLink.h',
+'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLJingle.h',
 'SmartDeviceLink/SDLProxy.h',
 'SmartDeviceLink/SDLProxyFactory.h',
