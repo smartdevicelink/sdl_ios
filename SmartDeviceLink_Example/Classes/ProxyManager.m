@@ -129,8 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.shortAppName = @"SDL Example";
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
-    config.ttsName = @[[SDLTTSChunkFactory buildTTSChunkForString:config.shortAppName type:[SDLSpeechCapabilities TEXT]]];
-    
+    config.ttsName = @[[[SDLTTSChunk alloc] initWithText:config.shortAppName type:[SDLSpeechCapabilities TEXT]]];
     return config;
 }
 
@@ -184,21 +183,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLSpeak *)appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"S D L Example App" type:[SDLSpeechCapabilities TEXT]]];
-    
+    speak.ttsChunks = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:@"S D L Example App" type:[SDLSpeechCapabilities TEXT]]];
     return speak;
 }
 
 + (SDLSpeak *)goodJobSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Good job" type:[SDLSpeechCapabilities TEXT]]];
+    speak.ttsChunks = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:@"Good Job" type:[SDLSpeechCapabilities TEXT]]];
     
     return speak;
 }
 
 + (SDLSpeak *)youMissedItSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"You missed it" type:[SDLSpeechCapabilities TEXT]]];
+    speak.ttsChunks = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:@"You missed it" type:[SDLSpeechCapabilities TEXT]]];
     
     return speak;
 }
@@ -221,11 +219,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
     SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] init];
     performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
-    performOnlyChoiceInteraction.initialPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Choose it" type:[SDLSpeechCapabilities TEXT]]];
+    performOnlyChoiceInteraction.initialPrompt = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:@"Choose it" type:[SDLSpeechCapabilities TEXT]]];
     performOnlyChoiceInteraction.interactionMode = [SDLInteractionMode BOTH];
     performOnlyChoiceInteraction.interactionChoiceSetIDList = [NSMutableArray arrayWithObject:@0];
-    performOnlyChoiceInteraction.helpPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Do it" type:[SDLSpeechCapabilities TEXT]]];
-    performOnlyChoiceInteraction.timeoutPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Too late" type:[SDLSpeechCapabilities TEXT]]];
+    performOnlyChoiceInteraction.helpPrompt = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:@"Do it" type:[SDLSpeechCapabilities TEXT]]];
+    performOnlyChoiceInteraction.timeoutPrompt = [NSMutableArray arrayWithObject:[[SDLTTSChunk alloc] initWithText:@"Too late" type:[SDLSpeechCapabilities TEXT]]];
     performOnlyChoiceInteraction.timeout = @5000;
     performOnlyChoiceInteraction.interactionLayout = [SDLLayoutMode LIST_ONLY];
     

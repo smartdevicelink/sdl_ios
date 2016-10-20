@@ -21,6 +21,18 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString*)text type:(SDLSpeechCapabilities*)type {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.text = text;
+    self.type = type;
+    
+    return self;
+}
+
 - (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:NAMES_text];
