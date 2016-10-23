@@ -14,6 +14,6 @@
 /**
  * @abstract The selected position of the slider.
  */
-@property (strong) NSNumber *sliderPosition;
+@property (strong) NSNumber<SDLInt> *sliderPosition;
 
 @end

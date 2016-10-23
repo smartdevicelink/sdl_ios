@@ -38,7 +38,7 @@
     return [parameters objectForKey:SDLNameURL];
 }
 
-- (void)setTimeout:(NSNumber *)timeout {
+- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -46,7 +46,7 @@
     }
 }
 
-- (NSNumber *)timeout {
+- (NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 
@@ -63,7 +63,7 @@
     return (SDLFileType)obj;
 }
 
-- (void)setOffset:(NSNumber *)offset {
+- (void)setOffset:(NSNumber<SDLInt> *)offset {
     if (offset != nil) {
         [parameters setObject:offset forKey:SDLNameOffset];
     } else {
@@ -71,11 +71,11 @@
     }
 }
 
-- (NSNumber *)offset {
+- (NSNumber<SDLInt> *)offset {
     return [parameters objectForKey:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber *)length {
+- (void)setLength:(NSNumber<SDLInt> *)length {
     if (length != nil) {
         [parameters setObject:length forKey:SDLNameLength];
     } else {
@@ -83,7 +83,7 @@
     }
 }
 
-- (NSNumber *)length {
+- (NSNumber<SDLInt> *)length {
     return [parameters objectForKey:SDLNameLength];
 }
 

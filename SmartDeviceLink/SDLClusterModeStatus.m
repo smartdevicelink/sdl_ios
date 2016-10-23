@@ -7,7 +7,7 @@
 
 @implementation SDLClusterModeStatus
 
-- (void)setPowerModeActive:(NSNumber *)powerModeActive {
+- (void)setPowerModeActive:(NSNumber<SDLBool> *)powerModeActive {
     if (powerModeActive != nil) {
         [store setObject:powerModeActive forKey:SDLNamePowerModeActive];
     } else {
@@ -15,7 +15,7 @@
     }
 }
 
-- (NSNumber *)powerModeActive {
+- (NSNumber<SDLBool> *)powerModeActive {
     return [store objectForKey:SDLNamePowerModeActive];
 }
 

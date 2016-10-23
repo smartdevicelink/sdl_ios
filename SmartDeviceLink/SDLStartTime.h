@@ -18,20 +18,20 @@
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber *hours;
+@property (strong) NSNumber<SDLInt> *hours;
 
 /**
  * @abstract The minute of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber *minutes;
+@property (strong) NSNumber<SDLInt> *minutes;
 
 /**
  * @abstract The second of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber *seconds;
+@property (strong) NSNumber<SDLInt> *seconds;
 
 @end

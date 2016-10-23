@@ -38,7 +38,7 @@
     return (SDLFileType)obj;
 }
 
-- (void)setPersistentFile:(NSNumber *)persistentFile {
+- (void)setPersistentFile:(NSNumber<SDLBool> *)persistentFile {
     if (persistentFile != nil) {
         [parameters setObject:persistentFile forKey:SDLNamePersistentFile];
     } else {
@@ -46,11 +46,11 @@
     }
 }
 
-- (NSNumber *)persistentFile {
+- (NSNumber<SDLBool> *)persistentFile {
     return [parameters objectForKey:SDLNamePersistentFile];
 }
 
-- (void)setSystemFile:(NSNumber *)systemFile {
+- (void)setSystemFile:(NSNumber<SDLBool> *)systemFile {
     if (systemFile != nil) {
         [parameters setObject:systemFile forKey:SDLNameSystemFile];
     } else {
@@ -58,11 +58,11 @@
     }
 }
 
-- (NSNumber *)systemFile {
+- (NSNumber<SDLBool> *)systemFile {
     return [parameters objectForKey:SDLNameSystemFile];
 }
 
-- (void)setOffset:(NSNumber *)offset {
+- (void)setOffset:(NSNumber<SDLUInt> *)offset {
     if (offset != nil) {
         [parameters setObject:offset forKey:SDLNameOffset];
     } else {
@@ -70,11 +70,11 @@
     }
 }
 
-- (NSNumber *)offset {
+- (NSNumber<SDLUInt> *)offset {
     return [parameters objectForKey:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber *)length {
+- (void)setLength:(NSNumber<SDLUInt> *)length {
     if (length != nil) {
         [parameters setObject:length forKey:SDLNameLength];
     } else {
@@ -82,7 +82,7 @@
     }
 }
 
-- (NSNumber *)length {
+- (NSNumber<SDLUInt> *)length {
     return [parameters objectForKey:SDLNameLength];
 }
 

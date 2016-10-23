@@ -8,7 +8,7 @@
 
 @implementation SDLHeadLampStatus
 
-- (void)setLowBeamsOn:(NSNumber *)lowBeamsOn {
+- (void)setLowBeamsOn:(NSNumber<SDLBool> *)lowBeamsOn {
     if (lowBeamsOn != nil) {
         [store setObject:lowBeamsOn forKey:SDLNameLowBeamsOn];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)lowBeamsOn {
+- (NSNumber<SDLBool> *)lowBeamsOn {
     return [store objectForKey:SDLNameLowBeamsOn];
 }
 
-- (void)setHighBeamsOn:(NSNumber *)highBeamsOn {
+- (void)setHighBeamsOn:(NSNumber<SDLBool> *)highBeamsOn {
     if (highBeamsOn != nil) {
         [store setObject:highBeamsOn forKey:SDLNameHighBeamsOn];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSNumber *)highBeamsOn {
+- (NSNumber<SDLBool> *)highBeamsOn {
     return [store objectForKey:SDLNameHighBeamsOn];
 }
 

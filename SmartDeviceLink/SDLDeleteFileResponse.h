@@ -11,6 +11,6 @@
  */
 @interface SDLDeleteFileResponse : SDLRPCResponse
 
-@property (strong) NSNumber *spaceAvailable;
+@property (strong) NSNumber<SDLInt> *spaceAvailable;
 
 @end

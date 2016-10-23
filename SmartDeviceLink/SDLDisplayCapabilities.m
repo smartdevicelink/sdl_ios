@@ -86,7 +86,7 @@
     }
 }
 
-- (void)setGraphicSupported:(NSNumber *)graphicSupported {
+- (void)setGraphicSupported:(NSNumber<SDLBool> *)graphicSupported {
     if (graphicSupported != nil) {
         [store setObject:graphicSupported forKey:SDLNameGraphicSupported];
     } else {
@@ -94,7 +94,7 @@
     }
 }
 
-- (NSNumber *)graphicSupported {
+- (NSNumber<SDLBool> *)graphicSupported {
     return [store objectForKey:SDLNameGraphicSupported];
 }
 
@@ -127,7 +127,7 @@
     }
 }
 
-- (void)setNumCustomPresetsAvailable:(NSNumber *)numCustomPresetsAvailable {
+- (void)setNumCustomPresetsAvailable:(NSNumber<SDLInt> *)numCustomPresetsAvailable {
     if (numCustomPresetsAvailable != nil) {
         [store setObject:numCustomPresetsAvailable forKey:SDLNameNumberCustomPresetsAvailable];
     } else {
@@ -135,7 +135,7 @@
     }
 }
 
-- (NSNumber *)numCustomPresetsAvailable {
+- (NSNumber<SDLInt> *)numCustomPresetsAvailable {
     return [store objectForKey:SDLNameNumberCustomPresetsAvailable];
 }
 

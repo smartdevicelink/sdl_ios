@@ -105,35 +105,35 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *voiceRecOn;
+@property (strong) NSNumber<SDLBool> *voiceRecOn;
 
 /**
  * @abstract Indicates whether the bluetooth connection established
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *btIconOn;
+@property (strong) NSNumber<SDLBool> *btIconOn;
 
 /**
  * @abstract Indicates whether a call is being active
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *callActive;
+@property (strong) NSNumber<SDLBool> *callActive;
 
 /**
  * @abstract Indicates whether the phone is in roaming mode
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *phoneRoaming;
+@property (strong) NSNumber<SDLBool> *phoneRoaming;
 
 /**
  * @abstract Indicates whether a textmessage is available
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *textMsgAvailable;
+@property (strong) NSNumber<SDLBool> *textMsgAvailable;
 
 /**
  * @abstract Battery level status
@@ -149,14 +149,14 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *stereoAudioOutputMuted;
+@property (strong) NSNumber<SDLBool> *stereoAudioOutputMuted;
 
 /**
  * @abstract The status of the mono audio output channel
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *monoAudioOutputMuted;
+@property (strong) NSNumber<SDLBool> *monoAudioOutputMuted;
 
 /**
  * @abstract Signal level status
@@ -181,6 +181,6 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *eCallEventActive;
+@property (strong) NSNumber<SDLBool> *eCallEventActive;
 
 @end

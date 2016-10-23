@@ -62,7 +62,7 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *graphicSupported;
+@property (strong) NSNumber<SDLBool> *graphicSupported;
 
 /**
  * @abstract Number of presets the screen supports
@@ -85,6 +85,6 @@
  *
  * Optional, Integer 1 - 100
  */
-@property (strong) NSNumber *numCustomPresetsAvailable;
+@property (strong) NSNumber<SDLInt> *numCustomPresetsAvailable;
 
 @end

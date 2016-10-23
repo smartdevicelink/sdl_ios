@@ -263,7 +263,7 @@
     }
 }
 
-- (void)setSupportedDiagModes:(NSMutableArray<NSNumber *> *)supportedDiagModes {
+- (void)setSupportedDiagModes:(NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
     if (supportedDiagModes != nil) {
         [parameters setObject:supportedDiagModes forKey:SDLNameSupportedDiagnosticModes];
     } else {
@@ -271,7 +271,7 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)supportedDiagModes {
+- (NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
     return [parameters objectForKey:SDLNameSupportedDiagnosticModes];
 }
 

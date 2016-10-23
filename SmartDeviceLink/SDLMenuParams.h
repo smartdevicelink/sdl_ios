@@ -17,7 +17,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *parentID;
+@property (strong) NSNumber<SDLInt> *parentID;
 
 /**
  * @abstract The position within the items of the parent Command Menu
@@ -31,7 +31,7 @@
  *
  * Optional, Integer, 0 - 1000
  */
-@property (strong) NSNumber *position;
+@property (strong) NSNumber<SDLInt> *position;
 
 /**
  * @abstract the menu name which appears in menu, representing this command

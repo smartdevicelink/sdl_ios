@@ -17,7 +17,7 @@
     return self;
 }
 
-- (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
+- (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
     if (longitudeDegrees != nil) {
         parameters[SDLNameLongitudeDegrees] = longitudeDegrees;
     } else {
@@ -25,11 +25,11 @@
     }
 }
 
-- (NSNumber *)longitudeDegrees {
+- (NSNumber<SDLFloat> *)longitudeDegrees {
     return parameters[SDLNameLongitudeDegrees];
 }
 
-- (void)setLatitudeDegrees:(NSNumber *)latitudeDegrees {
+- (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
     if (latitudeDegrees != nil) {
         parameters[SDLNameLatitudeDegrees] = latitudeDegrees;
     } else {
@@ -37,7 +37,7 @@
     }
 }
 
-- (NSNumber *)latitudeDegrees {
+- (NSNumber<SDLFloat> *)latitudeDegrees {
     return parameters[SDLNameLatitudeDegrees];
 }
 

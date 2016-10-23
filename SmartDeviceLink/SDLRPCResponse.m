@@ -33,11 +33,11 @@
     return self;
 }
 
-- (NSNumber *)correlationID {
+- (NSNumber<SDLInt> *)correlationID {
     return [function objectForKey:SDLNameCorrelationId];
 }
 
-- (void)setCorrelationID:(NSNumber *)corrID {
+- (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
     if (corrID != nil) {
         [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {
@@ -45,7 +45,7 @@
     }
 }
 
-- (void)setSuccess:(NSNumber *)success {
+- (void)setSuccess:(NSNumber<SDLBool> *)success {
     if (success != nil) {
         [parameters setObject:success forKey:SDLNameSuccess];
     } else {
@@ -53,7 +53,7 @@
     }
 }
 
-- (NSNumber *)success {
+- (NSNumber<SDLBool> *)success {
     return [parameters objectForKey:SDLNameSuccess];
 }
 

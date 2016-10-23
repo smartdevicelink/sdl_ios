@@ -62,6 +62,6 @@
  *
  * Optional, Integer, 0 - 65536
  */
-@property (strong) NSNumber *customButtonID;
+@property (strong) NSNumber<SDLInt> *customButtonID;
 
 @end

@@ -8,7 +8,7 @@
 
 @implementation SDLHMICapabilities
 
-- (void)setNavigation:(NSNumber *)navigation {
+- (void)setNavigation:(NSNumber<SDLBool> *)navigation {
     if (navigation != nil) {
         store[SDLNameNavigation] = navigation;
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)navigation {
+- (NSNumber<SDLBool> *)navigation {
     return store[SDLNameNavigation];
 }
 
-- (void)setPhoneCall:(NSNumber *)phoneCall {
+- (void)setPhoneCall:(NSNumber<SDLBool> *)phoneCall {
     if (phoneCall != nil) {
         store[SDLNamePhoneCall] = phoneCall;
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSNumber *)phoneCall {
+- (NSNumber<SDLBool> *)phoneCall {
     return store[SDLNamePhoneCall];
 }
 

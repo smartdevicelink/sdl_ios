@@ -39,7 +39,7 @@
     return (SDLButtonEventMode)obj;
 }
 
-- (void)setCustomButtonID:(NSNumber *)customButtonID {
+- (void)setCustomButtonID:(NSNumber<SDLInt> *)customButtonID {
     if (customButtonID != nil) {
         [parameters setObject:customButtonID forKey:SDLNameCustomButtonId];
     } else {
@@ -47,7 +47,7 @@
     }
 }
 
-- (NSNumber *)customButtonID {
+- (NSNumber<SDLInt> *)customButtonID {
     return [parameters objectForKey:SDLNameCustomButtonId];
 }
 

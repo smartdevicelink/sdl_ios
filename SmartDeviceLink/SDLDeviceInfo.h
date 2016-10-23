@@ -11,6 +11,6 @@
 @property (strong) NSString *os;
 @property (strong) NSString *osVersion;
 @property (strong) NSString *carrier;
-@property (strong) NSNumber *maxNumberRFCOMMPorts;
+@property (strong) NSNumber<SDLInt> *maxNumberRFCOMMPorts;
 
 @end

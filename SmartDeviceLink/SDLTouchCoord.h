@@ -6,7 +6,7 @@
 
 @interface SDLTouchCoord : SDLRPCStruct
 
-@property (strong) NSNumber *x;
-@property (strong) NSNumber *y;
+@property (strong) NSNumber<SDLFloat> *x;
+@property (strong) NSNumber<SDLFloat> *y;
 
 @end

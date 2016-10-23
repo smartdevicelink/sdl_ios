@@ -145,7 +145,7 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *isMediaApplication;
+@property (strong) NSNumber<SDLBool> *isMediaApplication;
 
 /**
  * @abstract A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).

@@ -110,7 +110,7 @@
     }
 }
 
-- (void)setDistanceToManeuver:(NSNumber *)distanceToManeuver {
+- (void)setDistanceToManeuver:(NSNumber<SDLFloat> *)distanceToManeuver {
     if (distanceToManeuver != nil) {
         [parameters setObject:distanceToManeuver forKey:SDLNameDistanceToManeuver];
     } else {
@@ -118,11 +118,11 @@
     }
 }
 
-- (NSNumber *)distanceToManeuver {
+- (NSNumber<SDLFloat> *)distanceToManeuver {
     return [parameters objectForKey:SDLNameDistanceToManeuver];
 }
 
-- (void)setDistanceToManeuverScale:(NSNumber *)distanceToManeuverScale {
+- (void)setDistanceToManeuverScale:(NSNumber<SDLFloat> *)distanceToManeuverScale {
     if (distanceToManeuverScale != nil) {
         [parameters setObject:distanceToManeuverScale forKey:SDLNameDistanceToManeuverScale];
     } else {
@@ -130,11 +130,11 @@
     }
 }
 
-- (NSNumber *)distanceToManeuverScale {
+- (NSNumber<SDLFloat> *)distanceToManeuverScale {
     return [parameters objectForKey:SDLNameDistanceToManeuverScale];
 }
 
-- (void)setManeuverComplete:(NSNumber *)maneuverComplete {
+- (void)setManeuverComplete:(NSNumber<SDLBool> *)maneuverComplete {
     if (maneuverComplete != nil) {
         [parameters setObject:maneuverComplete forKey:SDLNameManeuverComplete];
     } else {
@@ -142,7 +142,7 @@
     }
 }
 
-- (NSNumber *)maneuverComplete {
+- (NSNumber<SDLBool> *)maneuverComplete {
     return [parameters objectForKey:SDLNameManeuverComplete];
 }
 

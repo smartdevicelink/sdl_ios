@@ -11,13 +11,13 @@
  
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *navigation;
+@property (copy, nonatomic) NSNumber<SDLBool> *navigation;
 
 /**
  Availability of build in phone. True: Available, False: Not Available
  
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *phoneCall;
+@property (copy, nonatomic) NSNumber<SDLBool> *phoneCall;
 
 @end

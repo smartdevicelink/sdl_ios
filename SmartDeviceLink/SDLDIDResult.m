@@ -20,7 +20,7 @@
     return (SDLVehicleDataResultCode)obj;
 }
 
-- (void)setDidLocation:(NSNumber *)didLocation {
+- (void)setDidLocation:(NSNumber<SDLInt> *)didLocation {
     if (didLocation != nil) {
         [store setObject:didLocation forKey:SDLNameDIDLocation];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSNumber *)didLocation {
+- (NSNumber<SDLInt> *)didLocation {
     return [store objectForKey:SDLNameDIDLocation];
 }
 

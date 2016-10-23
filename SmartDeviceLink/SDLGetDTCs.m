@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setEcuName:(NSNumber *)ecuName {
+- (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
     if (ecuName != nil) {
         [parameters setObject:ecuName forKey:SDLNameECUName];
     } else {
@@ -22,11 +22,11 @@
     }
 }
 
-- (NSNumber *)ecuName {
+- (NSNumber<SDLInt> *)ecuName {
     return [parameters objectForKey:SDLNameECUName];
 }
 
-- (void)setDtcMask:(NSNumber *)dtcMask {
+- (void)setDtcMask:(NSNumber<SDLInt> *)dtcMask {
     if (dtcMask != nil) {
         [parameters setObject:dtcMask forKey:SDLNameDTCMask];
     } else {
@@ -34,7 +34,7 @@
     }
 }
 
-- (NSNumber *)dtcMask {
+- (NSNumber<SDLInt> *)dtcMask {
     return [parameters objectForKey:SDLNameDTCMask];
 }
 

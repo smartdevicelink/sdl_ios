@@ -99,7 +99,7 @@
  * 
  * Optional, Integer, 3000 - 10000
  */
-@property (strong) NSNumber *duration;
+@property (strong) NSNumber<SDLInt> *duration;
 
 /**
  * @abstract Whether the alert tone should be played before the TTS (if any) is spoken.
@@ -108,7 +108,7 @@
  * 
  * Optional, Boolean
  */
-@property (strong) NSNumber *playTone;
+@property (strong) NSNumber<SDLBool> *playTone;
 
 /**
  * @abstract If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.
@@ -117,7 +117,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSNumber *progressIndicator;
+@property (strong) NSNumber<SDLBool> *progressIndicator;
 
 /**
  * @abstract App defined SoftButtons.

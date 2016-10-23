@@ -10,6 +10,6 @@
 
 @property (strong) NSString *text;
 @property (strong) SDLImage *image;
-@property (strong) NSNumber *position;
+@property (strong) NSNumber<SDLInt> *position;
 
 @end

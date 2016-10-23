@@ -15,7 +15,7 @@
  
  Mandatory, 0-9
  */
-@property (strong) NSNumber *touchEventId;
+@property (strong) NSNumber<SDLInt> *touchEventId;
 
 /**
  The time that the touch was recorded.  This number can the time since the beginning of the session or something else as long as the units are in milliseconds.
@@ -28,7 +28,7 @@
  
  Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000
  */
-@property (strong) NSMutableArray<NSNumber *> *timeStamp;
+@property (strong) NSMutableArray<NSNumber<SDLInt> *> *timeStamp;
 
 /**
  *  Mandatory, array size 1-1000, contains SDLTouchCoord

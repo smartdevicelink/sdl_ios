@@ -8,7 +8,7 @@
 
 @implementation SDLImageResolution
 
-- (void)setResolutionWidth:(NSNumber *)resolutionWidth {
+- (void)setResolutionWidth:(NSNumber<SDLInt> *)resolutionWidth {
     if (resolutionWidth != nil) {
         [store setObject:resolutionWidth forKey:SDLNameResolutionWidth];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)resolutionWidth {
+- (NSNumber<SDLInt> *)resolutionWidth {
     return [store objectForKey:SDLNameResolutionWidth];
 }
 
-- (void)setResolutionHeight:(NSNumber *)resolutionHeight {
+- (void)setResolutionHeight:(NSNumber<SDLInt> *)resolutionHeight {
     if (resolutionHeight != nil) {
         [store setObject:resolutionHeight forKey:SDLNameResolutionHeight];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSNumber *)resolutionHeight {
+- (NSNumber<SDLInt> *)resolutionHeight {
     return [store objectForKey:SDLNameResolutionHeight];
 }
 

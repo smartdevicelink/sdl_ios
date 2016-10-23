@@ -32,7 +32,7 @@
  *            <p>
  *            <b>Notes</b>:Minval=0; Maxval=65535;Default=30000
  */
-@property (strong) NSNumber *timeout;
+@property (strong) NSNumber<SDLInt> *timeout;
 /**
  * @abstract Gets/Sets App defined SoftButtons.If omitted on supported displays, only the
  * system defined "Close" SoftButton will be displayed

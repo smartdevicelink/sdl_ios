@@ -61,7 +61,7 @@
     }
 }
 
-- (void)setIsHighlighted:(NSNumber *)isHighlighted {
+- (void)setIsHighlighted:(NSNumber<SDLBool> *)isHighlighted {
     if (isHighlighted != nil) {
         [store setObject:isHighlighted forKey:SDLNameIsHighlighted];
     } else {
@@ -69,11 +69,11 @@
     }
 }
 
-- (NSNumber *)isHighlighted {
+- (NSNumber<SDLBool> *)isHighlighted {
     return [store objectForKey:SDLNameIsHighlighted];
 }
 
-- (void)setSoftButtonID:(NSNumber *)softButtonID {
+- (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
     if (softButtonID != nil) {
         [store setObject:softButtonID forKey:SDLNameSoftButtonId];
     } else {
@@ -81,7 +81,7 @@
     }
 }
 
-- (NSNumber *)softButtonID {
+- (NSNumber<SDLInt> *)softButtonID {
     return [store objectForKey:SDLNameSoftButtonId];
 }
 

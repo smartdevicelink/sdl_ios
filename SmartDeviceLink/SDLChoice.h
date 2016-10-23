@@ -57,7 +57,7 @@
  * 
  * Required, Integer 0 - 65535
  */
-@property (strong) NSNumber *choiceID;
+@property (strong) NSNumber<SDLInt> *choiceID;
 
 /**
  * @abstract Text which appears in menu, representing this choice

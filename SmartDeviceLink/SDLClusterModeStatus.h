@@ -10,7 +10,7 @@
 
 @interface SDLClusterModeStatus : SDLRPCStruct
 
-@property (strong) NSNumber *powerModeActive;
+@property (strong) NSNumber<SDLBool> *powerModeActive;
 @property (strong) SDLPowerModeQualificationStatus powerModeQualificationStatus;
 @property (strong) SDLCarModeStatus carModeStatus;
 @property (strong) SDLPowerModeStatus powerModeStatus;

@@ -27,7 +27,7 @@
     return [parameters objectForKey:SDLNameScrollableMessageBody];
 }
 
-- (void)setTimeout:(NSNumber *)timeout {
+- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -35,7 +35,7 @@
     }
 }
 
-- (NSNumber *)timeout {
+- (NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 

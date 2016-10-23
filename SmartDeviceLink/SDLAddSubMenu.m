@@ -12,7 +12,7 @@
     return self;
 }
 
-- (void)setMenuID:(NSNumber *)menuID {
+- (void)setMenuID:(NSNumber<SDLInt> *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:SDLNameMenuId];
     } else {
@@ -20,11 +20,11 @@
     }
 }
 
-- (NSNumber *)menuID {
+- (NSNumber<SDLInt> *)menuID {
     return [parameters objectForKey:SDLNameMenuId];
 }
 
-- (void)setPosition:(NSNumber *)position {
+- (void)setPosition:(NSNumber<SDLInt> *)position {
     if (position != nil) {
         [parameters setObject:position forKey:SDLNamePosition];
     } else {
@@ -32,7 +32,7 @@
     }
 }
 
-- (NSNumber *)position {
+- (NSNumber<SDLInt> *)position {
     return [parameters objectForKey:SDLNamePosition];
 }
 

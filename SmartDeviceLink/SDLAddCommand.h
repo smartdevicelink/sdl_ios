@@ -59,7 +59,7 @@
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *cmdID;
+@property (strong) NSNumber<SDLInt> *cmdID;
 
 /**
  * @abstract a *SDLMenuParams* pointer which will defined the command and how it is added to the Command Menu

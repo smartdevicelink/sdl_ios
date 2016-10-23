@@ -71,7 +71,7 @@
     }
 }
 
-- (void)setDuration:(NSNumber *)duration {
+- (void)setDuration:(NSNumber<SDLInt> *)duration {
     if (duration != nil) {
         [parameters setObject:duration forKey:SDLNameDuration];
     } else {
@@ -79,11 +79,11 @@
     }
 }
 
-- (NSNumber *)duration {
+- (NSNumber<SDLInt> *)duration {
     return [parameters objectForKey:SDLNameDuration];
 }
 
-- (void)setPlayTone:(NSNumber *)playTone {
+- (void)setPlayTone:(NSNumber<SDLBool> *)playTone {
     if (playTone != nil) {
         [parameters setObject:playTone forKey:SDLNamePlayTone];
     } else {
@@ -91,11 +91,11 @@
     }
 }
 
-- (NSNumber *)playTone {
+- (NSNumber<SDLBool> *)playTone {
     return [parameters objectForKey:SDLNamePlayTone];
 }
 
-- (void)setProgressIndicator:(NSNumber *)progressIndicator {
+- (void)setProgressIndicator:(NSNumber<SDLBool> *)progressIndicator {
     if (progressIndicator != nil) {
         [parameters setObject:progressIndicator forKey:SDLNameProgressIndicator];
     } else {
@@ -103,7 +103,7 @@
     }
 }
 
-- (NSNumber *)progressIndicator {
+- (NSNumber<SDLBool> *)progressIndicator {
     return [parameters objectForKey:SDLNameProgressIndicator];
 }
 

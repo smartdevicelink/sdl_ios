@@ -38,7 +38,7 @@
     }
 }
 
-- (void)setPosition:(NSNumber *)position {
+- (void)setPosition:(NSNumber<SDLInt> *)position {
     if (position != nil) {
         [store setObject:position forKey:SDLNamePosition];
     } else {
@@ -46,7 +46,7 @@
     }
 }
 
-- (NSNumber *)position {
+- (NSNumber<SDLInt> *)position {
     return [store objectForKey:SDLNamePosition];
 }
 

@@ -6,7 +6,7 @@
 
 @interface SDLImageResolution : SDLRPCStruct
 
-@property (strong) NSNumber *resolutionWidth;
-@property (strong) NSNumber *resolutionHeight;
+@property (strong) NSNumber<SDLInt> *resolutionWidth;
+@property (strong) NSNumber<SDLInt> *resolutionHeight;
 
 @end

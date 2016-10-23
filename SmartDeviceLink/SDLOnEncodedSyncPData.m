@@ -37,7 +37,7 @@
     return [parameters objectForKey:SDLNameURLUppercase];
 }
 
-- (void)setTimeout:(NSNumber *)Timeout {
+- (void)setTimeout:(NSNumber<SDLInt> *)Timeout {
     if (Timeout != nil) {
         [parameters setObject:Timeout forKey:SDLNameTimeoutCapitalized];
     } else {
@@ -45,7 +45,7 @@
     }
 }
 
-- (NSNumber *)Timeout {
+- (NSNumber<SDLInt> *)Timeout {
     return [parameters objectForKey:SDLNameTimeoutCapitalized];
 }
 

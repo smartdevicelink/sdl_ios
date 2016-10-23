@@ -8,6 +8,6 @@
 
 @property (strong) NSMutableArray<NSString *> *data;
 @property (strong) NSString *URL;
-@property (strong) NSNumber *Timeout;
+@property (strong) NSNumber<SDLInt> *Timeout;
 
 @end

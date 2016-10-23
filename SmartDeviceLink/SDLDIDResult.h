@@ -9,7 +9,7 @@
 @interface SDLDIDResult : SDLRPCStruct
 
 @property (strong) SDLVehicleDataResultCode resultCode;
-@property (strong) NSNumber *didLocation;
+@property (strong) NSNumber<SDLInt> *didLocation;
 @property (strong) NSString *data;
 
 @end

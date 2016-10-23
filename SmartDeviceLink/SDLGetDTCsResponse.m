@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setEcuHeader:(NSNumber *)ecuHeader {
+- (void)setEcuHeader:(NSNumber<SDLInt> *)ecuHeader {
     if (ecuHeader != nil) {
         [parameters setObject:ecuHeader forKey:SDLNameECUHeader];
     } else {
@@ -22,7 +22,7 @@
     }
 }
 
-- (NSNumber *)ecuHeader {
+- (NSNumber<SDLInt> *)ecuHeader {
     return [parameters objectForKey:SDLNameECUHeader];
 }
 

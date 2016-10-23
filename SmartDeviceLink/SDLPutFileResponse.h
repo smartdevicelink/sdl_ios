@@ -11,5 +11,5 @@
  */
 @interface SDLPutFileResponse : SDLRPCResponse
 
-@property (strong) NSNumber *spaceAvailable;
+@property (strong) NSNumber<SDLInt> *spaceAvailable;
 @end

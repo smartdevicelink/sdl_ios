@@ -95,7 +95,7 @@
     return [parameters objectForKey:SDLNameVRSynonyms];
 }
 
-- (void)setIsMediaApplication:(NSNumber *)isMediaApplication {
+- (void)setIsMediaApplication:(NSNumber<SDLBool> *)isMediaApplication {
     if (isMediaApplication != nil) {
         [parameters setObject:isMediaApplication forKey:SDLNameIsMediaApplication];
     } else {
@@ -103,7 +103,7 @@
     }
 }
 
-- (NSNumber *)isMediaApplication {
+- (NSNumber<SDLBool> *)isMediaApplication {
     return [parameters objectForKey:SDLNameIsMediaApplication];
 }
 

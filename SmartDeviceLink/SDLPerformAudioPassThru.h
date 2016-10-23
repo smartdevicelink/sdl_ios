@@ -74,7 +74,7 @@
  *            <p>
  *            <b>Notes: </b>Minvalue:1; Maxvalue:1000000
  */
-@property (strong) NSNumber *maxDuration;
+@property (strong) NSNumber<SDLInt> *maxDuration;
 /**
  * @abstract the quality the audio is recorded - 8 bit or 16 bit
  *
@@ -89,6 +89,6 @@
  * @abstract a Boolean value representing if the current audio source should be
  * muted during the APT session<br/>
  */
-@property (strong) NSNumber *muteAudio;
+@property (strong) NSNumber<SDLBool> *muteAudio;
 
 @end

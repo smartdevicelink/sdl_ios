@@ -67,7 +67,7 @@
     return [store objectForKey:SDLNameCarrier];
 }
 
-- (void)setMaxNumberRFCOMMPorts:(NSNumber *)maxNumberRFCOMMPorts {
+- (void)setMaxNumberRFCOMMPorts:(NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
     if (maxNumberRFCOMMPorts != nil) {
         [store setObject:maxNumberRFCOMMPorts forKey:SDLNameMaxNumberRFCOMMPorts];
     } else {
@@ -75,7 +75,7 @@
     }
 }
 
-- (NSNumber *)maxNumberRFCOMMPorts {
+- (NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
     return [store objectForKey:SDLNameMaxNumberRFCOMMPorts];
 }
 

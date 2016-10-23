@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
+- (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:SDLNameInteractionChoiceSetId];
     } else {
@@ -22,7 +22,7 @@
     }
 }
 
-- (NSNumber *)interactionChoiceSetID {
+- (NSNumber<SDLInt> *)interactionChoiceSetID {
     return [parameters objectForKey:SDLNameInteractionChoiceSetId];
 }
 

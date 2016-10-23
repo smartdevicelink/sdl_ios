@@ -8,7 +8,7 @@
 
 @implementation SDLMenuParams
 
-- (void)setParentID:(NSNumber *)parentID {
+- (void)setParentID:(NSNumber<SDLInt> *)parentID {
     if (parentID != nil) {
         [store setObject:parentID forKey:SDLNameParentId];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)parentID {
+- (NSNumber<SDLInt> *)parentID {
     return [store objectForKey:SDLNameParentId];
 }
 
-- (void)setPosition:(NSNumber *)position {
+- (void)setPosition:(NSNumber<SDLInt> *)position {
     if (position != nil) {
         [store setObject:position forKey:SDLNamePosition];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSNumber *)position {
+- (NSNumber<SDLInt> *)position {
     return [store objectForKey:SDLNamePosition];
 }
 

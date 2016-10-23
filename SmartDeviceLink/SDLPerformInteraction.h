@@ -49,7 +49,7 @@
  * @abstract A Vector<Integer> value representing an Array of one or more Choice
  * Set IDs
  */
-@property (strong) NSMutableArray<NSNumber *> *interactionChoiceSetIDList;
+@property (strong) NSMutableArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
 /**
  * @abstract A Vector<TTSChunk> which taken together, specify the help phrase to
  * be spoken when the user says "help" during the VR session
@@ -64,7 +64,7 @@
  * @abstract An Integer value representing the amount of time, in milliseconds,
  * SDL will wait for the user to make a choice (VR or Menu)
  */
-@property (strong) NSNumber *timeout;
+@property (strong) NSNumber<SDLInt> *timeout;
 /**
  * @abstract A Voice recognition Help, which is a suggested VR Help Items to
  * display on-screen during Perform Interaction

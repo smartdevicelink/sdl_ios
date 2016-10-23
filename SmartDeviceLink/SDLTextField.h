@@ -81,13 +81,13 @@
  * 
  * Required, Integer 1 - 500
  */
-@property (strong) NSNumber *width;
+@property (strong) NSNumber<SDLInt> *width;
 
 /**
  * @abstract The number of rows for this text field.
  * 
  * Required, Integer 1 - 8
  */
-@property (strong) NSNumber *rows;
+@property (strong) NSNumber<SDLInt> *rows;
 
 @end

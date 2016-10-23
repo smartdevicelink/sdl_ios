@@ -18,7 +18,7 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *shortPressAvailable;
+@property (strong) NSNumber<SDLBool> *shortPressAvailable;
 
 /**
  * @abstract The button supports a LONG press.
@@ -27,7 +27,7 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *longPressAvailable;
+@property (strong) NSNumber<SDLBool> *longPressAvailable;
 
 /**
  * @abstract The button supports "button down" and "button up".
@@ -36,13 +36,13 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *upDownAvailable;
+@property (strong) NSNumber<SDLBool> *upDownAvailable;
 
 /**
  * @abstract The button supports referencing a static or dynamic image.
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *imageSupported;
+@property (strong) NSNumber<SDLBool> *imageSupported;
 
 @end

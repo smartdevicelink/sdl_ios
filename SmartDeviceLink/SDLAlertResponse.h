@@ -10,6 +10,6 @@
  */
 @interface SDLAlertResponse : SDLRPCResponse
 
-@property (strong) NSNumber *tryAgainTime;
+@property (strong) NSNumber<SDLInt> *tryAgainTime;
 
 @end

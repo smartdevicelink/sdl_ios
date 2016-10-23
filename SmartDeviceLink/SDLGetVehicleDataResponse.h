@@ -37,17 +37,17 @@
 /**
  * @abstract The vehicle speed in kilometers per hour.
  */
-@property (strong) NSNumber *speed;
+@property (strong) NSNumber<SDLFloat> *speed;
 
 /**
  * @abstract The number of revolutions per minute of the engine.
  */
-@property (strong) NSNumber *rpm;
+@property (strong) NSNumber<SDLInt> *rpm;
 
 /**
  * @abstract The fuel level in the tank (percentage)
  */
-@property (strong) NSNumber *fuelLevel;
+@property (strong) NSNumber<SDLFloat> *fuelLevel;
 
 /**
  * @abstract A SDLComponentVolumeStatus* value. The fuel level state.
@@ -57,12 +57,12 @@
 /**
  * @abstract The instantaneous fuel consumption in microlitres.
  */
-@property (strong) NSNumber *instantFuelConsumption;
+@property (strong) NSNumber<SDLFloat> *instantFuelConsumption;
 
 /**
  * @abstract The external temperature in degrees celsius.
  */
-@property (strong) NSNumber *externalTemperature;
+@property (strong) NSNumber<SDLFloat> *externalTemperature;
 
 /**
  * @abstract The Vehicle Identification Number
@@ -82,7 +82,7 @@
 /**
  * @abstract Odometer reading in km.
  */
-@property (strong) NSNumber *odometer;
+@property (strong) NSNumber<SDLInt> *odometer;
 
 /**
  * @abstract A SDLBeltStatus* value. The status of the seat belts.
@@ -117,17 +117,17 @@
 /**
  * @abstract Torque value for engine (in Nm) on non-diesel variants.
  */
-@property (strong) NSNumber *engineTorque;
+@property (strong) NSNumber<SDLFloat> *engineTorque;
 
 /**
  * @abstract Accelerator pedal position (percentage depressed)
  */
-@property (strong) NSNumber *accPedalPosition;
+@property (strong) NSNumber<SDLFloat> *accPedalPosition;
 
 /**
  * @abstract Current angle of the steering wheel (in deg)
  */
-@property (strong) NSNumber *steeringWheelAngle;
+@property (strong) NSNumber<SDLFloat> *steeringWheelAngle;
 @property (strong) SDLECallInfo *eCallInfo;
 @property (strong) SDLAirbagStatus *airbagStatus;
 @property (strong) SDLEmergencyEvent *emergencyEvent;

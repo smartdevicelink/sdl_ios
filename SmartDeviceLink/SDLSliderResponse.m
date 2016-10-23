@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setSliderPosition:(NSNumber *)sliderPosition {
+- (void)setSliderPosition:(NSNumber<SDLInt> *)sliderPosition {
     if (sliderPosition != nil) {
         [parameters setObject:sliderPosition forKey:SDLNameSliderPosition];
     } else {
@@ -22,7 +22,7 @@
     }
 }
 
-- (NSNumber *)sliderPosition {
+- (NSNumber<SDLInt> *)sliderPosition {
     return [parameters objectForKey:SDLNameSliderPosition];
 }
 

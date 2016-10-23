@@ -8,7 +8,7 @@
 
 @implementation SDLSyncMsgVersion
 
-- (void)setMajorVersion:(NSNumber *)majorVersion {
+- (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
     if (majorVersion != nil) {
         [store setObject:majorVersion forKey:SDLNameMajorVersion];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)majorVersion {
+- (NSNumber<SDLInt> *)majorVersion {
     return [store objectForKey:SDLNameMajorVersion];
 }
 
-- (void)setMinorVersion:(NSNumber *)minorVersion {
+- (void)setMinorVersion:(NSNumber<SDLInt> *)minorVersion {
     if (minorVersion != nil) {
         [store setObject:minorVersion forKey:SDLNameMinorVersion];
     } else {
@@ -28,7 +28,7 @@
     }
 }
 
-- (NSNumber *)minorVersion {
+- (NSNumber<SDLInt> *)minorVersion {
     return [store objectForKey:SDLNameMinorVersion];
 }
 

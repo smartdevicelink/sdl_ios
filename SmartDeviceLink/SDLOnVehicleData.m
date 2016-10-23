@@ -42,7 +42,7 @@
     }
 }
 
-- (void)setSpeed:(NSNumber *)speed {
+- (void)setSpeed:(NSNumber<SDLFloat> *)speed {
     if (speed != nil) {
         [parameters setObject:speed forKey:SDLNameSpeed];
     } else {
@@ -50,11 +50,11 @@
     }
 }
 
-- (NSNumber *)speed {
+- (NSNumber<SDLFloat> *)speed {
     return [parameters objectForKey:SDLNameSpeed];
 }
 
-- (void)setRpm:(NSNumber *)rpm {
+- (void)setRpm:(NSNumber<SDLInt> *)rpm {
     if (rpm != nil) {
         [parameters setObject:rpm forKey:SDLNameRPM];
     } else {
@@ -62,11 +62,11 @@
     }
 }
 
-- (NSNumber *)rpm {
+- (NSNumber<SDLInt> *)rpm {
     return [parameters objectForKey:SDLNameRPM];
 }
 
-- (void)setFuelLevel:(NSNumber *)fuelLevel {
+- (void)setFuelLevel:(NSNumber<SDLFloat> *)fuelLevel {
     if (fuelLevel != nil) {
         [parameters setObject:fuelLevel forKey:SDLNameFuelLevel];
     } else {
@@ -74,7 +74,7 @@
     }
 }
 
-- (NSNumber *)fuelLevel {
+- (NSNumber<SDLFloat> *)fuelLevel {
     return [parameters objectForKey:SDLNameFuelLevel];
 }
 
@@ -91,7 +91,7 @@
     return (SDLComponentVolumeStatus)obj;
 }
 
-- (void)setInstantFuelConsumption:(NSNumber *)instantFuelConsumption {
+- (void)setInstantFuelConsumption:(NSNumber<SDLFloat> *)instantFuelConsumption {
     if (instantFuelConsumption != nil) {
         [parameters setObject:instantFuelConsumption forKey:SDLNameInstantFuelConsumption];
     } else {
@@ -99,11 +99,11 @@
     }
 }
 
-- (NSNumber *)instantFuelConsumption {
+- (NSNumber<SDLFloat> *)instantFuelConsumption {
     return [parameters objectForKey:SDLNameInstantFuelConsumption];
 }
 
-- (void)setExternalTemperature:(NSNumber *)externalTemperature {
+- (void)setExternalTemperature:(NSNumber<SDLFloat> *)externalTemperature {
     if (externalTemperature != nil) {
         [parameters setObject:externalTemperature forKey:SDLNameExternalTemperature];
     } else {
@@ -111,7 +111,7 @@
     }
 }
 
-- (NSNumber *)externalTemperature {
+- (NSNumber<SDLFloat> *)externalTemperature {
     return [parameters objectForKey:SDLNameExternalTemperature];
 }
 
@@ -157,7 +157,7 @@
     }
 }
 
-- (void)setOdometer:(NSNumber *)odometer {
+- (void)setOdometer:(NSNumber<SDLInt> *)odometer {
     if (odometer != nil) {
         [parameters setObject:odometer forKey:SDLNameOdometer];
     } else {
@@ -165,7 +165,7 @@
     }
 }
 
-- (NSNumber *)odometer {
+- (NSNumber<SDLInt> *)odometer {
     return [parameters objectForKey:SDLNameOdometer];
 }
 
@@ -263,7 +263,7 @@
     }
 }
 
-- (void)setEngineTorque:(NSNumber *)engineTorque {
+- (void)setEngineTorque:(NSNumber<SDLFloat> *)engineTorque {
     if (engineTorque != nil) {
         [parameters setObject:engineTorque forKey:SDLNameEngineTorque];
     } else {
@@ -271,11 +271,11 @@
     }
 }
 
-- (NSNumber *)engineTorque {
+- (NSNumber<SDLFloat> *)engineTorque {
     return [parameters objectForKey:SDLNameEngineTorque];
 }
 
-- (void)setAccPedalPosition:(NSNumber *)accPedalPosition {
+- (void)setAccPedalPosition:(NSNumber<SDLFloat> *)accPedalPosition {
     if (accPedalPosition != nil) {
         [parameters setObject:accPedalPosition forKey:SDLNameAccelerationPedalPosition];
     } else {
@@ -283,11 +283,11 @@
     }
 }
 
-- (NSNumber *)accPedalPosition {
+- (NSNumber<SDLFloat> *)accPedalPosition {
     return [parameters objectForKey:SDLNameAccelerationPedalPosition];
 }
 
-- (void)setSteeringWheelAngle:(NSNumber *)steeringWheelAngle {
+- (void)setSteeringWheelAngle:(NSNumber<SDLFloat> *)steeringWheelAngle {
     if (steeringWheelAngle != nil) {
         [parameters setObject:steeringWheelAngle forKey:SDLNameSteeringWheelAngle];
     } else {
@@ -295,7 +295,7 @@
     }
 }
 
-- (NSNumber *)steeringWheelAngle {
+- (NSNumber<SDLFloat> *)steeringWheelAngle {
     return [parameters objectForKey:SDLNameSteeringWheelAngle];
 }
 

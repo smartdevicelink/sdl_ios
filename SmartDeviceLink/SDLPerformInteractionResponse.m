@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setChoiceID:(NSNumber *)choiceID {
+- (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
     if (choiceID != nil) {
         [parameters setObject:choiceID forKey:SDLNameChoiceId];
     } else {
@@ -22,7 +22,7 @@
     }
 }
 
-- (NSNumber *)choiceID {
+- (NSNumber<SDLInt> *)choiceID {
     return [parameters objectForKey:SDLNameChoiceId];
 }
 

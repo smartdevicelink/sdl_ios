@@ -21,97 +21,97 @@
 /**
  * @abstract A boolean value. If true, unsubscribes Gps data
  */
-@property (strong) NSNumber *gps;
+@property (strong) NSNumber<SDLBool> *gps;
 
 /**
  * @abstract A boolean value. If true, unsubscribes speed data
  */
-@property (strong) NSNumber *speed;
+@property (strong) NSNumber<SDLBool> *speed;
 
 /**
  * @abstract A boolean value. If true, unsubscribe data
  */
-@property (strong) NSNumber *rpm;
+@property (strong) NSNumber<SDLBool> *rpm;
 
 /**
  * @abstract A boolean value. If true, unsubscribes FuelLevel data
  */
-@property (strong) NSNumber *fuelLevel;
+@property (strong) NSNumber<SDLBool> *fuelLevel;
 
 /**
  * @abstract A boolean value. If true, unsubscribes fuelLevel_State data
  */
-@property (strong) NSNumber *fuelLevel_State;
+@property (strong) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
  * @abstract A boolean value. If true, unsubscribes instantFuelConsumption data
  */
-@property (strong) NSNumber *instantFuelConsumption;
+@property (strong) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
  * @abstract A boolean value. If true, unsubscribes externalTemperature data
  */
-@property (strong) NSNumber *externalTemperature;
+@property (strong) NSNumber<SDLBool> *externalTemperature;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Currently selected gear data
  */
-@property (strong) NSNumber *prndl;
+@property (strong) NSNumber<SDLBool> *prndl;
 
 /**
  * @abstract A boolean value. If true, unsubscribes tire pressure status data
  */
-@property (strong) NSNumber *tirePressure;
+@property (strong) NSNumber<SDLBool> *tirePressure;
 
 /**
  * @abstract A boolean value. If true, unsubscribes odometer data
  */
-@property (strong) NSNumber *odometer;
+@property (strong) NSNumber<SDLBool> *odometer;
 
 /**
  * @abstract A boolean value. If true, unsubscribes belt Status data
  */
-@property (strong) NSNumber *beltStatus;
+@property (strong) NSNumber<SDLBool> *beltStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes body Information data
  */
-@property (strong) NSNumber *bodyInformation;
+@property (strong) NSNumber<SDLBool> *bodyInformation;
 
 /**
  * @abstract A boolean value. If true, unsubscribes device Status data
  */
-@property (strong) NSNumber *deviceStatus;
+@property (strong) NSNumber<SDLBool> *deviceStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes driver Braking data
  */
-@property (strong) NSNumber *driverBraking;
+@property (strong) NSNumber<SDLBool> *driverBraking;
 
 /**
  * @abstract A boolean value. If true, unsubscribes wiper Status data
  */
-@property (strong) NSNumber *wiperStatus;
+@property (strong) NSNumber<SDLBool> *wiperStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Head Lamp Status data
  */
-@property (strong) NSNumber *headLampStatus;
+@property (strong) NSNumber<SDLBool> *headLampStatus;
 
 /**
  * @abstract A boolean value. If true, unsubscribes Engine Torque data
  */
-@property (strong) NSNumber *engineTorque;
+@property (strong) NSNumber<SDLBool> *engineTorque;
 
 /**
  * @abstract A boolean value. If true, unsubscribes accPedalPosition data
  */
-@property (strong) NSNumber *accPedalPosition;
-@property (strong) NSNumber *steeringWheelAngle;
-@property (strong) NSNumber *eCallInfo;
-@property (strong) NSNumber *airbagStatus;
-@property (strong) NSNumber *emergencyEvent;
-@property (strong) NSNumber *clusterModeStatus;
-@property (strong) NSNumber *myKey;
+@property (strong) NSNumber<SDLBool> *accPedalPosition;
+@property (strong) NSNumber<SDLBool> *steeringWheelAngle;
+@property (strong) NSNumber<SDLBool> *eCallInfo;
+@property (strong) NSNumber<SDLBool> *airbagStatus;
+@property (strong) NSNumber<SDLBool> *emergencyEvent;
+@property (strong) NSNumber<SDLBool> *clusterModeStatus;
+@property (strong) NSNumber<SDLBool> *myKey;
 
 @end

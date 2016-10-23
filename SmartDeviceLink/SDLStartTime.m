@@ -8,7 +8,7 @@
 
 @implementation SDLStartTime
 
-- (void)setHours:(NSNumber *)hours {
+- (void)setHours:(NSNumber<SDLInt> *)hours {
     if (hours != nil) {
         [store setObject:hours forKey:SDLNameHours];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)hours {
+- (NSNumber<SDLInt> *)hours {
     return [store objectForKey:SDLNameHours];
 }
 
-- (void)setMinutes:(NSNumber *)minutes {
+- (void)setMinutes:(NSNumber<SDLInt> *)minutes {
     if (minutes != nil) {
         [store setObject:minutes forKey:SDLNameMinutes];
     } else {
@@ -28,11 +28,11 @@
     }
 }
 
-- (NSNumber *)minutes {
+- (NSNumber<SDLInt> *)minutes {
     return [store objectForKey:SDLNameMinutes];
 }
 
-- (void)setSeconds:(NSNumber *)seconds {
+- (void)setSeconds:(NSNumber<SDLInt> *)seconds {
     if (seconds != nil) {
         [store setObject:seconds forKey:SDLNameSeconds];
     } else {
@@ -40,7 +40,7 @@
     }
 }
 
-- (NSNumber *)seconds {
+- (NSNumber<SDLInt> *)seconds {
     return [store objectForKey:SDLNameSeconds];
 }
 

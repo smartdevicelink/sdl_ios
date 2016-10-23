@@ -46,7 +46,7 @@
     return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setMaximumChangeVelocity:(NSNumber *)maximumChangeVelocity {
+- (void)setMaximumChangeVelocity:(NSNumber<SDLInt> *)maximumChangeVelocity {
     if (maximumChangeVelocity != nil) {
         [store setObject:maximumChangeVelocity forKey:SDLNameMaximumChangeVelocity];
     } else {
@@ -54,7 +54,7 @@
     }
 }
 
-- (NSNumber *)maximumChangeVelocity {
+- (NSNumber<SDLInt> *)maximumChangeVelocity {
     return [store objectForKey:SDLNameMaximumChangeVelocity];
 }
 

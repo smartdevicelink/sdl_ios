@@ -11,9 +11,9 @@
 
 @property (strong) SDLRequestType requestType;
 @property (strong) NSString *url;
-@property (strong) NSNumber *timeout;
+@property (strong) NSNumber<SDLInt> *timeout;
 @property (strong) SDLFileType fileType;
-@property (strong) NSNumber *offset;
-@property (strong) NSNumber *length;
+@property (strong) NSNumber<SDLUInt> *offset;
+@property (strong) NSNumber<SDLUInt> *length;
 
 @end

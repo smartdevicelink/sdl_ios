@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setGps:(NSNumber *)gps {
+- (void)setGps:(NSNumber<SDLBool> *)gps {
     if (gps != nil) {
         [parameters setObject:gps forKey:SDLNameGPS];
     } else {
@@ -22,11 +22,11 @@
     }
 }
 
-- (NSNumber *)gps {
+- (NSNumber<SDLBool> *)gps {
     return [parameters objectForKey:SDLNameGPS];
 }
 
-- (void)setSpeed:(NSNumber *)speed {
+- (void)setSpeed:(NSNumber<SDLBool> *)speed {
     if (speed != nil) {
         [parameters setObject:speed forKey:SDLNameSpeed];
     } else {
@@ -34,11 +34,11 @@
     }
 }
 
-- (NSNumber *)speed {
+- (NSNumber<SDLBool> *)speed {
     return [parameters objectForKey:SDLNameSpeed];
 }
 
-- (void)setRpm:(NSNumber *)rpm {
+- (void)setRpm:(NSNumber<SDLBool> *)rpm {
     if (rpm != nil) {
         [parameters setObject:rpm forKey:SDLNameRPM];
     } else {
@@ -46,11 +46,11 @@
     }
 }
 
-- (NSNumber *)rpm {
+- (NSNumber<SDLBool> *)rpm {
     return [parameters objectForKey:SDLNameRPM];
 }
 
-- (void)setFuelLevel:(NSNumber *)fuelLevel {
+- (void)setFuelLevel:(NSNumber<SDLBool> *)fuelLevel {
     if (fuelLevel != nil) {
         [parameters setObject:fuelLevel forKey:SDLNameFuelLevel];
     } else {
@@ -58,11 +58,11 @@
     }
 }
 
-- (NSNumber *)fuelLevel {
+- (NSNumber<SDLBool> *)fuelLevel {
     return [parameters objectForKey:SDLNameFuelLevel];
 }
 
-- (void)setFuelLevel_State:(NSNumber *)fuelLevel_State {
+- (void)setFuelLevel_State:(NSNumber<SDLBool> *)fuelLevel_State {
     if (fuelLevel_State != nil) {
         [parameters setObject:fuelLevel_State forKey:SDLNameFuelLevelState];
     } else {
@@ -70,11 +70,11 @@
     }
 }
 
-- (NSNumber *)fuelLevel_State {
+- (NSNumber<SDLBool> *)fuelLevel_State {
     return [parameters objectForKey:SDLNameFuelLevelState];
 }
 
-- (void)setInstantFuelConsumption:(NSNumber *)instantFuelConsumption {
+- (void)setInstantFuelConsumption:(NSNumber<SDLBool> *)instantFuelConsumption {
     if (instantFuelConsumption != nil) {
         [parameters setObject:instantFuelConsumption forKey:SDLNameInstantFuelConsumption];
     } else {
@@ -82,11 +82,11 @@
     }
 }
 
-- (NSNumber *)instantFuelConsumption {
+- (NSNumber<SDLBool> *)instantFuelConsumption {
     return [parameters objectForKey:SDLNameInstantFuelConsumption];
 }
 
-- (void)setExternalTemperature:(NSNumber *)externalTemperature {
+- (void)setExternalTemperature:(NSNumber<SDLBool> *)externalTemperature {
     if (externalTemperature != nil) {
         [parameters setObject:externalTemperature forKey:SDLNameExternalTemperature];
     } else {
@@ -94,11 +94,11 @@
     }
 }
 
-- (NSNumber *)externalTemperature {
+- (NSNumber<SDLBool> *)externalTemperature {
     return [parameters objectForKey:SDLNameExternalTemperature];
 }
 
-- (void)setPrndl:(NSNumber *)prndl {
+- (void)setPrndl:(NSNumber<SDLBool> *)prndl {
     if (prndl != nil) {
         [parameters setObject:prndl forKey:SDLNamePRNDL];
     } else {
@@ -106,11 +106,11 @@
     }
 }
 
-- (NSNumber *)prndl {
+- (NSNumber<SDLBool> *)prndl {
     return [parameters objectForKey:SDLNamePRNDL];
 }
 
-- (void)setTirePressure:(NSNumber *)tirePressure {
+- (void)setTirePressure:(NSNumber<SDLBool> *)tirePressure {
     if (tirePressure != nil) {
         [parameters setObject:tirePressure forKey:SDLNameTirePressure];
     } else {
@@ -118,11 +118,11 @@
     }
 }
 
-- (NSNumber *)tirePressure {
+- (NSNumber<SDLBool> *)tirePressure {
     return [parameters objectForKey:SDLNameTirePressure];
 }
 
-- (void)setOdometer:(NSNumber *)odometer {
+- (void)setOdometer:(NSNumber<SDLBool> *)odometer {
     if (odometer != nil) {
         [parameters setObject:odometer forKey:SDLNameOdometer];
     } else {
@@ -130,11 +130,11 @@
     }
 }
 
-- (NSNumber *)odometer {
+- (NSNumber<SDLBool> *)odometer {
     return [parameters objectForKey:SDLNameOdometer];
 }
 
-- (void)setBeltStatus:(NSNumber *)beltStatus {
+- (void)setBeltStatus:(NSNumber<SDLBool> *)beltStatus {
     if (beltStatus != nil) {
         [parameters setObject:beltStatus forKey:SDLNameBeltStatus];
     } else {
@@ -142,11 +142,11 @@
     }
 }
 
-- (NSNumber *)beltStatus {
+- (NSNumber<SDLBool> *)beltStatus {
     return [parameters objectForKey:SDLNameBeltStatus];
 }
 
-- (void)setBodyInformation:(NSNumber *)bodyInformation {
+- (void)setBodyInformation:(NSNumber<SDLBool> *)bodyInformation {
     if (bodyInformation != nil) {
         [parameters setObject:bodyInformation forKey:SDLNameBodyInformation];
     } else {
@@ -154,11 +154,11 @@
     }
 }
 
-- (NSNumber *)bodyInformation {
+- (NSNumber<SDLBool> *)bodyInformation {
     return [parameters objectForKey:SDLNameBodyInformation];
 }
 
-- (void)setDeviceStatus:(NSNumber *)deviceStatus {
+- (void)setDeviceStatus:(NSNumber<SDLBool> *)deviceStatus {
     if (deviceStatus != nil) {
         [parameters setObject:deviceStatus forKey:SDLNameDeviceStatus];
     } else {
@@ -166,11 +166,11 @@
     }
 }
 
-- (NSNumber *)deviceStatus {
+- (NSNumber<SDLBool> *)deviceStatus {
     return [parameters objectForKey:SDLNameDeviceStatus];
 }
 
-- (void)setDriverBraking:(NSNumber *)driverBraking {
+- (void)setDriverBraking:(NSNumber<SDLBool> *)driverBraking {
     if (driverBraking != nil) {
         [parameters setObject:driverBraking forKey:SDLNameDriverBraking];
     } else {
@@ -178,11 +178,11 @@
     }
 }
 
-- (NSNumber *)driverBraking {
+- (NSNumber<SDLBool> *)driverBraking {
     return [parameters objectForKey:SDLNameDriverBraking];
 }
 
-- (void)setWiperStatus:(NSNumber *)wiperStatus {
+- (void)setWiperStatus:(NSNumber<SDLBool> *)wiperStatus {
     if (wiperStatus != nil) {
         [parameters setObject:wiperStatus forKey:SDLNameWiperStatus];
     } else {
@@ -190,11 +190,11 @@
     }
 }
 
-- (NSNumber *)wiperStatus {
+- (NSNumber<SDLBool> *)wiperStatus {
     return [parameters objectForKey:SDLNameWiperStatus];
 }
 
-- (void)setHeadLampStatus:(NSNumber *)headLampStatus {
+- (void)setHeadLampStatus:(NSNumber<SDLBool> *)headLampStatus {
     if (headLampStatus != nil) {
         [parameters setObject:headLampStatus forKey:SDLNameHeadLampStatus];
     } else {
@@ -202,11 +202,11 @@
     }
 }
 
-- (NSNumber *)headLampStatus {
+- (NSNumber<SDLBool> *)headLampStatus {
     return [parameters objectForKey:SDLNameHeadLampStatus];
 }
 
-- (void)setEngineTorque:(NSNumber *)engineTorque {
+- (void)setEngineTorque:(NSNumber<SDLBool> *)engineTorque {
     if (engineTorque != nil) {
         [parameters setObject:engineTorque forKey:SDLNameEngineTorque];
     } else {
@@ -214,11 +214,11 @@
     }
 }
 
-- (NSNumber *)engineTorque {
+- (NSNumber<SDLBool> *)engineTorque {
     return [parameters objectForKey:SDLNameEngineTorque];
 }
 
-- (void)setAccPedalPosition:(NSNumber *)accPedalPosition {
+- (void)setAccPedalPosition:(NSNumber<SDLBool> *)accPedalPosition {
     if (accPedalPosition != nil) {
         [parameters setObject:accPedalPosition forKey:SDLNameAccelerationPedalPosition];
     } else {
@@ -226,11 +226,11 @@
     }
 }
 
-- (NSNumber *)accPedalPosition {
+- (NSNumber<SDLBool> *)accPedalPosition {
     return [parameters objectForKey:SDLNameAccelerationPedalPosition];
 }
 
-- (void)setSteeringWheelAngle:(NSNumber *)steeringWheelAngle {
+- (void)setSteeringWheelAngle:(NSNumber<SDLBool> *)steeringWheelAngle {
     if (steeringWheelAngle != nil) {
         [parameters setObject:steeringWheelAngle forKey:SDLNameSteeringWheelAngle];
     } else {
@@ -238,11 +238,11 @@
     }
 }
 
-- (NSNumber *)steeringWheelAngle {
+- (NSNumber<SDLBool> *)steeringWheelAngle {
     return [parameters objectForKey:SDLNameSteeringWheelAngle];
 }
 
-- (void)setECallInfo:(NSNumber *)eCallInfo {
+- (void)setECallInfo:(NSNumber<SDLBool> *)eCallInfo {
     if (eCallInfo != nil) {
         [parameters setObject:eCallInfo forKey:SDLNameECallInfo];
     } else {
@@ -250,11 +250,11 @@
     }
 }
 
-- (NSNumber *)eCallInfo {
+- (NSNumber<SDLBool> *)eCallInfo {
     return [parameters objectForKey:SDLNameECallInfo];
 }
 
-- (void)setAirbagStatus:(NSNumber *)airbagStatus {
+- (void)setAirbagStatus:(NSNumber<SDLBool> *)airbagStatus {
     if (airbagStatus != nil) {
         [parameters setObject:airbagStatus forKey:SDLNameAirbagStatus];
     } else {
@@ -262,11 +262,11 @@
     }
 }
 
-- (NSNumber *)airbagStatus {
+- (NSNumber<SDLBool> *)airbagStatus {
     return [parameters objectForKey:SDLNameAirbagStatus];
 }
 
-- (void)setEmergencyEvent:(NSNumber *)emergencyEvent {
+- (void)setEmergencyEvent:(NSNumber<SDLBool> *)emergencyEvent {
     if (emergencyEvent != nil) {
         [parameters setObject:emergencyEvent forKey:SDLNameEmergencyEvent];
     } else {
@@ -274,11 +274,11 @@
     }
 }
 
-- (NSNumber *)emergencyEvent {
+- (NSNumber<SDLBool> *)emergencyEvent {
     return [parameters objectForKey:SDLNameEmergencyEvent];
 }
 
-- (void)setClusterModeStatus:(NSNumber *)clusterModeStatus {
+- (void)setClusterModeStatus:(NSNumber<SDLBool> *)clusterModeStatus {
     if (clusterModeStatus != nil) {
         [parameters setObject:clusterModeStatus forKey:SDLNameClusterModeStatus];
     } else {
@@ -286,11 +286,11 @@
     }
 }
 
-- (NSNumber *)clusterModeStatus {
+- (NSNumber<SDLBool> *)clusterModeStatus {
     return [parameters objectForKey:SDLNameClusterModeStatus];
 }
 
-- (void)setMyKey:(NSNumber *)myKey {
+- (void)setMyKey:(NSNumber<SDLBool> *)myKey {
     if (myKey != nil) {
         [parameters setObject:myKey forKey:SDLNameMyKey];
     } else {
@@ -298,7 +298,7 @@
     }
 }
 
-- (NSNumber *)myKey {
+- (NSNumber<SDLBool> *)myKey {
     return [parameters objectForKey:SDLNameMyKey];
 }
 

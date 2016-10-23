@@ -15,14 +15,14 @@
  *
  * Float, Required, -180.0 - 180.0
  */
-@property (copy, nonatomic) NSNumber *longitudeDegrees;
+@property (copy, nonatomic) NSNumber<SDLFloat> *longitudeDegrees;
 
 /**
  * The latitudinal coordinate of the location.
  *
  * Float, Required, -90.0 - 90.0
  */
-@property (copy, nonatomic) NSNumber *latitudeDegrees;
+@property (copy, nonatomic) NSNumber<SDLFloat> *latitudeDegrees;
 
 /**
  * Name / title of intended location

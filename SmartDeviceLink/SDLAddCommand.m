@@ -27,7 +27,7 @@
     return self;
 }
 
-- (void)setCmdID:(NSNumber *)cmdID {
+- (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:SDLNameCommandId];
     } else {
@@ -35,7 +35,7 @@
     }
 }
 
-- (NSNumber *)cmdID {
+- (NSNumber<SDLInt> *)cmdID {
     return [parameters objectForKey:SDLNameCommandId];
 }
 

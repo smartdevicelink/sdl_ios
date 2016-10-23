@@ -26,7 +26,7 @@
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *interactionChoiceSetID;
+@property (strong) NSNumber<SDLInt> *interactionChoiceSetID;
 
 /**
  * @abstract Array of choices, which the user can select by menu or voice recognition

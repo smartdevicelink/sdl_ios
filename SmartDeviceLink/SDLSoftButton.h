@@ -20,8 +20,8 @@
 @property (strong) SDLSoftButtonType type;
 @property (strong) NSString *text;
 @property (strong) SDLImage *image;
-@property (strong) NSNumber *isHighlighted;
-@property (strong) NSNumber *softButtonID;
+@property (strong) NSNumber<SDLBool> *isHighlighted;
+@property (strong) NSNumber<SDLInt> *softButtonID;
 @property (strong) SDLSystemAction systemAction;
 
 @end

@@ -8,8 +8,8 @@
 
 @interface SDLRPCResponse : SDLRPCMessage
 
-@property (strong) NSNumber *correlationID;
-@property (strong) NSNumber *success;
+@property (strong) NSNumber<SDLInt> *correlationID;
+@property (strong) NSNumber<SDLBool> *success;
 @property (strong) SDLResult resultCode;
 @property (strong) NSString *info;
 

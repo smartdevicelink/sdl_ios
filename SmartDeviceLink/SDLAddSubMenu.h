@@ -24,7 +24,7 @@
  * <i>SDLAddCommand</i> to which SDLSubMenu is the parent of the command being added
  * <p>
  */
-@property (strong) NSNumber *menuID;
+@property (strong) NSNumber<SDLInt> *menuID;
 /**
  * @abstract a position of menu
  * @discussion An NSNumber pointer representing the position within the items
@@ -43,7 +43,7 @@
  *            the end of the list</li>
  *            </ul>
  */
-@property (strong) NSNumber *position;
+@property (strong) NSNumber<SDLInt> *position;
 /**
  * @abstract a menuName which is displayed representing this submenu item
  * @discussion NSString which will be displayed representing this submenu item

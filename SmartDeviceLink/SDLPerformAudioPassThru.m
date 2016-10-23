@@ -73,7 +73,7 @@
     return (SDLSamplingRate )obj;
 }
 
-- (void)setMaxDuration:(NSNumber *)maxDuration {
+- (void)setMaxDuration:(NSNumber<SDLInt> *)maxDuration {
     if (maxDuration != nil) {
         [parameters setObject:maxDuration forKey:SDLNameMaxDuration];
     } else {
@@ -81,7 +81,7 @@
     }
 }
 
-- (NSNumber *)maxDuration {
+- (NSNumber<SDLInt> *)maxDuration {
     return [parameters objectForKey:SDLNameMaxDuration];
 }
 
@@ -111,7 +111,7 @@
     return (SDLAudioType)obj;
 }
 
-- (void)setMuteAudio:(NSNumber *)muteAudio {
+- (void)setMuteAudio:(NSNumber<SDLBool> *)muteAudio {
     if (muteAudio != nil) {
         [parameters setObject:muteAudio forKey:SDLNameMuteAudio];
     } else {
@@ -119,7 +119,7 @@
     }
 }
 
-- (NSNumber *)muteAudio {
+- (NSNumber<SDLBool> *)muteAudio {
     return [parameters objectForKey:SDLNameMuteAudio];
 }
 

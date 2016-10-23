@@ -8,7 +8,7 @@
 
 @implementation SDLChoice
 
-- (void)setChoiceID:(NSNumber *)choiceID {
+- (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
     if (choiceID != nil) {
         [store setObject:choiceID forKey:SDLNameChoiceId];
     } else {
@@ -16,7 +16,7 @@
     }
 }
 
-- (NSNumber *)choiceID {
+- (NSNumber<SDLInt> *)choiceID {
     return [store objectForKey:SDLNameChoiceId];
 }
 

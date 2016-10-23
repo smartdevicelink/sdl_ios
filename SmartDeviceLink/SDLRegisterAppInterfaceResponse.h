@@ -134,7 +134,7 @@
  *
  * Optional, Array of length 1 - 100, Integer 0 - 255
  */
-@property (strong) NSMutableArray<NSNumber *> *supportedDiagModes;
+@property (strong) NSMutableArray<NSNumber<SDLInt> *> *supportedDiagModes;
 
 /**
  * @see SDLHMICapabilities

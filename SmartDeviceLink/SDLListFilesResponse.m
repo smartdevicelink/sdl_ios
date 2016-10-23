@@ -26,7 +26,7 @@
     return [parameters objectForKey:SDLNameFilenames];
 }
 
-- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
+- (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
     if (spaceAvailable != nil) {
         [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
     } else {
@@ -34,7 +34,7 @@
     }
 }
 
-- (NSNumber *)spaceAvailable {
+- (NSNumber<SDLInt> *)spaceAvailable {
     return [parameters objectForKey:SDLNameSpaceAvailable];
 }
 

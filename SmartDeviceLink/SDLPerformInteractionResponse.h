@@ -20,7 +20,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *choiceID;
+@property (strong) NSNumber<SDLInt> *choiceID;
 
 /**
  * @abstract Manually entered text selection, e.g. through keyboard

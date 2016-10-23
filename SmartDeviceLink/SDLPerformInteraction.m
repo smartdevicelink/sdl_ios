@@ -62,7 +62,7 @@
     return (SDLInteractionMode)obj;
 }
 
-- (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber *> *)interactionChoiceSetIDList {
+- (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
     if (interactionChoiceSetIDList != nil) {
         [parameters setObject:interactionChoiceSetIDList forKey:SDLNameInteractionChoiceSetIdList];
     } else {
@@ -70,7 +70,7 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)interactionChoiceSetIDList {
+- (NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
     return [parameters objectForKey:SDLNameInteractionChoiceSetIdList];
 }
 
@@ -116,7 +116,7 @@
     }
 }
 
-- (void)setTimeout:(NSNumber *)timeout {
+- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -124,7 +124,7 @@
     }
 }
 
-- (NSNumber *)timeout {
+- (NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 

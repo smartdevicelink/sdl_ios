@@ -43,7 +43,7 @@
     return (SDLHMILevel)obj;
 }
 
-- (void)setUserSelected:(NSNumber *)userSelected {
+- (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
     if (userSelected != nil) {
         [parameters setObject:userSelected forKey:@"userselected"];
     } else {
@@ -51,11 +51,11 @@
     }
 }
 
-- (NSNumber *)userSelected {
+- (NSNumber<SDLBool> *)userSelected {
     return [parameters objectForKey:@"userselected"];
 }
 
-- (void)setDriverDistractionStatus:(NSNumber *)driverDistractionStatus {
+- (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
     if (driverDistractionStatus != nil) {
         [parameters setObject:driverDistractionStatus forKey:@"driverdistractionstatus"];
     } else {
@@ -63,7 +63,7 @@
     }
 }
 
-- (NSNumber *)driverDistractionStatus {
+- (NSNumber<SDLBool> *)driverDistractionStatus {
     return [parameters objectForKey:@"driverdistractionstatus"];
 }
 

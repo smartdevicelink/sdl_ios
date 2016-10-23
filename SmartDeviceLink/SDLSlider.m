@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setNumTicks:(NSNumber *)numTicks {
+- (void)setNumTicks:(NSNumber<SDLInt> *)numTicks {
     if (numTicks != nil) {
         [parameters setObject:numTicks forKey:SDLNameNumberTicks];
     } else {
@@ -22,11 +22,11 @@
     }
 }
 
-- (NSNumber *)numTicks {
+- (NSNumber<SDLInt> *)numTicks {
     return [parameters objectForKey:SDLNameNumberTicks];
 }
 
-- (void)setPosition:(NSNumber *)position {
+- (void)setPosition:(NSNumber<SDLInt> *)position {
     if (position != nil) {
         [parameters setObject:position forKey:SDLNamePosition];
     } else {
@@ -34,7 +34,7 @@
     }
 }
 
-- (NSNumber *)position {
+- (NSNumber<SDLInt> *)position {
     return [parameters objectForKey:SDLNamePosition];
 }
 
@@ -62,7 +62,7 @@
     return [parameters objectForKey:SDLNameSliderFooter];
 }
 
-- (void)setTimeout:(NSNumber *)timeout {
+- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -70,7 +70,7 @@
     }
 }
 
-- (NSNumber *)timeout {
+- (NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 

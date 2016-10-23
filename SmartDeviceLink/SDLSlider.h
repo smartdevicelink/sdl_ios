@@ -18,14 +18,14 @@
  *
  * Required, Integer, 2 - 26
  */
-@property (strong) NSNumber *numTicks;
+@property (strong) NSNumber<SDLInt> *numTicks;
 
 /**
  * @abstract An Initial position of slider control
  *
  * Required, Integer, 1 - 26
  */
-@property (strong) NSNumber *position;
+@property (strong) NSNumber<SDLInt> *position;
 
 /**
  * @abstract A text header to display
@@ -58,6 +58,6 @@
  *
  * Optional, Integer, 1000 - 65535
  */
-@property (strong) NSNumber *timeout;
+@property (strong) NSNumber<SDLInt> *timeout;
 
 @end

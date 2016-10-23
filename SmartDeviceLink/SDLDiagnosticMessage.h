@@ -16,20 +16,20 @@
  *
  * Required, Integer, 0 - 65535
  */
-@property (strong) NSNumber *targetID;
+@property (strong) NSNumber<SDLInt> *targetID;
 
 /**
  * Length of message (in bytes)
  *
  * Required, Integer, 65535
  */
-@property (strong) NSNumber *messageLength;
+@property (strong) NSNumber<SDLInt> *messageLength;
 
 /**
  *  Array of bytes comprising CAN message.
  *
  * Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255
  */
-@property (strong) NSMutableArray<NSNumber *> *messageData;
+@property (strong) NSMutableArray<NSNumber<SDLInt> *> *messageData;
 
 @end

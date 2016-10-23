@@ -16,6 +16,6 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber *onScreenPresetsAvailable;
+@property (strong) NSNumber<SDLBool> *onScreenPresetsAvailable;
 
 @end

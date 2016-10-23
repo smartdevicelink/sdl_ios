@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setMenuID:(NSNumber *)menuID {
+- (void)setMenuID:(NSNumber<SDLInt> *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:SDLNameMenuId];
     } else {
@@ -22,7 +22,7 @@
     }
 }
 
-- (NSNumber *)menuID {
+- (NSNumber<SDLInt> *)menuID {
     return [parameters objectForKey:SDLNameMenuId];
 }
 

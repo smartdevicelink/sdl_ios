@@ -21,9 +21,9 @@
 @property (strong) NSString *totalDistance;
 @property (strong) SDLImage *turnIcon;
 @property (strong) SDLImage *nextTurnIcon;
-@property (strong) NSNumber *distanceToManeuver;
-@property (strong) NSNumber *distanceToManeuverScale;
-@property (strong) NSNumber *maneuverComplete;
+@property (strong) NSNumber<SDLFloat> *distanceToManeuver;
+@property (strong) NSNumber<SDLFloat> *distanceToManeuverScale;
+@property (strong) NSNumber<SDLBool> *maneuverComplete;
 @property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

@@ -14,7 +14,7 @@
     return self;
 }
 
-- (void)setTargetID:(NSNumber *)targetID {
+- (void)setTargetID:(NSNumber<SDLInt> *)targetID {
     if (targetID != nil) {
         [parameters setObject:targetID forKey:SDLNameTargetId];
     } else {
@@ -22,11 +22,11 @@
     }
 }
 
-- (NSNumber *)targetID {
+- (NSNumber<SDLInt> *)targetID {
     return [parameters objectForKey:SDLNameTargetId];
 }
 
-- (void)setMessageLength:(NSNumber *)messageLength {
+- (void)setMessageLength:(NSNumber<SDLInt> *)messageLength {
     if (messageLength != nil) {
         [parameters setObject:messageLength forKey:SDLNameMessageLength];
     } else {
@@ -34,11 +34,11 @@
     }
 }
 
-- (NSNumber *)messageLength {
+- (NSNumber<SDLInt> *)messageLength {
     return [parameters objectForKey:SDLNameMessageLength];
 }
 
-- (void)setMessageData:(NSMutableArray<NSNumber *> *)messageData {
+- (void)setMessageData:(NSMutableArray<NSNumber<SDLInt> *> *)messageData {
     if (messageData != nil) {
         [parameters setObject:messageData forKey:SDLNameMessageData];
     } else {
@@ -46,7 +46,7 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)messageData {
+- (NSMutableArray<NSNumber<SDLInt> *> *)messageData {
     return [parameters objectForKey:SDLNameMessageData];
 }
 

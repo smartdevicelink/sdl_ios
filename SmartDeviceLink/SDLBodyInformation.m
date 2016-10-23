@@ -10,7 +10,7 @@
 
 @implementation SDLBodyInformation
 
-- (void)setParkBrakeActive:(NSNumber *)parkBrakeActive {
+- (void)setParkBrakeActive:(NSNumber<SDLBool> *)parkBrakeActive {
     if (parkBrakeActive != nil) {
         [store setObject:parkBrakeActive forKey:SDLNameParkBrakeActive];
     } else {
@@ -18,7 +18,7 @@
     }
 }
 
-- (NSNumber *)parkBrakeActive {
+- (NSNumber<SDLBool> *)parkBrakeActive {
     return [store objectForKey:SDLNameParkBrakeActive];
 }
 
@@ -48,7 +48,7 @@
     return (SDLIgnitionStatus)obj;
 }
 
-- (void)setDriverDoorAjar:(NSNumber *)driverDoorAjar {
+- (void)setDriverDoorAjar:(NSNumber<SDLBool> *)driverDoorAjar {
     if (driverDoorAjar != nil) {
         [store setObject:driverDoorAjar forKey:SDLNameDriverDoorAjar];
     } else {
@@ -56,11 +56,11 @@
     }
 }
 
-- (NSNumber *)driverDoorAjar {
+- (NSNumber<SDLBool> *)driverDoorAjar {
     return [store objectForKey:SDLNameDriverDoorAjar];
 }
 
-- (void)setPassengerDoorAjar:(NSNumber *)passengerDoorAjar {
+- (void)setPassengerDoorAjar:(NSNumber<SDLBool> *)passengerDoorAjar {
     if (passengerDoorAjar != nil) {
         [store setObject:passengerDoorAjar forKey:SDLNamePassengerDoorAjar];
     } else {
@@ -68,11 +68,11 @@
     }
 }
 
-- (NSNumber *)passengerDoorAjar {
+- (NSNumber<SDLBool> *)passengerDoorAjar {
     return [store objectForKey:SDLNamePassengerDoorAjar];
 }
 
-- (void)setRearLeftDoorAjar:(NSNumber *)rearLeftDoorAjar {
+- (void)setRearLeftDoorAjar:(NSNumber<SDLBool> *)rearLeftDoorAjar {
     if (rearLeftDoorAjar != nil) {
         [store setObject:rearLeftDoorAjar forKey:SDLNameRearLeftDoorAjar];
     } else {
@@ -80,11 +80,11 @@
     }
 }
 
-- (NSNumber *)rearLeftDoorAjar {
+- (NSNumber<SDLBool> *)rearLeftDoorAjar {
     return [store objectForKey:SDLNameRearLeftDoorAjar];
 }
 
-- (void)setRearRightDoorAjar:(NSNumber *)rearRightDoorAjar {
+- (void)setRearRightDoorAjar:(NSNumber<SDLBool> *)rearRightDoorAjar {
     if (rearRightDoorAjar != nil) {
         [store setObject:rearRightDoorAjar forKey:SDLNameRearRightDoorAjar];
     } else {
@@ -92,7 +92,7 @@
     }
 }
 
-- (NSNumber *)rearRightDoorAjar {
+- (NSNumber<SDLBool> *)rearRightDoorAjar {
     return [store objectForKey:SDLNameRearRightDoorAjar];
 }
 

@@ -8,7 +8,7 @@
 
 @implementation SDLTouchEventCapabilities
 
-- (void)setPressAvailable:(NSNumber *)pressAvailable {
+- (void)setPressAvailable:(NSNumber<SDLBool> *)pressAvailable {
     if (pressAvailable != nil) {
         [store setObject:pressAvailable forKey:SDLNamePressAvailable];
     } else {
@@ -16,11 +16,11 @@
     }
 }
 
-- (NSNumber *)pressAvailable {
+- (NSNumber<SDLBool> *)pressAvailable {
     return [store objectForKey:SDLNamePressAvailable];
 }
 
-- (void)setMultiTouchAvailable:(NSNumber *)multiTouchAvailable {
+- (void)setMultiTouchAvailable:(NSNumber<SDLBool> *)multiTouchAvailable {
     if (multiTouchAvailable != nil) {
         [store setObject:multiTouchAvailable forKey:SDLNameMultiTouchAvailable];
     } else {
@@ -28,11 +28,11 @@
     }
 }
 
-- (NSNumber *)multiTouchAvailable {
+- (NSNumber<SDLBool> *)multiTouchAvailable {
     return [store objectForKey:SDLNameMultiTouchAvailable];
 }
 
-- (void)setDoublePressAvailable:(NSNumber *)doublePressAvailable {
+- (void)setDoublePressAvailable:(NSNumber<SDLBool> *)doublePressAvailable {
     if (doublePressAvailable != nil) {
         [store setObject:doublePressAvailable forKey:SDLNameDoublePressAvailable];
     } else {
@@ -40,7 +40,7 @@
     }
 }
 
-- (NSNumber *)doublePressAvailable {
+- (NSNumber<SDLBool> *)doublePressAvailable {
     return [store objectForKey:SDLNameDoublePressAvailable];
 }
 

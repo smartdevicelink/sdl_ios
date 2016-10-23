@@ -94,7 +94,7 @@
 }
 
 
-- (NSNumber *)functionIdForName:(SDLName)functionName {
+- (NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName {
     return [[self.functionIds allKeysForObject:functionName] firstObject];
 }
 

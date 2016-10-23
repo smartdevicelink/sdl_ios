@@ -13,7 +13,7 @@
 @property (strong) SDLEmergencyEventType emergencyEventType;
 @property (strong) SDLFuelCutoffStatus fuelCutoffStatus;
 @property (strong) SDLVehicleDataEventStatus rolloverEvent;
-@property (strong) NSNumber *maximumChangeVelocity;
+@property (strong) NSNumber<SDLInt> *maximumChangeVelocity;
 @property (strong) SDLVehicleDataEventStatus multipleEvents;
 
 @end

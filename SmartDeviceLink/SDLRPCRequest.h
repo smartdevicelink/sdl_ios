@@ -6,6 +6,6 @@
 
 @interface SDLRPCRequest : SDLRPCMessage
 
-@property (strong) NSNumber *correlationID;
+@property (strong) NSNumber<SDLInt> *correlationID;
 
 @end

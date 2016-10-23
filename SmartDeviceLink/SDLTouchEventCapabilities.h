@@ -6,8 +6,8 @@
 
 @interface SDLTouchEventCapabilities : SDLRPCStruct
 
-@property (strong) NSNumber *pressAvailable;
-@property (strong) NSNumber *multiTouchAvailable;
-@property (strong) NSNumber *doublePressAvailable;
+@property (strong) NSNumber<SDLBool> *pressAvailable;
+@property (strong) NSNumber<SDLBool> *multiTouchAvailable;
+@property (strong) NSNumber<SDLBool> *doublePressAvailable;
 
 @end
