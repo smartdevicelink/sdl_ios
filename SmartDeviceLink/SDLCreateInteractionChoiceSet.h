@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLChoice;
+
 /**
  * Creates a Choice Set which can be used in subsequent *SDLPerformInteraction* Operations.
  *
@@ -32,7 +34,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray *)choiceSet;
+- (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet;
 
 /**
  * @abstract A unique ID that identifies the Choice Set

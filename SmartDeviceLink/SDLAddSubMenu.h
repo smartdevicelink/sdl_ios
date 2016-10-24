@@ -3,6 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "NSNumber+NumberType.h"
+
 /**
  * Add a SDLSubMenu to the Command Menu
  * <p>
@@ -31,9 +33,9 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName;
+- (instancetype)initWithId:(NSNumber<SDLInt> *)menuId menuName:(NSString *)menuName;
 
-- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName position:(NSNumber *)position;
+- (instancetype)initWithId:(NSNumber<SDLInt> *)menuId menuName:(NSString *)menuName position:(NSNumber *)position;
 
 /**
  * @abstract a Menu ID that identifies a sub menu

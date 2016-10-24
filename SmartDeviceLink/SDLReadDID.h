@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "NSNumber+NumberType.h"
+
 /**
  * Non periodic vehicle data read request. This is an RPC to get diagnostics
  * data from certain vehicle modules. DIDs of a certain module might differ from
@@ -30,7 +32,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray *)didLocation;
+- (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation;
 
 /**
  * @abstract An ID of the vehicle module
