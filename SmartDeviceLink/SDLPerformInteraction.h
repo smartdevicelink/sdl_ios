@@ -4,8 +4,6 @@
 
 #import "SDLRPCRequest.h"
 
-#import "NSNumber+NumberType.h"
-
 @class SDLInteractionMode;
 @class SDLLayoutMode;
 @class SDLVRHelpItem;

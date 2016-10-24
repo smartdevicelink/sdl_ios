@@ -4,8 +4,6 @@
 
 #import "SDLRPCRequest.h"
 
-#import "NSNumber+NumberType.h"
-
 /**
  * Non periodic vehicle data read request. This is an RPC to get diagnostics
  * data from certain vehicle modules. DIDs of a certain module might differ from

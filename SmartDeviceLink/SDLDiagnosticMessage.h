@@ -4,8 +4,6 @@
 
 #import "SDLRPCRequest.h"
 
-#import "NSNumber+NumberType.h"
-
 /** 
  * Non periodic vehicle diagnostic request
  *

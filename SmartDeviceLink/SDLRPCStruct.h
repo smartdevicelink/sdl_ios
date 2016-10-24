@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSNumber+NumberType.h"
+
 @interface SDLRPCStruct : NSObject {
     NSMutableDictionary *store;
 }
