@@ -25,9 +25,11 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(NSNumber *)timeout;
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray *)sliderFooters timeout:(NSNumber *)timeout;
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(UInt16)timeout;
+
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray *)sliderFooters timeout:(UInt16)timeout;
 
 /**
  * @abstract Represents a number of selectable items on a horizontal axis

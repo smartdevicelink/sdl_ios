@@ -34,11 +34,11 @@
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands handler:(SDLRPCNotificationHandler)handler {
     return [self initWithId:commandId vrCommands:vrCommands menuName:nil handler:handler];
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -57,7 +57,7 @@
 
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
     self = [self initWithId:commandId vrCommands:vrCommands menuName:menuName handler:handler];
     if (!self) {
         return nil;

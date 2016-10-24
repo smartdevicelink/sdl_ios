@@ -6,6 +6,7 @@
 
 @class SDLInteractionMode;
 @class SDLLayoutMode;
+@class SDLTTSChunk;
 @class SDLVRHelpItem;
 
 

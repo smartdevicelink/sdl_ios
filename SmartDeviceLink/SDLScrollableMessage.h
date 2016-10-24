@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLSoftButton;
+
 /**
  * Creates a full screen overlay containing a large block of formatted text that
  * can be scrolled with up to 8 SoftButtons defined
@@ -29,7 +31,7 @@
 
 - (instancetype)initWithMessage:(NSString *)message;
 
-- (instancetype)initWithMessage:(NSString *)message timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons;
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
 /**
  * @abstract A Body of text that can include newlines and tabs

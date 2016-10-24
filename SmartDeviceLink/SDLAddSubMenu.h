@@ -31,9 +31,9 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(NSNumber<SDLInt> *)menuId menuName:(NSString *)menuName;
+- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName;
 
-- (instancetype)initWithId:(NSNumber<SDLInt> *)menuId menuName:(NSString *)menuName position:(NSNumber *)position;
+- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName position:(UInt8)position;
 
 /**
  * @abstract a Menu ID that identifies a sub menu

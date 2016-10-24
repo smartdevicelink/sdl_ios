@@ -22,7 +22,7 @@
     return self;
 }
 
-- (instancetype)initWithTurnList:(NSArray *)turnList softButtons:(NSArray *)softButtons {
+- (instancetype)initWithTurnList:(NSArray *)turnList softButtons:(NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {
         return nil;

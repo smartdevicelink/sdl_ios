@@ -23,12 +23,12 @@
     return self;
 }
 
-- (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray *)softButtons {
+- (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray<SDLSoftButton *> *)softButtons {
     NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
     return [self initWithTTSChunks:ttsChunks softButtons:softButtons];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks softButtons:(NSArray *)softButtons {
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {
         return nil;

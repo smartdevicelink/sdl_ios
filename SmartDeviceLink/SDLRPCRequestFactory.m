@@ -167,7 +167,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 
 //***
-+ (SDLAlert *)buildAlertWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(NSNumber *)playTone duration:(NSNumber *)duration softButtons:(NSArray *)softButtons correlationID:(NSNumber *)correlationID {
++ (SDLAlert *)buildAlertWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(NSNumber *)playTone duration:(NSNumber *)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons correlationID:(NSNumber *)correlationID {
     SDLAlert *msg = [[SDLAlert alloc] init];
     msg.correlationID = correlationID;
     msg.alertText1 = alertText1;
@@ -180,7 +180,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLAlert *)buildAlertWithTTSChunks:(NSArray *)ttsChunks playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID {
++ (SDLAlert *)buildAlertWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID {
     return [SDLRPCRequestFactory buildAlertWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:nil softButtons:nil correlationID:correlationID];
 }
 
@@ -460,7 +460,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
     return msg;
 }
 
-+ (SDLScrollableMessage *)buildScrollableMessage:(NSString *)scrollableMessageBody timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons correlationID:(NSNumber *)correlationID {
++ (SDLScrollableMessage *)buildScrollableMessage:(NSString *)scrollableMessageBody timeout:(NSNumber *)timeout softButtons:(NSArray<SDLSoftButton *> *)softButtons correlationID:(NSNumber *)correlationID {
     SDLScrollableMessage *msg = [[SDLScrollableMessage alloc] init];
     msg.scrollableMessageBody = scrollableMessageBody;
     msg.timeout = timeout;
@@ -548,7 +548,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 
 //***** Show *****
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray *)softButtons customPresets:(NSArray *)customPresets correlationID:(NSNumber *)correlationID {
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray *)customPresets correlationID:(NSNumber *)correlationID {
     SDLShow *msg = [[SDLShow alloc] init];
     msg.correlationID = correlationID;
     msg.mainField1 = mainField1;
@@ -642,7 +642,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 
 //***** Speak *****
-+ (SDLSpeak *)buildSpeakWithTTSChunks:(NSArray *)ttsChunks correlationID:(NSNumber *)correlationID {
++ (SDLSpeak *)buildSpeakWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks correlationID:(NSNumber *)correlationID {
     SDLSpeak *msg = [[SDLSpeak alloc] init];
     msg.correlationID = correlationID;
     msg.ttsChunks = [ttsChunks mutableCopy];

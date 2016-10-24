@@ -52,6 +52,7 @@
 @class SDLSubscribeVehicleData;
 @class SDLSystemAction;
 @class SDLTextAlignment;
+@class SDLTTSChunk;
 @class SDLUnregisterAppInterface;
 @class SDLUnsubscribeButton;
 @class SDLUnsubscribeVehicleData;
@@ -93,12 +94,12 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 + (SDLAlert *)buildAlertWithTTS:(NSString *)ttsText playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithTTS:playTone:duration: instead");
 
 //***
-+ (SDLAlert *)buildAlertWithTTSChunks:(NSArray *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(NSNumber *)playTone duration:(NSNumber *)duration softButtons:(NSArray *)softButtons correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons: instead");
++ (SDLAlert *)buildAlertWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(NSNumber *)playTone duration:(NSNumber *)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons: instead");
 
-+ (SDLAlert *)buildAlertWithTTSChunks:(NSArray *)ttsChunks playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithTTSChunks:playTone: instead");
++ (SDLAlert *)buildAlertWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(NSNumber *)playTone correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithTTSChunks:playTone: instead");
 
 //***
-+ (SDLAlert *)buildAlertWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration softButtons:(NSArray *)softButtons correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithAlertText1:alertText2:alertText3:duration:softButtons: instead");
++ (SDLAlert *)buildAlertWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithAlertText1:alertText2:alertText3:duration:softButtons: instead");
 
 + (SDLAlert *)buildAlertWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(NSNumber *)duration correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLAlert's initWithAlertText1:alertText2:alertText3:duration: instead");
 
@@ -162,7 +163,7 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 
 + (SDLSendLocation *)buildSendLocationWithLongitude:(NSNumber *)longitude latitude:(NSNumber *)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image __deprecated_msg("use SDLSendLocation's initWithLongitude:latitude:locationName:locationDescription:address:phoneNumber:image: instead");
 
-+ (SDLScrollableMessage *)buildScrollableMessage:(NSString *)scrollableMessageBody timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLScrollableMessage's initWithMessage:timeout:softButtons: instead");
++ (SDLScrollableMessage *)buildScrollableMessage:(NSString *)scrollableMessageBody timeout:(NSNumber *)timeout softButtons:(NSArray<SDLSoftButton *> *)softButtons correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLScrollableMessage's initWithMessage:timeout:softButtons: instead");
 
 + (SDLSetAppIcon *)buildSetAppIconWithFileName:(NSString *)syncFileName correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLSetAppIcon's initWithFileName: instead");
 
@@ -184,7 +185,7 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 
 
 //***** Show *****
-+ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray *)softButtons customPresets:(NSArray *)customPresets correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets: instead");
++ (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray *)customPresets correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:mainField3:mainField4:alignment:statusBar:mediaClock:mediaTrack:graphic:softButtons:customPresets: instead");
 
 + (SDLShow *)buildShowWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack alignment:(SDLTextAlignment *)textAlignment correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLShow's initWithMainField1:mainField2:alignment:statusBar:mediaClock:mediaTrack: instead");
 
@@ -201,7 +202,7 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 + (SDLSoftButton *)buildSoftButtonWithType:(SDLSoftButtonType *)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonID:(UInt16)buttonID systemAction:(SDLSystemAction *)systemAction handler:(SDLRPCNotificationHandler)handler __deprecated_msg("use SDLSoftButton's initWithType:text:image:highlighted:buttonId:systemAction:handler: instead");
 
 //***** Speak *****
-+ (SDLSpeak *)buildSpeakWithTTSChunks:(NSArray *)ttsChunks correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLSpeak's initWithTTSChunks: instead");
++ (SDLSpeak *)buildSpeakWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLSpeak's initWithTTSChunks: instead");
 
 //***
 + (SDLSpeak *)buildSpeakWithTTS:(NSString *)ttsText correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLSpeak's initWithTTS: instead");

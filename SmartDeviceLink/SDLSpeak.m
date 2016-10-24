@@ -27,7 +27,7 @@
     return [self initWithTTSChunks:ttsChunks];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray *)ttsChunks {
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks {
     self = [self init];
     if (!self) {
         return nil;

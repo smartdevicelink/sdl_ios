@@ -21,13 +21,13 @@
     return self;
 }
 
-- (instancetype)initWithMessage:(NSString *)message timeout:(NSNumber *)timeout softButtons:(NSArray *)softButtons {
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(NSArray<SDLSoftButton *> *)softButtons {
     self = [self initWithMessage:message];
     if (!self) {
         return nil;
     }
     
-    self.timeout = timeout;
+    self.timeout = @(timeout);
     self.softButtons = [softButtons mutableCopy];
 
     return self;

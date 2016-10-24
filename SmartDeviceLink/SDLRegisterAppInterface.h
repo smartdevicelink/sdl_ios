@@ -3,11 +3,12 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLAppInfo;
 @class SDLDeviceInfo;
 @class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLSyncMsgVersion;
-@class SDLAppInfo;
+@class SDLTTSChunk;
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of

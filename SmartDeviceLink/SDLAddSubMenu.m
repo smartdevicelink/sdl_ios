@@ -18,21 +18,29 @@
     return self;
 }
 
-- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName {
-    return [self initWithId:menuId menuName:menuName position:nil];
+
+- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName position:(UInt8)position {
+    self = [self initWithId:menuId menuName:menuName];
+    if (!self) {
+        return nil;
+    }
+    
+    self.position = @(position);
+    
+    return self;
 }
 
-- (instancetype)initWithId:(NSNumber *)menuId menuName:(NSString *)menuName position:(NSNumber *)position {
+- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName {
     self = [self init];
     if (!self) {
         return nil;
     }
     
-    self.menuID = menuId;
+    self.menuID = @(menuId);
     self.menuName = menuName;
-    self.position = position;
     
     return self;
+    
 }
 
 - (void)setMenuID:(NSNumber *)menuID {
