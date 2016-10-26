@@ -34,6 +34,23 @@
     return self;
 }
 
+- (instancetype)initWithType:(SDLSoftButtonType *)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(SDLSystemAction *)systemAction handler:(SDLRPCNotificationHandler)handler {
+    self = [self initWithHandler:handler];
+    if (!self) {
+        return nil;
+    }
+    
+    self.type = type;
+    self.text = text;
+    self.image = image;
+    self.isHighlighted = @(highlighted);
+    self.softButtonID = @(buttonId);
+    self.systemAction = systemAction;
+    self.handler = handler;
+    
+    return self;
+}
+
 - (void)setType:(SDLSoftButtonType *)type {
     if (type != nil) {
         [store setObject:type forKey:NAMES_type];

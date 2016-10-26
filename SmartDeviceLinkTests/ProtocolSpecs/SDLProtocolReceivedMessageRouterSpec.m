@@ -67,7 +67,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 
                 [invocation getArgument:&message atIndex:2];
                 
-                SDLV2ProtocolMessage* messageReceived = (SDLV2ProtocolMessage*)message;
+                SDLV2ProtocolMessage* messageReceived = (SDLV2ProtocolMessage *)message;
                 
                 expect(messageReceived).to(beIdenticalTo(testMessage));
             }] ignoringNonObjectArgs] onProtocolMessageReceived:[OCMArg any]];

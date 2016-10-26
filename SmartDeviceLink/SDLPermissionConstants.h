@@ -10,7 +10,6 @@
 
 #import "NSNumber+NumberType.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLPermissionRPCName;

@@ -11,6 +11,8 @@
 
 #import "SmartDeviceLink.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 QuickSpecBegin(SDLRPCRequestFactorySpec)
 
@@ -1017,4 +1019,4 @@ describe(@"SDLUpdateTurnList Tests", ^ {
 
 QuickSpecEnd
 
-
+#pragma clang diagnostic pop

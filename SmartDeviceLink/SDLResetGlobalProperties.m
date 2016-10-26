@@ -21,6 +21,17 @@
     return self;
 }
 
+- (instancetype)initWithProperties:(NSArray *)properties {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.properties = [properties mutableCopy];
+
+    return self;
+}
+
 - (void)setProperties:(NSMutableArray *)properties {
     if (properties != nil) {
         [parameters setObject:properties forKey:NAMES_properties];

@@ -84,6 +84,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithButtonName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler;
+
 /**
  *  A handler that will let you know when the button you subscribed to is selected.
  *

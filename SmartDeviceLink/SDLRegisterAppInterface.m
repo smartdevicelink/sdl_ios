@@ -7,6 +7,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 #import "SDLSyncMsgVersion.h"
@@ -24,6 +25,39 @@
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
+    return self;
+}
+
+- (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    return [self initWithAppName:lifecycleConfiguration.appName appId:lifecycleConfiguration.appId languageDesired:lifecycleConfiguration.language isMediaApp:lifecycleConfiguration.isMedia ttsName:lifecycleConfiguration.ttsName vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames hmiDisplayLanguageDesired:lifecycleConfiguration.language];
+}
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired {
+    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:NO];
+}
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp {
+    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp ttsName:nil vrSynonyms:nil hmiDisplayLanguageDesired:languageDesired];
+}
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.appID = appId;
+    self.appName = appName;
+    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
+    self.isMediaApplication = @(isMediaApp);
+    self.ngnMediaScreenAppName = appName;
+    self.ttsName = [ttsName copy];
+    self.vrSynonyms = [vrSynonyms copy];
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
+    self.appInfo = [SDLAppInfo currentAppInfo];
+    self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.correlationID = @1;
+
     return self;
 }
 

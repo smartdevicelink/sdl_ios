@@ -1,7 +1,6 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "NSNumber+NumberType.h"
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionFilter.h"
 

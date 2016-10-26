@@ -33,6 +33,18 @@
     return self;
 }
 
+- (instancetype)initWithButtonName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.buttonName = buttonName;
+    self.handler = handler;
+    
+    return self;
+}
+
 - (void)setButtonName:(SDLButtonName *)buttonName {
     if (buttonName != nil) {
         [parameters setObject:buttonName forKey:NAMES_buttonName];

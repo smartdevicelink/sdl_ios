@@ -20,6 +20,18 @@
     return self;
 }
 
+- (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray *)didLocation {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.ecuName = @(ecuName);
+    self.didLocation = [didLocation mutableCopy];
+    
+    return self;
+}
+
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
         [parameters setObject:ecuName forKey:NAMES_ecuName];

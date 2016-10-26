@@ -7,6 +7,7 @@
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
+#import "SDLTTSChunkFactory.h"
 
 @implementation SDLAlertManeuver
 
@@ -19,6 +20,23 @@
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
+    return self;
+}
+
+- (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
+    return [self initWithTTSChunks:ttsChunks softButtons:softButtons];
+}
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.ttsChunks = [ttsChunks mutableCopy];
+    self.softButtons = [softButtons mutableCopy];
+
     return self;
 }
 

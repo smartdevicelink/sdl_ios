@@ -33,7 +33,6 @@
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
@@ -697,7 +696,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             for (id<SDLProxyListener> listener in self.proxyListeners) {
                 if ([listener respondsToSelector:aSelector]) {
                     // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-                    ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
+                    ((void ( *)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
                 }
             }
         }
