@@ -23,7 +23,7 @@
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText {
-    NSMutableArray* ttsChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:ttsText];
+    NSMutableArray* ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks];
 }
 

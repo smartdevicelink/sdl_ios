@@ -44,9 +44,9 @@ static UInt16 const SDLDefaultTimeout  = 10000;
 }
 
 - (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode *)interactionMode timeout:(UInt16)timeout vrHelp:(NSArray *)vrHelp {
-    NSMutableArray* initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
-    NSMutableArray* helpChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpPrompt];
-    NSMutableArray* timeoutChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutPrompt];
+    NSMutableArray* initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
+    NSMutableArray* helpChunks = [SDLTTSChunk textChunksFromString:helpPrompt];
+    NSMutableArray* timeoutChunks = [SDLTTSChunk textChunksFromString:timeoutPrompt];
     return [self initWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp];
 }
 

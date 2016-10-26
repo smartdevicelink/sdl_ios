@@ -40,8 +40,8 @@
         return nil;
     }
     
-    self.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
-    self.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
+    self.helpPrompt = [SDLTTSChunk textChunksFromString:helpText];
+    self.timeoutPrompt = [SDLTTSChunk textChunksFromString:timeoutText];
     self.vrHelpTitle = vrHelpTitle;
     self.vrHelp = [vrHelp mutableCopy];
     self.menuTitle = menuTitle;
