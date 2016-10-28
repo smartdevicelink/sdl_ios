@@ -32,7 +32,7 @@
         return nil;
     }
     
-    self.initialPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
+    self.initialPrompt = [SDLTTSChunk textChunksFromString:initialPrompt];
     self.audioPassThruDisplayText1 = audioPassThruDisplayText1;
     self.audioPassThruDisplayText2 = audioPassThruDisplayText2;
     self.muteAudio = @(muteAudio);

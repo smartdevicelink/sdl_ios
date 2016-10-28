@@ -314,7 +314,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 
 + (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate *)samplingRate maxDuration:(NSNumber *)maxDuration bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType muteAudio:(NSNumber *)muteAudio correlationID:(NSNumber *)correlationID {
-    NSArray *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
+    NSArray *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
 
     SDLPerformAudioPassThru *msg = [[SDLPerformAudioPassThru alloc] init];
     msg.initialPrompt = [initialChunks mutableCopy];
@@ -349,16 +349,16 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 //***
 + (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode *)interactionMode timeout:(NSNumber *)timeout vrHelp:(NSArray *)vrHelp correlationID:(NSNumber *)correlationID {
-    NSArray *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
-    NSArray *helpChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpPrompt];
-    NSArray *timeoutChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutPrompt];
+    NSArray *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
+    NSArray *helpChunks = [SDLTTSChunk textChunksFromString:helpPrompt];
+    NSArray *timeoutChunks = [SDLTTSChunk textChunksFromString:timeoutPrompt];
 
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp correlationID:correlationID];
 }
 
 + (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(NSNumber *)interactionChoiceSetID vrHelp:(NSArray *)vrHelp correlationID:(NSNumber *)correlationID {
     NSArray *interactionChoiceSetIDList = [NSArray arrayWithObject:interactionChoiceSetID];
-    NSArray *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
+    NSArray *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
 
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:nil timeoutChunks:nil interactionMode:SDLInteractionMode.BOTH timeout:nil vrHelp:vrHelp correlationID:correlationID];
 }
@@ -503,8 +503,8 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 //***** SetGlobalProperties *****
 + (SDLSetGlobalProperties *)buildSetGlobalPropertiesWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp correlationID:(NSNumber *)correlationID {
     SDLSetGlobalProperties *msg = [[SDLSetGlobalProperties alloc] init];
-    msg.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
-    msg.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
+    msg.helpPrompt = [SDLTTSChunk textChunksFromString:helpText];
+    msg.timeoutPrompt = [SDLTTSChunk textChunksFromString:timeoutText];
     msg.vrHelpTitle = vrHelpTitle;
     msg.vrHelp = [vrHelp mutableCopy];
     msg.correlationID = correlationID;
@@ -514,8 +514,8 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 + (SDLSetGlobalProperties *)buildSetGlobalPropertiesWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText correlationID:(NSNumber *)correlationID {
     SDLSetGlobalProperties *msg = [[SDLSetGlobalProperties alloc] init];
-    msg.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
-    msg.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
+    msg.helpPrompt = [SDLTTSChunk textChunksFromString:helpText];
+    msg.timeoutPrompt = [SDLTTSChunk textChunksFromString:timeoutText];
     msg.correlationID = correlationID;
 
     return msg;
