@@ -5,6 +5,7 @@
 #import "SDLNames.h"
 
 static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
+static NSString *const SDLBundleAppNameKey = @"CFBundleName";
 
 @implementation SDLAppInfo
 
@@ -14,6 +15,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
         appInfo = [[SDLAppInfo alloc] init];
         NSBundle *mainBundle = [NSBundle mainBundle];
         NSDictionary *bundleDictionary = mainBundle.infoDictionary;
+        appInfo.appDisplayName = bundleDictionary[SDLBundleAppNameKey];
         appInfo.appVersion = bundleDictionary[SDLBundleShortVersionStringKey];
         appInfo.appBundleID = mainBundle.bundleIdentifier;
     }
