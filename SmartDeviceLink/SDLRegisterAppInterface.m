@@ -57,7 +57,6 @@
     self.languageDesired = languageDesired;
     self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     self.isMediaApplication = @(isMediaApp);
-    self.ngnMediaScreenAppName = appName;
     self.ttsName = [ttsName copy];
     self.vrSynonyms = [vrSynonyms copy];
     self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
