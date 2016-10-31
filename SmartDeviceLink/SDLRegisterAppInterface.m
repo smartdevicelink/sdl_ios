@@ -29,18 +29,18 @@
 }
 
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    return [self initWithAppName:lifecycleConfiguration.appName appId:lifecycleConfiguration.appId languageDesired:lifecycleConfiguration.language isMediaApp:lifecycleConfiguration.isMedia ttsName:lifecycleConfiguration.ttsName vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames hmiDisplayLanguageDesired:lifecycleConfiguration.language];
+    return [self initWithAppName:lifecycleConfiguration.appName appId:lifecycleConfiguration.appId languageDesired:lifecycleConfiguration.language isMediaApp:lifecycleConfiguration.isMedia appType:lifecycleConfiguration.appType shortAppName:lifecycleConfiguration.shortAppName  ttsName:lifecycleConfiguration.ttsName vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames hmiDisplayLanguageDesired:lifecycleConfiguration.language resumeHash:lifecycleConfiguration.resumeHash];
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired {
-    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:NO];
+    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:NO appType:nil shortAppName:nil];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp {
-    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp ttsName:nil vrSynonyms:nil hmiDisplayLanguageDesired:languageDesired];
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType *)appType shortAppName:(NSString *)shortAppName {
+    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appType:appType shortAppName:shortAppName ttsName:nil vrSynonyms:nil hmiDisplayLanguageDesired:languageDesired resumeHash:nil];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp ttsName:(NSArray *)ttsName vrSynonyms:(NSArray *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired {
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType *)appType shortAppName:(NSString *)shortAppName ttsName:(NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired resumeHash:(NSString *)resumeHash {
     self = [self init];
     if (!self) {
         return nil;
@@ -48,6 +48,13 @@
     
     self.appID = appId;
     self.appName = appName;
+    self.ngnMediaScreenAppName = shortAppName;
+    
+    if (appType != nil) {
+        self.appHMIType = [NSMutableArray arrayWithObject:appType];
+    }
+    
+    self.languageDesired = languageDesired;
     self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     self.isMediaApplication = @(isMediaApp);
     self.ngnMediaScreenAppName = appName;
@@ -56,8 +63,9 @@
     self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
     self.appInfo = [SDLAppInfo currentAppInfo];
     self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.hashID = resumeHash;
     self.correlationID = @1;
-
+    
     return self;
 }
 

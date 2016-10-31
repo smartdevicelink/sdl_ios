@@ -152,9 +152,9 @@ __deprecated_msg("use class's initializers instead") @interface SDLRPCRequestFac
 + (SDLReadDID *)buildReadDIDWithECUName:(NSNumber *)ecuName didLocation:(NSArray *)didLocation correlationID:(NSNumber *)correlationID __deprecated_msg("use SDLReadDID's initWithECUName:didLocation: instead");
 
 //***** RegisterAppInterface *****
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName ttsName:(NSMutableArray *)ttsName vrSynonyms:(NSMutableArray *)vrSynonyms isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired:isMediaApp:ttsName:vrSynonyms:hmiDisplayLanguageDesired: instead");
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName ttsName:(NSMutableArray *)ttsName vrSynonyms:(NSMutableArray *)vrSynonyms isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash: instead");
 
-+ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired:isMediaApp: instead");
++ (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName isMediaApp:(NSNumber *)isMediaApp languageDesired:(SDLLanguage *)languageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired:isMediaApp:appType:shortAppName: instead");
 
 + (SDLRegisterAppInterface *)buildRegisterAppInterfaceWithAppName:(NSString *)appName languageDesired:(SDLLanguage *)laguageDesired appID:(NSString *)appID __deprecated_msg("use SDLRegisterAppInterface's initWithAppName:appId:lanaugeDesired: instead");
 //*****
