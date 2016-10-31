@@ -196,6 +196,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+                return;
             }
 
             weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
