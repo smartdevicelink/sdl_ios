@@ -116,4 +116,55 @@
     }
 }
 
+- (void)setDeliveryMode:(SDLDeliveryMode *)deliveryMode {
+    if (deliveryMode != nil) {
+        parameters[NAMES_deliveryMode] = deliveryMode;
+    } else {
+        [parameters removeObjectForKey:NAMES_deliveryMode];
+    }
+}
+
+- (SDLDeliveryMode *)deliveryMode {
+    NSObject *obj = [parameters objectForKey:NAMES_deliveryMode];
+    if (obj == nil || [obj isKindOfClass:SDLDeliveryMode.class]) {
+        return (SDLDeliveryMode *)obj;
+    } else {
+        return [SDLDeliveryMode valueOf:(NSString *)obj];
+    }
+}
+
+- (void)setTimeStamp:(SDLDateTime *)timeStamp {
+    if (timeStamp != nil) {
+        parameters[NAMES_timeStamp] = timeStamp;
+    } else {
+        [parameters removeObjectForKey:NAMES_timeStamp];
+    }
+}
+
+- (SDLDateTime *)timeStamp {
+    id obj = parameters[NAMES_timeStamp];
+    if (obj == nil || [obj isKindOfClass:[SDLDateTime class]]) {
+        return (SDLDateTime *)obj;
+    } else {
+        return [[SDLDateTime alloc] initWithDictionary:obj];
+    }
+}
+
+- (void)setAddress:(SDLOasisAddress *)address {
+    if (address != nil) {
+        parameters[NAMES_address] = address;
+    } else {
+        [parameters removeObjectForKey:NAMES_address];
+    }
+}
+
+- (SDLOasisAddress *)address {
+    id obj = [parameters objectForKey:NAMES_address];
+    if (obj == nil || [obj isKindOfClass:[SDLOasisAddress class]]) {
+        return (SDLOasisAddress *)obj;
+    } else {
+        return [[SDLOasisAddress alloc] initWithDictionary:obj];
+    }
+}
+
 @end
