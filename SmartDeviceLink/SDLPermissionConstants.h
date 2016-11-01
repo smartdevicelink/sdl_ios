@@ -12,8 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString SDLPermissionRPCName;
-typedef NSUUID SDLPermissionObserverIdentifier;
+typedef NSString * SDLPermissionRPCName;
+typedef NSUUID * SDLPermissionObserverIdentifier;
 
 /**
  *  A permission group type which will be used to tell the system what type of changes you want to be notified about for the group.
@@ -57,6 +57,6 @@ typedef NS_ENUM(NSUInteger, SDLPermissionGroupStatus) {
  *  @param change  A dictionary of permission changes containing <key(String): RPC Name, object(BOOL): YES if the RPC is allowed, NO if it is not allowed>
  *  @param status       The change made to all of the RPCs in the changedDict. Allowed, if all RPCs are now allowed, Disallowed if all RPCs are now disallowed, or Mixed if some are allowed, and some are disallowed
  */
-typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status);
+typedef void (^SDLPermissionsChangedHandler)(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status);
 
 NS_ASSUME_NONNULL_END

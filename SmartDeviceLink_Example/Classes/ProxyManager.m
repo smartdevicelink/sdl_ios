@@ -97,6 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         }
+
+        [self setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
             [weakSelf showInitialData];
@@ -121,6 +123,30 @@ NS_ASSUME_NONNULL_BEGIN
     show.graphic = [self.class mainGraphicImage];
     
     [self.sdlManager sendRequest:show];
+}
+
+- (void)setupPermissionsCallbacks {
+    // This will tell you whether or not you can use the Show RPC right at this moment
+    BOOL isAvailable = [self.sdlManager.permissionManager isRPCAllowed:@"Show"];
+    NSLog(@"Show is allowed? %@", @(isAvailable));
+
+    // This will set up a block that will tell you whether or not you can use none, all, or some of the RPCs specified, and notifies you when those permissions change
+    SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[@"Show", @"Alert"] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+        NSLog(@"Show changed permission to status: %@, dict: %@", @(status), change);
+    }];
+    // The above block will be called immediately, this will then remove the block from being called any more
+    [self.sdlManager.permissionManager removeObserverForIdentifier:observerId];
+
+    // This will give us the current status of the group of RPCs, as if we had set up an observer, except these are one-shot calls
+    NSArray *rpcGroup =@[@"AddCommand", @"PerformInteraction"];
+    SDLPermissionGroupStatus commandPICSStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:rpcGroup];
+    NSDictionary *commandPICSStatusDict = [self.sdlManager.permissionManager statusOfRPCs:rpcGroup];
+    NSLog(@"Command / PICS status: %@, dict: %@", @(commandPICSStatus), commandPICSStatusDict);
+
+    // This will set up a long-term observer for the RPC group and will tell us when the status of any specified RPC changes (due to the `SDLPermissionGroupTypeAny`) option.
+    [self.sdlManager.permissionManager addObserverForRPCs:rpcGroup groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+        NSLog(@"Command / PICS changed permission to status: %@, dict: %@", @(status), change);
+    }];
 }
 
 + (SDLLifecycleConfiguration *)setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {

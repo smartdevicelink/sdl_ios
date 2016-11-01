@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return YES if the RPC is allowed at the current HMI level, NO if not
  */
-- (BOOL)isRPCAllowed:(SDLPermissionRPCName *)rpcName;
+- (BOOL)isRPCAllowed:(SDLPermissionRPCName)rpcName;
 
 /**
  *  Determine if all RPCs are allowed for the current HMI level
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return AllAllowed if all of the permissions are allowed, AllDisallowed if all the permissions are disallowed, Any if some are allowed, and some are disallowed
  */
-- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+- (SDLPermissionGroupStatus)groupStatusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames;
 
 /**
  *  Retrieve a dictionary with keys that are the passed in RPC names, and objects of an NSNumber<BOOL> specifying if that RPC is currently allowed
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A dictionary specifying if the passed in RPC names are currently allowed or not
  */
-- (NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames;
+- (NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *)statusOfRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames;
 
 /**
  *  Add an observer for specified RPC names, with a callback that will be called whenever the value changes, as well as immediately with the current status.
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An identifier that can be passed to removeObserverForIdentifer: to remove the observer
  */
-- (SDLPermissionObserverIdentifier *)addObserverForRPCs:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
+- (SDLPermissionObserverIdentifier)addObserverForRPCs:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType withHandler:(SDLPermissionsChangedHandler)handler;
 
 /**
  *  Remove every current observer
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param identifier The identifier specifying which observer to remove
  */
-- (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier *)identifier;
+- (void)removeObserverForIdentifier:(SDLPermissionObserverIdentifier)identifier;
 
 @end
 
