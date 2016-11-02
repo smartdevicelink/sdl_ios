@@ -61,6 +61,12 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
 
+// Deprecated internal proxy object
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+@property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
+#pragma clang diagnostic pop
+
 
 #pragma mark Lifecycle
 
