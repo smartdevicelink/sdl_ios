@@ -60,7 +60,7 @@
         } break;
         default: {
             NSString *reason = [NSString stringWithFormat:@"The version of header that is being created is unknown: %@", @(version)];
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:@{ @"requestedVersion" : @(version) }];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:@{ @"requestedVersion": @(version) }];
         } break;
     }
 }

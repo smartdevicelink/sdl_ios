@@ -23,6 +23,9 @@
     return value;
 }
 
+
+#pragma mark - Equality
+
 - (NSUInteger)hash {
     return [self.value hash];
 }
@@ -49,4 +52,11 @@
 
     return NO;
 }
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[self.class alloc] initWithValue:[self.value copy]];
+}
+
 @end

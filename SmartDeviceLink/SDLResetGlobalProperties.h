@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLGlobalProperty;
+
 /**
  * Resets the passed global properties to their default values as defined by
  * SDL
@@ -33,6 +35,8 @@
  * @param dict The dictionary to use
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+- (instancetype)initWithProperties:(NSArray<SDLGlobalProperty *> *)properties;
 
 /**
  * @abstract An array of one or more GlobalProperty enumeration elements

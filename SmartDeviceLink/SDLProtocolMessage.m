@@ -63,7 +63,7 @@
                 NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];
 
                 UInt8 rpcType = rpcPayload.rpcType;
-                NSArray *rpcTypeNames = @[ @"Request", @"Response", @"Notification" ];
+                NSArray *rpcTypeNames = @[@"Request", @"Response", @"Notification"];
                 NSString *rpcTypeString = nil;
                 if (rpcType >= 0 && rpcType < rpcTypeNames.count) {
                     rpcTypeString = rpcTypeNames[rpcType];
@@ -91,6 +91,8 @@
         newMessage = [[SDLV1ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
     } else if (version >= 2) {
         newMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to create an SDLMessage, but the version of the header passed was 0" userInfo:nil];
     }
 
     return newMessage;

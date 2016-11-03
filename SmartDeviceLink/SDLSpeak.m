@@ -6,6 +6,7 @@
 
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
+#import "SDLTTSChunkFactory.h"
 
 @implementation SDLSpeak
 
@@ -18,6 +19,22 @@
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
+    return self;
+}
+
+- (instancetype)initWithTTS:(NSString *)ttsText {
+    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    return [self initWithTTSChunks:ttsChunks];
+}
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.ttsChunks = [ttsChunks mutableCopy];
+
     return self;
 }
 

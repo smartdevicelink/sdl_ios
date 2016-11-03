@@ -21,6 +21,33 @@
     return self;
 }
 
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands image:(SDLImage *)image secondaryText:(NSString *)secondaryText secondaryImage:(SDLImage *)secondaryImage tertiaryText:(NSString *)tertiaryText {
+    self = [self initWithId:choiceId menuName:menuName vrCommands:vrCommands];
+    if (!self) {
+        return nil;
+    }
+
+    self.image = image;
+    self.secondaryText = secondaryText;
+    self.secondaryImage = secondaryImage;
+    self.tertiaryText = tertiaryText;
+
+    return self;
+}
+
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.choiceID = @(choiceId);
+    self.menuName = menuName;
+    self.vrCommands = [vrCommands mutableCopy];
+
+    return self;
+}
+
 - (void)setChoiceID:(NSNumber *)choiceID {
     if (choiceID != nil) {
         [store setObject:choiceID forKey:NAMES_choiceID];

@@ -20,6 +20,28 @@
     return self;
 }
 
+- (instancetype)initWithECUName:(UInt16)name mask:(UInt8)mask {
+    self = [self initWithECUName:name];
+    if (!self) {
+        return nil;
+    }
+
+    self.dtcMask = @(mask);
+
+    return self;
+}
+
+- (instancetype)initWithECUName:(UInt16)name {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.ecuName = @(name);
+
+    return self;
+}
+
 - (void)setEcuName:(NSNumber *)ecuName {
     if (ecuName != nil) {
         [parameters setObject:ecuName forKey:NAMES_ecuName];

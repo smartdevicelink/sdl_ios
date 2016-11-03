@@ -35,7 +35,7 @@
     // Tableview setup
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     self.ipAddressTextField.text = [Preferences sharedPreferences].ipAddress;
-    self.portTextField.text = [Preferences sharedPreferences].port;
+    self.portTextField.text = [@([Preferences sharedPreferences].port) stringValue];
     
     // Connect Button setup
     self.connectButton.tintColor = [UIColor whiteColor];
@@ -56,18 +56,18 @@
 
 - (IBAction)connectButtonWasPressed:(UIButton *)sender {
     [Preferences sharedPreferences].ipAddress = self.ipAddressTextField.text;
-    [Preferences sharedPreferences].port = self.portTextField.text;
+    [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
     
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
-            [[ProxyManager sharedManager] startProxyWithTransportType:ProxyTransportTypeTCP];
+            [[ProxyManager sharedManager] startTCP];
         } break;
         case ProxyStateSearchingForConnection: {
-            [[ProxyManager sharedManager] stopProxy];
+            [[ProxyManager sharedManager] reset];
         } break;
         case ProxyStateConnected: {
-            [[ProxyManager sharedManager] stopProxy];
+            [[ProxyManager sharedManager] reset];
         } break;
         default: break;
     }
@@ -103,20 +103,30 @@
 }
 
 - (void)proxyManagerDidChangeState:(ProxyState)newState {
+    UIColor* newColor = nil;
+    NSString* newTitle = nil;
+    
     switch (newState) {
         case ProxyStateStopped: {
-            self.connectTableViewCell.backgroundColor = [UIColor redColor];
-            self.connectButton.titleLabel.text = @"Connect";
+            newColor = [UIColor redColor];
+            newTitle = @"Connect";
         } break;
         case ProxyStateSearchingForConnection: {
-            self.connectTableViewCell.backgroundColor = [UIColor blueColor];
-            self.connectButton.titleLabel.text = @"Stop Searching";
+            newColor = [UIColor blueColor];
+            newTitle = @"Stop Searching";
         } break;
         case ProxyStateConnected: {
-            self.connectTableViewCell.backgroundColor = [UIColor greenColor];
-            self.connectButton.titleLabel.text = @"Disconnect";
+            newColor = [UIColor greenColor];
+            newTitle = @"Disconnect";
         } break;
         default: break;
+    }
+    
+    if (newColor && newTitle) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.connectTableViewCell.backgroundColor = newColor;
+            self.connectButton.titleLabel.text = newTitle;
+        });
     }
 }
 

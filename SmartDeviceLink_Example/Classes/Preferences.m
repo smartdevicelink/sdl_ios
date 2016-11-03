@@ -9,7 +9,7 @@ NSString *const IPAddressPreferencesKey = @"SDLExampleAppIPAddress";
 NSString *const PortPreferencesKey = @"SDLExampleAppPort";
 
 NSString *const DefaultIPAddressValue = @"192.168.1.1";
-NSString *const DefaultPortValue = @"12345";
+UInt16 const DefaultPortValue = 12345;
 
 
 
@@ -40,7 +40,7 @@ NSString *const DefaultPortValue = @"12345";
         return nil;
     }
     
-    if (self.ipAddress == nil || self.port == nil) {
+    if (self.ipAddress == nil || self.port == 0) {
         [self resetPreferences];
     }
     
@@ -66,12 +66,12 @@ NSString *const DefaultPortValue = @"12345";
     [self setString:ipAddress forKey:IPAddressPreferencesKey];
 }
 
-- (NSString *)port {
-    return [self stringForKey:PortPreferencesKey];
+- (UInt16)port {
+    return (UInt16)[self integerForKey:PortPreferencesKey];
 }
 
-- (void)setPort:(NSString *)port {
-    [self setString:port forKey:PortPreferencesKey];
+- (void)setPort:(UInt16)port {
+    [self setInteger:port forKey:PortPreferencesKey];
 }
 
 
@@ -91,6 +91,25 @@ NSString *const DefaultPortValue = @"12345";
     __block NSString *retVal = nil;
     dispatch_sync(self.class.preferencesQueue, ^{
         retVal = [[NSUserDefaults standardUserDefaults] stringForKey:aKey];
+    });
+    
+    return retVal;
+}
+
+- (void)setInteger:(NSInteger)aInt forKey:(NSString *)aKey {
+    NSParameterAssert(aKey != nil);
+    
+    dispatch_async(self.class.preferencesQueue, ^{
+        [[NSUserDefaults standardUserDefaults] setInteger:aInt forKey:aKey];
+    });
+}
+
+- (NSInteger)integerForKey:(NSString *)aKey {
+    NSParameterAssert(aKey != nil);
+    
+    __block NSInteger retVal = 0;
+    dispatch_sync(self.class.preferencesQueue, ^{
+        retVal = [[NSUserDefaults standardUserDefaults] integerForKey:aKey];
     });
     
     return retVal;

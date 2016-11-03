@@ -2,6 +2,7 @@
 //  SDLSendLocation.h
 //  SmartDeviceLink
 
+#import <CoreGraphics/CGBase.h>
 #import <Foundation/Foundation.h>
 
 #import "SDLImage.h"
@@ -12,6 +13,8 @@
 
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+- (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image;
 
 /**
  * The longitudinal coordinate of the location.
