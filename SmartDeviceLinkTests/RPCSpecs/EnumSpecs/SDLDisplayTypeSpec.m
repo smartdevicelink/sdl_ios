@@ -23,8 +23,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLDisplayType MFD3].value).to(equal(@"MFD3"));
         expect([SDLDisplayType MFD4].value).to(equal(@"MFD4"));
         expect([SDLDisplayType MFD5].value).to(equal(@"MFD5"));
-        //NOT DEFINED IN SPEC
         expect([SDLDisplayType GEN3_8_INCH].value).to(equal(@"GEN3_8-INCH"));
+        expect([SDLDisplayType GENERIC].value).to(equal(@"SDL_GENERIC"));
     });
 });
 describe(@"ValueOf Tests", ^ {
@@ -38,8 +38,8 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLDisplayType valueOf:@"MFD3"]).to(equal([SDLDisplayType MFD3]));
         expect([SDLDisplayType valueOf:@"MFD4"]).to(equal([SDLDisplayType MFD4]));
         expect([SDLDisplayType valueOf:@"MFD5"]).to(equal([SDLDisplayType MFD5]));
-        //NOT DEFINED IN SPEC
         expect([SDLDisplayType valueOf:@"GEN3_8-INCH"]).to(equal([SDLDisplayType GEN3_8_INCH]));
+        expect([SDLDisplayType valueOf:@"SDL_GENERIC"]).to(equal([SDLDisplayType GENERIC]));
     });
     
     it(@"Should return nil when invalid", ^ {
@@ -60,8 +60,8 @@ describe(@"Value List Tests", ^ {
                         [SDLDisplayType MFD3],
                         [SDLDisplayType MFD4],
                         [SDLDisplayType MFD5],
-                        //NOT DEFINED IN SPEC
-                        [SDLDisplayType GEN3_8_INCH]] copy];
+                        [SDLDisplayType GEN3_8_INCH],
+                        [SDLDisplayType GENERIC]] copy];
     });
     
     it(@"Should contain all defined enum values", ^ {
