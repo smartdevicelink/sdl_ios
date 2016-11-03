@@ -24,6 +24,8 @@
  */
 @interface SDLResetGlobalProperties : SDLRPCRequest
 
+- (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties;
+
 /**
  * @abstract An array of one or more GlobalProperty enumeration elements
  * indicating which global properties to reset to their default value

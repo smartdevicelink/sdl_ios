@@ -16,6 +16,24 @@
     return self;
 }
 
+
+- (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    return [self initWithTTSChunks:ttsChunks softButtons:softButtons];
+}
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.ttsChunks = [ttsChunks mutableCopy];
+    self.softButtons = [softButtons mutableCopy];
+
+    return self;
+}
+
 - (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
     if (ttsChunks != nil) {
         [parameters setObject:ttsChunks forKey:SDLNameTTSChunks];

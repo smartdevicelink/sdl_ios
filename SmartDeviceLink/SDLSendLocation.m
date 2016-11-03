@@ -6,6 +6,7 @@
 
 #import "SDLNames.h"
 
+
 @implementation SDLSendLocation
 
 - (instancetype)init {
@@ -13,6 +14,23 @@
     if (!self) {
         return nil;
     }
+
+    return self;
+}
+
+- (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.longitudeDegrees = @(longitude);
+    self.latitudeDegrees = @(latitude);
+    self.locationName = locationName;
+    self.locationDescription = locationDescription;
+    self.addressLines = address;
+    self.phoneNumber = phoneNumber;
+    self.locationImage = image;
 
     return self;
 }

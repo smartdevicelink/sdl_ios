@@ -13,7 +13,6 @@
 #import "SDLReadDID.h"
 #import "SDLReadDIDResponse.h"
 #import "SDLResponseDispatcher.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -116,17 +115,19 @@ describe(@"a response dispatcher", ^{
         __block NSUInteger numTimesHandlerCalled = 0;
         
         beforeEach(^{
-            testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter correlationID:@1];
+            testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter];
+            testShow.correlationID = @1;
         });
         
         context(@"with a correct soft button and handler", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
                     numTimesHandlerCalled++;
                 }];
                 testShow.softButtons = [@[testSoftButton1] mutableCopy];
+                testShow.correlationID = @1;
                 [testDispatcher storeRequest:testShow handler:nil];
             });
             
@@ -179,7 +180,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a correct soft button but no handler", ^{
             beforeEach(^{
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should not add the soft button", ^{
@@ -189,7 +190,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
             });
             
             it(@"should throw an exception if there's no button id", ^{
@@ -211,7 +212,7 @@ describe(@"a response dispatcher", ^{
     
     context(@"storing a command request", ^{
         __block SDLAddCommand *testAddCommand = nil;
-        __block NSNumber *testCommandId = nil;
+        __block UInt32 testCommandId = 0;
         __block NSUInteger numTimesHandlerCalled = 0;
         
         __block NSNumber *testAddCommandCorrelationId = nil;
@@ -219,11 +220,11 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a handler", ^{
             beforeEach(^{
-                testCommandId = @1;
+                testCommandId = 1;
                 testAddCommandCorrelationId = @42;
                 numTimesHandlerCalled = 0;
                 
-                testAddCommand = [SDLRPCRequestFactory buildAddCommandWithID:testCommandId vrCommands:nil handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testAddCommand = [[SDLAddCommand alloc] initWithId:testCommandId vrCommands:nil handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
                     numTimesHandlerCalled++;
                 }];
                 testAddCommand.correlationID = testAddCommandCorrelationId;
@@ -252,7 +253,7 @@ describe(@"a response dispatcher", ^{
                 context(@"that correspond to the created button", ^{
                     beforeEach(^{
                         testOnCommand = [[SDLOnCommand alloc] init];
-                        testOnCommand.cmdID = testCommandId;
+                        testOnCommand.cmdID = @(testCommandId);
                         
                         [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveCommandNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testOnCommand }];
                     });
@@ -288,7 +289,7 @@ describe(@"a response dispatcher", ^{
                     
                     testDeleteCommand = [[SDLDeleteCommand alloc] init];
                     testDeleteCommand.correlationID = testDeleteCommandCorrelationId;
-                    testDeleteCommand.cmdID = testCommandId;
+                    testDeleteCommand.cmdID = @(testCommandId);
                     
                     [testDispatcher storeRequest:testDeleteCommand handler:nil];
                     
@@ -310,7 +311,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"without a handler", ^{
             beforeEach(^{
-                testAddCommand = [SDLRPCRequestFactory buildAddCommandWithID:@1 vrCommands:nil handler:nil];
+                testAddCommand = [[SDLAddCommand alloc] initWithId:1 vrCommands:nil handler:nil];
             });
                                   
             it(@"should not add the command", ^{
@@ -333,7 +334,7 @@ describe(@"a response dispatcher", ^{
                 testSubscribeCorrelationId = @42;
                 numTimesHandlerCalled = 0;
                 
-                testSubscribeButton = [SDLRPCRequestFactory buildSubscribeButtonWithName:testButtonName handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSubscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:testButtonName handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
                     numTimesHandlerCalled++;
                 }];
                 testSubscribeButton.correlationID = testSubscribeCorrelationId;
@@ -429,7 +430,7 @@ describe(@"a response dispatcher", ^{
     
         context(@"without a handler", ^{
             beforeEach(^{
-                testSubscribeButton = [SDLRPCRequestFactory buildSubscribeButtonWithName:SDLButtonNameOk handler:nil];
+                testSubscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:SDLButtonNameOk handler:nil];
             });
             
             it(@"should not add the subscription", ^{
@@ -443,7 +444,8 @@ describe(@"a response dispatcher", ^{
         __block SDLSoftButton *testSoftButton1 = nil;
         
         beforeEach(^{
-            testAlert = [SDLRPCRequestFactory buildAlertWithAlertText1:@"test 1" alertText2:@"test 1" alertText3:nil duration:@1 softButtons:nil correlationID:@1];
+            testAlert = [[SDLAlert alloc] initWithAlertText1:@"test 1" alertText2:@"test 1" alertText3:nil duration:1 softButtons:nil];
+            testAlert.correlationID = @1;
         });
         
         context(@"with a correct soft button and handler", ^{
@@ -452,7 +454,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
                     numTimesHandlerCalled++;
                 }];
                 
@@ -509,7 +511,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a correct soft button but no handler", ^{
             beforeEach(^{
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should not add the soft button", ^{
@@ -519,7 +521,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
             });
             
             it(@"should throw an exception if there's no button id", ^{
@@ -544,7 +546,8 @@ describe(@"a response dispatcher", ^{
         __block SDLSoftButton *testSoftButton1 = nil;
         
         beforeEach(^{
-            testScrollableMessage = [SDLRPCRequestFactory buildScrollableMessage:@"test" timeout:@1 softButtons:nil correlationID:@1];
+            testScrollableMessage = [[SDLScrollableMessage alloc] initWithMessage:@"test" timeout:1 softButtons:nil];
+            testScrollableMessage.correlationID = @1;
         });
         
         context(@"with a correct soft button and handler", ^{
@@ -553,7 +556,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
                     numTimesHandlerCalled++;
                 }];
                 
@@ -610,7 +613,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a correct soft button but no handler", ^{
             beforeEach(^{
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:nil];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should not add the soft button", ^{
@@ -620,7 +623,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [SDLRPCRequestFactory buildSoftButtonWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonID:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
             });
             
             it(@"should throw an exception if there's no button id", ^{

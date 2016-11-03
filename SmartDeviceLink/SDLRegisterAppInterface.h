@@ -8,6 +8,7 @@
 
 @class SDLAppInfo;
 @class SDLDeviceInfo;
+@class SDLLifecycleConfiguration;
 @class SDLSyncMsgVersion;
 @class SDLTTSChunk;
 
@@ -83,6 +84,14 @@
  * @see SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
  */
 @interface SDLRegisterAppInterface : SDLRPCRequest
+
+- (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType)appType shortAppName:(NSString *)shortAppName;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType)appType shortAppName:(NSString *)shortAppName ttsName:(NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(NSString *)resumeHash;
 
 /**
  * @abstract The version of the SDL interface

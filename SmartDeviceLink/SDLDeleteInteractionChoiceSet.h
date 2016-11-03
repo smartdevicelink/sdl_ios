@@ -20,6 +20,8 @@
  */
 @interface SDLDeleteInteractionChoiceSet : SDLRPCRequest
 
+- (instancetype)initWithId:(UInt32)choiceId;
+
 /**
  * @abstract a unique ID that identifies the Choice Set
  * @discussion a unique ID that identifies the Choice Set

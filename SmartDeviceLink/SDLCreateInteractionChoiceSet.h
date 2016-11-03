@@ -21,6 +21,8 @@
  */
 @interface SDLCreateInteractionChoiceSet : SDLRPCRequest
 
+- (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet;
+
 /**
  * @abstract A unique ID that identifies the Choice Set
  *

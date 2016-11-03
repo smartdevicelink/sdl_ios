@@ -6,13 +6,67 @@
 
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
+#import "SDLTTSChunkFactory.h"
 #import "SDLVRHelpItem.h"
+
+static UInt16 const SDLDefaultTimeout = 10000;
 
 @implementation SDLPerformInteraction
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNamePerformInteraction]) {
     }
+    return self;
+}
+
+- (instancetype)initWithInteractionChoiceSetId:(UInt16)interactionChoiceSetId {
+    return [self initWithInteractionChoiceSetIdList:@[@(interactionChoiceSetId)]];
+}
+
+- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID {
+    return [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetID:interactionChoiceSetID vrHelp:nil];
+}
+
+- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp {
+    return [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:@[@(interactionChoiceSetID)] helpPrompt:nil timeoutPrompt:nil interactionMode:nil timeout:SDLDefaultTimeout vrHelp:vrHelp];
+}
+
+- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt16)timeout {
+    return [self initWithInitialPrompt:initialPrompt initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpPrompt:helpPrompt timeoutPrompt:timeoutPrompt interactionMode:interactionMode timeout:timeout vrHelp:nil];
+}
+
+- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt16)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp {
+    NSMutableArray *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
+    NSMutableArray *helpChunks = [SDLTTSChunk textChunksFromString:helpPrompt];
+    NSMutableArray *timeoutChunks = [SDLTTSChunk textChunksFromString:timeoutPrompt];
+    return [self initWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp];
+}
+
+- (instancetype)initWithInitialChunks:(NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList helpChunks:(NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt16)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp {
+    self = [self initWithInteractionChoiceSetIdList:interactionChoiceSetIDList];
+    if (!self) {
+        return nil;
+    }
+
+    self.initialPrompt = [initialChunks mutableCopy];
+    self.initialText = initialText;
+    self.helpPrompt = [helpChunks mutableCopy];
+    self.timeoutPrompt = [timeoutChunks mutableCopy];
+    self.interactionMode = interactionMode;
+    self.timeout = @(timeout);
+    self.vrHelp = [vrHelp mutableCopy];
+
+    return self;
+}
+
+- (instancetype)initWithInteractionChoiceSetIdList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIdList {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.interactionChoiceSetIDList = [interactionChoiceSetIdList mutableCopy];
+
     return self;
 }
 

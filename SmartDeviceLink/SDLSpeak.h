@@ -40,6 +40,10 @@
  */
 @interface SDLSpeak : SDLRPCRequest
 
+- (instancetype)initWithTTS:(NSString *)ttsText;
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks;
+
 /**
  * @abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken
  *

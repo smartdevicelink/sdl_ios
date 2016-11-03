@@ -9,6 +9,29 @@
 
 @implementation SDLVRHelpItem
 
+- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image position:(UInt8)position {
+    self = [self initWithText:text image:image];
+    if (!self) {
+        return nil;
+    }
+
+    self.position = @(position);
+
+    return self;
+}
+
+- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.text = text;
+    self.image = image;
+
+    return self;
+}
+
 - (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:SDLNameText];

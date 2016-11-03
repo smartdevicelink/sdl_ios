@@ -31,7 +31,6 @@
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
@@ -188,19 +187,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Build a register app interface request with the configuration data
-    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
-    regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
-    regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;
-    regRequest.appHMIType = [NSMutableArray arrayWithObject:self.configuration.lifecycleConfig.appType];
-
-    if (self.configuration.lifecycleConfig.ttsName != nil) {
-        regRequest.ttsName = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.ttsName];
-    }
-
-    if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
-    }
+    SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
@@ -209,6 +196,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+                return;
             }
 
             weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
@@ -299,7 +287,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateUnregistering {
-    SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
+    SDLUnregisterAppInterface *unregisterRequest = [[SDLUnregisterAppInterface alloc] init];
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
@@ -395,7 +383,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.proxy = nil;
 }
 
-- (NSNumber *)sdl_getNextCorrelationId {
+- (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
     if (self.lastCorrelationId == UINT16_MAX) {
         self.lastCorrelationId = 0;
     }

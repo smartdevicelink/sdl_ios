@@ -8,11 +8,11 @@
 
 @implementation SDLRPCRequest
 
-- (NSNumber *)correlationID {
+- (NSNumber<SDLInt> *)correlationID {
     return [function objectForKey:SDLNameCorrelationId];
 }
 
-- (void)setCorrelationID:(NSNumber *)corrID {
+- (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
     if (corrID != nil) {
         [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {

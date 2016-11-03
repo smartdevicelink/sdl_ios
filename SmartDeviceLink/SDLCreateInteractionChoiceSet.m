@@ -15,6 +15,17 @@
     return self;
 }
 
+- (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.interactionChoiceSetID = @(choiceId);
+    self.choiceSet = [choiceSet mutableCopy];
+    return self;
+}
+
 - (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
     if (interactionChoiceSetID != nil) {
         [parameters setObject:interactionChoiceSetID forKey:SDLNameInteractionChoiceSetId];

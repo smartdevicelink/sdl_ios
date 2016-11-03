@@ -3,11 +3,13 @@
 
 #import "SDLRPCMessage.h"
 
-#import "SDLLanguage.h"
 #import "SDLKeyboardLayout.h"
 #import "SDLKeypressMode.h"
+#import "SDLLanguage.h"
 
 @interface SDLKeyboardProperties : SDLRPCStruct
+
+- (instancetype)initWithLanguage:(SDLLanguage)language layout:(SDLKeyboardLayout)layout keypressMode:(SDLKeypressMode)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText;
 
 @property (strong) SDLLanguage language;
 @property (strong) SDLKeyboardLayout keyboardLayout;

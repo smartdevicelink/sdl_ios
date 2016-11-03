@@ -14,6 +14,8 @@
  */
 @interface SDLUpdateTurnList : SDLRPCRequest
 
+- (instancetype)initWithTurnList:(NSArray<SDLTurn *> *)turnList softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+
 /**
  *  Optional, SDLTurn, 1 - 100 entries
  */

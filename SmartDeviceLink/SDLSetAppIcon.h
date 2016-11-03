@@ -13,6 +13,9 @@
  */
 @interface SDLSetAppIcon : SDLRPCRequest
 
+- (instancetype)initWithFileName:(NSString *)fileName;
+
+
 /**
  * @abstract A file reference name
  * @discussion A String value representing a file reference name

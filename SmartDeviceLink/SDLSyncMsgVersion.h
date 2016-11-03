@@ -11,6 +11,8 @@
  */
 @interface SDLSyncMsgVersion : SDLRPCStruct
 
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion;
+
 /**
  * @abstract The major version indicates versions that is not-compatible to previous versions
  * 

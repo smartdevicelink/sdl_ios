@@ -8,6 +8,8 @@
 
 @interface SDLTurn : SDLRPCStruct
 
+- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon;
+
 @property (strong) NSString *navigationText;
 @property (strong) SDLImage *turnIcon;
 

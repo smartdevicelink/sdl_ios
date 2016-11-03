@@ -14,6 +14,17 @@
     return self;
 }
 
+- (instancetype)initWithId:(UInt32)commandId {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.cmdID = @(commandId);
+
+    return self;
+}
+
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:SDLNameCommandId];

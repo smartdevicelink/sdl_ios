@@ -5,13 +5,10 @@
 
 #import "SDLTTSChunk.h"
 
-
 @implementation SDLTTSChunkFactory
 
 + (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities)type {
-    SDLTTSChunk *ret = [[SDLTTSChunk alloc] init];
-    ret.text = text;
-    ret.type = type;
+    SDLTTSChunk *ret = [[SDLTTSChunk alloc] initWithText:text type:type];
 
     return ret;
 }

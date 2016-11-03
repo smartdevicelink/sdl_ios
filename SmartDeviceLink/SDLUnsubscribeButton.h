@@ -21,6 +21,8 @@
  */
 @interface SDLUnsubscribeButton : SDLRPCRequest
 
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName;
+
 /**
  * @abstract A name of the button to unsubscribe from
  * @discussion An Enumeration value, see <i>

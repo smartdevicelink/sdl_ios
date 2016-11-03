@@ -5,8 +5,19 @@
 
 #import "SDLNames.h"
 
-
 @implementation SDLImage
+
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.value = name;
+    self.imageType = imageType;
+
+    return self;
+}
 
 - (void)setValue:(NSString *)value {
     if (value != nil) {

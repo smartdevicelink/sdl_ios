@@ -553,6 +553,10 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 }
 
 - (void)sdl_updateScreenSizeFromDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+    if (displayCapabilities.graphicSupported.boolValue == false) {
+        [SDLDebugTool logInfo:@"Graphics are not supported. We are assuming screen size is also unavailable"];
+        return;
+    }
     SDLImageResolution *resolution = displayCapabilities.screenParams.resolution;
     if (resolution != nil) {
         _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,

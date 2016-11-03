@@ -15,6 +15,12 @@
  */
 @interface SDLPutFile : SDLRPCRequest
 
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType;
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile;
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt64)offset length:(UInt64)length;
+
 /**
  * A file reference name
  *

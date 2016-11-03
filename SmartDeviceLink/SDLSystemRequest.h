@@ -12,6 +12,8 @@
  */
 @interface SDLSystemRequest : SDLRPCRequest
 
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(NSString *)fileName;
+
 @property (strong) SDLRequestType requestType;
 @property (strong) NSString *fileName;
 

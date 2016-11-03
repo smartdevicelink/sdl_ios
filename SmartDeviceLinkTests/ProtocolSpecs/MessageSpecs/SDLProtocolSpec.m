@@ -307,7 +307,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
 //                expect(@(messageReceived.header.serviceType)).to(equal(@(SDLServiceType_RPC)));
 //                expect(@(messageReceived.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
 //                expect(@(messageReceived.header.bytesInPayload)).to(equal(@(payloadData.length)));
-//                expect(@(((SDLV2ProtocolHeader*)messageReceived.header).messageID)).to(equal(@1));
+//                expect(@(((SDLV2ProtocolHeader *)messageReceived.header).messageID)).to(equal(@1));
 //                
 //            }] handleReceivedMessage:[OCMArg any]];
 //            testProtocol.transport = routerMock;

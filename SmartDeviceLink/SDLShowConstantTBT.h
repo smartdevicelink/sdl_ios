@@ -3,6 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import <CoreGraphics/CGBase.h>
+
 @class SDLImage;
 @class SDLSoftButton;
 
@@ -13,6 +15,8 @@
  * @since SmartDeviceLink 2.0
  */
 @interface SDLShowConstantTBT : SDLRPCRequest
+
+- (instancetype)initWithNavigationText1:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(CGFloat)distanceToManeuver distanceToManeuverScale:(CGFloat)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
 @property (strong) NSString *navigationText1;
 @property (strong) NSString *navigationText2;

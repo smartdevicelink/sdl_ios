@@ -7,6 +7,21 @@
 
 @implementation SDLKeyboardProperties
 
+- (instancetype)initWithLanguage:(SDLLanguage)language layout:(SDLKeyboardLayout)layout keypressMode:(SDLKeypressMode)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.language = language;
+    self.keyboardLayout = layout;
+    self.keypressMode = keypressMode;
+    self.limitedCharacterList = [limitedCharacterList mutableCopy];
+    self.autoCompleteText = autoCompleteText;
+
+    return self;
+}
+
 - (void)setLanguage:(SDLLanguage)language {
     if (language != nil) {
         [store setObject:language forKey:SDLNameLanguage];

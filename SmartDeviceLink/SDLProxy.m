@@ -31,7 +31,6 @@
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
@@ -47,7 +46,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.3.0-rc.6";
+NSString *const SDLProxyVersion = @"4.3.0";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;

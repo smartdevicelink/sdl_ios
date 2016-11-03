@@ -381,7 +381,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 
 + (SDLPutFile *)buildPutFileWithFileName:(NSString *)syncFileName fileType:(SDLFileType)fileType persisistentFile:(NSNumber<SDLBool> *)persistentFile correlationID:(NSNumber<SDLInt> *)correlationID {
-    return [self buildPutFileWithFileName:syncFileName fileType:fileType persistentFile:persistentFile correlationId:correlationID];
+    return [self buildPutFileWithFileName:syncFileName fileType:fileType persistentFile:persistentFile correlationID:correlationID];
 }
 
 + (SDLReadDID *)buildReadDIDWithECUName:(NSNumber<SDLInt> *)ecuName didLocation:(NSArray<NSNumber *> *)didLocation correlationID:(NSNumber<SDLInt> *)correlationID {
@@ -500,8 +500,8 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 //***** SetGlobalProperties *****
 + (SDLSetGlobalProperties *)buildSetGlobalPropertiesWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber<SDLInt> *)correlationID {
     SDLSetGlobalProperties *msg = [[SDLSetGlobalProperties alloc] init];
-    msg.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
-    msg.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
+    msg.helpPrompt = [SDLTTSChunk textChunksFromString:helpText];
+    msg.timeoutPrompt = [SDLTTSChunk textChunksFromString:timeoutText];
     msg.vrHelpTitle = vrHelpTitle;
     msg.vrHelp = [vrHelp mutableCopy];
     msg.correlationID = correlationID;
@@ -511,8 +511,8 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 + (SDLSetGlobalProperties *)buildSetGlobalPropertiesWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText correlationID:(NSNumber<SDLInt> *)correlationID {
     SDLSetGlobalProperties *msg = [[SDLSetGlobalProperties alloc] init];
-    msg.helpPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpText];
-    msg.timeoutPrompt = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutText];
+    msg.helpPrompt = [SDLTTSChunk textChunksFromString:helpText];
+    msg.timeoutPrompt = [SDLTTSChunk textChunksFromString:timeoutText];
     msg.correlationID = correlationID;
 
     return msg;

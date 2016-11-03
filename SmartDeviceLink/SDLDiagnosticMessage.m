@@ -14,6 +14,19 @@
     return self;
 }
 
+- (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSData *> *)data {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.targetID = @(targetId);
+    self.messageLength = @(length);
+    self.messageData = [data mutableCopy];
+
+    return self;
+}
+
 - (void)setTargetID:(NSNumber<SDLInt> *)targetID {
     if (targetID != nil) {
         [parameters setObject:targetID forKey:SDLNameTargetId];

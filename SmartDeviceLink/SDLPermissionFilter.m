@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     return [self initWithRPCNames:@[]
                         groupType:SDLPermissionGroupTypeAny
-                         observer:^(NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){
+                         observer:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *_Nonnull change, SDLPermissionGroupStatus status){
                          }];
 }
 
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     self = [super init];
     if (!self) {
         return nil;
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)observer {
     return [[self alloc] initWithRPCNames:rpcNames groupType:groupType observer:observer];
 }
 

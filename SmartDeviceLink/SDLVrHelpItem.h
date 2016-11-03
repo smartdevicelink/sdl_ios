@@ -8,6 +8,10 @@
 
 @interface SDLVRHelpItem : SDLRPCStruct
 
+- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image;
+
+- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image position:(UInt8)position;
+
 @property (strong) NSString *text;
 @property (strong) SDLImage *image;
 @property (strong) NSNumber<SDLInt> *position;

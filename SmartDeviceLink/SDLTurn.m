@@ -6,7 +6,20 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+
 @implementation SDLTurn
+
+- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.navigationText = navigationText;
+    self.turnIcon = icon;
+
+    return self;
+}
 
 - (void)setNavigationText:(NSString *)navigationText {
     if (navigationText != nil) {

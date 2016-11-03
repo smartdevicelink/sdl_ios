@@ -17,6 +17,10 @@
  */
 @interface SDLScrollableMessage : SDLRPCRequest
 
+- (instancetype)initWithMessage:(NSString *)message;
+
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+
 /**
  * @abstract A Body of text that can include newlines and tabs
  * @discussion A String value representing the Body of text that can include

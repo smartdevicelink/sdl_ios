@@ -3,9 +3,28 @@
 
 #import "SDLDeviceInfo.h"
 
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <UIKit/UIKit.h>
+
 #import "SDLNames.h"
 
 @implementation SDLDeviceInfo
+
++ (instancetype)currentDevice {
+    static SDLDeviceInfo *deviceInfo = nil;
+    if (deviceInfo == nil) {
+        deviceInfo = [[SDLDeviceInfo alloc] init];
+        deviceInfo.hardware = [UIDevice currentDevice].model;
+        deviceInfo.os = [UIDevice currentDevice].systemName;
+        deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
+        CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+        CTCarrier *carrier = netinfo.subscriberCellularProvider;
+        NSString *carrierName = carrier.carrierName;
+        deviceInfo.carrier = carrierName;
+    }
+    return deviceInfo;
+}
 
 - (void)setHardware:(NSString *)hardware {
     if (hardware != nil) {

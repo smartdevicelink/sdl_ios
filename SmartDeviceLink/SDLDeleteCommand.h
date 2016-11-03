@@ -18,6 +18,8 @@
  */
 @interface SDLDeleteCommand : SDLRPCRequest
 
+- (instancetype)initWithId:(UInt32)commandId;
+
 /**
  * @abstract the Command ID that identifies the Command to be deleted from Command Menu
  * @discussion an NSNumber value representing Command ID

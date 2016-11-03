@@ -11,8 +11,6 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteFile.h"
 #import "SDLDeleteFileResponse.h"
-#import "SDLRPCRequestFactory.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_deleteFile {
-    SDLDeleteFile *deleteFile = [SDLRPCRequestFactory buildDeleteFileWithName:self.fileName correlationID:@0];
+    SDLDeleteFile *deleteFile = [[SDLDeleteFile alloc] initWithFileName:self.fileName];
 
     typeof(self) weakself = self;
     [self.connectionManager sendManagerRequest:deleteFile

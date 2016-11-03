@@ -11,6 +11,8 @@
 
 #import "SmartDeviceLink.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 QuickSpecBegin(SDLRPCRequestFactorySpec)
 
@@ -474,7 +476,7 @@ describe(@"BuildPerformInteraction Tests", ^ {
 
 describe(@"BuildPutFile Tests", ^ {
     it(@"Should build correctly", ^ {
-        SDLPutFile *message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:SDLFileTypeBMP  persistentFile:@165636 correlationId:@147986];
+        SDLPutFile* message = [SDLRPCRequestFactory buildPutFileWithFileName:@"YES!?" fileType:SDLFileTypeBMP persistentFile:@165636 correlationID:@147986];
         
         expect(message.syncFileName).to(equal(@"YES!?"));
         expect(message.fileType).to(equal(SDLFileTypeBMP));
@@ -1017,4 +1019,4 @@ describe(@"SDLUpdateTurnList Tests", ^ {
 
 QuickSpecEnd
 
-
+#pragma clang diagnostic pop

@@ -18,12 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  An identifier for the permission filter to allow it to be removed at a later time.
  */
-@property (copy, nonatomic, readonly) SDLPermissionObserverIdentifier *identifier;
+@property (copy, nonatomic, readonly) SDLPermissionObserverIdentifier identifier;
 
 /**
  *  All of the RPC names in this filter group.
  */
-@property (copy, nonatomic, readonly) NSArray<SDLPermissionRPCName *> *rpcNames;
+@property (copy, nonatomic, readonly) NSArray<SDLPermissionRPCName> *rpcNames;
 
 /**
  *  The type of this filter group.
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Create a new permission filter group.
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName *> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler;
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler;
 
 /**
  *  Whether the current filter is equivalent with another filter or not.

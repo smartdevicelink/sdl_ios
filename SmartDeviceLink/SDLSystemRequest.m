@@ -14,6 +14,18 @@
     return self;
 }
 
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(NSString *)fileName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.requestType = requestType;
+    self.fileName = fileName;
+
+    return self;
+}
+
 - (void)setRequestType:(SDLRequestType)requestType {
     if (requestType != nil) {
         [parameters setObject:requestType forKey:SDLNameRequestType];

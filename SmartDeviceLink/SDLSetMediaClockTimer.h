@@ -19,6 +19,10 @@
  */
 @interface SDLSetMediaClockTimer : SDLRPCRequest
 
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds;
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode;
+
 /**
  * @abstract A Start Time with specifying hour, minute, second values
  *

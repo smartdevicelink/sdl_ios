@@ -15,6 +15,17 @@
     return self;
 }
 
+- (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.properties = [properties mutableCopy];
+
+    return self;
+}
+
 - (void)setProperties:(NSMutableArray<SDLGlobalProperty> *)properties {
     if (properties != nil) {
         [parameters setObject:properties forKey:SDLNameProperties];

@@ -4,8 +4,8 @@
 
 #import "SDLSubscribeButton.h"
 
-#import "SDLButtonName.h"
 #import "SDLNames.h"
+
 
 @implementation SDLSubscribeButton
 
@@ -22,6 +22,18 @@
     }
 
     _handler = handler;
+
+    return self;
+}
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(SDLRPCNotificationHandler)handler {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.buttonName = buttonName;
+    self.handler = handler;
 
     return self;
 }

@@ -14,6 +14,8 @@
  */
 @interface SDLDeleteFile : SDLRPCRequest
 
+- (instancetype)initWithFileName:(NSString *)fileName;
+
 /**
  * @abstract a file reference name
  * @discussion a String value representing a file reference name

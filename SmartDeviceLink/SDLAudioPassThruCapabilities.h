@@ -20,21 +20,21 @@
  * 		</tr>
  * 		<tr>
  * 			<td>samplingRate</td>
- * 			<td>SDLSamplingRate * </td>
+ * 			<td>SDLSamplingRate </td>
  * 			<td>Describes the sampling rate for AudioPassThru
  * 			</td>
  * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>bitsPerSample</td>
- * 			<td>SDLBitsPerSample * </td>
+ * 			<td>SDLBitsPerSample </td>
  * 			<td>Describes the sample depth in bit for AudioPassThru
  * 			</td>
  * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>audioType</td>
- * 			<td>SDLAudioType * </td>
+ * 			<td>SDLAudioType </td>
  * 			<td>Describes the audiotype for AudioPassThru
  * 			</td>
  * 			<td>SmartDeviceLink 2.0</td>

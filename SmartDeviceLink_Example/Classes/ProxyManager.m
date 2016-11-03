@@ -97,6 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         }
+
+        [self setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
             [weakSelf showInitialData];
@@ -115,12 +117,36 @@ NS_ASSUME_NONNULL_BEGIN
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     
-    SDLShow *show = [SDLRPCRequestFactory buildShowWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCenter correlationID:@0];
+    SDLShow* show = [[SDLShow alloc] initWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCenter];
     SDLSoftButton *pointingSoftButton = [self.class pointingSoftButtonWithManager:self.sdlManager];
     show.softButtons = [@[pointingSoftButton] mutableCopy];
     show.graphic = [self.class mainGraphicImage];
     
     [self.sdlManager sendRequest:show];
+}
+
+- (void)setupPermissionsCallbacks {
+    // This will tell you whether or not you can use the Show RPC right at this moment
+    BOOL isAvailable = [self.sdlManager.permissionManager isRPCAllowed:@"Show"];
+    NSLog(@"Show is allowed? %@", @(isAvailable));
+
+    // This will set up a block that will tell you whether or not you can use none, all, or some of the RPCs specified, and notifies you when those permissions change
+    SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[@"Show", @"Alert"] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+        NSLog(@"Show changed permission to status: %@, dict: %@", @(status), change);
+    }];
+    // The above block will be called immediately, this will then remove the block from being called any more
+    [self.sdlManager.permissionManager removeObserverForIdentifier:observerId];
+
+    // This will give us the current status of the group of RPCs, as if we had set up an observer, except these are one-shot calls
+    NSArray *rpcGroup =@[@"AddCommand", @"PerformInteraction"];
+    SDLPermissionGroupStatus commandPICSStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:rpcGroup];
+    NSDictionary *commandPICSStatusDict = [self.sdlManager.permissionManager statusOfRPCs:rpcGroup];
+    NSLog(@"Command / PICS status: %@, dict: %@", @(commandPICSStatus), commandPICSStatusDict);
+
+    // This will set up a long-term observer for the RPC group and will tell us when the status of any specified RPC changes (due to the `SDLPermissionGroupTypeAny`) option.
+    [self.sdlManager.permissionManager addObserverForRPCs:rpcGroup groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+        NSLog(@"Command / PICS changed permission to status: %@, dict: %@", @(status), change);
+    }];
 }
 
 + (SDLLifecycleConfiguration *)setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
@@ -129,8 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.shortAppName = @"SDL Example";
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
-    config.ttsName = @[[SDLTTSChunkFactory buildTTSChunkForString:config.shortAppName type:SDLSpeechCapabilitiesText]];
-    
+    config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
     return config;
 }
 
@@ -184,22 +209,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLSpeak *)appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"S D L Example App" type:SDLSpeechCapabilitiesText]];
-    
+    speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"S D L Example App"];
+
     return speak;
 }
 
 + (SDLSpeak *)goodJobSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Good job" type:SDLSpeechCapabilitiesText]];
+    speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"Good Job"];
     
     return speak;
 }
 
 + (SDLSpeak *)youMissedItSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"You missed it" type:SDLSpeechCapabilitiesText]];
-    
+    speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"You missed it"];
+
     return speak;
 }
 
@@ -221,11 +246,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
     SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] init];
     performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
-    performOnlyChoiceInteraction.initialPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Choose it" type:SDLSpeechCapabilitiesText]];
+    performOnlyChoiceInteraction.initialPrompt = [SDLTTSChunk textChunksFromString:@"Choose it"];
     performOnlyChoiceInteraction.interactionMode = SDLInteractionModeBoth;
     performOnlyChoiceInteraction.interactionChoiceSetIDList = [NSMutableArray arrayWithObject:@0];
-    performOnlyChoiceInteraction.helpPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Do it" type:SDLSpeechCapabilitiesText]];
-    performOnlyChoiceInteraction.timeoutPrompt = [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:@"Too late" type:SDLSpeechCapabilitiesText]];
+    performOnlyChoiceInteraction.helpPrompt = [SDLTTSChunk textChunksFromString:@"Do it"];
+    performOnlyChoiceInteraction.timeoutPrompt = [SDLTTSChunk textChunksFromString:@"Too late"];
     performOnlyChoiceInteraction.timeout = @5000;
     performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
     
@@ -273,7 +298,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Files / Artwork 
 
-+ (SDLArtwork*)pointingSoftButtonArtwork {
++ (SDLArtwork *)pointingSoftButtonArtwork {
     return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 

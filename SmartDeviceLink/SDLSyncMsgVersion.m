@@ -8,6 +8,18 @@
 
 @implementation SDLSyncMsgVersion
 
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.majorVersion = @(majorVersion);
+    self.minorVersion = @(minorVersion);
+
+    return self;
+}
+
 - (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
     if (majorVersion != nil) {
         [store setObject:majorVersion forKey:SDLNameMajorVersion];

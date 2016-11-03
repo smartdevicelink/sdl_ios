@@ -20,6 +20,12 @@
  */
 @interface SDLSetGlobalProperties : SDLRPCRequest
 
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText;
+
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp;
+
+- (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(NSString *)menuTitle menuIcon:(SDLImage *)menuIcon keyboardProperties:(SDLKeyboardProperties *)keyboardProperties;
+
 /**
  * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more
  * TTSChunk elements specifying the help prompt used in an interaction

@@ -1,3 +1,29 @@
+# 4.3.0 Release Notes (Since RC 6 + Highlights)
+### Highlights
+* Adds a lifecycle manager to replace `SDLProxy` and manages much more of the lifecycle based on a declarative `SDLConfiguration`.
+* Adds a file manager to streamline uploading and deleting files.
+* Adds a lock screen manager to streamline lock screens and also provides a customizable default lock screen.
+* Adds a permission manager to streamline knowing when RPCs are available for use.
+* Adds the ability to use blocks to be notified about RPC responses.
+* Adds the ability to use blocks to be notified about certain RPC notifications (such as button presses).
+
+### (Since RC 6)
+### Features
+* Added an `SDLProxy` property to `SDLManager` to allow for edge cases in v4.3. This property will be removed in v5.0.
+
+### Deprecations
+* `SDLRPCRequestFactory` is now deprecated. The methods have been replaced as initialzers on the respective RPC methods. These intiailizers have been improved as well.
+* `SDLTTSChunkFactory` is now deprecated. The methods have been replaced as initialzers on the respective RPC methods.
+
+### Bug Fixes
+* Fixed a bug where a non-existent file could attempt to upload, causing havoc.
+* Fix some test framework stuff related to Xcode 8.
+* No longer crashes when RegisterAppInterfaceResponse errors.
+* RegisterAppInterface no longer crashes when attempting to connect a navigation app to a non-navigation capable head unit.
+
+### Example App
+* The example app now shows some example Permission Manager usage and logs to console a few permission manager observer blocks.
+
 # 4.3.0 Release Candidate 6 Release Notes (Since RC 5)
 ### Bug Fixes
 * Fixed several bugs and improved error messaging around what should happen if File Manager fails to start, for example because the head unit does not support files.

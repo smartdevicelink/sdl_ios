@@ -15,6 +15,8 @@
 
 - (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
 
+- (instancetype)initWithType:(SDLSoftButtonType)tyle text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(SDLSystemAction)systemAction handler:(SDLRPCNotificationHandler)handler;
+
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
 @property (strong) SDLSoftButtonType type;
