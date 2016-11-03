@@ -25,9 +25,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.menuID = @(menuId);
-    
+
     return self;
 }
 

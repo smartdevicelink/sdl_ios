@@ -25,9 +25,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.number = number;
-    
+
     return self;
 }
 

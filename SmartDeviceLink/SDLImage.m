@@ -26,10 +26,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.value = name;
     self.imageType = imageType;
-    
+
     return self;
 }
 

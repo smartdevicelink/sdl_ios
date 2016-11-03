@@ -187,7 +187,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Build a register app interface request with the configuration data
-    SDLRegisterAppInterface* regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
+    SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;

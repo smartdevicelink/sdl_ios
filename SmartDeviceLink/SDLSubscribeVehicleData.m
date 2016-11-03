@@ -25,7 +25,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.accPedalPosition = @(accelerationPedalPosition);
     self.airbagStatus = @(airbagStatus);
     self.beltStatus = @(beltStatus);
@@ -50,7 +50,7 @@
     self.steeringWheelAngle = @(steeringWheelAngle);
     self.tirePressure = @(tirePressure);
     self.wiperStatus = @(wiperStatus);
-    
+
     return self;
 }
 

@@ -64,9 +64,9 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString*)menuName vrCommands:(NSArray*)vrCommands;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands;
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString*)menuName vrCommands:(NSArray*)vrCommands image:(SDLImage*)image secondaryText:(NSString*)secondaryText secondaryImage:(SDLImage*)secondaryImage tertiaryText:(NSString*)tertiaryText;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands image:(SDLImage *)image secondaryText:(NSString *)secondaryText secondaryImage:(SDLImage *)secondaryImage tertiaryText:(NSString *)tertiaryText;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice

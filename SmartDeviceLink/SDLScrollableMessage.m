@@ -26,7 +26,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.timeout = @(timeout);
     self.softButtons = [softButtons mutableCopy];
 
@@ -38,9 +38,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.scrollableMessageBody = message;
-    
+
     return self;
 }
 

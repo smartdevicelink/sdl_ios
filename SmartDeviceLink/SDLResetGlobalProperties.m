@@ -26,7 +26,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.properties = [properties mutableCopy];
 
     return self;

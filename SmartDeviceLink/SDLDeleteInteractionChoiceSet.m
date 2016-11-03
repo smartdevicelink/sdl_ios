@@ -25,9 +25,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.interactionChoiceSetID = @(choiceId);
-    
+
     return self;
 }
 

@@ -25,10 +25,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.majorVersion = @(majorVersion);
     self.minorVersion = @(minorVersion);
-    
+
     return self;
 }
 

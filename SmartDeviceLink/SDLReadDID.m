@@ -25,10 +25,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.ecuName = @(ecuName);
     self.didLocation = [didLocation mutableCopy];
-    
+
     return self;
 }
 

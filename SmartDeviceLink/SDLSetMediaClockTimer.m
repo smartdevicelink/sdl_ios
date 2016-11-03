@@ -29,7 +29,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.startTime = [[SDLStartTime alloc] initWithHours:hours minutes:minutes seconds:seconds];
 
     return self;
@@ -40,9 +40,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.updateMode = updateMode;
-    
+
     return self;
 }
 

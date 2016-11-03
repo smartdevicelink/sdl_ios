@@ -2,8 +2,8 @@
 //  SDLSendLocation.h
 //  SmartDeviceLink
 
-#import <Foundation/Foundation.h>
 #import <CoreGraphics/CGBase.h>
+#import <Foundation/Foundation.h>
 
 #import "SDLImage.h"
 #import "SDLRPCRequest.h"

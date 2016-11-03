@@ -48,7 +48,7 @@ static UInt16 const SDLDefaultDuration = 5000;
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
-    NSMutableArray* ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil];
 }
 
@@ -65,7 +65,7 @@ static UInt16 const SDLDefaultDuration = 5000;
     if (!self) {
         return nil;
     }
-    
+
     self.ttsChunks = [ttsChunks mutableCopy];
     self.alertText1 = alertText1;
     self.alertText2 = alertText2;
@@ -73,7 +73,7 @@ static UInt16 const SDLDefaultDuration = 5000;
     self.playTone = @(playTone);
     self.duration = @(duration);
     self.softButtons = [softButtons mutableCopy];
-    
+
     return self;
 }
 

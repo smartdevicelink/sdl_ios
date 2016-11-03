@@ -26,11 +26,11 @@
     if (!self) {
         return nil;
     }
-    
+
     self.systemFile = @(systemFile);
     self.offset = @(offset);
     self.length = @(length);
-    
+
     return self;
 }
 
@@ -39,21 +39,21 @@
     if (!self) {
         return nil;
     }
-    
+
     self.persistentFile = @(persistentFile);
 
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString*)fileName fileType:(SDLFileType*)fileType {
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType {
     self = [self init];
     if (!self) {
         return nil;
     }
-    
+
     self.syncFileName = fileName;
     self.fileType = fileType;
-    
+
     return self;
 }
 

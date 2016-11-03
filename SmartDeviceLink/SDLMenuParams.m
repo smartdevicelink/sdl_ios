@@ -25,10 +25,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.parentID = @(parentId);
     self.position = @(parentId);
-    
+
     return self;
 }
 
@@ -37,9 +37,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.menuName = menuName;
-    
+
     return self;
 }
 

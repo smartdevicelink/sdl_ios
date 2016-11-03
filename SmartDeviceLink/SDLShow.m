@@ -28,7 +28,7 @@
     return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment];
 }
 
-- (instancetype)initWithMainField1:(NSString*)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString*)mainField3 mainField4:(NSString*)mainField4 alignment:(SDLTextAlignment *)alignment {
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment {
     return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil];
 }
 
@@ -41,7 +41,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
     self.mainField3 = mainField3;
@@ -53,7 +53,7 @@
     self.graphic = graphic;
     self.softButtons = [softButtons mutableCopy];
     self.customPresets = [customPresets mutableCopy];
-    
+
     return self;
 }
 

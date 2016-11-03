@@ -24,9 +24,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.position = @(position);
-    
+
     return self;
 }
 
@@ -35,12 +35,11 @@
     if (!self) {
         return nil;
     }
-    
+
     self.menuID = @(menuId);
     self.menuName = menuName;
-    
+
     return self;
-    
 }
 
 - (void)setMenuID:(NSNumber *)menuID {

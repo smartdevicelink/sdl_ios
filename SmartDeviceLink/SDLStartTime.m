@@ -25,7 +25,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.hours = @(hours);
     self.minutes = @(minutes);
     self.seconds = @(seconds);

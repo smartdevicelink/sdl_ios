@@ -23,18 +23,18 @@
     return self;
 }
 
-- (instancetype)initWithLanguage:(SDLLanguage*)language layout:(SDLKeyboardLayout*)layout keypressMode:(SDLKeypressMode*)keypressMode limitedCharacterList:(NSArray*)limitedCharacterList autoCompleteText:(NSString*)autoCompleteText {
+- (instancetype)initWithLanguage:(SDLLanguage *)language layout:(SDLKeyboardLayout *)layout keypressMode:(SDLKeypressMode *)keypressMode limitedCharacterList:(NSArray *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText {
     self = [self init];
     if (!self) {
         return nil;
     }
-    
+
     self.language = language;
     self.keyboardLayout = layout;
     self.keypressMode = keypressMode;
     self.limitedCharacterList = [limitedCharacterList mutableCopy];
     self.autoCompleteText = autoCompleteText;
-    
+
     return self;
 }
 

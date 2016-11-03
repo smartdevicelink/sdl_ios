@@ -45,7 +45,7 @@
 
 - (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment;
 
-- (instancetype)initWithMainField1:(NSString*)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString*)mainField3 mainField4:(NSString*)mainField4 alignment:(SDLTextAlignment *)alignment;
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment;
 
 - (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack;
 

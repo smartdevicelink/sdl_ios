@@ -52,17 +52,17 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithText:(NSString*)text type:(SDLSpeechCapabilities*)type;
+- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities *)type;
 
-+ (NSMutableArray<SDLTTSChunk *>*)textChunksFromString:(NSString*)string;
++ (NSMutableArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *>*)sapiChunksFromString:(NSString*)string;
++ (NSMutableArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *>*)lhPlusChunksFromString:(NSString*)string;
++ (NSMutableArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *>*)prerecordedChunksFromString:(NSString*)string;
++ (NSMutableArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *>*)silenceChunks;
++ (NSMutableArray<SDLTTSChunk *> *)silenceChunks;
 
 
 /**

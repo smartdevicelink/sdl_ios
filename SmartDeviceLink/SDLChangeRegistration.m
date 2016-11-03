@@ -30,19 +30,19 @@
     return self;
 }
 
-- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray*)vrSynonyms {
+- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray *)vrSynonyms {
     self = [self init];
     if (!self) {
         return nil;
     }
-    
+
     self.language = language;
     self.hmiDisplayLanguage = hmiDisplayLanguage;
     self.appName = appName;
     self.ttsName = ttsName;
     self.ngnMediaScreenAppName = ngnMediaScreenAppName;
     self.vrSynonyms = vrSynonyms;
-    
+
     return self;
 }
 

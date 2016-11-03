@@ -25,9 +25,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.dtcMask = @(mask);
-    
+
     return self;
 }
 
@@ -36,9 +36,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.ecuName = @(name);
-    
+
     return self;
 }
 

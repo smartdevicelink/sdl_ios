@@ -29,7 +29,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithFileName:(NSString*)fileName fileType:(SDLFileType*)fileType;
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType;
 
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile;
 

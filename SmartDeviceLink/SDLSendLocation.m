@@ -32,7 +32,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.longitudeDegrees = @(longitude);
     self.latitudeDegrees = @(latitude);
     self.locationName = locationName;
@@ -40,7 +40,7 @@
     self.addressLines = address;
     self.phoneNumber = phoneNumber;
     self.locationImage = image;
-    
+
     return self;
 }
 

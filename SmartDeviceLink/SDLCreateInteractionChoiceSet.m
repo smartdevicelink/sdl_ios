@@ -26,7 +26,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.interactionChoiceSetID = @(choiceId);
     self.choiceSet = [choiceSet mutableCopy];
     return self;

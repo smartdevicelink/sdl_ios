@@ -27,7 +27,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.requestType = requestType;
     self.fileName = fileName;
 

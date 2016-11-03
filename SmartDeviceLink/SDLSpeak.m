@@ -23,7 +23,7 @@
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText {
-    NSMutableArray* ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks];
 }
 
@@ -32,9 +32,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.ttsChunks = [ttsChunks mutableCopy];
-    
+
     return self;
 }
 

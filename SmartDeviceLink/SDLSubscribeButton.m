@@ -38,10 +38,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.buttonName = buttonName;
     self.handler = handler;
-    
+
     return self;
 }
 

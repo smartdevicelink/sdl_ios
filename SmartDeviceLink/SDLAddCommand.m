@@ -43,18 +43,17 @@
     if (!self) {
         return nil;
     }
-    
+
     self.cmdID = @(commandId);
-    
+
     if (menuName != nil) {
         self.menuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
     }
-    
+
     self.vrCommands = [vrCommands mutableCopy];
     self.handler = handler;
-    
-    return self;
 
+    return self;
 }
 
 - (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler {
@@ -62,10 +61,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.menuParams.parentID = @(parentId);
     self.menuParams.position = @(position);
-    
+
     if (iconValue != nil && iconType != nil) {
         self.cmdIcon = [[SDLImage alloc] initWithName:iconValue ofType:iconType];
     }

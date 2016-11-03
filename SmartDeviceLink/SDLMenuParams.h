@@ -23,7 +23,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithMenuName:(NSString*)menuName;
+- (instancetype)initWithMenuName:(NSString *)menuName;
 
 - (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position;
 

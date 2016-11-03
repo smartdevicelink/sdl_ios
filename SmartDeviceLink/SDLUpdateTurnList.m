@@ -27,10 +27,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.turnList = [turnList mutableCopy];
     self.softButtons = [softButtons mutableCopy];
-    
+
     return self;
 }
 

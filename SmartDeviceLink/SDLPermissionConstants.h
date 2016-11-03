@@ -12,8 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * SDLPermissionRPCName;
-typedef NSUUID * SDLPermissionObserverIdentifier;
+typedef NSString *SDLPermissionRPCName;
+typedef NSUUID *SDLPermissionObserverIdentifier;
 
 /**
  *  A permission group type which will be used to tell the system what type of changes you want to be notified about for the group.

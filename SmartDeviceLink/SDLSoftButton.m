@@ -39,7 +39,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.type = type;
     self.text = text;
     self.image = image;
@@ -47,7 +47,7 @@
     self.softButtonID = @(buttonId);
     self.systemAction = systemAction;
     self.handler = handler;
-    
+
     return self;
 }
 

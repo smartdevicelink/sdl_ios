@@ -28,7 +28,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.navigationText1 = navigationText1;
     self.navigationText2 = navigationText2;
     self.eta = eta;
@@ -40,7 +40,7 @@
     self.distanceToManeuverScale = @(distanceToManeuverScale);
     self.maneuverComplete = @(maneuverComplete);
     self.softButtons = [softButtons mutableCopy];
-    
+
     return self;
 }
 

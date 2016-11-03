@@ -31,7 +31,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.initialPrompt = [SDLTTSChunk textChunksFromString:initialPrompt];
     self.audioPassThruDisplayText1 = audioPassThruDisplayText1;
     self.audioPassThruDisplayText2 = audioPassThruDisplayText2;
@@ -40,17 +40,17 @@
     return self;
 }
 
-- (instancetype)initWithSamplingRate:(SDLSamplingRate*)samplingRate bitsPerSample:(SDLBitsPerSample*)bitsPerSample audioType:(SDLAudioType*)audioType maxDuration:(UInt32)maxDuration {
+- (instancetype)initWithSamplingRate:(SDLSamplingRate *)samplingRate bitsPerSample:(SDLBitsPerSample *)bitsPerSample audioType:(SDLAudioType *)audioType maxDuration:(UInt32)maxDuration {
     self = [self init];
     if (!self) {
         return nil;
     }
-    
+
     self.samplingRate = samplingRate;
     self.bitsPerSample = bitsPerSample;
     self.audioType = audioType;
     self.maxDuration = @(maxDuration);
-    
+
     return self;
 }
 

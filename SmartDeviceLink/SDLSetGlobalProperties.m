@@ -39,7 +39,7 @@
     if (!self) {
         return nil;
     }
-    
+
     self.helpPrompt = [SDLTTSChunk textChunksFromString:helpText];
     self.timeoutPrompt = [SDLTTSChunk textChunksFromString:timeoutText];
     self.vrHelpTitle = vrHelpTitle;
@@ -47,7 +47,7 @@
     self.menuTitle = menuTitle;
     self.menuIcon = menuIcon;
     self.keyboardProperties = keyboardProperties;
-    
+
     return self;
 }
 

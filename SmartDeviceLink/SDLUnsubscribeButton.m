@@ -27,9 +27,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.buttonName = buttonName;
-    
+
     return self;
 }
 

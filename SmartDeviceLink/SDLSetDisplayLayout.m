@@ -30,9 +30,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.displayLayout = displayLayout;
-    
+
     return self;
 }
 
