@@ -15,12 +15,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Proxy *****/
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
-#import "SDLProxyFactory.h"
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLTTSChunkFactory.h"
 #import "SDLTouchManager.h"
+#import "SDLTouchManagerDelegate.h"
 
 /***** Debug *****/
 #import "SDLConsoleController.h"
@@ -39,7 +39,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAbstractProtocol.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolListener.h"
-#import "SDLTouchManagerDelegate.h"
 
 // Header
 #import "SDLProtocolHeader.h"
@@ -280,3 +279,36 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataType.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWiperStatus.h"
+
+// Developer API
+// Configurations
+#import "SDLConfiguration.h"
+#import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+
+// Files
+#import "SDLArtwork.h"
+#import "SDLFile.h"
+#import "SDLFileManager.h"
+#import "SDLFileManagerConstants.h"
+
+// Lockscreen
+#import "SDLLockScreenViewController.h"
+
+// Lifecycle
+#import "SDLManager.h"
+#import "SDLManagerDelegate.h"
+
+// Permissions
+#import "SDLPermissionConstants.h"
+#import "SDLPermissionManager.h"
+
+// Utilities
+#import "NSNumber+NumberType.h"
+#import "SDLErrorConstants.h"
+#import "SDLNotificationConstants.h"
+#import "SDLRequestHandler.h"
+
+// Notifications
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"

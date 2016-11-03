@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import <CoreGraphics/CGBase.h>
+
 #import "SDLDateTime.h"
 #import "SDLDeliveryMode.h"
 #import "SDLImage.h"
@@ -11,22 +13,21 @@
 
 @interface SDLSendLocation : SDLRPCRequest
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image;
 
 /**
  * The longitudinal coordinate of the location.
  *
  * Float, Required, -180.0 - 180.0
  */
-@property (copy, nonatomic) NSNumber *longitudeDegrees;
+@property (copy, nonatomic) NSNumber<SDLFloat> *longitudeDegrees;
 
 /**
  * The latitudinal coordinate of the location.
  *
  * Float, Required, -90.0 - 90.0
  */
-@property (copy, nonatomic) NSNumber *latitudeDegrees;
+@property (copy, nonatomic) NSNumber<SDLFloat> *latitudeDegrees;
 
 /**
  * Name / title of intended location
@@ -47,7 +48,7 @@
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */
-@property (copy, nonatomic) NSArray *addressLines;
+@property (copy, nonatomic) NSArray<NSString *> *addressLines;
 
 /**
  * Phone number of intended location / establishment

@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SDLEnum : NSObject {
+@interface SDLEnum : NSObject <NSCopying> {
     NSString *value;
 }
 

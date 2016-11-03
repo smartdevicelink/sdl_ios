@@ -25,7 +25,7 @@
     return self;
 }
 
-- (void)setMillisecond:(NSNumber *)millisecond {
+- (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
     if (millisecond != nil) {
         store[NAMES_millisecond] = millisecond;
     } else {
@@ -33,11 +33,11 @@
     }
 }
 
-- (NSNumber *)millisecond {
+- (NSNumber<SDLInt> *)millisecond {
     return store[NAMES_millisecond];
 }
 
-- (void)setSecond:(NSNumber *)second {
+- (void)setSecond:(NSNumber<SDLInt> *)second {
     if (second != nil) {
         store[NAMES_second] = second;
     } else {
@@ -45,11 +45,11 @@
     }
 }
 
-- (NSNumber *)second {
+- (NSNumber<SDLInt> *)second {
     return store[NAMES_second];
 }
 
-- (void)setMinute:(NSNumber *)minute {
+- (void)setMinute:(NSNumber<SDLInt> *)minute {
     if (minute != nil) {
         store[NAMES_minute] = minute;
     } else {
@@ -57,11 +57,11 @@
     }
 }
 
-- (NSNumber *)minute {
+- (NSNumber<SDLInt> *)minute {
     return store[NAMES_minute];
 }
 
-- (void)setHour:(NSNumber *)hour {
+- (void)setHour:(NSNumber<SDLInt> *)hour {
     if (hour != nil) {
         store[NAMES_hour] = hour;
     } else {
@@ -69,11 +69,11 @@
     }
 }
 
-- (NSNumber *)hour {
+- (NSNumber<SDLInt> *)hour {
     return store[NAMES_hour];
 }
 
-- (void)setDay:(NSNumber *)day {
+- (void)setDay:(NSNumber<SDLInt> *)day {
     if (day != nil) {
         store[NAMES_day] = day;
     } else {
@@ -81,11 +81,11 @@
     }
 }
 
-- (NSNumber *)day {
+- (NSNumber<SDLInt> *)day {
     return store[NAMES_day];
 }
 
-- (void)setMonth:(NSNumber *)month {
+- (void)setMonth:(NSNumber<SDLInt> *)month {
     if (month != nil) {
         store[NAMES_month] = month;
     } else {
@@ -93,11 +93,11 @@
     }
 }
 
-- (NSNumber *)month {
+- (NSNumber<SDLInt> *)month {
     return store[NAMES_month];
 }
 
-- (void)setYear:(NSNumber *)year {
+- (void)setYear:(NSNumber<SDLInt> *)year {
     if (year != nil) {
         store[NAMES_year] = year;
     } else {
@@ -105,11 +105,11 @@
     }
 }
 
-- (NSNumber *)year {
+- (NSNumber<SDLInt> *)year {
     return store[NAMES_year];
 }
 
-- (void)setTimezoneMinuteOffset:(NSNumber *)timezoneMinuteOffset {
+- (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
     if (timezoneMinuteOffset != nil) {
         store[NAMES_timezoneMinuteOffset] = timezoneMinuteOffset;
     } else {
@@ -117,11 +117,11 @@
     }
 }
 
-- (NSNumber *)timezoneMinuteOffset {
+- (NSNumber<SDLInt> *)timezoneMinuteOffset {
     return store[NAMES_timezoneMinuteOffset];
 }
 
-- (void)setTimezoneHourOffset:(NSNumber *)timezoneHourOffset {
+- (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
     if (timezoneHourOffset != nil) {
         store[NAMES_timezoneHourOffset] = timezoneHourOffset;
     } else {
@@ -129,7 +129,7 @@
     }
 }
 
-- (NSNumber *)timezoneHourOffset {
+- (NSNumber<SDLInt> *)timezoneHourOffset {
     return store[NAMES_timezoneHourOffset];
 }
 

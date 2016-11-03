@@ -23,6 +23,29 @@
     return self;
 }
 
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode hours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds {
+    self = [self initWithUpdateMode:updateMode];
+    if (!self) {
+        return nil;
+    }
+
+    self.startTime = [[SDLStartTime alloc] initWithHours:hours minutes:minutes seconds:seconds];
+
+    return self;
+}
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.updateMode = updateMode;
+
+    return self;
+}
+
 - (void)setStartTime:(SDLStartTime *)startTime {
     if (startTime != nil) {
         [parameters setObject:startTime forKey:NAMES_startTime];

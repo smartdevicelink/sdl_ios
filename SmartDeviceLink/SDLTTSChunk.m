@@ -21,6 +21,46 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities *)type {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.text = text;
+    self.type = type;
+
+    return self;
+}
+
++ (NSMutableArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string {
+    return [self sdl_chunksFromString:string type:[SDLSpeechCapabilities TEXT]];
+}
+
++ (NSMutableArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string {
+    return [self sdl_chunksFromString:string type:[SDLSpeechCapabilities SAPI_PHONEMES]];
+}
+
++ (NSMutableArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string {
+    return [self sdl_chunksFromString:string type:[SDLSpeechCapabilities LHPLUS_PHONEMES]];
+}
+
++ (NSMutableArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string {
+    return [self sdl_chunksFromString:string type:[SDLSpeechCapabilities PRE_RECORDED]];
+}
+
++ (NSMutableArray<SDLTTSChunk *> *)silenceChunks {
+    return [self sdl_chunksFromString:nil type:[SDLSpeechCapabilities SILENCE]];
+}
+
++ (NSMutableArray<SDLTTSChunk *> *)sdl_chunksFromString:(NSString *)string type:(SDLSpeechCapabilities *)type {
+    if (string.length == 0) {
+        return nil;
+    }
+
+    return [NSMutableArray arrayWithObject:[[[self class] alloc] initWithText:string type:type]];
+}
+
 - (void)setText:(NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:NAMES_text];

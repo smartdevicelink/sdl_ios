@@ -1,0 +1,413 @@
+<h1>SDLLifecycleConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section-+defaultConfigurationWithAppName:appId:">+defaultConfigurationWithAppName:appId:</a></li>
+  <li><a href="#section-+debugConfigurationWithAppName:appId:ipAddress:port:">+debugConfigurationWithAppName:appId:ipAddress:port:</a></li>
+  <li><a href="#section-tcpDebugMode">tcpDebugMode</a></li>
+  <li><a href="#section-tcpDebugIPAddress">tcpDebugIPAddress</a></li>
+  <li><a href="#section-tcpDebugPort">tcpDebugPort</a></li>
+  <li><a href="#section-appName">appName</a></li>
+  <li><a href="#section-appId">appId</a></li>
+  <li><a href="#section-resumeHash">resumeHash</a></li>
+  <li><a href="#section-isMedia">isMedia</a></li>
+  <li><a href="#section-appType">appType</a></li>
+  <li><a href="#section-language">language</a></li>
+  <li><a href="#section-languagesSupported">languagesSupported</a></li>
+  <li><a href="#section-appIcon">appIcon</a></li>
+  <li><a href="#section-shortAppName">shortAppName</a></li>
+  <li><a href="#section-ttsName">ttsName</a></li>
+  <li><a href="#section-voiceRecognitionCommandNames">voiceRecognitionCommandNames</a></li>
+  <li><a href="#section-securityManagers">securityManagers</a></li>
+  <li><a href="#section-logFlags">logFlags</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Configuration options for SDLManager</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLifecycleConfiguration</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-+defaultConfigurationWithAppName:appId:">
+      +defaultConfigurationWithAppName:appId:
+  </h3>
+  
+  <p>A production configuration that runs using IAP. Additional functionality should be customized on the properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
+<span class="nf">defaultConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                          <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">defaultConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The name of the app.</p>
+</dd>
+      <dt>appId</dt>
+      <dd><p>The appId to be used. This should be registered with the radio&rsquo;s manufacturer.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The lifecycle configuration</p>
+
+  </div>
+  
+  <h3 id="section-+debugConfigurationWithAppName:appId:ipAddress:port:">
+      +debugConfigurationWithAppName:appId:ipAddress:port:
+  </h3>
+  
+  <p>A debug configuration that runs using TCP. Additional functionality should be customized on the properties.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLifecycleConfiguration</span> <span class="o">*</span><span class="p">)</span>
+<span class="nf">debugConfigurationWithAppName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                        <span class="nf">appId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+                    <span class="nf">ipAddress</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ipAddress</span>
+                         <span class="nf">port</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">port</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debugConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The name of the app.</p>
+</dd>
+      <dt>appId</dt>
+      <dd><p>The appId to be used. This should be registered with the radio&rsquo;s manufacturer.</p>
+</dd>
+      <dt>ipAddress</dt>
+      <dd><p>The ip address of the server to connect to</p>
+</dd>
+      <dt>port</dt>
+      <dd><p>The port of the server to connect to</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The lifecycle configuration</p>
+
+  </div>
+  
+  <h3 id="section-tcpDebugMode">
+      tcpDebugMode
+  </h3>
+  
+  <p>Whether or not debug mode is enabled</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">tcpDebugMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugMode</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-tcpDebugIPAddress">
+      tcpDebugIPAddress
+  </h3>
+  
+  <p>The ip address at which the library will look for a server</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">tcpDebugIPAddress</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugIPAddress</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-tcpDebugPort">
+      tcpDebugPort
+  </h3>
+  
+  <p>The port at which the library will look for a server</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt16</span> <span class="n">tcpDebugPort</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugPort</span><span class="p">:</span> <span class="kt">UInt16</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appName">
+      appName
+  </h3>
+  
+  <p>The full name of the app</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appId">
+      appId
+  </h3>
+  
+  <p>The app id. This must be the same as the app id received from the SDL developer portal or OEM.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-resumeHash">
+      resumeHash
+  </h3>
+  
+  <p>A hash id which should be passed to the remote system in the RegisterAppInterface</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">resumeHash</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">resumeHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-isMedia">
+      isMedia
+  </h3>
+  
+  <p>This is an automatically set based on the app type</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isMedia</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isMedia</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appType">
+      appType
+  </h3>
+  
+  <p>The application type</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAppHMIType.html">SDLAppHMIType</a></span> <span class="o">*</span><span class="n">appType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppHMIType.html">SDLAppHMIType</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-language">
+      language
+  </h3>
+  
+  <p>The default language to use</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">language</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-languagesSupported">
+      languagesSupported
+  </h3>
+  
+  <p>An array of all the supported languages</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">languagesSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">languagesSupported</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appIcon">
+      appIcon
+  </h3>
+  
+  <p>The application icon to be used on an app launching screen</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="n">appIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-shortAppName">
+      shortAppName
+  </h3>
+  
+  <p>An abbrevited application name that will be used on the app launching screen if the full one would be truncated</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">shortAppName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-ttsName">
+      ttsName
+  </h3>
+  
+  <p>A Text to Speech String for voice recognition of the mobile application name.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-voiceRecognitionCommandNames">
+      voiceRecognitionCommandNames
+  </h3>
+  
+  <p>Additional voice recognition commands. May not interfere with any other app name or global commands.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">voiceRecognitionCommandNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-securityManagers">
+      securityManagers
+  </h3>
+  
+  <p>Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-logFlags">
+      logFlags
+  </h3>
+  
+  <p>Which logging capabilities are currently enabled. The default is Console logging only.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="n">logFlags</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">logFlags</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

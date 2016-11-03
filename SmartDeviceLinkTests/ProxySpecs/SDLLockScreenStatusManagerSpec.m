@@ -1,5 +1,5 @@
 //
-//  SDLHexUtilitySpec.m
+//  SDLLockScreenStatusManagerSpec
 //  SmartDeviceLink-iOS
 
 #import <Quick/Quick.h>
@@ -7,16 +7,16 @@
 
 #import "SDLHMILevel.h"
 #import "SDLOnLockScreenStatus.h"
-#import "SDLLockScreenManager.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLLockScreenStatus.h"
 
 
-QuickSpecBegin(SDLLockScreenManagerSpec)
+QuickSpecBegin(SDLLockScreenStatusManagerSpec)
 
-describe(@"the lockscreen manager", ^{
-    __block SDLLockScreenManager *lockScreenManager;
+describe(@"the lockscreen status manager", ^{
+    __block SDLLockScreenStatusManager *lockScreenManager;
     beforeEach(^{
-        lockScreenManager = [[SDLLockScreenManager alloc] init];
+        lockScreenManager = [[SDLLockScreenStatusManager alloc] init];
     });
     
     it(@"should properly initialize user selected app boolean to false", ^{

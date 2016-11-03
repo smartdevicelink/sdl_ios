@@ -15,7 +15,7 @@
 /***** Computed Properties *****/
 // Connection
 @property (strong, nonatomic) NSString *ipAddress;
-@property (strong, nonatomic) NSString *port;
+@property (assign, nonatomic) UInt16 port;
 
 + (instancetype)sharedPreferences;
 

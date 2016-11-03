@@ -3,10 +3,13 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLAppInfo;
+@class SDLAppHMIType;
 @class SDLDeviceInfo;
 @class SDLLanguage;
+@class SDLLifecycleConfiguration;
 @class SDLSyncMsgVersion;
-@class SDLAppInfo;
+@class SDLTTSChunk;
 
 /**
  * Registers the application's interface with SDL&reg;, declaring properties of
@@ -93,6 +96,14 @@
  * @param dict The dictionary to use
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+- (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType *)appType shortAppName:(NSString *)shortAppName;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage *)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType *)appType shortAppName:(NSString *)shortAppName ttsName:(NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage *)hmiDisplayLanguageDesired resumeHash:(NSString *)resumeHash;
 
 /**
  * @abstract The version of the SDL interface

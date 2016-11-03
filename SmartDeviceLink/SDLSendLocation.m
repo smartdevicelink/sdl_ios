@@ -18,16 +18,24 @@
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    self = [super initWithDictionary:dict];
+- (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+    self = [self init];
     if (!self) {
         return nil;
     }
 
+    self.longitudeDegrees = @(longitude);
+    self.latitudeDegrees = @(latitude);
+    self.locationName = locationName;
+    self.locationDescription = locationDescription;
+    self.addressLines = address;
+    self.phoneNumber = phoneNumber;
+    self.locationImage = image;
+
     return self;
 }
 
-- (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
+- (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
     if (longitudeDegrees != nil) {
         parameters[NAMES_longitudeDegrees] = longitudeDegrees;
     } else {
@@ -35,11 +43,11 @@
     }
 }
 
-- (NSNumber *)longitudeDegrees {
+- (NSNumber<SDLFloat> *)longitudeDegrees {
     return parameters[NAMES_longitudeDegrees];
 }
 
-- (void)setLatitudeDegrees:(NSNumber *)latitudeDegrees {
+- (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
     if (latitudeDegrees != nil) {
         parameters[NAMES_latitudeDegrees] = latitudeDegrees;
     } else {
@@ -47,7 +55,7 @@
     }
 }
 
-- (NSNumber *)latitudeDegrees {
+- (NSNumber<SDLFloat> *)latitudeDegrees {
     return parameters[NAMES_latitudeDegrees];
 }
 

@@ -1,0 +1,388 @@
+<h1>SDLFile Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-persistent">persistent</a></li>
+  <li><a href="#section-overwrite">overwrite</a></li>
+  <li><a href="#section-name">name</a></li>
+  <li><a href="#section-fileURL">fileURL</a></li>
+  <li><a href="#section-data">data</a></li>
+  <li><a href="#section-fileType">fileType</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithFileURL:name:persistent:">-initWithFileURL:name:persistent:</a></li>
+  <li><a href="#section-+persistentFileAtFileURL:name:">+persistentFileAtFileURL:name:</a></li>
+  <li><a href="#section-+fileAtFileURL:name:">+fileAtFileURL:name:</a></li>
+  <li><a href="#section--initWithData:name:fileExtension:persistent:">-initWithData:name:fileExtension:persistent:</a></li>
+  <li><a href="#section-+persistentFileWithData:name:fileExtension:">+persistentFileWithData:name:fileExtension:</a></li>
+  <li><a href="#section-+fileWithData:name:fileExtension:">+fileWithData:name:fileExtension:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-persistent">
+      persistent
+  </h3>
+  
+  <p>Whether or not the file should persist on disk between car ignition cycles.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isPersistent</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">persistent</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isPersistent</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-overwrite">
+      overwrite
+  </h3>
+  
+  <p>Whether or not the file should overwrite an existing file on the remote disk with the same name.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">overwrite</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">overwrite</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-name">
+      name
+  </h3>
+  
+  <p>The name the file should be stored under on the remote disk. This is how the file will be referenced in all later calls.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">name</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileURL">
+      fileURL
+  </h3>
+  
+  <p>The url the local file is stored at while waiting to push it to the remote system. If the data has not been passed to the file URL, this will be nil.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSURL</span> <span class="o">*</span><span class="n">fileURL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fileURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-data">
+      data
+  </h3>
+  
+  <p>The binary data of the SDLFile. If initialized with data, this will be a relatively quick call, but if initialized with a file URL, this is a rather expensive call the first time. The data will be cached in RAM after the first call.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSData</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">data</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-fileType">
+      fileType
+  </h3>
+  
+  <p>The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLFileType.html">SDLFileType</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">fileType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fileType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFileType.html">SDLFileType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section--initWithFileURL:name:persistent:">
+      -initWithFileURL:name:persistent:
+  </h3>
+  
+  <p>The designated initializer for an SDL File. The only major property that is not set using this is <q>overwrite</q>, which defaults to NO.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
+                                   <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                             <span class="nf">persistent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistent</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLFile.html#/c:objc(cs)SDLFile(py)fileURL">fileURL</a></span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">persistent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>url</dt>
+      <dd><p>The file URL pointing to the local data that will be pushed to the remote system.</p>
+</dd>
+      <dt>name</dt>
+      <dd><p>The name that the file will be stored under on the remote system and how it will be referenced from the local system.</p>
+</dd>
+      <dt>persistent</dt>
+      <dd><p>Whether or not the file will persist between ignition cycles.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLFile object.</p>
+
+  </div>
+  
+  <h3 id="section-+persistentFileAtFileURL:name:">
+      +persistentFileAtFileURL:name:
+  </h3>
+  
+  <p>Create an SDL file using a local file URL.</p>
+
+<p>This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.</p>
+
+<p>Ephemeral files should be created using ephemeralFileAtURL:name:</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>If this is not a readable file, this will return nil</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">persistentFileAtFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
+                                           <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">persistentFile</span><span class="p">(</span><span class="n">atFileURL</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>url</dt>
+      <dd><p>The url to the file that should be uploaded.</p>
+</dd>
+      <dt>name</dt>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class, or nil if a readable file at the path could not be found.</p>
+
+  </div>
+  
+  <h3 id="section-+fileAtFileURL:name:">
+      +fileAtFileURL:name:
+  </h3>
+  
+  <p>Create an SDL file using a local file URL.</p>
+
+<p>This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not <em>know</em> you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.</p>
+
+<p>Persistent files should be created using persistentFileAtURL:name:</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>If this is not a readable file, this will return nil</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">fileAtFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
+                                 <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="n">atFileURL</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>url</dt>
+      <dd><p>The url to the file on disk that will be uploaded</p>
+</dd>
+      <dt>name</dt>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class, or nil if a readable file at the url could not be found.</p>
+
+  </div>
+  
+  <h3 id="section--initWithData:name:fileExtension:persistent:">
+      -initWithData:name:fileExtension:persistent:
+  </h3>
+  
+  <p>Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                                <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                       <span class="nf">fileExtension</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">extension</span>
+                          <span class="nf">persistent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistent</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="nv">extension</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">persistent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The raw data to be used for the file</p>
+</dd>
+      <dt>name</dt>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
+</dd>
+      <dt>extension</dt>
+      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p>
+</dd>
+      <dt>persistent</dt>
+      <dd><p>Whether or not the remote file with this data should be persistent</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class</p>
+
+  </div>
+  
+  <h3 id="section-+persistentFileWithData:name:fileExtension:">
+      +persistentFileWithData:name:fileExtension:
+  </h3>
+  
+  <p>Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.</p>
+
+<p>This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">persistentFileWithData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                                          <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                                 <span class="nf">fileExtension</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">extension</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">persistentFile</span><span class="p">(</span><span class="n">with</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="nv">extension</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The raw data to be used for the file</p>
+</dd>
+      <dt>name</dt>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
+</dd>
+      <dt>extension</dt>
+      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class</p>
+
+  </div>
+  
+  <h3 id="section-+fileWithData:name:fileExtension:">
+      +fileWithData:name:fileExtension:
+  </h3>
+  
+  <p>Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.</p>
+
+<p>This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not <em>know</em> you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">fileWithData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                                <span class="nf">name</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                       <span class="nf">fileExtension</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">extension</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">fileExtension</span> <span class="nv">extension</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The raw data to be used for the file</p>
+</dd>
+      <dt>name</dt>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
+</dd>
+      <dt>extension</dt>
+      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class</p>
+
+  </div>
+  
+</section>

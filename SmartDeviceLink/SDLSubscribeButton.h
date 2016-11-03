@@ -4,6 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLRequestHandler.h"
+
 @class SDLButtonName;
 
 
@@ -57,19 +59,39 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLUnsubscribeButton
  */
-@interface SDLSubscribeButton : SDLRPCRequest {
-}
+@interface SDLSubscribeButton : SDLRPCRequest <SDLRequestHandler>
 
 /**
- * @abstract Constructs a new SDLSubscribeButton object
+ *  Construct an SDLSubscribeButton
+ *
+ *  @return An SDLSubscribeButton object
  */
 - (instancetype)init;
+
+/**
+ *  Construct a SDLSubscribeButton with a handler callback when an event occurs.
+ *
+ *  @param handler A callback that will be called when a button event occurs for the subscribed button.
+ *
+ *  @return An SDLSubscribeButton object
+ */
+- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+
 /**
  * @abstract Constructs a new SDLSubscribeButton object indicated by the NSMutableDictionary
  * parameter
  * @param dict The dictionary to use
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+- (instancetype)initWithButtonName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler;
+
+/**
+ *  A handler that will let you know when the button you subscribed to is selected.
+ *
+ *  @warning This will only work if you use SDLManager.
+ */
+@property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
 /**
  * @abstract The name of the button to subscribe to
