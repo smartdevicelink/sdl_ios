@@ -9,6 +9,7 @@
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLPermissionManager;
+@class SDLProxy;
 @class SDLPutFile;
 @class SDLRegisterAppInterfaceResponse;
 @class SDLRPCNotification;
