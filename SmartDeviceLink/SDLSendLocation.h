@@ -74,7 +74,7 @@
 @property (strong, nonatomic) SDLDeliveryMode *deliveryMode;
 
 /**
- * Date and Time used for sorting multiple SendLocation requests.
+ * Arrival time of Location. If multiple SendLocations are sent, this will be used for sorting as well.
  *
  * Optional
  */
