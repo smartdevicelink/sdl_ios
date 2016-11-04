@@ -67,24 +67,24 @@
 @property (strong, nonatomic) SDLImage *locationImage;
 
 /**
-  * Mode in which the sendLocation request is sent
-  *
-  * Optional
-  */
+ * Mode in which the sendLocation request is sent
+ *
+ * Optional
+ */
 @property (strong, nonatomic) SDLDeliveryMode *deliveryMode;
 
 /**
-   * Date and Time used for sorting multiple SendLocation requests.
-   *
-   * Optional
-   */
+ * Date and Time used for sorting multiple SendLocation requests.
+ *
+ * Optional
+ */
 @property (strong, nonatomic) SDLDateTime *timeStamp;
 
 /**
-   * Address to be used for setting destination
-   *
-   * Optional
-   */
+ * Address to be used for setting destination
+ *
+ * Optional
+ */
 @property (strong, nonatomic) SDLOasisAddress *address;
 
 @end
