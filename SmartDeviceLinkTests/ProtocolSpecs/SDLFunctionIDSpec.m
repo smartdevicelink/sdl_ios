@@ -57,6 +57,9 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID getFunctionName:38]).to(equal(NAMES_SystemRequest));
         expect([functionID getFunctionName:39]).to(equal(NAMES_SendLocation));
         expect([functionID getFunctionName:40]).to(equal(NAMES_DialNumber));
+        expect([functionID getFunctionName:45]).to(equal(NAMES_GetWaypoints));
+        expect([functionID getFunctionName:46]).to(equal(NAMES_SubscribeWaypoints));
+        expect([functionID getFunctionName:47]).to(equal(NAMES_UnsubscribeWaypoints));
         expect([functionID getFunctionName:32768]).to(equal(NAMES_OnHMIStatus));
         expect([functionID getFunctionName:32769]).to(equal(NAMES_OnAppInterfaceUnregistered));
         expect([functionID getFunctionName:32770]).to(equal(NAMES_OnButtonEvent));
@@ -72,6 +75,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID getFunctionName:32780]).to(equal(NAMES_OnTouchEvent));
         expect([functionID getFunctionName:32781]).to(equal(NAMES_OnSystemRequest));
         expect([functionID getFunctionName:32782]).to(equal(NAMES_OnHashChange));
+        expect([functionID getFunctionName:32784]).to(equal(NAMES_OnWaypointChange));
         
         //Not listed in Spec
         expect([functionID getFunctionName:65536]).to(equal(NAMES_EncodedSyncPData));
@@ -124,6 +128,10 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID getFunctionID:NAMES_SystemRequest]).to(equal(@38));
         expect([functionID getFunctionID:NAMES_SendLocation]).to(equal(@39));
         expect([functionID getFunctionID:NAMES_DialNumber]).to(equal(@40));
+        expect([functionID getFunctionID:NAMES_GetWaypoints]).to(equal(@45));
+        expect([functionID getFunctionID:NAMES_SubscribeWaypoints]).to(equal(@46));
+        expect([functionID getFunctionID:NAMES_UnsubscribeWaypoints]).to(equal(@47));
+
         expect([functionID getFunctionID:NAMES_OnHMIStatus]).to(equal(@32768));
         expect([functionID getFunctionID:NAMES_OnAppInterfaceUnregistered]).to(equal(@32769));
         expect([functionID getFunctionID:NAMES_OnButtonEvent]).to(equal(@32770));
@@ -139,6 +147,7 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID getFunctionID:NAMES_OnTouchEvent]).to(equal(@32780));
         expect([functionID getFunctionID:NAMES_OnSystemRequest]).to(equal(@32781));
         expect([functionID getFunctionID:NAMES_OnHashChange]).to(equal(@32782));
+        expect([functionID getFunctionID:NAMES_OnWaypointChange]).to(equal(@32784));
         
         //Not listed in Spec
         expect([functionID getFunctionID:NAMES_EncodedSyncPData]).to(equal(@65536));

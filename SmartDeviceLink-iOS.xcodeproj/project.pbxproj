@@ -909,6 +909,36 @@
 		DA7515C11D95FAA000F29323 /* sdl_logo_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515AF1D95FAA000F29323 /* sdl_logo_white@2x.png */; };
 		DA7515C21D95FAA000F29323 /* sdl_logo_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA7515B01D95FAA000F29323 /* sdl_logo_white@3x.png */; };
 		DA96C0661D4D4F730022F520 /* SDLAppInfoSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */; };
+		DA9F7E6F1DCBFFDB00ACAE48 /* SDLGetWaypoints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E6D1DCBFFDB00ACAE48 /* SDLGetWaypoints.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E701DCBFFDB00ACAE48 /* SDLGetWaypoints.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E6E1DCBFFDB00ACAE48 /* SDLGetWaypoints.m */; };
+		DA9F7E731DCC004C00ACAE48 /* SDLGetWaypointsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E711DCC004C00ACAE48 /* SDLGetWaypointsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E741DCC004C00ACAE48 /* SDLGetWaypointsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E721DCC004C00ACAE48 /* SDLGetWaypointsResponse.m */; };
+		DA9F7E7F1DCC028B00ACAE48 /* SDLOnWaypointChange.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E7D1DCC028B00ACAE48 /* SDLOnWaypointChange.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E801DCC028B00ACAE48 /* SDLOnWaypointChange.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E7E1DCC028B00ACAE48 /* SDLOnWaypointChange.m */; };
+		DA9F7E831DCC047200ACAE48 /* SDLWaypointType.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E811DCC047200ACAE48 /* SDLWaypointType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E841DCC047200ACAE48 /* SDLWaypointType.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E821DCC047200ACAE48 /* SDLWaypointType.m */; };
+		DA9F7E871DCC049900ACAE48 /* SDLSubscribeWaypoints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E851DCC049900ACAE48 /* SDLSubscribeWaypoints.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E881DCC049900ACAE48 /* SDLSubscribeWaypoints.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E861DCC049900ACAE48 /* SDLSubscribeWaypoints.m */; };
+		DA9F7E8B1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E891DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E8C1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E8A1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.m */; };
+		DA9F7E8F1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E8D1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E901DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E8E1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.m */; };
+		DA9F7E931DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E911DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E941DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E921DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.m */; };
+		DA9F7E991DCC052C00ACAE48 /* SDLLocationCoordinate.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E951DCC052C00ACAE48 /* SDLLocationCoordinate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E9A1DCC052C00ACAE48 /* SDLLocationCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E961DCC052C00ACAE48 /* SDLLocationCoordinate.m */; };
+		DA9F7E9B1DCC052C00ACAE48 /* SDLLocationDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E971DCC052C00ACAE48 /* SDLLocationDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA9F7E9C1DCC052C00ACAE48 /* SDLLocationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E981DCC052C00ACAE48 /* SDLLocationDetails.m */; };
+		DA9F7E9E1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E9D1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m */; };
+		DA9F7EA01DCC05D200ACAE48 /* SDLOnWaypointChangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E9F1DCC05D200ACAE48 /* SDLOnWaypointChangeSpec.m */; };
+		DA9F7EA21DCC05E100ACAE48 /* SDLGetWaypointsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EA11DCC05E100ACAE48 /* SDLGetWaypointsSpec.m */; };
+		DA9F7EA41DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EA31DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m */; };
+		DA9F7EA61DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EA51DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m */; };
+		DA9F7EA81DCC060B00ACAE48 /* SDLGetWaypointsResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EA71DCC060B00ACAE48 /* SDLGetWaypointsResponseSpec.m */; };
+		DA9F7EAA1DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EA91DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m */; };
+		DA9F7EAC1DCC062400ACAE48 /* SDLUnsubscribeWaypointsResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EAB1DCC062400ACAE48 /* SDLUnsubscribeWaypointsResponseSpec.m */; };
+		DA9F7EAF1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EAD1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m */; };
+		DA9F7EB01DCC063400ACAE48 /* SDLLocationDetailsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EAE1DCC063400ACAE48 /* SDLLocationDetailsSpec.m */; };
 		DA9F7E631DCBFAC800ACAE48 /* SDLDateTime.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E611DCBFAC800ACAE48 /* SDLDateTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA9F7E641DCBFAC800ACAE48 /* SDLDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E621DCBFAC800ACAE48 /* SDLDateTime.m */; };
 		DA9F7E671DCBFAD400ACAE48 /* SDLOasisAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E651DCBFAD400ACAE48 /* SDLOasisAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1918,6 +1948,36 @@
 		DA7515AF1D95FAA000F29323 /* sdl_logo_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_white@2x.png"; sourceTree = "<group>"; };
 		DA7515B01D95FAA000F29323 /* sdl_logo_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_white@3x.png"; sourceTree = "<group>"; };
 		DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfoSpec.m; sourceTree = "<group>"; };
+		DA9F7E6D1DCBFFDB00ACAE48 /* SDLGetWaypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLGetWaypoints.h; sourceTree = "<group>"; };
+		DA9F7E6E1DCBFFDB00ACAE48 /* SDLGetWaypoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGetWaypoints.m; sourceTree = "<group>"; };
+		DA9F7E711DCC004C00ACAE48 /* SDLGetWaypointsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLGetWaypointsResponse.h; sourceTree = "<group>"; };
+		DA9F7E721DCC004C00ACAE48 /* SDLGetWaypointsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGetWaypointsResponse.m; sourceTree = "<group>"; };
+		DA9F7E7D1DCC028B00ACAE48 /* SDLOnWaypointChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOnWaypointChange.h; sourceTree = "<group>"; };
+		DA9F7E7E1DCC028B00ACAE48 /* SDLOnWaypointChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnWaypointChange.m; sourceTree = "<group>"; };
+		DA9F7E811DCC047200ACAE48 /* SDLWaypointType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLWaypointType.h; sourceTree = "<group>"; };
+		DA9F7E821DCC047200ACAE48 /* SDLWaypointType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWaypointType.m; sourceTree = "<group>"; };
+		DA9F7E851DCC049900ACAE48 /* SDLSubscribeWaypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSubscribeWaypoints.h; sourceTree = "<group>"; };
+		DA9F7E861DCC049900ACAE48 /* SDLSubscribeWaypoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeWaypoints.m; sourceTree = "<group>"; };
+		DA9F7E891DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSubscribeWaypointsResponse.h; sourceTree = "<group>"; };
+		DA9F7E8A1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeWaypointsResponse.m; sourceTree = "<group>"; };
+		DA9F7E8D1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLUnsubscribeWaypointsResponse.h; sourceTree = "<group>"; };
+		DA9F7E8E1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLUnsubscribeWaypointsResponse.m; sourceTree = "<group>"; };
+		DA9F7E911DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLUnsubscribeWaypoints.h; sourceTree = "<group>"; };
+		DA9F7E921DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLUnsubscribeWaypoints.m; sourceTree = "<group>"; };
+		DA9F7E951DCC052C00ACAE48 /* SDLLocationCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLocationCoordinate.h; sourceTree = "<group>"; };
+		DA9F7E961DCC052C00ACAE48 /* SDLLocationCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLocationCoordinate.m; sourceTree = "<group>"; };
+		DA9F7E971DCC052C00ACAE48 /* SDLLocationDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLocationDetails.h; sourceTree = "<group>"; };
+		DA9F7E981DCC052C00ACAE48 /* SDLLocationDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLocationDetails.m; sourceTree = "<group>"; };
+		DA9F7E9D1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWaypointTypeSpec.m; sourceTree = "<group>"; };
+		DA9F7E9F1DCC05D200ACAE48 /* SDLOnWaypointChangeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnWaypointChangeSpec.m; sourceTree = "<group>"; };
+		DA9F7EA11DCC05E100ACAE48 /* SDLGetWaypointsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGetWaypointsSpec.m; sourceTree = "<group>"; };
+		DA9F7EA31DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeWaypointsSpec.m; sourceTree = "<group>"; };
+		DA9F7EA51DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLUnsubscribeWaypointsSpec.m; sourceTree = "<group>"; };
+		DA9F7EA71DCC060B00ACAE48 /* SDLGetWaypointsResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGetWaypointsResponseSpec.m; sourceTree = "<group>"; };
+		DA9F7EA91DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSubscribeWaypointsResponseSpec.m; sourceTree = "<group>"; };
+		DA9F7EAB1DCC062400ACAE48 /* SDLUnsubscribeWaypointsResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLUnsubscribeWaypointsResponseSpec.m; sourceTree = "<group>"; };
+		DA9F7EAD1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLocationCoordinateSpec.m; sourceTree = "<group>"; };
+		DA9F7EAE1DCC063400ACAE48 /* SDLLocationDetailsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLocationDetailsSpec.m; sourceTree = "<group>"; };
 		DA9F7E611DCBFAC800ACAE48 /* SDLDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDateTime.h; sourceTree = "<group>"; };
 		DA9F7E621DCBFAC800ACAE48 /* SDLDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTime.m; sourceTree = "<group>"; };
 		DA9F7E651DCBFAD400ACAE48 /* SDLOasisAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLOasisAddress.h; sourceTree = "<group>"; };
@@ -2070,6 +2130,7 @@
 				162E82221A9BDE8A00906325 /* SDLVehicleDataTypeSpec.m */,
 				162E82231A9BDE8A00906325 /* SDLVrCapabilitiesSpec.m */,
 				162E82241A9BDE8A00906325 /* SDLWarningLightStatusSpec.m */,
+				DA9F7E9D1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m */,
 				162E82251A9BDE8A00906325 /* SDLWiperStatusSpec.m */,
 			);
 			path = EnumSpecs;
@@ -2104,6 +2165,7 @@
 				162E82381A9BDE8A00906325 /* SDLOnTBTClientStateSpec.m */,
 				162E82391A9BDE8A00906325 /* SDLOnTouchEventSpec.m */,
 				162E823A1A9BDE8A00906325 /* SDLOnVehicleDataSpec.m */,
+				DA9F7E9F1DCC05D200ACAE48 /* SDLOnWaypointChangeSpec.m */,
 			);
 			path = NotificationSpecs;
 			sourceTree = "<group>";
@@ -2135,6 +2197,7 @@
 				162E824A1A9BDE8A00906325 /* SDLEndAudioPassThruSpec.m */,
 				162E824B1A9BDE8A00906325 /* SDLGetDTCsSpec.m */,
 				162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */,
+				DA9F7EA11DCC05E100ACAE48 /* SDLGetWaypointsSpec.m */,
 				162E824D1A9BDE8A00906325 /* SDLListFilesSpec.m */,
 				162E824E1A9BDE8A00906325 /* SDLPerformAudioPassThruSpec.m */,
 				162E824F1A9BDE8A00906325 /* SDLPerformInteractionSpec.m */,
@@ -2154,11 +2217,13 @@
 				162E825C1A9BDE8A00906325 /* SDLSpeakSpec.m */,
 				162E825D1A9BDE8A00906325 /* SDLSubscribeButtonSpec.m */,
 				162E825E1A9BDE8A00906325 /* SDLSubscribeVehicleDataSpec.m */,
+				DA9F7EA31DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m */,
 				162E825F1A9BDE8A00906325 /* SDLSyncPDataSpec.m */,
 				162E82601A9BDE8A00906325 /* SDLSystemRequestSpec.m */,
 				162E82611A9BDE8A00906325 /* SDLUnregisterAppInterfaceSpec.m */,
 				162E82621A9BDE8A00906325 /* SDLUnsubscribeButtonSpec.m */,
 				162E82631A9BDE8A00906325 /* SDLUnsubscribeVehicleDataSpec.m */,
+				DA9F7EA51DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m */,
 				162E82641A9BDE8A00906325 /* SDLUpdateTurnListSpec.m */,
 			);
 			path = RequestSpecs;
@@ -2184,6 +2249,7 @@
 				162E82731A9BDE8A00906325 /* SDLGenericResponseSpec.m */,
 				162E82741A9BDE8A00906325 /* SDLGetDTCsResponseSpec.m */,
 				162E82751A9BDE8A00906325 /* SDLGetVehicleDataResponseSpec.m */,
+				DA9F7EA71DCC060B00ACAE48 /* SDLGetWaypointsResponseSpec.m */,
 				162E82761A9BDE8A00906325 /* SDLListFilesResponseSpec.m */,
 				162E82771A9BDE8A00906325 /* SDLPerformAudioPassThruResponseSpec.m */,
 				162E82781A9BDE8A00906325 /* SDLPerformInteractionResponseSpec.m */,
@@ -2203,11 +2269,13 @@
 				162E82851A9BDE8A00906325 /* SDLSpeakResponseSpec.m */,
 				162E82861A9BDE8A00906325 /* SDLSubscribeButtonResponseSpec.m */,
 				162E82871A9BDE8A00906325 /* SDLSubscribeVehicleDataResponseSpec.m */,
+				DA9F7EA91DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m */,
 				162E82881A9BDE8A00906325 /* SDLSyncPDataResponseSpec.m */,
 				162E82891A9BDE8A00906325 /* SDLSystemRequestResponseSpec.m */,
 				162E828A1A9BDE8A00906325 /* SDLUnregisterAppInterfaceResponseSpec.m */,
 				162E828B1A9BDE8A00906325 /* SDLUnsubscribeButtonResponseSpec.m */,
 				162E828C1A9BDE8A00906325 /* SDLUnsubscribeVehicleDataResponseSpec.m */,
+				DA9F7EAB1DCC062400ACAE48 /* SDLUnsubscribeWaypointsResponseSpec.m */,
 				162E828D1A9BDE8A00906325 /* SDLUpdateTurnListResponseSpec.m */,
 			);
 			path = ResponseSpecs;
@@ -2238,6 +2306,8 @@
 				162E829F1A9BDE8A00906325 /* SDLImageFieldSpec.m */,
 				162E82A01A9BDE8A00906325 /* SDLImageSpec.m */,
 				162E82A11A9BDE8A00906325 /* SDLKeyboardPropertiesSpec.m */,
+				DA9F7EAD1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m */,
+				DA9F7EAE1DCC063400ACAE48 /* SDLLocationDetailsSpec.m */,
 				162E82A21A9BDE8A00906325 /* SDLMenuParamsSpec.m */,
 				162E82A31A9BDE8A00906325 /* SDLMyKeySpec.m */,
 				DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */,
@@ -2600,6 +2670,8 @@
 				5D61FAC51A84238A00846EE7 /* SDLGetDTCs.m */,
 				5D61FAC81A84238A00846EE7 /* SDLGetVehicleData.h */,
 				5D61FAC91A84238A00846EE7 /* SDLGetVehicleData.m */,
+				DA9F7E6D1DCBFFDB00ACAE48 /* SDLGetWaypoints.h */,
+				DA9F7E6E1DCBFFDB00ACAE48 /* SDLGetWaypoints.m */,
 				5D61FAFF1A84238A00846EE7 /* SDLListFiles.h */,
 				5D61FB001A84238A00846EE7 /* SDLListFiles.m */,
 				5D61FB381A84238B00846EE7 /* SDLPerformAudioPassThru.h */,
@@ -2636,6 +2708,8 @@
 				5D61FBC11A84238B00846EE7 /* SDLSubscribeButton.m */,
 				5D61FBC41A84238B00846EE7 /* SDLSubscribeVehicleData.h */,
 				5D61FBC51A84238B00846EE7 /* SDLSubscribeVehicleData.m */,
+				DA9F7E851DCC049900ACAE48 /* SDLSubscribeWaypoints.h */,
+				DA9F7E861DCC049900ACAE48 /* SDLSubscribeWaypoints.m */,
 				5D61FBCA1A84238B00846EE7 /* SDLSyncPData.h */,
 				5D61FBCB1A84238B00846EE7 /* SDLSyncPData.m */,
 				5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */,
@@ -2646,6 +2720,8 @@
 				5D61FBFB1A84238C00846EE7 /* SDLUnsubscribeButton.m */,
 				5D61FBFE1A84238C00846EE7 /* SDLUnsubscribeVehicleData.h */,
 				5D61FBFF1A84238C00846EE7 /* SDLUnsubscribeVehicleData.m */,
+				DA9F7E911DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.h */,
+				DA9F7E921DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.m */,
 				5D61FC041A84238C00846EE7 /* SDLUpdateTurnList.h */,
 				5D61FC051A84238C00846EE7 /* SDLUpdateTurnList.m */,
 				5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */,
@@ -2691,6 +2767,8 @@
 				5D61FAC71A84238A00846EE7 /* SDLGetDTCsResponse.m */,
 				5D61FACA1A84238A00846EE7 /* SDLGetVehicleDataResponse.h */,
 				5D61FACB1A84238A00846EE7 /* SDLGetVehicleDataResponse.m */,
+				DA9F7E711DCC004C00ACAE48 /* SDLGetWaypointsResponse.h */,
+				DA9F7E721DCC004C00ACAE48 /* SDLGetWaypointsResponse.m */,
 				5D61FB011A84238A00846EE7 /* SDLListFilesResponse.h */,
 				5D61FB021A84238A00846EE7 /* SDLListFilesResponse.m */,
 				5D61FB3A1A84238B00846EE7 /* SDLPerformAudioPassThruResponse.h */,
@@ -2727,6 +2805,8 @@
 				5D61FBC31A84238B00846EE7 /* SDLSubscribeButtonResponse.m */,
 				5D61FBC61A84238B00846EE7 /* SDLSubscribeVehicleDataResponse.h */,
 				5D61FBC71A84238B00846EE7 /* SDLSubscribeVehicleDataResponse.m */,
+				DA9F7E891DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.h */,
+				DA9F7E8A1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.m */,
 				5D61FBCC1A84238B00846EE7 /* SDLSyncPDataResponse.h */,
 				5D61FBCD1A84238B00846EE7 /* SDLSyncPDataResponse.m */,
 				5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */,
@@ -2737,6 +2817,8 @@
 				5D61FBFD1A84238C00846EE7 /* SDLUnsubscribeButtonResponse.m */,
 				5D61FC001A84238C00846EE7 /* SDLUnsubscribeVehicleDataResponse.h */,
 				5D61FC011A84238C00846EE7 /* SDLUnsubscribeVehicleDataResponse.m */,
+				DA9F7E8D1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.h */,
+				DA9F7E8E1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.m */,
 				5D61FC061A84238C00846EE7 /* SDLUpdateTurnListResponse.h */,
 				5D61FC071A84238C00846EE7 /* SDLUpdateTurnListResponse.m */,
 				5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */,
@@ -2794,6 +2876,10 @@
 				5D61FAE71A84238A00846EE7 /* SDLImageResolution.m */,
 				5D61FAF71A84238A00846EE7 /* SDLKeyboardProperties.h */,
 				5D61FAF81A84238A00846EE7 /* SDLKeyboardProperties.m */,
+				DA9F7E951DCC052C00ACAE48 /* SDLLocationCoordinate.h */,
+				DA9F7E961DCC052C00ACAE48 /* SDLLocationCoordinate.m */,
+				DA9F7E971DCC052C00ACAE48 /* SDLLocationDetails.h */,
+				DA9F7E981DCC052C00ACAE48 /* SDLLocationDetails.m */,
 				5D61FB0B1A84238A00846EE7 /* SDLMenuParams.h */,
 				5D61FB0C1A84238A00846EE7 /* SDLMenuParams.m */,
 				5D61FB0D1A84238A00846EE7 /* SDLMyKey.h */,
@@ -2980,6 +3066,8 @@
 				5D61FC211A84238C00846EE7 /* SDLVRCapabilities.m */,
 				5D61FC241A84238C00846EE7 /* SDLWarningLightStatus.h */,
 				5D61FC251A84238C00846EE7 /* SDLWarningLightStatus.m */,
+				DA9F7E811DCC047200ACAE48 /* SDLWaypointType.h */,
+				DA9F7E821DCC047200ACAE48 /* SDLWaypointType.m */,
 				5D61FC261A84238C00846EE7 /* SDLWiperStatus.h */,
 				5D61FC271A84238C00846EE7 /* SDLWiperStatus.m */,
 			);
@@ -3072,6 +3160,8 @@
 				5D61FB331A84238B00846EE7 /* SDLOnTouchEvent.m */,
 				5D61FB341A84238B00846EE7 /* SDLOnVehicleData.h */,
 				5D61FB351A84238B00846EE7 /* SDLOnVehicleData.m */,
+				DA9F7E7D1DCC028B00ACAE48 /* SDLOnWaypointChange.h */,
+				DA9F7E7E1DCC028B00ACAE48 /* SDLOnWaypointChange.m */,
 			);
 			name = Notification;
 			sourceTree = "<group>";
@@ -3834,6 +3924,7 @@
 				5D61FCC91A84238C00846EE7 /* SDLIgnitionStableStatus.h in Headers */,
 				DA9F7E6B1DCBFB0700ACAE48 /* SDLDeliveryMode.h in Headers */,
 				E9C32B941AB20BA200F283AF /* SDLStreamDelegate.h in Headers */,
+				DA9F7E871DCC049900ACAE48 /* SDLSubscribeWaypoints.h in Headers */,
 				5D61FDBB1A84238C00846EE7 /* SDLSystemAction.h in Headers */,
 				5D61FC9C1A84238C00846EE7 /* SDLEmergencyEventType.h in Headers */,
 				5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */,
@@ -3878,6 +3969,7 @@
 				E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */,
 				5D61FC4B1A84238C00846EE7 /* SDLBeltStatus.h in Headers */,
 				DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */,
+				DA9F7E991DCC052C00ACAE48 /* SDLLocationCoordinate.h in Headers */,
 				5D61FC351A84238C00846EE7 /* SDLAirbagStatus.h in Headers */,
 				5D61FC8A1A84238C00846EE7 /* SDLDiagnosticMessageResponse.h in Headers */,
 				5D61FC2D1A84238C00846EE7 /* SDLAddCommand.h in Headers */,
@@ -3900,6 +3992,7 @@
 				5D61FC4F1A84238C00846EE7 /* SDLBodyInformation.h in Headers */,
 				5D61FDAB1A84238C00846EE7 /* SDLStartTime.h in Headers */,
 				5D61FD071A84238C00846EE7 /* SDLOnCommand.h in Headers */,
+				DA9F7E9B1DCC052C00ACAE48 /* SDLLocationDetails.h in Headers */,
 				5D61FD1D1A84238C00846EE7 /* SDLOnTBTClientState.h in Headers */,
 				5D61FD9D1A84238C00846EE7 /* SDLSliderResponse.h in Headers */,
 				5D61FDF31A84238C00846EE7 /* SDLUpdateTurnListResponse.h in Headers */,
@@ -3909,6 +4002,7 @@
 				5D61FC491A84238C00846EE7 /* SDLAudioType.h in Headers */,
 				5D61FC761A84238C00846EE7 /* SDLDeleteFile.h in Headers */,
 				5D61FD211A84238C00846EE7 /* SDLOnVehicleData.h in Headers */,
+				DA9F7E731DCC004C00ACAE48 /* SDLGetWaypointsResponse.h in Headers */,
 				5D61FD7D1A84238C00846EE7 /* SDLScrollableMessageResponse.h in Headers */,
 				5D61FD431A84238C00846EE7 /* SDLProtocol.h in Headers */,
 				5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */,
@@ -3954,6 +4048,7 @@
 				5D61FCFA1A84238C00846EE7 /* SDLMyKey.h in Headers */,
 				5D61FC981A84238C00846EE7 /* SDLECallInfo.h in Headers */,
 				5D61FD7B1A84238C00846EE7 /* SDLScrollableMessage.h in Headers */,
+				DA9F7E931DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.h in Headers */,
 				5D61FD3D1A84238C00846EE7 /* SDLPrimaryAudioSource.h in Headers */,
 				DAC5725C1D10B81E0004288B /* SDLTouch.h in Headers */,
 				5D6F7A2E1BC5650B0070BF37 /* SDLLifecycleConfiguration.h in Headers */,
@@ -3976,6 +4071,7 @@
 				5D61FD651A84238C00846EE7 /* SDLResetGlobalPropertiesResponse.h in Headers */,
 				DA9F7E671DCBFAD400ACAE48 /* SDLOasisAddress.h in Headers */,
 				5D61FD611A84238C00846EE7 /* SDLRequestType.h in Headers */,
+				DA9F7E8B1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.h in Headers */,
 				5D61FCEC1A84238C00846EE7 /* SDLListFiles.h in Headers */,
 				5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */,
 				5D61FC881A84238C00846EE7 /* SDLDiagnosticMessage.h in Headers */,
@@ -4032,12 +4128,14 @@
 				5D61FE011A84238C00846EE7 /* SDLVehicleDataNotificationStatus.h in Headers */,
 				5D61FDC91A84238C00846EE7 /* SDLTextField.h in Headers */,
 				5D6F7A351BC5B9B60070BF37 /* SDLLockScreenViewController.h in Headers */,
+				DA9F7E7F1DCC028B00ACAE48 /* SDLOnWaypointChange.h in Headers */,
 				5D61FCE41A84238C00846EE7 /* SDLKeyboardProperties.h in Headers */,
 				5D61FDED1A84238C00846EE7 /* SDLUnsubscribeVehicleDataResponse.h in Headers */,
 				5DCC19A41B822804004FFAD9 /* SDLURLRequestTask.h in Headers */,
 				5D61FCCF1A84238C00846EE7 /* SDLImageField.h in Headers */,
 				5D535DC51B72473800CF7760 /* SDLGlobals.h in Headers */,
 				5D79A03B1CE36F030035797B /* SDLUploadFileOperation.h in Headers */,
+				DA9F7E6F1DCBFFDB00ACAE48 /* SDLGetWaypoints.h in Headers */,
 				5D61FD231A84238C00846EE7 /* SDLParameterPermissions.h in Headers */,
 				5D61FCB91A84238C00846EE7 /* SDLGlobalProperty.h in Headers */,
 				5D61FE051A84238C00846EE7 /* SDLVehicleDataResultCode.h in Headers */,
@@ -4095,6 +4193,7 @@
 				5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */,
 				5D7F87EF1CE3C294002DD7C4 /* SDLFileManagerConstants.h in Headers */,
 				5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */,
+				DA9F7E831DCC047200ACAE48 /* SDLWaypointType.h in Headers */,
 				5D61FDF51A84238C00846EE7 /* SDLV1ProtocolHeader.h in Headers */,
 				DAC572671D10C5640004288B /* CGPoint_Util.h in Headers */,
 				5D61FDF91A84238C00846EE7 /* SDLV2ProtocolHeader.h in Headers */,
@@ -4106,6 +4205,7 @@
 				5D61FDFB1A84238C00846EE7 /* SDLV2ProtocolMessage.h in Headers */,
 				5D7F87EB1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.h in Headers */,
 				5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */,
+				DA9F7E8F1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.h in Headers */,
 				5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */,
 				DAC5726C1D11B4840004288B /* SDLTouchManagerDelegate.h in Headers */,
 				5D61FD3F1A84238C00846EE7 /* SDLPrioritizedObjectCollection.h in Headers */,
@@ -4310,6 +4410,7 @@
 			files = (
 				332A914F1CED9CC60043824C /* SDLAppInfo.m in Sources */,
 				5DCC19A51B822804004FFAD9 /* SDLURLRequestTask.m in Sources */,
+				DA9F7E841DCC047200ACAE48 /* SDLWaypointType.m in Sources */,
 				5D61FC561A84238C00846EE7 /* SDLButtonName.m in Sources */,
 				5D61FCC21A84238C00846EE7 /* SDLHMILevel.m in Sources */,
 				5D61FDEC1A84238C00846EE7 /* SDLUnsubscribeVehicleData.m in Sources */,
@@ -4341,6 +4442,7 @@
 				5D61FDE01A84238C00846EE7 /* SDLTTSChunkFactory.m in Sources */,
 				5D61FD0A1A84238C00846EE7 /* SDLOnDriverDistraction.m in Sources */,
 				5D61FCED1A84238C00846EE7 /* SDLListFiles.m in Sources */,
+				DA9F7E801DCC028B00ACAE48 /* SDLOnWaypointChange.m in Sources */,
 				5D61FC6E1A84238C00846EE7 /* SDLCreateInteractionChoiceSetResponse.m in Sources */,
 				5D61FD061A84238C00846EE7 /* SDLOnButtonPress.m in Sources */,
 				5D61FD5E1A84238C00846EE7 /* SDLRegisterAppInterface.m in Sources */,
@@ -4372,6 +4474,7 @@
 				5D61FCD01A84238C00846EE7 /* SDLImageField.m in Sources */,
 				5D61FC3C1A84238C00846EE7 /* SDLAlertManeuverResponse.m in Sources */,
 				5D61FC6A1A84238C00846EE7 /* SDLConsoleController.m in Sources */,
+				DA9F7E741DCC004C00ACAE48 /* SDLGetWaypointsResponse.m in Sources */,
 				5D61FD4D1A84238C00846EE7 /* SDLProtocolMessageDisassembler.m in Sources */,
 				5D61FC701A84238C00846EE7 /* SDLDebugTool.m in Sources */,
 				5D61FD4B1A84238C00846EE7 /* SDLProtocolMessageAssembler.m in Sources */,
@@ -4412,6 +4515,7 @@
 				5D61FCF71A84238C00846EE7 /* SDLMediaClockFormat.m in Sources */,
 				5D61FD8A1A84238C00846EE7 /* SDLSetGlobalPropertiesResponse.m in Sources */,
 				5D61FC4C1A84238C00846EE7 /* SDLBeltStatus.m in Sources */,
+				DA9F7E8C1DCC04B000ACAE48 /* SDLSubscribeWaypointsResponse.m in Sources */,
 				5D61FDA41A84238C00846EE7 /* SDLSoftButtonType.m in Sources */,
 				5D61FC521A84238C00846EE7 /* SDLButtonCapabilities.m in Sources */,
 				5D61FC791A84238C00846EE7 /* SDLDeleteFileResponse.m in Sources */,
@@ -4487,9 +4591,11 @@
 				5D61FDAA1A84238C00846EE7 /* SDLSpeechCapabilities.m in Sources */,
 				5D61FDB41A84238C00846EE7 /* SDLSubscribeVehicleDataResponse.m in Sources */,
 				5D61FD121A84238C00846EE7 /* SDLOnKeyboardInput.m in Sources */,
+				DA9F7E9A1DCC052C00ACAE48 /* SDLLocationCoordinate.m in Sources */,
 				5D61FCCA1A84238C00846EE7 /* SDLIgnitionStableStatus.m in Sources */,
 				5D61FCFB1A84238C00846EE7 /* SDLMyKey.m in Sources */,
 				5D61FCAA1A84238C00846EE7 /* SDLFileType.m in Sources */,
+				DA9F7E901DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.m in Sources */,
 				5DE372A21ACB2ED300849FAA /* SDLHMICapabilities.m in Sources */,
 				5D61FDD41A84238C00846EE7 /* SDLTouchEvent.m in Sources */,
 				5D61FD881A84238C00846EE7 /* SDLSetGlobalProperties.m in Sources */,
@@ -4503,9 +4609,11 @@
 				5D61FCB81A84238C00846EE7 /* SDLGetVehicleDataResponse.m in Sources */,
 				5D61FC661A84238C00846EE7 /* SDLCompassDirection.m in Sources */,
 				5D61FD841A84238C00846EE7 /* SDLSetDisplayLayout.m in Sources */,
+				DA9F7E701DCBFFDB00ACAE48 /* SDLGetWaypoints.m in Sources */,
 				5D61FE001A84238C00846EE7 /* SDLVehicleDataEventStatus.m in Sources */,
 				5D61FDC41A84238C00846EE7 /* SDLTBTState.m in Sources */,
 				5D61FDA61A84238C00846EE7 /* SDLSpeak.m in Sources */,
+				DA9F7E881DCC049900ACAE48 /* SDLSubscribeWaypoints.m in Sources */,
 				5D61FDDE1A84238C00846EE7 /* SDLTTSChunk.m in Sources */,
 				5D61FD9E1A84238C00846EE7 /* SDLSliderResponse.m in Sources */,
 				5D61FC5C1A84238C00846EE7 /* SDLChangeRegistration.m in Sources */,
@@ -4555,6 +4663,7 @@
 				5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */,
 				5D61FCD61A84238C00846EE7 /* SDLImageType.m in Sources */,
 				5D4D67AD1D2ED37A00468B4A /* SDLNotificationDispatcher.m in Sources */,
+				DA9F7E9C1DCC052C00ACAE48 /* SDLLocationDetails.m in Sources */,
 				5D61FD7A1A84238C00846EE7 /* SDLScreenParams.m in Sources */,
 				5D61FC831A84238C00846EE7 /* SDLDeviceInfo.m in Sources */,
 				5D7F87EC1CE3C1A1002DD7C4 /* SDLDeleteFileOperation.m in Sources */,
@@ -4594,6 +4703,7 @@
 				5D61FC931A84238C00846EE7 /* SDLDisplayType.m in Sources */,
 				5D61FCE31A84238C00846EE7 /* SDLKeyboardLayout.m in Sources */,
 				5D61FE0C1A84238C00846EE7 /* SDLVehicleType.m in Sources */,
+				DA9F7E941DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.m in Sources */,
 				5D61FDCC1A84238C00846EE7 /* SDLTextFieldName.m in Sources */,
 				5D61FC751A84238C00846EE7 /* SDLDeleteCommandResponse.m in Sources */,
 				5DA3F3711BC4489A0026F2D0 /* SDLManager.m in Sources */,
@@ -4716,11 +4826,13 @@
 				162E83771A9BDE8B00906325 /* SDLClusterModeStatusSpec.m in Sources */,
 				162E83981A9BDE8B00906325 /* SDLVrHelpItemSpec.m in Sources */,
 				162E83831A9BDE8B00906325 /* SDLKeyboardPropertiesSpec.m in Sources */,
+				DA9F7EA01DCC05D200ACAE48 /* SDLOnWaypointChangeSpec.m in Sources */,
 				162E82D11A9BDE8A00906325 /* SDLButtonNameSpec.m in Sources */,
 				162E839E1A9BDE8B00906325 /* SDLRPCStructSpec.m in Sources */,
 				DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */,
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
+				DA9F7E9E1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m in Sources */,
 				162E838E1A9BDE8B00906325 /* SDLSyncMsgVersionSpec.m in Sources */,
 				5D76E31C1D3805FF00647CFA /* SDLLockScreenManagerSpec.m in Sources */,
 				162E82DA1A9BDE8B00906325 /* SDLDriverDistractionStateSpec.m in Sources */,
@@ -4731,9 +4843,11 @@
 				162E83111A9BDE8B00906325 /* SDLOnButtonEventSpec.m in Sources */,
 				162E82FA1A9BDE8B00906325 /* SDLSoftButtonTypeSpec.m in Sources */,
 				162E83751A9BDE8B00906325 /* SDLButtonCapabilitiesSpec.m in Sources */,
+				DA9F7EAF1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m in Sources */,
 				162E83151A9BDE8B00906325 /* SDLOnEncodedSyncPDataSpec.m in Sources */,
 				162E83261A9BDE8B00906325 /* SDLChangeRegistrationSpec.m in Sources */,
 				162E82D21A9BDE8A00906325 /* SDLButtonPressModeSpec.m in Sources */,
+				DA9F7EA21DCC05E100ACAE48 /* SDLGetWaypointsSpec.m in Sources */,
 				162E82D71A9BDE8A00906325 /* SDLDeviceLevelStatusSpec.m in Sources */,
 				162E83841A9BDE8B00906325 /* SDLMenuParamsSpec.m in Sources */,
 				5DB1BCE11D243DDE002FFC37 /* SDLConfigurationSpec.m in Sources */,
@@ -4755,6 +4869,7 @@
 				5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */,
 				162E83381A9BDE8B00906325 /* SDLScrollableMessageSpec.m in Sources */,
 				162E82E81A9BDE8B00906325 /* SDLKeyboardLayoutSpec.m in Sources */,
+				DA9F7EA41DCC05EE00ACAE48 /* SDLSubscribeWaypointsSpec.m in Sources */,
 				DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */,
 				5DB1BCE71D245647002FFC37 /* TestStateMachineTarget.m in Sources */,
 				162E83541A9BDE8B00906325 /* SDLEncodedSyncPDataResponseSpec.m in Sources */,
@@ -4767,6 +4882,7 @@
 				162E83241A9BDE8B00906325 /* SDLAlertManeuverSpec.m in Sources */,
 				162E83451A9BDE8B00906325 /* SDLUnregisterAppInterfaceSpec.m in Sources */,
 				162E82EF1A9BDE8B00906325 /* SDLPermissionStatusSpec.m in Sources */,
+				DA9F7EA61DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m in Sources */,
 				162E82F01A9BDE8B00906325 /* SDLPowerModeQualificationStatusSpec.m in Sources */,
 				162E82CD1A9BDE8A00906325 /* SDLAudioStreamingStateSpec.m in Sources */,
 				162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */,
@@ -4793,6 +4909,7 @@
 				162E83031A9BDE8B00906325 /* SDLTriggerSource.m in Sources */,
 				162E82D61A9BDE8A00906325 /* SDLComponentVolumeStatusSpec.m in Sources */,
 				162E835C1A9BDE8B00906325 /* SDLPutFileResponseSpec.m in Sources */,
+				DA9F7EAA1DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m in Sources */,
 				162E835F1A9BDE8B00906325 /* SDLResetGlobalPropertiesResponseSpec.m in Sources */,
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
@@ -4814,12 +4931,14 @@
 				162E83471A9BDE8B00906325 /* SDLUnsubscribeVehicleDataSpec.m in Sources */,
 				162E839A1A9BDE8B00906325 /* SDLRPCMessageSpec.m in Sources */,
 				162E83311A9BDE8B00906325 /* SDLListFilesSpec.m in Sources */,
+				DA9F7EB01DCC063400ACAE48 /* SDLLocationDetailsSpec.m in Sources */,
 				5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */,
 				162E82FF1A9BDE8B00906325 /* SDLTextAlignmentSpec.m in Sources */,
 				162E831F1A9BDE8B00906325 /* SDLOnTouchEventSpec.m in Sources */,
 				162E83921A9BDE8B00906325 /* SDLTouchEventCapabilitiesSpec.m in Sources */,
 				162E837F1A9BDE8B00906325 /* SDLHeadLampStatusSpec.m in Sources */,
 				162E834D1A9BDE8B00906325 /* SDLChangeRegistrationResponseSpec.m in Sources */,
+				DA9F7EAC1DCC062400ACAE48 /* SDLUnsubscribeWaypointsResponseSpec.m in Sources */,
 				162E836B1A9BDE8B00906325 /* SDLSyncPDataResponseSpec.m in Sources */,
 				162E839B1A9BDE8B00906325 /* SDLRPCNotificationSpec.m in Sources */,
 				162E83581A9BDE8B00906325 /* SDLGetVehicleDataResponseSpec.m in Sources */,
@@ -4869,6 +4988,7 @@
 				162E83731A9BDE8B00906325 /* SDLBeltStatusSpec.m in Sources */,
 				162E83551A9BDE8B00906325 /* SDLEndAudioPassThruResponseSpec.m in Sources */,
 				162E83251A9BDE8B00906325 /* SDLAlertSpec.m in Sources */,
+				DA9F7EA81DCC060B00ACAE48 /* SDLGetWaypointsResponseSpec.m in Sources */,
 				162E830A1A9BDE8B00906325 /* SDLVehicleDataTypeSpec.m in Sources */,
 				5DB1BCD31D243A8E002FFC37 /* SDLDeleteFileOperationSpec.m in Sources */,
 				162E82F41A9BDE8B00906325 /* SDLPrimaryAudioSource.m in Sources */,
