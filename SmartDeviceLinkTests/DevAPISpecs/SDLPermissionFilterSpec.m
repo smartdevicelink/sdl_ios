@@ -16,11 +16,11 @@ describe(@"A filter", ^{
     });
     
     describe(@"should initialize correctly", ^{
-        __block NSArray<SDLPermissionRPCName *> *testRPCNames = nil;
+        __block NSArray<SDLPermissionRPCName> *testRPCNames = nil;
         __block SDLPermissionGroupType testGroupType = SDLPermissionGroupTypeAny;
         __block SDLPermissionFilter *testFilter = nil;
         
-        __block NSDictionary<SDLPermissionRPCName *, NSNumber<SDLBool> *> *testObserverReturnChangedDict = nil;
+        __block NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *testObserverReturnChangedDict = nil;
         
         beforeEach(^{
             testRPCNames = @[testRPCName1, testRPCName2];
@@ -29,7 +29,7 @@ describe(@"A filter", ^{
         
         context(@"using initWithRPCNames:changeType:observer:", ^{
             beforeEach(^{
-                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                testFilter = [[SDLPermissionFilter alloc] initWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     testObserverReturnChangedDict = changedDict;
                 }];
             });
@@ -39,7 +39,7 @@ describe(@"A filter", ^{
             });
             
             describe(@"it should set up the observer correctly", ^{
-                __block NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *testObserverChangedDict = nil;
+                __block NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *testObserverChangedDict = nil;
                 __block NSNumber<SDLBool> *testRPCName1Bool = nil;
                 __block NSNumber<SDLBool> *testRPCName2Bool = nil;
                 __block SDLPermissionGroupStatus testObserverGroupStatus = SDLPermissionGroupStatusUnknown;
@@ -66,7 +66,7 @@ describe(@"A filter", ^{
         
         context(@"using filterWithRPCNames:changeType:observer:", ^{
             beforeEach(^{
-                testFilter = [SDLPermissionFilter filterWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                testFilter = [SDLPermissionFilter filterWithRPCNames:testRPCNames groupType:testGroupType observer:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     testObserverReturnChangedDict = changedDict;
                 }];
             });
@@ -76,7 +76,7 @@ describe(@"A filter", ^{
             });
             
             describe(@"it should set up the observer correctly", ^{
-                __block NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> *testObserverChangedDict = nil;
+                __block NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *testObserverChangedDict = nil;
                 __block NSNumber<SDLBool> *testRPCName1Bool = nil;
                 __block NSNumber<SDLBool> *testRPCName2Bool = nil;
                 __block SDLPermissionGroupStatus testObserverGroupStatus = SDLPermissionGroupStatusUnknown;
@@ -107,7 +107,7 @@ describe(@"A filter", ^{
         __block SDLPermissionFilter *testCopiedFilter = nil;
         
         beforeEach(^{
-            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
+            testFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
             testCopiedFilter = [testFilter copy];
         });
         
@@ -138,10 +138,10 @@ describe(@"A filter", ^{
         __block SDLPermissionFilter *testDifferentFilter = nil;
         
         beforeEach(^{
-            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
+            testSameFilter1 = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
             testSameFilter2 = [testSameFilter1 copy];
             
-            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName *,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
+            testDifferentFilter = [SDLPermissionFilter filterWithRPCNames:@[testRPCName1] groupType:SDLPermissionGroupTypeAny observer:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {}];
         });
         
         it(@"should say copied filters are the same", ^{
