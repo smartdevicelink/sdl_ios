@@ -3,8 +3,8 @@
 
 #import "SDLLocationDetails.h"
 
-#import "SDLLocationCoordinate.h"
 #import "SDLImage.h"
+#import "SDLLocationCoordinate.h"
 #import "SDLNames.h"
 #import "SDLOasisAddress.h"
 

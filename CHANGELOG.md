@@ -1,3 +1,15 @@
+# 4.4.0 Release Notes
+### Features
+* [SDL-0003] Adds SendLocation and associated data types.
+* [SDL-0004] Adds Waypointing as a feature for Last Mile Navigation.
+* Adds `DisplayType` `Generic`, please continue to not use the `DisplayType` to know when features are available.
+
+### Bug Fixes
+* Fixes the completion handler of a file upload being called twice when a file failed to upload (which fixes a crash in the example project).
+
+### Tests
+* Fixes an issue where tests would fail to compile.
+
 # 4.3.0 Release Notes (Since RC 6 + Highlights)
 ### Highlights
 * Adds a lifecycle manager to replace `SDLProxy` and manages much more of the lifecycle based on a declarative `SDLConfiguration`.

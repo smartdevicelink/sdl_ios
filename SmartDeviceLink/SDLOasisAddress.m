@@ -6,16 +6,16 @@
 
 @implementation SDLOasisAddress
 
-- (instancetype)initWithSubThoroughfare:(NSString*)subThoroughfare thoroughfare:(NSString*)thoroughfare locality:(NSString*)locality administrativeArea:(NSString*)administrativeArea postalCode:(NSString*)postalCode countryCode:(NSString*)countryCode {
+- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode {
     return [self initWithSubThoroughfare:subThoroughfare thoroughfare:thoroughfare locality:locality administrativeArea:administrativeArea postalCode:postalCode countryCode:countryCode countryName:nil subAdministrativeArea:nil subLocality:nil];
 }
 
-- (instancetype)initWithSubThoroughfare:(NSString*)subThoroughfare thoroughfare:(NSString*)thoroughfare locality:(NSString*)locality administrativeArea:(NSString*)administrativeArea postalCode:(NSString*)postalCode countryCode:(NSString*)countryCode countryName:(NSString*)countryName subAdministrativeArea:(NSString*)subAdministrativeArea subLocality:(NSString*)subLocality {
+- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode countryName:(NSString *)countryName subAdministrativeArea:(NSString *)subAdministrativeArea subLocality:(NSString *)subLocality {
     self = [self init];
     if (!self) {
         return nil;
     }
-    
+
     self.subThoroughfare = subThoroughfare;
     self.thoroughfare = thoroughfare;
     self.locality = locality;
@@ -25,7 +25,7 @@
     self.countryName = countryName;
     self.subAdministrativeArea = subAdministrativeArea;
     self.subLocality = subLocality;
-    
+
     return self;
 }
 

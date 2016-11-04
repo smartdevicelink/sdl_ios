@@ -22,9 +22,9 @@ NSArray *SDLWaypointType_values = nil;
 + (NSArray *)values {
     if (SDLWaypointType_values == nil) {
         SDLWaypointType_values = @[
-                                   SDLWaypointType.ALL,
-                                   SDLWaypointType.DESTINATION,
-                                   ];
+            SDLWaypointType.ALL,
+            SDLWaypointType.DESTINATION,
+        ];
     }
     return SDLWaypointType_values;
 }

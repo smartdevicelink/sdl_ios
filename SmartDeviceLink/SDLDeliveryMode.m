@@ -23,10 +23,10 @@ NSArray *SDLDeliveryMode_values = nil;
 + (NSArray *)values {
     if (SDLDeliveryMode_values == nil) {
         SDLDeliveryMode_values = @[
-                                   SDLDeliveryMode.PROMPT,
-                                   SDLDeliveryMode.DESTINATION,
-                                   SDLDeliveryMode.QUEUE,
-                                   ];
+            SDLDeliveryMode.PROMPT,
+            SDLDeliveryMode.DESTINATION,
+            SDLDeliveryMode.QUEUE,
+        ];
     }
     return SDLDeliveryMode_values;
 }

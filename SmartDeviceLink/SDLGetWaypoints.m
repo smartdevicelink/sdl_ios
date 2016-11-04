@@ -20,9 +20,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.waypointType = type;
-    
+
     return self;
 }
 

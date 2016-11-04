@@ -5,9 +5,9 @@
 
 @interface SDLOasisAddress : SDLRPCStruct
 
-- (instancetype)initWithSubThoroughfare:(NSString*)subThoroughfare thoroughfare:(NSString*)thoroughfare locality:(NSString*)locality administrativeArea:(NSString*)administrativeArea postalCode:(NSString*)postalCode countryCode:(NSString*)countryCode;
+- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode;
 
-- (instancetype)initWithSubThoroughfare:(NSString*)subThoroughfare thoroughfare:(NSString*)thoroughfare locality:(NSString*)locality administrativeArea:(NSString*)administrativeArea postalCode:(NSString*)postalCode countryCode:(NSString*)countryCode countryName:(NSString*)countryName subAdministrativeArea:(NSString*)subAdministrativeArea subLocality:(NSString*)subLocality;
+- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode countryName:(NSString *)countryName subAdministrativeArea:(NSString *)subAdministrativeArea subLocality:(NSString *)subLocality;
 
 /**
  * @abstract Name of the country (localized)

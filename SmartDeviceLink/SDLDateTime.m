@@ -11,10 +11,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.hour = @(hour);
     self.minute = @(minute);
-    
+
     return self;
 }
 
@@ -23,12 +23,11 @@
     if (!self) {
         return nil;
     }
-    
+
     self.second = @(second);
     self.millisecond = @(millisecond);
-    
+
     return self;
-    
 }
 
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year {
@@ -36,11 +35,11 @@
     if (!self) {
         return nil;
     }
-    
+
     self.day = @(day);
     self.month = @(month);
     self.year = @(year);
-    
+
     return self;
 }
 
@@ -50,10 +49,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.timezoneMinuteOffset = @(timezoneMinuteOffset);
     self.timezoneHourOffset = @(timezoneHourOffset);
-    
+
     return self;
 }
 
