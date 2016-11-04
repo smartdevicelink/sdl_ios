@@ -11,6 +11,7 @@
 @import UIKit;
 
 #import "SDLAbstractProtocol.h"
+#import "SDLDebugTool.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
 #import "SDLImageResolution.h"
@@ -258,8 +259,8 @@ NS_ASSUME_NONNULL_BEGIN
     static NSDictionary *defaultVideoEncoderSettings = nil;
     if (defaultVideoEncoderSettings == nil) {
         defaultVideoEncoderSettings = @{
-            (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel : (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
-            (__bridge NSString *)kVTCompressionPropertyKey_RealTime : @YES
+            (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
+            (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES
         };
     }
     return defaultVideoEncoderSettings;
@@ -352,7 +353,7 @@ NS_ASSUME_NONNULL_BEGIN
 void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
-        NSLog(@"Error encoding video, err=%lld", (int64_t)status);
+        [SDLDebugTool logFormat:@"Error encoding video, err=%lld", (int64_t)status];
         return;
     }
 
@@ -378,7 +379,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     if (status != noErr) {
         // TODO: Log the error
         if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus" : @(status) }];
+            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
         }
 
         return NO;
@@ -392,7 +393,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
         if (*error != nil) {
-            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+            *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
         }
 
         return NO;
@@ -402,7 +403,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
             if (*error != nil) {
                 NSString *description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
-                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey : description}];
+                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description}];
             }
             CFRelease(supportedProperties);
             return NO;
@@ -417,7 +418,7 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
             if (*error != nil) {
-                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus" : @(status) }];
+                *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
             }
 
             return NO;
@@ -552,6 +553,10 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
 }
 
 - (void)sdl_updateScreenSizeFromDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+    if (displayCapabilities.graphicSupported.boolValue == false) {
+        [SDLDebugTool logInfo:@"Graphics are not supported. We are assuming screen size is also unavailable"];
+        return;
+    }
     SDLImageResolution *resolution = displayCapabilities.screenParams.resolution;
     if (resolution != nil) {
         _screenSize = CGSizeMake(resolution.resolutionWidth.floatValue,

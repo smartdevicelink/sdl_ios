@@ -7,8 +7,8 @@
 
 @class SDLProxy;
 
-
-@interface SDLProxyFactory : NSObject {
+__deprecated_msg("Use SDLManager instead")
+    @interface SDLProxyFactory : NSObject {
 }
 
 + (SDLProxy *)buildSDLProxyWithListener:(NSObject<SDLProxyListener> *)listener;

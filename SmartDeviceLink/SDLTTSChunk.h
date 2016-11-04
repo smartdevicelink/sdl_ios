@@ -52,6 +52,19 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities *)type;
+
++ (NSMutableArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
+
++ (NSMutableArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
+
++ (NSMutableArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
+
++ (NSMutableArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
+
++ (NSMutableArray<SDLTTSChunk *> *)silenceChunks;
+
+
 /**
  * @abstract Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.
  *

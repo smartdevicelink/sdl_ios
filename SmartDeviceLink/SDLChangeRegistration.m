@@ -21,6 +21,31 @@
     return self;
 }
 
+- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
+    self = [self initWithLanguage:language hmiDisplayLanguage:hmiDisplayLanguage appName:nil ttsName:nil ngnMediaScreenAppName:nil vrSynonyms:nil];
+    if (!self) {
+        return nil;
+    }
+
+    return self;
+}
+
+- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray *)vrSynonyms {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.language = language;
+    self.hmiDisplayLanguage = hmiDisplayLanguage;
+    self.appName = appName;
+    self.ttsName = ttsName;
+    self.ngnMediaScreenAppName = ngnMediaScreenAppName;
+    self.vrSynonyms = vrSynonyms;
+
+    return self;
+}
+
 - (void)setLanguage:(SDLLanguage *)language {
     if (language != nil) {
         [parameters setObject:language forKey:NAMES_language];

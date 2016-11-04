@@ -16,9 +16,32 @@
     return self;
 }
 
+- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    _handler = handler;
+
+    return self;
+}
+
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
+    return self;
+}
+
+- (instancetype)initWithButtonName:(SDLButtonName *)buttonName handler:(SDLRPCNotificationHandler)handler {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.buttonName = buttonName;
+    self.handler = handler;
+
     return self;
 }
 

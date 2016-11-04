@@ -18,9 +18,7 @@
 #import "SDLJsonEncoder.h"
 #import "SDLLanguage.h"
 #import "SDLLayoutMode.h"
-#import "SDLLockScreenManager.h"
-#import "SDLLockScreenManager.h"
-#import "SDLLockScreenManager.h"
+#import "SDLLockScreenStatusManager.h"
 #import "SDLNames.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemRequest.h"
@@ -35,7 +33,6 @@
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
@@ -52,14 +49,14 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.2.4";
+NSString *const SDLProxyVersion = @"4.3.0";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
 
 
 @interface SDLProxy () {
-    SDLLockScreenManager *_lsm;
+    SDLLockScreenStatusManager *_lsm;
 }
 
 @property (copy, nonatomic) NSString *appId;
@@ -77,7 +74,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
-        _lsm = [[SDLLockScreenManager alloc] init];
+        _lsm = [[SDLLockScreenStatusManager alloc] init];
         _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
@@ -184,6 +181,9 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
+        if (self.displayCapabilities == nil) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
+        }
         _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
         [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
@@ -717,7 +717,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
     NSArray *array = [NSArray arrayWithObject:encodedSyncPDataString];
-    NSDictionary *dictionary = @{ @"data" : array };
+    NSDictionary *dictionary = @{ @"data": array };
     NSError *JSONSerializationError = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
     if (JSONSerializationError) {

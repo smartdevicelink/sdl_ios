@@ -1,0 +1,62 @@
+<h1>SDLManagerDelegate Protocol Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--managerDidDisconnect">-managerDidDisconnect</a></li>
+  <li><a href="#section--hmiLevel:didChangeToLevel:">-hmiLevel:didChangeToLevel:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--managerDidDisconnect">
+      -managerDidDisconnect
+  </h3>
+  
+  <p>Called upon a disconnection from the remote system.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">managerDidDisconnect</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">managerDidDisconnect</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--hmiLevel:didChangeToLevel:">
+      -hmiLevel:didChangeToLevel:
+  </h3>
+  
+  <p>Called when the HMI level state of this application changes on the remote system. This is equivalent to the application&rsquo;s state changes in iOS such as foreground, background, or closed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hmiLevel</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">oldLevel</span>
+    <span class="nf">didChangeToLevel</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">newLevel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">hmiLevel</span><span class="p">(</span><span class="n">_</span> <span class="nv">oldLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span><span class="p">,</span> <span class="n">didChangeTo</span> <span class="nv">newLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>oldLevel</dt>
+      <dd><p>The previous level which has now been left.</p>
+</dd>
+      <dt>newLevel</dt>
+      <dd><p>The current level.</p>
+</dd>
+  </dl>
+  
+</section>

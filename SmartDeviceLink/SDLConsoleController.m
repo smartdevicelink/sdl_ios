@@ -190,7 +190,7 @@
         alertText = [NSString stringWithFormat:@"%@", [obj description]];
     }
 
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"RPCMessage" message:alertText delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"RPCMessage", nil) message:alertText delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
     alertView = nil;
 

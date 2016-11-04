@@ -4,6 +4,9 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLSoftButton;
+@class SDLTurn;
+
 /** Updates the list of next maneuvers, which can be requested by the user pressing the softbutton<br>
  * “Turns” on the Navigation base screen. Three softbuttons are predefined by the system: Up, Down, Close.
  *<p>
@@ -14,6 +17,8 @@
 
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+- (instancetype)initWithTurnList:(NSArray<SDLTurn *> *)turnList softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
 /**
  *  Optional, SDLTurn, 1 - 100 entries

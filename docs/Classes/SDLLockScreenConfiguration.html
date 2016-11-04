@@ -1,0 +1,230 @@
+<h1>SDLLockScreenConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-showInOptionalState">showInOptionalState</a></li>
+  <li><a href="#section-enableAutomaticLockScreen">enableAutomaticLockScreen</a></li>
+  <li><a href="#section-backgroundColor">backgroundColor</a></li>
+  <li><a href="#section-appIcon">appIcon</a></li>
+  <li><a href="#section-customViewController">customViewController</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section-+disabledConfiguration">+disabledConfiguration</a></li>
+  <li><a href="#section-+enabledConfiguration">+enabledConfiguration</a></li>
+  <li><a href="#section-+enabledConfigurationWithAppIcon:backgroundColor:">+enabledConfigurationWithAppIcon:backgroundColor:</a></li>
+  <li><a href="#section-+enabledConfigurationWithViewController:">+enabledConfigurationWithViewController:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-showInOptionalState">
+      showInOptionalState
+  </h3>
+  
+  <p>Whether or not the lock screen should be shown in the <q>lock screen optional</q> state. Defaults to &lsquo;NO&rsquo;.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showInOptionalState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">showInOptionalState</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-enableAutomaticLockScreen">
+      enableAutomaticLockScreen
+  </h3>
+  
+  <p>If YES, the lock screen should be managed by SDL and automatically engage when necessary. If NO, then the lock screen will never be engaged.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">enableAutomaticLockScreen</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">enableAutomaticLockScreen</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-backgroundColor">
+      backgroundColor
+  </h3>
+  
+  <p>The background color of the lock screen. This could be a branding color, or leave at the default for a dark blue-gray.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UIColor</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">backgroundColor</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-appIcon">
+      appIcon
+  </h3>
+  
+  <p>Your app icon as it will appear on the lock screen.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">UIImage</span> <span class="o">*</span><span class="n">appIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">appIcon</span><span class="p">:</span> <span class="kt">NSImage</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-customViewController">
+      customViewController
+  </h3>
+  
+  <p>A custom view controller that the lock screen will manage the presentation of.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">customViewController</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-+disabledConfiguration">
+      +disabledConfiguration
+  </h3>
+  
+  <p>Use this configuration if you wish to manage a lock screen yourself. This may be useful if the automatic presentation feature of SDLLockScreenManager is failing for some reason.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">disabledConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">disabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+
+  </div>
+  
+  <h3 id="section-+enabledConfiguration">
+      +enabledConfiguration
+  </h3>
+  
+  <p>Use this configuration for the basic default lock screen. A custom app icon will not be used.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">enabledConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+
+  </div>
+  
+  <h3 id="section-+enabledConfigurationWithAppIcon:backgroundColor:">
+      +enabledConfigurationWithAppIcon:backgroundColor:
+  </h3>
+  
+  <p>Use this configuration to provide a custom lock screen icon and a custom background color, or nil if you wish to use the default background color. This will use the default lock screen layout.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+<span class="nf">enabledConfigurationWithAppIcon</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenAppIcon</span>
+                <span class="nf">backgroundColor</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenBackgroundColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">enabledConfiguration</span><span class="p">(</span><span class="n">withAppIcon</span> <span class="nv">lockScreenAppIcon</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html#/c:objc(cs)SDLLockScreenConfiguration(py)backgroundColor">backgroundColor</a></span> <span class="nv">lockScreenBackgroundColor</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lockScreenAppIcon</dt>
+      <dd><p>The app icon to be shown on the lock screen</p>
+</dd>
+      <dt>lockScreenBackgroundColor</dt>
+      <dd><p>The color of the lock screen background</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+
+  </div>
+  
+  <h3 id="section-+enabledConfigurationWithViewController:">
+      +enabledConfigurationWithViewController:
+  </h3>
+  
+  <p>Use this configuration if you wish to provide your own view controller for the lock screen. This view controller&rsquo;s presentation and dismissal will still be managed by the lock screen manager. Note that you may subclass SDLLockScreenViewController and pass it here to continue to have the vehicle icon set to your view controller by the manager.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">enabledConfigurationWithViewController</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">viewController</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">enabledConfiguration</span><span class="p">(</span><span class="n">withViewController</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>viewController</dt>
+      <dd><p>The view controller to be managed</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+
+  </div>
+  
+</section>

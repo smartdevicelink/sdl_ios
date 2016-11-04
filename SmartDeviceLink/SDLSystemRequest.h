@@ -17,6 +17,8 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithType:(SDLRequestType *)requestType fileName:(NSString *)fileName;
+
 @property (strong) SDLRequestType *requestType;
 @property (strong) NSString *fileName;
 

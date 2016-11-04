@@ -1,0 +1,122 @@
+<h1>SDLConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-lifecycleConfig">lifecycleConfig</a></li>
+  <li><a href="#section-lockScreenConfig">lockScreenConfig</a></li>
+  <li><a href="#section--initWithLifecycle:lockScreen:">-initWithLifecycle:lockScreen:</a></li>
+  <li><a href="#section-+configurationWithLifecycle:lockScreen:">+configurationWithLifecycle:lockScreen:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-lifecycleConfig">
+      lifecycleConfig
+  </h3>
+  
+  <p>The lifecycle configuration.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">lifecycleConfig</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-lockScreenConfig">
+      lockScreenConfig
+  </h3>
+  
+  <p>The lock screen configuration.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">lockScreenConfig</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithLifecycle:lockScreen:">
+      -initWithLifecycle:lockScreen:
+  </h3>
+  
+  <p>Create a new configuration to be passed into SDLManager.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+<span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+       <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">lifecycle</span> <span class="nv">lifecycleConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">,</span> <span class="n">lockScreen</span> <span class="nv">lockScreenConfig</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lifecycleConfig</dt>
+      <dd><p>The lifecycle configuration to be used.</p>
+</dd>
+      <dt>lockScreenConfig</dt>
+      <dd><p>The lockscreen configuration to be used. If nil, this will be <code>enabledConfiguration</code>.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+
+  </div>
+  
+  <h3 id="section-+configurationWithLifecycle:lockScreen:">
+      +configurationWithLifecycle:lockScreen:
+  </h3>
+  
+  <p>Create a new configuration to be passed into SDLManager.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+<span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span>
+                <span class="nf">lockScreen</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lifecycleConfig</dt>
+      <dd><p>The lifecycle configuration to be used.</p>
+</dd>
+      <dt>lockScreenConfig</dt>
+      <dd><p>The lockscreen configuration to be used. If nil, this will be <code>enabledConfiguration</code>.</p>
+</dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+
+  </div>
+  
+</section>

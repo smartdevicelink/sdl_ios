@@ -28,11 +28,14 @@ typedef NS_ENUM(UInt8, SDLDebugOutput) {
 @interface SDLDebugTool : NSObject {
 }
 
++ (void)enable;
++ (void)disable;
 + (void)addConsole:(NSObject<SDLDebugToolConsole> *)console;
 + (void)addConsole:(NSObject<SDLDebugToolConsole> *)console toGroup:(NSString *)groupName;
 + (void)removeConsole:(NSObject<SDLDebugToolConsole> *)console;
 + (void)removeConsole:(NSObject<SDLDebugToolConsole> *)console fromGroup:(NSString *)groupName;
 + (void)logInfo:(NSString *)info;
++ (void)logFormat:(NSString *)info, ...;
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type;
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output;
 + (void)logInfo:(NSString *)info andBinaryData:(NSData *)data withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output;
