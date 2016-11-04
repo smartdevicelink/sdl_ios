@@ -20,6 +20,9 @@ describe(@"Send Location RPC", ^{
     __block NSArray *someAddressLines = nil;
     __block NSString *somePhoneNumber = nil;
     __block SDLImage *someImage = nil;
+    __block SDLDeliveryMode *someDeliveryMode = nil;
+    __block SDLDateTime* someTime = nil;
+    __block SDLOasisAddress* someAddress = nil;
     
     describe(@"when initialized with init", ^{
         beforeEach(^{
@@ -35,6 +38,9 @@ describe(@"Send Location RPC", ^{
                 someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
+                someDeliveryMode = [SDLDeliveryMode PROMPT];
+                someTime = [[SDLDateTime alloc] init];
+                someAddress = [[SDLOasisAddress alloc] init];
                 
                 testRequest.longitudeDegrees = someLongitude;
                 testRequest.latitudeDegrees = someLatitude;
@@ -43,6 +49,9 @@ describe(@"Send Location RPC", ^{
                 testRequest.addressLines = someAddressLines;
                 testRequest.phoneNumber = somePhoneNumber;
                 testRequest.locationImage = someImage;
+                testRequest.deliveryMode = someDeliveryMode;
+                testRequest.timeStamp = someTime;
+                testRequest.address = someAddress;
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
@@ -80,6 +89,21 @@ describe(@"Send Location RPC", ^{
                 expect(testRequest.locationImage).to(equal(someImage));
                 expect(testRequest.locationImage).to(beIdenticalTo(someImage));
             });
+            
+            it(@"should get delivery mode correctly", ^{
+                expect(testRequest.deliveryMode).to(equal(someDeliveryMode));
+                expect(testRequest.deliveryMode).to(beIdenticalTo(someDeliveryMode));
+            });
+            
+            it(@"should get timestamp correctly", ^{
+                expect(testRequest.timeStamp).to(equal(someTime));
+                expect(testRequest.timeStamp).to(beIdenticalTo(someTime));
+            });
+            
+            it(@"should get address correctly", ^{
+                expect(testRequest.address).to(equal(someAddress));
+                expect(testRequest.address).to(beIdenticalTo(someAddress));
+            });
         });
         
         context(@"when parameters are not set", ^{
@@ -110,6 +134,18 @@ describe(@"Send Location RPC", ^{
             it(@"should return nil for image", ^{
                 expect(testRequest.locationImage).to(beNil());
             });
+            
+            it(@"should return nil for delivery mode", ^{
+                expect(testRequest.deliveryMode).to(beNil());
+            });
+            
+            it(@"should return nil for timeStamp", ^{
+                expect(testRequest.timeStamp).to(beNil());
+            });
+            
+            it(@"should return nil for address", ^{
+                expect(testRequest.address).to(beNil());
+            });
         });
     });
     
@@ -123,6 +159,9 @@ describe(@"Send Location RPC", ^{
                 someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
+                someDeliveryMode = [SDLDeliveryMode PROMPT];
+                someTime = [[SDLDateTime alloc] init];
+                someAddress = [[SDLOasisAddress alloc] init];
                 NSDictionary *initDict = @{
                                            NAMES_request: @{
                                                    NAMES_parameters: @{
@@ -132,7 +171,10 @@ describe(@"Send Location RPC", ^{
                                                            NAMES_locationDescription: someLocationDescription,
                                                            NAMES_addressLines: someAddressLines,
                                                            NAMES_phoneNumber: somePhoneNumber,
-                                                           NAMES_locationImage: someImage
+                                                           NAMES_locationImage: someImage,
+                                                           NAMES_deliveryMode: someDeliveryMode,
+                                                           NAMES_timeStamp: someTime,
+                                                           NAMES_address: someAddress
                                                            }
                                                    }
                                            };
@@ -175,6 +217,21 @@ describe(@"Send Location RPC", ^{
                 expect(testRequest.locationImage).to(equal(someImage));
                 expect(testRequest.locationImage).to(beIdenticalTo(someImage));
             });
+            
+            it(@"should get delivery mode correctly", ^{
+                expect(testRequest.deliveryMode).to(equal(someDeliveryMode));
+                expect(testRequest.deliveryMode).to(beIdenticalTo(someDeliveryMode));
+            });
+            
+            it(@"should get timestamp correctly", ^{
+                expect(testRequest.timeStamp).to(equal(someTime));
+                expect(testRequest.timeStamp).to(beIdenticalTo(someTime));
+            });
+            
+            it(@"should get address correctly", ^{
+                expect(testRequest.address).to(equal(someAddress));
+                expect(testRequest.address).to(beIdenticalTo(someAddress));
+            });
         });
     
         context(@"when parameters are not set", ^{
@@ -214,6 +271,18 @@ describe(@"Send Location RPC", ^{
             
             it(@"should return nil for image", ^{
                 expect(testRequest.locationImage).to(beNil());
+            });
+            
+            it(@"should return nil for delivery mode", ^{
+                expect(testRequest.deliveryMode).to(beNil());
+            });
+            
+            it(@"should return nil for timeStamp", ^{
+                expect(testRequest.timeStamp).to(beNil());
+            });
+            
+            it(@"should return nil for address", ^{
+                expect(testRequest.address).to(beNil());
             });
         });
     });
