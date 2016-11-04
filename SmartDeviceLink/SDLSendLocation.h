@@ -44,7 +44,7 @@
 @property (copy, nonatomic) NSString *locationDescription;
 
 /**
- * Array of lines for the location address
+ * Location address for display purposes only
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */
