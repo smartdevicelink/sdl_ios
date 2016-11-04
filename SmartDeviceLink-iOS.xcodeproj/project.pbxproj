@@ -915,6 +915,9 @@
 		DA9F7E681DCBFAD400ACAE48 /* SDLOasisAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E661DCBFAD400ACAE48 /* SDLOasisAddress.m */; };
 		DA9F7E6B1DCBFB0700ACAE48 /* SDLDeliveryMode.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E691DCBFB0700ACAE48 /* SDLDeliveryMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA9F7E6C1DCBFB0700ACAE48 /* SDLDeliveryMode.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E6A1DCBFB0700ACAE48 /* SDLDeliveryMode.m */; };
+		DA9F7EB21DCC084300ACAE48 /* SDLDeliveryModeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB11DCC084300ACAE48 /* SDLDeliveryModeSpec.m */; };
+		DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */; };
+		DA9F7EB61DCC086A00ACAE48 /* SDLOasisAddressSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */; };
 		DAC572571D1067270004288B /* SDLTouchManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572551D1067270004288B /* SDLTouchManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAC572581D1067270004288B /* SDLTouchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572561D1067270004288B /* SDLTouchManager.m */; };
 		DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572591D10B81E0004288B /* SDLTouch.m */; };
@@ -1925,6 +1928,9 @@
 		DA9F7E661DCBFAD400ACAE48 /* SDLOasisAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOasisAddress.m; sourceTree = "<group>"; };
 		DA9F7E691DCBFB0700ACAE48 /* SDLDeliveryMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDeliveryMode.h; sourceTree = "<group>"; };
 		DA9F7E6A1DCBFB0700ACAE48 /* SDLDeliveryMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDeliveryMode.m; sourceTree = "<group>"; };
+		DA9F7EB11DCC084300ACAE48 /* SDLDeliveryModeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDeliveryModeSpec.m; sourceTree = "<group>"; };
+		DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTimeSpec.m; sourceTree = "<group>"; };
+		DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOasisAddressSpec.m; sourceTree = "<group>"; };
 		DAC572551D1067270004288B /* SDLTouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchManager.h; sourceTree = "<group>"; };
 		DAC572561D1067270004288B /* SDLTouchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManager.m; sourceTree = "<group>"; };
 		DAC572591D10B81E0004288B /* SDLTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouch.m; sourceTree = "<group>"; };
@@ -2014,6 +2020,7 @@
 				162E81EC1A9BDE8A00906325 /* SDLCharacterSetSpec.m */,
 				162E81ED1A9BDE8A00906325 /* SDLCompassDirectionSpec.m */,
 				162E81EE1A9BDE8A00906325 /* SDLComponentVolumeStatusSpec.m */,
+				DA9F7EB11DCC084300ACAE48 /* SDLDeliveryModeSpec.m */,
 				162E81EF1A9BDE8A00906325 /* SDLDeviceLevelStatusSpec.m */,
 				162E81F01A9BDE8A00906325 /* SDLDimensionSpec.m */,
 				162E81F11A9BDE8A00906325 /* SDLDisplayTypeSpec.m */,
@@ -2221,6 +2228,7 @@
 				162E82931A9BDE8A00906325 /* SDLButtonCapabilitiesSpec.m */,
 				162E82941A9BDE8A00906325 /* SDLChoiceSpec.m */,
 				162E82951A9BDE8A00906325 /* SDLClusterModeStatusSpec.m */,
+				DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */,
 				162E82961A9BDE8A00906325 /* SDLDeviceInfoSpec.m */,
 				162E82971A9BDE8A00906325 /* SDLDeviceStatusSpec.m */,
 				162E82981A9BDE8A00906325 /* SDLDIDResult.m */,
@@ -2236,6 +2244,7 @@
 				162E82A11A9BDE8A00906325 /* SDLKeyboardPropertiesSpec.m */,
 				162E82A21A9BDE8A00906325 /* SDLMenuParamsSpec.m */,
 				162E82A31A9BDE8A00906325 /* SDLMyKeySpec.m */,
+				DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */,
 				162E82A41A9BDE8A00906325 /* SDLParameterPermissionsSpec.m */,
 				162E82A51A9BDE8A00906325 /* SDLPermissionItemSpec.m */,
 				162E82A61A9BDE8A00906325 /* SDLPresetBankCapabilitiesSpec.m */,
@@ -4639,6 +4648,7 @@
 				162E83871A9BDE8B00906325 /* SDLPermissionItemSpec.m in Sources */,
 				162E82E31A9BDE8B00906325 /* SDLIgnitionStatusSpec.m in Sources */,
 				162E83511A9BDE8B00906325 /* SDLDeleteInteractionChoiceSetResponseSpec.m in Sources */,
+				DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */,
 				162E830E1A9BDE8B00906325 /* SDLRPCRequestFactorySpec.m in Sources */,
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
 				162E83991A9BDE8B00906325 /* SDLEnumSpec.m in Sources */,
@@ -4707,6 +4717,7 @@
 				162E82F71A9BDE8B00906325 /* SDLResultSpec.m in Sources */,
 				1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */,
 				1680B1161A9CD7AD00DBD79E /* SDLProtocolMessageSpec.m in Sources */,
+				DA9F7EB21DCC084300ACAE48 /* SDLDeliveryModeSpec.m in Sources */,
 				162E83771A9BDE8B00906325 /* SDLClusterModeStatusSpec.m in Sources */,
 				162E83981A9BDE8B00906325 /* SDLVrHelpItemSpec.m in Sources */,
 				162E83831A9BDE8B00906325 /* SDLKeyboardPropertiesSpec.m in Sources */,
@@ -4799,6 +4810,7 @@
 				162E830C1A9BDE8B00906325 /* SDLWarningLightStatusSpec.m in Sources */,
 				162E82E71A9BDE8B00906325 /* SDLKeyboardEventSpec.m in Sources */,
 				162E834E1A9BDE8B00906325 /* SDLCreateInteractionChoiceSetResponseSpec.m in Sources */,
+				DA9F7EB61DCC086A00ACAE48 /* SDLOasisAddressSpec.m in Sources */,
 				162E83301A9BDE8B00906325 /* SDLGetVehicleDataSpec.m in Sources */,
 				162E833F1A9BDE8B00906325 /* SDLSliderSpec.m in Sources */,
 				162E838C1A9BDE8B00906325 /* SDLSoftButtonSpec.m in Sources */,
