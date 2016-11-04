@@ -75,6 +75,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLEndAudioPassThru.h"
 #import "SDLGetDTCs.h"
 #import "SDLGetVehicleData.h"
+#import "SDLGetWaypoints.h"
 #import "SDLListFiles.h"
 #import "SDLPerformAudioPassThru.h"
 #import "SDLPerformInteraction.h"
@@ -94,10 +95,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSpeak.h"
 #import "SDLSubscribeButton.h"
 #import "SDLSubscribeVehicleData.h"
+#import "SDLSubscribeWaypoints.h"
 #import "SDLSyncPData.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
+#import "SDLUnsubscribeWaypoints.h"
 #import "SDLUpdateTurnList.h"
 
 // Responses
@@ -118,6 +121,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLGenericResponse.h"
 #import "SDLGetDTCsResponse.h"
 #import "SDLGetVehicleDataResponse.h"
+#import "SDLGetWaypointsResponse.h"
 #import "SDLListFilesResponse.h"
 #import "SDLPerformAudioPassThruResponse.h"
 #import "SDLPerformInteractionResponse.h"
@@ -137,10 +141,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSpeakResponse.h"
 #import "SDLSubscribeButtonResponse.h"
 #import "SDLSubscribeVehicleDataResponse.h"
+#import "SDLSubscribeWaypointsResponse.h"
 #import "SDLSyncPDataResponse.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
 #import "SDLUnsubscribeButtonResponse.h"
 #import "SDLUnsubscribeVehicleDataResponse.h"
+#import "SDLUnsubscribeWaypointsResponse.h"
 #import "SDLUpdateTurnListResponse.h"
 
 // Notifications
@@ -162,6 +168,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnTBTClientState.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLOnVehicleData.h"
+#import "SDLOnWaypointChange.h"
 
 // Structs
 #import "SDLAirbagStatus.h"
@@ -172,6 +179,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLButtonCapabilities.h"
 #import "SDLChoice.h"
 #import "SDLClusterModeStatus.h"
+#import "SDLDateTime.h"
 #import "SDLDIDResult.h"
 #import "SDLDeviceInfo.h"
 #import "SDLDeviceStatus.h"
@@ -186,6 +194,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLImageField.h"
 #import "SDLImageResolution.h"
 #import "SDLKeyboardProperties.h"
+#import "SDLLocationCoordinate.h"
+#import "SDLLocationDetails.h"
 #import "SDLMenuParams.h"
 #import "SDLMyKey.h"
 #import "SDLParameterPermissions.h"
@@ -222,6 +232,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLCharacterSet.h"
 #import "SDLCompassDirection.h"
 #import "SDLComponentVolumeStatus.h"
+#import "SDLDeliveryMode.h"
 #import "SDLDeviceLevelStatus.h"
 #import "SDLDimension.h"
 #import "SDLDisplayType.h"
@@ -276,6 +287,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataStatus.h"
 #import "SDLVehicleDataType.h"
 #import "SDLWarningLightStatus.h"
+#import "SDLWaypointType.h"
 #import "SDLWiperStatus.h"
 
 // Developer API

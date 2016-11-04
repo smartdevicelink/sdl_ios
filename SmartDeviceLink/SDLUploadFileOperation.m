@@ -98,10 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
                                        stop = YES;
                                        streamError = error;
 
-                                       if (completion != nil) {
-                                           completion(NO, 0, error);
-                                       }
-
                                        dispatch_group_leave(putFileGroup);
                                        BLOCK_RETURN;
                                    }

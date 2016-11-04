@@ -14,6 +14,7 @@ SDLDisplayType *SDLDisplayType_MFD3 = nil;
 SDLDisplayType *SDLDisplayType_MFD4 = nil;
 SDLDisplayType *SDLDisplayType_MFD5 = nil;
 SDLDisplayType *SDLDisplayType_GEN3_8_INCH = nil;
+SDLDisplayType *SDLDisplayType_GENERIC = nil;
 
 NSArray *SDLDisplayType_values = nil;
 
@@ -41,6 +42,7 @@ NSArray *SDLDisplayType_values = nil;
             SDLDisplayType.MFD4,
             SDLDisplayType.MFD5,
             SDLDisplayType.GEN3_8_INCH,
+            SDLDisplayType.GENERIC
         ];
     }
     return SDLDisplayType_values;
@@ -114,6 +116,13 @@ NSArray *SDLDisplayType_values = nil;
         SDLDisplayType_GEN3_8_INCH = [[SDLDisplayType alloc] initWithValue:@"GEN3_8-INCH"];
     }
     return SDLDisplayType_GEN3_8_INCH;
+}
+
++ (SDLDisplayType *)GENERIC {
+    if (SDLDisplayType_GENERIC == nil) {
+        SDLDisplayType_GENERIC = [[SDLDisplayType alloc] initWithValue:@"SDL_GENERIC"];
+    }
+    return SDLDisplayType_GENERIC;
 }
 
 @end
