@@ -7,7 +7,7 @@
 @implementation SDLSubscribeWaypointsResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SubscribeVehicleData]) {
+    if (self = [super initWithName:NAMES_SubscribeWaypoints]) {
     }
     return self;
 }
