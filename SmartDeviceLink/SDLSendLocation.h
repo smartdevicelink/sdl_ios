@@ -74,7 +74,7 @@
 @property (strong, nonatomic) SDLDeliveryMode *deliveryMode;
 
 /**
-   * Timestamp in ISO 8601 format
+   * Date and Time used for sorting multiple SendLocation requests.
    *
    * Optional
    */
