@@ -12,7 +12,7 @@
 #import "SDLLocationCoordinate.h"
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
-//#import "SDLOasisAddress.h"
+#import "SDLOasisAddress.h"
 
 QuickSpecBegin(SDLOnWaypointChangeSpec)
 
@@ -34,7 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
                 someLocation.addressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 someLocation.phoneNumber = @"248-591-0333";
                 someLocation.locationImage = [[SDLImage alloc] init];
-//                someLocation.address = [[SDLOasisAddress alloc] init];
+                someLocation.searchAddress = [[SDLOasisAddress alloc] init];
                 
                 someWaypoints = @[someLocation];
                 
@@ -59,7 +59,7 @@ describe(@"Getter/Setter Tests", ^ {
                 someLocation.addressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 someLocation.phoneNumber = @"248-591-0333";
                 someLocation.locationImage = [[SDLImage alloc] init];
-//                someLocation.address = [[SDLOasisAddress alloc] init];
+                someLocation.searchAddress = [[SDLOasisAddress alloc] init];
                 
                 someWaypoints = @[someLocation];
                 

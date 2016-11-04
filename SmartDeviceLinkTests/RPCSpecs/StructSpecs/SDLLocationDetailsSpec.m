@@ -11,7 +11,7 @@
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
 #import "SDLNames.h"
-//#import "SDLOasisAddress.h"
+#import "SDLOasisAddress.h"
 
 QuickSpecBegin(SDLLocationDetailsSpec)
 
@@ -23,7 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block NSString *somePhoneNumber = nil;
     __block SDLImage* someImage = nil;
     __block SDLLocationCoordinate* someCoordinate = nil;
-//    __block SDLOasisAddress* someAddress = nil;
+    __block SDLOasisAddress* someAddress = nil;
     
     describe(@"when initialized with init", ^{
         beforeEach(^{
@@ -38,7 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
                 someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
-//                someAddress = [[SDLOasisAddress alloc] init];
+                someAddress = [[SDLOasisAddress alloc] init];
                 
                 testStruct.coordinate = someCoordinate;
                 testStruct.locationName = someLocation;
@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
                 testStruct.addressLines = someAddressLines;
                 testStruct.phoneNumber = somePhoneNumber;
                 testStruct.locationImage = someImage;
-//                testStruct.searchAddress = someAddress;
+                testStruct.searchAddress = someAddress;
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
@@ -80,10 +80,10 @@ describe(@"Getter/Setter Tests", ^ {
                 expect(testStruct.locationImage).to(beIdenticalTo(someImage));
             });
             
-//            it(@"should get address correctly", ^{
-//                expect(testStruct.searchAddress).to(equal(someAddress));
-//                expect(testStruct.searchAddress).to(beIdenticalTo(someAddress));
-//            });
+            it(@"should get address correctly", ^{
+                expect(testStruct.searchAddress).to(equal(someAddress));
+                expect(testStruct.searchAddress).to(beIdenticalTo(someAddress));
+            });
    
         });
     });
@@ -104,7 +104,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            NAMES_addressLines: someAddressLines,
                                            NAMES_phoneNumber: somePhoneNumber,
                                            NAMES_locationImage: someImage,
-//                                           NAMES_address: someAddress
+                                           NAMES_address: someAddress
                                            };
                 
                 testStruct = [[SDLLocationDetails alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
@@ -141,10 +141,10 @@ describe(@"Getter/Setter Tests", ^ {
                 expect(testStruct.locationImage).to(beIdenticalTo(someImage));
             });
 
-//            it(@"should get address correctly", ^{
-//                expect(testStruct.searchAddress).to(equal(someAddress));
-//                expect(testStruct.searchAddress).to(beIdenticalTo(someAddress));
-//            });
+            it(@"should get address correctly", ^{
+                expect(testStruct.searchAddress).to(equal(someAddress));
+                expect(testStruct.searchAddress).to(beIdenticalTo(someAddress));
+            });
         });
         
         context(@"when parameters are not set", ^{
@@ -182,9 +182,9 @@ describe(@"Getter/Setter Tests", ^ {
                 expect(testStruct.locationImage).to(beNil());
             });
             
-//            it(@"should return nil for address", ^{
-//                expect(testStruct.searchAddress).to(beNil());
-//            });
+            it(@"should return nil for address", ^{
+                expect(testStruct.searchAddress).to(beNil());
+            });
         });
     });
 });

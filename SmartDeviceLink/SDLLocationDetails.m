@@ -6,7 +6,7 @@
 #import "SDLLocationCoordinate.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
-//#import "SDLOasisAddress.h"
+#import "SDLOasisAddress.h"
 
 @implementation SDLLocationDetails
 
@@ -82,16 +82,16 @@
     return store[NAMES_locationImage];
 }
 
-//- (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
-//    if (searchAddress != nil) {
-//        store[NAMES_address] = searchAddress;
-//    } else {
-//        [store removeObjectForKey:NAMES_address];
-//    }
-//}
-//
-//- (SDLOasisAddress *)searchAddress {
-//    return store[NAMES_address];
-//}
+- (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
+    if (searchAddress != nil) {
+        store[NAMES_address] = searchAddress;
+    } else {
+        [store removeObjectForKey:NAMES_address];
+    }
+}
+
+- (SDLOasisAddress *)searchAddress {
+    return store[NAMES_address];
+}
 
 @end

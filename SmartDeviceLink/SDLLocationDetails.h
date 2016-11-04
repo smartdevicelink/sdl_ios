@@ -5,6 +5,7 @@
 
 @class SDLLocationCoordinate;
 @class SDLImage;
+@class SDLOasisAddress;
 
 @interface SDLLocationDetails : SDLRPCStruct
 
@@ -54,14 +55,14 @@
  */
 @property (strong, nonatomic) SDLImage *locationImage;
 
-///**
-// * @abstract Address to be used by navigation engines for search.
-// *
-// * @see SDLOASISAddress
-// *
-// * Optional
-// */
-//@property (strong) SDLOasisAddress *searchAddress;
+/**
+ * @abstract Address to be used by navigation engines for search.
+ *
+ * @see SDLOASISAddress
+ *
+ * Optional
+ */
+@property (strong) SDLOasisAddress *searchAddress;
 
 
 @end
