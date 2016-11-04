@@ -58,4 +58,6 @@
 
 + (SDLDisplayType *)GEN3_8_INCH;
 
++ (SDLDisplayType *)GENERIC;
+
 @end
