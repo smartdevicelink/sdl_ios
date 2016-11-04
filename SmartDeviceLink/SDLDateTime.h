@@ -5,8 +5,6 @@
 
 @interface SDLDateTime : SDLRPCStruct
 
-- (instancetype)initWithDate:(NSDate*)date;
-
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute;
 
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond;
