@@ -5,6 +5,7 @@
 #import "AppDelegate.h"
 
 #import "ProxyManager.h"
+#import "SDLManager.h"
 
 
 @interface AppDelegate ()

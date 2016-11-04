@@ -10,13 +10,13 @@
  *
  * Required, Double -90 - 90
  */
-@property (copy, nonatomic) NSNumber *latitudeDegrees;
+@property (copy, nonatomic) NSNumber<SDLFloat> *latitudeDegrees;
 
 /**
  * @abstract Longitude of the location
  *
  * Required, Double -180 - 180
  */
-@property (copy, nonatomic) NSNumber *longitudeDegrees;
+@property (copy, nonatomic) NSNumber<SDLFloat> *longitudeDegrees;
 
 @end

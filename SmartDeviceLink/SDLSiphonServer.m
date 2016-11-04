@@ -11,7 +11,7 @@
  ******************************/
 
 //#define ZERO_CONFIG //Uncomment when implementing zero-config.
-//#define DEBUG_SIPHON //Uncomment to have output to NSLog.
+//#define DEBUG_SIPHON //Uncomment to have output to SDLDebugTool.
 
 #import "SDLSiphonServer.h"
 #import "SDLDebugTool.h"
@@ -86,7 +86,7 @@ void _stopServer(NSString *reason);
 
 void _closeSiphonSocket() {
 #ifdef DEBUG_SIPHON
-    NSLog(@"siphon: Resetting siphon socket ...");
+    [SDLDebugTool logInfo:@"siphon: Resetting siphon socket ..."];
 #endif
     if (siphonLock) {
         @synchronized(siphonLock) {
@@ -97,7 +97,7 @@ void _closeSiphonSocket() {
         } // end-lock
     } // end-if
 #ifdef DEBUG_SIPHON
-    NSLog(@"siphon: siphon socket reset complete");
+    [SDLDebugTool logInfo:@"siphon: siphon socket reset complete"];
 #endif
 } // end-method
 
@@ -219,14 +219,14 @@ bool _sendSiphonData(const void *dataBytes, int dataBytesLength, SiphonDataType 
                     return YES;
                 } else {
 #ifdef DEBUG_SIPHON
-                    NSLog(@"siphon: failure sending to siphon socket");
+                    [SDLDebugTool logInfo:@"siphon: failure sending to siphon socket"];
 #endif
                     _closeSiphonSocket();
                     return NO;
                 } // end-if
             } else {
 #ifdef DEBUG_SIPHON
-                NSLog(@"siphon: siphon socket is NULL");
+                [SDLDebugTool logInfo:@"siphon: siphon socket is NULL"];
 #endif
             } // end-if
         } //end  Synchronized
@@ -250,7 +250,7 @@ bool _sendDataToSiphonSocket(int soc, const void *pData, int dataLength) {
 
             if (bytesSent == -1) {
 #ifdef DEBUG_SIPHON
-                NSLog(@"siphon: got bytesSent==-1 on send(siphonSocket)");
+                [SDLDebugTool logInfo:@"siphon: got bytesSent==-1 on send(siphonSocket)"];
 #endif
                 return NO;
             } // end-if
@@ -268,7 +268,7 @@ bool _sendDataToSiphonSocket(int soc, const void *pData, int dataLength) {
 
 void _serverDidStartOnPort(int port) {
 #ifdef DEBUG_SIPHON
-    NSLog(@"siphon: server started on port: %d", port);
+    [SDLDebugTool logInfo:@"siphon: server started on port: %d", port];
 #endif
 }
 
@@ -284,11 +284,11 @@ void _serverDidStopWithReason(NSString *reason) {
 }
 
 - (void)_updateStatus:(NSString *)statusString {
-    NSLog(@"siphon: %@", statusString);
+    [SDLDebugTool logFormat:@"siphon: %@", statusString];
 }
 
 - (void)_SendDidStopWithStatus:(NSString *)statusString {
-    NSLog(@"siphon: server configured for output");
+    [SDLDebugTool logInfo:@"siphon: server configured for output"];
 }
 
 - (BOOL)isStarted {
@@ -304,7 +304,7 @@ void _acceptConnection(int fd) {
 
             _closeSiphonSocket();
 #ifdef DEBUG_SIPHON
-            NSLog(@"siphon: storing newly accepted siphon socket handle %08x ...", fd);
+            [SDLDebugTool logFormat:@"siphon: storing newly accepted siphon socket handle %08x ...", fd];
 #endif
             siphonSocket = fd;
 
@@ -318,7 +318,7 @@ void _acceptConnection(int fd) {
 
 static void AcceptCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
 #ifdef DEBUG_SIPHON
-    NSLog(@"siphon: accepted siphon connection ...");
+    [SDLDebugTool logInfo:@"siphon: accepted siphon connection ..."];
 #endif
 
 #pragma unused(type)
@@ -369,7 +369,7 @@ void _startServerOnPort(int port) {
             if (err == 0) {
                 openPortFound = true;
                 success = (err == 0);
-                port = bindPort;
+                //                port = bindPort;
             } else {
                 bindPort++;
             }
@@ -388,10 +388,10 @@ void _startServerOnPort(int port) {
 
         if (success) {
             assert(addrLen == sizeof(addr));
-            port = ntohs(addr.sin_port);
+            //            port = ntohs(addr.sin_port);
         }
 #ifdef DEBUG_SIPHON
-        NSLog(@"siphon: my port is %d ", port);
+        [SDLDebugTool logFormat:@"siphon: my port is %d ", port];
 #endif
     }
     if (success) {
@@ -405,7 +405,7 @@ void _startServerOnPort(int port) {
 
         if (success) {
             CFRunLoopSourceRef rls;
-            fd = -1;
+            //            fd = -1;
             rls = CFSocketCreateRunLoopSource(NULL, _listeningSocket, 0);
             assert(rls != NULL);
             CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);

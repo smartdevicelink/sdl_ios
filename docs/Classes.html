@@ -18,6 +18,7 @@
   <li><a href="#section-SDLAppHMIType">SDLAppHMIType</a></li>
   <li><a href="#section-SDLAppInfo">SDLAppInfo</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></li>
+  <li><a href="#section-SDLArtwork">SDLArtwork</a></li>
   <li><a href="#section-SDLAudioPassThruCapabilities">SDLAudioPassThruCapabilities</a></li>
   <li><a href="#section-SDLAudioStreamingState">SDLAudioStreamingState</a></li>
   <li><a href="#section-SDLAudioType">SDLAudioType</a></li>
@@ -36,6 +37,7 @@
   <li><a href="#section-SDLClusterModeStatus">SDLClusterModeStatus</a></li>
   <li><a href="#section-SDLCompassDirection">SDLCompassDirection</a></li>
   <li><a href="#section-SDLComponentVolumeStatus">SDLComponentVolumeStatus</a></li>
+  <li><a href="#section-SDLConfiguration">SDLConfiguration</a></li>
   <li><a href="#section-SDLConsoleController">SDLConsoleController</a></li>
   <li><a href="#section-SDLCreateInteractionChoiceSet">SDLCreateInteractionChoiceSet</a></li>
   <li><a href="#section-SDLCreateInteractionChoiceSetResponse">SDLCreateInteractionChoiceSetResponse</a></li>
@@ -69,6 +71,8 @@
   <li><a href="#section-SDLEndAudioPassThru">SDLEndAudioPassThru</a></li>
   <li><a href="#section-SDLEndAudioPassThruResponse">SDLEndAudioPassThruResponse</a></li>
   <li><a href="#section-SDLEnum">SDLEnum</a></li>
+  <li><a href="#section-SDLFile">SDLFile</a></li>
+  <li><a href="#section-SDLFileManager">SDLFileManager</a></li>
   <li><a href="#section-SDLFileType">SDLFileType</a></li>
   <li><a href="#section-SDLFuelCutoffStatus">SDLFuelCutoffStatus</a></li>
   <li><a href="#section-SDLGPSData">SDLGPSData</a></li>
@@ -99,13 +103,18 @@
   <li><a href="#section-SDLKeypressMode">SDLKeypressMode</a></li>
   <li><a href="#section-SDLLanguage">SDLLanguage</a></li>
   <li><a href="#section-SDLLayoutMode">SDLLayoutMode</a></li>
+  <li><a href="#section-SDLLifecycleConfiguration">SDLLifecycleConfiguration</a></li>
   <li><a href="#section-SDLListFiles">SDLListFiles</a></li>
   <li><a href="#section-SDLListFilesResponse">SDLListFilesResponse</a></li>
+  <li><a href="#section-SDLLockScreenConfiguration">SDLLockScreenConfiguration</a></li>
   <li><a href="#section-SDLLockScreenStatus">SDLLockScreenStatus</a></li>
+  <li><a href="#section-SDLLockScreenViewController">SDLLockScreenViewController</a></li>
   <li><a href="#section-SDLMaintenanceModeStatus">SDLMaintenanceModeStatus</a></li>
+  <li><a href="#section-SDLManager">SDLManager</a></li>
   <li><a href="#section-SDLMediaClockFormat">SDLMediaClockFormat</a></li>
   <li><a href="#section-SDLMenuParams">SDLMenuParams</a></li>
   <li><a href="#section-SDLMyKey">SDLMyKey</a></li>
+  <li><a href="#section-SDLNotificationConstants">SDLNotificationConstants</a></li>
   <li><a href="#section-SDLOnAppInterfaceUnregistered">SDLOnAppInterfaceUnregistered</a></li>
   <li><a href="#section-SDLOnAudioPassThru">SDLOnAudioPassThru</a></li>
   <li><a href="#section-SDLOnButtonEvent">SDLOnButtonEvent</a></li>
@@ -131,6 +140,7 @@
   <li><a href="#section-SDLPerformInteraction">SDLPerformInteraction</a></li>
   <li><a href="#section-SDLPerformInteractionResponse">SDLPerformInteractionResponse</a></li>
   <li><a href="#section-SDLPermissionItem">SDLPermissionItem</a></li>
+  <li><a href="#section-SDLPermissionManager">SDLPermissionManager</a></li>
   <li><a href="#section-SDLPermissionStatus">SDLPermissionStatus</a></li>
   <li><a href="#section-SDLPowerModeQualificationStatus">SDLPowerModeQualificationStatus</a></li>
   <li><a href="#section-SDLPowerModeStatus">SDLPowerModeStatus</a></li>
@@ -147,9 +157,11 @@
   <li><a href="#section-SDLPutFileResponse">SDLPutFileResponse</a></li>
   <li><a href="#section-SDLRPCMessage">SDLRPCMessage</a></li>
   <li><a href="#section-SDLRPCNotification">SDLRPCNotification</a></li>
+  <li><a href="#section-SDLRPCNotificationNotification">SDLRPCNotificationNotification</a></li>
   <li><a href="#section-SDLRPCRequest">SDLRPCRequest</a></li>
   <li><a href="#section-SDLRPCRequestFactory">SDLRPCRequestFactory</a></li>
   <li><a href="#section-SDLRPCResponse">SDLRPCResponse</a></li>
+  <li><a href="#section-SDLRPCResponseNotification">SDLRPCResponseNotification</a></li>
   <li><a href="#section-SDLRPCStruct">SDLRPCStruct</a></li>
   <li><a href="#section-SDLReadDID">SDLReadDID</a></li>
   <li><a href="#section-SDLReadDIDResponse">SDLReadDIDResponse</a></li>
@@ -302,11 +314,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAddCommand</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAddCommand</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span></code></pre>
 
   
   
@@ -567,6 +579,18 @@ Since <b>SmartDeviceLink 1.0</b></p>
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLArtwork">
+      SDLArtwork
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLArtwork.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -1004,6 +1028,18 @@ Since <b>SmartDeviceLink 2.0</b></p>
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLConfiguration">
+      SDLConfiguration
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLConfiguration.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -1749,6 +1785,37 @@ see SDLPerformAudioPassThru</p></p>
   
   
   
+  <h3 id="section-SDLFile">
+      SDLFile
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLFile.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLFileManager">
+      SDLFileManager
+  </h3>
+  
+  <p>The SDLFileManager is an RPC manager for the remote file system. After it starts, it will attempt to communicate with the remote file system to get the names of all files. Deleting and Uploading will them queue these changes as transactions. If a delete succeeds, the local list of remote files will remove that file name, and likewise, if an upload succeeds, the local list of remote files will now include that file name.</p>
+
+  <a href="Classes/SDLFileManager.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFileManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLFileManager</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLFileType">
       SDLFileType
   </h3>
@@ -2341,6 +2408,25 @@ Function Group: ProprietaryData
   
   
   
+  <h3 id="section-SDLLifecycleConfiguration">
+      SDLLifecycleConfiguration
+  </h3>
+  
+  <p>Configuration options for SDLManager</p>
+
+  <a href="Classes/SDLLifecycleConfiguration.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLifecycleConfiguration</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLLifecycleConfiguration</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLListFiles">
       SDLListFiles
   </h3>
@@ -2385,6 +2471,18 @@ Function Group: ProprietaryData
   
   
   
+  <h3 id="section-SDLLockScreenConfiguration">
+      SDLLockScreenConfiguration
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLockScreenConfiguration.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLLockScreenStatus">
       SDLLockScreenStatus
   </h3>
@@ -2392,6 +2490,18 @@ Function Group: ProprietaryData
   <p>Undocumented</p>
 
   <a href="Classes/SDLLockScreenStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLLockScreenViewController">
+      SDLLockScreenViewController
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLockScreenViewController.html" class="slightly-smaller">See more</a>
   
   
   
@@ -2413,6 +2523,18 @@ Function Group: ProprietaryData
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLManager">
+      SDLManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLManager.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -2470,6 +2592,18 @@ Function Group: ProprietaryData
   <p>Undocumented</p>
 
   <a href="Classes/SDLMyKey.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLNotificationConstants">
+      SDLNotificationConstants
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLNotificationConstants.html" class="slightly-smaller">See more</a>
   
   
   
@@ -3075,6 +3209,18 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   
+  <h3 id="section-SDLPermissionManager">
+      SDLPermissionManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPermissionManager.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLPermissionStatus">
       SDLPermissionStatus
   </h3>
@@ -3315,6 +3461,18 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   
+  <h3 id="section-SDLRPCNotificationNotification">
+      SDLRPCNotificationNotification
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCNotificationNotification.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLRPCRequest">
       SDLRPCRequest
   </h3>
@@ -3346,6 +3504,18 @@ The call back also includes details regarding the current HMI_Status level, driv
   <p>Undocumented</p>
 
   <a href="Classes/SDLRPCResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLRPCResponseNotification">
+      SDLRPCResponseNotification
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRPCResponseNotification.html" class="slightly-smaller">See more</a>
   
   
   
@@ -4296,11 +4466,11 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButton</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButton</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeButton</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeButton</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span></code></pre>
 
   
   

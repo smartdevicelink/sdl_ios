@@ -15,12 +15,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 /***** Proxy *****/
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
-#import "SDLProxyFactory.h"
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLTTSChunkFactory.h"
 #import "SDLTouchManager.h"
+#import "SDLTouchManagerDelegate.h"
 
 /***** Debug *****/
 #import "SDLConsoleController.h"
@@ -39,7 +39,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAbstractProtocol.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolListener.h"
-#import "SDLTouchManagerDelegate.h"
 
 // Header
 #import "SDLProtocolHeader.h"
@@ -96,10 +95,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSpeak.h"
 #import "SDLSubscribeButton.h"
 #import "SDLSubscribeVehicleData.h"
+#import "SDLSubscribeWaypoints.h"
 #import "SDLSyncPData.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
+#import "SDLUnsubscribeWaypoints.h"
 #import "SDLUpdateTurnList.h"
 
 // Responses
@@ -140,10 +141,12 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSpeakResponse.h"
 #import "SDLSubscribeButtonResponse.h"
 #import "SDLSubscribeVehicleDataResponse.h"
+#import "SDLSubscribeWaypointsResponse.h"
 #import "SDLSyncPDataResponse.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
 #import "SDLUnsubscribeButtonResponse.h"
 #import "SDLUnsubscribeVehicleDataResponse.h"
+#import "SDLUnsubscribeWaypointsResponse.h"
 #import "SDLUpdateTurnListResponse.h"
 
 // Notifications
@@ -165,6 +168,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnTBTClientState.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLOnVehicleData.h"
+#import "SDLOnWaypointChange.h"
 
 // Structs
 #import "SDLAirbagStatus.h"
@@ -283,3 +287,36 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLWarningLightStatus.h"
 #import "SDLWaypointType.h"
 #import "SDLWiperStatus.h"
+
+// Developer API
+// Configurations
+#import "SDLConfiguration.h"
+#import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+
+// Files
+#import "SDLArtwork.h"
+#import "SDLFile.h"
+#import "SDLFileManager.h"
+#import "SDLFileManagerConstants.h"
+
+// Lockscreen
+#import "SDLLockScreenViewController.h"
+
+// Lifecycle
+#import "SDLManager.h"
+#import "SDLManagerDelegate.h"
+
+// Permissions
+#import "SDLPermissionConstants.h"
+#import "SDLPermissionManager.h"
+
+// Utilities
+#import "NSNumber+NumberType.h"
+#import "SDLErrorConstants.h"
+#import "SDLNotificationConstants.h"
+#import "SDLRequestHandler.h"
+
+// Notifications
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"

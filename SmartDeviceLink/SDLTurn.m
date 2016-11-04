@@ -21,6 +21,18 @@
     return self;
 }
 
+- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.navigationText = navigationText;
+    self.turnIcon = icon;
+
+    return self;
+}
+
 - (void)setNavigationText:(NSString *)navigationText {
     if (navigationText != nil) {
         [store setObject:navigationText forKey:NAMES_navigationText];

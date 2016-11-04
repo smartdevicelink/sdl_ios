@@ -7,10 +7,10 @@
 #import "SDLRPCMessage.h"
 #import "SDLSiphonServer.h"
 
-#define LOG_ERROR_ENABLED
 
 @interface SDLDebugTool ()
 
+@property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL debugToLogFile;
 @property (nonatomic, strong) NSMutableDictionary *namedConsoleSets;
 @property (nonatomic, strong) NSDateFormatter *logDateFormatter;
@@ -30,6 +30,7 @@
         return nil;
     }
 
+    _enabled = YES;
     _debugToLogFile = NO;
     _logQueue = dispatch_queue_create("com.sdl.log.file", DISPATCH_QUEUE_SERIAL);
 
@@ -40,10 +41,18 @@
     static SDLDebugTool *sharedTool = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedTool = [[self.class alloc] init];
+        sharedTool = [[self alloc] init];
     });
 
     return sharedTool;
+}
+
++ (void)enable {
+    [SDLDebugTool sharedTool].enabled = YES;
+}
+
++ (void)disable {
+    [SDLDebugTool sharedTool].enabled = NO;
 }
 
 
@@ -95,6 +104,14 @@
     [self logInfo:info withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:@"default"];
 }
 
++ (void)logFormat:(NSString *)info, ... {
+    va_list args;
+    va_start(args, info);
+
+    NSString *format = [[NSString alloc] initWithFormat:info arguments:args];
+    [self logInfo:format];
+}
+
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type {
     [self logInfo:info withType:type toOutput:SDLDebugOutput_All toGroup:@"default"];
 }
@@ -104,6 +121,10 @@
 }
 
 + (void)logInfo:(NSString *)info andBinaryData:(NSData *)data withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output {
+    if (![SDLDebugTool sharedTool].enabled) {
+        return;
+    }
+
     // convert binary data to string, append the two strings, then pass to usual log method.
     NSMutableString *outputString = [[NSMutableString alloc] init];
     if (info) {
@@ -124,18 +145,22 @@
 
 // The designated logInfo method. All outputs should be performed here.
 + (void)logInfo:(NSString *)info withType:(SDLDebugType)type toOutput:(SDLDebugOutput)output toGroup:(NSString *)consoleGroupName {
+    if (![SDLDebugTool sharedTool].enabled) {
+        return;
+    }
+
     // Format the message, prepend the thread id
     NSString *outputString = [NSString stringWithFormat:@"[%li] %@", (long)[[NSThread currentThread] threadIndex], info];
 
     //  Output to the various destinations
 
     //Output To DeviceConsole
-    if (output & SDLDebugOutput_DeviceConsole) {
+    if ((output & SDLDebugOutput_DeviceConsole) == SDLDebugOutput_DeviceConsole) {
         NSLog(@"%@", outputString);
     }
 
     //Output To DebugToolConsoles
-    if (output & SDLDebugOutput_DebugToolConsole) {
+    if ((output & SDLDebugOutput_DebugToolConsole) == SDLDebugOutput_DebugToolConsole) {
         NSSet *consoleListeners = [self getConsoleListenersForGroup:consoleGroupName];
         for (NSObject<SDLDebugToolConsole> *console in consoleListeners) {
             [console logInfo:outputString];
@@ -143,7 +168,7 @@
     }
 
     //Output To LogFile
-    if (output & SDLDebugOutput_File) {
+    if ((output & SDLDebugOutput_File) == SDLDebugOutput_File) {
         [SDLDebugTool writeToLogFile:outputString];
     }
 

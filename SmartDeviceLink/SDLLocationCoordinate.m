@@ -6,7 +6,7 @@
 
 @implementation SDLLocationCoordinate
 
-- (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
+- (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
     if (longitudeDegrees != nil) {
         store[NAMES_longitudeDegrees] = longitudeDegrees;
     } else {
@@ -14,11 +14,11 @@
     }
 }
 
-- (NSNumber *)longitudeDegrees {
+- (NSNumber<SDLFloat> *)longitudeDegrees {
     return store[NAMES_longitudeDegrees];
 }
 
-- (void)setLatitudeDegrees:(NSNumber *)latitudeDegrees {
+- (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
     if (latitudeDegrees != nil) {
         store[NAMES_latitudeDegrees] = latitudeDegrees;
     } else {
@@ -26,7 +26,7 @@
     }
 }
 
-- (NSNumber *)latitudeDegrees {
+- (NSNumber<SDLFloat> *)latitudeDegrees {
     return store[NAMES_latitudeDegrees];
 }
 

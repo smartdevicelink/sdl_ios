@@ -11,13 +11,19 @@
 
 #import "SmartDeviceLink.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 QuickSpecBegin(SDLRPCRequestFactorySpec)
 
 describe(@"BuildAddCommand Tests", ^ {
     it(@"Should build correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddCommand* message = [SDLRPCRequestFactory buildAddCommandWithID:@33 menuName:@"Menu" parentID:@4 position:@500
                                                        vrCommands:nil iconValue:@"No" iconType:[SDLImageType STATIC] correlationID:@94];
+#pragma clang diagnostic pop
+        
         expect([message menuParams].position).to(equal(@500));
         expect([message menuParams].menuName).to(equal(@"Menu"));
         expect([message menuParams].parentID).to(equal(@4));
@@ -29,7 +35,10 @@ describe(@"BuildAddCommand Tests", ^ {
     
         NSArray* aliases = @[@"Joe1", @"Joe2", @"Joe3",
                              @"--------------------------------ASLONGOFASTRINGASICANPOSSIBLYMAKEINASINGLELINE---------------------------------"];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         message = [SDLRPCRequestFactory buildAddCommandWithID:@276 menuName:@"Arbitrary" vrCommands:aliases correlationID:@200];
+#pragma clang diagnostic pop
         
         expect([message menuParams].position).to(beNil());
         expect([message menuParams].menuName).to(equal(@"Arbitrary"));
@@ -38,8 +47,11 @@ describe(@"BuildAddCommand Tests", ^ {
         expect(message.cmdIcon).to(beNil());
         expect(message.cmdID).to(equal(@276));
         expect(message.correlationID).to(equal(@200));
-    
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         message = [SDLRPCRequestFactory buildAddCommandWithID:@9001 vrCommands:@[@"   ", @"  ", @" ", @""] correlationID:@27];
+#pragma clang diagnostic pop
         
         expect(message.menuParams).to(beNil());
         expect(message.vrCommands).to(equal(@[@"   ", @"  ", @" ", @""]));
@@ -51,7 +63,10 @@ describe(@"BuildAddCommand Tests", ^ {
 
 describe(@"BuildAddSubMenu Tests", ^ {
     it(@"Should build correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddSubMenu* message = [SDLRPCRequestFactory buildAddSubMenuWithID:@234234 menuName:@"QWERTY" position:@3 correlationID:@13];
+#pragma clang diagnostic pop
     
         expect(message.menuName).to(equal(@"QWERTY"));
         expect(message.position).to(equal(@3));
@@ -361,7 +376,7 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
                                                                  samplingRate:[SDLSamplingRate _44KHZ] maxDuration:@10 bitsPerSample:[SDLBitsPerSample _16_BIT] audioType:[SDLAudioType PCM]
                                                                  muteAudio:@NO correlationID:@2500];
         
-        expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@""));
+        expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(beNil());
         expect(message.audioPassThruDisplayText1).to(equal(@"Display1"));
         expect(message.audioPassThruDisplayText2).to(equal(@"Display2"));
         expect(message.samplingRate).to(equal([SDLSamplingRate _44KHZ]));
@@ -866,7 +881,10 @@ describe(@"BuildSpeak Tests", ^ {
 
 describe(@"BuildSubscribeButton Tests", ^ {
     it(@"Should build correctly", ^ {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLSubscribeButton* message = [SDLRPCRequestFactory buildSubscribeButtonWithName:[SDLButtonName SEARCH] correlationID:@5555555];
+#pragma clang diagnostic pop
         
         expect(message.buttonName).to(equal([SDLButtonName SEARCH]));
         expect(message.correlationID).to(equal(@5555555));
@@ -1001,4 +1019,4 @@ describe(@"SDLUpdateTurnList Tests", ^ {
 
 QuickSpecEnd
 
-
+#pragma clang diagnostic pop
