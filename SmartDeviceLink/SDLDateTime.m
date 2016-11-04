@@ -6,7 +6,7 @@
 
 @implementation SDLDateTime
 
-- (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year timezoneMinuteOffset:(UInt8)timezoneMinuteOffset timezoneHourOffset:(int)timezoneHourOffset {
+- (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute {
     self = [self init];
     if (!self) {
         return nil;
@@ -14,11 +14,43 @@
     
     self.hour = @(hour);
     self.minute = @(minute);
+    
+    return self;
+}
+
+- (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond {
+    self = [self initWithHour:hour minute:minute];
+    if (!self) {
+        return nil;
+    }
+    
     self.second = @(second);
     self.millisecond = @(millisecond);
+    
+    return self;
+    
+}
+
+- (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year {
+    self = [self initWithHour:hour minute:minute second:second millisecond:millisecond];
+    if (!self) {
+        return nil;
+    }
+    
     self.day = @(day);
     self.month = @(month);
     self.year = @(year);
+    
+    return self;
+}
+
+
+- (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute second:(UInt8)second millisecond:(UInt16)millisecond day:(UInt8)day month:(UInt8)month year:(UInt16)year timezoneMinuteOffset:(UInt8)timezoneMinuteOffset timezoneHourOffset:(int)timezoneHourOffset {
+    self = [self initWithHour:hour minute:minute second:second millisecond:millisecond day:day month:month year:year];
+    if (!self) {
+        return nil;
+    }
+    
     self.timezoneMinuteOffset = @(timezoneMinuteOffset);
     self.timezoneHourOffset = @(timezoneHourOffset);
     
