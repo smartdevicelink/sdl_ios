@@ -1,0 +1,227 @@
+<h1>SDLOasisAddress Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:">-initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:</a></li>
+  <li><a href="#section--initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:countryName:subAdministrativeArea:subLocality:">-initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:countryName:subAdministrativeArea:subLocality:</a></li>
+  <li><a href="#section-countryName">countryName</a></li>
+  <li><a href="#section-countryCode">countryCode</a></li>
+  <li><a href="#section-postalCode">postalCode</a></li>
+  <li><a href="#section-administrativeArea">administrativeArea</a></li>
+  <li><a href="#section-subAdministrativeArea">subAdministrativeArea</a></li>
+  <li><a href="#section-locality">locality</a></li>
+  <li><a href="#section-subLocality">subLocality</a></li>
+  <li><a href="#section-thoroughfare">thoroughfare</a></li>
+  <li><a href="#section-subThoroughfare">subThoroughfare</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:">
+      -initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section--initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:countryName:subAdministrativeArea:subLocality:">
+      -initWithSubThoroughfare:thoroughfare:locality:administrativeArea:postalCode:countryCode:countryName:subAdministrativeArea:subLocality:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-countryName">
+      countryName
+  </h3>
+  
+  <p>@abstract Name of the country (localized)</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">countryName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">countryName</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-countryCode">
+      countryCode
+  </h3>
+  
+  <p>@abstract countryCode of the country(ISO 3166-2)</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">countryCode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">countryCode</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-postalCode">
+      postalCode
+  </h3>
+  
+  <p>@abstract postalCode of location (PLZ, ZIP, PIN, CAP etc.)</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">postalCode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">postalCode</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-administrativeArea">
+      administrativeArea
+  </h3>
+  
+  <p>@abstract Portion of country (e.g. state)</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">administrativeArea</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">administrativeArea</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-subAdministrativeArea">
+      subAdministrativeArea
+  </h3>
+  
+  <p>@abstract Portion of administrativeArea (e.g. county)</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">subAdministrativeArea</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">subAdministrativeArea</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-locality">
+      locality
+  </h3>
+  
+  <p>@abstract Hypernym for city/village</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">locality</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">locality</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-subLocality">
+      subLocality
+  </h3>
+  
+  <p>@abstract Hypernym for district</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">subLocality</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">subLocality</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-thoroughfare">
+      thoroughfare
+  </h3>
+  
+  <p>@abstract Hypernym for street, road etc.</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">thoroughfare</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">thoroughfare</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-subThoroughfare">
+      subThoroughfare
+  </h3>
+  
+  <p>@abstract Portion of thoroughfare (e.g. house number)</p>
+
+<p>Optional, max length = 200</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">subThoroughfare</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">subThoroughfare</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
