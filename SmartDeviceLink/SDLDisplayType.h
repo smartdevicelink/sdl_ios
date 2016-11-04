@@ -36,3 +36,5 @@ extern SDLDisplayType const SDLDisplayTypeMFD4;
 extern SDLDisplayType const SDLDisplayTypeMFD5;
 
 extern SDLDisplayType const SDLDisplayTypeGen38Inch;
+
+extern SDLDisplayType const SDLDisplayTypeGeneric;

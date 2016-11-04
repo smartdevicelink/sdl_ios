@@ -42,6 +42,7 @@
   <li><a href="#section-SDLCreateInteractionChoiceSet">SDLCreateInteractionChoiceSet</a></li>
   <li><a href="#section-SDLCreateInteractionChoiceSetResponse">SDLCreateInteractionChoiceSetResponse</a></li>
   <li><a href="#section-SDLDIDResult">SDLDIDResult</a></li>
+  <li><a href="#section-SDLDateTime">SDLDateTime</a></li>
   <li><a href="#section-SDLDebugTool">SDLDebugTool</a></li>
   <li><a href="#section-SDLDeleteCommand">SDLDeleteCommand</a></li>
   <li><a href="#section-SDLDeleteCommandResponse">SDLDeleteCommandResponse</a></li>
@@ -51,6 +52,7 @@
   <li><a href="#section-SDLDeleteInteractionChoiceSetResponse">SDLDeleteInteractionChoiceSetResponse</a></li>
   <li><a href="#section-SDLDeleteSubMenu">SDLDeleteSubMenu</a></li>
   <li><a href="#section-SDLDeleteSubMenuResponse">SDLDeleteSubMenuResponse</a></li>
+  <li><a href="#section-SDLDeliveryMode">SDLDeliveryMode</a></li>
   <li><a href="#section-SDLDeviceInfo">SDLDeviceInfo</a></li>
   <li><a href="#section-SDLDeviceLevelStatus">SDLDeviceLevelStatus</a></li>
   <li><a href="#section-SDLDeviceStatus">SDLDeviceStatus</a></li>
@@ -81,6 +83,8 @@
   <li><a href="#section-SDLGetDTCsResponse">SDLGetDTCsResponse</a></li>
   <li><a href="#section-SDLGetVehicleData">SDLGetVehicleData</a></li>
   <li><a href="#section-SDLGetVehicleDataResponse">SDLGetVehicleDataResponse</a></li>
+  <li><a href="#section-SDLGetWaypoints">SDLGetWaypoints</a></li>
+  <li><a href="#section-SDLGetWaypointsResponse">SDLGetWaypointsResponse</a></li>
   <li><a href="#section-SDLGlobalProperty">SDLGlobalProperty</a></li>
   <li><a href="#section-SDLHMICapabilities">SDLHMICapabilities</a></li>
   <li><a href="#section-SDLHMILevel">SDLHMILevel</a></li>
@@ -106,6 +110,8 @@
   <li><a href="#section-SDLLifecycleConfiguration">SDLLifecycleConfiguration</a></li>
   <li><a href="#section-SDLListFiles">SDLListFiles</a></li>
   <li><a href="#section-SDLListFilesResponse">SDLListFilesResponse</a></li>
+  <li><a href="#section-SDLLocationCoordinate">SDLLocationCoordinate</a></li>
+  <li><a href="#section-SDLLocationDetails">SDLLocationDetails</a></li>
   <li><a href="#section-SDLLockScreenConfiguration">SDLLockScreenConfiguration</a></li>
   <li><a href="#section-SDLLockScreenStatus">SDLLockScreenStatus</a></li>
   <li><a href="#section-SDLLockScreenViewController">SDLLockScreenViewController</a></li>
@@ -115,6 +121,7 @@
   <li><a href="#section-SDLMenuParams">SDLMenuParams</a></li>
   <li><a href="#section-SDLMyKey">SDLMyKey</a></li>
   <li><a href="#section-SDLNotificationConstants">SDLNotificationConstants</a></li>
+  <li><a href="#section-SDLOasisAddress">SDLOasisAddress</a></li>
   <li><a href="#section-SDLOnAppInterfaceUnregistered">SDLOnAppInterfaceUnregistered</a></li>
   <li><a href="#section-SDLOnAudioPassThru">SDLOnAudioPassThru</a></li>
   <li><a href="#section-SDLOnButtonEvent">SDLOnButtonEvent</a></li>
@@ -133,6 +140,7 @@
   <li><a href="#section-SDLOnTBTClientState">SDLOnTBTClientState</a></li>
   <li><a href="#section-SDLOnTouchEvent">SDLOnTouchEvent</a></li>
   <li><a href="#section-SDLOnVehicleData">SDLOnVehicleData</a></li>
+  <li><a href="#section-SDLOnWaypointChange">SDLOnWaypointChange</a></li>
   <li><a href="#section-SDLPRNDL">SDLPRNDL</a></li>
   <li><a href="#section-SDLParameterPermissions">SDLParameterPermissions</a></li>
   <li><a href="#section-SDLPerformAudioPassThru">SDLPerformAudioPassThru</a></li>
@@ -205,6 +213,8 @@
   <li><a href="#section-SDLSubscribeButtonResponse">SDLSubscribeButtonResponse</a></li>
   <li><a href="#section-SDLSubscribeVehicleData">SDLSubscribeVehicleData</a></li>
   <li><a href="#section-SDLSubscribeVehicleDataResponse">SDLSubscribeVehicleDataResponse</a></li>
+  <li><a href="#section-SDLSubscribeWaypoints">SDLSubscribeWaypoints</a></li>
+  <li><a href="#section-SDLSubscribeWaypointsResponse">SDLSubscribeWaypointsResponse</a></li>
   <li><a href="#section-SDLSyncMsgVersion">SDLSyncMsgVersion</a></li>
   <li><a href="#section-SDLSyncPData">SDLSyncPData</a></li>
   <li><a href="#section-SDLSyncPDataResponse">SDLSyncPDataResponse</a></li>
@@ -232,6 +242,8 @@
   <li><a href="#section-SDLUnsubscribeButtonResponse">SDLUnsubscribeButtonResponse</a></li>
   <li><a href="#section-SDLUnsubscribeVehicleData">SDLUnsubscribeVehicleData</a></li>
   <li><a href="#section-SDLUnsubscribeVehicleDataResponse">SDLUnsubscribeVehicleDataResponse</a></li>
+  <li><a href="#section-SDLUnsubscribeWaypoints">SDLUnsubscribeWaypoints</a></li>
+  <li><a href="#section-SDLUnsubscribeWaypointsResponse">SDLUnsubscribeWaypointsResponse</a></li>
   <li><a href="#section-SDLUpdateMode">SDLUpdateMode</a></li>
   <li><a href="#section-SDLUpdateTurnList">SDLUpdateTurnList</a></li>
   <li><a href="#section-SDLUpdateTurnListResponse">SDLUpdateTurnListResponse</a></li>
@@ -246,6 +258,7 @@
   <li><a href="#section-SDLVehicleDataType">SDLVehicleDataType</a></li>
   <li><a href="#section-SDLVehicleType">SDLVehicleType</a></li>
   <li><a href="#section-SDLWarningLightStatus">SDLWarningLightStatus</a></li>
+  <li><a href="#section-SDLWaypointType">SDLWaypointType</a></li>
   <li><a href="#section-SDLWiperStatus">SDLWiperStatus</a></li>
 </ul>
 
@@ -1122,6 +1135,18 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   
+  <h3 id="section-SDLDateTime">
+      SDLDateTime
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLDateTime.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLDebugTool">
       SDLDebugTool
   </h3>
@@ -1324,6 +1349,25 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeleteSubMenuResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDeliveryMode">
+      SDLDeliveryMode
+  </h3>
+  
+  <p>Specifies the mode in which the sendLocation request is sent.</p>
+
+  <a href="Classes/SDLDeliveryMode.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeliveryMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLDeliveryMode</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   
@@ -1995,6 +2039,30 @@ Function Group: ProprietaryData
   
   
   
+  <h3 id="section-SDLGetWaypoints">
+      SDLGetWaypoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetWaypoints.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLGetWaypointsResponse">
+      SDLGetWaypointsResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetWaypointsResponse.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLGlobalProperty">
       SDLGlobalProperty
   </h3>
@@ -2471,6 +2539,30 @@ Function Group: ProprietaryData
   
   
   
+  <h3 id="section-SDLLocationCoordinate">
+      SDLLocationCoordinate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLocationCoordinate.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLLocationDetails">
+      SDLLocationDetails
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLocationDetails.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLLockScreenConfiguration">
       SDLLockScreenConfiguration
   </h3>
@@ -2604,6 +2696,18 @@ Function Group: ProprietaryData
   <p>Undocumented</p>
 
   <a href="Classes/SDLNotificationConstants.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLOasisAddress">
+      SDLOasisAddress
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOasisAddress.html" class="slightly-smaller">See more</a>
   
   
   
@@ -3050,6 +3154,18 @@ The call back also includes details regarding the current HMI_Status level, driv
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLOnVehicleData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLOnWaypointChange">
+      SDLOnWaypointChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnWaypointChange.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -4548,6 +4664,42 @@ Function Group: ScrollableMessage
   
   
   
+  <h3 id="section-SDLSubscribeWaypoints">
+      SDLSubscribeWaypoints
+  </h3>
+  
+  <p>A SDLSubscribeWaypoints can be sent to subscribe
+ for any changes in waypoints/destinations</p>
+
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLUnsubscribeWaypoints
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeWaypoints</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeWaypoints</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSubscribeWaypointsResponse">
+      SDLSubscribeWaypointsResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
   <h3 id="section-SDLSyncMsgVersion">
       SDLSyncMsgVersion
   </h3>
@@ -5091,6 +5243,28 @@ See SDLSubscribeButton</p>
   
   
   
+  <h3 id="section-SDLUnsubscribeWaypoints">
+      SDLUnsubscribeWaypoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLUnsubscribeWaypointsResponse">
+      SDLUnsubscribeWaypointsResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
   <h3 id="section-SDLUpdateMode">
       SDLUpdateMode
   </h3>
@@ -5358,6 +5532,18 @@ See SDLSubscribeButton</p>
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLWarningLightStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLWaypointType">
+      SDLWaypointType
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLWaypointType.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   

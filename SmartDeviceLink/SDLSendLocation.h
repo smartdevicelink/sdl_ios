@@ -2,16 +2,20 @@
 //  SDLSendLocation.h
 //  SmartDeviceLink
 
-#import <CoreGraphics/CGBase.h>
-#import <Foundation/Foundation.h>
-
-#import "SDLImage.h"
 #import "SDLRPCRequest.h"
 
+#import <CoreGraphics/CGBase.h>
+
+#import "SDLDateTime.h"
+#import "SDLDeliveryMode.h"
+#import "SDLImage.h"
+#import "SDLOasisAddress.h"
 
 @interface SDLSendLocation : SDLRPCRequest
 
-- (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image;
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image;
+
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription displayAddressLines:(NSArray<NSString *> *)displayAddressLines phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image deliveryMode:(SDLDeliveryMode)deliveryMode timeStamp:(SDLDateTime *)timeStamp address:(SDLOasisAddress *)address;
 
 /**
  * The longitudinal coordinate of the location.
@@ -42,7 +46,7 @@
 @property (copy, nonatomic) NSString *locationDescription;
 
 /**
- * Array of lines for the location address
+ * Location address for display purposes only
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */
@@ -61,5 +65,26 @@
  * Optional
  */
 @property (strong, nonatomic) SDLImage *locationImage;
+
+/**
+ * Mode in which the sendLocation request is sent
+ *
+ * Optional
+ */
+@property (strong, nonatomic) SDLDeliveryMode deliveryMode;
+
+/**
+ * Arrival time of Location. If multiple SendLocations are sent, this will be used for sorting as well.
+ *
+ * Optional
+ */
+@property (strong, nonatomic) SDLDateTime *timeStamp;
+
+/**
+ * Address to be used for setting destination
+ *
+ * Optional
+ */
+@property (strong, nonatomic) SDLOasisAddress *address;
 
 @end

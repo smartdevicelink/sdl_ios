@@ -41,7 +41,7 @@
 
 - (SDLImageType)imageType {
     NSObject *obj = [store objectForKey:SDLNameImageType];
-        return (SDLImageType)obj;
+    return (SDLImageType)obj;
 }
 
 @end

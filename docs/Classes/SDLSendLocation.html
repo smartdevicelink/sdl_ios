@@ -3,8 +3,8 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section--initWithLongitude:latitude:locationName:locationDescription:address:phoneNumber:image:">-initWithLongitude:latitude:locationName:locationDescription:address:phoneNumber:image:</a></li>
+  <li><a href="#section--initWithLongitude:latitude:locationName:locationDescription:displayAddressLines:phoneNumber:image:deliveryMode:timeStamp:address:">-initWithLongitude:latitude:locationName:locationDescription:displayAddressLines:phoneNumber:image:deliveryMode:timeStamp:address:</a></li>
   <li><a href="#section-longitudeDegrees">longitudeDegrees</a></li>
   <li><a href="#section-latitudeDegrees">latitudeDegrees</a></li>
   <li><a href="#section-locationName">locationName</a></li>
@@ -12,6 +12,9 @@
   <li><a href="#section-addressLines">addressLines</a></li>
   <li><a href="#section-phoneNumber">phoneNumber</a></li>
   <li><a href="#section-locationImage">locationImage</a></li>
+  <li><a href="#section-deliveryMode">deliveryMode</a></li>
+  <li><a href="#section-timeStamp">timeStamp</a></li>
+  <li><a href="#section-address">address</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -20,8 +23,8 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
+  <h3 id="section--initWithLongitude:latitude:locationName:locationDescription:address:phoneNumber:image:">
+      -initWithLongitude:latitude:locationName:locationDescription:address:phoneNumber:image:
   </h3>
   
   <p>Undocumented</p>
@@ -31,8 +34,8 @@
   
   
   
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
+  <h3 id="section--initWithLongitude:latitude:locationName:locationDescription:displayAddressLines:phoneNumber:image:deliveryMode:timeStamp:address:">
+      -initWithLongitude:latitude:locationName:locationDescription:displayAddressLines:phoneNumber:image:deliveryMode:timeStamp:address:
   </h3>
   
   <p>Undocumented</p>
@@ -53,7 +56,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">longitudeDegrees</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">longitudeDegrees</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -73,7 +76,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">latitudeDegrees</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">latitudeDegrees</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -126,18 +129,18 @@
       addressLines
   </h3>
   
-  <p>Array of lines for the location address</p>
+  <p>Location address for display purposes only</p>
 
 <p>Contains String, Optional, Max Array Length = 4, Max String Length = 500</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">addressLines</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">addressLines</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">addressLines</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">addressLines</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -178,6 +181,66 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="k">var</span> <span class="nv">locationImage</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-deliveryMode">
+      deliveryMode
+  </h3>
+  
+  <p>Mode in which the sendLocation request is sent</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDeliveryMode.html">SDLDeliveryMode</a></span> <span class="o">*</span><span class="n">deliveryMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">deliveryMode</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDeliveryMode.html">SDLDeliveryMode</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-timeStamp">
+      timeStamp
+  </h3>
+  
+  <p>Arrival time of Location. If multiple SendLocations are sent, this will be used for sorting as well.</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">timeStamp</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeStamp</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-address">
+      address
+  </h3>
+  
+  <p>Address to be used for setting destination</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLOasisAddress.html">SDLOasisAddress</a></span> <span class="o">*</span><span class="n">address</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">address</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLOasisAddress.html">SDLOasisAddress</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

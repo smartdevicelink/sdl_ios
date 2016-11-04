@@ -376,7 +376,7 @@ describe(@"BuildPerformAudioPassThru Tests", ^ {
                                                                  samplingRate:SDLSamplingRate44KHZ maxDuration:@10 bitsPerSample:SDLBitsPerSample16Bit audioType:SDLAudioTypePCM
                                                                  muteAudio:@NO correlationID:@2500];
         
-        expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(equal(@""));
+        expect(((SDLTTSChunk*)[message initialPrompt][0]).text).to(beNil());
         expect(message.audioPassThruDisplayText1).to(equal(@"Display1"));
         expect(message.audioPassThruDisplayText2).to(equal(@"Display2"));
         expect(message.samplingRate).to(equal(SDLSamplingRate44KHZ));

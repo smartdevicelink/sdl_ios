@@ -14,3 +14,4 @@ SDLDisplayType const SDLDisplayTypeMFD3 = @"MFD3";
 SDLDisplayType const SDLDisplayTypeMFD4 = @"MFD4";
 SDLDisplayType const SDLDisplayTypeMFD5 = @"MFD5";
 SDLDisplayType const SDLDisplayTypeGen38Inch = @"GEN3_8-INCH";
+SDLDisplayType const SDLDisplayTypeGeneric = @"SDL_GENERIC";

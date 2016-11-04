@@ -18,7 +18,11 @@
     return self;
 }
 
-- (instancetype)initWithLongitude:(CGFloat)longitude latitude:(CGFloat)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+    return [self initWithLongitude:longitude latitude:latitude locationName:locationName locationDescription:locationDescription displayAddressLines:address phoneNumber:phoneNumber image:image deliveryMode:nil timeStamp:nil address:nil];
+}
+
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription displayAddressLines:(NSArray<NSString *> *)displayAddressLines phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image deliveryMode:(SDLDeliveryMode)deliveryMode timeStamp:(SDLDateTime *)timeStamp address:(SDLOasisAddress *)address {
     self = [self init];
     if (!self) {
         return nil;
@@ -28,9 +32,12 @@
     self.latitudeDegrees = @(latitude);
     self.locationName = locationName;
     self.locationDescription = locationDescription;
-    self.addressLines = address;
+    self.addressLines = displayAddressLines;
     self.phoneNumber = phoneNumber;
     self.locationImage = image;
+    self.deliveryMode = deliveryMode;
+    self.timeStamp = timeStamp;
+    self.address = address;
 
     return self;
 }
@@ -121,6 +128,52 @@
         return (SDLImage *)obj;
     } else {
         return [[SDLImage alloc] initWithDictionary:obj];
+    }
+}
+
+- (void)setDeliveryMode:(SDLDeliveryMode)deliveryMode {
+    if (deliveryMode != nil) {
+        parameters[SDLNameDeliveryMode] = deliveryMode;
+    } else {
+        [parameters removeObjectForKey:SDLNameDeliveryMode];
+    }
+}
+
+- (SDLDeliveryMode)deliveryMode {
+    return parameters[SDLNameDeliveryMode];
+}
+
+- (void)setTimeStamp:(SDLDateTime *)timeStamp {
+    if (timeStamp != nil) {
+        parameters[SDLNameLocationTimeStamp] = timeStamp;
+    } else {
+        [parameters removeObjectForKey:SDLNameLocationTimeStamp];
+    }
+}
+
+- (SDLDateTime *)timeStamp {
+    id obj = parameters[SDLNameLocationTimeStamp];
+    if (obj == nil || [obj isKindOfClass:[SDLDateTime class]]) {
+        return (SDLDateTime *)obj;
+    } else {
+        return [[SDLDateTime alloc] initWithDictionary:obj];
+    }
+}
+
+- (void)setAddress:(SDLOasisAddress *)address {
+    if (address != nil) {
+        parameters[SDLNameAddress] = address;
+    } else {
+        [parameters removeObjectForKey:SDLNameAddress];
+    }
+}
+
+- (SDLOasisAddress *)address {
+    id obj = parameters[SDLNameAddress];
+    if (obj == nil || [obj isKindOfClass:[SDLOasisAddress class]]) {
+        return (SDLOasisAddress *)obj;
+    } else {
+        return [[SDLOasisAddress alloc] initWithDictionary:obj];
     }
 }
 

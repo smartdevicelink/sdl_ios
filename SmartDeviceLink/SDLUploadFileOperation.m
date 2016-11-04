@@ -97,11 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
                                    if (error != nil || response == nil || ![response.success boolValue]) {
                                        stop = YES;
                                        streamError = error;
-
-                                       if (completion != nil) {
-                                           completion(NO, 0, error);
-                                       }
-
+                                       
                                        dispatch_group_leave(putFileGroup);
                                        BLOCK_RETURN;
                                    }

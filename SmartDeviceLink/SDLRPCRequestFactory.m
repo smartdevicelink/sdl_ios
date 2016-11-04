@@ -311,7 +311,7 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 }
 
 + (SDLPerformAudioPassThru *)buildPerformAudioPassThruWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate maxDuration:(NSNumber<SDLInt> *)maxDuration bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType muteAudio:(NSNumber<SDLBool> *)muteAudio correlationID:(NSNumber<SDLInt> *)correlationID {
-    NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
+    NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
 
     SDLPerformAudioPassThru *msg = [[SDLPerformAudioPassThru alloc] init];
     msg.initialPrompt = [initialChunks mutableCopy];

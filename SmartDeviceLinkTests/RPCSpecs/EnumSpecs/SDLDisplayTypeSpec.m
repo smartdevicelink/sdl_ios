@@ -23,8 +23,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLDisplayTypeMFD3).to(equal(@"MFD3"));
         expect(SDLDisplayTypeMFD4).to(equal(@"MFD4"));
         expect(SDLDisplayTypeMFD5).to(equal(@"MFD5"));
-        //NOT DEFINED IN SPEC
         expect(SDLDisplayTypeGen38Inch).to(equal(@"GEN3_8-INCH"));
+        expect(SDLDisplayTypeGeneric).to(equal(@"SDL_GENERIC"));
     });
 });
 
