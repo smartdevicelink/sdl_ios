@@ -56,7 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletionHandler)completion {
-    __block BOOL stop = NO;
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
@@ -67,7 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
     // When the putfiles all complete, run this block
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
-        if (streamError != nil || stop) {
+        typeof(weakself) strongself = weakself;
+        if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
             completion(YES, bytesAvailable, nil);
@@ -82,20 +82,15 @@ NS_ASSUME_NONNULL_BEGIN
         [self.connectionManager sendManagerRequest:putFile
                                withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
                                    typeof(weakself) strongself = weakself;
-                                   // If we've already encountered an error, then just abort
                                    // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
                                    if (strongself.isCancelled) {
-                                       stop = YES;
-                                   }
-
-                                   if (stop) {
                                        dispatch_group_leave(putFileGroup);
                                        BLOCK_RETURN;
                                    }
 
                                    // If we encounted an error, abort in the future and call the completion handler
-                                   if (error != nil || response == nil || ![response.success boolValue]) {
-                                       stop = YES;
+                                   if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+                                       [strongself cancel];
                                        streamError = error;
 
                                        dispatch_group_leave(putFileGroup);
