@@ -50,11 +50,7 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    if (syncFileName != nil) {
-        [parameters setObject:syncFileName forKey:SDLNameSyncFileName];
-    } else {
-        [parameters removeObjectForKey:SDLNameSyncFileName];
-    }
+    [self setObject:syncFileName forName:SDLNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
@@ -62,11 +58,7 @@
 }
 
 - (void)setFileType:(SDLFileType)fileType {
-    if (fileType != nil) {
-        [parameters setObject:fileType forKey:SDLNameFileType];
-    } else {
-        [parameters removeObjectForKey:SDLNameFileType];
-    }
+    [self setObject:fileType forName:SDLNameFileType];
 }
 
 - (SDLFileType)fileType {
@@ -75,11 +67,7 @@
 }
 
 - (void)setPersistentFile:(NSNumber<SDLBool> *)persistentFile {
-    if (persistentFile != nil) {
-        [parameters setObject:persistentFile forKey:SDLNamePersistentFile];
-    } else {
-        [parameters removeObjectForKey:SDLNamePersistentFile];
-    }
+    [self setObject:persistentFile forName:SDLNamePersistentFile];
 }
 
 - (NSNumber<SDLBool> *)persistentFile {
@@ -87,11 +75,7 @@
 }
 
 - (void)setSystemFile:(NSNumber<SDLBool> *)systemFile {
-    if (systemFile != nil) {
-        [parameters setObject:systemFile forKey:SDLNameSystemFile];
-    } else {
-        [parameters removeObjectForKey:SDLNameSystemFile];
-    }
+    [self setObject:systemFile forName:SDLNameSystemFile];
 }
 
 - (NSNumber<SDLBool> *)systemFile {
@@ -99,11 +83,7 @@
 }
 
 - (void)setOffset:(NSNumber<SDLUInt> *)offset {
-    if (offset != nil) {
-        [parameters setObject:offset forKey:SDLNameOffset];
-    } else {
-        [parameters removeObjectForKey:SDLNameOffset];
-    }
+    [self setObject:offset forName:SDLNameOffset];
 }
 
 - (NSNumber<SDLUInt> *)offset {
@@ -111,11 +91,7 @@
 }
 
 - (void)setLength:(NSNumber<SDLUInt> *)length {
-    if (length != nil) {
-        [parameters setObject:length forKey:SDLNameLength];
-    } else {
-        [parameters removeObjectForKey:SDLNameLength];
-    }
+    [self setObject:length forName:SDLNameLength];
 }
 
 - (NSNumber<SDLUInt> *)length {

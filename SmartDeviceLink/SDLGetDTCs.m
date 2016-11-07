@@ -37,11 +37,7 @@
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:SDLNameECUName];
-    } else {
-        [parameters removeObjectForKey:SDLNameECUName];
-    }
+    [self setObject:ecuName forName:SDLNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
@@ -49,11 +45,7 @@
 }
 
 - (void)setDtcMask:(NSNumber<SDLInt> *)dtcMask {
-    if (dtcMask != nil) {
-        [parameters setObject:dtcMask forKey:SDLNameDTCMask];
-    } else {
-        [parameters removeObjectForKey:SDLNameDTCMask];
-    }
+    [self setObject:dtcMask forName:SDLNameDTCMask];
 }
 
 - (NSNumber<SDLInt> *)dtcMask {

@@ -48,28 +48,19 @@
 }
 
 - (void)setText:(NSString *)text {
-    if (text != nil) {
-        [store setObject:text forKey:SDLNameText];
-    } else {
-        [store removeObjectForKey:SDLNameText];
-    }
+    [self setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [store objectForKey:SDLNameText];
+    return [self objectForName:SDLNameText];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
-    if (type != nil) {
-        [store setObject:type forKey:SDLNameType];
-    } else {
-        [store removeObjectForKey:SDLNameType];
-    }
+    [self setObject:type forName:SDLNameType];
 }
 
 - (SDLSpeechCapabilities)type {
-    NSObject *obj = [store objectForKey:SDLNameType];
-    return (SDLSpeechCapabilities)obj;
+    return [self objectForName:SDLNameType];
 }
 
 @end

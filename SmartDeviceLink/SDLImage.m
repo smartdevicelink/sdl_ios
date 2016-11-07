@@ -20,28 +20,19 @@
 }
 
 - (void)setValue:(NSString *)value {
-    if (value != nil) {
-        [store setObject:value forKey:SDLNameValue];
-    } else {
-        [store removeObjectForKey:SDLNameValue];
-    }
+    [self setObject:value forName:SDLNameValue];
 }
 
 - (NSString *)value {
-    return [store objectForKey:SDLNameValue];
+    return [self objectForName:SDLNameValue];
 }
 
 - (void)setImageType:(SDLImageType)imageType {
-    if (imageType != nil) {
-        [store setObject:imageType forKey:SDLNameImageType];
-    } else {
-        [store removeObjectForKey:SDLNameImageType];
-    }
+    [self setObject:imageType forName:SDLNameImageType];
 }
 
 - (SDLImageType)imageType {
-    NSObject *obj = [store objectForKey:SDLNameImageType];
-    return (SDLImageType)obj;
+    return [self objectForName:SDLNameImageType];
 }
 
 @end

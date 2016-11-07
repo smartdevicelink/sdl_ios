@@ -10,23 +10,15 @@
 @implementation SDLPermissionItem
 
 - (void)setRpcName:(NSString *)rpcName {
-    if (rpcName != nil) {
-        [store setObject:rpcName forKey:SDLNameRPCName];
-    } else {
-        [store removeObjectForKey:SDLNameRPCName];
-    }
+    [self setObject:rpcName forName:SDLNameRPCName];
 }
 
 - (NSString *)rpcName {
-    return [store objectForKey:SDLNameRPCName];
+    return [self objectForName:SDLNameRPCName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
-    if (hmiPermissions != nil) {
-        [store setObject:hmiPermissions forKey:SDLNameHMIPermissions];
-    } else {
-        [store removeObjectForKey:SDLNameHMIPermissions];
-    }
+    [self setObject:hmiPermissions forName:SDLNameHMIPermissions];
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
@@ -39,11 +31,7 @@
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
-    if (parameterPermissions != nil) {
-        [store setObject:parameterPermissions forKey:SDLNameParameterPermissions];
-    } else {
-        [store removeObjectForKey:SDLNameParameterPermissions];
-    }
+    [self setObject:parameterPermissions forName:SDLNameParameterPermissions];
 }
 
 - (SDLParameterPermissions *)parameterPermissions {

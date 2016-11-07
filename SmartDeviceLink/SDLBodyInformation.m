@@ -11,89 +11,59 @@
 @implementation SDLBodyInformation
 
 - (void)setParkBrakeActive:(NSNumber<SDLBool> *)parkBrakeActive {
-    if (parkBrakeActive != nil) {
-        [store setObject:parkBrakeActive forKey:SDLNameParkBrakeActive];
-    } else {
-        [store removeObjectForKey:SDLNameParkBrakeActive];
-    }
+    [self setObject:parkBrakeActive forName:SDLNameParkBrakeActive];
 }
 
 - (NSNumber<SDLBool> *)parkBrakeActive {
-    return [store objectForKey:SDLNameParkBrakeActive];
+    return [self objectForName:SDLNameParkBrakeActive];
 }
 
 - (void)setIgnitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus {
-    if (ignitionStableStatus != nil) {
-        [store setObject:ignitionStableStatus forKey:SDLNameIgnitionStableStatus];
-    } else {
-        [store removeObjectForKey:SDLNameIgnitionStableStatus];
-    }
+    [self setObject:ignitionStableStatus forName:SDLNameIgnitionStableStatus];
 }
 
 - (SDLIgnitionStableStatus)ignitionStableStatus {
-    NSObject *obj = [store objectForKey:SDLNameIgnitionStableStatus];
-    return (SDLIgnitionStableStatus)obj;
+    return [self objectForName:SDLNameIgnitionStableStatus];
 }
 
 - (void)setIgnitionStatus:(SDLIgnitionStatus)ignitionStatus {
-    if (ignitionStatus != nil) {
-        [store setObject:ignitionStatus forKey:SDLNameIgnitionStatus];
-    } else {
-        [store removeObjectForKey:SDLNameIgnitionStatus];
-    }
+    [self setObject:ignitionStatus forName:SDLNameIgnitionStatus];
 }
 
 - (SDLIgnitionStatus)ignitionStatus {
-    NSObject *obj = [store objectForKey:SDLNameIgnitionStatus];
-    return (SDLIgnitionStatus)obj;
+    return [self objectForName:SDLNameIgnitionStatus];
 }
 
 - (void)setDriverDoorAjar:(NSNumber<SDLBool> *)driverDoorAjar {
-    if (driverDoorAjar != nil) {
-        [store setObject:driverDoorAjar forKey:SDLNameDriverDoorAjar];
-    } else {
-        [store removeObjectForKey:SDLNameDriverDoorAjar];
-    }
+    [self setObject:driverDoorAjar forName:SDLNameDriverDoorAjar];
 }
 
 - (NSNumber<SDLBool> *)driverDoorAjar {
-    return [store objectForKey:SDLNameDriverDoorAjar];
+    return [self objectForName:SDLNameDriverDoorAjar];
 }
 
 - (void)setPassengerDoorAjar:(NSNumber<SDLBool> *)passengerDoorAjar {
-    if (passengerDoorAjar != nil) {
-        [store setObject:passengerDoorAjar forKey:SDLNamePassengerDoorAjar];
-    } else {
-        [store removeObjectForKey:SDLNamePassengerDoorAjar];
-    }
+    [self setObject:passengerDoorAjar forName:SDLNamePassengerDoorAjar];
 }
 
 - (NSNumber<SDLBool> *)passengerDoorAjar {
-    return [store objectForKey:SDLNamePassengerDoorAjar];
+    return [self objectForName:SDLNamePassengerDoorAjar];
 }
 
 - (void)setRearLeftDoorAjar:(NSNumber<SDLBool> *)rearLeftDoorAjar {
-    if (rearLeftDoorAjar != nil) {
-        [store setObject:rearLeftDoorAjar forKey:SDLNameRearLeftDoorAjar];
-    } else {
-        [store removeObjectForKey:SDLNameRearLeftDoorAjar];
-    }
+    [self setObject:rearLeftDoorAjar forName:SDLNameRearLeftDoorAjar];
 }
 
 - (NSNumber<SDLBool> *)rearLeftDoorAjar {
-    return [store objectForKey:SDLNameRearLeftDoorAjar];
+    return [self objectForName:SDLNameRearLeftDoorAjar];
 }
 
 - (void)setRearRightDoorAjar:(NSNumber<SDLBool> *)rearRightDoorAjar {
-    if (rearRightDoorAjar != nil) {
-        [store setObject:rearRightDoorAjar forKey:SDLNameRearRightDoorAjar];
-    } else {
-        [store removeObjectForKey:SDLNameRearRightDoorAjar];
-    }
+    [self setObject:rearRightDoorAjar forName:SDLNameRearRightDoorAjar];
 }
 
 - (NSNumber<SDLBool> *)rearRightDoorAjar {
-    return [store objectForKey:SDLNameRearRightDoorAjar];
+    return [self objectForName:SDLNameRearRightDoorAjar];
 }
 
 @end

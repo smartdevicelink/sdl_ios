@@ -40,11 +40,7 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    if (language != nil) {
-        [parameters setObject:language forKey:SDLNameLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameLanguage];
-    }
+    [self setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
@@ -53,11 +49,7 @@
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage )hmiDisplayLanguage {
-    if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
-    }
+    [self setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage )hmiDisplayLanguage {
@@ -78,11 +70,7 @@
 }
 
 - (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
-    if (ttsName != nil) {
-        [parameters setObject:[ttsName copy] forKey:SDLNameTTSName];
-    } else {
-        [parameters removeObjectForKey:SDLNameTTSName];
-    }
+    [self setObject:ttsName forName:SDLNameTTSName];
 }
 
 - (NSArray<SDLTTSChunk *> *)ttsName {
@@ -102,11 +90,7 @@
 }
 
 - (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
-    if (vrSynonyms != nil) {
-        [parameters setObject:[vrSynonyms copy] forKey:SDLNameVRSynonyms];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRSynonyms];
-    }
+    [self setObject:vrSynonyms forName:SDLNameVRSynonyms];
 }
 
 - (NSArray<NSString *> *)vrSynonyms {

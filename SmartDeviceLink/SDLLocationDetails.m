@@ -19,7 +19,7 @@
 }
 
 - (SDLLocationCoordinate *)coordinate {
-    return store[SDLNameLocationCoordinate];
+    return [self objectForName:SDLNameLocationCoordinate];
 }
 
 - (void)setLocationName:(NSString *)locationName {
@@ -31,7 +31,7 @@
 }
 
 - (NSString *)locationName {
-    return store[SDLNameLocationName];
+    return [self objectForName:SDLNameLocationName];
 }
 
 - (void)setAddressLines:(NSArray<NSString *> *)addressLines {
@@ -43,7 +43,7 @@
 }
 
 - (NSArray<NSString *> *)addressLines {
-    return store[SDLNameAddressLines];
+    return [self objectForName:SDLNameAddressLines];
 }
 
 - (void)setLocationDescription:(NSString *)locationDescription {
@@ -55,7 +55,7 @@
 }
 
 - (NSString *)locationDescription {
-    return store[SDLNameLocationDescription];
+    return [self objectForName:SDLNameLocationDescription];
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {
@@ -67,7 +67,7 @@
 }
 
 - (NSString *)phoneNumber {
-    return store[SDLNamePhoneNumber];
+    return [self objectForName:SDLNamePhoneNumber];
 }
 
 - (void)setLocationImage:(SDLImage *)locationImage {
@@ -79,7 +79,7 @@
 }
 
 - (SDLImage *)locationImage {
-    return store[SDLNameLocationImage];
+    return [self objectForName:SDLNameLocationImage];
 }
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
@@ -91,7 +91,7 @@
 }
 
 - (SDLOasisAddress *)searchAddress {
-    return store[SDLNameAddress];
+    return [self objectForName:SDLNameAddress];
 }
 
 @end

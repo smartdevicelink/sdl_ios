@@ -15,11 +15,7 @@
 }
 
 - (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
-    if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
-    } else {
-        [parameters removeObjectForKey:SDLNameSpaceAvailable];
-    }
+    [self setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
 - (NSNumber<SDLInt> *)spaceAvailable {

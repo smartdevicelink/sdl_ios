@@ -15,11 +15,7 @@
 }
 
 - (void)setData:(NSMutableArray<NSString *> *)data {
-    if (data != nil) {
-        [parameters setObject:data forKey:SDLNameData];
-    } else {
-        [parameters removeObjectForKey:SDLNameData];
-    }
+    [self setObject:data forName:SDLNameData];
 }
 
 - (NSMutableArray<NSString *> *)data {

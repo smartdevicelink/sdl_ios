@@ -27,11 +27,7 @@
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:SDLNameECUName];
-    } else {
-        [parameters removeObjectForKey:SDLNameECUName];
-    }
+    [self setObject:ecuName forName:SDLNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
@@ -39,11 +35,7 @@
 }
 
 - (void)setDidLocation:(NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
-    if (didLocation != nil) {
-        [parameters setObject:didLocation forKey:SDLNameDIDLocation];
-    } else {
-        [parameters removeObjectForKey:SDLNameDIDLocation];
-    }
+    [self setObject:didLocation forName:SDLNameDIDLocation];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)didLocation {

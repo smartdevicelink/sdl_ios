@@ -11,53 +11,35 @@
 @implementation SDLTextField
 
 - (void)setName:(SDLTextFieldName)name {
-    if (name != nil) {
-        [store setObject:name forKey:SDLNameName];
-    } else {
-        [store removeObjectForKey:SDLNameName];
-    }
+    [self setObject:name forName:SDLNameName];
 }
 
 - (SDLTextFieldName)name {
-    NSObject *obj = [store objectForKey:SDLNameName];
-    return (SDLTextFieldName)obj;
+    return [self objectForName:SDLNameName];
 }
 
 - (void)setCharacterSet:(SDLCharacterSet)characterSet {
-    if (characterSet != nil) {
-        [store setObject:characterSet forKey:SDLNameCharacterSet];
-    } else {
-        [store removeObjectForKey:SDLNameCharacterSet];
-    }
+    [self setObject:characterSet forName:SDLNameCharacterSet];
 }
 
 - (SDLCharacterSet)characterSet {
-    NSObject *obj = [store objectForKey:SDLNameCharacterSet];
-    return (SDLCharacterSet)obj;
+    return [self objectForName:SDLNameCharacterSet];
 }
 
 - (void)setWidth:(NSNumber<SDLInt> *)width {
-    if (width != nil) {
-        [store setObject:width forKey:SDLNameWidth];
-    } else {
-        [store removeObjectForKey:SDLNameWidth];
-    }
+    [self setObject:width forName:SDLNameWidth];
 }
 
 - (NSNumber<SDLInt> *)width {
-    return [store objectForKey:SDLNameWidth];
+    return [self objectForName:SDLNameWidth];
 }
 
 - (void)setRows:(NSNumber<SDLInt> *)rows {
-    if (rows != nil) {
-        [store setObject:rows forKey:SDLNameRows];
-    } else {
-        [store removeObjectForKey:SDLNameRows];
-    }
+    [self setObject:rows forName:SDLNameRows];
 }
 
 - (NSNumber<SDLInt> *)rows {
-    return [store objectForKey:SDLNameRows];
+    return [self objectForName:SDLNameRows];
 }
 
 @end

@@ -33,11 +33,7 @@
 }
 
 - (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    if (ttsChunks != nil) {
-        [parameters setObject:ttsChunks forKey:SDLNameTTSChunks];
-    } else {
-        [parameters removeObjectForKey:SDLNameTTSChunks];
-    }
+    [self setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)ttsChunks {

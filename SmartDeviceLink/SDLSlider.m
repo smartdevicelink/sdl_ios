@@ -51,11 +51,7 @@
 }
 
 - (void)setNumTicks:(NSNumber<SDLInt> *)numTicks {
-    if (numTicks != nil) {
-        [parameters setObject:numTicks forKey:SDLNameNumberTicks];
-    } else {
-        [parameters removeObjectForKey:SDLNameNumberTicks];
-    }
+    [self setObject:numTicks forName:SDLNameNumberTicks];
 }
 
 - (NSNumber<SDLInt> *)numTicks {
@@ -63,11 +59,7 @@
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    if (position != nil) {
-        [parameters setObject:position forKey:SDLNamePosition];
-    } else {
-        [parameters removeObjectForKey:SDLNamePosition];
-    }
+    [self setObject:position forName:SDLNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
@@ -75,11 +67,7 @@
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
-    if (sliderHeader != nil) {
-        [parameters setObject:sliderHeader forKey:SDLNameSliderHeader];
-    } else {
-        [parameters removeObjectForKey:SDLNameSliderHeader];
-    }
+    [self setObject:sliderHeader forName:SDLNameSliderHeader];
 }
 
 - (NSString *)sliderHeader {
@@ -87,11 +75,7 @@
 }
 
 - (void)setSliderFooter:(NSMutableArray<NSString *> *)sliderFooter {
-    if (sliderFooter != nil) {
-        [parameters setObject:sliderFooter forKey:SDLNameSliderFooter];
-    } else {
-        [parameters removeObjectForKey:SDLNameSliderFooter];
-    }
+    [self setObject:sliderFooter forName:SDLNameSliderFooter];
 }
 
 - (NSMutableArray<NSString *> *)sliderFooter {
@@ -99,11 +83,7 @@
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [self setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {

@@ -9,42 +9,27 @@
 @implementation SDLECallInfo
 
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    if (eCallNotificationStatus != nil) {
-        [store setObject:eCallNotificationStatus forKey:SDLNameECallNotificationStatus];
-    } else {
-        [store removeObjectForKey:SDLNameECallNotificationStatus];
-    }
+    [self setObject:eCallNotificationStatus forName:SDLNameECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    NSObject *obj = [store objectForKey:SDLNameECallNotificationStatus];
-    return (SDLVehicleDataNotificationStatus)obj;
+    return [self objectForName:SDLNameECallNotificationStatus];
 }
 
 - (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    if (auxECallNotificationStatus != nil) {
-        [store setObject:auxECallNotificationStatus forKey:SDLNameAuxECallNotificationStatus];
-    } else {
-        [store removeObjectForKey:SDLNameAuxECallNotificationStatus];
-    }
+    [self setObject:auxECallNotificationStatus forName:SDLNameAuxECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    NSObject *obj = [store objectForKey:SDLNameAuxECallNotificationStatus];
-    return (SDLVehicleDataNotificationStatus)obj;
+    return [self objectForName:SDLNameAuxECallNotificationStatus];
 }
 
 - (void)setECallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
-    if (eCallConfirmationStatus != nil) {
-        [store setObject:eCallConfirmationStatus forKey:SDLNameECallConfirmationStatus];
-    } else {
-        [store removeObjectForKey:SDLNameECallConfirmationStatus];
-    }
+    [self setObject:eCallConfirmationStatus forName:SDLNameECallConfirmationStatus];
 }
 
 - (SDLECallConfirmationStatus)eCallConfirmationStatus {
-    NSObject *obj = [store objectForKey:SDLNameECallConfirmationStatus];
-    return (SDLECallConfirmationStatus)obj;
+    return [self objectForName:SDLNameECallConfirmationStatus];
 }
 
 @end

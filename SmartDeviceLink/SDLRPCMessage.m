@@ -36,6 +36,7 @@
         }
         self.bulkData = [dict objectForKey:SDLNameBulkData];
     }
+    
     return self;
 }
 
@@ -56,11 +57,7 @@
 }
 
 - (void)setParameters:(NSString *)functionName value:(NSObject *)value {
-    if (value != nil) {
-        [parameters setObject:value forKey:functionName];
-    } else {
-        [parameters removeObjectForKey:functionName];
-    }
+    [self setObject:value forName:functionName];
 }
 
 - (void)dealloc {
@@ -76,6 +73,15 @@
     NSMutableString *description = [NSMutableString stringWithFormat:@"%@ (%@)\n%@", self.name, self.messageType, self->parameters];
 
     return description;
+}
+
+#pragma mark - Overrides
+- (void)setObject:(NSObject *)object forName:(SDLName)name {
+    [self setObject:object forName:name inStorage:parameters];
+}
+
+- (id)objectForName:(SDLName)name {
+    return [self objectForName:name fromStorage:parameters];
 }
 
 @end

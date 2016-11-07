@@ -14,11 +14,7 @@
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    if (requestType != nil) {
-        [parameters setObject:requestType forKey:SDLNameRequestType];
-    } else {
-        [parameters removeObjectForKey:SDLNameRequestType];
-    }
+    [self setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
@@ -27,11 +23,7 @@
 }
 
 - (void)setUrl:(NSString *)url {
-    if (url != nil) {
-        [parameters setObject:url forKey:SDLNameURL];
-    } else {
-        [parameters removeObjectForKey:SDLNameURL];
-    }
+    [self setObject:url forName:SDLNameURL];
 }
 
 - (NSString *)url {
@@ -39,11 +31,7 @@
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [self setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
@@ -51,11 +39,7 @@
 }
 
 - (void)setFileType:(SDLFileType)fileType {
-    if (fileType != nil) {
-        [parameters setObject:fileType forKey:SDLNameFileType];
-    } else {
-        [parameters removeObjectForKey:SDLNameFileType];
-    }
+    [self setObject:fileType forName:SDLNameFileType];
 }
 
 - (SDLFileType)fileType {
@@ -64,11 +48,7 @@
 }
 
 - (void)setOffset:(NSNumber<SDLInt> *)offset {
-    if (offset != nil) {
-        [parameters setObject:offset forKey:SDLNameOffset];
-    } else {
-        [parameters removeObjectForKey:SDLNameOffset];
-    }
+    [self setObject:offset forName:SDLNameOffset];
 }
 
 - (NSNumber<SDLInt> *)offset {
@@ -76,11 +56,7 @@
 }
 
 - (void)setLength:(NSNumber<SDLInt> *)length {
-    if (length != nil) {
-        [parameters setObject:length forKey:SDLNameLength];
-    } else {
-        [parameters removeObjectForKey:SDLNameLength];
-    }
+    [self setObject:length forName:SDLNameLength];
 }
 
 - (NSNumber<SDLInt> *)length {

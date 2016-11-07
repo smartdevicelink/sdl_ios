@@ -9,15 +9,11 @@
 @implementation SDLPresetBankCapabilities
 
 - (void)setOnScreenPresetsAvailable:(NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    if (onScreenPresetsAvailable != nil) {
-        [store setObject:onScreenPresetsAvailable forKey:SDLNameOnScreenPresetsAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameOnScreenPresetsAvailable];
-    }
+    [self setObject:onScreenPresetsAvailable forName:SDLNameOnScreenPresetsAvailable];
 }
 
 - (NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    return [store objectForKey:SDLNameOnScreenPresetsAvailable];
+    return [self objectForName:SDLNameOnScreenPresetsAvailable];
 }
 
 @end

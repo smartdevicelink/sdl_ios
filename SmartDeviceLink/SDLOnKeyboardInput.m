@@ -14,11 +14,7 @@
 }
 
 - (void)setEvent:(SDLKeyboardEvent)event {
-    if (event != nil) {
-        [parameters setObject:event forKey:SDLNameEvent];
-    } else {
-        [parameters removeObjectForKey:SDLNameEvent];
-    }
+    [self setObject:event forName:SDLNameEvent];
 }
 
 - (SDLKeyboardEvent)event {
@@ -27,11 +23,7 @@
 }
 
 - (void)setData:(NSString *)data {
-    if (data != nil) {
-        [parameters setObject:data forKey:SDLNameData];
-    } else {
-        [parameters removeObjectForKey:SDLNameData];
-    }
+    [self setObject:data forName:SDLNameData];
 }
 
 - (NSString *)data {

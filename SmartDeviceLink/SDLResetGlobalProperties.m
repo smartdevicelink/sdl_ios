@@ -27,11 +27,7 @@
 }
 
 - (void)setProperties:(NSMutableArray<SDLGlobalProperty> *)properties {
-    if (properties != nil) {
-        [parameters setObject:properties forKey:SDLNameProperties];
-    } else {
-        [parameters removeObjectForKey:SDLNameProperties];
-    }
+    [self setObject:properties forName:SDLNameProperties];
 }
 
 - (NSMutableArray<SDLGlobalProperty> *)properties {

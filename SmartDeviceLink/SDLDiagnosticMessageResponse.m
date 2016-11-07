@@ -14,11 +14,7 @@
 }
 
 - (void)setMessageDataResult:(NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
-    if (messageDataResult != nil) {
-        [parameters setObject:messageDataResult forKey:SDLNameMessageDataResult];
-    } else {
-        [parameters removeObjectForKey:SDLNameMessageDataResult];
-    }
+    [self setObject:messageDataResult forName:SDLNameMessageDataResult];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {

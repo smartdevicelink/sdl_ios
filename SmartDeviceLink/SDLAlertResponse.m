@@ -14,12 +14,7 @@
 }
 
 - (void)setTryAgainTime:(NSNumber<SDLInt> *)tryAgainTime {
-    if (tryAgainTime != nil) {
-        [parameters setObject:tryAgainTime forKey:SDLNameTryAgainTime];
-    } else {
-        [parameters removeObjectForKey:SDLNameTryAgainTime];
-    }
-}
+    [self setObject:tryAgainTime forName:SDLNameTryAgainTime];}
 
 - (NSNumber<SDLInt> *)tryAgainTime {
     return [parameters objectForKey:SDLNameTryAgainTime];

@@ -44,11 +44,7 @@
 }
 
 - (void)setInitialPrompt:(NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    if (initialPrompt != nil) {
-        [parameters setObject:initialPrompt forKey:SDLNameInitialPrompt];
-    } else {
-        [parameters removeObjectForKey:SDLNameInitialPrompt];
-    }
+    [self setObject:initialPrompt forName:SDLNameInitialPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
@@ -65,11 +61,7 @@
 }
 
 - (void)setAudioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 {
-    if (audioPassThruDisplayText1 != nil) {
-        [parameters setObject:audioPassThruDisplayText1 forKey:SDLNameAudioPassThruDisplayText1];
-    } else {
-        [parameters removeObjectForKey:SDLNameAudioPassThruDisplayText1];
-    }
+    [self setObject:audioPassThruDisplayText1 forName:SDLNameAudioPassThruDisplayText1];
 }
 
 - (NSString *)audioPassThruDisplayText1 {
@@ -77,11 +69,7 @@
 }
 
 - (void)setAudioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 {
-    if (audioPassThruDisplayText2 != nil) {
-        [parameters setObject:audioPassThruDisplayText2 forKey:SDLNameAudioPassThruDisplayText2];
-    } else {
-        [parameters removeObjectForKey:SDLNameAudioPassThruDisplayText2];
-    }
+    [self setObject:audioPassThruDisplayText2 forName:SDLNameAudioPassThruDisplayText2];
 }
 
 - (NSString *)audioPassThruDisplayText2 {
@@ -89,11 +77,7 @@
 }
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
-    if (samplingRate != nil) {
-        [parameters setObject:samplingRate forKey:SDLNameSamplingRate];
-    } else {
-        [parameters removeObjectForKey:SDLNameSamplingRate];
-    }
+    [self setObject:samplingRate forName:SDLNameSamplingRate];
 }
 
 - (SDLSamplingRate)samplingRate {
@@ -102,11 +86,7 @@
 }
 
 - (void)setMaxDuration:(NSNumber<SDLInt> *)maxDuration {
-    if (maxDuration != nil) {
-        [parameters setObject:maxDuration forKey:SDLNameMaxDuration];
-    } else {
-        [parameters removeObjectForKey:SDLNameMaxDuration];
-    }
+    [self setObject:maxDuration forName:SDLNameMaxDuration];
 }
 
 - (NSNumber<SDLInt> *)maxDuration {
@@ -114,11 +94,7 @@
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
-    if (bitsPerSample != nil) {
-        [parameters setObject:bitsPerSample forKey:SDLNameBitsPerSample];
-    } else {
-        [parameters removeObjectForKey:SDLNameBitsPerSample];
-    }
+    [self setObject:bitsPerSample forName:SDLNameBitsPerSample];
 }
 
 - (SDLBitsPerSample)bitsPerSample {
@@ -127,11 +103,7 @@
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
-    if (audioType != nil) {
-        [parameters setObject:audioType forKey:SDLNameAudioType];
-    } else {
-        [parameters removeObjectForKey:SDLNameAudioType];
-    }
+    [self setObject:audioType forName:SDLNameAudioType];
 }
 
 - (SDLAudioType)audioType {
@@ -140,11 +112,7 @@
 }
 
 - (void)setMuteAudio:(NSNumber<SDLBool> *)muteAudio {
-    if (muteAudio != nil) {
-        [parameters setObject:muteAudio forKey:SDLNameMuteAudio];
-    } else {
-        [parameters removeObjectForKey:SDLNameMuteAudio];
-    }
+    [self setObject:muteAudio forName:SDLNameMuteAudio];
 }
 
 - (NSNumber<SDLBool> *)muteAudio {

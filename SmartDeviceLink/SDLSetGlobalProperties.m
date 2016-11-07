@@ -46,11 +46,7 @@
 
 
 - (void)setHelpPrompt:(NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    if (helpPrompt != nil) {
-        [parameters setObject:helpPrompt forKey:SDLNameHelpPrompt];
-    } else {
-        [parameters removeObjectForKey:SDLNameHelpPrompt];
-    }
+    [self setObject:helpPrompt forName:SDLNameHelpPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
@@ -67,11 +63,7 @@
 }
 
 - (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    if (timeoutPrompt != nil) {
-        [parameters setObject:timeoutPrompt forKey:SDLNameTimeoutPrompt];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeoutPrompt];
-    }
+    [self setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
@@ -88,11 +80,7 @@
 }
 
 - (void)setVrHelpTitle:(NSString *)vrHelpTitle {
-    if (vrHelpTitle != nil) {
-        [parameters setObject:vrHelpTitle forKey:SDLNameVRHelpTitle];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRHelpTitle];
-    }
+    [self setObject:vrHelpTitle forName:SDLNameVRHelpTitle];
 }
 
 - (NSString *)vrHelpTitle {
@@ -100,11 +88,7 @@
 }
 
 - (void)setVrHelp:(NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    if (vrHelp != nil) {
-        [parameters setObject:vrHelp forKey:SDLNameVRHelp];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRHelp];
-    }
+    [self setObject:vrHelp forName:SDLNameVRHelp];
 }
 
 - (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
@@ -121,11 +105,7 @@
 }
 
 - (void)setMenuTitle:(NSString *)menuTitle {
-    if (menuTitle != nil) {
-        [parameters setObject:menuTitle forKey:SDLNameMenuTitle];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuTitle];
-    }
+    [self setObject:menuTitle forName:SDLNameMenuTitle];
 }
 
 - (NSString *)menuTitle {
@@ -133,11 +113,7 @@
 }
 
 - (void)setMenuIcon:(SDLImage *)menuIcon {
-    if (menuIcon != nil) {
-        [parameters setObject:menuIcon forKey:SDLNameMenuIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuIcon];
-    }
+    [self setObject:menuIcon forName:SDLNameMenuIcon];
 }
 
 - (SDLImage *)menuIcon {
@@ -150,11 +126,7 @@
 }
 
 - (void)setKeyboardProperties:(SDLKeyboardProperties *)keyboardProperties {
-    if (keyboardProperties != nil) {
-        [parameters setObject:keyboardProperties forKey:SDLNameKeyboardProperties];
-    } else {
-        [parameters removeObjectForKey:SDLNameKeyboardProperties];
-    }
+    [self setObject:keyboardProperties forName:SDLNameKeyboardProperties];
 }
 
 - (SDLKeyboardProperties *)keyboardProperties {

@@ -15,11 +15,7 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    if (language != nil) {
-        [parameters setObject:language forKey:SDLNameLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameLanguage];
-    }
+    [self setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
@@ -28,11 +24,7 @@
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
-    if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
-    }
+    [self setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {

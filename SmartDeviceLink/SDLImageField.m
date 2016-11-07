@@ -10,24 +10,15 @@
 @implementation SDLImageField
 
 - (void)setName:(SDLImageFieldName)name {
-    if (name != nil) {
-        [store setObject:name forKey:SDLNameName];
-    } else {
-        [store removeObjectForKey:SDLNameName];
-    }
+    [self setObject:name forName:SDLNameName];
 }
 
 - (SDLImageFieldName)name {
-    NSObject *obj = [store objectForKey:SDLNameName];
-    return (SDLImageFieldName)obj;
+    return [self objectForName:SDLNameName];
 }
 
 - (void)setImageTypeSupported:(NSMutableArray<SDLFileType> *)imageTypeSupported {
-    if (imageTypeSupported != nil) {
-        [store setObject:imageTypeSupported forKey:SDLNameImageTypeSupported];
-    } else {
-        [store removeObjectForKey:SDLNameImageTypeSupported];
-    }
+    [self setObject:imageTypeSupported forName:SDLNameImageTypeSupported];
 }
 
 - (NSMutableArray<SDLFileType> *)imageTypeSupported {
@@ -44,20 +35,11 @@
 }
 
 - (void)setImageResolution:(SDLImageResolution *)imageResolution {
-    if (imageResolution != nil) {
-        [store setObject:imageResolution forKey:SDLNameImageResolution];
-    } else {
-        [store removeObjectForKey:SDLNameImageResolution];
-    }
+    [self setObject:imageResolution forName:SDLNameImageResolution];
 }
 
 - (SDLImageResolution *)imageResolution {
-    NSObject *obj = [store objectForKey:SDLNameImageResolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [self objectForName:SDLNameImageResolution ofClass:SDLImageResolution.class];
 }
 
 @end

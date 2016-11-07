@@ -51,11 +51,7 @@
 }
 
 - (void)setMainField1:(NSString *)mainField1 {
-    if (mainField1 != nil) {
-        [parameters setObject:mainField1 forKey:SDLNameMainField1];
-    } else {
-        [parameters removeObjectForKey:SDLNameMainField1];
-    }
+    [self setObject:mainField1 forName:SDLNameMainField1];
 }
 
 - (NSString *)mainField1 {
@@ -63,11 +59,7 @@
 }
 
 - (void)setMainField2:(NSString *)mainField2 {
-    if (mainField2 != nil) {
-        [parameters setObject:mainField2 forKey:SDLNameMainField2];
-    } else {
-        [parameters removeObjectForKey:SDLNameMainField2];
-    }
+    [self setObject:mainField2 forName:SDLNameMainField2];
 }
 
 - (NSString *)mainField2 {
@@ -75,11 +67,7 @@
 }
 
 - (void)setMainField3:(NSString *)mainField3 {
-    if (mainField3 != nil) {
-        [parameters setObject:mainField3 forKey:SDLNameMainField3];
-    } else {
-        [parameters removeObjectForKey:SDLNameMainField3];
-    }
+    [self setObject:mainField3 forName:SDLNameMainField3];
 }
 
 - (NSString *)mainField3 {
@@ -87,11 +75,7 @@
 }
 
 - (void)setMainField4:(NSString *)mainField4 {
-    if (mainField4 != nil) {
-        [parameters setObject:mainField4 forKey:SDLNameMainField4];
-    } else {
-        [parameters removeObjectForKey:SDLNameMainField4];
-    }
+    [self setObject:mainField4 forName:SDLNameMainField4];
 }
 
 - (NSString *)mainField4 {
@@ -99,11 +83,7 @@
 }
 
 - (void)setAlignment:(SDLTextAlignment)alignment {
-    if (alignment != nil) {
-        [parameters setObject:alignment forKey:SDLNameAlignment];
-    } else {
-        [parameters removeObjectForKey:SDLNameAlignment];
-    }
+    [self setObject:alignment forName:SDLNameAlignment];
 }
 
 - (SDLTextAlignment)alignment {
@@ -112,11 +92,7 @@
 }
 
 - (void)setStatusBar:(NSString *)statusBar {
-    if (statusBar != nil) {
-        [parameters setObject:statusBar forKey:SDLNameStatusBar];
-    } else {
-        [parameters removeObjectForKey:SDLNameStatusBar];
-    }
+    [self setObject:statusBar forName:SDLNameStatusBar];
 }
 
 - (NSString *)statusBar {
@@ -124,11 +100,7 @@
 }
 
 - (void)setMediaClock:(NSString *)mediaClock {
-    if (mediaClock != nil) {
-        [parameters setObject:mediaClock forKey:SDLNameMediaClock];
-    } else {
-        [parameters removeObjectForKey:SDLNameMediaClock];
-    }
+    [self setObject:mediaClock forName:SDLNameMediaClock];
 }
 
 - (NSString *)mediaClock {
@@ -136,11 +108,7 @@
 }
 
 - (void)setMediaTrack:(NSString *)mediaTrack {
-    if (mediaTrack != nil) {
-        [parameters setObject:mediaTrack forKey:SDLNameMediaTrack];
-    } else {
-        [parameters removeObjectForKey:SDLNameMediaTrack];
-    }
+    [self setObject:mediaTrack forName:SDLNameMediaTrack];
 }
 
 - (NSString *)mediaTrack {
@@ -148,11 +116,7 @@
 }
 
 - (void)setGraphic:(SDLImage *)graphic {
-    if (graphic != nil) {
-        [parameters setObject:graphic forKey:SDLNameGraphic];
-    } else {
-        [parameters removeObjectForKey:SDLNameGraphic];
-    }
+    [self setObject:graphic forName:SDLNameGraphic];
 }
 
 - (SDLImage *)graphic {
@@ -165,11 +129,7 @@
 }
 
 - (void)setSecondaryGraphic:(SDLImage *)secondaryGraphic {
-    if (secondaryGraphic != nil) {
-        [parameters setObject:secondaryGraphic forKey:SDLNameSecondaryGraphic];
-    } else {
-        [parameters removeObjectForKey:SDLNameSecondaryGraphic];
-    }
+    [self setObject:secondaryGraphic forName:SDLNameSecondaryGraphic];
 }
 
 - (SDLImage *)secondaryGraphic {
@@ -182,11 +142,7 @@
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [self setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {
@@ -203,11 +159,7 @@
 }
 
 - (void)setCustomPresets:(NSMutableArray<NSString *> *)customPresets {
-    if (customPresets != nil) {
-        [parameters setObject:customPresets forKey:SDLNameCustomPresets];
-    } else {
-        [parameters removeObjectForKey:SDLNameCustomPresets];
-    }
+    [self setObject:customPresets forName:SDLNameCustomPresets];
 }
 
 - (NSMutableArray<NSString *> *)customPresets {

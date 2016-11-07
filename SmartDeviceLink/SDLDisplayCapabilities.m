@@ -11,66 +11,31 @@
 @implementation SDLDisplayCapabilities
 
 - (void)setDisplayType:(SDLDisplayType)displayType {
-    if (displayType != nil) {
-        [store setObject:displayType forKey:SDLNameDisplayType];
-    } else {
-        [store removeObjectForKey:SDLNameDisplayType];
-    }
+    [self setObject:displayType forName:SDLNameDisplayType];
 }
 
 - (SDLDisplayType)displayType {
-    NSObject *obj = [store objectForKey:SDLNameDisplayType];
-    return (SDLDisplayType)obj;
+    return [self objectForName:SDLNameDisplayType];
 }
 
 - (void)setTextFields:(NSMutableArray<SDLTextField *> *)textFields {
-    if (textFields != nil) {
-        [store setObject:textFields forKey:SDLNameTextFields];
-    } else {
-        [store removeObjectForKey:SDLNameTextFields];
-    }
+    [self setObject:textFields forName:SDLNameTextFields];
 }
 
 - (NSMutableArray<SDLTextField *> *)textFields {
-    NSMutableArray<SDLTextField *> *array = [store objectForKey:SDLNameTextFields];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTextField.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTextField *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTextField alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [self objectsForName:SDLNameTextFields ofClass:SDLTextField.class];
 }
 
 - (void)setImageFields:(NSMutableArray<SDLImageField *> *)imageFields {
-    if (imageFields != nil) {
-        [store setObject:imageFields forKey:SDLNameImageFields];
-    } else {
-        [store removeObjectForKey:SDLNameImageFields];
-    }
+    [self setObject:imageFields forName:SDLNameImageFields];
 }
 
 - (NSMutableArray<SDLImageField *> *)imageFields {
-    NSMutableArray<SDLImageField *> *array = [store objectForKey:SDLNameImageFields];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLImageField.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLImageField *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLImageField alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [self objectsForName:SDLNameImageFields ofClass:SDLImageField.class];
 }
 
 - (void)setMediaClockFormats:(NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
-    if (mediaClockFormats != nil) {
-        [store setObject:mediaClockFormats forKey:SDLNameMediaClockFormats];
-    } else {
-        [store removeObjectForKey:SDLNameMediaClockFormats];
-    }
+    [self setObject:mediaClockFormats forName:SDLNameMediaClockFormats];
 }
 
 - (NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
@@ -87,56 +52,35 @@
 }
 
 - (void)setGraphicSupported:(NSNumber<SDLBool> *)graphicSupported {
-    if (graphicSupported != nil) {
-        [store setObject:graphicSupported forKey:SDLNameGraphicSupported];
-    } else {
-        [store removeObjectForKey:SDLNameGraphicSupported];
-    }
+    [self setObject:graphicSupported forName:SDLNameGraphicSupported];
 }
 
 - (NSNumber<SDLBool> *)graphicSupported {
-    return [store objectForKey:SDLNameGraphicSupported];
+    return [self objectForName:SDLNameGraphicSupported];
 }
 
 - (void)setTemplatesAvailable:(NSMutableArray<NSString *> *)templatesAvailable {
-    if (templatesAvailable != nil) {
-        [store setObject:templatesAvailable forKey:SDLNameTemplatesAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameTemplatesAvailable];
-    }
+    [self setObject:templatesAvailable forName:SDLNameTemplatesAvailable];
 }
 
 - (NSMutableArray<NSString *> *)templatesAvailable {
-    return [store objectForKey:SDLNameTemplatesAvailable];
+    return [self objectForName:SDLNameTemplatesAvailable];
 }
 
 - (void)setScreenParams:(SDLScreenParams *)screenParams {
-    if (screenParams != nil) {
-        [store setObject:screenParams forKey:SDLNameScreenParams];
-    } else {
-        [store removeObjectForKey:SDLNameScreenParams];
-    }
+    [self setObject:screenParams forName:SDLNameScreenParams];
 }
 
 - (SDLScreenParams *)screenParams {
-    NSObject *obj = [store objectForKey:SDLNameScreenParams];
-    if (obj == nil || [obj isKindOfClass:SDLScreenParams.class]) {
-        return (SDLScreenParams *)obj;
-    } else {
-        return [[SDLScreenParams alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [self objectForName:SDLNameScreenParams ofClass:SDLScreenParams.class];
 }
 
 - (void)setNumCustomPresetsAvailable:(NSNumber<SDLInt> *)numCustomPresetsAvailable {
-    if (numCustomPresetsAvailable != nil) {
-        [store setObject:numCustomPresetsAvailable forKey:SDLNameNumberCustomPresetsAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameNumberCustomPresetsAvailable];
-    }
+    [self setObject:numCustomPresetsAvailable forName:SDLNameNumberCustomPresetsAvailable];
 }
 
 - (NSNumber<SDLInt> *)numCustomPresetsAvailable {
-    return [store objectForKey:SDLNameNumberCustomPresetsAvailable];
+    return [self objectForName:SDLNameNumberCustomPresetsAvailable];
 }
 
 @end

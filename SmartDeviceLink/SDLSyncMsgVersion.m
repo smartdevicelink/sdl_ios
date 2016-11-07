@@ -21,27 +21,19 @@
 }
 
 - (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
-    if (majorVersion != nil) {
-        [store setObject:majorVersion forKey:SDLNameMajorVersion];
-    } else {
-        [store removeObjectForKey:SDLNameMajorVersion];
-    }
+    [self setObject:majorVersion forName:SDLNameMajorVersion];
 }
 
 - (NSNumber<SDLInt> *)majorVersion {
-    return [store objectForKey:SDLNameMajorVersion];
+    return [self objectForName:SDLNameMajorVersion];
 }
 
 - (void)setMinorVersion:(NSNumber<SDLInt> *)minorVersion {
-    if (minorVersion != nil) {
-        [store setObject:minorVersion forKey:SDLNameMinorVersion];
-    } else {
-        [store removeObjectForKey:SDLNameMinorVersion];
-    }
+    [self setObject:minorVersion forName:SDLNameMinorVersion];
 }
 
 - (NSNumber<SDLInt> *)minorVersion {
-    return [store objectForKey:SDLNameMinorVersion];
+    return [self objectForName:SDLNameMinorVersion];
 }
 
 - (NSString *)description {

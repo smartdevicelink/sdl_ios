@@ -39,7 +39,7 @@
 }
 
 - (NSString *)countryName {
-    return store[SDLNameCountryName];
+    return [self objectForName:SDLNameCountryName];
 }
 
 - (void)setCountryCode:(NSString *)countryCode {
@@ -51,7 +51,7 @@
 }
 
 - (NSString *)countryCode {
-    return store[SDLNameCountryCode];
+    return [self objectForName:SDLNameCountryCode];
 }
 
 - (void)setPostalCode:(NSString *)postalCode {
@@ -63,7 +63,7 @@
 }
 
 - (NSString *)postalCode {
-    return store[SDLNamePostalCode];
+    return [self objectForName:SDLNamePostalCode];
 }
 
 - (void)setAdministrativeArea:(NSString *)administrativeArea {
@@ -75,7 +75,7 @@
 }
 
 - (NSString *)administrativeArea {
-    return store[SDLNameAdministrativeArea];
+    return [self objectForName:SDLNameAdministrativeArea];
 }
 
 - (void)setSubAdministrativeArea:(NSString *)subAdministrativeArea {
@@ -87,7 +87,7 @@
 }
 
 - (NSString *)subAdministrativeArea {
-    return store[SDLNameSubAdministrativeArea];
+    return [self objectForName:SDLNameSubAdministrativeArea];
 }
 
 - (void)setLocality:(NSString *)locality {
@@ -99,7 +99,7 @@
 }
 
 - (NSString *)locality {
-    return store[SDLNameLocality];
+    return [self objectForName:SDLNameLocality];
 }
 
 - (void)setSubLocality:(NSString *)subLocality {
@@ -111,7 +111,7 @@
 }
 
 - (NSString *)subLocality {
-    return store[SDLNameSubLocality];
+    return [self objectForName:SDLNameSubLocality];
 }
 
 - (void)setThoroughfare:(NSString *)thoroughfare {
@@ -123,7 +123,7 @@
 }
 
 - (NSString *)thoroughfare {
-    return store[SDLNameThoroughfare];
+    return [self objectForName:SDLNameThoroughfare];
 }
 
 - (void)setSubThoroughfare:(NSString *)subThoroughfare {
@@ -135,7 +135,7 @@
 }
 
 - (NSString *)subThoroughfare {
-    return store[SDLNameSubThoroughfare];
+    return [self objectForName:SDLNameSubThoroughfare];
 }
 
 @end

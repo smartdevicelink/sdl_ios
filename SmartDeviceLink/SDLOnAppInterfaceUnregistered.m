@@ -14,11 +14,7 @@
 }
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
-    if (reason != nil) {
-        [parameters setObject:reason forKey:SDLNameReason];
-    } else {
-        [parameters removeObjectForKey:SDLNameReason];
-    }
+    [self setObject:reason forName:SDLNameReason];
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {

@@ -10,42 +10,27 @@
 @implementation SDLAudioPassThruCapabilities
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
-    if (samplingRate != nil) {
-        [store setObject:samplingRate forKey:SDLNameSamplingRate];
-    } else {
-        [store removeObjectForKey:SDLNameSamplingRate];
-    }
+    [self setObject:samplingRate forName:SDLNameSamplingRate];
 }
 
 - (SDLSamplingRate)samplingRate {
-    NSObject *obj = [store objectForKey:SDLNameSamplingRate];
-    return (SDLSamplingRate)obj;
+    return [self objectForName:SDLNameSamplingRate];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
-    if (bitsPerSample != nil) {
-        [store setObject:bitsPerSample forKey:SDLNameBitsPerSample];
-    } else {
-        [store removeObjectForKey:SDLNameBitsPerSample];
-    }
+    [self setObject:bitsPerSample forName:SDLNameBitsPerSample];
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    NSObject *obj = [store objectForKey:SDLNameBitsPerSample];
-    return (SDLBitsPerSample)obj;
+    return [self objectForName:SDLNameBitsPerSample];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
-    if (audioType != nil) {
-        [store setObject:audioType forKey:SDLNameAudioType];
-    } else {
-        [store removeObjectForKey:SDLNameAudioType];
-    }
+    [self setObject:audioType forName:SDLNameAudioType];
 }
 
 - (SDLAudioType)audioType {
-    NSObject *obj = [store objectForKey:SDLNameAudioType];
-    return (SDLAudioType)obj;
+    return [self objectForName:SDLNameAudioType];
 }
 
 @end

@@ -10,11 +10,7 @@
 @implementation SDLScreenParams
 
 - (void)setResolution:(SDLImageResolution *)resolution {
-    if (resolution != nil) {
-        [store setObject:resolution forKey:SDLNameResolution];
-    } else {
-        [store removeObjectForKey:SDLNameResolution];
-    }
+    [self setObject:resolution forName:SDLNameResolution];
 }
 
 - (SDLImageResolution *)resolution {
@@ -27,11 +23,7 @@
 }
 
 - (void)setTouchEventAvailable:(SDLTouchEventCapabilities *)touchEventAvailable {
-    if (touchEventAvailable != nil) {
-        [store setObject:touchEventAvailable forKey:SDLNameTouchEventAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameTouchEventAvailable];
-    }
+    [self setObject:touchEventAvailable forName:SDLNameTouchEventAvailable];
 }
 
 - (SDLTouchEventCapabilities *)touchEventAvailable {

@@ -15,11 +15,7 @@
 }
 
 - (void)setFilenames:(NSMutableArray<NSString *> *)filenames {
-    if (filenames != nil) {
-        [parameters setObject:filenames forKey:SDLNameFilenames];
-    } else {
-        [parameters removeObjectForKey:SDLNameFilenames];
-    }
+    [self setObject:filenames forName:SDLNameFilenames];
 }
 
 - (NSMutableArray<NSString *> *)filenames {
@@ -27,11 +23,7 @@
 }
 
 - (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
-    if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
-    } else {
-        [parameters removeObjectForKey:SDLNameSpaceAvailable];
-    }
+    [self setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
 - (NSNumber<SDLInt> *)spaceAvailable {

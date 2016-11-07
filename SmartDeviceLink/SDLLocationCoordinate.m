@@ -15,7 +15,7 @@
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return store[SDLNameLongitudeDegrees];
+    return [self objectForName:SDLNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
@@ -27,7 +27,7 @@
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return store[SDLNameLatitudeDegrees];
+    return [self objectForName:SDLNameLatitudeDegrees];
 }
 
 @end

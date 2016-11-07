@@ -27,75 +27,51 @@
 }
 
 - (void)setHardware:(NSString *)hardware {
-    if (hardware != nil) {
-        [store setObject:hardware forKey:SDLNameHardware];
-    } else {
-        [store removeObjectForKey:SDLNameHardware];
-    }
+    [self setObject:hardware forName:SDLNameHardware];
 }
 
 - (NSString *)hardware {
-    return [store objectForKey:SDLNameHardware];
+    return [self objectForName:SDLNameHardware];
 }
 
 - (void)setFirmwareRev:(NSString *)firmwareRev {
-    if (firmwareRev != nil) {
-        [store setObject:firmwareRev forKey:SDLNameFirmwareRevision];
-    } else {
-        [store removeObjectForKey:SDLNameFirmwareRevision];
-    }
+    [self setObject:firmwareRev forName:SDLNameFirmwareRevision];
 }
 
 - (NSString *)firmwareRev {
-    return [store objectForKey:SDLNameFirmwareRevision];
+    return [self objectForName:SDLNameFirmwareRevision];
 }
 
 - (void)setOs:(NSString *)os {
-    if (os != nil) {
-        [store setObject:os forKey:SDLNameOS];
-    } else {
-        [store removeObjectForKey:SDLNameOS];
-    }
+    [self setObject:os forName:SDLNameOS];
 }
 
 - (NSString *)os {
-    return [store objectForKey:SDLNameOS];
+    return [self objectForName:SDLNameOS];
 }
 
 - (void)setOsVersion:(NSString *)osVersion {
-    if (osVersion != nil) {
-        [store setObject:osVersion forKey:SDLNameOSVersion];
-    } else {
-        [store removeObjectForKey:SDLNameOSVersion];
-    }
+    [self setObject:osVersion forName:SDLNameOSVersion];
 }
 
 - (NSString *)osVersion {
-    return [store objectForKey:SDLNameOSVersion];
+    return [self objectForName:SDLNameOSVersion];
 }
 
 - (void)setCarrier:(NSString *)carrier {
-    if (carrier != nil) {
-        [store setObject:carrier forKey:SDLNameCarrier];
-    } else {
-        [store removeObjectForKey:SDLNameCarrier];
-    }
+    [self setObject:carrier forName:SDLNameCarrier];
 }
 
 - (NSString *)carrier {
-    return [store objectForKey:SDLNameCarrier];
+    return [self objectForName:SDLNameCarrier];
 }
 
 - (void)setMaxNumberRFCOMMPorts:(NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    if (maxNumberRFCOMMPorts != nil) {
-        [store setObject:maxNumberRFCOMMPorts forKey:SDLNameMaxNumberRFCOMMPorts];
-    } else {
-        [store removeObjectForKey:SDLNameMaxNumberRFCOMMPorts];
-    }
+    [self setObject:maxNumberRFCOMMPorts forName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 - (NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    return [store objectForKey:SDLNameMaxNumberRFCOMMPorts];
+    return [self objectForName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 @end

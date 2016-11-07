@@ -24,39 +24,27 @@ static NSString *const SDLBundleAppNameKey = @"CFBundleName";
 }
 
 - (void)setAppDisplayName:(NSString *)appDisplayName {
-    if (appDisplayName != nil) {
-        [store setObject:appDisplayName forKey:SDLNameAppDisplayName];
-    } else {
-        [store removeObjectForKey:SDLNameAppDisplayName];
-    }
+    [self setObject:appDisplayName forName:SDLNameAppDisplayName];
 }
 
 - (NSString *)appDisplayName {
-    return [store objectForKey:SDLNameAppDisplayName];
+    return [self objectForName:SDLNameAppDisplayName];
 }
 
 - (void)setAppBundleID:(NSString *)appBundleID {
-    if (appBundleID != nil) {
-        [store setObject:appBundleID forKey:SDLNameAppBundleId];
-    } else {
-        [store removeObjectForKey:SDLNameAppBundleId];
-    }
+    [self setObject:appBundleID forName:SDLNameAppBundleId];
 }
 
 - (NSString *)appBundleID {
-    return [store objectForKey:SDLNameAppBundleId];
+    return [self objectForName:SDLNameAppBundleId];
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
-    if (appVersion != nil) {
-        [store setObject:appVersion forKey:SDLNameAppVersion];
-    } else {
-        [store removeObjectForKey:SDLNameAppVersion];
-    }
+    [self setObject:appVersion forName:SDLNameAppVersion];
 }
 
 - (NSString *)appVersion {
-    return [store objectForKey:SDLNameAppVersion];
+    return [self objectForName:SDLNameAppVersion];
 }
 
 @end

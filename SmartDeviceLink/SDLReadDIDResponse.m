@@ -16,11 +16,7 @@
 }
 
 - (void)setDidResult:(NSMutableArray<SDLDIDResult *> *)didResult {
-    if (didResult != nil) {
-        [parameters setObject:didResult forKey:SDLNameDIDResult];
-    } else {
-        [parameters removeObjectForKey:SDLNameDIDResult];
-    }
+    [self setObject:didResult forName:SDLNameDIDResult];
 }
 
 - (NSMutableArray<SDLDIDResult *> *)didResult {

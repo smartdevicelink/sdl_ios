@@ -38,11 +38,7 @@
 }
 
 - (void)setNavigationText1:(NSString *)navigationText1 {
-    if (navigationText1 != nil) {
-        [parameters setObject:navigationText1 forKey:SDLNameNavigationText1];
-    } else {
-        [parameters removeObjectForKey:SDLNameNavigationText1];
-    }
+    [self setObject:navigationText1 forName:SDLNameNavigationText1];
 }
 
 - (NSString *)navigationText1 {
@@ -50,11 +46,7 @@
 }
 
 - (void)setNavigationText2:(NSString *)navigationText2 {
-    if (navigationText2 != nil) {
-        [parameters setObject:navigationText2 forKey:SDLNameNavigationText2];
-    } else {
-        [parameters removeObjectForKey:SDLNameNavigationText2];
-    }
+    [self setObject:navigationText2 forName:SDLNameNavigationText2];
 }
 
 - (NSString *)navigationText2 {
@@ -62,11 +54,7 @@
 }
 
 - (void)setEta:(NSString *)eta {
-    if (eta != nil) {
-        [parameters setObject:eta forKey:SDLNameETA];
-    } else {
-        [parameters removeObjectForKey:SDLNameETA];
-    }
+    [self setObject:eta forName:SDLNameETA];
 }
 
 - (NSString *)eta {
@@ -74,11 +62,7 @@
 }
 
 - (void)setTimeToDestination:(NSString *)timeToDestination {
-    if (timeToDestination != nil) {
-        [parameters setObject:timeToDestination forKey:SDLNameTimeToDestination];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeToDestination];
-    }
+    [self setObject:timeToDestination forName:SDLNameTimeToDestination];
 }
 
 - (NSString *)timeToDestination {
@@ -86,11 +70,7 @@
 }
 
 - (void)setTotalDistance:(NSString *)totalDistance {
-    if (totalDistance != nil) {
-        [parameters setObject:totalDistance forKey:SDLNameTotalDistance];
-    } else {
-        [parameters removeObjectForKey:SDLNameTotalDistance];
-    }
+    [self setObject:totalDistance forName:SDLNameTotalDistance];
 }
 
 - (NSString *)totalDistance {
@@ -98,11 +78,7 @@
 }
 
 - (void)setTurnIcon:(SDLImage *)turnIcon {
-    if (turnIcon != nil) {
-        [parameters setObject:turnIcon forKey:SDLNameTurnIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameTurnIcon];
-    }
+    [self setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
 - (SDLImage *)turnIcon {
@@ -115,11 +91,7 @@
 }
 
 - (void)setNextTurnIcon:(SDLImage *)nextTurnIcon {
-    if (nextTurnIcon != nil) {
-        [parameters setObject:nextTurnIcon forKey:SDLNameNextTurnIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameNextTurnIcon];
-    }
+    [self setObject:nextTurnIcon forName:SDLNameNextTurnIcon];
 }
 
 - (SDLImage *)nextTurnIcon {
@@ -132,11 +104,7 @@
 }
 
 - (void)setDistanceToManeuver:(NSNumber<SDLFloat> *)distanceToManeuver {
-    if (distanceToManeuver != nil) {
-        [parameters setObject:distanceToManeuver forKey:SDLNameDistanceToManeuver];
-    } else {
-        [parameters removeObjectForKey:SDLNameDistanceToManeuver];
-    }
+    [self setObject:distanceToManeuver forName:SDLNameDistanceToManeuver];
 }
 
 - (NSNumber<SDLFloat> *)distanceToManeuver {
@@ -144,11 +112,7 @@
 }
 
 - (void)setDistanceToManeuverScale:(NSNumber<SDLFloat> *)distanceToManeuverScale {
-    if (distanceToManeuverScale != nil) {
-        [parameters setObject:distanceToManeuverScale forKey:SDLNameDistanceToManeuverScale];
-    } else {
-        [parameters removeObjectForKey:SDLNameDistanceToManeuverScale];
-    }
+    [self setObject:distanceToManeuverScale forName:SDLNameDistanceToManeuverScale];
 }
 
 - (NSNumber<SDLFloat> *)distanceToManeuverScale {
@@ -156,11 +120,7 @@
 }
 
 - (void)setManeuverComplete:(NSNumber<SDLBool> *)maneuverComplete {
-    if (maneuverComplete != nil) {
-        [parameters setObject:maneuverComplete forKey:SDLNameManeuverComplete];
-    } else {
-        [parameters removeObjectForKey:SDLNameManeuverComplete];
-    }
+    [self setObject:maneuverComplete forName:SDLNameManeuverComplete];
 }
 
 - (NSNumber<SDLBool> *)maneuverComplete {
@@ -168,11 +128,7 @@
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [self setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {

@@ -26,11 +26,7 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    if (syncFileName != nil) {
-        [parameters setObject:syncFileName forKey:SDLNameSyncFileName];
-    } else {
-        [parameters removeObjectForKey:SDLNameSyncFileName];
-    }
+    [self setObject:syncFileName forName:SDLNameSyncFileName];
 }
 
 - (NSString *)syncFileName {

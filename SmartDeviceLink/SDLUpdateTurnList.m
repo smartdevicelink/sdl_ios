@@ -29,11 +29,7 @@
 }
 
 - (void)setTurnList:(NSMutableArray<SDLTurn *> *)turnList {
-    if (turnList != nil) {
-        [parameters setObject:turnList forKey:SDLNameTurnList];
-    } else {
-        [parameters removeObjectForKey:SDLNameTurnList];
-    }
+    [self setObject:turnList forName:SDLNameTurnList];
 }
 
 - (NSMutableArray<SDLTurn *> *)turnList {
@@ -50,11 +46,7 @@
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [self setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {

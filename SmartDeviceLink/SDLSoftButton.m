@@ -38,82 +38,51 @@
 }
 
 - (void)setType:(SDLSoftButtonType)type {
-    if (type != nil) {
-        [store setObject:type forKey:SDLNameType];
-    } else {
-        [store removeObjectForKey:SDLNameType];
-    }
+    [self setObject:type forName:SDLNameType];
 }
 
 - (SDLSoftButtonType)type {
-    NSObject *obj = [store objectForKey:SDLNameType];
-    return (SDLSoftButtonType)obj;
+    return [self objectForName:SDLNameType];
 }
 
 - (void)setText:(NSString *)text {
-    if (text != nil) {
-        [store setObject:text forKey:SDLNameText];
-    } else {
-        [store removeObjectForKey:SDLNameText];
-    }
+    [self setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [store objectForKey:SDLNameText];
+    return [self objectForName:SDLNameText];
 }
 
 - (void)setImage:(SDLImage *)image {
-    if (image != nil) {
-        [store setObject:image forKey:SDLNameImage];
-    } else {
-        [store removeObjectForKey:SDLNameImage];
-    }
+    [self setObject:image forName:SDLNameImage];
 }
 
 - (SDLImage *)image {
-    NSObject *obj = [store objectForKey:SDLNameImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [self objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
 - (void)setIsHighlighted:(NSNumber<SDLBool> *)isHighlighted {
-    if (isHighlighted != nil) {
-        [store setObject:isHighlighted forKey:SDLNameIsHighlighted];
-    } else {
-        [store removeObjectForKey:SDLNameIsHighlighted];
-    }
+    [self setObject:isHighlighted forName:SDLNameIsHighlighted];
 }
 
 - (NSNumber<SDLBool> *)isHighlighted {
-    return [store objectForKey:SDLNameIsHighlighted];
+    return [self objectForName:SDLNameIsHighlighted];
 }
 
 - (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
-    if (softButtonID != nil) {
-        [store setObject:softButtonID forKey:SDLNameSoftButtonId];
-    } else {
-        [store removeObjectForKey:SDLNameSoftButtonId];
-    }
+    [self setObject:softButtonID forName:SDLNameSoftButtonId];
 }
 
 - (NSNumber<SDLInt> *)softButtonID {
-    return [store objectForKey:SDLNameSoftButtonId];
+    return [self objectForName:SDLNameSoftButtonId];
 }
 
 - (void)setSystemAction:(SDLSystemAction)systemAction {
-    if (systemAction != nil) {
-        [store setObject:systemAction forKey:SDLNameSystemAction];
-    } else {
-        [store removeObjectForKey:SDLNameSystemAction];
-    }
+    [self setObject:systemAction forName:SDLNameSystemAction];
 }
 
 - (SDLSystemAction)systemAction {
-    NSObject *obj = [store objectForKey:SDLNameSystemAction];
-    return (SDLSystemAction)obj;
+    return [self objectForName:SDLNameSystemAction];
 }
 
 @end

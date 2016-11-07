@@ -14,11 +14,7 @@
 }
 
 - (void)setData:(NSMutableArray<NSString *> *)data {
-    if (data != nil) {
-        [parameters setObject:data forKey:SDLNameData];
-    } else {
-        [parameters removeObjectForKey:SDLNameData];
-    }
+    [self setObject:data forName:SDLNameData];
 }
 
 - (NSMutableArray<NSString *> *)data {
@@ -26,11 +22,7 @@
 }
 
 - (void)setURL:(NSString *)URL {
-    if (URL != nil) {
-        [parameters setObject:URL forKey:SDLNameURLUppercase];
-    } else {
-        [parameters removeObjectForKey:SDLNameURLUppercase];
-    }
+    [self setObject:URL forName:SDLNameURLUppercase];
 }
 
 - (NSString *)URL {
@@ -38,11 +30,7 @@
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)Timeout {
-    if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:SDLNameTimeoutCapitalized];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeoutCapitalized];
-    }
+    [self setObject:Timeout forName:SDLNameTimeoutCapitalized];
 }
 
 - (NSNumber<SDLInt> *)Timeout {

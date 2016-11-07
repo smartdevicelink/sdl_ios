@@ -15,11 +15,7 @@
 }
 
 - (void)setEcuHeader:(NSNumber<SDLInt> *)ecuHeader {
-    if (ecuHeader != nil) {
-        [parameters setObject:ecuHeader forKey:SDLNameECUHeader];
-    } else {
-        [parameters removeObjectForKey:SDLNameECUHeader];
-    }
+    [self setObject:ecuHeader forName:SDLNameECUHeader];
 }
 
 - (NSNumber<SDLInt> *)ecuHeader {
@@ -27,11 +23,7 @@
 }
 
 - (void)setDtc:(NSMutableArray<NSString *> *)dtc {
-    if (dtc != nil) {
-        [parameters setObject:dtc forKey:SDLNameDTC];
-    } else {
-        [parameters removeObjectForKey:SDLNameDTC];
-    }
+    [self setObject:dtc forName:SDLNameDTC];
 }
 
 - (NSMutableArray<NSString *> *)dtc {

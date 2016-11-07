@@ -27,11 +27,7 @@
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    if (requestType != nil) {
-        [parameters setObject:requestType forKey:SDLNameRequestType];
-    } else {
-        [parameters removeObjectForKey:SDLNameRequestType];
-    }
+    [self setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
@@ -40,11 +36,7 @@
 }
 
 - (void)setFileName:(NSString *)fileName {
-    if (fileName != nil) {
-        [parameters setObject:fileName forKey:SDLNameFilename];
-    } else {
-        [parameters removeObjectForKey:SDLNameFilename];
-    }
+    [self setObject:fileName forName:SDLNameFilename];
 }
 
 - (NSString *)fileName {

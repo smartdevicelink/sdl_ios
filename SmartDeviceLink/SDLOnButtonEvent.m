@@ -14,11 +14,7 @@
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:SDLNameButtonName];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonName];
-    }
+    [self setObject:buttonName forName:SDLNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
@@ -27,11 +23,7 @@
 }
 
 - (void)setButtonEventMode:(SDLButtonEventMode)buttonEventMode {
-    if (buttonEventMode != nil) {
-        [parameters setObject:buttonEventMode forKey:SDLNameButtonEventMode];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonEventMode];
-    }
+    [self setObject:buttonEventMode forName:SDLNameButtonEventMode];
 }
 
 - (SDLButtonEventMode)buttonEventMode {
@@ -40,11 +32,7 @@
 }
 
 - (void)setCustomButtonID:(NSNumber<SDLInt> *)customButtonID {
-    if (customButtonID != nil) {
-        [parameters setObject:customButtonID forKey:SDLNameCustomButtonId];
-    } else {
-        [parameters removeObjectForKey:SDLNameCustomButtonId];
-    }
+    [self setObject:customButtonID forName:SDLNameCustomButtonId];
 }
 
 - (NSNumber<SDLInt> *)customButtonID {

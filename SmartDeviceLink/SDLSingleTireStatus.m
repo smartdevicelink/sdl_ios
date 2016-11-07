@@ -8,16 +8,11 @@
 @implementation SDLSingleTireStatus
 
 - (void)setStatus:(SDLComponentVolumeStatus)status {
-    if (status != nil) {
-        [store setObject:status forKey:SDLNameStatus];
-    } else {
-        [store removeObjectForKey:SDLNameStatus];
-    }
+    [self setObject:status forName:SDLNameStatus];
 }
 
 - (SDLComponentVolumeStatus)status {
-    NSObject *obj = [store objectForKey:SDLNameStatus];
-    return (SDLComponentVolumeStatus)obj;
+    return [self objectForName:SDLNameStatus];
 }
 
 @end

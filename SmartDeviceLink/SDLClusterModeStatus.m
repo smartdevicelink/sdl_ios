@@ -8,54 +8,35 @@
 @implementation SDLClusterModeStatus
 
 - (void)setPowerModeActive:(NSNumber<SDLBool> *)powerModeActive {
-    if (powerModeActive != nil) {
-        [store setObject:powerModeActive forKey:SDLNamePowerModeActive];
-    } else {
-        [store removeObjectForKey:SDLNamePowerModeActive];
-    }
+    [self setObject:powerModeActive forName:SDLNamePowerModeActive];
 }
 
 - (NSNumber<SDLBool> *)powerModeActive {
-    return [store objectForKey:SDLNamePowerModeActive];
+    return [self objectForName:SDLNamePowerModeActive];
 }
 
 - (void)setPowerModeQualificationStatus:(SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    if (powerModeQualificationStatus != nil) {
-        [store setObject:powerModeQualificationStatus forKey:SDLNamePowerModeQualificationStatus];
-    } else {
-        [store removeObjectForKey:SDLNamePowerModeQualificationStatus];
-    }
+    [self setObject:powerModeQualificationStatus forName:SDLNamePowerModeQualificationStatus];
 }
 
 - (SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    NSObject *obj = [store objectForKey:SDLNamePowerModeQualificationStatus];
-    return (SDLPowerModeQualificationStatus)obj;
+    return [self objectForName:SDLNamePowerModeQualificationStatus];
 }
 
 - (void)setCarModeStatus:(SDLCarModeStatus)carModeStatus {
-    if (carModeStatus != nil) {
-        [store setObject:carModeStatus forKey:SDLNameCarModeStatus];
-    } else {
-        [store removeObjectForKey:SDLNameCarModeStatus];
-    }
+    [self setObject:carModeStatus forName:SDLNameCarModeStatus];
 }
 
 - (SDLCarModeStatus)carModeStatus {
-    NSObject *obj = [store objectForKey:SDLNameCarModeStatus];
-    return (SDLCarModeStatus)obj;
+    return [self objectForName:SDLNameCarModeStatus];
 }
 
 - (void)setPowerModeStatus:(SDLPowerModeStatus)powerModeStatus {
-    if (powerModeStatus != nil) {
-        [store setObject:powerModeStatus forKey:SDLNamePowerModeStatus];
-    } else {
-        [store removeObjectForKey:SDLNamePowerModeStatus];
-    }
+    [self setObject:powerModeStatus forName:SDLNamePowerModeStatus];
 }
 
 - (SDLPowerModeStatus)powerModeStatus {
-    NSObject *obj = [store objectForKey:SDLNamePowerModeStatus];
-    return (SDLPowerModeStatus)obj;
+    return [self objectForName:SDLNamePowerModeStatus];
 }
 
 @end

@@ -9,51 +9,35 @@
 @implementation SDLVehicleType
 
 - (void)setMake:(NSString *)make {
-    if (make != nil) {
-        [store setObject:make forKey:SDLNameMake];
-    } else {
-        [store removeObjectForKey:SDLNameMake];
-    }
+    [self setObject:make forName:SDLNameMake];
 }
 
 - (NSString *)make {
-    return [store objectForKey:SDLNameMake];
+    return [self objectForName:SDLNameMake];
 }
 
 - (void)setModel:(NSString *)model {
-    if (model != nil) {
-        [store setObject:model forKey:SDLNameModel];
-    } else {
-        [store removeObjectForKey:SDLNameModel];
-    }
+    [self setObject:model forName:SDLNameModel];
 }
 
 - (NSString *)model {
-    return [store objectForKey:SDLNameModel];
+    return [self objectForName:SDLNameModel];
 }
 
 - (void)setModelYear:(NSString *)modelYear {
-    if (modelYear != nil) {
-        [store setObject:modelYear forKey:SDLNameModelYear];
-    } else {
-        [store removeObjectForKey:SDLNameModelYear];
-    }
+    [self setObject:modelYear forName:SDLNameModelYear];
 }
 
 - (NSString *)modelYear {
-    return [store objectForKey:SDLNameModelYear];
+    return [self objectForName:SDLNameModelYear];
 }
 
 - (void)setTrim:(NSString *)trim {
-    if (trim != nil) {
-        [store setObject:trim forKey:SDLNameTrim];
-    } else {
-        [store removeObjectForKey:SDLNameTrim];
-    }
+    [self setObject:trim forName:SDLNameTrim];
 }
 
 - (NSString *)trim {
-    return [store objectForKey:SDLNameTrim];
+    return [self objectForName:SDLNameTrim];
 }
 
 @end

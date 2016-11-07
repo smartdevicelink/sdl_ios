@@ -10,35 +10,23 @@
 @implementation SDLTouchEvent
 
 - (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
-    if (touchEventId != nil) {
-        [store setObject:touchEventId forKey:SDLNameId];
-    } else {
-        [store removeObjectForKey:SDLNameId];
-    }
+    [self setObject:touchEventId forName:SDLNameId];
 }
 
 - (NSNumber<SDLInt> *)touchEventId {
-    return [store objectForKey:SDLNameId];
+    return [self objectForName:SDLNameId];
 }
 
 - (void)setTimeStamp:(NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
-    if (timeStamp != nil) {
-        [store setObject:timeStamp forKey:SDLNameTimestamp];
-    } else {
-        [store removeObjectForKey:SDLNameTimestamp];
-    }
+    [self setObject:timeStamp forName:SDLNameTimestamp];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
-    return [store objectForKey:SDLNameTimestamp];
+    return [self objectForName:SDLNameTimestamp];
 }
 
 - (void)setCoord:(NSMutableArray<SDLTouchCoord *> *)coord {
-    if (coord != nil) {
-        [store setObject:coord forKey:SDLNameCoordinate];
-    } else {
-        [store removeObjectForKey:SDLNameCoordinate];
-    }
+    [self setObject:coord forName:SDLNameCoordinate];
 }
 
 - (NSMutableArray<SDLTouchCoord *> *)coord {

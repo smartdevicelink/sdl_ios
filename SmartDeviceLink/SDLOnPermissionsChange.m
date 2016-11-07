@@ -15,11 +15,7 @@
 }
 
 - (void)setPermissionItem:(NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    if (permissionItem != nil) {
-        [parameters setObject:permissionItem forKey:SDLNamePermissionItem];
-    } else {
-        [parameters removeObjectForKey:SDLNamePermissionItem];
-    }
+    [self setObject:permissionItem forName:SDLNamePermissionItem];
 }
 
 - (NSMutableArray<SDLPermissionItem *> *)permissionItem {

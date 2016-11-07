@@ -26,11 +26,7 @@
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:SDLNameCommandId];
-    } else {
-        [parameters removeObjectForKey:SDLNameCommandId];
-    }
+    [self setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {

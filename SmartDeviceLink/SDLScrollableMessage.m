@@ -39,11 +39,7 @@
 }
 
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
-    if (scrollableMessageBody != nil) {
-        [parameters setObject:scrollableMessageBody forKey:SDLNameScrollableMessageBody];
-    } else {
-        [parameters removeObjectForKey:SDLNameScrollableMessageBody];
-    }
+    [self setObject:scrollableMessageBody forName:SDLNameScrollableMessageBody];
 }
 
 - (NSString *)scrollableMessageBody {
@@ -51,11 +47,7 @@
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [self setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
@@ -63,11 +55,7 @@
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [self setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {

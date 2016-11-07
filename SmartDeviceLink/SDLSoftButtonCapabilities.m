@@ -9,51 +9,35 @@
 @implementation SDLSoftButtonCapabilities
 
 - (void)setShortPressAvailable:(NSNumber<SDLBool> *)shortPressAvailable {
-    if (shortPressAvailable != nil) {
-        [store setObject:shortPressAvailable forKey:SDLNameShortPressAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameShortPressAvailable];
-    }
+    [self setObject:shortPressAvailable forName:SDLNameShortPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)shortPressAvailable {
-    return [store objectForKey:SDLNameShortPressAvailable];
+    return [self objectForName:SDLNameShortPressAvailable];
 }
 
 - (void)setLongPressAvailable:(NSNumber<SDLBool> *)longPressAvailable {
-    if (longPressAvailable != nil) {
-        [store setObject:longPressAvailable forKey:SDLNameLongPressAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameLongPressAvailable];
-    }
+    [self setObject:longPressAvailable forName:SDLNameLongPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)longPressAvailable {
-    return [store objectForKey:SDLNameLongPressAvailable];
+    return [self objectForName:SDLNameLongPressAvailable];
 }
 
 - (void)setUpDownAvailable:(NSNumber<SDLBool> *)upDownAvailable {
-    if (upDownAvailable != nil) {
-        [store setObject:upDownAvailable forKey:SDLNameUpDownAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameUpDownAvailable];
-    }
+    [self setObject:upDownAvailable forName:SDLNameUpDownAvailable];
 }
 
 - (NSNumber<SDLBool> *)upDownAvailable {
-    return [store objectForKey:SDLNameUpDownAvailable];
+    return [self objectForName:SDLNameUpDownAvailable];
 }
 
 - (void)setImageSupported:(NSNumber<SDLBool> *)imageSupported {
-    if (imageSupported != nil) {
-        [store setObject:imageSupported forKey:SDLNameImageSupported];
-    } else {
-        [store removeObjectForKey:SDLNameImageSupported];
-    }
+    [self setObject:imageSupported forName:SDLNameImageSupported];
 }
 
 - (NSNumber<SDLBool> *)imageSupported {
-    return [store objectForKey:SDLNameImageSupported];
+    return [self objectForName:SDLNameImageSupported];
 }
 
 @end

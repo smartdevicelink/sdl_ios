@@ -15,11 +15,7 @@
 }
 
 - (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
-    if (choiceID != nil) {
-        [parameters setObject:choiceID forKey:SDLNameChoiceId];
-    } else {
-        [parameters removeObjectForKey:SDLNameChoiceId];
-    }
+    [self setObject:choiceID forName:SDLNameChoiceId];
 }
 
 - (NSNumber<SDLInt> *)choiceID {
@@ -27,11 +23,7 @@
 }
 
 - (void)setManualTextEntry:(NSString *)manualTextEntry {
-    if (manualTextEntry != nil) {
-        [parameters setObject:manualTextEntry forKey:SDLNameManualTextEntry];
-    } else {
-        [parameters removeObjectForKey:SDLNameManualTextEntry];
-    }
+    [self setObject:manualTextEntry forName:SDLNameManualTextEntry];
 }
 
 - (NSString *)manualTextEntry {
@@ -39,11 +31,7 @@
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
-    if (triggerSource != nil) {
-        [parameters setObject:triggerSource forKey:SDLNameTriggerSource];
-    } else {
-        [parameters removeObjectForKey:SDLNameTriggerSource];
-    }
+    [self setObject:triggerSource forName:SDLNameTriggerSource];
 }
 
 - (SDLTriggerSource)triggerSource {

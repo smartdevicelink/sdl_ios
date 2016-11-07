@@ -66,11 +66,7 @@
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:SDLNameCommandId];
-    } else {
-        [parameters removeObjectForKey:SDLNameCommandId];
-    }
+    [self setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
@@ -78,28 +74,15 @@
 }
 
 - (void)setMenuParams:(SDLMenuParams *)menuParams {
-    if (menuParams != nil) {
-        [parameters setObject:menuParams forKey:SDLNameMenuParams];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuParams];
-    }
+    [self setObject:menuParams forName:SDLNameMenuParams];
 }
 
 - (SDLMenuParams *)menuParams {
-    NSObject *obj = [parameters objectForKey:SDLNameMenuParams];
-    if (obj == nil || [obj isKindOfClass:SDLMenuParams.class]) {
-        return (SDLMenuParams *)obj;
-    } else {
-        return [[SDLMenuParams alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [self objectForName:SDLNameMenuParams ofClass:SDLMenuParams.class];
 }
 
 - (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
-    if (vrCommands != nil) {
-        [parameters setObject:vrCommands forKey:SDLNameVRCommands];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRCommands];
-    }
+    [self setObject:vrCommands forName:SDLNameVRCommands];
 }
 
 - (NSMutableArray<NSString *> *)vrCommands {
@@ -107,20 +90,11 @@
 }
 
 - (void)setCmdIcon:(SDLImage *)cmdIcon {
-    if (cmdIcon != nil) {
-        [parameters setObject:cmdIcon forKey:SDLNameCommandIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameCommandIcon];
-    }
+    [self setObject:cmdIcon forName:SDLNameCommandIcon];
 }
 
 - (SDLImage *)cmdIcon {
-    NSObject *obj = [parameters objectForKey:SDLNameCommandIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [self objectForName:SDLNameCommandIcon ofClass:SDLImage.class];
 }
 
 @end

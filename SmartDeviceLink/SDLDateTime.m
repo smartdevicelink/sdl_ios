@@ -65,7 +65,7 @@
 }
 
 - (NSNumber<SDLInt> *)millisecond {
-    return store[SDLNameMillisecond];
+    return [self objectForName:SDLNameMillisecond];
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
@@ -77,7 +77,7 @@
 }
 
 - (NSNumber<SDLInt> *)second {
-    return store[SDLNameSecond];
+    return [self objectForName:SDLNameSecond];
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
@@ -89,7 +89,7 @@
 }
 
 - (NSNumber<SDLInt> *)minute {
-    return store[SDLNameMinute];
+    return [self objectForName:SDLNameMinute];
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
@@ -101,7 +101,7 @@
 }
 
 - (NSNumber<SDLInt> *)hour {
-    return store[SDLNameHour];
+    return [self objectForName:SDLNameHour];
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
@@ -113,7 +113,7 @@
 }
 
 - (NSNumber<SDLInt> *)day {
-    return store[SDLNameDay];
+    return [self objectForName:SDLNameDay];
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
@@ -125,7 +125,7 @@
 }
 
 - (NSNumber<SDLInt> *)month {
-    return store[SDLNameMonth];
+    return [self objectForName:SDLNameMonth];
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
@@ -137,7 +137,7 @@
 }
 
 - (NSNumber<SDLInt> *)year {
-    return store[SDLNameYear];
+    return [self objectForName:SDLNameYear];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
@@ -149,7 +149,7 @@
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
-    return store[SDLNameTimezoneMinuteOffset];
+    return [self objectForName:SDLNameTimezoneMinuteOffset];
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
@@ -161,7 +161,7 @@
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {
-    return store[SDLNameTimezoneHourOffset];
+    return [self objectForName:SDLNameTimezoneHourOffset];
 }
 
 @end

@@ -8,67 +8,43 @@
 @implementation SDLEmergencyEvent
 
 - (void)setEmergencyEventType:(SDLEmergencyEventType)emergencyEventType {
-    if (emergencyEventType != nil) {
-        [store setObject:emergencyEventType forKey:SDLNameEmergencyEventType];
-    } else {
-        [store removeObjectForKey:SDLNameEmergencyEventType];
-    }
+    [self setObject:emergencyEventType forName:SDLNameEmergencyEventType];
 }
 
 - (SDLEmergencyEventType)emergencyEventType {
-    NSObject *obj = [store objectForKey:SDLNameEmergencyEventType];
-    return (SDLEmergencyEventType)obj;
+    return [self objectForName:SDLNameEmergencyEventType];
 }
 
 - (void)setFuelCutoffStatus:(SDLFuelCutoffStatus)fuelCutoffStatus {
-    if (fuelCutoffStatus != nil) {
-        [store setObject:fuelCutoffStatus forKey:SDLNameFuelCutoffStatus];
-    } else {
-        [store removeObjectForKey:SDLNameFuelCutoffStatus];
-    }
+    [self setObject:fuelCutoffStatus forName:SDLNameFuelCutoffStatus];
 }
 
 - (SDLFuelCutoffStatus)fuelCutoffStatus {
-    NSObject *obj = [store objectForKey:SDLNameFuelCutoffStatus];
-    return (SDLFuelCutoffStatus)obj;
+    return [self objectForName:SDLNameFuelCutoffStatus];
 }
 
 - (void)setRolloverEvent:(SDLVehicleDataEventStatus)rolloverEvent {
-    if (rolloverEvent != nil) {
-        [store setObject:rolloverEvent forKey:SDLNameRolloverEvent];
-    } else {
-        [store removeObjectForKey:SDLNameRolloverEvent];
-    }
+    [self setObject:rolloverEvent forName:SDLNameRolloverEvent];
 }
 
 - (SDLVehicleDataEventStatus)rolloverEvent {
-    NSObject *obj = [store objectForKey:SDLNameRolloverEvent];
-    return (SDLVehicleDataEventStatus)obj;
+    return [self objectForName:SDLNameRolloverEvent];
 }
 
 - (void)setMaximumChangeVelocity:(NSNumber<SDLInt> *)maximumChangeVelocity {
-    if (maximumChangeVelocity != nil) {
-        [store setObject:maximumChangeVelocity forKey:SDLNameMaximumChangeVelocity];
-    } else {
-        [store removeObjectForKey:SDLNameMaximumChangeVelocity];
-    }
+    [self setObject:maximumChangeVelocity forName:SDLNameMaximumChangeVelocity];
 }
 
 - (NSNumber<SDLInt> *)maximumChangeVelocity {
-    return [store objectForKey:SDLNameMaximumChangeVelocity];
+    return [self objectForName:SDLNameMaximumChangeVelocity];
 }
 
 - (void)setMultipleEvents:(SDLVehicleDataEventStatus)multipleEvents {
-    if (multipleEvents != nil) {
-        [store setObject:multipleEvents forKey:SDLNameMultipleEvents];
-    } else {
-        [store removeObjectForKey:SDLNameMultipleEvents];
-    }
+    [self setObject:multipleEvents forName:SDLNameMultipleEvents];
 }
 
 - (SDLVehicleDataEventStatus)multipleEvents {
-    NSObject *obj = [store objectForKey:SDLNameMultipleEvents];
-    return (SDLVehicleDataEventStatus)obj;
+    return [self objectForName:SDLNameMultipleEvents];
 }
 
 @end

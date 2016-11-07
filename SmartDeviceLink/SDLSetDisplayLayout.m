@@ -30,11 +30,7 @@
 }
 
 - (void)setDisplayLayout:(NSString *)displayLayout {
-    if (displayLayout != nil) {
-        [parameters setObject:displayLayout forKey:SDLNameDisplayLayout];
-    } else {
-        [parameters removeObjectForKey:SDLNameDisplayLayout];
-    }
+    [self setObject:displayLayout forName:SDLNameDisplayLayout];
 }
 
 - (NSString *)displayLayout {

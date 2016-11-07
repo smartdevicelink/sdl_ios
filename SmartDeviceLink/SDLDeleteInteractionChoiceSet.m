@@ -26,11 +26,7 @@
 }
 
 - (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
-    if (interactionChoiceSetID != nil) {
-        [parameters setObject:interactionChoiceSetID forKey:SDLNameInteractionChoiceSetId];
-    } else {
-        [parameters removeObjectForKey:SDLNameInteractionChoiceSetId];
-    }
+    [self setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
 }
 
 - (NSNumber<SDLInt> *)interactionChoiceSetID {

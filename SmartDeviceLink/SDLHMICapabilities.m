@@ -17,7 +17,7 @@
 }
 
 - (NSNumber<SDLBool> *)navigation {
-    return store[SDLNameNavigation];
+    return [self objectForName:SDLNameNavigation];
 }
 
 - (void)setPhoneCall:(NSNumber<SDLBool> *)phoneCall {
@@ -29,7 +29,7 @@
 }
 
 - (NSNumber<SDLBool> *)phoneCall {
-    return store[SDLNamePhoneCall];
+    return [self objectForName:SDLNamePhoneCall];
 }
 
 @end

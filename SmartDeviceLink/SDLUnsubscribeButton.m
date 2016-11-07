@@ -27,11 +27,7 @@
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:SDLNameButtonName];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonName];
-    }
+    [self setObject:buttonName forName:SDLNameButtonName];
 }
 
 - (SDLButtonName)buttonName {

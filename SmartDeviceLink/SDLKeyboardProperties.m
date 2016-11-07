@@ -23,66 +23,43 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    if (language != nil) {
-        [store setObject:language forKey:SDLNameLanguage];
-    } else {
-        [store removeObjectForKey:SDLNameLanguage];
-    }
+    [self setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [store objectForKey:SDLNameLanguage];
-    return (SDLLanguage )obj;
+    return [self objectForName:SDLNameLanguage];
 }
 
 - (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
-    if (keyboardLayout != nil) {
-        [store setObject:keyboardLayout forKey:SDLNameKeyboardLayout];
-    } else {
-        [store removeObjectForKey:SDLNameKeyboardLayout];
-    }
+    [self setObject:keyboardLayout forName:SDLNameKeyboardLayout];
 }
 
 - (SDLKeyboardLayout)keyboardLayout {
-    NSObject *obj = [store objectForKey:SDLNameKeyboardLayout];
-    return (SDLKeyboardLayout)obj;
+    return [self objectForName:SDLNameKeyboardLayout];
 }
 
 - (void)setKeypressMode:(SDLKeypressMode)keypressMode {
-    if (keypressMode != nil) {
-        [store setObject:keypressMode forKey:SDLNameKeypressMode];
-    } else {
-        [store removeObjectForKey:SDLNameKeypressMode];
-    }
+    [self setObject:keypressMode forName:SDLNameKeypressMode];
 }
 
 - (SDLKeypressMode)keypressMode {
-    NSObject *obj = [store objectForKey:SDLNameKeypressMode];
-    return (SDLKeypressMode)obj;
+    return [self objectForName:SDLNameKeypressMode];
 }
 
 - (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
-    if (limitedCharacterList != nil) {
-        [store setObject:limitedCharacterList forKey:SDLNameLimitedCharacterList];
-    } else {
-        [store removeObjectForKey:SDLNameLimitedCharacterList];
-    }
+    [self setObject:limitedCharacterList forName:SDLNameLimitedCharacterList];
 }
 
 - (NSMutableArray<NSString *> *)limitedCharacterList {
-    return [store objectForKey:SDLNameLimitedCharacterList];
+    return [self objectForName:SDLNameLimitedCharacterList];
 }
 
 - (void)setAutoCompleteText:(NSString *)autoCompleteText {
-    if (autoCompleteText != nil) {
-        [store setObject:autoCompleteText forKey:SDLNameAutoCompleteText];
-    } else {
-        [store removeObjectForKey:SDLNameAutoCompleteText];
-    }
+    [self setObject:autoCompleteText forName:SDLNameAutoCompleteText];
 }
 
 - (NSString *)autoCompleteText {
-    return [store objectForKey:SDLNameAutoCompleteText];
+    return [self objectForName:SDLNameAutoCompleteText];
 }
 
 @end

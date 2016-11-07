@@ -15,11 +15,7 @@
 }
 
 - (void)setHashID:(NSString *)hashID {
-    if (hashID != nil) {
-        [parameters setObject:hashID forKey:SDLNameHashId];
-    } else {
-        [parameters removeObjectForKey:SDLNameHashId];
-    }
+    [self setObject:hashID forName:SDLNameHashId];
 }
 
 - (NSString *)hashID {

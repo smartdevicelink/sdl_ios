@@ -9,15 +9,11 @@
 @implementation SDLRPCRequest
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function objectForKey:SDLNameCorrelationId];
+    return [self objectForName:SDLNameCorrelationId fromStorage:function];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    if (corrID != nil) {
-        [function setObject:corrID forKey:SDLNameCorrelationId];
-    } else {
-        [function removeObjectForKey:SDLNameCorrelationId];
-    }
+    [self setObject:corrID forName:SDLNameCorrelationId inStorage:function];
 }
 
 @end

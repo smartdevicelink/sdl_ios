@@ -22,39 +22,27 @@
 }
 
 - (void)setHours:(NSNumber<SDLInt> *)hours {
-    if (hours != nil) {
-        [store setObject:hours forKey:SDLNameHours];
-    } else {
-        [store removeObjectForKey:SDLNameHours];
-    }
+    [self setObject:hours forName:SDLNameHours];
 }
 
 - (NSNumber<SDLInt> *)hours {
-    return [store objectForKey:SDLNameHours];
+    return [self objectForName:SDLNameHours];
 }
 
 - (void)setMinutes:(NSNumber<SDLInt> *)minutes {
-    if (minutes != nil) {
-        [store setObject:minutes forKey:SDLNameMinutes];
-    } else {
-        [store removeObjectForKey:SDLNameMinutes];
-    }
+    [self setObject:minutes forName:SDLNameMinutes];
 }
 
 - (NSNumber<SDLInt> *)minutes {
-    return [store objectForKey:SDLNameMinutes];
+    return [self objectForName:SDLNameMinutes];
 }
 
 - (void)setSeconds:(NSNumber<SDLInt> *)seconds {
-    if (seconds != nil) {
-        [store setObject:seconds forKey:SDLNameSeconds];
-    } else {
-        [store removeObjectForKey:SDLNameSeconds];
-    }
+    [self setObject:seconds forName:SDLNameSeconds];
 }
 
 - (NSNumber<SDLInt> *)seconds {
-    return [store objectForKey:SDLNameSeconds];
+    return [self objectForName:SDLNameSeconds];
 }
 
 @end

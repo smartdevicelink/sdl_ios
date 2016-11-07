@@ -15,11 +15,7 @@
 }
 
 - (void)setSliderPosition:(NSNumber<SDLInt> *)sliderPosition {
-    if (sliderPosition != nil) {
-        [parameters setObject:sliderPosition forKey:SDLNameSliderPosition];
-    } else {
-        [parameters removeObjectForKey:SDLNameSliderPosition];
-    }
+    [self setObject:sliderPosition forName:SDLNameSliderPosition];
 }
 
 - (NSNumber<SDLInt> *)sliderPosition {

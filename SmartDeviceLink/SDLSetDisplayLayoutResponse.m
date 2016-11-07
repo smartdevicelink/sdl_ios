@@ -19,11 +19,7 @@
 }
 
 - (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
-    if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:SDLNameDisplayCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameDisplayCapabilities];
-    }
+    [self setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
@@ -36,11 +32,7 @@
 }
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:SDLNameButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonCapabilities];
-    }
+    [self setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
@@ -57,11 +49,7 @@
 }
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:SDLNameSoftButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtonCapabilities];
-    }
+    [self setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
@@ -78,11 +66,7 @@
 }
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
-    if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:SDLNamePresetBankCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNamePresetBankCapabilities];
-    }
+    [self setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {

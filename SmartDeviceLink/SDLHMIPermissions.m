@@ -9,11 +9,7 @@
 @implementation SDLHMIPermissions
 
 - (void)setAllowed:(NSMutableArray<SDLHMILevel> *)allowed {
-    if (allowed != nil) {
-        [store setObject:allowed forKey:SDLNameAllowed];
-    } else {
-        [store removeObjectForKey:SDLNameAllowed];
-    }
+    [self setObject:allowed forName:SDLNameAllowed];
 }
 
 - (NSMutableArray<SDLHMILevel> *)allowed {
@@ -30,11 +26,7 @@
 }
 
 - (void)setUserDisallowed:(NSMutableArray<SDLHMILevel> *)userDisallowed {
-    if (userDisallowed != nil) {
-        [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
-    } else {
-        [store removeObjectForKey:SDLNameUserDisallowed];
-    }
+    [self setObject:userDisallowed forName:SDLNameUserDisallowed];
 }
 
 - (NSMutableArray<SDLHMILevel> *)userDisallowed {

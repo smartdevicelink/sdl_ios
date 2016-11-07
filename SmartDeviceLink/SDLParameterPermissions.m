@@ -9,27 +9,19 @@
 @implementation SDLParameterPermissions
 
 - (void)setAllowed:(NSMutableArray<NSString *> *)allowed {
-    if (allowed != nil) {
-        [store setObject:allowed forKey:SDLNameAllowed];
-    } else {
-        [store removeObjectForKey:SDLNameAllowed];
-    }
+    [self setObject:allowed forName:SDLNameAllowed];
 }
 
 - (NSMutableArray<NSString *> *)allowed {
-    return [store objectForKey:SDLNameAllowed];
+    return [self objectForName:SDLNameAllowed];
 }
 
 - (void)setUserDisallowed:(NSMutableArray<NSString *> *)userDisallowed {
-    if (userDisallowed != nil) {
-        [store setObject:userDisallowed forKey:SDLNameUserDisallowed];
-    } else {
-        [store removeObjectForKey:SDLNameUserDisallowed];
-    }
+    [self setObject:userDisallowed forName:SDLNameUserDisallowed];
 }
 
 - (NSMutableArray<NSString *> *)userDisallowed {
-    return [store objectForKey:SDLNameUserDisallowed];
+    return [self objectForName:SDLNameUserDisallowed];
 }
 
 @end

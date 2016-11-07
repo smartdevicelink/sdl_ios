@@ -26,11 +26,7 @@
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    if (menuID != nil) {
-        [parameters setObject:menuID forKey:SDLNameMenuId];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuId];
-    }
+    [self setObject:menuID forName:SDLNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {

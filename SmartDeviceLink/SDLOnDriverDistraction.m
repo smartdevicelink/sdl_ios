@@ -15,11 +15,7 @@
 }
 
 - (void)setState:(SDLDriverDistractionState)state {
-    if (state != nil) {
-        [parameters setObject:state forKey:SDLNameState];
-    } else {
-        [parameters removeObjectForKey:SDLNameState];
-    }
+    [self setObject:state forName:SDLNameState];
 }
 
 - (SDLDriverDistractionState)state {

@@ -71,11 +71,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInitialText:(NSString *)initialText {
-    if (initialText != nil) {
-        [parameters setObject:initialText forKey:SDLNameInitialText];
-    } else {
-        [parameters removeObjectForKey:SDLNameInitialText];
-    }
+    [self setObject:initialText forName:SDLNameInitialText];
 }
 
 - (NSString *)initialText {
@@ -83,11 +79,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInitialPrompt:(NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    if (initialPrompt != nil) {
-        [parameters setObject:initialPrompt forKey:SDLNameInitialPrompt];
-    } else {
-        [parameters removeObjectForKey:SDLNameInitialPrompt];
-    }
+    [self setObject:initialPrompt forName:SDLNameInitialPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
@@ -104,11 +96,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInteractionMode:(SDLInteractionMode)interactionMode {
-    if (interactionMode != nil) {
-        [parameters setObject:interactionMode forKey:SDLNameInteractionMode];
-    } else {
-        [parameters removeObjectForKey:SDLNameInteractionMode];
-    }
+    [self setObject:interactionMode forName:SDLNameInteractionMode];
 }
 
 - (SDLInteractionMode)interactionMode {
@@ -117,11 +105,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    if (interactionChoiceSetIDList != nil) {
-        [parameters setObject:interactionChoiceSetIDList forKey:SDLNameInteractionChoiceSetIdList];
-    } else {
-        [parameters removeObjectForKey:SDLNameInteractionChoiceSetIdList];
-    }
+    [self setObject:interactionChoiceSetIDList forName:SDLNameInteractionChoiceSetIdList];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
@@ -129,11 +113,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setHelpPrompt:(NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    if (helpPrompt != nil) {
-        [parameters setObject:helpPrompt forKey:SDLNameHelpPrompt];
-    } else {
-        [parameters removeObjectForKey:SDLNameHelpPrompt];
-    }
+    [self setObject:helpPrompt forName:SDLNameHelpPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
@@ -150,11 +130,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    if (timeoutPrompt != nil) {
-        [parameters setObject:timeoutPrompt forKey:SDLNameTimeoutPrompt];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeoutPrompt];
-    }
+    [self setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
@@ -171,11 +147,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [self setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
@@ -183,11 +155,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setVrHelp:(NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    if (vrHelp != nil) {
-        [parameters setObject:vrHelp forKey:SDLNameVRHelp];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRHelp];
-    }
+    [self setObject:vrHelp forName:SDLNameVRHelp];
 }
 
 - (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
@@ -204,11 +172,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInteractionLayout:(SDLLayoutMode)interactionLayout {
-    if (interactionLayout != nil) {
-        [parameters setObject:interactionLayout forKey:SDLNameInteractionLayout];
-    } else {
-        [parameters removeObjectForKey:SDLNameInteractionLayout];
-    }
+    [self setObject:interactionLayout forName:SDLNameInteractionLayout];
 }
 
 - (SDLLayoutMode)interactionLayout {

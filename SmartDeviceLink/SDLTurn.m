@@ -22,23 +22,15 @@
 }
 
 - (void)setNavigationText:(NSString *)navigationText {
-    if (navigationText != nil) {
-        [store setObject:navigationText forKey:SDLNameNavigationText];
-    } else {
-        [store removeObjectForKey:SDLNameNavigationText];
-    }
+    [self setObject:navigationText forName:SDLNameNavigationText];
 }
 
 - (NSString *)navigationText {
-    return [store objectForKey:SDLNameNavigationText];
+    return [self objectForName:SDLNameNavigationText];
 }
 
 - (void)setTurnIcon:(SDLImage *)turnIcon {
-    if (turnIcon != nil) {
-        [store setObject:turnIcon forKey:SDLNameTurnIcon];
-    } else {
-        [store removeObjectForKey:SDLNameTurnIcon];
-    }
+    [self setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
 - (SDLImage *)turnIcon {

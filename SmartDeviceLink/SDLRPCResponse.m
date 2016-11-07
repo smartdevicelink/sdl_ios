@@ -16,7 +16,7 @@
     }
 
     messageType = SDLNameResponse;
-    [store setObject:function forKey:messageType];
+    [self setObject:function forName:messageType inStorage:store];
 
     return self;
 }
@@ -28,58 +28,41 @@
     }
 
     messageType = SDLNameResponse;
-    [store setObject:function forKey:messageType];
-
+    [self setObject:function forName:messageType inStorage:store];
+    
     return self;
 }
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function objectForKey:SDLNameCorrelationId];
+    return [self objectForName:SDLNameCorrelationId fromStorage:function];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    if (corrID != nil) {
-        [function setObject:corrID forKey:SDLNameCorrelationId];
-    } else {
-        [function removeObjectForKey:SDLNameCorrelationId];
-    }
+    [self setObject:corrID forName:SDLNameCorrelationId inStorage:function];
 }
 
 - (void)setSuccess:(NSNumber<SDLBool> *)success {
-    if (success != nil) {
-        [parameters setObject:success forKey:SDLNameSuccess];
-    } else {
-        [parameters removeObjectForKey:SDLNameSuccess];
-    }
+    [self setObject:success forName:SDLNameSuccess];
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [parameters objectForKey:SDLNameSuccess];
+    return [self objectForName:SDLNameSuccess];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
-    if (resultCode != nil) {
-        [parameters setObject:resultCode forKey:SDLNameResultCode];
-    } else {
-        [parameters removeObjectForKey:SDLNameResultCode];
-    }
+    [self setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLResult)resultCode {
-    NSObject *obj = [parameters objectForKey:SDLNameResultCode];
-    return (SDLResult)obj;
+    return [self objectForName:SDLNameResultCode];
 }
 
 - (void)setInfo:(NSString *)info {
-    if (info != nil) {
-        [parameters setObject:info forKey:SDLNameInfo];
-    } else {
-        [parameters removeObjectForKey:SDLNameInfo];
-    }
+    [self setObject:info forName:SDLNameInfo];
 }
 
 - (NSString *)info {
-    return [parameters objectForKey:SDLNameInfo];
+    return [self objectForName:SDLNameInfo];
 }
 
 @end

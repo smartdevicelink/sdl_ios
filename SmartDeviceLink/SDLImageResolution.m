@@ -9,27 +9,19 @@
 @implementation SDLImageResolution
 
 - (void)setResolutionWidth:(NSNumber<SDLInt> *)resolutionWidth {
-    if (resolutionWidth != nil) {
-        [store setObject:resolutionWidth forKey:SDLNameResolutionWidth];
-    } else {
-        [store removeObjectForKey:SDLNameResolutionWidth];
-    }
+    [self setObject:resolutionWidth forName:SDLNameResolutionWidth];
 }
 
 - (NSNumber<SDLInt> *)resolutionWidth {
-    return [store objectForKey:SDLNameResolutionWidth];
+    return [self objectForName:SDLNameResolutionWidth];
 }
 
 - (void)setResolutionHeight:(NSNumber<SDLInt> *)resolutionHeight {
-    if (resolutionHeight != nil) {
-        [store setObject:resolutionHeight forKey:SDLNameResolutionHeight];
-    } else {
-        [store removeObjectForKey:SDLNameResolutionHeight];
-    }
+    [self setObject:resolutionHeight forName:SDLNameResolutionHeight];
 }
 
 - (NSNumber<SDLInt> *)resolutionHeight {
-    return [store objectForKey:SDLNameResolutionHeight];
+    return [self objectForName:SDLNameResolutionHeight];
 }
 
 @end

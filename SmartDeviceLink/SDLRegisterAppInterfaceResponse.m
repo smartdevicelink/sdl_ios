@@ -23,11 +23,7 @@
 }
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    if (syncMsgVersion != nil) {
-        [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
-    } else {
-        [parameters removeObjectForKey:SDLNameSyncMessageVersion];
-    }
+    [self setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
@@ -40,11 +36,7 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    if (language != nil) {
-        [parameters setObject:language forKey:SDLNameLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameLanguage];
-    }
+    [self setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
@@ -53,11 +45,7 @@
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
-    if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
-    }
+    [self setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
@@ -66,11 +54,7 @@
 }
 
 - (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
-    if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:SDLNameDisplayCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameDisplayCapabilities];
-    }
+    [self setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
@@ -83,11 +67,7 @@
 }
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:SDLNameButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonCapabilities];
-    }
+    [self setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
@@ -104,11 +84,7 @@
 }
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:SDLNameSoftButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtonCapabilities];
-    }
+    [self setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
@@ -125,11 +101,7 @@
 }
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
-    if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:SDLNamePresetBankCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNamePresetBankCapabilities];
-    }
+    [self setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
@@ -142,11 +114,7 @@
 }
 
 - (void)setHmiZoneCapabilities:(NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
-    if (hmiZoneCapabilities != nil) {
-        [parameters setObject:hmiZoneCapabilities forKey:SDLNameHMIZoneCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIZoneCapabilities];
-    }
+    [self setObject:hmiZoneCapabilities forName:SDLNameHMIZoneCapabilities];
 }
 
 - (NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
@@ -163,11 +131,7 @@
 }
 
 - (void)setSpeechCapabilities:(NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
-    if (speechCapabilities != nil) {
-        [parameters setObject:speechCapabilities forKey:SDLNameSpeechCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameSpeechCapabilities];
-    }
+    [self setObject:speechCapabilities forName:SDLNameSpeechCapabilities];
 }
 
 - (NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
@@ -184,11 +148,7 @@
 }
 
 - (void)setPrerecordedSpeech:(NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
-    if (prerecordedSpeech != nil) {
-        [parameters setObject:prerecordedSpeech forKey:SDLNamePrerecordedSpeech];
-    } else {
-        [parameters removeObjectForKey:SDLNamePrerecordedSpeech];
-    }
+    [self setObject:prerecordedSpeech forName:SDLNamePrerecordedSpeech];
 }
 
 - (NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
@@ -205,11 +165,7 @@
 }
 
 - (void)setVrCapabilities:(NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
-    if (vrCapabilities != nil) {
-        [parameters setObject:vrCapabilities forKey:SDLNameVRCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRCapabilities];
-    }
+    [self setObject:vrCapabilities forName:SDLNameVRCapabilities];
 }
 
 - (NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
@@ -226,11 +182,7 @@
 }
 
 - (void)setAudioPassThruCapabilities:(NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
-    if (audioPassThruCapabilities != nil) {
-        [parameters setObject:audioPassThruCapabilities forKey:SDLNameAudioPassThruCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameAudioPassThruCapabilities];
-    }
+    [self setObject:audioPassThruCapabilities forName:SDLNameAudioPassThruCapabilities];
 }
 
 - (NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
@@ -247,11 +199,7 @@
 }
 
 - (void)setVehicleType:(SDLVehicleType *)vehicleType {
-    if (vehicleType != nil) {
-        [parameters setObject:vehicleType forKey:SDLNameVehicleType];
-    } else {
-        [parameters removeObjectForKey:SDLNameVehicleType];
-    }
+    [self setObject:vehicleType forName:SDLNameVehicleType];
 }
 
 - (SDLVehicleType *)vehicleType {
@@ -264,11 +212,7 @@
 }
 
 - (void)setSupportedDiagModes:(NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
-    if (supportedDiagModes != nil) {
-        [parameters setObject:supportedDiagModes forKey:SDLNameSupportedDiagnosticModes];
-    } else {
-        [parameters removeObjectForKey:SDLNameSupportedDiagnosticModes];
-    }
+    [self setObject:supportedDiagModes forName:SDLNameSupportedDiagnosticModes];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
@@ -276,11 +220,7 @@
 }
 
 - (void)setHmiCapabilities:(SDLHMICapabilities *)hmiCapabilities {
-    if (hmiCapabilities != nil) {
-        [parameters setObject:hmiCapabilities forKey:SDLNameHMICapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMICapabilities];
-    }
+    [self setObject:hmiCapabilities forName:SDLNameHMICapabilities];
 }
 
 - (SDLHMICapabilities *)hmiCapabilities {
