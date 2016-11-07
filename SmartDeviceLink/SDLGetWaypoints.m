@@ -26,15 +26,11 @@
 }
 
 - (void)setWaypointType:(SDLWaypointType)waypointType {
-    if (waypointType != nil) {
-        parameters[SDLNameWaypointType] = waypointType;
-    } else {
-        [parameters removeObjectForKey:SDLNameWaypointType];
-    }
+    [self setObject:waypointType forName:SDLNameWaypointType];
 }
 
 - (SDLWaypointType)waypointType {
-    return parameters[SDLNameWaypointType];
+    return [self objectForName:SDLNameWaypointType];
 }
 
 @end

@@ -9,11 +9,7 @@
 @implementation SDLHMICapabilities
 
 - (void)setNavigation:(NSNumber<SDLBool> *)navigation {
-    if (navigation != nil) {
-        store[SDLNameNavigation] = navigation;
-    } else {
-        [store removeObjectForKey:SDLNameNavigation];
-    }
+    [self setObject:navigation forName:SDLNameNavigation];
 }
 
 - (NSNumber<SDLBool> *)navigation {
@@ -21,11 +17,7 @@
 }
 
 - (void)setPhoneCall:(NSNumber<SDLBool> *)phoneCall {
-    if (phoneCall != nil) {
-        store[SDLNamePhoneCall] = phoneCall;
-    } else {
-        [store removeObjectForKey:SDLNamePhoneCall];
-    }
+    [self setObject:phoneCall forName:SDLNamePhoneCall];
 }
 
 - (NSNumber<SDLBool> *)phoneCall {

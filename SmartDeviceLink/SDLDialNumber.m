@@ -26,15 +26,11 @@
 }
 
 - (void)setNumber:(NSString *)number {
-    if (number != nil) {
-        parameters[SDLNameNumber] = number;
-    } else {
-        [parameters removeObjectForKey:SDLNameNumber];
-    }
+    [self setObject:number forName:SDLNameNumber];
 }
 
 - (NSString *)number {
-    return parameters[SDLNameNumber];
+    return [self objectForName:SDLNameNumber];
 }
 
 @end

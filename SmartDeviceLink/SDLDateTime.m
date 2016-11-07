@@ -57,11 +57,7 @@
 }
 
 - (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
-    if (millisecond != nil) {
-        store[SDLNameMillisecond] = millisecond;
-    } else {
-        [store removeObjectForKey:SDLNameMillisecond];
-    }
+    [self setObject:millisecond forName:SDLNameMillisecond];
 }
 
 - (NSNumber<SDLInt> *)millisecond {
@@ -69,11 +65,7 @@
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
-    if (second != nil) {
-        store[SDLNameSecond] = second;
-    } else {
-        [store removeObjectForKey:SDLNameSecond];
-    }
+    [self setObject:second forName:SDLNameSecond];
 }
 
 - (NSNumber<SDLInt> *)second {
@@ -81,11 +73,7 @@
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
-    if (minute != nil) {
-        store[SDLNameMinute] = minute;
-    } else {
-        [store removeObjectForKey:SDLNameMinute];
-    }
+    [self setObject:minute forName:SDLNameMinute];
 }
 
 - (NSNumber<SDLInt> *)minute {
@@ -93,11 +81,7 @@
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
-    if (hour != nil) {
-        store[SDLNameHour] = hour;
-    } else {
-        [store removeObjectForKey:SDLNameHour];
-    }
+    [self setObject:hour forName:SDLNameHour];
 }
 
 - (NSNumber<SDLInt> *)hour {
@@ -105,11 +89,7 @@
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
-    if (day != nil) {
-        store[SDLNameDay] = day;
-    } else {
-        [store removeObjectForKey:SDLNameDay];
-    }
+    [self setObject:day forName:SDLNameDay];
 }
 
 - (NSNumber<SDLInt> *)day {
@@ -117,11 +97,7 @@
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
-    if (month != nil) {
-        store[SDLNameMonth] = month;
-    } else {
-        [store removeObjectForKey:SDLNameMonth];
-    }
+    [self setObject:month forName:SDLNameMonth];
 }
 
 - (NSNumber<SDLInt> *)month {
@@ -129,11 +105,7 @@
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
-    if (year != nil) {
-        store[SDLNameYear] = year;
-    } else {
-        [store removeObjectForKey:SDLNameYear];
-    }
+    [self setObject:year forName:SDLNameYear];
 }
 
 - (NSNumber<SDLInt> *)year {
@@ -141,11 +113,7 @@
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
-    if (timezoneMinuteOffset != nil) {
-        store[SDLNameTimezoneMinuteOffset] = timezoneMinuteOffset;
-    } else {
-        [store removeObjectForKey:SDLNameTimezoneMinuteOffset];
-    }
+    [self setObject:timezoneMinuteOffset forName:SDLNameTimezoneMinuteOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
@@ -153,11 +121,7 @@
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
-    if (timezoneHourOffset != nil) {
-        store[SDLNameTimezoneHourOffset] = timezoneHourOffset;
-    } else {
-        [store removeObjectForKey:SDLNameTimezoneHourOffset];
-    }
+    [self setObject:timezoneHourOffset forName:SDLNameTimezoneHourOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {

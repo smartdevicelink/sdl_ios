@@ -14,15 +14,11 @@
 }
 
 - (void)setWaypoints:(NSArray<SDLLocationDetails *> *)waypoints {
-    if (waypoints != nil) {
-        parameters[SDLNameWaypoints] = waypoints;
-    } else {
-        [parameters removeObjectForKey:SDLNameWaypoints];
-    }
+    [self setObject:waypoints forName:SDLNameWaypoints];
 }
 
 - (NSArray<SDLLocationDetails *> *)waypoints {
-    return parameters[SDLNameWaypoints];
+    return [self objectForName:SDLNameWaypoints];
 }
 
 @end

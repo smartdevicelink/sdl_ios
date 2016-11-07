@@ -41,19 +41,15 @@
 }
 
 - (NSString *)getFunctionName {
-    return [function objectForKey:SDLNameOperationName];
+    return [self objectForName:SDLNameOperationName fromStorage:function];
 }
 
 - (void)setFunctionName:(NSString *)functionName {
-    if (functionName != nil) {
-        [function setObject:functionName forKey:SDLNameOperationName];
-    } else {
-        [function removeObjectForKey:SDLNameOperationName];
-    }
+    [self setObject:functionName forName:SDLNameOperationName inStorage:function];
 }
 
 - (NSObject *)getParameters:(NSString *)functionName {
-    return [parameters objectForKey:functionName];
+    return [self objectForName:functionName];
 }
 
 - (void)setParameters:(NSString *)functionName value:(NSObject *)value {
@@ -66,7 +62,7 @@
 }
 
 - (NSString *)name {
-    return [function objectForKey:SDLNameOperationName];
+    return [self getFunctionName];
 }
 
 - (NSString *)description {

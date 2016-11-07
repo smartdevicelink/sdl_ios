@@ -11,11 +11,7 @@
 @implementation SDLLocationDetails
 
 - (void)setCoordinate:(SDLLocationCoordinate *)coordinate {
-    if (coordinate != nil) {
-        store[SDLNameLocationCoordinate] = coordinate;
-    } else {
-        [store removeObjectForKey:SDLNameLocationCoordinate];
-    }
+    [self setObject:coordinate forName:SDLNameLocationCoordinate];
 }
 
 - (SDLLocationCoordinate *)coordinate {
@@ -23,11 +19,7 @@
 }
 
 - (void)setLocationName:(NSString *)locationName {
-    if (locationName != nil) {
-        store[SDLNameLocationName] = locationName;
-    } else {
-        [store removeObjectForKey:SDLNameLocationName];
-    }
+    [self setObject:locationName forName:SDLNameLocationName];
 }
 
 - (NSString *)locationName {
@@ -35,11 +27,7 @@
 }
 
 - (void)setAddressLines:(NSArray<NSString *> *)addressLines {
-    if (addressLines != nil) {
-        store[SDLNameAddressLines] = addressLines;
-    } else {
-        [store removeObjectForKey:SDLNameAddressLines];
-    }
+    [self setObject:addressLines forName:SDLNameAddressLines];
 }
 
 - (NSArray<NSString *> *)addressLines {
@@ -47,11 +35,7 @@
 }
 
 - (void)setLocationDescription:(NSString *)locationDescription {
-    if (locationDescription != nil) {
-        store[SDLNameLocationDescription] = locationDescription;
-    } else {
-        [store removeObjectForKey:SDLNameLocationDescription];
-    }
+    [self setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
 - (NSString *)locationDescription {
@@ -59,11 +43,7 @@
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {
-    if (phoneNumber != nil) {
-        store[SDLNamePhoneNumber] = phoneNumber;
-    } else {
-        [store removeObjectForKey:SDLNamePhoneNumber];
-    }
+    [self setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
 - (NSString *)phoneNumber {
@@ -71,11 +51,7 @@
 }
 
 - (void)setLocationImage:(SDLImage *)locationImage {
-    if (locationImage != nil) {
-        store[SDLNameLocationImage] = locationImage;
-    } else {
-        [store removeObjectForKey:SDLNameLocationImage];
-    }
+    [self setObject:locationImage forName:SDLNameLocationImage];
 }
 
 - (SDLImage *)locationImage {
@@ -83,11 +59,7 @@
 }
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
-    if (searchAddress != nil) {
-        store[SDLNameAddress] = searchAddress;
-    } else {
-        [store removeObjectForKey:SDLNameAddress];
-    }
+    [self setObject:searchAddress forName:SDLNameAddress];
 }
 
 - (SDLOasisAddress *)searchAddress {

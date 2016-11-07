@@ -44,8 +44,7 @@
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
-    return (SDLLanguage )obj;
+    return [self objectForName:SDLNameLanguage];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage )hmiDisplayLanguage {
@@ -53,20 +52,15 @@
 }
 
 - (SDLLanguage )hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
-    return (SDLLanguage )obj;
+    return [self objectForName:SDLNameHMIDisplayLanguage];
 }
 
 - (void)setAppName:(NSString *)appName {
-    if (appName != nil) {
-        parameters[SDLNameAppName] = [appName copy];
-    } else {
-        [parameters removeObjectForKey:SDLNameAppName];
-    }
+    [self setObject:appName forName:SDLNameAppName];
 }
 
 - (NSString *)appName {
-    return [parameters[SDLNameAppName] copy];
+    return [[self objectForName:SDLNameAppName] copy];
 }
 
 - (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
@@ -74,19 +68,15 @@
 }
 
 - (NSArray<SDLTTSChunk *> *)ttsName {
-    return [parameters[SDLNameTTSName] copy];
+    return [[self objectForName:SDLNameTTSName] copy];
 }
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
-    if (ngnMediaScreenAppName != nil) {
-        parameters[SDLNameNGNMediaScreenAppName] = [ngnMediaScreenAppName copy];
-    } else {
-        [parameters removeObjectForKey:SDLNameNGNMediaScreenAppName];
-    }
+    [self setObject:ngnMediaScreenAppName forName:SDLNameNGNMediaScreenAppName];
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return [parameters[SDLNameNGNMediaScreenAppName] copy];
+    return [[self objectForName:SDLNameNGNMediaScreenAppName] copy];
 }
 
 - (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
@@ -94,7 +84,7 @@
 }
 
 - (NSArray<NSString *> *)vrSynonyms {
-    return [parameters[SDLNameVRSynonyms] copy];
+    return [[self objectForName:SDLNameVRSynonyms] copy];
 }
 
 @end
