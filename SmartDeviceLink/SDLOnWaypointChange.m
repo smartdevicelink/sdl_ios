@@ -14,11 +14,11 @@
 }
 
 - (void)setWaypoints:(NSArray<SDLLocationDetails *> *)waypoints {
-    [self setObject:waypoints forName:SDLNameWaypoints];
+    [parameters sdl_setObject:waypoints forName:SDLNameWaypoints];
 }
 
 - (NSArray<SDLLocationDetails *> *)waypoints {
-    return [self objectForName:SDLNameWaypoints];
+    return [parameters sdl_objectForName:SDLNameWaypoints];
 }
 
 @end

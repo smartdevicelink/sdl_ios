@@ -8,11 +8,11 @@
 @implementation SDLSingleTireStatus
 
 - (void)setStatus:(SDLComponentVolumeStatus)status {
-    [self setObject:status forName:SDLNameStatus];
+    [store sdl_setObject:status forName:SDLNameStatus];
 }
 
 - (SDLComponentVolumeStatus)status {
-    return [self objectForName:SDLNameStatus];
+    return [store sdl_objectForName:SDLNameStatus];
 }
 
 @end

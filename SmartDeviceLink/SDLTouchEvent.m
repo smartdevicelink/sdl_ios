@@ -10,23 +10,23 @@
 @implementation SDLTouchEvent
 
 - (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
-    [self setObject:touchEventId forName:SDLNameId];
+    [store sdl_setObject:touchEventId forName:SDLNameId];
 }
 
 - (NSNumber<SDLInt> *)touchEventId {
-    return [self objectForName:SDLNameId];
+    return [store sdl_objectForName:SDLNameId];
 }
 
 - (void)setTimeStamp:(NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
-    [self setObject:timeStamp forName:SDLNameTimestamp];
+    [store sdl_setObject:timeStamp forName:SDLNameTimestamp];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
-    return [self objectForName:SDLNameTimestamp];
+    return [store sdl_objectForName:SDLNameTimestamp];
 }
 
 - (void)setCoord:(NSMutableArray<SDLTouchCoord *> *)coord {
-    [self setObject:coord forName:SDLNameCoordinate];
+    [store sdl_setObject:coord forName:SDLNameCoordinate];
 }
 
 - (NSMutableArray<SDLTouchCoord *> *)coord {

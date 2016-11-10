@@ -35,19 +35,19 @@
 }
 
 - (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    [self setObject:ttsChunks forName:SDLNameTTSChunks];
+    [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    return [self objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    [self setObject:softButtons forName:SDLNameSoftButtons];
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {
-    return [self objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

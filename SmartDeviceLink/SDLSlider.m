@@ -51,43 +51,43 @@
 }
 
 - (void)setNumTicks:(NSNumber<SDLInt> *)numTicks {
-    [self setObject:numTicks forName:SDLNameNumberTicks];
+    [parameters sdl_setObject:numTicks forName:SDLNameNumberTicks];
 }
 
 - (NSNumber<SDLInt> *)numTicks {
-    return [parameters objectForKey:SDLNameNumberTicks];
+    return [parameters sdl_objectForName:SDLNameNumberTicks];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [self setObject:position forName:SDLNamePosition];
+    [parameters sdl_setObject:position forName:SDLNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [parameters objectForKey:SDLNamePosition];
+    return [parameters sdl_objectForName:SDLNamePosition];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
-    [self setObject:sliderHeader forName:SDLNameSliderHeader];
+    [parameters sdl_setObject:sliderHeader forName:SDLNameSliderHeader];
 }
 
 - (NSString *)sliderHeader {
-    return [parameters objectForKey:SDLNameSliderHeader];
+    return [parameters sdl_objectForName:SDLNameSliderHeader];
 }
 
 - (void)setSliderFooter:(NSMutableArray<NSString *> *)sliderFooter {
-    [self setObject:sliderFooter forName:SDLNameSliderFooter];
+    [parameters sdl_setObject:sliderFooter forName:SDLNameSliderFooter];
 }
 
 - (NSMutableArray<NSString *> *)sliderFooter {
-    return [parameters objectForKey:SDLNameSliderFooter];
+    return [parameters sdl_objectForName:SDLNameSliderFooter];
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    [self setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 @end

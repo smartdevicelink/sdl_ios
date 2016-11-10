@@ -26,11 +26,11 @@
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [self setObject:cmdID forName:SDLNameCommandId];
+    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters objectForKey:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLNameCommandId];
 }
 
 @end

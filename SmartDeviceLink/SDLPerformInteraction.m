@@ -71,19 +71,19 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInitialText:(NSString *)initialText {
-    [self setObject:initialText forName:SDLNameInitialText];
+    [parameters sdl_setObject:initialText forName:SDLNameInitialText];
 }
 
 - (NSString *)initialText {
-    return [parameters objectForKey:SDLNameInitialText];
+    return [parameters sdl_objectForName:SDLNameInitialText];
 }
 
 - (void)setInitialPrompt:(NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    [self setObject:initialPrompt forName:SDLNameInitialPrompt];
+    [parameters sdl_setObject:initialPrompt forName:SDLNameInitialPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameInitialPrompt];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameInitialPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -96,28 +96,28 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInteractionMode:(SDLInteractionMode)interactionMode {
-    [self setObject:interactionMode forName:SDLNameInteractionMode];
+    [parameters sdl_setObject:interactionMode forName:SDLNameInteractionMode];
 }
 
 - (SDLInteractionMode)interactionMode {
-    NSObject *obj = [parameters objectForKey:SDLNameInteractionMode];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameInteractionMode];
     return (SDLInteractionMode)obj;
 }
 
 - (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    [self setObject:interactionChoiceSetIDList forName:SDLNameInteractionChoiceSetIdList];
+    [parameters sdl_setObject:interactionChoiceSetIDList forName:SDLNameInteractionChoiceSetIdList];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    return [parameters objectForKey:SDLNameInteractionChoiceSetIdList];
+    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetIdList];
 }
 
 - (void)setHelpPrompt:(NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    [self setObject:helpPrompt forName:SDLNameHelpPrompt];
+    [parameters sdl_setObject:helpPrompt forName:SDLNameHelpPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameHelpPrompt];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameHelpPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -130,11 +130,11 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    [self setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
+    [parameters sdl_setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTimeoutPrompt];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameTimeoutPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -147,19 +147,19 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    [self setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 - (void)setVrHelp:(NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    [self setObject:vrHelp forName:SDLNameVRHelp];
+    [parameters sdl_setObject:vrHelp forName:SDLNameVRHelp];
 }
 
 - (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    NSMutableArray<SDLVRHelpItem *> *array = [parameters objectForKey:SDLNameVRHelp];
+    NSMutableArray<SDLVRHelpItem *> *array = [parameters sdl_objectForName:SDLNameVRHelp];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {
@@ -172,11 +172,11 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (void)setInteractionLayout:(SDLLayoutMode)interactionLayout {
-    [self setObject:interactionLayout forName:SDLNameInteractionLayout];
+    [parameters sdl_setObject:interactionLayout forName:SDLNameInteractionLayout];
 }
 
 - (SDLLayoutMode)interactionLayout {
-    NSObject *obj = [parameters objectForKey:SDLNameInteractionLayout];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameInteractionLayout];
     return (SDLLayoutMode)obj;
 }
 

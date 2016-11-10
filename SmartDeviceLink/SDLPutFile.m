@@ -50,52 +50,52 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [self setObject:syncFileName forName:SDLNameSyncFileName];
+    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters objectForKey:SDLNameSyncFileName];
+    return [parameters sdl_objectForName:SDLNameSyncFileName];
 }
 
 - (void)setFileType:(SDLFileType)fileType {
-    [self setObject:fileType forName:SDLNameFileType];
+    [parameters sdl_setObject:fileType forName:SDLNameFileType];
 }
 
 - (SDLFileType)fileType {
-    NSObject *obj = [parameters objectForKey:SDLNameFileType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameFileType];
     return (SDLFileType)obj;
 }
 
 - (void)setPersistentFile:(NSNumber<SDLBool> *)persistentFile {
-    [self setObject:persistentFile forName:SDLNamePersistentFile];
+    [parameters sdl_setObject:persistentFile forName:SDLNamePersistentFile];
 }
 
 - (NSNumber<SDLBool> *)persistentFile {
-    return [parameters objectForKey:SDLNamePersistentFile];
+    return [parameters sdl_objectForName:SDLNamePersistentFile];
 }
 
 - (void)setSystemFile:(NSNumber<SDLBool> *)systemFile {
-    [self setObject:systemFile forName:SDLNameSystemFile];
+    [parameters sdl_setObject:systemFile forName:SDLNameSystemFile];
 }
 
 - (NSNumber<SDLBool> *)systemFile {
-    return [parameters objectForKey:SDLNameSystemFile];
+    return [parameters sdl_objectForName:SDLNameSystemFile];
 }
 
 - (void)setOffset:(NSNumber<SDLUInt> *)offset {
-    [self setObject:offset forName:SDLNameOffset];
+    [parameters sdl_setObject:offset forName:SDLNameOffset];
 }
 
 - (NSNumber<SDLUInt> *)offset {
-    return [parameters objectForKey:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLNameOffset];
 }
 
 - (void)setLength:(NSNumber<SDLUInt> *)length {
-    [self setObject:length forName:SDLNameLength];
+    [parameters sdl_setObject:length forName:SDLNameLength];
 }
 
 - (NSNumber<SDLUInt> *)length {
-    return [parameters objectForKey:SDLNameLength];
+    return [parameters sdl_objectForName:SDLNameLength];
 }
 
 @end

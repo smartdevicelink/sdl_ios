@@ -8,19 +8,19 @@
 @implementation SDLVehicleDataResult
 
 - (void)setDataType:(SDLVehicleDataType)dataType {
-    [self setObject:dataType forName:SDLNameDataType];
+    [store sdl_setObject:dataType forName:SDLNameDataType];
 }
 
 - (SDLVehicleDataType)dataType {
-    return [self objectForName:SDLNameDataType];
+    return [store sdl_objectForName:SDLNameDataType];
 }
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
-    [self setObject:resultCode forName:SDLNameResultCode];
+    [store sdl_setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    return [self objectForName:SDLNameResultCode];
+    return [store sdl_objectForName:SDLNameResultCode];
 }
 
 @end

@@ -15,7 +15,7 @@
 }
 
 - (void)setFilenames:(NSMutableArray<NSString *> *)filenames {
-    [self setObject:filenames forName:SDLNameFilenames];
+    [parameters sdl_setObject:filenames forName:SDLNameFilenames];
 }
 
 - (NSMutableArray<NSString *> *)filenames {
@@ -23,7 +23,7 @@
 }
 
 - (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
-    [self setObject:spaceAvailable forName:SDLNameSpaceAvailable];
+    [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
 - (NSNumber<SDLInt> *)spaceAvailable {

@@ -16,7 +16,7 @@
 }
 
 - (void)setGps:(SDLVehicleDataResult *)gps {
-    [self setObject:gps forName:SDLNameGPS];
+    [parameters sdl_setObject:gps forName:SDLNameGPS];
 }
 
 - (SDLVehicleDataResult *)gps {
@@ -29,7 +29,7 @@
 }
 
 - (void)setSpeed:(SDLVehicleDataResult *)speed {
-    [self setObject:speed forName:SDLNameSpeed];
+    [parameters sdl_setObject:speed forName:SDLNameSpeed];
 }
 
 - (SDLVehicleDataResult *)speed {
@@ -42,7 +42,7 @@
 }
 
 - (void)setRpm:(SDLVehicleDataResult *)rpm {
-    [self setObject:rpm forName:SDLNameRPM];
+    [parameters sdl_setObject:rpm forName:SDLNameRPM];
 }
 
 - (SDLVehicleDataResult *)rpm {
@@ -55,7 +55,7 @@
 }
 
 - (void)setFuelLevel:(SDLVehicleDataResult *)fuelLevel {
-    [self setObject:fuelLevel forName:SDLNameFuelLevel];
+    [parameters sdl_setObject:fuelLevel forName:SDLNameFuelLevel];
 }
 
 - (SDLVehicleDataResult *)fuelLevel {
@@ -68,7 +68,7 @@
 }
 
 - (void)setFuelLevel_State:(SDLVehicleDataResult *)fuelLevel_State {
-    [self setObject:fuelLevel_State forName:SDLNameFuelLevelState];
+    [parameters sdl_setObject:fuelLevel_State forName:SDLNameFuelLevelState];
 }
 
 - (SDLVehicleDataResult *)fuelLevel_State {
@@ -81,7 +81,7 @@
 }
 
 - (void)setInstantFuelConsumption:(SDLVehicleDataResult *)instantFuelConsumption {
-    [self setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
+    [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
 }
 
 - (SDLVehicleDataResult *)instantFuelConsumption {
@@ -94,7 +94,7 @@
 }
 
 - (void)setExternalTemperature:(SDLVehicleDataResult *)externalTemperature {
-    [self setObject:externalTemperature forName:SDLNameExternalTemperature];
+    [parameters sdl_setObject:externalTemperature forName:SDLNameExternalTemperature];
 }
 
 - (SDLVehicleDataResult *)externalTemperature {
@@ -107,7 +107,7 @@
 }
 
 - (void)setPrndl:(SDLVehicleDataResult *)prndl {
-    [self setObject:prndl forName:SDLNamePRNDL];
+    [parameters sdl_setObject:prndl forName:SDLNamePRNDL];
 }
 
 - (SDLVehicleDataResult *)prndl {
@@ -120,7 +120,7 @@
 }
 
 - (void)setTirePressure:(SDLVehicleDataResult *)tirePressure {
-    [self setObject:tirePressure forName:SDLNameTirePressure];
+    [parameters sdl_setObject:tirePressure forName:SDLNameTirePressure];
 }
 
 - (SDLVehicleDataResult *)tirePressure {
@@ -133,7 +133,7 @@
 }
 
 - (void)setOdometer:(SDLVehicleDataResult *)odometer {
-    [self setObject:odometer forName:SDLNameOdometer];
+    [parameters sdl_setObject:odometer forName:SDLNameOdometer];
 }
 
 - (SDLVehicleDataResult *)odometer {
@@ -146,7 +146,7 @@
 }
 
 - (void)setBeltStatus:(SDLVehicleDataResult *)beltStatus {
-    [self setObject:beltStatus forName:SDLNameBeltStatus];
+    [parameters sdl_setObject:beltStatus forName:SDLNameBeltStatus];
 }
 
 - (SDLVehicleDataResult *)beltStatus {
@@ -159,7 +159,7 @@
 }
 
 - (void)setBodyInformation:(SDLVehicleDataResult *)bodyInformation {
-    [self setObject:bodyInformation forName:SDLNameBodyInformation];
+    [parameters sdl_setObject:bodyInformation forName:SDLNameBodyInformation];
 }
 
 - (SDLVehicleDataResult *)bodyInformation {
@@ -172,7 +172,7 @@
 }
 
 - (void)setDeviceStatus:(SDLVehicleDataResult *)deviceStatus {
-    [self setObject:deviceStatus forName:SDLNameDeviceStatus];
+    [parameters sdl_setObject:deviceStatus forName:SDLNameDeviceStatus];
 }
 
 - (SDLVehicleDataResult *)deviceStatus {
@@ -185,7 +185,7 @@
 }
 
 - (void)setDriverBraking:(SDLVehicleDataResult *)driverBraking {
-    [self setObject:driverBraking forName:SDLNameDriverBraking];
+    [parameters sdl_setObject:driverBraking forName:SDLNameDriverBraking];
 }
 
 - (SDLVehicleDataResult *)driverBraking {
@@ -198,7 +198,7 @@
 }
 
 - (void)setWiperStatus:(SDLVehicleDataResult *)wiperStatus {
-    [self setObject:wiperStatus forName:SDLNameWiperStatus];
+    [parameters sdl_setObject:wiperStatus forName:SDLNameWiperStatus];
 }
 
 - (SDLVehicleDataResult *)wiperStatus {
@@ -211,7 +211,7 @@
 }
 
 - (void)setHeadLampStatus:(SDLVehicleDataResult *)headLampStatus {
-    [self setObject:headLampStatus forName:SDLNameHeadLampStatus];
+    [parameters sdl_setObject:headLampStatus forName:SDLNameHeadLampStatus];
 }
 
 - (SDLVehicleDataResult *)headLampStatus {
@@ -224,7 +224,7 @@
 }
 
 - (void)setEngineTorque:(SDLVehicleDataResult *)engineTorque {
-    [self setObject:engineTorque forName:SDLNameEngineTorque];
+    [parameters sdl_setObject:engineTorque forName:SDLNameEngineTorque];
 }
 
 - (SDLVehicleDataResult *)engineTorque {
@@ -237,7 +237,7 @@
 }
 
 - (void)setAccPedalPosition:(SDLVehicleDataResult *)accPedalPosition {
-    [self setObject:accPedalPosition forName:SDLNameAccelerationPedalPosition];
+    [parameters sdl_setObject:accPedalPosition forName:SDLNameAccelerationPedalPosition];
 }
 
 - (SDLVehicleDataResult *)accPedalPosition {
@@ -250,7 +250,7 @@
 }
 
 - (void)setSteeringWheelAngle:(SDLVehicleDataResult *)steeringWheelAngle {
-    [self setObject:steeringWheelAngle forName:SDLNameSteeringWheelAngle];
+    [parameters sdl_setObject:steeringWheelAngle forName:SDLNameSteeringWheelAngle];
 }
 
 - (SDLVehicleDataResult *)steeringWheelAngle {
@@ -263,7 +263,7 @@
 }
 
 - (void)setECallInfo:(SDLVehicleDataResult *)eCallInfo {
-    [self setObject:eCallInfo forName:SDLNameECallInfo];
+    [parameters sdl_setObject:eCallInfo forName:SDLNameECallInfo];
 }
 
 - (SDLVehicleDataResult *)eCallInfo {
@@ -276,7 +276,7 @@
 }
 
 - (void)setAirbagStatus:(SDLVehicleDataResult *)airbagStatus {
-    [self setObject:airbagStatus forName:SDLNameAirbagStatus];
+    [parameters sdl_setObject:airbagStatus forName:SDLNameAirbagStatus];
 }
 
 - (SDLVehicleDataResult *)airbagStatus {
@@ -289,7 +289,7 @@
 }
 
 - (void)setEmergencyEvent:(SDLVehicleDataResult *)emergencyEvent {
-    [self setObject:emergencyEvent forName:SDLNameEmergencyEvent];
+    [parameters sdl_setObject:emergencyEvent forName:SDLNameEmergencyEvent];
 }
 
 - (SDLVehicleDataResult *)emergencyEvent {
@@ -302,7 +302,7 @@
 }
 
 - (void)setClusterModes:(SDLVehicleDataResult *)clusterModes {
-    [self setObject:clusterModes forName:SDLNameClusterModes];
+    [parameters sdl_setObject:clusterModes forName:SDLNameClusterModes];
 }
 
 - (SDLVehicleDataResult *)clusterModes {
@@ -315,7 +315,7 @@
 }
 
 - (void)setMyKey:(SDLVehicleDataResult *)myKey {
-    [self setObject:myKey forName:SDLNameMyKey];
+    [parameters sdl_setObject:myKey forName:SDLNameMyKey];
 }
 
 - (SDLVehicleDataResult *)myKey {

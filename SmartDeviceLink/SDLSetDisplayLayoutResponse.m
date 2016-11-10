@@ -19,7 +19,7 @@
 }
 
 - (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
-    [self setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
+    [parameters sdl_setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
@@ -32,7 +32,7 @@
 }
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    [self setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
+    [parameters sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
@@ -49,7 +49,7 @@
 }
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    [self setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
+    [parameters sdl_setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
@@ -66,7 +66,7 @@
 }
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
-    [self setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
+    [parameters sdl_setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {

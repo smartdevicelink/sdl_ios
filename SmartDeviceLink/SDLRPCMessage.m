@@ -31,8 +31,8 @@
             }
         }
         if (messageType != nil) {
-            function = [store objectForKey:messageType];
-            parameters = [function objectForKey:SDLNameParameters];
+            function = [[store objectForKey:messageType] mutableCopy];
+            parameters = [[function objectForKey:SDLNameParameters] mutableCopy];
         }
         self.bulkData = [dict objectForKey:SDLNameBulkData];
     }
@@ -41,19 +41,19 @@
 }
 
 - (NSString *)getFunctionName {
-    return [self objectForName:SDLNameOperationName fromStorage:function];
+    return [function sdl_objectForName:SDLNameOperationName];
 }
 
 - (void)setFunctionName:(NSString *)functionName {
-    [self setObject:functionName forName:SDLNameOperationName inStorage:function];
+    [function sdl_setObject:functionName forName:SDLNameOperationName];
 }
 
 - (NSObject *)getParameters:(NSString *)functionName {
-    return [self objectForName:functionName];
+    return [parameters sdl_objectForName:functionName];
 }
 
 - (void)setParameters:(NSString *)functionName value:(NSObject *)value {
-    [self setObject:value forName:functionName];
+    [parameters sdl_setObject:value forName:functionName];
 }
 
 - (void)dealloc {
@@ -69,15 +69,6 @@
     NSMutableString *description = [NSMutableString stringWithFormat:@"%@ (%@)\n%@", self.name, self.messageType, self->parameters];
 
     return description;
-}
-
-#pragma mark - Overrides
-- (void)setObject:(NSObject *)object forName:(SDLName)name {
-    [self setObject:object forName:name inStorage:parameters];
-}
-
-- (id)objectForName:(SDLName)name {
-    return [self objectForName:name fromStorage:parameters];
 }
 
 @end

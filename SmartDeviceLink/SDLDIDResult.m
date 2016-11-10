@@ -8,27 +8,27 @@
 @implementation SDLDIDResult
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
-    [self setObject:resultCode forName:SDLNameResultCode];
+    [store sdl_setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    return [self objectForName:SDLNameResultCode];
+    return [store sdl_objectForName:SDLNameResultCode];
 }
 
 - (void)setDidLocation:(NSNumber<SDLInt> *)didLocation {
-    [self setObject:didLocation forName:SDLNameDIDLocation];
+    [store sdl_setObject:didLocation forName:SDLNameDIDLocation];
 }
 
 - (NSNumber<SDLInt> *)didLocation {
-    return [self objectForName:SDLNameDIDLocation];
+    return [store sdl_objectForName:SDLNameDIDLocation];
 }
 
 - (void)setData:(NSString *)data {
-    [self setObject:data forName:SDLNameData];
+    [store sdl_setObject:data forName:SDLNameData];
 }
 
 - (NSString *)data {
-    return [self objectForName:SDLNameData];
+    return [store sdl_objectForName:SDLNameData];
 }
 
 @end

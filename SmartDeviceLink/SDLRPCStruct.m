@@ -27,48 +27,6 @@
     return self;
 }
 
-- (void)setObject:(NSObject *)object forName:(SDLName)name {
-    [self setObject:object forName:name inStorage:store];
-}
-
-- (void)setObject:(NSObject*)object forName:(SDLName)name inStorage:(NSMutableDictionary*)storage {
-    if (object != nil) {
-        storage[name] = object;
-    } else {
-        [storage removeObjectForKey:name];
-    }
-}
-
-- (id)objectForName:(SDLName)name {
-    return [self objectForName:name fromStorage:store];
-}
-
-- (id)objectForName:(SDLName)name ofClass:(Class)classType {
-    NSObject *obj = [self objectForName:name];
-    if (obj == nil || [obj isKindOfClass:classType.class]) {
-        return obj;
-    } else {
-        return [[classType alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-}
-
-- (id)objectForName:(SDLName)name fromStorage:(NSMutableDictionary *)storage {
-    return storage[name];
-}
-
-- (NSMutableArray *)objectsForName:(SDLName)name ofClass:(Class)classType {
-    NSMutableArray *array = [self objectForName:name];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:classType.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[classType alloc] initWithDictionary:dict]];
-        }
-        return newList;
-    }
-}
-
 - (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version {
     if (version >= 2) {
         NSString *messageType = [[store keyEnumerator] nextObject];

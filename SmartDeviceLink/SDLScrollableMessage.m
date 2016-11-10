@@ -39,27 +39,27 @@
 }
 
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
-    [self setObject:scrollableMessageBody forName:SDLNameScrollableMessageBody];
+    [parameters sdl_setObject:scrollableMessageBody forName:SDLNameScrollableMessageBody];
 }
 
 - (NSString *)scrollableMessageBody {
-    return [parameters objectForKey:SDLNameScrollableMessageBody];
+    return [parameters sdl_objectForName:SDLNameScrollableMessageBody];
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    [self setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    [self setObject:softButtons forName:SDLNameSoftButtons];
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
+    NSMutableArray<SDLSoftButton *> *array = [parameters sdl_objectForName:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {

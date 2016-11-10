@@ -15,7 +15,7 @@
 }
 
 - (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
-    [self setObject:choiceID forName:SDLNameChoiceId];
+    [parameters sdl_setObject:choiceID forName:SDLNameChoiceId];
 }
 
 - (NSNumber<SDLInt> *)choiceID {
@@ -23,7 +23,7 @@
 }
 
 - (void)setManualTextEntry:(NSString *)manualTextEntry {
-    [self setObject:manualTextEntry forName:SDLNameManualTextEntry];
+    [parameters sdl_setObject:manualTextEntry forName:SDLNameManualTextEntry];
 }
 
 - (NSString *)manualTextEntry {
@@ -31,7 +31,7 @@
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
-    [self setObject:triggerSource forName:SDLNameTriggerSource];
+    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
 }
 
 - (SDLTriggerSource)triggerSource {

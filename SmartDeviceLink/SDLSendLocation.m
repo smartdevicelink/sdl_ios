@@ -43,83 +43,83 @@
 }
 
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
-    [self setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
+    [parameters sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return [self objectForName:SDLNameLongitudeDegrees];
+    return [parameters sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
-    [self setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
+    [parameters sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return [self objectForName:SDLNameLatitudeDegrees];
+    return [parameters sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
 - (void)setLocationName:(NSString *)locationName {
-    [self setObject:locationName forName:SDLNameLocationName];
+    [parameters sdl_setObject:locationName forName:SDLNameLocationName];
 }
 
 - (NSString *)locationName {
-    return [self objectForName:SDLNameLocationName];
+    return [parameters sdl_objectForName:SDLNameLocationName];
 }
 
 - (void)setAddressLines:(NSArray<NSString *> *)addressLines {
-    [self setObject:addressLines forName:SDLNameAddressLines];
+    [parameters sdl_setObject:addressLines forName:SDLNameAddressLines];
 }
 
 - (NSString *)locationDescription {
-    return [self objectForName:SDLNameLocationDescription];
+    return [parameters sdl_objectForName:SDLNameLocationDescription];
 }
 
 - (void)setLocationDescription:(NSString *)locationDescription {
-    [self setObject:locationDescription forName:SDLNameLocationDescription];
+    [parameters sdl_setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
 - (NSArray<NSString *> *)addressLines {
-    return [self objectForName:SDLNameAddressLines];
+    return [parameters sdl_objectForName:SDLNameAddressLines];
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {
-    [self setObject:phoneNumber forName:SDLNamePhoneNumber];
+    [parameters sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
 - (NSString *)phoneNumber {
-    return [self objectForName:SDLNamePhoneNumber];
+    return [parameters sdl_objectForName:SDLNamePhoneNumber];
 }
 
 - (void)setLocationImage:(SDLImage *)locationImage {
-    [self setObject:locationImage forName:SDLNameLocationImage];
+    [parameters sdl_setObject:locationImage forName:SDLNameLocationImage];
 }
 
 - (SDLImage *)locationImage {
-    return [self objectForName:SDLNameLocationImage ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
 }
 
 - (void)setDeliveryMode:(SDLDeliveryMode)deliveryMode {
-    [self setObject:deliveryMode forName:SDLNameDeliveryMode];
+    [parameters sdl_setObject:deliveryMode forName:SDLNameDeliveryMode];
 }
 
 - (SDLDeliveryMode)deliveryMode {
-    return [self objectForName:SDLNameDeliveryMode];
+    return [parameters sdl_objectForName:SDLNameDeliveryMode];
 }
 
 - (void)setTimeStamp:(SDLDateTime *)timeStamp {
-    [self setObject:timeStamp forName:SDLNameLocationTimeStamp];
+    [parameters sdl_setObject:timeStamp forName:SDLNameLocationTimeStamp];
 }
 
 - (SDLDateTime *)timeStamp {
-    return [self objectForName:SDLNameLocationTimeStamp ofClass:SDLDateTime.class];
+    return [parameters sdl_objectForName:SDLNameLocationTimeStamp ofClass:SDLDateTime.class];
 }
 
 - (void)setAddress:(SDLOasisAddress *)address {
-    [self setObject:address forName:SDLNameAddress];
+    [parameters sdl_setObject:address forName:SDLNameAddress];
 }
 
 - (SDLOasisAddress *)address {
-    return [self objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
+    return [parameters sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
 }
 
 @end

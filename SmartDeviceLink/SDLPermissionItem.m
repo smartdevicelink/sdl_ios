@@ -10,15 +10,15 @@
 @implementation SDLPermissionItem
 
 - (void)setRpcName:(NSString *)rpcName {
-    [self setObject:rpcName forName:SDLNameRPCName];
+    [store sdl_setObject:rpcName forName:SDLNameRPCName];
 }
 
 - (NSString *)rpcName {
-    return [self objectForName:SDLNameRPCName];
+    return [store sdl_objectForName:SDLNameRPCName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
-    [self setObject:hmiPermissions forName:SDLNameHMIPermissions];
+    [store sdl_setObject:hmiPermissions forName:SDLNameHMIPermissions];
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
@@ -31,7 +31,7 @@
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
-    [self setObject:parameterPermissions forName:SDLNameParameterPermissions];
+    [store sdl_setObject:parameterPermissions forName:SDLNameParameterPermissions];
 }
 
 - (SDLParameterPermissions *)parameterPermissions {

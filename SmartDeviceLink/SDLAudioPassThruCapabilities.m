@@ -10,27 +10,27 @@
 @implementation SDLAudioPassThruCapabilities
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
-    [self setObject:samplingRate forName:SDLNameSamplingRate];
+    [store sdl_setObject:samplingRate forName:SDLNameSamplingRate];
 }
 
 - (SDLSamplingRate)samplingRate {
-    return [self objectForName:SDLNameSamplingRate];
+    return [store sdl_objectForName:SDLNameSamplingRate];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
-    [self setObject:bitsPerSample forName:SDLNameBitsPerSample];
+    [store sdl_setObject:bitsPerSample forName:SDLNameBitsPerSample];
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    return [self objectForName:SDLNameBitsPerSample];
+    return [store sdl_objectForName:SDLNameBitsPerSample];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
-    [self setObject:audioType forName:SDLNameAudioType];
+    [store sdl_setObject:audioType forName:SDLNameAudioType];
 }
 
 - (SDLAudioType)audioType {
-    return [self objectForName:SDLNameAudioType];
+    return [store sdl_objectForName:SDLNameAudioType];
 }
 
 @end

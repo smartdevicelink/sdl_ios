@@ -10,7 +10,7 @@
 @implementation SDLTireStatus
 
 - (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
-    [self setObject:pressureTelltale forName:SDLNamePressureTelltale];
+    [store sdl_setObject:pressureTelltale forName:SDLNamePressureTelltale];
 }
 
 - (SDLWarningLightStatus)pressureTelltale {
@@ -19,7 +19,7 @@
 }
 
 - (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
-    [self setObject:leftFront forName:SDLNameLeftFront];
+    [store sdl_setObject:leftFront forName:SDLNameLeftFront];
 }
 
 - (SDLSingleTireStatus *)leftFront {
@@ -32,7 +32,7 @@
 }
 
 - (void)setRightFront:(SDLSingleTireStatus *)rightFront {
-    [self setObject:rightFront forName:SDLNameRightFront];
+    [store sdl_setObject:rightFront forName:SDLNameRightFront];
 }
 
 - (SDLSingleTireStatus *)rightFront {
@@ -45,7 +45,7 @@
 }
 
 - (void)setLeftRear:(SDLSingleTireStatus *)leftRear {
-    [self setObject:leftRear forName:SDLNameLeftRear];
+    [store sdl_setObject:leftRear forName:SDLNameLeftRear];
 }
 
 - (SDLSingleTireStatus *)leftRear {
@@ -58,7 +58,7 @@
 }
 
 - (void)setRightRear:(SDLSingleTireStatus *)rightRear {
-    [self setObject:rightRear forName:SDLNameRightRear];
+    [store sdl_setObject:rightRear forName:SDLNameRightRear];
 }
 
 - (SDLSingleTireStatus *)rightRear {
@@ -71,7 +71,7 @@
 }
 
 - (void)setInnerLeftRear:(SDLSingleTireStatus *)innerLeftRear {
-    [self setObject:innerLeftRear forName:SDLNameInnerLeftRear];
+    [store sdl_setObject:innerLeftRear forName:SDLNameInnerLeftRear];
 }
 
 - (SDLSingleTireStatus *)innerLeftRear {
@@ -84,7 +84,7 @@
 }
 
 - (void)setInnerRightRear:(SDLSingleTireStatus *)innerRightRear {
-    [self setObject:innerRightRear forName:SDLNameInnerRightRear];
+    [store sdl_setObject:innerRightRear forName:SDLNameInnerRightRear];
 }
 
 - (SDLSingleTireStatus *)innerRightRear {

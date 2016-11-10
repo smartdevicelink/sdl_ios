@@ -32,27 +32,27 @@
 }
 
 - (void)setParentID:(NSNumber<SDLInt> *)parentID {
-    [self setObject:parentID forName:SDLNameParentId];
+    [store sdl_setObject:parentID forName:SDLNameParentId];
 }
 
 - (NSNumber<SDLInt> *)parentID {
-    return [self objectForName:SDLNameParentId];
+    return [store sdl_objectForName:SDLNameParentId];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [self setObject:position forName:SDLNamePosition];
+    [store sdl_setObject:position forName:SDLNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [self objectForName:SDLNamePosition];
+    return [store sdl_objectForName:SDLNamePosition];
 }
 
 - (void)setMenuName:(NSString *)menuName {
-    [self setObject:menuName forName:SDLNameMenuName];
+    [store sdl_setObject:menuName forName:SDLNameMenuName];
 }
 
 - (NSString *)menuName {
-    return [self objectForName:SDLNameMenuName];
+    return [store sdl_objectForName:SDLNameMenuName];
 }
 
 @end

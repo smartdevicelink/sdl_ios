@@ -15,20 +15,20 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    [self setObject:language forName:SDLNameLanguage];
+    [parameters sdl_setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameLanguage];
     return (SDLLanguage)obj;
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
-    [self setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
     return (SDLLanguage)obj;
 }
 

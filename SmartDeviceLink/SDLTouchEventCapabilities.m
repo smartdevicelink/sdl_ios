@@ -9,27 +9,27 @@
 @implementation SDLTouchEventCapabilities
 
 - (void)setPressAvailable:(NSNumber<SDLBool> *)pressAvailable {
-    [self setObject:pressAvailable forName:SDLNamePressAvailable];
+    [store sdl_setObject:pressAvailable forName:SDLNamePressAvailable];
 }
 
 - (NSNumber<SDLBool> *)pressAvailable {
-    return [self objectForName:SDLNamePressAvailable];
+    return [store sdl_objectForName:SDLNamePressAvailable];
 }
 
 - (void)setMultiTouchAvailable:(NSNumber<SDLBool> *)multiTouchAvailable {
-    [self setObject:multiTouchAvailable forName:SDLNameMultiTouchAvailable];
+    [store sdl_setObject:multiTouchAvailable forName:SDLNameMultiTouchAvailable];
 }
 
 - (NSNumber<SDLBool> *)multiTouchAvailable {
-    return [self objectForName:SDLNameMultiTouchAvailable];
+    return [store sdl_objectForName:SDLNameMultiTouchAvailable];
 }
 
 - (void)setDoublePressAvailable:(NSNumber<SDLBool> *)doublePressAvailable {
-    [self setObject:doublePressAvailable forName:SDLNameDoublePressAvailable];
+    [store sdl_setObject:doublePressAvailable forName:SDLNameDoublePressAvailable];
 }
 
 - (NSNumber<SDLBool> *)doublePressAvailable {
-    return [self objectForName:SDLNameDoublePressAvailable];
+    return [store sdl_objectForName:SDLNameDoublePressAvailable];
 }
 
 @end

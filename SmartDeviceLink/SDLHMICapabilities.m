@@ -9,19 +9,19 @@
 @implementation SDLHMICapabilities
 
 - (void)setNavigation:(NSNumber<SDLBool> *)navigation {
-    [self setObject:navigation forName:SDLNameNavigation];
+    [store sdl_setObject:navigation forName:SDLNameNavigation];
 }
 
 - (NSNumber<SDLBool> *)navigation {
-    return [self objectForName:SDLNameNavigation];
+    return [store sdl_objectForName:SDLNameNavigation];
 }
 
 - (void)setPhoneCall:(NSNumber<SDLBool> *)phoneCall {
-    [self setObject:phoneCall forName:SDLNamePhoneCall];
+    [store sdl_setObject:phoneCall forName:SDLNamePhoneCall];
 }
 
 - (NSNumber<SDLBool> *)phoneCall {
-    return [self objectForName:SDLNamePhoneCall];
+    return [store sdl_objectForName:SDLNamePhoneCall];
 }
 
 @end

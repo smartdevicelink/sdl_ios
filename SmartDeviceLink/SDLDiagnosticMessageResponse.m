@@ -14,7 +14,7 @@
 }
 
 - (void)setMessageDataResult:(NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
-    [self setObject:messageDataResult forName:SDLNameMessageDataResult];
+    [parameters sdl_setObject:messageDataResult forName:SDLNameMessageDataResult];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {

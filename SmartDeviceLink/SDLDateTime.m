@@ -57,75 +57,75 @@
 }
 
 - (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
-    [self setObject:millisecond forName:SDLNameMillisecond];
+    [store sdl_setObject:millisecond forName:SDLNameMillisecond];
 }
 
 - (NSNumber<SDLInt> *)millisecond {
-    return [self objectForName:SDLNameMillisecond];
+    return [store sdl_objectForName:SDLNameMillisecond];
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
-    [self setObject:second forName:SDLNameSecond];
+    [store sdl_setObject:second forName:SDLNameSecond];
 }
 
 - (NSNumber<SDLInt> *)second {
-    return [self objectForName:SDLNameSecond];
+    return [store sdl_objectForName:SDLNameSecond];
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
-    [self setObject:minute forName:SDLNameMinute];
+    [store sdl_setObject:minute forName:SDLNameMinute];
 }
 
 - (NSNumber<SDLInt> *)minute {
-    return [self objectForName:SDLNameMinute];
+    return [store sdl_objectForName:SDLNameMinute];
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
-    [self setObject:hour forName:SDLNameHour];
+    [store sdl_setObject:hour forName:SDLNameHour];
 }
 
 - (NSNumber<SDLInt> *)hour {
-    return [self objectForName:SDLNameHour];
+    return [store sdl_objectForName:SDLNameHour];
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
-    [self setObject:day forName:SDLNameDay];
+    [store sdl_setObject:day forName:SDLNameDay];
 }
 
 - (NSNumber<SDLInt> *)day {
-    return [self objectForName:SDLNameDay];
+    return [store sdl_objectForName:SDLNameDay];
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
-    [self setObject:month forName:SDLNameMonth];
+    [store sdl_setObject:month forName:SDLNameMonth];
 }
 
 - (NSNumber<SDLInt> *)month {
-    return [self objectForName:SDLNameMonth];
+    return [store sdl_objectForName:SDLNameMonth];
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
-    [self setObject:year forName:SDLNameYear];
+    [store sdl_setObject:year forName:SDLNameYear];
 }
 
 - (NSNumber<SDLInt> *)year {
-    return [self objectForName:SDLNameYear];
+    return [store sdl_objectForName:SDLNameYear];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
-    [self setObject:timezoneMinuteOffset forName:SDLNameTimezoneMinuteOffset];
+    [store sdl_setObject:timezoneMinuteOffset forName:SDLNameTimezoneMinuteOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
-    return [self objectForName:SDLNameTimezoneMinuteOffset];
+    return [store sdl_objectForName:SDLNameTimezoneMinuteOffset];
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
-    [self setObject:timezoneHourOffset forName:SDLNameTimezoneHourOffset];
+    [store sdl_setObject:timezoneHourOffset forName:SDLNameTimezoneHourOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {
-    return [self objectForName:SDLNameTimezoneHourOffset];
+    return [store sdl_objectForName:SDLNameTimezoneHourOffset];
 }
 
 @end

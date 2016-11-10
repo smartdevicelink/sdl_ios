@@ -8,35 +8,35 @@
 @implementation SDLButtonCapabilities
 
 - (void)setName:(SDLButtonName)name {
-    [self setObject:name forName:SDLNameName];
+    [store sdl_setObject:name forName:SDLNameName];
 }
 
 - (SDLButtonName)name {
-    return [self objectForName:SDLNameName];
+    return [store sdl_objectForName:SDLNameName];
 }
 
 - (void)setShortPressAvailable:(NSNumber<SDLBool> *)shortPressAvailable {
-    [self setObject:shortPressAvailable forName:SDLNameShortPressAvailable];
+    [store sdl_setObject:shortPressAvailable forName:SDLNameShortPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)shortPressAvailable {
-    return [self objectForName:SDLNameShortPressAvailable];
+    return [store sdl_objectForName:SDLNameShortPressAvailable];
 }
 
 - (void)setLongPressAvailable:(NSNumber<SDLBool> *)longPressAvailable {
-    [self setObject:longPressAvailable forName:SDLNameLongPressAvailable];
+    [store sdl_setObject:longPressAvailable forName:SDLNameLongPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)longPressAvailable {
-    return [self objectForName:SDLNameLongPressAvailable];
+    return [store sdl_objectForName:SDLNameLongPressAvailable];
 }
 
 - (void)setUpDownAvailable:(NSNumber<SDLBool> *)upDownAvailable {
-    [self setObject:upDownAvailable forName:SDLNameUpDownAvailable];
+    [store sdl_setObject:upDownAvailable forName:SDLNameUpDownAvailable];
 }
 
 - (NSNumber<SDLBool> *)upDownAvailable {
-    return [self objectForName:SDLNameUpDownAvailable];
+    return [store sdl_objectForName:SDLNameUpDownAvailable];
 }
 
 @end

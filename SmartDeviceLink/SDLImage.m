@@ -20,19 +20,19 @@
 }
 
 - (void)setValue:(NSString *)value {
-    [self setObject:value forName:SDLNameValue];
+    [store sdl_setObject:value forName:SDLNameValue];
 }
 
 - (NSString *)value {
-    return [self objectForName:SDLNameValue];
+    return [store sdl_objectForName:SDLNameValue];
 }
 
 - (void)setImageType:(SDLImageType)imageType {
-    [self setObject:imageType forName:SDLNameImageType];
+    [store sdl_setObject:imageType forName:SDLNameImageType];
 }
 
 - (SDLImageType)imageType {
-    return [self objectForName:SDLNameImageType];
+    return [store sdl_objectForName:SDLNameImageType];
 }
 
 @end

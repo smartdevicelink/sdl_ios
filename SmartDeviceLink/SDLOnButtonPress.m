@@ -14,29 +14,29 @@
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [self setObject:buttonName forName:SDLNameButtonName];
+    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters objectForKey:SDLNameButtonName];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
     return (SDLButtonName)obj;
 }
 
 - (void)setButtonPressMode:(SDLButtonPressMode)buttonPressMode {
-    [self setObject:buttonPressMode forName:SDLNameButtonPressMode];
+    [parameters sdl_setObject:buttonPressMode forName:SDLNameButtonPressMode];
 }
 
 - (SDLButtonPressMode)buttonPressMode {
-    NSObject *obj = [parameters objectForKey:SDLNameButtonPressMode];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonPressMode];
     return (SDLButtonPressMode)obj;
 }
 
 - (void)setCustomButtonID:(NSNumber<SDLInt> *)customButtonID {
-    [self setObject:customButtonID forName:SDLNameCustomButtonId];
+    [parameters sdl_setObject:customButtonID forName:SDLNameCustomButtonId];
 }
 
 - (NSNumber<SDLInt> *)customButtonID {
-    return [parameters objectForKey:SDLNameCustomButtonId];
+    return [parameters sdl_objectForName:SDLNameCustomButtonId];
 }
 
 @end

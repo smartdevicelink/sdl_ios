@@ -9,27 +9,27 @@
 @implementation SDLHeadLampStatus
 
 - (void)setLowBeamsOn:(NSNumber<SDLBool> *)lowBeamsOn {
-    [self setObject:lowBeamsOn forName:SDLNameLowBeamsOn];
+    [store sdl_setObject:lowBeamsOn forName:SDLNameLowBeamsOn];
 }
 
 - (NSNumber<SDLBool> *)lowBeamsOn {
-    return [self objectForName:SDLNameLowBeamsOn];
+    return [store sdl_objectForName:SDLNameLowBeamsOn];
 }
 
 - (void)setHighBeamsOn:(NSNumber<SDLBool> *)highBeamsOn {
-    [self setObject:highBeamsOn forName:SDLNameHighBeamsOn];
+    [store sdl_setObject:highBeamsOn forName:SDLNameHighBeamsOn];
 }
 
 - (NSNumber<SDLBool> *)highBeamsOn {
-    return [self objectForName:SDLNameHighBeamsOn];
+    return [store sdl_objectForName:SDLNameHighBeamsOn];
 }
 
 - (void)setAmbientLightSensorStatus:(SDLAmbientLightStatus)ambientLightSensorStatus {
-    [self setObject:ambientLightSensorStatus forName:SDLNameAmbientLightSensorStatus];
+    [store sdl_setObject:ambientLightSensorStatus forName:SDLNameAmbientLightSensorStatus];
 }
 
 - (SDLAmbientLightStatus)ambientLightSensorStatus {
-    return [self objectForName:SDLNameAmbientLightSensorStatus];
+    return [store sdl_objectForName:SDLNameAmbientLightSensorStatus];
 }
 
 @end

@@ -9,27 +9,27 @@
 @implementation SDLECallInfo
 
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    [self setObject:eCallNotificationStatus forName:SDLNameECallNotificationStatus];
+    [store sdl_setObject:eCallNotificationStatus forName:SDLNameECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    return [self objectForName:SDLNameECallNotificationStatus];
+    return [store sdl_objectForName:SDLNameECallNotificationStatus];
 }
 
 - (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    [self setObject:auxECallNotificationStatus forName:SDLNameAuxECallNotificationStatus];
+    [store sdl_setObject:auxECallNotificationStatus forName:SDLNameAuxECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    return [self objectForName:SDLNameAuxECallNotificationStatus];
+    return [store sdl_objectForName:SDLNameAuxECallNotificationStatus];
 }
 
 - (void)setECallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
-    [self setObject:eCallConfirmationStatus forName:SDLNameECallConfirmationStatus];
+    [store sdl_setObject:eCallConfirmationStatus forName:SDLNameECallConfirmationStatus];
 }
 
 - (SDLECallConfirmationStatus)eCallConfirmationStatus {
-    return [self objectForName:SDLNameECallConfirmationStatus];
+    return [store sdl_objectForName:SDLNameECallConfirmationStatus];
 }
 
 @end

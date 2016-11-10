@@ -14,11 +14,11 @@
 }
 
 - (void)setState:(SDLTBTState)state {
-    [self setObject:state forName:SDLNameState];
+    [parameters sdl_setObject:state forName:SDLNameState];
 }
 
 - (SDLTBTState)state {
-    NSObject *obj = [parameters objectForKey:SDLNameState];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
     return (SDLTBTState)obj;
 }
 

@@ -14,53 +14,53 @@
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    [self setObject:requestType forName:SDLNameRequestType];
+    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
-    NSObject *obj = [parameters objectForKey:SDLNameRequestType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameRequestType];
     return (SDLRequestType)obj;
 }
 
 - (void)setUrl:(NSString *)url {
-    [self setObject:url forName:SDLNameURL];
+    [parameters sdl_setObject:url forName:SDLNameURL];
 }
 
 - (NSString *)url {
-    return [parameters objectForKey:SDLNameURL];
+    return [parameters sdl_objectForName:SDLNameURL];
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
-    [self setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 - (void)setFileType:(SDLFileType)fileType {
-    [self setObject:fileType forName:SDLNameFileType];
+    [parameters sdl_setObject:fileType forName:SDLNameFileType];
 }
 
 - (SDLFileType)fileType {
-    NSObject *obj = [parameters objectForKey:SDLNameFileType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameFileType];
     return (SDLFileType)obj;
 }
 
 - (void)setOffset:(NSNumber<SDLInt> *)offset {
-    [self setObject:offset forName:SDLNameOffset];
+    [parameters sdl_setObject:offset forName:SDLNameOffset];
 }
 
 - (NSNumber<SDLInt> *)offset {
-    return [parameters objectForKey:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLNameOffset];
 }
 
 - (void)setLength:(NSNumber<SDLInt> *)length {
-    [self setObject:length forName:SDLNameLength];
+    [parameters sdl_setObject:length forName:SDLNameLength];
 }
 
 - (NSNumber<SDLInt> *)length {
-    return [parameters objectForKey:SDLNameLength];
+    return [parameters sdl_objectForName:SDLNameLength];
 }
 
 @end

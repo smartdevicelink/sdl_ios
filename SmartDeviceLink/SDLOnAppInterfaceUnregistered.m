@@ -14,12 +14,11 @@
 }
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
-    [self setObject:reason forName:SDLNameReason];
+    [parameters sdl_setObject:reason forName:SDLNameReason];
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {
-    NSObject *obj = [parameters objectForKey:SDLNameReason];
-    return (SDLAppInterfaceUnregisteredReason)obj;
+    return [parameters sdl_objectForName:SDLNameReason];
 }
 
 @end

@@ -23,139 +23,139 @@
 }
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    [self setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
+    [parameters sdl_setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
-    return [self objectForName:SDLNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class];
+    return [parameters sdl_objectForName:SDLNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class];
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    [self setObject:language forName:SDLNameLanguage];
+    [parameters sdl_setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
-    return [self objectForName:SDLNameLanguage];
+    return [parameters sdl_objectForName:SDLNameLanguage];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
-    [self setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    return [self objectForName:SDLNameHMIDisplayLanguage];
+    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
 }
 
 - (void)setDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
-    [self setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
+    [parameters sdl_setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
-    return [self objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
+    return [parameters sdl_objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
 }
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    [self setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
+    [parameters sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    return [self objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
+    return [parameters sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    [self setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
+    [parameters sdl_setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    return [self objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
+    return [parameters sdl_objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
 }
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
-    [self setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
+    [parameters sdl_setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
-    return [self objectForName:SDLNamePresetBankCapabilities ofClass:SDLPresetBankCapabilities.class];
+    return [parameters sdl_objectForName:SDLNamePresetBankCapabilities ofClass:SDLPresetBankCapabilities.class];
 }
 
 - (void)setHmiZoneCapabilities:(NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
-    [self setObject:hmiZoneCapabilities forName:SDLNameHMIZoneCapabilities];
+    [parameters sdl_setObject:hmiZoneCapabilities forName:SDLNameHMIZoneCapabilities];
 }
 
 - (NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
-    return [self objectForName:SDLNameHMIZoneCapabilities];
+    return [parameters sdl_objectForName:SDLNameHMIZoneCapabilities];
 }
 
 - (void)setSpeechCapabilities:(NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
-    [self setObject:speechCapabilities forName:SDLNameSpeechCapabilities];
+    [parameters sdl_setObject:speechCapabilities forName:SDLNameSpeechCapabilities];
 }
 
 - (NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
-    return [self objectForName:SDLNameSpeechCapabilities];
+    return [parameters sdl_objectForName:SDLNameSpeechCapabilities];
 }
 
 - (void)setPrerecordedSpeech:(NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
-    [self setObject:prerecordedSpeech forName:SDLNamePrerecordedSpeech];
+    [parameters sdl_setObject:prerecordedSpeech forName:SDLNamePrerecordedSpeech];
 }
 
 - (NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
-    return [self objectForName:SDLNamePrerecordedSpeech];
+    return [parameters sdl_objectForName:SDLNamePrerecordedSpeech];
 }
 
 - (void)setVrCapabilities:(NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
-    [self setObject:vrCapabilities forName:SDLNameVRCapabilities];
+    [parameters sdl_setObject:vrCapabilities forName:SDLNameVRCapabilities];
 }
 
 - (NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
-    return [self objectForName:SDLNameVRCapabilities];
+    return [parameters sdl_objectForName:SDLNameVRCapabilities];
 }
 
 - (void)setAudioPassThruCapabilities:(NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
-    [self setObject:audioPassThruCapabilities forName:SDLNameAudioPassThruCapabilities];
+    [parameters sdl_setObject:audioPassThruCapabilities forName:SDLNameAudioPassThruCapabilities];
 }
 
 - (NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
-    return [self objectsForName:SDLNameAudioPassThruCapabilities ofClass:SDLAudioPassThruCapabilities.class];
+    return [parameters sdl_objectsForName:SDLNameAudioPassThruCapabilities ofClass:SDLAudioPassThruCapabilities.class];
 }
 
 - (void)setVehicleType:(SDLVehicleType *)vehicleType {
-    [self setObject:vehicleType forName:SDLNameVehicleType];
+    [parameters sdl_setObject:vehicleType forName:SDLNameVehicleType];
 }
 
 - (SDLVehicleType *)vehicleType {
-    return [self objectForName:SDLNameVehicleType ofClass:SDLVehicleType.class];
+    return [parameters sdl_objectForName:SDLNameVehicleType ofClass:SDLVehicleType.class];
 }
 
 - (void)setSupportedDiagModes:(NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
-    [self setObject:supportedDiagModes forName:SDLNameSupportedDiagnosticModes];
+    [parameters sdl_setObject:supportedDiagModes forName:SDLNameSupportedDiagnosticModes];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
-    return [self objectForName:SDLNameSupportedDiagnosticModes];
+    return [parameters sdl_objectForName:SDLNameSupportedDiagnosticModes];
 }
 
 - (void)setHmiCapabilities:(SDLHMICapabilities *)hmiCapabilities {
-    [self setObject:hmiCapabilities forName:SDLNameHMICapabilities];
+    [parameters sdl_setObject:hmiCapabilities forName:SDLNameHMICapabilities];
 }
 
 - (SDLHMICapabilities *)hmiCapabilities {
-    return [self objectForName:SDLNameHMICapabilities ofClass:SDLHMICapabilities.class];
+    return [parameters sdl_objectForName:SDLNameHMICapabilities ofClass:SDLHMICapabilities.class];
 }
 
 - (void)setSdlVersion:(NSString *)sdlVersion {
-    [self setObject:sdlVersion forName:SDLNameSDLVersion];
+    [parameters sdl_setObject:sdlVersion forName:SDLNameSDLVersion];
 }
 
 - (NSString *)sdlVersion {
-    return [self objectForName:SDLNameSDLVersion];
+    return [parameters sdl_objectForName:SDLNameSDLVersion];
 }
 
 - (void)setSystemSoftwareVersion:(NSString *)systemSoftwareVersion {
-    [self setObject:systemSoftwareVersion forName:SDLNameSystemSoftwareVersion];
+    [parameters sdl_setObject:systemSoftwareVersion forName:SDLNameSystemSoftwareVersion];
 }
 
 - (NSString *)systemSoftwareVersion {
-    return [self objectForName:SDLNameSystemSoftwareVersion];
+    return [parameters sdl_objectForName:SDLNameSystemSoftwareVersion];
 }
 
 @end

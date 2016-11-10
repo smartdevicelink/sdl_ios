@@ -38,51 +38,51 @@
 }
 
 - (void)setType:(SDLSoftButtonType)type {
-    [self setObject:type forName:SDLNameType];
+    [store sdl_setObject:type forName:SDLNameType];
 }
 
 - (SDLSoftButtonType)type {
-    return [self objectForName:SDLNameType];
+    return [store sdl_objectForName:SDLNameType];
 }
 
 - (void)setText:(NSString *)text {
-    [self setObject:text forName:SDLNameText];
+    [store sdl_setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [self objectForName:SDLNameText];
+    return [store sdl_objectForName:SDLNameText];
 }
 
 - (void)setImage:(SDLImage *)image {
-    [self setObject:image forName:SDLNameImage];
+    [store sdl_setObject:image forName:SDLNameImage];
 }
 
 - (SDLImage *)image {
-    return [self objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
 - (void)setIsHighlighted:(NSNumber<SDLBool> *)isHighlighted {
-    [self setObject:isHighlighted forName:SDLNameIsHighlighted];
+    [store sdl_setObject:isHighlighted forName:SDLNameIsHighlighted];
 }
 
 - (NSNumber<SDLBool> *)isHighlighted {
-    return [self objectForName:SDLNameIsHighlighted];
+    return [store sdl_objectForName:SDLNameIsHighlighted];
 }
 
 - (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
-    [self setObject:softButtonID forName:SDLNameSoftButtonId];
+    [store sdl_setObject:softButtonID forName:SDLNameSoftButtonId];
 }
 
 - (NSNumber<SDLInt> *)softButtonID {
-    return [self objectForName:SDLNameSoftButtonId];
+    return [store sdl_objectForName:SDLNameSoftButtonId];
 }
 
 - (void)setSystemAction:(SDLSystemAction)systemAction {
-    [self setObject:systemAction forName:SDLNameSystemAction];
+    [store sdl_setObject:systemAction forName:SDLNameSystemAction];
 }
 
 - (SDLSystemAction)systemAction {
-    return [self objectForName:SDLNameSystemAction];
+    return [store sdl_objectForName:SDLNameSystemAction];
 }
 
 @end

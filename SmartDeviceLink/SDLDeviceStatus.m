@@ -10,91 +10,91 @@
 @implementation SDLDeviceStatus
 
 - (void)setVoiceRecOn:(NSNumber<SDLBool> *)voiceRecOn {
-    [self setObject:voiceRecOn forName:SDLNameVoiceRecognitionOn];
+    [store sdl_setObject:voiceRecOn forName:SDLNameVoiceRecognitionOn];
 }
 
 - (NSNumber<SDLBool> *)voiceRecOn {
-    return [self objectForName:SDLNameVoiceRecognitionOn];
+    return [store sdl_objectForName:SDLNameVoiceRecognitionOn];
 }
 
 - (void)setBtIconOn:(NSNumber<SDLBool> *)btIconOn {
-    [self setObject:btIconOn forName:SDLNameBluetoothIconOn];
+    [store sdl_setObject:btIconOn forName:SDLNameBluetoothIconOn];
 }
 
 - (NSNumber<SDLBool> *)btIconOn {
-    return [self objectForName:SDLNameBluetoothIconOn];
+    return [store sdl_objectForName:SDLNameBluetoothIconOn];
 }
 
 - (void)setCallActive:(NSNumber<SDLBool> *)callActive {
-    [self setObject:callActive forName:SDLNameCallActive];
+    [store sdl_setObject:callActive forName:SDLNameCallActive];
 }
 
 - (NSNumber<SDLBool> *)callActive {
-    return [self objectForName:SDLNameCallActive];
+    return [store sdl_objectForName:SDLNameCallActive];
 }
 
 - (void)setPhoneRoaming:(NSNumber<SDLBool> *)phoneRoaming {
-    [self setObject:phoneRoaming forName:SDLNamePhoneRoaming];
+    [store sdl_setObject:phoneRoaming forName:SDLNamePhoneRoaming];
 }
 
 - (NSNumber<SDLBool> *)phoneRoaming {
-    return [self objectForName:SDLNamePhoneRoaming];
+    return [store sdl_objectForName:SDLNamePhoneRoaming];
 }
 
 - (void)setTextMsgAvailable:(NSNumber<SDLBool> *)textMsgAvailable {
-    [self setObject:textMsgAvailable forName:SDLNameTextMessageAvailable];
+    [store sdl_setObject:textMsgAvailable forName:SDLNameTextMessageAvailable];
 }
 
 - (NSNumber<SDLBool> *)textMsgAvailable {
-    return [self objectForName:SDLNameTextMessageAvailable];
+    return [store sdl_objectForName:SDLNameTextMessageAvailable];
 }
 
 - (void)setBattLevelStatus:(SDLDeviceLevelStatus )battLevelStatus {
-    [self setObject:battLevelStatus forName:SDLNameBatteryLevelStatus];
+    [store sdl_setObject:battLevelStatus forName:SDLNameBatteryLevelStatus];
 }
 
 - (SDLDeviceLevelStatus)battLevelStatus {
-    return [self objectForName:SDLNameBatteryLevelStatus];
+    return [store sdl_objectForName:SDLNameBatteryLevelStatus];
 }
 
 - (void)setStereoAudioOutputMuted:(NSNumber<SDLBool> *)stereoAudioOutputMuted {
-    [self setObject:stereoAudioOutputMuted forName:SDLNameStereoAudioOutputMuted];
+    [store sdl_setObject:stereoAudioOutputMuted forName:SDLNameStereoAudioOutputMuted];
 }
 
 - (NSNumber<SDLBool> *)stereoAudioOutputMuted {
-    return [self objectForName:SDLNameStereoAudioOutputMuted];
+    return [store sdl_objectForName:SDLNameStereoAudioOutputMuted];
 }
 
 - (void)setMonoAudioOutputMuted:(NSNumber<SDLBool> *)monoAudioOutputMuted {
-    [self setObject:monoAudioOutputMuted forName:SDLNameMonoAudioOutputMuted];
+    [store sdl_setObject:monoAudioOutputMuted forName:SDLNameMonoAudioOutputMuted];
 }
 
 - (NSNumber<SDLBool> *)monoAudioOutputMuted {
-    return [self objectForName:SDLNameMonoAudioOutputMuted];
+    return [store sdl_objectForName:SDLNameMonoAudioOutputMuted];
 }
 
 - (void)setSignalLevelStatus:(SDLDeviceLevelStatus)signalLevelStatus {
-    [self setObject:signalLevelStatus forName:SDLNameSignalLevelStatus];
+    [store sdl_setObject:signalLevelStatus forName:SDLNameSignalLevelStatus];
 }
 
 - (SDLDeviceLevelStatus)signalLevelStatus {
-    return [self objectForName:SDLNameSignalLevelStatus];
+    return [store sdl_objectForName:SDLNameSignalLevelStatus];
 }
 
 - (void)setPrimaryAudioSource:(SDLPrimaryAudioSource)primaryAudioSource {
-    [self setObject:primaryAudioSource forName:SDLNamePrimaryAudioSource];
+    [store sdl_setObject:primaryAudioSource forName:SDLNamePrimaryAudioSource];
 }
 
 - (SDLPrimaryAudioSource)primaryAudioSource {
-    return [self objectForName:SDLNamePrimaryAudioSource];
+    return [store sdl_objectForName:SDLNamePrimaryAudioSource];
 }
 
 - (void)setECallEventActive:(NSNumber<SDLBool> *)eCallEventActive {
-    [self setObject:eCallEventActive forName:SDLNameECallEventActive];
+    [store sdl_setObject:eCallEventActive forName:SDLNameECallEventActive];
 }
 
 - (NSNumber<SDLBool> *)eCallEventActive {
-    return [self objectForName:SDLNameECallEventActive];
+    return [store sdl_objectForName:SDLNameECallEventActive];
 }
 
 @end

@@ -26,11 +26,11 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [self setObject:syncFileName forName:SDLNameSyncFileName];
+    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters objectForKey:SDLNameSyncFileName];
+    return [parameters sdl_objectForName:SDLNameSyncFileName];
 }
 
 @end

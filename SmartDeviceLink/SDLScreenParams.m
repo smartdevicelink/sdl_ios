@@ -10,7 +10,7 @@
 @implementation SDLScreenParams
 
 - (void)setResolution:(SDLImageResolution *)resolution {
-    [self setObject:resolution forName:SDLNameResolution];
+    [store sdl_setObject:resolution forName:SDLNameResolution];
 }
 
 - (SDLImageResolution *)resolution {
@@ -23,7 +23,7 @@
 }
 
 - (void)setTouchEventAvailable:(SDLTouchEventCapabilities *)touchEventAvailable {
-    [self setObject:touchEventAvailable forName:SDLNameTouchEventAvailable];
+    [store sdl_setObject:touchEventAvailable forName:SDLNameTouchEventAvailable];
 }
 
 - (SDLTouchEventCapabilities *)touchEventAvailable {

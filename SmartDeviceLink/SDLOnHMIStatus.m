@@ -17,29 +17,29 @@
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
-    [self setObject:hmiLevel forName:SDLNameHMILevel];
+    [parameters sdl_setObject:hmiLevel forName:SDLNameHMILevel];
 }
 
 - (SDLHMILevel)hmiLevel {
-    NSObject *obj = [parameters objectForKey:SDLNameHMILevel];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameHMILevel];
     return (SDLHMILevel)obj;
 }
 
 - (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
-    [self setObject:audioStreamingState forName:SDLNameAudioStreamingState];
+    [parameters sdl_setObject:audioStreamingState forName:SDLNameAudioStreamingState];
 }
 
 - (SDLAudioStreamingState)audioStreamingState {
-    NSObject *obj = [parameters objectForKey:SDLNameAudioStreamingState];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameAudioStreamingState];
     return (SDLAudioStreamingState)obj;
 }
 
 - (void)setSystemContext:(SDLSystemContext)systemContext {
-    [self setObject:systemContext forName:SDLNameSystemContext];
+    [parameters sdl_setObject:systemContext forName:SDLNameSystemContext];
 }
 
 - (SDLSystemContext)systemContext {
-    NSObject *obj = [parameters objectForKey:SDLNameSystemContext];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameSystemContext];
     return (SDLSystemContext)obj;
 }
 

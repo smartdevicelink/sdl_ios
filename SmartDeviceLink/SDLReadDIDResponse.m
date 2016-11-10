@@ -16,7 +16,7 @@
 }
 
 - (void)setDidResult:(NSMutableArray<SDLDIDResult *> *)didResult {
-    [self setObject:didResult forName:SDLNameDIDResult];
+    [parameters sdl_setObject:didResult forName:SDLNameDIDResult];
 }
 
 - (NSMutableArray<SDLDIDResult *> *)didResult {

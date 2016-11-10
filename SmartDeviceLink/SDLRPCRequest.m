@@ -9,11 +9,11 @@
 @implementation SDLRPCRequest
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [self objectForName:SDLNameCorrelationId fromStorage:function];
+    return [function sdl_objectForName:SDLNameCorrelationId];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    [self setObject:corrID forName:SDLNameCorrelationId inStorage:function];
+    [function sdl_setObject:corrID forName:SDLNameCorrelationId];
 }
 
 @end

@@ -8,147 +8,147 @@
 @implementation SDLGPSData
 
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
-    [self setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
+    [store sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return [self objectForName:SDLNameLongitudeDegrees];
+    return [store sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
-    [self setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
+    [store sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return [self objectForName:SDLNameLatitudeDegrees];
+    return [store sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
 - (void)setUtcYear:(NSNumber<SDLInt> *)utcYear {
-    [self setObject:utcYear forName:SDLNameUTCYear];
+    [store sdl_setObject:utcYear forName:SDLNameUTCYear];
 }
 
 - (NSNumber<SDLInt> *)utcYear {
-    return [self objectForName:SDLNameUTCYear];
+    return [store sdl_objectForName:SDLNameUTCYear];
 }
 
 - (void)setUtcMonth:(NSNumber<SDLInt> *)utcMonth {
-    [self setObject:utcMonth forName:SDLNameUTCMonth];
+    [store sdl_setObject:utcMonth forName:SDLNameUTCMonth];
 }
 
 - (NSNumber<SDLInt> *)utcMonth {
-    return [self objectForName:SDLNameUTCMonth];
+    return [store sdl_objectForName:SDLNameUTCMonth];
 }
 
 - (void)setUtcDay:(NSNumber<SDLInt> *)utcDay {
-    [self setObject:utcDay forName:SDLNameUTCDay];
+    [store sdl_setObject:utcDay forName:SDLNameUTCDay];
 }
 
 - (NSNumber<SDLInt> *)utcDay {
-    return [self objectForName:SDLNameUTCDay];
+    return [store sdl_objectForName:SDLNameUTCDay];
 }
 
 - (void)setUtcHours:(NSNumber<SDLInt> *)utcHours {
-    [self setObject:utcHours forName:SDLNameUTCHours];
+    [store sdl_setObject:utcHours forName:SDLNameUTCHours];
 }
 
 - (NSNumber<SDLInt> *)utcHours {
-    return [self objectForName:SDLNameUTCHours];
+    return [store sdl_objectForName:SDLNameUTCHours];
 }
 
 - (void)setUtcMinutes:(NSNumber<SDLInt> *)utcMinutes {
-    [self setObject:utcMinutes forName:SDLNameUTCMinutes];
+    [store sdl_setObject:utcMinutes forName:SDLNameUTCMinutes];
 }
 
 - (NSNumber<SDLInt> *)utcMinutes {
-    return [self objectForName:SDLNameUTCMinutes];
+    return [store sdl_objectForName:SDLNameUTCMinutes];
 }
 
 - (void)setUtcSeconds:(NSNumber<SDLInt> *)utcSeconds {
-    [self setObject:utcSeconds forName:SDLNameUTCSeconds];
+    [store sdl_setObject:utcSeconds forName:SDLNameUTCSeconds];
 }
 
 - (NSNumber<SDLInt> *)utcSeconds {
-    return [self objectForName:SDLNameUTCSeconds];
+    return [store sdl_objectForName:SDLNameUTCSeconds];
 }
 
 - (void)setCompassDirection:(SDLCompassDirection)compassDirection {
-    [self setObject:compassDirection forName:SDLNameCompassDirection];
+    [store sdl_setObject:compassDirection forName:SDLNameCompassDirection];
 }
 
 - (SDLCompassDirection)compassDirection {
-    return [self objectForName:SDLNameCompassDirection];
+    return [store sdl_objectForName:SDLNameCompassDirection];
 }
 
 - (void)setPdop:(NSNumber<SDLFloat> *)pdop {
-    [self setObject:pdop forName:SDLNamePDOP];
+    [store sdl_setObject:pdop forName:SDLNamePDOP];
 }
 
 - (NSNumber<SDLFloat> *)pdop {
-    return [self objectForName:SDLNamePDOP];
+    return [store sdl_objectForName:SDLNamePDOP];
 }
 
 - (void)setHdop:(NSNumber<SDLFloat> *)hdop {
-    [self setObject:hdop forName:SDLNameHDOP];
+    [store sdl_setObject:hdop forName:SDLNameHDOP];
 }
 
 - (NSNumber<SDLFloat> *)hdop {
-    return [self objectForName:SDLNameHDOP];
+    return [store sdl_objectForName:SDLNameHDOP];
 }
 
 - (void)setVdop:(NSNumber<SDLFloat> *)vdop {
-    [self setObject:vdop forName:SDLNameVDOP];
+    [store sdl_setObject:vdop forName:SDLNameVDOP];
 }
 
 - (NSNumber<SDLFloat> *)vdop {
-    return [self objectForName:SDLNameVDOP];
+    return [store sdl_objectForName:SDLNameVDOP];
 }
 
 - (void)setActual:(NSNumber<SDLBool> *)actual {
-    [self setObject:actual forName:SDLNameActual];
+    [store sdl_setObject:actual forName:SDLNameActual];
 }
 
 - (NSNumber<SDLBool> *)actual {
-    return [self objectForName:SDLNameActual];
+    return [store sdl_objectForName:SDLNameActual];
 }
 
 - (void)setSatellites:(NSNumber<SDLInt> *)satellites {
-    [self setObject:satellites forName:SDLNameSatellites];
+    [store sdl_setObject:satellites forName:SDLNameSatellites];
 }
 
 - (NSNumber<SDLInt> *)satellites {
-    return [self objectForName:SDLNameSatellites];
+    return [store sdl_objectForName:SDLNameSatellites];
 }
 
 - (void)setDimension:(SDLDimension)dimension {
-    [self setObject:dimension forName:SDLNameDimension];
+    [store sdl_setObject:dimension forName:SDLNameDimension];
 }
 
 - (SDLDimension)dimension {
-    return [self objectForName:SDLNameDimension];
+    return [store sdl_objectForName:SDLNameDimension];
 }
 
 - (void)setAltitude:(NSNumber<SDLFloat> *)altitude {
-    [self setObject:altitude forName:SDLNameAltitude];
+    [store sdl_setObject:altitude forName:SDLNameAltitude];
 }
 
 - (NSNumber<SDLFloat> *)altitude {
-    return [self objectForName:SDLNameAltitude];
+    return [store sdl_objectForName:SDLNameAltitude];
 }
 
 - (void)setHeading:(NSNumber<SDLFloat> *)heading {
-    [self setObject:heading forName:SDLNameHeading];
+    [store sdl_setObject:heading forName:SDLNameHeading];
 }
 
 - (NSNumber<SDLFloat> *)heading {
-    return [self objectForName:SDLNameHeading];
+    return [store sdl_objectForName:SDLNameHeading];
 }
 
 - (void)setSpeed:(NSNumber<SDLFloat> *)speed {
-    [self setObject:speed forName:SDLNameSpeed];
+    [store sdl_setObject:speed forName:SDLNameSpeed];
 }
 
 - (NSNumber<SDLFloat> *)speed {
-    return [self objectForName:SDLNameSpeed];
+    return [store sdl_objectForName:SDLNameSpeed];
 }
 
 @end

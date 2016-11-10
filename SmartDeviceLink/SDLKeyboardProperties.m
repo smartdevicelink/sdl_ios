@@ -23,43 +23,43 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    [self setObject:language forName:SDLNameLanguage];
+    [store sdl_setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
-    return [self objectForName:SDLNameLanguage];
+    return [store sdl_objectForName:SDLNameLanguage];
 }
 
 - (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
-    [self setObject:keyboardLayout forName:SDLNameKeyboardLayout];
+    [store sdl_setObject:keyboardLayout forName:SDLNameKeyboardLayout];
 }
 
 - (SDLKeyboardLayout)keyboardLayout {
-    return [self objectForName:SDLNameKeyboardLayout];
+    return [store sdl_objectForName:SDLNameKeyboardLayout];
 }
 
 - (void)setKeypressMode:(SDLKeypressMode)keypressMode {
-    [self setObject:keypressMode forName:SDLNameKeypressMode];
+    [store sdl_setObject:keypressMode forName:SDLNameKeypressMode];
 }
 
 - (SDLKeypressMode)keypressMode {
-    return [self objectForName:SDLNameKeypressMode];
+    return [store sdl_objectForName:SDLNameKeypressMode];
 }
 
 - (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
-    [self setObject:limitedCharacterList forName:SDLNameLimitedCharacterList];
+    [store sdl_setObject:limitedCharacterList forName:SDLNameLimitedCharacterList];
 }
 
 - (NSMutableArray<NSString *> *)limitedCharacterList {
-    return [self objectForName:SDLNameLimitedCharacterList];
+    return [store sdl_objectForName:SDLNameLimitedCharacterList];
 }
 
 - (void)setAutoCompleteText:(NSString *)autoCompleteText {
-    [self setObject:autoCompleteText forName:SDLNameAutoCompleteText];
+    [store sdl_setObject:autoCompleteText forName:SDLNameAutoCompleteText];
 }
 
 - (NSString *)autoCompleteText {
-    return [self objectForName:SDLNameAutoCompleteText];
+    return [store sdl_objectForName:SDLNameAutoCompleteText];
 }
 
 @end

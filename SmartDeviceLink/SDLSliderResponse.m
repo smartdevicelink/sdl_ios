@@ -15,7 +15,7 @@
 }
 
 - (void)setSliderPosition:(NSNumber<SDLInt> *)sliderPosition {
-    [self setObject:sliderPosition forName:SDLNameSliderPosition];
+    [parameters sdl_setObject:sliderPosition forName:SDLNameSliderPosition];
 }
 
 - (NSNumber<SDLInt> *)sliderPosition {

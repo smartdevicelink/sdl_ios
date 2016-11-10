@@ -14,7 +14,7 @@
 }
 
 - (void)setTryAgainTime:(NSNumber<SDLInt> *)tryAgainTime {
-    [self setObject:tryAgainTime forName:SDLNameTryAgainTime];}
+    [parameters sdl_setObject:tryAgainTime forName:SDLNameTryAgainTime];}
 
 - (NSNumber<SDLInt> *)tryAgainTime {
     return [parameters objectForKey:SDLNameTryAgainTime];

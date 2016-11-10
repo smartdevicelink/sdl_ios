@@ -27,51 +27,51 @@
 }
 
 - (void)setHardware:(NSString *)hardware {
-    [self setObject:hardware forName:SDLNameHardware];
+    [store sdl_setObject:hardware forName:SDLNameHardware];
 }
 
 - (NSString *)hardware {
-    return [self objectForName:SDLNameHardware];
+    return [store sdl_objectForName:SDLNameHardware];
 }
 
 - (void)setFirmwareRev:(NSString *)firmwareRev {
-    [self setObject:firmwareRev forName:SDLNameFirmwareRevision];
+    [store sdl_setObject:firmwareRev forName:SDLNameFirmwareRevision];
 }
 
 - (NSString *)firmwareRev {
-    return [self objectForName:SDLNameFirmwareRevision];
+    return [store sdl_objectForName:SDLNameFirmwareRevision];
 }
 
 - (void)setOs:(NSString *)os {
-    [self setObject:os forName:SDLNameOS];
+    [store sdl_setObject:os forName:SDLNameOS];
 }
 
 - (NSString *)os {
-    return [self objectForName:SDLNameOS];
+    return [store sdl_objectForName:SDLNameOS];
 }
 
 - (void)setOsVersion:(NSString *)osVersion {
-    [self setObject:osVersion forName:SDLNameOSVersion];
+    [store sdl_setObject:osVersion forName:SDLNameOSVersion];
 }
 
 - (NSString *)osVersion {
-    return [self objectForName:SDLNameOSVersion];
+    return [store sdl_objectForName:SDLNameOSVersion];
 }
 
 - (void)setCarrier:(NSString *)carrier {
-    [self setObject:carrier forName:SDLNameCarrier];
+    [store sdl_setObject:carrier forName:SDLNameCarrier];
 }
 
 - (NSString *)carrier {
-    return [self objectForName:SDLNameCarrier];
+    return [store sdl_objectForName:SDLNameCarrier];
 }
 
 - (void)setMaxNumberRFCOMMPorts:(NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    [self setObject:maxNumberRFCOMMPorts forName:SDLNameMaxNumberRFCOMMPorts];
+    [store sdl_setObject:maxNumberRFCOMMPorts forName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 - (NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    return [self objectForName:SDLNameMaxNumberRFCOMMPorts];
+    return [store sdl_objectForName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 @end

@@ -36,59 +36,59 @@
 }
 
 - (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
-    [self setObject:choiceID forName:SDLNameChoiceId];
+    [store sdl_setObject:choiceID forName:SDLNameChoiceId];
 }
 
 - (NSNumber<SDLInt> *)choiceID {
-    return [self objectForName:SDLNameChoiceId];
+    return [store sdl_objectForName:SDLNameChoiceId];
 }
 
 - (void)setMenuName:(NSString *)menuName {
-    [self setObject:menuName forName:SDLNameMenuName];
+    [store sdl_setObject:menuName forName:SDLNameMenuName];
 }
 
 - (NSString *)menuName {
-    return [self objectForName:SDLNameMenuName];
+    return [store sdl_objectForName:SDLNameMenuName];
 }
 
 - (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
-    [self setObject:vrCommands forName:SDLNameVRCommands];
+    [store sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
 - (NSMutableArray<NSString *> *)vrCommands {
-    return [self objectForName:SDLNameVRCommands];
+    return [store sdl_objectForName:SDLNameVRCommands];
 }
 
 - (void)setImage:(SDLImage *)image {
-    [self setObject:image forName:SDLNameImage];
+    [store sdl_setObject:image forName:SDLNameImage];
 }
 
 - (SDLImage *)image {
-    return [self objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
 - (void)setSecondaryText:(NSString *)secondaryText {
-    [self setObject:secondaryText forName:SDLNameSecondaryText];
+    [store sdl_setObject:secondaryText forName:SDLNameSecondaryText];
 }
 
 - (NSString *)secondaryText {
-    return [self objectForName:SDLNameSecondaryText];
+    return [store sdl_objectForName:SDLNameSecondaryText];
 }
 
 - (void)setTertiaryText:(NSString *)tertiaryText {
-    [self setObject:tertiaryText forName:SDLNameTertiaryText];
+    [store sdl_setObject:tertiaryText forName:SDLNameTertiaryText];
 }
 
 - (NSString *)tertiaryText {
-    return [self objectForName:SDLNameTertiaryText];
+    return [store sdl_objectForName:SDLNameTertiaryText];
 }
 
 - (void)setSecondaryImage:(SDLImage *)secondaryImage {
-    [self setObject:secondaryImage forName:SDLNameSecondaryImage];
+    [store sdl_setObject:secondaryImage forName:SDLNameSecondaryImage];
 }
 
 - (SDLImage *)secondaryImage {
-    return [self objectForName:SDLNameSecondaryImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLNameSecondaryImage ofClass:SDLImage.class];
 }
 
 @end

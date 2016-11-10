@@ -72,67 +72,67 @@ static UInt16 const SDLDefaultDuration = 5000;
 }
 
 - (void)setAlertText1:(NSString *)alertText1 {
-    [self setObject:alertText1 forName:SDLNameAlertText1];
+    [parameters sdl_setObject:alertText1 forName:SDLNameAlertText1];
 }
 
 - (NSString *)alertText1 {
-    return [parameters objectForKey:SDLNameAlertText1];
+    return [parameters sdl_objectForName:SDLNameAlertText1];
 }
 
 - (void)setAlertText2:(NSString *)alertText2 {
-    [self setObject:alertText2 forName:SDLNameAlertText2];
+    [parameters sdl_setObject:alertText2 forName:SDLNameAlertText2];
 }
 
 - (NSString *)alertText2 {
-    return [parameters objectForKey:SDLNameAlertText2];
+    return [parameters sdl_objectForName:SDLNameAlertText2];
 }
 
 - (void)setAlertText3:(NSString *)alertText3 {
-    [self setObject:alertText3 forName:SDLNameAlertText3];
+    [parameters sdl_setObject:alertText3 forName:SDLNameAlertText3];
 }
 
 - (NSString *)alertText3 {
-    return [parameters objectForKey:SDLNameAlertText3];
+    return [parameters sdl_objectForName:SDLNameAlertText3];
 }
 
 - (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    [self setObject:ttsChunks forName:SDLNameTTSChunks];
+    [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    return [self objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 
 - (void)setDuration:(NSNumber<SDLInt> *)duration {
-    [self setObject:duration forName:SDLNameDuration];
+    [parameters sdl_setObject:duration forName:SDLNameDuration];
 }
 
 - (NSNumber<SDLInt> *)duration {
-    return [parameters objectForKey:SDLNameDuration];
+    return [parameters sdl_objectForName:SDLNameDuration];
 }
 
 - (void)setPlayTone:(NSNumber<SDLBool> *)playTone {
-    [self setObject:playTone forName:SDLNamePlayTone];
+    [parameters sdl_setObject:playTone forName:SDLNamePlayTone];
 }
 
 - (NSNumber<SDLBool> *)playTone {
-    return [parameters objectForKey:SDLNamePlayTone];
+    return [parameters sdl_objectForName:SDLNamePlayTone];
 }
 
 - (void)setProgressIndicator:(NSNumber<SDLBool> *)progressIndicator {
-    [self setObject:progressIndicator forName:SDLNameProgressIndicator];
+    [parameters sdl_setObject:progressIndicator forName:SDLNameProgressIndicator];
 }
 
 - (NSNumber<SDLBool> *)progressIndicator {
-    return [parameters objectForKey:SDLNameProgressIndicator];
+    return [parameters sdl_objectForName:SDLNameProgressIndicator];
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
-    [self setObject:softButtons forName:SDLNameSoftButtons];
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {
-    return [self objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

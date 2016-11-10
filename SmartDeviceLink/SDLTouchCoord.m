@@ -9,19 +9,19 @@
 @implementation SDLTouchCoord
 
 - (void)setX:(NSNumber<SDLFloat> *)x {
-    [self setObject:x forName:SDLNameX];
+    [store sdl_setObject:x forName:SDLNameX];
 }
 
 - (NSNumber<SDLFloat> *)x {
-    return [self objectForName:SDLNameX];
+    return [store sdl_objectForName:SDLNameX];
 }
 
 - (void)setY:(NSNumber<SDLFloat> *)y {
-    [self setObject:y forName:SDLNameY];
+    [store sdl_setObject:y forName:SDLNameY];
 }
 
 - (NSNumber<SDLFloat> *)y {
-    return [self objectForName:SDLNameY];
+    return [store sdl_objectForName:SDLNameY];
 }
 
 @end

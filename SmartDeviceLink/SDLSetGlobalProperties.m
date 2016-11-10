@@ -46,11 +46,11 @@
 
 
 - (void)setHelpPrompt:(NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    [self setObject:helpPrompt forName:SDLNameHelpPrompt];
+    [parameters sdl_setObject:helpPrompt forName:SDLNameHelpPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameHelpPrompt];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameHelpPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -63,11 +63,11 @@
 }
 
 - (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    [self setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
+    [parameters sdl_setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTimeoutPrompt];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameTimeoutPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -80,19 +80,19 @@
 }
 
 - (void)setVrHelpTitle:(NSString *)vrHelpTitle {
-    [self setObject:vrHelpTitle forName:SDLNameVRHelpTitle];
+    [parameters sdl_setObject:vrHelpTitle forName:SDLNameVRHelpTitle];
 }
 
 - (NSString *)vrHelpTitle {
-    return [parameters objectForKey:SDLNameVRHelpTitle];
+    return [parameters sdl_objectForName:SDLNameVRHelpTitle];
 }
 
 - (void)setVrHelp:(NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    [self setObject:vrHelp forName:SDLNameVRHelp];
+    [parameters sdl_setObject:vrHelp forName:SDLNameVRHelp];
 }
 
 - (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    NSMutableArray<SDLVRHelpItem *> *array = [parameters objectForKey:SDLNameVRHelp];
+    NSMutableArray<SDLVRHelpItem *> *array = [parameters sdl_objectForName:SDLNameVRHelp];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {
@@ -105,19 +105,19 @@
 }
 
 - (void)setMenuTitle:(NSString *)menuTitle {
-    [self setObject:menuTitle forName:SDLNameMenuTitle];
+    [parameters sdl_setObject:menuTitle forName:SDLNameMenuTitle];
 }
 
 - (NSString *)menuTitle {
-    return [parameters objectForKey:SDLNameMenuTitle];
+    return [parameters sdl_objectForName:SDLNameMenuTitle];
 }
 
 - (void)setMenuIcon:(SDLImage *)menuIcon {
-    [self setObject:menuIcon forName:SDLNameMenuIcon];
+    [parameters sdl_setObject:menuIcon forName:SDLNameMenuIcon];
 }
 
 - (SDLImage *)menuIcon {
-    NSObject *obj = [parameters objectForKey:SDLNameMenuIcon];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameMenuIcon];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
     } else {
@@ -126,11 +126,11 @@
 }
 
 - (void)setKeyboardProperties:(SDLKeyboardProperties *)keyboardProperties {
-    [self setObject:keyboardProperties forName:SDLNameKeyboardProperties];
+    [parameters sdl_setObject:keyboardProperties forName:SDLNameKeyboardProperties];
 }
 
 - (SDLKeyboardProperties *)keyboardProperties {
-    NSObject *obj = [parameters objectForKey:SDLNameKeyboardProperties];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameKeyboardProperties];
     if (obj == nil || [obj isKindOfClass:SDLKeyboardProperties.class]) {
         return (SDLKeyboardProperties *)obj;
     } else {

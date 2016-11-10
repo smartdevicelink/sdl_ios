@@ -40,51 +40,51 @@
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    [self setObject:language forName:SDLNameLanguage];
+    [parameters sdl_setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
-    return [self objectForName:SDLNameLanguage];
+    return [parameters sdl_objectForName:SDLNameLanguage];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage )hmiDisplayLanguage {
-    [self setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage )hmiDisplayLanguage {
-    return [self objectForName:SDLNameHMIDisplayLanguage];
+    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
 }
 
 - (void)setAppName:(NSString *)appName {
-    [self setObject:appName forName:SDLNameAppName];
+    [parameters sdl_setObject:appName forName:SDLNameAppName];
 }
 
 - (NSString *)appName {
-    return [[self objectForName:SDLNameAppName] copy];
+    return [[parameters sdl_objectForName:SDLNameAppName] copy];
 }
 
 - (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
-    [self setObject:ttsName forName:SDLNameTTSName];
+    [parameters sdl_setObject:ttsName forName:SDLNameTTSName];
 }
 
 - (NSArray<SDLTTSChunk *> *)ttsName {
-    return [[self objectForName:SDLNameTTSName] copy];
+    return [[parameters sdl_objectForName:SDLNameTTSName] copy];
 }
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
-    [self setObject:ngnMediaScreenAppName forName:SDLNameNGNMediaScreenAppName];
+    [parameters sdl_setObject:ngnMediaScreenAppName forName:SDLNameNGNMediaScreenAppName];
 }
 
 - (NSString *)ngnMediaScreenAppName {
-    return [[self objectForName:SDLNameNGNMediaScreenAppName] copy];
+    return [[parameters sdl_objectForName:SDLNameNGNMediaScreenAppName] copy];
 }
 
 - (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
-    [self setObject:vrSynonyms forName:SDLNameVRSynonyms];
+    [parameters sdl_setObject:vrSynonyms forName:SDLNameVRSynonyms];
 }
 
 - (NSArray<NSString *> *)vrSynonyms {
-    return [[self objectForName:SDLNameVRSynonyms] copy];
+    return [[parameters sdl_objectForName:SDLNameVRSynonyms] copy];
 }
 
 @end

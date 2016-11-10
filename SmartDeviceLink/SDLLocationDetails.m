@@ -11,59 +11,59 @@
 @implementation SDLLocationDetails
 
 - (void)setCoordinate:(SDLLocationCoordinate *)coordinate {
-    [self setObject:coordinate forName:SDLNameLocationCoordinate];
+    [store sdl_setObject:coordinate forName:SDLNameLocationCoordinate];
 }
 
 - (SDLLocationCoordinate *)coordinate {
-    return [self objectForName:SDLNameLocationCoordinate];
+    return [store sdl_objectForName:SDLNameLocationCoordinate];
 }
 
 - (void)setLocationName:(NSString *)locationName {
-    [self setObject:locationName forName:SDLNameLocationName];
+    [store sdl_setObject:locationName forName:SDLNameLocationName];
 }
 
 - (NSString *)locationName {
-    return [self objectForName:SDLNameLocationName];
+    return [store sdl_objectForName:SDLNameLocationName];
 }
 
 - (void)setAddressLines:(NSArray<NSString *> *)addressLines {
-    [self setObject:addressLines forName:SDLNameAddressLines];
+    [store sdl_setObject:addressLines forName:SDLNameAddressLines];
 }
 
 - (NSArray<NSString *> *)addressLines {
-    return [self objectForName:SDLNameAddressLines];
+    return [store sdl_objectForName:SDLNameAddressLines];
 }
 
 - (void)setLocationDescription:(NSString *)locationDescription {
-    [self setObject:locationDescription forName:SDLNameLocationDescription];
+    [store sdl_setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
 - (NSString *)locationDescription {
-    return [self objectForName:SDLNameLocationDescription];
+    return [store sdl_objectForName:SDLNameLocationDescription];
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {
-    [self setObject:phoneNumber forName:SDLNamePhoneNumber];
+    [store sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
 - (NSString *)phoneNumber {
-    return [self objectForName:SDLNamePhoneNumber];
+    return [store sdl_objectForName:SDLNamePhoneNumber];
 }
 
 - (void)setLocationImage:(SDLImage *)locationImage {
-    [self setObject:locationImage forName:SDLNameLocationImage];
+    [store sdl_setObject:locationImage forName:SDLNameLocationImage];
 }
 
 - (SDLImage *)locationImage {
-    return [self objectForName:SDLNameLocationImage];
+    return [store sdl_objectForName:SDLNameLocationImage];
 }
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
-    [self setObject:searchAddress forName:SDLNameAddress];
+    [store sdl_setObject:searchAddress forName:SDLNameAddress];
 }
 
 - (SDLOasisAddress *)searchAddress {
-    return [self objectForName:SDLNameAddress];
+    return [store sdl_objectForName:SDLNameAddress];
 }
 
 @end

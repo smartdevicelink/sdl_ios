@@ -14,19 +14,19 @@
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [self setObject:cmdID forName:SDLNameCommandId];
+    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters objectForKey:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLNameCommandId];
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
-    [self setObject:triggerSource forName:SDLNameTriggerSource];
+    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
 }
 
 - (SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters objectForKey:SDLNameTriggerSource];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameTriggerSource];
     return (SDLTriggerSource)obj;
 }
 

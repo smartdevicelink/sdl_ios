@@ -15,20 +15,20 @@
 }
 
 - (void)setType:(SDLTouchType)type {
-    [self setObject:type forName:SDLNameType];
+    [parameters sdl_setObject:type forName:SDLNameType];
 }
 
 - (SDLTouchType)type {
-    NSObject *obj = [parameters objectForKey:SDLNameType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameType];
     return (SDLTouchType)obj;
 }
 
 - (void)setEvent:(NSMutableArray<SDLTouchEvent *> *)event {
-    [self setObject:event forName:SDLNameEvent];
+    [parameters sdl_setObject:event forName:SDLNameEvent];
 }
 
 - (NSMutableArray<SDLTouchEvent *> *)event {
-    NSMutableArray<SDLTouchEvent *> *array = [parameters objectForKey:SDLNameEvent];
+    NSMutableArray<SDLTouchEvent *> *array = [parameters sdl_objectForName:SDLNameEvent];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchEvent.class]) {
         return array;
     } else {

@@ -9,35 +9,35 @@
 @implementation SDLVehicleType
 
 - (void)setMake:(NSString *)make {
-    [self setObject:make forName:SDLNameMake];
+    [store sdl_setObject:make forName:SDLNameMake];
 }
 
 - (NSString *)make {
-    return [self objectForName:SDLNameMake];
+    return [store sdl_objectForName:SDLNameMake];
 }
 
 - (void)setModel:(NSString *)model {
-    [self setObject:model forName:SDLNameModel];
+    [store sdl_setObject:model forName:SDLNameModel];
 }
 
 - (NSString *)model {
-    return [self objectForName:SDLNameModel];
+    return [store sdl_objectForName:SDLNameModel];
 }
 
 - (void)setModelYear:(NSString *)modelYear {
-    [self setObject:modelYear forName:SDLNameModelYear];
+    [store sdl_setObject:modelYear forName:SDLNameModelYear];
 }
 
 - (NSString *)modelYear {
-    return [self objectForName:SDLNameModelYear];
+    return [store sdl_objectForName:SDLNameModelYear];
 }
 
 - (void)setTrim:(NSString *)trim {
-    [self setObject:trim forName:SDLNameTrim];
+    [store sdl_setObject:trim forName:SDLNameTrim];
 }
 
 - (NSString *)trim {
-    return [self objectForName:SDLNameTrim];
+    return [store sdl_objectForName:SDLNameTrim];
 }
 
 @end

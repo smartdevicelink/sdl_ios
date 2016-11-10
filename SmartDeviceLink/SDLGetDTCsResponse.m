@@ -15,7 +15,7 @@
 }
 
 - (void)setEcuHeader:(NSNumber<SDLInt> *)ecuHeader {
-    [self setObject:ecuHeader forName:SDLNameECUHeader];
+    [parameters sdl_setObject:ecuHeader forName:SDLNameECUHeader];
 }
 
 - (NSNumber<SDLInt> *)ecuHeader {
@@ -23,7 +23,7 @@
 }
 
 - (void)setDtc:(NSMutableArray<NSString *> *)dtc {
-    [self setObject:dtc forName:SDLNameDTC];
+    [parameters sdl_setObject:dtc forName:SDLNameDTC];
 }
 
 - (NSMutableArray<NSString *> *)dtc {

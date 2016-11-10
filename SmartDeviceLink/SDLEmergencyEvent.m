@@ -8,43 +8,43 @@
 @implementation SDLEmergencyEvent
 
 - (void)setEmergencyEventType:(SDLEmergencyEventType)emergencyEventType {
-    [self setObject:emergencyEventType forName:SDLNameEmergencyEventType];
+    [store sdl_setObject:emergencyEventType forName:SDLNameEmergencyEventType];
 }
 
 - (SDLEmergencyEventType)emergencyEventType {
-    return [self objectForName:SDLNameEmergencyEventType];
+    return [store sdl_objectForName:SDLNameEmergencyEventType];
 }
 
 - (void)setFuelCutoffStatus:(SDLFuelCutoffStatus)fuelCutoffStatus {
-    [self setObject:fuelCutoffStatus forName:SDLNameFuelCutoffStatus];
+    [store sdl_setObject:fuelCutoffStatus forName:SDLNameFuelCutoffStatus];
 }
 
 - (SDLFuelCutoffStatus)fuelCutoffStatus {
-    return [self objectForName:SDLNameFuelCutoffStatus];
+    return [store sdl_objectForName:SDLNameFuelCutoffStatus];
 }
 
 - (void)setRolloverEvent:(SDLVehicleDataEventStatus)rolloverEvent {
-    [self setObject:rolloverEvent forName:SDLNameRolloverEvent];
+    [store sdl_setObject:rolloverEvent forName:SDLNameRolloverEvent];
 }
 
 - (SDLVehicleDataEventStatus)rolloverEvent {
-    return [self objectForName:SDLNameRolloverEvent];
+    return [store sdl_objectForName:SDLNameRolloverEvent];
 }
 
 - (void)setMaximumChangeVelocity:(NSNumber<SDLInt> *)maximumChangeVelocity {
-    [self setObject:maximumChangeVelocity forName:SDLNameMaximumChangeVelocity];
+    [store sdl_setObject:maximumChangeVelocity forName:SDLNameMaximumChangeVelocity];
 }
 
 - (NSNumber<SDLInt> *)maximumChangeVelocity {
-    return [self objectForName:SDLNameMaximumChangeVelocity];
+    return [store sdl_objectForName:SDLNameMaximumChangeVelocity];
 }
 
 - (void)setMultipleEvents:(SDLVehicleDataEventStatus)multipleEvents {
-    [self setObject:multipleEvents forName:SDLNameMultipleEvents];
+    [store sdl_setObject:multipleEvents forName:SDLNameMultipleEvents];
 }
 
 - (SDLVehicleDataEventStatus)multipleEvents {
-    return [self objectForName:SDLNameMultipleEvents];
+    return [store sdl_objectForName:SDLNameMultipleEvents];
 }
 
 @end

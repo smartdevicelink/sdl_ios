@@ -33,27 +33,27 @@
 }
 
 - (void)setText:(NSString *)text {
-    [self setObject:text forName:SDLNameText];
+    [store sdl_setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [self objectForName:SDLNameText];
+    return [store sdl_objectForName:SDLNameText];
 }
 
 - (void)setImage:(SDLImage *)image {
-    [self setObject:image forName:SDLNameImage];
+    [store sdl_setObject:image forName:SDLNameImage];
 }
 
 - (SDLImage *)image {
-    return [self objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [self setObject:position forName:SDLNamePosition];
+    [store sdl_setObject:position forName:SDLNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [self objectForName:SDLNamePosition];
+    return [store sdl_objectForName:SDLNamePosition];
 }
 
 @end

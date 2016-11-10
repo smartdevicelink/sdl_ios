@@ -16,7 +16,7 @@
     }
 
     messageType = SDLNameResponse;
-    [self setObject:function forName:messageType inStorage:store];
+    [store sdl_setObject:function forName:messageType];
 
     return self;
 }
@@ -28,41 +28,41 @@
     }
 
     messageType = SDLNameResponse;
-    [self setObject:function forName:messageType inStorage:store];
+    [store sdl_setObject:function forName:messageType];
     
     return self;
 }
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [self objectForName:SDLNameCorrelationId fromStorage:function];
+    return [function sdl_objectForName:SDLNameCorrelationId];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    [self setObject:corrID forName:SDLNameCorrelationId inStorage:function];
+    [function sdl_setObject:corrID forName:SDLNameCorrelationId];
 }
 
 - (void)setSuccess:(NSNumber<SDLBool> *)success {
-    [self setObject:success forName:SDLNameSuccess];
+    [store sdl_setObject:success forName:SDLNameSuccess];
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [self objectForName:SDLNameSuccess];
+    return [store sdl_objectForName:SDLNameSuccess];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
-    [self setObject:resultCode forName:SDLNameResultCode];
+    [store sdl_setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLResult)resultCode {
-    return [self objectForName:SDLNameResultCode];
+    return [store sdl_objectForName:SDLNameResultCode];
 }
 
 - (void)setInfo:(NSString *)info {
-    [self setObject:info forName:SDLNameInfo];
+    [store sdl_setObject:info forName:SDLNameInfo];
 }
 
 - (NSString *)info {
-    return [self objectForName:SDLNameInfo];
+    return [store sdl_objectForName:SDLNameInfo];
 }
 
 @end

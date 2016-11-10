@@ -22,15 +22,15 @@
 }
 
 - (void)setNavigationText:(NSString *)navigationText {
-    [self setObject:navigationText forName:SDLNameNavigationText];
+    [store sdl_setObject:navigationText forName:SDLNameNavigationText];
 }
 
 - (NSString *)navigationText {
-    return [self objectForName:SDLNameNavigationText];
+    return [store sdl_objectForName:SDLNameNavigationText];
 }
 
 - (void)setTurnIcon:(SDLImage *)turnIcon {
-    [self setObject:turnIcon forName:SDLNameTurnIcon];
+    [store sdl_setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
 - (SDLImage *)turnIcon {

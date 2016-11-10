@@ -39,11 +39,11 @@
 }
 
 - (void)setStartTime:(SDLStartTime *)startTime {
-    [self setObject:startTime forName:SDLNameStartTime];
+    [parameters sdl_setObject:startTime forName:SDLNameStartTime];
 }
 
 - (SDLStartTime *)startTime {
-    NSObject *obj = [parameters objectForKey:SDLNameStartTime];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameStartTime];
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
@@ -52,11 +52,11 @@
 }
 
 - (void)setEndTime:(SDLStartTime *)endTime {
-    [self setObject:endTime forName:SDLNameEndTime];
+    [parameters sdl_setObject:endTime forName:SDLNameEndTime];
 }
 
 - (SDLStartTime *)endTime {
-    NSObject *obj = [parameters objectForKey:SDLNameEndTime];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameEndTime];
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
     } else {
@@ -65,11 +65,11 @@
 }
 
 - (void)setUpdateMode:(SDLUpdateMode)updateMode {
-    [self setObject:updateMode forName:SDLNameUpdateMode];
+    [parameters sdl_setObject:updateMode forName:SDLNameUpdateMode];
 }
 
 - (SDLUpdateMode)updateMode {
-    NSObject *obj = [parameters objectForKey:SDLNameUpdateMode];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameUpdateMode];
     return (SDLUpdateMode)obj;
 }
 

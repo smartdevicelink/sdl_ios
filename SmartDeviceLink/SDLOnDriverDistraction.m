@@ -15,11 +15,11 @@
 }
 
 - (void)setState:(SDLDriverDistractionState)state {
-    [self setObject:state forName:SDLNameState];
+    [parameters sdl_setObject:state forName:SDLNameState];
 }
 
 - (SDLDriverDistractionState)state {
-    NSObject *obj = [parameters objectForKey:SDLNameState];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
     return (SDLDriverDistractionState)obj;
 }
 

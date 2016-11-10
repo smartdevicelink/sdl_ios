@@ -15,11 +15,11 @@
 }
 
 - (void)setPermissionItem:(NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    [self setObject:permissionItem forName:SDLNamePermissionItem];
+    [parameters sdl_setObject:permissionItem forName:SDLNamePermissionItem];
 }
 
 - (NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    NSMutableArray<SDLPermissionItem *> *array = [parameters objectForKey:SDLNamePermissionItem];
+    NSMutableArray<SDLPermissionItem *> *array = [parameters sdl_objectForName:SDLNamePermissionItem];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPermissionItem.class]) {
         return array;
     } else {

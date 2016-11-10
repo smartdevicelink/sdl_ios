@@ -48,19 +48,19 @@
 }
 
 - (void)setText:(NSString *)text {
-    [self setObject:text forName:SDLNameText];
+    [store sdl_setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [self objectForName:SDLNameText];
+    return [store sdl_objectForName:SDLNameText];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
-    [self setObject:type forName:SDLNameType];
+    [store sdl_setObject:type forName:SDLNameType];
 }
 
 - (SDLSpeechCapabilities)type {
-    return [self objectForName:SDLNameType];
+    return [store sdl_objectForName:SDLNameType];
 }
 
 @end

@@ -49,195 +49,195 @@
 }
 
 - (void)setGps:(NSNumber<SDLBool> *)gps {
-    [self setObject:gps forName:SDLNameGPS];
+    [parameters sdl_setObject:gps forName:SDLNameGPS];
 }
 
 - (NSNumber<SDLBool> *)gps {
-    return [parameters objectForKey:SDLNameGPS];
+    return [parameters sdl_objectForName:SDLNameGPS];
 }
 
 - (void)setSpeed:(NSNumber<SDLBool> *)speed {
-    [self setObject:speed forName:SDLNameSpeed];
+    [parameters sdl_setObject:speed forName:SDLNameSpeed];
 }
 
 - (NSNumber<SDLBool> *)speed {
-    return [parameters objectForKey:SDLNameSpeed];
+    return [parameters sdl_objectForName:SDLNameSpeed];
 }
 
 - (void)setRpm:(NSNumber<SDLBool> *)rpm {
-    [self setObject:rpm forName:SDLNameRPM];
+    [parameters sdl_setObject:rpm forName:SDLNameRPM];
 }
 
 - (NSNumber<SDLBool> *)rpm {
-    return [parameters objectForKey:SDLNameRPM];
+    return [parameters sdl_objectForName:SDLNameRPM];
 }
 
 - (void)setFuelLevel:(NSNumber<SDLBool> *)fuelLevel {
-    [self setObject:fuelLevel forName:SDLNameFuelLevel];
+    [parameters sdl_setObject:fuelLevel forName:SDLNameFuelLevel];
 }
 
 - (NSNumber<SDLBool> *)fuelLevel {
-    return [parameters objectForKey:SDLNameFuelLevel];
+    return [parameters sdl_objectForName:SDLNameFuelLevel];
 }
 
 - (void)setFuelLevel_State:(NSNumber<SDLBool> *)fuelLevel_State {
-    [self setObject:fuelLevel_State forName:SDLNameFuelLevelState];
+    [parameters sdl_setObject:fuelLevel_State forName:SDLNameFuelLevelState];
 }
 
 - (NSNumber<SDLBool> *)fuelLevel_State {
-    return [parameters objectForKey:SDLNameFuelLevelState];
+    return [parameters sdl_objectForName:SDLNameFuelLevelState];
 }
 
 - (void)setInstantFuelConsumption:(NSNumber<SDLBool> *)instantFuelConsumption {
-    [self setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
+    [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
 }
 
 - (NSNumber<SDLBool> *)instantFuelConsumption {
-    return [parameters objectForKey:SDLNameInstantFuelConsumption];
+    return [parameters sdl_objectForName:SDLNameInstantFuelConsumption];
 }
 
 - (void)setExternalTemperature:(NSNumber<SDLBool> *)externalTemperature {
-    [self setObject:externalTemperature forName:SDLNameExternalTemperature];
+    [parameters sdl_setObject:externalTemperature forName:SDLNameExternalTemperature];
 }
 
 - (NSNumber<SDLBool> *)externalTemperature {
-    return [parameters objectForKey:SDLNameExternalTemperature];
+    return [parameters sdl_objectForName:SDLNameExternalTemperature];
 }
 
 - (void)setPrndl:(NSNumber<SDLBool> *)prndl {
-    [self setObject:prndl forName:SDLNamePRNDL];
+    [parameters sdl_setObject:prndl forName:SDLNamePRNDL];
 }
 
 - (NSNumber<SDLBool> *)prndl {
-    return [parameters objectForKey:SDLNamePRNDL];
+    return [parameters sdl_objectForName:SDLNamePRNDL];
 }
 
 - (void)setTirePressure:(NSNumber<SDLBool> *)tirePressure {
-    [self setObject:tirePressure forName:SDLNameTirePressure];
+    [parameters sdl_setObject:tirePressure forName:SDLNameTirePressure];
 }
 
 - (NSNumber<SDLBool> *)tirePressure {
-    return [parameters objectForKey:SDLNameTirePressure];
+    return [parameters sdl_objectForName:SDLNameTirePressure];
 }
 
 - (void)setOdometer:(NSNumber<SDLBool> *)odometer {
-    [self setObject:odometer forName:SDLNameOdometer];
+    [parameters sdl_setObject:odometer forName:SDLNameOdometer];
 }
 
 - (NSNumber<SDLBool> *)odometer {
-    return [parameters objectForKey:SDLNameOdometer];
+    return [parameters sdl_objectForName:SDLNameOdometer];
 }
 
 - (void)setBeltStatus:(NSNumber<SDLBool> *)beltStatus {
-    [self setObject:beltStatus forName:SDLNameBeltStatus];
+    [parameters sdl_setObject:beltStatus forName:SDLNameBeltStatus];
 }
 
 - (NSNumber<SDLBool> *)beltStatus {
-    return [parameters objectForKey:SDLNameBeltStatus];
+    return [parameters sdl_objectForName:SDLNameBeltStatus];
 }
 
 - (void)setBodyInformation:(NSNumber<SDLBool> *)bodyInformation {
-    [self setObject:bodyInformation forName:SDLNameBodyInformation];
+    [parameters sdl_setObject:bodyInformation forName:SDLNameBodyInformation];
 }
 
 - (NSNumber<SDLBool> *)bodyInformation {
-    return [parameters objectForKey:SDLNameBodyInformation];
+    return [parameters sdl_objectForName:SDLNameBodyInformation];
 }
 
 - (void)setDeviceStatus:(NSNumber<SDLBool> *)deviceStatus {
-    [self setObject:deviceStatus forName:SDLNameDeviceStatus];
+    [parameters sdl_setObject:deviceStatus forName:SDLNameDeviceStatus];
 }
 
 - (NSNumber<SDLBool> *)deviceStatus {
-    return [parameters objectForKey:SDLNameDeviceStatus];
+    return [parameters sdl_objectForName:SDLNameDeviceStatus];
 }
 
 - (void)setDriverBraking:(NSNumber<SDLBool> *)driverBraking {
-    [self setObject:driverBraking forName:SDLNameDriverBraking];
+    [parameters sdl_setObject:driverBraking forName:SDLNameDriverBraking];
 }
 
 - (NSNumber<SDLBool> *)driverBraking {
-    return [parameters objectForKey:SDLNameDriverBraking];
+    return [parameters sdl_objectForName:SDLNameDriverBraking];
 }
 
 - (void)setWiperStatus:(NSNumber<SDLBool> *)wiperStatus {
-    [self setObject:wiperStatus forName:SDLNameWiperStatus];
+    [parameters sdl_setObject:wiperStatus forName:SDLNameWiperStatus];
 }
 
 - (NSNumber<SDLBool> *)wiperStatus {
-    return [parameters objectForKey:SDLNameWiperStatus];
+    return [parameters sdl_objectForName:SDLNameWiperStatus];
 }
 
 - (void)setHeadLampStatus:(NSNumber<SDLBool> *)headLampStatus {
-    [self setObject:headLampStatus forName:SDLNameHeadLampStatus];
+    [parameters sdl_setObject:headLampStatus forName:SDLNameHeadLampStatus];
 }
 
 - (NSNumber<SDLBool> *)headLampStatus {
-    return [parameters objectForKey:SDLNameHeadLampStatus];
+    return [parameters sdl_objectForName:SDLNameHeadLampStatus];
 }
 
 - (void)setEngineTorque:(NSNumber<SDLBool> *)engineTorque {
-    [self setObject:engineTorque forName:SDLNameEngineTorque];
+    [parameters sdl_setObject:engineTorque forName:SDLNameEngineTorque];
 }
 
 - (NSNumber<SDLBool> *)engineTorque {
-    return [parameters objectForKey:SDLNameEngineTorque];
+    return [parameters sdl_objectForName:SDLNameEngineTorque];
 }
 
 - (void)setAccPedalPosition:(NSNumber<SDLBool> *)accPedalPosition {
-    [self setObject:accPedalPosition forName:SDLNameAccelerationPedalPosition];
+    [parameters sdl_setObject:accPedalPosition forName:SDLNameAccelerationPedalPosition];
 }
 
 - (NSNumber<SDLBool> *)accPedalPosition {
-    return [parameters objectForKey:SDLNameAccelerationPedalPosition];
+    return [parameters sdl_objectForName:SDLNameAccelerationPedalPosition];
 }
 
 - (void)setSteeringWheelAngle:(NSNumber<SDLBool> *)steeringWheelAngle {
-    [self setObject:steeringWheelAngle forName:SDLNameSteeringWheelAngle];
+    [parameters sdl_setObject:steeringWheelAngle forName:SDLNameSteeringWheelAngle];
 }
 
 - (NSNumber<SDLBool> *)steeringWheelAngle {
-    return [parameters objectForKey:SDLNameSteeringWheelAngle];
+    return [parameters sdl_objectForName:SDLNameSteeringWheelAngle];
 }
 
 - (void)setECallInfo:(NSNumber<SDLBool> *)eCallInfo {
-    [self setObject:eCallInfo forName:SDLNameECallInfo];
+    [parameters sdl_setObject:eCallInfo forName:SDLNameECallInfo];
 }
 
 - (NSNumber<SDLBool> *)eCallInfo {
-    return [parameters objectForKey:SDLNameECallInfo];
+    return [parameters sdl_objectForName:SDLNameECallInfo];
 }
 
 - (void)setAirbagStatus:(NSNumber<SDLBool> *)airbagStatus {
-    [self setObject:airbagStatus forName:SDLNameAirbagStatus];
+    [parameters sdl_setObject:airbagStatus forName:SDLNameAirbagStatus];
 }
 
 - (NSNumber<SDLBool> *)airbagStatus {
-    return [parameters objectForKey:SDLNameAirbagStatus];
+    return [parameters sdl_objectForName:SDLNameAirbagStatus];
 }
 
 - (void)setEmergencyEvent:(NSNumber<SDLBool> *)emergencyEvent {
-    [self setObject:emergencyEvent forName:SDLNameEmergencyEvent];
+    [parameters sdl_setObject:emergencyEvent forName:SDLNameEmergencyEvent];
 }
 
 - (NSNumber<SDLBool> *)emergencyEvent {
-    return [parameters objectForKey:SDLNameEmergencyEvent];
+    return [parameters sdl_objectForName:SDLNameEmergencyEvent];
 }
 
 - (void)setClusterModeStatus:(NSNumber<SDLBool> *)clusterModeStatus {
-    [self setObject:clusterModeStatus forName:SDLNameClusterModeStatus];
+    [parameters sdl_setObject:clusterModeStatus forName:SDLNameClusterModeStatus];
 }
 
 - (NSNumber<SDLBool> *)clusterModeStatus {
-    return [parameters objectForKey:SDLNameClusterModeStatus];
+    return [parameters sdl_objectForName:SDLNameClusterModeStatus];
 }
 
 - (void)setMyKey:(NSNumber<SDLBool> *)myKey {
-    [self setObject:myKey forName:SDLNameMyKey];
+    [parameters sdl_setObject:myKey forName:SDLNameMyKey];
 }
 
 - (NSNumber<SDLBool> *)myKey {
-    return [parameters objectForKey:SDLNameMyKey];
+    return [parameters sdl_objectForName:SDLNameMyKey];
 }
 
 @end

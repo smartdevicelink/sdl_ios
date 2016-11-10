@@ -27,19 +27,19 @@
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    [self setObject:ecuName forName:SDLNameECUName];
+    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters objectForKey:SDLNameECUName];
+    return [parameters sdl_objectForName:SDLNameECUName];
 }
 
 - (void)setDidLocation:(NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
-    [self setObject:didLocation forName:SDLNameDIDLocation];
+    [parameters sdl_setObject:didLocation forName:SDLNameDIDLocation];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
-    return [parameters objectForKey:SDLNameDIDLocation];
+    return [parameters sdl_objectForName:SDLNameDIDLocation];
 }
 
 @end

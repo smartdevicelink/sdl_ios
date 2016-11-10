@@ -26,11 +26,11 @@
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    [self setObject:menuID forName:SDLNameMenuId];
+    [parameters sdl_setObject:menuID forName:SDLNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters objectForKey:SDLNameMenuId];
+    return [parameters sdl_objectForName:SDLNameMenuId];
 }
 
 @end

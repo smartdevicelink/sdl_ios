@@ -26,11 +26,11 @@
 }
 
 - (void)setWaypointType:(SDLWaypointType)waypointType {
-    [self setObject:waypointType forName:SDLNameWaypointType];
+    [parameters sdl_setObject:waypointType forName:SDLNameWaypointType];
 }
 
 - (SDLWaypointType)waypointType {
-    return [self objectForName:SDLNameWaypointType];
+    return [parameters sdl_objectForName:SDLNameWaypointType];
 }
 
 @end

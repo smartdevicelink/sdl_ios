@@ -14,20 +14,20 @@
 }
 
 - (void)setEvent:(SDLKeyboardEvent)event {
-    [self setObject:event forName:SDLNameEvent];
+    [parameters sdl_setObject:event forName:SDLNameEvent];
 }
 
 - (SDLKeyboardEvent)event {
-    NSObject *obj = [parameters objectForKey:SDLNameEvent];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameEvent];
     return (SDLKeyboardEvent)obj;
 }
 
 - (void)setData:(NSString *)data {
-    [self setObject:data forName:SDLNameData];
+    [parameters sdl_setObject:data forName:SDLNameData];
 }
 
 - (NSString *)data {
-    return [parameters objectForKey:SDLNameData];
+    return [parameters sdl_objectForName:SDLNameData];
 }
 
 @end

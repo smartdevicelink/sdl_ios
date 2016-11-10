@@ -27,19 +27,19 @@
 }
 
 - (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
-    [self setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
+    [parameters sdl_setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
 }
 
 - (NSNumber<SDLInt> *)interactionChoiceSetID {
-    return [parameters objectForKey:SDLNameInteractionChoiceSetId];
+    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId];
 }
 
 - (void)setChoiceSet:(NSMutableArray<SDLChoice *> *)choiceSet {
-    [self setObject:choiceSet forName:SDLNameChoiceSet];
+    [parameters sdl_setObject:choiceSet forName:SDLNameChoiceSet];
 }
 
 - (NSMutableArray<SDLChoice *> *)choiceSet {
-    return [self objectsForName:SDLNameChoiceSet ofClass:SDLChoice.class];
+    return [parameters sdl_objectsForName:SDLNameChoiceSet ofClass:SDLChoice.class];
 }
 
 @end

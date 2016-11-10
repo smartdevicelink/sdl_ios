@@ -66,35 +66,35 @@
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [self setObject:cmdID forName:SDLNameCommandId];
+    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters objectForKey:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLNameCommandId];
 }
 
 - (void)setMenuParams:(SDLMenuParams *)menuParams {
-    [self setObject:menuParams forName:SDLNameMenuParams];
+    [parameters sdl_setObject:menuParams forName:SDLNameMenuParams];
 }
 
 - (SDLMenuParams *)menuParams {
-    return [self objectForName:SDLNameMenuParams ofClass:SDLMenuParams.class];
+    return [parameters sdl_objectForName:SDLNameMenuParams ofClass:SDLMenuParams.class];
 }
 
 - (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
-    [self setObject:vrCommands forName:SDLNameVRCommands];
+    [parameters sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
 - (NSMutableArray<NSString *> *)vrCommands {
-    return [parameters objectForKey:SDLNameVRCommands];
+    return [parameters sdl_objectForName:SDLNameVRCommands];
 }
 
 - (void)setCmdIcon:(SDLImage *)cmdIcon {
-    [self setObject:cmdIcon forName:SDLNameCommandIcon];
+    [parameters sdl_setObject:cmdIcon forName:SDLNameCommandIcon];
 }
 
 - (SDLImage *)cmdIcon {
-    return [self objectForName:SDLNameCommandIcon ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLNameCommandIcon ofClass:SDLImage.class];
 }
 
 @end

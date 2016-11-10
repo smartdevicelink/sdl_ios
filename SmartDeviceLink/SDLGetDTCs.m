@@ -37,19 +37,19 @@
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    [self setObject:ecuName forName:SDLNameECUName];
+    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters objectForKey:SDLNameECUName];
+    return [parameters sdl_objectForName:SDLNameECUName];
 }
 
 - (void)setDtcMask:(NSNumber<SDLInt> *)dtcMask {
-    [self setObject:dtcMask forName:SDLNameDTCMask];
+    [parameters sdl_setObject:dtcMask forName:SDLNameDTCMask];
 }
 
 - (NSNumber<SDLInt> *)dtcMask {
-    return [parameters objectForKey:SDLNameDTCMask];
+    return [parameters sdl_objectForName:SDLNameDTCMask];
 }
 
 @end

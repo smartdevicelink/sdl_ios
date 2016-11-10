@@ -15,11 +15,11 @@
 }
 
 - (void)setHashID:(NSString *)hashID {
-    [self setObject:hashID forName:SDLNameHashId];
+    [parameters sdl_setObject:hashID forName:SDLNameHashId];
 }
 
 - (NSString *)hashID {
-    return [parameters objectForKey:SDLNameHashId];
+    return [parameters sdl_objectForName:SDLNameHashId];
 }
 
 @end

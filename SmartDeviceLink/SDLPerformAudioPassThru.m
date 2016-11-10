@@ -44,11 +44,11 @@
 }
 
 - (void)setInitialPrompt:(NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    [self setObject:initialPrompt forName:SDLNameInitialPrompt];
+    [parameters sdl_setObject:initialPrompt forName:SDLNameInitialPrompt];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameInitialPrompt];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameInitialPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
@@ -61,62 +61,62 @@
 }
 
 - (void)setAudioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 {
-    [self setObject:audioPassThruDisplayText1 forName:SDLNameAudioPassThruDisplayText1];
+    [parameters sdl_setObject:audioPassThruDisplayText1 forName:SDLNameAudioPassThruDisplayText1];
 }
 
 - (NSString *)audioPassThruDisplayText1 {
-    return [parameters objectForKey:SDLNameAudioPassThruDisplayText1];
+    return [parameters sdl_objectForName:SDLNameAudioPassThruDisplayText1];
 }
 
 - (void)setAudioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 {
-    [self setObject:audioPassThruDisplayText2 forName:SDLNameAudioPassThruDisplayText2];
+    [parameters sdl_setObject:audioPassThruDisplayText2 forName:SDLNameAudioPassThruDisplayText2];
 }
 
 - (NSString *)audioPassThruDisplayText2 {
-    return [parameters objectForKey:SDLNameAudioPassThruDisplayText2];
+    return [parameters sdl_objectForName:SDLNameAudioPassThruDisplayText2];
 }
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
-    [self setObject:samplingRate forName:SDLNameSamplingRate];
+    [parameters sdl_setObject:samplingRate forName:SDLNameSamplingRate];
 }
 
 - (SDLSamplingRate)samplingRate {
-    NSObject *obj = [parameters objectForKey:SDLNameSamplingRate];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameSamplingRate];
     return (SDLSamplingRate )obj;
 }
 
 - (void)setMaxDuration:(NSNumber<SDLInt> *)maxDuration {
-    [self setObject:maxDuration forName:SDLNameMaxDuration];
+    [parameters sdl_setObject:maxDuration forName:SDLNameMaxDuration];
 }
 
 - (NSNumber<SDLInt> *)maxDuration {
-    return [parameters objectForKey:SDLNameMaxDuration];
+    return [parameters sdl_objectForName:SDLNameMaxDuration];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
-    [self setObject:bitsPerSample forName:SDLNameBitsPerSample];
+    [parameters sdl_setObject:bitsPerSample forName:SDLNameBitsPerSample];
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    NSObject *obj = [parameters objectForKey:SDLNameBitsPerSample];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameBitsPerSample];
     return (SDLBitsPerSample)obj;
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
-    [self setObject:audioType forName:SDLNameAudioType];
+    [parameters sdl_setObject:audioType forName:SDLNameAudioType];
 }
 
 - (SDLAudioType)audioType {
-    NSObject *obj = [parameters objectForKey:SDLNameAudioType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameAudioType];
     return (SDLAudioType)obj;
 }
 
 - (void)setMuteAudio:(NSNumber<SDLBool> *)muteAudio {
-    [self setObject:muteAudio forName:SDLNameMuteAudio];
+    [parameters sdl_setObject:muteAudio forName:SDLNameMuteAudio];
 }
 
 - (NSNumber<SDLBool> *)muteAudio {
-    return [parameters objectForKey:SDLNameMuteAudio];
+    return [parameters sdl_objectForName:SDLNameMuteAudio];
 }
 
 @end

@@ -33,11 +33,11 @@
 }
 
 - (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    [self setObject:ttsChunks forName:SDLNameTTSChunks];
+    [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTTSChunks];
+    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameTTSChunks];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {

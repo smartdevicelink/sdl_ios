@@ -8,35 +8,35 @@
 @implementation SDLClusterModeStatus
 
 - (void)setPowerModeActive:(NSNumber<SDLBool> *)powerModeActive {
-    [self setObject:powerModeActive forName:SDLNamePowerModeActive];
+    [store sdl_setObject:powerModeActive forName:SDLNamePowerModeActive];
 }
 
 - (NSNumber<SDLBool> *)powerModeActive {
-    return [self objectForName:SDLNamePowerModeActive];
+    return [store sdl_objectForName:SDLNamePowerModeActive];
 }
 
 - (void)setPowerModeQualificationStatus:(SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    [self setObject:powerModeQualificationStatus forName:SDLNamePowerModeQualificationStatus];
+    [store sdl_setObject:powerModeQualificationStatus forName:SDLNamePowerModeQualificationStatus];
 }
 
 - (SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    return [self objectForName:SDLNamePowerModeQualificationStatus];
+    return [store sdl_objectForName:SDLNamePowerModeQualificationStatus];
 }
 
 - (void)setCarModeStatus:(SDLCarModeStatus)carModeStatus {
-    [self setObject:carModeStatus forName:SDLNameCarModeStatus];
+    [store sdl_setObject:carModeStatus forName:SDLNameCarModeStatus];
 }
 
 - (SDLCarModeStatus)carModeStatus {
-    return [self objectForName:SDLNameCarModeStatus];
+    return [store sdl_objectForName:SDLNameCarModeStatus];
 }
 
 - (void)setPowerModeStatus:(SDLPowerModeStatus)powerModeStatus {
-    [self setObject:powerModeStatus forName:SDLNamePowerModeStatus];
+    [store sdl_setObject:powerModeStatus forName:SDLNamePowerModeStatus];
 }
 
 - (SDLPowerModeStatus)powerModeStatus {
-    return [self objectForName:SDLNamePowerModeStatus];
+    return [store sdl_objectForName:SDLNamePowerModeStatus];
 }
 
 @end

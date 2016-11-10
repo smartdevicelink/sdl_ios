@@ -15,19 +15,19 @@
 }
 
 - (void)setURL:(NSString *)URL {
-    [self setObject:URL forName:SDLNameURLUppercase];
+    [parameters sdl_setObject:URL forName:SDLNameURLUppercase];
 }
 
 - (NSString *)URL {
-    return [parameters objectForKey:SDLNameURLUppercase];
+    return [parameters sdl_objectForName:SDLNameURLUppercase];
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)Timeout {
-    [self setObject:Timeout forName:SDLNameTimeoutCapitalized];
+    [parameters sdl_setObject:Timeout forName:SDLNameTimeoutCapitalized];
 }
 
 - (NSNumber<SDLInt> *)Timeout {
-    return [parameters objectForKey:SDLNameTimeoutCapitalized];
+    return [parameters sdl_objectForName:SDLNameTimeoutCapitalized];
 }
 
 @end

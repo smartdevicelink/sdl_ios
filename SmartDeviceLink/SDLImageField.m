@@ -10,15 +10,15 @@
 @implementation SDLImageField
 
 - (void)setName:(SDLImageFieldName)name {
-    [self setObject:name forName:SDLNameName];
+    [store sdl_setObject:name forName:SDLNameName];
 }
 
 - (SDLImageFieldName)name {
-    return [self objectForName:SDLNameName];
+    return [store sdl_objectForName:SDLNameName];
 }
 
 - (void)setImageTypeSupported:(NSMutableArray<SDLFileType> *)imageTypeSupported {
-    [self setObject:imageTypeSupported forName:SDLNameImageTypeSupported];
+    [store sdl_setObject:imageTypeSupported forName:SDLNameImageTypeSupported];
 }
 
 - (NSMutableArray<SDLFileType> *)imageTypeSupported {
@@ -35,11 +35,11 @@
 }
 
 - (void)setImageResolution:(SDLImageResolution *)imageResolution {
-    [self setObject:imageResolution forName:SDLNameImageResolution];
+    [store sdl_setObject:imageResolution forName:SDLNameImageResolution];
 }
 
 - (SDLImageResolution *)imageResolution {
-    return [self objectForName:SDLNameImageResolution ofClass:SDLImageResolution.class];
+    return [store sdl_objectForName:SDLNameImageResolution ofClass:SDLImageResolution.class];
 }
 
 @end

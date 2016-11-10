@@ -27,20 +27,20 @@
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    [self setObject:requestType forName:SDLNameRequestType];
+    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
-    NSObject *obj = [parameters objectForKey:SDLNameRequestType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameRequestType];
     return (SDLRequestType)obj;
 }
 
 - (void)setFileName:(NSString *)fileName {
-    [self setObject:fileName forName:SDLNameFilename];
+    [parameters sdl_setObject:fileName forName:SDLNameFilename];
 }
 
 - (NSString *)fileName {
-    return [parameters objectForKey:SDLNameFilename];
+    return [parameters sdl_objectForName:SDLNameFilename];
 }
 
 @end

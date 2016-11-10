@@ -27,11 +27,11 @@
 }
 
 - (void)setProperties:(NSMutableArray<SDLGlobalProperty> *)properties {
-    [self setObject:properties forName:SDLNameProperties];
+    [parameters sdl_setObject:properties forName:SDLNameProperties];
 }
 
 - (NSMutableArray<SDLGlobalProperty> *)properties {
-    NSMutableArray<SDLGlobalProperty> *array = [parameters objectForKey:SDLNameProperties];
+    NSMutableArray<SDLGlobalProperty> *array = [parameters sdl_objectForName:SDLNameProperties];
     if ([array count] < 1) {
         return array;
     } else {

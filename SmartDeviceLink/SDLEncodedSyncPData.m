@@ -15,11 +15,11 @@
 }
 
 - (void)setData:(NSMutableArray<NSString *> *)data {
-    [self setObject:data forName:SDLNameData];
+    [parameters sdl_setObject:data forName:SDLNameData];
 }
 
 - (NSMutableArray<NSString *> *)data {
-    return [parameters objectForKey:SDLNameData];
+    return [parameters sdl_objectForName:SDLNameData];
 }
 
 @end

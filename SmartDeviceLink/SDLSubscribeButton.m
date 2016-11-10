@@ -39,11 +39,11 @@
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [self setObject:buttonName forName:SDLNameButtonName];
+    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters objectForKey:SDLNameButtonName];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
     return (SDLButtonName)obj;
 }
 

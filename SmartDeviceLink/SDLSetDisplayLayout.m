@@ -30,11 +30,11 @@
 }
 
 - (void)setDisplayLayout:(NSString *)displayLayout {
-    [self setObject:displayLayout forName:SDLNameDisplayLayout];
+    [parameters sdl_setObject:displayLayout forName:SDLNameDisplayLayout];
 }
 
 - (NSString *)displayLayout {
-    return [parameters objectForKey:SDLNameDisplayLayout];
+    return [parameters sdl_objectForName:SDLNameDisplayLayout];
 }
 
 @end

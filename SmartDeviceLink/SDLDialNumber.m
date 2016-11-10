@@ -26,11 +26,11 @@
 }
 
 - (void)setNumber:(NSString *)number {
-    [self setObject:number forName:SDLNameNumber];
+    [parameters sdl_setObject:number forName:SDLNameNumber];
 }
 
 - (NSString *)number {
-    return [self objectForName:SDLNameNumber];
+    return [parameters sdl_objectForName:SDLNameNumber];
 }
 
 @end

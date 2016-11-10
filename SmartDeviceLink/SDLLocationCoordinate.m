@@ -7,19 +7,19 @@
 @implementation SDLLocationCoordinate
 
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
-    [self setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
+    [store sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return [self objectForName:SDLNameLongitudeDegrees];
+    return [store sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
-    [self setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
+    [store sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return [self objectForName:SDLNameLatitudeDegrees];
+    return [store sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
 @end

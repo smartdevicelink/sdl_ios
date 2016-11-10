@@ -15,7 +15,7 @@
 }
 
 - (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
-    [self setObject:spaceAvailable forName:SDLNameSpaceAvailable];
+    [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
 - (NSNumber<SDLInt> *)spaceAvailable {

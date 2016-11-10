@@ -26,11 +26,11 @@
 }
 
 - (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
-    [self setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
+    [parameters sdl_setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
 }
 
 - (NSNumber<SDLInt> *)interactionChoiceSetID {
-    return [parameters objectForKey:SDLNameInteractionChoiceSetId];
+    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId];
 }
 
 @end
