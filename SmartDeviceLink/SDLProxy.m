@@ -386,6 +386,9 @@ const int POLICIES_CORRELATION_ID = 65535;
         _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
     }
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
+    if (self.protocol.securityManager) {
+        self.protocol.securityManager.appId = self.appId;
+    }
 
     if ([SDLGlobals globals].protocolVersion >= 4) {
         [self sendMobileHMIState];
