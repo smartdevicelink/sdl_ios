@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray *)data {
+- (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSNumber<SDLUInt> *> *)data {
     self = [self init];
     if (!self) {
         return nil;

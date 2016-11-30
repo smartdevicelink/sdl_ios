@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray *)didLocation {
+- (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation {
     self = [self init];
     if (!self) {
         return nil;

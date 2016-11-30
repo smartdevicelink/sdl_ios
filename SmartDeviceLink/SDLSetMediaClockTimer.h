@@ -31,7 +31,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode hours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds;
+- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode;
 
