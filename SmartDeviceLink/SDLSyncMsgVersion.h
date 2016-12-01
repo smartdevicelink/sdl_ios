@@ -23,7 +23,8 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion;
+// TODO: (Alex M.)[2016-12-1] Change from NSInteger to UInt8
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion;
 
 /**
  * @abstract The major version indicates versions that is not-compatible to previous versions

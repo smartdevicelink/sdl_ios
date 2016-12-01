@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion {
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
     self = [self init];
     if (!self) {
         return nil;
