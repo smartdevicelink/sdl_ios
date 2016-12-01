@@ -23,7 +23,7 @@
     return self;
 }
 
-- (instancetype)initWithLanguage:(SDLLanguage *)language layout:(SDLKeyboardLayout *)layout keypressMode:(SDLKeypressMode *)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText {
+- (instancetype)initWithLanguage:(SDLLanguage *)language layout:(SDLKeyboardLayout *)layout keypressMode:(SDLKeypressMode *)keypressMode limitedCharacterList:(NSArray *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText {
     self = [self init];
     if (!self) {
         return nil;
