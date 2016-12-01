@@ -386,7 +386,8 @@ const int POLICIES_CORRELATION_ID = 65535;
         _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
     }
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
-    if (self.protocol.securityManager) {
+    if (self.protocol.securityManager
+        && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
     }
 
