@@ -4,12 +4,16 @@
 #import "SDLSubscribeWaypointsResponse.h"
 #import "SDLNames.h"
 
-@implementation SDLSubscribeWaypointsResponse
+@implementation SDLSubscribeWayPointsResponse
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_SubscribeWaypoints]) {
     }
     return self;
 }
+
+@end
+
+@implementation SDLSubscribeWaypointsResponse
 
 @end

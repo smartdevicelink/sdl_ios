@@ -3,6 +3,11 @@
 
 #import "SDLRPCRequest.h"
 
-@interface SDLUnsubscribeWaypoints : SDLRPCRequest
+@interface SDLUnsubscribeWayPoints : SDLRPCRequest
+
+@end
+
+__deprecated_msg("Use SDLUnsubscribeWayPoints instead")
+@interface SDLUnsubscribeWaypoints : SDLUnsubscribeWayPoints
 
 @end

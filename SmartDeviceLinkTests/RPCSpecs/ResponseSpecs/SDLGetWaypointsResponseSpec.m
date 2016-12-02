@@ -17,12 +17,12 @@
 QuickSpecBegin(SDLGetWaypointsResponseSpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    __block SDLGetWaypointsResponse* testResponse = nil;
+    __block SDLGetWayPointsResponse* testResponse = nil;
     __block NSArray<SDLLocationDetails *>* someWaypoints = nil;
     
     describe(@"when initialized with init", ^{
         beforeEach(^{
-            testResponse = [[SDLGetWaypointsResponse alloc] init];
+            testResponse = [[SDLGetWayPointsResponse alloc] init];
         });
         
         context(@"when parameters are set correctly", ^{
@@ -70,7 +70,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    }
                                            };
                 
-                testResponse = [[SDLGetWaypointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+                testResponse = [[SDLGetWayPointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
             });
             
             // Since all the properties are immutable, a copy should be executed as a retain, which means they should be identical
@@ -88,7 +88,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    }
                                            };
                 
-                testResponse = [[SDLGetWaypointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
+                testResponse = [[SDLGetWayPointsResponse alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
             });
             
             it(@"should return nil for waypoints", ^{

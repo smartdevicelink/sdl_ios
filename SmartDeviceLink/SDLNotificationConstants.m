@@ -37,6 +37,7 @@ SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse = @"com.sdl.resp
 SDLNotificationName const SDLDidReceiveGenericResponse = @"com.sdl.response.generic";
 SDLNotificationName const SDLDidReceiveGetDTCsResponse = @"com.sdl.response.getDTCs";
 SDLNotificationName const SDLDidReceiveGetVehicleDataResponse = @"com.sdl.response.getVehicleData";
+SDLNotificationName const SDLDidReceiveGetWaypointsResponse = @"com.sdl.response.getWaypoints";
 SDLNotificationName const SDLDidReceiveListFilesResponse = @"com.sdl.response.listFiles";
 SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse = @"com.sdl.response.performAudioPassThru";
 SDLNotificationName const SDLDidReceivePerformInteractionResponse = @"com.sdl.response.performInteraction";
@@ -56,11 +57,13 @@ SDLNotificationName const SDLDidReceiveSliderResponse = @"com.sdl.response.slide
 SDLNotificationName const SDLDidReceiveSpeakResponse = @"com.sdl.response.speak";
 SDLNotificationName const SDLDidReceiveSubscribeButtonResponse = @"com.sdl.response.subscribeButton";
 SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse = @"com.sdl.response.subscribeVehicleData";
+SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse = @"com.sdl.response.subscribeWaypoints";
 SDLNotificationName const SDLDidReceiveSyncPDataResponse = @"com.sdl.response.syncPData";
 SDLNotificationName const SDLDidReceiveUpdateTurnListResponse = @"com.sdl.response.updateTurnList";
 SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceResponse = @"com.sdl.response.unregisterAppInterface";
 SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.response.unsubscribeButton";
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
+SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.response.unsubscribeWaypoints";
 
 #pragma mark - RPC Notifications
 SDLNotificationName const SDLDidChangeDriverDistractionStateNotification = @"com.sdl.notification.changeDriverDistractionStateNotification";
@@ -80,6 +83,7 @@ SDLNotificationName const SDLDidReceiveSystemRequestNotification = @"com.sdl.not
 SDLNotificationName const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.notification.changeTurnByTurnState";
 SDLNotificationName const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.touchEvent";
 SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notification.vehicleData";
+SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notification.waypoint";
 
 
 @implementation SDLNotificationConstants
@@ -102,6 +106,7 @@ SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notif
              SDLDidReceiveGenericResponse,
              SDLDidReceiveGetDTCsResponse,
              SDLDidReceiveGetVehicleDataResponse,
+             SDLDidReceiveGetWaypointsResponse,
              SDLDidReceiveListFilesResponse,
              SDLDidReceivePerformAudioPassThruResponse,
              SDLDidReceivePerformInteractionResponse,
@@ -121,11 +126,13 @@ SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notif
              SDLDidReceiveSpeakResponse,
              SDLDidReceiveSubscribeButtonResponse,
              SDLDidReceiveSubscribeVehicleDataResponse,
+             SDLDidReceiveSubscribeWaypointsResponse,
              SDLDidReceiveSyncPDataResponse,
              SDLDidReceiveUpdateTurnListResponse,
              SDLDidReceiveUnregisterAppInterfaceResponse,
              SDLDidReceiveUnsubscribeButtonResponse,
-             SDLDidReceiveUnsubscribeVehicleDataResponse];
+             SDLDidReceiveUnsubscribeVehicleDataResponse,
+             SDLDidReceiveUnsubscribeWaypointsResponse];
 }
 
 + (NSArray<SDLNotificationName> *)allButtonEventNotifications {
