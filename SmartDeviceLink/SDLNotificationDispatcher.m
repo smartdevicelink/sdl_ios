@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetVehicleDataResponse response:response];
 }
 
-- (void)onGetWaypointsResponse:(SDLGetWaypointsResponse *)response {
+- (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetWaypointsResponse response:response];
 }
 
@@ -226,7 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveSubscribeVehicleDataResponse response:response];
 }
 
-- (void)onSubscribeWaypointsResponse:(SDLSubscribeWaypointsResponse *)response {
+- (void)onSubscribeWayPointsResponse:(SDLSubscribeWaypointsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSubscribeWaypointsResponse response:response];
 }
 
@@ -250,7 +250,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveUnsubscribeVehicleDataResponse response:response];
 }
 
-- (void)onUnsubscribeWaypointsResponse:(SDLUnsubscribeWaypointsResponse *)response {
+- (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWaypointsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUnsubscribeWaypointsResponse response:response];
 }
 
@@ -318,7 +318,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidReceiveVehicleDataNotification notification:notification];
 }
 
-- (void)onOnWaypointChange:(SDLOnWaypointChange *)notification {
+- (void)onOnWayPointChange:(SDLOnWaypointChange *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveWaypointNotification notification:notification];
 }
 
