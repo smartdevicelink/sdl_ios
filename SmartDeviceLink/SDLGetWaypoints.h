@@ -5,8 +5,7 @@
 
 @class SDLWaypointType;
 
-
-@interface SDLGetWayPoints : SDLRPCRequest
+@interface SDLGetWaypoints : SDLRPCRequest
 
 - (instancetype)initWithType:(SDLWaypointType *)type;
 
@@ -17,10 +16,5 @@
  * Required
  */
 @property (strong, nonatomic) SDLWaypointType *waypointType;
-
-@end
-
-__deprecated_msg("Use SDLGetWayPoints instead")
-@interface SDLGetWaypoints : SDLGetWayPoints
 
 @end

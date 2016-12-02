@@ -3,12 +3,6 @@
 
 #import "SDLRPCResponse.h"
 
-@interface SDLSubscribeWayPointsResponse : SDLRPCResponse
+@interface SDLSubscribeWaypointsResponse : SDLRPCResponse
 
 @end
-
-__deprecated_msg("Use SDLSubscribeWayPointsResponse instead")
-@interface SDLSubscribeWaypointsResponse : SDLSubscribeWayPointsResponse
-
-@end
-

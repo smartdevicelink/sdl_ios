@@ -6,7 +6,7 @@
 #import "SDLNames.h"
 #import "SDLWaypointType.h"
 
-@implementation SDLGetWayPoints
+@implementation SDLGetWaypoints
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_GetWaypoints]) {
@@ -20,9 +20,9 @@
     if (!self) {
         return nil;
     }
-    
+
     self.waypointType = type;
-    
+
     return self;
 }
 
@@ -44,8 +44,3 @@
 }
 
 @end
-
-@implementation SDLGetWaypoints
-
-@end
-

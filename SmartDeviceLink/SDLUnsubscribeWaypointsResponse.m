@@ -5,16 +5,12 @@
 
 #import "SDLNames.h"
 
-@implementation SDLUnsubscribeWayPointsResponse
+@implementation SDLUnsubscribeWaypointsResponse
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_UnsubscribeWaypoints]) {
     }
     return self;
 }
-
-@end
-
-@implementation SDLUnsubscribeWaypointsResponse
 
 @end

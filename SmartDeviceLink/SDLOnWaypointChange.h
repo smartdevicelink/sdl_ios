@@ -5,7 +5,7 @@
 
 @class SDLLocationDetails;
 
-@interface SDLOnWayPointChange : SDLRPCNotification
+@interface SDLOnWaypointChange : SDLRPCNotification
 
 /**
  * @abstract Location address for display purposes only.
@@ -15,9 +15,3 @@
 @property (copy, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
 
 @end
-
-__deprecated_msg("Use SDLOnWayPointChange instead")
-@interface SDLOnWaypointChange : SDLOnWayPointChange
-
-@end
-

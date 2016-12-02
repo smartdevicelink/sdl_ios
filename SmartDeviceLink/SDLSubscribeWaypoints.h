@@ -10,12 +10,7 @@
 * @see SDLUnsubscribeWaypoints
 *
 */
-@interface SDLSubscribeWayPoints : SDLRPCRequest
+
+@interface SDLSubscribeWaypoints : SDLRPCRequest
 
 @end
-
-__deprecated_msg("Use SDLSubscribeWayPoints instead")
-@interface SDLSubscribeWaypoints : SDLSubscribeWayPoints
-
-@end
-

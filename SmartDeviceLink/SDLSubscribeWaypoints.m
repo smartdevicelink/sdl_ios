@@ -4,7 +4,7 @@
 #import "SDLSubscribeWaypoints.h"
 #import "SDLNames.h"
 
-@implementation SDLSubscribeWayPoints
+@implementation SDLSubscribeWaypoints
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_SubscribeWaypoints]) {
@@ -13,8 +13,3 @@
 }
 
 @end
-
-@implementation SDLSubscribeWaypoints
-
-@end
-
