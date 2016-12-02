@@ -4,7 +4,7 @@
 #import "SDLGetWaypointsResponse.h"
 #import "SDLNames.h"
 
-@implementation SDLGetWaypointsResponse
+@implementation SDLGetWayPointsResponse
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_GetWaypoints]) {
@@ -23,5 +23,9 @@
 - (NSArray<SDLLocationDetails *> *)waypoints {
     return parameters[NAMES_waypoints];
 }
+
+@end
+
+@implementation SDLGetWaypointsResponse
 
 @end
