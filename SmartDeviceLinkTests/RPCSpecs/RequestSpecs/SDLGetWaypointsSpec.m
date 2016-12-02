@@ -15,7 +15,7 @@ QuickSpecBegin(SDLGetWaypointsSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLGetWaypoints* testRequest = [[SDLGetWaypoints alloc] init];
+        SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] init];
         
         testRequest.waypointType = [SDLWaypointType ALL];
         
@@ -27,13 +27,13 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{NAMES_parameters:
                                                  @{NAMES_waypointType:[SDLWaypointType ALL]},
                                              NAMES_operation_name:NAMES_GetWaypoints}} mutableCopy];
-        SDLGetWaypoints* testRequest = [[SDLGetWaypoints alloc] initWithDictionary:dict];
+        SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] initWithDictionary:dict];
         
         expect(testRequest.waypointType).to(equal([SDLWaypointType ALL]));
     });
     
     it(@"Should return nil if not set", ^ {
-        SDLGetWaypoints* testRequest = [[SDLGetWaypoints alloc] init];
+        SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] init];
         
         expect(testRequest.waypointType).to(beNil());
     });

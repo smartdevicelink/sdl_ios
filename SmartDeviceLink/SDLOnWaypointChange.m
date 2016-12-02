@@ -5,7 +5,7 @@
 
 #import "SDLNames.h"
 
-@implementation SDLOnWaypointChange
+@implementation SDLOnWayPointChange
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_OnWaypointChange]) {
@@ -24,5 +24,9 @@
 - (NSArray<SDLLocationDetails *> *)waypoints {
     return parameters[NAMES_waypoints];
 }
+
+@end
+
+@implementation SDLOnWaypointChange
 
 @end
