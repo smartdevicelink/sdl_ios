@@ -343,8 +343,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (void)sdl_teardownCompressionSession {
-    VTCompressionSessionInvalidate(self.compressionSession);
-    CFRelease(self.compressionSession);
+    if (self.compressionSession != NULL) {
+        VTCompressionSessionInvalidate(self.compressionSession);
+        CFRelease(self.compressionSession);
+    }
 }
 
 
