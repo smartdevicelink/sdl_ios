@@ -96,7 +96,7 @@
 - (void)onGenericResponse:(SDLGenericResponse *)response;
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response;
-- (void)onGetWaypointsResponse:(SDLGetWaypointsResponse *)response;
+- (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response;
 - (void)onListFilesResponse:(SDLListFilesResponse *)response;
 - (void)onReceivedLockScreenIcon:(UIImage *)icon;
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
@@ -115,7 +115,7 @@
 - (void)onOnTBTClientState:(SDLOnTBTClientState *)notification;
 - (void)onOnTouchEvent:(SDLOnTouchEvent *)notification;
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification;
-- (void)onOnWaypointChange:(SDLOnWaypointChange *)notification;
+- (void)onOnWayPointChange:(SDLOnWaypointChange *)notification;
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response;
 - (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response;
 - (void)onPutFileResponse:(SDLPutFileResponse *)response;
@@ -134,12 +134,12 @@
 - (void)onSpeakResponse:(SDLSpeakResponse *)response;
 - (void)onSubscribeButtonResponse:(SDLSubscribeButtonResponse *)response;
 - (void)onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse *)response;
-- (void)onSubscribeWaypointsResponse:(SDLSubscribeWaypointsResponse *)response;
+- (void)onSubscribeWayPointsResponse:(SDLSubscribeWaypointsResponse *)response;
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response;
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response;
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response;
 - (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response;
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response;
-- (void)onUnsubscribeWaypointsResponse:(SDLUnsubscribeWaypointsResponse *)response;
+- (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWaypointsResponse *)response;
 
 @end

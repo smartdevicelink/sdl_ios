@@ -4,7 +4,7 @@
 #import "SDLGetWaypointsResponse.h"
 #import "SDLNames.h"
 
-@implementation SDLGetWaypointsResponse
+@implementation SDLGetWayPointsResponse
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_GetWaypoints]) {
@@ -25,3 +25,8 @@
 }
 
 @end
+
+@implementation SDLGetWaypointsResponse
+
+@end
+
