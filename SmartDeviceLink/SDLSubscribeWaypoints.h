@@ -15,6 +15,6 @@
 @end
 
 __deprecated_msg("Use SDLSubscribeWayPoints instead")
-@interface SDLSubscribeWaypoints : SDLSubscribeWayPoints
+    @interface SDLSubscribeWaypoints : SDLSubscribeWayPoints
 
-@end
+                                       @end

@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (infoObject != nil) {
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });

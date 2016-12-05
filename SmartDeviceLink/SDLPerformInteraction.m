@@ -68,7 +68,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
     self.timeout = @(timeout);
     self.vrHelp = [vrHelp mutableCopy];
     self.interactionLayout = layout;
-    
+
     return self;
 }
 

@@ -8,6 +8,6 @@
 @end
 
 __deprecated_msg("Use SDLSubscribeWayPointsResponse instead")
-@interface SDLSubscribeWaypointsResponse : SDLSubscribeWayPointsResponse
+    @interface SDLSubscribeWaypointsResponse : SDLSubscribeWayPointsResponse
 
-@end
+                                               @end

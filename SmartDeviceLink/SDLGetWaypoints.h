@@ -21,6 +21,6 @@
 @end
 
 __deprecated_msg("Use SDLGetWayPoints instead")
-@interface SDLGetWaypoints : SDLGetWayPoints
+    @interface SDLGetWaypoints : SDLGetWayPoints
 
-@end
+                                 @end
