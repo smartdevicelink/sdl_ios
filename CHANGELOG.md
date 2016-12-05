@@ -1,3 +1,10 @@
+# 4.5.0 Beta 1 Release Notes
+### Bug Fixes
+* Altered how Security libraries get the app id so they can start downloads faster.
+* Fixed a number of RPC initializers to have correct number sizes.
+* Fixed a video session crash in rare instances when the compression session was NULL.
+* Fixed waypoint RPCs missing response and notification dispatchers and incorrect spelling on some classes (the old classes are deprecated).
+
 # 4.4.1 Release Notes
 ### Bug Fixes
 * Subscribing to waypoints should now work (new feature & RPC in v4.4.0).
