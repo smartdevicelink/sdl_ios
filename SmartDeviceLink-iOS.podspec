@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink-iOS"
-s.version      = "4.4.0"
+s.version      = "4.4.1"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -13,7 +13,6 @@ s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
 s.public_header_files = [
 'SmartDeviceLink/SmartDeviceLink.h',
-'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLJingle.h',
 'SmartDeviceLink/SDLProxy.h',
 'SmartDeviceLink/SDLProxyFactory.h',

@@ -1,3 +1,11 @@
+# 4.4.1 Release Notes
+### Bug Fixes
+* Subscribing to waypoints should now work (new feature & RPC in v4.4.0).
+
+### Other
+* Fixes a few failing tests that were overlooked.
+* `SDLUploadFileOperation`s now use the built-in cancel mechanism instead of its own internal flag.
+
 # 4.4.0 Release Notes
 ### Features
 * [SDL-0003] Adds SendLocation and associated data types.
