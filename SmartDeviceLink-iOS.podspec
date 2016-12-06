@@ -61,6 +61,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLGetVehicleData.h',
 'SmartDeviceLink/SDLGetWaypoints.h',
 'SmartDeviceLink/SDLListFiles.h',
+'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLPerformAudioPassThru.h',
 'SmartDeviceLink/SDLPerformInteraction.h',
 'SmartDeviceLink/SDLPutFile.h',
