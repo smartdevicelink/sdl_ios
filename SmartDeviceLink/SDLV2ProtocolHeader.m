@@ -95,7 +95,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     NSString *frameDataString = nil;
     if (self.frameType == SDLFrameType_Control) {
         if (self.frameData >= 0 && self.frameData <= 5) {
-            NSArray *controlFrameDataNames = @[@"Heartbeat", @"StartSession", @"StartSessionACK", @"StartSessionNACK", @"EndSession", @"EndSessionNACK"];
+            NSArray *controlFrameDataNames = @[@"Heartbeat", @"StartSession", @"StartSessionACK", @"StartSessionNACK", @"EndSession", @"EndSessionACK", @"EndSessionNACK"];
             frameDataString = controlFrameDataNames[self.frameData];
         } else {
             frameDataString = @"Reserved";
