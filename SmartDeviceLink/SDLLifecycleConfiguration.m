@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
     _logFlags = SDLLogOutputNone;
+    
+    _streamingEncryption = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
 
     return self;
 }

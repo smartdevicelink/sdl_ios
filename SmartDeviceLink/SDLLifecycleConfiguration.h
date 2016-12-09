@@ -12,6 +12,7 @@
 
 #import "SDLAppHMIType.h"
 #import "SDLLanguage.h"
+#import "SDLStreamingMediaManager.h"
 
 @class SDLFile;
 @class SDLTTSChunk;
@@ -136,6 +137,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Which logging capabilities are currently enabled. The default is Console logging only.
  */
 @property (assign, nonatomic) SDLLogOutput logFlags;
+
+/**
+ *  What encryption level video/audio streaming should be. The default is SDLEncryptionFlagAuthenticateAndEncrypt.
+ */
+@property (assign, nonatomic) SDLStreamingEncryptionFlag streamingEncryption;
 
 @end
 

@@ -11,6 +11,7 @@
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLAbstractProtocol.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDebugTool.h"
@@ -37,6 +38,7 @@
 #import "SDLResult.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLUnregisterAppInterface.h"
 
 
@@ -62,6 +64,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
+@property (strong, nonatomic, readwrite) SDLStreamingMediaManager* streamManager;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push
@@ -104,6 +107,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
+    
+    if ([configuration.lifecycleConfig.appType isEqualToString:SDLAppHMITypeNavigation]) {
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.lifecycleConfig.streamingEncryption];
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
@@ -141,9 +148,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Getters
 
-- (nullable SDLStreamingMediaManager *)streamManager {
-    return self.proxy.streamingMediaManager;
-}
+//- (nullable SDLStreamingMediaManager *)streamManager {
+//    return self.proxy.streamingMediaManager;
+//}
 
 - (SDLState *)lifecycleState {
     return self.lifecycleStateMachine.currentState;
@@ -231,6 +238,19 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             [SDLDebugTool logFormat:@"Permission manager was unable to start; error: %@", error];
         }
 
+        dispatch_group_leave(managerGroup);
+    }];
+    
+    dispatch_group_enter(managerGroup);
+    __weak typeof(self) weakSelf = self;
+    [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            [SDLDebugTool logFormat:@"Stream manager was unable to start; error: %@", error];
+        } else {
+            typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf.proxy.protocol.protocolDelegateTable addObject:strongSelf.streamManager];
+        }
+        
         dispatch_group_leave(managerGroup);
     }];
 

@@ -12,8 +12,10 @@
 #import "dispatch_timer.h"
 
 #import "SDLDebugTool.h"
+#import "SDLNotificationConstants.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
@@ -87,6 +89,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
+    
     return self;
 }
 
@@ -95,22 +99,20 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     [self sdl_cancelSingleTapTimer];
 }
 
-#pragma mark - SDLProxyListener Delegate
-- (void)onProxyOpened {
-}
-- (void)onProxyClosed {
-}
-- (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-}
-- (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-}
+#pragma mark - SDLDidReceiveTouchEventNotification
 
-- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
+- (void)onTouchEvent:(SDLRPCNotificationNotification *)notification {
     if (!self.isTouchEnabled) {
         return;
     }
-
-    SDLTouchEvent *touchEvent = notification.event.firstObject;
+    
+    if (![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
+        return;
+    }
+    
+    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
+    
+    SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
 
     SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
 
@@ -118,11 +120,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    if ([notification.type isEqualToString:SDLTouchTypeBegin]) {
+    if ([onTouchEvent.type isEqualToString:SDLTouchTypeBegin]) {
         [self sdl_handleTouchBegan:touch];
-    } else if ([notification.type isEqualToString:SDLTouchTypeMove]) {
+    } else if ([onTouchEvent.type isEqualToString:SDLTouchTypeMove]) {
         [self sdl_handleTouchMoved:touch];
-    } else if ([notification.type isEqualToString:SDLTouchTypeEnd]) {
+    } else if ([onTouchEvent.type isEqualToString:SDLTouchTypeEnd]) {
         [self sdl_handleTouchEnded:touch];
     }
 }

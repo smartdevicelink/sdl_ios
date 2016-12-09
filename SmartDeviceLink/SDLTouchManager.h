@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTouchManager : NSObject <SDLProxyListener>
+@interface SDLTouchManager : NSObject
 
 @property (nonatomic, weak, nullable) id<SDLTouchManagerDelegate> touchEventDelegate;
 
