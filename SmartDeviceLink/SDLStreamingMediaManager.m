@@ -145,8 +145,10 @@ NS_ASSUME_NONNULL_BEGIN
                                     typeof(weakSelf) strongSelf = weakSelf;
                                     // If success, we will get an ACK or NACK, so those methods will handle calling the video block
                                     if (!success) {
-                                        strongSelf.videoStartBlock(NO, NO, error);
-                                        strongSelf.videoStartBlock = nil;
+                                        if (strongSelf.videoStartBlock != nil) {
+                                            strongSelf.videoStartBlock(NO, NO, error);
+                                            strongSelf.videoStartBlock = nil;
+                                        }
                                     }
                                 }];
     } else {
@@ -180,8 +182,10 @@ NS_ASSUME_NONNULL_BEGIN
                                     typeof(weakSelf) strongSelf = weakSelf;
                                     // If this passes, we will get an ACK or NACK, so those methods will handle calling the audio block
                                     if (!success) {
-                                        strongSelf.audioStartBlock(NO, NO, error);
-                                        strongSelf.audioStartBlock = nil;
+                                        if (strongSelf.audioStartBlock != nil) {
+                                            strongSelf.audioStartBlock(NO, NO, error);
+                                            strongSelf.audioStartBlock = nil;                                            
+                                        }
                                     }
                                 }];
     } else {
@@ -277,8 +281,10 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceType_Audio: {
             self.audioSessionConnected = YES;
             self.audioSessionEncrypted = header.encrypted;
-            self.audioStartBlock(YES, header.encrypted, nil);
-            self.audioStartBlock = nil;
+            if (self.audioStartBlock != nil) {
+                self.audioStartBlock(YES, header.encrypted, nil);
+                self.audioStartBlock = nil;
+            }
         } break;
         case SDLServiceType_Video: {
             NSError *error = nil;
@@ -287,16 +293,22 @@ NS_ASSUME_NONNULL_BEGIN
             if (!success) {
                 [self sdl_teardownCompressionSession];
                 [self.protocol endServiceWithType:SDLServiceType_Video];
-                self.videoStartBlock(NO, header.encrypted, error);
-                self.videoStartBlock = nil;
+                
+                if (self.videoStartBlock != nil) {
+                    self.videoStartBlock(NO, header.encrypted, error);
+                    self.videoStartBlock = nil;
+                }
 
                 return;
             }
 
             self.videoSessionConnected = YES;
             self.videoSessionEncrypted = header.encrypted;
-            self.videoStartBlock(YES, header.encrypted, nil);
-            self.videoStartBlock = nil;
+            
+            if (self.videoStartBlock != nil) {
+                self.videoStartBlock(YES, header.encrypted, nil);
+                self.videoStartBlock = nil;
+            }
         } break;
         default: break;
     }
@@ -307,14 +319,18 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLServiceType_Audio: {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaAudio code:SDLStreamingAudioErrorHeadUnitNACK userInfo:nil];
 
-            self.audioStartBlock(NO, NO, error);
-            self.audioStartBlock = nil;
+            if (self.audioStartBlock != nil) {
+                self.audioStartBlock(NO, NO, error);
+                self.audioStartBlock = nil;
+            }
         } break;
         case SDLServiceType_Video: {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorHeadUnitNACK userInfo:nil];
 
-            self.videoStartBlock(NO, NO, error);
-            self.videoStartBlock = nil;
+            if (self.videoStartBlock != nil) {
+                self.videoStartBlock(NO, NO, error);
+                self.videoStartBlock = nil;
+            }
         } break;
         default: break;
     }
