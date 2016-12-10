@@ -2,6 +2,8 @@
 //
 
 #import "SDLGetWaypointsResponse.h"
+
+#import "SDLLocationDetails.h"
 #import "SDLNames.h"
 
 @implementation SDLGetWayPointsResponse
@@ -21,7 +23,16 @@
 }
 
 - (NSArray<SDLLocationDetails *> *)waypoints {
-    return parameters[NAMES_waypoints];
+    NSMutableArray *array = [parameters objectForKey:NAMES_waypoints];
+    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLLocationDetails.class]) {
+        return [array copy];
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (NSDictionary *dict in array) {
+            [newList addObject:[[SDLLocationDetails alloc] initWithDictionary:(NSMutableDictionary *)dict]];
+        }
+        return [newList copy];
+    }
 }
 
 @end
