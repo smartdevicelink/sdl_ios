@@ -17,6 +17,5 @@
 @end
 
 __deprecated_msg("Use SDLOnWayPointChange instead")
-    @interface SDLOnWaypointChange : SDLOnWayPointChange
-
-                                     @end
+@interface SDLOnWaypointChange : SDLOnWayPointChange
+@end
