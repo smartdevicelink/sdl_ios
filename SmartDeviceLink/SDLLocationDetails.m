@@ -94,14 +94,14 @@
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
     if (searchAddress != nil) {
-        store[NAMES_address] = searchAddress;
+        store[NAMES_searchAddress] = searchAddress;
     } else {
-        [store removeObjectForKey:NAMES_address];
+        [store removeObjectForKey:NAMES_searchAddress];
     }
 }
 
 - (SDLOasisAddress *)searchAddress {
-    NSObject *obj = [store objectForKey:NAMES_address];
+    NSObject *obj = [store objectForKey:NAMES_searchAddress];
     if (obj == nil || [obj isKindOfClass:SDLOasisAddress.class]) {
         return (SDLOasisAddress *)obj;
     } else {
