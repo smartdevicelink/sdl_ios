@@ -221,24 +221,29 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil) {
-        handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
-    }
-
-    // Make sure we are able to send files
-    if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
-        handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        if (handler != nil) {
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        }
         return;
     }
-
+    
+    // Make sure we are able to send files
+    if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
+        if (handler != nil) {
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        }
+        return;
+    }
+    
     // Check our overwrite settings and error out if it would overwrite
     if (file.overwrite == NO && [self.remoteFileNames containsObject:file.name]) {
         if (handler != nil) {
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
         }
-
+        
         return;
     }
-
+    
     // If we didn't error out over the overwrite, then continue on
     [self sdl_uploadFile:file completionHandler:handler];
 }
