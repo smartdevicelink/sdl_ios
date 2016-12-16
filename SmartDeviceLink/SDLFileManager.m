@@ -226,7 +226,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
         return;
     }
-    
+
     // Make sure we are able to send files
     if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
         if (handler != nil) {
@@ -234,16 +234,16 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
         return;
     }
-    
+
     // Check our overwrite settings and error out if it would overwrite
     if (file.overwrite == NO && [self.remoteFileNames containsObject:file.name]) {
         if (handler != nil) {
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
         }
-        
+
         return;
     }
-    
+
     // If we didn't error out over the overwrite, then continue on
     [self sdl_uploadFile:file completionHandler:handler];
 }

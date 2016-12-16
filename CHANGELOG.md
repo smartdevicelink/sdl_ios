@@ -1,3 +1,11 @@
+# 4.5.0 Beta 2 Release Notes
+### Bug Fixes
+* Fixed an issue with printing incorrect Frame Data when logging.
+* Fixed an issue with SDLLocationDetails' properties being incorrectly stored.
+* Added in nil-checks for SDLStreamingMediaManager's startSession completionHandlers.
+* Fixed an issue with a SDLPerformInteraction initializer causing an infinite loop.
+* Fixed an issue with uploading a nil SDLFile would cause an infinite loop.
+
 # 4.5.0 Beta 1 Release Notes
 ### Bug Fixes
 * Altered how Security libraries get the app id so they can start downloads faster.
