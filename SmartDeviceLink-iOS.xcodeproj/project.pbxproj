@@ -1451,7 +1451,6 @@
 		5D61FAB81A84238A00846EE7 /* SDLEndAudioPassThruResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLEndAudioPassThruResponse.h; sourceTree = "<group>"; };
 		5D61FAB91A84238A00846EE7 /* SDLEndAudioPassThruResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEndAudioPassThruResponse.m; sourceTree = "<group>"; };
 		5D61FABA1A84238A00846EE7 /* SDLEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLEnum.h; sourceTree = "<group>"; };
-		5D61FABB1A84238A00846EE7 /* SDLEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEnum.m; sourceTree = "<group>"; };
 		5D61FABC1A84238A00846EE7 /* SDLFileType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLFileType.h; sourceTree = "<group>"; };
 		5D61FABD1A84238A00846EE7 /* SDLFileType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileType.m; sourceTree = "<group>"; };
 		5D61FABE1A84238A00846EE7 /* SDLFuelCutoffStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLFuelCutoffStatus.h; sourceTree = "<group>"; };
@@ -3196,7 +3195,6 @@
 			isa = PBXGroup;
 			children = (
 				5D61FABA1A84238A00846EE7 /* SDLEnum.h */,
-				5D61FABB1A84238A00846EE7 /* SDLEnum.m */,
 				5DB92D301AC9C8BA00C15BB0 /* SDLRPCStruct.h */,
 				5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */,
 				5D61FB7C1A84238B00846EE7 /* SDLRPCMessage.h */,
