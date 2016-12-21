@@ -112,6 +112,7 @@ Your application must support a set of smartdevicelink protocol strings in order
 
 #### Lock Screen Support
 If you used CocoaPods to install the SDL SDK, you must complete the following steps to add the default lock screen resources to your project:
+
 1. Select your application's build target, go to Build Phases, Copy Bundle Resources.
 2. Then in the Navigator window of Xcode, go to Target's Support Files, Pods-YourProjectName, and drag and drop the SmartDeviceLink.bundle file into Copy Bundle Resources.
 3. After the bundle is dropped into Copy Bundle Resources check "copy items if need" from the popup box and click "Finish."
