@@ -4,6 +4,8 @@
 #import "SDLSubscribeWaypoints.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSubscribeWaypoints
 
 - (instancetype)init {
@@ -13,3 +15,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

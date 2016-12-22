@@ -13,6 +13,7 @@
 #import "SDLSyncMsgVersion.h"
 #import "SDLTTSChunk.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRegisterAppInterface
 
@@ -27,37 +28,51 @@
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
-    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:NO appType:nil shortAppName:nil];
-}
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType)appType shortAppName:(NSString *)shortAppName {
-    return [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appType:appType shortAppName:shortAppName ttsName:nil vrSynonyms:nil hmiDisplayLanguageDesired:languageDesired resumeHash:nil];
-}
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType)appType shortAppName:(NSString *)shortAppName ttsName:(NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(NSString *)resumeHash {
     self = [self init];
     if (!self) {
         return nil;
     }
-
-    self.appID = appId;
+    
     self.appName = appName;
-    self.ngnMediaScreenAppName = shortAppName;
+    self.appID = appId;
+    self.languageDesired = languageDesired;
+    
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
+    self.appInfo = [SDLAppInfo currentAppInfo];
+    self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.correlationID = @1;
+    
+    return self;
+    
+}
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType)appType shortAppName:(nullable NSString *)shortAppName {
+    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired];
+    if (!self) {
+        return nil;
+    }
+    
+    self.isMediaApplication = @(isMediaApp);
 
     if (appType != nil) {
         self.appHMIType = [NSMutableArray arrayWithObject:appType];
     }
+    
+    self.ngnMediaScreenAppName = shortAppName;
+    
+    return self;
+}
 
-    self.languageDesired = languageDesired;
-    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
-    self.isMediaApplication = @(isMediaApp);
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appType:(SDLAppHMIType)appType shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash {
+    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appType:appType shortAppName:shortAppName];
+    if (!self) {
+        return nil;
+    }
+
     self.ttsName = [ttsName copy];
     self.vrSynonyms = [vrSynonyms copy];
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
-    self.appInfo = [SDLAppInfo currentAppInfo];
-    self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     self.hashID = resumeHash;
-    self.correlationID = @1;
 
     return self;
 }
@@ -91,7 +106,7 @@
     return [parameters objectForKey:SDLNameAppName];
 }
 
-- (void)setTtsName:(NSMutableArray<SDLTTSChunk *> *)ttsName {
+- (void)setTtsName:(nullable NSMutableArray<SDLTTSChunk *> *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:ttsName forKey:SDLNameTTSName];
     } else {
@@ -99,7 +114,7 @@
     }
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)ttsName {
+- (nullable NSMutableArray<SDLTTSChunk *> *)ttsName {
     NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTTSName];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
@@ -112,7 +127,7 @@
     }
 }
 
-- (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
+- (void)setNgnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
         [parameters setObject:ngnMediaScreenAppName forKey:SDLNameNGNMediaScreenAppName];
     } else {
@@ -120,11 +135,11 @@
     }
 }
 
-- (NSString *)ngnMediaScreenAppName {
+- (nullable NSString *)ngnMediaScreenAppName {
     return [parameters objectForKey:SDLNameNGNMediaScreenAppName];
 }
 
-- (void)setVrSynonyms:(NSMutableArray<NSString *> *)vrSynonyms {
+- (void)setVrSynonyms:(nullable NSMutableArray<NSString *> *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:vrSynonyms forKey:SDLNameVRSynonyms];
     } else {
@@ -132,7 +147,7 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)vrSynonyms {
+- (nullable NSMutableArray<NSString *> *)vrSynonyms {
     return [parameters objectForKey:SDLNameVRSynonyms];
 }
 
@@ -174,7 +189,7 @@
     return (SDLLanguage)obj;
 }
 
-- (void)setAppHMIType:(NSMutableArray<SDLAppHMIType> *)appHMIType {
+- (void)setAppHMIType:(nullable NSMutableArray<SDLAppHMIType> *)appHMIType {
     if (appHMIType != nil) {
         [parameters setObject:appHMIType forKey:SDLNameAppHMIType];
     } else {
@@ -182,7 +197,7 @@
     }
 }
 
-- (NSMutableArray<SDLAppHMIType> *)appHMIType {
+- (nullable NSMutableArray<SDLAppHMIType> *)appHMIType {
     NSMutableArray<SDLAppHMIType> *array = [parameters objectForKey:SDLNameAppHMIType];
     if ([array count] < 1) {
         return array;
@@ -195,7 +210,7 @@
     }
 }
 
-- (void)setHashID:(NSString *)hashID {
+- (void)setHashID:(nullable NSString *)hashID {
     if (hashID != nil) {
         [parameters setObject:hashID forKey:SDLNameHashId];
     } else {
@@ -203,11 +218,11 @@
     }
 }
 
-- (NSString *)hashID {
+- (nullable NSString *)hashID {
     return [parameters objectForKey:SDLNameHashId];
 }
 
-- (void)setDeviceInfo:(SDLDeviceInfo *)deviceInfo {
+- (void)setDeviceInfo:(nullable SDLDeviceInfo *)deviceInfo {
     if (deviceInfo != nil) {
         [parameters setObject:deviceInfo forKey:SDLNameDeviceInfo];
     } else {
@@ -215,7 +230,7 @@
     }
 }
 
-- (SDLDeviceInfo *)deviceInfo {
+- (nullable SDLDeviceInfo *)deviceInfo {
     NSObject *obj = [parameters objectForKey:SDLNameDeviceInfo];
     if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
         return (SDLDeviceInfo *)obj;
@@ -236,7 +251,7 @@
     return [parameters objectForKey:SDLNameAppId];
 }
 
-- (void)setAppInfo:(SDLAppInfo *)appInfo {
+- (void)setAppInfo:(nullable SDLAppInfo *)appInfo {
     if (appInfo != nil) {
         [parameters setObject:appInfo forKey:SDLNameAppInfo];
     } else {
@@ -244,7 +259,7 @@
     }
 }
 
-- (SDLAppInfo *)appInfo {
+- (nullable SDLAppInfo *)appInfo {
     NSObject *obj = [parameters objectForKey:SDLNameAppInfo];
     if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
         return (SDLAppInfo *)obj;
@@ -254,3 +269,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

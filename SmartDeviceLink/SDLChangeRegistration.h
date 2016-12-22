@@ -15,11 +15,14 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLChangeRegistration : SDLRPCRequest
 
 - (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage;
 
-- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray<NSString *> *)vrSynonyms;
+- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(nullable NSString *)appName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms;
 
 /**
  * @abstract The language the app wants to change to
@@ -36,27 +39,29 @@
  *
  *  Optional, Max string length 100 chars
  */
-@property (copy, nonatomic) NSString *appName;
+@property (nullable, copy, nonatomic) NSString *appName;
 
 /**
  *  Request a new TTSName registration.
  *
  *  Optional, Array of SDLTTSChunk, 1 - 100 elements
  */
-@property (copy, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
+@property (nullable, copy, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
 
 /**
  *  Request a new app short name registration
  *
  *  Optional, Max string length 100 chars
  */
-@property (copy, nonatomic) NSString *ngnMediaScreenAppName;
+@property (nullable, copy, nonatomic) NSString *ngnMediaScreenAppName;
 
 /**
  *  Request a new VR synonyms registration
  *
  *  Optional, Array of NSString, 1 - 100 elements, max string length 40 chars
  */
-@property (copy, nonatomic) NSArray<NSString *> *vrSynonyms;
+@property (nullable, copy, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 @end
+
+NS_ASSUME_NONNULL_END

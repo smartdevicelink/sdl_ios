@@ -11,13 +11,16 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSlider : SDLRPCRequest
 
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(UInt16)timeout;
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
 
 /**
  * @abstract Represents a number of selectable items on a horizontal axis
@@ -53,7 +56,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray<NSString *> *sliderFooter;
+@property (nullable, strong) NSMutableArray<NSString *> *sliderFooter;
 
 /**
  * @abstract An App defined timeout
@@ -64,6 +67,8 @@
  *
  * Optional, Integer, 1000 - 65535
  */
-@property (strong) NSNumber<SDLInt> *timeout;
+@property (nullable, strong) NSNumber<SDLInt> *timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END

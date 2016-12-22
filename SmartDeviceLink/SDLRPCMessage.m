@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCMessage
 
 @synthesize messageType;
@@ -39,11 +41,11 @@
     return self;
 }
 
-- (NSString *)getFunctionName {
+- (nullable NSString *)getFunctionName {
     return [function objectForKey:SDLNameOperationName];
 }
 
-- (void)setFunctionName:(NSString *)functionName {
+- (void)setFunctionName:(nullable NSString *)functionName {
     if (functionName != nil) {
         [function setObject:functionName forKey:SDLNameOperationName];
     } else {
@@ -51,11 +53,11 @@
     }
 }
 
-- (NSObject *)getParameters:(NSString *)functionName {
+- (nullable NSObject *)getParameters:(NSString *)functionName {
     return [parameters objectForKey:functionName];
 }
 
-- (void)setParameters:(NSString *)functionName value:(NSObject *)value {
+- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {
     if (value != nil) {
         [parameters setObject:value forKey:functionName];
     } else {
@@ -79,3 +81,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

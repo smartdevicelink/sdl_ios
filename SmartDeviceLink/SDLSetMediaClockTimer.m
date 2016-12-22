@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLStartTime.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSetMediaClockTimer
 
 - (instancetype)init {
@@ -38,7 +40,7 @@
     return self;
 }
 
-- (void)setStartTime:(SDLStartTime *)startTime {
+- (void)setStartTime:(nullable SDLStartTime *)startTime {
     if (startTime != nil) {
         [parameters setObject:startTime forKey:SDLNameStartTime];
     } else {
@@ -46,7 +48,7 @@
     }
 }
 
-- (SDLStartTime *)startTime {
+- (nullable SDLStartTime *)startTime {
     NSObject *obj = [parameters objectForKey:SDLNameStartTime];
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
@@ -55,7 +57,7 @@
     }
 }
 
-- (void)setEndTime:(SDLStartTime *)endTime {
+- (void)setEndTime:(nullable SDLStartTime *)endTime {
     if (endTime != nil) {
         [parameters setObject:endTime forKey:SDLNameEndTime];
     } else {
@@ -63,7 +65,7 @@
     }
 }
 
-- (SDLStartTime *)endTime {
+- (nullable SDLStartTime *)endTime {
     NSObject *obj = [parameters objectForKey:SDLNameEndTime];
     if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
         return (SDLStartTime *)obj;
@@ -86,3 +88,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

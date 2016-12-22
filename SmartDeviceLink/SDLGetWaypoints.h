@@ -5,6 +5,8 @@
 
 #import "SDLWaypointType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLGetWaypoints : SDLRPCRequest
 
 - (instancetype)initWithType:(SDLWaypointType)type;
@@ -18,3 +20,5 @@
 @property (strong, nonatomic) SDLWaypointType waypointType;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -50,11 +50,13 @@
  *
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLChoice : SDLRPCStruct
 
 - (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands;
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(SDLImage *)image secondaryText:(NSString *)secondaryText secondaryImage:(SDLImage *)secondaryImage tertiaryText:(NSString *)tertiaryText;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
@@ -82,27 +84,29 @@
  *
  * Optional
  */
-@property (strong) SDLImage *image;
+@property (nullable, strong) SDLImage *image;
 
 /**
  * @abstract Optional secondary text to display; e.g. address of POI in a search result entry
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *secondaryText;
+@property (nullable, strong) NSString *secondaryText;
 
 /**
  * @abstract Optional tertiary text to display; e.g. distance to POI for a search result entry
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *tertiaryText;
+@property (nullable, strong) NSString *tertiaryText;
 
 /**
  * @abstract Optional secondary image for choice
  *
  * Optional
  */
-@property (strong) SDLImage *secondaryImage;
+@property (nullable, strong) SDLImage *secondaryImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -58,6 +58,9 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLUnsubscribeButton
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSubscribeButton : SDLRPCRequest <SDLRequestHandler>
 
 /**
@@ -67,9 +70,9 @@
  *
  *  @return An SDLSubscribeButton object
  */
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler;
 
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you subscribed to is selected.
@@ -85,3 +88,5 @@
 @property (strong) SDLButtonName buttonName;
 
 @end
+
+NS_ASSUME_NONNULL_END

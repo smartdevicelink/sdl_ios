@@ -19,6 +19,11 @@
  *
  * See SDLRegisterAppInterface SDLOnAppInterfaceUnregistered
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLUnregisterAppInterface : SDLRPCRequest
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,16 +6,19 @@
 
 #import "SDLRPCMessageType.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRPCPayload : NSObject
 
 @property (assign) SDLRPCMessageType rpcType;
 @property (assign) UInt32 functionID;
 @property (assign) UInt32 correlationID;
-@property (strong) NSData *jsonData;
-@property (strong) NSData *binaryData;
+@property (nullable, strong) NSData *jsonData;
+@property (nullable, strong) NSData *binaryData;
 
 - (NSData *)data;
-+ (id)rpcPayloadWithData:(NSData *)data;
++ (nullable id)rpcPayloadWithData:(NSData *)data;
 
 @end
+
+NS_ASSUME_NONNULL_END

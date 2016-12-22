@@ -14,20 +14,25 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLShowConstantTBT : SDLRPCRequest
 
-- (instancetype)initWithNavigationText1:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(CGFloat)distanceToManeuver distanceToManeuverScale:(CGFloat)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(CGFloat)distanceToManeuver distanceToManeuverScale:(CGFloat)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
-@property (strong) NSString *navigationText1;
-@property (strong) NSString *navigationText2;
-@property (strong) NSString *eta;
-@property (strong) NSString *timeToDestination;
-@property (strong) NSString *totalDistance;
-@property (strong) SDLImage *turnIcon;
-@property (strong) SDLImage *nextTurnIcon;
-@property (strong) NSNumber<SDLFloat> *distanceToManeuver;
-@property (strong) NSNumber<SDLFloat> *distanceToManeuverScale;
-@property (strong) NSNumber<SDLBool> *maneuverComplete;
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (nullable, strong) NSString *navigationText1;
+@property (nullable, strong) NSString *navigationText2;
+@property (nullable, strong) NSString *eta;
+@property (nullable, strong) NSString *timeToDestination;
+@property (nullable, strong) NSString *totalDistance;
+@property (nullable, strong) SDLImage *turnIcon;
+@property (nullable, strong) SDLImage *nextTurnIcon;
+@property (nullable, strong) NSNumber<SDLFloat> *distanceToManeuver;
+@property (nullable, strong) NSNumber<SDLFloat> *distanceToManeuverScale;
+@property (nullable, strong) NSNumber<SDLBool> *maneuverComplete;
+@property (nullable, strong) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
+
+NS_ASSUME_NONNULL_END

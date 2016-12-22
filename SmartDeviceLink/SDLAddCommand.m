@@ -8,6 +8,8 @@
 #import "SDLMenuParams.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAddCommand
 
 - (instancetype)init {
@@ -16,7 +18,7 @@
     return self;
 }
 
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -27,29 +29,31 @@
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands handler:(SDLRPCNotificationHandler)handler {
-    return [self initWithId:commandId vrCommands:vrCommands menuName:nil handler:handler];
-}
-
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
     }
-
+    
     self.cmdID = @(commandId);
-
-    if (menuName != nil) {
-        self.menuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
-    }
-
     self.vrCommands = [vrCommands mutableCopy];
     self.handler = handler;
-
+    
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler {
+    self = [self initWithId:commandId vrCommands:vrCommands handler:handler];
+    if (!self) {
+        return nil;
+    }
+    
+    self.menuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
+    
+    return self;
+}
+
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCNotificationHandler)handler {
     self = [self initWithId:commandId vrCommands:vrCommands menuName:menuName handler:handler];
     if (!self) {
         return nil;
@@ -58,9 +62,7 @@
     self.menuParams.parentID = @(parentId);
     self.menuParams.position = @(position);
 
-    if (iconValue != nil && iconType != nil) {
-        self.cmdIcon = [[SDLImage alloc] initWithName:iconValue ofType:iconType];
-    }
+    self.cmdIcon = [[SDLImage alloc] initWithName:iconValue ofType:iconType];
 
     return self;
 }
@@ -77,7 +79,7 @@
     return [parameters objectForKey:SDLNameCommandId];
 }
 
-- (void)setMenuParams:(SDLMenuParams *)menuParams {
+- (void)setMenuParams:(nullable SDLMenuParams *)menuParams {
     if (menuParams != nil) {
         [parameters setObject:menuParams forKey:SDLNameMenuParams];
     } else {
@@ -85,7 +87,7 @@
     }
 }
 
-- (SDLMenuParams *)menuParams {
+- (nullable SDLMenuParams *)menuParams {
     NSObject *obj = [parameters objectForKey:SDLNameMenuParams];
     if (obj == nil || [obj isKindOfClass:SDLMenuParams.class]) {
         return (SDLMenuParams *)obj;
@@ -94,7 +96,7 @@
     }
 }
 
-- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
+- (void)setVrCommands:(nullable NSMutableArray<NSString *> *)vrCommands {
     if (vrCommands != nil) {
         [parameters setObject:vrCommands forKey:SDLNameVRCommands];
     } else {
@@ -102,11 +104,11 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)vrCommands {
+- (nullable NSMutableArray<NSString *> *)vrCommands {
     return [parameters objectForKey:SDLNameVRCommands];
 }
 
-- (void)setCmdIcon:(SDLImage *)cmdIcon {
+- (void)setCmdIcon:(nullable SDLImage *)cmdIcon {
     if (cmdIcon != nil) {
         [parameters setObject:cmdIcon forKey:SDLNameCommandIcon];
     } else {
@@ -114,7 +116,7 @@
     }
 }
 
-- (SDLImage *)cmdIcon {
+- (nullable SDLImage *)cmdIcon {
     NSObject *obj = [parameters objectForKey:SDLNameCommandIcon];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
@@ -124,3 +126,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

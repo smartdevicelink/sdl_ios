@@ -23,7 +23,7 @@
     return self;
 }
 
-- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray<NSString *> *)vrSynonyms {
+- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(nullable NSString *)appName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
     self = [self init];
     if (!self) {
         return nil;
@@ -65,7 +65,7 @@
     return (SDLLanguage )obj;
 }
 
-- (void)setAppName:(NSString *)appName {
+- (void)setAppName:(nullable NSString *)appName {
     if (appName != nil) {
         parameters[SDLNameAppName] = [appName copy];
     } else {
@@ -73,11 +73,11 @@
     }
 }
 
-- (NSString *)appName {
+- (nullable NSString *)appName {
     return [parameters[SDLNameAppName] copy];
 }
 
-- (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
+- (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
     if (ttsName != nil) {
         [parameters setObject:[ttsName copy] forKey:SDLNameTTSName];
     } else {
@@ -85,11 +85,11 @@
     }
 }
 
-- (NSArray<SDLTTSChunk *> *)ttsName {
+- (nullable NSArray<SDLTTSChunk *> *)ttsName {
     return [parameters[SDLNameTTSName] copy];
 }
 
-- (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
+- (void)setNgnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName {
     if (ngnMediaScreenAppName != nil) {
         parameters[SDLNameNGNMediaScreenAppName] = [ngnMediaScreenAppName copy];
     } else {
@@ -97,11 +97,11 @@
     }
 }
 
-- (NSString *)ngnMediaScreenAppName {
+- (nullable NSString *)ngnMediaScreenAppName {
     return [parameters[SDLNameNGNMediaScreenAppName] copy];
 }
 
-- (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
+- (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
     if (vrSynonyms != nil) {
         [parameters setObject:[vrSynonyms copy] forKey:SDLNameVRSynonyms];
     } else {
@@ -109,7 +109,7 @@
     }
 }
 
-- (NSArray<NSString *> *)vrSynonyms {
+- (nullable NSArray<NSString *> *)vrSynonyms {
     return [parameters[SDLNameVRSynonyms] copy];
 }
 

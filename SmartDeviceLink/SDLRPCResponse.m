@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLResult.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCResponse
 
 - (instancetype)initWithName:(NSString *)name {
@@ -33,11 +35,11 @@
     return self;
 }
 
-- (NSNumber<SDLInt> *)correlationID {
+- (nullable NSNumber<SDLInt> *)correlationID {
     return [function objectForKey:SDLNameCorrelationId];
 }
 
-- (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
+- (void)setCorrelationID:(nullable NSNumber<SDLInt> *)corrID {
     if (corrID != nil) {
         [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {
@@ -45,7 +47,7 @@
     }
 }
 
-- (void)setSuccess:(NSNumber<SDLBool> *)success {
+- (void)setSuccess:(nullable NSNumber<SDLBool> *)success {
     if (success != nil) {
         [parameters setObject:success forKey:SDLNameSuccess];
     } else {
@@ -53,11 +55,11 @@
     }
 }
 
-- (NSNumber<SDLBool> *)success {
+- (nullable NSNumber<SDLBool> *)success {
     return [parameters objectForKey:SDLNameSuccess];
 }
 
-- (void)setResultCode:(SDLResult)resultCode {
+- (void)setResultCode:(nullable SDLResult)resultCode {
     if (resultCode != nil) {
         [parameters setObject:resultCode forKey:SDLNameResultCode];
     } else {
@@ -65,12 +67,12 @@
     }
 }
 
-- (SDLResult)resultCode {
+- (nullable SDLResult)resultCode {
     NSObject *obj = [parameters objectForKey:SDLNameResultCode];
     return (SDLResult)obj;
 }
 
-- (void)setInfo:(NSString *)info {
+- (void)setInfo:(nullable NSString *)info {
     if (info != nil) {
         [parameters setObject:info forKey:SDLNameInfo];
     } else {
@@ -78,8 +80,10 @@
     }
 }
 
-- (NSString *)info {
+- (nullable NSString *)info {
     return [parameters objectForKey:SDLNameInfo];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

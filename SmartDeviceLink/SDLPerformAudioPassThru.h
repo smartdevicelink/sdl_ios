@@ -21,11 +21,14 @@
  * <p>Since SmartDeviceLink 2.0</p>
  * <p>See SDLEndAudioPassThru</p>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPerformAudioPassThru : SDLRPCRequest
 
 - (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration;
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio;
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio;
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass
@@ -44,7 +47,7 @@
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (nullable, strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1
@@ -53,7 +56,7 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *audioPassThruDisplayText1;
+@property (nullable, strong) NSString *audioPassThruDisplayText1;
 /**
  * @abstract A line of text displayed during audio capture
  * @discussion audioPassThruDisplayText2
@@ -62,7 +65,7 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *audioPassThruDisplayText2;
+@property (nullable, strong) NSString *audioPassThruDisplayText2;
 /**
  * @abstract A samplingRate
  *
@@ -93,6 +96,8 @@
  * @abstract a Boolean value representing if the current audio source should be
  * muted during the APT session<br/>
  */
-@property (strong) NSNumber<SDLBool> *muteAudio;
+@property (nullable, strong) NSNumber<SDLBool> *muteAudio;
 
 @end
+
+NS_ASSUME_NONNULL_END

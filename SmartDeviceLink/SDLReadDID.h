@@ -16,6 +16,9 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLReadDID : SDLRPCRequest
 
 - (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation;
@@ -40,3 +43,5 @@
 @property (strong) NSMutableArray<NSNumber<SDLInt> *> *didLocation;
 
 @end
+
+NS_ASSUME_NONNULL_END

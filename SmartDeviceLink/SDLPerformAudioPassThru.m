@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPerformAudioPassThru
 
 - (instancetype)init {
@@ -15,7 +17,7 @@
     return self;
 }
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt audioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio {
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio {
     self = [self initWithSamplingRate:samplingRate bitsPerSample:bitsPerSample audioType:audioType maxDuration:maxDuration];
     if (!self) {
         return nil;
@@ -43,7 +45,7 @@
     return self;
 }
 
-- (void)setInitialPrompt:(NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+- (void)setInitialPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)initialPrompt {
     if (initialPrompt != nil) {
         [parameters setObject:initialPrompt forKey:SDLNameInitialPrompt];
     } else {
@@ -51,7 +53,7 @@
     }
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+- (nullable NSMutableArray<SDLTTSChunk *> *)initialPrompt {
     NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameInitialPrompt];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
         return array;
@@ -64,7 +66,7 @@
     }
 }
 
-- (void)setAudioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 {
+- (void)setAudioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 {
     if (audioPassThruDisplayText1 != nil) {
         [parameters setObject:audioPassThruDisplayText1 forKey:SDLNameAudioPassThruDisplayText1];
     } else {
@@ -72,11 +74,11 @@
     }
 }
 
-- (NSString *)audioPassThruDisplayText1 {
+- (nullable NSString *)audioPassThruDisplayText1 {
     return [parameters objectForKey:SDLNameAudioPassThruDisplayText1];
 }
 
-- (void)setAudioPassThruDisplayText2:(NSString *)audioPassThruDisplayText2 {
+- (void)setAudioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 {
     if (audioPassThruDisplayText2 != nil) {
         [parameters setObject:audioPassThruDisplayText2 forKey:SDLNameAudioPassThruDisplayText2];
     } else {
@@ -84,7 +86,7 @@
     }
 }
 
-- (NSString *)audioPassThruDisplayText2 {
+- (nullable NSString *)audioPassThruDisplayText2 {
     return [parameters objectForKey:SDLNameAudioPassThruDisplayText2];
 }
 
@@ -139,7 +141,7 @@
     return (SDLAudioType)obj;
 }
 
-- (void)setMuteAudio:(NSNumber<SDLBool> *)muteAudio {
+- (void)setMuteAudio:(nullable NSNumber<SDLBool> *)muteAudio {
     if (muteAudio != nil) {
         [parameters setObject:muteAudio forKey:SDLNameMuteAudio];
     } else {
@@ -147,8 +149,10 @@
     }
 }
 
-- (NSNumber<SDLBool> *)muteAudio {
+- (nullable NSNumber<SDLBool> *)muteAudio {
     return [parameters objectForKey:SDLNameMuteAudio];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

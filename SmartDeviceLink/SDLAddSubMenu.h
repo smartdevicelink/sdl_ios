@@ -16,6 +16,9 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLDeleteSubMenu SDLAddCommand SDLDeleteCommand
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAddSubMenu : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName;
@@ -47,7 +50,7 @@
  *            the end of the list</li>
  *            </ul>
  */
-@property (strong) NSNumber<SDLInt> *position;
+@property (nullable, strong) NSNumber<SDLInt> *position;
 /**
  * @abstract a menuName which is displayed representing this submenu item
  * @discussion NSString which will be displayed representing this submenu item
@@ -55,3 +58,5 @@
 @property (strong) NSString *menuName;
 
 @end
+
+NS_ASSUME_NONNULL_END
