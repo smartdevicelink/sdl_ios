@@ -55,11 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImageResolution *)imageResolution {
     NSObject *obj = [store objectForKey:SDLNameImageResolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImageResolution*)obj;
 }
 
 @end

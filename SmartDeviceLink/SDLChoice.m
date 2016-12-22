@@ -83,11 +83,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)image {
     NSObject *obj = [store objectForKey:SDLNameImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
+    
 }
 
 - (void)setSecondaryText:(nullable NSString *)secondaryText {
@@ -124,11 +125,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)secondaryImage {
     NSObject *obj = [store objectForKey:SDLNameSecondaryImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 @end

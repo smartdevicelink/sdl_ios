@@ -109,11 +109,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)turnIcon {
     NSObject *obj = [parameters objectForKey:SDLNameTurnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setNextTurnIcon:(nullable SDLImage *)nextTurnIcon {
@@ -126,11 +126,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)nextTurnIcon {
     NSObject *obj = [parameters objectForKey:SDLNameNextTurnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setDistanceToManeuver:(nullable NSNumber<SDLFloat> *)distanceToManeuver {

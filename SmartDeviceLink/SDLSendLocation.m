@@ -125,11 +125,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)locationImage {
     id obj = parameters[SDLNameLocationImage];
-    if (obj == nil || [obj isKindOfClass:[SDLImage class]]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:obj];
+    if ([obj isKindOfClass:NSDictionary.class]) {
+        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setDeliveryMode:(nullable SDLDeliveryMode)deliveryMode {
@@ -154,11 +154,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLDateTime *)timeStamp {
     id obj = parameters[SDLNameLocationTimeStamp];
-    if (obj == nil || [obj isKindOfClass:[SDLDateTime class]]) {
-        return (SDLDateTime *)obj;
-    } else {
-        return [[SDLDateTime alloc] initWithDictionary:obj];
+    if ([obj isKindOfClass:NSDictionary.class]) {
+        return [[SDLDateTime alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLDateTime*)obj;
 }
 
 - (void)setAddress:(nullable SDLOasisAddress *)address {
@@ -171,11 +171,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLOasisAddress *)address {
     id obj = parameters[SDLNameAddress];
-    if (obj == nil || [obj isKindOfClass:[SDLOasisAddress class]]) {
-        return (SDLOasisAddress *)obj;
-    } else {
-        return [[SDLOasisAddress alloc] initWithDictionary:obj];
+    if ([obj isKindOfClass:NSDictionary.class]) {
+        return [[SDLOasisAddress alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLOasisAddress*)obj;
 }
 
 @end

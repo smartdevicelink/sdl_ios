@@ -73,11 +73,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)image {
     NSObject *obj = [store objectForKey:SDLNameImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setIsHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted {

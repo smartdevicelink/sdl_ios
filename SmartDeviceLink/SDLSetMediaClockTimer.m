@@ -50,11 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLStartTime *)startTime {
     NSObject *obj = [parameters objectForKey:SDLNameStartTime];
-    if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
-        return (SDLStartTime *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLStartTime alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLStartTime*)obj;
 }
 
 - (void)setEndTime:(nullable SDLStartTime *)endTime {
@@ -67,11 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLStartTime *)endTime {
     NSObject *obj = [parameters objectForKey:SDLNameEndTime];
-    if (obj == nil || [obj isKindOfClass:SDLStartTime.class]) {
-        return (SDLStartTime *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLStartTime alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLStartTime*)obj;
 }
 
 - (void)setUpdateMode:(SDLUpdateMode)updateMode {

@@ -122,11 +122,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLScreenParams *)screenParams {
     NSObject *obj = [store objectForKey:SDLNameScreenParams];
-    if (obj == nil || [obj isKindOfClass:SDLScreenParams.class]) {
-        return (SDLScreenParams *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLScreenParams alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLScreenParams*)obj;
 }
 
 - (void)setNumCustomPresetsAvailable:(nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {

@@ -143,11 +143,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)menuIcon {
     NSObject *obj = [parameters objectForKey:SDLNameMenuIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setKeyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties {
@@ -160,11 +160,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLKeyboardProperties *)keyboardProperties {
     NSObject *obj = [parameters objectForKey:SDLNameKeyboardProperties];
-    if (obj == nil || [obj isKindOfClass:SDLKeyboardProperties.class]) {
-        return (SDLKeyboardProperties *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLKeyboardProperties alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLKeyboardProperties*)obj;
 }
 
 @end

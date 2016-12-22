@@ -87,11 +87,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
     NSObject *obj = [parameters objectForKey:SDLNameSyncMessageVersion];
-    if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
-        return (SDLSyncMsgVersion *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSyncMsgVersion*)obj;
+
+    
 }
 
 - (void)setAppName:(NSString *)appName {
@@ -232,11 +234,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLDeviceInfo *)deviceInfo {
     NSObject *obj = [parameters objectForKey:SDLNameDeviceInfo];
-    if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
-        return (SDLDeviceInfo *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLDeviceInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLDeviceInfo*)obj;
 }
 
 - (void)setAppID:(NSString *)appID {
@@ -261,11 +263,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLAppInfo *)appInfo {
     NSObject *obj = [parameters objectForKey:SDLNameAppInfo];
-    if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
-        return (SDLAppInfo *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLAppInfo alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLAppInfo*)obj;
 }
 
 @end

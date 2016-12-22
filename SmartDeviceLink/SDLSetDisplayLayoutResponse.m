@@ -28,11 +28,11 @@
 
 - (nullable SDLDisplayCapabilities *)displayCapabilities {
     NSObject *obj = [parameters objectForKey:SDLNameDisplayCapabilities];
-    if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
-        return (SDLDisplayCapabilities *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLDisplayCapabilities*)obj;
 }
 
 - (void)setButtonCapabilities:(nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
@@ -87,11 +87,11 @@
 
 - (nullable SDLPresetBankCapabilities *)presetBankCapabilities {
     NSObject *obj = [parameters objectForKey:SDLNamePresetBankCapabilities];
-    if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
-        return (SDLPresetBankCapabilities *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLPresetBankCapabilities*)obj;
 }
 
 @end

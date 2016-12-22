@@ -33,11 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLHMIPermissions *)hmiPermissions {
     NSObject *obj = [store objectForKey:SDLNameHMIPermissions];
-    if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
-        return (SDLHMIPermissions *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLHMIPermissions alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLHMIPermissions*)obj;
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
@@ -50,11 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLParameterPermissions *)parameterPermissions {
     NSObject *obj = [store objectForKey:SDLNameParameterPermissions];
-    if (obj == nil || [obj isKindOfClass:SDLParameterPermissions.class]) {
-        return (SDLParameterPermissions *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLParameterPermissions alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLParameterPermissions*)obj;
 }
 
 @end

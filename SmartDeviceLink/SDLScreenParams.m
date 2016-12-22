@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLImageResolution *)resolution {
     NSObject *obj = [store objectForKey:SDLNameResolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImageResolution*)obj;
 }
 
 - (void)setTouchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {
@@ -38,11 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLTouchEventCapabilities *)touchEventAvailable {
     NSObject *obj = [store objectForKey:SDLNameTouchEventAvailable];
-    if (obj == nil || [obj isKindOfClass:SDLTouchEventCapabilities.class]) {
-        return (SDLTouchEventCapabilities *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLTouchEventCapabilities*)obj;
 }
 
 @end

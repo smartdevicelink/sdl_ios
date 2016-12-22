@@ -89,11 +89,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLMenuParams *)menuParams {
     NSObject *obj = [parameters objectForKey:SDLNameMenuParams];
-    if (obj == nil || [obj isKindOfClass:SDLMenuParams.class]) {
-        return (SDLMenuParams *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLMenuParams alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLMenuParams*)obj;
 }
 
 - (void)setVrCommands:(nullable NSMutableArray<NSString *> *)vrCommands {
@@ -118,11 +118,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLImage *)cmdIcon {
     NSObject *obj = [parameters objectForKey:SDLNameCommandIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 @end
