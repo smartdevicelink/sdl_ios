@@ -10,7 +10,7 @@
 
 @implementation SDLLocationDetails
 
-- (void)setCoordinate:(SDLLocationCoordinate *)coordinate {
+- (void)setCoordinate:(nullable SDLLocationCoordinate *)coordinate {
     if (coordinate != nil) {
         store[SDLNameLocationCoordinate] = coordinate;
     } else {
@@ -18,11 +18,11 @@
     }
 }
 
-- (SDLLocationCoordinate *)coordinate {
+- (nullable SDLLocationCoordinate *)coordinate {
     return store[SDLNameLocationCoordinate];
 }
 
-- (void)setLocationName:(NSString *)locationName {
+- (void)setLocationName:(nullable NSString *)locationName {
     if (locationName != nil) {
         store[SDLNameLocationName] = locationName;
     } else {
@@ -30,11 +30,11 @@
     }
 }
 
-- (NSString *)locationName {
+- (nullable NSString *)locationName {
     return store[SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
+- (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
     if (addressLines != nil) {
         store[SDLNameAddressLines] = addressLines;
     } else {
@@ -42,11 +42,11 @@
     }
 }
 
-- (NSArray<NSString *> *)addressLines {
+- (nullable NSArray<NSString *> *)addressLines {
     return store[SDLNameAddressLines];
 }
 
-- (void)setLocationDescription:(NSString *)locationDescription {
+- (void)setLocationDescription:(nullable NSString *)locationDescription {
     if (locationDescription != nil) {
         store[SDLNameLocationDescription] = locationDescription;
     } else {
@@ -54,11 +54,11 @@
     }
 }
 
-- (NSString *)locationDescription {
+- (nullable NSString *)locationDescription {
     return store[SDLNameLocationDescription];
 }
 
-- (void)setPhoneNumber:(NSString *)phoneNumber {
+- (void)setPhoneNumber:(nullable NSString *)phoneNumber {
     if (phoneNumber != nil) {
         store[SDLNamePhoneNumber] = phoneNumber;
     } else {
@@ -66,11 +66,11 @@
     }
 }
 
-- (NSString *)phoneNumber {
+- (nullable NSString *)phoneNumber {
     return store[SDLNamePhoneNumber];
 }
 
-- (void)setLocationImage:(SDLImage *)locationImage {
+- (void)setLocationImage:(nullable SDLImage *)locationImage {
     if (locationImage != nil) {
         store[SDLNameLocationImage] = locationImage;
     } else {
@@ -78,11 +78,11 @@
     }
 }
 
-- (SDLImage *)locationImage {
+- (nullable SDLImage *)locationImage {
     return store[SDLNameLocationImage];
 }
 
-- (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
+- (void)setSearchAddress:(nullable SDLOasisAddress *)searchAddress {
     if (searchAddress != nil) {
         store[SDLNameAddress] = searchAddress;
     } else {
@@ -90,7 +90,7 @@
     }
 }
 
-- (SDLOasisAddress *)searchAddress {
+- (nullable SDLOasisAddress *)searchAddress {
     return store[SDLNameAddress];
 }
 

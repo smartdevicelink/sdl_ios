@@ -5,15 +5,18 @@
 
 @class SDLImage;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVRHelpItem : SDLRPCStruct
 
-- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image;
+- (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image;
 
-- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image position:(UInt8)position;
+- (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image position:(UInt8)position;
 
 @property (strong) NSString *text;
-@property (strong) SDLImage *image;
+@property (nullable, strong) SDLImage *image;
 @property (strong) NSNumber<SDLInt> *position;
 
 @end
+
+NS_ASSUME_NONNULL_END

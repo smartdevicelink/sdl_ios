@@ -7,6 +7,8 @@
 #import "SDLImageResolution.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLImageField
 
 - (void)setName:(SDLImageFieldName)name {
@@ -43,7 +45,7 @@
     }
 }
 
-- (void)setImageResolution:(SDLImageResolution *)imageResolution {
+- (void)setImageResolution:(nullable SDLImageResolution *)imageResolution {
     if (imageResolution != nil) {
         [store setObject:imageResolution forKey:SDLNameImageResolution];
     } else {
@@ -51,7 +53,7 @@
     }
 }
 
-- (SDLImageResolution *)imageResolution {
+- (nullable SDLImageResolution *)imageResolution {
     NSObject *obj = [store objectForKey:SDLNameImageResolution];
     if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
         return (SDLImageResolution *)obj;
@@ -61,3 +63,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

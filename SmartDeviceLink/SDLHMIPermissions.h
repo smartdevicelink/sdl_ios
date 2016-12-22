@@ -11,6 +11,9 @@
  * 
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLHMIPermissions : SDLRPCStruct
 
 /**
@@ -32,3 +35,5 @@
 @property (strong) NSMutableArray<SDLHMILevel> *userDisallowed;
 
 @end
+
+NS_ASSUME_NONNULL_END

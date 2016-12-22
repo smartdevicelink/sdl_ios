@@ -6,10 +6,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButton
 
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -20,7 +21,7 @@
     return self;
 }
 
-- (instancetype)initWithType:(SDLSoftButtonType)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(SDLSystemAction)systemAction handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithType:(SDLSoftButtonType)type text:(nullable NSString *)text image:(nullable SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(nullable SDLSystemAction)systemAction handler:(nullable SDLRPCNotificationHandler)handler {
     self = [self initWithHandler:handler];
     if (!self) {
         return nil;
@@ -50,7 +51,7 @@
     return (SDLSoftButtonType)obj;
 }
 
-- (void)setText:(NSString *)text {
+- (void)setText:(nullable NSString *)text {
     if (text != nil) {
         [store setObject:text forKey:SDLNameText];
     } else {
@@ -58,11 +59,11 @@
     }
 }
 
-- (NSString *)text {
+- (nullable NSString *)text {
     return [store objectForKey:SDLNameText];
 }
 
-- (void)setImage:(SDLImage *)image {
+- (void)setImage:(nullable SDLImage *)image {
     if (image != nil) {
         [store setObject:image forKey:SDLNameImage];
     } else {
@@ -70,7 +71,7 @@
     }
 }
 
-- (SDLImage *)image {
+- (nullable SDLImage *)image {
     NSObject *obj = [store objectForKey:SDLNameImage];
     if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
         return (SDLImage *)obj;
@@ -79,7 +80,7 @@
     }
 }
 
-- (void)setIsHighlighted:(NSNumber<SDLBool> *)isHighlighted {
+- (void)setIsHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted {
     if (isHighlighted != nil) {
         [store setObject:isHighlighted forKey:SDLNameIsHighlighted];
     } else {
@@ -87,7 +88,7 @@
     }
 }
 
-- (NSNumber<SDLBool> *)isHighlighted {
+- (nullable NSNumber<SDLBool> *)isHighlighted {
     return [store objectForKey:SDLNameIsHighlighted];
 }
 
@@ -103,7 +104,7 @@
     return [store objectForKey:SDLNameSoftButtonId];
 }
 
-- (void)setSystemAction:(SDLSystemAction)systemAction {
+- (void)setSystemAction:(nullable SDLSystemAction)systemAction {
     if (systemAction != nil) {
         [store setObject:systemAction forKey:SDLNameSystemAction];
     } else {
@@ -111,9 +112,11 @@
     }
 }
 
-- (SDLSystemAction)systemAction {
+- (nullable SDLSystemAction)systemAction {
     NSObject *obj = [store objectForKey:SDLNameSystemAction];
     return (SDLSystemAction)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

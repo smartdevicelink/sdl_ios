@@ -8,6 +8,8 @@
 #import "SDLScreenParams.h"
 #import "SDLTextField.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDisplayCapabilities
 
 - (void)setDisplayType:(SDLDisplayType)displayType {
@@ -44,7 +46,7 @@
     }
 }
 
-- (void)setImageFields:(NSMutableArray<SDLImageField *> *)imageFields {
+- (void)setImageFields:(nullable NSMutableArray<SDLImageField *> *)imageFields {
     if (imageFields != nil) {
         [store setObject:imageFields forKey:SDLNameImageFields];
     } else {
@@ -52,7 +54,7 @@
     }
 }
 
-- (NSMutableArray<SDLImageField *> *)imageFields {
+- (nullable NSMutableArray<SDLImageField *> *)imageFields {
     NSMutableArray<SDLImageField *> *array = [store objectForKey:SDLNameImageFields];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLImageField.class]) {
         return array;
@@ -98,7 +100,7 @@
     return [store objectForKey:SDLNameGraphicSupported];
 }
 
-- (void)setTemplatesAvailable:(NSMutableArray<NSString *> *)templatesAvailable {
+- (void)setTemplatesAvailable:(nullable NSMutableArray<NSString *> *)templatesAvailable {
     if (templatesAvailable != nil) {
         [store setObject:templatesAvailable forKey:SDLNameTemplatesAvailable];
     } else {
@@ -106,11 +108,11 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)templatesAvailable {
+- (nullable NSMutableArray<NSString *> *)templatesAvailable {
     return [store objectForKey:SDLNameTemplatesAvailable];
 }
 
-- (void)setScreenParams:(SDLScreenParams *)screenParams {
+- (void)setScreenParams:(nullable SDLScreenParams *)screenParams {
     if (screenParams != nil) {
         [store setObject:screenParams forKey:SDLNameScreenParams];
     } else {
@@ -118,7 +120,7 @@
     }
 }
 
-- (SDLScreenParams *)screenParams {
+- (nullable SDLScreenParams *)screenParams {
     NSObject *obj = [store objectForKey:SDLNameScreenParams];
     if (obj == nil || [obj isKindOfClass:SDLScreenParams.class]) {
         return (SDLScreenParams *)obj;
@@ -127,7 +129,7 @@
     }
 }
 
-- (void)setNumCustomPresetsAvailable:(NSNumber<SDLInt> *)numCustomPresetsAvailable {
+- (void)setNumCustomPresetsAvailable:(nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
     if (numCustomPresetsAvailable != nil) {
         [store setObject:numCustomPresetsAvailable forKey:SDLNameNumberCustomPresetsAvailable];
     } else {
@@ -135,8 +137,10 @@
     }
 }
 
-- (NSNumber<SDLInt> *)numCustomPresetsAvailable {
+- (nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
     return [store objectForKey:SDLNameNumberCustomPresetsAvailable];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

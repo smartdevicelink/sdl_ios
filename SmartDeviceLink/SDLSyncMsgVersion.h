@@ -9,6 +9,9 @@
  * 
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSyncMsgVersion : SDLRPCStruct
 
 - (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion;
@@ -27,3 +30,5 @@
 @property (strong) NSNumber<SDLInt> *minorVersion;
 
 @end
+
+NS_ASSUME_NONNULL_END

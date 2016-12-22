@@ -15,6 +15,9 @@
  * 
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDisplayCapabilities : SDLRPCStruct
 
 /**
@@ -44,7 +47,7 @@
  *
  * Optional, Array of SDLImageField, 1 - 100 objects
  */
-@property (strong) NSMutableArray<SDLImageField *> *imageFields;
+@property (nullable, strong) NSMutableArray<SDLImageField *> *imageFields;
 
 /**
  * @abstract An array of SDLMediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field
@@ -71,20 +74,22 @@
  *
  * Optional, Array of String, max string size 100, 0 - 100 objects
  */
-@property (strong) NSMutableArray<NSString *> *templatesAvailable;
+@property (nullable, strong) NSMutableArray<NSString *> *templatesAvailable;
 
 /**
  * @abstract A set of all parameters related to a prescribed screen area (e.g. for video / touch input)
  *
  * Optional
  */
-@property (strong) SDLScreenParams *screenParams;
+@property (nullable, strong) SDLScreenParams *screenParams;
 
 /**
  * @abstract The number of on-screen custom presets available (if any); otherwise omitted
  *
  * Optional, Integer 1 - 100
  */
-@property (strong) NSNumber<SDLInt> *numCustomPresetsAvailable;
+@property (nullable, strong) NSNumber<SDLInt> *numCustomPresetsAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END
