@@ -38,10 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSMutableArray<SDLTTSChunk *> *)silenceChunks {
-    return [self sdl_chunksFromString:@"" type:SDLSpeechCapabilitiesSilence];
+    return [self sdl_chunksFromString:nil type:SDLSpeechCapabilitiesSilence];
 }
 
-+ (NSMutableArray<SDLTTSChunk *> *)sdl_chunksFromString:(NSString *)string type:(SDLSpeechCapabilities)type {
++ (NSMutableArray<SDLTTSChunk *> *)sdl_chunksFromString:(nullable NSString *)string type:(SDLSpeechCapabilities)type {
+    if (string.length == 0) {
+        return nil;
+    }
+
     return [NSMutableArray arrayWithObject:[[[self class] alloc] initWithText:string type:type]];
 }
 
