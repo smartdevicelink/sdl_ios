@@ -5,6 +5,8 @@
 
 @class SDLLocationDetails;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnWaypointChange : SDLRPCNotification
 
 /**
@@ -15,3 +17,5 @@
 @property (copy, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
 
 @end
+
+NS_ASSUME_NONNULL_END

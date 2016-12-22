@@ -8,6 +8,8 @@
 #import "SDLNames.h"
 #import "SDLSystemContext.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnHMIStatus
 
 - (instancetype)init {
@@ -56,3 +58,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
