@@ -8,8 +8,13 @@
  * Sent after SDLAlert has been sent
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAlertResponse : SDLRPCResponse
 
-@property (strong) NSNumber<SDLInt> *tryAgainTime;
+@property (nullable, strong) NSNumber<SDLInt> *tryAgainTime;
 
 @end
+
+NS_ASSUME_NONNULL_END

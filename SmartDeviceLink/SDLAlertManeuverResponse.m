@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAlertManeuverResponse
 
 - (instancetype)init {
@@ -14,3 +16,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

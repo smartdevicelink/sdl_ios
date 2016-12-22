@@ -13,11 +13,16 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
-@property (strong) SDLDisplayCapabilities *displayCapabilities;
-@property (strong) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
-@property (strong) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
-@property (strong) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, strong) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end
+
+NS_ASSUME_NONNULL_END

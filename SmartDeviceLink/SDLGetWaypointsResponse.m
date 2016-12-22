@@ -12,7 +12,7 @@
     return self;
 }
 
-- (void)setWaypoints:(NSArray<SDLLocationDetails *> *)waypoints {
+- (void)setWaypoints:(nullable NSArray<SDLLocationDetails *> *)waypoints {
     if (waypoints != nil) {
         parameters[SDLNameWaypoints] = waypoints;
     } else {
@@ -20,7 +20,7 @@
     }
 }
 
-- (NSArray<SDLLocationDetails *> *)waypoints {
+- (nullable NSArray<SDLLocationDetails *> *)waypoints {
     return parameters[SDLNameWaypoints];
 }
 
