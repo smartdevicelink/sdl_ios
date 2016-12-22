@@ -42,10 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSMutableArray<SDLTTSChunk *> *)sdl_chunksFromString:(NSString *)string type:(SDLSpeechCapabilities)type {
-    if (string.length == 0) {
-        return nil;
-    }
-
     return [NSMutableArray arrayWithObject:[[[self class] alloc] initWithText:string type:type]];
 }
 
