@@ -9,6 +9,7 @@
 #import "SDLSecurityType.h"
 #import "SDLTransportDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>
 
@@ -38,3 +39,5 @@
 - (void)dispose;
 
 @end
+
+NS_ASSUME_NONNULL_END

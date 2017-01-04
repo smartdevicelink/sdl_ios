@@ -8,6 +8,7 @@
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageAssembler.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolReceivedMessageRouter ()
 
@@ -133,3 +134,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

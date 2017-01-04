@@ -7,6 +7,8 @@
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLProtocolMessageAssembler
 
 - (instancetype)initWithSessionID:(UInt8)sessionID {
@@ -93,3 +95,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

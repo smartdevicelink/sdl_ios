@@ -28,6 +28,8 @@ NSString *const SDLProtocolSecurityErrorDomain = @"com.sdl.protocol.security";
 
 typedef NSNumber SDLServiceTypeBox;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLProtocol () {
     UInt32 _messageID;
     dispatch_queue_t _receiveQueue;
@@ -636,3 +638,5 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
