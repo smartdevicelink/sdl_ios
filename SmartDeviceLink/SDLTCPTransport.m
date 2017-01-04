@@ -15,6 +15,7 @@
 #import <sys/wait.h>
 #import <unistd.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 // C function forward declarations.
 int call_socket(const char *hostname, const char *port);
@@ -179,3 +180,5 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
     }
 }
+
+NS_ASSUME_NONNULL_END

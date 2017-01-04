@@ -4,6 +4,8 @@
 
 #import "SDLTransportDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAbstractTransport : NSObject
 
 @property (weak) id<SDLTransportDelegate> delegate;
@@ -16,3 +18,5 @@
 - (double)retryDelay;
 
 @end
+
+NS_ASSUME_NONNULL_END

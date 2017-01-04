@@ -15,6 +15,7 @@
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
@@ -32,7 +33,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 @property (assign) int retryCounter;
 @property (assign) BOOL sessionSetupInProgress;
-@property (strong) SDLTimer *protocolIndexTimer;
+@property (nullable, strong) SDLTimer *protocolIndexTimer;
 
 @end
 
@@ -473,3 +474,5 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
