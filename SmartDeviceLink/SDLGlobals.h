@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define SDL_SYSTEM_VERSION_LESS_THAN(version) ([[[UIDevice currentDevice] systemVersion] compare:version options:NSNumericSearch] == NSOrderedAscending)
 #define BLOCK_RETURN return
 
@@ -17,6 +19,8 @@
 @property (assign, nonatomic, readonly) NSUInteger maxMTUSize;
 @property (assign, nonatomic) NSUInteger maxHeadUnitVersion;
 
-+ (instancetype)globals;
++ (instancetype)sharedGlobals;
 
 @end
+
+NS_ASSUME_NONNULL_END

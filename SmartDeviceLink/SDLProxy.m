@@ -387,7 +387,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
 
-    if ([SDLGlobals globals].protocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].protocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -775,7 +775,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
-            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals globals].maxMTUSize];
+            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];

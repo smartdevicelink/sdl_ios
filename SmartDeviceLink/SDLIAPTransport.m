@@ -380,9 +380,9 @@ int const streamOpenTimeoutSeconds = 2;
     return ^(NSInputStream *istream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        uint8_t buf[[SDLGlobals globals].maxMTUSize];
+        uint8_t buf[[SDLGlobals sharedGlobals].maxMTUSize];
         while ([istream hasBytesAvailable]) {
-            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals globals].maxMTUSize];
+            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
 
             if (bytesRead > 0) {
