@@ -5,9 +5,11 @@
 #import "SDLPolicyDataParser.h"
 #import "SDLDebugTool.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPolicyDataParser
 
-- (NSData *)unwrap:(NSData *)wrappedData {
+- (nullable NSData *)unwrap:(NSData *)wrappedData {
     NSData *decodedData = nil;
 
     @try {
@@ -33,7 +35,7 @@
     return decodedData;
 }
 
-- (void)parsePolicyData:(NSData *)data {
+- (void)parsePolicyData:(nullable NSData *)data {
     if (data == nil) {
         return;
     }
@@ -138,3 +140,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

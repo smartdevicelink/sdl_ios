@@ -41,6 +41,8 @@
 #import "SDLURLSession.h"
 #import "SDLVehicleType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NSString SDLVehicleMake;
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
@@ -51,15 +53,14 @@ const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
 
-
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
 }
 
 @property (copy, nonatomic) NSString *appId;
-@property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
-@property (nonatomic, strong, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
+@property (nullable, nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
 @end
@@ -176,7 +177,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     return SDLProxyVersion;
 }
 
-- (SDLStreamingMediaManager *)streamingMediaManager {
+- (nullable SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
         if (self.displayCapabilities == nil) {
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
@@ -218,7 +219,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
+- (nullable id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((make != nil) && (self.securityManagers[make] != nil)) {
         Class securityManagerClass = self.securityManagers[make];
         self.protocol.appId = self.appId;
@@ -589,7 +590,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
-- (NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
+- (nullable NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
     SDLFileType fileType = request.fileType;
 
@@ -688,7 +689,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
+- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
     dispatch_async(dispatch_get_main_queue(), ^{
         @autoreleasepool {
             for (id<SDLProxyListener> listener in self.proxyListeners) {
@@ -809,3 +810,5 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

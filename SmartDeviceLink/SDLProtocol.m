@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property (strong) NSMutableData *receiveBuffer;
-@property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
+@property (nullable, strong) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic, strong) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @end
 

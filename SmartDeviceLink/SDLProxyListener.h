@@ -64,6 +64,7 @@
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLProxyListener <NSObject>
 
@@ -135,3 +136,5 @@
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response;
 
 @end
+
+NS_ASSUME_NONNULL_END
