@@ -3,6 +3,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 SDLName const SDLNameAccelerationPedalPosition = @"accPedalPosition";
 SDLName const SDLNameActual = @"actual";
 SDLName const SDLNameAddCommand = @"AddCommand";
@@ -437,3 +439,5 @@ SDLName const SDLNameWiperStatus = @"wiperStatus";
 SDLName const SDLNameX = @"x";
 SDLName const SDLNameY = @"y";
 SDLName const SDLNameYear = @"year";
+
+NS_ASSUME_NONNULL_END

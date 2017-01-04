@@ -4,6 +4,8 @@
 #import <Foundation/Foundation.h>
 #import "SDLMacros.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NSString* SDLName SDL_SWIFT_ENUM;
 
 extern SDLName const SDLNameAccelerationPedalPosition;
@@ -440,3 +442,5 @@ extern SDLName const SDLNameWiperStatus;
 extern SDLName const SDLNameX;
 extern SDLName const SDLNameY;
 extern SDLName const SDLNameYear;
+
+NS_ASSUME_NONNULL_END
