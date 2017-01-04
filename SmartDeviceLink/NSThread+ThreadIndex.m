@@ -4,6 +4,8 @@
 
 #import "NSThread+ThreadIndex.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSThread (ThreadIndex)
 
 - (NSInteger)threadIndex {
@@ -21,3 +23,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
