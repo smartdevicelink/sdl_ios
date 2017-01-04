@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign) UInt32 bytesInPayload;
 
 - (instancetype)init;
-- (NSData *)data;
+- (nullable NSData *)data;
 - (void)parse:(NSData *)data;
 - (NSString *)description;
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version;

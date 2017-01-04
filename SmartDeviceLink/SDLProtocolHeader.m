@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     return 0;
 }
 
-- (NSData *)data {
+- (nullable NSData *)data {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }

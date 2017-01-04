@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [SDLProtocolMessage messageWithHeader:header andPayload:nil];
 }
 
-- (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *_Nullable error))completionHandler {
     if (self.securityManager == nil) {
         [SDLDebugTool logInfo:@"Could not start service, encryption was requested but failed because no security manager has been set."];
 
