@@ -5,6 +5,8 @@
 
 #import "SDLTTSChunk.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTTSChunkFactory
 
 + (SDLTTSChunk *)buildTTSChunkForString:(NSString *)text type:(SDLSpeechCapabilities)type {
@@ -13,7 +15,7 @@
     return ret;
 }
 
-+ (NSMutableArray<SDLTTSChunk *> *)buildTTSChunksFromSimple:(NSString *)simple {
++ (nullable NSMutableArray<SDLTTSChunk *> *)buildTTSChunksFromSimple:(nullable NSString *)simple {
     if (simple == nil)
         return nil;
 
@@ -21,3 +23,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
