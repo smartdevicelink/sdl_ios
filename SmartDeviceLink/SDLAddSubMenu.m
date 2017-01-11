@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName position:(UInt8)position {
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position {
     self = [self initWithId:menuId menuName:menuName];
     if (!self) {
         return nil;
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName {
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName {
     self = [self init];
     if (!self) {
         return nil;

@@ -329,6 +329,7 @@ SDLName const SDLNameScreenParams = @"screenParams";
 SDLName const SDLNameScrollableMessage = @"ScrollableMessage";
 SDLName const SDLNameScrollableMessageBody = @"scrollableMessageBody";
 SDLName const SDLNameSDLVersion = @"sdlVersion";
+SDLName const SDLNameSearchAddress = @"searchAddress";
 SDLName const SDLNameSecondaryGraphic = @"secondaryGraphic";
 SDLName const SDLNameSecondaryImage = @"secondaryImage";
 SDLName const SDLNameSecondaryText = @"secondaryText";

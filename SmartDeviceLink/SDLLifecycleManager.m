@@ -14,6 +14,7 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDebugTool.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
@@ -305,7 +306,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
-    if (appIcon == nil) {
+    if (appIcon == nil || !self.registerResponse.displayCapabilities.graphicSupported.boolValue) {
         completion();
         return;
     }

@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLGetWaypoints
+@implementation SDLGetWayPoints
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameGetWaypoints]) {
@@ -38,6 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLWaypointType)waypointType {
     return parameters[SDLNameWaypointType];
 }
+
+@end
+
+@implementation SDLGetWaypoints
 
 @end
 

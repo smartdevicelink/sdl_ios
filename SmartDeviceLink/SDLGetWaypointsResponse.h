@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLGetWaypointsResponse : SDLRPCResponse
+@interface SDLGetWayPointsResponse : SDLRPCResponse
 
 /**
  * @abstract Array of waypoints
@@ -18,6 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong) NSArray<SDLLocationDetails *> *waypoints;
 
+@end
+
+__deprecated_msg("Use SDLGetWayPointsResponse instead")
+    @interface SDLGetWaypointsResponse : SDLGetWayPointsResponse
 @end
 
 NS_ASSUME_NONNULL_END

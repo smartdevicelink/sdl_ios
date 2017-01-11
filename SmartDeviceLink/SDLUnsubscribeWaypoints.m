@@ -6,13 +6,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLUnsubscribeWaypoints
+@implementation SDLUnsubscribeWayPoints
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameUnsubscribeWaypoints]) {
     }
     return self;
 }
+
+@end
+
+NS_ASSUME_NONNULL_END
+
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLUnsubscribeWaypoints
 
 @end
 
