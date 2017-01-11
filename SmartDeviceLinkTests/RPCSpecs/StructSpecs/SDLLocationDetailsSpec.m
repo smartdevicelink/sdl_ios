@@ -89,14 +89,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     describe(@"when initialized with a dictionary", ^{
-        context(@"when parameters are set correctly", ^{
+        fcontext(@"when parameters are set correctly", ^{
             beforeEach(^{
                 someCoordinate = [[SDLLocationCoordinate alloc] init];
                 someLocation = @"Livio";
                 someLocationDescription = @"A great place to work";
-                someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
+                someAddressLines = @[@"332 E Lincoln Ave", @"Royal Oak, MI", @"48067"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
+                someAddress = [[SDLOasisAddress alloc] initWithSubThoroughfare:@"test" thoroughfare:@"1" locality:@"local" administrativeArea:@"admin" postalCode:@"48067" countryCode:@"12345"];
                 NSDictionary *initDict = @{
                                            NAMES_locationCoordinate: someCoordinate,
                                            NAMES_locationName: someLocation,
@@ -104,7 +105,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            NAMES_addressLines: someAddressLines,
                                            NAMES_phoneNumber: somePhoneNumber,
                                            NAMES_locationImage: someImage,
-                                           NAMES_address: someAddress
+                                           NAMES_searchAddress: someAddress
                                            };
                 
                 testStruct = [[SDLLocationDetails alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
