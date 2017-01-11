@@ -1,3 +1,7 @@
+# 4.5.0 Release Notes (Since Beta 2)
+### Bug Fixes
+* Fixed an issue attempting to upload an app icon when the head unit does not support images.
+
 # 4.5.0 Beta 2 Release Notes
 ### Bug Fixes
 * Fixed an issue with printing incorrect Frame Data when logging.
