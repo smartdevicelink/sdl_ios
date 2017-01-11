@@ -1,8 +1,12 @@
-//  SDLUnsubscribeWaypointsResponse.m
+//  SDLUnsubscribeWaypointsResponse.h
 //
 
 #import "SDLRPCResponse.h"
 
-@interface SDLUnsubscribeWaypointsResponse : SDLRPCResponse
+@interface SDLUnsubscribeWayPointsResponse : SDLRPCResponse
 
 @end
+
+__deprecated_msg("Use SDLUnsubscribeWayPointsResponse instead")
+    @interface SDLUnsubscribeWaypointsResponse : SDLUnsubscribeWayPointsResponse
+                                                 @end

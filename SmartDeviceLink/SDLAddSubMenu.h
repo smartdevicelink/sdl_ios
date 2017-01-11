@@ -18,9 +18,9 @@
  */
 @interface SDLAddSubMenu : SDLRPCRequest
 
-- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName;
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName;
 
-- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName position:(UInt8)position;
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position;
 
 /**
  * @abstract a Menu ID that identifies a sub menu

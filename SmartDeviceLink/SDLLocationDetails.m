@@ -19,7 +19,12 @@
 }
 
 - (SDLLocationCoordinate *)coordinate {
-    return store[SDLNameLocationCoordinate];
+    NSObject *obj = [store objectForKey: SDLNameLocationCoordinate];
+    if (obj == nil || [obj isKindOfClass:SDLLocationCoordinate.class]) {
+        return (SDLLocationCoordinate *)obj;
+    } else {
+        return [[SDLLocationCoordinate alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
 }
 
 - (void)setLocationName:(NSString *)locationName {
@@ -79,19 +84,29 @@
 }
 
 - (SDLImage *)locationImage {
-    return store[SDLNameLocationImage];
+    NSObject *obj = [store objectForKey: SDLNameLocationImage];
+    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
+        return (SDLImage *)obj;
+    } else {
+        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
 }
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
     if (searchAddress != nil) {
-        store[SDLNameAddress] = searchAddress;
+        store[SDLNameSearchAddress] = searchAddress;
     } else {
-        [store removeObjectForKey:SDLNameAddress];
+        [store removeObjectForKey:SDLNameSearchAddress];
     }
 }
 
 - (SDLOasisAddress *)searchAddress {
-    return store[SDLNameAddress];
+    NSObject *obj = [store objectForKey:SDLNameSearchAddress];
+    if (obj == nil || [obj isKindOfClass:SDLOasisAddress.class]) {
+        return (SDLOasisAddress *)obj;
+    } else {
+        return [[SDLOasisAddress alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
 }
 
 @end

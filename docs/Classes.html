@@ -83,7 +83,9 @@
   <li><a href="#section-SDLGetDTCsResponse">SDLGetDTCsResponse</a></li>
   <li><a href="#section-SDLGetVehicleData">SDLGetVehicleData</a></li>
   <li><a href="#section-SDLGetVehicleDataResponse">SDLGetVehicleDataResponse</a></li>
+  <li><a href="#section-SDLGetWayPoints">SDLGetWayPoints</a></li>
   <li><a href="#section-SDLGetWaypoints">SDLGetWaypoints</a></li>
+  <li><a href="#section-SDLGetWayPointsResponse">SDLGetWayPointsResponse</a></li>
   <li><a href="#section-SDLGetWaypointsResponse">SDLGetWaypointsResponse</a></li>
   <li><a href="#section-SDLGlobalProperty">SDLGlobalProperty</a></li>
   <li><a href="#section-SDLHMICapabilities">SDLHMICapabilities</a></li>
@@ -140,6 +142,7 @@
   <li><a href="#section-SDLOnTBTClientState">SDLOnTBTClientState</a></li>
   <li><a href="#section-SDLOnTouchEvent">SDLOnTouchEvent</a></li>
   <li><a href="#section-SDLOnVehicleData">SDLOnVehicleData</a></li>
+  <li><a href="#section-SDLOnWayPointChange">SDLOnWayPointChange</a></li>
   <li><a href="#section-SDLOnWaypointChange">SDLOnWaypointChange</a></li>
   <li><a href="#section-SDLPRNDL">SDLPRNDL</a></li>
   <li><a href="#section-SDLParameterPermissions">SDLParameterPermissions</a></li>
@@ -213,7 +216,9 @@
   <li><a href="#section-SDLSubscribeButtonResponse">SDLSubscribeButtonResponse</a></li>
   <li><a href="#section-SDLSubscribeVehicleData">SDLSubscribeVehicleData</a></li>
   <li><a href="#section-SDLSubscribeVehicleDataResponse">SDLSubscribeVehicleDataResponse</a></li>
+  <li><a href="#section-SDLSubscribeWayPoints">SDLSubscribeWayPoints</a></li>
   <li><a href="#section-SDLSubscribeWaypoints">SDLSubscribeWaypoints</a></li>
+  <li><a href="#section-SDLSubscribeWayPointsResponse">SDLSubscribeWayPointsResponse</a></li>
   <li><a href="#section-SDLSubscribeWaypointsResponse">SDLSubscribeWaypointsResponse</a></li>
   <li><a href="#section-SDLSyncMsgVersion">SDLSyncMsgVersion</a></li>
   <li><a href="#section-SDLSyncPData">SDLSyncPData</a></li>
@@ -242,7 +247,9 @@
   <li><a href="#section-SDLUnsubscribeButtonResponse">SDLUnsubscribeButtonResponse</a></li>
   <li><a href="#section-SDLUnsubscribeVehicleData">SDLUnsubscribeVehicleData</a></li>
   <li><a href="#section-SDLUnsubscribeVehicleDataResponse">SDLUnsubscribeVehicleDataResponse</a></li>
+  <li><a href="#section-SDLUnsubscribeWayPoints">SDLUnsubscribeWayPoints</a></li>
   <li><a href="#section-SDLUnsubscribeWaypoints">SDLUnsubscribeWaypoints</a></li>
+  <li><a href="#section-SDLUnsubscribeWayPointsResponse">SDLUnsubscribeWayPointsResponse</a></li>
   <li><a href="#section-SDLUnsubscribeWaypointsResponse">SDLUnsubscribeWaypointsResponse</a></li>
   <li><a href="#section-SDLUpdateMode">SDLUpdateMode</a></li>
   <li><a href="#section-SDLUpdateTurnList">SDLUpdateTurnList</a></li>
@@ -2039,13 +2046,36 @@ Function Group: ProprietaryData
   
   
   
+  <h3 id="section-SDLGetWayPoints">
+      SDLGetWayPoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetWayPoints.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLGetWaypoints">
       SDLGetWaypoints
   </h3>
   
   <p>Undocumented</p>
 
-  <a href="Classes/SDLGetWaypoints.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLGetWayPointsResponse">
+      SDLGetWayPointsResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetWayPointsResponse.html" class="slightly-smaller">See more</a>
   
   
   
@@ -2057,7 +2087,6 @@ Function Group: ProprietaryData
   
   <p>Undocumented</p>
 
-  <a href="Classes/SDLGetWaypointsResponse.html" class="slightly-smaller">See more</a>
   
   
   
@@ -3157,13 +3186,24 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   
+  <h3 id="section-SDLOnWayPointChange">
+      SDLOnWayPointChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLOnWayPointChange.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
   <h3 id="section-SDLOnWaypointChange">
       SDLOnWaypointChange
   </h3>
   
   <p>Undocumented</p>
 
-  <a href="Classes/SDLOnWaypointChange.html" class="slightly-smaller">See more</a>
   
   
   
@@ -4664,8 +4704,8 @@ Function Group: ScrollableMessage
   
   
   
-  <h3 id="section-SDLSubscribeWaypoints">
-      SDLSubscribeWaypoints
+  <h3 id="section-SDLSubscribeWayPoints">
+      SDLSubscribeWayPoints
   </h3>
   
   <p>A SDLSubscribeWaypoints can be sent to subscribe
@@ -4680,12 +4720,34 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeWaypoints</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeWayPoints</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeWaypoints</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSubscribeWayPoints</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLSubscribeWaypoints">
+      SDLSubscribeWaypoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLSubscribeWayPointsResponse">
+      SDLSubscribeWayPointsResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
   
   
   
@@ -5243,8 +5305,30 @@ See SDLSubscribeButton</p>
   
   
   
+  <h3 id="section-SDLUnsubscribeWayPoints">
+      SDLUnsubscribeWayPoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
   <h3 id="section-SDLUnsubscribeWaypoints">
       SDLUnsubscribeWaypoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-SDLUnsubscribeWayPointsResponse">
+      SDLUnsubscribeWayPointsResponse
   </h3>
   
   <p>Undocumented</p>

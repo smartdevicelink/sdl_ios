@@ -331,6 +331,7 @@ extern SDLName const SDLNameScreenParams;
 extern SDLName const SDLNameScrollableMessage;
 extern SDLName const SDLNameScrollableMessageBody;
 extern SDLName const SDLNameSDLVersion;
+extern SDLName const SDLNameSearchAddress;
 extern SDLName const SDLNameSecondaryGraphic;
 extern SDLName const SDLNameSecondaryImage;
 extern SDLName const SDLNameSecondaryText;
