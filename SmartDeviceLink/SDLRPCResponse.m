@@ -35,11 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (nullable NSNumber<SDLInt> *)correlationID {
+- (NSNumber<SDLInt> *)correlationID {
     return [function objectForKey:SDLNameCorrelationId];
 }
 
-- (void)setCorrelationID:(nullable NSNumber<SDLInt> *)corrID {
+- (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
     if (corrID != nil) {
         [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)setSuccess:(nullable NSNumber<SDLBool> *)success {
+- (void)setSuccess:(NSNumber<SDLBool> *)success {
     if (success != nil) {
         [parameters setObject:success forKey:SDLNameSuccess];
     } else {
@@ -55,11 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (nullable NSNumber<SDLBool> *)success {
+- (NSNumber<SDLBool> *)success {
     return [parameters objectForKey:SDLNameSuccess];
 }
 
-- (void)setResultCode:(nullable SDLResult)resultCode {
+- (void)setResultCode:(SDLResult)resultCode {
     if (resultCode != nil) {
         [parameters setObject:resultCode forKey:SDLNameResultCode];
     } else {
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (nullable SDLResult)resultCode {
+- (SDLResult)resultCode {
     NSObject *obj = [parameters objectForKey:SDLNameResultCode];
     return (SDLResult)obj;
 }
