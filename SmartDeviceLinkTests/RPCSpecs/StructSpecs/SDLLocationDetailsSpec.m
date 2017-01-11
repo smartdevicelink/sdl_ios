@@ -89,7 +89,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     describe(@"when initialized with a dictionary", ^{
-        fcontext(@"when parameters are set correctly", ^{
+        context(@"when parameters are set correctly", ^{
             beforeEach(^{
                 someCoordinate = [[SDLLocationCoordinate alloc] init];
                 someLocation = @"Livio";
