@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EAAccessoryManager (SDLProtocols)
 
-+ (EAAccessory *)findAccessoryForProtocol:(NSString *)protocol;
++ (nullable EAAccessory *)findAccessoryForProtocol:(NSString *)protocol;
 
 @end
 
