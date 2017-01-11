@@ -33,6 +33,7 @@
 
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile;
 
+// TODO: (Alex M.)[2016-12-1] Change from UInt64 ot UInt32
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt64)offset length:(UInt64)length;
 
 /**

@@ -325,6 +325,7 @@
 #define NAMES_ScrollableMessage @"ScrollableMessage"
 #define NAMES_scrollableMessageBody @"scrollableMessageBody"
 #define NAMES_sdlVersion @"sdlVersion"
+#define NAMES_searchAddress @"searchAddress"
 #define NAMES_secondaryGraphic @"secondaryGraphic"
 #define NAMES_secondaryImage @"secondaryImage"
 #define NAMES_secondaryText @"secondaryText"

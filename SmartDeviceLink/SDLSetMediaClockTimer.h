@@ -31,6 +31,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+// TODO: (Alex M.)[2016-12-1] Change NSInteger to UInt8
 - (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode hours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds;
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode;

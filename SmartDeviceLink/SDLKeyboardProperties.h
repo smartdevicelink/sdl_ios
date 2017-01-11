@@ -14,6 +14,7 @@
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+// TODO: (Alex M.)[2016-12-1] Add missing generic
 - (instancetype)initWithLanguage:(SDLLanguage *)language layout:(SDLKeyboardLayout *)layout keypressMode:(SDLKeypressMode *)keypressMode limitedCharacterList:(NSArray *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText;
 
 @property (strong) SDLLanguage *language;

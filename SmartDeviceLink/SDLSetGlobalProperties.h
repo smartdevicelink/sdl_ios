@@ -5,7 +5,7 @@
 
 @class SDLImage;
 @class SDLKeyboardProperties;
-
+@class SDLVRHelpItem;
 
 /**
  * Sets value(s) for the specified global property(ies)
@@ -33,8 +33,10 @@
 
 - (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText;
 
+// TODO: (Alex M.)[2016-12-1] Add missing generic
 - (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp;
 
+// TODO: (Alex M.)[2016-12-1] Add missing generic
 - (instancetype)initWithHelpText:(NSString *)helpText timeoutText:(NSString *)timeoutText vrHelpTitle:(NSString *)vrHelpTitle vrHelp:(NSArray *)vrHelp menuTitle:(NSString *)menuTitle menuIcon:(SDLImage *)menuIcon keyboardProperties:(SDLKeyboardProperties *)keyboardProperties;
 
 /**

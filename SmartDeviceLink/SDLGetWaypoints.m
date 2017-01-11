@@ -6,7 +6,7 @@
 #import "SDLNames.h"
 #import "SDLWaypointType.h"
 
-@implementation SDLGetWaypoints
+@implementation SDLGetWayPoints
 
 - (instancetype)init {
     if (self = [super initWithName:NAMES_GetWaypoints]) {
@@ -42,5 +42,9 @@
         return [SDLWaypointType valueOf:(NSString *)obj];
     }
 }
+
+@end
+
+@implementation SDLGetWaypoints
 
 @end
