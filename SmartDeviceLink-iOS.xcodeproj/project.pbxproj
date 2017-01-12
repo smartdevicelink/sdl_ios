@@ -2667,6 +2667,8 @@
 				5D61FB771A84238B00846EE7 /* SDLResetGlobalProperties.m */,
 				5D61FB8E1A84238B00846EE7 /* SDLScrollableMessage.h */,
 				5D61FB8F1A84238B00846EE7 /* SDLScrollableMessage.m */,
+				5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */,
+				5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */,
 				5D61FB921A84238B00846EE7 /* SDLSetAppIcon.h */,
 				5D61FB931A84238B00846EE7 /* SDLSetAppIcon.m */,
 				5D61FB961A84238B00846EE7 /* SDLSetDisplayLayout.h */,
@@ -2703,8 +2705,6 @@
 				DA9F7E921DCC04E400ACAE48 /* SDLUnsubscribeWaypoints.m */,
 				5D61FC041A84238C00846EE7 /* SDLUpdateTurnList.h */,
 				5D61FC051A84238C00846EE7 /* SDLUpdateTurnList.m */,
-				5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */,
-				5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -2764,6 +2764,8 @@
 				5D61FB791A84238B00846EE7 /* SDLResetGlobalPropertiesResponse.m */,
 				5D61FB901A84238B00846EE7 /* SDLScrollableMessageResponse.h */,
 				5D61FB911A84238B00846EE7 /* SDLScrollableMessageResponse.m */,
+				5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */,
+				5DCF76F81ACDD7CD00BB647B /* SDLSendLocationResponse.m */,
 				5D61FB941A84238B00846EE7 /* SDLSetAppIconResponse.h */,
 				5D61FB951A84238B00846EE7 /* SDLSetAppIconResponse.m */,
 				5D61FB981A84238B00846EE7 /* SDLSetDisplayLayoutResponse.h */,
@@ -2800,8 +2802,6 @@
 				DA9F7E8E1DCC04C000ACAE48 /* SDLUnsubscribeWaypointsResponse.m */,
 				5D61FC061A84238C00846EE7 /* SDLUpdateTurnListResponse.h */,
 				5D61FC071A84238C00846EE7 /* SDLUpdateTurnListResponse.m */,
-				5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */,
-				5DCF76F81ACDD7CD00BB647B /* SDLSendLocationResponse.m */,
 			);
 			name = Responses;
 			sourceTree = "<group>";

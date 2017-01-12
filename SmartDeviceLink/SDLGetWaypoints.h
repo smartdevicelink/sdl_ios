@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required
  */
-@property (strong, nonatomic) SDLWaypointType waypointType;
+@property (nullable, strong, nonatomic) SDLWaypointType waypointType;
 
 @end
 
