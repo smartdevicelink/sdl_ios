@@ -15,10 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
     return ret;
 }
 
-+ (nullable NSMutableArray<SDLTTSChunk *> *)buildTTSChunksFromSimple:(nullable NSString *)simple {
-    if (simple == nil)
-        return nil;
-
++ (NSMutableArray<SDLTTSChunk *> *)buildTTSChunksFromSimple:(NSString *)simple {
     return [NSMutableArray arrayWithObject:[SDLTTSChunkFactory buildTTSChunkForString:simple type:SDLSpeechCapabilitiesText]];
 }
 

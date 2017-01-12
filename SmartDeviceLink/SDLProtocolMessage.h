@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UInt8)determineVersion:(NSData *)data;
 
-
 @end
 
 NS_ASSUME_NONNULL_END

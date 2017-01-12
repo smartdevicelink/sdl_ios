@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSData *signatureTag;
 
 - (nullable NSData *)unwrap:(NSData *)wrappedData;
-- (void)parsePolicyData:(nullable NSData *)data;
+- (void)parsePolicyData:(NSData *)data;
 
 @end
 

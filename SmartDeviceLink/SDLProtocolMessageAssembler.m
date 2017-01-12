@@ -9,6 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLProtocolMessageAssembler ()
+
+@property (nullable, strong) NSMutableDictionary<NSNumber *, NSData *> *parts;
+
+@end
+
 @implementation SDLProtocolMessageAssembler
 
 - (instancetype)initWithSessionID:(UInt8)sessionID {

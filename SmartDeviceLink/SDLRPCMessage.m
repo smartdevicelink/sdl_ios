@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if ([messageType isEqualToString:SDLNameBulkData] == FALSE) {
+            if (![messageType isEqualToString:SDLNameBulkData]) {
                 break;
             }
         }
@@ -39,11 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
         self.bulkData = [dict objectForKey:SDLNameBulkData];
     }
     return self;
-}
-
-- (void)dealloc {
-    function = nil;
-    parameters = nil;
 }
 
 - (nullable NSString *)getFunctionName {

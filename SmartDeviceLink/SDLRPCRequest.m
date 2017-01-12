@@ -10,11 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCRequest
 
-- (nullable NSNumber<SDLInt> *)correlationID {
+- (NSNumber<SDLInt> *)correlationID {
     return [function objectForKey:SDLNameCorrelationId];
 }
 
-- (void)setCorrelationID:(nullable NSNumber<SDLInt> *)corrID {
+- (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
     if (corrID != nil) {
         [function setObject:corrID forKey:SDLNameCorrelationId];
     } else {

@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRPCRequest : SDLRPCMessage
 
-@property (nullable, strong) NSNumber<SDLInt> *correlationID;
+@property (strong) NSNumber<SDLInt> *correlationID;
 
 @end
 

@@ -12,12 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLProtocolMessage ()
-
-@property (strong) NSMutableData *internalBuffer;
-
-@end
-
 @implementation SDLProtocolMessage
 
 // For use in decoding a stream of bytes.

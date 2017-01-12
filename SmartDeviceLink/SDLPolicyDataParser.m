@@ -35,11 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     return decodedData;
 }
 
-- (void)parsePolicyData:(nullable NSData *)data {
-    if (data == nil) {
-        return;
-    }
-
+- (void)parsePolicyData:(NSData *)data {
     @try {
         Byte *bytes = (Byte *)data.bytes;
 
@@ -97,19 +93,22 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         int payloadOffset = 5;
-        if (self.isHighBandwidth)
+        if (self.isHighBandwidth) {
             payloadOffset += 11;
-        if (self.hasESN)
+        }
+        if (self.hasESN) {
             payloadOffset += self.ESN.length;
-        if (self.isEncrypted)
+        }
+        if (self.isEncrypted) {
             payloadOffset += self.initializationVector.length;
+        }
+        
         self.payload = [NSData dataWithBytes:(bytes + payloadOffset) length:self.payloadSize];
 
         if (self.isSigned) {
             int signatureTagOffset = (int)data.length - 16;
             self.signatureTag = [NSData dataWithBytes:(bytes + signatureTagOffset) length:16];
         }
-
     }
     @catch (NSException *exception) {
         [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
