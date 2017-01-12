@@ -50,7 +50,6 @@
 #import "SDLSubscribeVehicleData.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLTTSChunk.h"
-#import "SDLTTSChunkFactory.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLUnsubscribeVehicleData.h"
@@ -346,16 +345,16 @@ static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionSt
 
 //***
 + (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(NSNumber<SDLInt> *)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber<SDLInt> *)correlationID {
-    NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
-    NSArray<SDLTTSChunk *> *helpChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:helpPrompt];
-    NSArray<SDLTTSChunk *> *timeoutChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:timeoutPrompt];
+    NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
+    NSArray<SDLTTSChunk *> *helpChunks = [SDLTTSChunk textChunksFromString:helpPrompt];
+    NSArray<SDLTTSChunk *> *timeoutChunks = [SDLTTSChunk textChunksFromString:timeoutPrompt];
 
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp correlationID:correlationID];
 }
 
 + (SDLPerformInteraction *)buildPerformInteractionWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp correlationID:(NSNumber<SDLInt> *)correlationID {
     NSArray<NSNumber *> *interactionChoiceSetIDList = [NSArray arrayWithObject:interactionChoiceSetID];
-    NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunkFactory buildTTSChunksFromSimple:initialPrompt];
+    NSArray<SDLTTSChunk *> *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
 
     return [SDLRPCRequestFactory buildPerformInteractionWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:nil timeoutChunks:nil interactionMode:SDLInteractionModeBoth timeout:nil vrHelp:vrHelp correlationID:correlationID];
 }
