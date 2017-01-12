@@ -20,63 +20,63 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Integer 0 - 999
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *millisecond;
+@property (copy, nonatomic) NSNumber<SDLInt> *millisecond;
 
 /**
  * @abstract Seconds part of time
  *
  * Optional, Integer 0 - 59
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *second;
+@property (copy, nonatomic) NSNumber<SDLInt> *second;
 
 /**
  * @abstract Minutes part of time
  *
  * Optional, Integer 0 - 59
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *minute;
+@property (copy, nonatomic) NSNumber<SDLInt> *minute;
 
 /**
  * @abstract Hour part of time
  *
  * Optional, Integer 0 - 23
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *hour;
+@property (copy, nonatomic) NSNumber<SDLInt> *hour;
 
 /**
  * @abstract Day of the month
  *
  * Optional, Integer 1 - 31
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *day;
+@property (copy, nonatomic) NSNumber<SDLInt> *day;
 
 /**
  * @abstract Month of the year
  *
  * Optional, Integer 1 - 12
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *month;
+@property (copy, nonatomic) NSNumber<SDLInt> *month;
 
 /**
  * @abstract The year in YYYY format
  *
  * Optional, Max Value 4095
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *year;
+@property (copy, nonatomic) NSNumber<SDLInt> *year;
 
 /**
  * @abstract Time zone offset in Min with regard to UTC
  *
  * Optional, Integer 0 - 59
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *timezoneMinuteOffset;
+@property (copy, nonatomic) NSNumber<SDLInt> *timezoneMinuteOffset;
 
 /**
  * @abstract Time zone offset in Hours with regard to UTC
  *
  * Optional, Integer -12 - 14
  */
-@property (nullable, copy, nonatomic) NSNumber<SDLInt> *timezoneHourOffset;
+@property (copy, nonatomic) NSNumber<SDLInt> *timezoneHourOffset;
 
 @end
 
