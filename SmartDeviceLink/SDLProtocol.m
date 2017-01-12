@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_queue_t _receiveQueue;
     dispatch_queue_t _sendQueue;
     SDLPrioritizedObjectCollection *_prioritizedCollection;
-    BOOL _alreadyDestructed;
 }
 
 @property (strong) NSMutableData *receiveBuffer;
@@ -64,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)dealloc {
+    [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+}
 
 #pragma mark - Service metadata
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
@@ -613,28 +615,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
-}
-
-
-#pragma mark - Lifecycle
-
-- (void)sdl_destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        _messageRouter.delegate = nil;
-        _messageRouter = nil;
-        self.transport = nil;
-        self.protocolDelegateTable = nil;
-    }
-}
-
-- (void)dispose {
-    [self sdl_destructObjects];
-}
-
-- (void)dealloc {
-    [self sdl_destructObjects];
-    [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
 @end

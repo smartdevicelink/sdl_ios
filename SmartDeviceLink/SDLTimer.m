@@ -38,6 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)dealloc {
+    [self cancel];
+}
+
 - (void)start {
     if (self.duration > 0) {
         [self stopAndDestroyTimer];
@@ -71,10 +75,6 @@ NS_ASSUME_NONNULL_BEGIN
         [self.timer invalidate];
         self.timer = nil;
     }
-}
-
-- (void)dealloc {
-    [self cancel];
 }
 
 @end

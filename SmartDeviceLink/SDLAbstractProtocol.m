@@ -70,10 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)dispose {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 
 #pragma - SDLTransportListener Implementation
 - (void)onTransportConnected {

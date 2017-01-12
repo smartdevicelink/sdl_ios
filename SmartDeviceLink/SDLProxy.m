@@ -73,7 +73,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
         _securityManagers = [NSMutableDictionary dictionary];
@@ -92,40 +91,16 @@ const int POLICIES_CORRELATION_ID = 65535;
     return self;
 }
 
-- (void)destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-
-        [[SDLURLSession defaultSession] cancelAllTasks];
-
-        [self.protocol dispose];
-        [self.transport dispose];
-
-        _transport = nil;
-        _protocol = nil;
-        _mutableProxyListeners = nil;
-        _streamingMediaManager = nil;
-        _displayCapabilities = nil;
-    }
-}
-
-- (void)dispose {
-    if (self.transport != nil) {
-        [self.transport disconnect];
-    }
-
+- (void)dealloc {
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
-
-    [self destructObjects];
-}
-
-- (void)dealloc {
-    [self destructObjects];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
+        
+    [[SDLURLSession defaultSession] cancelAllTasks];
+        
     [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
 }
 

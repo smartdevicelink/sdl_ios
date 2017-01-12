@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolReceivedMessageRouter ()
 
-@property (assign) BOOL alreadyDestructed;
 @property (strong) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
 
 @end
@@ -22,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     if (self = [super init]) {
-        _alreadyDestructed = NO;
         self.messageAssemblers = [NSMutableDictionary dictionaryWithCapacity:2];
     }
     return self;
@@ -113,24 +111,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
     };
     [assembler handleMessage:message withCompletionHandler:completionHandler];
-}
-
-
-#pragma mark - Lifecycle
-
-- (void)sdl_destructObjects {
-    if (!self.alreadyDestructed) {
-        self.alreadyDestructed = YES;
-        self.delegate = nil;
-    }
-}
-
-- (void)sdl_dispose {
-    [self sdl_destructObjects];
-}
-
-- (void)dealloc {
-    [self sdl_destructObjects];
 }
 
 @end

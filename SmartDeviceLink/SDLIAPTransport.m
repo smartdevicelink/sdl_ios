@@ -28,7 +28,6 @@ int const streamOpenTimeoutSeconds = 2;
 
 @interface SDLIAPTransport () {
     dispatch_queue_t _transmit_queue;
-    BOOL _alreadyDestructed;
 }
 
 @property (assign) int retryCounter;
@@ -42,12 +41,8 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _alreadyDestructed = NO;
-        _session = nil;
-        _controlSession = nil;
         _retryCounter = 0;
         _sessionSetupInProgress = NO;
-        _protocolIndexTimer = nil;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
 
         [self sdl_startEventListening];
@@ -58,6 +53,12 @@ int const streamOpenTimeoutSeconds = 2;
     return self;
 }
 
+
+- (void)dealloc {
+    [self disconnect];
+    [self sdl_stopEventListening];
+    [SDLDebugTool logInfo:@"SDLIAPTransport Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+}
 
 #pragma mark - Notification Subscriptions
 
@@ -449,28 +450,6 @@ int const streamOpenTimeoutSeconds = 2;
     }
 
     return delay;
-}
-
-
-#pragma mark - Lifecycle Destruction
-
-- (void)sdl_destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        [self sdl_stopEventListening];
-        self.controlSession = nil;
-        self.session = nil;
-        self.delegate = nil;
-    }
-}
-
-- (void)dispose {
-    [self sdl_destructObjects];
-}
-
-- (void)dealloc {
-    [self sdl_destructObjects];
-    [SDLDebugTool logInfo:@"SDLIAPTransport Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
 @end

@@ -36,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Recieving
 - (void)handleBytesFromTransport:(NSData *)receivedData;
-- (void)dispose;
 
 @end
 

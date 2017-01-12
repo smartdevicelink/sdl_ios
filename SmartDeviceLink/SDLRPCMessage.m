@@ -41,6 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)dealloc {
+    function = nil;
+    parameters = nil;
+}
+
 - (nullable NSString *)getFunctionName {
     return [function objectForKey:SDLNameOperationName];
 }
@@ -63,11 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         [parameters removeObjectForKey:functionName];
     }
-}
-
-- (void)dealloc {
-    function = nil;
-    parameters = nil;
 }
 
 - (NSString *)name {

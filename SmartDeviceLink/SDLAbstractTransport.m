@@ -22,10 +22,6 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)dispose {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 - (double)retryDelay {
     [self doesNotRecognizeSelector:_cmd];
     return 0.0;

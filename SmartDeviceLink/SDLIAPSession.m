@@ -27,11 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     self = [super init];
     if (self) {
-        _delegate = nil;
         _accessory = accessory;
         _protocol = protocol;
-        _streamDelegate = nil;
-        _easession = nil;
         _isInputStreamOpen = NO;
         _isOutputStreamOpen = NO;
     }
@@ -140,18 +137,6 @@ NS_ASSUME_NONNULL_BEGIN
         [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.delegate onSessionStreamsEnded:strongSelf];
     };
-}
-
-
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    self.delegate = nil;
-    self.accessory = nil;
-    self.protocol = nil;
-    self.streamDelegate = nil;
-    self.easession = nil;
-    [SDLDebugTool logInfo:@"SDLIAPSession Dealloc"];
 }
 
 @end

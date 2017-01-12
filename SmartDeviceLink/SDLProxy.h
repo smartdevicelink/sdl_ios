@@ -21,7 +21,6 @@ __deprecated_msg("Use SDLManager instead")
     Byte _version;
     Byte _bulkSessionID;
     BOOL _isConnected;
-    BOOL _alreadyDestructed;
 }
 
 @property (nullable, strong) SDLAbstractProtocol *protocol;
@@ -35,7 +34,6 @@ __deprecated_msg("Use SDLManager instead")
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol
                delegate:(NSObject<SDLProxyListener> *)delegate;
-- (void)dispose;
 
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
 - (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate;
