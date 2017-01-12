@@ -6,7 +6,6 @@
 @class SDLProtocol;
 @class SDLPutFile;
 @class SDLRPCMessage;
-@class SDLRPCRequestFactory;
 @class SDLStreamingMediaManager;
 @class SDLTimer;
 
