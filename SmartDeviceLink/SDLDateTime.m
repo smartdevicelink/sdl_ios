@@ -56,7 +56,7 @@
     return self;
 }
 
-- (void)setMillisecond:(nullable NSNumber<SDLInt> *)millisecond {
+- (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
     if (millisecond != nil) {
         store[SDLNameMillisecond] = millisecond;
     } else {
@@ -64,11 +64,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)millisecond {
+- (NSNumber<SDLInt> *)millisecond {
     return store[SDLNameMillisecond];
 }
 
-- (void)setSecond:(nullable NSNumber<SDLInt> *)second {
+- (void)setSecond:(NSNumber<SDLInt> *)second {
     if (second != nil) {
         store[SDLNameSecond] = second;
     } else {
@@ -76,11 +76,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)second {
+- (NSNumber<SDLInt> *)second {
     return store[SDLNameSecond];
 }
 
-- (void)setMinute:(nullable NSNumber<SDLInt> *)minute {
+- (void)setMinute:(NSNumber<SDLInt> *)minute {
     if (minute != nil) {
         store[SDLNameMinute] = minute;
     } else {
@@ -88,11 +88,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)minute {
+- (NSNumber<SDLInt> *)minute {
     return store[SDLNameMinute];
 }
 
-- (void)setHour:(nullable NSNumber<SDLInt> *)hour {
+- (void)setHour:(NSNumber<SDLInt> *)hour {
     if (hour != nil) {
         store[SDLNameHour] = hour;
     } else {
@@ -100,11 +100,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)hour {
+- (NSNumber<SDLInt> *)hour {
     return store[SDLNameHour];
 }
 
-- (void)setDay:(nullable NSNumber<SDLInt> *)day {
+- (void)setDay:(NSNumber<SDLInt> *)day {
     if (day != nil) {
         store[SDLNameDay] = day;
     } else {
@@ -112,11 +112,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)day {
+- (NSNumber<SDLInt> *)day {
     return store[SDLNameDay];
 }
 
-- (void)setMonth:(nullable NSNumber<SDLInt> *)month {
+- (void)setMonth:(NSNumber<SDLInt> *)month {
     if (month != nil) {
         store[SDLNameMonth] = month;
     } else {
@@ -124,11 +124,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)month {
+- (NSNumber<SDLInt> *)month {
     return store[SDLNameMonth];
 }
 
-- (void)setYear:(nullable NSNumber<SDLInt> *)year {
+- (void)setYear:(NSNumber<SDLInt> *)year {
     if (year != nil) {
         store[SDLNameYear] = year;
     } else {
@@ -136,11 +136,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)year {
+- (NSNumber<SDLInt> *)year {
     return store[SDLNameYear];
 }
 
-- (void)setTimezoneMinuteOffset:(nullable NSNumber<SDLInt> *)timezoneMinuteOffset {
+- (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
     if (timezoneMinuteOffset != nil) {
         store[SDLNameTimezoneMinuteOffset] = timezoneMinuteOffset;
     } else {
@@ -148,11 +148,11 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)timezoneMinuteOffset {
+- (NSNumber<SDLInt> *)timezoneMinuteOffset {
     return store[SDLNameTimezoneMinuteOffset];
 }
 
-- (void)setTimezoneHourOffset:(nullable NSNumber<SDLInt> *)timezoneHourOffset {
+- (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
     if (timezoneHourOffset != nil) {
         store[SDLNameTimezoneHourOffset] = timezoneHourOffset;
     } else {
@@ -160,7 +160,7 @@
     }
 }
 
-- (nullable NSNumber<SDLInt> *)timezoneHourOffset {
+- (NSNumber<SDLInt> *)timezoneHourOffset {
     return store[SDLNameTimezoneHourOffset];
 }
 

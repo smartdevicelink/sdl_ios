@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setWaypointType:(SDLWaypointType)waypointType {
+- (void)setWaypointType:(nullable SDLWaypointType)waypointType {
     if (waypointType != nil) {
         parameters[SDLNameWaypointType] = waypointType;
     } else {
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (SDLWaypointType)waypointType {
+- (nullable SDLWaypointType)waypointType {
     return parameters[SDLNameWaypointType];
 }
 
