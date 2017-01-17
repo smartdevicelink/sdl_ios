@@ -50,9 +50,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRPCResponse.h"
 #import "SDLRPCStruct.h"
 
-// Factories
-#import "SDLRPCRequestFactory.h"
-
 // Requests
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"

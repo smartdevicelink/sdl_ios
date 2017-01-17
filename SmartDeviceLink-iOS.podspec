@@ -41,7 +41,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRPCRequest.h',
 'SmartDeviceLink/SDLRPCResponse.h',
 'SmartDeviceLink/SDLRPCStruct.h',
-'SmartDeviceLink/SDLRPCRequestFactory.h',
 'SmartDeviceLink/SDLAddCommand.h',
 'SmartDeviceLink/SDLAddSubMenu.h',
 'SmartDeviceLink/SDLAlert.h',

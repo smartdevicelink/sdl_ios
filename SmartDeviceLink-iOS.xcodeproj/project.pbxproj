@@ -74,7 +74,6 @@
 		162E830B1A9BDE8B00906325 /* SDLVrCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82231A9BDE8A00906325 /* SDLVrCapabilitiesSpec.m */; };
 		162E830C1A9BDE8B00906325 /* SDLWarningLightStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82241A9BDE8A00906325 /* SDLWarningLightStatusSpec.m */; };
 		162E830D1A9BDE8B00906325 /* SDLWiperStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82251A9BDE8A00906325 /* SDLWiperStatusSpec.m */; };
-		162E830E1A9BDE8B00906325 /* SDLRPCRequestFactorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82271A9BDE8A00906325 /* SDLRPCRequestFactorySpec.m */; };
 		162E830F1A9BDE8B00906325 /* SDLOnAppInterfaceUnregisteredSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E82291A9BDE8A00906325 /* SDLOnAppInterfaceUnregisteredSpec.m */; };
 		162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E822A1A9BDE8A00906325 /* SDLOnAudioPassThruSpec.m */; };
 		162E83111A9BDE8B00906325 /* SDLOnButtonEventSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 162E822B1A9BDE8A00906325 /* SDLOnButtonEventSpec.m */; };
@@ -611,8 +610,6 @@
 		5D61FD701A84238C00846EE7 /* SDLRPCPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB831A84238B00846EE7 /* SDLRPCPayload.m */; };
 		5D61FD711A84238C00846EE7 /* SDLRPCRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB841A84238B00846EE7 /* SDLRPCRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD721A84238C00846EE7 /* SDLRPCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB851A84238B00846EE7 /* SDLRPCRequest.m */; };
-		5D61FD731A84238C00846EE7 /* SDLRPCRequestFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB861A84238B00846EE7 /* SDLRPCRequestFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D61FD741A84238C00846EE7 /* SDLRPCRequestFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB871A84238B00846EE7 /* SDLRPCRequestFactory.m */; };
 		5D61FD751A84238C00846EE7 /* SDLRPCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB881A84238B00846EE7 /* SDLRPCResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FD761A84238C00846EE7 /* SDLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB891A84238B00846EE7 /* SDLRPCResponse.m */; };
 		5D61FD771A84238C00846EE7 /* SDLSamplingRate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB8A1A84238B00846EE7 /* SDLSamplingRate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1084,7 +1081,6 @@
 		162E82231A9BDE8A00906325 /* SDLVrCapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVrCapabilitiesSpec.m; sourceTree = "<group>"; };
 		162E82241A9BDE8A00906325 /* SDLWarningLightStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWarningLightStatusSpec.m; sourceTree = "<group>"; };
 		162E82251A9BDE8A00906325 /* SDLWiperStatusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLWiperStatusSpec.m; sourceTree = "<group>"; };
-		162E82271A9BDE8A00906325 /* SDLRPCRequestFactorySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestFactorySpec.m; sourceTree = "<group>"; };
 		162E82291A9BDE8A00906325 /* SDLOnAppInterfaceUnregisteredSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAppInterfaceUnregisteredSpec.m; sourceTree = "<group>"; };
 		162E822A1A9BDE8A00906325 /* SDLOnAudioPassThruSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnAudioPassThruSpec.m; sourceTree = "<group>"; };
 		162E822B1A9BDE8A00906325 /* SDLOnButtonEventSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnButtonEventSpec.m; sourceTree = "<group>"; };
@@ -1647,8 +1643,6 @@
 		5D61FB831A84238B00846EE7 /* SDLRPCPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCPayload.m; sourceTree = "<group>"; };
 		5D61FB841A84238B00846EE7 /* SDLRPCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCRequest.h; sourceTree = "<group>"; };
 		5D61FB851A84238B00846EE7 /* SDLRPCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequest.m; sourceTree = "<group>"; };
-		5D61FB861A84238B00846EE7 /* SDLRPCRequestFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCRequestFactory.h; sourceTree = "<group>"; };
-		5D61FB871A84238B00846EE7 /* SDLRPCRequestFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestFactory.m; sourceTree = "<group>"; };
 		5D61FB881A84238B00846EE7 /* SDLRPCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCResponse.h; sourceTree = "<group>"; };
 		5D61FB891A84238B00846EE7 /* SDLRPCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponse.m; sourceTree = "<group>"; };
 		5D61FB8A1A84238B00846EE7 /* SDLSamplingRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSamplingRate.h; sourceTree = "<group>"; };
@@ -2034,7 +2028,6 @@
 			isa = PBXGroup;
 			children = (
 				162E81E11A9BDE8A00906325 /* EnumSpecs */,
-				162E82261A9BDE8A00906325 /* FactorySpecs */,
 				162E82281A9BDE8A00906325 /* NotificationSpecs */,
 				162E823B1A9BDE8A00906325 /* PayloadSpecs */,
 				162E823D1A9BDE8A00906325 /* RequestSpecs */,
@@ -2119,14 +2112,6 @@
 				162E82251A9BDE8A00906325 /* SDLWiperStatusSpec.m */,
 			);
 			path = EnumSpecs;
-			sourceTree = "<group>";
-		};
-		162E82261A9BDE8A00906325 /* FactorySpecs */ = {
-			isa = PBXGroup;
-			children = (
-				162E82271A9BDE8A00906325 /* SDLRPCRequestFactorySpec.m */,
-			);
-			path = FactorySpecs;
 			sourceTree = "<group>";
 		};
 		162E82281A9BDE8A00906325 /* NotificationSpecs */ = {
@@ -2589,7 +2574,6 @@
 			children = (
 				5D5934FF1A851B8400687FB9 /* Superclasses */,
 				5D5935041A851E1A00687FB9 /* Payload */,
-				5D5935031A851E1100687FB9 /* Factories */,
 				5D5934F11A85162800687FB9 /* Requests */,
 				5D5934F21A85163200687FB9 /* Responses */,
 				5D5934F31A85164500687FB9 /* Structs */,
@@ -3235,15 +3219,6 @@
 				5D61FC0F1A84238C00846EE7 /* SDLV2ProtocolMessage.m */,
 			);
 			name = Message;
-			sourceTree = "<group>";
-		};
-		5D5935031A851E1100687FB9 /* Factories */ = {
-			isa = PBXGroup;
-			children = (
-				5D61FB861A84238B00846EE7 /* SDLRPCRequestFactory.h */,
-				5D61FB871A84238B00846EE7 /* SDLRPCRequestFactory.m */,
-			);
-			name = Factories;
 			sourceTree = "<group>";
 		};
 		5D5935041A851E1A00687FB9 /* Payload */ = {
@@ -4067,7 +4042,6 @@
 				5D61FCF21A84238C00846EE7 /* SDLLockScreenStatus.h in Headers */,
 				5D61FCD31A84238C00846EE7 /* SDLImageResolution.h in Headers */,
 				5D61FD541A84238C00846EE7 /* SDLProxyListener.h in Headers */,
-				5D61FD731A84238C00846EE7 /* SDLRPCRequestFactory.h in Headers */,
 				5D61FC5D1A84238C00846EE7 /* SDLChangeRegistrationResponse.h in Headers */,
 				5D61FDCD1A84238C00846EE7 /* SDLTimerMode.h in Headers */,
 				E9C32B961AB20BA200F283AF /* SDLTimer.h in Headers */,
@@ -4657,7 +4631,6 @@
 				5D61FD3A1A84238C00846EE7 /* SDLPrerecordedSpeech.m in Sources */,
 				5D61FCA11A84238C00846EE7 /* SDLEncodedSyncPDataResponse.m in Sources */,
 				5D61FD401A84238C00846EE7 /* SDLPrioritizedObjectCollection.m in Sources */,
-				5D61FD741A84238C00846EE7 /* SDLRPCRequestFactory.m in Sources */,
 				5D61FDC61A84238C00846EE7 /* SDLTCPTransport.m in Sources */,
 				5D61FE0E1A84238C00846EE7 /* SDLVRCapabilities.m in Sources */,
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
@@ -4728,7 +4701,6 @@
 				162E82E31A9BDE8B00906325 /* SDLIgnitionStatusSpec.m in Sources */,
 				162E83511A9BDE8B00906325 /* SDLDeleteInteractionChoiceSetResponseSpec.m in Sources */,
 				DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */,
-				162E830E1A9BDE8B00906325 /* SDLRPCRequestFactorySpec.m in Sources */,
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
 				162E82ED1A9BDE8B00906325 /* SDLMaintenanceModeStatusSpec.m in Sources */,
 				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
