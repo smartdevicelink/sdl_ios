@@ -79,6 +79,7 @@ extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;
+extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
 extern SDLNotificationName const SDLDidReceiveListFilesResponse;
 extern SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceivePerformInteractionResponse;
@@ -98,11 +99,13 @@ extern SDLNotificationName const SDLDidReceiveSliderResponse;
 extern SDLNotificationName const SDLDidReceiveSpeakResponse;
 extern SDLNotificationName const SDLDidReceiveSubscribeButtonResponse;
 extern SDLNotificationName const SDLDidReceiveSubscribeVehicleDataResponse;
+extern SDLNotificationName const SDLDidReceiveSubscribeWaypointsResponse;
 extern SDLNotificationName const SDLDidReceiveSyncPDataResponse;
 extern SDLNotificationName const SDLDidReceiveUpdateTurnListResponse;
 extern SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse;
+extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 
 /**
  *  NSNotification names associated with specific RPC notifications.
@@ -126,6 +129,7 @@ extern SDLNotificationName const SDLDidReceiveSystemRequestNotification;
 extern SDLNotificationName const SDLDidChangeTurnByTurnStateNotification;
 extern SDLNotificationName const SDLDidReceiveTouchEventNotification;
 extern SDLNotificationName const SDLDidReceiveVehicleDataNotification;
+extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 
 @interface SDLNotificationConstants : NSObject
 

@@ -13,7 +13,7 @@
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt64)offset length:(UInt64)length {
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length {
     self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
         return nil;

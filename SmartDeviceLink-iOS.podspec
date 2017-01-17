@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink-iOS"
-s.version      = "4.4.0"
+s.version      = "4.5.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -13,14 +13,12 @@ s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
 s.public_header_files = [
 'SmartDeviceLink/SmartDeviceLink.h',
-'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLJingle.h',
 'SmartDeviceLink/SDLProxy.h',
 'SmartDeviceLink/SDLProxyFactory.h',
 'SmartDeviceLink/SDLProxyListener.h',
 'SmartDeviceLink/SDLSecurityType.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
-'SmartDeviceLink/SDLTTSChunkFactory.h',
 'SmartDeviceLink/SDLTouchManager.h',
 'SmartDeviceLink/SDLTouchManagerDelegate.h',
 'SmartDeviceLink/SDLConsoleController.h',
@@ -43,7 +41,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRPCRequest.h',
 'SmartDeviceLink/SDLRPCResponse.h',
 'SmartDeviceLink/SDLRPCStruct.h',
-'SmartDeviceLink/SDLRPCRequestFactory.h',
 'SmartDeviceLink/SDLAddCommand.h',
 'SmartDeviceLink/SDLAddSubMenu.h',
 'SmartDeviceLink/SDLAlert.h',
@@ -62,6 +59,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLGetVehicleData.h',
 'SmartDeviceLink/SDLGetWaypoints.h',
 'SmartDeviceLink/SDLListFiles.h',
+'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLPerformAudioPassThru.h',
 'SmartDeviceLink/SDLPerformInteraction.h',
 'SmartDeviceLink/SDLPutFile.h',

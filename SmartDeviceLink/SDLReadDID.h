@@ -18,7 +18,7 @@
  */
 @interface SDLReadDID : SDLRPCRequest
 
-- (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation;
+- (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation;
 
 /**
  * @abstract An ID of the vehicle module

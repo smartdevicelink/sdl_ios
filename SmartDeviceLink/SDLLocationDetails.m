@@ -15,7 +15,7 @@
 }
 
 - (SDLLocationCoordinate *)coordinate {
-    return [store sdl_objectForName:SDLNameLocationCoordinate];
+    return [store sdl_objectForName:SDLNameLocationCoordinate ofClass:SDLLocationCoordinate.class];
 }
 
 - (void)setLocationName:(NSString *)locationName {
@@ -55,7 +55,7 @@
 }
 
 - (SDLImage *)locationImage {
-    return [store sdl_objectForName:SDLNameLocationImage];
+    return [store sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
 }
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
@@ -63,7 +63,7 @@
 }
 
 - (SDLOasisAddress *)searchAddress {
-    return [store sdl_objectForName:SDLNameAddress];
+    return [store sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
 }
 
 @end

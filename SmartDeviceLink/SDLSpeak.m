@@ -6,7 +6,6 @@
 
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
-#import "SDLTTSChunkFactory.h"
 
 @implementation SDLSpeak
 

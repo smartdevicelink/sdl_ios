@@ -5,7 +5,7 @@
 
 #import "SDLNames.h"
 
-@implementation SDLGetWaypoints
+@implementation SDLGetWayPoints
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameGetWaypoints]) {
@@ -32,5 +32,9 @@
 - (SDLWaypointType)waypointType {
     return [parameters sdl_objectForName:SDLNameWaypointType];
 }
+
+@end
+
+@implementation SDLGetWaypoints
 
 @end

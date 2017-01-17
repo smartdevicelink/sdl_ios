@@ -221,12 +221,17 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil) {
-        handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        if (handler != nil) {
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        }
+        return;
     }
 
     // Make sure we are able to send files
     if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
-        handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        if (handler != nil) {
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+        }
         return;
     }
 

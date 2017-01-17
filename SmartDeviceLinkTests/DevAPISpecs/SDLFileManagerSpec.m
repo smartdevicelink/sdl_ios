@@ -281,7 +281,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should call the completion handler with correct data", ^{
-                                expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
+                                expect(completionError).toEventually(equal([NSError sdl_lifecycle_notReadyError]));
                             });
                         });
                     });
@@ -404,7 +404,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should call the completion handler with nil error", ^{
-                            expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
+                            expect(completionError).toEventually(equal([NSError sdl_lifecycle_notReadyError]));
                         });
                     });
                 });

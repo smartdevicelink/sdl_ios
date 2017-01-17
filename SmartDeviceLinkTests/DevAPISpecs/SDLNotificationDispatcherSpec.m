@@ -38,6 +38,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onGenericResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetDTCsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetVehicleDataResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetWayPointsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onReceivedLockScreenIcon:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnAppInterfaceUnregistered:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnAudioPassThru:)])).to(beTruthy());
@@ -53,6 +54,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onOnTBTClientState:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnTouchEvent:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnVehicleData:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onOnWayPointChange:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformAudioPassThruResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformInteractionResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPutFileResponse:)])).to(beTruthy());
@@ -71,11 +73,13 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onSpeakResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSubscribeButtonResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSubscribeVehicleDataResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onSubscribeWayPointsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSyncPDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUpdateTurnListResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUnregisterAppInterfaceResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUnsubscribeButtonResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUnsubscribeVehicleDataResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onUnsubscribeWayPointsResponse:)])).to(beTruthy());
     });
     
     describe(@"when told to post a notification", ^{
