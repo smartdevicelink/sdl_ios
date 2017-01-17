@@ -19,7 +19,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLProxyListener.h',
 'SmartDeviceLink/SDLSecurityType.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
-'SmartDeviceLink/SDLTTSChunkFactory.h',
 'SmartDeviceLink/SDLTouchManager.h',
 'SmartDeviceLink/SDLTouchManagerDelegate.h',
 'SmartDeviceLink/SDLConsoleController.h',
