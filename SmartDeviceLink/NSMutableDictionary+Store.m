@@ -8,6 +8,8 @@
 
 #import "NSMutableDictionary+Store.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation NSMutableDictionary (Store)
 
 - (void)sdl_setObject:(NSObject *)object forName:(SDLName)name {
@@ -18,11 +20,11 @@
     }
 }
 
-- (id)sdl_objectForName:(SDLName)name {
+- (nullable id)sdl_objectForName:(SDLName)name {
     return self[name];
 }
 
-- (id)sdl_objectForName:(SDLName)name ofClass:(Class)classType {
+- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType {
     NSObject *obj = [self sdl_objectForName:name];
     if (obj == nil || [obj isKindOfClass:classType.class]) {
         return obj;
@@ -46,3 +48,5 @@
 
 
 @end
+
+NS_ASSUME_NONNULL_END
