@@ -59,11 +59,11 @@
 }
 
 - (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
-    [store sdl_setObject:searchAddress forName:SDLNameAddress];
+    [store sdl_setObject:searchAddress forName:SDLNameSearchAddress];
 }
 
 - (SDLOasisAddress *)searchAddress {
-    return [store sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
+    return [store sdl_objectForName:SDLNameSearchAddress ofClass:SDLOasisAddress.class];
 }
 
 @end
