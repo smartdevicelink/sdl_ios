@@ -5,7 +5,6 @@
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
-#import "SDLTTSChunkFactory.h"
 
 static UInt16 const SDLDefaultDuration = 5000;
 
