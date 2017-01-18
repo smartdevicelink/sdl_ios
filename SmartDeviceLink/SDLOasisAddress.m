@@ -4,13 +4,15 @@
 #import "SDLOasisAddress.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOasisAddress
 
-- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode {
+- (instancetype)initWithSubThoroughfare:(nullable NSString *)subThoroughfare thoroughfare:(nullable NSString *)thoroughfare locality:(nullable NSString *)locality administrativeArea:(nullable NSString *)administrativeArea postalCode:(nullable NSString *)postalCode countryCode:(nullable NSString *)countryCode {
     return [self initWithSubThoroughfare:subThoroughfare thoroughfare:thoroughfare locality:locality administrativeArea:administrativeArea postalCode:postalCode countryCode:countryCode countryName:nil subAdministrativeArea:nil subLocality:nil];
 }
 
-- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode countryName:(NSString *)countryName subAdministrativeArea:(NSString *)subAdministrativeArea subLocality:(NSString *)subLocality {
+- (instancetype)initWithSubThoroughfare:(nullable NSString *)subThoroughfare thoroughfare:(nullable NSString *)thoroughfare locality:(nullable NSString *)locality administrativeArea:(nullable NSString *)administrativeArea postalCode:(nullable NSString *)postalCode countryCode:(nullable NSString *)countryCode countryName:(nullable NSString *)countryName subAdministrativeArea:(nullable NSString *)subAdministrativeArea subLocality:(nullable NSString *)subLocality {
     self = [self init];
     if (!self) {
         return nil;
@@ -30,7 +32,7 @@
 }
 
 
-- (void)setCountryName:(NSString *)countryName {
+- (void)setCountryName:(nullable NSString *)countryName {
     if (countryName != nil) {
         store[SDLNameCountryName] = countryName;
     } else {
@@ -38,11 +40,11 @@
     }
 }
 
-- (NSString *)countryName {
+- (nullable NSString *)countryName {
     return store[SDLNameCountryName];
 }
 
-- (void)setCountryCode:(NSString *)countryCode {
+- (void)setCountryCode:(nullable NSString *)countryCode {
     if (countryCode != nil) {
         store[SDLNameCountryCode] = countryCode;
     } else {
@@ -50,11 +52,11 @@
     }
 }
 
-- (NSString *)countryCode {
+- (nullable NSString *)countryCode {
     return store[SDLNameCountryCode];
 }
 
-- (void)setPostalCode:(NSString *)postalCode {
+- (void)setPostalCode:(nullable NSString *)postalCode {
     if (postalCode != nil) {
         store[SDLNamePostalCode] = postalCode;
     } else {
@@ -62,11 +64,11 @@
     }
 }
 
-- (NSString *)postalCode {
+- (nullable NSString *)postalCode {
     return store[SDLNamePostalCode];
 }
 
-- (void)setAdministrativeArea:(NSString *)administrativeArea {
+- (void)setAdministrativeArea:(nullable NSString *)administrativeArea {
     if (administrativeArea != nil) {
         store[SDLNameAdministrativeArea] = administrativeArea;
     } else {
@@ -74,11 +76,11 @@
     }
 }
 
-- (NSString *)administrativeArea {
+- (nullable NSString *)administrativeArea {
     return store[SDLNameAdministrativeArea];
 }
 
-- (void)setSubAdministrativeArea:(NSString *)subAdministrativeArea {
+- (void)setSubAdministrativeArea:(nullable NSString *)subAdministrativeArea {
     if (subAdministrativeArea != nil) {
         store[SDLNameSubAdministrativeArea] = subAdministrativeArea;
     } else {
@@ -86,11 +88,11 @@
     }
 }
 
-- (NSString *)subAdministrativeArea {
+- (nullable NSString *)subAdministrativeArea {
     return store[SDLNameSubAdministrativeArea];
 }
 
-- (void)setLocality:(NSString *)locality {
+- (void)setLocality:(nullable NSString *)locality {
     if (locality != nil) {
         store[SDLNameLocality] = locality;
     } else {
@@ -98,11 +100,11 @@
     }
 }
 
-- (NSString *)locality {
+- (nullable NSString *)locality {
     return store[SDLNameLocality];
 }
 
-- (void)setSubLocality:(NSString *)subLocality {
+- (void)setSubLocality:(nullable NSString *)subLocality {
     if (subLocality != nil) {
         store[SDLNameSubLocality] = subLocality;
     } else {
@@ -110,11 +112,11 @@
     }
 }
 
-- (NSString *)subLocality {
+- (nullable NSString *)subLocality {
     return store[SDLNameSubLocality];
 }
 
-- (void)setThoroughfare:(NSString *)thoroughfare {
+- (void)setThoroughfare:(nullable NSString *)thoroughfare {
     if (thoroughfare != nil) {
         store[SDLNameThoroughfare] = thoroughfare;
     } else {
@@ -122,11 +124,11 @@
     }
 }
 
-- (NSString *)thoroughfare {
+- (nullable NSString *)thoroughfare {
     return store[SDLNameThoroughfare];
 }
 
-- (void)setSubThoroughfare:(NSString *)subThoroughfare {
+- (void)setSubThoroughfare:(nullable NSString *)subThoroughfare {
     if (subThoroughfare != nil) {
         store[SDLNameSubThoroughfare] = subThoroughfare;
     } else {
@@ -134,8 +136,10 @@
     }
 }
 
-- (NSString *)subThoroughfare {
+- (nullable NSString *)subThoroughfare {
     return store[SDLNameSubThoroughfare];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,8 +3,11 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLSingleTireStatus;
 #import "SDLWarningLightStatus.h"
+
+@class SDLSingleTireStatus;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTireStatus : SDLRPCStruct
 
@@ -17,3 +20,5 @@
 @property (strong) SDLSingleTireStatus *innerRightRear;
 
 @end
+
+NS_ASSUME_NONNULL_END

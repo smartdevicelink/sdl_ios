@@ -10,10 +10,19 @@
  * @see SDLUnsubscribeWaypoints
  *
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSubscribeWayPoints : SDLRPCRequest
 
 @end
 
+NS_ASSUME_NONNULL_END
+
+NS_ASSUME_NONNULL_BEGIN
+
 __deprecated_msg("Use SDLSubscribeWayPoints instead")
-    @interface SDLSubscribeWaypoints : SDLSubscribeWayPoints
-                                       @end
+@interface SDLSubscribeWaypoints : SDLSubscribeWayPoints
+@end
+
+NS_ASSUME_NONNULL_END

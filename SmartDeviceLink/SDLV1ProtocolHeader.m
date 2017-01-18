@@ -6,6 +6,8 @@
 
 const int V1PROTOCOL_HEADERSIZE = 8;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLV1ProtocolHeader
 
 - (instancetype)init {
@@ -39,7 +41,7 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     return dataOut;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     SDLV1ProtocolHeader *newHeader = [[SDLV1ProtocolHeader allocWithZone:zone] init];
     newHeader.encrypted = self.encrypted;
     newHeader.frameType = self.frameType;
@@ -82,3 +84,5 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

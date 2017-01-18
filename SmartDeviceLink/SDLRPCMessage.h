@@ -5,6 +5,8 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLRPCMessage : SDLRPCStruct {
     NSMutableDictionary<NSString *, id> *function;
     NSMutableDictionary<NSString *, id> *parameters;
@@ -13,13 +15,15 @@
 
 - (instancetype)initWithName:(NSString *)name;
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict;
-- (NSString *)getFunctionName;
-- (void)setFunctionName:(NSString *)functionName;
-- (NSObject *)getParameters:(NSString *)functionName;
-- (void)setParameters:(NSString *)functionName value:(NSObject *)value;
+- (nullable NSString *)getFunctionName;
+- (void)setFunctionName:(nullable NSString *)functionName;
+- (nullable NSObject *)getParameters:(NSString *)functionName;
+- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value;
 
-@property (strong) NSData *bulkData;
+@property (nullable, strong) NSData *bulkData;
 @property (strong, readonly) NSString *name;
 @property (strong, readonly) NSString *messageType;
 
 @end
+
+NS_ASSUME_NONNULL_END

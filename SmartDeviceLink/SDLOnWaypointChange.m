@@ -6,6 +6,8 @@
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnWayPointChange
 
 - (instancetype)init {
@@ -40,3 +42,5 @@
 @implementation SDLOnWaypointChange
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 #import "SDLPowerModeQualificationStatus.h"
 #import "SDLPowerModeStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLClusterModeStatus : SDLRPCStruct
 
@@ -16,3 +17,5 @@
 @property (strong) SDLPowerModeStatus powerModeStatus;
 
 @end
+
+NS_ASSUME_NONNULL_END

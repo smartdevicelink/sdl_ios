@@ -9,8 +9,13 @@
  *
  * Since <b>SmartDeviceLink 2.0</b><br>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeleteFileResponse : SDLRPCResponse
 
 @property (strong) NSNumber<SDLInt> *spaceAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

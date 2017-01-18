@@ -19,6 +19,8 @@
  *
  * @see SDLDeleteInteractionChoiceSet SDLPerformInteraction
  */
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLCreateInteractionChoiceSet : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet;
@@ -38,3 +40,5 @@
 @property (strong) NSMutableArray<SDLChoice *> *choiceSet;
 
 @end
+
+NS_ASSUME_NONNULL_END

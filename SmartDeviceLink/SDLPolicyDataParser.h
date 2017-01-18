@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPolicyDataParser : NSObject
 
 @property (assign) Byte protocolVersion;
@@ -25,7 +27,9 @@
 @property (strong) NSData *payload;
 @property (strong) NSData *signatureTag;
 
-- (NSData *)unwrap:(NSData *)wrappedData;
+- (nullable NSData *)unwrap:(NSData *)wrappedData;
 - (void)parsePolicyData:(NSData *)data;
 
 @end
+
+NS_ASSUME_NONNULL_END

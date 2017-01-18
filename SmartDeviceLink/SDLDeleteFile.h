@@ -12,6 +12,9 @@
  * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLPutFile SDLListFiles
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeleteFile : SDLRPCRequest
 
 - (instancetype)initWithFileName:(NSString *)fileName;
@@ -23,3 +26,5 @@
 @property (strong) NSString *syncFileName;
 
 @end
+
+NS_ASSUME_NONNULL_END

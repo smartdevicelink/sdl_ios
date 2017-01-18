@@ -7,9 +7,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVRHelpItem
 
-- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image position:(UInt8)position {
+- (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image position:(UInt8)position {
     self = [self initWithText:text image:image];
     if (!self) {
         return nil;
@@ -20,7 +22,7 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image {
+- (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image {
     self = [self init];
     if (!self) {
         return nil;
@@ -44,7 +46,7 @@
     return [store objectForKey:SDLNameText];
 }
 
-- (void)setImage:(SDLImage *)image {
+- (void)setImage:(nullable SDLImage *)image {
     if (image != nil) {
         [store setObject:image forKey:SDLNameImage];
     } else {
@@ -52,13 +54,13 @@
     }
 }
 
-- (SDLImage *)image {
+- (nullable SDLImage *)image {
     NSObject *obj = [store objectForKey:SDLNameImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
@@ -74,3 +76,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

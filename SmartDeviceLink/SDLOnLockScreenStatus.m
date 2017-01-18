@@ -8,6 +8,7 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
@@ -68,3 +69,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

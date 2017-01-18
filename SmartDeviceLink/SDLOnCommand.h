@@ -14,6 +14,9 @@
  * @since SDL 1.0
  * @see SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnCommand : SDLRPCNotification
 
 /**
@@ -27,3 +30,5 @@
 @property (strong) SDLTriggerSource triggerSource;
 
 @end
+
+NS_ASSUME_NONNULL_END

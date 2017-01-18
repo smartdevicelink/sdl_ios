@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLTouchCoord.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTouchEvent
 
 - (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
@@ -55,3 +57,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

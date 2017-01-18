@@ -9,6 +9,9 @@
 /**
  * Status of the head lamps
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLHeadLampStatus : SDLRPCStruct
 
 /**
@@ -20,6 +23,8 @@
  */
 @property (strong) NSNumber<SDLBool> *highBeamsOn;
 
-@property (strong) SDLAmbientLightStatus ambientLightSensorStatus;
+@property (nullable, strong) SDLAmbientLightStatus ambientLightSensorStatus;
 
 @end
+
+NS_ASSUME_NONNULL_END

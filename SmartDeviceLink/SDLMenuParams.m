@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLMenuParams
 
 - (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position {
@@ -31,7 +33,7 @@
     return self;
 }
 
-- (void)setParentID:(NSNumber<SDLInt> *)parentID {
+- (void)setParentID:(nullable NSNumber<SDLInt> *)parentID {
     if (parentID != nil) {
         [store setObject:parentID forKey:SDLNameParentId];
     } else {
@@ -39,11 +41,11 @@
     }
 }
 
-- (NSNumber<SDLInt> *)parentID {
+- (nullable NSNumber<SDLInt> *)parentID {
     return [store objectForKey:SDLNameParentId];
 }
 
-- (void)setPosition:(NSNumber<SDLInt> *)position {
+- (void)setPosition:(nullable NSNumber<SDLInt> *)position {
     if (position != nil) {
         [store setObject:position forKey:SDLNamePosition];
     } else {
@@ -51,7 +53,7 @@
     }
 }
 
-- (NSNumber<SDLInt> *)position {
+- (nullable NSNumber<SDLInt> *)position {
     return [store objectForKey:SDLNamePosition];
 }
 
@@ -68,3 +70,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

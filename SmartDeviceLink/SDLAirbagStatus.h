@@ -5,6 +5,8 @@
 
 #import "SDLVehicleDataEventStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAirbagStatus : SDLRPCStruct
 
 @property (strong) SDLVehicleDataEventStatus driverAirbagDeployed;
@@ -17,3 +19,5 @@
 @property (strong) SDLVehicleDataEventStatus passengerKneeAirbagDeployed;
 
 @end
+
+NS_ASSUME_NONNULL_END

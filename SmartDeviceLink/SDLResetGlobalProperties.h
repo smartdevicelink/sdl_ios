@@ -22,6 +22,9 @@
  * Since SmartDeviceLink 1.0
  * See SetGlobalProperties
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLResetGlobalProperties : SDLRPCRequest
 
 - (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties;
@@ -33,3 +36,5 @@
 @property (strong) NSMutableArray<SDLGlobalProperty> *properties;
 
 @end
+
+NS_ASSUME_NONNULL_END

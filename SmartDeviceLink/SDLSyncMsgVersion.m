@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSyncMsgVersion
 
 - (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
@@ -48,3 +50,5 @@
     return [NSString stringWithFormat:@"%@.%@", self.majorVersion, self.minorVersion];
 }
 @end
+
+NS_ASSUME_NONNULL_END

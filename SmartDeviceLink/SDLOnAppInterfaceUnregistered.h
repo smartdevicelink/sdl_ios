@@ -14,6 +14,9 @@
  * @since SDL 1.0
  * @see SDLRegisterAppInterface
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnAppInterfaceUnregistered : SDLRPCNotification
 
 /**
@@ -22,3 +25,5 @@
 @property (strong) SDLAppInterfaceUnregisteredReason reason;
 
 @end
+
+NS_ASSUME_NONNULL_END

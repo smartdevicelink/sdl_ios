@@ -5,9 +5,11 @@
 #import "SDLDebugTool.h"
 #import "SDLProtocolHeader.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLV1ProtocolMessage
 
-- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
+- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload {
     if (self = [self init]) {
         self.header = header;
         self.payload = payload;
@@ -15,7 +17,7 @@
     return self;
 }
 
-- (NSDictionary<NSString *, id> *)rpcDictionary {
+- (nullable NSDictionary<NSString *, id> *)rpcDictionary {
     if (self.payload.length == 0) {
         return nil;
     }
@@ -31,3 +33,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

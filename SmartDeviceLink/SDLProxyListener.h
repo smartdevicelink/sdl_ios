@@ -68,6 +68,7 @@
 @class SDLUnsubscribeVehicleDataResponse;
 @class SDLUnsubscribeWaypointsResponse;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLProxyListener <NSObject>
 
@@ -143,3 +144,5 @@
 - (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWaypointsResponse *)response;
 
 @end
+
+NS_ASSUME_NONNULL_END

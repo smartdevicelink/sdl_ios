@@ -5,6 +5,7 @@
 
 #import "SDLWaypointType.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetWayPoints : SDLRPCRequest
 
@@ -16,10 +17,16 @@
  *
  * Required
  */
-@property (strong, nonatomic) SDLWaypointType waypointType;
+@property (nullable, strong, nonatomic) SDLWaypointType waypointType;
 
 @end
 
+NS_ASSUME_NONNULL_END
+
+NS_ASSUME_NONNULL_BEGIN
+
 __deprecated_msg("Use SDLGetWayPoints instead")
     @interface SDLGetWaypoints : SDLGetWayPoints
-                                 @end
+@end
+
+NS_ASSUME_NONNULL_END

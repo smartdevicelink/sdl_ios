@@ -17,6 +17,9 @@
  *	For simplicity, the OnLockScreenStatus RPC will be provided via the onOnLockScreenNotification call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.
  *	The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnLockScreenStatus : SDLRPCNotification
 
 /**
@@ -42,3 +45,5 @@
 @property (strong) SDLHMILevel hmiLevel;
 
 @end
+
+NS_ASSUME_NONNULL_END

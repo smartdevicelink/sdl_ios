@@ -5,6 +5,7 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLECallInfo
 
@@ -48,3 +49,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

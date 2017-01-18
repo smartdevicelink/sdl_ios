@@ -15,13 +15,13 @@
 #import <sys/wait.h>
 #import <unistd.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 // C function forward declarations.
 int call_socket(const char *hostname, const char *port);
 static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *data, void *info);
 
 @interface SDLTCPTransport () {
-    BOOL _alreadyDestructed;
     dispatch_queue_t _sendQueue;
 }
 
@@ -32,7 +32,6 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 - (instancetype)init {
     if (self = [super init]) {
-        _alreadyDestructed = NO;
         _sendQueue = dispatch_queue_create("com.sdl.transport.tcp.transmit", DISPATCH_QUEUE_SERIAL);
         [SDLDebugTool logInfo:@"SDLTCPTransport Init"
                      withType:SDLDebugType_Transport_iAP
@@ -43,6 +42,9 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     return self;
 }
 
+- (void)dealloc {
+    [self disconnect];
+}
 
 - (void)connect {
     [SDLDebugTool logInfo:@"TCP Transport attempt connect" withType:SDLDebugType_Transport_TCP];
@@ -87,28 +89,14 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     });
 }
 
-- (void)destructObjects {
-    [SDLDebugTool logInfo:@"SDLTCPTransport invalidate and dispose"];
-
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        if (socket != nil) {
-            CFSocketInvalidate(socket);
-            CFRelease(socket);
-        }
-    }
-}
-
 - (void)disconnect {
-    [self dispose];
-}
-
-- (void)dispose {
-    [self destructObjects];
-}
-
-- (void)dealloc {
-    [self destructObjects];
+    [SDLDebugTool logInfo:@"SDLTCPTransport invalidate and dispose"];
+    
+    if (socket != nil) {
+        CFSocketInvalidate(socket);
+        CFRelease(socket);
+        socket = nil;
+    }
 }
 
 @end
@@ -179,3 +167,5 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
     }
 }
+
+NS_ASSUME_NONNULL_END

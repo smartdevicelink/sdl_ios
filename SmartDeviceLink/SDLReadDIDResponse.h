@@ -11,8 +11,13 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLReadDIDResponse : SDLRPCResponse
 
-@property (strong) NSMutableArray<SDLDIDResult *> *didResult;
+@property (nullable, strong) NSMutableArray<SDLDIDResult *> *didResult;
 
 @end
+
+NS_ASSUME_NONNULL_END

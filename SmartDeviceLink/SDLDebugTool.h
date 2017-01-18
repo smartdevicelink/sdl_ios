@@ -25,6 +25,8 @@ typedef NS_ENUM(UInt8, SDLDebugOutput) {
 };
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDebugTool : NSObject {
 }
 
@@ -49,3 +51,5 @@ typedef NS_ENUM(UInt8, SDLDebugOutput) {
 
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDIDResult
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
@@ -32,7 +34,7 @@
     return [store objectForKey:SDLNameDIDLocation];
 }
 
-- (void)setData:(NSString *)data {
+- (void)setData:(nullable NSString *)data {
     if (data != nil) {
         [store setObject:data forKey:SDLNameData];
     } else {
@@ -40,8 +42,10 @@
     }
 }
 
-- (NSString *)data {
+- (nullable NSString *)data {
     return [store objectForKey:SDLNameData];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

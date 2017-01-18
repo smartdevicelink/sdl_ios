@@ -5,6 +5,7 @@
 
 @class SDLProtocolMessage;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLProtocolListener <NSObject>
 
@@ -22,3 +23,5 @@
 - (void)onError:(NSString *)info exception:(NSException *)e;
 
 @end
+
+NS_ASSUME_NONNULL_END

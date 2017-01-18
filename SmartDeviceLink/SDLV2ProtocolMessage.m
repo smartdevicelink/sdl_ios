@@ -7,10 +7,11 @@
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLV2ProtocolMessage
 
-- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
+- (instancetype)initWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload {
     if (self = [self init]) {
         self.header = header;
         self.payload = payload;
@@ -19,7 +20,7 @@
 }
 
 // Convert RPC payload to dictionary (for consumption by RPC layer)
-- (NSDictionary<NSString *, id> *)rpcDictionary {
+- (nullable NSDictionary<NSString *, id> *)rpcDictionary {
     // Only applicable to RPCs
     if ((self.header.serviceType != SDLServiceType_RPC) && (self.header.serviceType != SDLServiceType_BulkData)) {
         return nil;
@@ -60,3 +61,5 @@
     return rpcMessageAsDictionary;
 }
 @end
+
+NS_ASSUME_NONNULL_END

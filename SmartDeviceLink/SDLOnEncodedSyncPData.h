@@ -3,11 +3,14 @@
 
 #import "SDLRPCNotification.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLOnEncodedSyncPData : SDLRPCNotification
 
 @property (strong) NSMutableArray<NSString *> *data;
-@property (strong) NSString *URL;
-@property (strong) NSNumber<SDLInt> *Timeout;
+@property (nullable, strong) NSString *URL;
+@property (nullable, strong) NSNumber<SDLInt> *Timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END

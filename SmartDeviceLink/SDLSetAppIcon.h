@@ -11,6 +11,9 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSetAppIcon : SDLRPCRequest
 
 - (instancetype)initWithFileName:(NSString *)fileName;
@@ -25,3 +28,5 @@
 @property (strong) NSString *syncFileName;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -9,6 +9,9 @@
  *
  * @since SDL 3.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDiagnosticMessage : SDLRPCRequest
 
 - (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSNumber<SDLUInt> *> *)data;
@@ -35,3 +38,5 @@
 @property (strong) NSMutableArray<NSNumber<SDLInt> *> *messageData;
 
 @end
+
+NS_ASSUME_NONNULL_END

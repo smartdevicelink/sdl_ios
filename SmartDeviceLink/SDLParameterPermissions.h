@@ -9,6 +9,9 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLParameterPermissions : SDLRPCStruct
 
 /**
@@ -25,3 +28,5 @@
 @property (strong) NSMutableArray<NSString *> *userDisallowed;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,6 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAbstractProtocol
 
@@ -69,10 +70,6 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)dispose {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 
 #pragma - SDLTransportListener Implementation
 - (void)onTransportConnected {
@@ -96,3 +93,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

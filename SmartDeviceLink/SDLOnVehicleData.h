@@ -26,112 +26,117 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnVehicleData : SDLRPCNotification
 
 /**
  * @abstract A SDLGPSData* value. See GPSData.
  */
-@property (strong) SDLGPSData *gps;
+@property (nullable, strong) SDLGPSData *gps;
 
 /**
  * @abstract The vehicle speed in kilometers per hour.
  */
-@property (strong) NSNumber<SDLFloat> *speed;
+@property (nullable, strong) NSNumber<SDLFloat> *speed;
 
 /**
  * @abstract The number of revolutions per minute of the engine.
  */
-@property (strong) NSNumber<SDLInt> *rpm;
+@property (nullable, strong) NSNumber<SDLInt> *rpm;
 
 /**
  * @abstract The fuel level in the tank (percentage)
  */
-@property (strong) NSNumber<SDLFloat> *fuelLevel;
+@property (nullable, strong) NSNumber<SDLFloat> *fuelLevel;
 
 /**
  * @abstract A SDLComponentVolumeStatus* value. The fuel level state.
  */
-@property (strong) SDLComponentVolumeStatus fuelLevel_State;
+@property (nullable, strong) SDLComponentVolumeStatus fuelLevel_State;
 
 /**
  * @abstract The instantaneous fuel consumption in microlitres.
  */
-@property (strong) NSNumber<SDLFloat> *instantFuelConsumption;
+@property (nullable, strong) NSNumber<SDLFloat> *instantFuelConsumption;
 
 /**
  * @abstract The external temperature in degrees celsius.
  */
-@property (strong) NSNumber<SDLFloat> *externalTemperature;
+@property (nullable, strong) NSNumber<SDLFloat> *externalTemperature;
 
 /**
  * @abstract The Vehicle Identification Number
  */
-@property (strong) NSString *vin;
+@property (nullable, strong) NSString *vin;
 
 /**
  * @abstract See PRNDL.
  */
-@property (strong) SDLPRNDL prndl;
+@property (nullable, strong) SDLPRNDL prndl;
 
 /**
  * @abstract A SDLTireStatus* value. See TireStatus.
  */
-@property (strong) SDLTireStatus *tirePressure;
+@property (nullable, strong) SDLTireStatus *tirePressure;
 
 /**
  * @abstract Odometer reading in km.
  */
-@property (strong) NSNumber<SDLInt> *odometer;
+@property (nullable, strong) NSNumber<SDLInt> *odometer;
 
 /**
  * @abstract A SDLBeltStatus* value. The status of the seat belts.
  */
-@property (strong) SDLBeltStatus *beltStatus;
+@property (nullable, strong) SDLBeltStatus *beltStatus;
 
 /**
  * @abstract A SDLBodyInformation* value. The body information including power modes.
  */
-@property (strong) SDLBodyInformation *bodyInformation;
+@property (nullable, strong) SDLBodyInformation *bodyInformation;
 
 /**
  * @abstract A SDLDeviceStatus* value. The device status including signal and battery strength.
  */
-@property (strong) SDLDeviceStatus *deviceStatus;
+@property (nullable, strong) SDLDeviceStatus *deviceStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the brake pedal.
  */
-@property (strong) SDLVehicleDataEventStatus driverBraking;
+@property (nullable, strong) SDLVehicleDataEventStatus driverBraking;
 
 /**
  * @abstract A SDLWiperStatus* value. The status of the wipers.
  */
-@property (strong) SDLWiperStatus wiperStatus;
+@property (nullable, strong) SDLWiperStatus wiperStatus;
 
 /**
  * @abstract A SDLHeadLampStatus* value. Status of the head lamps.
  */
-@property (strong) SDLHeadLampStatus *headLampStatus;
+@property (nullable, strong) SDLHeadLampStatus *headLampStatus;
 
 /**
  * @abstract Torque value for engine (in Nm) on non-diesel variants.
  */
-@property (strong) NSNumber<SDLFloat> *engineTorque;
+@property (nullable, strong) NSNumber<SDLFloat> *engineTorque;
 
 /**
  * @abstract Accelerator pedal position (percentage depressed)
  */
-@property (strong) NSNumber<SDLFloat> *accPedalPosition;
+@property (nullable, strong) NSNumber<SDLFloat> *accPedalPosition;
 
 /**
  * @abstract Current angle of the steering wheel (in deg)
  */
-@property (strong) NSNumber<SDLFloat> *steeringWheelAngle;
-@property (strong) SDLECallInfo *eCallInfo;
-@property (strong) SDLAirbagStatus *airbagStatus;
-@property (strong) SDLEmergencyEvent *emergencyEvent;
-@property (strong) SDLClusterModeStatus *clusterModeStatus;
-@property (strong) SDLMyKey *myKey;
+@property (nullable, strong) NSNumber<SDLFloat> *steeringWheelAngle;
+@property (nullable, strong) SDLECallInfo *eCallInfo;
+@property (nullable, strong) SDLAirbagStatus *airbagStatus;
+@property (nullable, strong) SDLEmergencyEvent *emergencyEvent;
+@property (nullable, strong) SDLClusterModeStatus *clusterModeStatus;
+@property (nullable, strong) SDLMyKey *myKey;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

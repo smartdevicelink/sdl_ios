@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnButtonEvent
 
 - (instancetype)init {
@@ -39,7 +41,7 @@
     return (SDLButtonEventMode)obj;
 }
 
-- (void)setCustomButtonID:(NSNumber<SDLInt> *)customButtonID {
+- (void)setCustomButtonID:(nullable NSNumber<SDLInt> *)customButtonID {
     if (customButtonID != nil) {
         [parameters setObject:customButtonID forKey:SDLNameCustomButtonId];
     } else {
@@ -47,8 +49,10 @@
     }
 }
 
-- (NSNumber<SDLInt> *)customButtonID {
+- (nullable NSNumber<SDLInt> *)customButtonID {
     return [parameters objectForKey:SDLNameCustomButtonId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
