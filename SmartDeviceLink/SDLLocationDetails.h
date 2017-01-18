@@ -7,6 +7,8 @@
 @class SDLImage;
 @class SDLOasisAddress;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLLocationDetails : SDLRPCStruct
 
 /**
@@ -16,35 +18,35 @@
  *
  * Optional
  */
-@property (strong, nonatomic) SDLLocationCoordinate *coordinate;
+@property (nullable, strong, nonatomic) SDLLocationCoordinate *coordinate;
 
 /**
  * @abstract Name of location.
  *
  * Optional, Max length 500 chars
  */
-@property (copy, nonatomic) NSString *locationName;
+@property (nullable, copy, nonatomic) NSString *locationName;
 
 /**
  * @abstract Location address for display purposes only.
  *
  * Optional, Array of Strings, Array length 0 - 4, Max String length 500
  */
-@property (copy, nonatomic) NSArray<NSString *> *addressLines;
+@property (nullable, copy, nonatomic) NSArray<NSString *> *addressLines;
 
 /**
  * @abstract Description intended location / establishment.
  *
  * Optional, Max length 500 chars
  */
-@property (copy, nonatomic) NSString *locationDescription;
+@property (nullable, copy, nonatomic) NSString *locationDescription;
 
 /**
  * @abstract Phone number of location / establishment.
  *
  * Optional, Max length 500 chars
  */
-@property (copy, nonatomic) NSString *phoneNumber;
+@property (nullable, copy, nonatomic) NSString *phoneNumber;
 
 /**
  * @abstract Image / icon of intended location.
@@ -53,7 +55,7 @@
  *
  * Optional
  */
-@property (strong, nonatomic) SDLImage *locationImage;
+@property (nullable, strong, nonatomic) SDLImage *locationImage;
 
 /**
  * @abstract Address to be used by navigation engines for search.
@@ -62,7 +64,9 @@
  *
  * Optional
  */
-@property (strong) SDLOasisAddress *searchAddress;
+@property (nullable, strong, nonatomic) SDLOasisAddress *searchAddress;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

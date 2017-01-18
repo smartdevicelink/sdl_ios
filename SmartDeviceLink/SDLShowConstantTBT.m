@@ -9,6 +9,8 @@
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLShowConstantTBT
 
 - (instancetype)init {
@@ -17,7 +19,7 @@
     return self;
 }
 
-- (instancetype)initWithNavigationText1:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {
         return nil;
@@ -38,92 +40,94 @@
     return self;
 }
 
-- (void)setNavigationText1:(NSString *)navigationText1 {
+- (void)setNavigationText1:(nullable NSString *)navigationText1 {
     [parameters sdl_setObject:navigationText1 forName:SDLNameNavigationText1];
 }
 
-- (NSString *)navigationText1 {
+- (nullable NSString *)navigationText1 {
     return [parameters sdl_objectForName:SDLNameNavigationText1];
 }
 
-- (void)setNavigationText2:(NSString *)navigationText2 {
+- (void)setNavigationText2:(nullable NSString *)navigationText2 {
     [parameters sdl_setObject:navigationText2 forName:SDLNameNavigationText2];
 }
 
-- (NSString *)navigationText2 {
+- (nullable NSString *)navigationText2 {
     return [parameters sdl_objectForName:SDLNameNavigationText2];
 }
 
-- (void)setEta:(NSString *)eta {
+- (void)setEta:(nullable NSString *)eta {
     [parameters sdl_setObject:eta forName:SDLNameETA];
 }
 
-- (NSString *)eta {
+- (nullable NSString *)eta {
     return [parameters sdl_objectForName:SDLNameETA];
 }
 
-- (void)setTimeToDestination:(NSString *)timeToDestination {
+- (void)setTimeToDestination:(nullable NSString *)timeToDestination {
     [parameters sdl_setObject:timeToDestination forName:SDLNameTimeToDestination];
 }
 
-- (NSString *)timeToDestination {
+- (nullable NSString *)timeToDestination {
     return [parameters sdl_objectForName:SDLNameTimeToDestination];
 }
 
-- (void)setTotalDistance:(NSString *)totalDistance {
+- (void)setTotalDistance:(nullable NSString *)totalDistance {
     [parameters sdl_setObject:totalDistance forName:SDLNameTotalDistance];
 }
 
-- (NSString *)totalDistance {
+- (nullable NSString *)totalDistance {
     return [parameters sdl_objectForName:SDLNameTotalDistance];
 }
 
-- (void)setTurnIcon:(SDLImage *)turnIcon {
+- (void)setTurnIcon:(nullable SDLImage *)turnIcon {
     [parameters sdl_setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
-- (SDLImage *)turnIcon {
+- (nullable SDLImage *)turnIcon {
     return [parameters sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
-- (void)setNextTurnIcon:(SDLImage *)nextTurnIcon {
+- (void)setNextTurnIcon:(nullable SDLImage *)nextTurnIcon {
     [parameters sdl_setObject:nextTurnIcon forName:SDLNameNextTurnIcon];
 }
 
-- (SDLImage *)nextTurnIcon {
+- (nullable SDLImage *)nextTurnIcon {
     return [parameters sdl_objectForName:SDLNameNextTurnIcon ofClass:SDLImage.class];
 }
 
-- (void)setDistanceToManeuver:(NSNumber<SDLFloat> *)distanceToManeuver {
+- (void)setDistanceToManeuver:(nullable NSNumber<SDLFloat> *)distanceToManeuver {
     [parameters sdl_setObject:distanceToManeuver forName:SDLNameDistanceToManeuver];
 }
 
-- (NSNumber<SDLFloat> *)distanceToManeuver {
+- (nullable NSNumber<SDLFloat> *)distanceToManeuver {
     return [parameters sdl_objectForName:SDLNameDistanceToManeuver];
 }
 
-- (void)setDistanceToManeuverScale:(NSNumber<SDLFloat> *)distanceToManeuverScale {
+- (void)setDistanceToManeuverScale:(nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
     [parameters sdl_setObject:distanceToManeuverScale forName:SDLNameDistanceToManeuverScale];
 }
 
-- (NSNumber<SDLFloat> *)distanceToManeuverScale {
+- (nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
     return [parameters sdl_objectForName:SDLNameDistanceToManeuverScale];
 }
 
-- (void)setManeuverComplete:(NSNumber<SDLBool> *)maneuverComplete {
+- (void)setManeuverComplete:(nullable NSNumber<SDLBool> *)maneuverComplete {
     [parameters sdl_setObject:maneuverComplete forName:SDLNameManeuverComplete];
 }
 
-- (NSNumber<SDLBool> *)maneuverComplete {
+- (nullable NSNumber<SDLBool> *)maneuverComplete {
     return [parameters sdl_objectForName:SDLNameManeuverComplete];
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

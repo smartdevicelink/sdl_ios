@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLGetWayPoints
 
 - (instancetype)init {
@@ -26,11 +28,11 @@
     return self;
 }
 
-- (void)setWaypointType:(SDLWaypointType)waypointType {
+- (void)setWaypointType:(nullable SDLWaypointType)waypointType {
     [parameters sdl_setObject:waypointType forName:SDLNameWaypointType];
 }
 
-- (SDLWaypointType)waypointType {
+- (nullable SDLWaypointType)waypointType {
     return [parameters sdl_objectForName:SDLNameWaypointType];
 }
 
@@ -39,3 +41,5 @@
 @implementation SDLGetWaypoints
 
 @end
+
+NS_ASSUME_NONNULL_END

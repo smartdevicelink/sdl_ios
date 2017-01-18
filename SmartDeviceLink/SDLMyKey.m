@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLVehicleDataStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLMyKey
 
 - (void)setE911Override:(SDLVehicleDataStatus)e911Override {
@@ -18,3 +20,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

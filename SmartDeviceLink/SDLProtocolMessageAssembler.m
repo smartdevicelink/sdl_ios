@@ -7,6 +7,14 @@
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLProtocolMessageAssembler ()
+
+@property (nullable, strong) NSMutableDictionary<NSNumber *, NSData *> *parts;
+
+@end
+
 @implementation SDLProtocolMessageAssembler
 
 - (instancetype)initWithSessionID:(UInt8)sessionID {
@@ -93,3 +101,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

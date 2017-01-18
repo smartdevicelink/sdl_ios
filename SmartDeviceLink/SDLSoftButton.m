@@ -7,10 +7,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButton
 
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -21,7 +22,7 @@
     return self;
 }
 
-- (instancetype)initWithType:(SDLSoftButtonType)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(SDLSystemAction)systemAction handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithType:(SDLSoftButtonType)type text:(nullable NSString *)text image:(nullable SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(nullable SDLSystemAction)systemAction handler:(nullable SDLRPCNotificationHandler)handler {
     self = [self initWithHandler:handler];
     if (!self) {
         return nil;
@@ -46,27 +47,27 @@
     return [store sdl_objectForName:SDLNameType];
 }
 
-- (void)setText:(NSString *)text {
+- (void)setText:(nullable NSString *)text {
     [store sdl_setObject:text forName:SDLNameText];
 }
 
-- (NSString *)text {
+- (nullable NSString *)text {
     return [store sdl_objectForName:SDLNameText];
 }
 
-- (void)setImage:(SDLImage *)image {
+- (void)setImage:(nullable SDLImage *)image {
     [store sdl_setObject:image forName:SDLNameImage];
 }
 
-- (SDLImage *)image {
+- (nullable SDLImage *)image {
     return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
-- (void)setIsHighlighted:(NSNumber<SDLBool> *)isHighlighted {
+- (void)setIsHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted {
     [store sdl_setObject:isHighlighted forName:SDLNameIsHighlighted];
 }
 
-- (NSNumber<SDLBool> *)isHighlighted {
+- (nullable NSNumber<SDLBool> *)isHighlighted {
     return [store sdl_objectForName:SDLNameIsHighlighted];
 }
 
@@ -78,12 +79,14 @@
     return [store sdl_objectForName:SDLNameSoftButtonId];
 }
 
-- (void)setSystemAction:(SDLSystemAction)systemAction {
+- (void)setSystemAction:(nullable SDLSystemAction)systemAction {
     [store sdl_setObject:systemAction forName:SDLNameSystemAction];
 }
 
-- (SDLSystemAction)systemAction {
+- (nullable SDLSystemAction)systemAction {
     return [store sdl_objectForName:SDLNameSystemAction];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

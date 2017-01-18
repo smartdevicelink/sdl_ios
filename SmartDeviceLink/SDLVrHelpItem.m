@@ -8,9 +8,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVRHelpItem
 
-- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image position:(UInt8)position {
+- (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image position:(UInt8)position {
     self = [self initWithText:text image:image];
     if (!self) {
         return nil;
@@ -21,7 +23,7 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString *)text image:(SDLImage *)image {
+- (instancetype)initWithText:(NSString *)text image:(nullable SDLImage *)image {
     self = [self init];
     if (!self) {
         return nil;
@@ -41,11 +43,11 @@
     return [store sdl_objectForName:SDLNameText];
 }
 
-- (void)setImage:(SDLImage *)image {
+- (void)setImage:(nullable SDLImage *)image {
     [store sdl_setObject:image forName:SDLNameImage];
 }
 
-- (SDLImage *)image {
+- (nullable SDLImage *)image {
     return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
@@ -58,3 +60,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

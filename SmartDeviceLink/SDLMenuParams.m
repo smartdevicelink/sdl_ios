@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLMenuParams
 
 - (instancetype)initWithMenuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position {
@@ -32,19 +34,19 @@
     return self;
 }
 
-- (void)setParentID:(NSNumber<SDLInt> *)parentID {
+- (void)setParentID:(nullable NSNumber<SDLInt> *)parentID {
     [store sdl_setObject:parentID forName:SDLNameParentId];
 }
 
-- (NSNumber<SDLInt> *)parentID {
+- (nullable NSNumber<SDLInt> *)parentID {
     return [store sdl_objectForName:SDLNameParentId];
 }
 
-- (void)setPosition:(NSNumber<SDLInt> *)position {
+- (void)setPosition:(nullable NSNumber<SDLInt> *)position {
     [store sdl_setObject:position forName:SDLNamePosition];
 }
 
-- (NSNumber<SDLInt> *)position {
+- (nullable NSNumber<SDLInt> *)position {
     return [store sdl_objectForName:SDLNamePosition];
 }
 
@@ -57,3 +59,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

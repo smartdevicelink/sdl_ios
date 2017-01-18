@@ -8,6 +8,8 @@
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLScrollableMessage
 
 - (instancetype)init {
@@ -16,7 +18,7 @@
     return self;
 }
 
-- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self initWithMessage:message];
     if (!self) {
         return nil;
@@ -47,20 +49,22 @@
     return [parameters sdl_objectForName:SDLNameScrollableMessageBody];
 }
 
-- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
     [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
-- (NSNumber<SDLInt> *)timeout {
+- (nullable NSNumber<SDLInt> *)timeout {
     return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

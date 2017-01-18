@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPerformInteractionResponse
 
 - (instancetype)init {
@@ -15,28 +17,30 @@
     return self;
 }
 
-- (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
+- (void)setChoiceID:(nullable NSNumber<SDLInt> *)choiceID {
     [parameters sdl_setObject:choiceID forName:SDLNameChoiceId];
 }
 
-- (NSNumber<SDLInt> *)choiceID {
+- (nullable NSNumber<SDLInt> *)choiceID {
     return [parameters sdl_objectForName:SDLNameChoiceId];
 }
 
-- (void)setManualTextEntry:(NSString *)manualTextEntry {
+- (void)setManualTextEntry:(nullable NSString *)manualTextEntry {
     [parameters sdl_setObject:manualTextEntry forName:SDLNameManualTextEntry];
 }
 
-- (NSString *)manualTextEntry {
+- (nullable NSString *)manualTextEntry {
     return [parameters sdl_objectForName:SDLNameManualTextEntry];
 }
 
-- (void)setTriggerSource:(SDLTriggerSource)triggerSource {
+- (void)setTriggerSource:(nullable SDLTriggerSource)triggerSource {
     [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
 }
 
-- (SDLTriggerSource)triggerSource {
+- (nullable SDLTriggerSource)triggerSource {
     return [parameters sdl_objectForName:SDLNameTriggerSource];
 }
 
 @end
+    
+NS_ASSUME_NONNULL_END

@@ -9,6 +9,8 @@
 #import "SDLScreenParams.h"
 #import "SDLTextField.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDisplayCapabilities
 
 - (void)setDisplayType:(SDLDisplayType)displayType {
@@ -27,11 +29,11 @@
     return [store sdl_objectsForName:SDLNameTextFields ofClass:SDLTextField.class];
 }
 
-- (void)setImageFields:(NSMutableArray<SDLImageField *> *)imageFields {
+- (void)setImageFields:(nullable NSMutableArray<SDLImageField *> *)imageFields {
     [store sdl_setObject:imageFields forName:SDLNameImageFields];
 }
 
-- (NSMutableArray<SDLImageField *> *)imageFields {
+- (nullable NSMutableArray<SDLImageField *> *)imageFields {
     return [store sdl_objectsForName:SDLNameImageFields ofClass:SDLImageField.class];
 }
 
@@ -51,28 +53,30 @@
     return [store sdl_objectForName:SDLNameGraphicSupported];
 }
 
-- (void)setTemplatesAvailable:(NSMutableArray<NSString *> *)templatesAvailable {
+- (void)setTemplatesAvailable:(nullable NSMutableArray<NSString *> *)templatesAvailable {
     [store sdl_setObject:templatesAvailable forName:SDLNameTemplatesAvailable];
 }
 
-- (NSMutableArray<NSString *> *)templatesAvailable {
+- (nullable NSMutableArray<NSString *> *)templatesAvailable {
     return [store sdl_objectForName:SDLNameTemplatesAvailable];
 }
 
-- (void)setScreenParams:(SDLScreenParams *)screenParams {
+- (void)setScreenParams:(nullable SDLScreenParams *)screenParams {
     [store sdl_setObject:screenParams forName:SDLNameScreenParams];
 }
 
-- (SDLScreenParams *)screenParams {
+- (nullable SDLScreenParams *)screenParams {
     return [store sdl_objectForName:SDLNameScreenParams ofClass:SDLScreenParams.class];
 }
 
-- (void)setNumCustomPresetsAvailable:(NSNumber<SDLInt> *)numCustomPresetsAvailable {
+- (void)setNumCustomPresetsAvailable:(nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
     [store sdl_setObject:numCustomPresetsAvailable forName:SDLNameNumberCustomPresetsAvailable];
 }
 
-- (NSNumber<SDLInt> *)numCustomPresetsAvailable {
+- (nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
     return [store sdl_objectForName:SDLNameNumberCustomPresetsAvailable];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

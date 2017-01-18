@@ -5,6 +5,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAddSubMenu
 
 - (instancetype)init {
@@ -45,11 +47,11 @@
     return [parameters sdl_objectForName:SDLNameMenuId];
 }
 
-- (void)setPosition:(NSNumber<SDLInt> *)position {
+- (void)setPosition:(nullable NSNumber<SDLInt> *)position {
     [parameters sdl_setObject:position forName:SDLNamePosition];
 }
 
-- (NSNumber<SDLInt> *)position {
+- (nullable NSNumber<SDLInt> *)position {
     return [parameters sdl_objectForName:SDLNamePosition];
 }
 
@@ -62,3 +64,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

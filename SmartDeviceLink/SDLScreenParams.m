@@ -8,6 +8,8 @@
 #import "SDLNames.h"
 #import "SDLTouchEventCapabilities.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLScreenParams
 
 - (void)setResolution:(SDLImageResolution *)resolution {
@@ -18,12 +20,14 @@
     return [store sdl_objectForName:SDLNameResolution ofClass:SDLImageResolution.class];
 }
 
-- (void)setTouchEventAvailable:(SDLTouchEventCapabilities *)touchEventAvailable {
+- (void)setTouchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {
     [store sdl_setObject:touchEventAvailable forName:SDLNameTouchEventAvailable];
 }
 
-- (SDLTouchEventCapabilities *)touchEventAvailable {
+- (nullable SDLTouchEventCapabilities *)touchEventAvailable {
     return [store sdl_objectForName:SDLNameTouchEventAvailable ofClass:SDLTouchEventCapabilities.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

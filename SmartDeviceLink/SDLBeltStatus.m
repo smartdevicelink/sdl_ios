@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLVehicleDataEventStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLBeltStatus
 
 - (void)setDriverBeltDeployed:(SDLVehicleDataEventStatus)driverBeltDeployed {
@@ -130,3 +132,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

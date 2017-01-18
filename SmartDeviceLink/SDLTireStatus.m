@@ -6,7 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSingleTireStatus.h"
-#import "SDLWarningLightStatus.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTireStatus
 
@@ -67,3 +68,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -12,11 +12,7 @@
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
 
-@interface SDLProtocolMessage ()
-
-@property (strong) NSMutableData *internalBuffer;
-
-@end
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLProtocolMessage
 
@@ -35,7 +31,7 @@
     return self;
 }
 
-- (NSDictionary<NSString *, id> *)rpcDictionary {
+- (nullable NSDictionary<NSString *, id> *)rpcDictionary {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -86,7 +82,7 @@
 }
 
 // Returns a V1 or V2 object
-+ (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
++ (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload {
     SDLProtocolMessage *newMessage = nil;
 
     UInt8 version = header.version;
@@ -102,3 +98,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

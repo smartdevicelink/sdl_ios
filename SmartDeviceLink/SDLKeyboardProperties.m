@@ -6,9 +6,11 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLKeyboardProperties
 
-- (instancetype)initWithLanguage:(SDLLanguage)language layout:(SDLKeyboardLayout)layout keypressMode:(SDLKeypressMode)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText {
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText {
     self = [self init];
     if (!self) {
         return nil;
@@ -23,44 +25,46 @@
     return self;
 }
 
-- (void)setLanguage:(SDLLanguage)language {
+- (void)setLanguage:(nullable SDLLanguage)language {
     [store sdl_setObject:language forName:SDLNameLanguage];
 }
 
-- (SDLLanguage)language {
+- (nullable SDLLanguage)language {
     return [store sdl_objectForName:SDLNameLanguage];
 }
 
-- (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
+- (void)setKeyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout {
     [store sdl_setObject:keyboardLayout forName:SDLNameKeyboardLayout];
 }
 
-- (SDLKeyboardLayout)keyboardLayout {
+- (nullable SDLKeyboardLayout)keyboardLayout {
     return [store sdl_objectForName:SDLNameKeyboardLayout];
 }
 
-- (void)setKeypressMode:(SDLKeypressMode)keypressMode {
+- (void)setKeypressMode:(nullable SDLKeypressMode)keypressMode {
     [store sdl_setObject:keypressMode forName:SDLNameKeypressMode];
 }
 
-- (SDLKeypressMode)keypressMode {
+- (nullable SDLKeypressMode)keypressMode {
     return [store sdl_objectForName:SDLNameKeypressMode];
 }
 
-- (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
+- (void)setLimitedCharacterList:(nullable NSMutableArray<NSString *> *)limitedCharacterList {
     [store sdl_setObject:limitedCharacterList forName:SDLNameLimitedCharacterList];
 }
 
-- (NSMutableArray<NSString *> *)limitedCharacterList {
+- (nullable NSMutableArray<NSString *> *)limitedCharacterList {
     return [store sdl_objectForName:SDLNameLimitedCharacterList];
 }
 
-- (void)setAutoCompleteText:(NSString *)autoCompleteText {
+- (void)setAutoCompleteText:(nullable NSString *)autoCompleteText {
     [store sdl_setObject:autoCompleteText forName:SDLNameAutoCompleteText];
 }
 
-- (NSString *)autoCompleteText {
+- (nullable NSString *)autoCompleteText {
     return [store sdl_objectForName:SDLNameAutoCompleteText];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

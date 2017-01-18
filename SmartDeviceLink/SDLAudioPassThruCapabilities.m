@@ -7,6 +7,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAudioPassThruCapabilities
 
@@ -35,3 +36,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

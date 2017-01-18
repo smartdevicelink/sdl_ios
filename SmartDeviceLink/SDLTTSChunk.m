@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTTSChunk
 
 - (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type {
@@ -40,7 +42,7 @@
     return [self sdl_chunksFromString:nil type:SDLSpeechCapabilitiesSilence];
 }
 
-+ (NSMutableArray<SDLTTSChunk *> *)sdl_chunksFromString:(NSString *)string type:(SDLSpeechCapabilities)type {
++ (nullable NSMutableArray<SDLTTSChunk *> *)sdl_chunksFromString:(nullable NSString *)string type:(SDLSpeechCapabilities)type {
     if (string.length == 0) {
         return nil;
     }
@@ -65,3 +67,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

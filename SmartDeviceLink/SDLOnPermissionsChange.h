@@ -10,6 +10,9 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnPermissionsChange : SDLRPCNotification
 
 /**
@@ -19,6 +22,8 @@
  *
  * @see SDLPermissionItem
  */
-@property (strong) NSMutableArray<SDLPermissionItem *> *permissionItem;
+@property (strong, nonatomic) NSMutableArray<SDLPermissionItem *> *permissionItem;
 
 @end
+
+NS_ASSUME_NONNULL_END

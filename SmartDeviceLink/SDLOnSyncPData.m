@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnSyncPData
 
 - (instancetype)init {
@@ -15,20 +17,22 @@
     return self;
 }
 
-- (void)setURL:(NSString *)URL {
+- (void)setURL:(nullable NSString *)URL {
     [parameters sdl_setObject:URL forName:SDLNameURLUppercase];
 }
 
-- (NSString *)URL {
+- (nullable NSString *)URL {
     return [parameters sdl_objectForName:SDLNameURLUppercase];
 }
 
-- (void)setTimeout:(NSNumber<SDLInt> *)Timeout {
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)Timeout {
     [parameters sdl_setObject:Timeout forName:SDLNameTimeoutCapitalized];
 }
 
-- (NSNumber<SDLInt> *)Timeout {
+- (nullable NSNumber<SDLInt> *)Timeout {
     return [parameters sdl_objectForName:SDLNameTimeoutCapitalized];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

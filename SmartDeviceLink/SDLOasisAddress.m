@@ -6,13 +6,15 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOasisAddress
 
-- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode {
+- (instancetype)initWithSubThoroughfare:(nullable NSString *)subThoroughfare thoroughfare:(nullable NSString *)thoroughfare locality:(nullable NSString *)locality administrativeArea:(nullable NSString *)administrativeArea postalCode:(nullable NSString *)postalCode countryCode:(nullable NSString *)countryCode {
     return [self initWithSubThoroughfare:subThoroughfare thoroughfare:thoroughfare locality:locality administrativeArea:administrativeArea postalCode:postalCode countryCode:countryCode countryName:nil subAdministrativeArea:nil subLocality:nil];
 }
 
-- (instancetype)initWithSubThoroughfare:(NSString *)subThoroughfare thoroughfare:(NSString *)thoroughfare locality:(NSString *)locality administrativeArea:(NSString *)administrativeArea postalCode:(NSString *)postalCode countryCode:(NSString *)countryCode countryName:(NSString *)countryName subAdministrativeArea:(NSString *)subAdministrativeArea subLocality:(NSString *)subLocality {
+- (instancetype)initWithSubThoroughfare:(nullable NSString *)subThoroughfare thoroughfare:(nullable NSString *)thoroughfare locality:(nullable NSString *)locality administrativeArea:(nullable NSString *)administrativeArea postalCode:(nullable NSString *)postalCode countryCode:(nullable NSString *)countryCode countryName:(nullable NSString *)countryName subAdministrativeArea:(nullable NSString *)subAdministrativeArea subLocality:(nullable NSString *)subLocality {
     self = [self init];
     if (!self) {
         return nil;
@@ -31,77 +33,78 @@
     return self;
 }
 
-
-- (void)setCountryName:(NSString *)countryName {
+- (void)setCountryName:(nullable NSString *)countryName {
     [store sdl_setObject:countryName forName:SDLNameCountryName];
 }
 
-- (NSString *)countryName {
+- (nullable NSString *)countryName {
     return [store sdl_objectForName:SDLNameCountryName];
 }
 
-- (void)setCountryCode:(NSString *)countryCode {
+- (void)setCountryCode:(nullable NSString *)countryCode {
     [store sdl_setObject:countryCode forName:SDLNameCountryCode];
 }
 
-- (NSString *)countryCode {
+- (nullable NSString *)countryCode {
     return [store sdl_objectForName:SDLNameCountryCode];
 }
 
-- (void)setPostalCode:(NSString *)postalCode {
+- (void)setPostalCode:(nullable NSString *)postalCode {
     [store sdl_setObject:postalCode forName:SDLNamePostalCode];
 }
 
-- (NSString *)postalCode {
+- (nullable NSString *)postalCode {
     return [store sdl_objectForName:SDLNamePostalCode];
 }
 
-- (void)setAdministrativeArea:(NSString *)administrativeArea {
+- (void)setAdministrativeArea:(nullable NSString *)administrativeArea {
     [store sdl_setObject:administrativeArea forName:SDLNameAdministrativeArea];
 }
 
-- (NSString *)administrativeArea {
+- (nullable NSString *)administrativeArea {
     return [store sdl_objectForName:SDLNameAdministrativeArea];
 }
 
-- (void)setSubAdministrativeArea:(NSString *)subAdministrativeArea {
+- (void)setSubAdministrativeArea:(nullable NSString *)subAdministrativeArea {
     [store sdl_setObject:subAdministrativeArea forName:SDLNameSubAdministrativeArea];
 }
 
-- (NSString *)subAdministrativeArea {
+- (nullable NSString *)subAdministrativeArea {
     return [store sdl_objectForName:SDLNameSubAdministrativeArea];
 }
 
-- (void)setLocality:(NSString *)locality {
+- (void)setLocality:(nullable NSString *)locality {
     [store sdl_setObject:locality forName:SDLNameLocality];
 }
 
-- (NSString *)locality {
+- (nullable NSString *)locality {
     return [store sdl_objectForName:SDLNameLocality];
 }
 
-- (void)setSubLocality:(NSString *)subLocality {
+- (void)setSubLocality:(nullable NSString *)subLocality {
     [store sdl_setObject:subLocality forName:SDLNameSubLocality];
 }
 
-- (NSString *)subLocality {
+- (nullable NSString *)subLocality {
     return [store sdl_objectForName:SDLNameSubLocality];
 }
 
-- (void)setThoroughfare:(NSString *)thoroughfare {
+- (void)setThoroughfare:(nullable NSString *)thoroughfare {
     [store sdl_setObject:thoroughfare forName:SDLNameThoroughfare];
 }
 
-- (NSString *)thoroughfare {
+- (nullable NSString *)thoroughfare {
     return [store sdl_objectForName:SDLNameThoroughfare];
 }
 
-- (void)setSubThoroughfare:(NSString *)subThoroughfare {
+- (void)setSubThoroughfare:(nullable NSString *)subThoroughfare {
     [store sdl_setObject:subThoroughfare forName:SDLNameSubThoroughfare];
 }
 
-- (NSString *)subThoroughfare {
+- (nullable NSString *)subThoroughfare {
     return [store sdl_objectForName:SDLNameSubThoroughfare];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

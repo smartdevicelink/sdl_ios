@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCMessage
 
 @synthesize messageType;
@@ -27,7 +29,7 @@
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if ([messageType isEqualToString:SDLNameBulkData] == FALSE) {
+            if (![messageType isEqualToString:SDLNameBulkData]) {
                 break;
             }
         }
@@ -41,25 +43,20 @@
     return self;
 }
 
-- (NSString *)getFunctionName {
+- (nullable NSString *)getFunctionName {
     return [function sdl_objectForName:SDLNameOperationName];
 }
 
-- (void)setFunctionName:(NSString *)functionName {
+- (void)setFunctionName:(nullable NSString *)functionName {
     [function sdl_setObject:functionName forName:SDLNameOperationName];
 }
 
-- (NSObject *)getParameters:(NSString *)functionName {
+- (nullable NSObject *)getParameters:(NSString *)functionName {
     return [parameters sdl_objectForName:functionName];
 }
 
-- (void)setParameters:(NSString *)functionName value:(NSObject *)value {
+- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {
     [parameters sdl_setObject:value forName:functionName];
-}
-
-- (void)dealloc {
-    function = nil;
-    parameters = nil;
 }
 
 - (NSString *)name {
@@ -73,3 +70,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

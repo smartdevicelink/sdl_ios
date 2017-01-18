@@ -10,6 +10,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDeviceInfo
 
 + (instancetype)currentDevice {
@@ -27,52 +29,54 @@
     return deviceInfo;
 }
 
-- (void)setHardware:(NSString *)hardware {
+- (void)setHardware:(nullable NSString *)hardware {
     [store sdl_setObject:hardware forName:SDLNameHardware];
 }
 
-- (NSString *)hardware {
+- (nullable NSString *)hardware {
     return [store sdl_objectForName:SDLNameHardware];
 }
 
-- (void)setFirmwareRev:(NSString *)firmwareRev {
+- (void)setFirmwareRev:(nullable NSString *)firmwareRev {
     [store sdl_setObject:firmwareRev forName:SDLNameFirmwareRevision];
 }
 
-- (NSString *)firmwareRev {
+- (nullable NSString *)firmwareRev {
     return [store sdl_objectForName:SDLNameFirmwareRevision];
 }
 
-- (void)setOs:(NSString *)os {
+- (void)setOs:(nullable NSString *)os {
     [store sdl_setObject:os forName:SDLNameOS];
 }
 
-- (NSString *)os {
+- (nullable NSString *)os {
     return [store sdl_objectForName:SDLNameOS];
 }
 
-- (void)setOsVersion:(NSString *)osVersion {
+- (void)setOsVersion:(nullable NSString *)osVersion {
     [store sdl_setObject:osVersion forName:SDLNameOSVersion];
 }
 
-- (NSString *)osVersion {
+- (nullable NSString *)osVersion {
     return [store sdl_objectForName:SDLNameOSVersion];
 }
 
-- (void)setCarrier:(NSString *)carrier {
+- (void)setCarrier:(nullable NSString *)carrier {
     [store sdl_setObject:carrier forName:SDLNameCarrier];
 }
 
-- (NSString *)carrier {
+- (nullable NSString *)carrier {
     return [store sdl_objectForName:SDLNameCarrier];
 }
 
-- (void)setMaxNumberRFCOMMPorts:(NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
+- (void)setMaxNumberRFCOMMPorts:(nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
     [store sdl_setObject:maxNumberRFCOMMPorts forName:SDLNameMaxNumberRFCOMMPorts];
 }
 
-- (NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
+- (nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
     return [store sdl_objectForName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

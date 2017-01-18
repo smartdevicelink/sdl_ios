@@ -13,26 +13,26 @@
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 __deprecated_msg("Use SDLManager instead")
     @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
     Byte _bulkSessionID;
     BOOL _isConnected;
-    BOOL _alreadyDestructed;
 }
 
-@property (strong) SDLAbstractProtocol *protocol;
-@property (strong) SDLAbstractTransport *transport;
-@property (readonly, copy) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
-@property (strong) SDLTimer *startSessionTimer;
-@property (copy) NSString *debugConsoleGroupName;
-@property (readonly, copy) NSString *proxyVersion;
-@property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
+@property (nullable, strong, nonatomic) SDLAbstractProtocol *protocol;
+@property (nullable, strong, nonatomic) SDLAbstractTransport *transport;
+@property (readonly, copy, nonatomic) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
+@property (strong, nonatomic) SDLTimer *startSessionTimer;
+@property (copy, nonatomic) NSString *debugConsoleGroupName;
+@property (readonly, copy, nonatomic) NSString *proxyVersion;
+@property (nullable, nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol
                delegate:(NSObject<SDLProxyListener> *)delegate;
-- (void)dispose;
 
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
 - (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate;
@@ -59,3 +59,5 @@ __deprecated_msg("Use SDLManager instead")
 - (void)putFileStream:(NSInputStream *)inputStream withRequest:(SDLPutFile *)putFileRPCRequest;
 
 @end
+
+NS_ASSUME_NONNULL_END

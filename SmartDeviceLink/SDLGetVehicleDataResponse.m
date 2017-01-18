@@ -18,6 +18,7 @@
 #import "SDLNames.h"
 #import "SDLTireStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetVehicleDataResponse
 
@@ -27,204 +28,206 @@
     return self;
 }
 
-- (void)setGps:(SDLGPSData *)gps {
+- (void)setGps:(nullable SDLGPSData *)gps {
     [parameters sdl_setObject:gps forName:SDLNameGPS];
 }
 
-- (SDLGPSData *)gps {
+- (nullable SDLGPSData *)gps {
     return [parameters sdl_objectForName:SDLNameGPS ofClass:SDLGPSData.class];
 }
 
-- (void)setSpeed:(NSNumber<SDLFloat> *)speed {
+- (void)setSpeed:(nullable NSNumber<SDLFloat> *)speed {
     [parameters sdl_setObject:speed forName:SDLNameSpeed];
 }
 
-- (NSNumber<SDLFloat> *)speed {
+- (nullable NSNumber<SDLFloat> *)speed {
     return [parameters sdl_objectForName:SDLNameSpeed];
 }
 
-- (void)setRpm:(NSNumber<SDLInt> *)rpm {
+- (void)setRpm:(nullable NSNumber<SDLInt> *)rpm {
     [parameters sdl_setObject:rpm forName:SDLNameRPM];
 }
 
-- (NSNumber<SDLInt> *)rpm {
+- (nullable NSNumber<SDLInt> *)rpm {
     return [parameters sdl_objectForName:SDLNameRPM];
 }
 
-- (void)setFuelLevel:(NSNumber<SDLFloat> *)fuelLevel {
+- (void)setFuelLevel:(nullable NSNumber<SDLFloat> *)fuelLevel {
     [parameters sdl_setObject:fuelLevel forName:SDLNameFuelLevel];
 }
 
-- (NSNumber<SDLFloat> *)fuelLevel {
+- (nullable NSNumber<SDLFloat> *)fuelLevel {
     return [parameters sdl_objectForName:SDLNameFuelLevel];
 }
 
-- (void)setFuelLevel_State:(SDLComponentVolumeStatus)fuelLevel_State {
+- (void)setFuelLevel_State:(nullable SDLComponentVolumeStatus)fuelLevel_State {
     [parameters sdl_setObject:fuelLevel_State forName:SDLNameFuelLevelState];
 }
 
-- (SDLComponentVolumeStatus)fuelLevel_State {
+- (nullable SDLComponentVolumeStatus)fuelLevel_State {
     return [parameters sdl_objectForName:SDLNameFuelLevelState];
 }
 
-- (void)setInstantFuelConsumption:(NSNumber<SDLFloat> *)instantFuelConsumption {
+- (void)setInstantFuelConsumption:(nullable NSNumber<SDLFloat> *)instantFuelConsumption {
     [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
 }
 
-- (NSNumber<SDLFloat> *)instantFuelConsumption {
+- (nullable NSNumber<SDLFloat> *)instantFuelConsumption {
     return [parameters sdl_objectForName:SDLNameInstantFuelConsumption];
 }
 
-- (void)setExternalTemperature:(NSNumber<SDLFloat> *)externalTemperature {
+- (void)setExternalTemperature:(nullable NSNumber<SDLFloat> *)externalTemperature {
     [parameters sdl_setObject:externalTemperature forName:SDLNameExternalTemperature];
 }
 
-- (NSNumber<SDLFloat> *)externalTemperature {
+- (nullable NSNumber<SDLFloat> *)externalTemperature {
     return [parameters sdl_objectForName:SDLNameExternalTemperature];
 }
 
-- (void)setVin:(NSString *)vin {
+- (void)setVin:(nullable NSString *)vin {
     [parameters sdl_setObject:vin forName:SDLNameVIN];
 }
 
-- (NSString *)vin {
+- (nullable NSString *)vin {
     return [parameters sdl_objectForName:SDLNameVIN];
 }
 
-- (void)setPrndl:(SDLPRNDL)prndl {
+- (void)setPrndl:(nullable SDLPRNDL)prndl {
     [parameters sdl_setObject:prndl forName:SDLNamePRNDL];
 }
 
-- (SDLPRNDL)prndl {
+- (nullable SDLPRNDL)prndl {
     return [parameters sdl_objectForName:SDLNamePRNDL];
 }
 
-- (void)setTirePressure:(SDLTireStatus *)tirePressure {
+- (void)setTirePressure:(nullable SDLTireStatus *)tirePressure {
     [parameters sdl_setObject:tirePressure forName:SDLNameTirePressure];
 }
 
-- (SDLTireStatus *)tirePressure {
+- (nullable SDLTireStatus *)tirePressure {
     return [parameters sdl_objectForName:SDLNameTirePressure ofClass:SDLTireStatus.class];
 }
 
-- (void)setOdometer:(NSNumber<SDLInt> *)odometer {
+- (void)setOdometer:(nullable NSNumber<SDLInt> *)odometer {
     [parameters sdl_setObject:odometer forName:SDLNameOdometer];
 }
 
-- (NSNumber<SDLInt> *)odometer {
+- (nullable NSNumber<SDLInt> *)odometer {
     return [parameters sdl_objectForName:SDLNameOdometer];
 }
 
-- (void)setBeltStatus:(SDLBeltStatus *)beltStatus {
+- (void)setBeltStatus:(nullable SDLBeltStatus *)beltStatus {
     [parameters sdl_setObject:beltStatus forName:SDLNameBeltStatus];
 }
 
-- (SDLBeltStatus *)beltStatus {
+- (nullable SDLBeltStatus *)beltStatus {
     return [parameters sdl_objectForName:SDLNameBeltStatus ofClass:SDLBeltStatus.class];
 }
 
-- (void)setBodyInformation:(SDLBodyInformation *)bodyInformation {
+- (void)setBodyInformation:(nullable SDLBodyInformation *)bodyInformation {
     [parameters sdl_setObject:bodyInformation forName:SDLNameBodyInformation];
 }
 
-- (SDLBodyInformation *)bodyInformation {
+- (nullable SDLBodyInformation *)bodyInformation {
     return [parameters sdl_objectForName:SDLNameBodyInformation ofClass:SDLBodyInformation.class];
 }
 
-- (void)setDeviceStatus:(SDLDeviceStatus *)deviceStatus {
+- (void)setDeviceStatus:(nullable SDLDeviceStatus *)deviceStatus {
     [parameters sdl_setObject:deviceStatus forName:SDLNameDeviceStatus];
 }
 
-- (SDLDeviceStatus *)deviceStatus {
+- (nullable SDLDeviceStatus *)deviceStatus {
     return [parameters sdl_objectForName:SDLNameDeviceStatus ofClass:SDLDeviceStatus.class];
 }
 
-- (void)setDriverBraking:(SDLVehicleDataEventStatus)driverBraking {
+- (void)setDriverBraking:(nullable SDLVehicleDataEventStatus)driverBraking {
     [parameters sdl_setObject:driverBraking forName:SDLNameDriverBraking];
 }
 
-- (SDLVehicleDataEventStatus)driverBraking {
+- (nullable SDLVehicleDataEventStatus)driverBraking {
     return [parameters sdl_objectForName:SDLNameDriverBraking];
 }
 
-- (void)setWiperStatus:(SDLWiperStatus)wiperStatus {
+- (void)setWiperStatus:(nullable SDLWiperStatus)wiperStatus {
     [parameters sdl_setObject:wiperStatus forName:SDLNameWiperStatus];
 }
 
-- (SDLWiperStatus)wiperStatus {
+- (nullable SDLWiperStatus)wiperStatus {
     return [parameters sdl_objectForName:SDLNameWiperStatus];
 }
 
-- (void)setHeadLampStatus:(SDLHeadLampStatus *)headLampStatus {
+- (void)setHeadLampStatus:(nullable SDLHeadLampStatus *)headLampStatus {
     [parameters sdl_setObject:headLampStatus forName:SDLNameHeadLampStatus];
 }
 
-- (SDLHeadLampStatus *)headLampStatus {
+- (nullable SDLHeadLampStatus *)headLampStatus {
     return [parameters sdl_objectForName:SDLNameHeadLampStatus ofClass:SDLHeadLampStatus.class];
 }
 
-- (void)setEngineTorque:(NSNumber<SDLFloat> *)engineTorque {
+- (void)setEngineTorque:(nullable NSNumber<SDLFloat> *)engineTorque {
     [parameters sdl_setObject:engineTorque forName:SDLNameEngineTorque];
 }
 
-- (NSNumber<SDLFloat> *)engineTorque {
+- (nullable NSNumber<SDLFloat> *)engineTorque {
     return [parameters sdl_objectForName:SDLNameEngineTorque];
 }
 
-- (void)setAccPedalPosition:(NSNumber<SDLFloat> *)accPedalPosition {
+- (void)setAccPedalPosition:(nullable NSNumber<SDLFloat> *)accPedalPosition {
     [parameters sdl_setObject:accPedalPosition forName:SDLNameAccelerationPedalPosition];
 }
 
-- (NSNumber<SDLFloat> *)accPedalPosition {
+- (nullable NSNumber<SDLFloat> *)accPedalPosition {
     return [parameters sdl_objectForName:SDLNameAccelerationPedalPosition];
 }
 
-- (void)setSteeringWheelAngle:(NSNumber<SDLFloat> *)steeringWheelAngle {
+- (void)setSteeringWheelAngle:(nullable NSNumber<SDLFloat> *)steeringWheelAngle {
     [parameters sdl_setObject:steeringWheelAngle forName:SDLNameSteeringWheelAngle];
 }
 
-- (NSNumber<SDLFloat> *)steeringWheelAngle {
+- (nullable NSNumber<SDLFloat> *)steeringWheelAngle {
     return [parameters sdl_objectForName:SDLNameSteeringWheelAngle];
 }
 
-- (void)setECallInfo:(SDLECallInfo *)eCallInfo {
+- (void)setECallInfo:(nullable SDLECallInfo *)eCallInfo {
     [parameters sdl_setObject:eCallInfo forName:SDLNameECallInfo];
 }
 
-- (SDLECallInfo *)eCallInfo {
+- (nullable SDLECallInfo *)eCallInfo {
     return [parameters sdl_objectForName:SDLNameECallInfo ofClass:SDLECallInfo.class];
 }
 
-- (void)setAirbagStatus:(SDLAirbagStatus *)airbagStatus {
+- (void)setAirbagStatus:(nullable SDLAirbagStatus *)airbagStatus {
     [parameters sdl_setObject:airbagStatus forName:SDLNameAirbagStatus];
 }
 
-- (SDLAirbagStatus *)airbagStatus {
+- (nullable SDLAirbagStatus *)airbagStatus {
     return [parameters sdl_objectForName:SDLNameAirbagStatus ofClass:SDLAirbagStatus.class];
 }
 
-- (void)setEmergencyEvent:(SDLEmergencyEvent *)emergencyEvent {
+- (void)setEmergencyEvent:(nullable SDLEmergencyEvent *)emergencyEvent {
     [parameters sdl_setObject:emergencyEvent forName:SDLNameEmergencyEvent];
 }
 
-- (SDLEmergencyEvent *)emergencyEvent {
+- (nullable SDLEmergencyEvent *)emergencyEvent {
     return [parameters sdl_objectForName:SDLNameEmergencyEvent ofClass:SDLEmergencyEvent.class];
 }
 
-- (void)setClusterModeStatus:(SDLClusterModeStatus *)clusterModeStatus {
+- (void)setClusterModeStatus:(nullable SDLClusterModeStatus *)clusterModeStatus {
     [parameters sdl_setObject:clusterModeStatus forName:SDLNameClusterModeStatus];
 }
 
-- (SDLClusterModeStatus *)clusterModeStatus {
+- (nullable SDLClusterModeStatus *)clusterModeStatus {
     return [parameters sdl_objectForName:SDLNameClusterModeStatus ofClass:SDLClusterModeStatus.class];
 }
 
-- (void)setMyKey:(SDLMyKey *)myKey {
+- (void)setMyKey:(nullable SDLMyKey *)myKey {
     [parameters sdl_setObject:myKey forName:SDLNameMyKey];
 }
 
-- (SDLMyKey *)myKey {
+- (nullable SDLMyKey *)myKey {
     return [parameters sdl_objectForName:SDLNameMyKey ofClass:SDLMyKey.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

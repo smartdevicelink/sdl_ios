@@ -9,6 +9,8 @@
 #import "SDLIgnitionStatus.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLBodyInformation
 
 - (void)setParkBrakeActive:(NSNumber<SDLBool> *)parkBrakeActive {
@@ -35,36 +37,38 @@
     return [store sdl_objectForName:SDLNameIgnitionStatus];
 }
 
-- (void)setDriverDoorAjar:(NSNumber<SDLBool> *)driverDoorAjar {
+- (void)setDriverDoorAjar:(nullable NSNumber<SDLBool> *)driverDoorAjar {
     [store sdl_setObject:driverDoorAjar forName:SDLNameDriverDoorAjar];
 }
 
-- (NSNumber<SDLBool> *)driverDoorAjar {
+- (nullable NSNumber<SDLBool> *)driverDoorAjar {
     return [store sdl_objectForName:SDLNameDriverDoorAjar];
 }
 
-- (void)setPassengerDoorAjar:(NSNumber<SDLBool> *)passengerDoorAjar {
+- (void)setPassengerDoorAjar:(nullable NSNumber<SDLBool> *)passengerDoorAjar {
     [store sdl_setObject:passengerDoorAjar forName:SDLNamePassengerDoorAjar];
 }
 
-- (NSNumber<SDLBool> *)passengerDoorAjar {
+- (nullable NSNumber<SDLBool> *)passengerDoorAjar {
     return [store sdl_objectForName:SDLNamePassengerDoorAjar];
 }
 
-- (void)setRearLeftDoorAjar:(NSNumber<SDLBool> *)rearLeftDoorAjar {
+- (void)setRearLeftDoorAjar:(nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
     [store sdl_setObject:rearLeftDoorAjar forName:SDLNameRearLeftDoorAjar];
 }
 
-- (NSNumber<SDLBool> *)rearLeftDoorAjar {
+- (nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
     return [store sdl_objectForName:SDLNameRearLeftDoorAjar];
 }
 
-- (void)setRearRightDoorAjar:(NSNumber<SDLBool> *)rearRightDoorAjar {
+- (void)setRearRightDoorAjar:(nullable NSNumber<SDLBool> *)rearRightDoorAjar {
     [store sdl_setObject:rearRightDoorAjar forName:SDLNameRearRightDoorAjar];
 }
 
-- (NSNumber<SDLBool> *)rearRightDoorAjar {
+- (nullable NSNumber<SDLBool> *)rearRightDoorAjar {
     return [store sdl_objectForName:SDLNameRearRightDoorAjar];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

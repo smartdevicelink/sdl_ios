@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSliderResponse
 
 - (instancetype)init {
@@ -15,12 +17,14 @@
     return self;
 }
 
-- (void)setSliderPosition:(NSNumber<SDLInt> *)sliderPosition {
+- (void)setSliderPosition:(nullable NSNumber<SDLInt> *)sliderPosition {
     [parameters sdl_setObject:sliderPosition forName:SDLNameSliderPosition];
 }
 
-- (NSNumber<SDLInt> *)sliderPosition {
+- (nullable NSNumber<SDLInt> *)sliderPosition {
     return [parameters objectForKey:SDLNameSliderPosition];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

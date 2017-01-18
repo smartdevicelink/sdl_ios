@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLListFilesResponse
 
 - (instancetype)init {
@@ -15,11 +17,11 @@
     return self;
 }
 
-- (void)setFilenames:(NSMutableArray<NSString *> *)filenames {
+- (void)setFilenames:(nullable NSMutableArray<NSString *> *)filenames {
     [parameters sdl_setObject:filenames forName:SDLNameFilenames];
 }
 
-- (NSMutableArray<NSString *> *)filenames {
+- (nullable NSMutableArray<NSString *> *)filenames {
     return [parameters objectForKey:SDLNameFilenames];
 }
 
@@ -32,3 +34,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -5,6 +5,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAirbagStatus
 
 - (void)setDriverAirbagDeployed:(SDLVehicleDataEventStatus)driverAirbagDeployed {
@@ -71,3 +73,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

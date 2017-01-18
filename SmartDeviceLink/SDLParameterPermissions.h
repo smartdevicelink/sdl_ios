@@ -9,6 +9,9 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLParameterPermissions : SDLRPCStruct
 
 /**
@@ -16,12 +19,14 @@
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property (strong) NSMutableArray<NSString *> *allowed;
+@property (strong, nonatomic) NSMutableArray<NSString *> *allowed;
 /**
  * @abstract A set of all parameters that are prohibited for this given RPC.
  *
  * Required, Array of String, max String length = 100, Array size 0 - 100
  */
-@property (strong) NSMutableArray<NSString *> *userDisallowed;
+@property (strong, nonatomic) NSMutableArray<NSString *> *userDisallowed;
 
 @end
+
+NS_ASSUME_NONNULL_END

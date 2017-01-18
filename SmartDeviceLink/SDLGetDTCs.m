@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLGetDTCs
 
 - (instancetype)init {
@@ -45,12 +47,14 @@
     return [parameters sdl_objectForName:SDLNameECUName];
 }
 
-- (void)setDtcMask:(NSNumber<SDLInt> *)dtcMask {
+- (void)setDtcMask:(nullable NSNumber<SDLInt> *)dtcMask {
     [parameters sdl_setObject:dtcMask forName:SDLNameDTCMask];
 }
 
-- (NSNumber<SDLInt> *)dtcMask {
+- (nullable NSNumber<SDLInt> *)dtcMask {
     return [parameters sdl_objectForName:SDLNameDTCMask];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

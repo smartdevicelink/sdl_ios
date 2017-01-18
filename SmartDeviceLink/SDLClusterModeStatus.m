@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLClusterModeStatus
 
 - (void)setPowerModeActive:(NSNumber<SDLBool> *)powerModeActive {
@@ -41,3 +43,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

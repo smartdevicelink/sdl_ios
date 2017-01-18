@@ -12,6 +12,9 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSetDisplayLayout : SDLRPCRequest
 
 - (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;
@@ -25,6 +28,8 @@
  * include: "ONSCREEN_PRESETS" Custom screen containing app-defined onscreen
  * presets. Currently defined for GEN2
  */
-@property (strong) NSString *displayLayout;
+@property (strong, nonatomic) NSString *displayLayout;
 
 @end
+
+NS_ASSUME_NONNULL_END

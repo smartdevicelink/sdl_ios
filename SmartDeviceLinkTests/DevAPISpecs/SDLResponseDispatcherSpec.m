@@ -194,7 +194,10 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should throw an exception if there's no button id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
                 testSoftButton1.softButtonID = nil;
+#pragma clang diagnostic pop
                 testShow.softButtons = [@[testSoftButton1] mutableCopy];
                 
                 expectAction(^{ [testDispatcher storeRequest:testShow handler:nil]; }).to(raiseException().named(@"MissingIdException"));
@@ -238,8 +241,11 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should throw an exception if there's no command id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
                 testAddCommand.cmdID = nil;
                 
+#pragma clang diagnostic pop
                 expectAction(^{ [testDispatcher storeRequest:testAddCommand handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
             
@@ -348,7 +354,10 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should throw an exception if there's no button name", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
                 testSubscribeButton.buttonName = nil;
+#pragma clang diagnostic pop
                 
                 expectAction(^{ [testDispatcher storeRequest:testSubscribeButton handler:nil]; }).to(raiseException().named(@"MissingIdException"));
             });
@@ -525,7 +534,10 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should throw an exception if there's no button id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
                 testSoftButton1.softButtonID = nil;
+#pragma clang diagnostic pop
                 testAlert.softButtons = [@[testSoftButton1] mutableCopy];
                 
                 expectAction(^{ [testDispatcher storeRequest:testAlert handler:nil]; }).to(raiseException().named(@"MissingIdException"));
@@ -627,7 +639,10 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should throw an exception if there's no button id", ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
                 testSoftButton1.softButtonID = nil;
+#pragma clang diagnostic pop
                 testScrollableMessage.softButtons = [@[testSoftButton1] mutableCopy];
                 
                 expectAction(^{ [testDispatcher storeRequest:testScrollableMessage handler:nil]; }).to(raiseException().named(@"MissingIdException"));

@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnKeyboardInput
 
 - (instancetype)init {
@@ -23,12 +25,14 @@
     return (SDLKeyboardEvent)obj;
 }
 
-- (void)setData:(NSString *)data {
+- (void)setData:(nullable NSString *)data {
     [parameters sdl_setObject:data forName:SDLNameData];
 }
 
-- (NSString *)data {
+- (nullable NSString *)data {
     return [parameters sdl_objectForName:SDLNameData];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

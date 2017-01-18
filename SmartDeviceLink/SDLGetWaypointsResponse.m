@@ -7,6 +7,8 @@
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLGetWayPointsResponse
 
 - (instancetype)init {
@@ -15,11 +17,11 @@
     return self;
 }
 
-- (void)setWaypoints:(NSArray<SDLLocationDetails *> *)waypoints {
+- (void)setWaypoints:(nullable NSArray<SDLLocationDetails *> *)waypoints {
     [parameters sdl_setObject:waypoints forName:SDLNameWaypoints];
 }
 
-- (NSArray<SDLLocationDetails *> *)waypoints {
+- (nullable NSArray<SDLLocationDetails *> *)waypoints {
     return [parameters sdl_objectsForName:SDLNameWaypoints ofClass:SDLLocationDetails.class];
 }
 
@@ -28,3 +30,5 @@
 @implementation SDLGetWaypointsResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

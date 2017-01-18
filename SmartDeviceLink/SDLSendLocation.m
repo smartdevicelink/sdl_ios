@@ -7,6 +7,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendLocation
 
@@ -19,11 +20,11 @@
     return self;
 }
 
-- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription address:(nullable NSArray<NSString *> *)address phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image {
     return [self initWithLongitude:longitude latitude:latitude locationName:locationName locationDescription:locationDescription displayAddressLines:address phoneNumber:phoneNumber image:image deliveryMode:nil timeStamp:nil address:nil];
 }
 
-- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription displayAddressLines:(NSArray<NSString *> *)displayAddressLines phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image deliveryMode:(SDLDeliveryMode)deliveryMode timeStamp:(SDLDateTime *)timeStamp address:(SDLOasisAddress *)address {
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription displayAddressLines:(nullable NSArray<NSString *> *)displayAddressLines phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address {
     self = [self init];
     if (!self) {
         return nil;
@@ -43,84 +44,86 @@
     return self;
 }
 
-- (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
+- (void)setLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees {
     [parameters sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
-- (NSNumber<SDLFloat> *)longitudeDegrees {
+- (nullable NSNumber<SDLFloat> *)longitudeDegrees {
     return [parameters sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
-- (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
+- (void)setLatitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees {
     [parameters sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
-- (NSNumber<SDLFloat> *)latitudeDegrees {
+- (nullable NSNumber<SDLFloat> *)latitudeDegrees {
     return [parameters sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
-- (void)setLocationName:(NSString *)locationName {
+- (void)setLocationName:(nullable NSString *)locationName {
     [parameters sdl_setObject:locationName forName:SDLNameLocationName];
 }
 
-- (NSString *)locationName {
+- (nullable NSString *)locationName {
     return [parameters sdl_objectForName:SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
+- (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
     [parameters sdl_setObject:addressLines forName:SDLNameAddressLines];
 }
 
-- (NSString *)locationDescription {
+- (nullable NSString *)locationDescription {
     return [parameters sdl_objectForName:SDLNameLocationDescription];
 }
 
-- (void)setLocationDescription:(NSString *)locationDescription {
+- (void)setLocationDescription:(nullable NSString *)locationDescription {
     [parameters sdl_setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
-- (NSArray<NSString *> *)addressLines {
+- (nullable NSArray<NSString *> *)addressLines {
     return [parameters sdl_objectForName:SDLNameAddressLines];
 }
 
-- (void)setPhoneNumber:(NSString *)phoneNumber {
+- (void)setPhoneNumber:(nullable NSString *)phoneNumber {
     [parameters sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
-- (NSString *)phoneNumber {
+- (nullable NSString *)phoneNumber {
     return [parameters sdl_objectForName:SDLNamePhoneNumber];
 }
 
-- (void)setLocationImage:(SDLImage *)locationImage {
+- (void)setLocationImage:(nullable SDLImage *)locationImage {
     [parameters sdl_setObject:locationImage forName:SDLNameLocationImage];
 }
 
-- (SDLImage *)locationImage {
+- (nullable SDLImage *)locationImage {
     return [parameters sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
 }
 
-- (void)setDeliveryMode:(SDLDeliveryMode)deliveryMode {
+- (void)setDeliveryMode:(nullable SDLDeliveryMode)deliveryMode {
     [parameters sdl_setObject:deliveryMode forName:SDLNameDeliveryMode];
 }
 
-- (SDLDeliveryMode)deliveryMode {
+- (nullable SDLDeliveryMode)deliveryMode {
     return [parameters sdl_objectForName:SDLNameDeliveryMode];
 }
 
-- (void)setTimeStamp:(SDLDateTime *)timeStamp {
+- (void)setTimeStamp:(nullable SDLDateTime *)timeStamp {
     [parameters sdl_setObject:timeStamp forName:SDLNameLocationTimeStamp];
 }
 
-- (SDLDateTime *)timeStamp {
+- (nullable SDLDateTime *)timeStamp {
     return [parameters sdl_objectForName:SDLNameLocationTimeStamp ofClass:SDLDateTime.class];
 }
 
-- (void)setAddress:(SDLOasisAddress *)address {
+- (void)setAddress:(nullable SDLOasisAddress *)address {
     [parameters sdl_setObject:address forName:SDLNameAddress];
 }
 
-- (SDLOasisAddress *)address {
+- (nullable SDLOasisAddress *)address {
     return [parameters sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

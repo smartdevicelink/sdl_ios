@@ -8,6 +8,7 @@
 #import "SDLLockScreenStatus.h"
 #import "SDLOnLockScreenStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenStatusManager ()
 
@@ -39,7 +40,7 @@
     _haveDriverDistractionStatus = YES;
 }
 
-- (void)setHmiLevel:(SDLHMILevel)hmiLevel {
+- (void)setHmiLevel:(nullable SDLHMILevel)hmiLevel {
     if (_hmiLevel != hmiLevel) {
         _hmiLevel = hmiLevel;
     }
@@ -92,3 +93,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

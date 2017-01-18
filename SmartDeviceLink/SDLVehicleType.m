@@ -7,38 +7,42 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVehicleType
 
-- (void)setMake:(NSString *)make {
+- (void)setMake:(nullable NSString *)make {
     [store sdl_setObject:make forName:SDLNameMake];
 }
 
-- (NSString *)make {
+- (nullable NSString *)make {
     return [store sdl_objectForName:SDLNameMake];
 }
 
-- (void)setModel:(NSString *)model {
+- (void)setModel:(nullable NSString *)model {
     [store sdl_setObject:model forName:SDLNameModel];
 }
 
-- (NSString *)model {
+- (nullable NSString *)model {
     return [store sdl_objectForName:SDLNameModel];
 }
 
-- (void)setModelYear:(NSString *)modelYear {
+- (void)setModelYear:(nullable NSString *)modelYear {
     [store sdl_setObject:modelYear forName:SDLNameModelYear];
 }
 
-- (NSString *)modelYear {
+- (nullable NSString *)modelYear {
     return [store sdl_objectForName:SDLNameModelYear];
 }
 
-- (void)setTrim:(NSString *)trim {
+- (void)setTrim:(nullable NSString *)trim {
     [store sdl_setObject:trim forName:SDLNameTrim];
 }
 
-- (NSString *)trim {
+- (nullable NSString *)trim {
     return [store sdl_objectForName:SDLNameTrim];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -8,6 +8,8 @@
 #import "SDLNames.h"
 #import "SDLResult.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCResponse
 
 - (instancetype)initWithName:(NSString *)name {
@@ -58,12 +60,14 @@
     return [store sdl_objectForName:SDLNameResultCode];
 }
 
-- (void)setInfo:(NSString *)info {
+- (void)setInfo:(nullable NSString *)info {
     [store sdl_setObject:info forName:SDLNameInfo];
 }
 
-- (NSString *)info {
+- (nullable NSString *)info {
     return [store sdl_objectForName:SDLNameInfo];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

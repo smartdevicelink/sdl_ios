@@ -10,20 +10,23 @@
 
 @class SDLImage;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSoftButton : SDLRPCStruct <SDLRequestHandler>
 
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler;
 
-- (instancetype)initWithType:(SDLSoftButtonType)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(SDLSystemAction)systemAction handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithType:(SDLSoftButtonType)type text:(nullable NSString *)text image:(nullable SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(nullable SDLSystemAction)systemAction handler:(nullable SDLRPCNotificationHandler)handler;
 
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
-@property (strong) SDLSoftButtonType type;
-@property (strong) NSString *text;
-@property (strong) SDLImage *image;
-@property (strong) NSNumber<SDLBool> *isHighlighted;
-@property (strong) NSNumber<SDLInt> *softButtonID;
-@property (strong) SDLSystemAction systemAction;
+@property (strong, nonatomic) SDLSoftButtonType type;
+@property (strong, nonatomic, nullable) NSString *text;
+@property (strong, nonatomic, nullable) SDLImage *image;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *isHighlighted;
+@property (strong, nonatomic) NSNumber<SDLInt> *softButtonID;
+@property (strong, nonatomic, nullable) SDLSystemAction systemAction;
 
 @end
+
+NS_ASSUME_NONNULL_END

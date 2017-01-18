@@ -8,6 +8,8 @@
 #import "SDLImageResolution.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLImageField
 
 - (void)setName:(SDLImageFieldName)name {
@@ -26,12 +28,14 @@
     return [store sdl_enumsForName:SDLNameImageTypeSupported];
 }
 
-- (void)setImageResolution:(SDLImageResolution *)imageResolution {
+- (void)setImageResolution:(nullable SDLImageResolution *)imageResolution {
     [store sdl_setObject:imageResolution forName:SDLNameImageResolution];
 }
 
-- (SDLImageResolution *)imageResolution {
+- (nullable SDLImageResolution *)imageResolution {
     return [store sdl_objectForName:SDLNameImageResolution ofClass:SDLImageResolution.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

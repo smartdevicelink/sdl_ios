@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVehicleDataResult
 
 - (void)setDataType:(SDLVehicleDataType)dataType {
@@ -25,3 +27,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

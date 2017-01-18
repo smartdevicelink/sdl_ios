@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSystemRequest
 
 - (instancetype)init {
@@ -15,7 +17,7 @@
     return self;
 }
 
-- (instancetype)initWithType:(SDLRequestType)requestType fileName:(NSString *)fileName {
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName {
     self = [self init];
     if (!self) {
         return nil;
@@ -35,12 +37,14 @@
     return [parameters sdl_objectForName:SDLNameRequestType];
 }
 
-- (void)setFileName:(NSString *)fileName {
+- (void)setFileName:(nullable NSString *)fileName {
     [parameters sdl_setObject:fileName forName:SDLNameFilename];
 }
 
-- (NSString *)fileName {
+- (nullable NSString *)fileName {
     return [parameters sdl_objectForName:SDLNameFilename];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

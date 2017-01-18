@@ -8,6 +8,8 @@
 #import "SDLNames.h"
 #import "SDLPrimaryAudioSource.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDeviceStatus
 
 - (void)setVoiceRecOn:(NSNumber<SDLBool> *)voiceRecOn {
@@ -99,3 +101,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

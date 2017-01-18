@@ -7,9 +7,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLChoice
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(SDLImage *)image secondaryText:(NSString *)secondaryText secondaryImage:(SDLImage *)secondaryImage tertiaryText:(NSString *)tertiaryText {
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText {
     self = [self initWithId:choiceId menuName:menuName vrCommands:vrCommands];
     if (!self) {
         return nil;
@@ -60,36 +62,38 @@
     return [store sdl_objectForName:SDLNameVRCommands];
 }
 
-- (void)setImage:(SDLImage *)image {
+- (void)setImage:(nullable SDLImage *)image {
     [store sdl_setObject:image forName:SDLNameImage];
 }
 
-- (SDLImage *)image {
+- (nullable SDLImage *)image {
     return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
-- (void)setSecondaryText:(NSString *)secondaryText {
+- (void)setSecondaryText:(nullable NSString *)secondaryText {
     [store sdl_setObject:secondaryText forName:SDLNameSecondaryText];
 }
 
-- (NSString *)secondaryText {
+- (nullable NSString *)secondaryText {
     return [store sdl_objectForName:SDLNameSecondaryText];
 }
 
-- (void)setTertiaryText:(NSString *)tertiaryText {
+- (void)setTertiaryText:(nullable NSString *)tertiaryText {
     [store sdl_setObject:tertiaryText forName:SDLNameTertiaryText];
 }
 
-- (NSString *)tertiaryText {
+- (nullable NSString *)tertiaryText {
     return [store sdl_objectForName:SDLNameTertiaryText];
 }
 
-- (void)setSecondaryImage:(SDLImage *)secondaryImage {
+- (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
     [store sdl_setObject:secondaryImage forName:SDLNameSecondaryImage];
 }
 
-- (SDLImage *)secondaryImage {
+- (nullable SDLImage *)secondaryImage {
     return [store sdl_objectForName:SDLNameSecondaryImage ofClass:SDLImage.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

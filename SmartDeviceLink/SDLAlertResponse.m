@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAlertResponse
 
 - (instancetype)init {
@@ -14,11 +16,13 @@
     return self;
 }
 
-- (void)setTryAgainTime:(NSNumber<SDLInt> *)tryAgainTime {
+- (void)setTryAgainTime:(nullable NSNumber<SDLInt> *)tryAgainTime {
     [parameters sdl_setObject:tryAgainTime forName:SDLNameTryAgainTime];}
 
-- (NSNumber<SDLInt> *)tryAgainTime {
+- (nullable NSNumber<SDLInt> *)tryAgainTime {
     return [parameters objectForKey:SDLNameTryAgainTime];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

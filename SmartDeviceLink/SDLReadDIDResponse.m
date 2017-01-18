@@ -8,6 +8,8 @@
 #import "SDLDIDResult.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLReadDIDResponse
 
 - (instancetype)init {
@@ -16,12 +18,14 @@
     return self;
 }
 
-- (void)setDidResult:(NSMutableArray<SDLDIDResult *> *)didResult {
+- (void)setDidResult:(nullable NSMutableArray<SDLDIDResult *> *)didResult {
     [parameters sdl_setObject:didResult forName:SDLNameDIDResult];
 }
 
-- (NSMutableArray<SDLDIDResult *> *)didResult {
+- (nullable NSMutableArray<SDLDIDResult *> *)didResult {
     return [parameters sdl_objectsForName:SDLNameDIDResult ofClass:SDLDIDResult.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

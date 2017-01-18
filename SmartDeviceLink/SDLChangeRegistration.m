@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLChangeRegistration
 
 - (instancetype)init {
@@ -24,7 +26,7 @@
     return self;
 }
 
-- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray<NSString *> *)vrSynonyms {
+- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(nullable NSString *)appName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
     self = [self init];
     if (!self) {
         return nil;
@@ -56,36 +58,38 @@
     return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
 }
 
-- (void)setAppName:(NSString *)appName {
+- (void)setAppName:(nullable NSString *)appName {
     [parameters sdl_setObject:appName forName:SDLNameAppName];
 }
 
-- (NSString *)appName {
+- (nullable NSString *)appName {
     return [[parameters sdl_objectForName:SDLNameAppName] copy];
 }
 
-- (void)setTtsName:(NSArray<SDLTTSChunk *> *)ttsName {
+- (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
     [parameters sdl_setObject:ttsName forName:SDLNameTTSName];
 }
 
-- (NSArray<SDLTTSChunk *> *)ttsName {
+- (nullable NSArray<SDLTTSChunk *> *)ttsName {
     return [[parameters sdl_objectForName:SDLNameTTSName] copy];
 }
 
-- (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
+- (void)setNgnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName {
     [parameters sdl_setObject:ngnMediaScreenAppName forName:SDLNameNGNMediaScreenAppName];
 }
 
-- (NSString *)ngnMediaScreenAppName {
+- (nullable NSString *)ngnMediaScreenAppName {
     return [[parameters sdl_objectForName:SDLNameNGNMediaScreenAppName] copy];
 }
 
-- (void)setVrSynonyms:(NSArray<NSString *> *)vrSynonyms {
+- (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
     [parameters sdl_setObject:vrSynonyms forName:SDLNameVRSynonyms];
 }
 
-- (NSArray<NSString *> *)vrSynonyms {
+- (nullable NSArray<NSString *> *)vrSynonyms {
     return [[parameters sdl_objectForName:SDLNameVRSynonyms] copy];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

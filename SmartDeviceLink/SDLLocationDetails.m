@@ -9,62 +9,66 @@
 #import "SDLNames.h"
 #import "SDLOasisAddress.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLLocationDetails
 
-- (void)setCoordinate:(SDLLocationCoordinate *)coordinate {
+- (void)setCoordinate:(nullable SDLLocationCoordinate *)coordinate {
     [store sdl_setObject:coordinate forName:SDLNameLocationCoordinate];
 }
 
-- (SDLLocationCoordinate *)coordinate {
+- (nullable SDLLocationCoordinate *)coordinate {
     return [store sdl_objectForName:SDLNameLocationCoordinate ofClass:SDLLocationCoordinate.class];
 }
 
-- (void)setLocationName:(NSString *)locationName {
+- (void)setLocationName:(nullable NSString *)locationName {
     [store sdl_setObject:locationName forName:SDLNameLocationName];
 }
 
-- (NSString *)locationName {
+- (nullable NSString *)locationName {
     return [store sdl_objectForName:SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
+- (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
     [store sdl_setObject:addressLines forName:SDLNameAddressLines];
 }
 
-- (NSArray<NSString *> *)addressLines {
+- (nullable NSArray<NSString *> *)addressLines {
     return [store sdl_objectForName:SDLNameAddressLines];
 }
 
-- (void)setLocationDescription:(NSString *)locationDescription {
+- (void)setLocationDescription:(nullable NSString *)locationDescription {
     [store sdl_setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
-- (NSString *)locationDescription {
+- (nullable NSString *)locationDescription {
     return [store sdl_objectForName:SDLNameLocationDescription];
 }
 
-- (void)setPhoneNumber:(NSString *)phoneNumber {
+- (void)setPhoneNumber:(nullable NSString *)phoneNumber {
     [store sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
-- (NSString *)phoneNumber {
+- (nullable NSString *)phoneNumber {
     return [store sdl_objectForName:SDLNamePhoneNumber];
 }
 
-- (void)setLocationImage:(SDLImage *)locationImage {
+- (void)setLocationImage:(nullable SDLImage *)locationImage {
     [store sdl_setObject:locationImage forName:SDLNameLocationImage];
 }
 
-- (SDLImage *)locationImage {
+- (nullable SDLImage *)locationImage {
     return [store sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
 }
 
-- (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
+- (void)setSearchAddress:(nullable SDLOasisAddress *)searchAddress {
     [store sdl_setObject:searchAddress forName:SDLNameSearchAddress];
 }
 
-- (SDLOasisAddress *)searchAddress {
+- (nullable SDLOasisAddress *)searchAddress {
     return [store sdl_objectForName:SDLNameSearchAddress ofClass:SDLOasisAddress.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

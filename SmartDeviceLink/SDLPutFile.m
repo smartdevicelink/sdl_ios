@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPutFile
 
 - (instancetype)init {
@@ -66,36 +68,38 @@
     return [parameters sdl_objectForName:SDLNameFileType];
 }
 
-- (void)setPersistentFile:(NSNumber<SDLBool> *)persistentFile {
+- (void)setPersistentFile:(nullable NSNumber<SDLBool> *)persistentFile {
     [parameters sdl_setObject:persistentFile forName:SDLNamePersistentFile];
 }
 
-- (NSNumber<SDLBool> *)persistentFile {
+- (nullable NSNumber<SDLBool> *)persistentFile {
     return [parameters sdl_objectForName:SDLNamePersistentFile];
 }
 
-- (void)setSystemFile:(NSNumber<SDLBool> *)systemFile {
+- (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
     [parameters sdl_setObject:systemFile forName:SDLNameSystemFile];
 }
 
-- (NSNumber<SDLBool> *)systemFile {
+- (nullable NSNumber<SDLBool> *)systemFile {
     return [parameters sdl_objectForName:SDLNameSystemFile];
 }
 
-- (void)setOffset:(NSNumber<SDLUInt> *)offset {
+- (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
     [parameters sdl_setObject:offset forName:SDLNameOffset];
 }
 
-- (NSNumber<SDLUInt> *)offset {
+- (nullable NSNumber<SDLUInt> *)offset {
     return [parameters sdl_objectForName:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber<SDLUInt> *)length {
+- (void)setLength:(nullable NSNumber<SDLUInt> *)length {
     [parameters sdl_setObject:length forName:SDLNameLength];
 }
 
-- (NSNumber<SDLUInt> *)length {
+- (nullable NSNumber<SDLUInt> *)length {
     return [parameters sdl_objectForName:SDLNameLength];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -9,6 +9,8 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnLockScreenStatus
 
 - (instancetype)init {
@@ -50,3 +52,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

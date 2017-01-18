@@ -7,6 +7,8 @@
 #import "SDLAmbientLightStatus.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLHeadLampStatus
 
 - (void)setLowBeamsOn:(NSNumber<SDLBool> *)lowBeamsOn {
@@ -25,12 +27,14 @@
     return [store sdl_objectForName:SDLNameHighBeamsOn];
 }
 
-- (void)setAmbientLightSensorStatus:(SDLAmbientLightStatus)ambientLightSensorStatus {
+- (void)setAmbientLightSensorStatus:(nullable SDLAmbientLightStatus)ambientLightSensorStatus {
     [store sdl_setObject:ambientLightSensorStatus forName:SDLNameAmbientLightSensorStatus];
 }
 
-- (SDLAmbientLightStatus)ambientLightSensorStatus {
+- (nullable SDLAmbientLightStatus)ambientLightSensorStatus {
     return [store sdl_objectForName:SDLNameAmbientLightSensorStatus];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

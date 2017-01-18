@@ -10,6 +10,9 @@
  * 
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLImage : SDLRPCStruct
 
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType;
@@ -19,13 +22,15 @@
  *
  * Required, max length = 65535
  */
-@property (strong) NSString *value;
+@property (strong, nonatomic) NSString *value;
 
 /**
  * @abstract Describes, whether it is a static or dynamic image
  *
  * Required
  */
-@property (strong) SDLImageType imageType;
+@property (strong, nonatomic) SDLImageType imageType;
 
 @end
+
+NS_ASSUME_NONNULL_END

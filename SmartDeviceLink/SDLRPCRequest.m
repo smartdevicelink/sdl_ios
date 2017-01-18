@@ -7,6 +7,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCRequest
 
 - (NSNumber<SDLInt> *)correlationID {
@@ -18,3 +20,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

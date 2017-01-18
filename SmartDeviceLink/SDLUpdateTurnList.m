@@ -9,6 +9,8 @@
 #import "SDLSoftButton.h"
 #import "SDLTurn.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLUpdateTurnList
 
 - (instancetype)init {
@@ -17,7 +19,7 @@
     return self;
 }
 
-- (instancetype)initWithTurnList:(NSArray<SDLTurn *> *)turnList softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithTurnList:(nullable NSArray<SDLTurn *> *)turnList softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {
         return nil;
@@ -29,20 +31,22 @@
     return self;
 }
 
-- (void)setTurnList:(NSMutableArray<SDLTurn *> *)turnList {
+- (void)setTurnList:(nullable NSMutableArray<SDLTurn *> *)turnList {
     [parameters sdl_setObject:turnList forName:SDLNameTurnList];
 }
 
-- (NSMutableArray<SDLTurn *> *)turnList {
+- (nullable NSMutableArray<SDLTurn *> *)turnList {
     return [parameters sdl_objectsForName:SDLNameTurnList ofClass:SDLTurn.class];
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

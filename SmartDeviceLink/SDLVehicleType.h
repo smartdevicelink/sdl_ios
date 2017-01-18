@@ -9,6 +9,9 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLVehicleType : SDLRPCStruct
 
 /**
@@ -18,7 +21,7 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *make;
+@property (strong, nonatomic, nullable) NSString *make;
 
 /**
  * @abstract The model of the vehicle
@@ -27,7 +30,7 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *model;
+@property (strong, nonatomic, nullable) NSString *model;
 
 /**
  * @abstract The model year of the vehicle
@@ -36,7 +39,7 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *modelYear;
+@property (strong, nonatomic, nullable) NSString *modelYear;
 
 /**
  * @abstract The trim of the vehicle
@@ -45,6 +48,8 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *trim;
+@property (strong, nonatomic, nullable) NSString *trim;
 
 @end
+
+NS_ASSUME_NONNULL_END

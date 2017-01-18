@@ -7,22 +7,26 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLHMICapabilities
 
-- (void)setNavigation:(NSNumber<SDLBool> *)navigation {
+- (void)setNavigation:(nullable NSNumber<SDLBool> *)navigation {
     [store sdl_setObject:navigation forName:SDLNameNavigation];
 }
 
-- (NSNumber<SDLBool> *)navigation {
+- (nullable NSNumber<SDLBool> *)navigation {
     return [store sdl_objectForName:SDLNameNavigation];
 }
 
-- (void)setPhoneCall:(NSNumber<SDLBool> *)phoneCall {
+- (void)setPhoneCall:(nullable NSNumber<SDLBool> *)phoneCall {
     [store sdl_setObject:phoneCall forName:SDLNamePhoneCall];
 }
 
-- (NSNumber<SDLBool> *)phoneCall {
+- (nullable NSNumber<SDLBool> *)phoneCall {
     return [store sdl_objectForName:SDLNamePhoneCall];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

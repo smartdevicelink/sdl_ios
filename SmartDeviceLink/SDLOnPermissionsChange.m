@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLPermissionItem.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnPermissionsChange
 
 - (instancetype)init {
@@ -33,3 +35,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

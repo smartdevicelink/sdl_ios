@@ -9,6 +9,8 @@
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAlertManeuver
 
 - (instancetype)init {
@@ -18,12 +20,12 @@
 }
 
 
-- (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks softButtons:softButtons];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {
         return nil;
@@ -35,20 +37,22 @@
     return self;
 }
 
-- (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+- (void)setTtsChunks:(nullable NSMutableArray<SDLTTSChunk *> *)ttsChunks {
     [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+- (nullable NSMutableArray<SDLTTSChunk *> *)ttsChunks {
     return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

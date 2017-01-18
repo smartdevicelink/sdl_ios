@@ -7,10 +7,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTurn
 
-- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon {
+- (instancetype)initWithNavigationText:(nullable NSString *)navigationText turnIcon:(nullable SDLImage *)icon {
     self = [self init];
     if (!self) {
         return nil;
@@ -22,20 +23,22 @@
     return self;
 }
 
-- (void)setNavigationText:(NSString *)navigationText {
+- (void)setNavigationText:(nullable NSString *)navigationText {
     [store sdl_setObject:navigationText forName:SDLNameNavigationText];
 }
 
-- (NSString *)navigationText {
+- (nullable NSString *)navigationText {
     return [store sdl_objectForName:SDLNameNavigationText];
 }
 
-- (void)setTurnIcon:(SDLImage *)turnIcon {
+- (void)setTurnIcon:(nullable SDLImage *)turnIcon {
     [store sdl_setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
-- (SDLImage *)turnIcon {
+- (nullable SDLImage *)turnIcon {
     return [store sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

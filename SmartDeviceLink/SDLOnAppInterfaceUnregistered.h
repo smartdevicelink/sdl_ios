@@ -14,11 +14,16 @@
  * @since SDL 1.0
  * @see SDLRegisterAppInterface
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnAppInterfaceUnregistered : SDLRPCNotification
 
 /**
  * @abstract The reason application's interface was terminated
  */
-@property (strong) SDLAppInterfaceUnregisteredReason reason;
+@property (strong, nonatomic) SDLAppInterfaceUnregisteredReason reason;
 
 @end
+
+NS_ASSUME_NONNULL_END
