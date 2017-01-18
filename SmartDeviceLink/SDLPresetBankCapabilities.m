@@ -6,9 +6,11 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPresetBankCapabilities
 
-- (void)setOnScreenPresetsAvailable:(NSNumber *)onScreenPresetsAvailable {
+- (void)setOnScreenPresetsAvailable:(NSNumber<SDLBool> *)onScreenPresetsAvailable {
     if (onScreenPresetsAvailable != nil) {
         [store setObject:onScreenPresetsAvailable forKey:SDLNameOnScreenPresetsAvailable];
     } else {
@@ -16,8 +18,10 @@
     }
 }
 
-- (NSNumber *)onScreenPresetsAvailable {
+- (NSNumber<SDLBool> *)onScreenPresetsAvailable {
     return [store objectForKey:SDLNameOnScreenPresetsAvailable];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

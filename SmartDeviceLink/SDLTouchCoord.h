@@ -4,9 +4,13 @@
 
 #import "SDLRPCMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTouchCoord : SDLRPCStruct
 
-@property (strong) NSNumber *x;
-@property (strong) NSNumber *y;
+@property (strong, nonatomic) NSNumber<SDLFloat> *x;
+@property (strong, nonatomic) NSNumber<SDLFloat> *y;
 
 @end
+
+NS_ASSUME_NONNULL_END

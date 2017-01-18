@@ -3,9 +3,10 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLAudioType;
-@class SDLBitsPerSample;
-@class SDLSamplingRate;
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
+#import "SDLSamplingRate.h"
+
 @class SDLTTSChunk;
 
 /**
@@ -20,7 +21,14 @@
  * <p>Since SmartDeviceLink 2.0</p>
  * <p>See SDLEndAudioPassThru</p>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPerformAudioPassThru : SDLRPCRequest
+
+- (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration;
+
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio;
 
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass
@@ -39,7 +47,7 @@
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1
@@ -48,7 +56,7 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *audioPassThruDisplayText1;
+@property (nullable, strong, nonatomic) NSString *audioPassThruDisplayText1;
 /**
  * @abstract A line of text displayed during audio capture
  * @discussion audioPassThruDisplayText2
@@ -57,13 +65,13 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *audioPassThruDisplayText2;
+@property (nullable, strong, nonatomic) NSString *audioPassThruDisplayText2;
 /**
  * @abstract A samplingRate
  *
  * @discussion a SamplingRate value representing a 8 or 16 or 22 or 24 khz
  */
-@property (strong) SDLSamplingRate *samplingRate;
+@property (strong, nonatomic) SDLSamplingRate samplingRate;
 /**
  * @abstract the maximum duration of audio recording in milliseconds
  *
@@ -73,21 +81,23 @@
  *            <p>
  *            <b>Notes: </b>Minvalue:1; Maxvalue:1000000
  */
-@property (strong) NSNumber *maxDuration;
+@property (strong, nonatomic) NSNumber<SDLInt> *maxDuration;
 /**
  * @abstract the quality the audio is recorded - 8 bit or 16 bit
  *
  * @discussion a BitsPerSample value representing 8 bit or 16 bit
  */
-@property (strong) SDLBitsPerSample *bitsPerSample;
+@property (strong, nonatomic) SDLBitsPerSample bitsPerSample;
 /**
  * @abstract an audioType
  */
-@property (strong) SDLAudioType *audioType;
+@property (strong, nonatomic) SDLAudioType audioType;
 /**
  * @abstract a Boolean value representing if the current audio source should be
  * muted during the APT session<br/>
  */
-@property (strong) NSNumber *muteAudio;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *muteAudio;
 
 @end
+
+NS_ASSUME_NONNULL_END

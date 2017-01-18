@@ -2,13 +2,15 @@
 
 #import "SDLNotificationConstants.h"
 
+#import "SDLHMILevel.h"
+#import "SDLLanguage.h"
+
 @class SDLConfiguration;
 @class SDLFileManager;
-@class SDLHMILevel;
-@class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLPermissionManager;
+@class SDLProxy;
 @class SDLPutFile;
 @class SDLRegisterAppInterfaceResponse;
 @class SDLRPCNotification;
@@ -34,7 +36,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 /**
  *  The current HMI level of the running app.
  */
-@property (copy, nonatomic, readonly) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readonly) SDLHMILevel hmiLevel;
 
 /**
  *  The file manager to be used by the running app.
@@ -60,6 +62,15 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  The manager's delegate.
  */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+
+/**
+ * Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
+ * The only reason to use this is to access the `putFileStream:withRequest:` method. All other functionality exists on managers in 4.3. This will be removed in 5.0 and the functionality replicated on `SDLFileManager`.
+ */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+@property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
+#pragma clang diagnostic pop
 
 
 #pragma mark Lifecycle

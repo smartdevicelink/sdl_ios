@@ -7,6 +7,8 @@
 #import "SDLNames.h"
 #import "SDLTouchEventCapabilities.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLScreenParams
 
 - (void)setResolution:(SDLImageResolution *)resolution {
@@ -19,14 +21,14 @@
 
 - (SDLImageResolution *)resolution {
     NSObject *obj = [store objectForKey:SDLNameResolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImageResolution*)obj;
 }
 
-- (void)setTouchEventAvailable:(SDLTouchEventCapabilities *)touchEventAvailable {
+- (void)setTouchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {
     if (touchEventAvailable != nil) {
         [store setObject:touchEventAvailable forKey:SDLNameTouchEventAvailable];
     } else {
@@ -34,13 +36,15 @@
     }
 }
 
-- (SDLTouchEventCapabilities *)touchEventAvailable {
+- (nullable SDLTouchEventCapabilities *)touchEventAvailable {
     NSObject *obj = [store objectForKey:SDLNameTouchEventAvailable];
-    if (obj == nil || [obj isKindOfClass:SDLTouchEventCapabilities.class]) {
-        return (SDLTouchEventCapabilities *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLTouchEventCapabilities*)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

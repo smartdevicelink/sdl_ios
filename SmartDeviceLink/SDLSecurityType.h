@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLSecurityType <NSObject>
 
+@property (copy, nonatomic) NSString *appId;
+
 - (void)initializeWithAppId:(NSString *)appId completionHandler:(void (^)(NSError *_Nullable error))completionHandler;
 - (void)stop;
 

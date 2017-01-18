@@ -8,9 +8,6 @@
 
 #import "SDLError.h"
 
-#import "SDLResult.h"
-
-
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Error Domains
@@ -74,9 +71,9 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                            userInfo:nil];
 }
 
-+ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result info:(NSString *)info {
++ (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(result.value, nil),
+        NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
         NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
     };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
@@ -84,9 +81,9 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                            userInfo:userInfo];
 }
 
-+ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result info:(NSString *)info {
++ (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(result.value, nil),
+        NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
         NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
     };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager

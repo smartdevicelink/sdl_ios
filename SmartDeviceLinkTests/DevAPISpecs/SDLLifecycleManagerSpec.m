@@ -21,7 +21,6 @@
 #import "SDLProxyFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAlignment.h"
@@ -40,7 +39,7 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
         it(@"cannot publicly send RPCs", ^{
             __block NSError *testError = nil;
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
-            SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
+            SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
             
             [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
                 testError = error;
@@ -82,7 +81,7 @@ describe(@"a lifecycle manager", ^{
     
     it(@"should initialize properties", ^{
         expect(testManager.configuration).to(equal(testConfig));
-        expect(testManager.delegate).to(equal(managerDelegateMock));
+        expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(testManager.fileManager).toNot(beNil());
@@ -100,7 +99,7 @@ describe(@"a lifecycle manager", ^{
     
     describe(@"after receiving an HMI Status", ^{
         __block SDLOnHMIStatus *testHMIStatus = nil;
-        __block SDLHMILevel *testHMILevel = nil;
+        __block SDLHMILevel testHMILevel = nil;
         
         beforeEach(^{
             testHMIStatus = [[SDLOnHMIStatus alloc] init];
@@ -108,7 +107,7 @@ describe(@"a lifecycle manager", ^{
         
         context(@"a non-none hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel NONE];
+                testHMILevel = SDLHMILevelNone;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -121,7 +120,7 @@ describe(@"a lifecycle manager", ^{
         
         context(@"a non-full, non-none hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel BACKGROUND];
+                testHMILevel = SDLHMILevelBackground;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -134,7 +133,7 @@ describe(@"a lifecycle manager", ^{
         
         context(@"a full hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel FULL];
+                testHMILevel = SDLHMILevelFull;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -260,7 +259,7 @@ describe(@"a lifecycle manager", ^{
             });
             
             it(@"can send an RPC", ^{
-                SDLShow *testShow = [SDLRPCRequestFactory buildShowWithMainField1:@"test" mainField2:nil alignment:nil correlationID:@1];
+                SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
                 [testManager sendRequest:testShow];
                 
                 OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
@@ -295,8 +294,8 @@ describe(@"a lifecycle manager", ^{
             
             describe(@"receiving an HMI level change", ^{
                 __block SDLOnHMIStatus *testHMIStatus = nil;
-                __block SDLHMILevel *testHMILevel = nil;
-                __block SDLHMILevel *oldHMILevel = nil;
+                __block SDLHMILevel testHMILevel = nil;
+                __block SDLHMILevel oldHMILevel = nil;
                 
                 beforeEach(^{
                     oldHMILevel = testManager.hmiLevel;
@@ -305,7 +304,7 @@ describe(@"a lifecycle manager", ^{
                 
                 context(@"a full hmi level", ^{
                     beforeEach(^{
-                        testHMILevel = [SDLHMILevel FULL];
+                        testHMILevel = SDLHMILevelFull;
                         testHMIStatus.hmiLevel = testHMILevel;
                         
                         [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];

@@ -4,8 +4,9 @@
 
 #import "SDLSubscribeButton.h"
 
-#import "SDLButtonName.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSubscribeButton
 
@@ -15,7 +16,7 @@
     return self;
 }
 
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -26,7 +27,19 @@
     return self;
 }
 
-- (void)setButtonName:(SDLButtonName *)buttonName {
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCNotificationHandler)handler {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.buttonName = buttonName;
+    self.handler = handler;
+
+    return self;
+}
+
+- (void)setButtonName:(SDLButtonName)buttonName {
     if (buttonName != nil) {
         [parameters setObject:buttonName forKey:SDLNameButtonName];
     } else {
@@ -34,13 +47,11 @@
     }
 }
 
-- (SDLButtonName *)buttonName {
+- (SDLButtonName)buttonName {
     NSObject *obj = [parameters objectForKey:SDLNameButtonName];
-    if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
-        return (SDLButtonName *)obj;
-    } else {
-        return [SDLButtonName valueOf:(NSString *)obj];
-    }
+    return (SDLButtonName)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

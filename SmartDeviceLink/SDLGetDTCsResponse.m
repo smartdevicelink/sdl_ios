@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLGetDTCsResponse
 
 - (instancetype)init {
@@ -14,7 +16,7 @@
     return self;
 }
 
-- (void)setEcuHeader:(NSNumber *)ecuHeader {
+- (void)setEcuHeader:(NSNumber<SDLInt> *)ecuHeader {
     if (ecuHeader != nil) {
         [parameters setObject:ecuHeader forKey:SDLNameECUHeader];
     } else {
@@ -22,7 +24,7 @@
     }
 }
 
-- (NSNumber *)ecuHeader {
+- (NSNumber<SDLInt> *)ecuHeader {
     return [parameters objectForKey:SDLNameECUHeader];
 }
 
@@ -39,3 +41,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

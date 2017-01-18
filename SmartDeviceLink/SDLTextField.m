@@ -7,10 +7,11 @@
 #import "SDLNames.h"
 #import "SDLTextFieldName.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextField
 
-- (void)setName:(SDLTextFieldName *)name {
+- (void)setName:(SDLTextFieldName)name {
     if (name != nil) {
         [store setObject:name forKey:SDLNameName];
     } else {
@@ -18,16 +19,12 @@
     }
 }
 
-- (SDLTextFieldName *)name {
+- (SDLTextFieldName)name {
     NSObject *obj = [store objectForKey:SDLNameName];
-    if (obj == nil || [obj isKindOfClass:SDLTextFieldName.class]) {
-        return (SDLTextFieldName *)obj;
-    } else {
-        return [SDLTextFieldName valueOf:(NSString *)obj];
-    }
+    return (SDLTextFieldName)obj;
 }
 
-- (void)setCharacterSet:(SDLCharacterSet *)characterSet {
+- (void)setCharacterSet:(SDLCharacterSet)characterSet {
     if (characterSet != nil) {
         [store setObject:characterSet forKey:SDLNameCharacterSet];
     } else {
@@ -35,16 +32,12 @@
     }
 }
 
-- (SDLCharacterSet *)characterSet {
+- (SDLCharacterSet)characterSet {
     NSObject *obj = [store objectForKey:SDLNameCharacterSet];
-    if (obj == nil || [obj isKindOfClass:SDLCharacterSet.class]) {
-        return (SDLCharacterSet *)obj;
-    } else {
-        return [SDLCharacterSet valueOf:(NSString *)obj];
-    }
+    return (SDLCharacterSet)obj;
 }
 
-- (void)setWidth:(NSNumber *)width {
+- (void)setWidth:(NSNumber<SDLInt> *)width {
     if (width != nil) {
         [store setObject:width forKey:SDLNameWidth];
     } else {
@@ -52,11 +45,11 @@
     }
 }
 
-- (NSNumber *)width {
+- (NSNumber<SDLInt> *)width {
     return [store objectForKey:SDLNameWidth];
 }
 
-- (void)setRows:(NSNumber *)rows {
+- (void)setRows:(NSNumber<SDLInt> *)rows {
     if (rows != nil) {
         [store setObject:rows forKey:SDLNameRows];
     } else {
@@ -64,8 +57,10 @@
     }
 }
 
-- (NSNumber *)rows {
+- (NSNumber<SDLInt> *)rows {
     return [store objectForKey:SDLNameRows];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

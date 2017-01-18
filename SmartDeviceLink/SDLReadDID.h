@@ -16,13 +16,18 @@
  *
  * Since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLReadDID : SDLRPCRequest
+
+- (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation;
 
 /**
  * @abstract An ID of the vehicle module
  *            <br/><b>Notes: </b>Minvalue:0; Maxvalue:65535
  */
-@property (strong) NSNumber *ecuName;
+@property (strong, nonatomic) NSNumber<SDLInt> *ecuName;
 
 /**
  * @abstract Raw data from vehicle data DID location(s)
@@ -35,6 +40,8 @@
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
  */
-@property (strong) NSMutableArray<NSNumber *> *didLocation;
+@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *didLocation;
 
 @end
+
+NS_ASSUME_NONNULL_END

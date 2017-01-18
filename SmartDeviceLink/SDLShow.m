@@ -7,7 +7,6 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
-#import "SDLTextAlignment.h"
 
 
 @implementation SDLShow
@@ -15,6 +14,39 @@
 - (instancetype)init {
     if (self = [super initWithName:SDLNameShow]) {
     }
+    return self;
+}
+
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment)alignment {
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment];
+}
+
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment)alignment {
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil];
+}
+
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack {
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment statusBar:statusBar mediaClock:mediaClock mediaTrack:mediaTrack graphic:nil softButtons:nil customPresets:nil];
+}
+
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.mainField3 = mainField3;
+    self.mainField4 = mainField4;
+    self.statusBar = statusBar;
+    self.mediaClock = mediaClock;
+    self.mediaTrack = mediaTrack;
+    self.alignment = alignment;
+    self.graphic = graphic;
+    self.softButtons = [softButtons mutableCopy];
+    self.customPresets = [customPresets mutableCopy];
+
     return self;
 }
 
@@ -66,7 +98,7 @@
     return [parameters objectForKey:SDLNameMainField4];
 }
 
-- (void)setAlignment:(SDLTextAlignment *)alignment {
+- (void)setAlignment:(SDLTextAlignment)alignment {
     if (alignment != nil) {
         [parameters setObject:alignment forKey:SDLNameAlignment];
     } else {
@@ -74,13 +106,9 @@
     }
 }
 
-- (SDLTextAlignment *)alignment {
+- (SDLTextAlignment)alignment {
     NSObject *obj = [parameters objectForKey:SDLNameAlignment];
-    if (obj == nil || [obj isKindOfClass:SDLTextAlignment.class]) {
-        return (SDLTextAlignment *)obj;
-    } else {
-        return [SDLTextAlignment valueOf:(NSString *)obj];
-    }
+    return (SDLTextAlignment)obj;
 }
 
 - (void)setStatusBar:(NSString *)statusBar {
@@ -129,11 +157,11 @@
 
 - (SDLImage *)graphic {
     NSObject *obj = [parameters objectForKey:SDLNameGraphic];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setSecondaryGraphic:(SDLImage *)secondaryGraphic {
@@ -146,11 +174,11 @@
 
 - (SDLImage *)secondaryGraphic {
     NSObject *obj = [parameters objectForKey:SDLNameSecondaryGraphic];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {

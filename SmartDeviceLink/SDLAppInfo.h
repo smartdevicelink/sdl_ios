@@ -3,10 +3,16 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAppInfo : SDLRPCStruct
 
-@property (strong) NSString *appDisplayName;
-@property (strong) NSString *appBundleID;
-@property (strong) NSString *appVersion;
++ (instancetype)currentAppInfo;
+
+@property (strong, nonatomic) NSString *appDisplayName;
+@property (strong, nonatomic) NSString *appBundleID;
+@property (strong, nonatomic) NSString *appVersion;
 
 @end
+
+NS_ASSUME_NONNULL_END

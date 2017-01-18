@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLHMILevel;
+#import "SDLHMILevel.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param oldLevel The previous level which has now been left.
  *  @param newLevel The current level.
  */
-- (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel;
+- (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel;
 
 
 @end

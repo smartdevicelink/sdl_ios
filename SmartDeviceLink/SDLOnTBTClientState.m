@@ -4,7 +4,8 @@
 #import "SDLOnTBTClientState.h"
 
 #import "SDLNames.h"
-#import "SDLTBTState.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTBTClientState
 
@@ -14,7 +15,7 @@
     return self;
 }
 
-- (void)setState:(SDLTBTState *)state {
+- (void)setState:(SDLTBTState)state {
     if (state != nil) {
         [parameters setObject:state forKey:SDLNameState];
     } else {
@@ -22,13 +23,11 @@
     }
 }
 
-- (SDLTBTState *)state {
+- (SDLTBTState)state {
     NSObject *obj = [parameters objectForKey:SDLNameState];
-    if (obj == nil || [obj isKindOfClass:SDLTBTState.class]) {
-        return (SDLTBTState *)obj;
-    } else {
-        return [SDLTBTState valueOf:(NSString *)obj];
-    }
+    return (SDLTBTState)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

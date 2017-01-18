@@ -3,9 +3,9 @@
 
 #import "SDLOnSystemRequest.h"
 
-#import "SDLFileType.h"
 #import "SDLNames.h"
-#import "SDLRequestType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnSystemRequest
 
@@ -15,7 +15,7 @@
     return self;
 }
 
-- (void)setRequestType:(SDLRequestType *)requestType {
+- (void)setRequestType:(SDLRequestType)requestType {
     if (requestType != nil) {
         [parameters setObject:requestType forKey:SDLNameRequestType];
     } else {
@@ -23,16 +23,12 @@
     }
 }
 
-- (SDLRequestType *)requestType {
+- (SDLRequestType)requestType {
     NSObject *obj = [parameters objectForKey:SDLNameRequestType];
-    if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
-        return (SDLRequestType *)obj;
-    } else {
-        return [SDLRequestType valueOf:(NSString *)obj];
-    }
+    return (SDLRequestType)obj;
 }
 
-- (void)setUrl:(NSString *)url {
+- (void)setUrl:(nullable NSString *)url {
     if (url != nil) {
         [parameters setObject:url forKey:SDLNameURL];
     } else {
@@ -40,11 +36,11 @@
     }
 }
 
-- (NSString *)url {
+- (nullable NSString *)url {
     return [parameters objectForKey:SDLNameURL];
 }
 
-- (void)setTimeout:(NSNumber *)timeout {
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -52,11 +48,11 @@
     }
 }
 
-- (NSNumber *)timeout {
+- (nullable NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 
-- (void)setFileType:(SDLFileType *)fileType {
+- (void)setFileType:(nullable SDLFileType)fileType {
     if (fileType != nil) {
         [parameters setObject:fileType forKey:SDLNameFileType];
     } else {
@@ -64,16 +60,12 @@
     }
 }
 
-- (SDLFileType *)fileType {
+- (nullable SDLFileType)fileType {
     NSObject *obj = [parameters objectForKey:SDLNameFileType];
-    if (obj == nil || [obj isKindOfClass:SDLFileType.class]) {
-        return (SDLFileType *)obj;
-    } else {
-        return [SDLFileType valueOf:(NSString *)obj];
-    }
+    return (SDLFileType)obj;
 }
 
-- (void)setOffset:(NSNumber *)offset {
+- (void)setOffset:(nullable NSNumber<SDLInt> *)offset {
     if (offset != nil) {
         [parameters setObject:offset forKey:SDLNameOffset];
     } else {
@@ -81,11 +73,11 @@
     }
 }
 
-- (NSNumber *)offset {
+- (nullable NSNumber<SDLInt> *)offset {
     return [parameters objectForKey:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber *)length {
+- (void)setLength:(nullable NSNumber<SDLInt> *)length {
     if (length != nil) {
         [parameters setObject:length forKey:SDLNameLength];
     } else {
@@ -93,8 +85,10 @@
     }
 }
 
-- (NSNumber *)length {
+- (nullable NSNumber<SDLInt> *)length {
     return [parameters objectForKey:SDLNameLength];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,12 +16,19 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLAddSubMenu SDLDeleteCommand
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeleteSubMenu : SDLRPCRequest
+
+- (instancetype)initWithId:(UInt32)menuId;
 
 /**
  * @abstract the MenuID that identifies the SDLSubMenu to be delete
  * @discussion  <b>Notes: </b>Min Value: 0; Max Value: 2000000000
  */
-@property (strong) NSNumber *menuID;
+@property (strong, nonatomic) NSNumber<SDLInt> *menuID;
 
 @end
+
+NS_ASSUME_NONNULL_END

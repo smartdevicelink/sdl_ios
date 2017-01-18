@@ -6,9 +6,11 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLHMICapabilities
 
-- (void)setNavigation:(NSNumber *)navigation {
+- (void)setNavigation:(nullable NSNumber<SDLBool> *)navigation {
     if (navigation != nil) {
         store[SDLNameNavigation] = navigation;
     } else {
@@ -16,11 +18,11 @@
     }
 }
 
-- (NSNumber *)navigation {
+- (nullable NSNumber<SDLBool> *)navigation {
     return store[SDLNameNavigation];
 }
 
-- (void)setPhoneCall:(NSNumber *)phoneCall {
+- (void)setPhoneCall:(nullable NSNumber<SDLBool> *)phoneCall {
     if (phoneCall != nil) {
         store[SDLNamePhoneCall] = phoneCall;
     } else {
@@ -28,8 +30,10 @@
     }
 }
 
-- (NSNumber *)phoneCall {
+- (nullable NSNumber<SDLBool> *)phoneCall {
     return store[SDLNamePhoneCall];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

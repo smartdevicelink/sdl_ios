@@ -5,11 +5,12 @@
 
 #import "SDLNames.h"
 #import "SDLSingleTireStatus.h"
-#import "SDLWarningLightStatus.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTireStatus
 
-- (void)setPressureTelltale:(SDLWarningLightStatus *)pressureTelltale {
+- (void)setPressureTelltale:(SDLWarningLightStatus)pressureTelltale {
     if (pressureTelltale != nil) {
         [store setObject:pressureTelltale forKey:SDLNamePressureTelltale];
     } else {
@@ -17,13 +18,9 @@
     }
 }
 
-- (SDLWarningLightStatus *)pressureTelltale {
+- (SDLWarningLightStatus)pressureTelltale {
     NSObject *obj = [store objectForKey:SDLNamePressureTelltale];
-    if (obj == nil || [obj isKindOfClass:SDLWarningLightStatus.class]) {
-        return (SDLWarningLightStatus *)obj;
-    } else {
-        return [SDLWarningLightStatus valueOf:(NSString *)obj];
-    }
+    return (SDLWarningLightStatus)obj;
 }
 
 - (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
@@ -36,11 +33,12 @@
 
 - (SDLSingleTireStatus *)leftFront {
     NSObject *obj = [store objectForKey:SDLNameLeftFront];
-    if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSingleTireStatus*)obj;
+
 }
 
 - (void)setRightFront:(SDLSingleTireStatus *)rightFront {
@@ -53,11 +51,11 @@
 
 - (SDLSingleTireStatus *)rightFront {
     NSObject *obj = [store objectForKey:SDLNameRightFront];
-    if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSingleTireStatus*)obj;
 }
 
 - (void)setLeftRear:(SDLSingleTireStatus *)leftRear {
@@ -70,11 +68,11 @@
 
 - (SDLSingleTireStatus *)leftRear {
     NSObject *obj = [store objectForKey:SDLNameLeftRear];
-    if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSingleTireStatus*)obj;
 }
 
 - (void)setRightRear:(SDLSingleTireStatus *)rightRear {
@@ -87,11 +85,11 @@
 
 - (SDLSingleTireStatus *)rightRear {
     NSObject *obj = [store objectForKey:SDLNameRightRear];
-    if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSingleTireStatus*)obj;
 }
 
 - (void)setInnerLeftRear:(SDLSingleTireStatus *)innerLeftRear {
@@ -104,11 +102,11 @@
 
 - (SDLSingleTireStatus *)innerLeftRear {
     NSObject *obj = [store objectForKey:SDLNameInnerLeftRear];
-    if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSingleTireStatus*)obj;
 }
 
 - (void)setInnerRightRear:(SDLSingleTireStatus *)innerRightRear {
@@ -121,11 +119,13 @@
 
 - (SDLSingleTireStatus *)innerRightRear {
     NSObject *obj = [store objectForKey:SDLNameInnerRightRear];
-    if (obj == nil || [obj isKindOfClass:SDLSingleTireStatus.class]) {
-        return (SDLSingleTireStatus *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLSingleTireStatus alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLSingleTireStatus*)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,7 +3,7 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLButtonName;
+#import "SDLButtonName.h"
 
 
 /**
@@ -19,13 +19,20 @@
  * @since SmartDeviceLink 1.0<br/>
  * See SDLSubscribeButton
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLUnsubscribeButton : SDLRPCRequest
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName;
 
 /**
  * @abstract A name of the button to unsubscribe from
  * @discussion An Enumeration value, see <i>
  *         SDLButtonName</i>
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong, nonatomic) SDLButtonName buttonName;
 
 @end
+
+NS_ASSUME_NONNULL_END

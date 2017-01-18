@@ -209,7 +209,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should create a putfile with the correct data", ^{
                             expect(sentPutFile.length).to(equal(@(testFileData.length)));
                             expect(sentPutFile.bulkData).to(equal(testFileData));
-                            expect(sentPutFile.fileType.value).to(match([SDLFileType BINARY].value));
+                            expect(sentPutFile.fileType).to(match(SDLFileTypeBinary));
                         });
                         
                         context(@"when the response returns without error", ^{
@@ -281,7 +281,7 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should call the completion handler with correct data", ^{
-                                expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
+                                expect(completionError).toEventually(equal([NSError sdl_lifecycle_notReadyError]));
                             });
                         });
                     });
@@ -404,7 +404,7 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should call the completion handler with nil error", ^{
-                            expect(completionError).to(equal([NSError sdl_lifecycle_notReadyError]));
+                            expect(completionError).toEventually(equal([NSError sdl_lifecycle_notReadyError]));
                         });
                     });
                 });

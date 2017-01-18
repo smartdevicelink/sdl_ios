@@ -146,6 +146,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetVehicleDataResponse response:response];
 }
 
+- (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetWaypointsResponse response:response];
+}
+
 - (void)onListFilesResponse:(SDLListFilesResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
 }
@@ -222,6 +226,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveSubscribeVehicleDataResponse response:response];
 }
 
+- (void)onSubscribeWayPointsResponse:(SDLSubscribeWaypointsResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveSubscribeWaypointsResponse response:response];
+}
+
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSyncPDataResponse response:response];
 }
@@ -240,6 +248,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUnsubscribeVehicleDataResponse response:response];
+}
+
+- (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWaypointsResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveUnsubscribeWaypointsResponse response:response];
 }
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
@@ -304,6 +316,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveVehicleDataNotification notification:notification];
+}
+
+- (void)onOnWayPointChange:(SDLOnWaypointChange *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveWaypointNotification notification:notification];
 }
 
 #pragma clang diagnostic pop

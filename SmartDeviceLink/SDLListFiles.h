@@ -11,6 +11,11 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLListFiles : SDLRPCRequest
 
 @end
+
+NS_ASSUME_NONNULL_END

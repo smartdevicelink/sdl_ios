@@ -7,6 +7,8 @@
 #import "SDLGlobalProperty.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLResetGlobalProperties
 
 - (instancetype)init {
@@ -15,7 +17,18 @@
     return self;
 }
 
-- (void)setProperties:(NSMutableArray<SDLGlobalProperty *> *)properties {
+- (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.properties = [properties mutableCopy];
+
+    return self;
+}
+
+- (void)setProperties:(NSMutableArray<SDLGlobalProperty> *)properties {
     if (properties != nil) {
         [parameters setObject:properties forKey:SDLNameProperties];
     } else {
@@ -23,17 +36,19 @@
     }
 }
 
-- (NSMutableArray<SDLGlobalProperty *> *)properties {
-    NSMutableArray<SDLGlobalProperty *> *array = [parameters objectForKey:SDLNameProperties];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLGlobalProperty.class]) {
+- (NSMutableArray<SDLGlobalProperty> *)properties {
+    NSMutableArray<SDLGlobalProperty> *array = [parameters objectForKey:SDLNameProperties];
+    if ([array count] < 1) {
         return array;
     } else {
-        NSMutableArray<SDLGlobalProperty *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray<SDLGlobalProperty> *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSString *enumString in array) {
-            [newList addObject:[SDLGlobalProperty valueOf:enumString]];
+            [newList addObject:(SDLGlobalProperty)enumString];
         }
         return newList;
     }
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

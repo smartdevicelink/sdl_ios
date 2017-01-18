@@ -3,11 +3,12 @@
 #import "SDLAirbagStatus.h"
 
 #import "SDLNames.h"
-#import "SDLVehicleDataEventStatus.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAirbagStatus
 
-- (void)setDriverAirbagDeployed:(SDLVehicleDataEventStatus *)driverAirbagDeployed {
+- (void)setDriverAirbagDeployed:(SDLVehicleDataEventStatus)driverAirbagDeployed {
     if (driverAirbagDeployed != nil) {
         [store setObject:driverAirbagDeployed forKey:SDLNameDriverAirbagDeployed];
     } else {
@@ -15,16 +16,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverAirbagDeployed {
+- (SDLVehicleDataEventStatus)driverAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNameDriverAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setDriverSideAirbagDeployed:(SDLVehicleDataEventStatus *)driverSideAirbagDeployed {
+- (void)setDriverSideAirbagDeployed:(SDLVehicleDataEventStatus)driverSideAirbagDeployed {
     if (driverSideAirbagDeployed != nil) {
         [store setObject:driverSideAirbagDeployed forKey:SDLNameDriverSideAirbagDeployed];
     } else {
@@ -32,16 +29,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverSideAirbagDeployed {
+- (SDLVehicleDataEventStatus)driverSideAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNameDriverSideAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setDriverCurtainAirbagDeployed:(SDLVehicleDataEventStatus *)driverCurtainAirbagDeployed {
+- (void)setDriverCurtainAirbagDeployed:(SDLVehicleDataEventStatus)driverCurtainAirbagDeployed {
     if (driverCurtainAirbagDeployed != nil) {
         [store setObject:driverCurtainAirbagDeployed forKey:SDLNameDriverCurtainAirbagDeployed];
     } else {
@@ -49,16 +42,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverCurtainAirbagDeployed {
+- (SDLVehicleDataEventStatus)driverCurtainAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNameDriverCurtainAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerAirbagDeployed:(SDLVehicleDataEventStatus *)passengerAirbagDeployed {
+- (void)setPassengerAirbagDeployed:(SDLVehicleDataEventStatus)passengerAirbagDeployed {
     if (passengerAirbagDeployed != nil) {
         [store setObject:passengerAirbagDeployed forKey:SDLNamePassengerAirbagDeployed];
     } else {
@@ -66,16 +55,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerAirbagDeployed {
+- (SDLVehicleDataEventStatus)passengerAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNamePassengerAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerCurtainAirbagDeployed:(SDLVehicleDataEventStatus *)passengerCurtainAirbagDeployed {
+- (void)setPassengerCurtainAirbagDeployed:(SDLVehicleDataEventStatus)passengerCurtainAirbagDeployed {
     if (passengerCurtainAirbagDeployed != nil) {
         [store setObject:passengerCurtainAirbagDeployed forKey:SDLNamePassengerCurtainAirbagDeployed];
     } else {
@@ -83,16 +68,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerCurtainAirbagDeployed {
+- (SDLVehicleDataEventStatus)passengerCurtainAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNamePassengerCurtainAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setDriverKneeAirbagDeployed:(SDLVehicleDataEventStatus *)driverKneeAirbagDeployed {
+- (void)setDriverKneeAirbagDeployed:(SDLVehicleDataEventStatus)driverKneeAirbagDeployed {
     if (driverKneeAirbagDeployed != nil) {
         [store setObject:driverKneeAirbagDeployed forKey:SDLNameDriverKneeAirbagDeployed];
     } else {
@@ -100,16 +81,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)driverKneeAirbagDeployed {
+- (SDLVehicleDataEventStatus)driverKneeAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNameDriverKneeAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerSideAirbagDeployed:(SDLVehicleDataEventStatus *)passengerSideAirbagDeployed {
+- (void)setPassengerSideAirbagDeployed:(SDLVehicleDataEventStatus)passengerSideAirbagDeployed {
     if (passengerSideAirbagDeployed != nil) {
         [store setObject:passengerSideAirbagDeployed forKey:SDLNamePassengerSideAirbagDeployed];
     } else {
@@ -117,16 +94,12 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerSideAirbagDeployed {
+- (SDLVehicleDataEventStatus)passengerSideAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNamePassengerSideAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
-- (void)setPassengerKneeAirbagDeployed:(SDLVehicleDataEventStatus *)passengerKneeAirbagDeployed {
+- (void)setPassengerKneeAirbagDeployed:(SDLVehicleDataEventStatus)passengerKneeAirbagDeployed {
     if (passengerKneeAirbagDeployed != nil) {
         [store setObject:passengerKneeAirbagDeployed forKey:SDLNamePassengerKneeAirbagDeployed];
     } else {
@@ -134,13 +107,11 @@
     }
 }
 
-- (SDLVehicleDataEventStatus *)passengerKneeAirbagDeployed {
+- (SDLVehicleDataEventStatus)passengerKneeAirbagDeployed {
     NSObject *obj = [store objectForKey:SDLNamePassengerKneeAirbagDeployed];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataEventStatus.class]) {
-        return (SDLVehicleDataEventStatus *)obj;
-    } else {
-        return [SDLVehicleDataEventStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataEventStatus)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

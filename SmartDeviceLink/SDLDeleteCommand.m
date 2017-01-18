@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDeleteCommand
 
 - (instancetype)init {
@@ -14,7 +16,18 @@
     return self;
 }
 
-- (void)setCmdID:(NSNumber *)cmdID {
+- (instancetype)initWithId:(UInt32)commandId {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.cmdID = @(commandId);
+
+    return self;
+}
+
+- (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:SDLNameCommandId];
     } else {
@@ -22,8 +35,10 @@
     }
 }
 
-- (NSNumber *)cmdID {
+- (NSNumber<SDLInt> *)cmdID {
     return [parameters objectForKey:SDLNameCommandId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

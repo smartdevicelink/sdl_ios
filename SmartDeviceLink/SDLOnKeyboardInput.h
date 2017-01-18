@@ -3,12 +3,15 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLKeyboardEvent;
+#import "SDLKeyboardEvent.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLOnKeyboardInput : SDLRPCNotification
 
-@property (strong) SDLKeyboardEvent *event;
-@property (strong) NSString *data;
+@property (strong, nonatomic) SDLKeyboardEvent event;
+@property (nullable, strong, nonatomic) NSString *data;
 
 @end
+
+NS_ASSUME_NONNULL_END

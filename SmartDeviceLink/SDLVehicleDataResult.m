@@ -4,12 +4,12 @@
 #import "SDLVehicleDataResult.h"
 
 #import "SDLNames.h"
-#import "SDLVehicleDataResultCode.h"
-#import "SDLVehicleDataType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVehicleDataResult
 
-- (void)setDataType:(SDLVehicleDataType *)dataType {
+- (void)setDataType:(SDLVehicleDataType)dataType {
     if (dataType != nil) {
         [store setObject:dataType forKey:SDLNameDataType];
     } else {
@@ -17,16 +17,12 @@
     }
 }
 
-- (SDLVehicleDataType *)dataType {
+- (SDLVehicleDataType)dataType {
     NSObject *obj = [store objectForKey:SDLNameDataType];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataType.class]) {
-        return (SDLVehicleDataType *)obj;
-    } else {
-        return [SDLVehicleDataType valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataType)obj;
 }
 
-- (void)setResultCode:(SDLVehicleDataResultCode *)resultCode {
+- (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
     if (resultCode != nil) {
         [store setObject:resultCode forKey:SDLNameResultCode];
     } else {
@@ -34,13 +30,11 @@
     }
 }
 
-- (SDLVehicleDataResultCode *)resultCode {
+- (SDLVehicleDataResultCode)resultCode {
     NSObject *obj = [store objectForKey:SDLNameResultCode];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataResultCode.class]) {
-        return (SDLVehicleDataResultCode *)obj;
-    } else {
-        return [SDLVehicleDataResultCode valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataResultCode)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

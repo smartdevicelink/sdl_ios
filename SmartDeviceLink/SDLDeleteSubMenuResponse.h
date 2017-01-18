@@ -9,6 +9,11 @@
  *
  * Since <b>SmartDeviceLink 1.0</b>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeleteSubMenuResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

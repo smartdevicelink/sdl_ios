@@ -6,11 +6,28 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSetDisplayLayout
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameSetDisplayLayout]) {
     }
+    return self;
+}
+
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout {
+    return [self initWithLayout:predefinedLayout];
+}
+
+- (instancetype)initWithLayout:(NSString *)displayLayout {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.displayLayout = displayLayout;
+
     return self;
 }
 
@@ -27,3 +44,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

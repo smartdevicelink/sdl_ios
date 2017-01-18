@@ -4,6 +4,8 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLHMICapabilities : SDLRPCStruct
 
 /**
@@ -11,13 +13,15 @@
  
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *navigation;
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *navigation;
 
 /**
  Availability of build in phone. True: Available, False: Not Available
  
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *phoneCall;
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *phoneCall;
 
 @end
+
+NS_ASSUME_NONNULL_END

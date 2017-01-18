@@ -1,3 +1,68 @@
+# 4.5.0 Release Notes (Since Beta 2)
+### Bug Fixes
+* Fixed an issue attempting to upload an app icon when the head unit does not support images.
+
+# 4.5.0 Beta 2 Release Notes
+### Bug Fixes
+* Fixed an issue with printing incorrect Frame Data when logging.
+* Fixed an issue with SDLLocationDetails' properties being incorrectly stored.
+* Added in nil-checks for SDLStreamingMediaManager's startSession completionHandlers.
+* Fixed an issue with a SDLPerformInteraction initializer causing an infinite loop.
+* Fixed an issue with uploading a nil SDLFile would cause an infinite loop.
+
+# 4.5.0 Beta 1 Release Notes
+### Bug Fixes
+* Altered how Security libraries get the app id so they can start downloads faster.
+* Fixed a number of RPC initializers to have correct number sizes.
+* Fixed a video session crash in rare instances when the compression session was NULL.
+* Fixed waypoint RPCs missing response and notification dispatchers and incorrect spelling on some classes (the old classes are deprecated).
+
+# 4.4.1 Release Notes
+### Bug Fixes
+* Subscribing to waypoints should now work (new feature & RPC in v4.4.0).
+
+### Other
+* Fixes a few failing tests that were overlooked.
+* `SDLUploadFileOperation`s now use the built-in cancel mechanism instead of its own internal flag.
+
+# 4.4.0 Release Notes
+### Features
+* [SDL-0003] Adds SendLocation and associated data types.
+* [SDL-0004] Adds Waypointing as a feature for Last Mile Navigation.
+* Adds `DisplayType` `Generic`, please continue to not use the `DisplayType` to know when features are available.
+
+### Bug Fixes
+* Fixes the completion handler of a file upload being called twice when a file failed to upload (which fixes a crash in the example project).
+
+### Tests
+* Fixes an issue where tests would fail to compile.
+
+# 4.3.0 Release Notes (Since RC 6 + Highlights)
+### Highlights
+* Adds a lifecycle manager to replace `SDLProxy` and manages much more of the lifecycle based on a declarative `SDLConfiguration`.
+* Adds a file manager to streamline uploading and deleting files.
+* Adds a lock screen manager to streamline lock screens and also provides a customizable default lock screen.
+* Adds a permission manager to streamline knowing when RPCs are available for use.
+* Adds the ability to use blocks to be notified about RPC responses.
+* Adds the ability to use blocks to be notified about certain RPC notifications (such as button presses).
+
+### (Since RC 6)
+### Features
+* Added an `SDLProxy` property to `SDLManager` to allow for edge cases in v4.3. This property will be removed in v5.0.
+
+### Deprecations
+* `SDLRPCRequestFactory` is now deprecated. The methods have been replaced as initialzers on the respective RPC methods. These intiailizers have been improved as well.
+* `SDLTTSChunkFactory` is now deprecated. The methods have been replaced as initialzers on the respective RPC methods.
+
+### Bug Fixes
+* Fixed a bug where a non-existent file could attempt to upload, causing havoc.
+* Fix some test framework stuff related to Xcode 8.
+* No longer crashes when RegisterAppInterfaceResponse errors.
+* RegisterAppInterface no longer crashes when attempting to connect a navigation app to a non-navigation capable head unit.
+
+### Example App
+* The example app now shows some example Permission Manager usage and logs to console a few permission manager observer blocks.
+
 # 4.3.0 Release Candidate 6 Release Notes (Since RC 5)
 ### Bug Fixes
 * Fixed several bugs and improved error messaging around what should happen if File Manager fails to start, for example because the head unit does not support files.

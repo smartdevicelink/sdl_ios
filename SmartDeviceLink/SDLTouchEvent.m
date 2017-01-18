@@ -7,9 +7,11 @@
 #import "SDLNames.h"
 #import "SDLTouchCoord.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTouchEvent
 
-- (void)setTouchEventId:(NSNumber *)touchEventId {
+- (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
     if (touchEventId != nil) {
         [store setObject:touchEventId forKey:SDLNameId];
     } else {
@@ -17,11 +19,11 @@
     }
 }
 
-- (NSNumber *)touchEventId {
+- (NSNumber<SDLInt> *)touchEventId {
     return [store objectForKey:SDLNameId];
 }
 
-- (void)setTimeStamp:(NSMutableArray<NSNumber *> *)timeStamp {
+- (void)setTimeStamp:(NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
     if (timeStamp != nil) {
         [store setObject:timeStamp forKey:SDLNameTimestamp];
     } else {
@@ -29,7 +31,7 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)timeStamp {
+- (NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
     return [store objectForKey:SDLNameTimestamp];
 }
 
@@ -55,3 +57,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

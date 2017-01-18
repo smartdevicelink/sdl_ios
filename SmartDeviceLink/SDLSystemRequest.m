@@ -5,7 +5,8 @@
 #import "SDLSystemRequest.h"
 
 #import "SDLNames.h"
-#import "SDLRequestType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSystemRequest
 
@@ -15,7 +16,19 @@
     return self;
 }
 
-- (void)setRequestType:(SDLRequestType *)requestType {
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.requestType = requestType;
+    self.fileName = fileName;
+
+    return self;
+}
+
+- (void)setRequestType:(SDLRequestType)requestType {
     if (requestType != nil) {
         [parameters setObject:requestType forKey:SDLNameRequestType];
     } else {
@@ -23,16 +36,12 @@
     }
 }
 
-- (SDLRequestType *)requestType {
+- (SDLRequestType)requestType {
     NSObject *obj = [parameters objectForKey:SDLNameRequestType];
-    if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
-        return (SDLRequestType *)obj;
-    } else {
-        return [SDLRequestType valueOf:(NSString *)obj];
-    }
+    return (SDLRequestType)obj;
 }
 
-- (void)setFileName:(NSString *)fileName {
+- (void)setFileName:(nullable NSString *)fileName {
     if (fileName != nil) {
         [parameters setObject:fileName forKey:SDLNameFilename];
     } else {
@@ -40,8 +49,10 @@
     }
 }
 
-- (NSString *)fileName {
+- (nullable NSString *)fileName {
     return [parameters objectForKey:SDLNameFilename];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCNotification
 
 - (instancetype)initWithName:(NSString *)name {
@@ -33,3 +35,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

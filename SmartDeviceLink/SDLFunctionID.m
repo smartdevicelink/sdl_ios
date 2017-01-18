@@ -4,6 +4,8 @@
 
 #import "SDLFunctionID.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLFunctionID ()
 
 @property (nonatomic, strong, nonnull) NSDictionary* functionIds;
@@ -65,6 +67,9 @@
                                  @38: SDLNameSystemRequest,
                                  @39: SDLNameSendLocation,
                                  @40: SDLNameDialNumber,
+								 @45: SDLNameGetWaypoints,
+								 @46: SDLNameSubscribeWaypoints,
+								 @47: SDLNameUnsubscribeWaypoints,
                                  @32768: SDLNameOnHMIStatus,
                                  @32769: SDLNameOnAppInterfaceUnregistered,
                                  @32770: SDLNameOnButtonEvent,
@@ -80,6 +85,7 @@
                                  @32780: SDLNameOnTouchEvent,
                                  @32781: SDLNameOnSystemRequest,
                                  @32782: SDLNameOnHashChange,
+								 @32784: SDLNameOnWaypointChange,
                                  @65536: SDLNameEncodedSyncPData,
                                  @65537: SDLNameSyncPData,
                                  @98304: SDLNameOnEncodedSyncPData,
@@ -89,14 +95,16 @@
     return self;
 }
 
-- (SDLName)functionNameForId:(int)functionID {
+- (nullable SDLName)functionNameForId:(int)functionID {
     return self.functionIds[@(functionID)];
 }
 
 
-- (NSNumber *)functionIdForName:(SDLName)functionName {
+- (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName {
     return [[self.functionIds allKeysForObject:functionName] firstObject];
 }
 
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,9 +6,11 @@
 #import "SDLAmbientLightStatus.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLHeadLampStatus
 
-- (void)setLowBeamsOn:(NSNumber *)lowBeamsOn {
+- (void)setLowBeamsOn:(NSNumber<SDLBool> *)lowBeamsOn {
     if (lowBeamsOn != nil) {
         [store setObject:lowBeamsOn forKey:SDLNameLowBeamsOn];
     } else {
@@ -16,11 +18,11 @@
     }
 }
 
-- (NSNumber *)lowBeamsOn {
+- (NSNumber<SDLBool> *)lowBeamsOn {
     return [store objectForKey:SDLNameLowBeamsOn];
 }
 
-- (void)setHighBeamsOn:(NSNumber *)highBeamsOn {
+- (void)setHighBeamsOn:(NSNumber<SDLBool> *)highBeamsOn {
     if (highBeamsOn != nil) {
         [store setObject:highBeamsOn forKey:SDLNameHighBeamsOn];
     } else {
@@ -28,11 +30,11 @@
     }
 }
 
-- (NSNumber *)highBeamsOn {
+- (NSNumber<SDLBool> *)highBeamsOn {
     return [store objectForKey:SDLNameHighBeamsOn];
 }
 
-- (void)setAmbientLightSensorStatus:(SDLAmbientLightStatus *)ambientLightSensorStatus {
+- (void)setAmbientLightSensorStatus:(nullable SDLAmbientLightStatus)ambientLightSensorStatus {
     if (ambientLightSensorStatus != nil) {
         [store setObject:ambientLightSensorStatus forKey:SDLNameAmbientLightSensorStatus];
     } else {
@@ -40,13 +42,11 @@
     }
 }
 
-- (SDLAmbientLightStatus *)ambientLightSensorStatus {
+- (nullable SDLAmbientLightStatus)ambientLightSensorStatus {
     NSObject *obj = [store objectForKey:SDLNameAmbientLightSensorStatus];
-    if (obj == nil || [obj isKindOfClass:SDLAmbientLightStatus.class]) {
-        return (SDLAmbientLightStatus *)obj;
-    } else {
-        return [SDLAmbientLightStatus valueOf:(NSString *)obj];
-    }
+    return (SDLAmbientLightStatus)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

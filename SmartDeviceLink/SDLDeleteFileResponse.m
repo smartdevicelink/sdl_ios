@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDeleteFileResponse
 
 - (instancetype)init {
@@ -14,7 +16,7 @@
     return self;
 }
 
-- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
+- (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
     if (spaceAvailable != nil) {
         [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
     } else {
@@ -22,8 +24,10 @@
     }
 }
 
-- (NSNumber *)spaceAvailable {
+- (NSNumber<SDLInt> *)spaceAvailable {
     return [parameters objectForKey:SDLNameSpaceAvailable];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

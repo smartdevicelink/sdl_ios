@@ -14,7 +14,6 @@
 #import "SDLGlobals.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 
 
@@ -53,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     [super start];
 
-    [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file mtuSize:[SDLGlobals globals].maxMTUSize] withCompletion:self.fileWrapper.completionHandler];
+    [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize] withCompletion:self.fileWrapper.completionHandler];
 }
 
 - (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletionHandler)completion {
@@ -98,11 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
                                    if (error != nil || response == nil || ![response.success boolValue]) {
                                        stop = YES;
                                        streamError = error;
-
-                                       if (completion != nil) {
-                                           completion(NO, 0, error);
-                                       }
-
+                                       
                                        dispatch_group_leave(putFileGroup);
                                        BLOCK_RETURN;
                                    }
@@ -130,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // http://stackoverflow.com/a/503201 Make sure we get the exact number of packets we need
     for (int i = 0; i < (((fileData.length - 1) / mtuSize) + 1); i++) {
-        SDLPutFile *putFile = [SDLRPCRequestFactory buildPutFileWithFileName:file.name fileType:file.fileType persistentFile:@(file.isPersistent) correlationId:nil];
+        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
 
         // Set the length putfile based on the offset

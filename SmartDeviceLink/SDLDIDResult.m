@@ -4,11 +4,12 @@
 #import "SDLDIDResult.h"
 
 #import "SDLNames.h"
-#import "SDLVehicleDataResultCode.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDIDResult
 
-- (void)setResultCode:(SDLVehicleDataResultCode *)resultCode {
+- (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
     if (resultCode != nil) {
         [store setObject:resultCode forKey:SDLNameResultCode];
     } else {
@@ -16,16 +17,12 @@
     }
 }
 
-- (SDLVehicleDataResultCode *)resultCode {
+- (SDLVehicleDataResultCode)resultCode {
     NSObject *obj = [store objectForKey:SDLNameResultCode];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataResultCode.class]) {
-        return (SDLVehicleDataResultCode *)obj;
-    } else {
-        return [SDLVehicleDataResultCode valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataResultCode)obj;
 }
 
-- (void)setDidLocation:(NSNumber *)didLocation {
+- (void)setDidLocation:(NSNumber<SDLInt> *)didLocation {
     if (didLocation != nil) {
         [store setObject:didLocation forKey:SDLNameDIDLocation];
     } else {
@@ -33,11 +30,11 @@
     }
 }
 
-- (NSNumber *)didLocation {
+- (NSNumber<SDLInt> *)didLocation {
     return [store objectForKey:SDLNameDIDLocation];
 }
 
-- (void)setData:(NSString *)data {
+- (void)setData:(nullable NSString *)data {
     if (data != nil) {
         [store setObject:data forKey:SDLNameData];
     } else {
@@ -45,8 +42,10 @@
     }
 }
 
-- (NSString *)data {
+- (nullable NSString *)data {
     return [store objectForKey:SDLNameData];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

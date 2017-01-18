@@ -7,12 +7,21 @@
 @class SDLSoftButton;
 @class SDLTTSChunk;
 
+
 /**
  *  @since SmartDeviceLink 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAlertManeuver : SDLRPCRequest
 
-@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+- (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
+
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
+
+NS_ASSUME_NONNULL_END

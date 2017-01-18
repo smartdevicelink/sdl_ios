@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.configuration;
 }
 
-- (SDLHMILevel *)hmiLevel {
+- (SDLHMILevel)hmiLevel {
     return self.lifecycleManager.hmiLevel;
 }
 
@@ -91,6 +91,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDelegate:(nullable id<SDLManagerDelegate>)delegate {
     self.lifecycleManager.delegate = delegate;
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (nullable SDLProxy *)proxy {
+    return self.lifecycleManager.proxy;
+}
+#pragma clang diagnostic pop
 
 
 #pragma mark SDLConnectionManager Protocol

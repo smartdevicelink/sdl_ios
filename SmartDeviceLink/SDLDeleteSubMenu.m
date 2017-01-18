@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDeleteSubMenu
 
 - (instancetype)init {
@@ -14,7 +16,18 @@
     return self;
 }
 
-- (void)setMenuID:(NSNumber *)menuID {
+- (instancetype)initWithId:(UInt32)menuId {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.menuID = @(menuId);
+
+    return self;
+}
+
+- (void)setMenuID:(NSNumber<SDLInt> *)menuID {
     if (menuID != nil) {
         [parameters setObject:menuID forKey:SDLNameMenuId];
     } else {
@@ -22,8 +35,10 @@
     }
 }
 
-- (NSNumber *)menuID {
+- (NSNumber<SDLInt> *)menuID {
     return [parameters objectForKey:SDLNameMenuId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

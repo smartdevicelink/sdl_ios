@@ -5,7 +5,6 @@
 #import "SDLPerformInteractionResponse.h"
 
 #import "SDLNames.h"
-#import "SDLTriggerSource.h"
 
 @implementation SDLPerformInteractionResponse
 
@@ -15,7 +14,7 @@
     return self;
 }
 
-- (void)setChoiceID:(NSNumber *)choiceID {
+- (void)setChoiceID:(nullable NSNumber<SDLInt> *)choiceID {
     if (choiceID != nil) {
         [parameters setObject:choiceID forKey:SDLNameChoiceId];
     } else {
@@ -23,11 +22,11 @@
     }
 }
 
-- (NSNumber *)choiceID {
+- (nullable NSNumber<SDLInt> *)choiceID {
     return [parameters objectForKey:SDLNameChoiceId];
 }
 
-- (void)setManualTextEntry:(NSString *)manualTextEntry {
+- (void)setManualTextEntry:(nullable NSString *)manualTextEntry {
     if (manualTextEntry != nil) {
         [parameters setObject:manualTextEntry forKey:SDLNameManualTextEntry];
     } else {
@@ -35,11 +34,11 @@
     }
 }
 
-- (NSString *)manualTextEntry {
+- (nullable NSString *)manualTextEntry {
     return [parameters objectForKey:SDLNameManualTextEntry];
 }
 
-- (void)setTriggerSource:(SDLTriggerSource *)triggerSource {
+- (void)setTriggerSource:(nullable SDLTriggerSource)triggerSource {
     if (triggerSource != nil) {
         [parameters setObject:triggerSource forKey:SDLNameTriggerSource];
     } else {
@@ -47,13 +46,9 @@
     }
 }
 
-- (SDLTriggerSource *)triggerSource {
+- (nullable SDLTriggerSource)triggerSource {
     NSObject *obj = [parameters objectForKey:SDLNameTriggerSource];
-    if (obj == nil || [obj isKindOfClass:SDLTriggerSource.class]) {
-        return (SDLTriggerSource *)obj;
-    } else {
-        return [SDLTriggerSource valueOf:(NSString *)obj];
-    }
+    return (SDLTriggerSource)obj;
 }
 
 @end

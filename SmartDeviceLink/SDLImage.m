@@ -3,11 +3,23 @@
 
 #import "SDLImage.h"
 
-#import "SDLImageType.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImage
+
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.value = name;
+    self.imageType = imageType;
+
+    return self;
+}
 
 - (void)setValue:(NSString *)value {
     if (value != nil) {
@@ -21,7 +33,7 @@
     return [store objectForKey:SDLNameValue];
 }
 
-- (void)setImageType:(SDLImageType *)imageType {
+- (void)setImageType:(SDLImageType)imageType {
     if (imageType != nil) {
         [store setObject:imageType forKey:SDLNameImageType];
     } else {
@@ -29,13 +41,11 @@
     }
 }
 
-- (SDLImageType *)imageType {
+- (SDLImageType)imageType {
     NSObject *obj = [store objectForKey:SDLNameImageType];
-    if (obj == nil || [obj isKindOfClass:SDLImageType.class]) {
-        return (SDLImageType *)obj;
-    } else {
-        return [SDLImageType valueOf:(NSString *)obj];
-    }
+    return (SDLImageType)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

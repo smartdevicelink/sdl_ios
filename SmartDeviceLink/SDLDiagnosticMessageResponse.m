@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLDiagnosticMessageResponse
 
 - (instancetype)init {
@@ -13,7 +15,7 @@
     return self;
 }
 
-- (void)setMessageDataResult:(NSMutableArray<NSNumber *> *)messageDataResult {
+- (void)setMessageDataResult:(NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
     if (messageDataResult != nil) {
         [parameters setObject:messageDataResult forKey:SDLNameMessageDataResult];
     } else {
@@ -21,8 +23,10 @@
     }
 }
 
-- (NSMutableArray<NSNumber *> *)messageDataResult {
+- (NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
     return [parameters objectForKey:SDLNameMessageDataResult];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

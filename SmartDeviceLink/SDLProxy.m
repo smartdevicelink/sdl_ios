@@ -31,7 +31,6 @@
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
@@ -39,17 +38,20 @@
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLTimer.h"
+#import "SDLURLSession.h"
 #import "SDLVehicleType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLVehicleMake;
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
+typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.3.0-rc.6";
+NSString *const SDLProxyVersion = @"4.5.0";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
-static float DefaultConnectionTimeout = 45.0;
 
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
@@ -57,10 +59,9 @@ static float DefaultConnectionTimeout = 45.0;
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
-@property (nonatomic, strong, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
-@property (nonatomic, strong) NSURLSession* urlSession;
 
 @end
 
@@ -72,7 +73,6 @@ static float DefaultConnectionTimeout = 45.0;
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
         _securityManagers = [NSMutableDictionary dictionary];
@@ -86,54 +86,21 @@ static float DefaultConnectionTimeout = 45.0;
 
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
-        
-        NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
-        configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
-        configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
-        
-        _urlSession = [NSURLSession sessionWithConfiguration:configuration];
-        
     }
 
     return self;
 }
 
-- (void)destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-
-        [self.urlSession invalidateAndCancel];
-        _urlSession = nil;
-        
-        [self.protocol dispose];
-        [self.transport dispose];
-
-        _transport = nil;
-        _protocol = nil;
-        _mutableProxyListeners = nil;
-        _streamingMediaManager = nil;
-        _displayCapabilities = nil;
-    }
-}
-
-- (void)dispose {
-    if (self.transport != nil) {
-        [self.transport disconnect];
-    }
-
+- (void)dealloc {
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
-
-    [self destructObjects];
-}
-
-- (void)dealloc {
-    [self destructObjects];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
+        
+    [[SDLURLSession defaultSession] cancelAllTasks];
+        
     [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
 }
 
@@ -151,22 +118,22 @@ static float DefaultConnectionTimeout = 45.0;
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
-    HMIStatusRPC.audioStreamingState = [SDLAudioStreamingState NOT_AUDIBLE];
-    HMIStatusRPC.systemContext = [SDLSystemContext MAIN];
+    HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
+    HMIStatusRPC.systemContext = SDLSystemContextMain;
 
     switch (appState) {
         case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel FULL];
+            HMIStatusRPC.hmiLevel = SDLHMILevelFull;
         } break;
         case UIApplicationStateBackground: // Fallthrough
         case UIApplicationStateInactive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
+            HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
         } break;
         default:
             break;
     }
 
-    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
+    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel];
     [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     [self sendRPC:HMIStatusRPC];
@@ -185,7 +152,7 @@ static float DefaultConnectionTimeout = 45.0;
     return SDLProxyVersion;
 }
 
-- (SDLStreamingMediaManager *)streamingMediaManager {
+- (nullable SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
         if (self.displayCapabilities == nil) {
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
@@ -227,7 +194,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
 }
 
-- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
+- (nullable id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((make != nil) && (self.securityManagers[make] != nil)) {
         Class securityManagerClass = self.securityManagers[make];
         self.protocol.appId = self.appId;
@@ -394,8 +361,11 @@ static float DefaultConnectionTimeout = 45.0;
         _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
     }
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
+    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
+        self.protocol.securityManager.appId = self.appId;
+    }
 
-    if ([SDLGlobals globals].protocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].protocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -421,16 +391,16 @@ static float DefaultConnectionTimeout = 45.0;
     [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
-    SDLRequestType *requestType = systemRequest.requestType;
+    SDLRequestType requestType = systemRequest.requestType;
 
     // Handle the various OnSystemRequest types
-    if (requestType == [SDLRequestType PROPRIETARY]) {
+    if ([requestType isEqualToString:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
-    } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeLockScreenIconURL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if (requestType == [SDLRequestType HTTP]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if (requestType == [SDLRequestType LAUNCH_APP]) {
+    } else if ([requestType isEqualToString:SDLRequestTypeLaunchApp]) {
         [self sdl_handleSystemRequestLaunchApp:systemRequest];
     }
 }
@@ -443,8 +413,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    NSString *statusString = (NSString *)[message getParameters:SDLNameHMILevel];
-    SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
+    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLNameHMILevel];
     _lsm.hmiLevel = hmiLevel;
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
@@ -520,7 +489,7 @@ static float DefaultConnectionTimeout = 45.0;
                         // Create the SystemRequest RPC to send to module.
                         SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
                         request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
-                        request.requestType = [SDLRequestType PROPRIETARY];
+                        request.requestType = SDLRequestTypeProprietary;
                         request.bulkData = data;
 
                         // Parse and display the policy data.
@@ -540,17 +509,17 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
-                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                    if (error != nil) {
-                        NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
-                        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-                        return;
-                    }
+    [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:request.url]
+                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                  if (error != nil) {
+                                      NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
+                                      [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                                      return;
+                                  }
 
-                    UIImage *icon = [UIImage imageWithData:data];
-                    [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
-                }];
+                                  UIImage *icon = [UIImage imageWithData:data];
+                                  [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+                              }];
 }
 
 - (void)sdl_handleSystemRequestHTTP:(SDLOnSystemRequest *)request {
@@ -580,7 +549,7 @@ static float DefaultConnectionTimeout = 45.0;
 
             // Create the SystemRequest RPC to send to module.
             SDLPutFile *putFile = [[SDLPutFile alloc] init];
-            putFile.fileType = [SDLFileType JSON];
+            putFile.fileType = SDLFileTypeJSON;
             putFile.correlationID = @(POLICIES_CORRELATION_ID);
             putFile.syncFileName = @"response_data";
             putFile.bulkData = data;
@@ -599,9 +568,9 @@ static float DefaultConnectionTimeout = 45.0;
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
-- (NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
+- (nullable NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
-    SDLFileType *fileType = request.fileType;
+    SDLFileType fileType = request.fileType;
 
     // Validate input
     if (urlString == nil || [NSURL URLWithString:urlString] == nil) {
@@ -609,7 +578,7 @@ static float DefaultConnectionTimeout = 45.0;
         return nil;
     }
 
-    if (fileType != [SDLFileType JSON]) {
+    if (![fileType isEqualToString:SDLFileTypeJSON]) {
         [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
     }
@@ -644,7 +613,7 @@ static float DefaultConnectionTimeout = 45.0;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Create the upload task
-    [self sdl_sendUploadRequest:request withData:data completionHandler:completionHandler];
+    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:data completionHandler:completionHandler];
 }
 
 /**
@@ -680,26 +649,9 @@ static float DefaultConnectionTimeout = 45.0;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Create the upload task
-    [self sdl_sendUploadRequest:request withData:bodyData completionHandler:completionHandler];
+    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:bodyData completionHandler:completionHandler];
 }
 
-- (void)sdl_sendUploadRequest:(NSURLRequest*)request withData:(NSData*)data completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    NSMutableURLRequest* mutableRequest = [request mutableCopy];
-    
-    if ([mutableRequest.URL.scheme isEqualToString:@"http"]) {
-        mutableRequest.URL = [NSURL URLWithString:[mutableRequest.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
-    }
-    
-    [[self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:completionHandler] resume];
-}
-
-- (void)sdl_sendDataTaskWithURL:(NSURL*)url completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
-    if ([url.scheme isEqualToString:@"http"]) {
-        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
-    }
-    
-    [[self.urlSession dataTaskWithURL:url completionHandler:completionHandler] resume];
-}
 
 #pragma mark - Delegate management
 
@@ -715,7 +667,7 @@ static float DefaultConnectionTimeout = 45.0;
     }
 }
 
-- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
+- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
     dispatch_async(dispatch_get_main_queue(), ^{
         @autoreleasepool {
             for (id<SDLProxyListener> listener in self.proxyListeners) {
@@ -752,11 +704,11 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     // Send the HTTP Request
-    [[self.urlSession uploadTaskWithRequest:request
-                                   fromData:data
-                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[SDLURLSession defaultSession] uploadWithURLRequest:request
+                                                    data:data
+                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                            [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
-                                       }] resume];
+                                       }];
 
     [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
@@ -801,7 +753,7 @@ static float DefaultConnectionTimeout = 45.0;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
-            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals globals].maxMTUSize];
+            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
@@ -836,3 +788,5 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,11 +3,32 @@
 
 #import "SDLDeviceInfo.h"
 
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <UIKit/UIKit.h>
+
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeviceInfo
 
-- (void)setHardware:(NSString *)hardware {
++ (instancetype)currentDevice {
+    static SDLDeviceInfo *deviceInfo = nil;
+    if (deviceInfo == nil) {
+        deviceInfo = [[SDLDeviceInfo alloc] init];
+        deviceInfo.hardware = [UIDevice currentDevice].model;
+        deviceInfo.os = [UIDevice currentDevice].systemName;
+        deviceInfo.osVersion = [UIDevice currentDevice].systemVersion;
+        CTTelephonyNetworkInfo *netinfo = [[CTTelephonyNetworkInfo alloc] init];
+        CTCarrier *carrier = netinfo.subscriberCellularProvider;
+        NSString *carrierName = carrier.carrierName;
+        deviceInfo.carrier = carrierName;
+    }
+    return deviceInfo;
+}
+
+- (void)setHardware:(nullable NSString *)hardware {
     if (hardware != nil) {
         [store setObject:hardware forKey:SDLNameHardware];
     } else {
@@ -15,11 +36,11 @@
     }
 }
 
-- (NSString *)hardware {
+- (nullable NSString *)hardware {
     return [store objectForKey:SDLNameHardware];
 }
 
-- (void)setFirmwareRev:(NSString *)firmwareRev {
+- (void)setFirmwareRev:(nullable NSString *)firmwareRev {
     if (firmwareRev != nil) {
         [store setObject:firmwareRev forKey:SDLNameFirmwareRevision];
     } else {
@@ -27,11 +48,11 @@
     }
 }
 
-- (NSString *)firmwareRev {
+- (nullable NSString *)firmwareRev {
     return [store objectForKey:SDLNameFirmwareRevision];
 }
 
-- (void)setOs:(NSString *)os {
+- (void)setOs:(nullable NSString *)os {
     if (os != nil) {
         [store setObject:os forKey:SDLNameOS];
     } else {
@@ -39,11 +60,11 @@
     }
 }
 
-- (NSString *)os {
+- (nullable NSString *)os {
     return [store objectForKey:SDLNameOS];
 }
 
-- (void)setOsVersion:(NSString *)osVersion {
+- (void)setOsVersion:(nullable NSString *)osVersion {
     if (osVersion != nil) {
         [store setObject:osVersion forKey:SDLNameOSVersion];
     } else {
@@ -51,11 +72,11 @@
     }
 }
 
-- (NSString *)osVersion {
+- (nullable NSString *)osVersion {
     return [store objectForKey:SDLNameOSVersion];
 }
 
-- (void)setCarrier:(NSString *)carrier {
+- (void)setCarrier:(nullable NSString *)carrier {
     if (carrier != nil) {
         [store setObject:carrier forKey:SDLNameCarrier];
     } else {
@@ -63,11 +84,11 @@
     }
 }
 
-- (NSString *)carrier {
+- (nullable NSString *)carrier {
     return [store objectForKey:SDLNameCarrier];
 }
 
-- (void)setMaxNumberRFCOMMPorts:(NSNumber *)maxNumberRFCOMMPorts {
+- (void)setMaxNumberRFCOMMPorts:(nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
     if (maxNumberRFCOMMPorts != nil) {
         [store setObject:maxNumberRFCOMMPorts forKey:SDLNameMaxNumberRFCOMMPorts];
     } else {
@@ -75,8 +96,10 @@
     }
 }
 
-- (NSNumber *)maxNumberRFCOMMPorts {
+- (nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
     return [store objectForKey:SDLNameMaxNumberRFCOMMPorts];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

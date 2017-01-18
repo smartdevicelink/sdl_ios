@@ -7,6 +7,8 @@
 #import "SDLButtonName.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLUnsubscribeButton
 
 - (instancetype)init {
@@ -15,7 +17,18 @@
     return self;
 }
 
-- (void)setButtonName:(SDLButtonName *)buttonName {
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.buttonName = buttonName;
+
+    return self;
+}
+
+- (void)setButtonName:(SDLButtonName)buttonName {
     if (buttonName != nil) {
         [parameters setObject:buttonName forKey:SDLNameButtonName];
     } else {
@@ -23,13 +36,11 @@
     }
 }
 
-- (SDLButtonName *)buttonName {
+- (SDLButtonName)buttonName {
     NSObject *obj = [parameters objectForKey:SDLNameButtonName];
-    if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
-        return (SDLButtonName *)obj;
-    } else {
-        return [SDLButtonName valueOf:(NSString *)obj];
-    }
+    return (SDLButtonName)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

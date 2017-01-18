@@ -4,9 +4,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLButtonName.h"
 #import "SDLRequestHandler.h"
-
-@class SDLButtonName;
 
 
 /**
@@ -59,6 +58,9 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLUnsubscribeButton
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSubscribeButton : SDLRPCRequest <SDLRequestHandler>
 
 /**
@@ -68,7 +70,9 @@
  *
  *  @return An SDLSubscribeButton object
  */
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler;
+
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you subscribed to is selected.
@@ -81,6 +85,8 @@
  * @abstract The name of the button to subscribe to
  * @discussion An enum value, see <i>SDLButtonName</i>
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong, nonatomic) SDLButtonName buttonName;
 
 @end
+
+NS_ASSUME_NONNULL_END

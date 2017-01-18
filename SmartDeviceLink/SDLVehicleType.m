@@ -6,9 +6,11 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVehicleType
 
-- (void)setMake:(NSString *)make {
+- (void)setMake:(nullable NSString *)make {
     if (make != nil) {
         [store setObject:make forKey:SDLNameMake];
     } else {
@@ -16,11 +18,11 @@
     }
 }
 
-- (NSString *)make {
+- (nullable NSString *)make {
     return [store objectForKey:SDLNameMake];
 }
 
-- (void)setModel:(NSString *)model {
+- (void)setModel:(nullable NSString *)model {
     if (model != nil) {
         [store setObject:model forKey:SDLNameModel];
     } else {
@@ -28,11 +30,11 @@
     }
 }
 
-- (NSString *)model {
+- (nullable NSString *)model {
     return [store objectForKey:SDLNameModel];
 }
 
-- (void)setModelYear:(NSString *)modelYear {
+- (void)setModelYear:(nullable NSString *)modelYear {
     if (modelYear != nil) {
         [store setObject:modelYear forKey:SDLNameModelYear];
     } else {
@@ -40,11 +42,11 @@
     }
 }
 
-- (NSString *)modelYear {
+- (nullable NSString *)modelYear {
     return [store objectForKey:SDLNameModelYear];
 }
 
-- (void)setTrim:(NSString *)trim {
+- (void)setTrim:(nullable NSString *)trim {
     if (trim != nil) {
         [store setObject:trim forKey:SDLNameTrim];
     } else {
@@ -52,8 +54,10 @@
     }
 }
 
-- (NSString *)trim {
+- (nullable NSString *)trim {
     return [store objectForKey:SDLNameTrim];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

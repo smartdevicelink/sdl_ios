@@ -38,7 +38,14 @@
  * @since SmartDeviceLink 1.0
  * @see SDLAlert
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSpeak : SDLRPCRequest
+
+- (instancetype)initWithTTS:(NSString *)ttsText;
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks;
 
 /**
  * @abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken
@@ -49,6 +56,8 @@
  * 
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 
 @end
+
+NS_ASSUME_NONNULL_END

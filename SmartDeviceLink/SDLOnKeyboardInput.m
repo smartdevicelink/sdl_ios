@@ -3,8 +3,9 @@
 
 #import "SDLOnKeyboardInput.h"
 
-#import "SDLKeyboardEvent.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnKeyboardInput
 
@@ -14,7 +15,7 @@
     return self;
 }
 
-- (void)setEvent:(SDLKeyboardEvent *)event {
+- (void)setEvent:(SDLKeyboardEvent)event {
     if (event != nil) {
         [parameters setObject:event forKey:SDLNameEvent];
     } else {
@@ -22,16 +23,12 @@
     }
 }
 
-- (SDLKeyboardEvent *)event {
+- (SDLKeyboardEvent)event {
     NSObject *obj = [parameters objectForKey:SDLNameEvent];
-    if (obj == nil || [obj isKindOfClass:SDLKeyboardEvent.class]) {
-        return (SDLKeyboardEvent *)obj;
-    } else {
-        return [SDLKeyboardEvent valueOf:(NSString *)obj];
-    }
+    return (SDLKeyboardEvent)obj;
 }
 
-- (void)setData:(NSString *)data {
+- (void)setData:(nullable NSString *)data {
     if (data != nil) {
         [parameters setObject:data forKey:SDLNameData];
     } else {
@@ -39,8 +36,10 @@
     }
 }
 
-- (NSString *)data {
+- (nullable NSString *)data {
     return [parameters objectForKey:SDLNameData];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

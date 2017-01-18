@@ -40,7 +40,7 @@ See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to se
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '4.3.0-rc.6'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 7.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '~> 4.5'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
 
 ##### Carthage
 
@@ -109,6 +109,13 @@ Your application must support a set of smartdevicelink protocol strings in order
 <string>com.ford.sync.prot0</string>
 </array>
 ```
+
+#### Lock Screen Support
+If you used CocoaPods to install the SDL SDK, you must complete the following steps to add the default lock screen resources to your project:
+
+1. Select your application's build target, go to Build Phases, Copy Bundle Resources.
+2. Then in the Navigator window of Xcode, go to Target's Support Files, Pods-YourProjectName, and drag and drop the SmartDeviceLink.bundle file into Copy Bundle Resources.
+3. After the bundle is dropped into Copy Bundle Resources check "copy items if need" from the popup box and click "Finish."
 
 #### Continue Integrating
 Go through the [guide documentation](https://smartdevicelink.com/en/guides/iOS/getting-started/integration-basics/) to get started setting up your app to work with SDL!

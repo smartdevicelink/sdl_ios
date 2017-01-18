@@ -14,6 +14,7 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDebugTool.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
@@ -31,7 +32,6 @@
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLRPCNotificationNotification.h"
-#import "SDLRPCRequestFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
@@ -56,7 +56,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
 @property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
 @property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
@@ -175,7 +175,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
 
-    [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
+    [SDLDebugTool logInfo:@"Stopping Proxy"];
+    self.proxy = nil;
     [self.delegate managerDidDisconnect];
 
     [self startWithReadyHandler:self.readyHandler]; // Start up again to start watching for new connections
@@ -188,19 +189,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Build a register app interface request with the configuration data
-    SDLRegisterAppInterface *regRequest = [SDLRPCRequestFactory buildRegisterAppInterfaceWithAppName:self.configuration.lifecycleConfig.appName languageDesired:self.configuration.lifecycleConfig.language appID:self.configuration.lifecycleConfig.appId];
-    regRequest.isMediaApplication = @(self.configuration.lifecycleConfig.isMedia);
-    regRequest.ngnMediaScreenAppName = self.configuration.lifecycleConfig.shortAppName;
-    regRequest.hashID = self.configuration.lifecycleConfig.resumeHash;
-    regRequest.appHMIType = [NSMutableArray arrayWithObject:self.configuration.lifecycleConfig.appType];
-
-    if (self.configuration.lifecycleConfig.ttsName != nil) {
-        regRequest.ttsName = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.ttsName];
-    }
-
-    if (self.configuration.lifecycleConfig.voiceRecognitionCommandNames != nil) {
-        regRequest.vrSynonyms = [NSMutableArray arrayWithArray:self.configuration.lifecycleConfig.voiceRecognitionCommandNames];
-    }
+    SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
@@ -209,6 +198,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+                return;
             }
 
             weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
@@ -264,18 +254,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    SDLResult *registerResult = self.registerResponse.resultCode;
+    SDLResult registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
 
     BOOL success = NO;
     NSError *startError = nil;
 
 
-    if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
+    if ([registerResult isEqualToString:SDLResultWarnings] || [registerResult isEqualToString:SDLResultResumeFailed]) {
         // We succeeded, but with warnings
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
         success = YES;
-    } else if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
+    } else if (![registerResult isEqualToString:SDLResultSuccess]) {
         // We did not succeed in registering
         startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
         success = NO;
@@ -295,11 +285,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-    [self.delegate hmiLevel:[SDLHMILevel NONE] didChangeToLevel:self.hmiLevel];
+    [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
 }
 
 - (void)didEnterStateUnregistering {
-    SDLUnregisterAppInterface *unregisterRequest = [SDLRPCRequestFactory buildUnregisterAppInterfaceWithCorrelationID:[self sdl_getNextCorrelationId]];
+    SDLUnregisterAppInterface *unregisterRequest = [[SDLUnregisterAppInterface alloc] init];
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
@@ -317,7 +307,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
-    if (appIcon == nil) {
+    if (appIcon == nil || !self.registerResponse.displayCapabilities.graphicSupported.boolValue) {
         completion();
         return;
     }
@@ -388,14 +378,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 
 #pragma mark Helper Methods
-
-- (void)sdl_disposeProxy {
-    [SDLDebugTool logInfo:@"Stop Proxy"];
-    [self.proxy dispose];
-    self.proxy = nil;
-}
-
-- (NSNumber *)sdl_getNextCorrelationId {
+- (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
     if (self.lastCorrelationId == UINT16_MAX) {
         self.lastCorrelationId = 0;
     }
@@ -443,7 +426,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
-    SDLHMILevel *oldHMILevel = self.hmiLevel;
+    SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
 
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {

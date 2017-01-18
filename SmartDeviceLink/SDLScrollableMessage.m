@@ -7,11 +7,36 @@
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLScrollableMessage
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameScrollableMessage]) {
     }
+    return self;
+}
+
+- (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
+    self = [self initWithMessage:message];
+    if (!self) {
+        return nil;
+    }
+
+    self.timeout = @(timeout);
+    self.softButtons = [softButtons mutableCopy];
+
+    return self;
+}
+
+- (instancetype)initWithMessage:(NSString *)message {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.scrollableMessageBody = message;
+
     return self;
 }
 
@@ -27,7 +52,7 @@
     return [parameters objectForKey:SDLNameScrollableMessageBody];
 }
 
-- (void)setTimeout:(NSNumber *)timeout {
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -35,11 +60,11 @@
     }
 }
 
-- (NSNumber *)timeout {
+- (nullable NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 
-- (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     if (softButtons != nil) {
         [parameters setObject:softButtons forKey:SDLNameSoftButtons];
     } else {
@@ -47,7 +72,7 @@
     }
 }
 
-- (NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
     NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
         return array;
@@ -61,3 +86,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

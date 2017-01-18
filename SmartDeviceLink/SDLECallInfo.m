@@ -3,14 +3,13 @@
 
 #import "SDLECallInfo.h"
 
-#import "SDLECallConfirmationStatus.h"
 #import "SDLNames.h"
-#import "SDLVehicleDataNotificationStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLECallInfo
 
-- (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus *)eCallNotificationStatus {
+- (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus {
     if (eCallNotificationStatus != nil) {
         [store setObject:eCallNotificationStatus forKey:SDLNameECallNotificationStatus];
     } else {
@@ -18,16 +17,12 @@
     }
 }
 
-- (SDLVehicleDataNotificationStatus *)eCallNotificationStatus {
+- (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
     NSObject *obj = [store objectForKey:SDLNameECallNotificationStatus];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
-        return (SDLVehicleDataNotificationStatus *)obj;
-    } else {
-        return [SDLVehicleDataNotificationStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataNotificationStatus)obj;
 }
 
-- (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus *)auxECallNotificationStatus {
+- (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
     if (auxECallNotificationStatus != nil) {
         [store setObject:auxECallNotificationStatus forKey:SDLNameAuxECallNotificationStatus];
     } else {
@@ -35,16 +30,12 @@
     }
 }
 
-- (SDLVehicleDataNotificationStatus *)auxECallNotificationStatus {
+- (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
     NSObject *obj = [store objectForKey:SDLNameAuxECallNotificationStatus];
-    if (obj == nil || [obj isKindOfClass:SDLVehicleDataNotificationStatus.class]) {
-        return (SDLVehicleDataNotificationStatus *)obj;
-    } else {
-        return [SDLVehicleDataNotificationStatus valueOf:(NSString *)obj];
-    }
+    return (SDLVehicleDataNotificationStatus)obj;
 }
 
-- (void)setECallConfirmationStatus:(SDLECallConfirmationStatus *)eCallConfirmationStatus {
+- (void)setECallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
     if (eCallConfirmationStatus != nil) {
         [store setObject:eCallConfirmationStatus forKey:SDLNameECallConfirmationStatus];
     } else {
@@ -52,13 +43,11 @@
     }
 }
 
-- (SDLECallConfirmationStatus *)eCallConfirmationStatus {
+- (SDLECallConfirmationStatus)eCallConfirmationStatus {
     NSObject *obj = [store objectForKey:SDLNameECallConfirmationStatus];
-    if (obj == nil || [obj isKindOfClass:SDLECallConfirmationStatus.class]) {
-        return (SDLECallConfirmationStatus *)obj;
-    } else {
-        return [SDLECallConfirmationStatus valueOf:(NSString *)obj];
-    }
+    return (SDLECallConfirmationStatus)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
