@@ -7,65 +7,66 @@
 
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
+#import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:@"OnLockScreenStatus"]) {
+    if (self = [super initWithName:SDLNameOnLockscreenStatus]) {
     }
     return self;
 }
 
 - (void)setLockScreenStatus:(SDLLockScreenStatus)lockScreenStatus {
     if (lockScreenStatus != nil) {
-        [parameters setObject:lockScreenStatus forKey:@"OnLockScreenStatus"];
+        [parameters setObject:lockScreenStatus forKey:SDLNameOnLockscreenStatus];
     } else {
-        [parameters removeObjectForKey:@"OnLockScreenStatus"];
+        [parameters removeObjectForKey:SDLNameOnLockscreenStatus];
     }
 }
 
 - (SDLLockScreenStatus)lockScreenStatus {
-    NSObject *obj = [parameters objectForKey:@"OnLockScreenStatus"];
+    NSObject *obj = [parameters objectForKey:SDLNameOnLockscreenStatus];
     return (SDLLockScreenStatus)obj;
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
     if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:@"hmilevel"];
+        [parameters setObject:hmiLevel forKey:SDLNameHMILevelLowercase];
     } else {
-        [parameters removeObjectForKey:@"hmilevel"];
+        [parameters removeObjectForKey:SDLNameHMILevelLowercase];
     }
 }
 
 - (SDLHMILevel)hmiLevel {
-    NSObject *obj = [parameters objectForKey:@"hmilevel"];
+    NSObject *obj = [parameters objectForKey:SDLNameHMILevelLowercase];
     return (SDLHMILevel)obj;
 }
 
 - (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
     if (userSelected != nil) {
-        [parameters setObject:userSelected forKey:@"userselected"];
+        [parameters setObject:userSelected forKey:SDLNameUserSelected];
     } else {
-        [parameters removeObjectForKey:@"userselected"];
+        [parameters removeObjectForKey:SDLNameUserSelected];
     }
 }
 
 - (NSNumber<SDLBool> *)userSelected {
-    return [parameters objectForKey:@"userselected"];
+    return [parameters objectForKey:SDLNameUserSelected];
 }
 
 - (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
     if (driverDistractionStatus != nil) {
-        [parameters setObject:driverDistractionStatus forKey:@"driverdistractionstatus"];
+        [parameters setObject:driverDistractionStatus forKey:SDLNameDriverDistractionStatus];
     } else {
-        [parameters removeObjectForKey:@"driverdistractionstatus"];
+        [parameters removeObjectForKey:SDLNameDriverDistractionStatus];
     }
 }
 
 - (NSNumber<SDLBool> *)driverDistractionStatus {
-    return [parameters objectForKey:@"driverdistractionstatus"];
+    return [parameters objectForKey:SDLNameDriverDistractionStatus];
 }
 
 @end
