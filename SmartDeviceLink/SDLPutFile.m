@@ -63,8 +63,7 @@
 }
 
 - (SDLFileType)fileType {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameFileType];
-    return (SDLFileType)obj;
+    return [parameters sdl_objectForName:SDLNameFileType];
 }
 
 - (void)setPersistentFile:(NSNumber<SDLBool> *)persistentFile {

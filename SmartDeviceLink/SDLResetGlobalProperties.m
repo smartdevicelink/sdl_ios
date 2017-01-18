@@ -32,16 +32,7 @@
 }
 
 - (NSMutableArray<SDLGlobalProperty> *)properties {
-    NSMutableArray<SDLGlobalProperty> *array = [parameters sdl_objectForName:SDLNameProperties];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLGlobalProperty> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLGlobalProperty)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_enumsForName:SDLNameProperties];
 }
 
 @end

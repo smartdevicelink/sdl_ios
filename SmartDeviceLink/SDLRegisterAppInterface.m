@@ -68,12 +68,7 @@
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameSyncMessageVersion];
-    if (obj == nil || [obj isKindOfClass:SDLSyncMsgVersion.class]) {
-        return (SDLSyncMsgVersion *)obj;
-    } else {
-        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class];
 }
 
 - (void)setAppName:(NSString *)appName {
@@ -89,16 +84,7 @@
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)ttsName {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameTTSName];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameTTSName ofClass:SDLTTSChunk.class];
 }
 
 - (void)setNgnMediaScreenAppName:(NSString *)ngnMediaScreenAppName {
@@ -130,8 +116,7 @@
 }
 
 - (SDLLanguage)languageDesired {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameLanguageDesired];
-    return (SDLLanguage)obj;
+    return [parameters sdl_objectForName:SDLNameLanguageDesired];
 }
 
 - (void)setHmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired {
@@ -139,8 +124,7 @@
 }
 
 - (SDLLanguage)hmiDisplayLanguageDesired {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameHMIDisplayLanguageDesired];
-    return (SDLLanguage)obj;
+    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguageDesired];
 }
 
 - (void)setAppHMIType:(NSMutableArray<SDLAppHMIType> *)appHMIType {
@@ -148,16 +132,7 @@
 }
 
 - (NSMutableArray<SDLAppHMIType> *)appHMIType {
-    NSMutableArray<SDLAppHMIType> *array = [parameters sdl_objectForName:SDLNameAppHMIType];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLAppHMIType> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLAppHMIType)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_enumsForName:SDLNameAppHMIType];
 }
 
 - (void)setHashID:(NSString *)hashID {
@@ -173,12 +148,7 @@
 }
 
 - (SDLDeviceInfo *)deviceInfo {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameDeviceInfo];
-    if (obj == nil || [obj isKindOfClass:SDLDeviceInfo.class]) {
-        return (SDLDeviceInfo *)obj;
-    } else {
-        return [[SDLDeviceInfo alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameDeviceInfo ofClass:SDLDeviceInfo.class];
 }
 
 - (void)setAppID:(NSString *)appID {
@@ -194,12 +164,7 @@
 }
 
 - (SDLAppInfo *)appInfo {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameAppInfo];
-    if (obj == nil || [obj isKindOfClass:SDLAppInfo.class]) {
-        return (SDLAppInfo *)obj;
-    } else {
-        return [[SDLAppInfo alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameAppInfo ofClass:SDLAppInfo.class];
 }
 
 @end

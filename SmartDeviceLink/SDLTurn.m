@@ -35,12 +35,7 @@
 }
 
 - (SDLImage *)turnIcon {
-    NSObject *obj = [store objectForKey:SDLNameTurnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
 @end

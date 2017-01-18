@@ -88,8 +88,7 @@
 }
 
 - (SDLTextAlignment)alignment {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameAlignment];
-    return (SDLTextAlignment)obj;
+    return [parameters sdl_objectForName:SDLNameAlignment];
 }
 
 - (void)setStatusBar:(NSString *)statusBar {
@@ -121,12 +120,7 @@
 }
 
 - (SDLImage *)graphic {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameGraphic];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameGraphic ofClass:SDLImage.class];
 }
 
 - (void)setSecondaryGraphic:(SDLImage *)secondaryGraphic {
@@ -134,12 +128,7 @@
 }
 
 - (SDLImage *)secondaryGraphic {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameSecondaryGraphic];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameSecondaryGraphic ofClass:SDLImage.class];
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {
@@ -147,16 +136,7 @@
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters sdl_objectForName:SDLNameSoftButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 - (void)setCustomPresets:(NSMutableArray<NSString *> *)customPresets {

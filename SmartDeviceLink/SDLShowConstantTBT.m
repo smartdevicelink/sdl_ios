@@ -83,12 +83,7 @@
 }
 
 - (SDLImage *)turnIcon {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameTurnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
 - (void)setNextTurnIcon:(SDLImage *)nextTurnIcon {
@@ -96,12 +91,7 @@
 }
 
 - (SDLImage *)nextTurnIcon {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameNextTurnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameNextTurnIcon ofClass:SDLImage.class];
 }
 
 - (void)setDistanceToManeuver:(NSNumber<SDLFloat> *)distanceToManeuver {
@@ -133,16 +123,7 @@
 }
 
 - (NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters sdl_objectForName:SDLNameSoftButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

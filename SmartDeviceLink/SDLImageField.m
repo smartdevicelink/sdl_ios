@@ -23,16 +23,7 @@
 }
 
 - (NSMutableArray<SDLFileType> *)imageTypeSupported {
-    NSMutableArray<SDLFileType> *array = [store objectForKey:SDLNameImageTypeSupported];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLFileType> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLFileType)enumString];
-        }
-        return newList;
-    }
+    return [store sdl_enumsForName:SDLNameImageTypeSupported];
 }
 
 - (void)setImageResolution:(SDLImageResolution *)imageResolution {

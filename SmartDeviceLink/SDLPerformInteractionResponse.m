@@ -20,7 +20,7 @@
 }
 
 - (NSNumber<SDLInt> *)choiceID {
-    return [parameters objectForKey:SDLNameChoiceId];
+    return [parameters sdl_objectForName:SDLNameChoiceId];
 }
 
 - (void)setManualTextEntry:(NSString *)manualTextEntry {
@@ -28,7 +28,7 @@
 }
 
 - (NSString *)manualTextEntry {
-    return [parameters objectForKey:SDLNameManualTextEntry];
+    return [parameters sdl_objectForName:SDLNameManualTextEntry];
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
@@ -36,8 +36,7 @@
 }
 
 - (SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters objectForKey:SDLNameTriggerSource];
-    return (SDLTriggerSource)obj;
+    return [parameters sdl_objectForName:SDLNameTriggerSource];
 }
 
 @end

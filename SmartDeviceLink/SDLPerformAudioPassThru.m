@@ -49,16 +49,7 @@
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameInitialPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameInitialPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setAudioPassThruDisplayText1:(NSString *)audioPassThruDisplayText1 {
@@ -99,8 +90,7 @@
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameBitsPerSample];
-    return (SDLBitsPerSample)obj;
+    return [parameters sdl_objectForName:SDLNameBitsPerSample];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
@@ -108,8 +98,7 @@
 }
 
 - (SDLAudioType)audioType {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameAudioType];
-    return (SDLAudioType)obj;
+    return [parameters sdl_objectForName:SDLNameAudioType];
 }
 
 - (void)setMuteAudio:(NSNumber<SDLBool> *)muteAudio {

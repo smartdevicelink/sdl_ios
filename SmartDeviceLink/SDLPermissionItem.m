@@ -23,12 +23,7 @@
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    NSObject *obj = [store objectForKey:SDLNameHMIPermissions];
-    if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
-        return (SDLHMIPermissions *)obj;
-    } else {
-        return [[SDLHMIPermissions alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameHMIPermissions ofClass:SDLHMIPermissions.class];
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
@@ -36,12 +31,7 @@
 }
 
 - (SDLParameterPermissions *)parameterPermissions {
-    NSObject *obj = [store objectForKey:SDLNameParameterPermissions];
-    if (obj == nil || [obj isKindOfClass:SDLParameterPermissions.class]) {
-        return (SDLParameterPermissions *)obj;
-    } else {
-        return [[SDLParameterPermissions alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameParameterPermissions ofClass:SDLParameterPermissions.class];
 }
 
 @end

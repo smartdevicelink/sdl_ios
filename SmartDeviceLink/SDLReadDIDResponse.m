@@ -21,16 +21,7 @@
 }
 
 - (NSMutableArray<SDLDIDResult *> *)didResult {
-    NSMutableArray<SDLDIDResult *> *array = [parameters objectForKey:SDLNameDIDResult];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLDIDResult.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLDIDResult *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameDIDResult ofClass:SDLDIDResult.class];
 }
 
 @end

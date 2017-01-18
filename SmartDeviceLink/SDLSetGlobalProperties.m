@@ -51,16 +51,7 @@
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameHelpPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameHelpPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
@@ -68,16 +59,7 @@
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameTimeoutPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameTimeoutPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setVrHelpTitle:(NSString *)vrHelpTitle {
@@ -93,16 +75,7 @@
 }
 
 - (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    NSMutableArray<SDLVRHelpItem *> *array = [parameters sdl_objectForName:SDLNameVRHelp];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLVRHelpItem *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameVRHelp ofClass:SDLVRHelpItem.class];
 }
 
 - (void)setMenuTitle:(NSString *)menuTitle {
@@ -118,12 +91,7 @@
 }
 
 - (SDLImage *)menuIcon {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameMenuIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameMenuIcon ofClass:SDLImage.class];
 }
 
 - (void)setKeyboardProperties:(SDLKeyboardProperties *)keyboardProperties {
@@ -131,12 +99,7 @@
 }
 
 - (SDLKeyboardProperties *)keyboardProperties {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameKeyboardProperties];
-    if (obj == nil || [obj isKindOfClass:SDLKeyboardProperties.class]) {
-        return (SDLKeyboardProperties *)obj;
-    } else {
-        return [[SDLKeyboardProperties alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameKeyboardProperties ofClass:SDLKeyboardProperties.class];
 }
 
 @end

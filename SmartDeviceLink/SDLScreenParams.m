@@ -15,12 +15,7 @@
 }
 
 - (SDLImageResolution *)resolution {
-    NSObject *obj = [store objectForKey:SDLNameResolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameResolution ofClass:SDLImageResolution.class];
 }
 
 - (void)setTouchEventAvailable:(SDLTouchEventCapabilities *)touchEventAvailable {
@@ -28,12 +23,7 @@
 }
 
 - (SDLTouchEventCapabilities *)touchEventAvailable {
-    NSObject *obj = [store objectForKey:SDLNameTouchEventAvailable];
-    if (obj == nil || [obj isKindOfClass:SDLTouchEventCapabilities.class]) {
-        return (SDLTouchEventCapabilities *)obj;
-    } else {
-        return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameTouchEventAvailable ofClass:SDLTouchEventCapabilities.class];
 }
 
 @end

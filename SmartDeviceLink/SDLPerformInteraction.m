@@ -88,16 +88,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)initialPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameInitialPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameInitialPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setInteractionMode:(SDLInteractionMode)interactionMode {
@@ -105,8 +96,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (SDLInteractionMode)interactionMode {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameInteractionMode];
-    return (SDLInteractionMode)obj;
+    return [parameters sdl_objectForName:SDLNameInteractionMode];
 }
 
 - (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
@@ -122,16 +112,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)helpPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameHelpPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameHelpPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setTimeoutPrompt:(NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
@@ -139,16 +120,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters sdl_objectForName:SDLNameTimeoutPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameTimeoutPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setTimeout:(NSNumber<SDLInt> *)timeout {
@@ -164,16 +136,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (NSMutableArray<SDLVRHelpItem *> *)vrHelp {
-    NSMutableArray<SDLVRHelpItem *> *array = [parameters sdl_objectForName:SDLNameVRHelp];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLVRHelpItem *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLVRHelpItem alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameVRHelp ofClass:SDLVRHelpItem.class];
 }
 
 - (void)setInteractionLayout:(SDLLayoutMode)interactionLayout {
@@ -181,8 +144,7 @@ static UInt16 const SDLDefaultTimeout = 10000;
 }
 
 - (SDLLayoutMode)interactionLayout {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameInteractionLayout];
-    return (SDLLayoutMode)obj;
+    return [parameters sdl_objectForName:SDLNameInteractionLayout];
 }
 
 @end

@@ -24,12 +24,7 @@
 }
 
 - (SDLDisplayCapabilities *)displayCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNameDisplayCapabilities];
-    if (obj == nil || [obj isKindOfClass:SDLDisplayCapabilities.class]) {
-        return (SDLDisplayCapabilities *)obj;
-    } else {
-        return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
 }
 
 - (void)setButtonCapabilities:(NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
@@ -37,16 +32,7 @@
 }
 
 - (NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:SDLNameButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLButtonCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLButtonCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
 - (void)setSoftButtonCapabilities:(NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
@@ -54,16 +40,7 @@
 }
 
 - (NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:SDLNameSoftButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButtonCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButtonCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
 }
 
 - (void)setPresetBankCapabilities:(SDLPresetBankCapabilities *)presetBankCapabilities {
@@ -71,12 +48,7 @@
 }
 
 - (SDLPresetBankCapabilities *)presetBankCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNamePresetBankCapabilities];
-    if (obj == nil || [obj isKindOfClass:SDLPresetBankCapabilities.class]) {
-        return (SDLPresetBankCapabilities *)obj;
-    } else {
-        return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+    return [parameters sdl_objectForName:SDLNamePresetBankCapabilities ofClass:SDLPresetBankCapabilities.class];
 }
 
 @end

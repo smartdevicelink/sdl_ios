@@ -31,16 +31,7 @@
 }
 
 - (NSMutableArray<SDLTouchCoord *> *)coord {
-    NSMutableArray<SDLTouchCoord *> *array = [store objectForKey:SDLNameCoordinate];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchCoord.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTouchCoord *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTouchCoord alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [store sdl_objectsForName:SDLNameCoordinate ofClass:SDLTouchCoord.class];
 }
 
 @end

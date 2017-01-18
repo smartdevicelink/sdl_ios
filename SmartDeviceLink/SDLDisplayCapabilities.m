@@ -40,16 +40,7 @@
 }
 
 - (NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
-    NSMutableArray<SDLMediaClockFormat> *array = [store objectForKey:SDLNameMediaClockFormats];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLMediaClockFormat> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLMediaClockFormat)enumString];
-        }
-        return newList;
-    }
+    return [store sdl_enumsForName:SDLNameMediaClockFormats];
 }
 
 - (void)setGraphicSupported:(NSNumber<SDLBool> *)graphicSupported {

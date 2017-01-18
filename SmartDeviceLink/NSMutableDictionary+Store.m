@@ -46,6 +46,19 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (NSMutableArray<SDLEnum> *)sdl_enumsForName:(SDLName)name {
+    NSMutableArray<SDLEnum> *array = [self sdl_objectForName:name];
+    if ([array count] < 1) {
+        return array;
+    } else {
+        NSMutableArray<SDLEnum> *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (SDLEnum enumString in array) {
+            [newList addObject:enumString];
+        }
+        return newList;
+    }
+}
+
 
 @end
 

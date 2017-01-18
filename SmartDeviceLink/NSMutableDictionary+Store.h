@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString* SDLName;
+typedef NSString* SDLName SDL_SWIFT_ENUM;
+typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
 @interface NSMutableDictionary (Store)
 
@@ -18,6 +20,7 @@ typedef NSString* SDLName;
 - (nullable id)sdl_objectForName:(SDLName)name;
 - (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;
 - (NSMutableArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType;
+- (NSMutableArray<SDLEnum> *)sdl_enumsForName:(SDLName)name;
 
 @end
 

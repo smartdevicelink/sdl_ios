@@ -32,8 +32,7 @@
 }
 
 - (SDLRequestType)requestType {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameRequestType];
-    return (SDLRequestType)obj;
+    return [parameters sdl_objectForName:SDLNameRequestType];
 }
 
 - (void)setFileName:(NSString *)fileName {

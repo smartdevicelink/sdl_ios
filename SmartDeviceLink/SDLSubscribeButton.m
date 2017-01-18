@@ -44,8 +44,7 @@
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
-    return (SDLButtonName)obj;
+    return [parameters sdl_objectForName:SDLNameButtonName];
 }
 
 @end
