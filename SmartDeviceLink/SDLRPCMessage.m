@@ -4,6 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLRPCMessage

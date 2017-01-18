@@ -4,6 +4,7 @@
 
 #import "SDLSystemRequestResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLSystemRequestResponse

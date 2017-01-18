@@ -7,6 +7,7 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLDeviceInfo

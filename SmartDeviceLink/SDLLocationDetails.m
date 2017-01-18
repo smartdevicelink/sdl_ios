@@ -3,6 +3,7 @@
 
 #import "SDLLocationDetails.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
 #import "SDLNames.h"

@@ -4,6 +4,7 @@
 
 #import "SDLGetDTCs.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLGetDTCs

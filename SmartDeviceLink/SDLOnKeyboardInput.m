@@ -3,6 +3,7 @@
 
 #import "SDLOnKeyboardInput.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLOnKeyboardInput

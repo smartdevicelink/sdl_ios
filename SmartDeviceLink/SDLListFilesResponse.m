@@ -4,6 +4,7 @@
 
 #import "SDLListFilesResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLListFilesResponse

@@ -4,6 +4,7 @@
 
 #import "SDLSetDisplayLayoutResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLNames.h"

@@ -4,6 +4,7 @@
 
 #import "SDLBodyInformation.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLIgnitionStableStatus.h"
 #import "SDLIgnitionStatus.h"
 #import "SDLNames.h"

@@ -4,6 +4,7 @@
 
 #import "SDLSubscribeButton.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 

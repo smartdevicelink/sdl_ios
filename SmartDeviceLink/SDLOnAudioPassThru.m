@@ -4,6 +4,7 @@
 
 #import "SDLOnAudioPassThru.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLOnAudioPassThru

@@ -3,6 +3,7 @@
 
 #import "SDLOnWaypointChange.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
 

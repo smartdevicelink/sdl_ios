@@ -4,6 +4,7 @@
 
 #import "SDLAddCommand.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
 #import "SDLNames.h"

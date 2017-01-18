@@ -4,6 +4,7 @@
 
 #import "SDLSyncMsgVersion.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLSyncMsgVersion

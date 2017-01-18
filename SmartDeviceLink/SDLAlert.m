@@ -2,6 +2,7 @@
 
 #import "SDLAlert.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"

@@ -3,6 +3,7 @@
 
 #import "SDLOnTBTClientState.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLOnTBTClientState

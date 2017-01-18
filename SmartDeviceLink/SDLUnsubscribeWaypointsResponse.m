@@ -2,6 +2,8 @@
 //
 
 #import "SDLUnsubscribeWaypointsResponse.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLUnsubscribeWayPointsResponse

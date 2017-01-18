@@ -3,6 +3,7 @@
 
 #import "SDLGPSData.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLGPSData

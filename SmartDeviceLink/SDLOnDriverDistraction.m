@@ -3,6 +3,7 @@
 
 #import "SDLOnDriverDistraction.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLDriverDistractionState.h"
 

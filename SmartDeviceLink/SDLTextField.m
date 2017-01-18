@@ -3,6 +3,7 @@
 
 #import "SDLTextField.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLCharacterSet.h"
 #import "SDLNames.h"
 #import "SDLTextFieldName.h"

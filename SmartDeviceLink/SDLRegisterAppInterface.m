@@ -4,6 +4,7 @@
 
 #import "SDLRegisterAppInterface.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"

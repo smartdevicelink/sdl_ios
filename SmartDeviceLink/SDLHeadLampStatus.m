@@ -3,6 +3,7 @@
 
 #import "SDLHeadLampStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAmbientLightStatus.h"
 #import "SDLNames.h"
 

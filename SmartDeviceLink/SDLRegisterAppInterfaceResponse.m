@@ -4,6 +4,7 @@
 
 #import "SDLRegisterAppInterfaceResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"

@@ -4,6 +4,7 @@
 
 #import "SDLTouchEvent.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLTouchCoord.h"
 

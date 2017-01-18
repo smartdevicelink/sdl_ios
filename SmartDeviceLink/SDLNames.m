@@ -1,6 +1,7 @@
 //  SDLNames.h
 //
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 SDLName const SDLNameAccelerationPedalPosition = @"accPedalPosition";

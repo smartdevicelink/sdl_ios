@@ -4,6 +4,7 @@
 
 #import "SDLSpeak.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
 

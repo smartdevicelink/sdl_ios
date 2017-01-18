@@ -3,6 +3,7 @@
 
 #import "SDLOnHMIStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLNames.h"

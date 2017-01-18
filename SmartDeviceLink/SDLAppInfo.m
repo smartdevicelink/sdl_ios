@@ -3,6 +3,7 @@
 
 #import "SDLAppInfo.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";

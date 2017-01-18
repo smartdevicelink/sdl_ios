@@ -3,6 +3,7 @@
 
 #import "SDLImageField.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImageFieldName.h"
 #import "SDLImageResolution.h"
 #import "SDLNames.h"

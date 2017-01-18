@@ -3,6 +3,7 @@
 
 #import "SDLVehicleDataResult.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLVehicleDataResult

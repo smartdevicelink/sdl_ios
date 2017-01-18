@@ -4,6 +4,7 @@
 
 #import "SDLSetMediaClockTimer.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLStartTime.h"
 

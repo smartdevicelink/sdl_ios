@@ -4,6 +4,7 @@
 
 #import "SDLGetVehicleDataResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAirbagStatus.h"
 #import "SDLBeltStatus.h"
 #import "SDLBodyInformation.h"

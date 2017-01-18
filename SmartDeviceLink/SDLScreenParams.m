@@ -3,6 +3,7 @@
 
 #import "SDLScreenParams.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImageResolution.h"
 #import "SDLNames.h"
 #import "SDLTouchEventCapabilities.h"

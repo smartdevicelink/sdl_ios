@@ -4,6 +4,7 @@
 
 #import "SDLScrollableMessage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 

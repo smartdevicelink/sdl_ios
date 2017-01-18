@@ -4,6 +4,7 @@
 
 #import "SDLSetGlobalProperties.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLNames.h"

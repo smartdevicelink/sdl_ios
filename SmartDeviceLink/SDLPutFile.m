@@ -3,6 +3,7 @@
 
 #import "SDLPutFile.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLPutFile

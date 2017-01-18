@@ -3,6 +3,7 @@
 
 #import "SDLButtonCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLButtonCapabilities

@@ -4,6 +4,7 @@
 
 #import "SDLPresetBankCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLPresetBankCapabilities

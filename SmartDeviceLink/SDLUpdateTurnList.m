@@ -4,6 +4,7 @@
 
 #import "SDLUpdateTurnList.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTurn.h"

@@ -4,6 +4,7 @@
 
 #import "SDLDialNumberResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 

@@ -6,8 +6,6 @@
 
 #import "NSNumber+NumberType.h"
 
-#import "NSMutableDictionary+Store.h"
-
 @interface SDLRPCStruct : NSObject {
     NSMutableDictionary<NSString *, id> *store;
 }

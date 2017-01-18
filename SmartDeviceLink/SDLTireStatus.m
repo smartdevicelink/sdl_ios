@@ -3,6 +3,7 @@
 
 #import "SDLTireStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSingleTireStatus.h"
 #import "SDLWarningLightStatus.h"

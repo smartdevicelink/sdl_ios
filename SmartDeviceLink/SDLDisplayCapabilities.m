@@ -3,6 +3,7 @@
 
 #import "SDLDisplayCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLImageField.h"
 #import "SDLScreenParams.h"

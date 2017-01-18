@@ -4,6 +4,7 @@
 
 #import "SDLStartTime.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLStartTime

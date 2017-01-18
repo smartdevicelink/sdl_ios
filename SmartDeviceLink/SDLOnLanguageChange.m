@@ -3,6 +3,7 @@
 
 #import "SDLOnLanguageChange.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 

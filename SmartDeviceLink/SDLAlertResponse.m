@@ -3,6 +3,7 @@
 
 #import "SDLAlertResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLAlertResponse

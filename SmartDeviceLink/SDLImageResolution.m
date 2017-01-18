@@ -4,6 +4,7 @@
 
 #import "SDLImageResolution.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLImageResolution

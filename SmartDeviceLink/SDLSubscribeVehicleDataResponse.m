@@ -4,6 +4,7 @@
 
 #import "SDLSubscribeVehicleDataResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLVehicleDataResult.h"
 

@@ -4,6 +4,7 @@
 
 #import "SDLCreateInteractionChoiceSet.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLChoice.h"
 #import "SDLNames.h"
 

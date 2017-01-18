@@ -3,6 +3,7 @@
 
 #import "SDLSoftButton.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
 

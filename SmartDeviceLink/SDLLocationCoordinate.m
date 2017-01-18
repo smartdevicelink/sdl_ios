@@ -2,6 +2,8 @@
 //
 
 #import "SDLLocationCoordinate.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLLocationCoordinate

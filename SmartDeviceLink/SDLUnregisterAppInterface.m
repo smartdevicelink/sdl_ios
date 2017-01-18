@@ -4,6 +4,7 @@
 
 #import "SDLUnregisterAppInterface.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLUnregisterAppInterface

@@ -3,6 +3,7 @@
 
 #import "SDLPermissionItem.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLHMIPermissions.h"
 #import "SDLNames.h"
 #import "SDLParameterPermissions.h"

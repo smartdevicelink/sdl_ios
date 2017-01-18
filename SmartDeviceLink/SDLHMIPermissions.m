@@ -4,6 +4,7 @@
 
 #import "SDLHMIPermissions.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLHMIPermissions

@@ -3,6 +3,7 @@
 
 #import "SDLDeviceStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLDeviceLevelStatus.h"
 #import "SDLNames.h"
 #import "SDLPrimaryAudioSource.h"

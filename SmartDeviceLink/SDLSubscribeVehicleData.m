@@ -4,6 +4,7 @@
 
 #import "SDLSubscribeVehicleData.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLSubscribeVehicleData

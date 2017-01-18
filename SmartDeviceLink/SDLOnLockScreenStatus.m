@@ -5,9 +5,9 @@
 
 #import "SDLOnLockScreenStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
-
 
 @implementation SDLOnLockScreenStatus
 

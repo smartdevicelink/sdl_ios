@@ -3,6 +3,7 @@
 
 #import "SDLOnButtonEvent.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLOnButtonEvent
