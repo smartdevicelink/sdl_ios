@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolReceivedMessageRouter : NSObject
 
-@property (weak, nullable) id<SDLProtocolListener> delegate;
+@property (weak, nonatomic, nullable) id<SDLProtocolListener> delegate;
 
 - (void)handleReceivedMessage:(SDLProtocolMessage *)message;
 

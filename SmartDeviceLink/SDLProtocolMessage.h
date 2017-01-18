@@ -9,9 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolMessage : NSObject
 
-@property (strong) SDLProtocolHeader *header;
-@property (nullable, strong) NSData *payload;
-@property (strong, readonly) NSData *data;
+@property (strong, nonatomic) SDLProtocolHeader *header;
+@property (nullable, strong, nonatomic) NSData *payload;
+@property (strong, nonatomic, readonly) NSData *data;
 
 + (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload; // Returns a V1 or V2 object
 

@@ -13,11 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText;
 
-@property (nullable, strong) SDLLanguage language;
-@property (nullable, strong) SDLKeyboardLayout keyboardLayout;
-@property (nullable, strong) SDLKeypressMode keypressMode;
-@property (nullable, strong) NSMutableArray<NSString *> *limitedCharacterList;
-@property (nullable, strong) NSString *autoCompleteText;
+@property (nullable, strong, nonatomic) SDLLanguage language;
+@property (nullable, strong, nonatomic) SDLKeyboardLayout keyboardLayout;
+@property (nullable, strong, nonatomic) SDLKeypressMode keypressMode;
+@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *limitedCharacterList;
+@property (nullable, strong, nonatomic) NSString *autoCompleteText;
 
 @end
 

@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLPrioritizedObjectCollection *_prioritizedCollection;
 }
 
-@property (strong) NSMutableData *receiveBuffer;
-@property (nullable, strong) SDLProtocolReceivedMessageRouter *messageRouter;
-@property (nonatomic, strong) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
+@property (strong, nonatomic) NSMutableData *receiveBuffer;
+@property (nullable, strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
+@property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @end
 
 

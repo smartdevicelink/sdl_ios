@@ -8,9 +8,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTimer : NSObject
 
-@property (nullable, nonatomic, copy) void (^elapsedBlock)(void);
-@property (nullable, nonatomic, copy) void (^canceledBlock)(void);
-@property (assign) float duration;
+@property (copy, nonatomic, nullable) void (^elapsedBlock)(void);
+@property (copy, nonatomic, nullable) void (^canceledBlock)(void);
+@property (assign, nonatomic) float duration;
 
 - (instancetype)init;
 - (instancetype)initWithDuration:(float)duration __deprecated;

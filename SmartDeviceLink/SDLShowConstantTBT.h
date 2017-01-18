@@ -19,17 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
-@property (nullable, strong) NSString *navigationText1;
-@property (nullable, strong) NSString *navigationText2;
-@property (nullable, strong) NSString *eta;
-@property (nullable, strong) NSString *timeToDestination;
-@property (nullable, strong) NSString *totalDistance;
-@property (nullable, strong) SDLImage *turnIcon;
-@property (nullable, strong) SDLImage *nextTurnIcon;
-@property (nullable, strong) NSNumber<SDLFloat> *distanceToManeuver;
-@property (nullable, strong) NSNumber<SDLFloat> *distanceToManeuverScale;
-@property (nullable, strong) NSNumber<SDLBool> *maneuverComplete;
-@property (nullable, strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSString *navigationText1;
+@property (strong, nonatomic, nullable) NSString *navigationText2;
+@property (strong, nonatomic, nullable) NSString *eta;
+@property (strong, nonatomic, nullable) NSString *timeToDestination;
+@property (strong, nonatomic, nullable) NSString *totalDistance;
+@property (strong, nonatomic, nullable) SDLImage *turnIcon;
+@property (strong, nonatomic, nullable) SDLImage *nextTurnIcon;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuver;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuverScale;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *maneuverComplete;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
 

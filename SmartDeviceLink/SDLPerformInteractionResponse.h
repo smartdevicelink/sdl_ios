@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (nullable, strong) NSNumber<SDLInt> *choiceID;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *choiceID;
 
 /**
  * @abstract Manually entered text selection, e.g. through keyboard
@@ -32,14 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max length 500 chars
  */
-@property (nullable, strong) NSString *manualTextEntry;
+@property (nullable, strong, nonatomic) NSString *manualTextEntry;
 
 /**
  * @abstract A *SDLTriggerSource* object which will be shown in the HMI
  *
  * @discussion Only is valid if resultCode is SUCCESS.
  */
-@property (nullable, strong) SDLTriggerSource triggerSource;
+@property (nullable, strong, nonatomic) SDLTriggerSource triggerSource;
 
 
 @end

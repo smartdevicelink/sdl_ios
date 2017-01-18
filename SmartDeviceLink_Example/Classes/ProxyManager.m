@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || [self.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
+    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
         return;
     }
     

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract The volume status of a single tire
  */
-@property (strong) SDLComponentVolumeStatus status;
+@property (strong, nonatomic) SDLComponentVolumeStatus status;
 
 @end
 

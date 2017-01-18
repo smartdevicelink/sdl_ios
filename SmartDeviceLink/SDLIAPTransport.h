@@ -10,8 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIAPTransport : SDLAbstractTransport <SDLIAPSessionDelegate>
 
-@property (nullable, strong, atomic) SDLIAPSession *controlSession;
-@property (nullable, strong, atomic) SDLIAPSession *session;
+@property (nullable, strong, nonatomic) SDLIAPSession *controlSession;
+@property (nullable, strong, nonatomic) SDLIAPSession *session;
 
 @end
 

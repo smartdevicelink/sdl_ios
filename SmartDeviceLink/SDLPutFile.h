@@ -29,14 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, maxlength 255 characters
  */
-@property (strong) NSString *syncFileName;
+@property (strong, nonatomic) NSString *syncFileName;
 
 /**
  * A FileType value representing a selected file type
  *
  * Required
  */
-@property (strong) SDLFileType fileType;
+@property (strong, nonatomic) SDLFileType fileType;
 
 /**
  * A value to indicates if the file is meant to persist between
@@ -49,28 +49,28 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Boolean, Optional, default = NO
  */
-@property (nullable, strong) NSNumber<SDLBool> *persistentFile;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *persistentFile;
 
 /**
  * Indicates if the file is meant to be passed through core to elsewhere on the system. If set to TRUE, then the system will instead pass the data thru as it arrives to a predetermined area outside of core.
  *
  * Boolean, Optional, default = NO
  */
-@property (nullable, strong) NSNumber<SDLBool> *systemFile;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *systemFile;
 
 /**
  * Offset in bytes for resuming partial data chunks.
  *
  * Integer, Optional, 0 - 100,000,000,000
  */
-@property (nullable, strong) NSNumber<SDLUInt> *offset;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *offset;
 
 /**
  * Length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded
  *
  * Integer, Optional, 0 - 100,000,000,000
  */
-@property (nullable, strong) NSNumber<SDLUInt> *length;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *length;
 
 @end
 

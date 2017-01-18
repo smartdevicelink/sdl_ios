@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *scrollableMessageBody;
+@property (strong, nonatomic) NSString *scrollableMessageBody;
 /**
  * @abstract Gets/Sets an App defined timeout. Indicates how long of a timeout in milliseconds from the
  * last action
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes</b>:Minval=0; Maxval=65535;Default=30000
  */
-@property (nullable, strong) NSNumber<SDLInt> *timeout;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *timeout;
 /**
  * @abstract Gets/Sets App defined SoftButtons.If omitted on supported displays, only the
  * system defined "Close" SoftButton will be displayed
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes: </b>Minsize=0, Maxsize=8
  */
-@property (nullable, strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
 

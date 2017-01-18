@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Mandatory, 0-9
  */
-@property (strong) NSNumber<SDLInt> *touchEventId;
+@property (strong, nonatomic) NSNumber<SDLInt> *touchEventId;
 
 /**
  The time that the touch was recorded.  This number can the time since the beginning of the session or something else as long as the units are in milliseconds.
@@ -30,12 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  
  Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000
  */
-@property (strong) NSMutableArray<NSNumber<SDLInt> *> *timeStamp;
+@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *timeStamp;
 
 /**
  *  Mandatory, array size 1-1000, contains SDLTouchCoord
  */
-@property (strong) NSMutableArray<SDLTouchCoord *> *coord;
+@property (strong, nonatomic) NSMutableArray<SDLTouchCoord *> *coord;
 
 @end
 

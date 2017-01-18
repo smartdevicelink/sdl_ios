@@ -241,14 +241,12 @@
 		5D1654561D3E754F00554D93 /* SDLLifecycleManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */; };
 		5D16545A1D3E7A1600554D93 /* SDLLifecycleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1654581D3E7A1600554D93 /* SDLLifecycleManager.h */; };
 		5D16545B1D3E7A1600554D93 /* SDLLifecycleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1654591D3E7A1600554D93 /* SDLLifecycleManager.m */; };
-		5D1665AB1CF5F7D000CC4CA1 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		5D1665C41CF8CA2700CC4CA1 /* SDLListFilesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665C21CF8CA2700CC4CA1 /* SDLListFilesOperation.h */; };
 		5D1665C51CF8CA2700CC4CA1 /* SDLListFilesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C31CF8CA2700CC4CA1 /* SDLListFilesOperation.m */; };
 		5D1665C81CF8CA3D00CC4CA1 /* SDLPermissionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665C61CF8CA3D00CC4CA1 /* SDLPermissionFilter.h */; };
 		5D1665C91CF8CA3D00CC4CA1 /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */; };
 		5D1665CB1CF8CA6700CC4CA1 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D2996EA1BFCC0E3006106BF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
@@ -4207,6 +4205,7 @@
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = ACNGAAM3M7;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -4515,7 +4514,6 @@
 				5D61FCE91A84238C00846EE7 /* SDLLanguage.m in Sources */,
 				5D61FC3E1A84238C00846EE7 /* SDLAlertResponse.m in Sources */,
 				5D61FD8C1A84238C00846EE7 /* SDLSetMediaClockTimer.m in Sources */,
-				5D2996EA1BFCC0E3006106BF /* (null) in Sources */,
 				5D61FE121A84238C00846EE7 /* SDLWarningLightStatus.m in Sources */,
 				5D61FCB81A84238C00846EE7 /* SDLGetVehicleDataResponse.m in Sources */,
 				5D61FC661A84238C00846EE7 /* SDLCompassDirection.m in Sources */,
@@ -4539,7 +4537,6 @@
 				5D61FCA41A84238C00846EE7 /* SDLEndAudioPassThru.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
-				5D1665AB1CF5F7D000CC4CA1 /* (null) in Sources */,
 				5D61FD1E1A84238C00846EE7 /* SDLOnTBTClientState.m in Sources */,
 				DA9F7E641DCBFAC800ACAE48 /* SDLDateTime.m in Sources */,
 				5D61FD581A84238C00846EE7 /* SDLPutFileResponse.m in Sources */,
@@ -5073,6 +5070,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				INFOPLIST_FILE = "$(SRCROOT)/SmartDeviceLink_Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -5086,6 +5084,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				INFOPLIST_FILE = "$(SRCROOT)/SmartDeviceLink_Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAlertResponse : SDLRPCResponse
 
-@property (nullable, strong) NSNumber<SDLInt> *tryAgainTime;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *tryAgainTime;
 
 @end
 

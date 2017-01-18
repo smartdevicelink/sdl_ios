@@ -10,10 +10,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRPCResponse : SDLRPCMessage
 
-@property (strong) NSNumber<SDLInt> *correlationID;
-@property (strong) NSNumber<SDLBool> *success;
-@property (strong) SDLResult resultCode;
-@property (nullable, strong) NSString *info;
+@property (strong, nonatomic) NSNumber<SDLInt> *correlationID;
+@property (strong, nonatomic) NSNumber<SDLBool> *success;
+@property (strong, nonatomic) SDLResult resultCode;
+@property (nullable, strong, nonatomic) NSString *info;
 
 @end
 

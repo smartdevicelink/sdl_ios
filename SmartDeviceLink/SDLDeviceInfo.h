@@ -9,12 +9,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)currentDevice;
 
-@property (nullable, strong) NSString *hardware;
-@property (nullable, strong) NSString *firmwareRev;
-@property (nullable, strong) NSString *os;
-@property (nullable, strong) NSString *osVersion;
-@property (nullable, strong) NSString *carrier;
-@property (nullable, strong) NSNumber<SDLInt> *maxNumberRFCOMMPorts;
+@property (nullable, strong, nonatomic) NSString *hardware;
+@property (nullable, strong, nonatomic) NSString *firmwareRev;
+@property (nullable, strong, nonatomic) NSString *os;
+@property (nullable, strong, nonatomic) NSString *osVersion;
+@property (nullable, strong, nonatomic) NSString *carrier;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *maxNumberRFCOMMPorts;
 
 @end
 

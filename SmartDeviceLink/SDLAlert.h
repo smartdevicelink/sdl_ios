@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max length 500 chars
  */
-@property (nullable, strong) NSString *alertText1;
+@property (nullable, strong, nonatomic) NSString *alertText1;
 
 /**
  * @abstract The String to be displayed in the second field of the display during the Alert
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max length 500 chars
  */
-@property (nullable, strong) NSString *alertText2;
+@property (nullable, strong, nonatomic) NSString *alertText2;
 
 /**
  * @abstract the String to be displayed in the third field of the display during the Alert
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max length 500 chars
  */
-@property (nullable, strong) NSString *alertText3;
+@property (nullable, strong, nonatomic) NSString *alertText3;
 
 /**
  * @abstract An array which, taken together, specify what is to be spoken to the user
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see SDLTTSChunk
  */
-@property (nullable, strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 
 /**
  * @abstract The duration of the displayed portion of the alert, in milliseconds.
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * Optional, Integer, 3000 - 10000
  */
-@property (nullable, strong) NSNumber<SDLInt> *duration;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *duration;
 
 /**
  * @abstract Whether the alert tone should be played before the TTS (if any) is spoken.
@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * Optional, Boolean
  */
-@property (nullable, strong) NSNumber<SDLBool> *playTone;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *playTone;
 
 /**
  * @abstract If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.
@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSNumber<SDLBool> *progressIndicator;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *progressIndicator;
 
 /**
  * @abstract App defined SoftButtons.
@@ -153,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see SDLSoftButton
  */
-@property (nullable, strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
 

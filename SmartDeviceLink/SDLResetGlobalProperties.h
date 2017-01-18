@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract An array of one or more GlobalProperty enumeration elements
  * indicating which global properties to reset to their default value
  */
-@property (strong) NSMutableArray<SDLGlobalProperty> *properties;
+@property (strong, nonatomic) NSMutableArray<SDLGlobalProperty> *properties;
 
 @end
 

@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>
 
-@property (strong) NSString *debugConsoleGroupName;
-@property (nullable, weak) SDLAbstractTransport *transport;
-@property (nullable, strong) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
+@property (strong, nonatomic) NSString *debugConsoleGroupName;
+@property (nullable, weak, nonatomic) SDLAbstractTransport *transport;
+@property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
 @property (nullable, nonatomic, strong) id<SDLSecurityType> securityManager;
 @property (nonatomic, copy) NSString *appId;
 

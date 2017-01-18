@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (nullable, strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (nullable, strong) NSString *audioPassThruDisplayText1;
+@property (nullable, strong, nonatomic) NSString *audioPassThruDisplayText1;
 /**
  * @abstract A line of text displayed during audio capture
  * @discussion audioPassThruDisplayText2
@@ -65,13 +65,13 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (nullable, strong) NSString *audioPassThruDisplayText2;
+@property (nullable, strong, nonatomic) NSString *audioPassThruDisplayText2;
 /**
  * @abstract A samplingRate
  *
  * @discussion a SamplingRate value representing a 8 or 16 or 22 or 24 khz
  */
-@property (strong) SDLSamplingRate samplingRate;
+@property (strong, nonatomic) SDLSamplingRate samplingRate;
 /**
  * @abstract the maximum duration of audio recording in milliseconds
  *
@@ -81,22 +81,22 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes: </b>Minvalue:1; Maxvalue:1000000
  */
-@property (strong) NSNumber<SDLInt> *maxDuration;
+@property (strong, nonatomic) NSNumber<SDLInt> *maxDuration;
 /**
  * @abstract the quality the audio is recorded - 8 bit or 16 bit
  *
  * @discussion a BitsPerSample value representing 8 bit or 16 bit
  */
-@property (strong) SDLBitsPerSample bitsPerSample;
+@property (strong, nonatomic) SDLBitsPerSample bitsPerSample;
 /**
  * @abstract an audioType
  */
-@property (strong) SDLAudioType audioType;
+@property (strong, nonatomic) SDLAudioType audioType;
 /**
  * @abstract a Boolean value representing if the current audio source should be
  * muted during the APT session<br/>
  */
-@property (nullable, strong) NSNumber<SDLBool> *muteAudio;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *muteAudio;
 
 @end
 

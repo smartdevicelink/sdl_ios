@@ -18,37 +18,37 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract References signal "PrkBrkActv_B_Actl".
  */
-@property (strong) NSNumber<SDLBool> *parkBrakeActive;
+@property (strong, nonatomic) NSNumber<SDLBool> *parkBrakeActive;
 
 /**
  * @abstract References signal "Ignition_Switch_Stable". See IgnitionStableStatus.
  */
-@property (strong) SDLIgnitionStableStatus ignitionStableStatus;
+@property (strong, nonatomic) SDLIgnitionStableStatus ignitionStableStatus;
 
 /**
  * @abstract References signal "Ignition_status". See IgnitionStatus.
  */
-@property (strong) SDLIgnitionStatus ignitionStatus;
+@property (strong, nonatomic) SDLIgnitionStatus ignitionStatus;
 
 /**
  * @abstract References signal "DrStatDrv_B_Actl".
  */
-@property (nullable, strong) NSNumber<SDLBool> *driverDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *driverDoorAjar;
 
 /**
  * @abstract References signal "DrStatPsngr_B_Actl".
  */
-@property (nullable, strong) NSNumber<SDLBool> *passengerDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *passengerDoorAjar;
 
 /**
  * @abstract References signal "DrStatRl_B_Actl".
  */
-@property (nullable, strong) NSNumber<SDLBool> *rearLeftDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rearLeftDoorAjar;
 
 /**
  * @abstract References signal "DrStatRr_B_Actl".
  */
-@property (nullable, strong) NSNumber<SDLBool> *rearRightDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rearRightDoorAjar;
 
 @end
 

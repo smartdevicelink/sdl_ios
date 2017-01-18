@@ -8,8 +8,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAbstractTransport : NSObject
 
-@property (nullable, weak) id<SDLTransportDelegate> delegate;
-@property (strong) NSString *debugConsoleGroupName;
+@property (nullable, weak, nonatomic) id<SDLTransportDelegate> delegate;
+@property (strong, nonatomic) NSString *debugConsoleGroupName;
 
 - (void)connect;
 - (void)disconnect;

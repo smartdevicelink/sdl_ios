@@ -8,9 +8,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTimer ()
 
-@property (nullable, strong) NSTimer *timer;
-@property (assign) BOOL timerRunning;
-@property (nonatomic) BOOL repeat;
+@property (strong, nonatomic, nullable) NSTimer *timer;
+@property (assign, nonatomic) BOOL timerRunning;
+@property (assign, nonatomic) BOOL repeat;
 @end
 
 

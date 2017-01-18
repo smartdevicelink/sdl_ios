@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional
  */
-@property (nullable, strong) SDLOasisAddress *searchAddress;
+@property (nullable, strong, nonatomic) SDLOasisAddress *searchAddress;
 
 
 @end

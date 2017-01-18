@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *shortPressAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *shortPressAvailable;
 
 /**
  * @abstract The button supports a LONG press.
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *longPressAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *longPressAvailable;
 
 /**
  * @abstract The button supports "button down" and "button up".
@@ -39,14 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *upDownAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *upDownAvailable;
 
 /**
  * @abstract The button supports referencing a static or dynamic image.
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *imageSupported;
+@property (strong, nonatomic) NSNumber<SDLBool> *imageSupported;
 
 @end
 

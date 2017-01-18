@@ -38,13 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Will be ignored for PAUSE/RESUME and CLEAR</li>
  *            </ul>
  */
-@property (nullable, strong) SDLStartTime *startTime;
+@property (strong, nonatomic, nullable) SDLStartTime *startTime;
 /**
  * @abstract An END time of type SDLStartTime, specifying hour, minute, second values
  *
  * @discussion An SDLStartTime object with specifying hour, minute, second values
  */
-@property (nullable, strong) SDLStartTime *endTime;
+@property (strong, nonatomic, nullable) SDLStartTime *endTime;
 /**
  * @abstract The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
  *
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            the timer's value when it was paused</li>
  *            </ul>
  */
-@property (strong) SDLUpdateMode updateMode;
+@property (strong, nonatomic) SDLUpdateMode updateMode;
 
 @end
 

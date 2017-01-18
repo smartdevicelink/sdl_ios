@@ -10,12 +10,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLOnSystemRequest : SDLRPCNotification
 
-@property (strong) SDLRequestType requestType;
-@property (nullable, strong) NSString *url;
-@property (nullable, strong) NSNumber<SDLInt> *timeout;
-@property (nullable, strong) SDLFileType fileType;
-@property (nullable, strong) NSNumber<SDLUInt> *offset;
-@property (nullable, strong) NSNumber<SDLUInt> *length;
+@property (strong, nonatomic) SDLRequestType requestType;
+@property (nullable, strong, nonatomic) NSString *url;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *timeout;
+@property (nullable, strong, nonatomic) SDLFileType fileType;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *offset;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *length;
 
 @end
 

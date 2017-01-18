@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required
  */
-@property (strong) SDLTextFieldName name;
+@property (strong, nonatomic) SDLTextFieldName name;
 
 /**
  * @abstract The character set that is supported in this field.
@@ -77,21 +77,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required
  */
-@property (strong) SDLCharacterSet characterSet;
+@property (strong, nonatomic) SDLCharacterSet characterSet;
 
 /**
  * @abstract The number of characters in one row of this field.
  * 
  * Required, Integer 1 - 500
  */
-@property (strong) NSNumber<SDLInt> *width;
+@property (strong, nonatomic) NSNumber<SDLInt> *width;
 
 /**
  * @abstract The number of rows for this text field.
  * 
  * Required, Integer 1 - 8
  */
-@property (strong) NSNumber<SDLInt> *rows;
+@property (strong, nonatomic) NSNumber<SDLInt> *rows;
 
 @end
 

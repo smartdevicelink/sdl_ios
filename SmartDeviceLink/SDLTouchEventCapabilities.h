@@ -8,9 +8,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTouchEventCapabilities : SDLRPCStruct
 
-@property (strong) NSNumber<SDLBool> *pressAvailable;
-@property (strong) NSNumber<SDLBool> *multiTouchAvailable;
-@property (strong) NSNumber<SDLBool> *doublePressAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *pressAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *multiTouchAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *doublePressAvailable;
 
 @end
 

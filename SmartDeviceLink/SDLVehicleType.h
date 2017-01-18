@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max String length 500 chars
  */
-@property (nullable, strong) NSString *make;
+@property (strong, nonatomic, nullable) NSString *make;
 
 /**
  * @abstract The model of the vehicle
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max String length 500 chars
  */
-@property (nullable, strong) NSString *model;
+@property (strong, nonatomic, nullable) NSString *model;
 
 /**
  * @abstract The model year of the vehicle
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max String length 500 chars
  */
-@property (nullable, strong) NSString *modelYear;
+@property (strong, nonatomic, nullable) NSString *modelYear;
 
 /**
  * @abstract The trim of the vehicle
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Max String length 500 chars
  */
-@property (nullable, strong) NSString *trim;
+@property (strong, nonatomic, nullable) NSString *trim;
 
 @end
 

@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *onScreenPresetsAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *onScreenPresetsAvailable;
 
 @end
 

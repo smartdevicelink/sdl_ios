@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber<SDLInt> *cmdID;
+@property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 /**
  * @abstract a *SDLMenuParams* pointer which will defined the command and how it is added to the Command Menu
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional
  */
-@property (nullable, strong) SDLMenuParams *menuParams;
+@property (nullable, strong, nonatomic) SDLMenuParams *menuParams;
 
 /**
  * @abstract An array of strings to be used as VR synonyms for this command.
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100
  */
-@property (nullable, strong) NSMutableArray<NSString *> *vrCommands;
+@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *vrCommands;
 
 /**
  * @abstract Image struct containing a static or dynamic icon
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional
  */
-@property (nullable, strong) SDLImage *cmdIcon;
+@property (nullable, strong, nonatomic) SDLImage *cmdIcon;
 
 @end
 

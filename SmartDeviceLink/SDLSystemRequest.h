@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName;
 
-@property (strong) SDLRequestType requestType;
-@property (nullable, strong) NSString *fileName;
+@property (strong, nonatomic) SDLRequestType requestType;
+@property (strong, nonatomic, nullable) NSString *fileName;
 
 @end
 

@@ -30,9 +30,9 @@ int const streamOpenTimeoutSeconds = 2;
     dispatch_queue_t _transmit_queue;
 }
 
-@property (assign) int retryCounter;
-@property (assign) BOOL sessionSetupInProgress;
-@property (nullable, strong) SDLTimer *protocolIndexTimer;
+@property (assign, nonatomic) int retryCounter;
+@property (assign, nonatomic) BOOL sessionSetupInProgress;
+@property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
 
 @end
 

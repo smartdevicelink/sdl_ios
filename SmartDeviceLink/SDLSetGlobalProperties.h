@@ -42,14 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Only optional it timeoutPrompt has been specified</li>
  *            </ul>
  */
-@property (nullable, strong) NSMutableArray<SDLTTSChunk *> *helpPrompt;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLTTSChunk *> *helpPrompt;
 /**
  * @abstract A Vector<TTSChunk> for Timeout Prompt representing Array of one or
  * more TTSChunk elements specifying the help prompt used in an interaction
  * started by PTT
  *
  */
-@property (nullable, strong) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
 /**
  * @abstract Sets a voice recognition Help Title
  *
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSString *vrHelpTitle;
+@property (strong, nonatomic, nullable) NSString *vrHelpTitle;
 /**
  * @abstract Sets the items listed in the VR help screen used in an interaction
  * started by PTT
@@ -86,10 +86,10 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSMutableArray<SDLVRHelpItem *> *vrHelp;
-@property (nullable, strong) NSString *menuTitle;
-@property (nullable, strong) SDLImage *menuIcon;
-@property (nullable, strong) SDLKeyboardProperties *keyboardProperties;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLVRHelpItem *> *vrHelp;
+@property (strong, nonatomic, nullable) NSString *menuTitle;
+@property (strong, nonatomic, nullable) SDLImage *menuIcon;
+@property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
 
 @end
 

@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            cleared</li>
  *            </ul>
  */
-@property (nullable, strong) NSString *mainField1;
+@property (strong, nonatomic, nullable) NSString *mainField1;
 /**
  * @abstract The text displayed on the second display line of a two-line display
  *
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Maxlength = 500</li>
  *            </ul>
  */
-@property (nullable, strong) NSString *mainField2;
+@property (strong, nonatomic, nullable) NSString *mainField2;
 /**
  * @abstract The text displayed on the first display line of the second page
  *
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSString *mainField3;
+@property (strong, nonatomic, nullable) NSString *mainField3;
 /**
  * @abstract The text displayed on the second display line of the second page
  *
@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSString *mainField4;
+@property (strong, nonatomic, nullable) NSString *mainField4;
 /**
  * @abstract The alignment that Specifies how mainField1 and mainField2 text
  * should be aligned on display
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Has no effect with navigation display</li>
  *            </ul>
  */
-@property (nullable, strong) SDLTextAlignment alignment;
+@property (strong, nonatomic, nullable) SDLTextAlignment alignment;
 /**
  * @abstract Text in the Status Bar
  *
@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            parameter is ignored</li>
  *            </ul>
  */
-@property (nullable, strong) NSString *statusBar;
+@property (strong, nonatomic, nullable) NSString *statusBar;
 /**
  * @abstract This property is deprecated use SetMediaClockTimer instead.
  * <p> The value for the MediaClock field using a format described in the
@@ -165,7 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            will not display anything)</li>
  *            </ul>
  */
-@property (nullable, strong) NSString *mediaClock;
+@property (strong, nonatomic, nullable) NSString *mediaClock;
 /**
  * @abstract The text in the track field
  *
@@ -178,7 +178,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>This field is only valid for media applications on navigation displays</li>
  *            </ul>
  */
-@property (nullable, strong) NSString *mediaTrack;
+@property (strong, nonatomic, nullable) NSString *mediaTrack;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) SDLImage *graphic;
+@property (strong, nonatomic, nullable) SDLImage *graphic;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -198,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) SDLImage *secondaryGraphic;
+@property (strong, nonatomic, nullable) SDLImage *secondaryGraphic;
 /**
  * @abstract The the Soft buttons defined by the App
  *
@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -229,7 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong) NSMutableArray<NSString *> *customPresets;
+@property (strong, nonatomic, nullable) NSMutableArray<NSString *> *customPresets;
 
 @end
 

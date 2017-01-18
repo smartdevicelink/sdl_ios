@@ -10,11 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRPCPayload : NSObject
 
-@property (assign) SDLRPCMessageType rpcType;
-@property (assign) UInt32 functionID;
-@property (assign) UInt32 correlationID;
-@property (nullable, strong) NSData *jsonData;
-@property (nullable, strong) NSData *binaryData;
+@property (assign, nonatomic) SDLRPCMessageType rpcType;
+@property (assign, nonatomic) UInt32 functionID;
+@property (assign, nonatomic) UInt32 correlationID;
+@property (nullable, strong, nonatomic) NSData *jsonData;
+@property (nullable, strong, nonatomic) NSData *binaryData;
 
 - (NSData *)data;
 + (nullable id)rpcPayloadWithData:(NSData *)data;

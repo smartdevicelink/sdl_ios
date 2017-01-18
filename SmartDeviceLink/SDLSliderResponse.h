@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract The selected position of the slider.
  */
-@property (nullable, strong) NSNumber<SDLInt> *sliderPosition;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *sliderPosition;
 
 @end
 

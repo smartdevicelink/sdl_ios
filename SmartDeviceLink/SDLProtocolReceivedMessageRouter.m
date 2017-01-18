@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolReceivedMessageRouter ()
 
-@property (strong) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
 
 @end
 

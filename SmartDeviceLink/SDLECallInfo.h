@@ -10,9 +10,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLECallInfo : SDLRPCStruct
 
-@property (strong) SDLVehicleDataNotificationStatus eCallNotificationStatus;
-@property (strong) SDLVehicleDataNotificationStatus auxECallNotificationStatus;
-@property (strong) SDLECallConfirmationStatus eCallConfirmationStatus;
+@property (strong, nonatomic) SDLVehicleDataNotificationStatus eCallNotificationStatus;
+@property (strong, nonatomic) SDLVehicleDataNotificationStatus auxECallNotificationStatus;
+@property (strong, nonatomic) SDLECallConfirmationStatus eCallConfirmationStatus;
 
 @end
 

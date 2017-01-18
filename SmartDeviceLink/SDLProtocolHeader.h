@@ -44,15 +44,15 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger _size;
 }
 
-@property (assign, readonly) UInt8 version;
-@property (assign, readonly) NSUInteger size;
-@property (assign) BOOL compressed __deprecated_msg("This is a mirror for encrypted");
-@property (assign) BOOL encrypted;
-@property (assign) SDLFrameType frameType;
-@property (assign) SDLServiceType serviceType;
-@property (assign) SDLFrameData frameData;
-@property (assign) UInt8 sessionID;
-@property (assign) UInt32 bytesInPayload;
+@property (assign, nonatomic, readonly) UInt8 version;
+@property (assign, nonatomic, readonly) NSUInteger size;
+@property (assign, nonatomic) BOOL compressed __deprecated_msg("This is a mirror for encrypted");
+@property (assign, nonatomic) BOOL encrypted;
+@property (assign, nonatomic) SDLFrameType frameType;
+@property (assign, nonatomic) SDLServiceType serviceType;
+@property (assign, nonatomic) SDLFrameData frameData;
+@property (assign, nonatomic) UInt8 sessionID;
+@property (assign, nonatomic) UInt32 bytesInPayload;
 
 - (instancetype)init;
 - (nullable NSData *)data;

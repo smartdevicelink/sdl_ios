@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDiagnosticMessageResponse : SDLRPCResponse
 
-@property (strong) NSMutableArray<NSNumber<SDLInt> *> *messageDataResult;
+@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *messageDataResult;
 
 @end
 

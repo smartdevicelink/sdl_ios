@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithNavigationText:(nullable NSString *)navigationText turnIcon:(nullable SDLImage *)icon;
 
-@property (nullable, strong) NSString *navigationText;
-@property (nullable, strong) SDLImage *turnIcon;
+@property (strong, nonatomic, nullable) NSString *navigationText;
+@property (strong, nonatomic, nullable) SDLImage *turnIcon;
 
 @end
 

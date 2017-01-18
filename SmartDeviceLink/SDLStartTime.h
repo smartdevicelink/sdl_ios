@@ -23,21 +23,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber<SDLInt> *hours;
+@property (strong, nonatomic) NSNumber<SDLInt> *hours;
 
 /**
  * @abstract The minute of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber<SDLInt> *minutes;
+@property (strong, nonatomic) NSNumber<SDLInt> *minutes;
 
 /**
  * @abstract The second of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber<SDLInt> *seconds;
+@property (strong, nonatomic) NSNumber<SDLInt> *seconds;
 
 @end
 

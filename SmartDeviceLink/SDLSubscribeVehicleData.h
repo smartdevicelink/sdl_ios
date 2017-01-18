@@ -29,104 +29,104 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract A boolean value. If true, subscribes Gps data
  */
-@property (nullable, strong) NSNumber<SDLBool> *gps;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *gps;
 
 /**
  * @abstract A boolean value. If true, subscribes speed data
  */
-@property (nullable, strong) NSNumber<SDLBool> *speed;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *speed;
 
 /**
  * @abstract A boolean value. If true, subscribes rpm data
  */
-@property (nullable, strong) NSNumber<SDLBool> *rpm;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *rpm;
 
 /**
  * @abstract A boolean value. If true, subscribes FuelLevel data
  */
-@property (nullable, strong) NSNumber<SDLBool> *fuelLevel;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel;
 
 /**
  * @abstract A boolean value. If true, subscribes fuelLevel_State data
  */
-@property (nullable, strong) NSNumber<SDLBool> *fuelLevel_State;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
  * @abstract A boolean value. If true, subscribes instantFuelConsumption data
  */
-@property (nullable, strong) NSNumber<SDLBool> *instantFuelConsumption;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
  * @abstract A boolean value. If true, subscribes externalTemperature data
  */
-@property (nullable, strong) NSNumber<SDLBool> *externalTemperature;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;
 
 /**
  * @abstract A boolean value. If true, subscribes Currently selected gear data
  */
-@property (nullable, strong) NSNumber<SDLBool> *prndl;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *prndl;
 
 /**
  * @abstract A boolean value. If true, subscribes tire pressure status data
  */
-@property (nullable, strong) NSNumber<SDLBool> *tirePressure;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *tirePressure;
 
 /**
  * @abstract A boolean value. If true, subscribes odometer data
  */
-@property (nullable, strong) NSNumber<SDLBool> *odometer;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *odometer;
 
 /**
  * @abstract A boolean value. If true, subscribes belt Status data
  */
-@property (nullable, strong) NSNumber<SDLBool> *beltStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *beltStatus;
 
 /**
  * @abstract A boolean value. If true, subscribes body Information data
  */
-@property (nullable, strong) NSNumber<SDLBool> *bodyInformation;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *bodyInformation;
 
 /**
  * @abstract A boolean value. If true, subscribes device Status data
  */
-@property (nullable, strong) NSNumber<SDLBool> *deviceStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *deviceStatus;
 
 /**
  * @abstract A boolean value. If true, subscribes driver Braking data
  */
-@property (nullable, strong) NSNumber<SDLBool> *driverBraking;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *driverBraking;
 
 /**
  * @abstract A boolean value. If true, subscribes wiper Status data
  */
-@property (nullable, strong) NSNumber<SDLBool> *wiperStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *wiperStatus;
 
 /**
  * @abstract A boolean value. If true, subscribes Head Lamp Status data
  */
-@property (nullable, strong) NSNumber<SDLBool> *headLampStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *headLampStatus;
 
 /**
  * @abstract A boolean value. If true, subscribes Engine Torque data
  */
-@property (nullable, strong) NSNumber<SDLBool> *engineTorque;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineTorque;
 
 /**
  * @abstract A boolean value. If true, means the accPedalPosition data has been
  * subscribed.
  */
-@property (nullable, strong) NSNumber<SDLBool> *accPedalPosition;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
 
 /**
  * @abstract A boolean value. If true, means the steeringWheelAngle data has been
  * subscribed.
  */
-@property (nullable, strong) NSNumber<SDLBool> *steeringWheelAngle;
-@property (nullable, strong) NSNumber<SDLBool> *eCallInfo;
-@property (nullable, strong) NSNumber<SDLBool> *airbagStatus;
-@property (nullable, strong) NSNumber<SDLBool> *emergencyEvent;
-@property (nullable, strong) NSNumber<SDLBool> *clusterModeStatus;
-@property (nullable, strong) NSNumber<SDLBool> *myKey;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
 
 @end
 

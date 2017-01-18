@@ -63,49 +63,49 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * Required, Integer 0 - 65535
  */
-@property (strong) NSNumber<SDLInt> *choiceID;
+@property (strong, nonatomic) NSNumber<SDLInt> *choiceID;
 
 /**
  * @abstract Text which appears in menu, representing this choice
  *
  * Required, Max string length 500 chars
  */
-@property (strong) NSString *menuName;
+@property (strong, nonatomic) NSString *menuName;
 
 /**
  * @abstract VR synonyms for this choice
  *
  * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
  */
-@property (strong) NSMutableArray<NSString *> *vrCommands;
+@property (strong, nonatomic) NSMutableArray<NSString *> *vrCommands;
 
 /**
  * @abstract The image of the choice
  *
  * Optional
  */
-@property (nullable, strong) SDLImage *image;
+@property (nullable, strong, nonatomic) SDLImage *image;
 
 /**
  * @abstract Optional secondary text to display; e.g. address of POI in a search result entry
  *
  * Optional, Max String length 500 chars
  */
-@property (nullable, strong) NSString *secondaryText;
+@property (nullable, strong, nonatomic) NSString *secondaryText;
 
 /**
  * @abstract Optional tertiary text to display; e.g. distance to POI for a search result entry
  *
  * Optional, Max String length 500 chars
  */
-@property (nullable, strong) NSString *tertiaryText;
+@property (nullable, strong, nonatomic) NSString *tertiaryText;
 
 /**
  * @abstract Optional secondary image for choice
  *
  * Optional
  */
-@property (nullable, strong) SDLImage *secondaryImage;
+@property (nullable, strong, nonatomic) SDLImage *secondaryImage;
 
 @end
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array size 1 - 10
  */
-@property (nullable, strong) NSArray<SDLLocationDetails *> *waypoints;
+@property (nullable, strong, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
 
 @end
 

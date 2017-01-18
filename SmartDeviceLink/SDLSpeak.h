@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 
 @end
 

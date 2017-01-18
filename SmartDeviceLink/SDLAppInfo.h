@@ -9,9 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)currentAppInfo;
 
-@property (strong) NSString *appDisplayName;
-@property (strong) NSString *appBundleID;
-@property (strong) NSString *appVersion;
+@property (strong, nonatomic) NSString *appDisplayName;
+@property (strong, nonatomic) NSString *appBundleID;
+@property (strong, nonatomic) NSString *appVersion;
 
 @end
 

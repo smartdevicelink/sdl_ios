@@ -22,14 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, max length = 65535
  */
-@property (strong) NSString *value;
+@property (strong, nonatomic) NSString *value;
 
 /**
  * @abstract Describes, whether it is a static or dynamic image
  *
  * Required
  */
-@property (strong) SDLImageType imageType;
+@property (strong, nonatomic) SDLImageType imageType;
 
 @end
 

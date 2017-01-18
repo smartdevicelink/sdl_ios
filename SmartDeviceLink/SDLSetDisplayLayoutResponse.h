@@ -18,10 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
-@property (nullable, strong) SDLDisplayCapabilities *displayCapabilities;
-@property (nullable, strong) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
-@property (nullable, strong) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
-@property (nullable, strong) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end
 

@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSObject *)getParameters:(NSString *)functionName;
 - (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value;
 
-@property (nullable, strong) NSData *bulkData;
-@property (strong, readonly) NSString *name;
-@property (strong, readonly) NSString *messageType;
+@property (nullable, strong, nonatomic) NSData *bulkData;
+@property (strong, nonatomic, readonly) NSString *name;
+@property (strong, nonatomic, readonly) NSString *messageType;
 
 @end
 

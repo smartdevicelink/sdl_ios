@@ -20,12 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
-@property (strong) SDLSoftButtonType type;
-@property (nullable, strong) NSString *text;
-@property (nullable, strong) SDLImage *image;
-@property (nullable, strong) NSNumber<SDLBool> *isHighlighted;
-@property (strong) NSNumber<SDLInt> *softButtonID;
-@property (nullable, strong) SDLSystemAction systemAction;
+@property (strong, nonatomic) SDLSoftButtonType type;
+@property (strong, nonatomic, nullable) NSString *text;
+@property (strong, nonatomic, nullable) SDLImage *image;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *isHighlighted;
+@property (strong, nonatomic) NSNumber<SDLInt> *softButtonID;
+@property (strong, nonatomic, nullable) SDLSystemAction systemAction;
 
 @end
 

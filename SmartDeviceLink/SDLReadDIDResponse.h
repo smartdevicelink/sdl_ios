@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLReadDIDResponse : SDLRPCResponse
 
-@property (nullable, strong) NSMutableArray<SDLDIDResult *> *didResult;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLDIDResult *> *didResult;
 
 @end
 

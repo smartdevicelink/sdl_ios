@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract The reason application's interface was terminated
  */
-@property (strong) SDLAppInterfaceUnregisteredReason reason;
+@property (strong, nonatomic) SDLAppInterfaceUnregisteredReason reason;
 
 @end
 

@@ -7,9 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLOnEncodedSyncPData : SDLRPCNotification
 
-@property (strong) NSMutableArray<NSString *> *data;
-@property (nullable, strong) NSString *URL;
-@property (nullable, strong) NSNumber<SDLInt> *Timeout;
+@property (strong, nonatomic) NSMutableArray<NSString *> *data;
+@property (nullable, strong, nonatomic) NSString *URL;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *Timeout;
 
 @end
 

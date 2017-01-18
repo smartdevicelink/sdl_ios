@@ -19,102 +19,102 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract A SDLVehicleDataResult* value. See GPSData.
  */
-@property (nullable, strong) SDLVehicleDataResult *gps;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gps;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The vehicle speed in kilometers per hour.
  */
-@property (nullable, strong) SDLVehicleDataResult *speed;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *speed;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The number of revolutions per minute of the engine.
  */
-@property (nullable, strong) SDLVehicleDataResult *rpm;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *rpm;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The fuel level in the tank (percentage)
  */
-@property (nullable, strong) SDLVehicleDataResult *fuelLevel;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The fuel level state.
  */
-@property (nullable, strong) SDLVehicleDataResult *fuelLevel_State;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The instantaneous fuel consumption in microlitres.
  */
-@property (nullable, strong) SDLVehicleDataResult *instantFuelConsumption;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *instantFuelConsumption;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The external temperature in degrees celsius.
  */
-@property (nullable, strong) SDLVehicleDataResult *externalTemperature;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *externalTemperature;
 
 /**
  * @abstract A SDLVehicleDataResult* value. See PRNDL.
  */
-@property (nullable, strong) SDLVehicleDataResult *prndl;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl;
 
 /**
  * @abstract A SDLVehicleDataResult* value. See TireStatus.
  */
-@property (nullable, strong) SDLVehicleDataResult *tirePressure;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *tirePressure;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Odometer in km.
  */
-@property (nullable, strong) SDLVehicleDataResult *odometer;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *odometer;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the seat belts.
  */
-@property (nullable, strong) SDLVehicleDataResult *beltStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *beltStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The body information including power modes.
  */
-@property (nullable, strong) SDLVehicleDataResult *bodyInformation;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *bodyInformation;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The device status including signal and battery strength.
  */
-@property (nullable, strong) SDLVehicleDataResult *deviceStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *deviceStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the brake pedal.
  */
-@property (nullable, strong) SDLVehicleDataResult *driverBraking;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *driverBraking;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the wipers.
  */
-@property (nullable, strong) SDLVehicleDataResult *wiperStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *wiperStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Status of the head lamps.
  */
-@property (nullable, strong) SDLVehicleDataResult *headLampStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *headLampStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Torque value for engine (in Nm) on non-diesel variants.
  */
-@property (nullable, strong) SDLVehicleDataResult *engineTorque;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *engineTorque;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Accelerator pedal position (percentage depressed)
  */
-@property (nullable, strong) SDLVehicleDataResult *accPedalPosition;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *accPedalPosition;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Current angle of the steering wheel (in deg)
  */
-@property (nullable, strong) SDLVehicleDataResult *steeringWheelAngle;
-@property (nullable, strong) SDLVehicleDataResult *eCallInfo;
-@property (nullable, strong) SDLVehicleDataResult *airbagStatus;
-@property (nullable, strong) SDLVehicleDataResult *emergencyEvent;
-@property (nullable, strong) SDLVehicleDataResult *clusterModes;
-@property (nullable, strong) SDLVehicleDataResult *myKey;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *steeringWheelAngle;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *eCallInfo;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *airbagStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *emergencyEvent;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *clusterModes;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *myKey;
 
 @end
 
