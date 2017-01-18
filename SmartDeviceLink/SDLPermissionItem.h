@@ -9,8 +9,8 @@
 
 @interface SDLPermissionItem : SDLRPCStruct
 
-@property (strong) NSString *rpcName;
-@property (strong) SDLHMIPermissions *hmiPermissions;
-@property (strong) SDLParameterPermissions *parameterPermissions;
+@property (strong, nonatomic) NSString *rpcName;
+@property (strong, nonatomic) SDLHMIPermissions *hmiPermissions;
+@property (strong, nonatomic) SDLParameterPermissions *parameterPermissions;
 
 @end

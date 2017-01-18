@@ -14,12 +14,12 @@
 /**
  * @abstract A boolean value. Status of the low beam lamps.
  */
-@property (strong) NSNumber<SDLBool> *lowBeamsOn;
+@property (strong, nonatomic) NSNumber<SDLBool> *lowBeamsOn;
 /**
  * @abstract A boolean value. Status of the high beam lamps.
  */
-@property (strong) NSNumber<SDLBool> *highBeamsOn;
+@property (strong, nonatomic) NSNumber<SDLBool> *highBeamsOn;
 
-@property (strong) SDLAmbientLightStatus ambientLightSensorStatus;
+@property (strong, nonatomic) SDLAmbientLightStatus ambientLightSensorStatus;
 
 @end

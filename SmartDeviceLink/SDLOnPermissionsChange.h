@@ -19,6 +19,6 @@
  *
  * @see SDLPermissionItem
  */
-@property (strong) NSMutableArray<SDLPermissionItem *> *permissionItem;
+@property (strong, nonatomic) NSMutableArray<SDLPermissionItem *> *permissionItem;
 
 @end

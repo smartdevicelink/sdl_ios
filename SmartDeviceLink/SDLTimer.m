@@ -7,9 +7,9 @@
 
 @interface SDLTimer ()
 
-@property (strong) NSTimer *timer;
-@property (assign) BOOL timerRunning;
-@property (nonatomic) BOOL repeat;
+@property (strong, nonatomic) NSTimer *timer;
+@property (assign, nonatomic) BOOL timerRunning;
+@property (assign, nonatomic) BOOL repeat;
 @end
 
 

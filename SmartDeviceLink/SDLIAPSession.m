@@ -10,8 +10,8 @@
 
 @interface SDLIAPSession ()
 
-@property (assign) BOOL isInputStreamOpen;
-@property (assign) BOOL isOutputStreamOpen;
+@property (assign, nonatomic) BOOL isInputStreamOpen;
+@property (assign, nonatomic) BOOL isOutputStreamOpen;
 
 @end
 

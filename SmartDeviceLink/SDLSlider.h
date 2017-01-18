@@ -24,21 +24,21 @@
  *
  * Required, Integer, 2 - 26
  */
-@property (strong) NSNumber<SDLInt> *numTicks;
+@property (strong, nonatomic) NSNumber<SDLInt> *numTicks;
 
 /**
  * @abstract An Initial position of slider control
  *
  * Required, Integer, 1 - 26
  */
-@property (strong) NSNumber<SDLInt> *position;
+@property (strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
  * @abstract A text header to display
  *
  * Rquired, Max length 500 chars
  */
-@property (strong) NSString *sliderHeader;
+@property (strong, nonatomic) NSString *sliderHeader;
 
 /**
  * @abstract A text footer to display
@@ -53,7 +53,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray<NSString *> *sliderFooter;
+@property (strong, nonatomic) NSMutableArray<NSString *> *sliderFooter;
 
 /**
  * @abstract An App defined timeout
@@ -64,6 +64,6 @@
  *
  * Optional, Integer, 1000 - 65535
  */
-@property (strong) NSNumber<SDLInt> *timeout;
+@property (strong, nonatomic) NSNumber<SDLInt> *timeout;
 
 @end

@@ -16,16 +16,16 @@
 
 - (instancetype)initWithNavigationText1:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
-@property (strong) NSString *navigationText1;
-@property (strong) NSString *navigationText2;
-@property (strong) NSString *eta;
-@property (strong) NSString *timeToDestination;
-@property (strong) NSString *totalDistance;
-@property (strong) SDLImage *turnIcon;
-@property (strong) SDLImage *nextTurnIcon;
-@property (strong) NSNumber<SDLFloat> *distanceToManeuver;
-@property (strong) NSNumber<SDLFloat> *distanceToManeuverScale;
-@property (strong) NSNumber<SDLBool> *maneuverComplete;
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic) NSString *navigationText1;
+@property (strong, nonatomic) NSString *navigationText2;
+@property (strong, nonatomic) NSString *eta;
+@property (strong, nonatomic) NSString *timeToDestination;
+@property (strong, nonatomic) NSString *totalDistance;
+@property (strong, nonatomic) SDLImage *turnIcon;
+@property (strong, nonatomic) SDLImage *nextTurnIcon;
+@property (strong, nonatomic) NSNumber<SDLFloat> *distanceToManeuver;
+@property (strong, nonatomic) NSNumber<SDLFloat> *distanceToManeuverScale;
+@property (strong, nonatomic) NSNumber<SDLBool> *maneuverComplete;
+@property (strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

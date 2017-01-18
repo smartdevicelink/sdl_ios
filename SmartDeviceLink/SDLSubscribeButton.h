@@ -82,6 +82,6 @@
  * @abstract The name of the button to subscribe to
  * @discussion An enum value, see <i>SDLButtonName</i>
  */
-@property (strong) SDLButtonName buttonName;
+@property (strong, nonatomic) SDLButtonName buttonName;
 
 @end

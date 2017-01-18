@@ -18,7 +18,7 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *make;
+@property (strong, nonatomic) NSString *make;
 
 /**
  * @abstract The model of the vehicle
@@ -27,7 +27,7 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *model;
+@property (strong, nonatomic) NSString *model;
 
 /**
  * @abstract The model year of the vehicle
@@ -36,7 +36,7 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *modelYear;
+@property (strong, nonatomic) NSString *modelYear;
 
 /**
  * @abstract The trim of the vehicle
@@ -45,6 +45,6 @@
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *trim;
+@property (strong, nonatomic) NSString *trim;
 
 @end

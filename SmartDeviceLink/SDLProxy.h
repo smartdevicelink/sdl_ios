@@ -21,13 +21,13 @@ __deprecated_msg("Use SDLManager instead")
     BOOL _alreadyDestructed;
 }
 
-@property (strong) SDLAbstractProtocol *protocol;
-@property (strong) SDLAbstractTransport *transport;
-@property (readonly, copy) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
-@property (strong) SDLTimer *startSessionTimer;
-@property (copy) NSString *debugConsoleGroupName;
-@property (readonly, copy) NSString *proxyVersion;
-@property (nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
+@property (strong, nonatomic) SDLAbstractProtocol *protocol;
+@property (strong, nonatomic) SDLAbstractTransport *transport;
+@property (copy, nonatomic, readonly) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
+@property (strong, nonatomic) SDLTimer *startSessionTimer;
+@property (copy, nonatomic) NSString *debugConsoleGroupName;
+@property (copy, nonatomic, readonly) NSString *proxyVersion;
+@property (strong, nonatomic, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol

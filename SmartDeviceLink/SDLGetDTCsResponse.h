@@ -11,7 +11,7 @@
  */
 @interface SDLGetDTCsResponse : SDLRPCResponse
 
-@property (strong) NSNumber<SDLInt> *ecuHeader;
-@property (strong) NSMutableArray<NSString *> *dtc;
+@property (strong, nonatomic) NSNumber<SDLInt> *ecuHeader;
+@property (strong, nonatomic) NSMutableArray<NSString *> *dtc;
 
 @end

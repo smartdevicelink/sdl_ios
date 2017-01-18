@@ -22,6 +22,6 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *syncFileName;
+@property (strong, nonatomic) NSString *syncFileName;
 
 @end

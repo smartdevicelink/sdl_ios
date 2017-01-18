@@ -19,11 +19,11 @@
 
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 
-@property (strong) SDLSoftButtonType type;
-@property (strong) NSString *text;
-@property (strong) SDLImage *image;
-@property (strong) NSNumber<SDLBool> *isHighlighted;
-@property (strong) NSNumber<SDLInt> *softButtonID;
-@property (strong) SDLSystemAction systemAction;
+@property (strong, nonatomic) SDLSoftButtonType type;
+@property (strong, nonatomic) NSString *text;
+@property (strong, nonatomic) SDLImage *image;
+@property (strong, nonatomic) NSNumber<SDLBool> *isHighlighted;
+@property (strong, nonatomic) NSNumber<SDLInt> *softButtonID;
+@property (strong, nonatomic) SDLSystemAction systemAction;
 
 @end

@@ -19,11 +19,11 @@
 /**
  *  Optional, SDLTurn, 1 - 100 entries
  */
-@property (strong) NSMutableArray<SDLTurn *> *turnList;
+@property (strong, nonatomic) NSMutableArray<SDLTurn *> *turnList;
 
 /**
  *  Required, SDLSoftButton, 0 - 1 Entries
  */
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

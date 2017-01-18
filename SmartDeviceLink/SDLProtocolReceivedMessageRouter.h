@@ -8,7 +8,7 @@
 
 @interface SDLProtocolReceivedMessageRouter : NSObject
 
-@property (weak) id<SDLProtocolListener> delegate;
+@property (weak, nonatomic) id<SDLProtocolListener> delegate;
 
 - (void)handleReceivedMessage:(SDLProtocolMessage *)message;
 

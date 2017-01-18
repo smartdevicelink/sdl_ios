@@ -6,8 +6,8 @@
 
 @interface SDLOnEncodedSyncPData : SDLRPCNotification
 
-@property (strong) NSMutableArray<NSString *> *data;
-@property (strong) NSString *URL;
-@property (strong) NSNumber<SDLInt> *Timeout;
+@property (strong, nonatomic) NSMutableArray<NSString *> *data;
+@property (strong, nonatomic) NSString *URL;
+@property (strong, nonatomic) NSNumber<SDLInt> *Timeout;
 
 @end

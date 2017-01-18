@@ -12,7 +12,7 @@
 
 @interface SDLProtocolMessage ()
 
-@property (strong) NSMutableData *internalBuffer;
+@property (strong, nonatomic) NSMutableData *internalBuffer;
 
 @end
 

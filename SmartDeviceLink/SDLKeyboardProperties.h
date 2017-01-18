@@ -11,10 +11,10 @@
 
 - (instancetype)initWithLanguage:(SDLLanguage)language layout:(SDLKeyboardLayout)layout keypressMode:(SDLKeypressMode)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText;
 
-@property (strong) SDLLanguage language;
-@property (strong) SDLKeyboardLayout keyboardLayout;
-@property (strong) SDLKeypressMode keypressMode;
-@property (strong) NSMutableArray<NSString *> *limitedCharacterList;
-@property (strong) NSString *autoCompleteText;
+@property (strong, nonatomic) SDLLanguage language;
+@property (strong, nonatomic) SDLKeyboardLayout keyboardLayout;
+@property (strong, nonatomic) SDLKeypressMode keypressMode;
+@property (strong, nonatomic) NSMutableArray<NSString *> *limitedCharacterList;
+@property (strong, nonatomic) NSString *autoCompleteText;
 
 @end

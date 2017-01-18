@@ -19,11 +19,11 @@
 /**
  * @abstract The command ID of the command the user selected. This is the command ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.
  */
-@property (strong) NSNumber<SDLInt> *cmdID;
+@property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 /**
  * @abstract Indicates whether command was selected via voice or via a menu selection (using the OK button).
  */
-@property (strong) SDLTriggerSource triggerSource;
+@property (strong, nonatomic) SDLTriggerSource triggerSource;
 
 @end

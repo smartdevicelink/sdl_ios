@@ -14,7 +14,7 @@
 
 - (instancetype)initWithType:(SDLRequestType)requestType fileName:(NSString *)fileName;
 
-@property (strong) SDLRequestType requestType;
-@property (strong) NSString *fileName;
+@property (strong, nonatomic) SDLRequestType requestType;
+@property (strong, nonatomic) NSString *fileName;
 
 @end

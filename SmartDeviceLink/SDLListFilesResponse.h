@@ -11,7 +11,7 @@
  */
 @interface SDLListFilesResponse : SDLRPCResponse
 
-@property (strong) NSMutableArray<NSString *> *filenames;
-@property (strong) NSNumber<SDLInt> *spaceAvailable;
+@property (strong, nonatomic) NSMutableArray<NSString *> *filenames;
+@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end

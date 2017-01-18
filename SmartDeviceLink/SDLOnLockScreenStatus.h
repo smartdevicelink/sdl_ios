@@ -23,22 +23,22 @@
  * <p>Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)</p>
  * @return String
  */
-@property (strong) NSNumber<SDLBool> *driverDistractionStatus;
+@property (strong, nonatomic) NSNumber<SDLBool> *driverDistractionStatus;
 /**
  * <p>Get user selection status for the application (has the app been selected via hmi or voice command)</p>
  * @return Boolean the current user selection status
  */
 
-@property (strong) NSNumber<SDLBool> *userSelected;
+@property (strong, nonatomic) NSNumber<SDLBool> *userSelected;
 /**
  * <p>Get the {@linkplain LockScreenStatus} enumeration, indicating if the lockscreen should be required, optional or off </p>
  * @return {@linkplain LockScreenStatus}
  */
-@property (strong) SDLLockScreenStatus lockScreenStatus;
+@property (strong, nonatomic) SDLLockScreenStatus lockScreenStatus;
 /**
  * <p>Get HMILevel in effect for the application</p>
  * @return {@linkplain HMILevel} the current HMI Level in effect for the application
  */
-@property (strong) SDLHMILevel hmiLevel;
+@property (strong, nonatomic) SDLHMILevel hmiLevel;
 
 @end

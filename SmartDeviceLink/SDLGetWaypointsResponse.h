@@ -14,7 +14,7 @@
  *
  * Optional, Array size 1 - 10
  */
-@property (strong) NSArray<SDLLocationDetails *> *waypoints;
+@property (strong, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
 
 @end
 

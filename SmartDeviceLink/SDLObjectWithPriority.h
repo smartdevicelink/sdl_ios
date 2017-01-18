@@ -8,8 +8,8 @@
 
 @interface SDLObjectWithPriority : NSObject
 
-@property (strong) id object;
-@property (assign) NSInteger priority;
+@property (strong, nonatomic) id object;
+@property (assign, nonatomic) NSInteger priority;
 
 - (instancetype)initWithObject:(id)object priority:(NSInteger)priority NS_DESIGNATED_INITIALIZER;
 

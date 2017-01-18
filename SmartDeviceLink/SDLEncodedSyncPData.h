@@ -6,6 +6,6 @@
 
 @interface SDLEncodedSyncPData : SDLRPCRequest
 
-@property (strong) NSMutableArray<NSString *> *data;
+@property (strong, nonatomic) NSMutableArray<NSString *> *data;
 
 @end

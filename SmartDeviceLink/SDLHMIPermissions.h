@@ -20,7 +20,7 @@
  *
  * Required, Array of SDLHMILevel, Array size 0 - 100
  */
-@property (strong) NSMutableArray<SDLHMILevel> *allowed;
+@property (strong, nonatomic) NSMutableArray<SDLHMILevel> *allowed;
 
 /**
  * @abstract a set of all HMI levels that are prohibited for this given RPC
@@ -29,6 +29,6 @@
  *
  * Required, Array of SDLHMILevel, Array size 0 - 100
  */
-@property (strong) NSMutableArray<SDLHMILevel> *userDisallowed;
+@property (strong, nonatomic) NSMutableArray<SDLHMILevel> *userDisallowed;
 
 @end

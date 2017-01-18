@@ -8,6 +8,6 @@
 
 @interface SDLMyKey : SDLRPCStruct
 
-@property (strong) SDLVehicleDataStatus e911Override;
+@property (strong, nonatomic) SDLVehicleDataStatus e911Override;
 
 @end

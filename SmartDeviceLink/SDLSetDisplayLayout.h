@@ -25,6 +25,6 @@
  * include: "ONSCREEN_PRESETS" Custom screen containing app-defined onscreen
  * presets. Currently defined for GEN2
  */
-@property (strong) NSString *displayLayout;
+@property (strong, nonatomic) NSString *displayLayout;
 
 @end

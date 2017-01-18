@@ -20,6 +20,6 @@
  * @abstract a file reference name
  * @discussion a String value representing a file reference name
  */
-@property (strong) NSString *syncFileName;
+@property (strong, nonatomic) NSString *syncFileName;
 
 @end

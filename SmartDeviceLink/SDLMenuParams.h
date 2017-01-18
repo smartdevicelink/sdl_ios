@@ -21,7 +21,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber<SDLInt> *parentID;
+@property (strong, nonatomic) NSNumber<SDLInt> *parentID;
 
 /**
  * @abstract The position within the items of the parent Command Menu
@@ -35,13 +35,13 @@
  *
  * Optional, Integer, 0 - 1000
  */
-@property (strong) NSNumber<SDLInt> *position;
+@property (strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
  * @abstract the menu name which appears in menu, representing this command
  * 
  * Required, max length 500 characters
  */
-@property (strong) NSString *menuName;
+@property (strong, nonatomic) NSString *menuName;
 
 @end

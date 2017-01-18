@@ -20,7 +20,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber<SDLInt> *choiceID;
+@property (strong, nonatomic) NSNumber<SDLInt> *choiceID;
 
 /**
  * @abstract Manually entered text selection, e.g. through keyboard
@@ -29,14 +29,14 @@
  *
  * Optional, Max length 500 chars
  */
-@property (strong) NSString *manualTextEntry;
+@property (strong, nonatomic) NSString *manualTextEntry;
 
 /**
  * @abstract A *SDLTriggerSource* object which will be shown in the HMI
  *
  * @discussion Only is valid if resultCode is SUCCESS.
  */
-@property (strong) SDLTriggerSource triggerSource;
+@property (strong, nonatomic) SDLTriggerSource triggerSource;
 
 
 @end

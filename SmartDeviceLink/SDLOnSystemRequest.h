@@ -9,11 +9,11 @@
 
 @interface SDLOnSystemRequest : SDLRPCNotification
 
-@property (strong) SDLRequestType requestType;
-@property (strong) NSString *url;
-@property (strong) NSNumber<SDLInt> *timeout;
-@property (strong) SDLFileType fileType;
-@property (strong) NSNumber<SDLUInt> *offset;
-@property (strong) NSNumber<SDLUInt> *length;
+@property (strong, nonatomic) SDLRequestType requestType;
+@property (strong, nonatomic) NSString *url;
+@property (strong, nonatomic) NSNumber<SDLInt> *timeout;
+@property (strong, nonatomic) SDLFileType fileType;
+@property (strong, nonatomic) NSNumber<SDLUInt> *offset;
+@property (strong, nonatomic) NSNumber<SDLUInt> *length;
 
 @end

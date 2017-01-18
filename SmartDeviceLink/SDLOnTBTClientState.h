@@ -7,6 +7,6 @@
 
 @interface SDLOnTBTClientState : SDLRPCNotification
 
-@property (strong) SDLTBTState state;
+@property (strong, nonatomic) SDLTBTState state;
 
 @end

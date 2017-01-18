@@ -105,35 +105,35 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *voiceRecOn;
+@property (strong, nonatomic) NSNumber<SDLBool> *voiceRecOn;
 
 /**
  * @abstract Indicates whether the bluetooth connection established
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *btIconOn;
+@property (strong, nonatomic) NSNumber<SDLBool> *btIconOn;
 
 /**
  * @abstract Indicates whether a call is being active
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *callActive;
+@property (strong, nonatomic) NSNumber<SDLBool> *callActive;
 
 /**
  * @abstract Indicates whether the phone is in roaming mode
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *phoneRoaming;
+@property (strong, nonatomic) NSNumber<SDLBool> *phoneRoaming;
 
 /**
  * @abstract Indicates whether a textmessage is available
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *textMsgAvailable;
+@property (strong, nonatomic) NSNumber<SDLBool> *textMsgAvailable;
 
 /**
  * @abstract Battery level status
@@ -142,21 +142,21 @@
  *
  * Required
  */
-@property (strong) SDLDeviceLevelStatus battLevelStatus;
+@property (strong, nonatomic) SDLDeviceLevelStatus battLevelStatus;
 
 /**
  * @abstract The status of the stereo audio output channel
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *stereoAudioOutputMuted;
+@property (strong, nonatomic) NSNumber<SDLBool> *stereoAudioOutputMuted;
 
 /**
  * @abstract The status of the mono audio output channel
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *monoAudioOutputMuted;
+@property (strong, nonatomic) NSNumber<SDLBool> *monoAudioOutputMuted;
 
 /**
  * @abstract Signal level status
@@ -165,7 +165,7 @@
  *
  * Required
  */
-@property (strong) SDLDeviceLevelStatus signalLevelStatus;
+@property (strong, nonatomic) SDLDeviceLevelStatus signalLevelStatus;
 
 /**
  * @abstract The current primary audio source of SDL (if selected).
@@ -174,13 +174,13 @@
  * 
  * Required
  */
-@property (strong) SDLPrimaryAudioSource primaryAudioSource;
+@property (strong, nonatomic) SDLPrimaryAudioSource primaryAudioSource;
 
 /**
  * @abstract Indicates if an emergency call is active
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *eCallEventActive;
+@property (strong, nonatomic) NSNumber<SDLBool> *eCallEventActive;
 
 @end

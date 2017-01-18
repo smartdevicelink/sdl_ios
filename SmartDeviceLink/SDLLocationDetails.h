@@ -62,7 +62,7 @@
  *
  * Optional
  */
-@property (strong) SDLOasisAddress *searchAddress;
+@property (strong, nonatomic) SDLOasisAddress *searchAddress;
 
 
 @end

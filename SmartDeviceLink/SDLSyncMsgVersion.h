@@ -19,12 +19,12 @@
  * 
  * Required, Integer, 1 - 10
  */
-@property (strong) NSNumber<SDLInt> *majorVersion;
+@property (strong, nonatomic) NSNumber<SDLInt> *majorVersion;
 /**
  * @abstract The minor version indicates a change to a previous version that should still allow to be run on an older version (with limited functionality)
  * 
  * Required, Integer, 0 - 1000
  */
-@property (strong) NSNumber<SDLInt> *minorVersion;
+@property (strong, nonatomic) NSNumber<SDLInt> *minorVersion;
 
 @end

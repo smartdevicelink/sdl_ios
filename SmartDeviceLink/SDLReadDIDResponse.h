@@ -13,6 +13,6 @@
  */
 @interface SDLReadDIDResponse : SDLRPCResponse
 
-@property (strong) NSMutableArray<SDLDIDResult *> *didResult;
+@property (strong, nonatomic) NSMutableArray<SDLDIDResult *> *didResult;
 
 @end

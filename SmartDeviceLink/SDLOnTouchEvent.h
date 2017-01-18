@@ -9,7 +9,7 @@
 
 @interface SDLOnTouchEvent : SDLRPCNotification
 
-@property (strong) SDLTouchType type;
-@property (strong) NSMutableArray<SDLTouchEvent *> *event;
+@property (strong, nonatomic) SDLTouchType type;
+@property (strong, nonatomic) NSMutableArray<SDLTouchEvent *> *event;
 
 @end

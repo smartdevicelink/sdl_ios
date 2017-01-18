@@ -10,8 +10,8 @@
 
 @interface SDLImageField : SDLRPCStruct
 
-@property (strong) SDLImageFieldName name;
-@property (strong) NSMutableArray<SDLFileType> *imageTypeSupported;
-@property (strong) SDLImageResolution *imageResolution;
+@property (strong, nonatomic) SDLImageFieldName name;
+@property (strong, nonatomic) NSMutableArray<SDLFileType> *imageTypeSupported;
+@property (strong, nonatomic) SDLImageResolution *imageResolution;
 
 @end

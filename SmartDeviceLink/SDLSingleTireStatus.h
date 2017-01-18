@@ -15,6 +15,6 @@
 /**
  * @abstract The volume status of a single tire
  */
-@property (strong) SDLComponentVolumeStatus status;
+@property (strong, nonatomic) SDLComponentVolumeStatus status;
 
 @end

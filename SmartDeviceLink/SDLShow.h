@@ -56,7 +56,7 @@
  *            cleared</li>
  *            </ul>
  */
-@property (strong) NSString *mainField1;
+@property (strong, nonatomic) NSString *mainField1;
 /**
  * @abstract The text displayed on the second display line of a two-line display
  *
@@ -74,7 +74,7 @@
  *            <li>Maxlength = 500</li>
  *            </ul>
  */
-@property (strong) NSString *mainField2;
+@property (strong, nonatomic) NSString *mainField2;
 /**
  * @abstract The text displayed on the first display line of the second page
  *
@@ -93,7 +93,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSString *mainField3;
+@property (strong, nonatomic) NSString *mainField3;
 /**
  * @abstract The text displayed on the second display line of the second page
  *
@@ -112,7 +112,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSString *mainField4;
+@property (strong, nonatomic) NSString *mainField4;
 /**
  * @abstract The alignment that Specifies how mainField1 and mainField2 text
  * should be aligned on display
@@ -128,7 +128,7 @@
  *            <li>Has no effect with navigation display</li>
  *            </ul>
  */
-@property (strong) SDLTextAlignment alignment;
+@property (strong, nonatomic) SDLTextAlignment alignment;
 /**
  * @abstract Text in the Status Bar
  *
@@ -146,7 +146,7 @@
  *            parameter is ignored</li>
  *            </ul>
  */
-@property (strong) NSString *statusBar;
+@property (strong, nonatomic) NSString *statusBar;
 /**
  * @abstract This property is deprecated use SetMediaClockTimer instead.
  * <p> The value for the MediaClock field using a format described in the
@@ -163,7 +163,7 @@
  *            will not display anything)</li>
  *            </ul>
  */
-@property (strong) NSString *mediaClock;
+@property (strong, nonatomic) NSString *mediaClock;
 /**
  * @abstract The text in the track field
  *
@@ -176,7 +176,7 @@
  *            <li>This field is only valid for media applications on navigation displays</li>
  *            </ul>
  */
-@property (strong) NSString *mediaTrack;
+@property (strong, nonatomic) NSString *mediaTrack;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -186,7 +186,7 @@
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLImage *graphic;
+@property (strong, nonatomic) SDLImage *graphic;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -196,7 +196,7 @@
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLImage *secondaryGraphic;
+@property (strong, nonatomic) SDLImage *secondaryGraphic;
 /**
  * @abstract The the Soft buttons defined by the App
  *
@@ -213,7 +213,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -227,6 +227,6 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray<NSString *> *customPresets;
+@property (strong, nonatomic) NSMutableArray<NSString *> *customPresets;
 
 @end

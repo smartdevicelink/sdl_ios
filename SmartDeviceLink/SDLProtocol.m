@@ -36,8 +36,8 @@ typedef NSNumber SDLServiceTypeBox;
     BOOL _alreadyDestructed;
 }
 
-@property (strong) NSMutableData *receiveBuffer;
-@property (strong) SDLProtocolReceivedMessageRouter *messageRouter;
+@property (strong, nonatomic) NSMutableData *receiveBuffer;
+@property (strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (nonatomic, strong) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @end
 

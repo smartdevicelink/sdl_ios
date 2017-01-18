@@ -30,9 +30,9 @@ int const streamOpenTimeoutSeconds = 2;
     BOOL _alreadyDestructed;
 }
 
-@property (assign) int retryCounter;
-@property (assign) BOOL sessionSetupInProgress;
-@property (strong) SDLTimer *protocolIndexTimer;
+@property (assign, nonatomic) int retryCounter;
+@property (assign, nonatomic) BOOL sessionSetupInProgress;
+@property (strong, nonatomic) SDLTimer *protocolIndexTimer;
 
 @end
 

@@ -6,8 +6,8 @@
 
 @interface SDLAbstractTransport : NSObject
 
-@property (weak) id<SDLTransportDelegate> delegate;
-@property (strong) NSString *debugConsoleGroupName;
+@property (weak, nonatomic) id<SDLTransportDelegate> delegate;
+@property (strong, nonatomic) NSString *debugConsoleGroupName;
 
 - (void)connect;
 - (void)disconnect;

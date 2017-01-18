@@ -27,6 +27,6 @@
 /**
  * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
-@property (strong) SDLDriverDistractionState state;
+@property (strong, nonatomic) SDLDriverDistractionState state;
 
 @end

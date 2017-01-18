@@ -24,7 +24,7 @@
  * @abstract An ID of the vehicle module
  *            <br/><b>Notes: </b>Minvalue:0; Maxvalue:65535
  */
-@property (strong) NSNumber<SDLInt> *ecuName;
+@property (strong, nonatomic) NSNumber<SDLInt> *ecuName;
 
 /**
  * @abstract Raw data from vehicle data DID location(s)
@@ -37,6 +37,6 @@
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
  */
-@property (strong) NSMutableArray<NSNumber<SDLInt> *> *didLocation;
+@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *didLocation;
 
 @end

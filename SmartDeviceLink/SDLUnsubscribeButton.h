@@ -28,6 +28,6 @@
  * @discussion An Enumeration value, see <i>
  *         SDLButtonName</i>
  */
-@property (strong) SDLButtonName buttonName;
+@property (strong, nonatomic) SDLButtonName buttonName;
 
 @end

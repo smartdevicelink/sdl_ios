@@ -13,7 +13,7 @@
     NSDateFormatter *dateFormatter;
 }
 
-@property (strong, readonly) NSMutableArray<NSDictionary<NSString *, id>*> *messageList;
+@property (strong, nonatomic, readonly) NSMutableArray<NSDictionary<NSString *, id>*> *messageList;
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
 

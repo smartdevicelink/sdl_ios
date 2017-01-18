@@ -16,7 +16,7 @@
 - (instancetype)initWithTTS:(NSString *)ttsText softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 - (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
-@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
-@property (strong) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end

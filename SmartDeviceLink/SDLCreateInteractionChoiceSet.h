@@ -28,13 +28,13 @@
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber<SDLInt> *interactionChoiceSetID;
+@property (strong, nonatomic) NSNumber<SDLInt> *interactionChoiceSetID;
 
 /**
  * @abstract Array of choices, which the user can select by menu or voice recognition
  *
  * Required, SDLChoice, Array size 1 - 100
  */
-@property (strong) NSMutableArray<SDLChoice *> *choiceSet;
+@property (strong, nonatomic) NSMutableArray<SDLChoice *> *choiceSet;
 
 @end

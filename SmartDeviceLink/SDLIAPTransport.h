@@ -9,7 +9,7 @@
 
 @interface SDLIAPTransport : SDLAbstractTransport <SDLIAPSessionDelegate>
 
-@property (strong, atomic) SDLIAPSession *controlSession;
-@property (strong, atomic) SDLIAPSession *session;
+@property (strong, nonatomic) SDLIAPSession *controlSession;
+@property (strong, nonatomic) SDLIAPSession *session;
 
 @end

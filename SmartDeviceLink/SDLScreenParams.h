@@ -9,7 +9,7 @@
 
 @interface SDLScreenParams : SDLRPCStruct
 
-@property (strong) SDLImageResolution *resolution;
-@property (strong) SDLTouchEventCapabilities *touchEventAvailable;
+@property (strong, nonatomic) SDLImageResolution *resolution;
+@property (strong, nonatomic) SDLTouchEventCapabilities *touchEventAvailable;
 
 @end

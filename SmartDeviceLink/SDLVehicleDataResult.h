@@ -8,7 +8,7 @@
 
 @interface SDLVehicleDataResult : SDLRPCStruct
 
-@property (strong) SDLVehicleDataType dataType;
-@property (strong) SDLVehicleDataResultCode resultCode;
+@property (strong, nonatomic) SDLVehicleDataType dataType;
+@property (strong, nonatomic) SDLVehicleDataResultCode resultCode;
 
 @end

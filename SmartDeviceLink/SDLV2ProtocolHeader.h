@@ -6,7 +6,7 @@
 
 @interface SDLV2ProtocolHeader : SDLProtocolHeader
 
-@property (assign) UInt32 messageID;
+@property (assign, nonatomic) UInt32 messageID;
 
 - (instancetype)init;
 - (instancetype)initWithVersion:(UInt8)version;

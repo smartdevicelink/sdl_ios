@@ -10,10 +10,10 @@
 
 @interface SDLEmergencyEvent : SDLRPCStruct
 
-@property (strong) SDLEmergencyEventType emergencyEventType;
-@property (strong) SDLFuelCutoffStatus fuelCutoffStatus;
-@property (strong) SDLVehicleDataEventStatus rolloverEvent;
-@property (strong) NSNumber<SDLInt> *maximumChangeVelocity;
-@property (strong) SDLVehicleDataEventStatus multipleEvents;
+@property (strong, nonatomic) SDLEmergencyEventType emergencyEventType;
+@property (strong, nonatomic) SDLFuelCutoffStatus fuelCutoffStatus;
+@property (strong, nonatomic) SDLVehicleDataEventStatus rolloverEvent;
+@property (strong, nonatomic) NSNumber<SDLInt> *maximumChangeVelocity;
+@property (strong, nonatomic) SDLVehicleDataEventStatus multipleEvents;
 
 @end

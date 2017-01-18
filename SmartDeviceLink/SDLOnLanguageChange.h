@@ -16,11 +16,11 @@
 /**
  * @abstract Current SDL voice engine (VR+TTS) language
  */
-@property (strong) SDLLanguage language;
+@property (strong, nonatomic) SDLLanguage language;
 
 /**
  * @abstract Current display language
  */
-@property (strong) SDLLanguage hmiDisplayLanguage;
+@property (strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 @end

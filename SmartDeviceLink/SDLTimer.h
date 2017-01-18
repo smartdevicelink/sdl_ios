@@ -6,9 +6,9 @@
 
 @interface SDLTimer : NSObject
 
-@property (nonatomic, copy) void (^elapsedBlock)(void);
-@property (nonatomic, copy) void (^canceledBlock)(void);
-@property (assign) float duration;
+@property (copy, nonatomic) void (^elapsedBlock)(void);
+@property (copy, nonatomic) void (^canceledBlock)(void);
+@property (assign, nonatomic) float duration;
 
 - (instancetype)init;
 - (instancetype)initWithDuration:(float)duration __deprecated;

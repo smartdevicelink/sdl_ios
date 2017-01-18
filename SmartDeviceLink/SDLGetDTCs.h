@@ -26,9 +26,9 @@
  *            <p>
  *            <b>Notes: </b>Minvalue:0; Maxvalue:65535
  */
-@property (strong) NSNumber<SDLInt> *ecuName;
+@property (strong, nonatomic) NSNumber<SDLInt> *ecuName;
 /**
  * @abstract  DTC Mask Byte to be sent in diagnostic request to module. NSNumber* dtcMask Minvalue:0; Maxvalue:255
  */
-@property (strong) NSNumber<SDLInt> *dtcMask;
+@property (strong, nonatomic) NSNumber<SDLInt> *dtcMask;
 @end

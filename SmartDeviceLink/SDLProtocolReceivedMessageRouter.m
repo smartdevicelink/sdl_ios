@@ -11,8 +11,8 @@
 
 @interface SDLProtocolReceivedMessageRouter ()
 
-@property (assign) BOOL alreadyDestructed;
-@property (strong) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
+@property (assign, nonatomic) BOOL alreadyDestructed;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
 
 @end
 

@@ -15,9 +15,9 @@
  */
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
-@property (strong) SDLDisplayCapabilities *displayCapabilities;
-@property (strong) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
-@property (strong) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
-@property (strong) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (strong, nonatomic) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end

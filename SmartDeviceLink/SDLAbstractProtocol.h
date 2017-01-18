@@ -12,9 +12,9 @@
 
 @interface SDLAbstractProtocol : NSObject <SDLTransportDelegate>
 
-@property (strong) NSString *debugConsoleGroupName;
-@property (weak) SDLAbstractTransport *transport;
-@property (strong) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
+@property (strong, nonatomic) NSString *debugConsoleGroupName;
+@property (weak, nonatomic) SDLAbstractTransport *transport;
+@property (strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
 @property (nonatomic, strong) id<SDLSecurityType> securityManager;
 @property (nonatomic, copy) NSString *appId;
 

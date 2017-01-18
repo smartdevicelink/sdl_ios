@@ -7,9 +7,9 @@
 
 @interface SDLProtocolMessage : NSObject
 
-@property (strong) SDLProtocolHeader *header;
-@property (strong) NSData *payload;
-@property (strong, readonly) NSData *data;
+@property (strong, nonatomic) SDLProtocolHeader *header;
+@property (strong, nonatomic) NSData *payload;
+@property (strong, nonatomic, readonly) NSData *data;
 
 + (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload; // Returns a V1 or V2 object
 

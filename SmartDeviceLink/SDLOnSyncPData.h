@@ -6,7 +6,7 @@
 
 @interface SDLOnSyncPData : SDLRPCNotification
 
-@property (strong) NSString *URL;
-@property (strong) NSNumber<SDLInt> *Timeout;
+@property (strong, nonatomic) NSString *URL;
+@property (strong, nonatomic) NSNumber<SDLInt> *Timeout;
 
 @end

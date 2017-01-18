@@ -24,6 +24,6 @@
  * @abstract the MenuID that identifies the SDLSubMenu to be delete
  * @discussion  <b>Notes: </b>Min Value: 0; Max Value: 2000000000
  */
-@property (strong) NSNumber<SDLInt> *menuID;
+@property (strong, nonatomic) NSNumber<SDLInt> *menuID;
 
 @end

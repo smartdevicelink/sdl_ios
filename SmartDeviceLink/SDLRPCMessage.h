@@ -18,8 +18,8 @@
 - (NSObject *)getParameters:(NSString *)functionName;
 - (void)setParameters:(NSString *)functionName value:(NSObject *)value;
 
-@property (strong) NSData *bulkData;
-@property (strong, readonly) NSString *name;
-@property (strong, readonly) NSString *messageType;
+@property (strong, nonatomic) NSData *bulkData;
+@property (strong, nonatomic, readonly) NSString *name;
+@property (strong, nonatomic, readonly) NSString *messageType;
 
 @end

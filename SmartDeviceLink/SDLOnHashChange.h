@@ -6,6 +6,6 @@
 
 @interface SDLOnHashChange : SDLRPCNotification
 
-@property (strong) NSString *hashID;
+@property (strong, nonatomic) NSString *hashID;
 
 @end

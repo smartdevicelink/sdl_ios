@@ -8,7 +8,7 @@
 
 @interface SDLOnKeyboardInput : SDLRPCNotification
 
-@property (strong) SDLKeyboardEvent event;
-@property (strong) NSString *data;
+@property (strong, nonatomic) SDLKeyboardEvent event;
+@property (strong, nonatomic) NSString *data;
 
 @end

@@ -98,7 +98,7 @@
  *
  * Required
  */
-@property (strong) SDLSyncMsgVersion *syncMsgVersion;
+@property (strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
 
 /**
  * @abstract The Mobile Application's Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink
@@ -112,7 +112,7 @@
  *
  * Required, Max length 100 chars
  */
-@property (strong) NSString *appName;
+@property (strong, nonatomic) NSString *appName;
 
 /**
  * @abstract TTS string for VR recognition of the mobile application name.
@@ -127,7 +127,7 @@
  * @since SDL 2.0
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *ttsName;
+@property (strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsName;
 
 /**
  * @abstract A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
@@ -136,7 +136,7 @@
  *
  * Optional, Max length 100 chars
  */
-@property (strong) NSString *ngnMediaScreenAppName;
+@property (strong, nonatomic) NSString *ngnMediaScreenAppName;
 
 /**
  * @abstract Defines a additional voice recognition commands
@@ -145,7 +145,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 100, Max String length 40
  */
-@property (strong) NSMutableArray<NSString *> *vrSynonyms;
+@property (strong, nonatomic) NSMutableArray<NSString *> *vrSynonyms;
 
 /**
  * @abstract Indicates if the application is a media or a non-media application.
@@ -154,7 +154,7 @@
  *
  * Required, Boolean
  */
-@property (strong) NSNumber<SDLBool> *isMediaApplication;
+@property (strong, nonatomic) NSNumber<SDLBool> *isMediaApplication;
 
 /**
  * @abstract A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).
@@ -163,7 +163,7 @@
  *
  * Required
  */
-@property (strong) SDLLanguage languageDesired;
+@property (strong, nonatomic) SDLLanguage languageDesired;
 
 /**
  * @abstract An enumeration indicating what language the application intends to use for user interaction (Display).
@@ -174,7 +174,7 @@
  *
  * @since SDL 2.0
  */
-@property (strong) SDLLanguage hmiDisplayLanguageDesired;
+@property (strong, nonatomic) SDLLanguage hmiDisplayLanguageDesired;
 
 /**
  * @abstract A list of all applicable app types stating which classifications to be given to the app.
@@ -184,7 +184,7 @@
  * @since SDL 2.0
  * @see SDLAppHMIType
  */
-@property (strong) NSMutableArray<SDLAppHMIType> *appHMIType;
+@property (strong, nonatomic) NSMutableArray<SDLAppHMIType> *appHMIType;
 
 /**
  * @abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
@@ -195,14 +195,14 @@
  *
  * Optional, max length 100 chars
  */
-@property (strong) NSString *hashID;
+@property (strong, nonatomic) NSString *hashID;
 
 /**
  * @abstract Information about the connecting device
  *
  * Optional
  */
-@property (strong) SDLDeviceInfo *deviceInfo;
+@property (strong, nonatomic) SDLDeviceInfo *deviceInfo;
 
 /**
  * @abstract ID used to validate app with policy table entries
@@ -211,13 +211,13 @@
  *
  * @since SDL 2.0
  */
-@property (strong) NSString *appID;
+@property (strong, nonatomic) NSString *appID;
 
 /**
  * @abstract Information about the application running
  *
  * Optional
  */
-@property (strong) SDLAppInfo *appInfo;
+@property (strong, nonatomic) SDLAppInfo *appInfo;
 
 @end

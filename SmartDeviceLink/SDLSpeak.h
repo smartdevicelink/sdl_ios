@@ -53,6 +53,6 @@
  * 
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
 
 @end
