@@ -48,6 +48,9 @@
  *
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnButtonPress : SDLRPCNotification
 
 /**
@@ -75,6 +78,8 @@
  *
  * Optional, Integer 0 - 65536
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *customButtonID;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *customButtonID;
 
 @end
+
+NS_ASSUME_NONNULL_END

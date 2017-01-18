@@ -3,6 +3,8 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLLocationCoordinate : SDLRPCStruct
 
 /**
@@ -20,3 +22,5 @@
 @property (copy, nonatomic) NSNumber<SDLFloat> *longitudeDegrees;
 
 @end
+
+NS_ASSUME_NONNULL_END

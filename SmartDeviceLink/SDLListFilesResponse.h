@@ -9,9 +9,14 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLListFilesResponse : SDLRPCResponse
 
-@property (strong, nonatomic) NSMutableArray<NSString *> *filenames;
+@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *filenames;
 @property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

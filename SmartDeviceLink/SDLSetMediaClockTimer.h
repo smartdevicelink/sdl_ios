@@ -17,6 +17,9 @@
  *
  * Since SmartDeviceLink 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSetMediaClockTimer : SDLRPCRequest
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
@@ -35,13 +38,13 @@
  *            <li>Will be ignored for PAUSE/RESUME and CLEAR</li>
  *            </ul>
  */
-@property (strong, nonatomic) SDLStartTime *startTime;
+@property (strong, nonatomic, nullable) SDLStartTime *startTime;
 /**
  * @abstract An END time of type SDLStartTime, specifying hour, minute, second values
  *
  * @discussion An SDLStartTime object with specifying hour, minute, second values
  */
-@property (strong, nonatomic) SDLStartTime *endTime;
+@property (strong, nonatomic, nullable) SDLStartTime *endTime;
 /**
  * @abstract The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
  *
@@ -58,3 +61,5 @@
 @property (strong, nonatomic) SDLUpdateMode updateMode;
 
 @end
+
+NS_ASSUME_NONNULL_END

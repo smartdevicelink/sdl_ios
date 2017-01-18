@@ -9,6 +9,9 @@
  * 
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSyncMsgVersion : SDLRPCStruct
 
 // TODO: (Alex M.)[2016-12-1] Change from NSInteger to UInt8
@@ -28,3 +31,5 @@
 @property (strong, nonatomic) NSNumber<SDLInt> *minorVersion;
 
 @end
+
+NS_ASSUME_NONNULL_END

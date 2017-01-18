@@ -16,6 +16,9 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLAddSubMenu SDLDeleteSubMenu
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeleteCommand : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt32)commandId;
@@ -29,3 +32,5 @@
 @property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 @end
+
+NS_ASSUME_NONNULL_END

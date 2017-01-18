@@ -23,6 +23,11 @@
  * </ul>
  * </ul>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnAudioPassThru : SDLRPCNotification
 
 @end
+
+NS_ASSUME_NONNULL_END

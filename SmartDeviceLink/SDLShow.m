@@ -157,11 +157,11 @@
 
 - (SDLImage *)graphic {
     NSObject *obj = [parameters objectForKey:SDLNameGraphic];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setSecondaryGraphic:(SDLImage *)secondaryGraphic {
@@ -174,11 +174,11 @@
 
 - (SDLImage *)secondaryGraphic {
     NSObject *obj = [parameters objectForKey:SDLNameSecondaryGraphic];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 - (void)setSoftButtons:(NSMutableArray<SDLSoftButton *> *)softButtons {

@@ -4,6 +4,8 @@
 
 #import "EAAccessory+SDLProtocols.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation EAAccessory (SDLProtocols)
 
 - (BOOL)supportsProtocol:(NSString *)protocol {
@@ -17,3 +19,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

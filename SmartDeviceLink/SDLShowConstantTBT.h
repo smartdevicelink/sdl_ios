@@ -12,20 +12,25 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLShowConstantTBT : SDLRPCRequest
 
-- (instancetype)initWithNavigationText1:(NSString *)navigationText1 navigationText2:(NSString *)navigationText2 eta:(NSString *)eta timeToDestination:(NSString *)timeToDestination totalDistance:(NSString *)totalDistance turnIcon:(SDLImage *)turnIcon nextTurnIcon:(SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithNavigationText1:(nullable NSString *)navigationText1 navigationText2:(nullable NSString *)navigationText2 eta:(nullable NSString *)eta timeToDestination:(nullable NSString *)timeToDestination totalDistance:(nullable NSString *)totalDistance turnIcon:(nullable SDLImage *)turnIcon nextTurnIcon:(nullable SDLImage *)nextTurnIcon distanceToManeuver:(double)distanceToManeuver distanceToManeuverScale:(double)distanceToManeuverScale maneuverComplete:(BOOL)maneuverComplete softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
-@property (strong, nonatomic) NSString *navigationText1;
-@property (strong, nonatomic) NSString *navigationText2;
-@property (strong, nonatomic) NSString *eta;
-@property (strong, nonatomic) NSString *timeToDestination;
-@property (strong, nonatomic) NSString *totalDistance;
-@property (strong, nonatomic) SDLImage *turnIcon;
-@property (strong, nonatomic) SDLImage *nextTurnIcon;
-@property (strong, nonatomic) NSNumber<SDLFloat> *distanceToManeuver;
-@property (strong, nonatomic) NSNumber<SDLFloat> *distanceToManeuverScale;
-@property (strong, nonatomic) NSNumber<SDLBool> *maneuverComplete;
-@property (strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSString *navigationText1;
+@property (strong, nonatomic, nullable) NSString *navigationText2;
+@property (strong, nonatomic, nullable) NSString *eta;
+@property (strong, nonatomic, nullable) NSString *timeToDestination;
+@property (strong, nonatomic, nullable) NSString *totalDistance;
+@property (strong, nonatomic, nullable) SDLImage *turnIcon;
+@property (strong, nonatomic, nullable) SDLImage *nextTurnIcon;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuver;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuverScale;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *maneuverComplete;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
+
+NS_ASSUME_NONNULL_END

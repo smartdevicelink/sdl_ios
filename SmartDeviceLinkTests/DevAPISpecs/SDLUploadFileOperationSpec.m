@@ -28,7 +28,7 @@ describe(@"Upload File Operation", ^{
     
     beforeEach(^{
         // Set the head unit size small so we have a low MTU size
-        [SDLGlobals globals].maxHeadUnitVersion = 2;
+        [SDLGlobals sharedGlobals].maxHeadUnitVersion = 2;
     });
     
     context(@"running a small file operation", ^{
@@ -145,13 +145,13 @@ describe(@"Upload File Operation", ^{
             SDLPutFile *firstPutFile = putFiles.firstObject;
             
             // First putfile
-            expect(firstPutFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange(0, [SDLGlobals globals].maxMTUSize)]));
+            expect(firstPutFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange(0, [SDLGlobals sharedGlobals].maxMTUSize)]));
             expect(firstPutFile.length).to(equal(@(testFileData.length)));
             expect(firstPutFile.offset).to(equal(@0));
             expect(firstPutFile.persistentFile).to(equal(@NO));
             expect(firstPutFile.syncFileName).to(equal(testFileName));
             
-            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals globals].maxMTUSize) + 1);
+            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
         });
     });

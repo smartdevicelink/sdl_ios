@@ -10,6 +10,9 @@
  * 
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLImage : SDLRPCStruct
 
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType;
@@ -29,3 +32,5 @@
 @property (strong, nonatomic) SDLImageType imageType;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -5,6 +5,8 @@
 #import "SDLStreamDelegate.h"
 #import "SDLDebugTool.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLStreamDelegate () {
     dispatch_queue_t _input_stream_queue;
 }
@@ -90,3 +92,5 @@ SDLStreamEndHandler defaultStreamEndHandler = ^(NSStream *stream) {
 };
 
 @end
+
+NS_ASSUME_NONNULL_END

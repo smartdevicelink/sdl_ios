@@ -6,6 +6,7 @@
 
 #import "SDLDebugTool.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLConsoleController : UITableViewController <SDLDebugToolConsole> {
     NSMutableArray<NSDictionary<NSString *, id>*> *messageList;
@@ -19,3 +20,5 @@
 
 
 @end
+
+NS_ASSUME_NONNULL_END

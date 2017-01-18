@@ -10,6 +10,9 @@
 /**
  * The body information including power modes.
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLBodyInformation : SDLRPCStruct
 
 /**
@@ -30,21 +33,23 @@
 /**
  * @abstract References signal "DrStatDrv_B_Actl".
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *driverDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *driverDoorAjar;
 
 /**
  * @abstract References signal "DrStatPsngr_B_Actl".
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *passengerDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *passengerDoorAjar;
 
 /**
  * @abstract References signal "DrStatRl_B_Actl".
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *rearLeftDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rearLeftDoorAjar;
 
 /**
  * @abstract References signal "DrStatRr_B_Actl".
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *rearRightDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rearRightDoorAjar;
 
 @end
+
+NS_ASSUME_NONNULL_END

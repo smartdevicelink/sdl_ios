@@ -56,6 +56,9 @@
  *
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTextField : SDLRPCStruct
 
 /**
@@ -91,3 +94,5 @@
 @property (strong, nonatomic) NSNumber<SDLInt> *rows;
 
 @end
+
+NS_ASSUME_NONNULL_END

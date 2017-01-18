@@ -48,7 +48,7 @@
     return (SDLIgnitionStatus)obj;
 }
 
-- (void)setDriverDoorAjar:(NSNumber<SDLBool> *)driverDoorAjar {
+- (void)setDriverDoorAjar:(nullable NSNumber<SDLBool> *)driverDoorAjar {
     if (driverDoorAjar != nil) {
         [store setObject:driverDoorAjar forKey:SDLNameDriverDoorAjar];
     } else {
@@ -56,11 +56,11 @@
     }
 }
 
-- (NSNumber<SDLBool> *)driverDoorAjar {
+- (nullable NSNumber<SDLBool> *)driverDoorAjar {
     return [store objectForKey:SDLNameDriverDoorAjar];
 }
 
-- (void)setPassengerDoorAjar:(NSNumber<SDLBool> *)passengerDoorAjar {
+- (void)setPassengerDoorAjar:(nullable NSNumber<SDLBool> *)passengerDoorAjar {
     if (passengerDoorAjar != nil) {
         [store setObject:passengerDoorAjar forKey:SDLNamePassengerDoorAjar];
     } else {
@@ -68,11 +68,11 @@
     }
 }
 
-- (NSNumber<SDLBool> *)passengerDoorAjar {
+- (nullable NSNumber<SDLBool> *)passengerDoorAjar {
     return [store objectForKey:SDLNamePassengerDoorAjar];
 }
 
-- (void)setRearLeftDoorAjar:(NSNumber<SDLBool> *)rearLeftDoorAjar {
+- (void)setRearLeftDoorAjar:(nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
     if (rearLeftDoorAjar != nil) {
         [store setObject:rearLeftDoorAjar forKey:SDLNameRearLeftDoorAjar];
     } else {
@@ -80,11 +80,11 @@
     }
 }
 
-- (NSNumber<SDLBool> *)rearLeftDoorAjar {
+- (nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
     return [store objectForKey:SDLNameRearLeftDoorAjar];
 }
 
-- (void)setRearRightDoorAjar:(NSNumber<SDLBool> *)rearRightDoorAjar {
+- (void)setRearRightDoorAjar:(nullable NSNumber<SDLBool> *)rearRightDoorAjar {
     if (rearRightDoorAjar != nil) {
         [store setObject:rearRightDoorAjar forKey:SDLNameRearRightDoorAjar];
     } else {
@@ -92,7 +92,7 @@
     }
 }
 
-- (NSNumber<SDLBool> *)rearRightDoorAjar {
+- (nullable NSNumber<SDLBool> *)rearRightDoorAjar {
     return [store objectForKey:SDLNameRearRightDoorAjar];
 }
 

@@ -13,6 +13,9 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * <p>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLGetDTCs : SDLRPCRequest
 
 - (instancetype)initWithECUName:(UInt16)name;
@@ -30,5 +33,7 @@
 /**
  * @abstract  DTC Mask Byte to be sent in diagnostic request to module. NSNumber* dtcMask Minvalue:0; Maxvalue:255
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *dtcMask;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *dtcMask;
 @end
+
+NS_ASSUME_NONNULL_END

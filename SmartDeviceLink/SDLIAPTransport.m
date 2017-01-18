@@ -15,6 +15,7 @@
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
@@ -27,12 +28,11 @@ int const streamOpenTimeoutSeconds = 2;
 
 @interface SDLIAPTransport () {
     dispatch_queue_t _transmit_queue;
-    BOOL _alreadyDestructed;
 }
 
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
-@property (strong, nonatomic) SDLTimer *protocolIndexTimer;
+@property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
 
 @end
 
@@ -41,12 +41,8 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _alreadyDestructed = NO;
-        _session = nil;
-        _controlSession = nil;
         _retryCounter = 0;
         _sessionSetupInProgress = NO;
-        _protocolIndexTimer = nil;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
 
         [self sdl_startEventListening];
@@ -57,6 +53,12 @@ int const streamOpenTimeoutSeconds = 2;
     return self;
 }
 
+
+- (void)dealloc {
+    [self disconnect];
+    [self sdl_stopEventListening];
+    [SDLDebugTool logInfo:@"SDLIAPTransport Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+}
 
 #pragma mark - Notification Subscriptions
 
@@ -380,9 +382,9 @@ int const streamOpenTimeoutSeconds = 2;
     return ^(NSInputStream *istream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        uint8_t buf[[SDLGlobals globals].maxMTUSize];
+        uint8_t buf[[SDLGlobals sharedGlobals].maxMTUSize];
         while ([istream hasBytesAvailable]) {
-            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals globals].maxMTUSize];
+            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
 
             if (bytesRead > 0) {
@@ -450,26 +452,6 @@ int const streamOpenTimeoutSeconds = 2;
     return delay;
 }
 
-
-#pragma mark - Lifecycle Destruction
-
-- (void)sdl_destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-        [self sdl_stopEventListening];
-        self.controlSession = nil;
-        self.session = nil;
-        self.delegate = nil;
-    }
-}
-
-- (void)dispose {
-    [self sdl_destructObjects];
-}
-
-- (void)dealloc {
-    [self sdl_destructObjects];
-    [SDLDebugTool logInfo:@"SDLIAPTransport Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-}
-
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,10 +4,11 @@
 
 #import "SDLTimer.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTimer ()
 
-@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic, nullable) NSTimer *timer;
 @property (assign, nonatomic) BOOL timerRunning;
 @property (assign, nonatomic) BOOL repeat;
 @end
@@ -35,6 +36,10 @@
         _timerRunning = NO;
     }
     return self;
+}
+
+- (void)dealloc {
+    [self cancel];
 }
 
 - (void)start {
@@ -72,8 +77,6 @@
     }
 }
 
-- (void)dealloc {
-    [self cancel];
-}
-
 @end
+
+NS_ASSUME_NONNULL_END

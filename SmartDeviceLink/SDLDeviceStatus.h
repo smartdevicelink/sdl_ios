@@ -98,6 +98,9 @@
  *  </table>
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeviceStatus : SDLRPCStruct
 
 /**
@@ -184,3 +187,5 @@
 @property (strong, nonatomic) NSNumber<SDLBool> *eCallEventActive;
 
 @end
+
+NS_ASSUME_NONNULL_END

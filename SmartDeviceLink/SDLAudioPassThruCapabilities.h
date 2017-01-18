@@ -42,6 +42,9 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAudioPassThruCapabilities : SDLRPCStruct
 
 /**
@@ -61,3 +64,5 @@
 @property (strong, nonatomic) SDLAudioType audioType;
 
 @end
+
+NS_ASSUME_NONNULL_END

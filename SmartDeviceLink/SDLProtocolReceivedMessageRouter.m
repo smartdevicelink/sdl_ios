@@ -8,10 +8,10 @@
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageAssembler.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolReceivedMessageRouter ()
 
-@property (assign, nonatomic) BOOL alreadyDestructed;
 @property (strong, nonatomic) NSMutableDictionary<NSNumber *, SDLProtocolMessageAssembler *> *messageAssemblers;
 
 @end
@@ -21,7 +21,6 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _alreadyDestructed = NO;
         self.messageAssemblers = [NSMutableDictionary dictionaryWithCapacity:2];
     }
     return self;
@@ -114,22 +113,6 @@
     [assembler handleMessage:message withCompletionHandler:completionHandler];
 }
 
-
-#pragma mark - Lifecycle
-
-- (void)sdl_destructObjects {
-    if (!self.alreadyDestructed) {
-        self.alreadyDestructed = YES;
-        self.delegate = nil;
-    }
-}
-
-- (void)sdl_dispose {
-    [self sdl_destructObjects];
-}
-
-- (void)dealloc {
-    [self sdl_destructObjects];
-}
-
 @end
+
+NS_ASSUME_NONNULL_END

@@ -5,6 +5,8 @@
 
 @class SDLLocationDetails;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLGetWayPointsResponse : SDLRPCResponse
 
 /**
@@ -14,10 +16,12 @@
  *
  * Optional, Array size 1 - 10
  */
-@property (strong, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
+@property (nullable, strong, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
 
 @end
 
 __deprecated_msg("Use SDLGetWayPointsResponse instead")
     @interface SDLGetWaypointsResponse : SDLGetWayPointsResponse
-                                         @end
+@end
+
+NS_ASSUME_NONNULL_END

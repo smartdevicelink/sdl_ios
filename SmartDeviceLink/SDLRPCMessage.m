@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCMessage
 
 @synthesize messageType;
@@ -26,7 +28,7 @@
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if ([messageType isEqualToString:SDLNameBulkData] == FALSE) {
+            if (![messageType isEqualToString:SDLNameBulkData]) {
                 break;
             }
         }
@@ -39,11 +41,11 @@
     return self;
 }
 
-- (NSString *)getFunctionName {
+- (nullable NSString *)getFunctionName {
     return [function objectForKey:SDLNameOperationName];
 }
 
-- (void)setFunctionName:(NSString *)functionName {
+- (void)setFunctionName:(nullable NSString *)functionName {
     if (functionName != nil) {
         [function setObject:functionName forKey:SDLNameOperationName];
     } else {
@@ -51,21 +53,16 @@
     }
 }
 
-- (NSObject *)getParameters:(NSString *)functionName {
+- (nullable NSObject *)getParameters:(NSString *)functionName {
     return [parameters objectForKey:functionName];
 }
 
-- (void)setParameters:(NSString *)functionName value:(NSObject *)value {
+- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {
     if (value != nil) {
         [parameters setObject:value forKey:functionName];
     } else {
         [parameters removeObjectForKey:functionName];
     }
-}
-
-- (void)dealloc {
-    function = nil;
-    parameters = nil;
 }
 
 - (NSString *)name {
@@ -79,3 +76,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

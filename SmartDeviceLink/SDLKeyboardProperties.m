@@ -5,9 +5,11 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLKeyboardProperties
 
-- (instancetype)initWithLanguage:(SDLLanguage)language layout:(SDLKeyboardLayout)layout keypressMode:(SDLKeypressMode)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText {
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText {
     self = [self init];
     if (!self) {
         return nil;
@@ -22,7 +24,7 @@
     return self;
 }
 
-- (void)setLanguage:(SDLLanguage)language {
+- (void)setLanguage:(nullable SDLLanguage)language {
     if (language != nil) {
         [store setObject:language forKey:SDLNameLanguage];
     } else {
@@ -30,12 +32,12 @@
     }
 }
 
-- (SDLLanguage)language {
+- (nullable SDLLanguage)language {
     NSObject *obj = [store objectForKey:SDLNameLanguage];
     return (SDLLanguage )obj;
 }
 
-- (void)setKeyboardLayout:(SDLKeyboardLayout)keyboardLayout {
+- (void)setKeyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout {
     if (keyboardLayout != nil) {
         [store setObject:keyboardLayout forKey:SDLNameKeyboardLayout];
     } else {
@@ -43,12 +45,12 @@
     }
 }
 
-- (SDLKeyboardLayout)keyboardLayout {
+- (nullable SDLKeyboardLayout)keyboardLayout {
     NSObject *obj = [store objectForKey:SDLNameKeyboardLayout];
     return (SDLKeyboardLayout)obj;
 }
 
-- (void)setKeypressMode:(SDLKeypressMode)keypressMode {
+- (void)setKeypressMode:(nullable SDLKeypressMode)keypressMode {
     if (keypressMode != nil) {
         [store setObject:keypressMode forKey:SDLNameKeypressMode];
     } else {
@@ -56,12 +58,12 @@
     }
 }
 
-- (SDLKeypressMode)keypressMode {
+- (nullable SDLKeypressMode)keypressMode {
     NSObject *obj = [store objectForKey:SDLNameKeypressMode];
     return (SDLKeypressMode)obj;
 }
 
-- (void)setLimitedCharacterList:(NSMutableArray<NSString *> *)limitedCharacterList {
+- (void)setLimitedCharacterList:(nullable NSMutableArray<NSString *> *)limitedCharacterList {
     if (limitedCharacterList != nil) {
         [store setObject:limitedCharacterList forKey:SDLNameLimitedCharacterList];
     } else {
@@ -69,11 +71,11 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)limitedCharacterList {
+- (nullable NSMutableArray<NSString *> *)limitedCharacterList {
     return [store objectForKey:SDLNameLimitedCharacterList];
 }
 
-- (void)setAutoCompleteText:(NSString *)autoCompleteText {
+- (void)setAutoCompleteText:(nullable NSString *)autoCompleteText {
     if (autoCompleteText != nil) {
         [store setObject:autoCompleteText forKey:SDLNameAutoCompleteText];
     } else {
@@ -81,8 +83,10 @@
     }
 }
 
-- (NSString *)autoCompleteText {
+- (nullable NSString *)autoCompleteText {
     return [store objectForKey:SDLNameAutoCompleteText];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

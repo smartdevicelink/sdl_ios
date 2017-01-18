@@ -10,6 +10,9 @@
  *
  * @since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSingleTireStatus : SDLRPCStruct
 
 /**
@@ -18,3 +21,5 @@
 @property (strong, nonatomic) SDLComponentVolumeStatus status;
 
 @end
+
+NS_ASSUME_NONNULL_END

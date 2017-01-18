@@ -7,6 +7,8 @@
 #import "SDLEnum.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCStruct
 
 - (id)initWithDictionary:(NSDictionary<NSString *, id> *)dict {
@@ -74,3 +76,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

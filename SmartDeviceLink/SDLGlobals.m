@@ -8,8 +8,9 @@
 
 #import "SDLGlobals.h"
 
-static const NSUInteger maxProxyVersion = 4;
+NS_ASSUME_NONNULL_BEGIN
 
+static const NSUInteger maxProxyVersion = 4;
 
 @interface SDLGlobals ()
 
@@ -20,7 +21,7 @@ static const NSUInteger maxProxyVersion = 4;
 
 @implementation SDLGlobals
 
-+ (instancetype)globals {
++ (instancetype)sharedGlobals {
     static SDLGlobals *sharedGlobals = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -75,3 +76,5 @@ static const NSUInteger maxProxyVersion = 4;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

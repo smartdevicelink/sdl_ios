@@ -12,18 +12,23 @@
  *<p>
  * @since SmartDeviceLink 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLUpdateTurnList : SDLRPCRequest
 
-- (instancetype)initWithTurnList:(NSArray<SDLTurn *> *)turnList softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithTurnList:(nullable NSArray<SDLTurn *> *)turnList softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 /**
  *  Optional, SDLTurn, 1 - 100 entries
  */
-@property (strong, nonatomic) NSMutableArray<SDLTurn *> *turnList;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLTurn *> *turnList;
 
 /**
  *  Required, SDLSoftButton, 0 - 1 Entries
  */
-@property (strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
 
 @end
+
+NS_ASSUME_NONNULL_END

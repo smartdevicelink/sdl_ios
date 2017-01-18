@@ -9,6 +9,9 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPresetBankCapabilities : SDLRPCStruct
 
 /**
@@ -19,3 +22,5 @@
 @property (strong, nonatomic) NSNumber<SDLBool> *onScreenPresetsAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

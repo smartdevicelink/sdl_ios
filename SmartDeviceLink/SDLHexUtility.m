@@ -7,6 +7,8 @@
 
 @implementation SDLHexUtility
 
+NS_ASSUME_NONNULL_BEGIN
+
 // Using this function as a fail-safe, because we know this is successful.
 + (NSString *)getHexString:(UInt8 *)bytes length:(NSUInteger)length {
     NSMutableString *ret = [NSMutableString stringWithCapacity:(length * 2)];
@@ -58,3 +60,5 @@ NSString *getHexString(NSData *data) {
 
 
 @end
+
+NS_ASSUME_NONNULL_END

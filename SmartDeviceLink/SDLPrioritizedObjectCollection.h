@@ -5,6 +5,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPrioritizedObjectCollection : NSObject
 
 /**
@@ -15,13 +17,15 @@
  * @param object   The object to be added to the priority collection
  * @param priority The priority to use when determining the location of the object in the collection. A lower number is considered a higher priority
  */
-- (void)addObject:(id)object withPriority:(NSInteger)priority;
+- (void)addObject:(nullable id)object withPriority:(NSInteger)priority;
 
 /**
  * Retreive the highest priority object from the collection. This also removes the object.
  *
  * @return The highest priority object retrieved from the collection.
  */
-- (id)nextObject;
+- (nullable id)nextObject;
 
 @end
+
+NS_ASSUME_NONNULL_END

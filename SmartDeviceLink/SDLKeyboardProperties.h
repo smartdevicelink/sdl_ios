@@ -7,14 +7,18 @@
 #import "SDLKeypressMode.h"
 #import "SDLLanguage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLKeyboardProperties : SDLRPCStruct
 
-- (instancetype)initWithLanguage:(SDLLanguage)language layout:(SDLKeyboardLayout)layout keypressMode:(SDLKeypressMode)keypressMode limitedCharacterList:(NSArray<NSString *> *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText;
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText;
 
-@property (strong, nonatomic) SDLLanguage language;
-@property (strong, nonatomic) SDLKeyboardLayout keyboardLayout;
-@property (strong, nonatomic) SDLKeypressMode keypressMode;
-@property (strong, nonatomic) NSMutableArray<NSString *> *limitedCharacterList;
-@property (strong, nonatomic) NSString *autoCompleteText;
+@property (nullable, strong, nonatomic) SDLLanguage language;
+@property (nullable, strong, nonatomic) SDLKeyboardLayout keyboardLayout;
+@property (nullable, strong, nonatomic) SDLKeypressMode keypressMode;
+@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *limitedCharacterList;
+@property (nullable, strong, nonatomic) NSString *autoCompleteText;
 
 @end
+
+NS_ASSUME_NONNULL_END

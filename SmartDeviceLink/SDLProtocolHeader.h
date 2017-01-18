@@ -37,6 +37,7 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
     SDLFrameData_ConsecutiveLastFrame = 0x00
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolHeader : NSObject <NSCopying> {
     UInt8 _version;
@@ -54,9 +55,11 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
 @property (assign, nonatomic) UInt32 bytesInPayload;
 
 - (instancetype)init;
-- (NSData *)data;
+- (nullable NSData *)data;
 - (void)parse:(NSData *)data;
 - (NSString *)description;
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version;
 
 @end
+
+NS_ASSUME_NONNULL_END

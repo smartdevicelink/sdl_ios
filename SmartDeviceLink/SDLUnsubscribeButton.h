@@ -19,6 +19,9 @@
  * @since SmartDeviceLink 1.0<br/>
  * See SDLSubscribeButton
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLUnsubscribeButton : SDLRPCRequest
 
 - (instancetype)initWithButtonName:(SDLButtonName)buttonName;
@@ -31,3 +34,5 @@
 @property (strong, nonatomic) SDLButtonName buttonName;
 
 @end
+
+NS_ASSUME_NONNULL_END

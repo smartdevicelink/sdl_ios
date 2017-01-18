@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The handler that is added to any RPC implementing this protocol.
  */
-@property (copy, nonatomic) SDLRPCNotificationHandler handler;
+@property (nullable, copy, nonatomic) SDLRPCNotificationHandler handler;
 
 /**
  *  A special init function on any RPC implementing this protocol.
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of the class implementing this protocol.
  */
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler;
 
 @end
 

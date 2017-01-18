@@ -8,6 +8,8 @@
 static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
 static NSString *const SDLBundleAppNameKey = @"CFBundleName";
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAppInfo
 
 + (instancetype)currentAppInfo {
@@ -60,3 +62,5 @@ static NSString *const SDLBundleAppNameKey = @"CFBundleName";
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

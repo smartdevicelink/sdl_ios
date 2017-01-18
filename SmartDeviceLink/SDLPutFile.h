@@ -13,6 +13,9 @@
  * @see SDLDeleteFile
  * @see SDLListFiles
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPutFile : SDLRPCRequest
 
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType;
@@ -46,27 +49,29 @@
  *
  * Boolean, Optional, default = NO
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *persistentFile;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *persistentFile;
 
 /**
  * Indicates if the file is meant to be passed through core to elsewhere on the system. If set to TRUE, then the system will instead pass the data thru as it arrives to a predetermined area outside of core.
  *
  * Boolean, Optional, default = NO
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *systemFile;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *systemFile;
 
 /**
  * Offset in bytes for resuming partial data chunks.
  *
  * Integer, Optional, 0 - 100,000,000,000
  */
-@property (strong, nonatomic) NSNumber<SDLUInt> *offset;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *offset;
 
 /**
  * Length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded
  *
  * Integer, Optional, 0 - 100,000,000,000
  */
-@property (strong, nonatomic) NSNumber<SDLUInt> *length;
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *length;
 
 @end
+
+NS_ASSUME_NONNULL_END

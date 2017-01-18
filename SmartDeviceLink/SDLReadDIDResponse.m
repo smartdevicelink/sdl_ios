@@ -15,7 +15,7 @@
     return self;
 }
 
-- (void)setDidResult:(NSMutableArray<SDLDIDResult *> *)didResult {
+- (void)setDidResult:(nullable NSMutableArray<SDLDIDResult *> *)didResult {
     if (didResult != nil) {
         [parameters setObject:didResult forKey:SDLNameDIDResult];
     } else {
@@ -23,7 +23,7 @@
     }
 }
 
-- (NSMutableArray<SDLDIDResult *> *)didResult {
+- (nullable NSMutableArray<SDLDIDResult *> *)didResult {
     NSMutableArray<SDLDIDResult *> *array = [parameters objectForKey:SDLNameDIDResult];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLDIDResult.class]) {
         return array;

@@ -7,6 +7,8 @@
 #import "SDLButtonName.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLUnsubscribeButton
 
 - (instancetype)init {
@@ -40,3 +42,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

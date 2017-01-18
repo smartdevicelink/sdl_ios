@@ -3,6 +3,8 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDateTime : SDLRPCStruct
 
 - (instancetype)initWithHour:(UInt8)hour minute:(UInt8)minute;
@@ -77,3 +79,5 @@
 @property (copy, nonatomic) NSNumber<SDLInt> *timezoneHourOffset;
 
 @end
+
+NS_ASSUME_NONNULL_END

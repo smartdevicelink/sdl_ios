@@ -4,10 +4,12 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTimer : NSObject
 
-@property (copy, nonatomic) void (^elapsedBlock)(void);
-@property (copy, nonatomic) void (^canceledBlock)(void);
+@property (copy, nonatomic, nullable) void (^elapsedBlock)(void);
+@property (copy, nonatomic, nullable) void (^canceledBlock)(void);
 @property (assign, nonatomic) float duration;
 
 - (instancetype)init;
@@ -17,3 +19,5 @@
 - (void)cancel;
 
 @end
+
+NS_ASSUME_NONNULL_END

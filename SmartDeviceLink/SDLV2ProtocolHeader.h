@@ -4,6 +4,8 @@
 
 #import "SDLProtocolHeader.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLV2ProtocolHeader : SDLProtocolHeader
 
 @property (assign, nonatomic) UInt32 messageID;
@@ -15,3 +17,5 @@
 - (NSString *)description;
 
 @end
+
+NS_ASSUME_NONNULL_END

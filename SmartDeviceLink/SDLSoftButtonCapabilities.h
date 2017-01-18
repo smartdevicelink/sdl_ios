@@ -9,6 +9,9 @@
  *
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSoftButtonCapabilities : SDLRPCStruct
 
 /**
@@ -46,3 +49,5 @@
 @property (strong, nonatomic) NSNumber<SDLBool> *imageSupported;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -12,6 +12,9 @@
  * 
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLGPSData : SDLRPCStruct
 
 /**
@@ -149,3 +152,5 @@
 @property (strong, nonatomic) NSNumber<SDLFloat> *speed;
 
 @end
+
+NS_ASSUME_NONNULL_END

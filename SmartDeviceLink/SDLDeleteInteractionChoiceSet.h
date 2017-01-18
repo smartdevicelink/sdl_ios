@@ -18,6 +18,9 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLCreateInteractionChoiceSet SDLPerformInteraction
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDeleteInteractionChoiceSet : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt32)choiceId;
@@ -31,3 +34,5 @@
 @property (strong, nonatomic) NSNumber<SDLInt> *interactionChoiceSetID;
 
 @end
+
+NS_ASSUME_NONNULL_END

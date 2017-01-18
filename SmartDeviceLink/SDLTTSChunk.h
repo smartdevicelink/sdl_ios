@@ -36,6 +36,9 @@
  *
  *  @since SmartDeviceLink 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTTSChunk : SDLRPCStruct
 
 - (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type;
@@ -66,3 +69,5 @@
 @property (strong, nonatomic) SDLSpeechCapabilities type;
 
 @end
+
+NS_ASSUME_NONNULL_END
