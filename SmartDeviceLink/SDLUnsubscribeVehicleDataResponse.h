@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract A SDLVehicleDataResult* value. The vehicle speed in kilometers per hour.
  */
-@property (strong, nonatomic, nullableSDLVehicleDataResult *speed;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *speed;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The number of revolutions per minute of the engine.
