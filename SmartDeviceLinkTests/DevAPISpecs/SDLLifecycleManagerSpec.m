@@ -268,7 +268,7 @@ describe(@"a lifecycle manager", ^{
             it(@"cannot send a nil RPC", ^{
                 SDLShow *testShow = nil;
 
-                expectAction(^{ [testManager sendRequest:testShow]; }).to(raiseException().named(NSInvalidArgumentException));
+                expectAction(^{ [testManager sendRequest:testShow]; }).to(raiseException().named(NSInternalInconsistencyException));
             });
             
             describe(@"stopping the manager", ^{

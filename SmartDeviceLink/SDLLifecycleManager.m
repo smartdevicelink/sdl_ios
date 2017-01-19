@@ -367,12 +367,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifeCycleStateTransportConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
 
+    NSParameterAssert(request != nil);
+    
     // If, for some reason, the request is nil we should error out.
     if (!request) {
-        @throw [NSException
-                exceptionWithName:NSInvalidArgumentException
-                reason:@"A Request cannot be nil."
-                userInfo:nil];
+        if (handler) {
+            handler(nil, nil, [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."]);
+        }
+        return;
     }
     
     // Add a correlation ID to the request
