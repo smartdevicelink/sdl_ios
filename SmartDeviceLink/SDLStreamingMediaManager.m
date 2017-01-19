@@ -272,6 +272,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)didEnterStateVideoStreamStarting {
+    self.shouldRestartVideoStream = NO;
+    
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
         [self.protocol startSecureServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail!!
