@@ -340,7 +340,6 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     [self.protocol endServiceWithType:SDLServiceType_Audio];
 }
 
-
 #pragma mark - SDLProtocolListener
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
@@ -476,6 +475,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
             break;
         case SDLServiceType_Video:
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+            break;
+        default:
             break;
     }
 }
