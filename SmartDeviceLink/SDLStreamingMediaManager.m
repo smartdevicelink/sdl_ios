@@ -232,6 +232,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     [self.touchManager cancelPendingTouches];
 }
 
+// Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
+// We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateActive {
     [self sdl_startVideoSession];
     [self sdl_startAudioSession];
@@ -241,10 +243,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     [self.appStateMachine transitionToState:SDLAppStateInactive];
 }
 
-- (void)didEnterStateIsRegainingActive {
-    [self sdl_startVideoSession];
-    [self sdl_startAudioSession];
-}
+- (void)didEnterStateIsRegainingActive { }
 
 #pragma mark Video Streaming
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_videoStreamStateTransitionDictionary {
