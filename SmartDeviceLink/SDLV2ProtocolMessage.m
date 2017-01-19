@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Convert RPC payload to dictionary (for consumption by RPC layer)
 - (nullable NSDictionary<NSString *, id> *)rpcDictionary {
     // Only applicable to RPCs
-    if ((self.header.serviceType != SDLServiceType_RPC) && (self.header.serviceType != SDLServiceType_BulkData)) {
+    if ((self.header.serviceType != SDLServiceTypeRPC) && (self.header.serviceType != SDLServiceTypeBulkData)) {
         return nil;
     }
 

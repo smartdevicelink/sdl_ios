@@ -30,14 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
     SDLFrameType frameType = message.header.frameType;
 
     switch (frameType) {
-        case SDLFrameType_Single: {
+        case SDLFrameTypeSingle: {
             [self sdl_dispatchProtocolMessage:message];
         } break;
-        case SDLFrameType_Control: {
+        case SDLFrameTypeControl: {
             [self sdl_dispatchControlMessage:message];
         } break;
-        case SDLFrameType_First: // fallthrough
-        case SDLFrameType_Consecutive: {
+        case SDLFrameTypeFirst: // fallthrough
+        case SDLFrameTypeConsecutive: {
             [self sdl_dispatchMultiPartMessage:message];
         } break;
         default: break;
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message {
     switch (message.header.frameData) {
-        case SDLFrameData_StartSessionACK: {
+        case SDLFrameInfoStartServiceAck: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -66,27 +66,27 @@ NS_ASSUME_NONNULL_BEGIN
                 [self.delegate handleProtocolStartSessionACK:message.header];
             }
         } break;
-        case SDLFrameData_StartSessionNACK: {
+        case SDLFrameInfoStartServiceNack: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
                 [self.delegate handleProtocolStartSessionNACK:message.header.serviceType];
             }
         } break;
-        case SDLFrameData_EndSessionACK: {
+        case SDLFrameInfoEndServiceAck: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
                 [self.delegate handleProtocolEndSessionACK:message.header.serviceType];
             }
         } break;
-        case SDLFrameData_EndSessionNACK: {
+        case SDLFrameInfoEndServiceNack: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
                 [self.delegate handleProtocolEndSessionNACK:message.header.serviceType];
             }
         } break;
-        case SDLFrameData_Heartbeat: {
+        case SDLFrameInfoHeartbeat: {
             if ([self.delegate respondsToSelector:@selector(handleHeartbeatForSession:)]) {
                 [self.delegate handleHeartbeatForSession:message.header.sessionID];
             }
         } break;
-        case SDLFrameData_HeartbeatACK: {
+        case SDLFrameInfoHeartbeatAck: {
             if ([self.delegate respondsToSelector:@selector(handleHeartbeatACK)]) {
                 [self.delegate handleHeartbeatACK];
             }
