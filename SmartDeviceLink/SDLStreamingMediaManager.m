@@ -394,6 +394,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
     
     _videoStreamingSupported = registerResponse.displayCapabilities.graphicSupported.boolValue;
+    _audioStreamingSupported = registerResponse.displayCapabilities.graphicSupported.boolValue;
     
     if (!self.isVideoStreamingSupported) {
         [SDLDebugTool logInfo:@"Graphics are not support. We are assuming screen size is also unavailable"];
@@ -457,6 +458,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)sdl_startAudioSession {
+    if (!self.isAudioStreamingSupported) {
+        return;
+    }
+    
     if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamStateStopped]
         && self.isHmiStateAudioStreamCapable) {
         [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStarting];
@@ -474,6 +479,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)sdl_stopAudioSession {
+    if (!self.isAudioStreamingSupported) {
+        return;
+    }
+    
     if (self.isAudioConnected) {
         [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateShuttingDown];
     }

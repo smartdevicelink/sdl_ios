@@ -49,6 +49,11 @@ extern NSString *const SDLAudioStreamDidStopNotification;
 @property (assign, nonatomic, readonly, getter=isVideoStreamingSupported) BOOL videoStreamingSupported;
 
 /**
+ *  Whether or not audio streaming is supported. Currently this is the same as videoStreamingSupported.
+ */
+@property (assign, nonatomic, readonly, getter=isAudioStreamingSupported) BOOL audioStreamingSupported;
+
+/**
  *  Whether or not the video session is connected.
  */
 @property (assign, nonatomic, readonly, getter=isVideoConnected) BOOL videoConnected;
