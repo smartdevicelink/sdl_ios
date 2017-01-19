@@ -22,11 +22,16 @@
  *
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnDriverDistraction : SDLRPCNotification
 
 /**
  * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
-@property (strong) SDLDriverDistractionState state;
+@property (strong, nonatomic) SDLDriverDistractionState state;
 
 @end
+
+NS_ASSUME_NONNULL_END

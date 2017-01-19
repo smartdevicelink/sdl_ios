@@ -15,6 +15,7 @@
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDebugTool.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
@@ -181,7 +182,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
 
-    [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
+    [SDLDebugTool logInfo:@"Stopping Proxy"];
+    self.proxy = nil;
     [self.delegate managerDidDisconnect];
 
     [self startWithReadyHandler:self.readyHandler]; // Start up again to start watching for new connections
@@ -325,7 +327,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sdl_sendAppIcon:(nullable SDLFile *)appIcon withCompletion:(void (^)(void))completion {
     // If no app icon was set, just move on to ready
-    if (appIcon == nil) {
+    if (appIcon == nil || !self.registerResponse.displayCapabilities.graphicSupported.boolValue) {
         completion();
         return;
     }
@@ -396,13 +398,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 
 #pragma mark Helper Methods
-
-- (void)sdl_disposeProxy {
-    [SDLDebugTool logInfo:@"Stop Proxy"];
-    [self.proxy dispose];
-    self.proxy = nil;
-}
-
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
     if (self.lastCorrelationId == UINT16_MAX) {
         self.lastCorrelationId = 0;

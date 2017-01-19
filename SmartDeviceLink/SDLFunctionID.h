@@ -7,11 +7,15 @@
 #import "SDLNames.h"
 #import "NSNumber+NumberType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLFunctionID : NSObject
 
 + (instancetype)sharedInstance;
 
-- (SDLName)functionNameForId:(int)functionID;
-- (NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName;
+- (nullable SDLName)functionNameForId:(int)functionID;
+- (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -48,6 +48,9 @@
  *
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLOnButtonPress : SDLRPCNotification
 
 /**
@@ -57,7 +60,7 @@
  *
  * Required
  */
-@property (strong) SDLButtonName buttonName;
+@property (strong, nonatomic) SDLButtonName buttonName;
 
 /**
  * @abstract Indicates whether this is a LONG or SHORT button press event
@@ -66,7 +69,7 @@
  *
  * Required
  */
-@property (strong) SDLButtonPressMode buttonPressMode;
+@property (strong, nonatomic) SDLButtonPressMode buttonPressMode;
 
 /**
  * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
@@ -75,6 +78,8 @@
  *
  * Optional, Integer 0 - 65536
  */
-@property (strong) NSNumber<SDLInt> *customButtonID;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *customButtonID;
 
 @end
+
+NS_ASSUME_NONNULL_END

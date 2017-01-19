@@ -3,16 +3,19 @@
 
 #import "SDLRPCMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLDeviceInfo : SDLRPCStruct
 
 + (instancetype)currentDevice;
 
-@property (strong) NSString *hardware;
-@property (strong) NSString *firmwareRev;
-@property (strong) NSString *os;
-@property (strong) NSString *osVersion;
-@property (strong) NSString *carrier;
-@property (strong) NSNumber<SDLInt> *maxNumberRFCOMMPorts;
+@property (nullable, strong, nonatomic) NSString *hardware;
+@property (nullable, strong, nonatomic) NSString *firmwareRev;
+@property (nullable, strong, nonatomic) NSString *os;
+@property (nullable, strong, nonatomic) NSString *osVersion;
+@property (nullable, strong, nonatomic) NSString *carrier;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *maxNumberRFCOMMPorts;
 
 @end
+
+NS_ASSUME_NONNULL_END

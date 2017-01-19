@@ -6,9 +6,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLChoice
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(SDLImage *)image secondaryText:(NSString *)secondaryText secondaryImage:(SDLImage *)secondaryImage tertiaryText:(NSString *)tertiaryText {
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText {
     self = [self initWithId:choiceId menuName:menuName vrCommands:vrCommands];
     if (!self) {
         return nil;
@@ -71,7 +73,7 @@
     return [store objectForKey:SDLNameVRCommands];
 }
 
-- (void)setImage:(SDLImage *)image {
+- (void)setImage:(nullable SDLImage *)image {
     if (image != nil) {
         [store setObject:image forKey:SDLNameImage];
     } else {
@@ -79,16 +81,17 @@
     }
 }
 
-- (SDLImage *)image {
+- (nullable SDLImage *)image {
     NSObject *obj = [store objectForKey:SDLNameImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
+    
 }
 
-- (void)setSecondaryText:(NSString *)secondaryText {
+- (void)setSecondaryText:(nullable NSString *)secondaryText {
     if (secondaryText != nil) {
         [store setObject:secondaryText forKey:SDLNameSecondaryText];
     } else {
@@ -96,11 +99,11 @@
     }
 }
 
-- (NSString *)secondaryText {
+- (nullable NSString *)secondaryText {
     return [store objectForKey:SDLNameSecondaryText];
 }
 
-- (void)setTertiaryText:(NSString *)tertiaryText {
+- (void)setTertiaryText:(nullable NSString *)tertiaryText {
     if (tertiaryText != nil) {
         [store setObject:tertiaryText forKey:SDLNameTertiaryText];
     } else {
@@ -108,11 +111,11 @@
     }
 }
 
-- (NSString *)tertiaryText {
+- (nullable NSString *)tertiaryText {
     return [store objectForKey:SDLNameTertiaryText];
 }
 
-- (void)setSecondaryImage:(SDLImage *)secondaryImage {
+- (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
     if (secondaryImage != nil) {
         [store setObject:secondaryImage forKey:SDLNameSecondaryImage];
     } else {
@@ -120,13 +123,15 @@
     }
 }
 
-- (SDLImage *)secondaryImage {
+- (nullable SDLImage *)secondaryImage {
     NSObject *obj = [store objectForKey:SDLNameSecondaryImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

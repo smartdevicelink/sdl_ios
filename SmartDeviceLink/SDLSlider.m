@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSlider
 
 - (instancetype)init {
@@ -14,7 +16,7 @@
     return self;
 }
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(UInt16)timeout {
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout {
     NSMutableArray *sliderFooters = [NSMutableArray arrayWithCapacity:numTicks];
 
     // Populates array with the same footer value for each position
@@ -25,7 +27,7 @@
     return [self initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:[sliderFooters copy] timeout:timeout];
 }
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout {
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout {
     self = [self initWithNumTicks:numTicks position:position];
     if (!self) {
         return nil;
@@ -86,7 +88,7 @@
     return [parameters objectForKey:SDLNameSliderHeader];
 }
 
-- (void)setSliderFooter:(NSMutableArray<NSString *> *)sliderFooter {
+- (void)setSliderFooter:(nullable NSMutableArray<NSString *> *)sliderFooter {
     if (sliderFooter != nil) {
         [parameters setObject:sliderFooter forKey:SDLNameSliderFooter];
     } else {
@@ -94,11 +96,11 @@
     }
 }
 
-- (NSMutableArray<NSString *> *)sliderFooter {
+- (nullable NSMutableArray<NSString *> *)sliderFooter {
     return [parameters objectForKey:SDLNameSliderFooter];
 }
 
-- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -106,8 +108,10 @@
     }
 }
 
-- (NSNumber<SDLInt> *)timeout {
+- (nullable NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

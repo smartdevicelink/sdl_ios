@@ -115,7 +115,7 @@ extern NSString *const SDLAudioStreamDidStopNotification;
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
  *
- *  @param pcmAudioData The data in PCM audio format, to be played
+ *  @param audioData The data in PCM audio format, to be played
  *
  *  @return Whether or not the data was successfully sent.
  */

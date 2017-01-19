@@ -41,16 +41,17 @@
 #import "SDLURLSession.h"
 #import "SDLVehicleType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NSString SDLVehicleMake;
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.4.0";
+NSString *const SDLProxyVersion = @"4.5.0";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
-
 
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
@@ -58,7 +59,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nonatomic, strong, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
+@property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
 @end
@@ -71,7 +73,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
         _securityManagers = [NSMutableDictionary dictionary];
@@ -90,39 +91,16 @@ const int POLICIES_CORRELATION_ID = 65535;
     return self;
 }
 
-- (void)destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-
-        [[SDLURLSession defaultSession] cancelAllTasks];
-
-        [self.protocol dispose];
-        [self.transport dispose];
-
-        _transport = nil;
-        _protocol = nil;
-        _mutableProxyListeners = nil;
-        _displayCapabilities = nil;
-    }
-}
-
-- (void)dispose {
-    if (self.transport != nil) {
-        [self.transport disconnect];
-    }
-
+- (void)dealloc {
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
-
-    [self destructObjects];
-}
-
-- (void)dealloc {
-    [self destructObjects];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
+        
+    [[SDLURLSession defaultSession] cancelAllTasks];
+        
     [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
 }
 
@@ -200,7 +178,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
+- (nullable id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((make != nil) && (self.securityManagers[make] != nil)) {
         Class securityManagerClass = self.securityManagers[make];
         self.protocol.appId = self.appId;
@@ -364,8 +342,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
 
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
+    if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
+        self.protocol.securityManager.appId = self.appId;
+    }
 
-    if ([SDLGlobals globals].protocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].protocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -568,7 +549,7 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
-- (NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
+- (nullable NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
     SDLFileType fileType = request.fileType;
 
@@ -667,7 +648,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
+- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
     dispatch_async(dispatch_get_main_queue(), ^{
         @autoreleasepool {
             for (id<SDLProxyListener> listener in self.proxyListeners) {
@@ -753,7 +734,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
-            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals globals].maxMTUSize];
+            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
@@ -788,3 +769,5 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

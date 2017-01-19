@@ -13,7 +13,7 @@
     return self;
 }
 
-- (void)setTryAgainTime:(NSNumber<SDLInt> *)tryAgainTime {
+- (void)setTryAgainTime:(nullable NSNumber<SDLInt> *)tryAgainTime {
     if (tryAgainTime != nil) {
         [parameters setObject:tryAgainTime forKey:SDLNameTryAgainTime];
     } else {
@@ -21,7 +21,7 @@
     }
 }
 
-- (NSNumber<SDLInt> *)tryAgainTime {
+- (nullable NSNumber<SDLInt> *)tryAgainTime {
     return [parameters objectForKey:SDLNameTryAgainTime];
 }
 

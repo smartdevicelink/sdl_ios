@@ -6,6 +6,8 @@
 #import "SDLNames.h"
 #import "SDLDriverDistractionState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnDriverDistraction
 
 - (instancetype)init {
@@ -28,3 +30,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

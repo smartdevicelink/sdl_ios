@@ -3,6 +3,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 SDLName const SDLNameAccelerationPedalPosition = @"accPedalPosition";
 SDLName const SDLNameActual = @"actual";
 SDLName const SDLNameAddCommand = @"AddCommand";
@@ -327,6 +329,7 @@ SDLName const SDLNameScreenParams = @"screenParams";
 SDLName const SDLNameScrollableMessage = @"ScrollableMessage";
 SDLName const SDLNameScrollableMessageBody = @"scrollableMessageBody";
 SDLName const SDLNameSDLVersion = @"sdlVersion";
+SDLName const SDLNameSearchAddress = @"searchAddress";
 SDLName const SDLNameSecondaryGraphic = @"secondaryGraphic";
 SDLName const SDLNameSecondaryImage = @"secondaryImage";
 SDLName const SDLNameSecondaryText = @"secondaryText";
@@ -437,3 +440,5 @@ SDLName const SDLNameWiperStatus = @"wiperStatus";
 SDLName const SDLNameX = @"x";
 SDLName const SDLNameY = @"y";
 SDLName const SDLNameYear = @"year";
+
+NS_ASSUME_NONNULL_END

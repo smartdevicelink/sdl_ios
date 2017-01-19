@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLImage
 
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType {
@@ -45,3 +47,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

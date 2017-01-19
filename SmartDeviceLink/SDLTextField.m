@@ -7,6 +7,7 @@
 #import "SDLNames.h"
 #import "SDLTextFieldName.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextField
 
@@ -61,3 +62,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,10 +6,11 @@
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTurn
 
-- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon {
+- (instancetype)initWithNavigationText:(nullable NSString *)navigationText turnIcon:(nullable SDLImage *)icon {
     self = [self init];
     if (!self) {
         return nil;
@@ -21,7 +22,7 @@
     return self;
 }
 
-- (void)setNavigationText:(NSString *)navigationText {
+- (void)setNavigationText:(nullable NSString *)navigationText {
     if (navigationText != nil) {
         [store setObject:navigationText forKey:SDLNameNavigationText];
     } else {
@@ -29,11 +30,11 @@
     }
 }
 
-- (NSString *)navigationText {
+- (nullable NSString *)navigationText {
     return [store objectForKey:SDLNameNavigationText];
 }
 
-- (void)setTurnIcon:(SDLImage *)turnIcon {
+- (void)setTurnIcon:(nullable SDLImage *)turnIcon {
     if (turnIcon != nil) {
         [store setObject:turnIcon forKey:SDLNameTurnIcon];
     } else {
@@ -41,13 +42,15 @@
     }
 }
 
-- (SDLImage *)turnIcon {
+- (nullable SDLImage *)turnIcon {
     NSObject *obj = [store objectForKey:SDLNameTurnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
+    if ([obj isKindOfClass:NSDictionary.class]) {
         return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
     }
+    
+    return (SDLImage*)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,6 +6,7 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSubscribeButton
 
@@ -15,7 +16,7 @@
     return self;
 }
 
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -26,7 +27,7 @@
     return self;
 }
 
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -52,3 +53,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

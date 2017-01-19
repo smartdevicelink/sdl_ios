@@ -5,7 +5,9 @@
 
 #import "SDLNames.h"
 
-@implementation SDLGetWaypoints
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLGetWayPoints
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameGetWaypoints]) {
@@ -25,7 +27,7 @@
     return self;
 }
 
-- (void)setWaypointType:(SDLWaypointType)waypointType {
+- (void)setWaypointType:(nullable SDLWaypointType)waypointType {
     if (waypointType != nil) {
         parameters[SDLNameWaypointType] = waypointType;
     } else {
@@ -33,8 +35,14 @@
     }
 }
 
-- (SDLWaypointType)waypointType {
+- (nullable SDLWaypointType)waypointType {
     return parameters[SDLNameWaypointType];
 }
 
 @end
+
+@implementation SDLGetWaypoints
+
+@end
+
+NS_ASSUME_NONNULL_END

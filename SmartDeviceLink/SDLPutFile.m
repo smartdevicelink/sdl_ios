@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPutFile
 
 - (instancetype)init {
@@ -13,7 +15,7 @@
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt64)offset length:(UInt64)length {
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length {
     self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
         return nil;
@@ -74,7 +76,7 @@
     return (SDLFileType)obj;
 }
 
-- (void)setPersistentFile:(NSNumber<SDLBool> *)persistentFile {
+- (void)setPersistentFile:(nullable NSNumber<SDLBool> *)persistentFile {
     if (persistentFile != nil) {
         [parameters setObject:persistentFile forKey:SDLNamePersistentFile];
     } else {
@@ -82,11 +84,11 @@
     }
 }
 
-- (NSNumber<SDLBool> *)persistentFile {
+- (nullable NSNumber<SDLBool> *)persistentFile {
     return [parameters objectForKey:SDLNamePersistentFile];
 }
 
-- (void)setSystemFile:(NSNumber<SDLBool> *)systemFile {
+- (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
     if (systemFile != nil) {
         [parameters setObject:systemFile forKey:SDLNameSystemFile];
     } else {
@@ -94,11 +96,11 @@
     }
 }
 
-- (NSNumber<SDLBool> *)systemFile {
+- (nullable NSNumber<SDLBool> *)systemFile {
     return [parameters objectForKey:SDLNameSystemFile];
 }
 
-- (void)setOffset:(NSNumber<SDLUInt> *)offset {
+- (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
     if (offset != nil) {
         [parameters setObject:offset forKey:SDLNameOffset];
     } else {
@@ -106,11 +108,11 @@
     }
 }
 
-- (NSNumber<SDLUInt> *)offset {
+- (nullable NSNumber<SDLUInt> *)offset {
     return [parameters objectForKey:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber<SDLUInt> *)length {
+- (void)setLength:(nullable NSNumber<SDLUInt> *)length {
     if (length != nil) {
         [parameters setObject:length forKey:SDLNameLength];
     } else {
@@ -118,8 +120,10 @@
     }
 }
 
-- (NSNumber<SDLUInt> *)length {
+- (nullable NSNumber<SDLUInt> *)length {
     return [parameters objectForKey:SDLNameLength];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

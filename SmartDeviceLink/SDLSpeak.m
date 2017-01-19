@@ -6,7 +6,8 @@
 
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
-#import "SDLTTSChunkFactory.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSpeak
 
@@ -54,3 +55,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

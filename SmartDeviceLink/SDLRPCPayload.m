@@ -8,9 +8,11 @@
 
 const NSUInteger RPC_HEADER_SIZE = 12;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCPayload
 
-- (instancetype)initWithData:(NSData *)data {
+- (nullable instancetype)initWithData:(NSData *)data {
     unsigned long dataLength = data.length;
 
     if (data == nil || dataLength == 0) {
@@ -108,7 +110,9 @@ const NSUInteger RPC_HEADER_SIZE = 12;
     return description;
 }
 
-+ (id)rpcPayloadWithData:(NSData *)data {
++ (nullable id)rpcPayloadWithData:(NSData *)data {
     return [[SDLRPCPayload alloc] initWithData:data];
 }
 @end
+
+NS_ASSUME_NONNULL_END

@@ -10,11 +10,16 @@
  * @since SmartDeviceLink 3.0
  *
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSystemRequest : SDLRPCRequest
 
-- (instancetype)initWithType:(SDLRequestType)requestType fileName:(NSString *)fileName;
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName;
 
-@property (strong) SDLRequestType requestType;
-@property (strong) NSString *fileName;
+@property (strong, nonatomic) SDLRequestType requestType;
+@property (strong, nonatomic, nullable) NSString *fileName;
 
 @end
+
+NS_ASSUME_NONNULL_END

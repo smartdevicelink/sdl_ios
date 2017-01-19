@@ -5,9 +5,11 @@
 #import "SDLPolicyDataParser.h"
 #import "SDLDebugTool.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLPolicyDataParser
 
-- (NSData *)unwrap:(NSData *)wrappedData {
+- (nullable NSData *)unwrap:(NSData *)wrappedData {
     NSData *decodedData = nil;
 
     @try {
@@ -34,10 +36,6 @@
 }
 
 - (void)parsePolicyData:(NSData *)data {
-    if (data == nil) {
-        return;
-    }
-
     @try {
         Byte *bytes = (Byte *)data.bytes;
 
@@ -95,19 +93,22 @@
         }
 
         int payloadOffset = 5;
-        if (self.isHighBandwidth)
+        if (self.isHighBandwidth) {
             payloadOffset += 11;
-        if (self.hasESN)
+        }
+        if (self.hasESN) {
             payloadOffset += self.ESN.length;
-        if (self.isEncrypted)
+        }
+        if (self.isEncrypted) {
             payloadOffset += self.initializationVector.length;
+        }
+        
         self.payload = [NSData dataWithBytes:(bytes + payloadOffset) length:self.payloadSize];
 
         if (self.isSigned) {
             int signatureTagOffset = (int)data.length - 16;
             self.signatureTag = [NSData dataWithBytes:(bytes + signatureTagOffset) length:16];
         }
-
     }
     @catch (NSException *exception) {
         [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
@@ -138,3 +139,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

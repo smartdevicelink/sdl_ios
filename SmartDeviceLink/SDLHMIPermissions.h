@@ -11,6 +11,9 @@
  * 
  * @since SDL 2.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLHMIPermissions : SDLRPCStruct
 
 /**
@@ -20,7 +23,7 @@
  *
  * Required, Array of SDLHMILevel, Array size 0 - 100
  */
-@property (strong) NSMutableArray<SDLHMILevel> *allowed;
+@property (strong, nonatomic) NSMutableArray<SDLHMILevel> *allowed;
 
 /**
  * @abstract a set of all HMI levels that are prohibited for this given RPC
@@ -29,6 +32,8 @@
  *
  * Required, Array of SDLHMILevel, Array size 0 - 100
  */
-@property (strong) NSMutableArray<SDLHMILevel> *userDisallowed;
+@property (strong, nonatomic) NSMutableArray<SDLHMILevel> *userDisallowed;
 
 @end
+
+NS_ASSUME_NONNULL_END

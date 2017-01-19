@@ -4,7 +4,9 @@
 #import "SDLUnsubscribeWaypoints.h"
 #import "SDLNames.h"
 
-@implementation SDLUnsubscribeWaypoints
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLUnsubscribeWayPoints
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameUnsubscribeWaypoints]) {
@@ -13,3 +15,13 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLUnsubscribeWaypoints
+
+@end
+
+NS_ASSUME_NONNULL_END

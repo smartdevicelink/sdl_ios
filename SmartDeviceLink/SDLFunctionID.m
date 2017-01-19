@@ -4,6 +4,8 @@
 
 #import "SDLFunctionID.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLFunctionID ()
 
 @property (nonatomic, strong, nonnull) NSDictionary* functionIds;
@@ -93,14 +95,16 @@
     return self;
 }
 
-- (SDLName)functionNameForId:(int)functionID {
+- (nullable SDLName)functionNameForId:(int)functionID {
     return self.functionIds[@(functionID)];
 }
 
 
-- (NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName {
+- (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName {
     return [[self.functionIds allKeysForObject:functionName] firstObject];
 }
 
 
 @end
+
+NS_ASSUME_NONNULL_END

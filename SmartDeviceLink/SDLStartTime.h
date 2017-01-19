@@ -9,6 +9,9 @@
  *
  * @since SDL 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLStartTime : SDLRPCStruct
 
 - (instancetype)initWithHours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
@@ -20,20 +23,22 @@
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber<SDLInt> *hours;
+@property (strong, nonatomic) NSNumber<SDLInt> *hours;
 
 /**
  * @abstract The minute of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber<SDLInt> *minutes;
+@property (strong, nonatomic) NSNumber<SDLInt> *minutes;
 
 /**
  * @abstract The second of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber<SDLInt> *seconds;
+@property (strong, nonatomic) NSNumber<SDLInt> *seconds;
 
 @end
+
+NS_ASSUME_NONNULL_END

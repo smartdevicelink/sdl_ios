@@ -25,21 +25,26 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLCreateInteractionChoiceSet SDLDeleteInteractionChoiceSet
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPerformInteraction : SDLRPCRequest
 
 - (instancetype)initWithInteractionChoiceSetId:(UInt16)interactionChoiceSetId;
 
-- (instancetype)initWithInteractionChoiceSetIdList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIdList;
+- (instancetype)initWithInteractionChoiceSetIdList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIdList;
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID;
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID;
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp;
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetID:(UInt16)interactionChoiceSetID vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp;
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt16)timeout;
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSString *)helpPrompt timeoutPrompt:(nullable NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout;
 
-- (instancetype)initWithInitialPrompt:(NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList helpPrompt:(NSString *)helpPrompt timeoutPrompt:(NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt16)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp;
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSString *)helpPrompt timeoutPrompt:(nullable NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp;
 
-- (instancetype)initWithInitialChunks:(NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList helpChunks:(NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt16)timeout vrHelp:(NSArray<SDLVRHelpItem *> *)vrHelp;
+- (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpChunks:(nullable NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(nullable NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp;
+
+- (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpChunks:(nullable NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(nullable NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)layout;
 
 /**
  * @abstract The Text that Displayed when the interaction begins. This text may
@@ -47,44 +52,46 @@
  * displayed on first line of multiline display, and is centered. If text
  * does not fit on line, it will be truncated
  */
-@property (strong) NSString *initialText;
+@property (strong, nonatomic) NSString *initialText;
 /**
  * @abstract An array of one or more TTSChunks that, taken together, specify
  * what is to be spoken to the user at the start of an interaction
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract The Indicates mode that indicate how user selects interaction
  * choice. User can choose either by voice (VR_ONLY), by visual selection
  * from the menu (MANUAL_ONLY), or by either mode (BOTH)
  */
-@property (strong) SDLInteractionMode interactionMode;
+@property (strong, nonatomic) SDLInteractionMode interactionMode;
 /**
  * @abstract A Vector<Integer> value representing an Array of one or more Choice
  * Set IDs
  */
-@property (strong) NSMutableArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
+@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
 /**
  * @abstract A Vector<TTSChunk> which taken together, specify the help phrase to
  * be spoken when the user says "help" during the VR session
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *helpPrompt;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *helpPrompt;
 /**
  * @abstract An array of TTSChunks which, taken together, specify the phrase to
  * be spoken when the listen times out during the VR session
  */
-@property (strong) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
 /**
  * @abstract An Integer value representing the amount of time, in milliseconds,
  * SDL will wait for the user to make a choice (VR or Menu)
  */
-@property (strong) NSNumber<SDLInt> *timeout;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *timeout;
 /**
  * @abstract A Voice recognition Help, which is a suggested VR Help Items to
  * display on-screen during Perform Interaction
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray<SDLVRHelpItem *> *vrHelp;
-@property (strong) SDLLayoutMode interactionLayout;
+@property (nullable, strong, nonatomic) NSMutableArray<SDLVRHelpItem *> *vrHelp;
+@property (nullable, strong, nonatomic) SDLLayoutMode interactionLayout;
 
 @end
+
+NS_ASSUME_NONNULL_END

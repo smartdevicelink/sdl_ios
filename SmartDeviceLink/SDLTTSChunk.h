@@ -36,6 +36,9 @@
  *
  *  @since SmartDeviceLink 1.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTTSChunk : SDLRPCStruct
 
 - (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type;
@@ -56,13 +59,15 @@
  *
  * Required, Max length 500
  */
-@property (strong) NSString *text;
+@property (strong, nonatomic) NSString *text;
 
 /**
  * @abstract The type of information in the "text" field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound).
  *
  * Required
  */
-@property (strong) SDLSpeechCapabilities type;
+@property (strong, nonatomic) SDLSpeechCapabilities type;
 
 @end
+
+NS_ASSUME_NONNULL_END

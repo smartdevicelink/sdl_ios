@@ -42,22 +42,27 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAudioPassThruCapabilities : SDLRPCStruct
 
 /**
  * @abstract The sampling rate for AudioPassThru<br>
  *
  */
-@property (strong) SDLSamplingRate samplingRate;
+@property (strong, nonatomic) SDLSamplingRate samplingRate;
 /**
  * @abstract The sample depth in bit for AudioPassThru<br>
  *
  */
-@property (strong) SDLBitsPerSample bitsPerSample;
+@property (strong, nonatomic) SDLBitsPerSample bitsPerSample;
 /**
  * @abstract The audiotype for AudioPassThru<br>
  *
  */
-@property (strong) SDLAudioType audioType;
+@property (strong, nonatomic) SDLAudioType audioType;
 
 @end
+
+NS_ASSUME_NONNULL_END

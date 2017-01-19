@@ -5,11 +5,14 @@
 @class SDLProtocolHeader;
 @class SDLProtocolRecievedMessageRouter;
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, SDLProtocolError) {
     SDLProtocolErrorNoSecurityManager,
 };
 
 extern NSString *const SDLProtocolSecurityErrorDomain;
+
 
 @interface SDLProtocol : SDLAbstractProtocol <SDLProtocolListener>
 
@@ -29,3 +32,5 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 - (void)handleBytesFromTransport:(NSData *)receivedData;
 
 @end
+
+NS_ASSUME_NONNULL_END

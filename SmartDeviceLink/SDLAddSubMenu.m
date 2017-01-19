@@ -4,6 +4,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAddSubMenu
 
 - (instancetype)init {
@@ -13,7 +15,7 @@
 }
 
 
-- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName position:(UInt8)position {
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position {
     self = [self initWithId:menuId menuName:menuName];
     if (!self) {
         return nil;
@@ -24,7 +26,7 @@
     return self;
 }
 
-- (instancetype)initWithId:(UInt8)menuId menuName:(NSString *)menuName {
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName {
     self = [self init];
     if (!self) {
         return nil;
@@ -48,7 +50,7 @@
     return [parameters objectForKey:SDLNameMenuId];
 }
 
-- (void)setPosition:(NSNumber<SDLInt> *)position {
+- (void)setPosition:(nullable NSNumber<SDLInt> *)position {
     if (position != nil) {
         [parameters setObject:position forKey:SDLNamePosition];
     } else {
@@ -56,7 +58,7 @@
     }
 }
 
-- (NSNumber<SDLInt> *)position {
+- (nullable NSNumber<SDLInt> *)position {
     return [parameters objectForKey:SDLNamePosition];
 }
 
@@ -73,3 +75,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

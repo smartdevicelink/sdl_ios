@@ -5,6 +5,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLOnSystemRequest
 
 - (instancetype)init {
@@ -26,7 +28,7 @@
     return (SDLRequestType)obj;
 }
 
-- (void)setUrl:(NSString *)url {
+- (void)setUrl:(nullable NSString *)url {
     if (url != nil) {
         [parameters setObject:url forKey:SDLNameURL];
     } else {
@@ -34,11 +36,11 @@
     }
 }
 
-- (NSString *)url {
+- (nullable NSString *)url {
     return [parameters objectForKey:SDLNameURL];
 }
 
-- (void)setTimeout:(NSNumber<SDLInt> *)timeout {
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
     if (timeout != nil) {
         [parameters setObject:timeout forKey:SDLNameTimeout];
     } else {
@@ -46,11 +48,11 @@
     }
 }
 
-- (NSNumber<SDLInt> *)timeout {
+- (nullable NSNumber<SDLInt> *)timeout {
     return [parameters objectForKey:SDLNameTimeout];
 }
 
-- (void)setFileType:(SDLFileType)fileType {
+- (void)setFileType:(nullable SDLFileType)fileType {
     if (fileType != nil) {
         [parameters setObject:fileType forKey:SDLNameFileType];
     } else {
@@ -58,12 +60,12 @@
     }
 }
 
-- (SDLFileType)fileType {
+- (nullable SDLFileType)fileType {
     NSObject *obj = [parameters objectForKey:SDLNameFileType];
     return (SDLFileType)obj;
 }
 
-- (void)setOffset:(NSNumber<SDLInt> *)offset {
+- (void)setOffset:(nullable NSNumber<SDLInt> *)offset {
     if (offset != nil) {
         [parameters setObject:offset forKey:SDLNameOffset];
     } else {
@@ -71,11 +73,11 @@
     }
 }
 
-- (NSNumber<SDLInt> *)offset {
+- (nullable NSNumber<SDLInt> *)offset {
     return [parameters objectForKey:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber<SDLInt> *)length {
+- (void)setLength:(nullable NSNumber<SDLInt> *)length {
     if (length != nil) {
         [parameters setObject:length forKey:SDLNameLength];
     } else {
@@ -83,8 +85,10 @@
     }
 }
 
-- (NSNumber<SDLInt> *)length {
+- (nullable NSNumber<SDLInt> *)length {
     return [parameters objectForKey:SDLNameLength];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

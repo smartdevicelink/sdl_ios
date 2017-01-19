@@ -6,6 +6,8 @@
 
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSystemRequest
 
 - (instancetype)init {
@@ -14,7 +16,7 @@
     return self;
 }
 
-- (instancetype)initWithType:(SDLRequestType)requestType fileName:(NSString *)fileName {
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName {
     self = [self init];
     if (!self) {
         return nil;
@@ -39,7 +41,7 @@
     return (SDLRequestType)obj;
 }
 
-- (void)setFileName:(NSString *)fileName {
+- (void)setFileName:(nullable NSString *)fileName {
     if (fileName != nil) {
         [parameters setObject:fileName forKey:SDLNameFilename];
     } else {
@@ -47,8 +49,10 @@
     }
 }
 
-- (NSString *)fileName {
+- (nullable NSString *)fileName {
     return [parameters objectForKey:SDLNameFilename];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

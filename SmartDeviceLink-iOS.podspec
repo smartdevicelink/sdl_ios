@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink-iOS"
-s.version      = "4.4.1"
+s.version      = "4.5.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -19,7 +19,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLProxyListener.h',
 'SmartDeviceLink/SDLSecurityType.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
-'SmartDeviceLink/SDLTTSChunkFactory.h',
 'SmartDeviceLink/SDLTouchManager.h',
 'SmartDeviceLink/SDLTouchManagerDelegate.h',
 'SmartDeviceLink/SDLConsoleController.h',
@@ -42,7 +41,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRPCRequest.h',
 'SmartDeviceLink/SDLRPCResponse.h',
 'SmartDeviceLink/SDLRPCStruct.h',
-'SmartDeviceLink/SDLRPCRequestFactory.h',
 'SmartDeviceLink/SDLAddCommand.h',
 'SmartDeviceLink/SDLAddSubMenu.h',
 'SmartDeviceLink/SDLAlert.h',
