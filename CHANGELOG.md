@@ -1,3 +1,8 @@
+# 4.5.1 Release Notes
+### Bug Fixes
+* Fixed large file transfers not properly setting their offset.
+* Check for nil before attempting to send an RPC request.
+
 # 4.5.0 Release Notes (Since Beta 2)
 ### Bug Fixes
 * Fixed an issue attempting to upload an app icon when the head unit does not support images.
