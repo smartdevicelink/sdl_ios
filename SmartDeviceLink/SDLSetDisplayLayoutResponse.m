@@ -4,11 +4,14 @@
 
 #import "SDLSetDisplayLayoutResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLNames.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetDisplayLayoutResponse
 
@@ -19,79 +22,37 @@
 }
 
 - (void)setDisplayCapabilities:(nullable SDLDisplayCapabilities *)displayCapabilities {
-    if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:SDLNameDisplayCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameDisplayCapabilities];
-    }
+    [parameters sdl_setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
 }
 
 - (nullable SDLDisplayCapabilities *)displayCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNameDisplayCapabilities];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLDisplayCapabilities*)obj;
+    return [parameters sdl_objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
 }
 
 - (void)setButtonCapabilities:(nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:SDLNameButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonCapabilities];
-    }
+    [parameters sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
 - (nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:SDLNameButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLButtonCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLButtonCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
 - (void)setSoftButtonCapabilities:(nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:SDLNameSoftButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtonCapabilities];
-    }
+    [parameters sdl_setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
 - (nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:SDLNameSoftButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButtonCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButtonCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
 }
 
 - (void)setPresetBankCapabilities:(nullable SDLPresetBankCapabilities *)presetBankCapabilities {
-    if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:SDLNamePresetBankCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNamePresetBankCapabilities];
-    }
+    [parameters sdl_setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
 }
 
 - (nullable SDLPresetBankCapabilities *)presetBankCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNamePresetBankCapabilities];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLPresetBankCapabilities*)obj;
+    return [parameters sdl_objectForName:SDLNamePresetBankCapabilities ofClass:SDLPresetBankCapabilities.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

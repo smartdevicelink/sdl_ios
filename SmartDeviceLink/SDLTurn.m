@@ -3,6 +3,7 @@
 
 #import "SDLTurn.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
 
@@ -23,32 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNavigationText:(nullable NSString *)navigationText {
-    if (navigationText != nil) {
-        [store setObject:navigationText forKey:SDLNameNavigationText];
-    } else {
-        [store removeObjectForKey:SDLNameNavigationText];
-    }
+    [store sdl_setObject:navigationText forName:SDLNameNavigationText];
 }
 
 - (nullable NSString *)navigationText {
-    return [store objectForKey:SDLNameNavigationText];
+    return [store sdl_objectForName:SDLNameNavigationText];
 }
 
 - (void)setTurnIcon:(nullable SDLImage *)turnIcon {
-    if (turnIcon != nil) {
-        [store setObject:turnIcon forKey:SDLNameTurnIcon];
-    } else {
-        [store removeObjectForKey:SDLNameTurnIcon];
-    }
+    [store sdl_setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
 - (nullable SDLImage *)turnIcon {
-    NSObject *obj = [store objectForKey:SDLNameTurnIcon];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
+    return [store sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
 @end

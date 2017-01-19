@@ -3,6 +3,7 @@
 
 #import "SDLAppInfo.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 static NSString *const SDLBundleShortVersionStringKey = @"CFBundleShortVersionString";
@@ -26,39 +27,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAppDisplayName:(NSString *)appDisplayName {
-    if (appDisplayName != nil) {
-        [store setObject:appDisplayName forKey:SDLNameAppDisplayName];
-    } else {
-        [store removeObjectForKey:SDLNameAppDisplayName];
-    }
+    [store sdl_setObject:appDisplayName forName:SDLNameAppDisplayName];
 }
 
 - (NSString *)appDisplayName {
-    return [store objectForKey:SDLNameAppDisplayName];
+    return [store sdl_objectForName:SDLNameAppDisplayName];
 }
 
 - (void)setAppBundleID:(NSString *)appBundleID {
-    if (appBundleID != nil) {
-        [store setObject:appBundleID forKey:SDLNameAppBundleId];
-    } else {
-        [store removeObjectForKey:SDLNameAppBundleId];
-    }
+    [store sdl_setObject:appBundleID forName:SDLNameAppBundleId];
 }
 
 - (NSString *)appBundleID {
-    return [store objectForKey:SDLNameAppBundleId];
+    return [store sdl_objectForName:SDLNameAppBundleId];
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
-    if (appVersion != nil) {
-        [store setObject:appVersion forKey:SDLNameAppVersion];
-    } else {
-        [store removeObjectForKey:SDLNameAppVersion];
-    }
+    [store sdl_setObject:appVersion forName:SDLNameAppVersion];
 }
 
 - (NSString *)appVersion {
-    return [store objectForKey:SDLNameAppVersion];
+    return [store sdl_objectForName:SDLNameAppVersion];
 }
 
 @end

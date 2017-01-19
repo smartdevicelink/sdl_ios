@@ -4,6 +4,7 @@
 
 #import "SDLGetDTCs.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,27 +40,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:SDLNameECUName];
-    } else {
-        [parameters removeObjectForKey:SDLNameECUName];
-    }
+    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters objectForKey:SDLNameECUName];
+    return [parameters sdl_objectForName:SDLNameECUName];
 }
 
 - (void)setDtcMask:(nullable NSNumber<SDLInt> *)dtcMask {
-    if (dtcMask != nil) {
-        [parameters setObject:dtcMask forKey:SDLNameDTCMask];
-    } else {
-        [parameters removeObjectForKey:SDLNameDTCMask];
-    }
+    [parameters sdl_setObject:dtcMask forName:SDLNameDTCMask];
 }
 
 - (nullable NSNumber<SDLInt> *)dtcMask {
-    return [parameters objectForKey:SDLNameDTCMask];
+    return [parameters sdl_objectForName:SDLNameDTCMask];
 }
 
 @end

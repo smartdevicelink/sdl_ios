@@ -4,6 +4,7 @@
 
 #import "SDLAddCommand.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
 #import "SDLNames.h"
@@ -68,61 +69,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:SDLNameCommandId];
-    } else {
-        [parameters removeObjectForKey:SDLNameCommandId];
-    }
+    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters objectForKey:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLNameCommandId];
 }
 
 - (void)setMenuParams:(nullable SDLMenuParams *)menuParams {
-    if (menuParams != nil) {
-        [parameters setObject:menuParams forKey:SDLNameMenuParams];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuParams];
-    }
+    [parameters sdl_setObject:menuParams forName:SDLNameMenuParams];
 }
 
 - (nullable SDLMenuParams *)menuParams {
-    NSObject *obj = [parameters objectForKey:SDLNameMenuParams];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLMenuParams alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLMenuParams*)obj;
+    return [parameters sdl_objectForName:SDLNameMenuParams ofClass:SDLMenuParams.class];
 }
 
 - (void)setVrCommands:(nullable NSMutableArray<NSString *> *)vrCommands {
-    if (vrCommands != nil) {
-        [parameters setObject:vrCommands forKey:SDLNameVRCommands];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRCommands];
-    }
+    [parameters sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
 - (nullable NSMutableArray<NSString *> *)vrCommands {
-    return [parameters objectForKey:SDLNameVRCommands];
+    return [parameters sdl_objectForName:SDLNameVRCommands];
 }
 
 - (void)setCmdIcon:(nullable SDLImage *)cmdIcon {
-    if (cmdIcon != nil) {
-        [parameters setObject:cmdIcon forKey:SDLNameCommandIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameCommandIcon];
-    }
+    [parameters sdl_setObject:cmdIcon forName:SDLNameCommandIcon];
 }
 
 - (nullable SDLImage *)cmdIcon {
-    NSObject *obj = [parameters objectForKey:SDLNameCommandIcon];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
+    return [parameters sdl_objectForName:SDLNameCommandIcon ofClass:SDLImage.class];
 }
 
 @end
