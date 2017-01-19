@@ -3,6 +3,7 @@
 
 #import "SDLDiagnosticMessageResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,11 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMessageDataResult:(NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
-    if (messageDataResult != nil) {
-        [parameters setObject:messageDataResult forKey:SDLNameMessageDataResult];
-    } else {
-        [parameters removeObjectForKey:SDLNameMessageDataResult];
-    }
+    [parameters sdl_setObject:messageDataResult forName:SDLNameMessageDataResult];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {

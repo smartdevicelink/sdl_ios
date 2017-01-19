@@ -2,6 +2,7 @@
 
 #import "SDLAlert.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
@@ -73,117 +74,67 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAlertText1:(nullable NSString *)alertText1 {
-    if (alertText1 != nil) {
-        [parameters setObject:alertText1 forKey:SDLNameAlertText1];
-    } else {
-        [parameters removeObjectForKey:SDLNameAlertText1];
-    }
+    [parameters sdl_setObject:alertText1 forName:SDLNameAlertText1];
 }
 
 - (nullable NSString *)alertText1 {
-    return [parameters objectForKey:SDLNameAlertText1];
+    return [parameters sdl_objectForName:SDLNameAlertText1];
 }
 
 - (void)setAlertText2:(nullable NSString *)alertText2 {
-    if (alertText2 != nil) {
-        [parameters setObject:alertText2 forKey:SDLNameAlertText2];
-    } else {
-        [parameters removeObjectForKey:SDLNameAlertText2];
-    }
+    [parameters sdl_setObject:alertText2 forName:SDLNameAlertText2];
 }
 
 - (nullable NSString *)alertText2 {
-    return [parameters objectForKey:SDLNameAlertText2];
+    return [parameters sdl_objectForName:SDLNameAlertText2];
 }
 
 - (void)setAlertText3:(nullable NSString *)alertText3 {
-    if (alertText3 != nil) {
-        [parameters setObject:alertText3 forKey:SDLNameAlertText3];
-    } else {
-        [parameters removeObjectForKey:SDLNameAlertText3];
-    }
+    [parameters sdl_setObject:alertText3 forName:SDLNameAlertText3];
 }
 
 - (nullable NSString *)alertText3 {
-    return [parameters objectForKey:SDLNameAlertText3];
+    return [parameters sdl_objectForName:SDLNameAlertText3];
 }
 
 - (void)setTtsChunks:(nullable NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    if (ttsChunks != nil) {
-        [parameters setObject:ttsChunks forKey:SDLNameTTSChunks];
-    } else {
-        [parameters removeObjectForKey:SDLNameTTSChunks];
-    }
+    [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
 - (nullable NSMutableArray<SDLTTSChunk *> *)ttsChunks {
-    NSMutableArray<SDLTTSChunk *> *array = [parameters objectForKey:SDLNameTTSChunks];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTTSChunk *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 
 - (void)setDuration:(nullable NSNumber<SDLInt> *)duration {
-    if (duration != nil) {
-        [parameters setObject:duration forKey:SDLNameDuration];
-    } else {
-        [parameters removeObjectForKey:SDLNameDuration];
-    }
+    [parameters sdl_setObject:duration forName:SDLNameDuration];
 }
 
 - (nullable NSNumber<SDLInt> *)duration {
-    return [parameters objectForKey:SDLNameDuration];
+    return [parameters sdl_objectForName:SDLNameDuration];
 }
 
 - (void)setPlayTone:(nullable NSNumber<SDLBool> *)playTone {
-    if (playTone != nil) {
-        [parameters setObject:playTone forKey:SDLNamePlayTone];
-    } else {
-        [parameters removeObjectForKey:SDLNamePlayTone];
-    }
+    [parameters sdl_setObject:playTone forName:SDLNamePlayTone];
 }
 
 - (nullable NSNumber<SDLBool> *)playTone {
-    return [parameters objectForKey:SDLNamePlayTone];
+    return [parameters sdl_objectForName:SDLNamePlayTone];
 }
 
 - (void)setProgressIndicator:(nullable NSNumber<SDLBool> *)progressIndicator {
-    if (progressIndicator != nil) {
-        [parameters setObject:progressIndicator forKey:SDLNameProgressIndicator];
-    } else {
-        [parameters removeObjectForKey:SDLNameProgressIndicator];
-    }
+    [parameters sdl_setObject:progressIndicator forName:SDLNameProgressIndicator];
 }
 
 - (nullable NSNumber<SDLBool> *)progressIndicator {
-    return [parameters objectForKey:SDLNameProgressIndicator];
+    return [parameters sdl_objectForName:SDLNameProgressIndicator];
 }
 
 - (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

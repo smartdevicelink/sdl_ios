@@ -3,21 +3,17 @@
 
 #import "SDLSingleTireStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLSingleTireStatus
 
 - (void)setStatus:(SDLComponentVolumeStatus)status {
-    if (status != nil) {
-        [store setObject:status forKey:SDLNameStatus];
-    } else {
-        [store removeObjectForKey:SDLNameStatus];
-    }
+    [store sdl_setObject:status forName:SDLNameStatus];
 }
 
 - (SDLComponentVolumeStatus)status {
-    NSObject *obj = [store objectForKey:SDLNameStatus];
-    return (SDLComponentVolumeStatus)obj;
+    return [store sdl_objectForName:SDLNameStatus];
 }
 
 @end

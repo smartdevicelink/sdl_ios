@@ -3,6 +3,7 @@
 
 #import "SDLOnTBTClientState.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,15 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setState:(SDLTBTState)state {
-    if (state != nil) {
-        [parameters setObject:state forKey:SDLNameState];
-    } else {
-        [parameters removeObjectForKey:SDLNameState];
-    }
+    [parameters sdl_setObject:state forName:SDLNameState];
 }
 
 - (SDLTBTState)state {
-    NSObject *obj = [parameters objectForKey:SDLNameState];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
     return (SDLTBTState)obj;
 }
 

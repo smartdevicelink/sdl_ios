@@ -3,6 +3,7 @@
 
 #import "SDLOnHMIStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLNames.h"
@@ -19,41 +20,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
-    if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:SDLNameHMILevel];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMILevel];
-    }
+    [parameters sdl_setObject:hmiLevel forName:SDLNameHMILevel];
 }
 
 - (SDLHMILevel)hmiLevel {
-    NSObject *obj = [parameters objectForKey:SDLNameHMILevel];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameHMILevel];
     return (SDLHMILevel)obj;
 }
 
 - (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
-    if (audioStreamingState != nil) {
-        [parameters setObject:audioStreamingState forKey:SDLNameAudioStreamingState];
-    } else {
-        [parameters removeObjectForKey:SDLNameAudioStreamingState];
-    }
+    [parameters sdl_setObject:audioStreamingState forName:SDLNameAudioStreamingState];
 }
 
 - (SDLAudioStreamingState)audioStreamingState {
-    NSObject *obj = [parameters objectForKey:SDLNameAudioStreamingState];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameAudioStreamingState];
     return (SDLAudioStreamingState)obj;
 }
 
 - (void)setSystemContext:(SDLSystemContext)systemContext {
-    if (systemContext != nil) {
-        [parameters setObject:systemContext forKey:SDLNameSystemContext];
-    } else {
-        [parameters removeObjectForKey:SDLNameSystemContext];
-    }
+    [parameters sdl_setObject:systemContext forName:SDLNameSystemContext];
 }
 
 - (SDLSystemContext)systemContext {
-    NSObject *obj = [parameters objectForKey:SDLNameSystemContext];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameSystemContext];
     return (SDLSystemContext)obj;
 }
 

@@ -3,6 +3,7 @@
 
 #import "SDLButtonCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -10,52 +11,35 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLButtonCapabilities
 
 - (void)setName:(SDLButtonName)name {
-    if (name != nil) {
-        [store setObject:name forKey:SDLNameName];
-    } else {
-        [store removeObjectForKey:SDLNameName];
-    }
+    [store sdl_setObject:name forName:SDLNameName];
 }
 
 - (SDLButtonName)name {
-    NSObject *obj = [store objectForKey:SDLNameName];
-    return (SDLButtonName)obj;
+    return [store sdl_objectForName:SDLNameName];
 }
 
 - (void)setShortPressAvailable:(NSNumber<SDLBool> *)shortPressAvailable {
-    if (shortPressAvailable != nil) {
-        [store setObject:shortPressAvailable forKey:SDLNameShortPressAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameShortPressAvailable];
-    }
+    [store sdl_setObject:shortPressAvailable forName:SDLNameShortPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)shortPressAvailable {
-    return [store objectForKey:SDLNameShortPressAvailable];
+    return [store sdl_objectForName:SDLNameShortPressAvailable];
 }
 
 - (void)setLongPressAvailable:(NSNumber<SDLBool> *)longPressAvailable {
-    if (longPressAvailable != nil) {
-        [store setObject:longPressAvailable forKey:SDLNameLongPressAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameLongPressAvailable];
-    }
+    [store sdl_setObject:longPressAvailable forName:SDLNameLongPressAvailable];
 }
 
 - (NSNumber<SDLBool> *)longPressAvailable {
-    return [store objectForKey:SDLNameLongPressAvailable];
+    return [store sdl_objectForName:SDLNameLongPressAvailable];
 }
 
 - (void)setUpDownAvailable:(NSNumber<SDLBool> *)upDownAvailable {
-    if (upDownAvailable != nil) {
-        [store setObject:upDownAvailable forKey:SDLNameUpDownAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameUpDownAvailable];
-    }
+    [store sdl_setObject:upDownAvailable forName:SDLNameUpDownAvailable];
 }
 
 - (NSNumber<SDLBool> *)upDownAvailable {
-    return [store objectForKey:SDLNameUpDownAvailable];
+    return [store sdl_objectForName:SDLNameUpDownAvailable];
 }
 
 @end

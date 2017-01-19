@@ -3,6 +3,7 @@
 
 #import "SDLGetWaypoints.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,15 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setWaypointType:(nullable SDLWaypointType)waypointType {
-    if (waypointType != nil) {
-        parameters[SDLNameWaypointType] = waypointType;
-    } else {
-        [parameters removeObjectForKey:SDLNameWaypointType];
-    }
+    [parameters sdl_setObject:waypointType forName:SDLNameWaypointType];
 }
 
 - (nullable SDLWaypointType)waypointType {
-    return parameters[SDLNameWaypointType];
+    return [parameters sdl_objectForName:SDLNameWaypointType];
 }
 
 @end

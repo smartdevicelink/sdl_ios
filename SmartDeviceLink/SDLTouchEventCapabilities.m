@@ -4,6 +4,7 @@
 
 #import "SDLTouchEventCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,39 +12,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLTouchEventCapabilities
 
 - (void)setPressAvailable:(NSNumber<SDLBool> *)pressAvailable {
-    if (pressAvailable != nil) {
-        [store setObject:pressAvailable forKey:SDLNamePressAvailable];
-    } else {
-        [store removeObjectForKey:SDLNamePressAvailable];
-    }
+    [store sdl_setObject:pressAvailable forName:SDLNamePressAvailable];
 }
 
 - (NSNumber<SDLBool> *)pressAvailable {
-    return [store objectForKey:SDLNamePressAvailable];
+    return [store sdl_objectForName:SDLNamePressAvailable];
 }
 
 - (void)setMultiTouchAvailable:(NSNumber<SDLBool> *)multiTouchAvailable {
-    if (multiTouchAvailable != nil) {
-        [store setObject:multiTouchAvailable forKey:SDLNameMultiTouchAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameMultiTouchAvailable];
-    }
+    [store sdl_setObject:multiTouchAvailable forName:SDLNameMultiTouchAvailable];
 }
 
 - (NSNumber<SDLBool> *)multiTouchAvailable {
-    return [store objectForKey:SDLNameMultiTouchAvailable];
+    return [store sdl_objectForName:SDLNameMultiTouchAvailable];
 }
 
 - (void)setDoublePressAvailable:(NSNumber<SDLBool> *)doublePressAvailable {
-    if (doublePressAvailable != nil) {
-        [store setObject:doublePressAvailable forKey:SDLNameDoublePressAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameDoublePressAvailable];
-    }
+    [store sdl_setObject:doublePressAvailable forName:SDLNameDoublePressAvailable];
 }
 
 - (NSNumber<SDLBool> *)doublePressAvailable {
-    return [store objectForKey:SDLNameDoublePressAvailable];
+    return [store sdl_objectForName:SDLNameDoublePressAvailable];
 }
 
 @end

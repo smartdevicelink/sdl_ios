@@ -4,6 +4,7 @@
 
 #import "SDLEncodedSyncPData.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,15 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setData:(NSMutableArray<NSString *> *)data {
-    if (data != nil) {
-        [parameters setObject:data forKey:SDLNameData];
-    } else {
-        [parameters removeObjectForKey:SDLNameData];
-    }
+    [parameters sdl_setObject:data forName:SDLNameData];
 }
 
 - (NSMutableArray<NSString *> *)data {
-    return [parameters objectForKey:SDLNameData];
+    return [parameters sdl_objectForName:SDLNameData];
 }
 
 @end

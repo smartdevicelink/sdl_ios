@@ -3,6 +3,7 @@
 
 #import "SDLImage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,28 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setValue:(NSString *)value {
-    if (value != nil) {
-        [store setObject:value forKey:SDLNameValue];
-    } else {
-        [store removeObjectForKey:SDLNameValue];
-    }
+    [store sdl_setObject:value forName:SDLNameValue];
 }
 
 - (NSString *)value {
-    return [store objectForKey:SDLNameValue];
+    return [store sdl_objectForName:SDLNameValue];
 }
 
 - (void)setImageType:(SDLImageType)imageType {
-    if (imageType != nil) {
-        [store setObject:imageType forKey:SDLNameImageType];
-    } else {
-        [store removeObjectForKey:SDLNameImageType];
-    }
+    [store sdl_setObject:imageType forName:SDLNameImageType];
 }
 
 - (SDLImageType)imageType {
-    NSObject *obj = [store objectForKey:SDLNameImageType];
-    return (SDLImageType)obj;
+    return [store sdl_objectForName:SDLNameImageType];
 }
 
 @end

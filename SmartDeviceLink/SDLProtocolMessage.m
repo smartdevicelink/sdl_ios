@@ -3,6 +3,8 @@
 
 
 #import "SDLProtocolMessage.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLFunctionID.h"
 #import "SDLNames.h"
 #import "SDLProtocolHeader.h"

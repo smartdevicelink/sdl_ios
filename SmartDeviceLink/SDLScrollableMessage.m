@@ -4,6 +4,7 @@
 
 #import "SDLScrollableMessage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 
@@ -41,48 +42,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
-    if (scrollableMessageBody != nil) {
-        [parameters setObject:scrollableMessageBody forKey:SDLNameScrollableMessageBody];
-    } else {
-        [parameters removeObjectForKey:SDLNameScrollableMessageBody];
-    }
+    [parameters sdl_setObject:scrollableMessageBody forName:SDLNameScrollableMessageBody];
 }
 
 - (NSString *)scrollableMessageBody {
-    return [parameters objectForKey:SDLNameScrollableMessageBody];
+    return [parameters sdl_objectForName:SDLNameScrollableMessageBody];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 - (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

@@ -3,6 +3,7 @@
 
 #import "SDLOnTouchEvent.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLTouchEvent.h"
 
@@ -17,28 +18,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setType:(SDLTouchType)type {
-    if (type != nil) {
-        [parameters setObject:type forKey:SDLNameType];
-    } else {
-        [parameters removeObjectForKey:SDLNameType];
-    }
+    [parameters sdl_setObject:type forName:SDLNameType];
 }
 
 - (SDLTouchType)type {
-    NSObject *obj = [parameters objectForKey:SDLNameType];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameType];
     return (SDLTouchType)obj;
 }
 
 - (void)setEvent:(NSMutableArray<SDLTouchEvent *> *)event {
-    if (event != nil) {
-        [parameters setObject:event forKey:SDLNameEvent];
-    } else {
-        [parameters removeObjectForKey:SDLNameEvent];
-    }
+    [parameters sdl_setObject:event forName:SDLNameEvent];
 }
 
 - (NSMutableArray<SDLTouchEvent *> *)event {
-    NSMutableArray<SDLTouchEvent *> *array = [parameters objectForKey:SDLNameEvent];
+    NSMutableArray<SDLTouchEvent *> *array = [parameters sdl_objectForName:SDLNameEvent];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchEvent.class]) {
         return array;
     } else {
