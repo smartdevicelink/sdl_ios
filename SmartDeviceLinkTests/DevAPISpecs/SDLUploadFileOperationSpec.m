@@ -144,25 +144,25 @@ describe(@"Upload File Operation", ^{
             NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
             SDLPutFile *firstPutFile = putFiles.firstObject;
             
-            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals globals].maxMTUSize) + 1);
+            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
 
             // Test all PutFiles pieces for offset & length.
             for (NSUInteger index = 0; index < numberOfPutFiles; index++) {
                 SDLPutFile *putFile = putFiles[index];
                 
-                expect(putFile.offset).to(equal(@(index * [SDLGlobals globals].maxMTUSize)));
+                expect(putFile.offset).to(equal(@(index * [SDLGlobals sharedGlobals].maxMTUSize)));
                 expect(putFile.persistentFile).to(equal(@NO));
                 expect(putFile.syncFileName).to(equal(testFileName));
-                expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * [SDLGlobals globals].maxMTUSize), MIN(putFile.length.unsignedIntegerValue, [SDLGlobals globals].maxMTUSize))]));
+                expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * [SDLGlobals sharedGlobals].maxMTUSize), MIN(putFile.length.unsignedIntegerValue, [SDLGlobals sharedGlobals].maxMTUSize))]));
 
                 // First Putfile has some differences due to informing core of the total incoming packet size.
                 if (index == 0) {
                     expect(putFile.length).to(equal(@(testFileData.length)));
                 } else if (index == numberOfPutFiles - 1) {
-                    expect(putFile.length).to(equal(@(testFileData.length - (index * [SDLGlobals globals].maxMTUSize))));
+                    expect(putFile.length).to(equal(@(testFileData.length - (index * [SDLGlobals sharedGlobals].maxMTUSize))));
                 } else {
-                    expect(putFile.length).to(equal(@([SDLGlobals globals].maxMTUSize)));
+                    expect(putFile.length).to(equal(@([SDLGlobals sharedGlobals].maxMTUSize)));
                 }
             }
             
