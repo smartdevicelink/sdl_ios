@@ -3,6 +3,7 @@
 
 #import "SDLOnLanguageChange.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 
@@ -17,28 +18,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    if (language != nil) {
-        [parameters setObject:language forKey:SDLNameLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameLanguage];
-    }
+    [parameters sdl_setObject:language forName:SDLNameLanguage];
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameLanguage];
     return (SDLLanguage)obj;
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
-    if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
-    }
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
     return (SDLLanguage)obj;
 }
 

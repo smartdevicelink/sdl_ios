@@ -4,6 +4,7 @@
 
 #import "SDLRPCRequest.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,15 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLRPCRequest
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function objectForKey:SDLNameCorrelationId];
+    return [function sdl_objectForName:SDLNameCorrelationId];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    if (corrID != nil) {
-        [function setObject:corrID forKey:SDLNameCorrelationId];
-    } else {
-        [function removeObjectForKey:SDLNameCorrelationId];
-    }
+    [function sdl_setObject:corrID forName:SDLNameCorrelationId];
 }
 
 @end

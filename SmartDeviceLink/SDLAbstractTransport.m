@@ -2,6 +2,8 @@
 
 #import "SDLAbstractTransport.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAbstractTransport
 
 - (instancetype)init {
@@ -28,3 +30,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

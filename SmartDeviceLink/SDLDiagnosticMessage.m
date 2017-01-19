@@ -4,6 +4,7 @@
 
 #import "SDLDiagnosticMessage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,39 +31,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTargetID:(NSNumber<SDLInt> *)targetID {
-    if (targetID != nil) {
-        [parameters setObject:targetID forKey:SDLNameTargetId];
-    } else {
-        [parameters removeObjectForKey:SDLNameTargetId];
-    }
+    [parameters sdl_setObject:targetID forName:SDLNameTargetId];
 }
 
 - (NSNumber<SDLInt> *)targetID {
-    return [parameters objectForKey:SDLNameTargetId];
+    return [parameters sdl_objectForName:SDLNameTargetId];
 }
 
 - (void)setMessageLength:(NSNumber<SDLInt> *)messageLength {
-    if (messageLength != nil) {
-        [parameters setObject:messageLength forKey:SDLNameMessageLength];
-    } else {
-        [parameters removeObjectForKey:SDLNameMessageLength];
-    }
+    [parameters sdl_setObject:messageLength forName:SDLNameMessageLength];
 }
 
 - (NSNumber<SDLInt> *)messageLength {
-    return [parameters objectForKey:SDLNameMessageLength];
+    return [parameters sdl_objectForName:SDLNameMessageLength];
 }
 
 - (void)setMessageData:(NSMutableArray<NSNumber<SDLInt> *> *)messageData {
-    if (messageData != nil) {
-        [parameters setObject:messageData forKey:SDLNameMessageData];
-    } else {
-        [parameters removeObjectForKey:SDLNameMessageData];
-    }
+    [parameters sdl_setObject:messageData forName:SDLNameMessageData];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)messageData {
-    return [parameters objectForKey:SDLNameMessageData];
+    return [parameters sdl_objectForName:SDLNameMessageData];
 }
 
 @end

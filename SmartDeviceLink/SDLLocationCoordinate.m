@@ -2,6 +2,8 @@
 //
 
 #import "SDLLocationCoordinate.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -9,27 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLLocationCoordinate
 
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
-    if (longitudeDegrees != nil) {
-        store[SDLNameLongitudeDegrees] = longitudeDegrees;
-    } else {
-        [store removeObjectForKey:SDLNameLongitudeDegrees];
-    }
+    [store sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return store[SDLNameLongitudeDegrees];
+    return [store sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
-    if (latitudeDegrees != nil) {
-        store[SDLNameLatitudeDegrees] = latitudeDegrees;
-    } else {
-        [store removeObjectForKey:SDLNameLatitudeDegrees];
-    }
+    [store sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return store[SDLNameLatitudeDegrees];
+    return [store sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
 @end

@@ -4,6 +4,7 @@
 
 #import "SDLHMICapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,27 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLHMICapabilities
 
 - (void)setNavigation:(nullable NSNumber<SDLBool> *)navigation {
-    if (navigation != nil) {
-        store[SDLNameNavigation] = navigation;
-    } else {
-        [store removeObjectForKey:SDLNameNavigation];
-    }
+    [store sdl_setObject:navigation forName:SDLNameNavigation];
 }
 
 - (nullable NSNumber<SDLBool> *)navigation {
-    return store[SDLNameNavigation];
+    return [store sdl_objectForName:SDLNameNavigation];
 }
 
 - (void)setPhoneCall:(nullable NSNumber<SDLBool> *)phoneCall {
-    if (phoneCall != nil) {
-        store[SDLNamePhoneCall] = phoneCall;
-    } else {
-        [store removeObjectForKey:SDLNamePhoneCall];
-    }
+    [store sdl_setObject:phoneCall forName:SDLNamePhoneCall];
 }
 
 - (nullable NSNumber<SDLBool> *)phoneCall {
-    return store[SDLNamePhoneCall];
+    return [store sdl_objectForName:SDLNamePhoneCall];
 }
 
 @end

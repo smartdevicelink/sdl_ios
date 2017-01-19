@@ -3,6 +3,7 @@
 
 #import "SDLImageField.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImageFieldName.h"
 #import "SDLImageResolution.h"
 #import "SDLNames.h"
@@ -12,54 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLImageField
 
 - (void)setName:(SDLImageFieldName)name {
-    if (name != nil) {
-        [store setObject:name forKey:SDLNameName];
-    } else {
-        [store removeObjectForKey:SDLNameName];
-    }
+    [store sdl_setObject:name forName:SDLNameName];
 }
 
 - (SDLImageFieldName)name {
-    NSObject *obj = [store objectForKey:SDLNameName];
-    return (SDLImageFieldName)obj;
+    return [store sdl_objectForName:SDLNameName];
 }
 
 - (void)setImageTypeSupported:(NSMutableArray<SDLFileType> *)imageTypeSupported {
-    if (imageTypeSupported != nil) {
-        [store setObject:imageTypeSupported forKey:SDLNameImageTypeSupported];
-    } else {
-        [store removeObjectForKey:SDLNameImageTypeSupported];
-    }
+    [store sdl_setObject:imageTypeSupported forName:SDLNameImageTypeSupported];
 }
 
 - (NSMutableArray<SDLFileType> *)imageTypeSupported {
-    NSMutableArray<SDLFileType> *array = [store objectForKey:SDLNameImageTypeSupported];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLFileType> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLFileType)enumString];
-        }
-        return newList;
-    }
+    return [store sdl_enumsForName:SDLNameImageTypeSupported];
 }
 
 - (void)setImageResolution:(nullable SDLImageResolution *)imageResolution {
-    if (imageResolution != nil) {
-        [store setObject:imageResolution forKey:SDLNameImageResolution];
-    } else {
-        [store removeObjectForKey:SDLNameImageResolution];
-    }
+    [store sdl_setObject:imageResolution forName:SDLNameImageResolution];
 }
 
 - (nullable SDLImageResolution *)imageResolution {
-    NSObject *obj = [store objectForKey:SDLNameImageResolution];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImageResolution*)obj;
+    return [store sdl_objectForName:SDLNameImageResolution ofClass:SDLImageResolution.class];
 }
 
 @end

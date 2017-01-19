@@ -3,6 +3,7 @@
 
 #import "SDLOnEncodedSyncPData.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,39 +17,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setData:(NSMutableArray<NSString *> *)data {
-    if (data != nil) {
-        [parameters setObject:data forKey:SDLNameData];
-    } else {
-        [parameters removeObjectForKey:SDLNameData];
-    }
+    [parameters sdl_setObject:data forName:SDLNameData];
 }
 
 - (NSMutableArray<NSString *> *)data {
-    return [parameters objectForKey:SDLNameData];
+    return [parameters sdl_objectForName:SDLNameData];
 }
 
 - (void)setURL:(nullable NSString *)URL {
-    if (URL != nil) {
-        [parameters setObject:URL forKey:SDLNameURLUppercase];
-    } else {
-        [parameters removeObjectForKey:SDLNameURLUppercase];
-    }
+    [parameters sdl_setObject:URL forName:SDLNameURLUppercase];
 }
 
 - (nullable NSString *)URL {
-    return [parameters objectForKey:SDLNameURLUppercase];
+    return [parameters sdl_objectForName:SDLNameURLUppercase];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)Timeout {
-    if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:SDLNameTimeoutCapitalized];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeoutCapitalized];
-    }
+    [parameters sdl_setObject:Timeout forName:SDLNameTimeoutCapitalized];
 }
 
 - (nullable NSNumber<SDLInt> *)Timeout {
-    return [parameters objectForKey:SDLNameTimeoutCapitalized];
+    return [parameters sdl_objectForName:SDLNameTimeoutCapitalized];
 }
 
 @end

@@ -2,6 +2,8 @@
 //
 
 #import "SDLDateTime.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLDateTime
@@ -57,111 +59,75 @@
 }
 
 - (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
-    if (millisecond != nil) {
-        store[SDLNameMillisecond] = millisecond;
-    } else {
-        [store removeObjectForKey:SDLNameMillisecond];
-    }
+    [store sdl_setObject:millisecond forName:SDLNameMillisecond];
 }
 
 - (NSNumber<SDLInt> *)millisecond {
-    return store[SDLNameMillisecond];
+    return [store sdl_objectForName:SDLNameMillisecond];
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
-    if (second != nil) {
-        store[SDLNameSecond] = second;
-    } else {
-        [store removeObjectForKey:SDLNameSecond];
-    }
+    [store sdl_setObject:second forName:SDLNameSecond];
 }
 
 - (NSNumber<SDLInt> *)second {
-    return store[SDLNameSecond];
+    return [store sdl_objectForName:SDLNameSecond];
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
-    if (minute != nil) {
-        store[SDLNameMinute] = minute;
-    } else {
-        [store removeObjectForKey:SDLNameMinute];
-    }
+    [store sdl_setObject:minute forName:SDLNameMinute];
 }
 
 - (NSNumber<SDLInt> *)minute {
-    return store[SDLNameMinute];
+    return [store sdl_objectForName:SDLNameMinute];
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
-    if (hour != nil) {
-        store[SDLNameHour] = hour;
-    } else {
-        [store removeObjectForKey:SDLNameHour];
-    }
+    [store sdl_setObject:hour forName:SDLNameHour];
 }
 
 - (NSNumber<SDLInt> *)hour {
-    return store[SDLNameHour];
+    return [store sdl_objectForName:SDLNameHour];
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
-    if (day != nil) {
-        store[SDLNameDay] = day;
-    } else {
-        [store removeObjectForKey:SDLNameDay];
-    }
+    [store sdl_setObject:day forName:SDLNameDay];
 }
 
 - (NSNumber<SDLInt> *)day {
-    return store[SDLNameDay];
+    return [store sdl_objectForName:SDLNameDay];
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
-    if (month != nil) {
-        store[SDLNameMonth] = month;
-    } else {
-        [store removeObjectForKey:SDLNameMonth];
-    }
+    [store sdl_setObject:month forName:SDLNameMonth];
 }
 
 - (NSNumber<SDLInt> *)month {
-    return store[SDLNameMonth];
+    return [store sdl_objectForName:SDLNameMonth];
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
-    if (year != nil) {
-        store[SDLNameYear] = year;
-    } else {
-        [store removeObjectForKey:SDLNameYear];
-    }
+    [store sdl_setObject:year forName:SDLNameYear];
 }
 
 - (NSNumber<SDLInt> *)year {
-    return store[SDLNameYear];
+    return [store sdl_objectForName:SDLNameYear];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
-    if (timezoneMinuteOffset != nil) {
-        store[SDLNameTimezoneMinuteOffset] = timezoneMinuteOffset;
-    } else {
-        [store removeObjectForKey:SDLNameTimezoneMinuteOffset];
-    }
+    [store sdl_setObject:timezoneMinuteOffset forName:SDLNameTimezoneMinuteOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
-    return store[SDLNameTimezoneMinuteOffset];
+    return [store sdl_objectForName:SDLNameTimezoneMinuteOffset];
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
-    if (timezoneHourOffset != nil) {
-        store[SDLNameTimezoneHourOffset] = timezoneHourOffset;
-    } else {
-        [store removeObjectForKey:SDLNameTimezoneHourOffset];
-    }
+    [store sdl_setObject:timezoneHourOffset forName:SDLNameTimezoneHourOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {
-    return store[SDLNameTimezoneHourOffset];
+    return [store sdl_objectForName:SDLNameTimezoneHourOffset];
 }
 
 @end

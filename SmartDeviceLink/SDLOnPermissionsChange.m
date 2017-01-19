@@ -3,6 +3,7 @@
 
 #import "SDLOnPermissionsChange.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLPermissionItem.h"
 
@@ -17,15 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setPermissionItem:(NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    if (permissionItem != nil) {
-        [parameters setObject:permissionItem forKey:SDLNamePermissionItem];
-    } else {
-        [parameters removeObjectForKey:SDLNamePermissionItem];
-    }
+    [parameters sdl_setObject:permissionItem forName:SDLNamePermissionItem];
 }
 
 - (NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    NSMutableArray<SDLPermissionItem *> *array = [parameters objectForKey:SDLNamePermissionItem];
+    NSMutableArray<SDLPermissionItem *> *array = [parameters sdl_objectForName:SDLNamePermissionItem];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPermissionItem.class]) {
         return array;
     } else {

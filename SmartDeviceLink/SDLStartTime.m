@@ -4,6 +4,7 @@
 
 #import "SDLStartTime.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -24,39 +25,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHours:(NSNumber<SDLInt> *)hours {
-    if (hours != nil) {
-        [store setObject:hours forKey:SDLNameHours];
-    } else {
-        [store removeObjectForKey:SDLNameHours];
-    }
+    [store sdl_setObject:hours forName:SDLNameHours];
 }
 
 - (NSNumber<SDLInt> *)hours {
-    return [store objectForKey:SDLNameHours];
+    return [store sdl_objectForName:SDLNameHours];
 }
 
 - (void)setMinutes:(NSNumber<SDLInt> *)minutes {
-    if (minutes != nil) {
-        [store setObject:minutes forKey:SDLNameMinutes];
-    } else {
-        [store removeObjectForKey:SDLNameMinutes];
-    }
+    [store sdl_setObject:minutes forName:SDLNameMinutes];
 }
 
 - (NSNumber<SDLInt> *)minutes {
-    return [store objectForKey:SDLNameMinutes];
+    return [store sdl_objectForName:SDLNameMinutes];
 }
 
 - (void)setSeconds:(NSNumber<SDLInt> *)seconds {
-    if (seconds != nil) {
-        [store setObject:seconds forKey:SDLNameSeconds];
-    } else {
-        [store removeObjectForKey:SDLNameSeconds];
-    }
+    [store sdl_setObject:seconds forName:SDLNameSeconds];
 }
 
 - (NSNumber<SDLInt> *)seconds {
-    return [store objectForKey:SDLNameSeconds];
+    return [store sdl_objectForName:SDLNameSeconds];
 }
 
 @end

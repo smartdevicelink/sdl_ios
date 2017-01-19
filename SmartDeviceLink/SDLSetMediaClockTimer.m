@@ -4,6 +4,7 @@
 
 #import "SDLSetMediaClockTimer.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLStartTime.h"
 
@@ -41,50 +42,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setStartTime:(nullable SDLStartTime *)startTime {
-    if (startTime != nil) {
-        [parameters setObject:startTime forKey:SDLNameStartTime];
-    } else {
-        [parameters removeObjectForKey:SDLNameStartTime];
-    }
+    [parameters sdl_setObject:startTime forName:SDLNameStartTime];
 }
 
 - (nullable SDLStartTime *)startTime {
-    NSObject *obj = [parameters objectForKey:SDLNameStartTime];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLStartTime alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLStartTime*)obj;
+    return [parameters sdl_objectForName:SDLNameStartTime ofClass:SDLStartTime.class];
 }
 
 - (void)setEndTime:(nullable SDLStartTime *)endTime {
-    if (endTime != nil) {
-        [parameters setObject:endTime forKey:SDLNameEndTime];
-    } else {
-        [parameters removeObjectForKey:SDLNameEndTime];
-    }
+    [parameters sdl_setObject:endTime forName:SDLNameEndTime];
 }
 
 - (nullable SDLStartTime *)endTime {
-    NSObject *obj = [parameters objectForKey:SDLNameEndTime];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLStartTime alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLStartTime*)obj;
+    return [parameters sdl_objectForName:SDLNameEndTime ofClass:SDLStartTime.class];
 }
 
 - (void)setUpdateMode:(SDLUpdateMode)updateMode {
-    if (updateMode != nil) {
-        [parameters setObject:updateMode forKey:SDLNameUpdateMode];
-    } else {
-        [parameters removeObjectForKey:SDLNameUpdateMode];
-    }
+    [parameters sdl_setObject:updateMode forName:SDLNameUpdateMode];
 }
 
 - (SDLUpdateMode)updateMode {
-    NSObject *obj = [parameters objectForKey:SDLNameUpdateMode];
-    return (SDLUpdateMode)obj;
+    return [parameters sdl_objectForName:SDLNameUpdateMode];
 }
 
 @end

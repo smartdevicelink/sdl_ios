@@ -4,6 +4,7 @@
 
 #import "SDLGetDTCsResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,11 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuHeader:(NSNumber<SDLInt> *)ecuHeader {
-    if (ecuHeader != nil) {
-        [parameters setObject:ecuHeader forKey:SDLNameECUHeader];
-    } else {
-        [parameters removeObjectForKey:SDLNameECUHeader];
-    }
+    [parameters sdl_setObject:ecuHeader forName:SDLNameECUHeader];
 }
 
 - (NSNumber<SDLInt> *)ecuHeader {
@@ -29,11 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDtc:(NSMutableArray<NSString *> *)dtc {
-    if (dtc != nil) {
-        [parameters setObject:dtc forKey:SDLNameDTC];
-    } else {
-        [parameters removeObjectForKey:SDLNameDTC];
-    }
+    [parameters sdl_setObject:dtc forName:SDLNameDTC];
 }
 
 - (NSMutableArray<NSString *> *)dtc {
