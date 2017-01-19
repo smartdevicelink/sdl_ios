@@ -149,10 +149,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Getters
 
-//- (nullable SDLStreamingMediaManager *)streamManager {
-//    return self.proxy.streamingMediaManager;
-//}
-
 - (SDLState *)lifecycleState {
     return self.lifecycleStateMachine.currentState;
 }
