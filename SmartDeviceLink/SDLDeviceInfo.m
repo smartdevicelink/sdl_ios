@@ -7,6 +7,7 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -29,75 +30,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHardware:(nullable NSString *)hardware {
-    if (hardware != nil) {
-        [store setObject:hardware forKey:SDLNameHardware];
-    } else {
-        [store removeObjectForKey:SDLNameHardware];
-    }
+    [store sdl_setObject:hardware forName:SDLNameHardware];
 }
 
 - (nullable NSString *)hardware {
-    return [store objectForKey:SDLNameHardware];
+    return [store sdl_objectForName:SDLNameHardware];
 }
 
 - (void)setFirmwareRev:(nullable NSString *)firmwareRev {
-    if (firmwareRev != nil) {
-        [store setObject:firmwareRev forKey:SDLNameFirmwareRevision];
-    } else {
-        [store removeObjectForKey:SDLNameFirmwareRevision];
-    }
+    [store sdl_setObject:firmwareRev forName:SDLNameFirmwareRevision];
 }
 
 - (nullable NSString *)firmwareRev {
-    return [store objectForKey:SDLNameFirmwareRevision];
+    return [store sdl_objectForName:SDLNameFirmwareRevision];
 }
 
 - (void)setOs:(nullable NSString *)os {
-    if (os != nil) {
-        [store setObject:os forKey:SDLNameOS];
-    } else {
-        [store removeObjectForKey:SDLNameOS];
-    }
+    [store sdl_setObject:os forName:SDLNameOS];
 }
 
 - (nullable NSString *)os {
-    return [store objectForKey:SDLNameOS];
+    return [store sdl_objectForName:SDLNameOS];
 }
 
 - (void)setOsVersion:(nullable NSString *)osVersion {
-    if (osVersion != nil) {
-        [store setObject:osVersion forKey:SDLNameOSVersion];
-    } else {
-        [store removeObjectForKey:SDLNameOSVersion];
-    }
+    [store sdl_setObject:osVersion forName:SDLNameOSVersion];
 }
 
 - (nullable NSString *)osVersion {
-    return [store objectForKey:SDLNameOSVersion];
+    return [store sdl_objectForName:SDLNameOSVersion];
 }
 
 - (void)setCarrier:(nullable NSString *)carrier {
-    if (carrier != nil) {
-        [store setObject:carrier forKey:SDLNameCarrier];
-    } else {
-        [store removeObjectForKey:SDLNameCarrier];
-    }
+    [store sdl_setObject:carrier forName:SDLNameCarrier];
 }
 
 - (nullable NSString *)carrier {
-    return [store objectForKey:SDLNameCarrier];
+    return [store sdl_objectForName:SDLNameCarrier];
 }
 
 - (void)setMaxNumberRFCOMMPorts:(nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    if (maxNumberRFCOMMPorts != nil) {
-        [store setObject:maxNumberRFCOMMPorts forKey:SDLNameMaxNumberRFCOMMPorts];
-    } else {
-        [store removeObjectForKey:SDLNameMaxNumberRFCOMMPorts];
-    }
+    [store sdl_setObject:maxNumberRFCOMMPorts forName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 - (nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    return [store objectForKey:SDLNameMaxNumberRFCOMMPorts];
+    return [store sdl_objectForName:SDLNameMaxNumberRFCOMMPorts];
 }
 
 @end

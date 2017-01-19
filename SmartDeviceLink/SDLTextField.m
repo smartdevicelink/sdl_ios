@@ -3,6 +3,7 @@
 
 #import "SDLTextField.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLCharacterSet.h"
 #import "SDLNames.h"
 #import "SDLTextFieldName.h"
@@ -12,53 +13,35 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLTextField
 
 - (void)setName:(SDLTextFieldName)name {
-    if (name != nil) {
-        [store setObject:name forKey:SDLNameName];
-    } else {
-        [store removeObjectForKey:SDLNameName];
-    }
+    [store sdl_setObject:name forName:SDLNameName];
 }
 
 - (SDLTextFieldName)name {
-    NSObject *obj = [store objectForKey:SDLNameName];
-    return (SDLTextFieldName)obj;
+    return [store sdl_objectForName:SDLNameName];
 }
 
 - (void)setCharacterSet:(SDLCharacterSet)characterSet {
-    if (characterSet != nil) {
-        [store setObject:characterSet forKey:SDLNameCharacterSet];
-    } else {
-        [store removeObjectForKey:SDLNameCharacterSet];
-    }
+    [store sdl_setObject:characterSet forName:SDLNameCharacterSet];
 }
 
 - (SDLCharacterSet)characterSet {
-    NSObject *obj = [store objectForKey:SDLNameCharacterSet];
-    return (SDLCharacterSet)obj;
+    return [store sdl_objectForName:SDLNameCharacterSet];
 }
 
 - (void)setWidth:(NSNumber<SDLInt> *)width {
-    if (width != nil) {
-        [store setObject:width forKey:SDLNameWidth];
-    } else {
-        [store removeObjectForKey:SDLNameWidth];
-    }
+    [store sdl_setObject:width forName:SDLNameWidth];
 }
 
 - (NSNumber<SDLInt> *)width {
-    return [store objectForKey:SDLNameWidth];
+    return [store sdl_objectForName:SDLNameWidth];
 }
 
 - (void)setRows:(NSNumber<SDLInt> *)rows {
-    if (rows != nil) {
-        [store setObject:rows forKey:SDLNameRows];
-    } else {
-        [store removeObjectForKey:SDLNameRows];
-    }
+    [store sdl_setObject:rows forName:SDLNameRows];
 }
 
 - (NSNumber<SDLInt> *)rows {
-    return [store objectForKey:SDLNameRows];
+    return [store sdl_objectForName:SDLNameRows];
 }
 
 @end

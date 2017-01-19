@@ -4,6 +4,7 @@
 
 #import "SDLTouchCoord.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,27 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLTouchCoord
 
 - (void)setX:(NSNumber<SDLFloat> *)x {
-    if (x != nil) {
-        [store setObject:x forKey:SDLNameX];
-    } else {
-        [store removeObjectForKey:SDLNameX];
-    }
+    [store sdl_setObject:x forName:SDLNameX];
 }
 
 - (NSNumber<SDLFloat> *)x {
-    return [store objectForKey:SDLNameX];
+    return [store sdl_objectForName:SDLNameX];
 }
 
 - (void)setY:(NSNumber<SDLFloat> *)y {
-    if (y != nil) {
-        [store setObject:y forKey:SDLNameY];
-    } else {
-        [store removeObjectForKey:SDLNameY];
-    }
+    [store sdl_setObject:y forName:SDLNameY];
 }
 
 - (NSNumber<SDLFloat> *)y {
-    return [store objectForKey:SDLNameY];
+    return [store sdl_objectForName:SDLNameY];
 }
 
 @end

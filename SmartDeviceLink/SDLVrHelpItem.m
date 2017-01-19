@@ -4,6 +4,7 @@
 
 #import "SDLVRHelpItem.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
 
@@ -35,44 +36,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setText:(NSString *)text {
-    if (text != nil) {
-        [store setObject:text forKey:SDLNameText];
-    } else {
-        [store removeObjectForKey:SDLNameText];
-    }
+    [store sdl_setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [store objectForKey:SDLNameText];
+    return [store sdl_objectForName:SDLNameText];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    if (image != nil) {
-        [store setObject:image forKey:SDLNameImage];
-    } else {
-        [store removeObjectForKey:SDLNameImage];
-    }
+    [store sdl_setObject:image forName:SDLNameImage];
 }
 
 - (nullable SDLImage *)image {
-    NSObject *obj = [store objectForKey:SDLNameImage];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
+    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    if (position != nil) {
-        [store setObject:position forKey:SDLNamePosition];
-    } else {
-        [store removeObjectForKey:SDLNamePosition];
-    }
+    [store sdl_setObject:position forName:SDLNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [store objectForKey:SDLNamePosition];
+    return [store sdl_objectForName:SDLNamePosition];
 }
 
 @end

@@ -3,6 +3,7 @@
 
 #import "SDLTTSChunk.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -50,28 +51,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setText:(NSString *)text {
-    if (text != nil) {
-        [store setObject:text forKey:SDLNameText];
-    } else {
-        [store removeObjectForKey:SDLNameText];
-    }
+    [store sdl_setObject:text forName:SDLNameText];
 }
 
 - (NSString *)text {
-    return [store objectForKey:SDLNameText];
+    return [store sdl_objectForName:SDLNameText];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
-    if (type != nil) {
-        [store setObject:type forKey:SDLNameType];
-    } else {
-        [store removeObjectForKey:SDLNameType];
-    }
+    [store sdl_setObject:type forName:SDLNameType];
 }
 
 - (SDLSpeechCapabilities)type {
-    NSObject *obj = [store objectForKey:SDLNameType];
-    return (SDLSpeechCapabilities)obj;
+    return [store sdl_objectForName:SDLNameType];
 }
 
 @end

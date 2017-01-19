@@ -4,6 +4,7 @@
 
 #import "SDLDeleteCommand.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,15 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    if (cmdID != nil) {
-        [parameters setObject:cmdID forKey:SDLNameCommandId];
-    } else {
-        [parameters removeObjectForKey:SDLNameCommandId];
-    }
+    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters objectForKey:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLNameCommandId];
 }
 
 @end

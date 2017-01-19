@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "NSNumber+NumberType.h"
 

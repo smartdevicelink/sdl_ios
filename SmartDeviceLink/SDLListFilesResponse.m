@@ -4,6 +4,7 @@
 
 #import "SDLListFilesResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,11 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFilenames:(nullable NSMutableArray<NSString *> *)filenames {
-    if (filenames != nil) {
-        [parameters setObject:filenames forKey:SDLNameFilenames];
-    } else {
-        [parameters removeObjectForKey:SDLNameFilenames];
-    }
+    [parameters sdl_setObject:filenames forName:SDLNameFilenames];
 }
 
 - (nullable NSMutableArray<NSString *> *)filenames {
@@ -29,11 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
-    if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:SDLNameSpaceAvailable];
-    } else {
-        [parameters removeObjectForKey:SDLNameSpaceAvailable];
-    }
+    [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
 - (NSNumber<SDLInt> *)spaceAvailable {

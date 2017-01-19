@@ -4,6 +4,7 @@
 
 #import "SDLUpdateTurnList.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTurn.h"
@@ -31,45 +32,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTurnList:(nullable NSMutableArray<SDLTurn *> *)turnList {
-    if (turnList != nil) {
-        [parameters setObject:turnList forKey:SDLNameTurnList];
-    } else {
-        [parameters removeObjectForKey:SDLNameTurnList];
-    }
+    [parameters sdl_setObject:turnList forName:SDLNameTurnList];
 }
 
 - (nullable NSMutableArray<SDLTurn *> *)turnList {
-    NSMutableArray<SDLTurn *> *array = [parameters objectForKey:SDLNameTurnList];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTurn.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTurn *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTurn alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameTurnList ofClass:SDLTurn.class];
 }
 
 - (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

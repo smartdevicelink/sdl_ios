@@ -4,7 +4,10 @@
 
 #import "SDLPerformInteractionResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPerformInteractionResponse
 
@@ -15,40 +18,29 @@
 }
 
 - (void)setChoiceID:(nullable NSNumber<SDLInt> *)choiceID {
-    if (choiceID != nil) {
-        [parameters setObject:choiceID forKey:SDLNameChoiceId];
-    } else {
-        [parameters removeObjectForKey:SDLNameChoiceId];
-    }
+    [parameters sdl_setObject:choiceID forName:SDLNameChoiceId];
 }
 
 - (nullable NSNumber<SDLInt> *)choiceID {
-    return [parameters objectForKey:SDLNameChoiceId];
+    return [parameters sdl_objectForName:SDLNameChoiceId];
 }
 
 - (void)setManualTextEntry:(nullable NSString *)manualTextEntry {
-    if (manualTextEntry != nil) {
-        [parameters setObject:manualTextEntry forKey:SDLNameManualTextEntry];
-    } else {
-        [parameters removeObjectForKey:SDLNameManualTextEntry];
-    }
+    [parameters sdl_setObject:manualTextEntry forName:SDLNameManualTextEntry];
 }
 
 - (nullable NSString *)manualTextEntry {
-    return [parameters objectForKey:SDLNameManualTextEntry];
+    return [parameters sdl_objectForName:SDLNameManualTextEntry];
 }
 
 - (void)setTriggerSource:(nullable SDLTriggerSource)triggerSource {
-    if (triggerSource != nil) {
-        [parameters setObject:triggerSource forKey:SDLNameTriggerSource];
-    } else {
-        [parameters removeObjectForKey:SDLNameTriggerSource];
-    }
+    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
 }
 
 - (nullable SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters objectForKey:SDLNameTriggerSource];
-    return (SDLTriggerSource)obj;
+    return [parameters sdl_objectForName:SDLNameTriggerSource];
 }
 
 @end
+    
+NS_ASSUME_NONNULL_END

@@ -4,6 +4,7 @@
 
 #import "SDLSlider.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -53,63 +54,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNumTicks:(NSNumber<SDLInt> *)numTicks {
-    if (numTicks != nil) {
-        [parameters setObject:numTicks forKey:SDLNameNumberTicks];
-    } else {
-        [parameters removeObjectForKey:SDLNameNumberTicks];
-    }
+    [parameters sdl_setObject:numTicks forName:SDLNameNumberTicks];
 }
 
 - (NSNumber<SDLInt> *)numTicks {
-    return [parameters objectForKey:SDLNameNumberTicks];
+    return [parameters sdl_objectForName:SDLNameNumberTicks];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    if (position != nil) {
-        [parameters setObject:position forKey:SDLNamePosition];
-    } else {
-        [parameters removeObjectForKey:SDLNamePosition];
-    }
+    [parameters sdl_setObject:position forName:SDLNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [parameters objectForKey:SDLNamePosition];
+    return [parameters sdl_objectForName:SDLNamePosition];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
-    if (sliderHeader != nil) {
-        [parameters setObject:sliderHeader forKey:SDLNameSliderHeader];
-    } else {
-        [parameters removeObjectForKey:SDLNameSliderHeader];
-    }
+    [parameters sdl_setObject:sliderHeader forName:SDLNameSliderHeader];
 }
 
 - (NSString *)sliderHeader {
-    return [parameters objectForKey:SDLNameSliderHeader];
+    return [parameters sdl_objectForName:SDLNameSliderHeader];
 }
 
 - (void)setSliderFooter:(nullable NSMutableArray<NSString *> *)sliderFooter {
-    if (sliderFooter != nil) {
-        [parameters setObject:sliderFooter forKey:SDLNameSliderFooter];
-    } else {
-        [parameters removeObjectForKey:SDLNameSliderFooter];
-    }
+    [parameters sdl_setObject:sliderFooter forName:SDLNameSliderFooter];
 }
 
 - (nullable NSMutableArray<NSString *> *)sliderFooter {
-    return [parameters objectForKey:SDLNameSliderFooter];
+    return [parameters sdl_objectForName:SDLNameSliderFooter];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 @end
