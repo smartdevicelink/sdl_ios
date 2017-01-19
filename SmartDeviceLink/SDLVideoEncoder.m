@@ -31,10 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *,id> * __nullable)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError * _Nullable __autoreleasing *)error {
-    self = [self init];
+    self = [super init];
     if (!self) {
         return nil;
     }
+    
+    _compressionSession = NULL;
+    _currentFrameNumber = 0;
+    _videoEncoderSettings = properties ? properties : self.defaultVideoEncoderSettings;
     
     _delegate = delegate;
     
@@ -93,19 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
             return nil;
         }
     }
-    
-    return self;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    _compressionSession = NULL;
-    _currentFrameNumber = 0;
-    _videoEncoderSettings = self.defaultVideoEncoderSettings;
     
     return self;
 }
