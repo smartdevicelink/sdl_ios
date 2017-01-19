@@ -4,6 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,40 +34,33 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
         if (messageType != nil) {
-            function = [store objectForKey:messageType];
-            parameters = [function objectForKey:SDLNameParameters];
+            function = [[store objectForKey:messageType] mutableCopy];
+            parameters = [[function objectForKey:SDLNameParameters] mutableCopy];
         }
         self.bulkData = [dict objectForKey:SDLNameBulkData];
     }
+    
     return self;
 }
 
 - (nullable NSString *)getFunctionName {
-    return [function objectForKey:SDLNameOperationName];
+    return [function sdl_objectForName:SDLNameOperationName];
 }
 
 - (void)setFunctionName:(nullable NSString *)functionName {
-    if (functionName != nil) {
-        [function setObject:functionName forKey:SDLNameOperationName];
-    } else {
-        [function removeObjectForKey:SDLNameOperationName];
-    }
+    [function sdl_setObject:functionName forName:SDLNameOperationName];
 }
 
 - (nullable NSObject *)getParameters:(NSString *)functionName {
-    return [parameters objectForKey:functionName];
+    return [parameters sdl_objectForName:functionName];
 }
 
 - (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {
-    if (value != nil) {
-        [parameters setObject:value forKey:functionName];
-    } else {
-        [parameters removeObjectForKey:functionName];
-    }
+    [parameters sdl_setObject:value forName:functionName];
 }
 
 - (NSString *)name {
-    return [function objectForKey:SDLNameOperationName];
+    return [self getFunctionName];
 }
 
 - (NSString *)description {

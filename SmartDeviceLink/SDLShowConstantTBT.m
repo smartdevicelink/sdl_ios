@@ -4,6 +4,7 @@
 
 #import "SDLShowConstantTBT.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
@@ -40,154 +41,91 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNavigationText1:(nullable NSString *)navigationText1 {
-    if (navigationText1 != nil) {
-        [parameters setObject:navigationText1 forKey:SDLNameNavigationText1];
-    } else {
-        [parameters removeObjectForKey:SDLNameNavigationText1];
-    }
+    [parameters sdl_setObject:navigationText1 forName:SDLNameNavigationText1];
 }
 
 - (nullable NSString *)navigationText1 {
-    return [parameters objectForKey:SDLNameNavigationText1];
+    return [parameters sdl_objectForName:SDLNameNavigationText1];
 }
 
 - (void)setNavigationText2:(nullable NSString *)navigationText2 {
-    if (navigationText2 != nil) {
-        [parameters setObject:navigationText2 forKey:SDLNameNavigationText2];
-    } else {
-        [parameters removeObjectForKey:SDLNameNavigationText2];
-    }
+    [parameters sdl_setObject:navigationText2 forName:SDLNameNavigationText2];
 }
 
 - (nullable NSString *)navigationText2 {
-    return [parameters objectForKey:SDLNameNavigationText2];
+    return [parameters sdl_objectForName:SDLNameNavigationText2];
 }
 
 - (void)setEta:(nullable NSString *)eta {
-    if (eta != nil) {
-        [parameters setObject:eta forKey:SDLNameETA];
-    } else {
-        [parameters removeObjectForKey:SDLNameETA];
-    }
+    [parameters sdl_setObject:eta forName:SDLNameETA];
 }
 
 - (nullable NSString *)eta {
-    return [parameters objectForKey:SDLNameETA];
+    return [parameters sdl_objectForName:SDLNameETA];
 }
 
 - (void)setTimeToDestination:(nullable NSString *)timeToDestination {
-    if (timeToDestination != nil) {
-        [parameters setObject:timeToDestination forKey:SDLNameTimeToDestination];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeToDestination];
-    }
+    [parameters sdl_setObject:timeToDestination forName:SDLNameTimeToDestination];
 }
 
 - (nullable NSString *)timeToDestination {
-    return [parameters objectForKey:SDLNameTimeToDestination];
+    return [parameters sdl_objectForName:SDLNameTimeToDestination];
 }
 
 - (void)setTotalDistance:(nullable NSString *)totalDistance {
-    if (totalDistance != nil) {
-        [parameters setObject:totalDistance forKey:SDLNameTotalDistance];
-    } else {
-        [parameters removeObjectForKey:SDLNameTotalDistance];
-    }
+    [parameters sdl_setObject:totalDistance forName:SDLNameTotalDistance];
 }
 
 - (nullable NSString *)totalDistance {
-    return [parameters objectForKey:SDLNameTotalDistance];
+    return [parameters sdl_objectForName:SDLNameTotalDistance];
 }
 
 - (void)setTurnIcon:(nullable SDLImage *)turnIcon {
-    if (turnIcon != nil) {
-        [parameters setObject:turnIcon forKey:SDLNameTurnIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameTurnIcon];
-    }
+    [parameters sdl_setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
 - (nullable SDLImage *)turnIcon {
-    NSObject *obj = [parameters objectForKey:SDLNameTurnIcon];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
+    return [parameters sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
 - (void)setNextTurnIcon:(nullable SDLImage *)nextTurnIcon {
-    if (nextTurnIcon != nil) {
-        [parameters setObject:nextTurnIcon forKey:SDLNameNextTurnIcon];
-    } else {
-        [parameters removeObjectForKey:SDLNameNextTurnIcon];
-    }
+    [parameters sdl_setObject:nextTurnIcon forName:SDLNameNextTurnIcon];
 }
 
 - (nullable SDLImage *)nextTurnIcon {
-    NSObject *obj = [parameters objectForKey:SDLNameNextTurnIcon];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
+    return [parameters sdl_objectForName:SDLNameNextTurnIcon ofClass:SDLImage.class];
 }
 
 - (void)setDistanceToManeuver:(nullable NSNumber<SDLFloat> *)distanceToManeuver {
-    if (distanceToManeuver != nil) {
-        [parameters setObject:distanceToManeuver forKey:SDLNameDistanceToManeuver];
-    } else {
-        [parameters removeObjectForKey:SDLNameDistanceToManeuver];
-    }
+    [parameters sdl_setObject:distanceToManeuver forName:SDLNameDistanceToManeuver];
 }
 
 - (nullable NSNumber<SDLFloat> *)distanceToManeuver {
-    return [parameters objectForKey:SDLNameDistanceToManeuver];
+    return [parameters sdl_objectForName:SDLNameDistanceToManeuver];
 }
 
 - (void)setDistanceToManeuverScale:(nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
-    if (distanceToManeuverScale != nil) {
-        [parameters setObject:distanceToManeuverScale forKey:SDLNameDistanceToManeuverScale];
-    } else {
-        [parameters removeObjectForKey:SDLNameDistanceToManeuverScale];
-    }
+    [parameters sdl_setObject:distanceToManeuverScale forName:SDLNameDistanceToManeuverScale];
 }
 
 - (nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
-    return [parameters objectForKey:SDLNameDistanceToManeuverScale];
+    return [parameters sdl_objectForName:SDLNameDistanceToManeuverScale];
 }
 
 - (void)setManeuverComplete:(nullable NSNumber<SDLBool> *)maneuverComplete {
-    if (maneuverComplete != nil) {
-        [parameters setObject:maneuverComplete forKey:SDLNameManeuverComplete];
-    } else {
-        [parameters removeObjectForKey:SDLNameManeuverComplete];
-    }
+    [parameters sdl_setObject:maneuverComplete forName:SDLNameManeuverComplete];
 }
 
 - (nullable NSNumber<SDLBool> *)maneuverComplete {
-    return [parameters objectForKey:SDLNameManeuverComplete];
+    return [parameters sdl_objectForName:SDLNameManeuverComplete];
 }
 
 - (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:SDLNameSoftButtons];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtons];
-    }
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
 - (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
-    NSMutableArray<SDLSoftButton *> *array = [parameters objectForKey:SDLNameSoftButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButton *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end

@@ -3,6 +3,7 @@
 
 #import "SDLOnAppInterfaceUnregistered.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,16 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
-    if (reason != nil) {
-        [parameters setObject:reason forKey:SDLNameReason];
-    } else {
-        [parameters removeObjectForKey:SDLNameReason];
-    }
+    [parameters sdl_setObject:reason forName:SDLNameReason];
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {
-    NSObject *obj = [parameters objectForKey:SDLNameReason];
-    return (SDLAppInterfaceUnregisteredReason)obj;
+    return [parameters sdl_objectForName:SDLNameReason];
 }
 
 @end

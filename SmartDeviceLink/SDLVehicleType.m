@@ -4,6 +4,7 @@
 
 #import "SDLVehicleType.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,51 +12,35 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLVehicleType
 
 - (void)setMake:(nullable NSString *)make {
-    if (make != nil) {
-        [store setObject:make forKey:SDLNameMake];
-    } else {
-        [store removeObjectForKey:SDLNameMake];
-    }
+    [store sdl_setObject:make forName:SDLNameMake];
 }
 
 - (nullable NSString *)make {
-    return [store objectForKey:SDLNameMake];
+    return [store sdl_objectForName:SDLNameMake];
 }
 
 - (void)setModel:(nullable NSString *)model {
-    if (model != nil) {
-        [store setObject:model forKey:SDLNameModel];
-    } else {
-        [store removeObjectForKey:SDLNameModel];
-    }
+    [store sdl_setObject:model forName:SDLNameModel];
 }
 
 - (nullable NSString *)model {
-    return [store objectForKey:SDLNameModel];
+    return [store sdl_objectForName:SDLNameModel];
 }
 
 - (void)setModelYear:(nullable NSString *)modelYear {
-    if (modelYear != nil) {
-        [store setObject:modelYear forKey:SDLNameModelYear];
-    } else {
-        [store removeObjectForKey:SDLNameModelYear];
-    }
+    [store sdl_setObject:modelYear forName:SDLNameModelYear];
 }
 
 - (nullable NSString *)modelYear {
-    return [store objectForKey:SDLNameModelYear];
+    return [store sdl_objectForName:SDLNameModelYear];
 }
 
 - (void)setTrim:(nullable NSString *)trim {
-    if (trim != nil) {
-        [store setObject:trim forKey:SDLNameTrim];
-    } else {
-        [store removeObjectForKey:SDLNameTrim];
-    }
+    [store sdl_setObject:trim forName:SDLNameTrim];
 }
 
 - (nullable NSString *)trim {
-    return [store objectForKey:SDLNameTrim];
+    return [store sdl_objectForName:SDLNameTrim];
 }
 
 @end

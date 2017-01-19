@@ -4,6 +4,7 @@
 
 #import "SDLUnsubscribeButton.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLButtonName.h"
 #import "SDLNames.h"
 
@@ -29,16 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:SDLNameButtonName];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonName];
-    }
+    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters objectForKey:SDLNameButtonName];
-    return (SDLButtonName)obj;
+    return [parameters sdl_objectForName:SDLNameButtonName];
 }
 
 @end

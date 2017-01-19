@@ -4,6 +4,7 @@
 
 #import "SDLSetDisplayLayout.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,15 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDisplayLayout:(NSString *)displayLayout {
-    if (displayLayout != nil) {
-        [parameters setObject:displayLayout forKey:SDLNameDisplayLayout];
-    } else {
-        [parameters removeObjectForKey:SDLNameDisplayLayout];
-    }
+    [parameters sdl_setObject:displayLayout forName:SDLNameDisplayLayout];
 }
 
 - (NSString *)displayLayout {
-    return [parameters objectForKey:SDLNameDisplayLayout];
+    return [parameters sdl_objectForName:SDLNameDisplayLayout];
 }
 
 @end

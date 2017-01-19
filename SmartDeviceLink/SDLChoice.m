@@ -3,6 +3,7 @@
 
 #import "SDLChoice.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
 
@@ -38,98 +39,59 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setChoiceID:(NSNumber<SDLInt> *)choiceID {
-    if (choiceID != nil) {
-        [store setObject:choiceID forKey:SDLNameChoiceId];
-    } else {
-        [store removeObjectForKey:SDLNameChoiceId];
-    }
+    [store sdl_setObject:choiceID forName:SDLNameChoiceId];
 }
 
 - (NSNumber<SDLInt> *)choiceID {
-    return [store objectForKey:SDLNameChoiceId];
+    return [store sdl_objectForName:SDLNameChoiceId];
 }
 
 - (void)setMenuName:(NSString *)menuName {
-    if (menuName != nil) {
-        [store setObject:menuName forKey:SDLNameMenuName];
-    } else {
-        [store removeObjectForKey:SDLNameMenuName];
-    }
+    [store sdl_setObject:menuName forName:SDLNameMenuName];
 }
 
 - (NSString *)menuName {
-    return [store objectForKey:SDLNameMenuName];
+    return [store sdl_objectForName:SDLNameMenuName];
 }
 
 - (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
-    if (vrCommands != nil) {
-        [store setObject:vrCommands forKey:SDLNameVRCommands];
-    } else {
-        [store removeObjectForKey:SDLNameVRCommands];
-    }
+    [store sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
 - (NSMutableArray<NSString *> *)vrCommands {
-    return [store objectForKey:SDLNameVRCommands];
+    return [store sdl_objectForName:SDLNameVRCommands];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    if (image != nil) {
-        [store setObject:image forKey:SDLNameImage];
-    } else {
-        [store removeObjectForKey:SDLNameImage];
-    }
+    [store sdl_setObject:image forName:SDLNameImage];
 }
 
 - (nullable SDLImage *)image {
-    NSObject *obj = [store objectForKey:SDLNameImage];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
-    
+    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
 }
 
 - (void)setSecondaryText:(nullable NSString *)secondaryText {
-    if (secondaryText != nil) {
-        [store setObject:secondaryText forKey:SDLNameSecondaryText];
-    } else {
-        [store removeObjectForKey:SDLNameSecondaryText];
-    }
+    [store sdl_setObject:secondaryText forName:SDLNameSecondaryText];
 }
 
 - (nullable NSString *)secondaryText {
-    return [store objectForKey:SDLNameSecondaryText];
+    return [store sdl_objectForName:SDLNameSecondaryText];
 }
 
 - (void)setTertiaryText:(nullable NSString *)tertiaryText {
-    if (tertiaryText != nil) {
-        [store setObject:tertiaryText forKey:SDLNameTertiaryText];
-    } else {
-        [store removeObjectForKey:SDLNameTertiaryText];
-    }
+    [store sdl_setObject:tertiaryText forName:SDLNameTertiaryText];
 }
 
 - (nullable NSString *)tertiaryText {
-    return [store objectForKey:SDLNameTertiaryText];
+    return [store sdl_objectForName:SDLNameTertiaryText];
 }
 
 - (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
-    if (secondaryImage != nil) {
-        [store setObject:secondaryImage forKey:SDLNameSecondaryImage];
-    } else {
-        [store removeObjectForKey:SDLNameSecondaryImage];
-    }
+    [store sdl_setObject:secondaryImage forName:SDLNameSecondaryImage];
 }
 
 - (nullable SDLImage *)secondaryImage {
-    NSObject *obj = [store objectForKey:SDLNameSecondaryImage];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLImage alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLImage*)obj;
+    return [store sdl_objectForName:SDLNameSecondaryImage ofClass:SDLImage.class];
 }
 
 @end

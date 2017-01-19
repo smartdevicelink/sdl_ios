@@ -4,6 +4,7 @@
 
 #import "SDLDialNumber.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 @implementation SDLDialNumber
@@ -26,15 +27,11 @@
 }
 
 - (void)setNumber:(NSString *)number {
-    if (number != nil) {
-        parameters[SDLNameNumber] = number;
-    } else {
-        [parameters removeObjectForKey:SDLNameNumber];
-    }
+    [parameters sdl_setObject:number forName:SDLNameNumber];
 }
 
 - (NSString *)number {
-    return parameters[SDLNameNumber];
+    return [parameters sdl_objectForName:SDLNameNumber];
 }
 
 @end

@@ -2,6 +2,7 @@
 
 #import "SDLAddSubMenu.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,39 +40,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    if (menuID != nil) {
-        [parameters setObject:menuID forKey:SDLNameMenuId];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuId];
-    }
+    [parameters sdl_setObject:menuID forName:SDLNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters objectForKey:SDLNameMenuId];
+    return [parameters sdl_objectForName:SDLNameMenuId];
 }
 
 - (void)setPosition:(nullable NSNumber<SDLInt> *)position {
-    if (position != nil) {
-        [parameters setObject:position forKey:SDLNamePosition];
-    } else {
-        [parameters removeObjectForKey:SDLNamePosition];
-    }
+    [parameters sdl_setObject:position forName:SDLNamePosition];
 }
 
 - (nullable NSNumber<SDLInt> *)position {
-    return [parameters objectForKey:SDLNamePosition];
+    return [parameters sdl_objectForName:SDLNamePosition];
 }
 
 - (void)setMenuName:(NSString *)menuName {
-    if (menuName != nil) {
-        [parameters setObject:menuName forKey:SDLNameMenuName];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuName];
-    }
+    [parameters sdl_setObject:menuName forName:SDLNameMenuName];
 }
 
 - (NSString *)menuName {
-    return [parameters objectForKey:SDLNameMenuName];
+    return [parameters sdl_objectForName:SDLNameMenuName];
 }
 
 @end

@@ -4,6 +4,7 @@
 
 #import "SDLSystemRequest.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -29,28 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    if (requestType != nil) {
-        [parameters setObject:requestType forKey:SDLNameRequestType];
-    } else {
-        [parameters removeObjectForKey:SDLNameRequestType];
-    }
+    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
-    NSObject *obj = [parameters objectForKey:SDLNameRequestType];
-    return (SDLRequestType)obj;
+    return [parameters sdl_objectForName:SDLNameRequestType];
 }
 
 - (void)setFileName:(nullable NSString *)fileName {
-    if (fileName != nil) {
-        [parameters setObject:fileName forKey:SDLNameFilename];
-    } else {
-        [parameters removeObjectForKey:SDLNameFilename];
-    }
+    [parameters sdl_setObject:fileName forName:SDLNameFilename];
 }
 
 - (nullable NSString *)fileName {
-    return [parameters objectForKey:SDLNameFilename];
+    return [parameters sdl_objectForName:SDLNameFilename];
 }
 
 @end

@@ -3,6 +3,7 @@
 
 #import "SDLDIDResult.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -10,40 +11,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLDIDResult
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
-    if (resultCode != nil) {
-        [store setObject:resultCode forKey:SDLNameResultCode];
-    } else {
-        [store removeObjectForKey:SDLNameResultCode];
-    }
+    [store sdl_setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    NSObject *obj = [store objectForKey:SDLNameResultCode];
-    return (SDLVehicleDataResultCode)obj;
+    return [store sdl_objectForName:SDLNameResultCode];
 }
 
 - (void)setDidLocation:(NSNumber<SDLInt> *)didLocation {
-    if (didLocation != nil) {
-        [store setObject:didLocation forKey:SDLNameDIDLocation];
-    } else {
-        [store removeObjectForKey:SDLNameDIDLocation];
-    }
+    [store sdl_setObject:didLocation forName:SDLNameDIDLocation];
 }
 
 - (NSNumber<SDLInt> *)didLocation {
-    return [store objectForKey:SDLNameDIDLocation];
+    return [store sdl_objectForName:SDLNameDIDLocation];
 }
 
 - (void)setData:(nullable NSString *)data {
-    if (data != nil) {
-        [store setObject:data forKey:SDLNameData];
-    } else {
-        [store removeObjectForKey:SDLNameData];
-    }
+    [store sdl_setObject:data forName:SDLNameData];
 }
 
 - (nullable NSString *)data {
-    return [store objectForKey:SDLNameData];
+    return [store sdl_objectForName:SDLNameData];
 }
 
 @end

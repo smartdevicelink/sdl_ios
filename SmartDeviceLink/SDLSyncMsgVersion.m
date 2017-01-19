@@ -4,6 +4,7 @@
 
 #import "SDLSyncMsgVersion.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,27 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
-    if (majorVersion != nil) {
-        [store setObject:majorVersion forKey:SDLNameMajorVersion];
-    } else {
-        [store removeObjectForKey:SDLNameMajorVersion];
-    }
+    [store sdl_setObject:majorVersion forName:SDLNameMajorVersion];
 }
 
 - (NSNumber<SDLInt> *)majorVersion {
-    return [store objectForKey:SDLNameMajorVersion];
+    return [store sdl_objectForName:SDLNameMajorVersion];
 }
 
 - (void)setMinorVersion:(NSNumber<SDLInt> *)minorVersion {
-    if (minorVersion != nil) {
-        [store setObject:minorVersion forKey:SDLNameMinorVersion];
-    } else {
-        [store removeObjectForKey:SDLNameMinorVersion];
-    }
+    [store sdl_setObject:minorVersion forName:SDLNameMinorVersion];
 }
 
 - (NSNumber<SDLInt> *)minorVersion {
-    return [store objectForKey:SDLNameMinorVersion];
+    return [store sdl_objectForName:SDLNameMinorVersion];
 }
 
 - (NSString *)description {

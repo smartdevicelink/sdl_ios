@@ -3,6 +3,7 @@
 
 #import "SDLECallInfo.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -10,42 +11,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLECallInfo
 
 - (void)setECallNotificationStatus:(SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    if (eCallNotificationStatus != nil) {
-        [store setObject:eCallNotificationStatus forKey:SDLNameECallNotificationStatus];
-    } else {
-        [store removeObjectForKey:SDLNameECallNotificationStatus];
-    }
+    [store sdl_setObject:eCallNotificationStatus forName:SDLNameECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    NSObject *obj = [store objectForKey:SDLNameECallNotificationStatus];
-    return (SDLVehicleDataNotificationStatus)obj;
+    return [store sdl_objectForName:SDLNameECallNotificationStatus];
 }
 
 - (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    if (auxECallNotificationStatus != nil) {
-        [store setObject:auxECallNotificationStatus forKey:SDLNameAuxECallNotificationStatus];
-    } else {
-        [store removeObjectForKey:SDLNameAuxECallNotificationStatus];
-    }
+    [store sdl_setObject:auxECallNotificationStatus forName:SDLNameAuxECallNotificationStatus];
 }
 
 - (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    NSObject *obj = [store objectForKey:SDLNameAuxECallNotificationStatus];
-    return (SDLVehicleDataNotificationStatus)obj;
+    return [store sdl_objectForName:SDLNameAuxECallNotificationStatus];
 }
 
 - (void)setECallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
-    if (eCallConfirmationStatus != nil) {
-        [store setObject:eCallConfirmationStatus forKey:SDLNameECallConfirmationStatus];
-    } else {
-        [store removeObjectForKey:SDLNameECallConfirmationStatus];
-    }
+    [store sdl_setObject:eCallConfirmationStatus forName:SDLNameECallConfirmationStatus];
 }
 
 - (SDLECallConfirmationStatus)eCallConfirmationStatus {
-    NSObject *obj = [store objectForKey:SDLNameECallConfirmationStatus];
-    return (SDLECallConfirmationStatus)obj;
+    return [store sdl_objectForName:SDLNameECallConfirmationStatus];
 }
 
 @end

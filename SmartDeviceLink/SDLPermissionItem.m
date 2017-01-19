@@ -3,6 +3,7 @@
 
 #import "SDLPermissionItem.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLHMIPermissions.h"
 #import "SDLNames.h"
 #import "SDLParameterPermissions.h"
@@ -12,49 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPermissionItem
 
 - (void)setRpcName:(NSString *)rpcName {
-    if (rpcName != nil) {
-        [store setObject:rpcName forKey:SDLNameRPCName];
-    } else {
-        [store removeObjectForKey:SDLNameRPCName];
-    }
+    [store sdl_setObject:rpcName forName:SDLNameRPCName];
 }
 
 - (NSString *)rpcName {
-    return [store objectForKey:SDLNameRPCName];
+    return [store sdl_objectForName:SDLNameRPCName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
-    if (hmiPermissions != nil) {
-        [store setObject:hmiPermissions forKey:SDLNameHMIPermissions];
-    } else {
-        [store removeObjectForKey:SDLNameHMIPermissions];
-    }
+    [store sdl_setObject:hmiPermissions forName:SDLNameHMIPermissions];
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    NSObject *obj = [store objectForKey:SDLNameHMIPermissions];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLHMIPermissions alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLHMIPermissions*)obj;
+    return [store sdl_objectForName:SDLNameHMIPermissions ofClass:SDLHMIPermissions.class];
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
-    if (parameterPermissions != nil) {
-        [store setObject:parameterPermissions forKey:SDLNameParameterPermissions];
-    } else {
-        [store removeObjectForKey:SDLNameParameterPermissions];
-    }
+    [store sdl_setObject:parameterPermissions forName:SDLNameParameterPermissions];
 }
 
 - (SDLParameterPermissions *)parameterPermissions {
-    NSObject *obj = [store objectForKey:SDLNameParameterPermissions];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLParameterPermissions alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLParameterPermissions*)obj;
+    return [store sdl_objectForName:SDLNameParameterPermissions ofClass:SDLParameterPermissions.class];
 }
 
 @end
