@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
             currentOffset = mtuSize;
         } else {
             putFile.bulkData = [fileData subdataWithRange:NSMakeRange(currentOffset, [putFile.length unsignedIntegerValue])];
-            currentOffset = [putFile.length unsignedIntegerValue];
+            currentOffset += [putFile.length unsignedIntegerValue];
         }
 
         [putFiles addObject:putFile];
