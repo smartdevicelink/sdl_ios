@@ -1,9 +1,14 @@
 //  SDLSmartDeviceLinkProtocol.h
 //
 
-#import "SDLAbstractProtocol.h"
+#import "SDLProtocolListener.h"
+#import "SDLSecurityType.h"
+#import "SDLTransportDelegate.h"
+
 @class SDLProtocolHeader;
-@class SDLProtocolRecievedMessageRouter;
+@class SDLAbstractTransport;
+@class SDLRPCMessage;
+@class SDLRPCRequest;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,8 +18,13 @@ typedef NS_ENUM(NSUInteger, SDLProtocolError) {
 
 extern NSString *const SDLProtocolSecurityErrorDomain;
 
+@interface SDLProtocol : NSObject <SDLProtocolListener, SDLTransportDelegate>
 
-@interface SDLProtocol : SDLAbstractProtocol <SDLProtocolListener>
+@property (strong, nonatomic) NSString *debugConsoleGroupName;
+@property (nullable, weak, nonatomic) SDLAbstractTransport *transport;
+@property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
+@property (nullable, nonatomic, strong) id<SDLSecurityType> securityManager;
+@property (nonatomic, copy) NSString *appId;
 
 // Sending
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use startServiceWithType: instead"));

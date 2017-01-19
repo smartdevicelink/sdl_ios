@@ -422,4 +422,44 @@ describe(@"OnError Tests", ^ {
     });
 });
 
+describe(@"OnTransportConnected Tests", ^ {
+    it(@"Should invoke the correct method", ^ {
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        
+        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        
+        __block BOOL verified = NO;
+        [[[delegateMock stub] andDo:^(NSInvocation* invocation) {verified = YES;}] onProtocolOpened];
+        
+        [testProtocol onTransportConnected];
+        
+        //Verifications don't work with Nimble at this point
+        //OCMVerify([delegateMock onProtocolOpened]);
+        
+        //Workaround for now
+        expect(@(verified)).to(beTruthy());
+    });
+});
+
+describe(@"OnTransportDisconnected Tests", ^ {
+    it(@"Should invoke the correct method", ^ {
+        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        
+        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+        [testProtocol.protocolDelegateTable addObject:delegateMock];
+        
+        __block BOOL verified = NO;
+        [[[delegateMock stub] andDo:^(NSInvocation* invocation) {verified = YES;}] onProtocolClosed];
+        
+        [testProtocol onTransportDisconnected];
+        
+        //Verifications don't work with Nimble at this point
+        //OCMVerify([delegateMock onProtocolClosed]);
+        
+        //Workaround for now
+        expect(@(verified)).to(beTruthy());
+    });
+});
+
 QuickSpecEnd

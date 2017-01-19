@@ -1,7 +1,7 @@
 //  SDLProxy.h
 //
 
-@class SDLAbstractProtocol;
+@class SDLProtocol;
 @class SDLAbstractTransport;
 @class SDLProtocol;
 @class SDLPutFile;
@@ -22,7 +22,7 @@ __deprecated_msg("Use SDLManager instead")
     BOOL _isConnected;
 }
 
-@property (nullable, strong, nonatomic) SDLAbstractProtocol *protocol;
+@property (nullable, strong, nonatomic) SDLProtocol *protocol;
 @property (nullable, strong, nonatomic) SDLAbstractTransport *transport;
 @property (readonly, copy, nonatomic) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
 @property (strong, nonatomic) SDLTimer *startSessionTimer;
@@ -31,7 +31,7 @@ __deprecated_msg("Use SDLManager instead")
 @property (nullable, nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
-               protocol:(SDLAbstractProtocol *)protocol
+               protocol:(SDLProtocol *)protocol
                delegate:(NSObject<SDLProxyListener> *)delegate;
 
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;

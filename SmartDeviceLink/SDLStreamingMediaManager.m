@@ -10,7 +10,7 @@
 
 @import UIKit;
 
-#import "SDLAbstractProtocol.h"
+#import "SDLProtocol.h"
 #import "SDLDebugTool.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL videoSessionEncrypted;
 @property (assign, nonatomic, readwrite) BOOL audioSessionEncrypted;
 
-@property (weak, nonatomic) SDLAbstractProtocol *protocol;
+@property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (copy, nonatomic, nullable) SDLStreamingEncryptionStartBlock videoStartBlock;
 @property (copy, nonatomic, nullable) SDLStreamingEncryptionStartBlock audioStartBlock;
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Class Lifecycle
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+- (instancetype)initWithProtocol:(SDLProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
     self = [self init];
     if (!self) {
         return nil;
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol {
+- (instancetype)initWithProtocol:(SDLProtocol *)protocol {
     self = [self init];
     if (!self) {
         return nil;

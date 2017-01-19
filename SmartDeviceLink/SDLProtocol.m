@@ -51,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     if (self = [super init]) {
+        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
+        _debugConsoleGroupName = @"default";
+
         _messageID = 0;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
@@ -58,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
         _serviceHeaders = [[NSMutableDictionary alloc] init];
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
+        
     }
 
     return self;
@@ -615,6 +619,28 @@ NS_ASSUME_NONNULL_BEGIN
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
+}
+
+
+#pragma - SDLTransportListener Implementation
+- (void)onTransportConnected {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
+            [listener onProtocolOpened];
+        }
+    }
+}
+
+- (void)onTransportDisconnected {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
+            [listener onProtocolClosed];
+        }
+    }
+}
+
+- (void)onDataReceived:(NSData *)receivedData {
+    [self handleBytesFromTransport:receivedData];
 }
 
 @end

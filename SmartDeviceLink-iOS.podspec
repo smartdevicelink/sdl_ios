@@ -30,7 +30,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLIAPTransport.h',
 'SmartDeviceLink/SDLTCPTransport.h',
 'SmartDeviceLink/SDLTransportDelegate.h',
-'SmartDeviceLink/SDLAbstractProtocol.h',
 'SmartDeviceLink/SDLProtocol.h',
 'SmartDeviceLink/SDLProtocolListener.h',
 'SmartDeviceLink/SDLProtocolHeader.h',
