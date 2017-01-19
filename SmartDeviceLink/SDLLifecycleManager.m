@@ -256,21 +256,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLResult *registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
 
-    BOOL success = NO;
+    BOOL success = self.registerResponse.success.boolValue;
     NSError *startError = nil;
 
-
-    if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
-        // We succeeded, but with warnings
+    // If the resultCode isn't success, we either got an error or a warning.
+    if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
-        success = YES;
-    } else if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
-        // We did not succeed in registering
-        startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
-        success = NO;
-    } else {
-        // We succeeded
-        success = YES;
     }
 
     // Notify the block, send the notification if we succeeded.
