@@ -369,11 +369,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // If, for some reason, the request is nil we should error out.
     if (!request) {
-        [SDLDebugTool logInfo:@"Attempting to send a nil request, request not sent."];
-        if (handler) {
-            handler(nil, nil, [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request" andReason:@"Request must not be nil"]);
-        }
-        return;
+        @throw [NSException
+                exceptionWithName:NSInvalidArgumentException
+                reason:@"A Request cannot be nil."
+                userInfo:nil];
     }
     
     // Add a correlation ID to the request
