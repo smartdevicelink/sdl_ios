@@ -265,6 +265,12 @@ describe(@"a lifecycle manager", ^{
                 OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
             });
             
+            it(@"cannot send a nil RPC", ^{
+                SDLShow *testShow = nil;
+
+                expectAction(^{ [testManager sendRequest:testShow]; }).to(raiseException().named(NSInternalInconsistencyException));
+            });
+            
             describe(@"stopping the manager", ^{
                 beforeEach(^{
                     [testManager stop];
