@@ -142,7 +142,6 @@ describe(@"Upload File Operation", ^{
         
         it(@"should send correct putfiles", ^{
             NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
-            SDLPutFile *firstPutFile = putFiles.firstObject;
             
             NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
