@@ -265,6 +265,17 @@ describe(@"a lifecycle manager", ^{
                 OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
             });
             
+            it(@"cannot send a nil RPC", ^{
+                __block NSError* testError = nil;
+                SDLShow *testShow = nil;
+                
+                [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+                    testError = error;
+                }];
+                
+                expect(testError).to(equal([NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request" andReason:@"Request must not be nil"]));
+            });
+            
             describe(@"stopping the manager", ^{
                 beforeEach(^{
                     [testManager stop];
