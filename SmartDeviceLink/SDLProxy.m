@@ -59,7 +59,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nullable, nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 
