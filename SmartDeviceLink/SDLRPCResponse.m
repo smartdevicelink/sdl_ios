@@ -4,6 +4,7 @@
 
 #import "SDLRPCResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLResult.h"
 
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     messageType = SDLNameResponse;
-    [store setObject:function forKey:messageType];
+    [store sdl_setObject:function forName:messageType];
 
     return self;
 }
@@ -30,58 +31,41 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     messageType = SDLNameResponse;
-    [store setObject:function forKey:messageType];
-
+    [store sdl_setObject:function forName:messageType];
+    
     return self;
 }
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function objectForKey:SDLNameCorrelationId];
+    return [function sdl_objectForName:SDLNameCorrelationId];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    if (corrID != nil) {
-        [function setObject:corrID forKey:SDLNameCorrelationId];
-    } else {
-        [function removeObjectForKey:SDLNameCorrelationId];
-    }
+    [function sdl_setObject:corrID forName:SDLNameCorrelationId];
 }
 
 - (void)setSuccess:(NSNumber<SDLBool> *)success {
-    if (success != nil) {
-        [parameters setObject:success forKey:SDLNameSuccess];
-    } else {
-        [parameters removeObjectForKey:SDLNameSuccess];
-    }
+    [store sdl_setObject:success forName:SDLNameSuccess];
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [parameters objectForKey:SDLNameSuccess];
+    return [store sdl_objectForName:SDLNameSuccess];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
-    if (resultCode != nil) {
-        [parameters setObject:resultCode forKey:SDLNameResultCode];
-    } else {
-        [parameters removeObjectForKey:SDLNameResultCode];
-    }
+    [store sdl_setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLResult)resultCode {
-    NSObject *obj = [parameters objectForKey:SDLNameResultCode];
-    return (SDLResult)obj;
+    return [store sdl_objectForName:SDLNameResultCode];
 }
 
 - (void)setInfo:(nullable NSString *)info {
-    if (info != nil) {
-        [parameters setObject:info forKey:SDLNameInfo];
-    } else {
-        [parameters removeObjectForKey:SDLNameInfo];
-    }
+    [store sdl_setObject:info forName:SDLNameInfo];
 }
 
 - (nullable NSString *)info {
-    return [parameters objectForKey:SDLNameInfo];
+    return [store sdl_objectForName:SDLNameInfo];
 }
 
 @end

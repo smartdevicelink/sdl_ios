@@ -4,6 +4,7 @@
 
 #import "SDLImageResolution.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,27 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLImageResolution
 
 - (void)setResolutionWidth:(NSNumber<SDLInt> *)resolutionWidth {
-    if (resolutionWidth != nil) {
-        [store setObject:resolutionWidth forKey:SDLNameResolutionWidth];
-    } else {
-        [store removeObjectForKey:SDLNameResolutionWidth];
-    }
+    [store sdl_setObject:resolutionWidth forName:SDLNameResolutionWidth];
 }
 
 - (NSNumber<SDLInt> *)resolutionWidth {
-    return [store objectForKey:SDLNameResolutionWidth];
+    return [store sdl_objectForName:SDLNameResolutionWidth];
 }
 
 - (void)setResolutionHeight:(NSNumber<SDLInt> *)resolutionHeight {
-    if (resolutionHeight != nil) {
-        [store setObject:resolutionHeight forKey:SDLNameResolutionHeight];
-    } else {
-        [store removeObjectForKey:SDLNameResolutionHeight];
-    }
+    [store sdl_setObject:resolutionHeight forName:SDLNameResolutionHeight];
 }
 
 - (NSNumber<SDLInt> *)resolutionHeight {
-    return [store objectForKey:SDLNameResolutionHeight];
+    return [store sdl_objectForName:SDLNameResolutionHeight];
 }
 
 @end

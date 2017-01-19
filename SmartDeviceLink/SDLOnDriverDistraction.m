@@ -3,6 +3,7 @@
 
 #import "SDLOnDriverDistraction.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLDriverDistractionState.h"
 
@@ -17,15 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setState:(SDLDriverDistractionState)state {
-    if (state != nil) {
-        [parameters setObject:state forKey:SDLNameState];
-    } else {
-        [parameters removeObjectForKey:SDLNameState];
-    }
+    [parameters sdl_setObject:state forName:SDLNameState];
 }
 
 - (SDLDriverDistractionState)state {
-    NSObject *obj = [parameters objectForKey:SDLNameState];
+    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
     return (SDLDriverDistractionState)obj;
 }
 

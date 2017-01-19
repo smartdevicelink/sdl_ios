@@ -3,6 +3,7 @@
 
 #import "SDLOnSystemRequest.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,77 +17,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    if (requestType != nil) {
-        [parameters setObject:requestType forKey:SDLNameRequestType];
-    } else {
-        [parameters removeObjectForKey:SDLNameRequestType];
-    }
+    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
-    NSObject *obj = [parameters objectForKey:SDLNameRequestType];
-    return (SDLRequestType)obj;
+    return [parameters sdl_objectForName:SDLNameRequestType];
 }
 
 - (void)setUrl:(nullable NSString *)url {
-    if (url != nil) {
-        [parameters setObject:url forKey:SDLNameURL];
-    } else {
-        [parameters removeObjectForKey:SDLNameURL];
-    }
+    [parameters sdl_setObject:url forName:SDLNameURL];
 }
 
 - (nullable NSString *)url {
-    return [parameters objectForKey:SDLNameURL];
+    return [parameters sdl_objectForName:SDLNameURL];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    if (timeout != nil) {
-        [parameters setObject:timeout forKey:SDLNameTimeout];
-    } else {
-        [parameters removeObjectForKey:SDLNameTimeout];
-    }
+    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters objectForKey:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
-    if (fileType != nil) {
-        [parameters setObject:fileType forKey:SDLNameFileType];
-    } else {
-        [parameters removeObjectForKey:SDLNameFileType];
-    }
+    [parameters sdl_setObject:fileType forName:SDLNameFileType];
 }
 
 - (nullable SDLFileType)fileType {
-    NSObject *obj = [parameters objectForKey:SDLNameFileType];
-    return (SDLFileType)obj;
+    return [parameters sdl_objectForName:SDLNameFileType];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLInt> *)offset {
-    if (offset != nil) {
-        [parameters setObject:offset forKey:SDLNameOffset];
-    } else {
-        [parameters removeObjectForKey:SDLNameOffset];
-    }
+    [parameters sdl_setObject:offset forName:SDLNameOffset];
 }
 
 - (nullable NSNumber<SDLInt> *)offset {
-    return [parameters objectForKey:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLNameOffset];
 }
 
 - (void)setLength:(nullable NSNumber<SDLInt> *)length {
-    if (length != nil) {
-        [parameters setObject:length forKey:SDLNameLength];
-    } else {
-        [parameters removeObjectForKey:SDLNameLength];
-    }
+    [parameters sdl_setObject:length forName:SDLNameLength];
 }
 
 - (nullable NSNumber<SDLInt> *)length {
-    return [parameters objectForKey:SDLNameLength];
+    return [parameters sdl_objectForName:SDLNameLength];
 }
 
 @end

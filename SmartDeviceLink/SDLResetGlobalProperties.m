@@ -4,6 +4,7 @@
 
 #import "SDLResetGlobalProperties.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLGlobalProperty.h"
 #import "SDLNames.h"
 
@@ -29,24 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setProperties:(NSMutableArray<SDLGlobalProperty> *)properties {
-    if (properties != nil) {
-        [parameters setObject:properties forKey:SDLNameProperties];
-    } else {
-        [parameters removeObjectForKey:SDLNameProperties];
-    }
+    [parameters sdl_setObject:properties forName:SDLNameProperties];
 }
 
 - (NSMutableArray<SDLGlobalProperty> *)properties {
-    NSMutableArray<SDLGlobalProperty> *array = [parameters objectForKey:SDLNameProperties];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLGlobalProperty> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLGlobalProperty)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_enumsForName:SDLNameProperties];
 }
 
 @end

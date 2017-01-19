@@ -4,6 +4,7 @@
 
 #import "SDLDeleteSubMenu.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,15 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    if (menuID != nil) {
-        [parameters setObject:menuID forKey:SDLNameMenuId];
-    } else {
-        [parameters removeObjectForKey:SDLNameMenuId];
-    }
+    [parameters sdl_setObject:menuID forName:SDLNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters objectForKey:SDLNameMenuId];
+    return [parameters sdl_objectForName:SDLNameMenuId];
 }
 
 @end

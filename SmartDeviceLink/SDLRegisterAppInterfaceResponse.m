@@ -4,6 +4,7 @@
 
 #import "SDLRegisterAppInterfaceResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
@@ -14,6 +15,8 @@
 #import "SDLSyncMsgVersion.h"
 #import "SDLVehicleType.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRegisterAppInterfaceResponse
 
 - (instancetype)init {
@@ -23,297 +26,141 @@
 }
 
 - (void)setSyncMsgVersion:(nullable SDLSyncMsgVersion *)syncMsgVersion {
-    if (syncMsgVersion != nil) {
-        [parameters setObject:syncMsgVersion forKey:SDLNameSyncMessageVersion];
-    } else {
-        [parameters removeObjectForKey:SDLNameSyncMessageVersion];
-    }
+    [parameters sdl_setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
 }
 
 - (nullable SDLSyncMsgVersion *)syncMsgVersion {
-    NSObject *obj = [parameters objectForKey:SDLNameSyncMessageVersion];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLSyncMsgVersion alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLSyncMsgVersion*)obj;
+    return [parameters sdl_objectForName:SDLNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class];
 }
 
 - (void)setLanguage:(nullable SDLLanguage)language {
-    if (language != nil) {
-        [parameters setObject:language forKey:SDLNameLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameLanguage];
-    }
+    [parameters sdl_setObject:language forName:SDLNameLanguage];
 }
 
 - (nullable SDLLanguage)language {
-    NSObject *obj = [parameters objectForKey:SDLNameLanguage];
-    return (SDLLanguage)obj;
+    return [parameters sdl_objectForName:SDLNameLanguage];
 }
 
 - (void)setHmiDisplayLanguage:(nullable SDLLanguage)hmiDisplayLanguage {
-    if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:SDLNameHMIDisplayLanguage];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIDisplayLanguage];
-    }
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
 - (nullable SDLLanguage)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:SDLNameHMIDisplayLanguage];
-    return (SDLLanguage)obj;
+    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
 }
 
 - (void)setDisplayCapabilities:(nullable SDLDisplayCapabilities *)displayCapabilities {
-    if (displayCapabilities != nil) {
-        [parameters setObject:displayCapabilities forKey:SDLNameDisplayCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameDisplayCapabilities];
-    }
+    [parameters sdl_setObject:displayCapabilities forName:SDLNameDisplayCapabilities];
 }
 
 - (nullable SDLDisplayCapabilities *)displayCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNameDisplayCapabilities];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLDisplayCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLDisplayCapabilities*)obj;
+    return [parameters sdl_objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
 }
 
 - (void)setButtonCapabilities:(nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    if (buttonCapabilities != nil) {
-        [parameters setObject:buttonCapabilities forKey:SDLNameButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameButtonCapabilities];
-    }
+    [parameters sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
 - (nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    NSMutableArray<SDLButtonCapabilities *> *array = [parameters objectForKey:SDLNameButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLButtonCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLButtonCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
 - (void)setSoftButtonCapabilities:(nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    if (softButtonCapabilities != nil) {
-        [parameters setObject:softButtonCapabilities forKey:SDLNameSoftButtonCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameSoftButtonCapabilities];
-    }
+    [parameters sdl_setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
 - (nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
-    NSMutableArray<SDLSoftButtonCapabilities *> *array = [parameters objectForKey:SDLNameSoftButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButtonCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLSoftButtonCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLSoftButtonCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
 }
 
 - (void)setPresetBankCapabilities:(nullable SDLPresetBankCapabilities *)presetBankCapabilities {
-    if (presetBankCapabilities != nil) {
-        [parameters setObject:presetBankCapabilities forKey:SDLNamePresetBankCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNamePresetBankCapabilities];
-    }
+    [parameters sdl_setObject:presetBankCapabilities forName:SDLNamePresetBankCapabilities];
 }
 
 - (nullable SDLPresetBankCapabilities *)presetBankCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNamePresetBankCapabilities];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLPresetBankCapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLPresetBankCapabilities*)obj;
+    return [parameters sdl_objectForName:SDLNamePresetBankCapabilities ofClass:SDLPresetBankCapabilities.class];
 }
 
 - (void)setHmiZoneCapabilities:(nullable NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
-    if (hmiZoneCapabilities != nil) {
-        [parameters setObject:hmiZoneCapabilities forKey:SDLNameHMIZoneCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMIZoneCapabilities];
-    }
+    [parameters sdl_setObject:hmiZoneCapabilities forName:SDLNameHMIZoneCapabilities];
 }
 
 - (nullable NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
-    NSMutableArray<SDLHMIZoneCapabilities> *array = [parameters objectForKey:SDLNameHMIZoneCapabilities];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLHMIZoneCapabilities> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLHMIZoneCapabilities)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectForName:SDLNameHMIZoneCapabilities];
 }
 
 - (void)setSpeechCapabilities:(nullable NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
-    if (speechCapabilities != nil) {
-        [parameters setObject:speechCapabilities forKey:SDLNameSpeechCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameSpeechCapabilities];
-    }
+    [parameters sdl_setObject:speechCapabilities forName:SDLNameSpeechCapabilities];
 }
 
 - (nullable NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
-    NSMutableArray<SDLSpeechCapabilities> *array = [parameters objectForKey:SDLNameSpeechCapabilities];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLSpeechCapabilities> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLSpeechCapabilities)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectForName:SDLNameSpeechCapabilities];
 }
 
 - (void)setPrerecordedSpeech:(nullable NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
-    if (prerecordedSpeech != nil) {
-        [parameters setObject:prerecordedSpeech forKey:SDLNamePrerecordedSpeech];
-    } else {
-        [parameters removeObjectForKey:SDLNamePrerecordedSpeech];
-    }
+    [parameters sdl_setObject:prerecordedSpeech forName:SDLNamePrerecordedSpeech];
 }
 
 - (nullable NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
-    NSMutableArray<SDLPrerecordedSpeech> *array = [parameters objectForKey:SDLNamePrerecordedSpeech];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLPrerecordedSpeech> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLPrerecordedSpeech)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectForName:SDLNamePrerecordedSpeech];
 }
 
 - (void)setVrCapabilities:(nullable NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
-    if (vrCapabilities != nil) {
-        [parameters setObject:vrCapabilities forKey:SDLNameVRCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameVRCapabilities];
-    }
+    [parameters sdl_setObject:vrCapabilities forName:SDLNameVRCapabilities];
 }
 
 - (nullable NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
-    NSMutableArray<SDLVRCapabilities> *array = [parameters objectForKey:SDLNameVRCapabilities];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLVRCapabilities> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSString *enumString in array) {
-            [newList addObject:(SDLVRCapabilities)enumString];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectForName:SDLNameVRCapabilities];
 }
 
 - (void)setAudioPassThruCapabilities:(nullable NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
-    if (audioPassThruCapabilities != nil) {
-        [parameters setObject:audioPassThruCapabilities forKey:SDLNameAudioPassThruCapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameAudioPassThruCapabilities];
-    }
+    [parameters sdl_setObject:audioPassThruCapabilities forName:SDLNameAudioPassThruCapabilities];
 }
 
 - (nullable NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
-    NSMutableArray<SDLAudioPassThruCapabilities *> *array = [parameters objectForKey:SDLNameAudioPassThruCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLAudioPassThruCapabilities.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLAudioPassThruCapabilities *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLAudioPassThruCapabilities alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+    return [parameters sdl_objectsForName:SDLNameAudioPassThruCapabilities ofClass:SDLAudioPassThruCapabilities.class];
 }
 
 - (void)setVehicleType:(nullable SDLVehicleType *)vehicleType {
-    if (vehicleType != nil) {
-        [parameters setObject:vehicleType forKey:SDLNameVehicleType];
-    } else {
-        [parameters removeObjectForKey:SDLNameVehicleType];
-    }
+    [parameters sdl_setObject:vehicleType forName:SDLNameVehicleType];
 }
 
 - (nullable SDLVehicleType *)vehicleType {
-    NSObject *obj = [parameters objectForKey:SDLNameVehicleType];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLVehicleType alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLVehicleType*)obj;
+    return [parameters sdl_objectForName:SDLNameVehicleType ofClass:SDLVehicleType.class];
 }
 
 - (void)setSupportedDiagModes:(nullable NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
-    if (supportedDiagModes != nil) {
-        [parameters setObject:supportedDiagModes forKey:SDLNameSupportedDiagnosticModes];
-    } else {
-        [parameters removeObjectForKey:SDLNameSupportedDiagnosticModes];
-    }
+    [parameters sdl_setObject:supportedDiagModes forName:SDLNameSupportedDiagnosticModes];
 }
 
 - (nullable NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
-    return [parameters objectForKey:SDLNameSupportedDiagnosticModes];
+    return [parameters sdl_objectForName:SDLNameSupportedDiagnosticModes];
 }
 
 - (void)setHmiCapabilities:(nullable SDLHMICapabilities *)hmiCapabilities {
-    if (hmiCapabilities != nil) {
-        [parameters setObject:hmiCapabilities forKey:SDLNameHMICapabilities];
-    } else {
-        [parameters removeObjectForKey:SDLNameHMICapabilities];
-    }
+    [parameters sdl_setObject:hmiCapabilities forName:SDLNameHMICapabilities];
 }
 
 - (nullable SDLHMICapabilities *)hmiCapabilities {
-    NSObject *obj = [parameters objectForKey:SDLNameHMICapabilities];
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        return [[SDLHMICapabilities alloc] initWithDictionary:(NSDictionary *)obj];
-    }
-    
-    return (SDLHMICapabilities*)obj;
+    return [parameters sdl_objectForName:SDLNameHMICapabilities ofClass:SDLHMICapabilities.class];
 }
 
 - (void)setSdlVersion:(nullable NSString *)sdlVersion {
-    if (sdlVersion != nil) {
-        parameters[SDLNameSDLVersion] = sdlVersion;
-    } else {
-        [parameters removeObjectForKey:SDLNameSDLVersion];
-    }
+    [parameters sdl_setObject:sdlVersion forName:SDLNameSDLVersion];
 }
 
 - (nullable NSString *)sdlVersion {
-    return parameters[SDLNameSDLVersion];
+    return [parameters sdl_objectForName:SDLNameSDLVersion];
 }
 
 - (void)setSystemSoftwareVersion:(nullable NSString *)systemSoftwareVersion {
-    if (systemSoftwareVersion != nil) {
-        parameters[SDLNameSystemSoftwareVersion] = systemSoftwareVersion;
-    } else {
-        [parameters removeObjectForKey:SDLNameSystemSoftwareVersion];
-    }
+    [parameters sdl_setObject:systemSoftwareVersion forName:SDLNameSystemSoftwareVersion];
 }
 
 - (nullable NSString *)systemSoftwareVersion {
-    return parameters[SDLNameSystemSoftwareVersion];
+    return [parameters sdl_objectForName:SDLNameSystemSoftwareVersion];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,6 +1,7 @@
 //  SDLNames.h
 //
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -93,7 +94,7 @@ SDLName const SDLNameDriverBeltDeployed = @"driverBeltDeployed";
 SDLName const SDLNameDriverBraking = @"driverBraking";
 SDLName const SDLNameDriverBuckleBelted = @"driverBuckleBelted";
 SDLName const SDLNameDriverCurtainAirbagDeployed = @"driverCurtainAirbagDeployed";
-SDLName const SDLNameDriverDistractionStatus = @"driverdistractionstatus";
+SDLName const SDLNameDriverDistractionStatus = @"driverDistractionStatus";
 SDLName const SDLNameDriverDoorAjar = @"driverDoorAjar";
 SDLName const SDLNameDriverKneeAirbagDeployed = @"driverKneeAirbagDeployed";
 SDLName const SDLNameDriverSideAirbagDeployed = @"driverSideAirbagDeployed";
@@ -254,7 +255,7 @@ SDLName const SDLNameOnHashChange = @"OnHashChange";
 SDLName const SDLNameOnHMIStatus = @"OnHMIStatus";
 SDLName const SDLNameOnKeyboardInput = @"OnKeyboardInput";
 SDLName const SDLNameOnLanguageChange = @"OnLanguageChange";
-SDLName const SDLNameOnLockscreenStatus = @"OnLockScreenStatus";
+SDLName const SDLNameOnLockScreenStatus = @"OnLockScreenStatus";
 SDLName const SDLNameOnPermissionsChange = @"OnPermissionsChange";
 SDLName const SDLNameOnScreenPresetsAvailable = @"onScreenPresetsAvailable";
 SDLName const SDLNameOnSyncPData = @"OnSyncPData";
@@ -420,7 +421,7 @@ SDLName const SDLNameUpDownAvailable = @"upDownAvailable";
 SDLName const SDLNameURL = @"url";
 SDLName const SDLNameURLUppercase = @"URL";
 SDLName const SDLNameUserDisallowed = @"userDisallowed";
-SDLName const SDLNameUserSelected = @"userselected";
+SDLName const SDLNameUserSelected = @"userSelected";
 SDLName const SDLNameUTCDay = @"utcDay";
 SDLName const SDLNameUTCHours = @"utcHours";
 SDLName const SDLNameUTCMinutes = @"utcMinutes";

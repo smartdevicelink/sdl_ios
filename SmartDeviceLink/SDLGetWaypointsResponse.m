@@ -3,6 +3,7 @@
 
 #import "SDLGetWaypointsResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
 
@@ -17,24 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setWaypoints:(nullable NSArray<SDLLocationDetails *> *)waypoints {
-    if (waypoints != nil) {
-        parameters[SDLNameWaypoints] = waypoints;
-    } else {
-        [parameters removeObjectForKey:SDLNameWaypoints];
-    }
+    [parameters sdl_setObject:waypoints forName:SDLNameWaypoints];
 }
 
 - (nullable NSArray<SDLLocationDetails *> *)waypoints {
-    NSMutableArray *array = [parameters objectForKey:SDLNameWaypoints];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLLocationDetails.class]) {
-        return [array copy];
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLLocationDetails alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return [newList copy];
-    }
+    return [parameters sdl_objectsForName:SDLNameWaypoints ofClass:SDLLocationDetails.class];
 }
 
 @end

@@ -3,6 +3,7 @@
 
 #import "SDLDeviceStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLDeviceLevelStatus.h"
 #import "SDLNames.h"
 #import "SDLPrimaryAudioSource.h"
@@ -12,138 +13,91 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLDeviceStatus
 
 - (void)setVoiceRecOn:(NSNumber<SDLBool> *)voiceRecOn {
-    if (voiceRecOn != nil) {
-        [store setObject:voiceRecOn forKey:SDLNameVoiceRecognitionOn];
-    } else {
-        [store removeObjectForKey:SDLNameVoiceRecognitionOn];
-    }
+    [store sdl_setObject:voiceRecOn forName:SDLNameVoiceRecognitionOn];
 }
 
 - (NSNumber<SDLBool> *)voiceRecOn {
-    return [store objectForKey:SDLNameVoiceRecognitionOn];
+    return [store sdl_objectForName:SDLNameVoiceRecognitionOn];
 }
 
 - (void)setBtIconOn:(NSNumber<SDLBool> *)btIconOn {
-    if (btIconOn != nil) {
-        [store setObject:btIconOn forKey:SDLNameBluetoothIconOn];
-    } else {
-        [store removeObjectForKey:SDLNameBluetoothIconOn];
-    }
+    [store sdl_setObject:btIconOn forName:SDLNameBluetoothIconOn];
 }
 
 - (NSNumber<SDLBool> *)btIconOn {
-    return [store objectForKey:SDLNameBluetoothIconOn];
+    return [store sdl_objectForName:SDLNameBluetoothIconOn];
 }
 
 - (void)setCallActive:(NSNumber<SDLBool> *)callActive {
-    if (callActive != nil) {
-        [store setObject:callActive forKey:SDLNameCallActive];
-    } else {
-        [store removeObjectForKey:SDLNameCallActive];
-    }
+    [store sdl_setObject:callActive forName:SDLNameCallActive];
 }
 
 - (NSNumber<SDLBool> *)callActive {
-    return [store objectForKey:SDLNameCallActive];
+    return [store sdl_objectForName:SDLNameCallActive];
 }
 
 - (void)setPhoneRoaming:(NSNumber<SDLBool> *)phoneRoaming {
-    if (phoneRoaming != nil) {
-        [store setObject:phoneRoaming forKey:SDLNamePhoneRoaming];
-    } else {
-        [store removeObjectForKey:SDLNamePhoneRoaming];
-    }
+    [store sdl_setObject:phoneRoaming forName:SDLNamePhoneRoaming];
 }
 
 - (NSNumber<SDLBool> *)phoneRoaming {
-    return [store objectForKey:SDLNamePhoneRoaming];
+    return [store sdl_objectForName:SDLNamePhoneRoaming];
 }
 
 - (void)setTextMsgAvailable:(NSNumber<SDLBool> *)textMsgAvailable {
-    if (textMsgAvailable != nil) {
-        [store setObject:textMsgAvailable forKey:SDLNameTextMessageAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameTextMessageAvailable];
-    }
+    [store sdl_setObject:textMsgAvailable forName:SDLNameTextMessageAvailable];
 }
 
 - (NSNumber<SDLBool> *)textMsgAvailable {
-    return [store objectForKey:SDLNameTextMessageAvailable];
+    return [store sdl_objectForName:SDLNameTextMessageAvailable];
 }
 
 - (void)setBattLevelStatus:(SDLDeviceLevelStatus )battLevelStatus {
-    if (battLevelStatus != nil) {
-        [store setObject:battLevelStatus forKey:SDLNameBatteryLevelStatus];
-    } else {
-        [store removeObjectForKey:SDLNameBatteryLevelStatus];
-    }
+    [store sdl_setObject:battLevelStatus forName:SDLNameBatteryLevelStatus];
 }
 
 - (SDLDeviceLevelStatus)battLevelStatus {
-    NSObject *obj = [store objectForKey:SDLNameBatteryLevelStatus];
-    return (SDLDeviceLevelStatus)obj;
+    return [store sdl_objectForName:SDLNameBatteryLevelStatus];
 }
 
 - (void)setStereoAudioOutputMuted:(NSNumber<SDLBool> *)stereoAudioOutputMuted {
-    if (stereoAudioOutputMuted != nil) {
-        [store setObject:stereoAudioOutputMuted forKey:SDLNameStereoAudioOutputMuted];
-    } else {
-        [store removeObjectForKey:SDLNameStereoAudioOutputMuted];
-    }
+    [store sdl_setObject:stereoAudioOutputMuted forName:SDLNameStereoAudioOutputMuted];
 }
 
 - (NSNumber<SDLBool> *)stereoAudioOutputMuted {
-    return [store objectForKey:SDLNameStereoAudioOutputMuted];
+    return [store sdl_objectForName:SDLNameStereoAudioOutputMuted];
 }
 
 - (void)setMonoAudioOutputMuted:(NSNumber<SDLBool> *)monoAudioOutputMuted {
-    if (monoAudioOutputMuted != nil) {
-        [store setObject:monoAudioOutputMuted forKey:SDLNameMonoAudioOutputMuted];
-    } else {
-        [store removeObjectForKey:SDLNameMonoAudioOutputMuted];
-    }
+    [store sdl_setObject:monoAudioOutputMuted forName:SDLNameMonoAudioOutputMuted];
 }
 
 - (NSNumber<SDLBool> *)monoAudioOutputMuted {
-    return [store objectForKey:SDLNameMonoAudioOutputMuted];
+    return [store sdl_objectForName:SDLNameMonoAudioOutputMuted];
 }
 
 - (void)setSignalLevelStatus:(SDLDeviceLevelStatus)signalLevelStatus {
-    if (signalLevelStatus != nil) {
-        [store setObject:signalLevelStatus forKey:SDLNameSignalLevelStatus];
-    } else {
-        [store removeObjectForKey:SDLNameSignalLevelStatus];
-    }
+    [store sdl_setObject:signalLevelStatus forName:SDLNameSignalLevelStatus];
 }
 
 - (SDLDeviceLevelStatus)signalLevelStatus {
-    NSObject *obj = [store objectForKey:SDLNameSignalLevelStatus];
-    return (SDLDeviceLevelStatus)obj;
+    return [store sdl_objectForName:SDLNameSignalLevelStatus];
 }
 
 - (void)setPrimaryAudioSource:(SDLPrimaryAudioSource)primaryAudioSource {
-    if (primaryAudioSource != nil) {
-        [store setObject:primaryAudioSource forKey:SDLNamePrimaryAudioSource];
-    } else {
-        [store removeObjectForKey:SDLNamePrimaryAudioSource];
-    }
+    [store sdl_setObject:primaryAudioSource forName:SDLNamePrimaryAudioSource];
 }
 
 - (SDLPrimaryAudioSource)primaryAudioSource {
-    NSObject *obj = [store objectForKey:SDLNamePrimaryAudioSource];
-    return (SDLPrimaryAudioSource)obj;
+    return [store sdl_objectForName:SDLNamePrimaryAudioSource];
 }
 
 - (void)setECallEventActive:(NSNumber<SDLBool> *)eCallEventActive {
-    if (eCallEventActive != nil) {
-        [store setObject:eCallEventActive forKey:SDLNameECallEventActive];
-    } else {
-        [store removeObjectForKey:SDLNameECallEventActive];
-    }
+    [store sdl_setObject:eCallEventActive forName:SDLNameECallEventActive];
 }
 
 - (NSNumber<SDLBool> *)eCallEventActive {
-    return [store objectForKey:SDLNameECallEventActive];
+    return [store sdl_objectForName:SDLNameECallEventActive];
 }
 
 @end

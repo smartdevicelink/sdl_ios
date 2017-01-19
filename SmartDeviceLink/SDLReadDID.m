@@ -4,6 +4,7 @@
 
 #import "SDLReadDID.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -29,27 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:SDLNameECUName];
-    } else {
-        [parameters removeObjectForKey:SDLNameECUName];
-    }
+    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters objectForKey:SDLNameECUName];
+    return [parameters sdl_objectForName:SDLNameECUName];
 }
 
 - (void)setDidLocation:(NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
-    if (didLocation != nil) {
-        [parameters setObject:didLocation forKey:SDLNameDIDLocation];
-    } else {
-        [parameters removeObjectForKey:SDLNameDIDLocation];
-    }
+    [parameters sdl_setObject:didLocation forName:SDLNameDIDLocation];
 }
 
 - (NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
-    return [parameters objectForKey:SDLNameDIDLocation];
+    return [parameters sdl_objectForName:SDLNameDIDLocation];
 }
 
 @end

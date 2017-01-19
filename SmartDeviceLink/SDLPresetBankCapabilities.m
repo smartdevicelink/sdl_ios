@@ -4,6 +4,7 @@
 
 #import "SDLPresetBankCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,15 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPresetBankCapabilities
 
 - (void)setOnScreenPresetsAvailable:(NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    if (onScreenPresetsAvailable != nil) {
-        [store setObject:onScreenPresetsAvailable forKey:SDLNameOnScreenPresetsAvailable];
-    } else {
-        [store removeObjectForKey:SDLNameOnScreenPresetsAvailable];
-    }
+    [store sdl_setObject:onScreenPresetsAvailable forName:SDLNameOnScreenPresetsAvailable];
 }
 
 - (NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    return [store objectForKey:SDLNameOnScreenPresetsAvailable];
+    return [store sdl_objectForName:SDLNameOnScreenPresetsAvailable];
 }
 
 @end
