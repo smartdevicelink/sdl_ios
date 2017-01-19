@@ -69,7 +69,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
-@property (strong, nonatomic) SDLVideoEncoder *videoEncoder;
+@property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
 
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 
@@ -102,6 +102,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     }
     
     _requestedEncryptionType = encryption;
+    
+    _videoStreamingSupported = NO;
     
     _audioEncrypted = NO;
     _videoEncrypted = NO;
@@ -392,7 +394,9 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
     
-    if (registerResponse.displayCapabilities.graphicSupported.boolValue == NO) {
+    _videoStreamingSupported = registerResponse.displayCapabilities.graphicSupported.boolValue;
+    
+    if (!self.isVideoStreamingSupported) {
         [SDLDebugTool logInfo:@"Graphics are not support. We are assuming screen size is also unavailable"];
         return;
     }
@@ -431,6 +435,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)sdl_startVideoSession {
+    if (!self.isVideoStreamingSupported) {
+        return;
+    }
+    
     if (self.shouldRestartVideoStream
         && [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady]) {
         [self sdl_stopVideoSession];
@@ -457,6 +465,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)sdl_stopVideoSession {
+    if (!self.isVideoStreamingSupported) {
+        return;
+    }
+    
     if (self.isVideoConnected) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateShuttingDown];
     }

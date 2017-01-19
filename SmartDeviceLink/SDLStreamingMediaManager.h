@@ -41,6 +41,12 @@ extern NSString *const SDLAudioStreamDidStopNotification;
  */
 @property (nonatomic, strong, readonly, nonnull) SDLTouchManager *touchManager;
 
+/**
+ *  Whether or not video streaming is supported
+ *
+ *  @see SDLRegisterAppInterface SDLDisplayCapabilities
+ */
+@property (assign, nonatomic, readonly, getter=isVideoStreamingSupported) BOOL videoStreamingSupported;
 
 /**
  *  Whether or not the video session is connected.
