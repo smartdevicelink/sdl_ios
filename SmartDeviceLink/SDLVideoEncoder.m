@@ -167,8 +167,8 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     SDLVideoEncoder *encoder = (__bridge SDLVideoEncoder *)sourceFrameRefCon;
     NSData *elementaryStreamData = [encoder.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
     
-    if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedVideo:)]) {
-        [encoder.delegate videoEncoder:encoder hasEncodedVideo:elementaryStreamData];
+    if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFrame:)]) {
+        [encoder.delegate videoEncoder:encoder hasEncodedFrame:elementaryStreamData];
     }
 }
 

@@ -24,15 +24,17 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 
 @protocol SDLVideoEncoderDelegate <NSObject>
 
-- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedVideo:(NSData*)encodedVideo;
+- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData*)encodedVideo;
 
 @end
 
 @interface SDLVideoEncoder : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithDimensions:(CGSize)dimensions delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error;
 
-- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *__nullable)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error;
+- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *__nullable)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (void)stop;
 

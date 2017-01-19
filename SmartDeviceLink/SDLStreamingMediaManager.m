@@ -370,7 +370,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 #pragma mark - SDLVideoEncoderDelegate
-- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedVideo:(NSData *)encodedVideo {
+- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
     // Do we care about app state here? I don't think so…
     BOOL capableVideoStreamState = [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady];
     
