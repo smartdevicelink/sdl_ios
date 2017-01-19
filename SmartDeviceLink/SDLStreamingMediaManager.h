@@ -78,9 +78,16 @@ extern NSString *const SDLAudioStreamDidStopNotification;
 /**
  *  The requested encryption type when a session attempts to connect. This setting applies to both video and audio sessions.
  *
- *  DEFAULT: SDLEncryptionFlagAuthenticateAndEncrypt
+ *  DEFAULT: SDLStreamingEncryptionFlagAuthenticateAndEncrypt
  */
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
+
+/**
+ *  Creates a streaming manager with a default encryption type of SDLStreamingEncryptionFlagAuthenticateAndEncrypt.
+ *
+ *  @return An instance of SDLStreamingMediaManager
+ */
+- (instancetype)init;
 
 /**
  *  Creates a streaming manager with a specified encryption type.

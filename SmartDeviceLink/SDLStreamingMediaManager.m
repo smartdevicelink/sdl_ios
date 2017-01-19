@@ -85,7 +85,12 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 #pragma mark - Public
 #pragma mark Lifecycle
+
 - (instancetype)init {
+    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt];
+}
+
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption {
     self = [super init];
     if (!self) {
         return nil;
@@ -95,7 +100,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         return nil;
     }
-
+    
+    _requestedEncryptionType = encryption;
     
     _audioEncrypted = NO;
     _videoEncrypted = NO;
@@ -131,17 +137,6 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
-    
-    return self;
-}
-
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    
-    _requestedEncryptionType = encryption;
     
     return self;
 }
