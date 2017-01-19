@@ -82,11 +82,6 @@ NS_ASSUME_NONNULL_BEGIN
     return header.sessionID;
 }
 
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType];
-}
-
-
 #pragma mark - Start Service
 
 - (void)startServiceWithType:(SDLServiceType)serviceType {
@@ -165,10 +160,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark - End Service
-
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
-    [self endServiceWithType:serviceType];
-}
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
@@ -275,11 +266,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return YES;
-}
-
-// SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-    [self sendRPC:rpcRequest];
 }
 
 - (void)sdl_logRPCSend:(SDLProtocolMessage *)message {
