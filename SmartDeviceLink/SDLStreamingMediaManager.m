@@ -107,7 +107,6 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     _videoEncrypted = NO;
     
     _currentHMILevel = nil;
-    _requestedEncryptionType = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
     
     SDLAppState *initialState = SDLAppStateBackground;
     switch ([[UIApplication sharedApplication] applicationState]) {
