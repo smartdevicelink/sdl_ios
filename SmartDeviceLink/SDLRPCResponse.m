@@ -45,27 +45,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSuccess:(NSNumber<SDLBool> *)success {
-    [store sdl_setObject:success forName:SDLNameSuccess];
+    [parameters sdl_setObject:success forName:SDLNameSuccess];
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [store sdl_objectForName:SDLNameSuccess];
+    return [parameters sdl_objectForName:SDLNameSuccess];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
-    [store sdl_setObject:resultCode forName:SDLNameResultCode];
+    [parameters sdl_setObject:resultCode forName:SDLNameResultCode];
 }
 
 - (SDLResult)resultCode {
-    return [store sdl_objectForName:SDLNameResultCode];
+    return [parameters sdl_objectForName:SDLNameResultCode];
 }
 
 - (void)setInfo:(nullable NSString *)info {
-    [store sdl_setObject:info forName:SDLNameInfo];
+    [parameters sdl_setObject:info forName:SDLNameInfo];
 }
 
 - (nullable NSString *)info {
-    return [store sdl_objectForName:SDLNameInfo];
+    return [parameters sdl_objectForName:SDLNameInfo];
 }
 
 @end
