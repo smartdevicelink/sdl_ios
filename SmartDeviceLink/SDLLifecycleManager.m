@@ -43,6 +43,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
 SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
 SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
@@ -63,6 +64,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
+@property (assign, nonatomic, readwrite, getter=shouldRestartProxy) BOOL restartProxy;
 
 // Deprecated internal proxy object
 #pragma clang diagnostic push
@@ -89,6 +91,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (!self) {
         return nil;
     }
+    
+    _restartProxy = YES;
 
     // Dependencies
     _configuration = configuration;
@@ -115,6 +119,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
+    // We will always try to restart the proxy, unless stop is called.
+    _restartProxy = YES;
+    
     self.readyHandler = [readyHandler copy];
 
     // Set up our logging capabilities based on the config
@@ -132,6 +139,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)stop {
+    _restartProxy = NO;
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
     } else {
@@ -155,7 +163,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLLifecycleStateDisconnected: @[SDLLifecycleStateTransportConnected],
+        SDLLifecycleStateReconnecting: @[SDLLifecycleStateTransportConnected],
+        SDLLifecycleStateDisconnected: @[SDLLifecycleStateReconnecting, SDLLifecycleStateTransportConnected],
         SDLLifecycleStateTransportConnected: @[SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered],
         SDLLifecycleStateRegistered: @[SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers],
         SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing],
@@ -163,6 +172,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         SDLLifecycleStateUnregistering: @[SDLLifecycleStateDisconnected],
         SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateDisconnected]
     };
+}
+
+- (void)didEnterStateReconnecting {
+    [self startWithReadyHandler:self.readyHandler];
 }
 
 - (void)didEnterStateTransportDisconnected {
@@ -177,8 +190,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
     [self.delegate managerDidDisconnect];
-
-    [self startWithReadyHandler:self.readyHandler]; // Start up again to start watching for new connections
+    
+    if (self.shouldRestartProxy) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+    }
 }
 
 - (void)didEnterStateTransportConnected {

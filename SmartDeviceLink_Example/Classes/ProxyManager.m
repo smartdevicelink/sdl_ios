@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startManager {
     __weak typeof (self) weakSelf = self;
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
-        if (!success) {
+        if (!weakSelf.sdlManager.registerResponse.success.boolValue) {
             NSLog(@"SDL errored starting up: %@", error);
             [weakSelf sdlex_updateProxyState:ProxyStateStopped];
         } else {
@@ -108,6 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reset {
     [self.sdlManager stop];
+    [self startManager];
 }
 
 - (void)showInitialData {
