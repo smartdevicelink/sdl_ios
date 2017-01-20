@@ -49,11 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameKeypressMode];
 }
 
-- (void)setLimitedCharacterList:(nullable NSMutableArray<NSString *> *)limitedCharacterList {
+- (void)setLimitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList {
     [store sdl_setObject:limitedCharacterList forName:SDLNameLimitedCharacterList];
 }
 
-- (nullable NSMutableArray<NSString *> *)limitedCharacterList {
+- (nullable NSArray<NSString *> *)limitedCharacterList {
     return [store sdl_objectForName:SDLNameLimitedCharacterList];
 }
 

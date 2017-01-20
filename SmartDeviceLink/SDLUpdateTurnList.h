@@ -22,12 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Optional, SDLTurn, 1 - 100 entries
  */
-@property (strong, nonatomic, nullable) NSMutableArray<SDLTurn *> *turnList;
+@property (strong, nonatomic, nullable) NSArray<SDLTurn *> *turnList;
 
 /**
  *  Required, SDLSoftButton, 0 - 1 Entries
  */
-@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSArray<SDLSoftButton *> *softButtons;
 
 @end
 

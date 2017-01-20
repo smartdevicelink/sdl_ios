@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see SDLTTSChunk
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
 
 /**
  * @abstract The duration of the displayed portion of the alert, in milliseconds.
@@ -153,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see SDLSoftButton
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
 
 @end
 

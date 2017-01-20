@@ -25,11 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters objectForKey:SDLNameECUHeader];
 }
 
-- (void)setDtc:(NSMutableArray<NSString *> *)dtc {
+- (void)setDtc:(NSArray<NSString *> *)dtc {
     [parameters sdl_setObject:dtc forName:SDLNameDTC];
 }
 
-- (NSMutableArray<NSString *> *)dtc {
+- (NSArray<NSString *> *)dtc {
     return [parameters objectForKey:SDLNameDTC];
 }
 

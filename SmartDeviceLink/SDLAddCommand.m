@@ -84,11 +84,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMenuParams ofClass:SDLMenuParams.class];
 }
 
-- (void)setVrCommands:(nullable NSMutableArray<NSString *> *)vrCommands {
+- (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
     [parameters sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
-- (nullable NSMutableArray<NSString *> *)vrCommands {
+- (nullable NSArray<NSString *> *)vrCommands {
     return [parameters sdl_objectForName:SDLNameVRCommands];
 }
 

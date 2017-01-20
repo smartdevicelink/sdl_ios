@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetDTCsResponse : SDLRPCResponse
 
 @property (strong, nonatomic) NSNumber<SDLInt> *ecuHeader;
-@property (strong, nonatomic) NSMutableArray<NSString *> *dtc;
+@property (strong, nonatomic) NSArray<NSString *> *dtc;
 
 @end
 

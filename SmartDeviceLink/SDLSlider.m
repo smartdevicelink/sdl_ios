@@ -77,11 +77,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameSliderHeader];
 }
 
-- (void)setSliderFooter:(nullable NSMutableArray<NSString *> *)sliderFooter {
+- (void)setSliderFooter:(nullable NSArray<NSString *> *)sliderFooter {
     [parameters sdl_setObject:sliderFooter forName:SDLNameSliderFooter];
 }
 
-- (nullable NSMutableArray<NSString *> *)sliderFooter {
+- (nullable NSArray<NSString *> *)sliderFooter {
     return [parameters sdl_objectForName:SDLNameSliderFooter];
 }
 

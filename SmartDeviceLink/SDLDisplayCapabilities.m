@@ -21,27 +21,27 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameDisplayType];
 }
 
-- (void)setTextFields:(NSMutableArray<SDLTextField *> *)textFields {
+- (void)setTextFields:(NSArray<SDLTextField *> *)textFields {
     [store sdl_setObject:textFields forName:SDLNameTextFields];
 }
 
-- (NSMutableArray<SDLTextField *> *)textFields {
+- (NSArray<SDLTextField *> *)textFields {
     return [store sdl_objectsForName:SDLNameTextFields ofClass:SDLTextField.class];
 }
 
-- (void)setImageFields:(nullable NSMutableArray<SDLImageField *> *)imageFields {
+- (void)setImageFields:(nullable NSArray<SDLImageField *> *)imageFields {
     [store sdl_setObject:imageFields forName:SDLNameImageFields];
 }
 
-- (nullable NSMutableArray<SDLImageField *> *)imageFields {
+- (nullable NSArray<SDLImageField *> *)imageFields {
     return [store sdl_objectsForName:SDLNameImageFields ofClass:SDLImageField.class];
 }
 
-- (void)setMediaClockFormats:(NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
+- (void)setMediaClockFormats:(NSArray<SDLMediaClockFormat> *)mediaClockFormats {
     [store sdl_setObject:mediaClockFormats forName:SDLNameMediaClockFormats];
 }
 
-- (NSMutableArray<SDLMediaClockFormat> *)mediaClockFormats {
+- (NSArray<SDLMediaClockFormat> *)mediaClockFormats {
     return [store sdl_enumsForName:SDLNameMediaClockFormats];
 }
 
@@ -53,11 +53,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameGraphicSupported];
 }
 
-- (void)setTemplatesAvailable:(nullable NSMutableArray<NSString *> *)templatesAvailable {
+- (void)setTemplatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable {
     [store sdl_setObject:templatesAvailable forName:SDLNameTemplatesAvailable];
 }
 
-- (nullable NSMutableArray<NSString *> *)templatesAvailable {
+- (nullable NSArray<NSString *> *)templatesAvailable {
     return [store sdl_objectForName:SDLNameTemplatesAvailable];
 }
 

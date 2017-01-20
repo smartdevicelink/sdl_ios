@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Array of SDLTextField, 1 - 100 objects
  */
-@property (strong, nonatomic) NSMutableArray<SDLTextField *> *textFields;
+@property (strong, nonatomic) NSArray<SDLTextField *> *textFields;
 
 /**
  * @abstract An array of SDLImageField elements
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of SDLImageField, 1 - 100 objects
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLImageField *> *imageFields;
+@property (nullable, strong, nonatomic) NSArray<SDLImageField *> *imageFields;
 
 /**
  * @abstract An array of SDLMediaClockFormat elements, defining the valid string formats used in specifying the contents of the media clock field
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Array of SDLMediaClockFormats, 0 - 100 objects
  */
-@property (strong, nonatomic) NSMutableArray<SDLMediaClockFormat> *mediaClockFormats;
+@property (strong, nonatomic) NSArray<SDLMediaClockFormat> *mediaClockFormats;
 
 /**
  * @abstract The display's persistent screen supports.
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of String, max string size 100, 0 - 100 objects
  */
-@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *templatesAvailable;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *templatesAvailable;
 
 /**
  * @abstract A set of all parameters related to a prescribed screen area (e.g. for video / touch input)

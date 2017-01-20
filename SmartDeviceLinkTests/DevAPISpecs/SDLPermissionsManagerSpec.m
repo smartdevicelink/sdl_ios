@@ -55,18 +55,18 @@ describe(@"SDLPermissionsManager", ^{
         
         // Permission states
         testHMIPermissionsAllAllowed = [[SDLHMIPermissions alloc] init];
-        testHMIPermissionsAllAllowed.allowed = [NSMutableArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
+        testHMIPermissionsAllAllowed.allowed = [NSArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
         
         testHMIPermissionsAllDisallowed = [[SDLHMIPermissions alloc] init];
-        testHMIPermissionsAllDisallowed.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
+        testHMIPermissionsAllDisallowed.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
         
         testHMIPermissionsFullLimitedAllowed = [[SDLHMIPermissions alloc] init];
-        testHMIPermissionsFullLimitedAllowed.allowed = [NSMutableArray arrayWithArray:@[SDLHMILevelFull, SDLHMILevelLimited]];
-        testHMIPermissionsFullLimitedAllowed.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelNone]];
+        testHMIPermissionsFullLimitedAllowed.allowed = [NSArray arrayWithArray:@[SDLHMILevelFull, SDLHMILevelLimited]];
+        testHMIPermissionsFullLimitedAllowed.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelNone]];
         
         testHMIPermissionsFullLimitedBackgroundAllowed = [[SDLHMIPermissions alloc] init];
-        testHMIPermissionsFullLimitedBackgroundAllowed.allowed = [NSMutableArray arrayWithArray:@[SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelBackground]];
-        testHMIPermissionsFullLimitedBackgroundAllowed.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelNone]];
+        testHMIPermissionsFullLimitedBackgroundAllowed.allowed = [NSArray arrayWithArray:@[SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelBackground]];
+        testHMIPermissionsFullLimitedBackgroundAllowed.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelNone]];
         
         // Assemble Permissions
         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
@@ -103,7 +103,7 @@ describe(@"SDLPermissionsManager", ^{
         
         // Create OnPermissionsChange object
         testPermissionsChange = [[SDLOnPermissionsChange alloc] init];
-        testPermissionsChange.permissionItem = [NSMutableArray arrayWithArray:@[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]];
+        testPermissionsChange.permissionItem = [NSArray arrayWithArray:@[testPermissionAllAllowed, testPermissionAllDisallowed, testPermissionFullLimitedAllowed, testPermissionFullLimitedBackgroundAllowed]];
         
         // Permission Notifications
         testPermissionsNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionsChange];
@@ -367,15 +367,15 @@ describe(@"SDLPermissionsManager", ^{
             
             __block SDLOnPermissionsChange *testPermissionChangeUpdate = nil;
             __block SDLPermissionItem *testPermissionUpdated = nil;
-            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *> *changeDicts = nil;
-            __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
+            __block NSArray<NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *> *changeDicts = nil;
+            __block NSArray<NSNumber<SDLUInt> *> *testStatuses = nil;
             
             context(@"to match an ANY observer", ^{
                 beforeEach(^{
                     // Reset vars
                     numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+                    changeDicts = [NSArray array];
+                    testStatuses = [NSArray array];
                     
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level LIMITED
@@ -391,8 +391,8 @@ describe(@"SDLPermissionsManager", ^{
                     // Create a permission update disallowing our current HMI level for the observed permission
                     SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                     SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                    testHMIPermissionsUpdated.allowed = [NSMutableArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull]];
-                    testHMIPermissionsUpdated.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelLimited, SDLHMILevelNone]];
+                    testHMIPermissionsUpdated.allowed = [NSArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull]];
+                    testHMIPermissionsUpdated.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelLimited, SDLHMILevelNone]];
                     
                     testPermissionUpdated = [[SDLPermissionItem alloc] init];
                     testPermissionUpdated.rpcName = testRPCNameAllAllowed;
@@ -400,7 +400,7 @@ describe(@"SDLPermissionsManager", ^{
                     testPermissionUpdated.parameterPermissions = testParameterPermissions;
                     
                     testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                    testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                    testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                     
                     // Send the permission update
                     NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
@@ -438,8 +438,8 @@ describe(@"SDLPermissionsManager", ^{
                 beforeEach(^{
                     // Reset vars
                     numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+                    changeDicts = [NSArray array];
+                    testStatuses = [NSArray array];
                     
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
@@ -459,8 +459,8 @@ describe(@"SDLPermissionsManager", ^{
                         // Create a permission update allowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                         SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = [NSMutableArray arrayWithArray:@[SDLHMILevelLimited, SDLHMILevelNone, SDLHMILevelBackground, SDLHMILevelFull]];
-                        testHMIPermissionsUpdated.userDisallowed = [NSMutableArray arrayWithArray:@[]];
+                        testHMIPermissionsUpdated.allowed = [NSArray arrayWithArray:@[SDLHMILevelLimited, SDLHMILevelNone, SDLHMILevelBackground, SDLHMILevelFull]];
+                        testHMIPermissionsUpdated.userDisallowed = [NSArray arrayWithArray:@[]];
                         
                         testPermissionUpdated = [[SDLPermissionItem alloc] init];
                         testPermissionUpdated.rpcName = testRPCNameAllDisallowed;
@@ -468,7 +468,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
                         NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
@@ -502,8 +502,8 @@ describe(@"SDLPermissionsManager", ^{
                         // Create a permission update disallowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                         SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = [NSMutableArray arrayWithArray:@[]];
-                        testHMIPermissionsUpdated.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
+                        testHMIPermissionsUpdated.allowed = [NSArray arrayWithArray:@[]];
+                        testHMIPermissionsUpdated.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
                         
                         testPermissionUpdated = [[SDLPermissionItem alloc] init];
                         testPermissionUpdated.rpcName = testRPCNameAllAllowed;
@@ -511,7 +511,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
                         NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
@@ -544,8 +544,8 @@ describe(@"SDLPermissionsManager", ^{
                 beforeEach(^{
                     // Reset vars
                     numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+                    changeDicts = [NSArray array];
+                    testStatuses = [NSArray array];
                     
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
@@ -565,8 +565,8 @@ describe(@"SDLPermissionsManager", ^{
                         // Create a permission update disallowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                         SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = [NSMutableArray arrayWithArray:@[]];
-                        testHMIPermissionsUpdated.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
+                        testHMIPermissionsUpdated.allowed = [NSArray arrayWithArray:@[]];
+                        testHMIPermissionsUpdated.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelBackground, SDLHMILevelFull, SDLHMILevelLimited, SDLHMILevelNone]];
                         
                         testPermissionUpdated = [[SDLPermissionItem alloc] init];
                         testPermissionUpdated.rpcName = testRPCNameAllAllowed;
@@ -574,7 +574,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
                         NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
@@ -599,8 +599,8 @@ describe(@"SDLPermissionsManager", ^{
                         // Create a permission update disallowing our current HMI level for the observed permission
                         SDLParameterPermissions *testParameterPermissions = [[SDLParameterPermissions alloc] init];
                         SDLHMIPermissions *testHMIPermissionsUpdated = [[SDLHMIPermissions alloc] init];
-                        testHMIPermissionsUpdated.allowed = [NSMutableArray arrayWithArray:@[SDLHMILevelLimited, SDLHMILevelBackground]];
-                        testHMIPermissionsUpdated.userDisallowed = [NSMutableArray arrayWithArray:@[SDLHMILevelFull, SDLHMILevelNone]];
+                        testHMIPermissionsUpdated.allowed = [NSArray arrayWithArray:@[SDLHMILevelLimited, SDLHMILevelBackground]];
+                        testHMIPermissionsUpdated.userDisallowed = [NSArray arrayWithArray:@[SDLHMILevelFull, SDLHMILevelNone]];
                         
                         testPermissionUpdated = [[SDLPermissionItem alloc] init];
                         testPermissionUpdated.rpcName = testRPCNameAllAllowed;
@@ -608,7 +608,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionUpdated.parameterPermissions = testParameterPermissions;
                         
                         testPermissionChangeUpdate = [[SDLOnPermissionsChange alloc] init];
-                        testPermissionChangeUpdate.permissionItem = [NSMutableArray arrayWithObject:testPermissionUpdated];
+                        testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
                         NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
@@ -625,15 +625,15 @@ describe(@"SDLPermissionsManager", ^{
         
         context(@"updating an observer with a new HMI level", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *> *changeDicts = nil;
-            __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
+            __block NSArray<NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *> *changeDicts = nil;
+            __block NSArray<NSNumber<SDLUInt> *> *testStatuses = nil;
             
             context(@"to match an ANY observer", ^{
                 beforeEach(^{
                     // Reset vars
                     numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+                    changeDicts = [NSArray array];
+                    testStatuses = [NSArray array];
                     
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
@@ -680,8 +680,8 @@ describe(@"SDLPermissionsManager", ^{
                 beforeEach(^{
                     // Reset vars
                     numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+                    changeDicts = [NSArray array];
+                    testStatuses = [NSArray array];
                     
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND
@@ -749,8 +749,8 @@ describe(@"SDLPermissionsManager", ^{
                 beforeEach(^{
                     // Reset vars
                     numberOfTimesObserverCalled = 0;
-                    changeDicts = [NSMutableArray array];
-                    testStatuses = [NSMutableArray array];
+                    changeDicts = [NSArray array];
+                    testStatuses = [NSArray array];
                     
                     // Post the notification before setting the observer to make sure data is already present
                     // HMI Full & Limited allowed, hmi level BACKGROUND

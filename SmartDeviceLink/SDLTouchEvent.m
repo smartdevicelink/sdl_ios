@@ -20,19 +20,19 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameId];
 }
 
-- (void)setTimeStamp:(NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
+- (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
     [store sdl_setObject:timeStamp forName:SDLNameTimestamp];
 }
 
-- (NSMutableArray<NSNumber<SDLInt> *> *)timeStamp {
+- (NSArray<NSNumber<SDLInt> *> *)timeStamp {
     return [store sdl_objectForName:SDLNameTimestamp];
 }
 
-- (void)setCoord:(NSMutableArray<SDLTouchCoord *> *)coord {
+- (void)setCoord:(NSArray<SDLTouchCoord *> *)coord {
     [store sdl_setObject:coord forName:SDLNameCoordinate];
 }
 
-- (NSMutableArray<SDLTouchCoord *> *)coord {
+- (NSArray<SDLTouchCoord *> *)coord {
     return [store sdl_objectsForName:SDLNameCoordinate ofClass:SDLTouchCoord.class];
 }
 

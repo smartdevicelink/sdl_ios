@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong, nonatomic, nullable) NSMutableArray<NSString *> *sliderFooter;
+@property (strong, nonatomic, nullable) NSArray<NSString *> *sliderFooter;
 
 /**
  * @abstract An App defined timeout

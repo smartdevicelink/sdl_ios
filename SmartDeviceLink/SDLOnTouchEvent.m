@@ -26,21 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
     return (SDLTouchType)obj;
 }
 
-- (void)setEvent:(NSMutableArray<SDLTouchEvent *> *)event {
+- (void)setEvent:(NSArray<SDLTouchEvent *> *)event {
     [parameters sdl_setObject:event forName:SDLNameEvent];
 }
 
-- (NSMutableArray<SDLTouchEvent *> *)event {
-    NSMutableArray<SDLTouchEvent *> *array = [parameters sdl_objectForName:SDLNameEvent];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchEvent.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLTouchEvent *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLTouchEvent alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+- (NSArray<SDLTouchEvent *> *)event {
+    return [parameters sdl_objectsForName:SDLNameEvent ofClass:SDLTouchEvent.class];
 }
 
 @end

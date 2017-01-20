@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLListFilesResponse : SDLRPCResponse
 
-@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *filenames;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *filenames;
 @property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end

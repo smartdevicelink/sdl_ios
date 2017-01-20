@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setDidResult:(nullable NSMutableArray<SDLDIDResult *> *)didResult {
+- (void)setDidResult:(nullable NSArray<SDLDIDResult *> *)didResult {
     [parameters sdl_setObject:didResult forName:SDLNameDIDResult];
 }
 
-- (nullable NSMutableArray<SDLDIDResult *> *)didResult {
+- (nullable NSArray<SDLDIDResult *> *)didResult {
     return [parameters sdl_objectsForName:SDLNameDIDResult ofClass:SDLDIDResult.class];
 }
 

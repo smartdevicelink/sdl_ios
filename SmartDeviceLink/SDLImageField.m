@@ -20,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameName];
 }
 
-- (void)setImageTypeSupported:(NSMutableArray<SDLFileType> *)imageTypeSupported {
+- (void)setImageTypeSupported:(NSArray<SDLFileType> *)imageTypeSupported {
     [store sdl_setObject:imageTypeSupported forName:SDLNameImageTypeSupported];
 }
 
-- (NSMutableArray<SDLFileType> *)imageTypeSupported {
+- (NSArray<SDLFileType> *)imageTypeSupported {
     return [store sdl_enumsForName:SDLNameImageTypeSupported];
 }
 

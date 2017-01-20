@@ -33,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSMutableArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
-    NSMutableArray *array = [self sdl_objectForName:name];
+- (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
+    NSArray *array = [self sdl_objectForName:name];
     if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:classType.class]) {
         return array;
     } else {
@@ -42,12 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[classType alloc] initWithDictionary:dict]];
         }
-        return newList;
+        return [NSArray arrayWithArray:newList];
     }
 }
 
-- (NSMutableArray<SDLEnum> *)sdl_enumsForName:(SDLName)name {
-    NSMutableArray<SDLEnum> *array = [self sdl_objectForName:name];
+- (NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name {
+    NSArray<SDLEnum> *array = [self sdl_objectForName:name];
     if ([array count] < 1) {
         return array;
     } else {
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
         for (SDLEnum enumString in array) {
             [newList addObject:enumString];
         }
-        return newList;
+        return [NSArray arrayWithArray:newList];
     }
 }
 

@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>ArrayMin:0; ArrayMax:1000</li>
  *            </ul>
  */
-@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *didLocation;
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *didLocation;
 
 @end
 

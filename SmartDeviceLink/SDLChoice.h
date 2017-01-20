@@ -36,7 +36,7 @@
  * 		</tr>
  *     <tr>
  * 			<td>vrCommands</td>
- * 			<td>NSMutableArray *</td>
+ * 			<td>NSArray *</td>
  * 			<td>An array of strings to be used as VR synonyms for this choice. If this array is provided, it must have at least one non-empty element</td>
  * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
  */
-@property (strong, nonatomic) NSMutableArray<NSString *> *vrCommands;
+@property (strong, nonatomic) NSArray<NSString *> *vrCommands;
 
 /**
  * @abstract The image of the choice

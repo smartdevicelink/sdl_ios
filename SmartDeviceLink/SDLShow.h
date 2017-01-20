@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSArray<SDLSoftButton *> *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -229,7 +229,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong, nonatomic, nullable) NSMutableArray<NSString *> *customPresets;
+@property (strong, nonatomic, nullable) NSArray<NSString *> *customPresets;
 
 @end
 
