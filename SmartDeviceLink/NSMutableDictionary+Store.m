@@ -35,9 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
     NSArray *array = [self sdl_objectForName:name];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:classType.class]) {
+    if ([array count] < 1 || [array.firstObject isMemberOfClass:classType.class]) {
+        // It's an array of the actual class type, just return
         return array;
     } else {
+        // It's an array of dictionaries, make them into their class type
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[classType alloc] initWithDictionary:dict]];
@@ -47,16 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name {
-    NSArray<SDLEnum> *array = [self sdl_objectForName:name];
-    if ([array count] < 1) {
-        return array;
-    } else {
-        NSMutableArray<SDLEnum> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLEnum enumString in array) {
-            [newList addObject:enumString];
-        }
-        return [NSArray arrayWithArray:newList];
-    }
+    return [self sdl_objectForName:name];
 }
 
 
