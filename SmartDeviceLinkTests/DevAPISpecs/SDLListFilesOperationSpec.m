@@ -49,7 +49,7 @@ describe(@"List Files Operation", ^{
             
             beforeEach(^{
                 responseSpaceAvailable = @(11212512);
-                responseFileNames = [NSArray arrayWithArray:@[@"test1", @"test2"]];
+                responseFileNames = @[@"test1", @"test2"];
                 
                 goodResponse = [[SDLListFilesResponse alloc] init];
                 goodResponse.success = @YES;
@@ -83,7 +83,7 @@ describe(@"List Files Operation", ^{
             
             beforeEach(^{
                 responseSpaceAvailable = @(0);
-                responseFileNames = [NSArray arrayWithArray:@[]];
+                responseFileNames = @[];
                 
                 responseErrorDescription = @"some description";
                 responseErrorReason = @"some reason";

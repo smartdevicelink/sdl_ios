@@ -176,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
     commandMenuParams.menuName = commandName;
     
     SDLAddCommand *speakNameCommand = [[SDLAddCommand alloc] init];
-    speakNameCommand.vrCommands = [NSMutableArray arrayWithObject:commandName];
+    speakNameCommand.vrCommands = @[commandName];
     speakNameCommand.menuParams = commandMenuParams;
     speakNameCommand.cmdID = @0;
     
@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
     commandMenuParams.menuName = commandName;
     
     SDLAddCommand *performInteractionCommand = [[SDLAddCommand alloc] init];
-    performInteractionCommand.vrCommands = [NSMutableArray arrayWithObject:commandName];
+    performInteractionCommand.vrCommands = @[commandName];
     performInteractionCommand.menuParams = commandMenuParams;
     performInteractionCommand.cmdID = @1;
     
@@ -236,9 +236,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLChoice *theOnlyChoice = [[SDLChoice alloc] init];
     theOnlyChoice.choiceID = @0;
     theOnlyChoice.menuName = theOnlyChoiceName;
-    theOnlyChoice.vrCommands = [NSMutableArray arrayWithObject:theOnlyChoiceName];
+    theOnlyChoice.vrCommands = @[theOnlyChoiceName];
     
-    createInteractionSet.choiceSet = [NSMutableArray arrayWithArray:@[theOnlyChoice]];
+    createInteractionSet.choiceSet = @[theOnlyChoice];
     
     return createInteractionSet;
 }
@@ -248,7 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
     performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
     performOnlyChoiceInteraction.initialPrompt = [SDLTTSChunk textChunksFromString:@"Choose it"];
     performOnlyChoiceInteraction.interactionMode = SDLInteractionModeBoth;
-    performOnlyChoiceInteraction.interactionChoiceSetIDList = [NSMutableArray arrayWithObject:@0];
+    performOnlyChoiceInteraction.interactionChoiceSetIDList = @[@0];
     performOnlyChoiceInteraction.helpPrompt = [SDLTTSChunk textChunksFromString:@"Do it"];
     performOnlyChoiceInteraction.timeoutPrompt = [SDLTTSChunk textChunksFromString:@"Too late"];
     performOnlyChoiceInteraction.timeout = @5000;
