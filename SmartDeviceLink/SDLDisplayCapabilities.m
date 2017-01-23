@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLMediaClockFormat> *)mediaClockFormats {
-    return [store sdl_enumsForName:SDLNameMediaClockFormats];
+    return [store sdl_objectForName:SDLNameMediaClockFormats];
 }
 
 - (void)setGraphicSupported:(NSNumber<SDLBool> *)graphicSupported {

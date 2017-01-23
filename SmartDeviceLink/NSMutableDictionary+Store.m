@@ -44,12 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[classType alloc] initWithDictionary:dict]];
         }
-        return [NSArray arrayWithArray:newList];
+        return [newList copy];
     }
-}
-
-- (NSArray<SDLEnum> *)sdl_enumsForName:(SDLName)name {
-    return [self sdl_objectForName:name];
 }
 
 

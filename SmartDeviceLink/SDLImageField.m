@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLFileType> *)imageTypeSupported {
-    return [store sdl_enumsForName:SDLNameImageTypeSupported];
+    return [store sdl_objectForName:SDLNameImageTypeSupported];
 }
 
 - (void)setImageResolution:(nullable SDLImageResolution *)imageResolution {

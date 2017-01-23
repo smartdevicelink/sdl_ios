@@ -147,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLAppHMIType> *)appHMIType {
-    return [parameters sdl_enumsForName:SDLNameAppHMIType];
+    return [parameters sdl_objectForName:SDLNameAppHMIType];
 }
 
 - (void)setHashID:(nullable NSString *)hashID {

@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLGlobalProperty> *)properties {
-    return [parameters sdl_enumsForName:SDLNameProperties];
+    return [parameters sdl_objectForName:SDLNameProperties];
 }
 
 @end
