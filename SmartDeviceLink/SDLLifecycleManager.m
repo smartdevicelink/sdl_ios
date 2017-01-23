@@ -194,8 +194,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
+                weakSelf.readyHandler(NO, error);
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
                 return;
             }
@@ -255,23 +257,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateReady {
     SDLResult *registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
-
-    BOOL success = self.registerResponse.success.boolValue;
     NSError *startError = nil;
 
-    // If the resultCode isn't success, we either got an error or a warning.
+    // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
     if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
     }
 
-    // Notify the block, send the notification if we succeeded.
-    self.readyHandler(success, startError);
-
-    if (!success) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
-        return;
-    }
-
+    // If we got to this point, we succeeded, send the error if there was a warning.
+    self.readyHandler(YES, startError);
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
