@@ -56,19 +56,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
-@property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
-@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
-
-// Deprecated internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic, readwrite, nullable) SDLProxy *proxy;
-#pragma clang diagnostic pop
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
