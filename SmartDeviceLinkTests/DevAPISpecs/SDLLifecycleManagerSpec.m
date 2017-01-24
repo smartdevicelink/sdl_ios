@@ -268,7 +268,8 @@ describe(@"a lifecycle manager", ^{
                 it(@"should call the ready handler with success", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
                     response.resultCode = [SDLResult SUCCESS];
-
+                    testManager.registerResponse = response;
+                    
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
 
                     expect(@(readyHandlerSuccess)).to(equal(@YES));
