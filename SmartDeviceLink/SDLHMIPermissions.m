@@ -11,20 +11,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHMIPermissions
 
-- (void)setAllowed:(NSMutableArray<SDLHMILevel> *)allowed {
+- (void)setAllowed:(NSArray<SDLHMILevel> *)allowed {
     [store sdl_setObject:allowed forName:SDLNameAllowed];
 }
 
-- (NSMutableArray<SDLHMILevel> *)allowed {
-    return [store sdl_enumsForName:SDLNameAllowed];
+- (NSArray<SDLHMILevel> *)allowed {
+    return [store sdl_objectForName:SDLNameAllowed];
 }
 
-- (void)setUserDisallowed:(NSMutableArray<SDLHMILevel> *)userDisallowed {
+- (void)setUserDisallowed:(NSArray<SDLHMILevel> *)userDisallowed {
     [store sdl_setObject:userDisallowed forName:SDLNameUserDisallowed];
 }
 
-- (NSMutableArray<SDLHMILevel> *)userDisallowed {
-    return [store sdl_enumsForName:SDLNameUserDisallowed];
+- (NSArray<SDLHMILevel> *)userDisallowed {
+    return [store sdl_objectForName:SDLNameUserDisallowed];
 }
 
 @end

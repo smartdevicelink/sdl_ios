@@ -17,11 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setData:(NSMutableArray<NSString *> *)data {
+- (void)setData:(NSArray<NSString *> *)data {
     [parameters sdl_setObject:data forName:SDLNameData];
 }
 
-- (NSMutableArray<NSString *> *)data {
+- (NSArray<NSString *> *)data {
     return [parameters sdl_objectForName:SDLNameData];
 }
 

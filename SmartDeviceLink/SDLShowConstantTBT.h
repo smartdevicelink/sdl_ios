@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuver;
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuverScale;
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *maneuverComplete;
-@property (strong, nonatomic, nullable) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (strong, nonatomic, nullable) NSArray<SDLSoftButton *> *softButtons;
 
 @end
 

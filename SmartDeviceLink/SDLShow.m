@@ -132,19 +132,19 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameSecondaryGraphic ofClass:SDLImage.class];
 }
 
-- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
-- (void)setCustomPresets:(nullable NSMutableArray<NSString *> *)customPresets {
+- (void)setCustomPresets:(nullable NSArray<NSString *> *)customPresets {
     [parameters sdl_setObject:customPresets forName:SDLNameCustomPresets];
 }
 
-- (nullable NSMutableArray<NSString *> *)customPresets {
+- (nullable NSArray<NSString *> *)customPresets {
     return [parameters sdl_objectForName:SDLNameCustomPresets];
 }
 

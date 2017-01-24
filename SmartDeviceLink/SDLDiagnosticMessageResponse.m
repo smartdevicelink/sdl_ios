@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setMessageDataResult:(NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
+- (void)setMessageDataResult:(NSArray<NSNumber<SDLInt> *> *)messageDataResult {
     [parameters sdl_setObject:messageDataResult forName:SDLNameMessageDataResult];
 }
 
-- (NSMutableArray<NSNumber<SDLInt> *> *)messageDataResult {
+- (NSArray<NSNumber<SDLInt> *> *)messageDataResult {
     return [parameters objectForKey:SDLNameMessageDataResult];
 }
 

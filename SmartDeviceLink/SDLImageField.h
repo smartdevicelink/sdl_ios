@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLImageField : SDLRPCStruct
 
 @property (strong, nonatomic) SDLImageFieldName name;
-@property (strong, nonatomic) NSMutableArray<SDLFileType> *imageTypeSupported;
+@property (strong, nonatomic) NSArray<SDLFileType> *imageTypeSupported;
 @property (nullable, strong, nonatomic) SDLImageResolution *imageResolution;
 
 @end

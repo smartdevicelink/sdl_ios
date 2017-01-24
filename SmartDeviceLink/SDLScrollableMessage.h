@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <p>
  *            <b>Notes: </b>Minsize=0, Maxsize=8
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
 
 @end
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLLanguage language;
 @property (nullable, strong, nonatomic) SDLKeyboardLayout keyboardLayout;
 @property (nullable, strong, nonatomic) SDLKeypressMode keypressMode;
-@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *limitedCharacterList;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *limitedCharacterList;
 @property (nullable, strong, nonatomic) NSString *autoCompleteText;
 
 @end

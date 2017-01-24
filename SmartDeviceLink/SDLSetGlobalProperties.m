@@ -46,19 +46,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setHelpPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)helpPrompt {
+- (void)setHelpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt {
     [parameters sdl_setObject:helpPrompt forName:SDLNameHelpPrompt];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)helpPrompt {
+- (nullable NSArray<SDLTTSChunk *> *)helpPrompt {
     return [parameters sdl_objectsForName:SDLNameHelpPrompt ofClass:SDLTTSChunk.class];
 }
 
-- (void)setTimeoutPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
+- (void)setTimeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
     [parameters sdl_setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
+- (nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
     return [parameters sdl_objectsForName:SDLNameTimeoutPrompt ofClass:SDLTTSChunk.class];
 }
 
@@ -70,11 +70,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameVRHelpTitle];
 }
 
-- (void)setVrHelp:(nullable NSMutableArray<SDLVRHelpItem *> *)vrHelp {
+- (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
     [parameters sdl_setObject:vrHelp forName:SDLNameVRHelp];
 }
 
-- (nullable NSMutableArray<SDLVRHelpItem *> *)vrHelp {
+- (nullable NSArray<SDLVRHelpItem *> *)vrHelp {
     return [parameters sdl_objectsForName:SDLNameVRHelp ofClass:SDLVRHelpItem.class];
 }
 

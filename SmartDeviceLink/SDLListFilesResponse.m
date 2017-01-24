@@ -17,11 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setFilenames:(nullable NSMutableArray<NSString *> *)filenames {
+- (void)setFilenames:(nullable NSArray<NSString *> *)filenames {
     [parameters sdl_setObject:filenames forName:SDLNameFilenames];
 }
 
-- (nullable NSMutableArray<NSString *> *)filenames {
+- (nullable NSArray<NSString *> *)filenames {
     return [parameters objectForKey:SDLNameFilenames];
 }
 

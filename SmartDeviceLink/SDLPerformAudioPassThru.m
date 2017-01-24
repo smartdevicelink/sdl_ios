@@ -46,11 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setInitialPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+- (void)setInitialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt {
     [parameters sdl_setObject:initialPrompt forName:SDLNameInitialPrompt];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+- (nullable NSArray<SDLTTSChunk *> *)initialPrompt {
     return [parameters sdl_objectsForName:SDLNameInitialPrompt ofClass:SDLTTSChunk.class];
 }
 

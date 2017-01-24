@@ -48,8 +48,8 @@ describe(@"SDLTouch Tests", ^{
             
             SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
             touchEvent.touchEventId = @0;
-            touchEvent.coord = [NSMutableArray arrayWithObject:coord];
-            touchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            touchEvent.coord = [NSArray arrayWithObject:coord];
+            touchEvent.timeStamp = [NSArray arrayWithObject:@(timeStamp)];
             
             touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
         });
@@ -81,8 +81,8 @@ describe(@"SDLTouch Tests", ^{
             
             SDLTouchEvent* touchEvent = [[SDLTouchEvent alloc] init];
             touchEvent.touchEventId = @1;
-            touchEvent.coord = [NSMutableArray arrayWithObject:coord];
-            touchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            touchEvent.coord = [NSArray arrayWithObject:coord];
+            touchEvent.timeStamp = [NSArray arrayWithObject:@(timeStamp)];
             
             touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
         });

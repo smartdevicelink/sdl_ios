@@ -30,12 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  
  Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000
  */
-@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *timeStamp;
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *timeStamp;
 
 /**
  *  Mandatory, array size 1-1000, contains SDLTouchCoord
  */
-@property (strong, nonatomic) NSMutableArray<SDLTouchCoord *> *coord;
+@property (strong, nonatomic) NSArray<SDLTouchCoord *> *coord;
 
 @end
 

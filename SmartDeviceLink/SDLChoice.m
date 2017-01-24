@@ -54,11 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameMenuName];
 }
 
-- (void)setVrCommands:(NSMutableArray<NSString *> *)vrCommands {
+- (void)setVrCommands:(NSArray<NSString *> *)vrCommands {
     [store sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
-- (NSMutableArray<NSString *> *)vrCommands {
+- (NSArray<NSString *> *)vrCommands {
     return [store sdl_objectForName:SDLNameVRCommands];
 }
 

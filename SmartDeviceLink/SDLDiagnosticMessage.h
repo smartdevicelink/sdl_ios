@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255
  */
-@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *messageData;
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageData;
 
 @end
 
