@@ -252,7 +252,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
     if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
-        startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
+        startError = [NSError sdl_lifecycle_failedWithWarningResult:registerResult info:registerInfo];
     }
 
     // If we got to this point, we succeeded, send the error if there was a warning.

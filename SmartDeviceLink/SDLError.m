@@ -94,6 +94,16 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                            userInfo:userInfo];
 }
 
++ (NSError *)sdl_lifecycle_failedWithWarningResult:(SDLResult *)result info:(NSString *)info {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: NSLocalizedString(result.value, nil),
+                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
+                               };
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
+                               code:SDLManagerErrorRegistrationWarning
+                           userInfo:userInfo];
+}
+
 
 #pragma mark SDLFileManager
 
