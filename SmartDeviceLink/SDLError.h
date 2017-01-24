@@ -31,7 +31,6 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_lifecycle_managersFailedToStart;
 + (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult *)result info:(NSString *)info;
 + (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult *)result info:(NSString *)info;
-+ (NSError *)sdl_lifecycle_failedWithWarningResult:(SDLResult *)result info:(NSString *)info;
 
 #pragma mark SDLFileManager
 
