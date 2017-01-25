@@ -14,6 +14,8 @@
 
 @class SDLConfiguration;
 @class SDLFileManager;
+@class SDLHMILevel;
+@class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLLockScreenManager;
@@ -65,13 +67,13 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 // Deprecated internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
+@property (strong, nonatomic, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
-@property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
+@property (assign, nonatomic) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
-@property (copy, nonatomic, readonly, nullable) SDLHMILevel hmiLevel;
-@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 
 #pragma mark Lifecycle

@@ -88,7 +88,7 @@ extern SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidE
  *
  *  @param state The state to set to
  */
-- (void)setToState:(SDLState *)state;
+- (void)setToState:(SDLState *)state fromOldState:(nullable SDLState *)oldState callEnterTransition:(BOOL)shouldCall;
 
 /**
  *  Return whether or not the current state is the passed state
