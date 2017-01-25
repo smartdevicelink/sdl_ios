@@ -58,20 +58,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite, nullable) SDLHMILevel *hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
-@property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
-@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 @property (assign, nonatomic, readwrite, getter=shouldRestartProxy) BOOL restartProxy;
-
-// Deprecated internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic, readwrite, nullable) SDLProxy *proxy;
-#pragma clang diagnostic pop
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
@@ -215,8 +206,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
+                weakSelf.readyHandler(NO, error);
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
                 return;
             }
@@ -276,32 +269,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateReady {
     SDLResult *registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
-
-    BOOL success = NO;
     NSError *startError = nil;
 
-
-    if ([registerResult isEqualToEnum:[SDLResult WARNINGS]] || [registerResult isEqualToEnum:[SDLResult RESUME_FAILED]]) {
-        // We succeeded, but with warnings
+    // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
+    if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
-        success = YES;
-    } else if (![registerResult isEqualToEnum:[SDLResult SUCCESS]]) {
-        // We did not succeed in registering
-        startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
-        success = NO;
-    } else {
-        // We succeeded
-        success = YES;
     }
 
-    // Notify the block, send the notification if we succeeded.
-    self.readyHandler(success, startError);
-
-    if (!success) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
-        return;
-    }
-
+    // If we got to this point, we succeeded, send the error if there was a warning.
+    self.readyHandler(YES, startError);
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)

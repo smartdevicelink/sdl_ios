@@ -21,6 +21,7 @@
 #import "SDLProxyFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLResult.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAlignment.h"
@@ -157,8 +158,17 @@ describe(@"a lifecycle manager", ^{
     });
     
     describe(@"when started", ^{
+        __block BOOL readyHandlerSuccess = NO;
+        __block NSError *readyHandlerError = nil;
+
         beforeEach(^{
-            [testManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {}];
+            readyHandlerSuccess = NO;
+            readyHandlerError = nil;
+
+            [testManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+                readyHandlerSuccess = success;
+                readyHandlerError = error;
+            }];
         });
         
         it(@"should initialize the proxy property", ^{
@@ -206,7 +216,7 @@ describe(@"a lifecycle manager", ^{
         
         describe(@"in the connected state", ^{
             beforeEach(^{
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
             });
             
             describe(@"after receiving a register app interface response", ^{
@@ -253,10 +263,41 @@ describe(@"a lifecycle manager", ^{
                 });
             });
         });
+
+        describe(@"transitioning to the ready state", ^{
+            context(@"when the register response is a success", ^{
+                it(@"should call the ready handler with success", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = [SDLResult SUCCESS];
+                    testManager.registerResponse = response;
+                    
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).to(beNil());
+                });
+            });
+
+            context(@"when the register response is a warning", ^{
+                it(@"should call the ready handler with success but error", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = [SDLResult WARNINGS];
+                    response.info = @"some info";
+                    testManager.registerResponse = response;
+
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).toNot(beNil());
+                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationFailed)));
+                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
+                });
+            });
+        });
         
         describe(@"in the ready state", ^{
             beforeEach(^{
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
             });
             
             it(@"can send an RPC", ^{
