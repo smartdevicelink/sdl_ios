@@ -83,7 +83,7 @@ describe(@"a lifecycle manager", ^{
     it(@"should initialize properties", ^{
         expect(testManager.configuration).to(equal(testConfig));
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
-        expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+        expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(testManager.fileManager).toNot(beNil());
         expect(testManager.permissionManager).toNot(beNil());
@@ -152,7 +152,8 @@ describe(@"a lifecycle manager", ^{
         });
         
         it(@"should do nothing", ^{
-            expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+            expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+            expect(testManager.lifecycleState).toEventuallyNot(match(SDLLifecycleStateStarted));
         });
     });
     
@@ -172,7 +173,7 @@ describe(@"a lifecycle manager", ^{
         
         it(@"should initialize the proxy property", ^{
             expect(testManager.proxy).toNot(beNil());
-            expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+            expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
         });
         
         describe(@"after receiving a connect notification", ^{
@@ -186,7 +187,7 @@ describe(@"a lifecycle manager", ^{
             
             it(@"should send a register app interface request and be in the connected state", ^{
                 OCMVerifyAllWithDelay(proxyMock, 0.5);
-                expect(testManager.lifecycleState).to(match(SDLLifecycleStateTransportConnected));
+                expect(testManager.lifecycleState).to(match(SDLLifecycleStateConnected));
             });
             
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -197,8 +198,8 @@ describe(@"a lifecycle manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
                 
-                it(@"should be in the disconnect state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                it(@"should be in the started state", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
                 });
             });
             
@@ -207,15 +208,15 @@ describe(@"a lifecycle manager", ^{
                     [testManager stop];
                 });
                 
-                it(@"should simply disconnect", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                it(@"should simply stop", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
                 });
             });
         });
         
         describe(@"in the connected state", ^{
             beforeEach(^{
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateTransportConnected fromOldState:nil callEnterTransition:NO];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
             });
             
             describe(@"after receiving a register app interface response", ^{
@@ -247,8 +248,8 @@ describe(@"a lifecycle manager", ^{
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
                 });
                 
-                it(@"should enter the disconnect state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                it(@"should enter the started state", ^{
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStarted));
                 });
             });
             
@@ -257,8 +258,8 @@ describe(@"a lifecycle manager", ^{
                     [testManager stop];
                 });
                 
-                it(@"should enter the disconnect state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                it(@"should enter the stopped state", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
                 });
             });
         });
@@ -333,8 +334,8 @@ describe(@"a lifecycle manager", ^{
                         [testManager.notificationDispatcher postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:testUnregisterResponse];
                     });
                     
-                    it(@"should disconnect", ^{
-                        expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                    it(@"should stop", ^{
+                        expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
                     });
                 });
             });
