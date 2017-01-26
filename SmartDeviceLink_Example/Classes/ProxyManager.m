@@ -15,6 +15,8 @@ NSString *const SDLAppId = @"9999";
 NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
 NSString *const MainGraphicArtworkName = @"MainArtwork";
 
+BOOL const ShouldRestartOnDisconnect = YES;
+
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateNone,
     SDLHMIFirstStateNonNone,
@@ -108,7 +110,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reset {
     [self.sdlManager stop];
-    [self startManager];
 }
 
 - (void)showInitialData {
@@ -355,6 +356,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.firstTimeState = SDLHMIFirstStateNone;
     self.initialShowState = SDLHMIInitialShowStateNone;
     _state = ProxyStateStopped;
+    if (ShouldRestartOnDisconnect) {
+        [self startManager];
+    }
 }
 
 - (void)hmiLevel:(SDLHMILevel *)oldLevel didChangeToLevel:(SDLHMILevel *)newLevel {
