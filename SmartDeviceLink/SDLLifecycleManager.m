@@ -63,6 +63,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
+@property (assign, nonatomic) SDLLogOutput currentLogging;
 
 @end
 
@@ -91,6 +92,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerResponse = nil;
+    _currentLogging = SDLLogOutputNone;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -387,8 +389,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-    + (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
-    [SDLDebugTool disable];
+- (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
+    if (_currentLogging == logFlags) {
+        return;
+    }
+    
+    _currentLogging = logFlags;
+    
+    if (logFlags == SDLLogOutputNone) {
+        [SDLDebugTool disable];
+        return;
+    }
 
     if ((logFlags & SDLLogOutputConsole) == SDLLogOutputConsole) {
         [SDLDebugTool enable];
