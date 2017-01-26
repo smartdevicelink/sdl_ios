@@ -87,6 +87,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _configuration = configuration;
     _delegate = delegate;
 
+    // Logging
+    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
+
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateStopped states:[self.class sdl_stateTransitionDictionary]];
     _lastCorrelationId = 0;
@@ -98,9 +101,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
-
-    // Logging
-    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
 
     // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
