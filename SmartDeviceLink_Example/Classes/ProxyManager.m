@@ -15,6 +15,8 @@ NSString *const SDLAppId = @"9999";
 NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
 NSString *const MainGraphicArtworkName = @"MainArtwork";
 
+BOOL const ShouldRestartOnDisconnect = NO;
+
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateNone,
     SDLHMIFirstStateNonNone,
@@ -94,11 +96,12 @@ NS_ASSUME_NONNULL_BEGIN
         if (!success) {
             NSLog(@"SDL errored starting up: %@", error);
             [weakSelf sdlex_updateProxyState:ProxyStateStopped];
-        } else {
-            [weakSelf sdlex_updateProxyState:ProxyStateConnected];
+            return;
         }
+        
+        [weakSelf sdlex_updateProxyState:ProxyStateConnected];
 
-        [self setupPermissionsCallbacks];
+        [weakSelf setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
             [weakSelf showInitialData];
@@ -107,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
+    [self sdlex_updateProxyState:ProxyStateStopped];
     [self.sdlManager stop];
 }
 
@@ -354,6 +358,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.firstTimeState = SDLHMIFirstStateNone;
     self.initialShowState = SDLHMIInitialShowStateNone;
     _state = ProxyStateStopped;
+    if (ShouldRestartOnDisconnect) {
+        [self startManager];
+    }
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
