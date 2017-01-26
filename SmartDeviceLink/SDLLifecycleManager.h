@@ -14,8 +14,6 @@
 
 @class SDLConfiguration;
 @class SDLFileManager;
-@class SDLHMILevel;
-@class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLLockScreenManager;

@@ -267,7 +267,7 @@ describe(@"a lifecycle manager", ^{
             context(@"when the register response is a success", ^{
                 it(@"should call the ready handler with success", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult SUCCESS];
+                    response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
@@ -280,7 +280,7 @@ describe(@"a lifecycle manager", ^{
             context(@"when the register response is a warning", ^{
                 it(@"should call the ready handler with success but error", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult WARNINGS];
+                    response.resultCode = SDLResultWarnings;
                     response.info = @"some info";
                     testManager.registerResponse = response;
 
