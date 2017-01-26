@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 SDLLifecycleState *const SDLLifecycleStateStopped = @"Stopped";
 SDLLifecycleState *const SDLLifecycleStateStarted = @"Started";
+SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
 SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
 SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
@@ -61,7 +62,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
-@property (assign, nonatomic, readwrite, getter=shouldRestartProxy) BOOL restartProxy;
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
@@ -82,8 +82,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (!self) {
         return nil;
     }
-    
-    _restartProxy = YES;
 
     // Dependencies
     _configuration = configuration;
@@ -116,7 +114,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)stop {
-    _restartProxy = NO;
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
     } else {
@@ -141,20 +138,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
         SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
-        SDLLifecycleStateStarted : @[SDLLifecycleStateConnected, SDLLifecycleStateStopped],
-        SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateRegistered],
-        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateSettingUpManagers],
-        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStatePostManagerProcessing],
-        SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateStopped, SDLLifecycleStateReady],
+        SDLLifecycleStateStarted : @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
+        SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted],
+        SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
+        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
+        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStatePostManagerProcessing],
+        SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
         SDLLifecycleStateUnregistering: @[SDLLifecycleStateStopped],
-        SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped]
+        SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting]
     };
 }
 
 - (void)didEnterStateStarted {
-    // We will always try to restart the proxy, unless stop is called.
-    _restartProxy = YES;
-    
     // Set up our logging capabilities based on the config
     [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
     
@@ -170,6 +165,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateStopped {
+    [self sdl_stopManager:NO];
+}
+
+- (void)didEnterStateReconnecting {
+    [self sdl_stopManager:YES];
+}
+
+- (void)sdl_stopManager:(BOOL)shouldRestart {
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
@@ -180,13 +183,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.hmiLevel = nil;
 
     [self sdl_disposeProxy]; // call this method instead of stopProxy to avoid double-dispatching
-    
+
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.delegate managerDidDisconnect];
-        
-        if (self.shouldRestartProxy) {
+
+        if (shouldRestart) {
             [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
         }
     });
@@ -209,7 +212,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
                 weakSelf.readyHandler(NO, error);
-                _restartProxy = NO;
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
                 return;
             }
@@ -439,7 +441,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)transportDidDisconnect {
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+    if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];;
+    } else {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+    }
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
@@ -466,7 +472,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.notification;
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
 
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateUnregistering]) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+    } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
+        return;
+    } else {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+    }
 }
 
 @end

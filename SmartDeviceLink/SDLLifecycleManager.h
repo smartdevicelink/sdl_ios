@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString SDLLifecycleState;
 extern SDLLifecycleState *const SDLLifecycleStateStopped;
 extern SDLLifecycleState *const SDLLifecycleStateStarted;
+extern SDLLifecycleState *const SDLLifecycleStateReconnecting;
 extern SDLLifecycleState *const SDLLifecycleStateConnected;
 extern SDLLifecycleState *const SDLLifecycleStateRegistered;
 extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
