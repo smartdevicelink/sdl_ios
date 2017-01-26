@@ -43,7 +43,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
 SDLLifecycleState *const SDLLifecycleStateStopped = @"Stopped";
 SDLLifecycleState *const SDLLifecycleStateStarted = @"Started";
 SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
@@ -141,8 +140,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted],
-        SDLLifecycleStateStopped: @[SDLLifecycleStateReconnecting, SDLLifecycleStateStarted],
+        SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
         SDLLifecycleStateStarted : @[SDLLifecycleStateConnected, SDLLifecycleStateStopped],
         SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateRegistered],
         SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateSettingUpManagers],
@@ -151,10 +149,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         SDLLifecycleStateUnregistering: @[SDLLifecycleStateStopped],
         SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped]
     };
-}
-
-- (void)didEnterStateReconnecting {
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
 }
 
 - (void)didEnterStateStarted {
@@ -189,7 +183,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.delegate managerDidDisconnect];
     
     if (self.shouldRestartProxy) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
     }
 }
 
@@ -210,6 +204,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
                 weakSelf.readyHandler(NO, error);
+                _restartProxy = NO;
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
                 return;
             }
