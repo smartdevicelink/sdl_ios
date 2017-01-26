@@ -442,7 +442,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)transportDidDisconnect {
     if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];;
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
     }
