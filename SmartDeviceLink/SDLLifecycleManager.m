@@ -186,11 +186,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
+    __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.delegate managerDidDisconnect];
+        [weakSelf.delegate managerDidDisconnect];
 
         if (shouldRestart) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
+            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
         }
     });
 }
