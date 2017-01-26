@@ -65,7 +65,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
-@property (assign, nonatomic) SDLLogOutput currentLogging;
 
 @end
 
@@ -94,13 +93,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerResponse = nil;
-    _currentLogging = SDLLogOutputNone;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
 
+    // Logging
+    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
+
+    // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
@@ -152,9 +154,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateStarted {
-    // Set up our logging capabilities based on the config
-    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
-    
     // Start up the internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -413,13 +412,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-- (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
-    if (_currentLogging == logFlags) {
-        return;
-    }
-    
-    _currentLogging = logFlags;
-    
++ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
     if (logFlags == SDLLogOutputNone) {
         [SDLDebugTool disable];
         return;
