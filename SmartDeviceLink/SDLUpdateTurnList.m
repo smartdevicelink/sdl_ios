@@ -31,19 +31,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setTurnList:(nullable NSMutableArray<SDLTurn *> *)turnList {
+- (void)setTurnList:(nullable NSArray<SDLTurn *> *)turnList {
     [parameters sdl_setObject:turnList forName:SDLNameTurnList];
 }
 
-- (nullable NSMutableArray<SDLTurn *> *)turnList {
+- (nullable NSArray<SDLTurn *> *)turnList {
     return [parameters sdl_objectsForName:SDLNameTurnList ofClass:SDLTurn.class];
 }
 
-- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 

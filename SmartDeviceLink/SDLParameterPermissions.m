@@ -11,19 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLParameterPermissions
 
-- (void)setAllowed:(NSMutableArray<NSString *> *)allowed {
+- (void)setAllowed:(NSArray<NSString *> *)allowed {
     [store sdl_setObject:allowed forName:SDLNameAllowed];
 }
 
-- (NSMutableArray<NSString *> *)allowed {
+- (NSArray<NSString *> *)allowed {
     return [store sdl_objectForName:SDLNameAllowed];
 }
 
-- (void)setUserDisallowed:(NSMutableArray<NSString *> *)userDisallowed {
+- (void)setUserDisallowed:(NSArray<NSString *> *)userDisallowed {
     [store sdl_setObject:userDisallowed forName:SDLNameUserDisallowed];
 }
 
-- (NSMutableArray<NSString *> *)userDisallowed {
+- (NSArray<NSString *> *)userDisallowed {
     return [store sdl_objectForName:SDLNameUserDisallowed];
 }
 

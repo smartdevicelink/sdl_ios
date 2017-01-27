@@ -36,8 +36,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLLifecycleState;
-extern SDLLifecycleState *const SDLLifecycleStateDisconnected;
-extern SDLLifecycleState *const SDLLifecycleStateTransportConnected;
+extern SDLLifecycleState *const SDLLifecycleStateStopped;
+extern SDLLifecycleState *const SDLLifecycleStateStarted;
+extern SDLLifecycleState *const SDLLifecycleStateReconnecting;
+extern SDLLifecycleState *const SDLLifecycleStateConnected;
 extern SDLLifecycleState *const SDLLifecycleStateRegistered;
 extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
 extern SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing;
@@ -65,13 +67,13 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 // Deprecated internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic, readonly, nullable) SDLProxy *proxy;
+@property (strong, nonatomic, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
-@property (assign, nonatomic, readonly) UInt16 lastCorrelationId;
+@property (assign, nonatomic) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
-@property (copy, nonatomic, readonly, nullable) SDLHMILevel hmiLevel;
-@property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 
 #pragma mark Lifecycle

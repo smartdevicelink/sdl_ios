@@ -43,15 +43,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type;
 
-+ (NSMutableArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)silenceChunks;
++ (NSArray<SDLTTSChunk *> *)silenceChunks;
 
 
 /**

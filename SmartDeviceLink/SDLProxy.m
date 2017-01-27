@@ -38,7 +38,6 @@
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLTimer.h"
-#import "SDLURLSession.h"
 #import "SDLVehicleType.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -52,6 +51,7 @@ NSString *const SDLProxyVersion = @"4.5.1";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
+static float DefaultConnectionTimeout = 45.0;
 
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
@@ -61,6 +61,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
+@property (nonatomic, strong) NSURLSession* urlSession;
 
 @end
 
@@ -85,6 +86,14 @@ const int POLICIES_CORRELATION_ID = 65535;
 
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
+        
+        NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
+        configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
+        configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
+        
+        _urlSession = [NSURLSession sessionWithConfiguration:configuration];
+
     }
 
     return self;
@@ -97,9 +106,9 @@ const int POLICIES_CORRELATION_ID = 65535;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
-        
-    [[SDLURLSession defaultSession] cancelAllTasks];
-        
+    
+    [_urlSession invalidateAndCancel];
+    
     [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
 }
 
@@ -489,17 +498,17 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-    [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:request.url]
-                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                  if (error != nil) {
-                                      NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
-                                      [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-                                      return;
-                                  }
-
-                                  UIImage *icon = [UIImage imageWithData:data];
-                                  [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
-                              }];
+    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    if (error != nil) {
+                        NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
+                        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                        return;
+                    }
+                    
+                    UIImage *icon = [UIImage imageWithData:data];
+                    [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+                }];
 }
 
 - (void)sdl_handleSystemRequestHTTP:(SDLOnSystemRequest *)request {
@@ -593,7 +602,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Create the upload task
-    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:data completionHandler:completionHandler];
+    [self sdl_sendUploadRequest:request withData:data completionHandler:completionHandler];
 }
 
 /**
@@ -629,9 +638,26 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Create the upload task
-    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:bodyData completionHandler:completionHandler];
+    [self sdl_sendUploadRequest:request withData:bodyData completionHandler:completionHandler];
 }
 
+- (void)sdl_sendUploadRequest:(NSURLRequest*)request withData:(NSData*)data completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+    NSMutableURLRequest* mutableRequest = [request mutableCopy];
+    
+    if ([mutableRequest.URL.scheme isEqualToString:@"http"]) {
+        mutableRequest.URL = [NSURL URLWithString:[mutableRequest.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+    }
+    
+    [[self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:completionHandler] resume];
+}
+
+- (void)sdl_sendDataTaskWithURL:(NSURL*)url completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+    if ([url.scheme isEqualToString:@"http"]) {
+        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+    }
+    
+    [[self.urlSession dataTaskWithURL:url completionHandler:completionHandler] resume];
+}
 
 #pragma mark - Delegate management
 
@@ -684,11 +710,11 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 
     // Send the HTTP Request
-    [[SDLURLSession defaultSession] uploadWithURLRequest:request
-                                                    data:data
-                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [[self.urlSession uploadTaskWithRequest:request
+                                   fromData:data
+                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                            [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
-                                       }];
+                                       }] resume];
 
     [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }

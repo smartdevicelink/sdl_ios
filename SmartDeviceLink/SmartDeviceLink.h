@@ -306,7 +306,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLPermissionManager.h"
 
 // Utilities
-#import "NSMutableDictionary+Store.h"
 #import "NSNumber+NumberType.h"
 #import "SDLErrorConstants.h"
 #import "SDLNotificationConstants.h"

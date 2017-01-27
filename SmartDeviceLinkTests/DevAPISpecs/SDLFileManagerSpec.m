@@ -94,7 +94,7 @@ describe(@"SDLFileManager", ^{
                 testListFilesResponse = [[SDLListFilesResponse alloc] init];
                 testListFilesResponse.success = @YES;
                 testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
-                testListFilesResponse.filenames = [NSMutableArray arrayWithArray:[testInitialFileNames allObjects]];
+                testListFilesResponse.filenames = [NSArray arrayWithArray:[testInitialFileNames allObjects]];
                 
                 [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
             });

@@ -21,6 +21,7 @@
 #import "SDLProxyFactory.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLResult.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAlignment.h"
@@ -82,7 +83,7 @@ describe(@"a lifecycle manager", ^{
     it(@"should initialize properties", ^{
         expect(testManager.configuration).to(equal(testConfig));
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
-        expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+        expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(testManager.fileManager).toNot(beNil());
         expect(testManager.permissionManager).toNot(beNil());
@@ -151,18 +152,28 @@ describe(@"a lifecycle manager", ^{
         });
         
         it(@"should do nothing", ^{
-            expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+            expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+            expect(testManager.lifecycleState).toEventuallyNot(match(SDLLifecycleStateStarted));
         });
     });
     
     describe(@"when started", ^{
+        __block BOOL readyHandlerSuccess = NO;
+        __block NSError *readyHandlerError = nil;
+
         beforeEach(^{
-            [testManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {}];
+            readyHandlerSuccess = NO;
+            readyHandlerError = nil;
+
+            [testManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+                readyHandlerSuccess = success;
+                readyHandlerError = error;
+            }];
         });
         
         it(@"should initialize the proxy property", ^{
             expect(testManager.proxy).toNot(beNil());
-            expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+            expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
         });
         
         describe(@"after receiving a connect notification", ^{
@@ -176,7 +187,7 @@ describe(@"a lifecycle manager", ^{
             
             it(@"should send a register app interface request and be in the connected state", ^{
                 OCMVerifyAllWithDelay(proxyMock, 0.5);
-                expect(testManager.lifecycleState).to(match(SDLLifecycleStateTransportConnected));
+                expect(testManager.lifecycleState).to(match(SDLLifecycleStateConnected));
             });
             
             itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -187,8 +198,8 @@ describe(@"a lifecycle manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
                 
-                it(@"should be in the disconnect state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                it(@"should be in the started state", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
                 });
             });
             
@@ -197,15 +208,15 @@ describe(@"a lifecycle manager", ^{
                     [testManager stop];
                 });
                 
-                it(@"should simply disconnect", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                it(@"should simply stop", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
                 });
             });
         });
         
         describe(@"in the connected state", ^{
             beforeEach(^{
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateTransportConnected];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
             });
             
             describe(@"after receiving a register app interface response", ^{
@@ -237,8 +248,8 @@ describe(@"a lifecycle manager", ^{
                     [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
                 });
                 
-                it(@"should enter the disconnect state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                it(@"should enter the started state", ^{
+                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStarted));
                 });
             });
             
@@ -247,15 +258,46 @@ describe(@"a lifecycle manager", ^{
                     [testManager stop];
                 });
                 
-                it(@"should enter the disconnect state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateDisconnected));
+                it(@"should enter the stopped state", ^{
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
+                });
+            });
+        });
+
+        describe(@"transitioning to the ready state", ^{
+            context(@"when the register response is a success", ^{
+                it(@"should call the ready handler with success", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultSuccess;
+                    testManager.registerResponse = response;
+                    
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).to(beNil());
+                });
+            });
+
+            context(@"when the register response is a warning", ^{
+                it(@"should call the ready handler with success but error", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = SDLResultWarnings;
+                    response.info = @"some info";
+                    testManager.registerResponse = response;
+
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+
+                    expect(@(readyHandlerSuccess)).to(equal(@YES));
+                    expect(readyHandlerError).toNot(beNil());
+                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationFailed)));
+                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
                 });
             });
         });
         
         describe(@"in the ready state", ^{
             beforeEach(^{
-                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady];
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
             });
             
             it(@"can send an RPC", ^{
@@ -292,8 +334,8 @@ describe(@"a lifecycle manager", ^{
                         [testManager.notificationDispatcher postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:testUnregisterResponse];
                     });
                     
-                    it(@"should disconnect", ^{
-                        expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateDisconnected));
+                    it(@"should stop", ^{
+                        expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
                     });
                 });
             });

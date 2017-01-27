@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            <li>Array Maxsize: 100</li>
  *            </ul>
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract a line of text displayed during audio capture
  * @discussion audioPassThruDisplayText1

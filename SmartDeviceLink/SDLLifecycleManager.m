@@ -19,7 +19,6 @@
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
-#import "SDLHMILevel.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
@@ -45,8 +44,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLLifecycleState *const SDLLifecycleStateDisconnected = @"TransportDisconnected";
-SDLLifecycleState *const SDLLifecycleStateTransportConnected = @"TransportConnected";
+SDLLifecycleState *const SDLLifecycleStateStopped = @"Stopped";
+SDLLifecycleState *const SDLLifecycleStateStarted = @"Started";
+SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
+SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
 SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
 SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
@@ -58,20 +59,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @interface SDLLifecycleManager () <SDLConnectionManagerType>
 
 // Readonly public properties
-@property (copy, nonatomic, readwrite, nullable) SDLHMILevel hmiLevel;
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
-@property (assign, nonatomic, readwrite) UInt16 lastCorrelationId;
-@property (strong, nonatomic, readwrite, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 @property (strong, nonatomic, readwrite) SDLStreamingMediaManager* streamManager;
-
-// Deprecated internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-@property (strong, nonatomic, readwrite, nullable) SDLProxy *proxy;
-#pragma clang diagnostic pop
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
@@ -98,7 +90,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _delegate = delegate;
 
     // Private properties
-    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateDisconnected states:[self.class sdl_stateTransitionDictionary]];
+    _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateStopped states:[self.class sdl_stateTransitionDictionary]];
     _lastCorrelationId = 0;
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
@@ -124,25 +116,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
     self.readyHandler = [readyHandler copy];
 
-    // Set up our logging capabilities based on the config
-    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
-
-// Start up the internal proxy object
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:[@(self.configuration.lifecycleConfig.tcpDebugPort) stringValue]];
-    } else {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher];
-    }
-#pragma clang diagnostic pop
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
 }
 
 - (void)stop {
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
     } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     }
 }
 
@@ -158,17 +139,42 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLLifecycleStateDisconnected: @[SDLLifecycleStateTransportConnected],
-        SDLLifecycleStateTransportConnected: @[SDLLifecycleStateDisconnected, SDLLifecycleStateRegistered],
-        SDLLifecycleStateRegistered: @[SDLLifecycleStateDisconnected, SDLLifecycleStateSettingUpManagers],
-        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateDisconnected, SDLLifecycleStatePostManagerProcessing],
-        SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateDisconnected, SDLLifecycleStateReady],
-        SDLLifecycleStateUnregistering: @[SDLLifecycleStateDisconnected],
-        SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateDisconnected]
+        SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
+        SDLLifecycleStateStarted : @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
+        SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted],
+        SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
+        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
+        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStatePostManagerProcessing],
+        SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
+        SDLLifecycleStateUnregistering: @[SDLLifecycleStateStopped],
+        SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting]
     };
 }
 
-- (void)didEnterStateTransportDisconnected {
+- (void)didEnterStateStarted {
+    // Set up our logging capabilities based on the config
+    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
+    
+    // Start up the internal proxy object
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (self.configuration.lifecycleConfig.tcpDebugMode) {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:[@(self.configuration.lifecycleConfig.tcpDebugPort) stringValue]];
+    } else {
+        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher];
+    }
+#pragma clang diagnostic pop
+}
+
+- (void)didEnterStateStopped {
+    [self sdl_stopManager:NO];
+}
+
+- (void)didEnterStateReconnecting {
+    [self sdl_stopManager:YES];
+}
+
+- (void)sdl_stopManager:(BOOL)shouldRestart {
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
@@ -180,12 +186,20 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     [SDLDebugTool logInfo:@"Stopping Proxy"];
     self.proxy = nil;
-    [self.delegate managerDidDisconnect];
 
-    [self startWithReadyHandler:self.readyHandler]; // Start up again to start watching for new connections
+    // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
+    // Apple Bug ID #30059457
+    __weak typeof(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [weakSelf.delegate managerDidDisconnect];
+
+        if (shouldRestart) {
+            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
+        }
+    });
 }
 
-- (void)didEnterStateTransportConnected {
+- (void)didEnterStateConnected {
     // If we have security managers, add them to the proxy
     if (self.configuration.lifecycleConfig.securityManagers != nil) {
         [self.proxy addSecurityManagers:self.configuration.lifecycleConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
@@ -198,9 +212,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
             if (error != nil || ![response.success boolValue]) {
                 [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
-                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+                weakSelf.readyHandler(NO, error);
+                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
                 return;
             }
 
@@ -272,32 +288,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateReady {
     SDLResult registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
-
-    BOOL success = NO;
     NSError *startError = nil;
 
-
-    if ([registerResult isEqualToString:SDLResultWarnings] || [registerResult isEqualToString:SDLResultResumeFailed]) {
-        // We succeeded, but with warnings
+    // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
+    if (![registerResult isEqualToString:SDLResultSuccess]) {
         startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
-        success = YES;
-    } else if (![registerResult isEqualToString:SDLResultSuccess]) {
-        // We did not succeed in registering
-        startError = [NSError sdl_lifecycle_failedWithBadResult:registerResult info:registerInfo];
-        success = NO;
-    } else {
-        // We succeeded
-        success = YES;
     }
 
-    // Notify the block, send the notification if we succeeded.
-    self.readyHandler(success, startError);
-
-    if (!success) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
-        return;
-    }
-
+    // If we got to this point, we succeeded, send the error if there was a warning.
+    self.readyHandler(YES, startError);
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
@@ -314,7 +313,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
             }
 
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
         }];
 }
 
@@ -382,7 +381,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    // We will allow things to be sent in a "SDLLifeCycleStateTransportConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
+    // We will allow things to be sent in a "SDLLifeCycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
 
     NSParameterAssert(request != nil);
 
@@ -412,7 +411,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class) class {
++ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class)class {
     NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
         return NO;
@@ -439,11 +438,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark SDL notification observers
 
 - (void)transportDidConnect {
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateTransportConnected];
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateConnected];
 }
 
 - (void)transportDidDisconnect {
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+    if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+    } else {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+    }
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
@@ -470,7 +473,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.notification;
     [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
 
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateDisconnected];
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateUnregistering]) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+    } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
+        return;
+    } else {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+    }
 }
 
 @end

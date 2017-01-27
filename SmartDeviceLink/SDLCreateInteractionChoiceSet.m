@@ -37,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId];
 }
 
-- (void)setChoiceSet:(NSMutableArray<SDLChoice *> *)choiceSet {
+- (void)setChoiceSet:(NSArray<SDLChoice *> *)choiceSet {
     [parameters sdl_setObject:choiceSet forName:SDLNameChoiceSet];
 }
 
-- (NSMutableArray<SDLChoice *> *)choiceSet {
+- (NSArray<SDLChoice *> *)choiceSet {
     return [parameters sdl_objectsForName:SDLNameChoiceSet ofClass:SDLChoice.class];
 }
 

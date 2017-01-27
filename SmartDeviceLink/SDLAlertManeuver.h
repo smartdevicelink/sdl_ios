@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTTS:(nullable NSString *)ttsText softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsChunks;
-@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButton *> *softButtons;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
 
 @end
 

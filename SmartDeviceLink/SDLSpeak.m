@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText {
-    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks];
 }
 
@@ -34,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setTtsChunks:(NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+- (void)setTtsChunks:(NSArray<SDLTTSChunk *> *)ttsChunks {
     [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
-- (NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+- (NSArray<SDLTTSChunk *> *)ttsChunks {
     return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 

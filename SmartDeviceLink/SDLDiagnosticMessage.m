@@ -46,11 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMessageLength];
 }
 
-- (void)setMessageData:(NSMutableArray<NSNumber<SDLInt> *> *)messageData {
+- (void)setMessageData:(NSArray<NSNumber<SDLInt> *> *)messageData {
     [parameters sdl_setObject:messageData forName:SDLNameMessageData];
 }
 
-- (NSMutableArray<NSNumber<SDLInt> *> *)messageData {
+- (NSArray<NSNumber<SDLInt> *> *)messageData {
     return [parameters sdl_objectForName:SDLNameMessageData];
 }
 
