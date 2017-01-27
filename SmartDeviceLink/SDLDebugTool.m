@@ -185,6 +185,10 @@
 }
 
 - (void)sdl_enableDebugToLogFile {
+    if (self.debugToLogFile) {
+        return;
+    }
+    
     [SDLDebugTool logInfo:@"Enabling Log File" withType:SDLDebugType_Debug];
 
     self.debugToLogFile = YES;
