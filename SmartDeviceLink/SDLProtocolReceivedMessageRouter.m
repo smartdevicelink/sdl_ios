@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message {
     switch (message.header.frameData) {
-        case SDLFrameInfoStartServiceAck: {
+        case SDLFrameInfoStartServiceACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -66,17 +66,17 @@ NS_ASSUME_NONNULL_BEGIN
                 [self.delegate handleProtocolStartSessionACK:message.header];
             }
         } break;
-        case SDLFrameInfoStartServiceNack: {
+        case SDLFrameInfoStartServiceNACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
                 [self.delegate handleProtocolStartSessionNACK:message.header.serviceType];
             }
         } break;
-        case SDLFrameInfoEndServiceAck: {
+        case SDLFrameInfoEndServiceACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
                 [self.delegate handleProtocolEndSessionACK:message.header.serviceType];
             }
         } break;
-        case SDLFrameInfoEndServiceNack: {
+        case SDLFrameInfoEndServiceNACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
                 [self.delegate handleProtocolEndSessionNACK:message.header.serviceType];
             }
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
                 [self.delegate handleHeartbeatForSession:message.header.sessionID];
             }
         } break;
-        case SDLFrameInfoHeartbeatAck: {
+        case SDLFrameInfoHeartbeatACK: {
             if ([self.delegate respondsToSelector:@selector(handleHeartbeatACK)]) {
                 [self.delegate handleHeartbeatACK];
             }

@@ -338,7 +338,7 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         testHeader.frameType = SDLFrameTypeControl;
         testHeader.serviceType = SDLServiceTypeRPC;
-        testHeader.frameData = SDLFrameInfoStartServiceAck;
+        testHeader.frameData = SDLFrameInfoStartServiceACK;
         testHeader.sessionID = 0x93;
         testHeader.bytesInPayload = 0;
         

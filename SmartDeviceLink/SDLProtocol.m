@@ -473,7 +473,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = SDLServiceTypeControl;
-    header.frameData = SDLFrameInfoHeartbeatAck;
+    header.frameData = SDLFrameInfoHeartbeatACK;
     header.sessionID = session;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:header.serviceType];

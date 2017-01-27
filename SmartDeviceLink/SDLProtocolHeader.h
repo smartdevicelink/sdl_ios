@@ -22,13 +22,13 @@ typedef NS_ENUM(UInt8, SDLServiceType) {
 typedef NS_ENUM(UInt8, SDLFrameInfo) {
     SDLFrameInfoHeartbeat = 0x00,
     SDLFrameInfoStartService = 0x01,
-    SDLFrameInfoStartServiceAck = 0x02,
-    SDLFrameInfoStartServiceNack = 0x03,
+    SDLFrameInfoStartServiceACK = 0x02,
+    SDLFrameInfoStartServiceNACK = 0x03,
     SDLFrameInfoEndService = 0x04,
-    SDLFrameInfoEndServiceAck = 0x05,
-    SDLFrameInfoEndServiceNack = 0x06,
+    SDLFrameInfoEndServiceACK = 0x05,
+    SDLFrameInfoEndServiceNACK = 0x06,
     SDLFrameInfoServiceDataAck = 0xFE,
-    SDLFrameInfoHeartbeatAck = 0xFF,
+    SDLFrameInfoHeartbeatACK = 0xFF,
     // If frameType == Single (0x01)
     SDLFrameInfoSingleFrame = 0x00,
     // If frameType == First (0x02)
