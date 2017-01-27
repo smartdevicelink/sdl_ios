@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
-    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+    NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil];
 }
 
@@ -97,11 +97,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameAlertText3];
 }
 
-- (void)setTtsChunks:(nullable NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+- (void)setTtsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks {
     [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)ttsChunks {
+- (nullable NSArray<SDLTTSChunk *> *)ttsChunks {
     return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 
@@ -129,11 +129,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameProgressIndicator];
 }
 
-- (void)setSoftButtons:(nullable NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (nullable NSMutableArray<SDLSoftButton *> *)softButtons {
+- (nullable NSArray<SDLSoftButton *> *)softButtons {
     return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 

@@ -122,10 +122,10 @@
         default: break;
     }
     
-    if (newColor && newTitle) {
+    if (newColor || newTitle) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.connectTableViewCell.backgroundColor = newColor;
-            self.connectButton.titleLabel.text = newTitle;
+            [self.connectTableViewCell setBackgroundColor:newColor];
+            [self.connectButton setTitle:newTitle forState:UIControlStateNormal];
         });
     }
 }

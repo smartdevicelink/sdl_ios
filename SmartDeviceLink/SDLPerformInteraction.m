@@ -51,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpPrompt:(nullable NSString *)helpPrompt timeoutPrompt:(nullable NSString *)timeoutPrompt interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    NSMutableArray *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
-    NSMutableArray *helpChunks = [SDLTTSChunk textChunksFromString:helpPrompt];
-    NSMutableArray *timeoutChunks = [SDLTTSChunk textChunksFromString:timeoutPrompt];
+    NSArray *initialChunks = [SDLTTSChunk textChunksFromString:initialPrompt];
+    NSArray *helpChunks = [SDLTTSChunk textChunksFromString:helpPrompt];
+    NSArray *timeoutChunks = [SDLTTSChunk textChunksFromString:timeoutPrompt];
     return [self initWithInitialChunks:initialChunks initialText:initialText interactionChoiceSetIDList:interactionChoiceSetIDList helpChunks:helpChunks timeoutChunks:timeoutChunks interactionMode:interactionMode timeout:timeout vrHelp:vrHelp];
 }
 
@@ -98,11 +98,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameInitialText];
 }
 
-- (void)setInitialPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+- (void)setInitialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt {
     [parameters sdl_setObject:initialPrompt forName:SDLNameInitialPrompt];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)initialPrompt {
+- (nullable NSArray<SDLTTSChunk *> *)initialPrompt {
     return [parameters sdl_objectsForName:SDLNameInitialPrompt ofClass:SDLTTSChunk.class];
 }
 
@@ -114,27 +114,27 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameInteractionMode];
 }
 
-- (void)setInteractionChoiceSetIDList:(NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
+- (void)setInteractionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
     [parameters sdl_setObject:interactionChoiceSetIDList forName:SDLNameInteractionChoiceSetIdList];
 }
 
-- (NSMutableArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
+- (NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
     return [parameters sdl_objectForName:SDLNameInteractionChoiceSetIdList];
 }
 
-- (void)setHelpPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)helpPrompt {
+- (void)setHelpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt {
     [parameters sdl_setObject:helpPrompt forName:SDLNameHelpPrompt];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)helpPrompt {
+- (nullable NSArray<SDLTTSChunk *> *)helpPrompt {
     return [parameters sdl_objectsForName:SDLNameHelpPrompt ofClass:SDLTTSChunk.class];
 }
 
-- (void)setTimeoutPrompt:(nullable NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
+- (void)setTimeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
     [parameters sdl_setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)timeoutPrompt {
+- (nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
     return [parameters sdl_objectsForName:SDLNameTimeoutPrompt ofClass:SDLTTSChunk.class];
 }
 
@@ -146,11 +146,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameTimeout];
 }
 
-- (void)setVrHelp:(nullable NSMutableArray<SDLVRHelpItem *> *)vrHelp {
+- (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
     [parameters sdl_setObject:vrHelp forName:SDLNameVRHelp];
 }
 
-- (nullable NSMutableArray<SDLVRHelpItem *> *)vrHelp {
+- (nullable NSArray<SDLVRHelpItem *> *)vrHelp {
     return [parameters sdl_objectsForName:SDLNameVRHelp ofClass:SDLVRHelpItem.class];
 }
 

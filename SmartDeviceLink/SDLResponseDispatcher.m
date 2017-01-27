@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.customButtonHandlerMap removeAllObjects];
 }
 
-- (void)sdl_addToCustomButtonHandlerMap:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
     for (SDLSoftButton *sb in softButtons) {
         if (!sb.softButtonID) {
             @throw [NSException sdl_missingIdException];

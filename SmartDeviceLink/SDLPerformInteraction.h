@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract An array of one or more TTSChunks that, taken together, specify
  * what is to be spoken to the user at the start of an interaction
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *initialPrompt;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *initialPrompt;
 /**
  * @abstract The Indicates mode that indicate how user selects interaction
  * choice. User can choose either by voice (VR_ONLY), by visual selection
@@ -68,17 +68,17 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract A Vector<Integer> value representing an Array of one or more Choice
  * Set IDs
  */
-@property (strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
 /**
  * @abstract A Vector<TTSChunk> which taken together, specify the help phrase to
  * be spoken when the user says "help" during the VR session
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *helpPrompt;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *helpPrompt;
 /**
  * @abstract An array of TTSChunks which, taken together, specify the phrase to
  * be spoken when the listen times out during the VR session
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *timeoutPrompt;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *timeoutPrompt;
 /**
  * @abstract An Integer value representing the amount of time, in milliseconds,
  * SDL will wait for the user to make a choice (VR or Menu)
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
  * display on-screen during Perform Interaction
  * @since SmartDeviceLink 2.0
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLVRHelpItem *> *vrHelp;
+@property (nullable, strong, nonatomic) NSArray<SDLVRHelpItem *> *vrHelp;
 @property (nullable, strong, nonatomic) SDLLayoutMode interactionLayout;
 
 @end

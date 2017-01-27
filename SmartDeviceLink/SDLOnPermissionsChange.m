@@ -17,21 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setPermissionItem:(NSMutableArray<SDLPermissionItem *> *)permissionItem {
+- (void)setPermissionItem:(NSArray<SDLPermissionItem *> *)permissionItem {
     [parameters sdl_setObject:permissionItem forName:SDLNamePermissionItem];
 }
 
-- (NSMutableArray<SDLPermissionItem *> *)permissionItem {
-    NSMutableArray<SDLPermissionItem *> *array = [parameters sdl_objectForName:SDLNamePermissionItem];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPermissionItem.class]) {
-        return array;
-    } else {
-        NSMutableArray<SDLPermissionItem *> *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[SDLPermissionItem alloc] initWithDictionary:(NSDictionary *)dict]];
-        }
-        return newList;
-    }
+- (NSArray<SDLPermissionItem *> *)permissionItem {
+    return [parameters sdl_objectsForName:SDLNamePermissionItem ofClass:SDLPermissionItem.class];
 }
 
 @end

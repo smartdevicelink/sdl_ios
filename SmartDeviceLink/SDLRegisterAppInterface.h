@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 2.0
  * @see SDLTTSChunk
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLTTSChunk *> *ttsName;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
 
 /**
  * @abstract A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
@@ -148,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of Strings, Array length 1 - 100, Max String length 40
  */
-@property (nullable, strong, nonatomic) NSMutableArray<NSString *> *vrSynonyms;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 /**
  * @abstract Indicates if the application is a media or a non-media application.
@@ -187,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SDL 2.0
  * @see SDLAppHMIType
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLAppHMIType> *appHMIType;
+@property (nullable, strong, nonatomic) NSArray<SDLAppHMIType> *appHMIType;
 
 /**
  * @abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).

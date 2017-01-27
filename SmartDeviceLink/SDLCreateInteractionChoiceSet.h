@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, SDLChoice, Array size 1 - 100
  */
-@property (strong, nonatomic) NSMutableArray<SDLChoice *> *choiceSet;
+@property (strong, nonatomic) NSArray<SDLChoice *> *choiceSet;
 
 @end
 

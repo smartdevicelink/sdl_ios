@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setProperties:(NSMutableArray<SDLGlobalProperty> *)properties {
+- (void)setProperties:(NSArray<SDLGlobalProperty> *)properties {
     [parameters sdl_setObject:properties forName:SDLNameProperties];
 }
 
-- (NSMutableArray<SDLGlobalProperty> *)properties {
-    return [parameters sdl_enumsForName:SDLNameProperties];
+- (NSArray<SDLGlobalProperty> *)properties {
+    return [parameters sdl_objectForName:SDLNameProperties];
 }
 
 @end

@@ -57,19 +57,19 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
 }
 
-- (void)setButtonCapabilities:(nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
+- (void)setButtonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
     [parameters sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
-- (nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
+- (nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
     return [parameters sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
-- (void)setSoftButtonCapabilities:(nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
+- (void)setSoftButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
     [parameters sdl_setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
-- (nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
+- (nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
     return [parameters sdl_objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
 }
 
@@ -81,43 +81,43 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNamePresetBankCapabilities ofClass:SDLPresetBankCapabilities.class];
 }
 
-- (void)setHmiZoneCapabilities:(nullable NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
+- (void)setHmiZoneCapabilities:(nullable NSArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
     [parameters sdl_setObject:hmiZoneCapabilities forName:SDLNameHMIZoneCapabilities];
 }
 
-- (nullable NSMutableArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
+- (nullable NSArray<SDLHMIZoneCapabilities> *)hmiZoneCapabilities {
     return [parameters sdl_objectForName:SDLNameHMIZoneCapabilities];
 }
 
-- (void)setSpeechCapabilities:(nullable NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
+- (void)setSpeechCapabilities:(nullable NSArray<SDLSpeechCapabilities> *)speechCapabilities {
     [parameters sdl_setObject:speechCapabilities forName:SDLNameSpeechCapabilities];
 }
 
-- (nullable NSMutableArray<SDLSpeechCapabilities> *)speechCapabilities {
+- (nullable NSArray<SDLSpeechCapabilities> *)speechCapabilities {
     return [parameters sdl_objectForName:SDLNameSpeechCapabilities];
 }
 
-- (void)setPrerecordedSpeech:(nullable NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
+- (void)setPrerecordedSpeech:(nullable NSArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
     [parameters sdl_setObject:prerecordedSpeech forName:SDLNamePrerecordedSpeech];
 }
 
-- (nullable NSMutableArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
+- (nullable NSArray<SDLPrerecordedSpeech> *)prerecordedSpeech {
     return [parameters sdl_objectForName:SDLNamePrerecordedSpeech];
 }
 
-- (void)setVrCapabilities:(nullable NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
+- (void)setVrCapabilities:(nullable NSArray<SDLVRCapabilities> *)vrCapabilities {
     [parameters sdl_setObject:vrCapabilities forName:SDLNameVRCapabilities];
 }
 
-- (nullable NSMutableArray<SDLVRCapabilities> *)vrCapabilities {
+- (nullable NSArray<SDLVRCapabilities> *)vrCapabilities {
     return [parameters sdl_objectForName:SDLNameVRCapabilities];
 }
 
-- (void)setAudioPassThruCapabilities:(nullable NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
+- (void)setAudioPassThruCapabilities:(nullable NSArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
     [parameters sdl_setObject:audioPassThruCapabilities forName:SDLNameAudioPassThruCapabilities];
 }
 
-- (nullable NSMutableArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
+- (nullable NSArray<SDLAudioPassThruCapabilities *> *)audioPassThruCapabilities {
     return [parameters sdl_objectsForName:SDLNameAudioPassThruCapabilities ofClass:SDLAudioPassThruCapabilities.class];
 }
 
@@ -129,11 +129,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameVehicleType ofClass:SDLVehicleType.class];
 }
 
-- (void)setSupportedDiagModes:(nullable NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
+- (void)setSupportedDiagModes:(nullable NSArray<NSNumber<SDLInt> *> *)supportedDiagModes {
     [parameters sdl_setObject:supportedDiagModes forName:SDLNameSupportedDiagnosticModes];
 }
 
-- (nullable NSMutableArray<NSNumber<SDLInt> *> *)supportedDiagModes {
+- (nullable NSArray<NSNumber<SDLInt> *> *)supportedDiagModes {
     return [parameters sdl_objectForName:SDLNameSupportedDiagnosticModes];
 }
 

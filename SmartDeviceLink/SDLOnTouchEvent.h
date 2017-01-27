@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnTouchEvent : SDLRPCNotification
 
 @property (strong, nonatomic) SDLTouchType type;
-@property (strong, nonatomic) NSMutableArray<SDLTouchEvent *> *event;
+@property (strong, nonatomic) NSArray<SDLTouchEvent *> *event;
 
 @end
 

@@ -29,19 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameDisplayCapabilities ofClass:SDLDisplayCapabilities.class];
 }
 
-- (void)setButtonCapabilities:(nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
+- (void)setButtonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
     [parameters sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
 }
 
-- (nullable NSMutableArray<SDLButtonCapabilities *> *)buttonCapabilities {
+- (nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
     return [parameters sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
-- (void)setSoftButtonCapabilities:(nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
+- (void)setSoftButtonCapabilities:(nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
     [parameters sdl_setObject:softButtonCapabilities forName:SDLNameSoftButtonCapabilities];
 }
 
-- (nullable NSMutableArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
+- (nullable NSArray<SDLSoftButtonCapabilities *> *)softButtonCapabilities {
     return [parameters sdl_objectsForName:SDLNameSoftButtonCapabilities ofClass:SDLSoftButtonCapabilities.class];
 }
 

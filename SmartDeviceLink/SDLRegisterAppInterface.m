@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.isMediaApplication = @(isMediaApp);
 
     if (appType != nil) {
-        self.appHMIType = [NSMutableArray arrayWithObject:appType];
+        self.appHMIType = [NSArray arrayWithObject:appType];
     }
     
     self.ngnMediaScreenAppName = shortAppName;
@@ -94,11 +94,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameAppName];
 }
 
-- (void)setTtsName:(nullable NSMutableArray<SDLTTSChunk *> *)ttsName {
+- (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
     [parameters sdl_setObject:ttsName forName:SDLNameTTSName];
 }
 
-- (nullable NSMutableArray<SDLTTSChunk *> *)ttsName {
+- (nullable NSArray<SDLTTSChunk *> *)ttsName {
     return [parameters sdl_objectsForName:SDLNameTTSName ofClass:SDLTTSChunk.class];
 }
 
@@ -110,11 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName];
 }
 
-- (void)setVrSynonyms:(nullable NSMutableArray<NSString *> *)vrSynonyms {
+- (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
     [parameters sdl_setObject:vrSynonyms forName:SDLNameVRSynonyms];
 }
 
-- (nullable NSMutableArray<NSString *> *)vrSynonyms {
+- (nullable NSArray<NSString *> *)vrSynonyms {
     return [parameters sdl_objectForName:SDLNameVRSynonyms];
 }
 
@@ -142,12 +142,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameHMIDisplayLanguageDesired];
 }
 
-- (void)setAppHMIType:(nullable NSMutableArray<SDLAppHMIType> *)appHMIType {
+- (void)setAppHMIType:(nullable NSArray<SDLAppHMIType> *)appHMIType {
     [parameters sdl_setObject:appHMIType forName:SDLNameAppHMIType];
 }
 
-- (nullable NSMutableArray<SDLAppHMIType> *)appHMIType {
-    return [parameters sdl_enumsForName:SDLNameAppHMIType];
+- (nullable NSArray<SDLAppHMIType> *)appHMIType {
+    return [parameters sdl_objectForName:SDLNameAppHMIType];
 }
 
 - (void)setHashID:(nullable NSString *)hashID {

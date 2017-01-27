@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLEncodedSyncPData : SDLRPCRequest
 
-@property (strong, nonatomic) NSMutableArray<NSString *> *data;
+@property (strong, nonatomic) NSArray<NSString *> *data;
 
 @end
 

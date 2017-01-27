@@ -33,10 +33,10 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
-                                                 @{@"driverdistractionstatus":@NO,
-                                                   @"userselected":@3,
+                                                 @{@"driverDistractionStatus":@NO,
+                                                   @"userSelected":@3,
                                                    @"OnLockScreenStatus":SDLLockScreenStatusRequired,
-                                                   @"hmilevel":SDLHMILevelNone},
+                                                   @"hmiLevel":SDLHMILevelNone},
                                              SDLNameOperationName:@"OnLockScreenStatus"}} mutableCopy];
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
         

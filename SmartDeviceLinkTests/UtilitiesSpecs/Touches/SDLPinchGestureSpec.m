@@ -46,8 +46,8 @@ describe(@"SDLPinchGesture Tests", ^{
             
             SDLTouchEvent* firstTouchEvent = [[SDLTouchEvent alloc] init];
             firstTouchEvent.touchEventId = @0;
-            firstTouchEvent.coord = [NSMutableArray arrayWithObject:firstCoord];
-            firstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            firstTouchEvent.coord = [NSArray arrayWithObject:firstCoord];
+            firstTouchEvent.timeStamp = [NSArray arrayWithObject:@(timeStamp)];
             
             SDLTouch* firstTouch = [[SDLTouch alloc] initWithTouchEvent:firstTouchEvent];
             
@@ -57,8 +57,8 @@ describe(@"SDLPinchGesture Tests", ^{
             
             SDLTouchEvent* secondTouchEvent = [[SDLTouchEvent alloc] init];
             secondTouchEvent.touchEventId = @1;
-            secondTouchEvent.coord = [NSMutableArray arrayWithObject:secondCoord];
-            secondTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(secondTimeStamp)];
+            secondTouchEvent.coord = [NSArray arrayWithObject:secondCoord];
+            secondTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondTimeStamp)];
             
             SDLTouch* secondTouch = [[SDLTouch alloc] initWithTouchEvent:secondTouchEvent];
 
@@ -103,8 +103,8 @@ describe(@"SDLPinchGesture Tests", ^{
             
             SDLTouchEvent* firstTouchEvent = [[SDLTouchEvent alloc] init];
             firstTouchEvent.touchEventId = @0;
-            firstTouchEvent.coord = [NSMutableArray arrayWithObject:firstCoord];
-            firstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
+            firstTouchEvent.coord = [NSArray arrayWithObject:firstCoord];
+            firstTouchEvent.timeStamp = [NSArray arrayWithObject:@(timeStamp)];
             
             SDLTouch* firstTouch = [[SDLTouch alloc] initWithTouchEvent:firstTouchEvent];
             
@@ -114,8 +114,8 @@ describe(@"SDLPinchGesture Tests", ^{
             
             SDLTouchEvent* secondTouchEvent = [[SDLTouchEvent alloc] init];
             secondTouchEvent.touchEventId = @1;
-            secondTouchEvent.coord = [NSMutableArray arrayWithObject:secondCoord];
-            secondTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(secondTimeStamp)];
+            secondTouchEvent.coord = [NSArray arrayWithObject:secondCoord];
+            secondTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondTimeStamp)];
             
             SDLTouch* secondTouch = [[SDLTouch alloc] initWithTouchEvent:secondTouchEvent];
             
@@ -128,13 +128,13 @@ describe(@"SDLPinchGesture Tests", ^{
             
             SDLTouchEvent* newFirstTouchEvent = [[SDLTouchEvent alloc] init];
             newFirstTouchEvent.touchEventId = @0;
-            newFirstTouchEvent.coord = [NSMutableArray arrayWithObject:newCoord];
-            newFirstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(newTimeStamp)];
+            newFirstTouchEvent.coord = [NSArray arrayWithObject:newCoord];
+            newFirstTouchEvent.timeStamp = [NSArray arrayWithObject:@(newTimeStamp)];
 
             SDLTouchEvent* newSecondTouchEvent = [[SDLTouchEvent alloc] init];
             newSecondTouchEvent.touchEventId = @1;
-            newSecondTouchEvent.coord = [NSMutableArray arrayWithObject:newCoord];
-            newSecondTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(newTimeStamp)];
+            newSecondTouchEvent.coord = [NSArray arrayWithObject:newCoord];
+            newSecondTouchEvent.timeStamp = [NSArray arrayWithObject:@(newTimeStamp)];
 
             newFirstTouch = [[SDLTouch alloc] initWithTouchEvent:newFirstTouchEvent];
             newSecondTouch = [[SDLTouch alloc] initWithTouchEvent:newSecondTouchEvent];

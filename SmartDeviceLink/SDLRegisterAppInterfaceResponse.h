@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, of SDLButtonCapabilities
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
 
 /**
  * If returned, the platform supports on-screen SoftButtons
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 
 /**
  * If returned, the platform supports custom on-screen Presets
@@ -93,35 +93,35 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 
 /**
  * @see SDLSpeechCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLSpeechCapabilities
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLSpeechCapabilities> *speechCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 
 /**
  * @see SDLPrerecordedSpeech
  *
  * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLPrerecordedSpeech> *prerecordedSpeech;
+@property (nullable, strong, nonatomic) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
 
 /**
  * @see SDLVRCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLVRCapabilities
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLVRCapabilities> *vrCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLVRCapabilities> *vrCapabilities;
 
 /**
  * @see SDLAudioPassThruCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 
 /**
  * Specifies the vehicle's type
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, Integer 0 - 255
  */
-@property (nullable, strong, nonatomic) NSMutableArray<NSNumber<SDLInt> *> *supportedDiagModes;
+@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *supportedDiagModes;
 
 /**
  * @see SDLHMICapabilities

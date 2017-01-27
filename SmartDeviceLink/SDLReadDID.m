@@ -37,11 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameECUName];
 }
 
-- (void)setDidLocation:(NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
+- (void)setDidLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
     [parameters sdl_setObject:didLocation forName:SDLNameDIDLocation];
 }
 
-- (NSMutableArray<NSNumber<SDLInt> *> *)didLocation {
+- (NSArray<NSNumber<SDLInt> *> *)didLocation {
     return [parameters sdl_objectForName:SDLNameDIDLocation];
 }
 

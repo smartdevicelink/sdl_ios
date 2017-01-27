@@ -15,6 +15,8 @@ NSString *const SDLAppId = @"9999";
 NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
 NSString *const MainGraphicArtworkName = @"MainArtwork";
 
+BOOL const ShouldRestartOnDisconnect = NO;
+
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateNone,
     SDLHMIFirstStateNonNone,
@@ -94,11 +96,12 @@ NS_ASSUME_NONNULL_BEGIN
         if (!success) {
             NSLog(@"SDL errored starting up: %@", error);
             [weakSelf sdlex_updateProxyState:ProxyStateStopped];
-        } else {
-            [weakSelf sdlex_updateProxyState:ProxyStateConnected];
+            return;
         }
+        
+        [weakSelf sdlex_updateProxyState:ProxyStateConnected];
 
-        [self setupPermissionsCallbacks];
+        [weakSelf setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
             [weakSelf showInitialData];
@@ -107,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
+    [self sdlex_updateProxyState:ProxyStateStopped];
     [self.sdlManager stop];
 }
 
@@ -176,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
     commandMenuParams.menuName = commandName;
     
     SDLAddCommand *speakNameCommand = [[SDLAddCommand alloc] init];
-    speakNameCommand.vrCommands = [NSMutableArray arrayWithObject:commandName];
+    speakNameCommand.vrCommands = @[commandName];
     speakNameCommand.menuParams = commandMenuParams;
     speakNameCommand.cmdID = @0;
     
@@ -194,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
     commandMenuParams.menuName = commandName;
     
     SDLAddCommand *performInteractionCommand = [[SDLAddCommand alloc] init];
-    performInteractionCommand.vrCommands = [NSMutableArray arrayWithObject:commandName];
+    performInteractionCommand.vrCommands = @[commandName];
     performInteractionCommand.menuParams = commandMenuParams;
     performInteractionCommand.cmdID = @1;
     
@@ -236,9 +240,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLChoice *theOnlyChoice = [[SDLChoice alloc] init];
     theOnlyChoice.choiceID = @0;
     theOnlyChoice.menuName = theOnlyChoiceName;
-    theOnlyChoice.vrCommands = [NSMutableArray arrayWithObject:theOnlyChoiceName];
+    theOnlyChoice.vrCommands = @[theOnlyChoiceName];
     
-    createInteractionSet.choiceSet = [NSMutableArray arrayWithArray:@[theOnlyChoice]];
+    createInteractionSet.choiceSet = @[theOnlyChoice];
     
     return createInteractionSet;
 }
@@ -248,7 +252,7 @@ NS_ASSUME_NONNULL_BEGIN
     performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
     performOnlyChoiceInteraction.initialPrompt = [SDLTTSChunk textChunksFromString:@"Choose it"];
     performOnlyChoiceInteraction.interactionMode = SDLInteractionModeBoth;
-    performOnlyChoiceInteraction.interactionChoiceSetIDList = [NSMutableArray arrayWithObject:@0];
+    performOnlyChoiceInteraction.interactionChoiceSetIDList = @[@0];
     performOnlyChoiceInteraction.helpPrompt = [SDLTTSChunk textChunksFromString:@"Do it"];
     performOnlyChoiceInteraction.timeoutPrompt = [SDLTTSChunk textChunksFromString:@"Too late"];
     performOnlyChoiceInteraction.timeout = @5000;
@@ -354,6 +358,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.firstTimeState = SDLHMIFirstStateNone;
     self.initialShowState = SDLHMIInitialShowStateNone;
     _state = ProxyStateStopped;
+    if (ShouldRestartOnDisconnect) {
+        [self startManager];
+    }
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
