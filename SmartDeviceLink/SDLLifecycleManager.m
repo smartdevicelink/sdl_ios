@@ -412,7 +412,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-+ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
++ (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
     if (logFlags == SDLLogOutputNone) {
         [SDLDebugTool disable];
         return;
