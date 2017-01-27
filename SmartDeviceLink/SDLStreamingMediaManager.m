@@ -230,6 +230,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 - (void)didEnterStateInactive {
     [self.touchManager cancelPendingTouches];
+    self.shouldRestartVideoStream = YES;
 }
 
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
