@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startSecureServiceWithType:SDLServiceType_Video
+        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo
                                 completionHandler:^(BOOL success, NSError *error) {
                                     typeof(weakSelf) strongSelf = weakSelf;
                                     // If success, we will get an ACK or NACK, so those methods will handle calling the video block
@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
                                     }
                                 }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceType_Video];
+        [self.protocol startServiceWithType:SDLServiceTypeVideo];
     }
 }
 
@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.protocol endServiceWithType:SDLServiceType_Video];
+    [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
 - (void)startAudioSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startSecureServiceWithType:SDLServiceType_Audio
+        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio
                                 completionHandler:^(BOOL success, NSError *error) {
                                     typeof(weakSelf) strongSelf = weakSelf;
                                     // If this passes, we will get an ACK or NACK, so those methods will handle calling the audio block
@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
                                     }
                                 }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceType_Audio];
+        [self.protocol startServiceWithType:SDLServiceTypeAudio];
     }
 }
 
@@ -202,7 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.protocol endServiceWithType:SDLServiceType_Audio];
+    [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
 
@@ -228,9 +228,9 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_async([self.class sdl_streamingDataSerialQueue], ^{
         @autoreleasepool {
             if (self.audioSessionEncrypted) {
-                [self.protocol sendEncryptedRawData:pcmAudioData onService:SDLServiceType_Audio];
+                [self.protocol sendEncryptedRawData:pcmAudioData onService:SDLServiceTypeAudio];
             } else {
-                [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceType_Audio];
+                [self.protocol sendRawData:pcmAudioData withServiceType:SDLServiceTypeAudio];
             }
         }
     });
@@ -282,7 +282,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
-        case SDLServiceType_Audio: {
+        case SDLServiceTypeAudio: {
             self.audioSessionConnected = YES;
             self.audioSessionEncrypted = header.encrypted;
 
@@ -293,13 +293,13 @@ NS_ASSUME_NONNULL_BEGIN
             self.audioStartBlock(YES, header.encrypted, nil);
             self.audioStartBlock = nil;
         } break;
-        case SDLServiceType_Video: {
+        case SDLServiceTypeVideo: {
             NSError *error = nil;
             BOOL success = [self sdl_configureVideoEncoderWithError:&error];
 
             if (!success) {
                 [self sdl_teardownCompressionSession];
-                [self.protocol endServiceWithType:SDLServiceType_Video];
+                [self.protocol endServiceWithType:SDLServiceTypeVideo];
 
                 if (self.videoStartBlock == nil) {
                     return;
@@ -327,7 +327,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
     switch (serviceType) {
-        case SDLServiceType_Audio: {
+        case SDLServiceTypeAudio: {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaAudio code:SDLStreamingAudioErrorHeadUnitNACK userInfo:nil];
 
             if (self.audioStartBlock == nil) {
@@ -337,7 +337,7 @@ NS_ASSUME_NONNULL_BEGIN
             self.audioStartBlock(NO, NO, error);
             self.audioStartBlock = nil;
         } break;
-        case SDLServiceType_Video: {
+        case SDLServiceTypeVideo: {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorHeadUnitNACK userInfo:nil];
 
             if (self.videoStartBlock == nil) {
@@ -353,10 +353,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
     switch (serviceType) {
-        case SDLServiceType_Audio: {
+        case SDLServiceTypeAudio: {
             self.audioSessionConnected = NO;
         } break;
-        case SDLServiceType_Video: {
+        case SDLServiceTypeVideo: {
             self.videoSessionConnected = NO;
             [self sdl_teardownCompressionSession];
         } break;
@@ -394,9 +394,9 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
     NSData *elementaryStreamData = [mediaManager.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
 
     if (mediaManager.videoSessionEncrypted) {
-        [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceType_Video];
+        [mediaManager.protocol sendEncryptedRawData:elementaryStreamData onService:SDLServiceTypeVideo];
     } else {
-        [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceType_Video];
+        [mediaManager.protocol sendRawData:elementaryStreamData withServiceType:SDLServiceTypeVideo];
     }
 }
 

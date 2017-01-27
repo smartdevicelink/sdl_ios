@@ -25,9 +25,9 @@ describe(@"HandleReceivedMessage Tests", ^ {
             SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
             
-            testHeader.frameType = SDLFrameType_Control;
-            testHeader.serviceType = SDLServiceType_RPC;
-            testHeader.frameData = SDLFrameData_StartSessionACK;
+            testHeader.frameType = SDLFrameTypeControl;
+            testHeader.serviceType = SDLServiceTypeRPC;
+            testHeader.frameData = SDLFrameInfoStartServiceACK;
             testHeader.sessionID = 0x93;
             testHeader.bytesInPayload = 0;
             
@@ -49,9 +49,9 @@ describe(@"HandleReceivedMessage Tests", ^ {
             SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
             
-            testHeader.frameType = SDLFrameType_Single;
-            testHeader.serviceType = SDLServiceType_RPC;
-            testHeader.frameData = SDLFrameData_SingleFrame;
+            testHeader.frameType = SDLFrameTypeSingle;
+            testHeader.serviceType = SDLServiceTypeRPC;
+            testHeader.frameData = SDLFrameInfoSingleFrame;
             testHeader.sessionID = 0x07;
             testHeader.bytesInPayload = 0;
             
@@ -96,8 +96,8 @@ describe(@"HandleReceivedMessage Tests", ^ {
             SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
             
             //First frame
-            testHeader.frameType = SDLFrameType_First;
-            testHeader.serviceType = SDLServiceType_BulkData;
+            testHeader.frameType = SDLFrameTypeFirst;
+            testHeader.serviceType = SDLServiceTypeBulkData;
             testHeader.frameData = 1;
             testHeader.sessionID = 0x33;
             testHeader.bytesInPayload = 8;
@@ -111,7 +111,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             
             [router handleReceivedMessage:testMessage];
             
-            testMessage.header.frameType = SDLFrameType_Consecutive;
+            testMessage.header.frameType = SDLFrameTypeConsecutive;
             testMessage.header.bytesInPayload = 500;
             
             NSUInteger frameNumber = 1;
@@ -142,9 +142,9 @@ describe(@"HandleReceivedMessage Tests", ^ {
                 SDLProtocolMessage* assembledMessage = message;
                 
                 expect(assembledMessage.payload).to(equal(payloadData));
-                expect(@(assembledMessage.header.frameType)).to(equal(@(SDLFrameType_Single)));
-                expect(@(assembledMessage.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
-                expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+                expect(@(assembledMessage.header.frameType)).to(equal(@(SDLFrameTypeSingle)));
+                expect(@(assembledMessage.header.serviceType)).to(equal(@(SDLServiceTypeBulkData)));
+                expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameInfoSingleFrame)));
                 expect(@(assembledMessage.header.sessionID)).to(equal(@0x33));
                 expect(@(assembledMessage.header.bytesInPayload)).to(equal(@(payloadData.length)));
             }] onProtocolMessageReceived:[OCMArg any]];
