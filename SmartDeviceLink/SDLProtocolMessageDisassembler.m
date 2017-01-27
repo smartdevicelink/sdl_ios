@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Create the first message
     SDLProtocolHeader *firstFrameHeader = [incomingMessage.header copy];
-    firstFrameHeader.frameType = SDLFrameType_First;
+    firstFrameHeader.frameType = SDLFrameTypeFirst;
 
     UInt32 payloadData[2];
     payloadData[0] = CFSwapInt32HostToBig((UInt32)incomingMessage.payload.length);
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
         UInt8 frameNumber = (n % 255) + 1;
 
         SDLProtocolHeader *nextFrameHeader = [incomingMessage.header copy];
-        nextFrameHeader.frameType = SDLFrameType_Consecutive;
+        nextFrameHeader.frameType = SDLFrameTypeConsecutive;
         nextFrameHeader.frameData = frameNumber;
 
         NSUInteger offsetOfDataForThisFrame = headerSize + (n * numberOfDataBytesPerMessage);
@@ -71,8 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Create the last message
     SDLProtocolHeader *lastFrameHeader = [incomingMessage.header copy];
-    lastFrameHeader.frameType = SDLFrameType_Consecutive;
-    lastFrameHeader.frameData = SDLFrameData_ConsecutiveLastFrame;
+    lastFrameHeader.frameType = SDLFrameTypeConsecutive;
+    lastFrameHeader.frameData = SDLFrameInfoConsecutiveLastFrame;
 
     NSUInteger numberOfMessagesCreatedSoFar = numberOfMessagesRequired - 1;
     NSUInteger numberOfDataBytesSentSoFar = numberOfMessagesCreatedSoFar * numberOfDataBytesPerMessage;

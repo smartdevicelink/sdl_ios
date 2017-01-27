@@ -108,22 +108,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
     switch (serviceType) {
-        case SDLServiceType_RPC: {
+        case SDLServiceTypeRPC: {
             // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
             header = [SDLProtocolHeader headerForVersion:1];
-            if ([self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC]) {
-                header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            if ([self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC]) {
+                header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
             } else {
                 header.sessionID = 0;
             }
         } break;
         default: {
-            header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
+            header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
         } break;
     }
-    header.frameType = SDLFrameType_Control;
+    header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
-    header.frameData = SDLFrameData_StartSession;
+    header.frameData = SDLFrameInfoStartService;
 
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
     header.encrypted = encryption;
@@ -168,9 +168,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
-    header.frameType = SDLFrameType_Control;
+    header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
-    header.frameData = SDLFrameData_EndSession;
+    header.frameData = SDLFrameInfoEndService;
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
@@ -244,10 +244,10 @@ NS_ASSUME_NONNULL_BEGIN
     // Build the protocol level header & message
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
     header.encrypted = encryption;
-    header.frameType = SDLFrameType_Single;
-    header.serviceType = (message.bulkData.length <= 0) ? SDLServiceType_RPC : SDLServiceType_BulkData;
-    header.frameData = SDLFrameData_SingleFrame;
-    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
+    header.frameType = SDLFrameTypeSingle;
+    header.serviceType = (message.bulkData.length <= 0) ? SDLServiceTypeRPC : SDLServiceTypeBulkData;
+    header.frameData = SDLFrameInfoSingleFrame;
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
@@ -261,12 +261,12 @@ NS_ASSUME_NONNULL_BEGIN
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
     if (protocolMessage.size < [SDLGlobals sharedGlobals].maxMTUSize) {
         [self sdl_logRPCSend:protocolMessage];
-        [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceType_RPC];
+        [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
         NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals sharedGlobals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self sdl_logRPCSend:smallerMessage];
-            [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceType_RPC];
+            [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
         }
     }
 
@@ -307,7 +307,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_sendRawData:(NSData *)data onService:(SDLServiceType)service encryption:(BOOL)encryption {
     SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals sharedGlobals].protocolVersion];
     header.encrypted = encryption;
-    header.frameType = SDLFrameType_Single;
+    header.frameType = SDLFrameTypeSingle;
     header.serviceType = service;
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:service];
     header.messageID = ++_messageID;
@@ -414,7 +414,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
-        case SDLServiceType_RPC: {
+        case SDLServiceTypeRPC: {
             [SDLGlobals sharedGlobals].maxHeadUnitVersion = header.version;
         } break;
         default:
@@ -471,9 +471,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleHeartbeatForSession:(Byte)session {
     // Respond with a heartbeat ACK
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
-    header.frameType = SDLFrameType_Control;
-    header.serviceType = SDLServiceType_Control;
-    header.frameData = SDLFrameData_HeartbeatACK;
+    header.frameType = SDLFrameTypeControl;
+    header.serviceType = SDLServiceTypeControl;
+    header.frameData = SDLFrameInfoHeartbeatAck;
     header.sessionID = session;
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
     [self sdl_sendDataToTransport:message.data onService:header.serviceType];
@@ -495,7 +495,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
     // Control service (but not control frame type) messages are TLS handshake messages
-    if (msg.header.serviceType == SDLServiceType_Control) {
+    if (msg.header.serviceType == SDLServiceTypeControl) {
         [self sdl_processSecurityMessage:msg];
         return;
     }
@@ -568,16 +568,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Send the response or error message. If it's an error message, the module will ACK the Start Service without encryption. If it's a TLS handshake message, the module will ACK with encryption
-    [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceType_Control];
+    [self sdl_sendDataToTransport:serverSecurityMessage.data onService:SDLServiceTypeControl];
 }
 
 + (SDLProtocolMessage *)sdl_serverSecurityHandshakeMessageWithData:(NSData *)data clientMessageHeader:(SDLProtocolHeader *)clientHeader messageId:(UInt32)messageId {
     // This can't possibly be a v1 header because v1 does not have control protocol messages
     SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
     serverMessageHeader.encrypted = NO;
-    serverMessageHeader.frameType = SDLFrameType_Single;
-    serverMessageHeader.serviceType = SDLServiceType_Control;
-    serverMessageHeader.frameData = SDLFrameData_SingleFrame;
+    serverMessageHeader.frameType = SDLFrameTypeSingle;
+    serverMessageHeader.serviceType = SDLServiceTypeControl;
+    serverMessageHeader.frameData = SDLFrameInfoSingleFrame;
     serverMessageHeader.sessionID = clientHeader.sessionID;
     serverMessageHeader.messageID = messageId;
 
@@ -598,9 +598,9 @@ NS_ASSUME_NONNULL_BEGIN
     // This can't possibly be a v1 header because v1 does not have control protocol messages
     SDLV2ProtocolHeader *serverMessageHeader = [SDLProtocolHeader headerForVersion:clientHeader.version];
     serverMessageHeader.encrypted = NO;
-    serverMessageHeader.frameType = SDLFrameType_Single;
-    serverMessageHeader.serviceType = SDLServiceType_Control;
-    serverMessageHeader.frameData = SDLFrameData_SingleFrame;
+    serverMessageHeader.frameType = SDLFrameTypeSingle;
+    serverMessageHeader.serviceType = SDLServiceTypeControl;
+    serverMessageHeader.frameData = SDLFrameInfoSingleFrame;
     serverMessageHeader.sessionID = clientHeader.sessionID;
     serverMessageHeader.messageID = messageId;
 

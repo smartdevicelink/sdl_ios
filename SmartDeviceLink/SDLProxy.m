@@ -220,7 +220,7 @@ static float DefaultConnectionTimeout = 45.0;
     _isConnected = YES;
     [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    [self.protocol startServiceWithType:SDLServiceType_RPC];
+    [self.protocol startServiceWithType:SDLServiceTypeRPC];
 
     if (self.startSessionTimer == nil) {
         self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
@@ -248,7 +248,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    if (header.serviceType == SDLServiceType_RPC) {
+    if (header.serviceType == SDLServiceTypeRPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }

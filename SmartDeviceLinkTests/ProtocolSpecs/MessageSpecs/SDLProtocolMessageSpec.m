@@ -40,11 +40,11 @@ describe(@"MessageWithHeader Tests", ^ {
 
 describe(@"DetermineVersion Tests", ^ {
     it(@"Should return the correct version", ^ {
-        const char bytesV1[8] = {0x10 | SDLFrameType_First, SDLServiceType_BulkData, SDLFrameData_StartSessionACK, 0x5E, 0x00, 0x00, 0x00, 0x00};
+        const char bytesV1[8] = {0x10 | SDLFrameTypeFirst, SDLServiceTypeBulkData, SDLFrameInfoStartServiceAck, 0x5E, 0x00, 0x00, 0x00, 0x00};
         NSData* messageV1 = [NSData dataWithBytes:bytesV1 length:8];
         expect(@([SDLProtocolMessage determineVersion:messageV1])).to(equal(@1));
         
-        const char bytesV2[12] = {0x20 | SDLFrameType_First, SDLServiceType_BulkData, SDLFrameData_StartSessionACK, 0x5E, 0x00, 0x00, 0x00, 0x00, 0x44, 0x44, 0x44, 0x44};
+        const char bytesV2[12] = {0x20 | SDLFrameTypeFirst, SDLServiceTypeBulkData, SDLFrameInfoStartServiceAck, 0x5E, 0x00, 0x00, 0x00, 0x00, 0x44, 0x44, 0x44, 0x44};
         NSData* messageV2 = [NSData dataWithBytes:bytesV2 length:12];
         expect(@([SDLProtocolMessage determineVersion:messageV2])).to(equal(@2));
     });
@@ -57,7 +57,7 @@ describe(@"Data tests", ^ {
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         
         id headerMock = OCMPartialMock(testHeader);
-        const char headerData[12] = {0x20 | SDLFrameType_First, SDLServiceType_BulkData, SDLFrameData_StartSessionACK, 0x5E, 0x0E, 0x00, 0x00, strlen("Test Data"), 0x65, 0x22, 0x41, 0x38};
+        const char headerData[12] = {0x20 | SDLFrameTypeFirst, SDLServiceTypeBulkData, SDLFrameInfoStartServiceAck, 0x5E, 0x0E, 0x00, 0x00, strlen("Test Data"), 0x65, 0x22, 0x41, 0x38};
         [[[headerMock stub] andReturn:[NSData dataWithBytes:headerData length:12]] data];
         
         testMessage.header = testHeader;

@@ -18,7 +18,7 @@ QuickSpecBegin(SDLV2ProtocolMessageSpec)
 
 describe(@"RPCDictionary Tests", ^ {
     it(@"Should return the correct dictionary", ^ {
-        SDLServiceType serviceType = SDLServiceType_RPC;
+        SDLServiceType serviceType = SDLServiceTypeRPC;
         
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         id headerMock = OCMPartialMock(testHeader);
