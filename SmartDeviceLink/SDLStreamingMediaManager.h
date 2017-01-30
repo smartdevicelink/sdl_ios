@@ -72,6 +72,11 @@ extern NSString *const SDLAudioStreamDidStopNotification;
  *  Whether or not the audio session is encrypted. This may be different than the requestedEncryptionType.
  */
 @property (assign, nonatomic, readonly, getter=isAudioEncrypted) BOOL audioEncrypted;
+    
+/**
+ *  Whether or not the video stream is paused due to either the application being backgrounded, the HMI state being either NONE or BACKGROUND, or the video stream not being ready.
+ */
+@property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
 /**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.

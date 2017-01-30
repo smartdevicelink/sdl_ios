@@ -161,7 +161,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     if (!self.isVideoConnected) {
         [SDLDebugTool logInfo:@"Video streaming is not ready to send video data"];
         return NO;
-    } else if ([self.appStateMachine isCurrentState:SDLAppStateBackground]) {
+    } else if (!self.isAppStateVideoStreamCapable) {
         [SDLDebugTool logInfo:@"App state must be in the foreground to stream."];
         return NO;
     } else if (!self.isHmiStateVideoStreamCapable) {
@@ -192,6 +192,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 - (BOOL)isVideoConnected {
     return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady];
+}
+    
+- (BOOL)isVideoStreamingPaused {
+    return !(self.isVideoConnected && self.isHmiStateVideoStreamCapable && self.isAppStateVideoStreamCapable);
 }
 
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
