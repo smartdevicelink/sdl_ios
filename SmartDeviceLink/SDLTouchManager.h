@@ -9,12 +9,22 @@
 #import "SDLTouchManagerDelegate.h"
 #import <UIKit/UIKit.h>
 #import "SDLProxyListener.h"
+#import "SDLTouch.h"
+#import "SDLTouchType.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 
 @interface SDLTouchManager : NSObject
 
 @property (nonatomic, weak, nullable) id<SDLTouchManagerDelegate> touchEventDelegate;
+
+/**
+ *  @abstract
+ *      Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.
+ */
+@property (copy, nonatomic, nullable) SDLTouchEventHandler touchEventHandler;
 
 /**
  *  @abstract

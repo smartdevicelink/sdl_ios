@@ -102,7 +102,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 #pragma mark - SDLDidReceiveTouchEventNotification
 
 - (void)onTouchEvent:(SDLRPCNotificationNotification *)notification {
-    if (!self.isTouchEnabled) {
+    if (!self.isTouchEnabled || (!self.touchEventHandler && !self.touchEventDelegate)) {
         return;
     }
     
@@ -112,10 +112,19 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     
     SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
     
+    SDLTouchType touchType = onTouchEvent.type;
     SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
 
     SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
 
+    if (self.touchEventHandler) {
+        self.touchEventHandler(touch, touchType);
+    }
+    
+    if (!self.touchEventDelegate) {
+        return;
+    }
+    
     if (touch.identifier > MaximumNumberOfTouches) {
         return;
     }
