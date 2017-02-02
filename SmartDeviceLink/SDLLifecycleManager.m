@@ -466,7 +466,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
+        [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    }
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
