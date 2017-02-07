@@ -164,7 +164,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (nullable SDLStreamingMediaManager *)streamingMediaManager {
     if (_streamingMediaManager == nil) {
         if (self.displayCapabilities == nil) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"SDLStreamingMediaManager must be accessed only after a successful RegisterAppInterfaceResponse" userInfo:nil];
+            return nil;
         }
         _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
         [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
