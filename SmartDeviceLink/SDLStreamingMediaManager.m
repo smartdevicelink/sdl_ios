@@ -178,9 +178,9 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     }
     
     if (self.isAudioEncrypted) {
-        [self.protocol sendEncryptedRawData:audioData onService:SDLServiceType_Audio];
+        [self.protocol sendEncryptedRawData:audioData onService:SDLServiceTypeAudio];
     } else {
-        [self.protocol sendRawData:audioData withServiceType:SDLServiceType_Audio];
+        [self.protocol sendRawData:audioData withServiceType:SDLServiceTypeAudio];
     }
     return YES;
 }
@@ -280,7 +280,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     self.shouldRestartVideoStream = NO;
     
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
-        [self.protocol startSecureServiceWithType:SDLServiceType_Video completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail!!
             if (error) {
                 [SDLDebugTool logFormat:@"TLS Setup Error: %@", error];
@@ -288,7 +288,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
             }
         }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceType_Video];
+        [self.protocol startServiceWithType:SDLServiceTypeVideo];
     }
 }
 
@@ -308,7 +308,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)didEnterStateVideoStreamShuttingDown {
-    [self.protocol endServiceWithType:SDLServiceType_Video];
+    [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
 #pragma mark Audio
@@ -329,7 +329,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 - (void)didEnterStateAudioStreamStarting {
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
-        [self.protocol startSecureServiceWithType:SDLServiceType_Audio completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail!!
             if (error) {
                 [SDLDebugTool logFormat:@"TLS Setup Error: %@", error];
@@ -337,7 +337,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
             }
         }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceType_Audio];
+        [self.protocol startServiceWithType:SDLServiceTypeAudio];
     }
 }
 
@@ -346,18 +346,18 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 }
 
 - (void)didEnterStateAudioStreamShuttingDown {
-    [self.protocol endServiceWithType:SDLServiceType_Audio];
+    [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
 #pragma mark - SDLProtocolListener
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
-        case SDLServiceType_Audio: {
+        case SDLServiceTypeAudio: {
             _audioEncrypted = header.encrypted;
             
             [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
         } break;
-        case SDLServiceType_Video: {
+        case SDLServiceTypeVideo: {
             _videoEncrypted = header.encrypted;
             
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
@@ -385,9 +385,9 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
     
     if (self.isHmiStateVideoStreamCapable && capableVideoStreamState) {
         if (self.isVideoEncrypted) {
-            [self.protocol sendEncryptedRawData:encodedVideo onService:SDLServiceType_Video];
+            [self.protocol sendEncryptedRawData:encodedVideo onService:SDLServiceTypeVideo];
         } else {
-            [self.protocol sendRawData:encodedVideo withServiceType:SDLServiceType_Video];
+            [self.protocol sendRawData:encodedVideo withServiceType:SDLServiceTypeVideo];
         }
     }
 }
@@ -498,10 +498,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 - (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
     switch (serviceType) {
-        case SDLServiceType_Audio:
+        case SDLServiceTypeAudio:
             [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
             break;
-        case SDLServiceType_Video:
+        case SDLServiceTypeVideo:
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
             break;
         default:
