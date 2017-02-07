@@ -377,6 +377,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.compressionSession != NULL) {
         VTCompressionSessionInvalidate(self.compressionSession);
         CFRelease(self.compressionSession);
+        self.compressionSession = NULL;
     }
 }
 
