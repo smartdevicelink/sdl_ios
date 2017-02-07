@@ -86,6 +86,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _configuration = configuration;
     _delegate = delegate;
 
+    // Logging
+    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
+
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateStopped states:[self.class sdl_stateTransitionDictionary]];
     _lastCorrelationId = 0;
@@ -98,6 +101,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
 
+    // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidDisconnect) name:SDLTransportDidDisconnect object:_notificationDispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:_notificationDispatcher];
@@ -149,9 +153,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateStarted {
-    // Set up our logging capabilities based on the config
-    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
-    
     // Start up the internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -404,8 +405,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-+ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
-    [SDLDebugTool disable];
++ (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
+    if (logFlags == SDLLogOutputNone) {
+        [SDLDebugTool disable];
+        return;
+    }
 
     if ((logFlags & SDLLogOutputConsole) == SDLLogOutputConsole) {
         [SDLDebugTool enable];
@@ -446,7 +450,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
+        [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    }
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
