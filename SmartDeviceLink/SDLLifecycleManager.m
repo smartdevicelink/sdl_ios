@@ -450,7 +450,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
+    if (![oldHMILevel isEqualToString:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
 }
