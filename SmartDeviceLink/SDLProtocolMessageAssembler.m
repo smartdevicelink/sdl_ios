@@ -39,12 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
     // Determine which frame it is and save it.
     // Note: frames are numbered 1,2,3, ..., 0
     // Always 0 for last frame.
-    if (message.header.frameType == SDLFrameType_First) {
+    if (message.header.frameType == SDLFrameTypeFirst) {
         // If it's the first-frame, extract the meta-data
         self.expectedBytes = NSSwapBigIntToHost(((UInt32 *)message.payload.bytes)[0]);
         self.frameCount = NSSwapBigIntToHost(((UInt32 *)message.payload.bytes)[1]);
         self.parts[@"firstframe"] = message.payload;
-    } else if (message.header.frameType == SDLFrameType_Consecutive) {
+    } else if (message.header.frameType == SDLFrameTypeConsecutive) {
         // Save the frame w/ frame# as the key
         NSInteger frameNumber = message.header.frameData;
         NSNumber *frameNumberObj = @(frameNumber);
@@ -60,8 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Create the header
         SDLProtocolHeader *header = message.header.copy;
-        header.frameType = SDLFrameType_Single;
-        header.frameData = SDLFrameData_SingleFrame;
+        header.frameType = SDLFrameTypeSingle;
+        header.frameData = SDLFrameInfoSingleFrame;
 
 
         // Create the payload

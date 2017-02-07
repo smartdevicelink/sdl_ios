@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
     [description appendString:self.header.description];
 
     // If it's an RPC, provide greater detail
-    if (((self.header.serviceType == SDLServiceType_RPC) || (self.header.serviceType == SDLServiceType_BulkData)) && (self.header.frameType == SDLFrameType_Single)) {
+    if (((self.header.serviceType == SDLServiceTypeRPC) || (self.header.serviceType == SDLServiceTypeBulkData)) && (self.header.frameType == SDLFrameTypeSingle)) {
         // version of RPC Message determines how we access the info.
         if (self.header.version >= 2) {
             SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];

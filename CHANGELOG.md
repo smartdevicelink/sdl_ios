@@ -1,3 +1,13 @@
+# 4.5.2 Release Notes
+### Bug Fixes
+* Fixed unhandled Register App Interface Response warnings causing the manager to disconnect.
+* Fixed `SDLManager stop` not actually stopping SDL.
+* Fixed `SDLDebugTool` resetting its logs on disconnection.
+* Fixed `SDLManager` auto-reconnection sometimes causing a crash.
+
+### Example Project
+* Connect / Disconnect button appearance fixed.
+
 # 4.5.1 Release Notes
 ### Bug Fixes
 * Fixed large file transfers not properly setting their offset.
