@@ -256,7 +256,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_group_leave(managerGroup);
     }];
     
-    dispatch_group_enter(managerGroup);
+
+    if (self.streamManager) {
+        dispatch_group_enter(managerGroup);
+    }
+    
     __weak typeof(self) weakSelf = self;
     [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
