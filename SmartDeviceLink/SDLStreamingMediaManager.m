@@ -300,6 +300,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
         if (error) {
             [SDLDebugTool logFormat:@"Encountered error creating video encoder: %@", error.localizedDescription];
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+            return;
         }
     }
     
