@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     if (status != noErr) {
         // TODO: Log the error
-        if (*error != nil) {
+        if (!*error) {
             *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
         }
         
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
     CFDictionaryRef supportedProperties;
     status = VTSessionCopySupportedPropertyDictionary(self.compressionSession, &supportedProperties);
     if (status != noErr) {
-        if (*error != nil) {
+        if (!*error) {
             *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
         }
         
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     for (NSString *key in videoEncoderKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
-            if (*error != nil) {
+            if (!*error) {
                 NSString *description = [NSString stringWithFormat:@"\"%@\" is not a supported key.", key];
                 *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description}];
             }
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
         
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
-            if (*error != nil) {
+            if (!*error) {
                 *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
             }
             
