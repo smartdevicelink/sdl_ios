@@ -919,6 +919,7 @@
 		DA9F7EB61DCC086A00ACAE48 /* SDLOasisAddressSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */; };
 		DAA41D551DF66B2000BC7337 /* SDLVideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */; };
 		DAA41D561DF66B2000BC7337 /* SDLVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */; };
+		DABB62171E4A900C0034C567 /* SDLVideoEncoderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DABB62161E4A900C0034C567 /* SDLVideoEncoderSpec.m */; };
 		DAC572571D1067270004288B /* SDLTouchManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572551D1067270004288B /* SDLTouchManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAC572581D1067270004288B /* SDLTouchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572561D1067270004288B /* SDLTouchManager.m */; };
 		DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572591D10B81E0004288B /* SDLTouch.m */; };
@@ -1934,6 +1935,7 @@
 		DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOasisAddressSpec.m; sourceTree = "<group>"; };
 		DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoEncoder.h; sourceTree = "<group>"; };
 		DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoEncoder.m; sourceTree = "<group>"; };
+		DABB62161E4A900C0034C567 /* SDLVideoEncoderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoEncoderSpec.m; sourceTree = "<group>"; };
 		DAC572551D1067270004288B /* SDLTouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchManager.h; sourceTree = "<group>"; };
 		DAC572561D1067270004288B /* SDLTouchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManager.m; sourceTree = "<group>"; };
 		DAC572591D10B81E0004288B /* SDLTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouch.m; sourceTree = "<group>"; };
@@ -3546,6 +3548,7 @@
 		5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				DABB62151E4A8FF20034C567 /* Video Encoding */,
 				DA1166D71D14601C00438CEA /* Touches */,
 				5DEE55BE1B8509A5004F0D0F /* HTTP Connection */,
 				5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */,
@@ -3716,6 +3719,14 @@
 			children = (
 				DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */,
 				DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */,
+			);
+			name = "Video Encoding";
+			sourceTree = "<group>";
+		};
+		DABB62151E4A8FF20034C567 /* Video Encoding */ = {
+			isa = PBXGroup;
+			children = (
+				DABB62161E4A900C0034C567 /* SDLVideoEncoderSpec.m */,
 			);
 			name = "Video Encoding";
 			sourceTree = "<group>";
@@ -4595,6 +4606,7 @@
 				1680B11A1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m in Sources */,
 				1680B1151A9CD7AD00DBD79E /* SDLV2ProtocolHeaderSpec.m in Sources */,
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
+				DABB62171E4A900C0034C567 /* SDLVideoEncoderSpec.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
 				162E83871A9BDE8B00906325 /* SDLPermissionItemSpec.m in Sources */,
 				162E82E31A9BDE8B00906325 /* SDLIgnitionStatusSpec.m in Sources */,
