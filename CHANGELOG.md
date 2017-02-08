@@ -1,3 +1,8 @@
+# 4.5.3 Release Notes
+### Bug Fixes
+* `SDLManager`'s `delegate` method `hmiLevel:didChangeToLevel:` now only triggers when the HMI level changes, instead of whenever an `onHMIStatus` is received.
+* Fixed a few crashes in `SDLStreamingMediaManager` for navigation video streaming.
+
 # 4.5.2 Release Notes
 ### Bug Fixes
 * Fixed unhandled Register App Interface Response warnings causing the manager to disconnect.
