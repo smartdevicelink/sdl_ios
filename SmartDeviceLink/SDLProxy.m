@@ -347,6 +347,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestResponse:newMessage];
     }
 
+    // fixes #528
     if ([functionName isEqualToString:@"OnTouchEvent"]) {
         [self handleTouchEventResponkse:newMessage];
         return;
