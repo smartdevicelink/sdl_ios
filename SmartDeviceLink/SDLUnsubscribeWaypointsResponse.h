@@ -9,8 +9,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-__deprecated_msg("Use SDLUnsubscribeWayPointsResponse instead")
-@interface SDLUnsubscribeWaypointsResponse : SDLUnsubscribeWayPointsResponse
-@end
-
 NS_ASSUME_NONNULL_END

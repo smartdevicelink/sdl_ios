@@ -38,8 +38,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation SDLGetWaypoints
-
-@end
-
 NS_ASSUME_NONNULL_END
