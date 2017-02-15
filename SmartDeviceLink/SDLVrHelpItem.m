@@ -2,7 +2,7 @@
 //
 
 
-#import "SDLVRHelpItem.h"
+#import "SDLVrHelpItem.h"
 
 #import "SDLImage.h"
 #import "SDLNames.h"

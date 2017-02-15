@@ -16,7 +16,7 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLSyncMsgVersion.h"
-#import "SDLVRCapabilities.h"
+#import "SDLVrCapabilities.h"
 #import "SDLVehicleType.h"
 
 

@@ -9,7 +9,7 @@
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLTTSChunkFactory.h"
-#import "SDLVRHelpItem.h"
+#import "SDLVrHelpItem.h"
 
 static UInt16 const SDLDefaultTimeout = 10000;
 
