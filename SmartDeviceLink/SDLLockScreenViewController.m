@@ -164,19 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (UIImage *)sdl_imageWithName:(NSString *)name {
-    UIImage* image = nil;
-    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        NSString *bundlePath = [[NSBundle sdlBundle] bundlePath];
-        NSInteger deviceScale = [[UIScreen mainScreen] scale];
-        // We assume we are only dealing with PNGs.
-        NSString *fileName = [NSString stringWithFormat:@"%@%li.png", name, (long)deviceScale];
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
-        NSData *imageData = [NSData dataWithContentsOfFile:fullPath];
-        image = [UIImage imageWithData:imageData];
-    } else {
-        image = [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
-    
+    UIImage* image = [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 

@@ -128,13 +128,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
-    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
-        startBlock(NO, NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
-
-        return;
-    }
-
     self.videoStartBlock = [startBlock copy];
     self.videoSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
