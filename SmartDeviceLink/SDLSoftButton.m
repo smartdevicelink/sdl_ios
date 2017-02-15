@@ -87,6 +87,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameSystemAction];
 }
 
+-(id)copyWithZone:(nullable NSZone *)zone {
+    SDLSoftButton *newButton = [super copyWithZone:zone];
+    newButton->_handler = self.handler;
+
+    return newButton;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
