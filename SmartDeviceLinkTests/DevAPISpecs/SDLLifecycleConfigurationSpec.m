@@ -38,6 +38,8 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
             expect(testConfig.resumeHash).to(beNil());
             expect(testConfig.securityManagers).to(beNil());
+            expect(@(testConfig.streamingEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
+            expect(testConfig.videoEncoderSettings).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
@@ -46,6 +48,8 @@ describe(@"a lifecycle configuration", ^{
             __block NSArray<SDLTTSChunk *> *someTTSName = nil;
             __block NSArray<NSString *> *someSynonyms = nil;
             __block NSString *someResumeHashString = nil;
+            __block SDLStreamingEncryptionFlag someEncryptionFlag = SDLStreamingEncryptionFlagNone;
+            __block NSDictionary<NSString *, id> *someVideoEncoderSettings = nil;
             
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
@@ -56,6 +60,9 @@ describe(@"a lifecycle configuration", ^{
                 someShortAppName = @"Short Name";
                 someSynonyms = @[@"Test 1", @"Test 2", @"Test 3", @"Test 4"];
                 someResumeHashString = @"testing";
+                someVideoEncoderSettings = @{
+                                             (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
+                                             };
                 
                 testConfig.appType = SDLAppHMITypeMedia;
                 testConfig.language = SDLLanguageArSa;
@@ -64,6 +71,9 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.ttsName = someTTSName;
                 testConfig.voiceRecognitionCommandNames = someSynonyms;
                 testConfig.resumeHash = someResumeHashString;
+                testConfig.streamingEncryption =
+                testConfig.streamingEncryption = someEncryptionFlag;
+                testConfig.videoEncoderSettings = someVideoEncoderSettings;
             });
             
             it(@"should have properly set properties", ^{
@@ -82,6 +92,8 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
                 expect(testConfig.resumeHash).to(match(someResumeHashString));
                 expect(testConfig.securityManagers).to(beNil());
+                expect(@(testConfig.streamingEncryption)).to(equal(@(someEncryptionFlag)));
+                expect(testConfig.videoEncoderSettings).to(equal(someVideoEncoderSettings));
             });
         });
     });
@@ -115,6 +127,8 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
             expect(testConfig.resumeHash).to(beNil());
             expect(testConfig.securityManagers).to(beNil());
+            expect(@(testConfig.streamingEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
+            expect(testConfig.videoEncoderSettings).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
@@ -123,6 +137,8 @@ describe(@"a lifecycle configuration", ^{
             __block NSArray<SDLTTSChunk *> *someTTSName = nil;
             __block NSArray<NSString *> *someSynonyms = nil;
             __block NSString *someResumeHashString = nil;
+            __block SDLStreamingEncryptionFlag someEncryptionFlag = SDLStreamingEncryptionFlagNone;
+            __block NSDictionary<NSString *, id> *someVideoEncoderSettings = nil;
             
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
@@ -132,6 +148,9 @@ describe(@"a lifecycle configuration", ^{
                 someShortAppName = @"Short Name 2";
                 someTTSName = @[someTTSChunk];
                 someSynonyms = @[@"Test 1", @"Test 2"];
+                someVideoEncoderSettings = @{
+                                             (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
+                                             };
                 
                 testConfig.appType = SDLAppHMITypeMedia;
                 testConfig.language = SDLLanguageArSa;
@@ -140,6 +159,8 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.ttsName = someTTSName;
                 testConfig.voiceRecognitionCommandNames = someSynonyms;
                 testConfig.resumeHash = someResumeHashString;
+                testConfig.streamingEncryption = someEncryptionFlag;
+                testConfig.videoEncoderSettings = someVideoEncoderSettings;
             });
             
             it(@"should have properly set properties", ^{
@@ -157,6 +178,8 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
                 expect(testConfig.securityManagers).to(beNil());
+                expect(@(testConfig.streamingEncryption)).to(equal(@(someEncryptionFlag)));
+                expect(testConfig.videoEncoderSettings).to(equal(someVideoEncoderSettings));
             });
         });
     });
