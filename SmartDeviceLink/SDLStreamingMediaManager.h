@@ -119,7 +119,7 @@ extern NSString *const SDLAudioStreamDidStopNotification;
  *
  *  @param completionHandler The block to be called when the manager's setup is complete.
  */
-- (void)startWithProtocol:(nonnull SDLAbstractProtocol*)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
+- (void)startWithProtocol:(SDLAbstractProtocol*)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
 
 /**
  *  Stop the manager. This method is used internally.
@@ -133,7 +133,7 @@ extern NSString *const SDLAudioStreamDidStopNotification;
  *
  *  @return Whether or not the data was successfully encoded and sent.
  */
-- (BOOL)sendVideoData:(CV_NONNULL CVImageBufferRef)imageBuffer;
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer;
 
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
@@ -142,7 +142,7 @@ extern NSString *const SDLAudioStreamDidStopNotification;
  *
  *  @return Whether or not the data was successfully sent.
  */
-- (BOOL)sendAudioData:(nonnull NSData *)audioData;
+- (BOOL)sendAudioData:(NSData *)audioData;
 
 
 @end
