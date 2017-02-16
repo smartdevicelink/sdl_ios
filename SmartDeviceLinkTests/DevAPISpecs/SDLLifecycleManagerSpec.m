@@ -19,6 +19,7 @@
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
+#import "SDLProtocol.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResult.h"
@@ -61,23 +62,28 @@ describe(@"a lifecycle manager", ^{
     __block SDLConfiguration *testConfig = nil;
     
     __block id managerDelegateMock = OCMProtocolMock(@protocol(SDLManagerDelegate));
+    __block id protocolMock = OCMClassMock([SDLAbstractProtocol class]);
     __block id proxyBuilderClassMock = OCMStrictClassMock([SDLProxyFactory class]);
     __block id proxyMock = OCMClassMock([SDLProxy class]);
     __block id lockScreenManagerMock = OCMClassMock([SDLLockScreenManager class]);
     __block id fileManagerMock = OCMClassMock([SDLFileManager class]);
     __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
+    __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
     
     beforeEach(^{
         OCMStub([proxyBuilderClassMock buildSDLProxyWithListener:[OCMArg any]]).andReturn(proxyMock);
+        OCMStub([(SDLProxy*)proxyMock protocol]).andReturn(protocolMock);
         
         SDLLifecycleConfiguration *testLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test App" appId:@"Test Id"];
         testLifecycleConfig.shortAppName = @"Short Name";
+        testLifecycleConfig.appType = SDLAppHMITypeNavigation;
         
         testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration]];
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:managerDelegateMock];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
+        testManager.streamManager = streamingManagerMock;
     });
     
     it(@"should initialize properties", ^{
@@ -87,7 +93,7 @@ describe(@"a lifecycle manager", ^{
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(testManager.fileManager).toNot(beNil());
         expect(testManager.permissionManager).toNot(beNil());
-        expect(testManager.streamManager).to(beNil());
+        expect(testManager.streamManager).toNot(beNil());
         expect(testManager.proxy).to(beNil());
         expect(testManager.registerResponse).to(beNil());
         expect(testManager.lockScreenManager).toNot(beNil());
@@ -222,11 +228,13 @@ describe(@"a lifecycle manager", ^{
             describe(@"after receiving a register app interface response", ^{
                 __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
+                __block NSError *streamingManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 
                 beforeEach(^{
                     OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
+                    OCMStub([streamingManagerMock startWithProtocol:protocolMock completionHandler:([OCMArg invokeBlockWithArgs:@(YES), streamingManagerStartError, nil])]);
                     
                     // Send an RAI response to move the lifecycle forward
                     [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
@@ -238,6 +246,7 @@ describe(@"a lifecycle manager", ^{
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
+                    OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any] completionHandler:[OCMArg any]]);
                 });
                 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });

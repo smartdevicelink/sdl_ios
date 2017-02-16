@@ -63,7 +63,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
-@property (strong, nonatomic, readwrite) SDLStreamingMediaManager* streamManager;
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
