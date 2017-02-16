@@ -101,8 +101,6 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 /**
  *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session. This will not use encryption.
  *
- *  @warning If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).
- *
  *  @param startBlock A block that will be called with the result of attempting to start a video session
  */
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
