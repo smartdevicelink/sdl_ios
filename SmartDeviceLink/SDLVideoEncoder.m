@@ -12,6 +12,8 @@
 
 NSString *const SDLErrorDomainVideoEncoder = @"com.sdl.videoEncoder";
 
+static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
+
 @interface SDLVideoEncoder ()
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
@@ -26,6 +28,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoEncoder
 
++ (void)initialize {
+    if (self != [SDLVideoEncoder class]) {
+        return;
+    }
+    
+    _defaultVideoEncoderSettings = @{
+                                     (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
+                                     (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES
+                                     };
+}
+
 - (instancetype)initWithDimensions:(CGSize)dimensions delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError * _Nullable __autoreleasing *)error {
     return [self initWithDimensions:dimensions properties:nil delegate:delegate error:error];
 }
@@ -38,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _compressionSession = NULL;
     _currentFrameNumber = 0;
-    _videoEncoderSettings = properties ? properties : self.defaultVideoEncoderSettings;
+    _videoEncoderSettings = properties ? properties : self.class.defaultVideoEncoderSettings;
     
     _delegate = delegate;
     
@@ -117,15 +130,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Public
 #pragma mark Getters
-- (NSDictionary<NSString *, id> *)defaultVideoEncoderSettings {
-    static NSDictionary<NSString *, id> *defaultVideoEncoderSettings = nil;
-    if (defaultVideoEncoderSettings == nil) {
-        defaultVideoEncoderSettings = @{
-                                        (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
-                                        (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES
-                                        };
-    }
-    return defaultVideoEncoderSettings;
++ (NSDictionary<NSString *, id> *)defaultVideoEncoderSettings {
+    return _defaultVideoEncoderSettings;
 }
 
 - (CVPixelBufferPoolRef _Nullable)pixelBufferPool {
@@ -142,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (videoEncoderSettings) {
         _videoEncoderSettings = videoEncoderSettings;
     } else {
-        _videoEncoderSettings = self.defaultVideoEncoderSettings;
+        _videoEncoderSettings = self.class.defaultVideoEncoderSettings;
     }
 }
 
