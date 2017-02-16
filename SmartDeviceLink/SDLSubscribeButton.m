@@ -48,6 +48,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameButtonName];
 }
 
+-(id)copyWithZone:(nullable NSZone *)zone {
+    SDLSubscribeButton *newButton = [super copyWithZone:zone];
+    newButton->_handler = self.handler;
+
+    return newButton;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

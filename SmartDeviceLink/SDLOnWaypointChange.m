@@ -27,8 +27,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation SDLOnWaypointChange
-
-@end
-
 NS_ASSUME_NONNULL_END

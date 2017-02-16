@@ -22,11 +22,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-NS_ASSUME_NONNULL_BEGIN
-
-__deprecated_msg("Use SDLGetWayPoints instead")
-    @interface SDLGetWaypoints : SDLGetWayPoints
-@end
-
-NS_ASSUME_NONNULL_END

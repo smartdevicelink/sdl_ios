@@ -20,8 +20,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-__deprecated_msg("Use SDLGetWayPointsResponse instead")
-    @interface SDLGetWaypointsResponse : SDLGetWayPointsResponse
-@end
-
 NS_ASSUME_NONNULL_END
