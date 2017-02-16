@@ -26,12 +26,12 @@ describe(@"a video encoder", ^{
     context(@"if using default video encoder settings", ^{
         
         beforeEach(^{
-            testVideoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:testSize delegate:videoEncoderDelegateMock error:&testError];
+            testVideoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:testSize properties:SDLVideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
         });
         
         it(@"should initialize properties", ^{
             expect(testVideoEncoder).toNot(beNil());
-            expect(testVideoEncoder.videoEncoderSettings).to(equal(testVideoEncoder.defaultVideoEncoderSettings));
+            expect(testVideoEncoder.videoEncoderSettings).to(equal(SDLVideoEncoder.defaultVideoEncoderSettings));
             expect(@(testVideoEncoder.pixelBufferPool == NULL)).to(equal(@NO));
             expect(testError).to(beNil());
             
