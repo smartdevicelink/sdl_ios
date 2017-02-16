@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRPCStruct : NSObject {
+@interface SDLRPCStruct : NSObject <NSCopying> {
     NSMutableDictionary<NSString *, id> *store;
 }
 

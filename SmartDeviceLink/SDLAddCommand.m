@@ -100,6 +100,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameCommandIcon ofClass:SDLImage.class];
 }
 
+-(id)copyWithZone:(nullable NSZone *)zone {
+    SDLAddCommand *newCommand = [super copyWithZone:zone];
+    newCommand->_handler = self.handler;
+
+    return newCommand;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

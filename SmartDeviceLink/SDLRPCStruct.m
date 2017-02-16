@@ -75,6 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
     return ret;
 }
 
+-(id)copyWithZone:(nullable NSZone *)zone {
+    SDLRPCStruct *newStruct = [[[self class] allocWithZone:zone] init];
+    newStruct->store = [self->store copy];
+
+    return newStruct;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
