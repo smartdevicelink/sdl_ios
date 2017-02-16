@@ -19,11 +19,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-NS_ASSUME_NONNULL_BEGIN
-
-@implementation SDLUnsubscribeWaypoints
-
-@end
-
-NS_ASSUME_NONNULL_END
