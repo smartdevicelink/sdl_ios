@@ -9,6 +9,7 @@
 #import "SDLLifecycleConfiguration.h"
 
 #import "SDLFile.h"
+#import "SDLVideoEncoder.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;
@@ -112,6 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_shortAppName = _shortAppName;
     newConfig->_ttsName = _ttsName;
     newConfig->_voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
+    newConfig->_videoEncoderSettings = _videoEncoderSettings;
 
     return newConfig;
 }

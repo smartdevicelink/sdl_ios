@@ -78,6 +78,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 
 @property (assign, nonatomic) BOOL shouldRestartVideoStream;
 
+@property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
+
 @end
 
 
@@ -87,10 +89,10 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt];
+    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption {
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
     self = [super init];
     if (!self) {
         return nil;
@@ -100,6 +102,8 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         return nil;
     }
+    
+    _videoEncoderSettings = videoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
     
     _requestedEncryptionType = encryption;
     
@@ -295,7 +299,7 @@ NSString *const SDLAudioStreamDidStopNotification = @"com.sdl.audioStreamDidStop
 - (void)didEnterStateVideoStreamReady {
     if (_videoEncoder == nil) {
         NSError* error = nil;
-        _videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:nil delegate:self error:&error];
+        _videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
     
         if (error) {
             [SDLDebugTool logFormat:@"Encountered error creating video encoder: %@", error.localizedDescription];

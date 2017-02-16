@@ -105,7 +105,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
     if ([configuration.lifecycleConfig.appType isEqualToString:SDLAppHMITypeNavigation]) {
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.lifecycleConfig.streamingEncryption];
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.lifecycleConfig.streamingEncryption videoEncoderSettings:configuration.lifecycleConfig.videoEncoderSettings];
     }
 
     // Notifications

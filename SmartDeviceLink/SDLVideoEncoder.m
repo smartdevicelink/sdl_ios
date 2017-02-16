@@ -39,11 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
                                      };
 }
 
-- (instancetype)initWithDimensions:(CGSize)dimensions delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError * _Nullable __autoreleasing *)error {
-    return [self initWithDimensions:dimensions properties:nil delegate:delegate error:error];
-}
-
-- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *,id> * __nullable)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError * _Nullable __autoreleasing *)error {
+- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *,id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError * _Nullable __autoreleasing *)error {
     self = [super init];
     if (!self) {
         return nil;
@@ -51,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _compressionSession = NULL;
     _currentFrameNumber = 0;
-    _videoEncoderSettings = properties ? properties : self.class.defaultVideoEncoderSettings;
+    _videoEncoderSettings = properties;
     
     _delegate = delegate;
     
@@ -136,20 +132,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CVPixelBufferPoolRef _Nullable)pixelBufferPool {
     return VTCompressionSessionGetPixelBufferPool(self.compressionSession);
-}
-
-#pragma mark - Update video encoder
-- (void)setVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)videoEncoderSettings {
-//    if (self.videoSessionConnected) {
-//        @throw [NSException exceptionWithName:SDLErrorDomainStreamingMediaVideo reason:@"Cannot update video encoder settings while video session is connected." userInfo:nil];
-//        return;
-//    }
-    
-    if (videoEncoderSettings) {
-        _videoEncoderSettings = videoEncoderSettings;
-    } else {
-        _videoEncoderSettings = self.class.defaultVideoEncoderSettings;
-    }
 }
 
 #pragma mark - Private

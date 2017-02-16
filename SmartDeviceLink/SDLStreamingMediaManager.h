@@ -112,7 +112,7 @@ extern NSString *const SDLAudioStreamDidStopNotification;
  *
  *  @return An instance of SDLStreamingMediaManager
  */
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

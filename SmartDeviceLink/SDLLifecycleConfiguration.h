@@ -143,6 +143,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) SDLStreamingEncryptionFlag streamingEncryption;
 
+/**
+ *  Properties to use for applications that utilitze the video encoder for streaming.
+ */
+@property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *videoEncoderSettings;
+
 @end
 
 NS_ASSUME_NONNULL_END

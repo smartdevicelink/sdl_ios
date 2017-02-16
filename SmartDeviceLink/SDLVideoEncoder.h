@@ -33,9 +33,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDimensions:(CGSize)dimensions delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error;
-
-- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *__nullable)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (void)stop;
 
@@ -46,9 +44,8 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 /**
  *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.
  *
- *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
  */
-@property (strong, nonatomic, null_resettable) NSDictionary<NSString *, id> *videoEncoderSettings;
+@property (strong, nonatomic, readonly) NSDictionary<NSString *, id> *videoEncoderSettings;
 
 /**
  *  Provides default video encoder settings used.
