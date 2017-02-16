@@ -42,7 +42,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 @property (nonatomic, weak, nullable) id<SDLVideoEncoderDelegate> delegate;
 
 /**
- *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.
+ *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties.
  *
  */
 @property (strong, nonatomic, readonly) NSDictionary<NSString *, id> *videoEncoderSettings;
