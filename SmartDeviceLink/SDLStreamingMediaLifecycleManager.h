@@ -1,24 +1,54 @@
 //
-//  SDLStreamingDataManager.h
+//  SDLStreamingMediaLifecycleManager.h
 //  SmartDeviceLink-iOS
 //
-//  Created by Joel Fischer on 8/11/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
+//  Created by Muller, Alexander (A.) on 2/16/17.
+//  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <VideoToolbox/VideoToolbox.h>
+@import VideoToolbox;
 
-#import "SDLTouchManager.h"
+#import "SDLProtocolListener.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLStateMachine;
+@class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString SDLAppState;
+extern SDLAppState *const SDLAppStateBackground;
+extern SDLAppState *const SDLAppStateIsResigningActive;
+extern SDLAppState *const SDLAppStateInactive;
+extern SDLAppState *const SDLAppStateIsRegainingActive;
+extern SDLAppState *const SDLAppStateActive;
+
+typedef NSString SDLVideoStreamState;
+extern SDLVideoStreamState *const SDLVideoStreamStateStopped;
+extern SDLVideoStreamState *const SDLVideoStreamStateStarting;
+extern SDLVideoStreamState *const SDLVideoStreamStateReady;
+extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
+
+typedef NSString SDLAudioStreamState;
+extern SDLAudioStreamState *const SDLAudioStreamStateStopped;
+extern SDLAudioStreamState *const SDLAudioStreamStateStarting;
+extern SDLAudioStreamState *const SDLAudioStreamStateReady;
+extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
+
+
 #pragma mark - Interface
 
-@interface SDLStreamingMediaManager : NSObject
+@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener>
+
+@property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
+@property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
+@property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
+
+@property (strong, nonatomic, readonly) SDLAppState *currentAppState;
+@property (strong, nonatomic, readonly) SDLAudioStreamState *currentAudioStreamState;
+@property (strong, nonatomic, readonly) SDLVideoStreamState *currentVideoStreamState;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
@@ -61,6 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  Whether or not the video stream is paused due to either the application being backgrounded, the HMI state being either NONE or BACKGROUND, or the video stream not being ready.
  */
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
+
+
 
 /**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
