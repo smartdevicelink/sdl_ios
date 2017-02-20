@@ -1880,6 +1880,7 @@
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
 		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
+		DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingMediaManagerSpec.m; sourceTree = "<group>"; };
 		DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_down_black.png; sourceTree = "<group>"; };
 		DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@2x.png"; sourceTree = "<group>"; };
 		DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@3x.png"; sourceTree = "<group>"; };
@@ -3179,6 +3180,7 @@
 			isa = PBXGroup;
 			children = (
 				5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */,
+				DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */,
 			);
 			name = ProxySpecs;
 			sourceTree = "<group>";
@@ -4859,6 +4861,7 @@
 				162E83401A9BDE8B00906325 /* SDLSpeakSpec.m in Sources */,
 				5DCF76FC1ACDDB4200BB647B /* SDLSendLocationSpec.m in Sources */,
 				5DB1BCD81D243AA6002FFC37 /* SDLPermissionFilterSpec.m in Sources */,
+				DA661E2C1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m in Sources */,
 				162E83561A9BDE8B00906325 /* SDLGenericResponseSpec.m in Sources */,
 				162E82D51A9BDE8A00906325 /* SDLCompassDirectionSpec.m in Sources */,
 				162E83861A9BDE8B00906325 /* SDLParameterPermissionsSpec.m in Sources */,

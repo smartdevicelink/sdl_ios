@@ -267,9 +267,9 @@ describe(@"the streaming media manager", ^{
                             [NSThread sleepForTimeInterval:0.1];
                         });
                         
-                        it(@"should start both streams", ^{
+                        it(@"should only start the audio stream", ^{
                             expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStarting));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
                         });
                     });
                     

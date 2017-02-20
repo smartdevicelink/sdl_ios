@@ -99,6 +99,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.lockScreenManager).toNot(beNil());
         expect(testManager.notificationDispatcher).toNot(beNil());
         expect(testManager.responseDispatcher).toNot(beNil());
+        expect(testManager.streamManager).toNot(beNil());
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
     });
     
