@@ -44,8 +44,6 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 
 @interface SDLStreamingMediaLifecycleManager () <SDLVideoEncoderDelegate>
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
-
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
 @property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
@@ -55,7 +53,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
-@property (assign, nonatomic) BOOL shouldRestartVideoStream;
+@property (assign, nonatomic, readwrite) BOOL restartVideoStream;
 
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 
@@ -96,7 +94,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     _audioEncrypted = NO;
     _videoEncrypted = NO;
     
-    _currentHMILevel = nil;
+    _hmiLevel = nil;
     
     _screenSize = SDLDefaultScreenSize;
     
@@ -236,12 +234,12 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 - (void)didEnterStateBackground {
-    self.shouldRestartVideoStream = YES;
+    self.restartVideoStream = YES;
 }
 
 - (void)didEnterStateInactive {
     [self.touchManager cancelPendingTouches];
-    self.shouldRestartVideoStream = YES;
+    self.restartVideoStream = YES;
 }
 
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
@@ -278,13 +276,13 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
     
     if (self.shouldRestartVideoStream) {
-        self.shouldRestartVideoStream = NO;
+        self.restartVideoStream = NO;
         [self sdl_startVideoSession];
     }
 }
 
 - (void)didEnterStateVideoStreamStarting {
-    self.shouldRestartVideoStream = NO;
+    self.restartVideoStream = NO;
     
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
@@ -433,8 +431,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
     
-    SDLHMILevel oldHMILevel = [self.currentHMILevel copy];
-    self.currentHMILevel = hmiStatus.hmiLevel;
+    self.hmiLevel = hmiStatus.hmiLevel;
     
     if (self.isHmiStateVideoStreamCapable) {
         [self sdl_startVideoSession];
@@ -466,7 +463,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
     } else {
         [SDLDebugTool logFormat:@"Video Stream State: %@", self.videoStreamStateMachine.currentState];
-        [SDLDebugTool logFormat:@"HMI State: %@", self.currentHMILevel];
+        [SDLDebugTool logFormat:@"HMI State: %@", self.hmiLevel];
         [SDLDebugTool logFormat:@"App State: %@", self.appStateMachine.currentState];
         [SDLDebugTool logFormat:@"Cannot start video stream."];
     }
@@ -526,7 +523,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 - (BOOL)isHmiStateVideoStreamCapable {
-    return [self.currentHMILevel isEqualToString:SDLHMILevelLimited] || [self.currentHMILevel isEqualToString:SDLHMILevelFull];
+    return [self.hmiLevel isEqualToString:SDLHMILevelLimited] || [self.hmiLevel isEqualToString:SDLHMILevelFull];
 }
 
 @end

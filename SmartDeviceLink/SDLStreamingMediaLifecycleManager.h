@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @import VideoToolbox;
 
+#import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
@@ -49,6 +50,10 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 @property (strong, nonatomic, readonly) SDLAppState *currentAppState;
 @property (strong, nonatomic, readonly) SDLAudioStreamState *currentAudioStreamState;
 @property (strong, nonatomic, readonly) SDLVideoStreamState *currentVideoStreamState;
+
+@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+
+@property (assign, nonatomic, readonly, getter=shouldRestartVideoStream) BOOL restartVideoStream;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
