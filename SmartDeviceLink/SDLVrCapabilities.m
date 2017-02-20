@@ -2,7 +2,7 @@
 //
 
 
-#import "SDLVRCapabilities.h"
+#import "SDLVrCapabilities.h"
 
 SDLVRCapabilities *SDLVRCapabilities_TEXT = nil;
 
