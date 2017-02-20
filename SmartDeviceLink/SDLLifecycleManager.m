@@ -260,13 +260,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_group_enter(managerGroup);
     }
     
-    __weak typeof(self) weakSelf = self;
     [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
             [SDLDebugTool logFormat:@"Stream manager was unable to start; error: %@", error];
-        } else {
-            typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf.proxy.protocol.protocolDelegateTable addObject:strongSelf.streamManager];
         }
         
         dispatch_group_leave(managerGroup);

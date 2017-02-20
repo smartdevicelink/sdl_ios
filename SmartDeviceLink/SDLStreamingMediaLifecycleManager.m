@@ -134,6 +134,11 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 
 - (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(void (^)(BOOL, NSError * _Nullable))completionHandler {
     _protocol = protocol;
+    
+    if (![self.protocol.protocolDelegateTable containsObject:self]) {
+        [self.protocol.protocolDelegateTable addObject:self];
+    }
+    
     completionHandler(YES, nil);
 }
 
