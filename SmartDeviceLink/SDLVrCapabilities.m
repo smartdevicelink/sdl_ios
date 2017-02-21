@@ -2,6 +2,6 @@
 //
 
 
-#import "SDLVRCapabilities.h"
+#import "SDLVrCapabilities.h"
 
 SDLVRCapabilities const SDLVRCapabilitiesText = @"TEXT";
