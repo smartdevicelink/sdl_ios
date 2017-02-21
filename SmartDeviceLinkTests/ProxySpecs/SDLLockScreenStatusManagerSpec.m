@@ -122,9 +122,31 @@ describe(@"the lockscreen status manager", ^{
                 beforeEach(^{
                     lockScreenManager.userSelected = YES;
                 });
-                
-                it(@"should return lock screen required", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+
+                context(@"if we do not set the driver distraction state", ^{
+                    it(@"should return lock screen required", ^{
+                        expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                    });
+                });
+
+                context(@"if we set the driver distraction state to false", ^{
+                    beforeEach(^{
+                        lockScreenManager.driverDistracted = NO;
+                    });
+
+                    it(@"should return lock screen optional", ^{
+                        expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OPTIONAL]));
+                    });
+                });
+
+                context(@"if we set the driver distraction state to true", ^{
+                    beforeEach(^{
+                        lockScreenManager.driverDistracted = YES;
+                    });
+
+                    it(@"should return lock screen required", ^{
+                        expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                    });
                 });
             });
             
