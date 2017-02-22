@@ -62,9 +62,11 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
     }
 
     if (![self sdl_canState:self.currentState transitionToState:state]) {
+        NSString *classString = NSStringFromClass([self.target class]);
+        NSString *reasonMessage = [NSString stringWithFormat:@"Invalid state machine transition of %@ occurred from %@ to %@", classString, self.currentState, state];
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"Invalid state machine transition occurred"
-                                     userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: NSStringFromClass([self.target class]),
+                                       reason:reasonMessage
+                                     userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: classString,
                                                 SDLStateMachineExceptionInfoKeyFromState: self.currentState,
                                                 SDLStateMachineExceptionInfoKeyToClass: state}];
     }
