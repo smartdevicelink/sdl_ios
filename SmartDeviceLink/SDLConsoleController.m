@@ -3,7 +3,7 @@
 
 #import "SDLConsoleController.h"
 
-#import "SDLJSONEncoder.h"
+#import "SDLJsonEncoder.h"
 #import "SDLRPCResponse.h"
 
 

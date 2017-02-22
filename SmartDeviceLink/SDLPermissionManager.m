@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPermissionManager ()
 
-@property (copy, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
-@property (copy, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
+@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
 @property (copy, nonatomic, nullable) SDLHMILevel *currentHMILevel;
 
 @end
