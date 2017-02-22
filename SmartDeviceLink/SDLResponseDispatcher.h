@@ -38,17 +38,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Holds a map of command ids and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLAddCommandCommandId *, SDLRPCNotificationHandler> *commandHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLAddCommandCommandId *, SDLRPCCommandNotificationHandler> *commandHandlerMap;
 
 /**
  *  Holds a map of button names and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCNotificationHandler> *buttonHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLSubscribeButtonName *, SDLRPCButtonNotificationHandler> *buttonHandlerMap;
 
 /**
  *  Holds a map of soft button ids and their corresponding blocks.
  */
-@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCNotificationHandler> *customButtonHandlerMap;
+@property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *customButtonHandlerMap;
 
 /**
  *  Create a new response dispatcher.

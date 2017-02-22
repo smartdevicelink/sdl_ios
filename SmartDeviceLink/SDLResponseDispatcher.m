@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_runHandlerForCommand:(NSNotification *)notification {
     SDLOnCommand *onCommandNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    SDLRPCNotificationHandler handler = nil;
+    SDLRPCCommandNotificationHandler handler = nil;
 
     handler = self.commandHandlerMap[onCommandNotification.cmdID];
     if (handler) {
@@ -188,14 +188,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_runHandlerForButton:(NSNotification *)notification {
     __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
 
-    SDLRPCNotificationHandler handler = nil;
+    SDLRPCButtonNotificationHandler handler = nil;
     SDLButtonName name = nil;
     NSNumber *customID = nil;
 
-    if ([rpcNotification isKindOfClass:[SDLOnButtonEvent class]]) {
+    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
         customID = ((SDLOnButtonEvent *)rpcNotification).customButtonID;
-    } else if ([rpcNotification isKindOfClass:[SDLOnButtonPress class]]) {
+    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
@@ -207,7 +207,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (handler) {
-        handler(rpcNotification);
+        if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
+            handler(nil, rpcNotification);
+        } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
+            handler(rpcNotification, nil);
+        }
     }
 }
 

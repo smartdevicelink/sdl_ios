@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCNotificationHandler)handler {
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCButtonNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
