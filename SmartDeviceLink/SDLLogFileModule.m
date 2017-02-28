@@ -1,0 +1,42 @@
+//
+//  SDLLogFileModule.m
+//  SmartDeviceLink-iOS
+//
+//  Created by Joel Fischer on 2/27/17.
+//  Copyright © 2017 smartdevicelink. All rights reserved.
+//
+
+#import "SDLLogFileModule.h"
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+@implementation SDLLogFileModule
+
+- (instancetype)init {
+    NSAssert(NO, @"%s not allowed", __PRETTY_FUNCTION__);
+    return nil;
+}
+
+- (instancetype)initWithName:(NSString *)name files:(NSSet<NSString *> *)files level:(SDLLogLevel)level {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _name = name;
+    _files = files;
+    _logLevel = level;
+
+    return self;
+}
+
+- (instancetype)initWithName:(NSString *)name files:(NSSet<NSString *> *)files {
+    return [self initWithName:name files:files level:SDLLogLevelDefault];
+}
+
+- (BOOL)containsFile:(NSString *)fileName {
+    return [self.files containsObject:fileName];
+}
+
+@end
+
+NS_ASSUME_NONNULL_END
