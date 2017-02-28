@@ -79,11 +79,6 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
         return nil;
     }
     
-    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
-        return nil;
-    }
-    
     _videoEncoderSettings = videoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
     
     _requestedEncryptionType = encryption;
