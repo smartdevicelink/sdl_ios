@@ -2,7 +2,7 @@
 //
 
 
-#import "SDLVRHelpItem.h"
+#import "SDLVrHelpItem.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"

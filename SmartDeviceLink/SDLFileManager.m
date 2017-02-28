@@ -40,7 +40,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 // Remote state
-@property (copy, nonatomic, readwrite) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
+@property (strong, nonatomic, readwrite) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 // Local state

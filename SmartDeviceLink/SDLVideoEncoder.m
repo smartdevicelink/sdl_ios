@@ -143,6 +143,10 @@ void sdl_videoEncoderOutputCallback(void *outputCallbackRefCon, void *sourceFram
         return;
     }
     
+    if (outputCallbackRefCon == NULL || sourceFrameRefCon == NULL || sampleBuffer == NULL) {
+        return;
+    }
+    
     SDLVideoEncoder *encoder = (__bridge SDLVideoEncoder *)sourceFrameRefCon;
     NSData *elementaryStreamData = [encoder.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
     

@@ -9,7 +9,7 @@
 #import "SDLKeyboardProperties.h"
 #import "SDLNames.h"
 #import "SDLTTSChunk.h"
-#import "SDLVRHelpItem.h"
+#import "SDLVrHelpItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
