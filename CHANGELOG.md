@@ -1,3 +1,11 @@
+# 4.5.4 Release Notes
+### Bug Fixes
+* Streaming video will not crash if data is unexpectedly NULL.
+* SDL now compiles on Xcode 8.3.
+* Lockscreen will now appear appropriately when it's remote HMI is in the background.
+* Internal state machines now throw more descriptive exceptions.
+
+
 # 4.5.3 Release Notes
 ### Bug Fixes
 * `SDLManager`'s `delegate` method `hmiLevel:didChangeToLevel:` now only triggers when the HMI level changes, instead of whenever an `onHMIStatus` is received.
