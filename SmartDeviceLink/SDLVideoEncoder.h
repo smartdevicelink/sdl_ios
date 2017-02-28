@@ -13,10 +13,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, SDLVideoEncoderError) {
-    SDLVideoEncoderErrorInvalidOperatingSystemVersion = 0,
-    SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure = 1,
-    SDLVideoEncoderErrorConfigurationAllocationFailure = 2,
-    SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure = 3
+    SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure = 0,
+    SDLVideoEncoderErrorConfigurationAllocationFailure = 1,
+    SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure = 2
 };
 
 extern NSString *const SDLErrorDomainVideoEncoder;
