@@ -89,14 +89,34 @@ static dispatch_queue_t _logQueue = NULL;
     }
 
     self.logModules = configuration.logModules;
-    self.logTargets = configuration.logTargets;
     self.logFilters = configuration.logFilters;
     self.formatType = configuration.formatType;
     self.asynchronous = configuration.isAsynchronous;
     self.errorsAsynchronous = configuration.areErrorsAsynchronous;
     self.globalLogLevel = configuration.globalLogLevel;
 
+    // Start the loggers
+    NSMutableSet<id<SDLLogTarget>> *startedLoggers = [NSMutableSet set];
+    for (id<SDLLogTarget> target in configuration.logTargets) {
+        // If the logger fails setup, discard it, otherwise, keep it
+        if ([target setupLogger]) {
+            [startedLoggers addObject:target];
+        } else {
+            // Because we haven't set up loggers yet, this is necessary
+            NSLog(@"(SDL) Warning: Logger failed to setup: %@", NSStringFromClass(target.class));
+        }
+    }
+    self.logTargets = [startedLoggers copy];
+
     self.started = YES;
+}
+
++ (void)stop {
+
+}
+
+- (void)stop {
+    
 }
 
 
