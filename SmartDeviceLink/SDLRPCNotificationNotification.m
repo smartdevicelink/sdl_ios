@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
     return _userInfo[SDLNotificationUserInfoObject];
 }
 
+- (BOOL)isNotificationKindOfClass:(Class)aClass {
+    NSAssert([self.notification isKindOfClass:aClass], @"A notification was sent with an unanticipated object");
+    return [self.notification isKindOfClass:aClass];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

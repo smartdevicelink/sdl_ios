@@ -30,4 +30,9 @@
     return _userInfo[SDLNotificationUserInfoObject];
 }
 
+- (BOOL)isResponseKindOfClass:(Class)aClass {
+    NSAssert([self.response isKindOfClass:aClass], @"A notification was sent with an unanticipated object");
+    return [self.response isKindOfClass:aClass];
+}
+
 @end
