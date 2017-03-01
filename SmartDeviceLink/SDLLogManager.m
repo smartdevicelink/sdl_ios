@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, strong, nonatomic, readonly) NSDateFormatter *dateFormatter;
 @property (class, assign, nonatomic, readonly) dispatch_queue_t logQueue;
 
-@property (assign, nonatomic, getter=isStarted) BOOL started;
-
 @end
 
 @implementation SDLLogManager
@@ -63,8 +61,6 @@ static dispatch_queue_t _logQueue = NULL;
     _errorsAsynchronous = NO;
     _globalLogLevel = SDLLogLevelError;
 
-    _started = NO;
-
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _dateFormatter = [[NSDateFormatter alloc] init];
@@ -84,10 +80,6 @@ static dispatch_queue_t _logQueue = NULL;
 }
 
 - (void)sdl_startWithConfiguration:(SDLLogConfiguration *)configuration {
-    if (self.isStarted) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"An SDLLogManager cannot be started twice. The sharedManager is automatically started by SDLManager." userInfo:nil];
-    }
-
     self.logModules = configuration.logModules;
     self.logFilters = configuration.logFilters;
     self.formatType = configuration.formatType;
@@ -107,16 +99,6 @@ static dispatch_queue_t _logQueue = NULL;
         }
     }
     self.logTargets = [startedLoggers copy];
-
-    self.started = YES;
-}
-
-+ (void)stop {
-
-}
-
-- (void)stop {
-    
 }
 
 

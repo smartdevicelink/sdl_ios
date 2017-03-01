@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Singleton Methods
 
 + (void)startWithConfiguration:(SDLLogConfiguration *)configuration;
-+ (void)stop;
 
 // This would be used internally to send out a log to the loggers
 + (void)logWithLevel:(SDLLogLevel)level
