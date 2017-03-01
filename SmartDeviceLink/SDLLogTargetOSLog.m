@@ -8,27 +8,62 @@
 
 #import "SDLLogTargetOSLog.h"
 
+#import <os/log.h>
+
 #import "SDLLogModel.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLLogTargetOSLog ()
+
+@property (strong, nonatomic) NSMutableDictionary<NSString *, os_log_t> *clients;
+
+@end
+
+
 @implementation SDLLogTargetOSLog
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _clients = [NSMutableDictionary dictionary];
+
+    return self;
+}
 
 + (id<SDLLogTarget>)logger {
     return [[self alloc] init];
 }
 
 - (BOOL)setupLogger {
-    return YES;
+    // If the iPhone OS is less than 10.0, os_log is not available.
+    NSOperatingSystemVersion osVersion = [NSProcessInfo processInfo].operatingSystemVersion;
+
+    return osVersion.majorVersion >= 10;
 }
 
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog {
+    NSString *moduleName = log.moduleName ? log.moduleName : @"";
+    if (self.clients[moduleName] == nil) {
+        self.clients[moduleName] = os_log_create("com.sdl.log", moduleName.UTF8String);
+    }
 
+    os_log_with_type(self.clients[moduleName], [self oslogLevelForSDLLogLevel:log.level], "%{public}@", log.message);
 }
 
 - (void)teardownLogger {
+    self.clients = [NSMutableDictionary dictionary];
+}
 
+- (os_log_type_t)oslogLevelForSDLLogLevel:(SDLLogLevel)level {
+    switch (level) {
+        case SDLLogLevelVerbose: return OS_LOG_TYPE_DEBUG;
+        case SDLLogLevelDebug: return OS_LOG_TYPE_INFO;
+        case SDLLogLevelWarning: return OS_LOG_TYPE_ERROR;
+        case SDLLogLevelError: return OS_LOG_TYPE_FAULT;
+    }
 }
 
 @end
