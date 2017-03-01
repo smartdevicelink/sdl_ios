@@ -121,11 +121,14 @@ describe(@"A state machine", ^{
             });
             
             it(@"should throw an exception trying to transition incorrectly and nothing should be called", ^{
+                NSString *stateMachineClassString = NSStringFromClass(testStateMachine.class);
+                NSString *targetClassString = NSStringFromClass(testTarget.class);
+                
                 // Side effects, but I can't think of any other way around it.
                 expectAction(^{
                     [testStateMachine transitionToState:thirdState];
-                }).to(raiseException().named(NSInternalInconsistencyException));
-                
+                }).to(raiseException().named(NSInternalInconsistencyException).reason([NSString stringWithFormat:@"Invalid state machine %@ transition of target %@ occurred from %@ to %@", stateMachineClassString, targetClassString, initialState, thirdState]).userInfo(@{@"fromState": initialState, @"toState": thirdState, @"targetClass": targetClassString}));
+                    
                 expect(@([testStateMachine isCurrentState:initialState])).to(equal(@YES));
                 expect(@([testStateMachine isCurrentState:thirdState])).to(equal(@NO));
                 expect(@(willLeaveNotificationCalled)).to(equal(@NO));
@@ -140,5 +143,7 @@ describe(@"A state machine", ^{
         });
     });
 });
+
+// Invalid state machine transition of TestStateMachineTarget occurred from Initial to Third
 
 QuickSpecEnd

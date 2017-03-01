@@ -71,10 +71,17 @@
         return [SDLLockScreenStatus OFF];
     } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel BACKGROUND]]) {
         // App is in the background on the car
-        // The lockscreen depends entirely on if the user selected the app
         if (self.userSelected) {
-            return [SDLLockScreenStatus REQUIRED];
+            // It was user selected
+            if (self.haveDriverDistractionStatus && !self.driverDistracted) {
+                // We have the distraction status, and the driver is not distracted
+                return [SDLLockScreenStatus OPTIONAL];
+            } else {
+                // We don't have the distraction status, and/or the driver is distracted
+                return [SDLLockScreenStatus REQUIRED];
+            }
         } else {
+            // It wasn't user selected
             return [SDLLockScreenStatus OFF];
         }
     } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [self.hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
