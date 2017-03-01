@@ -401,16 +401,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class)class {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
-        return NO;
-    }
-
-    return YES;
-}
-
-+ (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
++ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
     if (logFlags == SDLLogOutputNone) {
         [SDLDebugTool disable];
         return;
@@ -443,7 +434,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![notification isNotificationKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
@@ -461,7 +452,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+    if (![notification isNotificationKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 

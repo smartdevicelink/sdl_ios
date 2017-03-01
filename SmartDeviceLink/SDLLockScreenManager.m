@@ -91,8 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    NSAssert([notification.notification isKindOfClass:[SDLOnLockScreenStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
+    if (![notification isNotificationKindOfClass:[SDLOnLockScreenStatus class]]) {
         return;
     }
 

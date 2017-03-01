@@ -174,13 +174,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDL Notification Observers
 
-- (void)sdl_permissionsDidChange:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnPermissionsChange class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLOnPermissionsChange class]]) {
+- (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
+    if (![notification isNotificationKindOfClass:[SDLOnPermissionsChange class]]) {
         return;
     }
 
-    SDLOnPermissionsChange *onPermissionChange = notification.userInfo[SDLNotificationUserInfoObject];
+    SDLOnPermissionsChange *onPermissionChange = notification.notification;
     NSArray<SDLPermissionItem *> *newPermissionItems = [onPermissionChange.permissionItem copy];
     NSArray<SDLPermissionFilter *> *currentFilters = [self.filters copy];
 
@@ -219,12 +218,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
-    NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![notification isNotificationKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
-    SDLOnHMIStatus *hmiStatus = notification.userInfo[SDLNotificationUserInfoObject];
+    SDLOnHMIStatus *hmiStatus = notification.notification;
 
     SDLHMILevel oldHMILevel = [self.currentHMILevel copy];
     self.currentHMILevel = hmiStatus.hmiLevel;
