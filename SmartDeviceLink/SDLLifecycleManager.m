@@ -111,6 +111,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
+        [SDLDebugTool logFormat:@"Warning: SDL has already been started, this attempt will be ignored."];
+        return;
+    }
+    
     self.readyHandler = [readyHandler copy];
 
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
