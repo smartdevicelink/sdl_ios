@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL canPresent;
 @property (strong, nonatomic, readwrite) SDLLockScreenConfiguration *config;
 @property (strong, nonatomic) id<SDLViewControllerPresentable> presenter;
+@property (strong, nonatomic, nullable) SDLOnLockScreenStatus *lastLockNotification;
 
 @end
 
@@ -44,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStatusDidChange:) name:SDLDidChangeLockScreenStatusNotification object:dispatcher];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenIconReceived:) name:SDLDidReceiveLockScreenIcon object:dispatcher];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
     return self;
 }
@@ -96,28 +98,8 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (self.lockScreenViewController == nil) {
-        return;
-    }
-
-    SDLOnLockScreenStatus *onLockScreenNotification = notification.notification;
-
-    // Present the VC depending on the lock screen status
-    if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
-        if (!self.presenter.presented && self.canPresent) {
-            [self.presenter present];
-        }
-    } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
-        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
-            [self.presenter present];
-        } else if (self.presenter.presented) {
-            [self.presenter dismiss];
-        }
-    } else if ([onLockScreenNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
-        if (self.presenter.presented) {
-            [self.presenter dismiss];
-        }
-    }
+    self.lastLockNotification = notification.notification;
+    [self sdl_checkLockScreen];
 }
 
 - (void)sdl_lockScreenIconReceived:(NSNotification *)notification {
@@ -131,6 +113,36 @@ NS_ASSUME_NONNULL_BEGIN
     // If the VC is our special type, then add the vehicle icon. If they passed in a custom VC, there's no current way to show the vehicle icon. If they're managing it themselves, they can grab the notification themselves.
     if ([self.lockScreenViewController isKindOfClass:[SDLLockScreenViewController class]]) {
         ((SDLLockScreenViewController *)self.lockScreenViewController).vehicleIcon = icon;
+    }
+}
+
+- (void)sdl_appDidBecomeActive:(NSNotification *)notification {
+    [self sdl_checkLockScreen];
+}
+
+
+#pragma mark - Private Helpers
+
+- (void)sdl_checkLockScreen {
+    if (self.lockScreenViewController == nil || self.lastLockNotification == nil) {
+        return;
+    }
+
+    // Present the VC depending on the lock screen status
+    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
+        if (!self.presenter.presented && self.canPresent) {
+            [self.presenter present];
+        }
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
+        if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
+            [self.presenter present];
+        } else if (self.presenter.presented) {
+            [self.presenter dismiss];
+        }
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
+        if (self.presenter.presented) {
+            [self.presenter dismiss];
+        }
     }
 }
 
