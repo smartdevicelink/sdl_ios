@@ -282,7 +282,16 @@ s.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
-'SmartDeviceLink/SDLRPCResponseNotification.h'
+'SmartDeviceLink/SDLRPCResponseNotification.h',
+'SmartDeviceLink/SDLLogTarget.h',
+'SmartDeviceLink/SDLLogTargetASL.h',
+'SmartDeviceLink/SDLLogTargetFile.h',
+'SmartDeviceLink/SDLLogTargetOSLog.h',
+'SmartDeviceLink/SDLLogTargetConsole.h',
+'SmartDeviceLink/SDLLogFileModule.h',
+'SmartDeviceLink/SDLLogFilter.h',
+'SmartDeviceLink/SDLLogConstants.h',
+'SmartDeviceLink/SDLLogConfiguration.h'
 ]
 
 end

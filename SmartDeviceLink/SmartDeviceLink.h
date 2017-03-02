@@ -314,3 +314,14 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 // Notifications
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
+
+// Logger
+#import "SDLLogTarget.h"
+#import "SDLLogTargetASL.h"
+#import "SDLLogTargetFile.h"
+#import "SDLLogTargetOSLog.h"
+#import "SDLLogTargetConsole.h"
+#import "SDLLogFileModule.h"
+#import "SDLLogFilter.h"
+#import "SDLLogConstants.h"
+#import "SDLLogConfiguration.h"
