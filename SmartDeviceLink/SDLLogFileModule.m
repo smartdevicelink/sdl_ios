@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithName:name files:files level:SDLLogLevelDefault];
 }
 
++ (instancetype)moduleWithName:(NSString *)name files:(NSSet<NSString *> *)files {
+    return [[self alloc] initWithName:name files:files];
+}
+
 - (BOOL)containsFile:(NSString *)fileName {
     return [self.files containsObject:fileName];
 }

@@ -63,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLLogLevelDebug: return OS_LOG_TYPE_INFO;
         case SDLLogLevelWarning: return OS_LOG_TYPE_ERROR;
         case SDLLogLevelError: return OS_LOG_TYPE_FAULT;
+        default:
+            NSAssert(NO, @"The OFF and DEFAULT log levels are not valid to log with.");
+            return OS_LOG_TYPE_DEFAULT;
     }
 }
 

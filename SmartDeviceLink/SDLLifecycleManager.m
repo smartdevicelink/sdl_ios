@@ -22,6 +22,9 @@
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenPresenter.h"
+#import "SDLLogConfiguration.h"
+#import "SDLLogFileModuleMap.h"
+#import "SDLLogManager.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnAppInterfaceUnregistered.h"
@@ -83,11 +86,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Dependencies
-    _configuration = configuration;
+    _configuration = [configuration copy];
     _delegate = delegate;
 
     // Logging
-    [self.class sdl_updateLoggingWithFlags:self.configuration.lifecycleConfig.logFlags];
+    _configuration.loggingConfig.logModules = [_configuration.loggingConfig.logModules setByAddingObjectsFromSet:[SDLLogFileModuleMap sdlModuleMap]];
+    [SDLLogManager startWithConfiguration:_configuration.loggingConfig];
 
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateStopped states:[self.class sdl_stateTransitionDictionary]];
@@ -408,23 +412,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     return YES;
-}
-
-+ (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
-    if (logFlags == SDLLogOutputNone) {
-        [SDLDebugTool disable];
-        return;
-    }
-
-    if ((logFlags & SDLLogOutputConsole) == SDLLogOutputConsole) {
-        [SDLDebugTool enable];
-    }
-
-    if ((logFlags & SDLLogOutputFile) == SDLLogOutputFile) {
-        [SDLDebugTool enableDebugToLogFile];
-    } else {
-        [SDLDebugTool disableDebugToLogFile];
-    }
 }
 
 

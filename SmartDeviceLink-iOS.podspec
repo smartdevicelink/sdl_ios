@@ -21,9 +21,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLTouchManager.h',
 'SmartDeviceLink/SDLTouchManagerDelegate.h',
-'SmartDeviceLink/SDLConsoleController.h',
-'SmartDeviceLink/SDLDebugTool.h',
-'SmartDeviceLink/SDLDebugToolConsole.h',
 'SmartDeviceLink/SDLSiphonServer.h',
 'SmartDeviceLink/SDLAbstractTransport.h',
 'SmartDeviceLink/SDLIAPSessionDelegate.h',
@@ -292,7 +289,8 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLogFilter.h',
 'SmartDeviceLink/SDLLogConstants.h',
 'SmartDeviceLink/SDLLogConfiguration.h',
-'SmartDeviceLink/SDLLogManager.h'
+'SmartDeviceLink/SDLLogManager.h',
+'SmartDeviceLink/SDLLogMacros.h'
 ]
 
 end

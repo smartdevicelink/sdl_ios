@@ -57,6 +57,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithName:(NSString *)name files:(NSSet<NSString *> *)files;
 
+/**
+ Returns an initialized `SDLLogFileModule` that contains a custom name and set of files. The logging level is the same as the current global logging file by using `SDLLogLevelDefault`.
+
+ @param name The name of this module. This will be used when printing a formatted log for a file within this module e.g. "Transport".
+ @param files The files this module covers. This should correspond to a `__FILE__` or `#file` call for use when comparing a log to this module. Any log originating in a file contained in this set will then use this module's log level and print the module name.
+ @return An initialized `SDLLogFileModule`
+ */
++ (instancetype)moduleWithName:(NSString *)name files:(NSSet<NSString *> *)files;
+
 
 /**
  Returns whether or not this module contains a given file.

@@ -18,11 +18,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchManager.h"
 #import "SDLTouchManagerDelegate.h"
 
-/***** Debug *****/
-#import "SDLConsoleController.h"
-#import "SDLDebugTool.h"
-#import "SDLDebugToolConsole.h"
-
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
 #import "SDLIAPSessionDelegate.h"
@@ -316,13 +311,14 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRPCResponseNotification.h"
 
 // Logger
-#import "SDLLogTarget.h"
-#import "SDLLogTargetASL.h"
-#import "SDLLogTargetFile.h"
-#import "SDLLogTargetOSLog.h"
-#import "SDLLogTargetConsole.h"
-#import "SDLLogFileModule.h"
-#import "SDLLogFilter.h"
 #import "SDLLogConstants.h"
 #import "SDLLogConfiguration.h"
+#import "SDLLogFileModule.h"
+#import "SDLLogFilter.h"
 #import "SDLLogManager.h"
+#import "SDLLogMacros.h"
+#import "SDLLogTarget.h"
+#import "SDLLogTargetASL.h"
+#import "SDLLogTargetConsole.h"
+#import "SDLLogTargetFile.h"
+#import "SDLLogTargetOSLog.h"
