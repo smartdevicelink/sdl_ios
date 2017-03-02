@@ -11,6 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-const NSInteger SDLLogLevelDefault = -1;
+
 
 NS_ASSUME_NONNULL_END

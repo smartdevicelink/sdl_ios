@@ -15,17 +15,21 @@ NS_ASSUME_NONNULL_BEGIN
 typedef BOOL (^SDLLogFilterBlock)(SDLLogModel *log);
 typedef NSString * __nonnull (^SLLogFormatBlock)(SDLLogModel *log,  NSDateFormatter *dateFormatter);
 
-typedef NS_OPTIONS(NSUInteger, SDLLogLevel) {
-    SDLLogLevelVerbose = 1 << 0,
-    SDLLogLevelDebug = 1 << 1,
-    SDLLogLevelWarning = 1 << 2,
-    SDLLogLevelError = 1 << 3
+typedef NS_OPTIONS(NSUInteger, SDLLogFlag) {
+    SDLLogFlagVerbose = 1 << 0,
+    SDLLogFlagDebug = 1 << 1,
+    SDLLogFlagWarning = 1 << 2,
+    SDLLogFlagError = 1 << 3
 };
 
-/**
- *  When used with a file module, this will use the global log level instead of a module specific log level
- */
-extern const NSInteger SDLLogLevelDefault;
+typedef NS_ENUM(NSInteger, SDLLogLevel) {
+    SDLLogLevelDefault = -1,
+    SDLLogLevelOff = 0,
+    SDLLogLevelError = SDLLogFlagError,
+    SDLLogLevelWarning = (SDLLogFlagError | SDLLogFlagWarning),
+    SDLLogLevelDebug = (SDLLogFlagWarning | SDLLogFlagDebug),
+    SDLLogLevelVerbose = (SDLLogFlagDebug | SDLLogFlagVerbose)
+};
 
 typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
     SDLLogFormatTypeSimple,
@@ -43,8 +47,8 @@ typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
 
 #if DEBUG
 
-#define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SLLogLevelVerbose fileName:SLOG_FILE functionName:SLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
-#define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SLLogLevelDebug fileName:SLOG_FILE functionName:SLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelVerbose fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelDebug fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
 
 #else
 
@@ -56,7 +60,7 @@ typedef NS_ENUM(NSUInteger, SDLLogFormatType) {
 
 #pragma mark Release Logs
 
-#define SDLLogR(msg, ...) [SDLLogManager logWithLevel:SLLogLevelRelease fileName:SLOG_FILE functionName:SLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
-#define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SLLogLevelError fileName:SLOG_FILE functionName:SLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogW(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelWarning fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelError fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
 
 NS_ASSUME_NONNULL_END

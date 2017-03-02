@@ -67,6 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLLogLevelDebug: return ASL_LEVEL_NOTICE;
         case SDLLogLevelWarning: return ASL_LEVEL_ERR;
         case SDLLogLevelError: return ASL_LEVEL_CRIT;
+        default:
+            NSAssert(NO, @"The OFF and DEFAULT log levels are not valid to log with.");
+            return ASL_LEVEL_DEBUG;
     }
 }
 

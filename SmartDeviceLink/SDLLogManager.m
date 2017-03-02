@@ -238,6 +238,9 @@ static dispatch_queue_t _logQueue = NULL;
         case SDLLogLevelDebug: return @"🔵";
         case SDLLogLevelWarning: return @"🔶";
         case SDLLogLevelError: return @"❌";
+        default:
+            NSAssert(NO, @"The OFF and DEFAULT log levels are not valid to log with.");
+            return @"";
     }
 }
 
@@ -247,6 +250,9 @@ static dispatch_queue_t _logQueue = NULL;
         case SDLLogLevelDebug: return @"DEBUG";
         case SDLLogLevelWarning: return @"WARNING";
         case SDLLogLevelError: return @"ERROR";
+        default:
+            NSAssert(NO, @"The OFF and DEFAULT log levels are not valid to log with.");
+            return @"UNKNOWN";
     }
 }
 

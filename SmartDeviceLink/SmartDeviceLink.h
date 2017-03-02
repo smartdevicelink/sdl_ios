@@ -325,3 +325,4 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogFilter.h"
 #import "SDLLogConstants.h"
 #import "SDLLogConfiguration.h"
+#import "SDLLogManager.h"
