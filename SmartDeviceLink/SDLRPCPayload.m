@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
     unsigned long dataLength = data.length;
 
     if (data == nil || dataLength == 0) {
-        [SDLDebugTool logInfo:@"Error: data is nil."];
+        // [SDLDebugTool logInfo:@"Error: data is nil."];
         return nil;
     }
 
     if (dataLength < RPC_HEADER_SIZE) {
-        [SDLDebugTool logInfo:@"Error: insfficient data to form RPC header."];
+        // [SDLDebugTool logInfo:@"Error: insfficient data to form RPC header."];
         return nil;
     }
 
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         } @catch (NSException *e) {
             // Print exception information
-            [SDLDebugTool logFormat:@"NSException caught in SDLRPCPayload::initWithData\nName: %@\nReason: %@\nData: %@", e.name, e.reason, data.debugDescription];
+            // [SDLDebugTool logFormat:@"NSException caught in SDLRPCPayload::initWithData\nName: %@\nReason: %@\nData: %@", e.name, e.reason, data.debugDescription];
             return nil;
         }
     }

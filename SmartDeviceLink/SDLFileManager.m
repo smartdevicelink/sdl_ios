@@ -297,7 +297,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     if (error != nil) {
         NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@", error];
-        [SDLDebugTool logInfo:debugString];
+        // [SDLDebugTool logInfo:debugString];
     }
 }
 
@@ -305,7 +305,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     NSError *error = nil;
     if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
         NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@ (%@)", error, fileURL];
-        [SDLDebugTool logInfo:debugString];
+        // [SDLDebugTool logInfo:debugString];
     }
 }
 

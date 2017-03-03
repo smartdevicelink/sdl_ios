@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)dealloc {
-    [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    // [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
 #pragma mark - Service metadata
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolHeader *header = self.serviceHeaders[@(serviceType)];
     if (header == nil) {
         NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type", serviceType];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     }
 
     return header.sessionID;
@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *_Nullable error))completionHandler {
     if (self.securityManager == nil) {
-        [SDLDebugTool logInfo:@"Could not start service, encryption was requested but failed because no security manager has been set."];
+        // [SDLDebugTool logInfo:@"Could not start service, encryption was requested but failed because no security manager has been set."];
 
         if (completionHandler != nil) {
             completionHandler(NO, [NSError errorWithDomain:SDLProtocolSecurityErrorDomain code:SDLProtocolErrorNoSecurityManager userInfo:nil]);
@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
                             completionHandler:^(NSError *_Nullable error) {
                                 if (error) {
                                     NSString *logString = [NSString stringWithFormat:@"Security Manager failed to initialize with error: %@", error];
-                                    [SDLDebugTool logInfo:logString];
+                                    // [SDLDebugTool logInfo:logString];
 
                                     if (completionHandler != nil) {
                                         completionHandler(NO, error);
@@ -190,13 +190,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].protocolVersion] options:kNilOptions error:error];
     
     if (error != nil) {
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error encoding JSON data: %@", *error] withType:SDLDebugType_Protocol];
+        // [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error encoding JSON data: %@", *error] withType:SDLDebugType_Protocol];
     }
     
     NSData *messagePayload = nil;
 
     NSString *logMessage = [NSString stringWithFormat:@"%@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
@@ -280,7 +280,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_logRPCSend:(SDLProtocolMessage *)message {
     NSString *logMessage = [NSString stringWithFormat:@"Sending : %@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+    // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
 }
 
 // Use for normal messages
@@ -318,7 +318,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (encryptError) {
             NSString *encryptLogString = [NSString stringWithFormat:@"Error attempting to encrypt raw data for service: %@, error: %@", @(service), encryptError];
-            [SDLDebugTool logInfo:encryptLogString];
+            // [SDLDebugTool logInfo:encryptLogString];
         }
     }
 
@@ -383,18 +383,18 @@ NS_ASSUME_NONNULL_BEGIN
 
             if (decryptError) {
                 NSString *decryptLogMessage = [NSString stringWithFormat:@"Error attempting to decrypt a payload with error: %@", decryptError];
-                [SDLDebugTool logInfo:decryptLogMessage];
+                // [SDLDebugTool logInfo:decryptLogMessage];
                 return;
             }
         }
 
         message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
         [logMessage appendFormat:@"message complete. %@", message];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
     } else {
         // Need to wait for more bytes.
         [logMessage appendFormat:@"header complete. message incomplete, waiting for %ld more bytes. Header:%@", (long)(messageSize - self.receiveBuffer.length), header];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
         return;
     }
 
@@ -537,14 +537,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_processSecurityMessage:(SDLProtocolMessage *)clientHandshakeMessage {
     if (self.securityManager == nil) {
         NSString *logString = [NSString stringWithFormat:@"Failed to process security message because no security manager is set. Message: %@", clientHandshakeMessage];
-        [SDLDebugTool logInfo:logString];
+        // [SDLDebugTool logInfo:logString];
         return;
     }
 
     // Misformatted handshake message, something went wrong
     if (clientHandshakeMessage.payload.length <= 12) {
         NSString *logString = [NSString stringWithFormat:@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage];
-        [SDLDebugTool logInfo:logString];
+        // [SDLDebugTool logInfo:logString];
     }
 
     // Tear off the binary header of the client protocol message to get at the actual TLS handshake
@@ -559,7 +559,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *serverSecurityMessage = nil;
     if (serverHandshakeData == nil) {
         NSString *logString = [NSString stringWithFormat:@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError];
-        [SDLDebugTool logInfo:logString];
+        // [SDLDebugTool logInfo:logString];
 
         serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
     } else {

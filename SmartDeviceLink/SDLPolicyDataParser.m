@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     @catch (NSException *exception) {
         decodedData = nil;
-        [SDLDebugTool logInfo:@"Error in PolicyDataParser::unwrap()"];
+        // [SDLDebugTool logInfo:@"Error in PolicyDataParser::unwrap()"];
     }
 
     return decodedData;
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     @catch (NSException *exception) {
-        [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
+        // [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
     }
 }
 

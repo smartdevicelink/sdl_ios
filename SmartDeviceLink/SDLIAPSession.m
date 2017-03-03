@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
     NSString *logMessage = [NSString stringWithFormat:@"SDLIAPSession initWithAccessory:%@ forProtocol:%@", accessory, protocol];
-    [SDLDebugTool logInfo:logMessage];
+    // [SDLDebugTool logInfo:logMessage];
 
     self = [super init];
     if (self) {
@@ -42,12 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
 
     NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol];
-    [SDLDebugTool logInfo:logMessage];
+    // [SDLDebugTool logInfo:logMessage];
 
     if ((self.easession = [[EASession alloc] initWithAccessory:_accessory forProtocol:_protocol])) {
         __strong typeof(self) strongSelf = weakSelf;
 
-        [SDLDebugTool logInfo:@"Created Session Object"];
+        // [SDLDebugTool logInfo:@"Created Session Object"];
 
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
         return YES;
 
     } else {
-        [SDLDebugTool logInfo:@"Error: Could Not Create Session Object"];
+        // [SDLDebugTool logInfo:@"Error: Could Not Create Session Object"];
         return NO;
     }
 }
@@ -97,9 +97,9 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger status2 = stream.streamStatus;
     if (status2 == NSStreamStatusClosed) {
         if (stream == [self.easession inputStream]) {
-            [SDLDebugTool logInfo:@"Input Stream Closed"];
+            // [SDLDebugTool logInfo:@"Input Stream Closed"];
         } else if (stream == [self.easession outputStream]) {
-            [SDLDebugTool logInfo:@"Output Stream Closed"];
+            // [SDLDebugTool logInfo:@"Output Stream Closed"];
         }
     }
 }
@@ -114,10 +114,10 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         if (stream == [strongSelf.easession outputStream]) {
-            [SDLDebugTool logInfo:@"Output Stream Opened"];
+            // [SDLDebugTool logInfo:@"Output Stream Opened"];
             strongSelf.isOutputStreamOpen = YES;
         } else if (stream == [strongSelf.easession inputStream]) {
-            [SDLDebugTool logInfo:@"Input Stream Opened"];
+            // [SDLDebugTool logInfo:@"Input Stream Opened"];
             strongSelf.isInputStreamOpen = YES;
         }
 
@@ -134,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        [SDLDebugTool logInfo:@"Stream Error"];
+        // [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.delegate onSessionStreamsEnded:strongSelf];
     };
 }

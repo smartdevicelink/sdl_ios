@@ -72,11 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 SDLStreamOpenHandler defaultStreamOpenHandler = ^(NSStream *stream) {
-    [SDLDebugTool logInfo:@"Stream Event Open"];
+    // [SDLDebugTool logInfo:@"Stream Event Open"];
 };
 
 SDLStreamHasBytesHandler defaultStreamHasBytesHandler = ^(NSInputStream *istream) {
-    [SDLDebugTool logInfo:@"Stream Event Has Bytes"];
+    // [SDLDebugTool logInfo:@"Stream Event Has Bytes"];
 };
 
 SDLStreamHasSpaceHandler defaultStreamHasSpaceHandler = ^(NSOutputStream *ostream) {
@@ -84,11 +84,11 @@ SDLStreamHasSpaceHandler defaultStreamHasSpaceHandler = ^(NSOutputStream *ostrea
 };
 
 SDLStreamErrorHandler defaultStreamErrorHandler = ^(NSStream *stream) {
-    [SDLDebugTool logInfo:@"Stream Event Error"];
+    // [SDLDebugTool logInfo:@"Stream Event Error"];
 };
 
 SDLStreamEndHandler defaultStreamEndHandler = ^(NSStream *stream) {
-    [SDLDebugTool logInfo:@"Stream Event End"];
+    // [SDLDebugTool logInfo:@"Stream Event End"];
 };
 
 @end

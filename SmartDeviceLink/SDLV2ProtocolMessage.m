@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSError *error = nil;
         NSDictionary<NSString *, id> * jsonDictionary = [NSJSONSerialization JSONObjectWithData:rpcPayload.jsonData options:kNilOptions error:&error];
         if (error != nil) {
-            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
+            // [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
         } else if (jsonDictionary) {
             [innerDictionary setObject:jsonDictionary forKey:SDLNameParameters];
         }

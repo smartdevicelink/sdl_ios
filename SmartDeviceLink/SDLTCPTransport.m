@@ -33,10 +33,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 - (instancetype)init {
     if (self = [super init]) {
         _sendQueue = dispatch_queue_create("com.sdl.transport.tcp.transmit", DISPATCH_QUEUE_SERIAL);
-        [SDLDebugTool logInfo:@"SDLTCPTransport Init"
-                     withType:SDLDebugType_Transport_iAP
-                     toOutput:SDLDebugOutput_All
-                      toGroup:self.debugConsoleGroupName];
+        // [SDLDebugTool logInfo:@"SDLTCPTransport Init" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
 
     return self;
@@ -47,11 +44,11 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)connect {
-    [SDLDebugTool logInfo:@"TCP Transport attempt connect" withType:SDLDebugType_Transport_TCP];
+    // [SDLDebugTool logInfo:@"TCP Transport attempt connect" withType:SDLDebugType_Transport_TCP];
 
     int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
     if (sock_fd < 0) {
-        [SDLDebugTool logInfo:@"Server Not Ready, Connection Failed" withType:SDLDebugType_Transport_TCP];
+        // [SDLDebugTool logInfo:@"Server Not Ready, Connection Failed" withType:SDLDebugType_Transport_TCP];
         return;
     }
 
@@ -67,7 +64,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     dispatch_async(_sendQueue, ^{
         @autoreleasepool {
             NSString *byteStr = [SDLHexUtility getHexString:msgBytes];
-            [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+            // [SDLDebugTool logInfo:[NSString stringWithFormat:@"Sent %lu bytes: %@", (unsigned long)msgBytes.length, byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
 
             CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
             if (e != kCFSocketSuccess) {
@@ -83,14 +80,14 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
                         break;
                 }
 
-                [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+                // [SDLDebugTool logInfo:[NSString stringWithFormat:@"Socket sendData error: %@", errorCause] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
             }
         }
     });
 }
 
 - (void)disconnect {
-    [SDLDebugTool logInfo:@"SDLTCPTransport invalidate and dispose"];
+    // [SDLDebugTool logInfo:@"SDLTCPTransport invalidate and dispose"];
     
     if (socket != nil) {
         CFSocketInvalidate(socket);
@@ -147,7 +144,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
         // Check if Core disconnected from us
         if (CFDataGetLength((CFDataRef)data) <= 0) {
-            [SDLDebugTool logInfo:@"TCPCallback Got a data packet with length 0, the connection was terminated on the other side"];
+            // [SDLDebugTool logInfo:@"TCPCallback Got a data packet with length 0, the connection was terminated on the other side"];
             [transport.delegate onTransportDisconnected];
 
             return;
@@ -159,12 +156,12 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
             [byteStr appendFormat:@"%02X", ((Byte *)(UInt8 *)CFDataGetBytePtr((CFDataRef)data))[i]];
         }
 
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Read %d bytes: %@", (int)CFDataGetLength((CFDataRef)data), byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+        // [SDLDebugTool logInfo:[NSString stringWithFormat:@"Read %d bytes: %@", (int)CFDataGetLength((CFDataRef)data), byteStr] withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
 
         [transport.delegate onDataReceived:[NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)]];
     } else {
         NSString *logMessage = [NSString stringWithFormat:@"unhandled TCPCallback: %lu", type];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
+        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_TCP toOutput:SDLDebugOutput_DeviceConsole];
     }
 }
 
