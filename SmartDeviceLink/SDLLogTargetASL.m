@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLogTargetASL ()
 
-@property (assign, nonatomic, nullable) aslclient client;
-
 @end
 
 
@@ -29,24 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)setupLogger {
-    self.client = asl_open(NULL, "com.apple.console", 0);
-
-    return !!self.client;
+    return YES;
 }
 
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog {
-    int result = 0;
     const char *charLog = [stringLog UTF8String];
 
-    aslmsg message = asl_new(ASL_TYPE_MSG);
-    result += asl_set(message, ASL_KEY_MSG, charLog);
-
-    if (result != 0) {
-        // Something failed
-    }
-
     int aslLevel = [self sdl_aslLevelForSDLLogLevel:log.level];
-    result = asl_log(self.client, message, aslLevel, NULL);
+    int result = asl_log_message(aslLevel, "%s", charLog);
 
     if (result != 0) {
         // Something failed
@@ -54,8 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)teardownLogger {
-    asl_close(self.client);
-    self.client = NULL;
+
 }
 
 

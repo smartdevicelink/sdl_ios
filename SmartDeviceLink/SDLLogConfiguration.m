@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _formatType = SDLLogFormatTypeDetailed;
     _globalLogLevel = SDLLogLevelDebug;
-    _logTargets = [NSSet setWithArray:@[[SDLLogTargetASL logger], [SDLLogTargetConsole logger]]];
+    _logTargets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
 
     return self;
 }

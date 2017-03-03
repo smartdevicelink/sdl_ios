@@ -119,13 +119,12 @@ static dispatch_queue_t _logQueue = NULL;
 
 - (void)sdl_logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
     NSDate *timestamp = [NSDate date];
-    NSString *fileName = [self.class sdl_extractFileNameFromPath:file];
-    NSString *moduleName = [self sdl_moduleForFile:fileName] ? [self sdl_moduleForFile:fileName].name : @"";
+    NSString *moduleName = [self sdl_moduleForFile:file] ? [self sdl_moduleForFile:file].name : @"";
 
     SDLLogModel *log = [[SDLLogModel alloc] initWithMessage:message
                                                   timestamp:timestamp
                                                       level:level
-                                                   fileName:fileName
+                                                   fileName:file
                                                  moduleName:moduleName
                                                functionName:functionName
                                                        line:line
@@ -217,18 +216,18 @@ static dispatch_queue_t _logQueue = NULL;
         [logString appendFormat:@"%@ ", log.queueLabel];
     }
     if (moduleName) {
-        [logString appendFormat:@"(SDL)%@ ", log.moduleName];
+        [logString appendFormat:@"(SDL)%@", log.moduleName];
     }
     if (fileName) {
-        [logString appendFormat:@":%@ ", log.fileName];
+        [logString appendFormat:@":%@", log.fileName];
     }
     if (functionName) {
-        [logString appendFormat:@":[%@] ", log.functionName];
+        [logString appendFormat:@":%@", log.functionName];
     }
     if (line) {
         [logString appendFormat:@":%ld ", (long)log.line];
     }
-    [logString appendFormat:@"- %@", log.message];
+    [logString appendFormat:@"- %@\n", log.message];
 
     return [logString copy];
 }
@@ -302,17 +301,6 @@ static dispatch_queue_t _logQueue = NULL;
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [NSString stringWithUTF8String:dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL)];
 #pragma clang diagnostic pop
-}
-
-+ (NSString *)sdl_extractFileNameFromPath:(NSString *)filePath {
-    NSUInteger lastSlashIndex = [filePath rangeOfString:@"/" options:NSBackwardsSearch].location;
-    if (lastSlashIndex == NSNotFound) {
-        return filePath;
-    }
-    NSString *fileName = [filePath substringFromIndex:(lastSlashIndex + 1)];
-
-    NSUInteger dotIndex = [fileName rangeOfString:@"." options:NSBackwardsSearch].location;
-    return [fileName substringToIndex:dotIndex];
 }
 
 @end

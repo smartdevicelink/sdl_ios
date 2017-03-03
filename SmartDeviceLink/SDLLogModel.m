@@ -49,6 +49,24 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self copyWithZone:zone] initWithMessage:_message timestamp:_timestamp level:_level fileName:_fileName moduleName:_moduleName functionName:_functionName line:_line queueLabel:_queueLabel];
 }
 
+
+#pragma mark - Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLLogModel (%@): timestamp: %@, file name: %@, module: %@, function: %@, line: %ld, queue: %@, message: %@", [self sdl_stringForLogLevel:self.level], self.timestamp, self.fileName, self.moduleName, self.functionName, self.line, self.queueLabel, self.message];
+}
+
+- (NSString *)sdl_stringForLogLevel:(SDLLogLevel)level {
+    switch (level) {
+        case SDLLogLevelOff: return @"Off";
+        case SDLLogLevelVerbose: return @"Verbose";
+        case SDLLogLevelDebug: return @"Debug";
+        case SDLLogLevelWarning: return @"Warning";
+        case SDLLogLevelError: return @"Error";
+        case SDLLogLevelDefault: return @"Default";
+    }
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

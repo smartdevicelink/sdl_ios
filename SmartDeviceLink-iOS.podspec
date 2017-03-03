@@ -284,7 +284,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLogTargetASL.h',
 'SmartDeviceLink/SDLLogTargetFile.h',
 'SmartDeviceLink/SDLLogTargetOSLog.h',
-'SmartDeviceLink/SDLLogTargetConsole.h',
 'SmartDeviceLink/SDLLogFileModule.h',
 'SmartDeviceLink/SDLLogFilter.h',
 'SmartDeviceLink/SDLLogConstants.h',
