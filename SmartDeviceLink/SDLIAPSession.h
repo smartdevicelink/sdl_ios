@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SessionCompletionHandler)(BOOL success);
+typedef BOOL (^SessionSendHandler)(NSError **error);
 
 @interface SDLIAPSession : NSObject
 
@@ -25,6 +25,7 @@ typedef void (^SessionCompletionHandler)(BOOL success);
 
 - (BOOL)start;
 - (void)stop;
+- (void)sendData:(SessionSendHandler)sender;
 
 @end
 

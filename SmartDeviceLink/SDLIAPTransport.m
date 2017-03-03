@@ -234,6 +234,12 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_retryEstablishSession {
     // Current strategy disallows automatic retries.
     self.sessionSetupInProgress = NO;
+    if (self.session != nil){
+        [self.session stop];
+        self.session.delegate = nil;
+        self.session = nil;
+    }
+    [self connect];
 }
 
 // This gets called after both I/O streams of the session have opened.
@@ -268,23 +274,25 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark - Data Transmission
 
 - (void)sendData:(NSData *)data {
+    NSOutputStream *ostream = self.session.easession.outputStream;
+    NSMutableData *remainder = data.mutableCopy;
+    
     dispatch_async(_transmit_queue, ^{
-        NSOutputStream *ostream = self.session.easession.outputStream;
-        NSMutableData *remainder = data.mutableCopy;
-
-        while (ostream.streamStatus == NSStreamStatusOpen &&
-               remainder.length != 0) {
-            if (ostream.hasSpaceAvailable){
-                NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
-
-                if (bytesWritten == -1) {
-                    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
-                    break;
-                }
-
-                [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+        [self.session sendData:^BOOL(NSError *__autoreleasing *error) {
+            BOOL completed = NO;
+            
+            NSInteger bytesRemaining = remainder.length;
+            NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
+            if (bytesWritten < 0){
+                *error = ostream.streamError;
             }
-        }
+            else{
+                [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+                completed = (bytesRemaining == bytesWritten);
+            }
+            
+            return completed;
+        }];
     });
 }
 
