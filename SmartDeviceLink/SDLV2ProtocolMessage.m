@@ -3,7 +3,7 @@
 
 #import "SDLV2ProtocolMessage.h"
 #import "SDLFunctionID.h"
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
 

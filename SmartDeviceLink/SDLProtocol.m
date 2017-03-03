@@ -5,7 +5,7 @@
 #import "SDLFunctionID.h"
 
 #import "SDLAbstractTransport.h"
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLProtocol.h"
@@ -63,16 +63,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)dealloc {
-    // [SDLDebugTool logInfo:@"SDLProtocol Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-}
 
 #pragma mark - Service metadata
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = self.serviceHeaders[@(serviceType)];
     if (header == nil) {
-        NSString *logMessage = [NSString stringWithFormat:@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type", serviceType];
-        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"Warning: Tried to retrieve sessionID for serviceType %i, but no header is saved for that service type", serviceType);
     }
 
     return header.sessionID;
@@ -145,8 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.securityManager initializeWithAppId:self.appId
                             completionHandler:^(NSError *_Nullable error) {
                                 if (error) {
-                                    NSString *logString = [NSString stringWithFormat:@"Security Manager failed to initialize with error: %@", error];
-                                    // [SDLDebugTool logInfo:logString];
+                                    SDLLogE(@"Security Manager failed to initialize with error: %@", error);
 
                                     if (completionHandler != nil) {
                                         completionHandler(NO, error);
@@ -186,17 +181,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].protocolVersion] options:kNilOptions error:error];
     
-    if (error != nil) {
-        // [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error encoding JSON data: %@", *error] withType:SDLDebugType_Protocol];
+    if (*error != nil) {
+        SDLLogW(@"Error encoding JSON data: %@", *error);
     }
     
     NSData *messagePayload = nil;
-
-    NSString *logMessage = [NSString stringWithFormat:@"%@", message];
-    // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"Send RPC %@", message);
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
@@ -260,12 +252,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
     if (protocolMessage.size < [SDLGlobals sharedGlobals].maxMTUSize) {
-        [self sdl_logRPCSend:protocolMessage];
+        SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
         NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals sharedGlobals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
-            [self sdl_logRPCSend:smallerMessage];
+            SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
         }
     }
@@ -276,11 +268,6 @@ NS_ASSUME_NONNULL_BEGIN
 // SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
 - (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
     [self sendRPC:rpcRequest];
-}
-
-- (void)sdl_logRPCSend:(SDLProtocolMessage *)message {
-    NSString *logMessage = [NSString stringWithFormat:@"Sending : %@", message];
-    // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
 }
 
 // Use for normal messages
@@ -317,8 +304,7 @@ NS_ASSUME_NONNULL_BEGIN
         data = [self.securityManager encryptData:data withError:&encryptError];
 
         if (encryptError) {
-            NSString *encryptLogString = [NSString stringWithFormat:@"Error attempting to encrypt raw data for service: %@, error: %@", @(service), encryptError];
-            // [SDLDebugTool logInfo:encryptLogString];
+            SDLLogE(@"Error attempting to encrypt raw data for service: %@, error: %@", @(service), encryptError);
         }
     }
 
@@ -327,12 +313,12 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
     if (message.size < [SDLGlobals sharedGlobals].maxMTUSize) {
-        [self sdl_logRPCSend:message];
+        SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
         NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals sharedGlobals].maxMTUSize];
         for (SDLProtocolMessage *smallerMessage in messages) {
-            [self sdl_logRPCSend:smallerMessage];
+            SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];
         }
     }
@@ -355,7 +341,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)processMessages {
-    NSMutableString *logMessage = [[NSMutableString alloc] init];
     UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.receiveBuffer];
 
     // If we have enough bytes, create the header.
@@ -382,19 +367,16 @@ NS_ASSUME_NONNULL_BEGIN
             payload = [self.securityManager decryptData:payload withError:&decryptError];
 
             if (decryptError) {
-                NSString *decryptLogMessage = [NSString stringWithFormat:@"Error attempting to decrypt a payload with error: %@", decryptError];
-                // [SDLDebugTool logInfo:decryptLogMessage];
+                SDLLogE(@"Error attempting to decrypt a payload with error: %@", decryptError);
                 return;
             }
         }
 
         message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
-        [logMessage appendFormat:@"message complete. %@", message];
-        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+        SDLLogV(@"Protocol message received: %@", message);
     } else {
         // Need to wait for more bytes.
-        [logMessage appendFormat:@"header complete. message incomplete, waiting for %ld more bytes. Header:%@", (long)(messageSize - self.receiveBuffer.length), header];
-        // [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Protocol toOutput:SDLDebugOutput_File | SDLDebugOutput_DeviceConsole toGroup:self.debugConsoleGroupName];
+        SDLLogV(@" protocol header complete, message incomplete, waiting for %ld more bytes. Header: %@", (long)(messageSize - self.receiveBuffer.length), header);
         return;
     }
 
@@ -536,15 +518,13 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: These should be split out to a separate class to be tested properly
 - (void)sdl_processSecurityMessage:(SDLProtocolMessage *)clientHandshakeMessage {
     if (self.securityManager == nil) {
-        NSString *logString = [NSString stringWithFormat:@"Failed to process security message because no security manager is set. Message: %@", clientHandshakeMessage];
-        // [SDLDebugTool logInfo:logString];
+        SDLLogE(@"Failed to process security message because no security manager is set. Message: %@", clientHandshakeMessage);
         return;
     }
 
     // Misformatted handshake message, something went wrong
     if (clientHandshakeMessage.payload.length <= 12) {
-        NSString *logString = [NSString stringWithFormat:@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage];
-        // [SDLDebugTool logInfo:logString];
+        SDLLogE(@"Security message is malformed, less than 12 bytes. It does not have a protocol header. Message: %@", clientHandshakeMessage);
     }
 
     // Tear off the binary header of the client protocol message to get at the actual TLS handshake
@@ -558,8 +538,7 @@ NS_ASSUME_NONNULL_BEGIN
     // If the handshake went bad and the security library ain't happy, send over the failure to the module. This should result in an ACK with encryption off.
     SDLProtocolMessage *serverSecurityMessage = nil;
     if (serverHandshakeData == nil) {
-        NSString *logString = [NSString stringWithFormat:@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError];
-        // [SDLDebugTool logInfo:logString];
+        SDLLogE(@"Error running TLS handshake procedure. Sending error to module. Error: %@", handshakeError);
 
         serverSecurityMessage = [self.class sdl_serverSecurityFailedMessageWithClientMessageHeader:clientHandshakeMessage.header messageId:++_messageID];
     } else {

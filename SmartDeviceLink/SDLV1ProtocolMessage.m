@@ -2,7 +2,7 @@
 //
 
 #import "SDLV1ProtocolMessage.h"
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 
 NS_ASSUME_NONNULL_BEGIN

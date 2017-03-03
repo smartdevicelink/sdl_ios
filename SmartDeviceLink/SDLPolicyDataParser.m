@@ -3,7 +3,7 @@
 //
 
 #import "SDLPolicyDataParser.h"
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     @catch (NSException *exception) {
         decodedData = nil;
-        // [SDLDebugTool logInfo:@"Error in PolicyDataParser::unwrap()"];
+        SDLLogW(@"%@", exception);
     }
 
     return decodedData;
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     @catch (NSException *exception) {
-        // [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
+        SDLLogW(@"%@", exception);
     }
 }
 

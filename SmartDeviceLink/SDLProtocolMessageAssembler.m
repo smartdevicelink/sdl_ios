@@ -3,7 +3,7 @@
 
 #import "SDLProtocolMessageAssembler.h"
 
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 

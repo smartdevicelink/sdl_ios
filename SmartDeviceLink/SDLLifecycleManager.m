@@ -13,7 +13,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFile.h"
@@ -116,7 +116,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
-        // [SDLDebugTool logFormat:@"Warning: SDL has already been started, this attempt will be ignored."];
+        SDLLogW(@"Warning: SDL has already been started, this attempt will be ignored");
         return;
     }
     
@@ -182,6 +182,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_stopManager:(BOOL)shouldRestart {
+    SDLLogV(@"Stopping manager");
+
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
@@ -190,8 +192,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.registerResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
-
-    // [SDLDebugTool logInfo:@"Stopping Proxy"];
     self.proxy = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
@@ -221,7 +221,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
             if (error != nil || ![response.success boolValue]) {
-                // [SDLDebugTool logFormat:@"Failed to register the app. Error: %@, Response: %@", error, response];
+                SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
                 weakSelf.readyHandler(NO, error);
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
                 return;
@@ -247,7 +247,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_enter(managerGroup);
     [self.fileManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
-            // [SDLDebugTool logFormat:@"File manager was unable to start; error: %@", error];
+            SDLLogW(@"File manager was unable to start; error: %@", error);
         }
 
         dispatch_group_leave(managerGroup);
@@ -256,7 +256,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_enter(managerGroup);
     [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
-            // [SDLDebugTool logFormat:@"Permission manager was unable to start; error: %@", error];
+            SDLLogW(@"Permission manager was unable to start; error: %@", error);
         }
 
         dispatch_group_leave(managerGroup);
@@ -304,7 +304,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self sdl_sendRequest:unregisterRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             if (error != nil || ![response.success boolValue]) {
-                // [SDLDebugTool logFormat:@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response];
+                SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
             }
 
             [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
@@ -326,9 +326,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                    // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
                    if (error != nil) {
                        if (error.code == SDLFileManagerErrorCannotOverwrite) {
-                           // [SDLDebugTool logInfo:@"Failed to upload app icon: A file with this name already exists on the system"];
+                           SDLLogD(@"Failed to upload app icon: A file with this name already exists on the system");
                        } else {
-                           // [SDLDebugTool logFormat:@"Unexpected error uploading app icon: %@", error];
+                           SDLLogW(@"Unexpected error uploading app icon: %@", error);
                            return;
                        }
                    }
@@ -358,7 +358,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        // [SDLDebugTool logInfo:@"Manager not ready, message not sent"];
+        SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
             handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
         }
@@ -381,8 +381,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // If, for some reason, the request is nil we should error out.
     if (!request) {
+        NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
+        SDLLogW(@"%@", error);
         if (handler) {
-            handler(nil, nil, [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."]);
+            handler(nil, nil, error);
         }
         return;
     }
@@ -453,7 +455,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.notification;
-    // [SDLDebugTool logFormat:@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason];
+    SDLLogW(@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateUnregistering]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];

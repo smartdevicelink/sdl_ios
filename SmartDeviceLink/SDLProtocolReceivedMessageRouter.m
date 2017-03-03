@@ -4,7 +4,7 @@
 //  This class gets handed the SDLProtocol messages as they are received and decides what happens to them and where they are sent on to.
 
 #import "SDLProtocolReceivedMessageRouter.h"
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolMessageAssembler.h"
 

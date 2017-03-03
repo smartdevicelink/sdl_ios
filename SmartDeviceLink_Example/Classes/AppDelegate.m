@@ -18,8 +18,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    SDLLogE(@"Test log");
-
     return YES;
 }
 

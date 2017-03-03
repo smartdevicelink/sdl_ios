@@ -4,7 +4,7 @@
 
 #import "SDLRPCPayload.h"
 
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 
 const NSUInteger RPC_HEADER_SIZE = 12;
 

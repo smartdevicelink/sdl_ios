@@ -3,7 +3,7 @@
 
 #import "SDLProxyFactory.h"
 
-#import "SDLMacros.h"
+#import "SDLLogMacros.h"
 #import "SDLIAPTransport.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
