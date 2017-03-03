@@ -25,7 +25,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func v(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .verbose, fileName: file, functionName: function, line: line, message: "\(message())")
+        SDLLogManager.log(with: .verbose, file: file, functionName: function, line: line, message: "\(message())")
     }
 
     /// Log a debug message through SDL's custom logging framework.
@@ -36,7 +36,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func d(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .debug, fileName: file, functionName: function, line: line, message: "\(message())")
+        SDLLogManager.log(with: .debug, file: file, functionName: function, line: line, message: "\(message())")
     }
 
     /// Log a warning message through SDL's custom logging framework.
@@ -47,7 +47,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func w(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .warning, fileName: file, functionName: function, line: line, message: "\(message())")
+        SDLLogManager.log(with: .warning, file: file, functionName: function, line: line, message: "\(message())")
     }
 
     /// Log an error message through SDL's custom logging framework.
@@ -58,7 +58,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func e(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .error, fileName: file, functionName: function, line: line, message: "\(message())")
+        SDLLogManager.log(with: .error, file: file, functionName: function, line: line, message: "\(message())")
     }
 }
 
@@ -70,7 +70,7 @@ public class SDLLog {
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLV(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .verbose, fileName: file, functionName: function, line: line, message: "\(message())")
+    SDLLogManager.log(with: .verbose, file: file, functionName: function, line: line, message: "\(message())")
 }
 
 /// Log a debug message through SDL's custom logging framework.
@@ -81,7 +81,7 @@ public func SDLV(_ message: @autoclosure () -> Any, _ file: String = #file, _ fu
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLD(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .debug, fileName: file, functionName: function, line: line, message: "\(message())")
+    SDLLogManager.log(with: .debug, file: file, functionName: function, line: line, message: "\(message())")
 }
 
 /// Log a warning message through SDL's custom logging framework.
@@ -92,7 +92,7 @@ public func SDLD(_ message: @autoclosure () -> Any, _ file: String = #file, _ fu
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLW(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .warning, fileName: file, functionName: function, line: line, message: "\(message())")
+    SDLLogManager.log(with: .warning, file: file, functionName: function, line: line, message: "\(message())")
 }
 
 /// Log an error message through SDL's custom logging framework.
@@ -103,5 +103,5 @@ public func SDLW(_ message: @autoclosure () -> Any, _ file: String = #file, _ fu
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLE(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .error, fileName: file, functionName: function, line: line, message: "\(message())")
+    SDLLogManager.log(with: .error, file: file, functionName: function, line: line, message: "\(message())")
 }

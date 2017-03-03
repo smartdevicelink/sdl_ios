@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _logModules = [NSSet set];
-    _logTargets = [NSSet setWithObject:[SDLLogTargetASL logger]];
+    _logTargets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
     _logFilters = [NSSet set];
     _formatType = SDLLogFormatTypeDefault;
     _asynchronous = YES;

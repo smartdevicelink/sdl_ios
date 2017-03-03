@@ -104,21 +104,22 @@ static dispatch_queue_t _logQueue = NULL;
 
 #pragma mark - Performing Logging
 
-+ (void)logWithLevel:(SDLLogLevel)level fileName:(NSString *)fileName functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
-    [[self sharedManager] logWithLevel:level fileName:fileName functionName:functionName line:line message:message];
++ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
+    [[self sharedManager] sdl_logWithLevel:level file:file functionName:functionName line:line message:message];
 }
 
-+ (void)logWithLevel:(SDLLogLevel)level fileName:(NSString *)fileName functionName:(NSString *)functionName line:(NSInteger)line formatMessage:(NSString *)message, ... {
++ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line formatMessage:(NSString *)message, ... {
     va_list args;
     va_start(args, message);
     NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
     va_end(args);
 
-    [[self sharedManager] logWithLevel:level fileName:fileName functionName:functionName line:line message:format];
+    [[self sharedManager] sdl_logWithLevel:level file:file functionName:functionName line:line message:format];
 }
 
-- (void)logWithLevel:(SDLLogLevel)level fileName:(NSString *)fileName functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
+- (void)sdl_logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
     NSDate *timestamp = [NSDate date];
+    NSString *fileName = [self.class sdl_extractFileNameFromPath:file];
     NSString *moduleName = [self sdl_moduleForFile:fileName] ? [self sdl_moduleForFile:fileName].name : @"";
 
     SDLLogModel *log = [[SDLLogModel alloc] initWithMessage:message
@@ -301,6 +302,17 @@ static dispatch_queue_t _logQueue = NULL;
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [NSString stringWithUTF8String:dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL)];
 #pragma clang diagnostic pop
+}
+
++ (NSString *)sdl_extractFileNameFromPath:(NSString *)filePath {
+    NSUInteger lastSlashIndex = [filePath rangeOfString:@"/" options:NSBackwardsSearch].location;
+    if (lastSlashIndex == NSNotFound) {
+        return filePath;
+    }
+    NSString *fileName = [filePath substringFromIndex:(lastSlashIndex + 1)];
+
+    NSUInteger dotIndex = [fileName rangeOfString:@"." options:NSBackwardsSearch].location;
+    return [fileName substringToIndex:dotIndex];
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLLogManager.h"
+
 #pragma mark - Macros
 
 #pragma mark - General Macros
@@ -18,8 +20,8 @@
 
 #if DEBUG
 
-#define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelVerbose fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
-#define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelDebug fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelVerbose file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelDebug file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
 
 #else
 
@@ -31,5 +33,5 @@
 
 #pragma mark Release Logs
 
-#define SDLLogW(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelWarning fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
-#define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelError fileName:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogW(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelWarning file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];
+#define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelError file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ message:msg, ##__VA_ARGS__];

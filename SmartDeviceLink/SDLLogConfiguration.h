@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSSet<SDLLogFileModule *> *logModules;
 
 // Where the logs will attempt to output. Defaults to Console.
-@property (assign, nonatomic) NSSet<id<SDLLogTarget>> *logTargets;
+@property (copy, nonatomic) NSSet<id<SDLLogTarget>> *logTargets;
 
 // What log filters will run over this session. Defaults to none.
 @property (copy, nonatomic) NSSet<SDLLogFilterBlock> *logFilters;

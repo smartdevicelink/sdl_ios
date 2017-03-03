@@ -38,14 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 // This would be used internally to send out a log to the loggers
 + (void)logWithLevel:(SDLLogLevel)level
-            fileName:(NSString *)fileName
+                file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line
        formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(5, 6);
 
 // This would be used internally for the Swift extension to send out a fully formed message
 + (void)logWithLevel:(SDLLogLevel)level
-            fileName:(NSString *)fileName
+                file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line
              message:(NSString *)message;
