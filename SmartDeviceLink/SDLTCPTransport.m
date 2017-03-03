@@ -3,7 +3,7 @@
 
 
 #import "SDLTCPTransport.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLHexUtility.h"
 #import <errno.h>
 #import <netdb.h>

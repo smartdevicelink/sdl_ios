@@ -3,7 +3,7 @@
 //
 
 #import "SDLIAPSession.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 

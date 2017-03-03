@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 #import "EAAccessoryManager+SDLProtocols.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLGlobals.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPTransport.h"

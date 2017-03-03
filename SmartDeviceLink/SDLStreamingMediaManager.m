@@ -11,7 +11,7 @@
 @import UIKit;
 
 #import "SDLAbstractProtocol.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
 #import "SDLImageResolution.h"

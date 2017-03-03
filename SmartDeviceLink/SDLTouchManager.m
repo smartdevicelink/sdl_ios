@@ -11,7 +11,7 @@
 #import "CGPoint_Util.h"
 #import "dispatch_timer.h"
 
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLTouch.h"

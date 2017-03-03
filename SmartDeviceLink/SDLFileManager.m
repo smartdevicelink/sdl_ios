@@ -9,7 +9,7 @@
 #import "SDLFileManager.h"
 
 #import "SDLConnectionManagerType.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
 #import "SDLFile.h"

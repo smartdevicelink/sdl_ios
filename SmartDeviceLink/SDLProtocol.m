@@ -5,7 +5,7 @@
 #import "SDLFunctionID.h"
 
 #import "SDLAbstractTransport.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLProtocol.h"

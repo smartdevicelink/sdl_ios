@@ -8,7 +8,7 @@
 
 #import "SDLAbstractTransport.h"
 #import "SDLAudioStreamingState.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLEncodedSyncPData.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"

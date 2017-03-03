@@ -9,7 +9,7 @@
 #import "SDLLockScreenManager.h"
 
 #import "NSBundle+SDLBundle.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"

@@ -3,7 +3,7 @@
 //
 
 #import "SDLStreamDelegate.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

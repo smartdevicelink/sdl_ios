@@ -13,7 +13,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLDebugTool.h"
+#import "SDLMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFile.h"
