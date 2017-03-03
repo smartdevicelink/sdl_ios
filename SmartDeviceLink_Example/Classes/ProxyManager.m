@@ -272,12 +272,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLSoftButton *)pointingSoftButtonWithManager:(SDLManager *)manager {
-    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(__kindof SDLRPCNotification *notification) {
-        if ([notification isKindOfClass:[SDLOnButtonPress class]]) {
-            SDLAlert* alert = [[SDLAlert alloc] init];
-            alert.alertText1 = @"You pushed the button!";
-            [manager sendRequest:alert];
+    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+        if (buttonPressNotification == nil) {
+            return;
         }
+
+        SDLAlert* alert = [[SDLAlert alloc] init];
+        alert.alertText1 = @"You pushed the button!";
+        [manager sendRequest:alert];
     }];
     softButton.text = @"Press";
     softButton.softButtonID = @100;
