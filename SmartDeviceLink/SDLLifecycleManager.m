@@ -434,7 +434,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
@@ -452,7 +452,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 

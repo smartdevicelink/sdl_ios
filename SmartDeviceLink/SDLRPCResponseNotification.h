@@ -20,10 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcResponse:(__kindof SDLRPCResponse *)response;
 
 /**
- *
- *  Returns whether or not the containing response is a kind of class.
+ *  Returns whether or not the containing response is equal to a class, not including subclasses.
  *
  *  @param aClass the class your are questioning
+ */
+- (BOOL)isResponseMemberOfClass:(Class)aClass;
+
+/**
+ *  Returns whether or not the containing response is a kind of class, including subclasses.
+ *
+ *  @param aClass the class you are questioning
  */
 - (BOOL)isResponseKindOfClass:(Class)aClass;
 

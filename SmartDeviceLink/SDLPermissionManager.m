@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDL Notification Observers
 
 - (void)sdl_permissionsDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationKindOfClass:[SDLOnPermissionsChange class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnPermissionsChange class]]) {
         return;
     }
 
@@ -218,7 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![notification isNotificationKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
