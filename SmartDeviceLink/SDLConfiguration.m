@@ -31,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _lifecycleConfig = lifecycleConfig;
-    _lockScreenConfig = lockScreenConfig ? lockScreenConfig : [SDLLockScreenConfiguration enabledConfiguration];
-    _loggingConfig = logConfig ? logConfig : [SDLLogConfiguration defaultConfiguration];
+    _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
+    _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
 
     return self;
 }
