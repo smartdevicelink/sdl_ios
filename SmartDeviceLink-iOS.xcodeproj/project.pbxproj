@@ -859,6 +859,8 @@
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		974053E11E6DEB1300CC1567 /* SDLMutableDataQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 974053DF1E6DEB1300CC1567 /* SDLMutableDataQueue.h */; };
+		974053E21E6DEB1300CC1567 /* SDLMutableDataQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 974053E01E6DEB1300CC1567 /* SDLMutableDataQueue.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLNames.m */; };
 		DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */ = {isa = PBXBuildFile; fileRef = DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */; };
@@ -1863,6 +1865,8 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		974053DF1E6DEB1300CC1567 /* SDLMutableDataQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMutableDataQueue.h; sourceTree = "<group>"; };
+		974053E01E6DEB1300CC1567 /* SDLMutableDataQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMutableDataQueue.m; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNames.m; sourceTree = "<group>"; };
 		DA0C46AE1DCD41E30001F2A8 /* SDLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMacros.h; sourceTree = "<group>"; };
 		DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Store.h"; sourceTree = "<group>"; };
@@ -3011,6 +3015,8 @@
 		5D5934F61A85189500687FB9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				974053DF1E6DEB1300CC1567 /* SDLMutableDataQueue.h */,
+				974053E01E6DEB1300CC1567 /* SDLMutableDataQueue.m */,
 				DAC5724C1D0FE3B60004288B /* Touches */,
 				E9C32B831AB20B2900F283AF /* @categories */,
 				5D5934F91A851A8000687FB9 /* Prioritized Objects */,
@@ -3820,6 +3826,7 @@
 				5D61FD931A84238C00846EE7 /* SDLShowConstantTBTResponse.h in Headers */,
 				5D61FCCB1A84238C00846EE7 /* SDLIgnitionStatus.h in Headers */,
 				5D61FCB71A84238C00846EE7 /* SDLGetVehicleDataResponse.h in Headers */,
+				974053E11E6DEB1300CC1567 /* SDLMutableDataQueue.h in Headers */,
 				5D61FDA91A84238C00846EE7 /* SDLSpeechCapabilities.h in Headers */,
 				5D61FCE01A84238C00846EE7 /* SDLKeyboardEvent.h in Headers */,
 				5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */,
@@ -4504,6 +4511,7 @@
 				5D61FC6C1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.m in Sources */,
 				5D61FD081A84238C00846EE7 /* SDLOnCommand.m in Sources */,
 				5D53C46E1B7A99B9003526EA /* SDLStreamingMediaManager.m in Sources */,
+				974053E21E6DEB1300CC1567 /* SDLMutableDataQueue.m in Sources */,
 				5D61FD6A1A84238C00846EE7 /* SDLRPCMessage.m in Sources */,
 				5D61FDA21A84238C00846EE7 /* SDLSoftButtonCapabilities.m in Sources */,
 				5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */,
