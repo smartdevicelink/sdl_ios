@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SDLLogModel (%@): timestamp: %@, file name: %@, module: %@, function: %@, line: %ld, queue: %@, message: %@", [self sdl_stringForLogLevel:self.level], self.timestamp, self.fileName, self.moduleName, self.functionName, self.line, self.queueLabel, self.message];
+    return [NSString stringWithFormat:@"SDLLogModel (%@): timestamp: %@, file name: %@, module: %@, function: %@, line: %ld, queue: %@, message: %@", [self sdl_stringForLogLevel:self.level], self.timestamp, self.fileName, self.moduleName, self.functionName, (long)self.line, self.queueLabel, self.message];
 }
 
 - (NSString *)sdl_stringForLogLevel:(SDLLogLevel)level {

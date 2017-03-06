@@ -18,11 +18,12 @@
                                  [self sdl_protocolModule],
                                  [self sdl_fileManagerModule],
                                  [self sdl_lifecycleManagerModule],
-                                 [self sdl_lockscreenManagerModule]]];
+                                 [self sdl_lockscreenManagerModule],
+                                 [self sdl_streamingMediaManagerModule]]];
 }
 
 + (SDLLogFileModule *)sdl_transportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
 }
 
 + (SDLLogFileModule *)sdl_proxyModule {
@@ -30,7 +31,11 @@
 }
 
 + (SDLLogFileModule *)sdl_protocolModule {
-    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol"]]];
+    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage"]]];
+}
+
++ (SDLLogFileModule *)sdl_rpcModule {
+    return [SDLLogFileModule moduleWithName:@"RPC" files:[NSSet setWithArray:@[@"SDLRPCPayload"]]];
 }
 
 
@@ -46,6 +51,10 @@
 
 + (SDLLogFileModule *)sdl_lockscreenManagerModule {
     return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_streamingMediaManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLStreamingMediaManager"]]];
 }
 
 @end

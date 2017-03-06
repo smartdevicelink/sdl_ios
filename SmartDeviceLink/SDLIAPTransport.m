@@ -322,8 +322,8 @@ int const streamOpenTimeoutSeconds = 2;
         uint8_t buf[1];
         NSUInteger len = [istream read:buf maxLength:1];
         if (len > 0) {
-            NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
-            // [SDLDebugTool logInfo:logMessage];
+            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
+            SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
 
             // Destroy the control session
             [strongSelf.protocolIndexTimer cancel];
@@ -332,7 +332,6 @@ int const streamOpenTimeoutSeconds = 2;
             strongSelf.controlSession = nil;
 
             // Determine protocol string of the data session, then create that data session
-            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });

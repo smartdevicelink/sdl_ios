@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *_Nullable error))completionHandler {
     if (self.securityManager == nil) {
-        // [SDLDebugTool logInfo:@"Could not start service, encryption was requested but failed because no security manager has been set."];
+        SDLLogE(@"Could not start streaming service, encryption was requested by the remote system but failed because there is no security manager set for this app.");
 
         if (completionHandler != nil) {
             completionHandler(NO, [NSError errorWithDomain:SDLProtocolSecurityErrorDomain code:SDLProtocolErrorNoSecurityManager userInfo:nil]);

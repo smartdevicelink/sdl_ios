@@ -340,7 +340,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                    [self sdl_sendRequest:setAppIcon
                        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
                            if (error != nil) {
-                               // [SDLDebugTool logFormat:@"Error setting app icon: ", error];
+                               SDLLogW(@"Error setting up app icon: %@", error);
                            }
 
                            // We've succeeded or failed
