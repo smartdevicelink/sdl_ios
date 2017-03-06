@@ -31,30 +31,41 @@
 }
 
 + (SDLLogFileModule *)sdl_protocolModule {
-    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage"]]];
+    return [SDLLogFileModule moduleWithName:@"Protocol" files:[NSSet setWithArray:@[@"SDLProtocol", @"SDLProtocolMessageAssembler", @"SDLProtocolMessageDisassembler", @"SDLProtocolReceivedMessageRouter", @"SDLV1ProtocolMessage", @"SDLV2ProtocolMessage", @"SDLV1ProtocolHeader", @"SDLV2ProtocolHeader"]]];
 }
 
 + (SDLLogFileModule *)sdl_rpcModule {
     return [SDLLogFileModule moduleWithName:@"RPC" files:[NSSet setWithArray:@[@"SDLRPCPayload"]]];
 }
 
++ (SDLLogFileModule *)sdl_dispatcherModule {
+    return [SDLLogFileModule moduleWithName:@"Dispatcher" files:[NSSet setWithArray:@[@"SDLNotificationDispatcher", @"SDLResponseDispatcher"]]];
+}
+
 
 #pragma mark Managers
 
 + (SDLLogFileModule *)sdl_fileManagerModule {
-    return [SDLLogFileModule moduleWithName:@"File" files:[NSSet setWithArray:@[@"SDLFileManager"]]];
+    return [SDLLogFileModule moduleWithName:@"File" files:[NSSet setWithArray:@[@"SDLFileManager", @"SDLFile", @"SDLArtwork", @"SDLListFilesOperation", @"SDLUploadFileOperation", @"SDLDeleteFileOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_lifecycleManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager"]]];
 }
 
 + (SDLLogFileModule *)sdl_lockscreenManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Lockscreen" files:[NSSet setWithArray:@[@"SDLLockScreenManager", @"SDLLockScreenViewController"]]];
 }
 
 + (SDLLogFileModule *)sdl_streamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLStreamingMediaManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLStreamingMediaManager", @"SDLTouchManager"]]];
+}
+
+
+#pragma mark Utilities
+
++ (SDLLogFileModule *)sdl_utilitiesModule {
+    return [SDLLogFileModule moduleWithName:@"Utilities" files:[NSSet setWithArray:@[@"SDLStateMachine"]]];
 }
 
 @end

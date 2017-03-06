@@ -1906,15 +1906,6 @@
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
 		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
-		DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_down_black.png; sourceTree = "<group>"; };
-		DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@2x.png"; sourceTree = "<group>"; };
-		DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@3x.png"; sourceTree = "<group>"; };
-		DA7515A11D95FAA000F29323 /* lock_arrow_up_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_up_black.png; sourceTree = "<group>"; };
-		DA7515A21D95FAA000F29323 /* lock_arrow_up_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_black@2x.png"; sourceTree = "<group>"; };
-		DA7515A31D95FAA000F29323 /* lock_arrow_up_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_black@3x.png"; sourceTree = "<group>"; };
-		DA7515AA1D95FAA000F29323 /* sdl_logo_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sdl_logo_black.png; sourceTree = "<group>"; };
-		DA7515AB1D95FAA000F29323 /* sdl_logo_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_black@2x.png"; sourceTree = "<group>"; };
-		DA7515AC1D95FAA000F29323 /* sdl_logo_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_black@3x.png"; sourceTree = "<group>"; };
 		DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfoSpec.m; sourceTree = "<group>"; };
 		DA9F7E611DCBFAC800ACAE48 /* SDLDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDateTime.h; sourceTree = "<group>"; };
 		DA9F7E621DCBFAC800ACAE48 /* SDLDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTime.m; sourceTree = "<group>"; };
@@ -3313,7 +3304,6 @@
 		5D6F7A301BC5B7100070BF37 /* Lock Screen UI */ = {
 			isa = PBXGroup;
 			children = (
-				DA7515951D95FAA000F29323 /* iOS 7 Assets */,
 				5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */,
 				5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */,
 				5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */,
@@ -3714,70 +3704,6 @@
 				DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */,
 			);
 			name = Touches;
-			sourceTree = "<group>";
-		};
-		DA7515951D95FAA000F29323 /* iOS 7 Assets */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515961D95FAA000F29323 /* lock_arrow_down */,
-				DA75159F1D95FAA000F29323 /* lock_arrow_up */,
-				DA7515A81D95FAA000F29323 /* sdl_logo */,
-			);
-			path = "iOS 7 Assets";
-			sourceTree = "<group>";
-		};
-		DA7515961D95FAA000F29323 /* lock_arrow_down */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515971D95FAA000F29323 /* black */,
-			);
-			path = lock_arrow_down;
-			sourceTree = "<group>";
-		};
-		DA7515971D95FAA000F29323 /* black */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */,
-				DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */,
-				DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */,
-			);
-			path = black;
-			sourceTree = "<group>";
-		};
-		DA75159F1D95FAA000F29323 /* lock_arrow_up */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515A01D95FAA000F29323 /* black */,
-			);
-			path = lock_arrow_up;
-			sourceTree = "<group>";
-		};
-		DA7515A01D95FAA000F29323 /* black */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515A11D95FAA000F29323 /* lock_arrow_up_black.png */,
-				DA7515A21D95FAA000F29323 /* lock_arrow_up_black@2x.png */,
-				DA7515A31D95FAA000F29323 /* lock_arrow_up_black@3x.png */,
-			);
-			path = black;
-			sourceTree = "<group>";
-		};
-		DA7515A81D95FAA000F29323 /* sdl_logo */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515A91D95FAA000F29323 /* black */,
-			);
-			path = sdl_logo;
-			sourceTree = "<group>";
-		};
-		DA7515A91D95FAA000F29323 /* black */ = {
-			isa = PBXGroup;
-			children = (
-				DA7515AA1D95FAA000F29323 /* sdl_logo_black.png */,
-				DA7515AB1D95FAA000F29323 /* sdl_logo_black@2x.png */,
-				DA7515AC1D95FAA000F29323 /* sdl_logo_black@3x.png */,
-			);
-			path = black;
 			sourceTree = "<group>";
 		};
 		DAC5724C1D0FE3B60004288B /* Touches */ = {
