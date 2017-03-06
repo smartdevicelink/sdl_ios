@@ -16,6 +16,8 @@
     return [NSSet setWithArray:@[[self sdl_transportModule],
                                  [self sdl_proxyModule],
                                  [self sdl_protocolModule],
+                                 [self sdl_rpcModule],
+                                 [self sdl_dispatcherModule],
                                  [self sdl_fileManagerModule],
                                  [self sdl_lifecycleManagerModule],
                                  [self sdl_lockscreenManagerModule],
