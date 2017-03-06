@@ -3,6 +3,6 @@
 
 
 #import <Foundation/Foundation.h>
-#import "SDLLogMacros.h"
+#import "SDLMacros.h"
 
 typedef NSString* SDLEnum SDL_SWIFT_ENUM;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
