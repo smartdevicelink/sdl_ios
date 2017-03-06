@@ -5,8 +5,8 @@
 
 ##### Reproduction Steps
 1. [Step 1]
-1. [Step 2]
-1. [Step 3]
+2. [Step 2]
+3. [Step 3]
 
 ##### Expected Behavior
 [Some expected behavior]
