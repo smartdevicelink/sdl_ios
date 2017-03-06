@@ -10,7 +10,6 @@
 
 #import "SDLLogFileModule.h"
 #import "SDLLogTargetASL.h"
-#import "SDLLogTargetConsole.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
