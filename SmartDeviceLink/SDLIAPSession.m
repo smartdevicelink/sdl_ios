@@ -9,17 +9,17 @@
 #import "SDLMutableDataQueue.h"
 
 NS_ASSUME_NONNULL_BEGIN
-#define IO_STREAMTHREAD_NAME            @ "com.smartdevicelink.iostream"
-#define STREAM_THREAD_WAIT_SECS         1.0
+NSString *const ioStreamThreadName  = @ "com.smartdevicelink.iostream";
+NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
 
 @property (assign, nonatomic) BOOL isInputStreamOpen;
 @property (assign, nonatomic) BOOL isOutputStreamOpen;
 @property (assign, nonatomic) BOOL isDataSession;
-@property (nonatomic, strong) NSThread *ioStreamThread;
-@property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
-@property (nonatomic, strong) dispatch_semaphore_t canceledSema;
+@property (nonatomic, strong, nullable) NSThread *ioStreamThread;
+@property (nonatomic, strong, nullable) SDLMutableDataQueue *sendDataQueue;
+@property (nonatomic, strong, nullable) dispatch_semaphore_t canceledSema;
 
 @end
 
@@ -66,15 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
 
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
-        if (!self.isDataSession){
+        if (!self.isDataSession) {
             [strongSelf startStream:weakSelf.easession.outputStream];
             [strongSelf startStream:weakSelf.easession.inputStream];
-        }
-        else{
+        } else {
             strongSelf.streamDelegate.streamHasSpaceHandler = [self streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
             self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
-            [self.ioStreamThread setName:IO_STREAMTHREAD_NAME];
+            [self.ioStreamThread setName:ioStreamThreadName];
             [self.ioStreamThread start];
         }
 
@@ -88,18 +87,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
 
-    if (!self.isDataSession){
+    if (!self.isDataSession) {
         [self stopStream:self.easession.outputStream];
         [self stopStream:self.easession.inputStream];
-    }
-    else{
+    } else {
         [self.ioStreamThread cancel];
         
-        long lWait = dispatch_semaphore_wait(self.canceledSema, dispatch_time(DISPATCH_TIME_NOW, STREAM_THREAD_WAIT_SECS * NSEC_PER_SEC));
-        if (lWait == 0){
+        long lWait = dispatch_semaphore_wait(self.canceledSema, dispatch_time(DISPATCH_TIME_NOW, streamThreadWaitSecs * NSEC_PER_SEC));
+        if (lWait == 0) {
             [SDLDebugTool logInfo:@"Stream thread canceled"];
-        }
-        else{
+        } else{
            [SDLDebugTool logInfo:@"Error: failed to cancel stream thread"];
         }
         self.ioStreamThread = nil;
@@ -118,19 +115,17 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableData *remainder = [self.sendDataQueue front];
     BOOL allDataWritten = NO;
     
-    if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen){
+    if (error != nil && remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
         NSInteger bytesRemaining = remainder.length;
         NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
-        if (bytesWritten < 0){
+        if (bytesWritten < 0) {
             *error = ostream.streamError;
-        }
-        else{
-            if (bytesWritten == bytesRemaining){
+        } else {
+            if (bytesWritten == bytesRemaining) {
                 // Remove the data from the queue
                 [self.sendDataQueue pop];
                 allDataWritten = YES;
-            }
-            else{
+            } else{
                 // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
                 [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
             }
@@ -149,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
     // so that temporary error conditions can be dealt with by retrying
     if (self.easession == nil ||
         self.easession.outputStream == nil ||
-        self.easession.outputStream.streamStatus != NSStreamStatusOpen){
+        self.easession.outputStream.streamStatus != NSStreamStatusOpen) {
         [self.sendDataQueue flush];
     }
 }
@@ -176,9 +171,9 @@ NS_ASSUME_NONNULL_BEGIN
     
     [SDLDebugTool logInfo:@"starting the event loop for accessory"];
     do {
-        if (self.sendDataQueue.count > 0 && !self.sendDataQueue.frontDequeued){
+        if (self.sendDataQueue.count > 0 && !self.sendDataQueue.frontDequeued) {
             NSError *sendErr = nil;
-            if (![self sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil){
+            if (![self sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
                 [self sdl_handleOutputStreamWriteError:sendErr];
             }
         }
@@ -287,10 +282,10 @@ NS_ASSUME_NONNULL_BEGIN
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         
-        if (strongSelf.isDataSession){
+        if (strongSelf.isDataSession) {
             NSError *sendErr = nil;
             
-            if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil){
+            if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
                 [strongSelf sdl_handleOutputStreamWriteError:sendErr];
             }
         }

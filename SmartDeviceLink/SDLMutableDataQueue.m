@@ -8,8 +8,6 @@
 
 #import "SDLMutableDataQueue.h"
 
-foo;
-
 @interface SDLMutableDataQueue()
 
 @property(nonatomic, strong) NSMutableArray *elements;
@@ -21,7 +19,7 @@ foo;
 
 - (instancetype)init{
     self = [super init];
-    if (self != nil){
+    if (self != nil) {
         self.elements = [[NSMutableArray alloc] init];
     }
     
@@ -39,7 +37,7 @@ foo;
     NSMutableData *dataAtFront = nil;
     
     @synchronized (self) {
-        if (self.elements.count > 0){
+        if (self.elements.count > 0) {
             // The front of the queue is always at index 0
             dataAtFront = [self.elements objectAtIndex:0];
             self.frontDequeued = YES;

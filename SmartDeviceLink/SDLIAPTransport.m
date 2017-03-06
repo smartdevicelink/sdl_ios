@@ -268,7 +268,7 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark - Data Transmission
 
 - (void)sendData:(NSData *)data {
-    if (self.session != nil && self.session.accessory.connected){
+    if (self.session != nil && self.session.accessory.connected) {
         [self.session sendData:data];
     }
 }

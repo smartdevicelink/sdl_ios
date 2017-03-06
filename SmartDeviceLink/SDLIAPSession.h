@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SDLStreamDelegate;
+typedef void (^SessionCompletionHandler)(BOOL success);
 
 @interface SDLIAPSession : NSObject
 
