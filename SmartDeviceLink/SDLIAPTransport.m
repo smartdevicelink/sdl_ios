@@ -268,23 +268,9 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark - Data Transmission
 
 - (void)sendData:(NSData *)data {
-    dispatch_async(_transmit_queue, ^{
-        NSOutputStream *ostream = self.session.easession.outputStream;
-        NSMutableData *remainder = data.mutableCopy;
-
-        while (remainder.length != 0) {
-            if (ostream.streamStatus == NSStreamStatusOpen && ostream.hasSpaceAvailable) {
-                NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
-
-                if (bytesWritten == -1) {
-                    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
-                    break;
-                }
-
-                [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
-            }
-        }
-    });
+    if (self.session != nil && self.session.accessory.connected){
+        [self.session sendData:data];
+    }
 }
 
 
