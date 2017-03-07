@@ -34,6 +34,13 @@ typedef NSString *SDLNotificationUserInfoKey;
 typedef void (^SDLRPCNotificationHandler)(__kindof SDLRPCNotification *notification);
 
 /**
+ *  A handler used on SDLPerformAudioPassThru.
+ *
+ *  @param audioData The audio data contained in the notification.
+ */
+typedef void (^SDLAudioPassThruHandler)(NSData *__nullable audioData);
+
+/**
  *  A handler used on all RPC requests which fires when the response is received.
  *
  *  @param request  The request which was sent.

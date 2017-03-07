@@ -15,9 +15,12 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
 #import "SDLError.h"
+#import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnCommand.h"
+#import "SDLPerformAudioPassThru.h"
+#import "SDLPerformAudioPassThruResponse.h"
 #import "SDLRPCResponse.h"
 #import "SDLResult.h"
 #import "SDLScrollableMessage.h"
@@ -60,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Commands
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForCommand:) name:SDLDidReceiveCommandNotification object:dispatcher];
+    
+    // Audio Pass Thru
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForAudioPassThru:) name:SDLDidReceiveAudioPassThruNotification object:dispatcher];
 
     return self;
 }
@@ -98,6 +104,9 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
+    } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
+        SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
+        _audioPassThruHandler = [performAudioPassThru.audioDataHandler copy];
     }
 
     // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
@@ -113,6 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.commandHandlerMap removeAllObjects];
     [self.buttonHandlerMap removeAllObjects];
     [self.customButtonHandlerMap removeAllObjects];
+    _audioPassThruHandler = nil;
 }
 
 - (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
@@ -160,6 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // If it's a DeleteCommand or UnsubscribeButton, we need to remove handlers for the corresponding commands / buttons
+    // If it's a PerformAudioPassThru, we can also remove it.
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
         SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
         NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
@@ -168,6 +179,8 @@ NS_ASSUME_NONNULL_BEGIN
         SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
         SDLButtonName unsubscribeButtonName = unsubscribeButtonRequest.buttonName;
         [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
+    } else if ([response isKindOfClass:[SDLPerformAudioPassThruResponse class]]) {
+        _audioPassThruHandler = nil;
     }
 }
 
@@ -208,6 +221,16 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (handler) {
         handler(rpcNotification);
+    }
+}
+    
+#pragma mark Audio Pass Thru
+    
+- (void)sdl_runHandlerForAudioPassThru:(NSNotification *)notification {
+    SDLOnAudioPassThru *onAudioPassThruNotification = notification.userInfo[SDLNotificationUserInfoObject];
+    
+    if (self.audioPassThruHandler) {
+        self.audioPassThruHandler(onAudioPassThruNotification.bulkData);
     }
 }
 
