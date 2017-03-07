@@ -9,8 +9,10 @@
 #import "SDLNotificationConstants.h"
 #import <Foundation/Foundation.h>
 
+#import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLLanguage.h"
+#import "SDLSystemContext.h"
 
 @class SDLConfiguration;
 @class SDLFileManager;
@@ -73,6 +75,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (assign, nonatomic) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, nullable) SDLSystemContext systemContext;
 @property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 

@@ -2,8 +2,10 @@
 
 #import "SDLNotificationConstants.h"
 
+#import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLLanguage.h"
+#import "SDLSystemContext.h"
 
 @class SDLConfiguration;
 @class SDLFileManager;
@@ -37,6 +39,16 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  The current HMI level of the running app.
  */
 @property (copy, nonatomic, readonly) SDLHMILevel hmiLevel;
+
+/**
+ *  The current audio streaming state of the running app.
+ */
+@property (copy, nonatomic, readonly) SDLAudioStreamingState audioStreamingState;
+
+/**
+ *  The current system context of the running app.
+ */
+@property (copy, nonatomic, readonly) SDLSystemContext systemContext;
 
 /**
  *  The file manager to be used by the running app.

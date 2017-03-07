@@ -186,7 +186,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.registerResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
-
+    
+    // New Start
+    self.audioStreamingState = nil;
+    self.systemContext = nil;
+    // New End
+    
+    
     [SDLDebugTool logInfo:@"Stopping Proxy"];
     self.proxy = nil;
 
@@ -450,13 +456,29 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-
+    
+    SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
+    self.audioStreamingState = hmiStatusNotification.audioStreamingState;
+    
+    SDLSystemContext oldSystemContext = self.systemContext;
+    self.systemContext = hmiStatusNotification.systemContext;
+    
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         return;
     }
 
     if (![oldHMILevel isEqualToString:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    }
+        
+    if (![oldStreamingState isEqualToString:self.audioStreamingState]
+        && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+    }
+    
+    if (![oldSystemContext isEqualToString:self.systemContext]
+        && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
+        [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
     }
 }
 
