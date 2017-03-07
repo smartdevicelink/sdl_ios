@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (SDLLogFilterBlock)sdl_filterCheckingModules:(NSSet<SDLLogFileModule *> *)modules allowed:(BOOL)allowed {
     return ^BOOL(SDLLogModel *log) {
         for (SDLLogFileModule *module in modules) {
-            if ([module containsFile:log.fileName]) {
+            if ([module.name isEqualToString:log.moduleName]) {
                 return allowed;
             }
         }
