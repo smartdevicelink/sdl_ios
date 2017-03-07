@@ -357,7 +357,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
     self.initialShowState = SDLHMIInitialShowStateNone;
-    _state = ProxyStateStopped;
+    [self sdlex_updateProxyState:ProxyStateStopped];
     if (ShouldRestartOnDisconnect) {
         [self startManager];
     }
