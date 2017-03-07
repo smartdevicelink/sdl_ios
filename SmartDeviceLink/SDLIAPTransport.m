@@ -272,8 +272,7 @@ int const streamOpenTimeoutSeconds = 2;
         NSOutputStream *ostream = self.session.easession.outputStream;
         NSMutableData *remainder = data.mutableCopy;
 
-        while (ostream.streamStatus == NSStreamStatusOpen &&
-               remainder.length != 0) {
+        while (ostream.streamStatus == NSStreamStatusOpen && remainder.length != 0) {
             if (ostream.hasSpaceAvailable){
                 NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
 
