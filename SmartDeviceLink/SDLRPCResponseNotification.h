@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Returns whether or not the containing response is equal to a class, not including subclasses.
  *
- *  @param aClass the class your are questioning
+ *  @param aClass the class you are questioning
  */
 - (BOOL)isResponseMemberOfClass:(Class)aClass;
 
