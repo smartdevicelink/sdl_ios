@@ -8,6 +8,8 @@
 
 import Foundation
 
+import SmartDeviceLink
+
 
 /// You may use this class or the below functions for convenience logging in Swift 3 projects.
 /// It would be used like so:

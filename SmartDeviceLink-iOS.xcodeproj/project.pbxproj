@@ -259,6 +259,10 @@
 		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
 		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
+		5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */; };
+		5D43465B1E6F154400B639C6 /* SDLLogConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */; };
+		5D4346651E6F38E600B639C6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D4346691E6F38FF00B639C6 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CBE1E687D6D009CD394 /* SDLLog.swift */; };
 		5D48329D1A8EA33D00252386 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D48329C1A8EA33D00252386 /* Preferences.m */; };
 		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
@@ -866,7 +870,6 @@
 		5DD67CB91E661C4A009CD394 /* SDLLogTargetFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CB71E661C4A009CD394 /* SDLLogTargetFile.m */; };
 		5DD67CBC1E661C84009CD394 /* SDLLogTargetOSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CBA1E661C84009CD394 /* SDLLogTargetOSLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DD67CBD1E661C84009CD394 /* SDLLogTargetOSLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CBB1E661C84009CD394 /* SDLLogTargetOSLog.m */; };
-		5DD67CBF1E687D6D009CD394 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CBE1E687D6D009CD394 /* SDLLog.swift */; };
 		5DD67CC31E68AE82009CD394 /* SDLLogFileModuleMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */; };
 		5DD67CC41E68AE82009CD394 /* SDLLogFileModuleMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */; };
 		5DD67CC71E68B568009CD394 /* SDLLogMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CC51E68B568009CD394 /* SDLLogMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1270,6 +1273,11 @@
 		5D4029D51A76F0410006B0C2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmartDeviceLink_Example/Info.plist; sourceTree = SOURCE_ROOT; };
 		5D4029E01A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = SmartDeviceLink_Example/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		5D4029E21A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogFileModuleSpec.m; path = LoggingSpecs/SDLLogFileModuleSpec.m; sourceTree = "<group>"; };
+		5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogConfigurationSpec.m; path = LoggingSpecs/SDLLogConfigurationSpec.m; sourceTree = "<group>"; };
+		5D4346611E6F38E600B639C6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLinkSwift.h; sourceTree = "<group>"; };
+		5D4346641E6F38E600B639C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D48329B1A8EA33D00252386 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = SmartDeviceLink_Example/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
 		5D48329C1A8EA33D00252386 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = SmartDeviceLink_Example/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
 		5D48329F1A92868E00252386 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = SmartDeviceLink_Example/Classes/ProxyManager.h; sourceTree = SOURCE_ROOT; };
@@ -1887,7 +1895,7 @@
 		5DD67CB71E661C4A009CD394 /* SDLLogTargetFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogTargetFile.m; sourceTree = "<group>"; };
 		5DD67CBA1E661C84009CD394 /* SDLLogTargetOSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogTargetOSLog.h; sourceTree = "<group>"; };
 		5DD67CBB1E661C84009CD394 /* SDLLogTargetOSLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogTargetOSLog.m; sourceTree = "<group>"; };
-		5DD67CBE1E687D6D009CD394 /* SDLLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDLLog.swift; sourceTree = "<group>"; };
+		5DD67CBE1E687D6D009CD394 /* SDLLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SDLLog.swift; path = ../SmartDeviceLink/SDLLog.swift; sourceTree = "<group>"; };
 		5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogFileModuleMap.h; sourceTree = "<group>"; };
 		5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogFileModuleMap.m; sourceTree = "<group>"; };
 		5DD67CC51E68B568009CD394 /* SDLLogMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogMacros.h; sourceTree = "<group>"; };
@@ -1978,6 +1986,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D43465D1E6F38E600B639C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2429,6 +2444,7 @@
 				5D4019B11A76EC350006B0C2 /* Example */,
 				5D61FA1D1A84237100846EE7 /* SmartDeviceLink */,
 				5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */,
+				5D4346621E6F38E600B639C6 /* SmartDeviceLinkSwift */,
 				5D4019B01A76EC350006B0C2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -2439,6 +2455,7 @@
 				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
+				5D4346611E6F38E600B639C6 /* SmartDeviceLinkSwift.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2468,6 +2485,25 @@
 				5D4029D51A76F0410006B0C2 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5D4346431E6F0B5600B639C6 /* LoggingSpecs */ = {
+			isa = PBXGroup;
+			children = (
+				5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */,
+				5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */,
+			);
+			name = LoggingSpecs;
+			sourceTree = "<group>";
+		};
+		5D4346621E6F38E600B639C6 /* SmartDeviceLinkSwift */ = {
+			isa = PBXGroup;
+			children = (
+				5DD67CBE1E687D6D009CD394 /* SDLLog.swift */,
+				5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */,
+				5D4346641E6F38E600B639C6 /* Info.plist */,
+			);
+			path = SmartDeviceLinkSwift;
 			sourceTree = "<group>";
 		};
 		5D4832991A8EA27200252386 /* Storyboards */ = {
@@ -3035,7 +3071,6 @@
 				5DBF06331E64A9FE00A5CF03 /* SDLLogConstants.h */,
 				5DBF06371E64ABBE00A5CF03 /* SDLLogConfiguration.h */,
 				5DBF06381E64ABBE00A5CF03 /* SDLLogConfiguration.m */,
-				5DD67CBE1E687D6D009CD394 /* SDLLog.swift */,
 				5DD67CC51E68B568009CD394 /* SDLLogMacros.h */,
 			);
 			name = Logging;
@@ -3257,6 +3292,7 @@
 			children = (
 				167ED9231A9BB86300797BE5 /* Libraries */,
 				5DAE06711BDEC68700F9B498 /* Developer API Tests */,
+				5D4346431E6F0B5600B639C6 /* LoggingSpecs */,
 				5D59DD451B14FDD000BE744D /* ProxySpecs */,
 				5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */,
 				1680B1041A9CD7AD00DBD79E /* ProtocolSpecs */,
@@ -3742,6 +3778,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		5D43465E1E6F38E600B639C6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D4346651E6F38E600B639C6 /* SmartDeviceLinkSwift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5D61FA191A84237100846EE7 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -4096,6 +4140,24 @@
 			productReference = 5D4019AF1A76EC350006B0C2 /* SDL Example.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5D4346601E6F38E600B639C6 /* SmartDeviceLinkSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D4346661E6F38E600B639C6 /* Build configuration list for PBXNativeTarget "SmartDeviceLinkSwift" */;
+			buildPhases = (
+				5D43465C1E6F38E600B639C6 /* Sources */,
+				5D43465D1E6F38E600B639C6 /* Frameworks */,
+				5D43465E1E6F38E600B639C6 /* Headers */,
+				5D43465F1E6F38E600B639C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartDeviceLinkSwift;
+			productName = SmartDeviceLinkSwift;
+			productReference = 5D4346611E6F38E600B639C6 /* SmartDeviceLinkSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		5D61FA1B1A84237100846EE7 /* SmartDeviceLink */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D61FA351A84237100846EE7 /* Build configuration list for PBXNativeTarget "SmartDeviceLink" */;
@@ -4156,6 +4218,10 @@
 							};
 						};
 					};
+					5D4346601E6F38E600B639C6 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					5D61FA1B1A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
 						LastSwiftMigration = 0820;
@@ -4182,6 +4248,7 @@
 				5D4019AE1A76EC350006B0C2 /* SmartDeviceLink-Example */,
 				5D61FA1B1A84237100846EE7 /* SmartDeviceLink */,
 				5D61FA251A84237100846EE7 /* SmartDeviceLinkTests */,
+				5D4346601E6F38E600B639C6 /* SmartDeviceLinkSwift */,
 			);
 		};
 /* End PBXProject section */
@@ -4196,6 +4263,13 @@
 				5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */,
 				5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */,
 				5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D43465F1E6F38E600B639C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4240,6 +4314,14 @@
 				5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */,
 				5D4832A11A92868E00252386 /* ProxyManager.m in Sources */,
 				5D0218F61A8E79C400D1BF62 /* ConnectionTCPTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D43465C1E6F38E600B639C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D4346691E6F38FF00B639C6 /* SDLLog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4524,7 +4606,6 @@
 				5D61FD401A84238C00846EE7 /* SDLPrioritizedObjectCollection.m in Sources */,
 				5D61FDC61A84238C00846EE7 /* SDLTCPTransport.m in Sources */,
 				5D61FE0E1A84238C00846EE7 /* SDLVRCapabilities.m in Sources */,
-				5DD67CBF1E687D6D009CD394 /* SDLLog.swift in Sources */,
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,
 				DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */,
@@ -4690,8 +4771,10 @@
 				162E83361A9BDE8B00906325 /* SDLRegisterAppInterfaceSpec.m in Sources */,
 				162E82DD1A9BDE8B00906325 /* SDLFileTypeSpec.m in Sources */,
 				162E836A1A9BDE8B00906325 /* SDLSubscribeVehicleDataResponseSpec.m in Sources */,
+				5D43465B1E6F154400B639C6 /* SDLLogConfigurationSpec.m in Sources */,
 				162E83761A9BDE8B00906325 /* SDLChoiceSpec.m in Sources */,
 				162E83571A9BDE8B00906325 /* SDLGetDTCsResponseSpec.m in Sources */,
+				5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */,
 				162E83201A9BDE8B00906325 /* SDLOnVehicleDataSpec.m in Sources */,
 				162E83141A9BDE8B00906325 /* SDLOnDriverDistractionSpec.m in Sources */,
 				162E83371A9BDE8B00906325 /* SDLResetGlobalPropertiesSpec.m in Sources */,
@@ -5024,6 +5107,61 @@
 			};
 			name = Release;
 		};
+		5D4346671E6F38E600B639C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SmartDeviceLinkSwift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5D4346681E6F38E600B639C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SmartDeviceLinkSwift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SmartDeviceLinkSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		5D61FA361A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5100,7 +5238,6 @@
 		5D61FA391A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -5136,7 +5273,6 @@
 		5D61FA3A1A84237100846EE7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -5184,6 +5320,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		5D4346661E6F38E600B639C6 /* Build configuration list for PBXNativeTarget "SmartDeviceLinkSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D4346671E6F38E600B639C6 /* Debug */,
+				5D4346681E6F38E600B639C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		5D61FA351A84237100846EE7 /* Build configuration list for PBXNativeTarget "SmartDeviceLink" */ = {
 			isa = XCConfigurationList;
