@@ -75,11 +75,11 @@ static dispatch_queue_t _logQueue = NULL;
 
 #pragma mark - Configuration
 
-+ (void)startWithConfiguration:(SDLLogConfiguration *)configuration {
-    [[self sharedManager] sdl_startWithConfiguration:configuration];
++ (void)setConfiguration:(SDLLogConfiguration *)configuration {
+    [[self sharedManager] sdl_setConfiguration:configuration];
 }
 
-- (void)sdl_startWithConfiguration:(SDLLogConfiguration *)configuration {
+- (void)sdl_setConfiguration:(SDLLogConfiguration *)configuration {
     self.logModules = configuration.logModules;
     self.logFilters = configuration.logFilters;
     self.formatType = configuration.formatType;
@@ -95,7 +95,7 @@ static dispatch_queue_t _logQueue = NULL;
             [startedLoggers addObject:target];
         } else {
             // Because we haven't set up loggers yet, this is necessary
-            NSLog(@"(SDL) Warning: Logger failed to setup: %@", NSStringFromClass(target.class));
+            NSLog(@"(SDL) Warning: Log target failed setup: %@", NSStringFromClass(target.class));
         }
     }
     self.logTargets = [startedLoggers copy];

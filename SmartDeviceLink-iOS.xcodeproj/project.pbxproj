@@ -264,6 +264,9 @@
 		5D4346651E6F38E600B639C6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D4346691E6F38FF00B639C6 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CBE1E687D6D009CD394 /* SDLLog.swift */; };
 		5D43466B1E6F3B4C00B639C6 /* SDLLogFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466A1E6F3B4C00B639C6 /* SDLLogFilterSpec.m */; };
+		5D43466D1E6F522000B639C6 /* SDLLogModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466C1E6F522000B639C6 /* SDLLogModelSpec.m */; };
+		5D43466F1E6F55BD00B639C6 /* SDLLogManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */; };
+		5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346721E6F617D00B639C6 /* TestLogTarget.m */; };
 		5D48329D1A8EA33D00252386 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D48329C1A8EA33D00252386 /* Preferences.m */; };
 		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
@@ -1280,6 +1283,10 @@
 		5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLinkSwift.h; sourceTree = "<group>"; };
 		5D4346641E6F38E600B639C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D43466A1E6F3B4C00B639C6 /* SDLLogFilterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogFilterSpec.m; path = LoggingSpecs/SDLLogFilterSpec.m; sourceTree = "<group>"; };
+		5D43466C1E6F522000B639C6 /* SDLLogModelSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogModelSpec.m; path = LoggingSpecs/SDLLogModelSpec.m; sourceTree = "<group>"; };
+		5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogManagerSpec.m; path = LoggingSpecs/SDLLogManagerSpec.m; sourceTree = "<group>"; };
+		5D4346711E6F617D00B639C6 /* TestLogTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestLogTarget.h; path = LoggingSpecs/TestLogTarget.h; sourceTree = "<group>"; };
+		5D4346721E6F617D00B639C6 /* TestLogTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestLogTarget.m; path = LoggingSpecs/TestLogTarget.m; sourceTree = "<group>"; };
 		5D48329B1A8EA33D00252386 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = SmartDeviceLink_Example/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
 		5D48329C1A8EA33D00252386 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = SmartDeviceLink_Example/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
 		5D48329F1A92868E00252386 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = SmartDeviceLink_Example/Classes/ProxyManager.h; sourceTree = SOURCE_ROOT; };
@@ -2492,9 +2499,12 @@
 		5D4346431E6F0B5600B639C6 /* LoggingSpecs */ = {
 			isa = PBXGroup;
 			children = (
+				5D4346701E6F616500B639C6 /* Mocks */,
 				5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */,
 				5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */,
 				5D43466A1E6F3B4C00B639C6 /* SDLLogFilterSpec.m */,
+				5D43466C1E6F522000B639C6 /* SDLLogModelSpec.m */,
+				5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */,
 			);
 			name = LoggingSpecs;
 			sourceTree = "<group>";
@@ -2507,6 +2517,15 @@
 				5D4346641E6F38E600B639C6 /* Info.plist */,
 			);
 			path = SmartDeviceLinkSwift;
+			sourceTree = "<group>";
+		};
+		5D4346701E6F616500B639C6 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				5D4346711E6F617D00B639C6 /* TestLogTarget.h */,
+				5D4346721E6F617D00B639C6 /* TestLogTarget.m */,
+			);
+			name = Mocks;
 			sourceTree = "<group>";
 		};
 		5D4832991A8EA27200252386 /* Storyboards */ = {
@@ -4680,6 +4699,7 @@
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
 				162E82ED1A9BDE8B00906325 /* SDLMaintenanceModeStatusSpec.m in Sources */,
 				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
+				5D43466D1E6F522000B639C6 /* SDLLogModelSpec.m in Sources */,
 				1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */,
 				162E83181A9BDE8B00906325 /* SDLOnKeyboardInputSpec.m in Sources */,
 				162E83701A9BDE8B00906325 /* SDLUpdateTurnListResponseSpec.m in Sources */,
@@ -4799,6 +4819,7 @@
 				162E834B1A9BDE8B00906325 /* SDLAlertManeuverResponseSpec.m in Sources */,
 				162E833E1A9BDE8B00906325 /* SDLShowSpec.m in Sources */,
 				162E83241A9BDE8B00906325 /* SDLAlertManeuverSpec.m in Sources */,
+				5D43466F1E6F55BD00B639C6 /* SDLLogManagerSpec.m in Sources */,
 				162E83451A9BDE8B00906325 /* SDLUnregisterAppInterfaceSpec.m in Sources */,
 				162E82EF1A9BDE8B00906325 /* SDLPermissionStatusSpec.m in Sources */,
 				DA9F7EA61DCC05F500ACAE48 /* SDLUnsubscribeWaypointsSpec.m in Sources */,
@@ -4811,6 +4832,7 @@
 				162E834C1A9BDE8B00906325 /* SDLAlertResponseSpec.m in Sources */,
 				1680B11B1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m in Sources */,
 				5DB1BCDA1D243D85002FFC37 /* SDLStateMachineSpec.m in Sources */,
+				5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */,
 				162E83131A9BDE8B00906325 /* SDLOnCommandSpec.m in Sources */,
 				162E833A1A9BDE8B00906325 /* SDLSetDisplayLayoutSpec.m in Sources */,
 				162E838F1A9BDE8B00906325 /* SDLTextFieldSpec.m in Sources */,

@@ -17,6 +17,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ This is the central manager of logging. A developer should not have to interact with this class, it is exclusively used internally.
+ */
 @interface SDLLogManager : NSObject
 
 @property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *logModules;
@@ -34,7 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
 // These are automatically sent to the sharedManager
 #pragma mark - Singleton Methods
 
-+ (void)startWithConfiguration:(SDLLogConfiguration *)configuration;
+/**
+ Sets a configuration to be used by the log manager. This is generally for internal use and you should set your configuration using SDLManager's startWithConfiguration: method.
+
+ @param configuration The configuration to be used.
+ */
++ (void)setConfiguration:(SDLLogConfiguration *)configuration;
 
 // This would be used internally to send out a log to the loggers
 + (void)logWithLevel:(SDLLogLevel)level

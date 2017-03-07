@@ -91,7 +91,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // Logging
     _configuration.loggingConfig.logModules = [_configuration.loggingConfig.logModules setByAddingObjectsFromSet:[SDLLogFileModuleMap sdlModuleMap]];
-    [SDLLogManager startWithConfiguration:_configuration.loggingConfig];
+    [SDLLogManager setConfiguration:_configuration.loggingConfig];
 
     // Private properties
     _lifecycleStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLLifecycleStateStopped states:[self.class sdl_stateTransitionDictionary]];
