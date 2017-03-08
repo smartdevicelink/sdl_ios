@@ -10,7 +10,7 @@ s.platform     = :ios, "8.0"
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
 s.source_files = "SmartDeviceLink/**/*.{h,m}"
 s.requires_arc = true
-s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
-s.private_header_files = 'SmartDeviceLink/Internal/**/*.h'
+s.ios.resource_bundle = { "SmartDeviceLink" => "SmartDeviceLink/Internal/Assets/**/*" }
+s.private_header_files = "SmartDeviceLink/Internal/**/*.h"
 
 end
