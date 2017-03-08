@@ -19,27 +19,29 @@
 
 - (instancetype)init{
     self = [super init];
-    if (self != nil) {
-        self.elements = [[NSMutableArray alloc] init];
+    if (!self) {
+        return nil;
     }
+    
+    self.elements = [[NSMutableArray alloc] init];
     
     return self;
 }
 
-- (void)enqueue:(NSMutableData *)data{
+- (void)enqueueBuffer:(NSMutableData *)data{
     @synchronized (self) {
         [self.elements addObject:data];
         self.frontDequeued = NO;
     }
 }
 
-- (NSMutableData *)front{
+- (NSMutableData *)frontBuffer{
     NSMutableData *dataAtFront = nil;
     
     @synchronized (self) {
-        if (self.elements.count > 0) {
+        if (self.elements.count) {
             // The front of the queue is always at index 0
-            dataAtFront = [self.elements objectAtIndex:0];
+            dataAtFront = self.elements[0];
             self.frontDequeued = YES;
         }
     }
@@ -47,7 +49,7 @@
     return dataAtFront;
 }
 
-- (void)pop{
+- (void)popBuffer{
     @synchronized (self) {
         [self.elements removeObjectAtIndex:0];
     }
@@ -63,10 +65,6 @@
     @synchronized (self) {
         return self.elements.count;
     }
-}
-
-- (void)dealloc{
-    self.elements = nil;
 }
 
 @end

@@ -10,8 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SessionCompletionHandler)(BOOL success);
-
 @interface SDLIAPSession : NSObject
 
 @property (nullable, strong, nonatomic) EAAccessory *accessory;
