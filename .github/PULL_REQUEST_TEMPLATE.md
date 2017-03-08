@@ -19,8 +19,8 @@ This PR makes **[no / minor / major]** API changes.
 ##### Breaking Changes
 * [Breaking change info]
 
-##### Enchancements
-* [Enchancement info]
+##### Enhancements
+* [Enhancement info]
 
 ##### Bug Fixes
 * [Bug Fix Info]
