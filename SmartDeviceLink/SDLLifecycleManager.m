@@ -117,6 +117,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
+        [SDLDebugTool logFormat:@"Warning: SDL has already been started, this attempt will be ignored."];
+        return;
+    }
+    
     self.readyHandler = [readyHandler copy];
 
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
@@ -292,7 +297,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
     if (![registerResult isEqualToString:SDLResultSuccess]) {
-        startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
+        startError = [NSError sdl_lifecycle_startedWithWarning:registerResult info:registerInfo];
     }
 
     // If we got to this point, we succeeded, send the error if there was a warning.
@@ -411,16 +416,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class)class {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
-        return NO;
-    }
-
-    return YES;
-}
-
-+ (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
++ (void)sdl_updateLoggingWithFlags:(SDLLogOutput)logFlags {
     if (logFlags == SDLLogOutputNone) {
         [SDLDebugTool disable];
         return;
@@ -453,7 +449,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
@@ -471,7 +467,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 
