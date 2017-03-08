@@ -27,9 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite, getter=isAsynchronous) BOOL asynchronous;
 @property (assign, nonatomic, readwrite, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
-@property (class, strong, nonatomic, readonly) NSDateFormatter *dateFormatter;
-@property (class, assign, nonatomic, readonly) dispatch_queue_t logQueue;
-
 @end
 
 @implementation SDLLogManager
@@ -61,14 +58,6 @@ static dispatch_queue_t _logQueue = NULL;
     _errorsAsynchronous = NO;
     _globalLogLevel = SDLLogLevelError;
     _formatType = SDLLogFormatTypeDefault;
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _dateFormatter = [[NSDateFormatter alloc] init];
-        _dateFormatter.dateFormat = @"HH:mm:ss:SSS";
-
-        _logQueue = dispatch_queue_create("com.sdl.log", DISPATCH_QUEUE_SERIAL);
-    });
 
     return self;
 }
@@ -105,30 +94,29 @@ static dispatch_queue_t _logQueue = NULL;
 
 #pragma mark - Performing Logging
 
-+ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
-    [[self sharedManager] logWithLevel:level file:file functionName:functionName line:line queue:queueLabel message:message];
++ (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
+    [[self sharedManager] logWithLevel:level timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:message];
 }
 
-+ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
++ (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
     va_list args;
     va_start(args, message);
     NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
     va_end(args);
 
-    [[self sharedManager] logWithLevel:level file:file functionName:functionName line:line queue:queueLabel message:format];
+    [[self sharedManager] logWithLevel:level timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:format];
 }
 
-- (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
+- (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
     va_list args;
     va_start(args, message);
     NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
     va_end(args);
 
-    [self logWithLevel:level file:file functionName:functionName line:line queue:queueLabel message:format];
+    [self logWithLevel:level timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:format];
 }
 
-- (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
-    NSDate *timestamp = [NSDate date];
+- (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
     NSString *moduleName = [self sdl_moduleForFile:file] ? [self sdl_moduleForFile:file].name : @"";
 
     SDLLogModel *log = [[SDLLogModel alloc] initWithMessage:message
@@ -296,10 +284,21 @@ static dispatch_queue_t _logQueue = NULL;
 #pragma mark - Class property getters
 
 + (NSDateFormatter *)dateFormatter {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.dateFormat = @"HH:mm:ss:SSS";
+    });
+
     return _dateFormatter;
 }
 
 + (dispatch_queue_t)logQueue {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _logQueue = dispatch_queue_create("com.sdl.log", DISPATCH_QUEUE_SERIAL);
+    });
+
     return _logQueue;
 }
 

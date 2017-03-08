@@ -33,6 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isAsynchronous) BOOL asynchronous;
 @property (assign, nonatomic, readonly, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
+@property (class, strong, nonatomic, readonly) NSDateFormatter *dateFormatter;
+@property (class, assign, nonatomic, readonly) dispatch_queue_t logQueue;
+
 + (SDLLogManager *)sharedManager;
 
 // These are automatically sent to the sharedManager
@@ -62,11 +65,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param message The message of the log with a format
  */
 + (void)logWithLevel:(SDLLogLevel)level
+           timestamp:(NSDate *)timestamp
                 file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line
                queue:(NSString *)queueLabel
-       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(6, 7);
+       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(7, 8);
 
 /**
  Log to this log manager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
@@ -78,11 +82,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param message The message of the log with a format
  */
 - (void)logWithLevel:(SDLLogLevel)level
+           timestamp:(NSDate *)timestamp
                 file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line
                queue:(NSString *)queueLabel
-       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(6, 7);
+       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(7, 8);
 
 /**
  Log to this sharedManager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
@@ -94,6 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param message The message of the log
  */
 + (void)logWithLevel:(SDLLogLevel)level
+           timestamp:(NSDate *)timestamp
                 file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line
@@ -110,6 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param message The message of the log
  */
 - (void)logWithLevel:(SDLLogLevel)level
+           timestamp:(NSDate *)timestamp
                 file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line

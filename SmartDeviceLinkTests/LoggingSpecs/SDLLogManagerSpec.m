@@ -11,8 +11,10 @@
 
 QuickSpecBegin(SDLLogManagerSpec)
 
-fdescribe(@"a log manager", ^{
+describe(@"a log manager", ^{
     __block SDLLogManager *testManager = nil;
+    __block NSDate *testDate = [NSDate date];
+    __block NSString *formattedDate = [[SDLLogManager dateFormatter] stringFromDate:testDate];
 
     describe(@"when initializing", ^{
         beforeEach(^{
@@ -40,7 +42,7 @@ fdescribe(@"a log manager", ^{
 
             testConfiguration = [SDLLogConfiguration debugConfiguration];
             testConfiguration.modules = [NSSet setWithObject:[SDLLogFileModule moduleWithName:@"test" files:[NSSet setWithObject:@"test"]]];
-            testConfiguration.filters = [NSSet setWithObject:[SDLLogFilter filterByAllowingString:@"test" caseSensitive:NO]];
+            testConfiguration.filters = [NSSet setWithObject:[SDLLogFilter filterByDisallowingString:@"this string should never trigger" caseSensitive:NO]];
             testConfiguration.targets = [NSSet setWithObject:testLogTarget];
             testConfiguration.asynchronous = NO;
 
@@ -64,41 +66,50 @@ fdescribe(@"a log manager", ^{
             NSInteger testLine = 123;
             NSString *testMessage = @"test message";
             NSString *testQueue = @"test queue";
-            [testManager logWithLevel:testLogLevel file:testFileName functionName:testFunctionName line:testLine queue:testQueue message:testMessage];
+            [testManager logWithLevel:testLogLevel timestamp:testDate file:testFileName functionName:testFunctionName line:testLine queue:testQueue message:testMessage];
 
             expect(testLogTarget.loggedMessages.firstObject.message).to(equal(testMessage));
         });
 
-        context(@"a simple formatted log", ^{
-            beforeEach(^{
-                testConfiguration.formatType = SDLLogFormatTypeSimple;
-                [testManager setConfiguration:testConfiguration];
+        describe(@"logging a formatted log string", ^{
+            __block SDLLogLevel testLogLevel = SDLLogLevelDebug;
+            __block NSString *testFileName = @"file";
+            __block NSString *testFunctionName = @"function";
+            __block NSInteger testLine = 123;
+            __block NSString *testMessage = @"message";
+            __block NSString *testQueue = @"queue";
+
+            context(@"simple format", ^{
+                it(@"should properly log the formatted message", ^{
+                    testConfiguration.formatType = SDLLogFormatTypeSimple;
+                    [testManager setConfiguration:testConfiguration];
+                    [testManager logWithLevel:testLogLevel timestamp:testDate file:testFileName functionName:testFunctionName line:testLine queue:testQueue message:testMessage];
+
+                    NSString *formattedLog = [NSString stringWithFormat:@"%@ 🔵 (SDL)- %@", formattedDate, testMessage];
+                    expect(testLogTarget.formattedLogMessages.firstObject).to(contain(formattedLog));
+                });
             });
 
-            it(@"should properly log the formatted message", ^{
-                expect(testLogTarget.formattedLogMessages.firstObject).to(match(@" "));
-            });
-        });
+            context(@"default format", ^{
+                it(@"should properly log the formatted message", ^{
+                    testConfiguration.formatType = SDLLogFormatTypeDefault;
+                    [testManager setConfiguration:testConfiguration];
+                    [testManager logWithLevel:testLogLevel timestamp:testDate file:testFileName functionName:testFunctionName line:testLine queue:testQueue message:testMessage];
 
-        context(@"a default formatted log", ^{
-            beforeEach(^{
-                testConfiguration.formatType = SDLLogFormatTypeDefault;
-                [testManager setConfiguration:testConfiguration];
-            });
-
-            it(@"should properly log the formatted message", ^{
-                expect(testLogTarget.formattedLogMessages.firstObject).to(match(@" "));
-            });
-        });
-
-        context(@"a detailed formatted log", ^{
-            beforeEach(^{
-                testConfiguration.formatType = SDLLogFormatTypeDetailed;
-                [testManager setConfiguration:testConfiguration];
+                    NSString *formattedLog = [NSString stringWithFormat:@"%@ 🔵 (SDL):%@:%ld - %@", formattedDate, testFileName, testLine, testMessage];
+                    expect(testLogTarget.formattedLogMessages.firstObject).to(contain(formattedLog));
+                });
             });
 
-            it(@"should properly log the formatted message", ^{
-                expect(testLogTarget.formattedLogMessages.firstObject).to(match(@" "));
+            context(@"detailed format", ^{
+                it(@"should properly log the formatted message", ^{
+                    testConfiguration.formatType = SDLLogFormatTypeDetailed;
+                    [testManager setConfiguration:testConfiguration];
+                    [testManager logWithLevel:testLogLevel timestamp:testDate file:testFileName functionName:testFunctionName line:testLine queue:testQueue message:testMessage];
+
+                    NSString *formattedLog = [NSString stringWithFormat:@"%@ 🔵 DEBUG %@ (SDL):%@:%@:%ld - %@", formattedDate, testQueue, testFileName, testFunctionName, testLine, testMessage];
+                    expect(testLogTarget.formattedLogMessages.firstObject).to(contain(formattedLog));
+                });
             });
         });
     });
