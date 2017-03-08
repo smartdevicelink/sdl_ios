@@ -12,8 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-
 // frontBuffer returns the NSMutableData * buffer at the front of the queue,
 // but does not remove it -- modeled after the STL C++ queue front method
 - (NSMutableData *)frontBuffer;
@@ -32,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Since data can be dequeued from the front multiple times, use this
 // flag to track whether it has been dequeued once
-@property(nonatomic, assign, readonly) BOOL frontDequeued;
+@property(nonatomic, assign, readonly, getter=isFrontBufferDequeued) BOOL frontDequeued;
 
 NS_ASSUME_NONNULL_END
 

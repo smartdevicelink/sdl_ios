@@ -67,4 +67,9 @@
     }
 }
 
+- (void)dealloc{
+    [self flush];
+    self.elements = nil;
+}
+
 @end

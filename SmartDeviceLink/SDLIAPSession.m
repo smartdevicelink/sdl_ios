@@ -14,8 +14,6 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
 
-@property (assign, nonatomic) BOOL isInputStreamOpen;
-@property (assign, nonatomic) BOOL isOutputStreamOpen;
 @property (assign, nonatomic) BOOL isDataSession;
 @property (nonatomic, strong, nullable) NSThread *ioStreamThread;
 @property (nonatomic, strong, nullable) SDLMutableDataQueue *sendDataQueue;
@@ -37,8 +35,6 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         _isDataSession = [protocol isEqualToString:@"com.smartdevicelink.prot0"] ? NO : YES;
         _accessory = accessory;
         _protocol = protocol;
-        _isInputStreamOpen = NO;
-        _isOutputStreamOpen = NO;
         _canceledSemaphore = dispatch_semaphore_create(0);
         _sendDataQueue = [[SDLMutableDataQueue alloc] init];
     }
@@ -233,14 +229,13 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
         if (stream == [strongSelf.easession outputStream]) {
             [SDLDebugTool logInfo:@"Output Stream Opened"];
-            strongSelf.isOutputStreamOpen = YES;
         } else if (stream == [strongSelf.easession inputStream]) {
             [SDLDebugTool logInfo:@"Input Stream Opened"];
-            strongSelf.isInputStreamOpen = YES;
         }
 
         // When both streams are open, session initialization is complete. Let the delegate know.
-        if (strongSelf.isInputStreamOpen && strongSelf.isOutputStreamOpen) {
+        if (strongSelf.easession.inputStream.streamStatus == NSStreamStatusOpen &&
+            strongSelf.easession.outputStream.streamStatus == NSStreamStatusOpen) {
             [strongSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
         }
     };
@@ -276,7 +271,6 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    [self.sendDataQueue flush];
     self.sendDataQueue = nil;
     self.delegate = nil;
     self.accessory = nil;
