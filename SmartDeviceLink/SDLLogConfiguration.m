@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-    _logModules = [NSSet set];
-    _logTargets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
-    _logFilters = [NSSet set];
+    _modules = [NSSet set];
+    _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+    _filters = [NSSet set];
     _formatType = SDLLogFormatTypeDefault;
     _asynchronous = YES;
     _errorsAsynchronous = NO;
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _formatType = SDLLogFormatTypeDetailed;
     _globalLogLevel = SDLLogLevelDebug;
-    _logTargets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+    _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
 
     return self;
 }
@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     SDLLogConfiguration *newConfig = [[self.class allocWithZone:zone] init];
-    newConfig.logModules = self.logModules;
-    newConfig.logTargets = self.logTargets;
-    newConfig.logFilters = self.logFilters;
+    newConfig.modules = self.modules;
+    newConfig.targets = self.targets;
+    newConfig.filters = self.filters;
     newConfig.formatType = self.formatType;
     newConfig.asynchronous = self.asynchronous;
     newConfig.errorsAsynchronous = self.errorsAsynchronous;

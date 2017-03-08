@@ -6,7 +6,7 @@
 #import "SDLLogModel.h"
 
 
-QuickSpecBegin(SDLLogFilterSpec)
+QuickSpecBegin(SDLfilterspec)
 
 describe(@"a filter by a string", ^{
     __block NSString *testFilterString = @"filter string";

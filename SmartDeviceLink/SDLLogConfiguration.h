@@ -19,13 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLogConfiguration : NSObject <NSCopying>
 
 // Any custom logging modules used by the developer's code. Defaults to none.
-@property (copy, nonatomic) NSSet<SDLLogFileModule *> *logModules;
+@property (copy, nonatomic) NSSet<SDLLogFileModule *> *modules;
 
 // Where the logs will attempt to output. Defaults to Console.
-@property (copy, nonatomic) NSSet<id<SDLLogTarget>> *logTargets;
+@property (copy, nonatomic) NSSet<id<SDLLogTarget>> *targets;
 
 // What log filters will run over this session. Defaults to none.
-@property (copy, nonatomic) NSSet<SDLLogFilterBlock> *logFilters;
+@property (copy, nonatomic) NSSet<SDLLogFilterBlock> *filters;
 
 // How detailed of logs will be output. Defaults to Default.
 @property (assign, nonatomic) SDLLogFormatType formatType;

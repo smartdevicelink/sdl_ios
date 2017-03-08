@@ -11,7 +11,7 @@
 
 QuickSpecBegin(SDLLogManagerSpec)
 
-describe(@"a log manager", ^{
+fdescribe(@"a log manager", ^{
     __block SDLLogManager *testManager = nil;
 
     describe(@"when initializing", ^{
@@ -19,13 +19,15 @@ describe(@"a log manager", ^{
             testManager = [[SDLLogManager alloc] init];
         });
 
-        expect(testManager.logModules).toNot(beNil());
-        expect(testManager.logTargets).toNot(beNil());
-        expect(testManager.logFilters).toNot(beNil());
-        expect(@(testManager.asynchronous)).to(beFalsy());
-        expect(@(testManager.errorsAsynchronous)).to(beFalsy());
-        expect(@(testManager.globalLogLevel)).to(equal(@(SDLLogLevelError)));
-        expect(@(testManager.formatType)).to(equal(@(SDLLogFormatTypeDefault)));
+        it(@"should properly initialize properties", ^{
+            expect(testManager.modules).toNot(beNil());
+            expect(testManager.targets).toNot(beNil());
+            expect(testManager.filters).toNot(beNil());
+            expect(@(testManager.asynchronous)).to(beTruthy());
+            expect(@(testManager.errorsAsynchronous)).to(beFalsy());
+            expect(@(testManager.globalLogLevel)).to(equal(@(SDLLogLevelError)));
+            expect(@(testManager.formatType)).to(equal(@(SDLLogFormatTypeDefault)));
+        });
     });
 
     describe(@"after setting a configuration", ^{
@@ -37,18 +39,18 @@ describe(@"a log manager", ^{
             testLogTarget = [TestLogTarget logger];
 
             testConfiguration = [SDLLogConfiguration debugConfiguration];
-            testConfiguration.logModules = [NSSet setWithObject:[SDLLogFileModule moduleWithName:@"test" files:[NSSet setWithObject:@"test"]]];
-            testConfiguration.logFilters = [NSSet setWithObject:[SDLLogFilter filterByAllowingString:@"test" caseSensitive:NO]];
-            testConfiguration.logTargets = [NSSet setWithObject:testLogTarget];
-            testConfiguration.logTargets = [NSSet setWithObject:[TestLogTarget logger]];
+            testConfiguration.modules = [NSSet setWithObject:[SDLLogFileModule moduleWithName:@"test" files:[NSSet setWithObject:@"test"]]];
+            testConfiguration.filters = [NSSet setWithObject:[SDLLogFilter filterByAllowingString:@"test" caseSensitive:NO]];
+            testConfiguration.targets = [NSSet setWithObject:testLogTarget];
+            testConfiguration.asynchronous = NO;
 
             [testManager setConfiguration:testConfiguration];
         });
 
         it(@"should properly set the configuration", ^{
-            expect(testManager.logModules).to(equal(testConfiguration.logModules));
-            expect(testManager.logFilters).to(equal(testConfiguration.logFilters));
-            expect(testManager.logTargets).to(equal(testConfiguration.logTargets));
+            expect(testManager.modules).to(equal(testConfiguration.modules));
+            expect(testManager.filters).to(equal(testConfiguration.filters));
+            expect(testManager.targets).to(equal(testConfiguration.targets));
             expect(@(testManager.asynchronous)).to(equal(@(testConfiguration.asynchronous)));
             expect(@(testManager.errorsAsynchronous)).to(equal(@(testConfiguration.errorsAsynchronous)));
             expect(@(testManager.globalLogLevel)).to(equal(@(SDLLogLevelDebug)));
@@ -65,6 +67,39 @@ describe(@"a log manager", ^{
             [testManager logWithLevel:testLogLevel file:testFileName functionName:testFunctionName line:testLine queue:testQueue message:testMessage];
 
             expect(testLogTarget.loggedMessages.firstObject.message).to(equal(testMessage));
+        });
+
+        context(@"a simple formatted log", ^{
+            beforeEach(^{
+                testConfiguration.formatType = SDLLogFormatTypeSimple;
+                [testManager setConfiguration:testConfiguration];
+            });
+
+            it(@"should properly log the formatted message", ^{
+                expect(testLogTarget.formattedLogMessages.firstObject).to(match(@" "));
+            });
+        });
+
+        context(@"a default formatted log", ^{
+            beforeEach(^{
+                testConfiguration.formatType = SDLLogFormatTypeDefault;
+                [testManager setConfiguration:testConfiguration];
+            });
+
+            it(@"should properly log the formatted message", ^{
+                expect(testLogTarget.formattedLogMessages.firstObject).to(match(@" "));
+            });
+        });
+
+        context(@"a detailed formatted log", ^{
+            beforeEach(^{
+                testConfiguration.formatType = SDLLogFormatTypeDetailed;
+                [testManager setConfiguration:testConfiguration];
+            });
+
+            it(@"should properly log the formatted message", ^{
+                expect(testLogTarget.formattedLogMessages.firstObject).to(match(@" "));
+            });
         });
     });
 });

@@ -90,7 +90,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _delegate = delegate;
 
     // Logging
-    _configuration.loggingConfig.logModules = [_configuration.loggingConfig.logModules setByAddingObjectsFromSet:[SDLLogFileModuleMap sdlModuleMap]];
+    _configuration.loggingConfig.modules = [_configuration.loggingConfig.modules setByAddingObjectsFromSet:[SDLLogFileModuleMap sdlModuleMap]];
     [SDLLogManager setConfiguration:_configuration.loggingConfig];
 
     // Private properties

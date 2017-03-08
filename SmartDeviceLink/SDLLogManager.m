@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLogManager ()
 
-@property (copy, nonatomic, readwrite) NSSet<SDLLogFileModule *> *logModules;
-@property (copy, nonatomic, readwrite) NSSet<id<SDLLogTarget>> *logTargets;
-@property (copy, nonatomic, readwrite) NSSet<SDLLogFilterBlock> *logFilters;
+@property (copy, nonatomic, readwrite) NSSet<SDLLogFileModule *> *modules;
+@property (copy, nonatomic, readwrite) NSSet<id<SDLLogTarget>> *targets;
+@property (copy, nonatomic, readwrite) NSSet<SDLLogFilterBlock> *filters;
 
 @property (assign, nonatomic, readwrite) SDLLogLevel globalLogLevel;
 @property (assign, nonatomic, readwrite) SDLLogFormatType formatType;
@@ -53,9 +53,9 @@ static dispatch_queue_t _logQueue = NULL;
         return nil;
     }
 
-    _logModules = [NSSet set];
-    _logTargets = [NSSet set];
-    _logFilters = [NSSet set];
+    _modules = [NSSet set];
+    _targets = [NSSet set];
+    _filters = [NSSet set];
 
     _asynchronous = YES;
     _errorsAsynchronous = NO;
@@ -81,8 +81,8 @@ static dispatch_queue_t _logQueue = NULL;
 }
 
 - (void)setConfiguration:(SDLLogConfiguration *)configuration {
-    self.logModules = configuration.logModules;
-    self.logFilters = configuration.logFilters;
+    self.modules = configuration.modules;
+    self.filters = configuration.filters;
     self.formatType = configuration.formatType;
     self.asynchronous = configuration.isAsynchronous;
     self.errorsAsynchronous = configuration.areErrorsAsynchronous;
@@ -90,7 +90,7 @@ static dispatch_queue_t _logQueue = NULL;
 
     // Start the loggers
     NSMutableSet<id<SDLLogTarget>> *startedLoggers = [NSMutableSet set];
-    for (id<SDLLogTarget> target in configuration.logTargets) {
+    for (id<SDLLogTarget> target in configuration.targets) {
         // If the logger fails setup, discard it, otherwise, keep it
         if ([target setupLogger]) {
             [startedLoggers addObject:target];
@@ -99,7 +99,7 @@ static dispatch_queue_t _logQueue = NULL;
             NSLog(@"(SDL) Warning: Log target failed setup: %@", NSStringFromClass(target.class));
         }
     }
-    self.logTargets = [startedLoggers copy];
+    self.targets = [startedLoggers copy];
 }
 
 
@@ -173,7 +173,7 @@ static dispatch_queue_t _logQueue = NULL;
 - (void)sdl_log:(SDLLogModel *)log {
     if ([self sdl_logLevelForFile:log.fileName] < log.level) { return; }
 
-    for (SDLLogFilterBlock filter in self.logFilters) {
+    for (SDLLogFilterBlock filter in self.filters) {
         if (!filter(log)) { return; }
     }
 
@@ -190,7 +190,7 @@ static dispatch_queue_t _logQueue = NULL;
             break;
     }
 
-    for (id<SDLLogTarget> target in self.logTargets) {
+    for (id<SDLLogTarget> target in self.targets) {
         [target logWithLog:log formattedLog:formattedLog];
     }
 }
@@ -285,7 +285,7 @@ static dispatch_queue_t _logQueue = NULL;
 }
 
 - (nullable SDLLogFileModule *)sdl_moduleForFile:(NSString *)fileName {
-    for (SDLLogFileModule *module in self.logModules) {
+    for (SDLLogFileModule *module in self.modules) {
         if ([module containsFile:fileName]) { return module; }
     }
 

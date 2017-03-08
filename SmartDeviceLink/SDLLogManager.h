@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLLogManager : NSObject
 
-@property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *logModules;
-@property (copy, nonatomic, readonly) NSSet<id<SDLLogTarget>> *logTargets;
-@property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *logFilters;
+@property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *modules;
+@property (copy, nonatomic, readonly) NSSet<id<SDLLogTarget>> *targets;
+@property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *filters;
 
 /// Any modules that do not have an explicitly specified level will by default use this log level
 @property (assign, nonatomic, readonly) SDLLogLevel globalLogLevel;
