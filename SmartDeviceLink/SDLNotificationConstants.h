@@ -46,18 +46,18 @@ typedef void (^SDLResponseHandler)(__kindof SDLRPCRequest *__nullable request, _
  @warning This only works if you send the RPC using SDLManager.
  @warning Only one of the two parameters will be set for each block call.
 
- @param buttonPressNotification An SDLOnButtonPress object that corresponds to this particular button.
- @param buttonEventNotification An SDLOnButtonEvent object that corresponds to this particular button.
+ @param buttonPress An SDLOnButtonPress object that corresponds to this particular button.
+ @param buttonEvent An SDLOnButtonEvent object that corresponds to this particular button.
  */
-typedef void (^SDLRPCButtonNotificationHandler)(SDLOnButtonPress *_Nullable buttonPressNotification,  SDLOnButtonEvent *_Nullable buttonEventNotification);
+typedef void (^SDLRPCButtonNotificationHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent);
 /**
  A handler that may optionally be run when an SDLAddCommand has a corresponding notification occur.
 
  @warning This only works if you send the RPC using SDLManager.
 
- @param notification An SDLOnCommand object that corresponds to this particular SDLAddCommand.
+ @param command An SDLOnCommand object that corresponds to this particular SDLAddCommand.
  */
-typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *notification);
+typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *command);
 
 /**
  *  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.
