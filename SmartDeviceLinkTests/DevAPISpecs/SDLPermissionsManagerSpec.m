@@ -403,7 +403,7 @@ describe(@"SDLPermissionsManager", ^{
                     testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                     
                     // Send the permission update
-                    NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
+                    SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
                     [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                 });
                 
@@ -471,7 +471,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
+                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -514,7 +514,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
+                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -577,7 +577,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
+                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
@@ -611,7 +611,7 @@ describe(@"SDLPermissionsManager", ^{
                         testPermissionChangeUpdate.permissionItem = [NSArray arrayWithObject:testPermissionUpdated];
                         
                         // Send the permission update
-                        NSNotification *updatedNotification = [NSNotification notificationWithName:SDLDidChangePermissionsNotification object:nil userInfo:@{SDLNotificationUserInfoObject: testPermissionChangeUpdate}];
+                        SDLRPCNotificationNotification *updatedNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangePermissionsNotification object:nil rpcNotification:testPermissionChangeUpdate];
                         [[NSNotificationCenter defaultCenter] postNotification:updatedNotification];
                     });
                     
