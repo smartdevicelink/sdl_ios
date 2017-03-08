@@ -186,12 +186,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.registerResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
-    
-    // New Start
     self.audioStreamingState = nil;
     self.systemContext = nil;
-    // New End
-    
     
     [SDLDebugTool logInfo:@"Stopping Proxy"];
     self.proxy = nil;
