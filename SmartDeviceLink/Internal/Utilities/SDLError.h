@@ -30,6 +30,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason;
 + (NSError *)sdl_lifecycle_managersFailedToStart;
 + (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info;
++ (NSError *)sdl_lifecycle_startedWithWarning:(SDLResult)result info:(NSString *)info;
 + (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info;
 
 #pragma mark SDLFileManager
