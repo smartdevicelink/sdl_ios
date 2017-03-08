@@ -25,15 +25,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
-#import "SDLIAPSessionDelegate.h"
-#import "SDLIAPTransport.h"
-#import "SDLTCPTransport.h"
 #import "SDLTransportDelegate.h"
-
-/***** Protocol *****/
-#import "SDLAbstractProtocol.h"
-#import "SDLProtocol.h"
-#import "SDLProtocolListener.h"
 
 // Header
 #import "SDLProtocolHeader.h"
@@ -256,7 +248,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLPredefinedLayout.h"
 #import "SDLPrerecordedSpeech.h"
 #import "SDLPrimaryAudioSource.h"
-#import "SDLRPCMessageType.h"
 #import "SDLRequestType.h"
 #import "SDLResult.h"
 #import "SDLSamplingRate.h"
