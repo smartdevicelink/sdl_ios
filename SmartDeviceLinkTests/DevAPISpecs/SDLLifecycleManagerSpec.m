@@ -289,7 +289,7 @@ describe(@"a lifecycle manager", ^{
 
                     expect(@(readyHandlerSuccess)).to(equal(@YES));
                     expect(readyHandlerError).toNot(beNil());
-                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationFailed)));
+                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
                     expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
                 });
             });
