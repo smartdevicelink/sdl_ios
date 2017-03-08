@@ -8,9 +8,13 @@
 
 #import "TestLogTarget.h"
 
+#import "SDLLogModel.h"
+
+
 @interface TestLogTarget ()
 
-@property (strong, nonatomic) NSMutableArray<NSString *> *mutableLoggedMessages;
+@property (strong, nonatomic) NSMutableArray<SDLLogModel *> *mutableLoggedMessages;
+@property (strong, nonatomic) NSMutableArray<NSString *> *mutableFormattedLogMessages;
 
 @end
 
@@ -21,12 +25,17 @@
     if (!self) { return nil; }
 
     _mutableLoggedMessages = [NSMutableArray array];
+    _mutableFormattedLogMessages = [NSMutableArray array];
 
     return self;
 }
 
-- (NSArray<NSString *> *)loggedMessages {
+- (NSArray<SDLLogModel *> *)loggedMessages {
     return [_mutableLoggedMessages copy];
+}
+
+- (NSArray<NSString *> *)formattedLogMessages {
+    return [_mutableFormattedLogMessages copy];
 }
 
 + (id<SDLLogTarget>)logger {
@@ -38,7 +47,8 @@
 }
 
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog {
-    [_mutableLoggedMessages addObject:stringLog];
+    [_mutableLoggedMessages addObject:log];
+    [_mutableFormattedLogMessages addObject:stringLog];
 }
 
 - (void)teardownLogger {

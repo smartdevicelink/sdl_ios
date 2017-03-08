@@ -10,8 +10,12 @@
 
 #import "SDLLogTarget.h"
 
+@class SDLLogModel;
+
+
 @interface TestLogTarget : NSObject<SDLLogTarget>
 
-@property (strong, nonatomic, readonly) NSArray<NSString *> *loggedMessages;
+@property (strong, nonatomic, readonly) NSArray<SDLLogModel *> *loggedMessages;
+@property (strong, nonatomic, readonly) NSArray<NSString *> *formattedLogMessages;
 
 @end

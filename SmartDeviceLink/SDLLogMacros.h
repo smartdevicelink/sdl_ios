@@ -13,15 +13,16 @@
 #pragma mark - Macros
 
 #pragma mark - General Macros
-#define SDLLOG_FILE   [[[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lastPathComponent] stringByDeletingPathExtension]
-#define SDLLOG_FUNC   [NSString stringWithCString:__PRETTY_FUNCTION__ encoding:NSUTF8StringEncoding]
+#define SDLLOG_FILE     [[[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lastPathComponent] stringByDeletingPathExtension]
+#define SDLLOG_FUNC     [NSString stringWithCString:__PRETTY_FUNCTION__ encoding:NSUTF8StringEncoding]
+#define SDLLOG_QUEUE    [NSString stringWithUTF8String:dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL)]
 
 #pragma mark Debug Logs
 
 #if DEBUG
 
-#define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelVerbose file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ formatMessage:msg, ##__VA_ARGS__]
-#define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelDebug file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ formatMessage:msg, ##__VA_ARGS__]
+#define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelVerbose file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]
+#define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelDebug file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]
 
 #else
 
@@ -33,5 +34,5 @@
 
 #pragma mark Release Logs
 
-#define SDLLogW(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelWarning file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ formatMessage:msg, ##__VA_ARGS__]
-#define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelError file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ formatMessage:msg, ##__VA_ARGS__]
+#define SDLLogW(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelWarning file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]
+#define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelError file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]

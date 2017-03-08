@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite) NSSet<SDLLogFilterBlock> *logFilters;
 
 @property (assign, nonatomic, readwrite) SDLLogLevel globalLogLevel;
-@property (assign, nonatomic) SDLLogFormatType formatType;
+@property (assign, nonatomic, readwrite) SDLLogFormatType formatType;
 
 @property (assign, nonatomic, readwrite, getter=isAsynchronous) BOOL asynchronous;
 @property (assign, nonatomic, readwrite, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
@@ -60,6 +60,7 @@ static dispatch_queue_t _logQueue = NULL;
     _asynchronous = YES;
     _errorsAsynchronous = NO;
     _globalLogLevel = SDLLogLevelError;
+    _formatType = SDLLogFormatTypeDefault;
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -76,10 +77,10 @@ static dispatch_queue_t _logQueue = NULL;
 #pragma mark - Configuration
 
 + (void)setConfiguration:(SDLLogConfiguration *)configuration {
-    [[self sharedManager] sdl_setConfiguration:configuration];
+    [[self sharedManager] setConfiguration:configuration];
 }
 
-- (void)sdl_setConfiguration:(SDLLogConfiguration *)configuration {
+- (void)setConfiguration:(SDLLogConfiguration *)configuration {
     self.logModules = configuration.logModules;
     self.logFilters = configuration.logFilters;
     self.formatType = configuration.formatType;
@@ -104,20 +105,29 @@ static dispatch_queue_t _logQueue = NULL;
 
 #pragma mark - Performing Logging
 
-+ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
-    [[self sharedManager] sdl_logWithLevel:level file:file functionName:functionName line:line message:message];
++ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
+    [[self sharedManager] logWithLevel:level file:file functionName:functionName line:line queue:queueLabel message:message];
 }
 
-+ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line formatMessage:(NSString *)message, ... {
++ (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
     va_list args;
     va_start(args, message);
     NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
     va_end(args);
 
-    [[self sharedManager] sdl_logWithLevel:level file:file functionName:functionName line:line message:format];
+    [[self sharedManager] logWithLevel:level file:file functionName:functionName line:line queue:queueLabel message:format];
 }
 
-- (void)sdl_logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line message:(NSString *)message {
+- (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
+    va_list args;
+    va_start(args, message);
+    NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
+    va_end(args);
+
+    [self logWithLevel:level file:file functionName:functionName line:line queue:queueLabel message:format];
+}
+
+- (void)logWithLevel:(SDLLogLevel)level file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
     NSDate *timestamp = [NSDate date];
     NSString *moduleName = [self sdl_moduleForFile:file] ? [self sdl_moduleForFile:file].name : @"";
 
@@ -128,7 +138,7 @@ static dispatch_queue_t _logQueue = NULL;
                                                  moduleName:moduleName
                                                functionName:functionName
                                                        line:line
-                                                 queueLabel:[self sdl_currentDispatchQueueName]];
+                                                 queueLabel:queueLabel];
     [self sdl_queueLog:log];
 }
 
@@ -291,16 +301,6 @@ static dispatch_queue_t _logQueue = NULL;
 
 + (dispatch_queue_t)logQueue {
     return _logQueue;
-}
-
-
-#pragma mark - Utilities
-
-- (NSString *)sdl_currentDispatchQueueName {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    return [NSString stringWithUTF8String:dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL)];
-#pragma clang diagnostic pop
 }
 
 @end

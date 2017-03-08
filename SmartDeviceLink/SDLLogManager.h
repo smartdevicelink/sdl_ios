@@ -26,11 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSSet<id<SDLLogTarget>> *logTargets;
 @property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *logFilters;
 
+/// Any modules that do not have an explicitly specified level will by default use this log level
+@property (assign, nonatomic, readonly) SDLLogLevel globalLogLevel;
+@property (assign, nonatomic, readonly) SDLLogFormatType formatType;
+
 @property (assign, nonatomic, readonly, getter=isAsynchronous) BOOL asynchronous;
 @property (assign, nonatomic, readonly, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
-
-// Any modules that do not have an explicitly specified level will by default use the global log level;
-@property (assign, nonatomic, readonly) SDLLogLevel globalLogLevel;
 
 + (SDLLogManager *)sharedManager;
 
@@ -38,24 +39,81 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Singleton Methods
 
 /**
- Sets a configuration to be used by the log manager. This is generally for internal use and you should set your configuration using SDLManager's startWithConfiguration: method.
+ Sets a configuration to be used by the log manager's sharedManager. This is generally for internal use and you should set your configuration using SDLManager's startWithConfiguration: method.
 
  @param configuration The configuration to be used.
  */
 + (void)setConfiguration:(SDLLogConfiguration *)configuration;
 
-// This would be used internally to send out a log to the loggers
-+ (void)logWithLevel:(SDLLogLevel)level
-                file:(NSString *)file
-        functionName:(NSString *)functionName
-                line:(NSInteger)line
-       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(5, 6);
+/**
+ Sets a configuration to be used by the log manager. This is generally for internal use and you should set your configuration using SDLManager's startWithConfiguration: method.
 
-// This would be used internally for the Swift extension to send out a fully formed message
+ @param configuration The configuration to be used.
+ */
+- (void)setConfiguration:(SDLLogConfiguration *)configuration;
+
+/**
+ Log to the sharedManager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
+
+ @param level The level of the log
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param message The message of the log with a format
+ */
 + (void)logWithLevel:(SDLLogLevel)level
                 file:(NSString *)file
         functionName:(NSString *)functionName
                 line:(NSInteger)line
+               queue:(NSString *)queueLabel
+       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(6, 7);
+
+/**
+ Log to this log manager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
+
+ @param level The level of the log
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param message The message of the log with a format
+ */
+- (void)logWithLevel:(SDLLogLevel)level
+                file:(NSString *)file
+        functionName:(NSString *)functionName
+                line:(NSInteger)line
+               queue:(NSString *)queueLabel
+       formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(6, 7);
+
+/**
+ Log to this sharedManager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
+
+ @param level The level of the log
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param message The message of the log
+ */
++ (void)logWithLevel:(SDLLogLevel)level
+                file:(NSString *)file
+        functionName:(NSString *)functionName
+                line:(NSInteger)line
+               queue:(NSString *)queueLabel
+             message:(NSString *)message;
+
+/**
+ Log to this log manager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
+
+ @param level The level of the log
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param message The message of the log
+ */
+- (void)logWithLevel:(SDLLogLevel)level
+                file:(NSString *)file
+        functionName:(NSString *)functionName
+                line:(NSInteger)line
+               queue:(NSString *)queueLabel
              message:(NSString *)message;
 
 @end
