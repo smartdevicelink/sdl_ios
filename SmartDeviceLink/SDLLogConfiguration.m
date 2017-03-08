@@ -9,6 +9,7 @@
 #import "SDLLogConfiguration.h"
 
 #import "SDLLogFileModule.h"
+#import "SDLLogFileModuleMap.h"
 #import "SDLLogTargetASL.h"
 
 
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _modules = [NSSet set];
-    _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+    _targets = [NSSet set];
     _filters = [NSSet set];
     _formatType = SDLLogFormatTypeDefault;
     _asynchronous = YES;
@@ -32,7 +33,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithDefaultConfiguration {
-    return [self init];
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+    _modules = [SDLLogFileModuleMap sdlModuleMap];
+
+    return self;
 }
 
 + (instancetype)defaultConfiguration {
@@ -40,12 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithDebugConfiguration {
-    self = [self init];
+    self = [self initWithDefaultConfiguration];
     if (!self) { return nil; }
 
     _formatType = SDLLogFormatTypeDetailed;
     _globalLogLevel = SDLLogLevelDebug;
-    _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
 
     return self;
 }

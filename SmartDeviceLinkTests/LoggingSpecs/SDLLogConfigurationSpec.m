@@ -13,7 +13,7 @@ describe(@"a log configuration", ^{
         it(@"should properly set default properties", ^{
             testConfiguration = [SDLLogConfiguration defaultConfiguration];
 
-            expect(testConfiguration.modules).to(beEmpty());
+            expect(testConfiguration.modules).toNot(beEmpty());
             expect(testConfiguration.filters).to(beEmpty());
             expect(@(testConfiguration.targets.count)).to(equal(@1));
             expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetASL class]));
@@ -28,7 +28,7 @@ describe(@"a log configuration", ^{
         it(@"should properly set debug properties", ^{
             testConfiguration = [SDLLogConfiguration debugConfiguration];
 
-            expect(testConfiguration.modules).to(beEmpty());
+            expect(testConfiguration.modules).toNot(beEmpty());
             expect(testConfiguration.filters).to(beEmpty());
             expect(@(testConfiguration.targets.count)).to(equal(@1));
             expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetASL class]));
