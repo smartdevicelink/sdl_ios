@@ -191,6 +191,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.registerResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
+    self.audioStreamingState = nil;
+    self.systemContext = nil;
+
     self.proxy = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
@@ -285,7 +288,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
     if (![registerResult isEqualToString:SDLResultSuccess]) {
-        startError = [NSError sdl_lifecycle_startedWithBadResult:registerResult info:registerInfo];
+        startError = [NSError sdl_lifecycle_startedWithWarning:registerResult info:registerInfo];
     }
 
     // If we got to this point, we succeeded, send the error if there was a warning.
@@ -406,15 +409,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class)class {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
-        return NO;
-    }
-
-    return YES;
-}
-
 
 #pragma mark SDL notification observers
 
@@ -431,14 +425,20 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnHMIStatus class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-
+    
+    SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
+    self.audioStreamingState = hmiStatusNotification.audioStreamingState;
+    
+    SDLSystemContext oldSystemContext = self.systemContext;
+    self.systemContext = hmiStatusNotification.systemContext;
+    
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         return;
     }
@@ -446,10 +446,20 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![oldHMILevel isEqualToString:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
+        
+    if (![oldStreamingState isEqualToString:self.audioStreamingState]
+        && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+    }
+    
+    if (![oldSystemContext isEqualToString:self.systemContext]
+        && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
+        [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
+    }
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
-    if (![self.class sdl_checkNotification:notification containsKindOfClass:[SDLOnAppInterfaceUnregistered class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
 

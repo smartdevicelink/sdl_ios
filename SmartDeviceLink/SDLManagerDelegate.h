@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
+#import "SDLSystemContext.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -27,6 +29,23 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param newLevel The current level.
  */
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel;
+
+@optional
+/**
+ *  Called when the audio streaming state of this application changes on the remote system. This refers to when streaming audio is audible to the user.
+ *
+ *  @param oldState The previous state which has now been left.
+ *  @param newState The current state.
+ */
+- (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState;
+
+/**
+ *  Called when the system context of this application changes on the remote system. This refers to whether or not a user-initiated interaction is in progress, and if so, what it is.
+ *
+ *  @param oldContext The previous context which has now been left.
+ *  @param newContext The current context.
+ */
+- (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext;
 
 
 @end

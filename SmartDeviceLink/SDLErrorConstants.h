@@ -36,6 +36,10 @@ typedef NS_ENUM(NSInteger, SDLManagerError) {
      *  Registering with the remote system failed.
      */
     SDLManagerErrorRegistrationFailed = -6,
+    /**
+     *  Registering with the remote system was successful, but had a warning.
+     */
+    SDLManagerErrorRegistrationSuccessWithWarning = -7
 };
 
 /**

@@ -13,6 +13,8 @@
 #import "SDLReadDID.h"
 #import "SDLReadDIDResponse.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -98,7 +100,8 @@ describe(@"a response dispatcher", ^{
                 testResponse = [[SDLReadDIDResponse alloc] init];
                 testResponse.correlationID = testCorrelationId;
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveReadDIDResponse object:nil userInfo:@{ SDLNotificationUserInfoObject: testResponse }];
+                SDLRPCResponseNotification *responseNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveReadDIDResponse object:nil rpcResponse:testResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:responseNotification];
             });
             
             it(@"should run the handler", ^{
@@ -123,7 +126,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 testShow.softButtons = [@[testSoftButton1] mutableCopy];
@@ -150,8 +153,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress.customButtonID = testSoftButton1.softButtonID;
                         testButtonPress.buttonName = SDLButtonNameCustomButton;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should run the handler for each", ^{
@@ -167,8 +173,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress = [[SDLOnButtonPress alloc] init];
                         testButtonPress.buttonName = SDLButtonNameOk;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should not run the handler", ^{
@@ -190,7 +199,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should throw an exception if there's no button id", ^{
@@ -261,7 +270,9 @@ describe(@"a response dispatcher", ^{
                         testOnCommand = [[SDLOnCommand alloc] init];
                         testOnCommand.cmdID = @(testCommandId);
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveCommandNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testOnCommand }];
+                        SDLRPCNotificationNotification *commandNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveCommandNotification object:nil rpcNotification:testOnCommand];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:commandNotification];
                     });
                     
                     it(@"should run the handler for each", ^{
@@ -274,7 +285,9 @@ describe(@"a response dispatcher", ^{
                         testOnCommand = [[SDLOnCommand alloc] init];
                         testOnCommand.cmdID = @999;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveCommandNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testOnCommand }];
+                        SDLRPCNotificationNotification *commandNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveCommandNotification object:nil rpcNotification:testOnCommand];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:commandNotification];
                     });
                     
                     it(@"should not run the handler", ^{
@@ -303,7 +316,9 @@ describe(@"a response dispatcher", ^{
                     testDeleteResponse.correlationID = testDeleteCommandCorrelationId;
                     testDeleteResponse.success = @YES;
                     
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveDeleteCommandResponse object:nil userInfo:@{ SDLNotificationUserInfoObject: testDeleteResponse }];
+                    SDLRPCResponseNotification *deleteCommandNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveDeleteCommandResponse object:nil rpcResponse:testDeleteResponse];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotification:deleteCommandNotification];
                 });
                 
                 it(@"should have removed all the handlers", ^{
@@ -340,7 +355,7 @@ describe(@"a response dispatcher", ^{
                 testSubscribeCorrelationId = @42;
                 numTimesHandlerCalled = 0;
                 
-                testSubscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:testButtonName handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSubscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:testButtonName handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 testSubscribeButton.correlationID = testSubscribeCorrelationId;
@@ -378,8 +393,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress = [[SDLOnButtonPress alloc] init];
                         testButtonPress.buttonName = testButtonName;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should run the handler for each", ^{
@@ -395,8 +413,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress = [[SDLOnButtonPress alloc] init];
                         testButtonPress.buttonName = SDLButtonNamePreset0;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should not run the handler", ^{
@@ -425,7 +446,8 @@ describe(@"a response dispatcher", ^{
                     testUnsubscribeResponse.correlationID = testUnsubscribeCorrelationId;
                     testUnsubscribeResponse.success = @YES;
                     
-                    [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveUnsubscribeButtonResponse object:nil userInfo:@{ SDLNotificationUserInfoObject: testUnsubscribeResponse }];
+                    SDLRPCResponseNotification *unsubscribeNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveUnsubscribeButtonResponse object:nil rpcResponse:testUnsubscribeResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:unsubscribeNotification];
                 });
                 
                 it(@"should have removed all the handlers", ^{
@@ -463,7 +485,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 
@@ -490,8 +512,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress.buttonName = SDLButtonNameCustomButton;
                         testButtonPress.customButtonID = testSoftButton1.softButtonID;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should run the handler for each", ^{
@@ -506,9 +531,12 @@ describe(@"a response dispatcher", ^{
                         
                         testButtonPress = [[SDLOnButtonPress alloc] init];
                         testButtonPress.buttonName = SDLButtonNameOk;
+                    
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should not run the handler", ^{
@@ -530,7 +558,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should throw an exception if there's no button id", ^{
@@ -568,7 +596,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 
@@ -595,8 +623,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress.buttonName = SDLButtonNameCustomButton;
                         testButtonPress.customButtonID = testSoftButton1.softButtonID;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should run the handler for each", ^{
@@ -612,8 +643,11 @@ describe(@"a response dispatcher", ^{
                         testButtonPress = [[SDLOnButtonPress alloc] init];
                         testButtonPress.buttonName = SDLButtonNameOk;
                         
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonEventNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonEvent }];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:SDLDidReceiveButtonPressNotification object:nil userInfo:@{ SDLNotificationUserInfoObject: testButtonPress }];
+                        SDLRPCNotificationNotification *buttonEventNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonEventNotification object:nil rpcNotification:testButtonEvent];
+                        SDLRPCNotificationNotification *buttonPressNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveButtonPressNotification object:nil rpcNotification:testButtonPress];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonEventNotification];
+                        [[NSNotificationCenter defaultCenter] postNotification:buttonPressNotification];
                     });
                     
                     it(@"should not run the handler", ^{
@@ -635,7 +669,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should throw an exception if there's no button id", ^{
