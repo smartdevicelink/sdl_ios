@@ -1,12 +1,12 @@
 //  SDLSubscribeButton.h
 //
 
-
+#import "SDLButtonName.h"
+#import "SDLNotificationConstants.h"
 #import "SDLRPCRequest.h"
 
-#import "SDLButtonName.h"
-#import "SDLRequestHandler.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Establishes a subscription to button notifications for HMI buttons. Buttons
@@ -58,10 +58,7 @@
  * Since SmartDeviceLink 1.0<br/>
  * See SDLUnsubscribeButton
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface SDLSubscribeButton : SDLRPCRequest <SDLRequestHandler>
+@interface SDLSubscribeButton : SDLRPCRequest
 
 /**
  *  Construct a SDLSubscribeButton with a handler callback when an event occurs.
@@ -70,16 +67,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An SDLSubscribeButton object
  */
-- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler;
 
-- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCNotificationHandler)handler;
+- (instancetype)initWithButtonName:(SDLButtonName)buttonName handler:(nullable SDLRPCButtonNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you subscribed to is selected.
  *
  *  @warning This will only work if you use SDLManager.
  */
-@property (copy, nonatomic) SDLRPCNotificationHandler handler;
+@property (copy, nonatomic) SDLRPCButtonNotificationHandler handler;
 
 /**
  * @abstract The name of the button to subscribe to

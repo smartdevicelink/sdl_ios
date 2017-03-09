@@ -126,7 +126,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 testShow.softButtons = [@[testSoftButton1] mutableCopy];
@@ -199,7 +199,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should throw an exception if there's no button id", ^{
@@ -355,7 +355,7 @@ describe(@"a response dispatcher", ^{
                 testSubscribeCorrelationId = @42;
                 numTimesHandlerCalled = 0;
                 
-                testSubscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:testButtonName handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSubscribeButton = [[SDLSubscribeButton alloc] initWithButtonName:testButtonName handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 testSubscribeButton.correlationID = testSubscribeCorrelationId;
@@ -485,7 +485,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 
@@ -558,7 +558,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should throw an exception if there's no button id", ^{
@@ -596,7 +596,7 @@ describe(@"a response dispatcher", ^{
             beforeEach(^{
                 numTimesHandlerCalled = 0;
                 
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
                     numTimesHandlerCalled++;
                 }];
                 
@@ -669,7 +669,7 @@ describe(@"a response dispatcher", ^{
         
         context(@"with a malformed soft button", ^{
             beforeEach(^{
-                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(__kindof SDLRPCNotification * _Nonnull notification) {}];
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:nil];
             });
             
             it(@"should throw an exception if there's no button id", ^{

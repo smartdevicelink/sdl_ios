@@ -5,10 +5,9 @@
 
 #import "SDLImageType.h"
 #import "SDLNotificationConstants.h"
-#import "SDLRequestHandler.h"
 
-@class SDLMenuParams;
 @class SDLImage;
+@class SDLMenuParams;
 
 /**
  * This class will add a command to the application's Command Menu SDLMenuParams
@@ -37,7 +36,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLAddCommand : SDLRPCRequest <SDLRequestHandler>
+@interface SDLAddCommand : SDLRPCRequest
 
 /**
  *  Construct a SDLAddCommand with a handler callback when an event occurs.
@@ -46,20 +45,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An SDLAddCommand object
  */
-- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler;
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCCommandNotificationHandler)handler;
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.
  *
  *  @warning This will only work if you use SDLManager.
  */
-@property (nullable, copy, nonatomic) SDLRPCNotificationHandler handler;
+@property (nullable, copy, nonatomic) SDLRPCCommandNotificationHandler handler;
 
 /**
  * @abstract A Unique Command ID that identifies the command
