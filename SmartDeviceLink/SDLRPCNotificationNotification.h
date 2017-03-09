@@ -19,6 +19,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcNotification:(__kindof SDLRPCNotification *)notification;
 
+/**
+ *  Returns whether or not the containing notification is equal to a class, not including subclasses.
+ *
+ *  @param aClass the class you are questioning
+ */
+- (BOOL)isNotificationMemberOfClass:(Class)aClass;
+
+/**
+ *  Returns whether or not the containing notification is a kind of class, including subclasses.
+ *
+ *  @param aClass the class you are questioning
+ */
+- (BOOL)isNotificationKindOfClass:(Class)aClass;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -18,8 +18,10 @@
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnCommand.h"
-#import "SDLRPCResponse.h"
 #import "SDLResult.h"
+#import "SDLRPCResponse.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -130,13 +132,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Handler
 
 // Called by notifications
-- (void)sdl_runHandlersForResponse:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]]) {
+- (void)sdl_runHandlersForResponse:(SDLRPCResponseNotification *)notification {
+    if (![notification isResponseKindOfClass:[SDLRPCResponse class]]) {
         return;
     }
 
-    __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
+    __kindof SDLRPCResponse *response = notification.response;
 
     NSError *error = nil;
     if (![response.success boolValue]) {
@@ -173,11 +174,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Command
 
-- (void)sdl_runHandlerForCommand:(NSNotification *)notification {
-    SDLOnCommand *onCommandNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    SDLRPCCommandNotificationHandler handler = nil;
+- (void)sdl_runHandlerForCommand:(SDLRPCNotificationNotification *)notification {
+    SDLOnCommand *onCommandNotification = notification.notification;
+    SDLRPCCommandNotificationHandler handler = self.commandHandlerMap[onCommandNotification.cmdID];
 
-    handler = self.commandHandlerMap[onCommandNotification.cmdID];
     if (handler) {
         handler(onCommandNotification);
     }
@@ -185,8 +185,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Button
 
-- (void)sdl_runHandlerForButton:(NSNotification *)notification {
-    __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
+- (void)sdl_runHandlerForButton:(SDLRPCNotificationNotification *)notification {
+    __kindof SDLRPCNotification *rpcNotification = notification.notification;
 
     SDLRPCButtonNotificationHandler handler = nil;
     SDLButtonName name = nil;
