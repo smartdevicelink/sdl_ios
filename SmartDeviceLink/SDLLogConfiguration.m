@@ -11,6 +11,7 @@
 #import "SDLLogFileModule.h"
 #import "SDLLogFileModuleMap.h"
 #import "SDLLogTargetASL.h"
+#import "SDLLogTargetOSLog.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -38,7 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+    NSOperatingSystemVersion osVersion = [NSProcessInfo processInfo].operatingSystemVersion;
+
+    if (osVersion.majorVersion >= 10) {
+        _targets = [NSSet setWithArray:@[[SDLLogTargetOSLog logger]]];
+    } else {
+        _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+    }
+
     _modules = [SDLLogFileModuleMap sdlModuleMap];
 
     return self;
