@@ -183,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSParameterAssert(message != nil);
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].protocolVersion] options:kNilOptions error:error];
     
-    if (*error != nil) {
+    if (error != nil) {
         SDLLogW(@"Error encoding JSON data: %@", *error);
     }
     
