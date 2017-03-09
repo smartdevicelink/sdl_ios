@@ -72,9 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
-    // Assume this is production and disable logging
-    lifecycleConfig.logFlags = SDLLogOutputNone;
-    
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
