@@ -15,8 +15,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLLogTarget <NSObject>
 
+/**
+ A simple convenience initializer to create the object. This *should not* start up the logger.
+
+ @return An instance of the logger.
+ */
 + (id<SDLLogTarget>)logger;
+
+/**
+ A call to setup the logger in whatever manner it needs to do so.
+
+ @return Whether or not the logger set up correctly.
+ */
 - (BOOL)setupLogger;
+
+/**
+ Log a particular log using the model and the formatted log message to the target.
+
+ @param log The log model, if you can log additional data, such as the log level, use this
+ @param stringLog The formatted message
+ */
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog;
 - (void)teardownLogger;
 

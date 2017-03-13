@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The Apple System Log target is an iOS 2.0+ compatible log target that logs to both the Console and to the System Log.
+ */
 @interface SDLLogTargetAppleSystemLog : NSObject <SDLLogTarget>
 
 @end

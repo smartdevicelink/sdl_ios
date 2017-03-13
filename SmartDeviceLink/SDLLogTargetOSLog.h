@@ -13,6 +13,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ OS_LOG is an iOS 10+ only logging system that logs to the Console and the Apple system console. This is an improved replacement for Apple SysLog (SDLLogTargetAppleSystemLog). 
+ 
+ https://developer.apple.com/reference/os/logging
+ */
 @interface SDLLogTargetOSLog : NSObject <SDLLogTarget>
 
 @end
