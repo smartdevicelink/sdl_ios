@@ -283,7 +283,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     NSError *startError = nil;
 
     // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
-    if (![registerResult isEqualToString:SDLResultSuccess]) {
+    if (![registerResult isEqualToEnum:SDLResultSuccess]) {
         startError = [NSError sdl_lifecycle_startedWithWarning:registerResult info:registerInfo];
     }
 
@@ -454,16 +454,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    if (![oldHMILevel isEqualToString:self.hmiLevel]) {
+    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
         
-    if (![oldStreamingState isEqualToString:self.audioStreamingState]
+    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
         && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
         [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
     }
     
-    if (![oldSystemContext isEqualToString:self.systemContext]
+    if (![oldSystemContext isEqualToEnum:self.systemContext]
         && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
         [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
     }

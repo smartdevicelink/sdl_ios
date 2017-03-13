@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         [weakSelf setupPermissionsCallbacks];
         
-        if ([weakSelf.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
+        if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
             [weakSelf showInitialData];
         }
     }];
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToString:SDLHMILevelFull]) {
+    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         return;
     }
     
@@ -366,7 +366,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
-    if (![newLevel isEqualToString:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
+    if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
         self.firstTimeState = SDLHMIFirstStateNonNone;
         
@@ -374,12 +374,12 @@ NS_ASSUME_NONNULL_BEGIN
         [self prepareRemoteSystem];
     }
     
-    if ([newLevel isEqualToString:SDLHMILevelFull] && (self.firstTimeState != SDLHMIFirstStateFull)) {
+    if ([newLevel isEqualToEnum:SDLHMILevelFull] && (self.firstTimeState != SDLHMIFirstStateFull)) {
         // This is our first time in a FULL state
         self.firstTimeState = SDLHMIFirstStateFull;
     }
     
-    if ([newLevel isEqualToString:SDLHMILevelFull]) {
+    if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
         // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self showInitialData];
     }

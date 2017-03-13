@@ -200,7 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
 
-    if ([name isEqualToString:SDLButtonNameCustomButton]) {
+    if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
         handler = self.customButtonHandlerMap[customID];
     } else {
         handler = self.buttonHandlerMap[name];
