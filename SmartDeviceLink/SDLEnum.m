@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation NSString (Enum)
+@implementation NSString (SDLEnum)
 
 - (BOOL)isEqualToEnum:(SDLEnum)enumObj {
     return [self isEqualToString:enumObj];

@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
-@interface NSString (Enum)
+@interface NSString (SDLEnum)
 
 - (BOOL)isEqualToEnum:(SDLEnum)enumObj;
 
