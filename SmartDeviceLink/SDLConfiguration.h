@@ -33,6 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) SDLLogConfiguration *loggingConfig;
 
 /**
+ Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
+
+ @param lifecycleConfiguration The lifecycle configuration to be used.
+ @return The configuration
+ */
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration;
+
+/**
  *  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
  *
  *  @param lifecycleConfig  The lifecycle configuration to be used.
@@ -51,6 +59,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return The configuration
  */
 - (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig;
+
+/**
+ Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
+
+ @param lifecycleConfiguration The lifecycle configuration to be used.
+ @return The configuration
+ */
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration;
 
 /**
  *  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
