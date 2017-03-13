@@ -10,7 +10,7 @@
 
 #import "SDLLogFileModule.h"
 #import "SDLLogFileModuleMap.h"
-#import "SDLLogTargetASL.h"
+#import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetOSLog.h"
 
 
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (osVersion.majorVersion >= 10) {
         _targets = [NSSet setWithArray:@[[SDLLogTargetOSLog logger]]];
     } else {
-        _targets = [NSSet setWithArray:@[[SDLLogTargetASL logger]]];
+        _targets = [NSSet setWithArray:@[[SDLLogTargetAppleSystemLog logger]]];
     }
 
     _modules = [SDLLogFileModuleMap sdlModuleMap];

@@ -317,6 +317,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogManager.h"
 #import "SDLLogMacros.h"
 #import "SDLLogTarget.h"
-#import "SDLLogTargetASL.h"
+#import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetFile.h"
 #import "SDLLogTargetOSLog.h"

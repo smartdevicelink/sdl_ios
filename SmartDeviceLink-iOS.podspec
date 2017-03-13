@@ -286,7 +286,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
 'SmartDeviceLink/SDLRPCResponseNotification.h',
 'SmartDeviceLink/SDLLogTarget.h',
-'SmartDeviceLink/SDLLogTargetASL.h',
+'SmartDeviceLink/SDLLogTargetAppleSystemLog.h',
 'SmartDeviceLink/SDLLogTargetFile.h',
 'SmartDeviceLink/SDLLogTargetOSLog.h',
 'SmartDeviceLink/SDLLogFileModule.h',

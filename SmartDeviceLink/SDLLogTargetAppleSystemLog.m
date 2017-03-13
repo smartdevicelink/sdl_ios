@@ -6,7 +6,7 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLLogTargetASL.h"
+#import "SDLLogTargetAppleSystemLog.h"
 
 #import <asl.h>
 
@@ -15,12 +15,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLLogTargetASL ()
+@interface SDLLogTargetAppleSystemLog ()
 
 @end
 
 
-@implementation SDLLogTargetASL
+@implementation SDLLogTargetAppleSystemLog
 
 + (id<SDLLogTarget>)logger {
     return [[self alloc] init];

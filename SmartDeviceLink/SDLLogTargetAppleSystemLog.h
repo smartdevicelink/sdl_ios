@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLLogTargetASL : NSObject <SDLLogTarget>
+@interface SDLLogTargetAppleSystemLog : NSObject <SDLLogTarget>
 
 @end
 
