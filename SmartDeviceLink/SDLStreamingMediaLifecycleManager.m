@@ -518,7 +518,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 - (BOOL)isHmiStateVideoStreamCapable {
-    return [self.hmiLevel isEqualToString:SDLHMILevelLimited] || [self.hmiLevel isEqualToString:SDLHMILevelFull];
+    return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
 }
 
 @end

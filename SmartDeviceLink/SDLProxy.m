@@ -383,13 +383,13 @@ static float DefaultConnectionTimeout = 45.0;
     SDLRequestType requestType = systemRequest.requestType;
 
     // Handle the various OnSystemRequest types
-    if ([requestType isEqualToString:SDLRequestTypeProprietary]) {
+    if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeLockScreenIconURL]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeHTTP]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeLaunchApp]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
         [self sdl_handleSystemRequestLaunchApp:systemRequest];
     }
 }
@@ -567,7 +567,7 @@ static float DefaultConnectionTimeout = 45.0;
         return nil;
     }
 
-    if (![fileType isEqualToString:SDLFileTypeJSON]) {
+    if (![fileType isEqualToEnum:SDLFileTypeJSON]) {
         [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
     }

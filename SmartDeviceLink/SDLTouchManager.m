@@ -129,11 +129,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    if ([onTouchEvent.type isEqualToString:SDLTouchTypeBegin]) {
+    if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
         [self sdl_handleTouchBegan:touch];
-    } else if ([onTouchEvent.type isEqualToString:SDLTouchTypeMove]) {
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
         [self sdl_handleTouchMoved:touch];
-    } else if ([onTouchEvent.type isEqualToString:SDLTouchTypeEnd]) {
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
         [self sdl_handleTouchEnded:touch];
     }
 }

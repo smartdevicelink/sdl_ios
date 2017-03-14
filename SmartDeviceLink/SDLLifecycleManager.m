@@ -103,7 +103,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
-    if ([configuration.lifecycleConfig.appType isEqualToString:SDLAppHMITypeNavigation]) {
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]) {
         _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.lifecycleConfig.streamingEncryption videoEncoderSettings:configuration.lifecycleConfig.videoEncoderSettings];
     }
 
@@ -188,7 +188,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.registerResponse = nil;
     self.lastCorrelationId = 0;
     self.hmiLevel = nil;
-
+    self.audioStreamingState = nil;
+    self.systemContext = nil;
+    
     [SDLDebugTool logInfo:@"Stopping Proxy"];
     self.proxy = nil;
 
@@ -296,7 +298,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     NSError *startError = nil;
 
     // If the resultCode isn't success, we got a warning. Errors were handled in `didEnterStateConnected`.
-    if (![registerResult isEqualToString:SDLResultSuccess]) {
+    if (![registerResult isEqualToEnum:SDLResultSuccess]) {
         startError = [NSError sdl_lifecycle_startedWithWarning:registerResult info:registerInfo];
     }
 
@@ -456,13 +458,29 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-
+    
+    SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
+    self.audioStreamingState = hmiStatusNotification.audioStreamingState;
+    
+    SDLSystemContext oldSystemContext = self.systemContext;
+    self.systemContext = hmiStatusNotification.systemContext;
+    
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         return;
     }
 
-    if (![oldHMILevel isEqualToString:self.hmiLevel]) {
+    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+    }
+        
+    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
+        && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+    }
+    
+    if (![oldSystemContext isEqualToEnum:self.systemContext]
+        && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
+        [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
     }
 }
 
