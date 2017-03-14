@@ -18,25 +18,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLogConfiguration : NSObject <NSCopying>
 
-// Any custom logging modules used by the developer's code. Defaults to none.
+/**
+ Any custom logging modules used by the developer's code. Defaults to none.
+ */
 @property (copy, nonatomic) NSSet<SDLLogFileModule *> *modules;
 
-// Where the logs will attempt to output. Defaults to Console.
+/**
+ Where the logs will attempt to output. Defaults to Console.
+ */
 @property (copy, nonatomic) NSSet<id<SDLLogTarget>> *targets;
 
-// What log filters will run over this session. Defaults to none.
+/**
+ What log filters will run over this session. Defaults to none.
+ */
 @property (copy, nonatomic) NSSet<SDLLogFilterBlock> *filters;
 
-// How detailed of logs will be output. Defaults to Default.
+/**
+ How detailed of logs will be output. Defaults to Default.
+ */
 @property (assign, nonatomic) SDLLogFormatType formatType;
 
-// Whether or not logs will be run on a separate queue, asynchronously, allowing the following code to run before the log completes. Or if it will occur synchronously, which will prevent logs from being missed, but will slow down surrounding code. Defaults to YES.
+/**
+ Whether or not logs will be run on a separate queue, asynchronously, allowing the following code to run before the log completes. Or if it will occur synchronously, which will prevent logs from being missed, but will slow down surrounding code. Defaults to YES.
+ */
 @property (assign, nonatomic, getter=isAsynchronous) BOOL asynchronous;
 
-// Whether or not error logs will be dispatched to loggers asynchronously. Defaults to NO.
+/**
+ Whether or not error logs will be dispatched to loggers asynchronously. Defaults to NO.
+ */
 @property (assign, nonatomic, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
-// Any modules that do not have an explicitly specified level will by default use the global log level. Defaults to Error.
+/**
+ Any modules that do not have an explicitly specified level will by default use the global log level. Defaults to Error.
+ Do not specify Default for this parameter.
+ */
 @property (assign, nonatomic) SDLLogLevel globalLogLevel;
 
 

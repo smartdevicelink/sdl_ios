@@ -262,11 +262,12 @@
 		5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */; };
 		5D43465B1E6F154400B639C6 /* SDLLogConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */; };
 		5D4346651E6F38E600B639C6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D4346691E6F38FF00B639C6 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CBE1E687D6D009CD394 /* SDLLog.swift */; };
 		5D43466B1E6F3B4C00B639C6 /* SDLLogFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466A1E6F3B4C00B639C6 /* SDLLogFilterSpec.m */; };
 		5D43466D1E6F522000B639C6 /* SDLLogModelSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466C1E6F522000B639C6 /* SDLLogModelSpec.m */; };
 		5D43466F1E6F55BD00B639C6 /* SDLLogManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */; };
 		5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346721E6F617D00B639C6 /* TestLogTarget.m */; };
+		5D4346861E771B5700B639C6 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346851E771B5700B639C6 /* SDLLog.swift */; };
+		5D43468A1E787B2800B639C6 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346891E787B2800B639C6 /* Test.swift */; };
 		5D48329D1A8EA33D00252386 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D48329C1A8EA33D00252386 /* Preferences.m */; };
 		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
@@ -1284,6 +1285,8 @@
 		5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogManagerSpec.m; path = LoggingSpecs/SDLLogManagerSpec.m; sourceTree = "<group>"; };
 		5D4346711E6F617D00B639C6 /* TestLogTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestLogTarget.h; path = LoggingSpecs/TestLogTarget.h; sourceTree = "<group>"; };
 		5D4346721E6F617D00B639C6 /* TestLogTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestLogTarget.m; path = LoggingSpecs/TestLogTarget.m; sourceTree = "<group>"; };
+		5D4346851E771B5700B639C6 /* SDLLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDLLog.swift; sourceTree = "<group>"; };
+		5D4346891E787B2800B639C6 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = SOURCE_ROOT; };
 		5D48329B1A8EA33D00252386 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = SmartDeviceLink_Example/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
 		5D48329C1A8EA33D00252386 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = SmartDeviceLink_Example/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
 		5D48329F1A92868E00252386 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = SmartDeviceLink_Example/Classes/ProxyManager.h; sourceTree = SOURCE_ROOT; };
@@ -1900,7 +1903,6 @@
 		5DD67CB71E661C4A009CD394 /* SDLLogTargetFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogTargetFile.m; sourceTree = "<group>"; };
 		5DD67CBA1E661C84009CD394 /* SDLLogTargetOSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogTargetOSLog.h; sourceTree = "<group>"; };
 		5DD67CBB1E661C84009CD394 /* SDLLogTargetOSLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogTargetOSLog.m; sourceTree = "<group>"; };
-		5DD67CBE1E687D6D009CD394 /* SDLLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SDLLog.swift; path = ../SmartDeviceLink/SDLLog.swift; sourceTree = "<group>"; };
 		5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogFileModuleMap.h; sourceTree = "<group>"; };
 		5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogFileModuleMap.m; sourceTree = "<group>"; };
 		5DD67CC51E68B568009CD394 /* SDLLogMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogMacros.h; sourceTree = "<group>"; };
@@ -2506,7 +2508,7 @@
 		5D4346621E6F38E600B639C6 /* SmartDeviceLinkSwift */ = {
 			isa = PBXGroup;
 			children = (
-				5DD67CBE1E687D6D009CD394 /* SDLLog.swift */,
+				5D4346851E771B5700B639C6 /* SDLLog.swift */,
 				5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */,
 				5D4346641E6F38E600B639C6 /* Info.plist */,
 			);
@@ -2545,6 +2547,7 @@
 			children = (
 				5D48329F1A92868E00252386 /* ProxyManager.h */,
 				5D4832A01A92868E00252386 /* ProxyManager.m */,
+				5D4346891E787B2800B639C6 /* Test.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -4223,6 +4226,7 @@
 					};
 					5D4346601E6F38E600B639C6 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					5D61FA1B1A84237100846EE7 = {
@@ -4324,7 +4328,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D4346691E6F38FF00B639C6 /* SDLLog.swift in Sources */,
+				5D4346861E771B5700B639C6 /* SDLLog.swift in Sources */,
+				5D43468A1E787B2800B639C6 /* Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5117,6 +5122,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
@@ -5145,6 +5151,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;

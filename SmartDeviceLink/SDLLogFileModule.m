@@ -41,6 +41,29 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.files containsObject:fileName];
 }
 
+
+#pragma mark - NSObject
+
+- (NSUInteger)hash {
+    return self.name.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:self.class]) {
+        return NO;
+    }
+
+    return [self isEqualToModule:(SDLLogFileModule *)object];
+}
+
+- (BOOL)isEqualToModule:(SDLLogFileModule *)module {
+    return [self.name isEqualToString:module.name];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

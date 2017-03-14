@@ -69,6 +69,18 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+
+#pragma mark - NSObject
+
+- (NSUInteger)hash {
+    return NSStringFromClass(self.class).hash;
+}
+
+// For the target classes, we're going to assume that if they're the same class, they're the same. The reason for this is so that NSSet, for instance, will only allow one of each target type in a set.
+- (BOOL)isEqual:(id)object {
+    return [object isMemberOfClass:self.class];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
