@@ -957,6 +957,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5D43468B1E788E2200B639C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D4019A71A76EC350006B0C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D61FA1B1A84237100846EE7;
+			remoteInfo = SmartDeviceLink;
+		};
 		5D61FA281A84237100846EE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5D4019A71A76EC350006B0C2 /* Project object */;
@@ -4158,6 +4165,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5D43468C1E788E2200B639C6 /* PBXTargetDependency */,
 			);
 			name = SmartDeviceLinkSwift;
 			productName = SmartDeviceLinkSwift;
@@ -4932,6 +4940,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5D43468C1E788E2200B639C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D61FA1B1A84237100846EE7 /* SmartDeviceLink */;
+			targetProxy = 5D43468B1E788E2200B639C6 /* PBXContainerItemProxy */;
+		};
 		5D61FA291A84237100846EE7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5D61FA1B1A84237100846EE7 /* SmartDeviceLink */;
