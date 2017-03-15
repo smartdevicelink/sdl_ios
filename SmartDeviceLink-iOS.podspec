@@ -75,6 +75,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLShow.h',
 'SmartDeviceLink/SDLShowConstantTBT.h',
 'SmartDeviceLink/SDLSlider.h',
+'SmartDeviceLink/SDLStreamingMediaManagerConstants.h',
 'SmartDeviceLink/SDLSpeak.h',
 'SmartDeviceLink/SDLSubscribeButton.h',
 'SmartDeviceLink/SDLSubscribeVehicleData.h',
