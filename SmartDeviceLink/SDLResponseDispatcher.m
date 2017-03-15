@@ -23,6 +23,8 @@
 #import "SDLPerformAudioPassThruResponse.h"
 #import "SDLRPCResponse.h"
 #import "SDLResult.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -140,13 +142,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Handler
 
 // Called by notifications
-- (void)sdl_runHandlersForResponse:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]]) {
+- (void)sdl_runHandlersForResponse:(SDLRPCResponseNotification *)notification {
+    if (![notification isResponseKindOfClass:[SDLRPCResponse class]]) {
         return;
     }
 
-    __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
+    __kindof SDLRPCResponse *response = notification.response;
 
     NSError *error = nil;
     if (![response.success boolValue]) {
@@ -186,11 +187,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Command
 
-- (void)sdl_runHandlerForCommand:(NSNotification *)notification {
-    SDLOnCommand *onCommandNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    SDLRPCNotificationHandler handler = nil;
+- (void)sdl_runHandlerForCommand:(SDLRPCNotificationNotification *)notification {
+    SDLOnCommand *onCommandNotification = notification.notification;
+    SDLRPCCommandNotificationHandler handler = self.commandHandlerMap[onCommandNotification.cmdID];
 
-    handler = self.commandHandlerMap[onCommandNotification.cmdID];
     if (handler) {
         handler(onCommandNotification);
     }
@@ -198,36 +198,40 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Button
 
-- (void)sdl_runHandlerForButton:(NSNotification *)notification {
-    __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
+- (void)sdl_runHandlerForButton:(SDLRPCNotificationNotification *)notification {
+    __kindof SDLRPCNotification *rpcNotification = notification.notification;
 
-    SDLRPCNotificationHandler handler = nil;
+    SDLRPCButtonNotificationHandler handler = nil;
     SDLButtonName name = nil;
     NSNumber *customID = nil;
 
-    if ([rpcNotification isKindOfClass:[SDLOnButtonEvent class]]) {
+    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
         customID = ((SDLOnButtonEvent *)rpcNotification).customButtonID;
-    } else if ([rpcNotification isKindOfClass:[SDLOnButtonPress class]]) {
+    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
 
-    if ([name isEqualToString:SDLButtonNameCustomButton]) {
+    if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
         handler = self.customButtonHandlerMap[customID];
     } else {
         handler = self.buttonHandlerMap[name];
     }
 
     if (handler) {
-        handler(rpcNotification);
+        if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
+            handler(nil, rpcNotification);
+        } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
+            handler(rpcNotification, nil);
+        }
     }
 }
     
 #pragma mark Audio Pass Thru
     
-- (void)sdl_runHandlerForAudioPassThru:(NSNotification *)notification {
-    SDLOnAudioPassThru *onAudioPassThruNotification = notification.userInfo[SDLNotificationUserInfoObject];
+- (void)sdl_runHandlerForAudioPassThru:(SDLRPCNotificationNotification *)notification {
+    SDLOnAudioPassThru *onAudioPassThruNotification = notification.notification;
     
     if (self.audioPassThruHandler) {
         self.audioPassThruHandler(onAudioPassThruNotification.bulkData);

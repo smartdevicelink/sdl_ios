@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@class SDLOnButtonEvent;
+@class SDLOnButtonPress;
+@class SDLOnCommand;
 @class SDLRPCNotification;
 @class SDLRPCResponse;
 @class SDLRPCRequest;
@@ -26,12 +30,6 @@ typedef NOTIFICATION_TYPEDEF SDLNotificationName;
 typedef NSString *SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
-/**
- *  A handler used on certain RPCs, primarily buttons or commands, when an event occurs.
- *
- *  @param notification The RPC Notification that was fired.
- */
-typedef void (^SDLRPCNotificationHandler)(__kindof SDLRPCNotification *notification);
 
 /**
  *  A handler used on SDLPerformAudioPassThru.
@@ -48,6 +46,26 @@ typedef void (^SDLAudioPassThruHandler)(NSData *__nullable audioData);
  *  @param error    If sending the request encountered an error, this parameter will not be nil.
  */
 typedef void (^SDLResponseHandler)(__kindof SDLRPCRequest *__nullable request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error);
+
+
+/**
+ A handler that may optionally be run when an SDLSubscribeButton or SDLSoftButton has a corresponding notification occur.
+
+ @warning This only works if you send the RPC using SDLManager.
+ @warning Only one of the two parameters will be set for each block call.
+
+ @param buttonPress An SDLOnButtonPress object that corresponds to this particular button.
+ @param buttonEvent An SDLOnButtonEvent object that corresponds to this particular button.
+ */
+typedef void (^SDLRPCButtonNotificationHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent);
+/**
+ A handler that may optionally be run when an SDLAddCommand has a corresponding notification occur.
+
+ @warning This only works if you send the RPC using SDLManager.
+
+ @param command An SDLOnCommand object that corresponds to this particular SDLAddCommand.
+ */
+typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *command);
 
 /**
  *  The key used in all SDL NSNotifications to extract the response or notification from the userinfo dictionary.

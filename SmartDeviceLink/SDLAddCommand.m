@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithHandler:(nullable SDLRPCNotificationHandler)handler {
+- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler {
     self = [self init];
     if (!self) {
         return nil;
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCCommandNotificationHandler)handler {
     self = [self initWithId:commandId vrCommands:vrCommands handler:handler];
     if (!self) {
         return nil;
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCNotificationHandler)handler {
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCCommandNotificationHandler)handler {
     self = [self initWithId:commandId vrCommands:vrCommands menuName:menuName handler:handler];
     if (!self) {
         return nil;

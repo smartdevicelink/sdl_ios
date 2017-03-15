@@ -47,7 +47,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.5.4";
+NSString *const SDLProxyVersion = @"4.5.5";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;
@@ -403,13 +403,13 @@ static float DefaultConnectionTimeout = 45.0;
     SDLRequestType requestType = systemRequest.requestType;
 
     // Handle the various OnSystemRequest types
-    if ([requestType isEqualToString:SDLRequestTypeProprietary]) {
+    if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeLockScreenIconURL]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeHTTP]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if ([requestType isEqualToString:SDLRequestTypeLaunchApp]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
         [self sdl_handleSystemRequestLaunchApp:systemRequest];
     }
 }
@@ -587,7 +587,7 @@ static float DefaultConnectionTimeout = 45.0;
         return nil;
     }
 
-    if (![fileType isEqualToString:SDLFileTypeJSON]) {
+    if (![fileType isEqualToEnum:SDLFileTypeJSON]) {
         [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
         return nil;
     }

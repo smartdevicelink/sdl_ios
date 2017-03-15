@@ -289,7 +289,7 @@ describe(@"a lifecycle manager", ^{
 
                     expect(@(readyHandlerSuccess)).to(equal(@YES));
                     expect(readyHandlerError).toNot(beNil());
-                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationFailed)));
+                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
                     expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
                 });
             });
@@ -367,7 +367,63 @@ describe(@"a lifecycle manager", ^{
                     });
                 });
             });
-        });
+            
+            describe(@"receiving an audio state change", ^{
+                __block SDLOnHMIStatus *testHMIStatus = nil;
+                __block SDLAudioStreamingState testAudioStreamingState = nil;
+                __block SDLAudioStreamingState oldAudioStreamingState = nil;
+                
+                beforeEach(^{
+                    oldAudioStreamingState = testManager.audioStreamingState;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                });
+                
+                context(@"a not audible audio state", ^{
+                    beforeEach(^{
+                        testAudioStreamingState = SDLAudioStreamingStateNotAudible;
+                        testHMIStatus.audioStreamingState = testAudioStreamingState;
+                        
+                        [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+                    });
+                    
+                    it(@"should set the audio state", ^{
+                        expect(testManager.audioStreamingState).toEventually(equal(testAudioStreamingState));
+                    });
+                    
+                    it(@"should call the delegate", ^{
+                        OCMVerify([managerDelegateMock audioStreamingState:oldAudioStreamingState didChangeToState:testAudioStreamingState]);
+                    });
+                });
+            });
+            
+            describe(@"receiving a system context change", ^{
+                __block SDLOnHMIStatus *testHMIStatus = nil;
+                __block SDLSystemContext testSystemContext = nil;
+                __block SDLSystemContext oldSystemContext = nil;
+                
+                beforeEach(^{
+                    oldSystemContext = testManager.systemContext;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                });
+                
+                context(@"a alert system context state", ^{
+                    beforeEach(^{
+                        testSystemContext = SDLSystemContextAlert;
+                        testHMIStatus.systemContext = testSystemContext;
+                        
+                        [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+                    });
+                    
+                    it(@"should set the system context", ^{
+                        expect(testManager.systemContext).toEventually(equal(testSystemContext));
+                    });
+                    
+                    it(@"should call the delegate", ^{
+                        OCMVerify([managerDelegateMock systemContext:oldSystemContext didChangeToContext:testSystemContext]);
+                    });
+                });
+            });
+         });
     });
 });
 
