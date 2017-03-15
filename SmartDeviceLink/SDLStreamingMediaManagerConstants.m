@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SDLStreamingMediaManagerConstants.h"
 
 CGSize const SDLDefaultScreenSize = {0, 0};
 
