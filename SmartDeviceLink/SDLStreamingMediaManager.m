@@ -24,17 +24,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
+    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil backgroundTitleString:@"Please open"];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings backgroundTitleString:(NSString *)backgroundTitleString {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:encryption videoEncoderSettings:videoEncoderSettings];
-    
+    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:encryption videoEncoderSettings:videoEncoderSettings backgroundTitleString:backgroundTitleString];
 
     return self;
 }
@@ -86,6 +85,10 @@ NS_ASSUME_NONNULL_BEGIN
     
 - (BOOL)isVideoStreamingPaused {
     return self.lifecycleManager.isVideoStreamingPaused;
+}
+
+- (NSString *)backgroundTitleString {
+    return self.lifecycleManager.backgroundTitleString;
 }
 
 - (CGSize)screenSize {

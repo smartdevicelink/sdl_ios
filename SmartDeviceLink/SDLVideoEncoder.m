@@ -124,13 +124,26 @@ NS_ASSUME_NONNULL_BEGIN
     return (status == noErr);
 }
 
+- (CVPixelBufferRef CV_NULLABLE)pixelBuffer {
+    if (self.pixelBufferPool == NULL) {
+        return NULL;
+    }
+    
+    CVPixelBufferRef pixelBuffer;
+    CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault,
+                                       self.pixelBufferPool,
+                                       &pixelBuffer);
+
+    return pixelBuffer;
+}
+
 #pragma mark - Public
 #pragma mark Getters
 + (NSDictionary<NSString *, id> *)defaultVideoEncoderSettings {
     return _defaultVideoEncoderSettings;
 }
 
-- (CVPixelBufferPoolRef _Nullable)pixelBufferPool {
+- (CVPixelBufferPoolRef CV_NULLABLE)pixelBufferPool {
     return VTCompressionSessionGetPixelBufferPool(self.compressionSession);
 }
 

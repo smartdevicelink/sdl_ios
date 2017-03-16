@@ -97,7 +97,10 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  */
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
-
+/**
+ *  What to display when a streaming app is backgrounded.
+ */
+@property (copy, nonatomic, readonly) NSString *backgroundTitleString;
 
 /**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
@@ -107,7 +110,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
- *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
+ *  @warning    This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
  *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
  */
 @property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
@@ -120,25 +123,20 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
 
 /**
- *  Creates a streaming manager with a default encryption type of SDLStreamingEncryptionFlagAuthenticateAndEncrypt.
- *
- *  @return An instance of SDLStreamingMediaManager
- */
-- (instancetype)init;
-
-/**
  *  Creates a streaming manager with a specified encryption type.
  *
- *  @param encryption The encryption type requested when starting to stream.
+ *  @param encryption               The encryption type requested when starting to stream.
+ *  @param videoEncoderSettings     The video encoder settings to use with SDLVideoEncoder.
+ *  @param backgroundTitleString    The string to use for the backgrounding frame.
  *
  *  @return An instance of SDLStreamingMediaManager
  */
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings backgroundTitleString:(NSString *)backgroundTitleString NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  *
- *  @param completionHandler The block to be called when the manager's setup is complete.
+ *  @param completionHandler    The block to be called when the manager's setup is complete.
  */
 - (void)startWithProtocol:(SDLAbstractProtocol*)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
 
@@ -150,7 +148,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *
- *  @param imageBuffer A CVImageBufferRef to be encoded by Video Toolbox
+ *  @param imageBuffer  A CVImageBufferRef to be encoded by Video Toolbox
  *
  *  @return Whether or not the data was successfully encoded and sent.
  */
@@ -159,7 +157,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
  *
- *  @param audioData The data in PCM audio format, to be played
+ *  @param audioData    The data in PCM audio format, to be played
  *
  *  @return Whether or not the data was successfully sent.
  */

@@ -38,6 +38,11 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer;
 
+/**
+ *  Creates a new pixel buffer using the pixelBufferPool property.
+ */
+- (CVPixelBufferRef CV_NULLABLE)pixelBuffer;
+
 @property (nonatomic, weak, nullable) id<SDLVideoEncoderDelegate> delegate;
 
 /**
@@ -61,8 +66,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
  *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
  *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
  */
-@property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
-
+@property (assign, nonatomic, readonly) CVPixelBufferPoolRef CV_NULLABLE pixelBufferPool;
 
 @end
 

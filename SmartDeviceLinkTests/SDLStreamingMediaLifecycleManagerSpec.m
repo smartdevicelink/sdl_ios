@@ -26,6 +26,7 @@ describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingEncryptionFlag streamingEncryptionFlag = SDLStreamingEncryptionFlagAuthenticateOnly;
     __block NSDictionary<NSString *, id> *someVideoEncoderSettings = nil;
+    __block NSString *someBackgroundTitleString = nil;
     
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -40,7 +41,8 @@ describe(@"the streaming media manager", ^{
         someVideoEncoderSettings = @{
                                      (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                      };
-        streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:streamingEncryptionFlag videoEncoderSettings:someVideoEncoderSettings];
+        someBackgroundTitleString = @"Open Test App";
+        streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:streamingEncryptionFlag videoEncoderSettings:someVideoEncoderSettings backgroundTitleString:someBackgroundTitleString];
     });
     
     it(@"should initialize properties", ^{
@@ -58,6 +60,7 @@ describe(@"the streaming media manager", ^{
         expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+        expect(streamingLifecycleManager.backgroundTitleString).to(equal(someBackgroundTitleString));
     });
     
     describe(@"when started", ^{

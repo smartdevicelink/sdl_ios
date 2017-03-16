@@ -40,6 +40,7 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.securityManagers).to(beNil());
             expect(@(testConfig.streamingEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
             expect(testConfig.videoEncoderSettings).to(beNil());
+            expect(testConfig.backgroundTitleString).to(equal(@"Please re-open An App Name"));
         });
         
         describe(@"after setting properties manually", ^{
@@ -50,6 +51,7 @@ describe(@"a lifecycle configuration", ^{
             __block NSString *someResumeHashString = nil;
             __block SDLStreamingEncryptionFlag someEncryptionFlag = SDLStreamingEncryptionFlagNone;
             __block NSDictionary<NSString *, id> *someVideoEncoderSettings = nil;
+            __block NSString *someBackgroundTitleString = nil;
             
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
@@ -63,6 +65,7 @@ describe(@"a lifecycle configuration", ^{
                 someVideoEncoderSettings = @{
                                              (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                              };
+                someBackgroundTitleString = @"Open The App";
                 
                 testConfig.appType = SDLAppHMITypeMedia;
                 testConfig.language = SDLLanguageArSa;
@@ -74,6 +77,7 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.streamingEncryption =
                 testConfig.streamingEncryption = someEncryptionFlag;
                 testConfig.videoEncoderSettings = someVideoEncoderSettings;
+                testConfig.backgroundTitleString = someBackgroundTitleString;
             });
             
             it(@"should have properly set properties", ^{
@@ -94,6 +98,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.securityManagers).to(beNil());
                 expect(@(testConfig.streamingEncryption)).to(equal(@(someEncryptionFlag)));
                 expect(testConfig.videoEncoderSettings).to(equal(someVideoEncoderSettings));
+                expect(testConfig.backgroundTitleString).to(equal(someBackgroundTitleString));
             });
         });
     });
@@ -129,6 +134,7 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.securityManagers).to(beNil());
             expect(@(testConfig.streamingEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
             expect(testConfig.videoEncoderSettings).to(beNil());
+            expect(testConfig.backgroundTitleString).to(equal(@"Please re-open An App Name"));
         });
         
         describe(@"after setting properties manually", ^{
@@ -139,6 +145,7 @@ describe(@"a lifecycle configuration", ^{
             __block NSString *someResumeHashString = nil;
             __block SDLStreamingEncryptionFlag someEncryptionFlag = SDLStreamingEncryptionFlagNone;
             __block NSDictionary<NSString *, id> *someVideoEncoderSettings = nil;
+            __block NSString *someBackgroundTitleString = nil;
             
             beforeEach(^{
                 someTTSChunk = [[SDLTTSChunk alloc] init];
@@ -151,6 +158,7 @@ describe(@"a lifecycle configuration", ^{
                 someVideoEncoderSettings = @{
                                              (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                              };
+                someBackgroundTitleString = @"Open The App";
                 
                 testConfig.appType = SDLAppHMITypeMedia;
                 testConfig.language = SDLLanguageArSa;
@@ -161,6 +169,7 @@ describe(@"a lifecycle configuration", ^{
                 testConfig.resumeHash = someResumeHashString;
                 testConfig.streamingEncryption = someEncryptionFlag;
                 testConfig.videoEncoderSettings = someVideoEncoderSettings;
+                testConfig.backgroundTitleString = someBackgroundTitleString;
             });
             
             it(@"should have properly set properties", ^{
@@ -180,6 +189,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.securityManagers).to(beNil());
                 expect(@(testConfig.streamingEncryption)).to(equal(@(someEncryptionFlag)));
                 expect(testConfig.videoEncoderSettings).to(equal(someVideoEncoderSettings));
+                expect(testConfig.backgroundTitleString).to(equal(someBackgroundTitleString));
             });
         });
     });

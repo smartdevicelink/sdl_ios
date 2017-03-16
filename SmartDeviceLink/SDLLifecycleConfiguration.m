@@ -13,7 +13,7 @@
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;
-
+static NSString *const DefaultBackgroundTitleStringFormat = @"Please re-open %@";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
     _logFlags = SDLLogOutputNone;
     
     _streamingEncryption = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
+    
+    _backgroundTitleString = [NSString stringWithFormat:DefaultBackgroundTitleStringFormat, appName];
 
     return self;
 }
@@ -96,6 +98,15 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _appType = appType;
+}
+
+- (void)setBackgroundTitleString:(nullable NSString *)backgroundTitleString {
+    if (backgroundTitleString == nil) {
+        _backgroundTitleString = [NSString stringWithFormat:DefaultBackgroundTitleStringFormat, self.appName];
+        return;
+    }
+    
+    _backgroundTitleString = backgroundTitleString;
 }
 
 

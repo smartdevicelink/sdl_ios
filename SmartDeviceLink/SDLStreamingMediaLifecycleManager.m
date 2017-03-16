@@ -24,6 +24,8 @@
 #import "SDLTouchManager.h"
 #import "SDLVideoEncoder.h"
 
+#import "CVPixelBufferRef+SDLUtil.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 SDLAppState *const SDLAppStateBackground = @"Background";
@@ -41,6 +43,8 @@ SDLAudioStreamState *const SDLAudioStreamStateStopped = @"AudioStreamStopped";
 SDLAudioStreamState *const SDLAudioStreamStateStarting = @"AudioStreamStarting";
 SDLAudioStreamState *const SDLAudioStreamStateReady = @"AudioStreamReady";
 SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShuttingDown";
+
+static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 @interface SDLStreamingMediaLifecycleManager () <SDLVideoEncoderDelegate>
 
@@ -61,6 +65,8 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
 
+@property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
+
 @end
 
 
@@ -70,10 +76,10 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
+    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil backgroundTitleString:@"Please Open"];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings backgroundTitleString:(NSString *)backgroundTitleString {
     self = [super init];
     if (!self) {
         return nil;
@@ -92,6 +98,10 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     _hmiLevel = nil;
     
     _screenSize = SDLDefaultScreenSize;
+    
+    _backgroundTitleString = backgroundTitleString;
+    
+    _backgroundingPixelBuffer = NULL;
     
     SDLAppState *initialState = SDLAppStateBackground;
     switch ([[UIApplication sharedApplication] applicationState]) {
@@ -139,10 +149,8 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     [self sdl_stopAudioSession];
     [self sdl_stopVideoSession];
     
-    if (_videoEncoder != nil) {
-        [_videoEncoder stop];
-        _videoEncoder = nil;
-    }
+    self.restartVideoStream = NO;
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -245,6 +253,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 - (void)didEnterStateIsResigningActive {
+    [self sdl_sendBackgroundFrames];
     [self.appStateMachine transitionToState:SDLAppStateInactive];
 }
 
@@ -301,6 +310,17 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
             [SDLDebugTool logFormat:@"Encountered error creating video encoder: %@", error.localizedDescription];
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
             return;
+        }
+        
+        if (!self.backgroundingPixelBuffer) {
+            CVPixelBufferRef backgroundingPixelBuffer = _videoEncoder.pixelBuffer;
+            if (CVPixelBufferAddText(backgroundingPixelBuffer, self.backgroundTitleString) == NO) {
+                [SDLDebugTool logFormat:@"Could not create a backgrounding frame."];
+                [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+                return;
+            }
+            
+            self.backgroundingPixelBuffer = backgroundingPixelBuffer;
         }
     }
     
@@ -505,6 +525,16 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
             break;
         default:
             break;
+    }
+}
+
+- (void)sdl_sendBackgroundFrames {
+    if (!self.backgroundingPixelBuffer) {
+        return;
+    }
+    
+    for (int frameCount = 0; frameCount < SDLFramesToSendOnBackground; frameCount++) {
+        [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
     }
 }
 
