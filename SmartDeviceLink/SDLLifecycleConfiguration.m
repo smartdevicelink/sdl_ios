@@ -90,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAppType:(nullable SDLAppHMIType)appType {
     if (appType == nil) {
         _appType = SDLAppHMITypeDefault;
+        return;
     }
 
     _appType = appType;
