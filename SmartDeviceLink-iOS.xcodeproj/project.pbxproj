@@ -892,6 +892,7 @@
 		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
 		DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */; };
 		DA4353EB1D2721680099B8C4 /* SDLTouchSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */; };
+		DA4F47961E771AA100FC809E /* SDLEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4F47951E771AA100FC809E /* SDLEnum.m */; };
 		DA96C0661D4D4F730022F520 /* SDLAppInfoSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */; };
 		DA9F7E631DCBFAC800ACAE48 /* SDLDateTime.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9F7E611DCBFAC800ACAE48 /* SDLDateTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA9F7E641DCBFAC800ACAE48 /* SDLDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7E621DCBFAC800ACAE48 /* SDLDateTime.m */; };
@@ -1928,6 +1929,16 @@
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
 		DA4353E71D2721680099B8C4 /* SDLTouchManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchManagerSpec.m; path = UtilitiesSpecs/Touches/SDLTouchManagerSpec.m; sourceTree = "<group>"; };
 		DA4353E81D2721680099B8C4 /* SDLTouchSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLTouchSpec.m; path = UtilitiesSpecs/Touches/SDLTouchSpec.m; sourceTree = "<group>"; };
+		DA4F47951E771AA100FC809E /* SDLEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEnum.m; sourceTree = "<group>"; };
+		DA7515981D95FAA000F29323 /* lock_arrow_down_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_down_black.png; sourceTree = "<group>"; };
+		DA7515991D95FAA000F29323 /* lock_arrow_down_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@2x.png"; sourceTree = "<group>"; };
+		DA75159A1D95FAA000F29323 /* lock_arrow_down_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_down_black@3x.png"; sourceTree = "<group>"; };
+		DA7515A11D95FAA000F29323 /* lock_arrow_up_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock_arrow_up_black.png; sourceTree = "<group>"; };
+		DA7515A21D95FAA000F29323 /* lock_arrow_up_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_black@2x.png"; sourceTree = "<group>"; };
+		DA7515A31D95FAA000F29323 /* lock_arrow_up_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_arrow_up_black@3x.png"; sourceTree = "<group>"; };
+		DA7515AA1D95FAA000F29323 /* sdl_logo_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sdl_logo_black.png; sourceTree = "<group>"; };
+		DA7515AB1D95FAA000F29323 /* sdl_logo_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_black@2x.png"; sourceTree = "<group>"; };
+		DA7515AC1D95FAA000F29323 /* sdl_logo_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sdl_logo_black@3x.png"; sourceTree = "<group>"; };
 		DA96C0651D4D4F730022F520 /* SDLAppInfoSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfoSpec.m; sourceTree = "<group>"; };
 		DA9F7E611DCBFAC800ACAE48 /* SDLDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDateTime.h; sourceTree = "<group>"; };
 		DA9F7E621DCBFAC800ACAE48 /* SDLDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTime.m; sourceTree = "<group>"; };
@@ -3197,6 +3208,7 @@
 			isa = PBXGroup;
 			children = (
 				5D61FABA1A84238A00846EE7 /* SDLEnum.h */,
+				DA4F47951E771AA100FC809E /* SDLEnum.m */,
 				5DB92D301AC9C8BA00C15BB0 /* SDLRPCStruct.h */,
 				5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */,
 				5D61FB7C1A84238B00846EE7 /* SDLRPCMessage.h */,
@@ -4580,6 +4592,7 @@
 				5D1665C51CF8CA2700CC4CA1 /* SDLListFilesOperation.m in Sources */,
 				5D61FE021A84238C00846EE7 /* SDLVehicleDataNotificationStatus.m in Sources */,
 				5D61FDD81A84238C00846EE7 /* SDLTouchType.m in Sources */,
+				DA4F47961E771AA100FC809E /* SDLEnum.m in Sources */,
 				5D61FDD61A84238C00846EE7 /* SDLTouchEventCapabilities.m in Sources */,
 				5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */,
 				5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */,

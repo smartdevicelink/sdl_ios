@@ -128,17 +128,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Present the VC depending on the lock screen status
-    if ([self.lastLockNotification.lockScreenStatus isEqualToString:SDLLockScreenStatusRequired]) {
+    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
         if (!self.presenter.presented && self.canPresent) {
             [self.presenter present];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToString:SDLLockScreenStatusOptional]) {
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
             [self.presenter present];
         } else if (self.presenter.presented) {
             [self.presenter dismiss];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToString:SDLLockScreenStatusOff]) {
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
         if (self.presenter.presented) {
             [self.presenter dismiss];
         }

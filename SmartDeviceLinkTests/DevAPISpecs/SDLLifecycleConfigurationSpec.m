@@ -29,10 +29,10 @@ describe(@"a lifecycle configuration", ^{
             expect(@(testConfig.tcpDebugMode)).to(beFalsy());
             expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
             expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
-            expect(@([testConfig.appType isEqualToString:SDLAppHMITypeDefault])).to(equal(@YES));
+            expect(@([testConfig.appType isEqualToEnum:SDLAppHMITypeDefault])).to(equal(@YES));
             expect(@(testConfig.isMedia)).to(beFalsy());
-            expect(@([testConfig.language isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
-            expect(@([[testConfig.languagesSupported firstObject] isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
+            expect(@([testConfig.language isEqualToEnum:SDLLanguageEnUs])).to(equal(@YES));
+            expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:SDLLanguageEnUs])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
@@ -72,9 +72,9 @@ describe(@"a lifecycle configuration", ^{
                 expect(@(testConfig.tcpDebugMode)).to(beFalsy());
                 expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
                 expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
-                expect(@([testConfig.appType isEqualToString:SDLAppHMITypeMedia])).to(equal(@YES));
+                expect(@([testConfig.appType isEqualToEnum:SDLAppHMITypeMedia])).to(equal(@YES));
                 expect(@(testConfig.isMedia)).to(beTruthy());
-                expect(@([testConfig.language isEqualToString:SDLLanguageArSa])).to(equal(@YES));
+                expect(@([testConfig.language isEqualToEnum:SDLLanguageArSa])).to(equal(@YES));
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.shortAppName).to(match(someShortAppName));
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
@@ -107,8 +107,8 @@ describe(@"a lifecycle configuration", ^{
             expect(@(testConfig.tcpDebugMode)).to(beTruthy());
             expect(testConfig.tcpDebugIPAddress).to(match(someIPAddress));
             expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
-            expect(@([testConfig.appType isEqualToString:SDLAppHMITypeDefault])).to(equal(@YES));
-            expect(@([testConfig.language isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
+            expect(@([testConfig.appType isEqualToEnum:SDLAppHMITypeDefault])).to(equal(@YES));
+            expect(@([testConfig.language isEqualToEnum:SDLLanguageEnUs])).to(equal(@YES));
             expect(@([[testConfig.languagesSupported firstObject] isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
@@ -148,9 +148,9 @@ describe(@"a lifecycle configuration", ^{
                 expect(@(testConfig.tcpDebugMode)).to(beTruthy());
                 expect(testConfig.tcpDebugIPAddress).to(match(someIPAddress));
                 expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
-                expect(@([testConfig.appType isEqualToString:SDLAppHMITypeMedia])).to(equal(@YES));
+                expect(@([testConfig.appType isEqualToEnum:SDLAppHMITypeMedia])).to(equal(@YES));
                 expect(@(testConfig.isMedia)).to(beTruthy());
-                expect(@([testConfig.language isEqualToString:SDLLanguageArSa])).to(equal(@YES));
+                expect(@([testConfig.language isEqualToEnum:SDLLanguageArSa])).to(equal(@YES));
                 expect(testConfig.languagesSupported).to(haveCount(@3));
                 expect(testConfig.shortAppName).to(match(someShortAppName));
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
