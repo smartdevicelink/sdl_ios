@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, readwrite) NSSet<SDLLogFileModule *> *modules;
 @property (copy, nonatomic, readwrite) NSSet<id<SDLLogTarget>> *targets;
-@property (copy, nonatomic, readwrite) NSSet<SDLLogFilterBlock> *filters;
+@property (copy, nonatomic, readwrite) NSSet<SDLLogFilter *> *filters;
 
 @property (assign, nonatomic, readwrite) SDLLogLevel globalLogLevel;
 @property (assign, nonatomic, readwrite) SDLLogFormatType formatType;
@@ -161,8 +161,8 @@ static dispatch_queue_t _logQueue = NULL;
 - (void)sdl_log:(SDLLogModel *)log {
     if ([self sdl_logLevelForFile:log.fileName] < log.level) { return; }
 
-    for (SDLLogFilterBlock filter in self.filters) {
-        if (!filter(log)) { return; }
+    for (SDLLogFilter *filter in self.filters) {
+        if (!filter.filter(log)) { return; }
     }
 
     NSString *formattedLog = nil;

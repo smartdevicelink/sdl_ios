@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLLogConstants.h"
+#import "SDLLogFilter.h"
 #import "SDLLogTarget.h"
 
 @class SDLLogFileModule;
@@ -31,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  What log filters will run over this session. Defaults to none.
  */
-@property (copy, nonatomic) NSSet<SDLLogFilterBlock> *filters;
+@property (copy, nonatomic) NSSet<SDLLogFilter *> *filters;
 
 /**
  How detailed of logs will be output. Defaults to Default.

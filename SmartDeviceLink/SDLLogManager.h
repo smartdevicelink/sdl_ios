@@ -13,6 +13,7 @@
 
 @class SDLLogConfiguration;
 @class SDLLogFileModule;
+@class SDLLogFilter;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -24,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *modules;
 @property (copy, nonatomic, readonly) NSSet<id<SDLLogTarget>> *targets;
-@property (copy, nonatomic, readonly) NSSet<SDLLogFilterBlock> *filters;
+@property (copy, nonatomic, readonly) NSSet<SDLLogFilter *> *filters;
 
 /// Any modules that do not have an explicitly specified level will by default use this log level
 @property (assign, nonatomic, readonly) SDLLogLevel globalLogLevel;

@@ -267,7 +267,6 @@
 		5D43466F1E6F55BD00B639C6 /* SDLLogManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466E1E6F55BD00B639C6 /* SDLLogManagerSpec.m */; };
 		5D4346731E6F617D00B639C6 /* TestLogTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346721E6F617D00B639C6 /* TestLogTarget.m */; };
 		5D4346861E771B5700B639C6 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346851E771B5700B639C6 /* SDLLog.swift */; };
-		5D43468A1E787B2800B639C6 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346891E787B2800B639C6 /* Test.swift */; };
 		5D48329D1A8EA33D00252386 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D48329C1A8EA33D00252386 /* Preferences.m */; };
 		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
 		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
@@ -1293,7 +1292,6 @@
 		5D4346711E6F617D00B639C6 /* TestLogTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestLogTarget.h; path = LoggingSpecs/TestLogTarget.h; sourceTree = "<group>"; };
 		5D4346721E6F617D00B639C6 /* TestLogTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestLogTarget.m; path = LoggingSpecs/TestLogTarget.m; sourceTree = "<group>"; };
 		5D4346851E771B5700B639C6 /* SDLLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDLLog.swift; sourceTree = "<group>"; };
-		5D4346891E787B2800B639C6 /* Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = SOURCE_ROOT; };
 		5D48329B1A8EA33D00252386 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = SmartDeviceLink_Example/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
 		5D48329C1A8EA33D00252386 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = SmartDeviceLink_Example/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
 		5D48329F1A92868E00252386 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = SmartDeviceLink_Example/Classes/ProxyManager.h; sourceTree = SOURCE_ROOT; };
@@ -2554,7 +2552,6 @@
 			children = (
 				5D48329F1A92868E00252386 /* ProxyManager.h */,
 				5D4832A01A92868E00252386 /* ProxyManager.m */,
-				5D4346891E787B2800B639C6 /* Test.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -4337,7 +4334,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D4346861E771B5700B639C6 /* SDLLog.swift in Sources */,
-				5D43468A1E787B2800B639C6 /* Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

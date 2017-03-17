@@ -29,53 +29,67 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface SDLLogFilter ()
+
+@property (strong, nonatomic, readwrite) SDLLogFilterBlock filter;
+
+@end
 
 @implementation SDLLogFilter
 
-#pragma mark - Filter by string
+- (instancetype)initWithCustomFilter:(SDLLogFilterBlock)filter {
+    self = [super init];
+    if (!self) { return nil; }
 
-+ (SDLLogFilterBlock)filterByDisallowingString:(NSString *)string caseSensitive:(BOOL)caseSensitive {
-    // Return YES if it *does not* contain the string
-    return ^BOOL(SDLLogModel *log) {
-        return ![log.message sdl_containsString:string caseSensitive:caseSensitive];
-    };
+    _filter = filter;
+
+    return self;
 }
 
-+ (SDLLogFilterBlock)filterByAllowingString:(NSString *)string caseSensitive:(BOOL)caseSensitive {
+#pragma mark - Filter by string
+
++ (SDLLogFilter *)filterByDisallowingString:(NSString *)string caseSensitive:(BOOL)caseSensitive {
+    // Return YES if it *does not* contain the string
+    return [[self alloc] initWithCustomFilter:^BOOL(SDLLogModel *log) {
+        return ![log.message sdl_containsString:string caseSensitive:caseSensitive];
+    }];
+}
+
++ (SDLLogFilter *)filterByAllowingString:(NSString *)string caseSensitive:(BOOL)caseSensitive {
     // Return YES if it *does* contain the string
-    return ^BOOL(SDLLogModel *log) {
+    return [[self alloc] initWithCustomFilter:^BOOL(SDLLogModel *log) {
         return [log.message sdl_containsString:string caseSensitive:caseSensitive];
-    };
+    }];
 }
 
 
 #pragma mark - Filter by regex
 
-+ (SDLLogFilterBlock)filterByDisallowingRegex:(NSRegularExpression *)regex {
++ (SDLLogFilter *)filterByDisallowingRegex:(NSRegularExpression *)regex {
     // Return YES if it *does not* pass the regex
-    return ^BOOL(SDLLogModel *log) {
+    return [[self alloc] initWithCustomFilter:^BOOL(SDLLogModel *log) {
         return ([regex numberOfMatchesInString:log.message options:0 range:NSMakeRange(0, log.message.length)] == 0);
-    };
+    }];
 }
 
-+ (SDLLogFilterBlock)filterByAllowingRegex:(NSRegularExpression *)regex {
++ (SDLLogFilter *)filterByAllowingRegex:(NSRegularExpression *)regex {
     // Return YES if it *does* pass the regex
-    return ^BOOL(SDLLogModel *log) {
+    return [[self alloc] initWithCustomFilter:^BOOL(SDLLogModel *log) {
         return ([regex numberOfMatchesInString:log.message options:0 range:NSMakeRange(0, log.message.length)] != 0);
-    };
+    }];
 }
 
 
 #pragma mark - Filter by module
 
-+ (SDLLogFilterBlock)filterByDisallowingModules:(NSSet<SDLLogFileModule *> *)modules {
++ (SDLLogFilter *)filterByDisallowingModules:(NSSet<SDLLogFileModule *> *)modules {
     // Return YES if the log is *not* in the set of modules
-    return [self sdl_filterCheckingModules:modules allowed:NO];
+    return [[self alloc] initWithCustomFilter:[self sdl_filterCheckingModules:modules allowed:NO]];
 }
 
-+ (SDLLogFilterBlock)filterByAllowingModules:(NSSet<SDLLogFileModule *> *)modules {
++ (SDLLogFilter *)filterByAllowingModules:(NSSet<SDLLogFileModule *> *)modules {
     // Return YES if the log *is* in the set of modules
-    return [self sdl_filterCheckingModules:modules allowed:YES];
+    return [[self alloc] initWithCustomFilter:[self sdl_filterCheckingModules:modules allowed:YES]];
 }
 
 + (SDLLogFilterBlock)sdl_filterCheckingModules:(NSSet<SDLLogFileModule *> *)modules allowed:(BOOL)allowed {
@@ -93,14 +107,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Filter by file name
 
-+ (SDLLogFilterBlock)filterByDisallowingFileNames:(NSSet<NSString *> *)fileNames {
++ (SDLLogFilter *)filterByDisallowingFileNames:(NSSet<NSString *> *)fileNames {
     // Return YES if the log is *not* in the set of file names
-    return [self sdl_filterCheckingFileNames:fileNames allowed:NO];
+    return [[self alloc] initWithCustomFilter:[self sdl_filterCheckingFileNames:fileNames allowed:NO]];
 }
 
-+ (SDLLogFilterBlock)filterByAllowingFileNames:(NSSet<NSString *> *)fileNames {
++ (SDLLogFilter *)filterByAllowingFileNames:(NSSet<NSString *> *)fileNames {
     // Return YES if the log *is* in the set of file names
-    return [self sdl_filterCheckingFileNames:fileNames allowed:YES];
+    return [[self alloc] initWithCustomFilter:[self sdl_filterCheckingFileNames:fileNames allowed:YES]];
 }
 
 + (SDLLogFilterBlock)sdl_filterCheckingFileNames:(NSSet<NSString *> *)fileNames allowed:(BOOL)allowed {
