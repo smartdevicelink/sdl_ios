@@ -22,6 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+ Create a new filter with a custom filter block. The filter block will take a log model and return a BOOL of pass / fail.
+
+ @param filter The custom filter to be used
+ @return An instance of SDLLogFilter
+ */
 - (instancetype)initWithCustomFilter:(SDLLogFilterBlock)filter NS_DESIGNATED_INITIALIZER;
 
 /**
