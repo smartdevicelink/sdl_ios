@@ -1,3 +1,11 @@
+# 4.5.5 Release Notes
+### Bug Fixes
+* Added a check for if `SDLManager` is already started and prevent starting it again.
+* Prevent infinite loops in IAP transport.
+
+### Example App
+* Fixed incorrectly setting button state on disconnect.
+
 # 4.5.4 Release Notes
 ### Bug Fixes
 * Streaming video will not crash if data is unexpectedly NULL.
