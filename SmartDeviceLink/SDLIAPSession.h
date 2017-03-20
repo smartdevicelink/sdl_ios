@@ -23,5 +23,5 @@ typedef void (^SessionCompletionHandler)(BOOL success);
 
 - (BOOL)start;
 - (void)stop;
-
+- (void)sendData:(NSData *)data;
 @end
