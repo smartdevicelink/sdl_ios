@@ -164,6 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
+    logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
 
     return logConfig;
 }
@@ -264,6 +265,7 @@ NS_ASSUME_NONNULL_BEGIN
     performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
     
     [manager sendRequest:performOnlyChoiceInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLPerformInteractionResponse * _Nullable response, NSError * _Nullable error) {
+        SDLLogD(@"Perform Interaction fired");
         if ((response == nil) || (error != nil)) {
             SDLLogE(@"Something went wrong, no perform interaction response: %@", error);
         }
@@ -282,6 +284,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
+        SDLLogD(@"Soft button press fired");
         SDLAlert* alert = [[SDLAlert alloc] init];
         alert.alertText1 = @"You pushed the button!";
         [manager sendRequest:alert];

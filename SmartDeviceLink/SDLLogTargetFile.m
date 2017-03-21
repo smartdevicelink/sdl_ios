@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)sdl_logDirectory {
     NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
 
-    return [documentsDirectory stringByAppendingPathComponent:@"smartdevicelink/log/"];
+    return [documentsDirectory stringByAppendingPathComponent:@"/smartdevicelink/log/"];
 }
 
 
@@ -77,6 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *newFilePath = [[self.class sdl_logDirectory] stringByAppendingPathComponent:[self.class sdl_newFileName]];
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:[self.class sdl_logDirectory]]) {
+        [fileManager createDirectoryAtPath:[self.class sdl_logDirectory] withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
     if ([fileManager fileExistsAtPath:newFilePath]) {
         [fileManager removeItemAtPath:newFilePath error:nil];
     }
@@ -95,9 +99,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSDateFormatter *fileDateFormatter = [[NSDateFormatter alloc] init];
-    fileDateFormatter.dateFormat = @"yyyy-MM-dd HH-mm-ss";
+    fileDateFormatter.dateFormat = @"yyyy-MM-dd-HH:mm:ss";
 
-    return [NSString stringWithFormat:@"%@_%@.log", [fileDateFormatter stringFromDate:[NSDate date]], appName];
+    return [NSString stringWithFormat:@"%@-%@.log", [fileDateFormatter stringFromDate:[NSDate date]], appName];
 }
 
 
@@ -107,8 +111,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray<NSString *> *sortedLogFilePaths = [self sdl_sortedLogFilePaths];
 
     // If we have more files now than the max, remove the oldest ones
-    for (int i = 0; i < (sortedLogFilePaths.count - maxFiles); i++) {
-        [[NSFileManager defaultManager] removeItemAtPath:sortedLogFilePaths[i] error:nil];
+    NSInteger filesToRemove = sortedLogFilePaths.count - maxFiles;
+    for (int i = 0; i < filesToRemove; i++) {
+        NSString *path = [[self sdl_logDirectory] stringByAppendingPathComponent:sortedLogFilePaths[i]];
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
     }
 }
 
