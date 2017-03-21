@@ -82,20 +82,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Filter by module
 
-+ (SDLLogFilter *)filterByDisallowingModules:(NSSet<SDLLogFileModule *> *)modules {
++ (SDLLogFilter *)filterByDisallowingModules:(NSSet<NSString *> *)modules {
     // Return YES if the log is *not* in the set of modules
     return [[self alloc] initWithCustomFilter:[self sdl_filterCheckingModules:modules allowed:NO]];
 }
 
-+ (SDLLogFilter *)filterByAllowingModules:(NSSet<SDLLogFileModule *> *)modules {
++ (SDLLogFilter *)filterByAllowingModules:(NSSet<NSString *> *)modules {
     // Return YES if the log *is* in the set of modules
     return [[self alloc] initWithCustomFilter:[self sdl_filterCheckingModules:modules allowed:YES]];
 }
 
-+ (SDLLogFilterBlock)sdl_filterCheckingModules:(NSSet<SDLLogFileModule *> *)modules allowed:(BOOL)allowed {
++ (SDLLogFilterBlock)sdl_filterCheckingModules:(NSSet<NSString *> *)modules allowed:(BOOL)allowed {
     return ^BOOL(SDLLogModel *log) {
-        for (SDLLogFileModule *module in modules) {
-            if ([module.name isEqualToString:log.moduleName]) {
+        for (NSString *module in modules) {
+            if ([module isEqualToString:log.moduleName]) {
                 return allowed;
             }
         }

@@ -67,18 +67,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Returns a filter that only allows logs not within the specified file modules to be logged.
 
- @param modules If a log matches any of the passed modules, the log will not be logged.
+ @param modules A set of module names. If any match, they will not be logged.
  @return A filter that may be passed into the `logConfiguration`.
  */
-+ (SDLLogFilter *)filterByDisallowingModules:(NSSet<SDLLogFileModule *> *)modules;
++ (SDLLogFilter *)filterByDisallowingModules:(NSSet<NSString *> *)modules;
 
 /**
  Returns a filter that only allows logs of the specified file modules to be logged.
 
- @param modules If a log matches any of the passed modules, the log will be logged.
+ @param modules A set of module names. If any match, they will not be logged.
  @return A filter that may be passed into the `logConfiguration`.
  */
-+ (SDLLogFilter *)filterByAllowingModules:(NSSet<SDLLogFileModule *> *)modules;
++ (SDLLogFilter *)filterByAllowingModules:(NSSet<NSString *> *)modules;
 
 /**
  Returns a filter that only allows logs not within the specified files to be logged.
