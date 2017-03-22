@@ -32,6 +32,7 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 @property (assign) int retryCounter;
+@property (assign) BOOL isDelayedConnect;
 @property (assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
 
@@ -46,6 +47,7 @@ int const streamOpenTimeoutSeconds = 2;
         _session = nil;
         _controlSession = nil;
         _retryCounter = 0;
+        _isDelayedConnect = NO;
         _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
 
@@ -117,7 +119,7 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     self.retryCounter = 0;
-    [self connect];
+    [self sdl_connect:nil];
 }
 
 
@@ -127,7 +129,7 @@ int const streamOpenTimeoutSeconds = 2;
     [self sdl_connect:nil];
 }
 
-- (void)sdl_connect:(EAAccessory *)accessory {
+- (void)sdl_connect:(EAAccessory *)accessory{
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
         [self sdl_establishSession:accessory];
@@ -140,7 +142,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)disconnect {
     [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+    self.isDelayedConnect = NO;
     // Only disconnect the data session, the control session does not stay open and is handled separately
     if (self.session != nil) {
         [self.session stop];

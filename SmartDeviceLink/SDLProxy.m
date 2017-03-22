@@ -692,9 +692,11 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
+    __weak SDLProxy *weakSelf = self;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        @autoreleasepool {
-            for (id<SDLProxyListener> listener in self.proxyListeners) {
+        if (!_alreadyDestructed){
+            for (id<SDLProxyListener> listener in weakSelf.proxyListeners) {
                 if ([listener respondsToSelector:aSelector]) {
                     // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
                     ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
