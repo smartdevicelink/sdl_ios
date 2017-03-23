@@ -21,15 +21,9 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLPolicyDataParser.h"
-#import "SDLPolicyDataParser.h"
-#import "SDLPolicyDataParser.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
-#import "SDLProtocolMessage.h"
-#import "SDLProtocolMessage.h"
 #import "SDLPutFile.h"
-#import "SDLRPCPayload.h"
-#import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -70,7 +64,7 @@ static float DefaultConnectionTimeout = 45.0;
 @implementation SDLProxy
 
 #pragma mark - Object lifecycle
-- (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
+- (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];

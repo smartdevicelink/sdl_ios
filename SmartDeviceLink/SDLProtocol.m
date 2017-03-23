@@ -51,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     if (self = [super init]) {
+        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
+        _debugConsoleGroupName = @"default";
+
         _messageID = 0;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
@@ -58,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
         _serviceHeaders = [[NSMutableDictionary alloc] init];
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
+        
     }
 
     return self;
@@ -77,11 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     return header.sessionID;
 }
-
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType];
-}
-
 
 #pragma mark - Start Service
 
@@ -161,10 +160,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark - End Service
-
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
-    [self endServiceWithType:serviceType];
-}
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
@@ -271,11 +266,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return YES;
-}
-
-// SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-    [self sendRPC:rpcRequest];
 }
 
 - (void)sdl_logRPCSend:(SDLProtocolMessage *)message {
@@ -615,6 +605,28 @@ NS_ASSUME_NONNULL_BEGIN
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
+}
+
+
+#pragma - SDLTransportListener Implementation
+- (void)onTransportConnected {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
+            [listener onProtocolOpened];
+        }
+    }
+}
+
+- (void)onTransportDisconnected {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
+            [listener onProtocolClosed];
+        }
+    }
+}
+
+- (void)onDataReceived:(NSData *)receivedData {
+    [self handleBytesFromTransport:receivedData];
 }
 
 @end

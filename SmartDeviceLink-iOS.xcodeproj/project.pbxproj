@@ -226,7 +226,6 @@
 		1680B1171A9CD7AD00DBD79E /* SDLProtocolSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B10B1A9CD7AD00DBD79E /* SDLProtocolSpec.m */; };
 		1680B1181A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B10C1A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m */; };
 		1680B1191A9CD7AD00DBD79E /* SDLV2ProtocolMessageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B10D1A9CD7AD00DBD79E /* SDLV2ProtocolMessageSpec.m */; };
-		1680B11A1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B10E1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m */; };
 		1680B11B1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B10F1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m */; };
 		1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */; };
 		1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */; };
@@ -287,8 +286,6 @@
 		5D61FA211A84237100846EE7 /* SmartDeviceLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA201A84237100846EE7 /* SmartDeviceLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FA331A84237100846EE7 /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5D61FA341A84237100846EE7 /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5D61FC291A84238C00846EE7 /* SDLAbstractProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA3C1A84238A00846EE7 /* SDLAbstractProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D61FC2A1A84238C00846EE7 /* SDLAbstractProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FA3D1A84238A00846EE7 /* SDLAbstractProtocol.m */; };
 		5D61FC2B1A84238C00846EE7 /* SDLAbstractTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA3E1A84238A00846EE7 /* SDLAbstractTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FC2C1A84238C00846EE7 /* SDLAbstractTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FA3F1A84238A00846EE7 /* SDLAbstractTransport.m */; };
 		5D61FC2D1A84238C00846EE7 /* SDLAddCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FA401A84238A00846EE7 /* SDLAddCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1207,7 +1204,6 @@
 		1680B10B1A9CD7AD00DBD79E /* SDLProtocolSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLProtocolSpec.m; path = MessageSpecs/SDLProtocolSpec.m; sourceTree = "<group>"; };
 		1680B10C1A9CD7AD00DBD79E /* SDLV1ProtocolMessageSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLV1ProtocolMessageSpec.m; sourceTree = "<group>"; };
 		1680B10D1A9CD7AD00DBD79E /* SDLV2ProtocolMessageSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLV2ProtocolMessageSpec.m; sourceTree = "<group>"; };
-		1680B10E1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAbstractProtocolSpec.m; sourceTree = "<group>"; };
 		1680B10F1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFunctionIDSpec.m; sourceTree = "<group>"; };
 		1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageAssemblerSpec.m; sourceTree = "<group>"; };
 		1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageDisassemblerSpec.m; sourceTree = "<group>"; };
@@ -1292,8 +1288,6 @@
 		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
 		5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartDeviceLinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA2E1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D61FA3C1A84238A00846EE7 /* SDLAbstractProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAbstractProtocol.h; sourceTree = "<group>"; };
-		5D61FA3D1A84238A00846EE7 /* SDLAbstractProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAbstractProtocol.m; sourceTree = "<group>"; };
 		5D61FA3E1A84238A00846EE7 /* SDLAbstractTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAbstractTransport.h; sourceTree = "<group>"; };
 		5D61FA3F1A84238A00846EE7 /* SDLAbstractTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAbstractTransport.m; sourceTree = "<group>"; };
 		5D61FA401A84238A00846EE7 /* SDLAddCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAddCommand.h; sourceTree = "<group>"; };
@@ -2290,7 +2284,6 @@
 			children = (
 				1680B1051A9CD7AD00DBD79E /* HeaderSpecs */,
 				1680B1091A9CD7AD00DBD79E /* MessageSpecs */,
-				1680B10E1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m */,
 				1680B10F1A9CD7AD00DBD79E /* SDLFunctionIDSpec.m */,
 				1680B10B1A9CD7AD00DBD79E /* SDLProtocolSpec.m */,
 				1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */,
@@ -2508,8 +2501,6 @@
 				5D5934FA1A851AC900687FB9 /* @protocols */,
 				5D5935011A851D7E00687FB9 /* Header */,
 				5D5935021A851D8700687FB9 /* Message */,
-				5D61FA3C1A84238A00846EE7 /* SDLAbstractProtocol.h */,
-				5D61FA3D1A84238A00846EE7 /* SDLAbstractProtocol.m */,
 				5D61FAC01A84238A00846EE7 /* SDLFunctionID.h */,
 				5D61FAC11A84238A00846EE7 /* SDLFunctionID.m */,
 				5D61FB561A84238B00846EE7 /* SDLProtocol.h */,
@@ -3868,7 +3859,6 @@
 				5D61FDB11A84238C00846EE7 /* SDLSubscribeVehicleData.h in Headers */,
 				5DCF76F51ACDBAD300BB647B /* SDLSendLocation.h in Headers */,
 				5D61FC9E1A84238C00846EE7 /* SDLEncodedSyncPData.h in Headers */,
-				5D61FC291A84238C00846EE7 /* SDLAbstractProtocol.h in Headers */,
 				5D61FDE11A84238C00846EE7 /* SDLTurn.h in Headers */,
 				5D61FC801A84238C00846EE7 /* SDLDeleteSubMenuResponse.h in Headers */,
 				5D61FDBD1A84238C00846EE7 /* SDLSystemContext.h in Headers */,
@@ -4476,7 +4466,6 @@
 				5D60088B1BE3ED540094A505 /* SDLStateMachine.m in Sources */,
 				5D61FD181A84238C00846EE7 /* SDLOnPermissionsChange.m in Sources */,
 				5D61FD3E1A84238C00846EE7 /* SDLPrimaryAudioSource.m in Sources */,
-				5D61FC2A1A84238C00846EE7 /* SDLAbstractProtocol.m in Sources */,
 				5D82041F1BCD8E6100D0A41B /* SDLConfiguration.m in Sources */,
 				5D61FD381A84238C00846EE7 /* SDLPredefinedLayout.m in Sources */,
 				5D3E487C1D6F888E0000BFEF /* SDLRPCResponseNotification.m in Sources */,
@@ -4550,7 +4539,6 @@
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				5D76E3291D3D0A8800647CFA /* SDLFakeViewControllerPresenter.m in Sources */,
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
-				1680B11A1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m in Sources */,
 				1680B1151A9CD7AD00DBD79E /* SDLV2ProtocolHeaderSpec.m in Sources */,
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,

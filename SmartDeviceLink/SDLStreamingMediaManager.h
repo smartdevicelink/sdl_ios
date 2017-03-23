@@ -11,7 +11,7 @@
 
 #import "SDLProtocolListener.h"
 
-@class SDLAbstractProtocol;
+@class SDLProtocol;
 @class SDLDisplayCapabilities;
 @class SDLTouchManager;
 
@@ -94,9 +94,9 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
 
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
+- (instancetype)initWithProtocol:(SDLProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
 
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities;
+- (instancetype)initWithProtocol:(SDLProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities;
 
 /**
  *  This method will attempt to start a streaming video session. It will set up iOS's video encoder,  and call out to the head unit asking if it will start a video session. This will not use encryption.
