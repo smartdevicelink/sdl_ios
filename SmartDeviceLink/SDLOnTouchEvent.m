@@ -49,7 +49,9 @@
 
 - (NSMutableArray *)event {
     NSMutableArray *array = [parameters objectForKey:NAMES_event];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTouchEvent.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTouchEvent.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

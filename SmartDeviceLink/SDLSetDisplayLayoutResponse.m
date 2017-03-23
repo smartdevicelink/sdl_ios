@@ -52,7 +52,9 @@
 
 - (NSMutableArray *)buttonCapabilities {
     NSMutableArray *array = [parameters objectForKey:NAMES_buttonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLButtonCapabilities.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLButtonCapabilities.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
@@ -73,7 +75,9 @@
 
 - (NSMutableArray *)softButtonCapabilities {
     NSMutableArray *array = [parameters objectForKey:NAMES_softButtonCapabilities];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButtonCapabilities.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLSoftButtonCapabilities.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

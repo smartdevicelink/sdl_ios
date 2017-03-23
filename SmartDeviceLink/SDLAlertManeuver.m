@@ -50,7 +50,9 @@
 
 - (NSMutableArray *)ttsChunks {
     NSMutableArray *array = [parameters objectForKey:NAMES_ttsChunks];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
@@ -71,7 +73,9 @@
 
 - (NSMutableArray *)softButtons {
     NSMutableArray *array = [parameters objectForKey:NAMES_softButtons];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLSoftButton.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLSoftButton.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
