@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Cancel
 
 - (void)cancel {
+    self.completionHandler = nil;
     [self.connection cancel];
     [self connection:self.connection didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorCancelled userInfo:nil]];
 }

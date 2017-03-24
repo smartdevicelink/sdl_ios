@@ -19,4 +19,6 @@ typedef void (^SDLStreamEndHandler)(NSStream *stream);
 @property (nonatomic, copy) SDLStreamErrorHandler streamErrorHandler;
 @property (nonatomic, copy) SDLStreamEndHandler streamEndHandler;
 
+- (void)clearHandlers;
+
 @end

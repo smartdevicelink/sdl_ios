@@ -28,6 +28,13 @@
     return self;
 }
 
+- (void)clearHandlers {
+    self.streamEndHandler = nil;
+    self.streamHasBytesHandler = nil;
+    self.streamOpenHandler  = nil;
+    self.streamHasBytesHandler = nil;
+}
+
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
         case NSStreamEventOpenCompleted: {

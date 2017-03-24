@@ -51,35 +51,33 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 #pragma mark - Public Stream Lifecycle
 
 - (BOOL)start {
-    __weak typeof(self) weakSelf = self;
 
-    NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@", self.accessory.name, self.protocol];
+    NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol];
     [SDLDebugTool logInfo:logMessage];
-
-    if ((self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol])) {
-        __strong typeof(self) strongSelf = weakSelf;
-
-        [SDLDebugTool logInfo:@"Created Session Object"];
-
-        strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
-        strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
-        if (!self.isDataSession) {
-            [self startStream:self.easession.outputStream];
-            [self startStream:self.easession.inputStream];
-        } else {
-            self.streamDelegate.streamHasSpaceHandler = [self streamHasSpaceHandler];
-            // Start I/O event loop processing events in iAP channel
-            self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
-            [self.ioStreamThread setName:ioStreamThreadName];
-            [self.ioStreamThread start];
-        }
-
-        return YES;
-
-    } else {
+    
+    self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol];
+    
+    if (!self.easession) {
         [SDLDebugTool logInfo:@"Error: Could Not Create Session Object"];
         return NO;
     }
+    
+    [SDLDebugTool logInfo:@"Created Session Object"];
+    
+    self.streamDelegate.streamErrorHandler = [self streamErroredHandler];
+    self.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
+    if (!self.isDataSession) {
+        [self startStream:self.easession.outputStream];
+        [self startStream:self.easession.inputStream];
+    } else {
+        self.streamDelegate.streamHasSpaceHandler = [self streamHasSpaceHandler];
+        // Start I/O event loop processing events in iAP channel
+        self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
+        [self.ioStreamThread setName:ioStreamThreadName];
+        [self.ioStreamThread start];
+    }
+    
+    return YES;
 }
 
 - (void)stop {
@@ -96,10 +94,10 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         } else{
            [SDLDebugTool logInfo:@"Error: failed to cancel stream thread"];
         }
+        [self.streamDelegate clearHandlers];
         self.ioStreamThread = nil;
         self.isDataSession = NO;
     }
-    self.easession = nil;
 }
 
 - (void)sendData:(NSData *)data {
@@ -277,6 +275,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
+    self.easession = nil;
     self.sendDataQueue = nil;
     self.delegate = nil;
     self.accessory = nil;
