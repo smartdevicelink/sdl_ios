@@ -94,7 +94,6 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         } else{
            [SDLDebugTool logInfo:@"Error: failed to cancel stream thread"];
         }
-        [self.streamDelegate clearHandlers];
         self.ioStreamThread = nil;
         self.isDataSession = NO;
     }
@@ -206,6 +205,9 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     if (status1 != NSStreamStatusNotOpen &&
         status1 != NSStreamStatusClosed) {
         [stream close];
+    }
+    else{
+        NSLog(@"ERROR: Not closing stream!!!!");
     }
 
     [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];

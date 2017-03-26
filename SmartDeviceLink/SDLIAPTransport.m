@@ -390,7 +390,6 @@ int const streamOpenTimeoutSeconds = 2;
 
         [SDLDebugTool logInfo:@"Data Stream Event End"];
         [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
 
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf sdl_retryEstablishSession];
@@ -428,7 +427,6 @@ int const streamOpenTimeoutSeconds = 2;
 
         [SDLDebugTool logInfo:@"Data Stream Error"];
         [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
 
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf sdl_retryEstablishSession];
@@ -482,6 +480,10 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
+        if (self.session.easession.inputStream.streamStatus != NSStreamStatusClosed ||
+            self.session.easession.outputStream.streamStatus != NSStreamStatusClosed) {
+            NSLog(@"Data session streams not closed!!!");
+        }
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
