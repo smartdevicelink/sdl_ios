@@ -271,6 +271,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sendData:(NSData *)data {
     dispatch_async(_transmit_queue, ^{
+        SDLLogBytes(data, SDLLogBytesDirectionTransmit);
         NSOutputStream *ostream = self.session.easession.outputStream;
         NSMutableData *remainder = data.mutableCopy;
 
@@ -385,6 +386,7 @@ int const streamOpenTimeoutSeconds = 2;
         while ([istream hasBytesAvailable]) {
             NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
+            SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
 
             if (bytesRead > 0) {
                 [strongSelf.delegate onDataReceived:dataIn];

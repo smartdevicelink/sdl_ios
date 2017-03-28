@@ -21,6 +21,7 @@
 
 #if DEBUG
 
+#define SDLLogBytes(bytes, transmissionDirection) [SDLLogManager logBytes:bytes direction:transmissionDirection timestamp:[NSDate date] file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE]
 #define SDLLogV(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelVerbose timestamp:[NSDate date] file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]
 #define SDLLogD(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelDebug timestamp:[NSDate date] file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]
 

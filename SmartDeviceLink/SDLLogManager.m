@@ -8,6 +8,7 @@
 
 #import "SDLLogManager.h"
 
+#import "SDLHexUtility.h"
 #import "SDLLogConfiguration.h"
 #import "SDLLogFileModule.h"
 #import "SDLLogModel.h"
@@ -94,6 +95,10 @@ static dispatch_queue_t _logQueue = NULL;
 
 #pragma mark - Performing Logging
 
++ (void)logBytes:(NSData *)data direction:(SDLLogBytesDirection)direction timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel {
+    [[self sharedManager] logBytes:data direction:direction timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel];
+}
+
 + (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
     [[self sharedManager] logWithLevel:level timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:message];
 }
@@ -105,6 +110,14 @@ static dispatch_queue_t _logQueue = NULL;
     va_end(args);
 
     [[self sharedManager] logWithLevel:level timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:format];
+}
+
+- (void)logBytes:(NSData *)data direction:(SDLLogBytesDirection)direction timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel {
+    // This only works on Verbose logging
+    if ([self sdl_logLevelForFile:file] < SDLLogLevelVerbose) { return; }
+
+    NSString *message = [NSString stringWithFormat:@"%@(%lu bytes): %@", [self sdl_logStringForDirection:direction], data.length, [SDLHexUtility getHexString:data]];
+    [self logWithLevel:SDLLogLevelVerbose timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:message];
 }
 
 - (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
@@ -251,6 +264,15 @@ static dispatch_queue_t _logQueue = NULL;
         default:
             NSAssert(NO, @"The OFF and DEFAULT log levels are not valid to log with.");
             return @"UNKNOWN";
+    }
+}
+
+- (NSString *)sdl_logStringForDirection:(SDLLogBytesDirection)direction {
+    switch (direction) {
+        case SDLLogBytesDirectionReceive:
+            return @"RX";
+        case SDLLogBytesDirectionTransmit:
+            return @"TX";
     }
 }
 

@@ -3,6 +3,7 @@
 
 
 #import "SDLTCPTransport.h"
+#import "SDLLogConstants.h"
 #import "SDLLogMacros.h"
 #import "SDLLogManager.h"
 #import "SDLHexUtility.h"
@@ -64,8 +65,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 - (void)sendData:(NSData *)msgBytes {
     dispatch_async(_sendQueue, ^{
         @autoreleasepool {
-            SDLLogV(@"Sent %lu bytes, %@", (unsigned long)msgBytes.length, [SDLHexUtility getHexString:msgBytes]);
-
+            SDLLogBytes(msgBytes, SDLLogBytesDirectionTransmit);
             CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
             if (e != kCFSocketSuccess) {
                 NSString *errorCause = nil;
@@ -151,15 +151,9 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         }
 
         // Handle the data we received
-        if ([SDLLogManager sharedManager].globalLogLevel == SDLLogLevelVerbose) {
-            NSMutableString *byteStr = [NSMutableString stringWithCapacity:((int)CFDataGetLength((CFDataRef)data) * 2)];
-            for (int i = 0; i < (int)CFDataGetLength((CFDataRef)data); i++) {
-                [byteStr appendFormat:@"%02X", ((Byte *)(UInt8 *)CFDataGetBytePtr((CFDataRef)data))[i]];
-            }
-            SDLLogV(@"Read %d bytes: %@", (int)CFDataGetLength((CFDataRef)data), byteStr);
-        }
-
-        [transport.delegate onDataReceived:[NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)]];
+        NSData *convertedData = [NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)];
+        SDLLogBytes(convertedData, SDLLogBytesDirectionReceive);
+        [transport.delegate onDataReceived:convertedData];
     } else {
         SDLLogW(@"Unhandled callback type: %lu", type);
     }

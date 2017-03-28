@@ -60,9 +60,11 @@ NS_ASSUME_NONNULL_BEGIN
  Log to the sharedManager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
 
  @param level The level of the log
+ @param timestamp The time the log was sent
  @param file The file the log originated from
  @param functionName The function the log originated from
  @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
  @param message The message of the log with a format
  */
 + (void)logWithLevel:(SDLLogLevel)level
@@ -77,9 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
  Log to this log manager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
 
  @param level The level of the log
+ @param timestamp The time the log was sent
  @param file The file the log originated from
  @param functionName The function the log originated from
  @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
  @param message The message of the log with a format
  */
 - (void)logWithLevel:(SDLLogLevel)level
@@ -94,9 +98,11 @@ NS_ASSUME_NONNULL_BEGIN
  Log to this sharedManager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
 
  @param level The level of the log
+ @param timestamp The time the log was sent
  @param file The file the log originated from
  @param functionName The function the log originated from
  @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
  @param message The message of the log
  */
 + (void)logWithLevel:(SDLLogLevel)level
@@ -111,9 +117,11 @@ NS_ASSUME_NONNULL_BEGIN
  Log to this log manager's active log targets. This is used internally to log. If you want to create a log, you should use macros such as `SDLLogD`.
 
  @param level The level of the log
+ @param timestamp The time the log was sent
  @param file The file the log originated from
  @param functionName The function the log originated from
  @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
  @param message The message of the log
  */
 - (void)logWithLevel:(SDLLogLevel)level
@@ -123,6 +131,44 @@ NS_ASSUME_NONNULL_BEGIN
                 line:(NSInteger)line
                queue:(NSString *)queueLabel
              message:(NSString *)message;
+
+/**
+ Log to this sharedManager's active log targets. This is used internally to log.
+
+ @param data The data to be logged
+ @param direction Whether its transmit or receive data
+ @param timestamp The time the log was sent
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
+ */
++ (void)logBytes:(NSData *)data
+       direction:(SDLLogBytesDirection)direction
+       timestamp:(NSDate *)timestamp
+            file:(NSString *)file
+    functionName:(NSString *)functionName
+            line:(NSInteger)line
+           queue:(NSString *)queueLabel;
+
+/**
+ Log to this manager's active log targets. This is used internally to log.
+
+ @param data The data to be logged
+ @param direction Whether its transmit or receive data
+ @param timestamp The time the log was sent
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
+ */
+- (void)logBytes:(NSData *)data
+       direction:(SDLLogBytesDirection)direction
+       timestamp:(NSDate *)timestamp
+            file:(NSString *)file
+    functionName:(NSString *)functionName
+            line:(NSInteger)line
+           queue:(NSString *)queueLabel;
 
 @end
 

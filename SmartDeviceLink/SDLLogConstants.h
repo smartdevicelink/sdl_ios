@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef BOOL (^SDLLogFilterBlock)(SDLLogModel *log);
 
+typedef NS_ENUM(NSUInteger, SDLLogBytesDirection) {
+    SDLLogBytesDirectionTransmit,
+    SDLLogBytesDirectionReceive
+};
+
 /**
  Flags used for SDLLogLevel to provide correct enum values. This is purely for internal use.
 
