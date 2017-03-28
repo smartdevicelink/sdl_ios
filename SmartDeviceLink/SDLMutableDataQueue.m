@@ -51,7 +51,9 @@
 
 - (void)popBuffer {
     @synchronized (self) {
-        [self.elements removeObjectAtIndex:0];
+        if (self.elements.count) {
+            [self.elements removeObjectAtIndex:0];
+        }
     }
 }
 

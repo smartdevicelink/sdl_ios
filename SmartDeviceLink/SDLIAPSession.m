@@ -100,9 +100,10 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 }
 
 - (void)sendData:(NSData *)data {
+   if (data != nil && data.length){
     // Enqueue the data for transmission on the IO thread
     [self.sendDataQueue enqueueBuffer:data.mutableCopy];
-}
+   }
 
 - (BOOL)sdl_dequeueAndWriteToOutputStream:(NSError **)error {
     NSOutputStream *ostream = self.easession.outputStream;
