@@ -125,12 +125,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)dealloc {
     [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
-    @try {
-        [self destructObjects];
-    } @catch (NSException *e) {
-        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to dealloc %@", e];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    }
+    [self destructObjects];
 }
 
 - (void)notifyProxyClosed {
