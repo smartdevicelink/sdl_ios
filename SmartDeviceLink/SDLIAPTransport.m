@@ -129,7 +129,7 @@ int const streamOpenTimeoutSeconds = 2;
     [self sdl_connect:nil];
 }
 
-- (void)sdl_connect:(EAAccessory *)accessory{
+- (void)sdl_connect:(EAAccessory *)accessory {
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
         [self sdl_establishSession:accessory];

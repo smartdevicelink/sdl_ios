@@ -22,7 +22,6 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 @end
 
-
 @implementation SDLIAPSession
 
 #pragma mark - Lifecycle
