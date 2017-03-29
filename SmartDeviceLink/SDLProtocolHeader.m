@@ -11,7 +11,6 @@
 @synthesize version = _version;
 @synthesize size = _size;
 
-
 - (instancetype)init {
     if (self = [super init]) {
         _version = 0;
@@ -63,7 +62,7 @@
             NSString *reason = [NSString stringWithFormat:@"The version of header that is being created is unknown: %@", @(version)];
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:@{ @"requestedVersion" : @(version) }];
 #else
-            return [[SDLV2ProtocolHeader alloc] initWithVersion:255];
+            return [[SDLV2ProtocolHeader alloc] initWithVersion:invalidSDLProtocolVersion];
 #endif
         } break;
     }
