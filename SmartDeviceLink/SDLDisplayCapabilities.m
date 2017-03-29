@@ -52,7 +52,9 @@
 
 - (NSMutableArray *)textFields {
     NSMutableArray *array = [store objectForKey:NAMES_textFields];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTextField.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextField.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
@@ -73,7 +75,9 @@
 
 - (NSMutableArray *)imageFields {
     NSMutableArray *array = [store objectForKey:NAMES_imageFields];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLImageField.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLImageField.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
@@ -94,7 +98,9 @@
 
 - (NSMutableArray *)mediaClockFormats {
     NSMutableArray *array = [store objectForKey:NAMES_mediaClockFormats];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLMediaClockFormat.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMediaClockFormat.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

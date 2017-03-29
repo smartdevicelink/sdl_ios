@@ -50,7 +50,9 @@
 
 - (NSMutableArray *)imageTypeSupported {
     NSMutableArray *array = [store objectForKey:NAMES_imageTypeSupported];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLFileType.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLFileType.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

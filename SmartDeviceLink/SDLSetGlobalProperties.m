@@ -62,7 +62,9 @@
 
 - (NSMutableArray *)helpPrompt {
     NSMutableArray *array = [parameters objectForKey:NAMES_helpPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
@@ -83,7 +85,9 @@
 
 - (NSMutableArray *)timeoutPrompt {
     NSMutableArray *array = [parameters objectForKey:NAMES_timeoutPrompt];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLTTSChunk.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTTSChunk.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
@@ -116,7 +120,9 @@
 
 - (NSMutableArray *)vrHelp {
     NSMutableArray *array = [parameters objectForKey:NAMES_vrHelp];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLVRHelpItem.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLVRHelpItem.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

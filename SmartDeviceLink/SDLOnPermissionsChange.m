@@ -31,7 +31,9 @@
 
 - (NSMutableArray *)permissionItem {
     NSMutableArray *array = [parameters objectForKey:NAMES_permissionItem];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLPermissionItem.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLPermissionItem.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
