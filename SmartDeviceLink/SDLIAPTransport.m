@@ -89,12 +89,15 @@ int const streamOpenTimeoutSeconds = 2;
     [SDLDebugTool logInfo:@"SDLIAPTransport Stopped Listening For Events"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 - (void)sdl_backgroundTaskStart {
-    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
-        self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"SDLIAPConnectionLoop" expirationHandler:^{
-            [self sdl_backgroundTaskEnd];
-        }];
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        return;
     }
+    
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"SDLIAPConnectionLoop" expirationHandler:^{
+        [self sdl_backgroundTaskEnd];
+    }];
 }
 
 - (void)sdl_backgroundTaskEnd {
