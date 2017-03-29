@@ -35,6 +35,7 @@ int const streamOpenTimeoutSeconds = 2;
 @property (assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (assign) BOOL isDelayedConnect;
 
 @end
 
@@ -50,8 +51,8 @@ int const streamOpenTimeoutSeconds = 2;
         _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
-
-	_backgroundTaskId = UIBackgroundTaskInvalid;
+        _isDelayedConnect = NO;
+        _backgroundTaskId = UIBackgroundTaskInvalid;
         [self sdl_startEventListening];
         [SDLSiphonServer init];
     }
@@ -114,7 +115,7 @@ int const streamOpenTimeoutSeconds = 2;
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
         [self sdl_backgroundTaskStart];
     }
-
+    self.isDelayedConnect = YES;
     [self performSelector:@selector(connect) withObject:nil afterDelay:self.retryDelay];
 }
 
@@ -125,10 +126,8 @@ int const streamOpenTimeoutSeconds = 2;
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID == self.session.accessory.connectionID) {
         self.sessionSetupInProgress = NO;
-        
-	[self sdl_backgroundTaskEnd];
-
-	[self disconnect];
+        [self sdl_backgroundTaskEnd];
+        [self disconnect];
         [self.delegate onTransportDisconnected];
     }
 }
@@ -142,16 +141,15 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Backgrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    if (self.isDelayedConnect) {
-        [self sdl_backgroundTaskStart];
-        [self sdl_retryEstablishSession];
-    }
+    [self sdl_backgroundTaskStart];
+    [self sdl_retryEstablishSession];
 }
 
 
 #pragma mark - Stream Lifecycle
 
 - (void)connect {
+    self.isDelayedConnect = NO;
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
         [self sdl_establishSession];
@@ -163,6 +161,7 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)disconnect {
+    self.isDelayedConnect = NO;
     [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Only disconnect the data session, the control session does not stay open and is handled separately
@@ -498,7 +497,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
-	[self sdl_backgroundTaskEnd];
+        [self sdl_backgroundTaskEnd];
     }
 }
 
