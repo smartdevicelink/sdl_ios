@@ -46,6 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLFileType fileType;
 
 
+// FIXME: - add documentation for inputStream
+/**
+ Reads the data.
+ */
+@property (nonatomic, readonly) NSInputStream *inputStream;
+
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
@@ -129,6 +135,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)fileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
 
+// FIXME: - Add documentation for fileSize
+- (unsigned long long)fileSize;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -55,6 +55,98 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize] withCompletion:self.fileWrapper.completionHandler];
 }
 
+- (void)sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
+    // Open an input stream
+    NSInputStream *inputStream = file.inputStream;
+    [inputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+
+    // Send the data asychronously
+    dispatch_group_t putFileGroup = dispatch_group_create();
+    dispatch_group_enter(putFileGroup);
+
+    // Let user know if data was sent to the SDL Core successfully
+    __weak typeof(self) weakself = self;
+    __block BOOL stop = NO;
+    __block NSError *streamError = nil;
+    __block NSUInteger bytesAvailable = 0;
+    __block NSInteger highestCorrelationIDReceived = -1;
+    dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
+        if (streamError != nil || stop) {
+            completion(NO, bytesAvailable, streamError);
+        } else {
+            completion(YES, bytesAvailable, nil);
+        }
+        [weakself finishOperation];
+    });
+
+    // Break the data into small chunks, each of which will be sent in a separate PutFile
+    unsigned long long fileSize = [file fileSize];
+    NSUInteger currentOffset = 0;
+    unsigned long long numberOfFilesToSend = (((fileSize - 1) / mtuSize) + 1);
+    for (int i = 0; i < numberOfFilesToSend; i++) {
+        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
+        putFile.offset = @(currentOffset);
+
+        // The the putfile's length parameter is based on the current offset
+        NSInteger putFileLength = [self getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
+        putFile.length = @(putFileLength);
+
+        // Retreive the data
+        NSError *error = nil;
+        NSData *dataChunk = [self getDataChunkWithSize:putFileLength inputStream:inputStream error:&error];
+        if (dataChunk == nil) {
+            return completion(NO, bytesAvailable, streamError);
+        }
+        putFile.bulkData = [self getDataChunkWithSize:putFileLength inputStream:inputStream error:&error];
+
+        // Compute the offset for the next PutFile to be sent
+        currentOffset += putFileLength;
+
+        // Send the PutFile
+        dispatch_group_enter(putFileGroup);
+    }
+
+    // All PutFiles have been sent
+    dispatch_group_leave(putFileGroup);
+}
+
+- (NSUInteger)getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
+    NSInteger putFileLength = 0;
+    if (currentOffset == 0) {
+        // If the offset is 0, the putfile expects to have the full file size.
+        putFileLength = (NSInteger)fileSize;
+    } else if ((fileSize - currentOffset) < mtuSize) {
+        // The file length remaining is smaller than the max data chunk sized allowed. The putfile expects the length parameter to match the size of the last data chunk being sent.
+        putFileLength = (NSInteger)(fileSize - currentOffset);
+    } else {
+        // When the file length remaining is greater than the max data chunk sized allowed, and the offset is not zero, the putfile expects the length parameter to match the size of the data chunk being sent.
+        putFileLength = mtuSize;
+    }
+    return putFileLength;
+}
+
+- (NSData *)getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream error:(NSError **)error {
+    uint8_t buffer[size];
+    NSInteger bytesRead = [inputStream read:buffer maxLength:size];
+    if (bytesRead) {
+        // Return the bytes read into the buffer
+        NSData *dataChunk = [[NSData alloc] initWithBytes:(const void*)buffer length:size];
+        return dataChunk;
+    } else {
+        NSLog(@"nothing was read from the input stream");
+        if (error) {
+            // TODO: return error
+        }
+        return nil;
+    }
+}
+
+- (BOOL)sendPutFile:(NSData *)data {
+    return false;
+}
+
 - (void)sdl_sendPutFiles:(NSArray<SDLPutFile *> *)putFiles withCompletion:(SDLFileManagerUploadCompletionHandler)completion {
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
@@ -156,7 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark Property Overrides
+#pragma mark - Property Overrides
 
 - (nullable NSString *)name {
     return self.fileWrapper.file.name;
@@ -164,6 +256,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
+}
+
+
+#pragma mark - NSStreamDelegate
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventErrorOccurred:
+            // Todo
+            NSLog(@"error occured");
+        case NSStreamEventEndEncountered:
+            [aStream close];
+            [aStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+            break;
+        case NSStreamEventOpenCompleted:
+            // Todo
+            NSLog(@"??");
+        case NSStreamEventHasBytesAvailable:
+            // Todo
+            NSLog(@"Still reading");
+        case NSStreamEventHasSpaceAvailable:
+            // Todo
+            NSLog(@"Space still available");
+        case NSStreamEventNone:
+            // Todo
+            NSLog(@"??");
+        default:
+            break;
+    }
 }
 
 @end

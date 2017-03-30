@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
 
+@property (nonatomic, readwrite) NSInputStream *inputStream;
 @end
 
 
@@ -90,13 +91,39 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters
 
 - (NSData *)data {
-    if (_data.length == 0 && _fileURL != nil) {
-        _data = [NSData dataWithContentsOfURL:_fileURL];
+    if (_data == nil && _fileURL != nil) {
+        return [NSData dataWithContentsOfURL:_fileURL];
     }
 
     return _data;
 }
 
+- (NSInputStream *)inputStream {
+    if (!_inputStream) {
+        if (_fileURL != nil) {
+            // Data in file
+            return [[NSInputStream alloc] initWithURL:_fileURL];
+        } else if (_data != nil) {
+            // Data already in memory
+            return [[NSInputStream alloc] initWithData:_data];
+        }
+    }
+
+    return _inputStream;
+}
+
+- (unsigned long long)fileSize {
+    if (_fileURL != nil) {
+        // Data in file
+        unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil] fileSize];
+        return fileSize;
+    } else if (_data != nil) {
+        // Data already in memory
+        return _data.length;
+    }
+
+    return 0;
+}
 
 #pragma mark - File Type
 
