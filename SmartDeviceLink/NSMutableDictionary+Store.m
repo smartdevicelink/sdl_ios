@@ -35,7 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
     NSArray *array = [self sdl_objectForName:name];
-    if ([array count] < 1 || [array.firstObject isMemberOfClass:classType.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isMemberOfClass:classType.class]) {
         // It's an array of the actual class type, just return
         return array;
     } else {
