@@ -711,7 +711,6 @@ describe(@"a response dispatcher", ^{
             });
             
             it(@"should store the handler" ,^{
-                
                 expect(testDispatcher.audioPassThruHandler).toNot(beNil());
                 expect(testDispatcher.audioPassThruHandler).to(equal(testPerformAudioPassThru.audioDataHandler));
             });

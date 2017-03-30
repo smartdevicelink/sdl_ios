@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A handler that will be called whenever an `onAudioPassThru` notification is received.
  */
-@property (copy, nonatomic, nullable) SDLAudioPassThruHandler audioDataHandler;
+@property (strong, nonatomic, nullable) SDLAudioPassThruHandler audioDataHandler;
 
 
 @end

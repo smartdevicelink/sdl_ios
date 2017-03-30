@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.bitsPerSample = bitsPerSample;
     self.audioType = audioType;
     self.maxDuration = @(maxDuration);
-    self.audioDataHandler = [audioDataHandler copy];
+    self.audioDataHandler = audioDataHandler;
     
     return self;
 }

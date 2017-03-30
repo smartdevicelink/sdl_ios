@@ -35,6 +35,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLResponseDispatcher ()
+
+@property (strong, nonatomic, readwrite, nullable) SDLAudioPassThruHandler audioPassThruHandler;
+
+@end
+
+
 @implementation SDLResponseDispatcher
 
 - (instancetype)init {
@@ -108,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
     } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
         SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
-        _audioPassThruHandler = [performAudioPassThru.audioDataHandler copy];
+        self.audioPassThruHandler = performAudioPassThru.audioDataHandler;
     }
 
     // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
@@ -170,8 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // If it's a DeleteCommand or UnsubscribeButton, we need to remove handlers for the corresponding commands / buttons
-    // If it's a PerformAudioPassThru, we can also remove it.
+    // If it's a DeleteCommand, UnsubscribeButton, or PerformAudioPassThru we need to remove handlers for the corresponding RPCs
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
         SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
         NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
