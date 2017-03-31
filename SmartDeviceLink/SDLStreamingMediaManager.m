@@ -8,7 +8,7 @@
 
 #import "SDLStreamingMediaManager.h"
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #import "SDLAbstractProtocol.h"
 #import "SDLDebugTool.h"

@@ -1,7 +1,7 @@
 //  SDLProxyListener.h
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 @class SDLAddCommandResponse;
 @class SDLAddSubMenuResponse;

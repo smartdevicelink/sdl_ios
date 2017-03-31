@@ -6,9 +6,7 @@
 //  Copyright © 2015 smartdevicelink. All rights reserved.
 //
 
-@import UIKit;
-
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
