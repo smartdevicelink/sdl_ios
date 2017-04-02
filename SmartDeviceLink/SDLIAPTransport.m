@@ -20,6 +20,7 @@
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
+NSString *const backgroundTaskName = @"com.sdl.transport.iap.connectloop";
 
 int const createSessionRetries = 1;
 int const protocolIndexTimeoutSeconds = 20;
@@ -35,7 +36,6 @@ int const streamOpenTimeoutSeconds = 2;
 @property (assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
-@property (assign) BOOL isDelayedConnect;
 
 @end
 
@@ -51,7 +51,6 @@ int const streamOpenTimeoutSeconds = 2;
         _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
-        _isDelayedConnect = NO;
         _backgroundTaskId = UIBackgroundTaskInvalid;
         [self sdl_startEventListening];
         [SDLSiphonServer init];
@@ -77,8 +76,6 @@ int const streamOpenTimeoutSeconds = 2;
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -95,7 +92,7 @@ int const streamOpenTimeoutSeconds = 2;
         return;
     }
     
-    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"SDLIAPConnectionLoop" expirationHandler:^{
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:backgroundTaskName expirationHandler:^{
         [self sdl_backgroundTaskEnd];
     }];
 }
@@ -112,13 +109,13 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
+    [self sdl_backgroundTaskStart];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     self.retryCounter = 0;
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
         [self sdl_backgroundTaskStart];
     }
-    self.isDelayedConnect = YES;
     [self performSelector:@selector(connect) withObject:nil afterDelay:self.retryDelay];
 }
 
@@ -142,17 +139,10 @@ int const streamOpenTimeoutSeconds = 2;
     [self connect];
 }
 
-- (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
-    [SDLDebugTool logInfo:@"App Backgrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    [self sdl_backgroundTaskStart];
-    [self sdl_retryEstablishSession];
-}
-
 
 #pragma mark - Stream Lifecycle
 
 - (void)connect {
-    self.isDelayedConnect = NO;
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
         [self sdl_establishSession];
@@ -164,7 +154,6 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)disconnect {
-    self.isDelayedConnect = NO;
     [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     // Only disconnect the data session, the control session does not stay open and is handled separately
