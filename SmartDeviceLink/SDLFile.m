@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
             // Data in file
             return [[NSInputStream alloc] initWithURL:_fileURL];
         } else if (_data != nil) {
-            // Data already in memory
+            // Data in memory
             return [[NSInputStream alloc] initWithData:_data];
         }
     }
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil] fileSize];
         return fileSize;
     } else if (_data != nil) {
-        // Data already in memory
+        // Data in memory
         return _data.length;
     }
 
