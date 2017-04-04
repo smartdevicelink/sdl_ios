@@ -325,11 +325,7 @@ describe(@"HandleBytesFromTransport Tests", ^ {
     });
 });
 
-describe(@"SendHeartbeat Tests", ^ {
-    // TODO: These need to be rewritten
-});
-
-describe(@"HandleProtocolSessionStarted Tests", ^ {
+xdescribe(@"HandleProtocolSessionStarted Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
@@ -349,7 +345,7 @@ describe(@"HandleProtocolSessionStarted Tests", ^ {
     });
 });
 
-describe(@"HandleHeartbeatForSession Tests", ^{
+xdescribe(@"HandleHeartbeatForSession Tests", ^{
     // TODO: Test automatically sending data to head unit (dependency injection?)
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
@@ -363,7 +359,7 @@ describe(@"HandleHeartbeatForSession Tests", ^{
     });
 });
 
-describe(@"OnProtocolMessageReceived Tests", ^ {
+xdescribe(@"OnProtocolMessageReceived Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol *testProtocol = [[SDLProtocol alloc] init];
         
@@ -381,7 +377,7 @@ describe(@"OnProtocolMessageReceived Tests", ^ {
     });
 });
 
-describe(@"OnProtocolOpened Tests", ^ {
+xdescribe(@"OnProtocolOpened Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
@@ -394,7 +390,7 @@ describe(@"OnProtocolOpened Tests", ^ {
     });
 });
 
-describe(@"OnProtocolClosed Tests", ^ {
+xdescribe(@"OnProtocolClosed Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         
@@ -407,7 +403,7 @@ describe(@"OnProtocolClosed Tests", ^ {
     });
 });
 
-describe(@"OnError Tests", ^ {
+xdescribe(@"OnError Tests", ^ {
     it(@"Should pass information along to delegate", ^ {
         SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
         

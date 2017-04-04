@@ -8,7 +8,7 @@
 #import "SDLLanguage.h"
 #import "SDLPrerecordedSpeech.h"
 #import "SDLSpeechCapabilities.h"
-#import "SDLVRCapabilities.h"
+#import "SDLVrCapabilities.h"
 
 @class SDLAudioPassThruCapabilities;
 @class SDLButtonCapabilities;
