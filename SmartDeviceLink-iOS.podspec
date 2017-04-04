@@ -8,10 +8,15 @@ s.license      = { :type => "New BSD", :file => "LICENSE" }
 s.author       = { "SmartDeviceLink Team" => "developer@smartdevicelink.com" }
 s.platform     = :ios, "8.0"
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
-s.source_files = "SmartDeviceLink/*.{h,m}"
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
-s.public_header_files = [
+
+s.default_subspecs = 'Default'
+
+s.subspec 'Default' do |ss|
+ss.source_files = 'SmartDeviceLink/*.{h,m}'
+
+ss.public_header_files = [
 'SmartDeviceLink/SmartDeviceLink.h',
 'SmartDeviceLink/SDLJingle.h',
 'SmartDeviceLink/SDLProxy.h',
@@ -21,9 +26,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLTouchManager.h',
 'SmartDeviceLink/SDLTouchManagerDelegate.h',
-'SmartDeviceLink/SDLConsoleController.h',
-'SmartDeviceLink/SDLDebugTool.h',
-'SmartDeviceLink/SDLDebugToolConsole.h',
 'SmartDeviceLink/SDLSiphonServer.h',
 'SmartDeviceLink/SDLAbstractTransport.h',
 'SmartDeviceLink/SDLIAPSessionDelegate.h',
@@ -282,7 +284,23 @@ s.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
-'SmartDeviceLink/SDLRPCResponseNotification.h'
+'SmartDeviceLink/SDLRPCResponseNotification.h',
+'SmartDeviceLink/SDLLogTarget.h',
+'SmartDeviceLink/SDLLogTargetAppleSystemLog.h',
+'SmartDeviceLink/SDLLogTargetFile.h',
+'SmartDeviceLink/SDLLogTargetOSLog.h',
+'SmartDeviceLink/SDLLogFileModule.h',
+'SmartDeviceLink/SDLLogFilter.h',
+'SmartDeviceLink/SDLLogConstants.h',
+'SmartDeviceLink/SDLLogConfiguration.h',
+'SmartDeviceLink/SDLLogManager.h',
+'SmartDeviceLink/SDLLogMacros.h'
 ]
+end
+
+s.subspec 'Swift' do |ss|
+ss.dependency 'SmartDeviceLink-iOS/Default'
+ss.source_files = 'SmartDeviceLinkSwift/*.swift'
+end
 
 end

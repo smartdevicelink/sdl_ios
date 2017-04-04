@@ -3,7 +3,7 @@
 
 #import "SDLProtocolMessageAssembler.h"
 
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleMessage:(SDLProtocolMessage *)message withCompletionHandler:(SDLMessageAssemblyCompletionHandler)completionHandler {
     // Validate input
     if (message.header.sessionID != self.sessionID) {
-        [SDLDebugTool logInfo:@"Error: message part sent to wrong assembler."];
+        SDLLogE(@"Message part sent to the wrong assembler. This session id: %d, message session id: %d", self.sessionID, message.header.sessionID);
         return;
     }
 
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Validation
         header.bytesInPayload = (UInt32)payload.length;
         if (payload.length != self.expectedBytes) {
-            [SDLDebugTool logFormat:@"Warning: collected bytes size of %lu not equal to expected size of %i.", (unsigned long)payload.length, (unsigned int)self.expectedBytes];
+            SDLLogW(@"Collected bytes size of %lu not equal to expected size of %i.", (unsigned long)payload.length, (unsigned int)self.expectedBytes);
         }
 
         // Create the message.

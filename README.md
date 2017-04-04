@@ -43,9 +43,15 @@ You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartD
 
 In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '~> 4.5'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
 
+###### Swift
+If you are building a Swift app, then add this instead `pod 'SmartDeviceLink-iOS/Swift', '~> 4.5'`. Then run `pod install` in your terminal.
+
 ##### Carthage
 
 SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application). Carthage supports iOS 8+.
+
+###### Swift
+If you are building a Swift app, then include both packaged frameworks for expanded logging support.
 
 ##### Dynamic Framework
 

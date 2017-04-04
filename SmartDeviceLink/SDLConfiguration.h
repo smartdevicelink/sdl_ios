@@ -10,6 +10,7 @@
 
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
+@class SDLLogConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,25 +26,67 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, readonly) SDLLockScreenConfiguration *lockScreenConfig;
 
-/**
- *  Create a new configuration to be passed into SDLManager.
- *
- *  @param lifecycleConfig  The lifecycle configuration to be used.
- *  @param lockScreenConfig The lockscreen configuration to be used. If nil, this will be `enabledConfiguration`.
- *
- *  @return The configuration
- */
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(SDLLockScreenConfiguration *)lockScreenConfig;
 
 /**
- *  Create a new configuration to be passed into SDLManager.
+ The log configuration.
+ */
+@property (copy, nonatomic, readonly) SDLLogConfiguration *loggingConfig;
+
+/**
+ Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
+
+ @param lifecycleConfiguration The lifecycle configuration to be used.
+ @return The configuration
+ */
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration;
+
+/**
+ *  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
  *
  *  @param lifecycleConfig  The lifecycle configuration to be used.
- *  @param lockScreenConfig The lockscreen configuration to be used. If nil, this will be `enabledConfiguration`.
+ *  @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
  *
  *  @return The configuration
  */
-+ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(SDLLockScreenConfiguration *)lockScreenConfig;
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig;
+
+/**
+ Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and logging configuration.
+
+ @param lifecycleConfig The lifecycle configuration to be used.
+ @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
+ @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
+ @return The configuration
+ */
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig;
+
+/**
+ Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
+
+ @param lifecycleConfiguration The lifecycle configuration to be used.
+ @return The configuration
+ */
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration;
+
+/**
+ *  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
+ *
+ *  @param lifecycleConfig  The lifecycle configuration to be used.
+ *  @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
+ *
+ *  @return The configuration
+ */
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig;
+
+/**
+ Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and logging configuration.
+
+ @param lifecycleConfig The lifecycle configuration to be used.
+ @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
+ @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
+ @return The configuration
+ */
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig;
 
 @end
 

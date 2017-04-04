@@ -9,7 +9,7 @@
 #import "SDLFileManager.h"
 
 #import "SDLConnectionManagerType.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
 #import "SDLFile.h"
@@ -296,16 +296,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 
     if (error != nil) {
-        NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@", error];
-        [SDLDebugTool logInfo:debugString];
+        SDLLogW(@"[Error clearing temporary file directory] %@", error);
     }
 }
 
 + (void)sdl_deleteTemporaryFile:(NSURL *)fileURL {
     NSError *error = nil;
     if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
-        NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@ (%@)", error, fileURL];
-        [SDLDebugTool logInfo:debugString];
+        SDLLogW(@"[Error clearing temporary file directory] %@ (%@)", error, fileURL);
     }
 }
 

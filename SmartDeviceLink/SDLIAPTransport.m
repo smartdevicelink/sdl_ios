@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 #import "EAAccessoryManager+SDLProtocols.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPTransport.h"
@@ -48,7 +48,7 @@ int const streamOpenTimeoutSeconds = 2;
         [self sdl_startEventListening];
     }
 
-    [SDLDebugTool logInfo:@"SDLIAPTransport Init"];
+    SDLLogV(@"SDLIAPTransport Init");
 
     return self;
 }
@@ -57,13 +57,13 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)dealloc {
     [self disconnect];
     [self sdl_stopEventListening];
-    [SDLDebugTool logInfo:@"SDLIAPTransport Dealloc" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogD(@"SDLIAPTransport Dealloc");
 }
 
 #pragma mark - Notification Subscriptions
 
 - (void)sdl_startEventListening {
-    [SDLDebugTool logInfo:@"SDLIAPTransport Listening For Events"];
+    SDLLogV(@"SDLIAPTransport Listening For Events");
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_accessoryConnected:)
                                                  name:EAAccessoryDidConnectNotification
@@ -81,25 +81,23 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)sdl_stopEventListening {
-    [SDLDebugTool logInfo:@"SDLIAPTransport Stopped Listening For Events"];
+    SDLLogV(@"SDLIAPTransport Stopped Listening For Events");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - EAAccessory Notifications
 
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
-    NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], self.retryDelay);
 
     self.retryCounter = 0;
     [self performSelector:@selector(connect) withObject:nil afterDelay:self.retryDelay];
 }
 
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
-    [SDLDebugTool logInfo:@"Accessory Disconnected Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
     // Only check for the data session, the control session is handled separately
-    EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
+    EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
+    SDLLogD(@"Accessory Disconnected Event (%@)", accessory);
     if (accessory.connectionID == self.session.accessory.connectionID) {
         self.sessionSetupInProgress = NO;
         [self disconnect];
@@ -108,7 +106,7 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
-    [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"App foregrounded, attempting connection");
     self.retryCounter = 0;
     [self connect];
 }
@@ -118,17 +116,21 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)connect {
     if (!self.session && !self.sessionSetupInProgress) {
+        // We don't have a session are not attempting to set one up, attempt to connect
+        SDLLogV(@"Session not setup, starting setup");
         self.sessionSetupInProgress = YES;
         [self sdl_establishSession];
     } else if (self.session) {
-        [SDLDebugTool logInfo:@"Session already established."];
+        // Session already established
+        SDLLogV(@"Session already established");
     } else {
-        [SDLDebugTool logInfo:@"Session setup already in progress."];
+        // Session attempting to be established
+        SDLLogV(@"Session setup already in progress");
     }
 }
 
 - (void)disconnect {
-    [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogD(@"IAP disconnecting data session");
 
     // Only disconnect the data session, the control session does not stay open and is handled separately
     if (self.session != nil) {
@@ -141,7 +143,7 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark - Creating Session Streams
 
 - (void)sdl_establishSession {
-    [SDLDebugTool logInfo:@"Attempting To Connect"];
+    SDLLogD(@"Attempting to connect");
     if (self.retryCounter < createSessionRetries) {
         // We should be attempting to connect
         self.retryCounter++;
@@ -154,18 +156,18 @@ int const streamOpenTimeoutSeconds = 2;
             [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
         } else {
             // No compatible accessory
-            [SDLDebugTool logInfo:@"No accessory supporting a required sync protocol was found."];
+            SDLLogV(@"No accessory supporting SDL was found, dismissing setup");
             self.sessionSetupInProgress = NO;
         }
     } else {
         // We are beyond the number of retries allowed
-        [SDLDebugTool logInfo:@"Create session retries exhausted."];
+        SDLLogW(@"Surpassed allowed retry attempts");
         self.sessionSetupInProgress = NO;
     }
 }
 
 - (void)sdl_createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
-    [SDLDebugTool logInfo:@"Starting MultiApp Session"];
+    SDLLogD(@"Starting IAP control session (%@)", accessory);
     self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:controlProtocolString];
 
     if (self.controlSession) {
@@ -181,7 +183,7 @@ int const streamOpenTimeoutSeconds = 2;
         void (^elapsedBlock)(void) = ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
-            [SDLDebugTool logInfo:@"Protocol Index Timeout"];
+            SDLLogW(@"Control session timeout");
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
             strongSelf.controlSession = nil;
@@ -196,19 +198,19 @@ int const streamOpenTimeoutSeconds = 2;
         controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamErroredHandler];
 
         if (![self.controlSession start]) {
-            [SDLDebugTool logInfo:@"Control Session Failed"];
+            SDLLogW(@"Control session failed to setup (%@)", accessory);
             self.controlSession.streamDelegate = nil;
             self.controlSession = nil;
             [self sdl_retryEstablishSession];
         }
     } else {
-        [SDLDebugTool logInfo:@"Failed MultiApp Control SDLIAPSession Initialization"];
+        SDLLogW(@"Failed to setup control session (%@)", accessory);
         [self sdl_retryEstablishSession];
     }
 }
 
 - (void)sdl_createIAPDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-    [SDLDebugTool logInfo:@"Starting Data Session"];
+    SDLLogD(@"Starting data session (%@:%@)", protocol, accessory);
     self.session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     if (self.session) {
         self.session.delegate = self;
@@ -220,13 +222,13 @@ int const streamOpenTimeoutSeconds = 2;
         ioStreamDelegate.streamErrorHandler = [self sdl_dataStreamErroredHandler];
 
         if (![self.session start]) {
-            [SDLDebugTool logInfo:@"Data Session Failed"];
+            SDLLogW(@"Data session failed to setup (%@)", accessory);
             self.session.streamDelegate = nil;
             self.session = nil;
             [self sdl_retryEstablishSession];
         }
     } else {
-        [SDLDebugTool logInfo:@"Failed MultiApp Data SDLIAPSession Initialization"];
+        SDLLogW(@"Failed to setup data session (%@)", accessory);
         [self sdl_retryEstablishSession];
     }
 }
@@ -240,14 +242,14 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
     // Control Session Opened
     if ([controlProtocolString isEqualToString:session.protocol]) {
-        [SDLDebugTool logInfo:@"Control Session Established"];
+        SDLLogD(@"Control Session Established");
         [self.protocolIndexTimer start];
     }
 
     // Data Session Opened
     if (![controlProtocolString isEqualToString:session.protocol]) {
         self.sessionSetupInProgress = NO;
-        [SDLDebugTool logInfo:@"Data Session Established"];
+        SDLLogD(@"Data Session Established");
         [self.delegate onTransportConnected];
     }
 }
@@ -257,8 +259,8 @@ int const streamOpenTimeoutSeconds = 2;
 
 // Retry establishSession on Stream End events only if it was the control session and we haven't already connected on non-control protocol
 - (void)onSessionStreamsEnded:(SDLIAPSession *)session {
+    SDLLogV(@"Session streams ended (%@)", session.protocol);
     if (!self.session && [controlProtocolString isEqualToString:session.protocol]) {
-        [SDLDebugTool logInfo:@"onSessionStreamsEnded"];
         [session stop];
         [self sdl_retryEstablishSession];
     }
@@ -269,6 +271,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sendData:(NSData *)data {
     dispatch_async(_transmit_queue, ^{
+        SDLLogBytes(data, SDLLogBytesDirectionTransmit);
         NSOutputStream *ostream = self.session.easession.outputStream;
         NSMutableData *remainder = data.mutableCopy;
 
@@ -277,7 +280,7 @@ int const streamOpenTimeoutSeconds = 2;
                 NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:remainder.length];
 
                 if (bytesWritten == -1) {
-                    [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error: %@", [ostream streamError]] withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All];
+                    SDLLogE(@"Error writing bytes: %@", [ostream streamError]);
                     break;
                 }
 
@@ -296,8 +299,7 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        [SDLDebugTool logInfo:@"Control Stream Event End"];
+        SDLLogD(@"Control stream ended");
 
         // End events come in pairs, only perform this once per set.
         if (strongSelf.controlSession != nil) {
@@ -315,15 +317,14 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSInputStream *istream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        [SDLDebugTool logInfo:@"Control Stream Received Data"];
+        SDLLogV(@"Control stream received data");
 
         // Read in the stream a single byte at a time
         uint8_t buf[1];
         NSUInteger len = [istream read:buf maxLength:1];
         if (len > 0) {
-            NSString *logMessage = [NSString stringWithFormat:@"Switching to protocol %@", [@(buf[0]) stringValue]];
-            [SDLDebugTool logInfo:logMessage];
+            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
+            SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
 
             // Destroy the control session
             [strongSelf.protocolIndexTimer cancel];
@@ -332,7 +333,6 @@ int const streamOpenTimeoutSeconds = 2;
             strongSelf.controlSession = nil;
 
             // Determine protocol string of the data session, then create that data session
-            NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });
@@ -345,8 +345,8 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogE(@"Control stream error");
 
-        [SDLDebugTool logInfo:@"Stream Error"];
         [strongSelf.protocolIndexTimer cancel];
         [strongSelf.controlSession stop];
         strongSelf.controlSession.streamDelegate = nil;
@@ -363,8 +363,8 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogD(@"Data stream ended");
 
-        [SDLDebugTool logInfo:@"Data Stream Event End"];
         [strongSelf.session stop];
         strongSelf.session.streamDelegate = nil;
 
@@ -386,6 +386,7 @@ int const streamOpenTimeoutSeconds = 2;
         while ([istream hasBytesAvailable]) {
             NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals sharedGlobals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
+            SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
 
             if (bytesRead > 0) {
                 [strongSelf.delegate onDataReceived:dataIn];
@@ -401,8 +402,8 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogE(@"Data stream error");
 
-        [SDLDebugTool logInfo:@"Data Stream Error"];
         [strongSelf.session stop];
         strongSelf.session.streamDelegate = nil;
 
