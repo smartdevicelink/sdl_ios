@@ -13,6 +13,114 @@
 
 QuickSpecBegin(SDLUploadFileOperationSpec)
 
+describe(@"Streaming Upload File Operation", ^{
+    __block NSString *testFileName = nil;
+    __block NSData *testFileData = nil;
+    __block SDLFile *testFile = nil;
+    __block SDLFileWrapper *testFileWrapper = nil;
+
+    __block TestConnectionManager *testConnectionManager = nil;
+    __block SDLUploadFileOperation *testUploadOperation = nil;
+
+    __block BOOL successResult = NO;
+    __block NSUInteger bytesAvailableResult = NO;
+    __block NSError *errorResult = nil;
+
+    beforeEach(^{
+        // Set the smallest possible MTU size
+        [SDLGlobals sharedGlobals].maxHeadUnitVersion = 2;
+    });
+
+    context(@"uploading a small file", ^{
+        beforeEach(^{
+            testFileName = @"Test File";
+            testFileData = [@"TestFileData1234" dataUsingEncoding:NSUTF8StringEncoding];
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = error;
+            }];
+
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testUploadOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+
+            [testUploadOperation start];
+            [NSThread sleepForTimeInterval:0.5];
+        });
+
+        it(@"should have a priority of normal", ^{
+            expect(@(testUploadOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
+        });
+
+        it(@"should send putfiles", ^{
+            SDLPutFile *putfile = testConnectionManager.receivedRequests.lastObject;
+            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLPutFile class]));
+            expect(putfile.bulkData).to(equal(testFileData));
+            expect(putfile.length).to(equal(@(testFileData.length)));
+            expect(putfile.offset).to(equal(@(0)));
+            expect(putfile.persistentFile).to(equal(@NO));
+            expect(putfile.syncFileName).to(equal(testFileName));
+        });
+
+        context(@"when a good response comes back", ^{
+            __block SDLPutFileResponse *goodResponse = nil;
+            __block NSNumber *responseSpaceAvailable = nil;
+            __block NSMutableArray<NSString *> *responseFileNames = nil;
+
+            beforeEach(^{
+                responseSpaceAvailable = @(11212512);
+                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
+
+                goodResponse = [[SDLPutFileResponse alloc] init];
+                goodResponse.success = @YES;
+                goodResponse.spaceAvailable = responseSpaceAvailable;
+
+                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
+            });
+
+            it(@"should have called the completion handler with proper data", ^{
+                expect(@(successResult)).toEventually(equal(@YES));
+                expect(@(bytesAvailableResult)).toEventually(equal(responseSpaceAvailable));
+                expect(errorResult).toEventually(beNil());
+            });
+
+            it(@"should be set to finished", ^{
+                expect(@(testUploadOperation.finished)).toEventually(equal(@YES));
+                expect(@(testUploadOperation.executing)).toEventually(equal(@NO));
+            });
+        });
+
+        context(@"when a bad response comes back", ^{
+            __block SDLPutFileResponse *badResponse = nil;
+            __block NSNumber *responseSpaceAvailable = nil;
+
+            __block NSString *responseErrorDescription = nil;
+            __block NSString *responseErrorReason = nil;
+
+            beforeEach(^{
+                responseSpaceAvailable = @(0);
+
+                responseErrorDescription = @"some description";
+                responseErrorReason = @"some reason";
+
+                badResponse = [[SDLPutFileResponse alloc] init];
+                badResponse.success = @NO;
+                badResponse.spaceAvailable = responseSpaceAvailable;
+
+                [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+            });
+
+            it(@"should have called completion handler with error", ^{
+                expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
+                expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
+                expect(@(successResult)).toEventually(equal(@NO));
+                expect(@(bytesAvailableResult)).toEventually(equal(@0));
+            });
+        });
+    });
+});
+
 describe(@"Upload File Operation", ^{
     __block NSString *testFileName = nil;
     __block NSData *testFileData = nil;
