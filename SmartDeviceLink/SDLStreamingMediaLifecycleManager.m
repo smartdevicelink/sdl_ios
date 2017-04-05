@@ -9,11 +9,11 @@
 #import "SDLStreamingMediaLifecycleManager.h"
 
 #import "SDLAbstractProtocol.h"
-#import "SDLDebugTool.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
+#import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -76,10 +76,10 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil backgroundTitleString:@"Please Open"];
+    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings backgroundTitleString:(NSString *)backgroundTitleString {
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
     self = [super init];
     if (!self) {
         return nil;
@@ -88,19 +88,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     _videoEncoderSettings = videoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
     
     _requestedEncryptionType = encryption;
-    
-    _audioStreamingSupported = NO;
-    _videoStreamingSupported = NO;
-    
-    _audioEncrypted = NO;
-    _videoEncrypted = NO;
-    
-    _hmiLevel = nil;
-    
     _screenSize = SDLDefaultScreenSize;
-    
-    _backgroundTitleString = backgroundTitleString;
-    
     _backgroundingPixelBuffer = NULL;
     
     SDLAppState *initialState = SDLAppStateBackground;
@@ -155,13 +143,13 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
     if (!self.isVideoConnected) {
-        [SDLDebugTool logInfo:@"Video streaming is not ready to send video data"];
+        SDLLogW(@"Attempted to send video data, but not connected");
         return NO;
     } else if (!self.isAppStateVideoStreamCapable) {
-        [SDLDebugTool logInfo:@"App state must be in the foreground to stream."];
+        SDLLogW(@"Attempted to send video data, but app is not in the foreground");
         return NO;
     } else if (!self.isHmiStateVideoStreamCapable) {
-        [SDLDebugTool logInfo:@"HMI State must be in Limited or Full to stream"];
+        SDLLogW(@"Attempted to send video data, but the app is not in LIMITED or FULL HMI state");
         return NO;
     }
     
@@ -290,9 +278,9 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
-            // This only fires if we fail!!
+            // This only fires if we fail
             if (error) {
-                [SDLDebugTool logFormat:@"TLS Setup Error: %@", error];
+                SDLLogE(@"TLS setup error: %@", error);
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
             }
         }];
@@ -307,15 +295,15 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         _videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
         
         if (error) {
-            [SDLDebugTool logFormat:@"Encountered error creating video encoder: %@", error.localizedDescription];
+            SDLLogE(@"Could not create a video encoder: %@", error);
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
             return;
         }
         
         if (!self.backgroundingPixelBuffer) {
             CVPixelBufferRef backgroundingPixelBuffer = _videoEncoder.pixelBuffer;
-            if (CVPixelBufferAddText(backgroundingPixelBuffer, self.backgroundTitleString) == NO) {
-                [SDLDebugTool logFormat:@"Could not create a backgrounding frame."];
+            if (CVPixelBufferAddText(backgroundingPixelBuffer, @"") == NO) {
+                SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
                 return;
             }
@@ -352,7 +340,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail!!
             if (error) {
-                [SDLDebugTool logFormat:@"TLS Setup Error: %@", error];
+                SDLLogE(@"TLS setup error: %@", error);
                 [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
             }
         }];
@@ -425,7 +413,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     _audioStreamingSupported = registerResponse.displayCapabilities.graphicSupported.boolValue;
     
     if (!self.isVideoStreamingSupported) {
-        [SDLDebugTool logInfo:@"Graphics are not support. We are assuming screen size is also unavailable"];
+        SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable.");
         return;
     }
     
@@ -477,10 +465,10 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         && self.isAppStateVideoStreamCapable) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
     } else {
-        [SDLDebugTool logFormat:@"Video Stream State: %@", self.videoStreamStateMachine.currentState];
-        [SDLDebugTool logFormat:@"HMI State: %@", self.hmiLevel];
-        [SDLDebugTool logFormat:@"App State: %@", self.appStateMachine.currentState];
-        [SDLDebugTool logFormat:@"Cannot start video stream."];
+        SDLLogE(@"Unable to start video stream\n"
+                "State: %@\n"
+                "HMI state: %@\n"
+                "App state: %@", self.videoStreamStateMachine.currentState, self.hmiLevel, self.appStateMachine.currentState);
     }
 }
 

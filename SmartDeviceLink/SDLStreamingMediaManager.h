@@ -92,11 +92,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param encryption               The encryption type requested when starting to stream.
  *  @param videoEncoderSettings     The video encoder settings to use with SDLVideoEncoder.
- *  @param backgroundTitleString    The string to use for the backgrounding frame.
  *
  *  @return An instance of SDLStreamingMediaManager
  */
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings backgroundTitleString:(NSString *)backgroundTitleString NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

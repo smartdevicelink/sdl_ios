@@ -8,7 +8,7 @@
 
 #import "SDLAbstractTransport.h"
 #import "SDLAudioStreamingState.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLEncodedSyncPData.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
@@ -71,6 +71,7 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - Object lifecycle
 - (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
+        SDLLogD(@"Framework Version: %@", self.proxyVersion);
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];
 
@@ -84,7 +85,7 @@ static float DefaultConnectionTimeout = 45.0;
 
         [self.transport connect];
 
-        [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
+        SDLLogV(@"Proxy transport initialization");
         [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
         
         NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -108,8 +109,7 @@ static float DefaultConnectionTimeout = 45.0;
     [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
     
     [_urlSession invalidateAndCancel];
-    
-    [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
+    SDLLogV(@"Proxy dealloc");
 }
 
 - (void)notifyProxyClosed {
@@ -141,9 +141,7 @@ static float DefaultConnectionTimeout = 45.0;
             break;
     }
 
-    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel];
-    [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+    SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
     [self sendRPC:HMIStatusRPC];
 }
 
@@ -201,15 +199,14 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)onProtocolOpened {
     _isConnected = YES;
-    [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+    SDLLogV(@"Proxy RPC protocol opened");
     [self.protocol startServiceWithType:SDLServiceTypeRPC];
 
     if (self.startSessionTimer == nil) {
         self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
-            [SDLDebugTool logInfo:@"Start Session Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:weakSelf.debugConsoleGroupName];
+            SDLLogW(@"Start session timed out");
             [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:notifyProxyClosedDelay];
         };
     }
@@ -227,9 +224,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
-
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType);
 
     if (header.serviceType == SDLServiceTypeRPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
@@ -240,8 +235,7 @@ static float DefaultConnectionTimeout = 45.0;
     @try {
         [self handleProtocolMessage:msgData];
     } @catch (NSException *e) {
-        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to handle protocol message %@", e];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"Proxy: Failed to handle protocol message %@", e);
     }
 }
 
@@ -251,8 +245,7 @@ static float DefaultConnectionTimeout = 45.0;
     @try {
         [self.protocol sendRPC:message];
     } @catch (NSException *exception) {
-        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to send RPC message: %@", message.name];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
     }
 }
 
@@ -286,8 +279,7 @@ static float DefaultConnectionTimeout = 45.0;
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:[dict mutableCopy]];
 
     // Log the RPC message
-    NSString *logMessage = [NSString stringWithFormat:@"%@", newMessage];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"Message received: %@", newMessage);
 
     // Intercept and handle several messages ourselves
     if ([functionName isEqualToString:SDLNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLNameUnregisterAppInterface]) {
@@ -296,10 +288,6 @@ static float DefaultConnectionTimeout = 45.0;
 
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
         [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
-    }
-
-    if ([functionName isEqualToString:@"EncodedSyncPDataResponse"]) {
-        [SDLDebugTool logInfo:@"EncodedSyncPData (response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
 
     if ([functionName isEqualToString:@"OnEncodedSyncPData"]) {
@@ -338,15 +326,11 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - RPC Handlers
 
 - (void)handleRPCUnregistered:(NSDictionary<NSString *, id> *)messageDictionary {
-    NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", messageDictionary];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogW(@"Unregistration forced by module. %@", messageDictionary);
     [self notifyProxyClosed];
 }
 
 - (void)handleRegisterAppInterfaceResponse:(SDLRPCResponse *)response {
-    //Print Proxy Version To Console
-    NSString *logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
 
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
@@ -364,8 +348,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
     // If URL != nil, perform HTTP Post and don't pass the notification to proxy listeners
-    NSString *logMessage = [NSString stringWithFormat:@"OnEncodedSyncPData (notification)\n%@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnEncodedSyncPData: %@", message);
 
     NSString *urlString = (NSString *)[message getParameters:@"URL"];
     NSDictionary<NSString *, id> *encodedSyncPData = (NSDictionary<NSString *, id> *)[message getParameters:@"data"];
@@ -377,7 +360,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleSystemRequest:(NSDictionary<NSString *, id> *)dict {
-    [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnSystemRequest");
 
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
     SDLRequestType requestType = systemRequest.requestType;
@@ -395,8 +378,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleSystemRequestResponse:(SDLRPCMessage *)message {
-    NSString *logMessage = [NSString stringWithFormat:@"SystemRequest (response)\n%@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"SystemRequestResponse to be discarded");
 }
 
 
@@ -423,7 +405,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)sdl_handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
     NSURL *URLScheme = [NSURL URLWithString:request.url];
     if (URLScheme == nil) {
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Launch App failure: invalid URL sent from module: %@", request.url] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"System request LaunchApp failed: invalid URL sent from module: %@", request.url);
         return;
     }
     // If system version is less than 9.0 http://stackoverflow.com/a/5337804/1370927
@@ -451,31 +433,25 @@ static float DefaultConnectionTimeout = 45.0;
     NSData *policyData = [pdp unwrap:bodyData];
     if (policyData != nil) {
         [pdp parsePolicyData:policyData];
-        NSString *logMessage = [NSString stringWithFormat:@"Policy Data from Module\n%@", pdp];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogV(@"Policy data received");
     }
 
     // Send the HTTP Request
     [self uploadForBodyDataDictionary:JSONDictionary
                             URLString:request.url
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        NSString *logMessage = nil;
-
                         if (error) {
-                            logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error];
-                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            SDLLogW(@"OnSystemRequest HTTP response error: %@", error);
                             return;
                         }
 
                         if (data == nil || data.length == 0) {
-                            [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            SDLLogW(@"OnSystemRequest HTTP response error: no data received");
                             return;
                         }
 
-                        // Show the HTTP response
-                        [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
                         // Create the SystemRequest RPC to send to module.
+                        SDLLogV(@"OnSystemRequest HTTP response");
                         SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
                         request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
                         request.requestType = SDLRequestTypeProprietary;
@@ -486,13 +462,10 @@ static float DefaultConnectionTimeout = 45.0;
                         NSData *policyData = [pdp unwrap:data];
                         if (policyData) {
                             [pdp parsePolicyData:policyData];
-                            logMessage = [NSString stringWithFormat:@"Policy Data from Cloud\n%@", pdp];
-                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            SDLLogV(@"Cloud policy data: %@", pdp);
                         }
 
-                        // Send and log RPC Request
-                        logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length];
-                        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                        // Send the RPC Request
                         [self sendRPC:request];
                     }];
 }
@@ -501,8 +474,7 @@ static float DefaultConnectionTimeout = 45.0;
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     if (error != nil) {
-                        NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
-                        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                        SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
                         return;
                     }
                     
@@ -520,21 +492,18 @@ static float DefaultConnectionTimeout = 45.0;
     [self sdl_uploadData:request.bulkData
               toURLString:request.url
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSString *logMessage = nil;
             if (error != nil) {
-                logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error.localizedDescription];
-                [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                SDLLogW(@"OnSystemRequest (HTTP) error: %@", error.localizedDescription);
                 return;
             }
 
             if (data.length == 0) {
-                [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                SDLLogW(@"OnSystemRequest (HTTP) error: no data returned");
                 return;
             }
 
             // Show the HTTP response
-            NSString *responseLogString = [NSString stringWithFormat:@"OnSystemRequest (HTTP) response: %@", response];
-            [SDLDebugTool logInfo:responseLogString withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            SDLLogV(@"OnSystemRequest (HTTP) response: %@", response);
 
             // Create the SystemRequest RPC to send to module.
             SDLPutFile *putFile = [[SDLPutFile alloc] init];
@@ -543,9 +512,7 @@ static float DefaultConnectionTimeout = 45.0;
             putFile.syncFileName = @"response_data";
             putFile.bulkData = data;
 
-            // Send and log RPC Request
-            logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length];
-            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            // Send RPC Request
             [self sendRPC:putFile];
         }];
 }
@@ -563,12 +530,12 @@ static float DefaultConnectionTimeout = 45.0;
 
     // Validate input
     if (urlString == nil || [NSURL URLWithString:urlString] == nil) {
-        [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: url is nil" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnSystemRequest validation failure: URL is nil");
         return nil;
     }
 
     if (![fileType isEqualToEnum:SDLFileTypeJSON]) {
-        [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnSystemRequest validation failure: file type is not JSON");
         return nil;
     }
 
@@ -576,7 +543,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSError *error = nil;
     NSDictionary<NSString *, id> *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
     if (error != nil) {
-        [SDLDebugTool logInfo:@"OnSystemRequest failure: notification data is not valid JSON." withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnSystemRequest validation failure: data is not valid JSON");
         return nil;
     }
 
@@ -597,9 +564,7 @@ static float DefaultConnectionTimeout = 45.0;
     [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
     request.HTTPMethod = @"POST";
 
-    // Logging
-    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", urlString];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnSystemRequest (HTTP) upload task created for URL: %@", urlString);
 
     // Create the upload task
     [self sdl_sendUploadRequest:request withData:data completionHandler:completionHandler];
@@ -633,9 +598,7 @@ static float DefaultConnectionTimeout = 45.0;
     request.timeoutInterval = timeout;
     request.HTTPMethod = method;
 
-    // Logging
-    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", urlString];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnSystemRequest (Proprietary) upload task created for URL: %@", urlString);
 
     // Create the upload task
     [self sdl_sendUploadRequest:request withData:bodyData completionHandler:completionHandler];
@@ -704,8 +667,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSError *JSONSerializationError = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
     if (JSONSerializationError) {
-        NSString *logMessage = [NSString stringWithFormat:@"Error formatting data for HTTP Request. %@", JSONSerializationError];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"Error attempting to create SyncPData for HTTP request: %@", JSONSerializationError);
         return;
     }
 
@@ -716,17 +678,17 @@ static float DefaultConnectionTimeout = 45.0;
                                            [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
                                        }] resume];
 
-    [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnEncodedSyncPData (HTTP Request)");
 }
 
 // Handle the OnEncodedSyncPData HTTP Response
 - (void)syncPDataNetworkRequestCompleteWithData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
     // Sample of response: {"data":["SDLKGLSDKFJLKSjdslkfjslkJLKDSGLKSDJFLKSDJF"]}
-    [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnEncodedSyncPData (HTTP Response): %@", response);
 
     // Validate response data.
     if (data == nil || data.length == 0) {
-        [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnEncodedSyncPData (HTTP Response): no data returned");
         return;
     }
 
@@ -784,7 +746,7 @@ static float DefaultConnectionTimeout = 45.0;
             break;
         }
         case NSStreamEventErrorOccurred: {
-            [SDLDebugTool logInfo:@"Stream Event: Error" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            SDLLogE(@"NSStream error attempting to upload putfile stream: %lu", (unsigned long)eventCode);
             break;
         }
         default: {

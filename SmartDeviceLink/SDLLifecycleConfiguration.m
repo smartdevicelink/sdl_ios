@@ -13,7 +13,7 @@
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;
-static NSString *const DefaultBackgroundTitleStringFormat = @"Please re-open %@";
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -50,11 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
-    _logFlags = SDLLogOutputNone;
-    
     _streamingEncryption = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
-    
-    _backgroundTitleString = [NSString stringWithFormat:DefaultBackgroundTitleStringFormat, appName];
 
     return self;
 }
@@ -68,8 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
     config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
-
-    config.logFlags = SDLLogOutputConsole;
 
     return config;
 }
@@ -95,18 +89,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAppType:(nullable SDLAppHMIType)appType {
     if (appType == nil) {
         _appType = SDLAppHMITypeDefault;
+        return;
     }
 
     _appType = appType;
-}
-
-- (void)setBackgroundTitleString:(nullable NSString *)backgroundTitleString {
-    if (backgroundTitleString == nil) {
-        _backgroundTitleString = [NSString stringWithFormat:DefaultBackgroundTitleStringFormat, self.appName];
-        return;
-    }
-    
-    _backgroundTitleString = backgroundTitleString;
 }
 
 

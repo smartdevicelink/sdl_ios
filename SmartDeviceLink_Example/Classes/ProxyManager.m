@@ -70,23 +70,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startIAP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
-    // Assume this is production and disable logging
-    lifecycleConfig.logFlags = SDLLogOutputNone;
-    
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-    
+
     [self startManager];
 }
 
 - (void)startTCP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[self.class sdlex_logConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-    
+
     [self startManager];
 }
 
@@ -94,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof (self) weakSelf = self;
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
-            NSLog(@"SDL errored starting up: %@", error);
+            SDLLogE(@"SDL errored starting up: %@", error);
             [weakSelf sdlex_updateProxyState:ProxyStateStopped];
             return;
         }
@@ -132,11 +129,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setupPermissionsCallbacks {
     // This will tell you whether or not you can use the Show RPC right at this moment
     BOOL isAvailable = [self.sdlManager.permissionManager isRPCAllowed:@"Show"];
-    NSLog(@"Show is allowed? %@", @(isAvailable));
+    SDLLogD(@"Show is allowed? %@", @(isAvailable));
 
     // This will set up a block that will tell you whether or not you can use none, all, or some of the RPCs specified, and notifies you when those permissions change
     SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[@"Show", @"Alert"] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
-        NSLog(@"Show changed permission to status: %@, dict: %@", @(status), change);
+        SDLLogD(@"Show changed permission to status: %@, dict: %@", @(status), change);
     }];
     // The above block will be called immediately, this will then remove the block from being called any more
     [self.sdlManager.permissionManager removeObserverForIdentifier:observerId];
@@ -145,15 +142,15 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *rpcGroup =@[@"AddCommand", @"PerformInteraction"];
     SDLPermissionGroupStatus commandPICSStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:rpcGroup];
     NSDictionary *commandPICSStatusDict = [self.sdlManager.permissionManager statusOfRPCs:rpcGroup];
-    NSLog(@"Command / PICS status: %@, dict: %@", @(commandPICSStatus), commandPICSStatusDict);
+    SDLLogD(@"Command / PICS status: %@, dict: %@", @(commandPICSStatus), commandPICSStatusDict);
 
     // This will set up a long-term observer for the RPC group and will tell us when the status of any specified RPC changes (due to the `SDLPermissionGroupTypeAny`) option.
     [self.sdlManager.permissionManager addObserverForRPCs:rpcGroup groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
-        NSLog(@"Command / PICS changed permission to status: %@, dict: %@", @(status), change);
+        SDLLogD(@"Command / PICS changed permission to status: %@, dict: %@", @(status), change);
     }];
 }
 
-+ (SDLLifecycleConfiguration *)setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
++ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
     SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
     
     config.shortAppName = @"SDL Example";
@@ -161,6 +158,16 @@ NS_ASSUME_NONNULL_BEGIN
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
     config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
     return config;
+}
+
++ (SDLLogConfiguration *)sdlex_logConfiguration {
+    SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
+    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
+    logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
+    logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
+//    logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
+
+    return logConfig;
 }
 
 - (void)sdlex_updateProxyState:(ProxyState)newState {
@@ -259,8 +266,9 @@ NS_ASSUME_NONNULL_BEGIN
     performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
     
     [manager sendRequest:performOnlyChoiceInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLPerformInteractionResponse * _Nullable response, NSError * _Nullable error) {
+        SDLLogD(@"Perform Interaction fired");
         if ((response == nil) || (error != nil)) {
-            NSLog(@"Something went wrong, no perform interaction response: %@", error);
+            SDLLogE(@"Something went wrong, no perform interaction response: %@", error);
         }
         
         if ([response.choiceID isEqualToNumber:@0]) {
@@ -277,6 +285,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
+        SDLLogD(@"Soft button press fired");
         SDLAlert* alert = [[SDLAlert alloc] init];
         alert.alertText1 = @"You pushed the button!";
         [manager sendRequest:alert];
@@ -324,7 +333,7 @@ NS_ASSUME_NONNULL_BEGIN
         dispatch_group_leave(dataDispatchGroup);
 
         if (success == NO) {
-            NSLog(@"Something went wrong, image could not upload: %@", error);
+            SDLLogW(@"Something went wrong, image could not upload: %@", error);
             return;
         }
     }];
@@ -334,7 +343,7 @@ NS_ASSUME_NONNULL_BEGIN
         dispatch_group_leave(dataDispatchGroup);
         
         if (success == NO) {
-            NSLog(@"Something went wrong, image could not upload: %@", error);
+            SDLLogW(@"Something went wrong, image could not upload: %@", error);
             return;
         }
     }];

@@ -8,23 +8,23 @@
 
 #import "SDLVideoEncoder.h"
 
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLErrorDomainVideoEncoder = @"com.sdl.videoEncoder";
-
 static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
+
 
 @interface SDLVideoEncoder ()
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
-
 @property (assign, nonatomic, nullable) CFDictionaryRef sdl_pixelBufferOptions;
-
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
 
 @end
 
-NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoEncoder
 
@@ -152,7 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
 void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, void * CM_NULLABLE sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CM_NULLABLE CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
-        [SDLDebugTool logFormat:@"Error encoding video, err=%lld", (int64_t)status];
+        SDLLogW(@"Error encoding video frame: %d", status);
         return;
     }
     

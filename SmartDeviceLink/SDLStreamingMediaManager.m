@@ -24,16 +24,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil backgroundTitleString:@"Please open"];
+    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings backgroundTitleString:(NSString *)backgroundTitleString {
+- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:encryption videoEncoderSettings:videoEncoderSettings backgroundTitleString:backgroundTitleString];
+    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:encryption videoEncoderSettings:videoEncoderSettings];
 
     return self;
 }
@@ -54,7 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.lifecycleManager sendAudioData:audioData];
 }
 
+
 #pragma mark - Getters
+
 - (SDLTouchManager *)touchManager {
     return self.lifecycleManager.touchManager;
 }
@@ -85,10 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
     
 - (BOOL)isVideoStreamingPaused {
     return self.lifecycleManager.isVideoStreamingPaused;
-}
-
-- (NSString *)backgroundTitleString {
-    return self.lifecycleManager.backgroundTitleString;
 }
 
 - (CGSize)screenSize {

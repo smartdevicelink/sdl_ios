@@ -18,11 +18,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchManager.h"
 #import "SDLTouchManagerDelegate.h"
 
-/***** Debug *****/
-#import "SDLConsoleController.h"
-#import "SDLDebugTool.h"
-#import "SDLDebugToolConsole.h"
-
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
 #import "SDLIAPSessionDelegate.h"
@@ -206,7 +201,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchEvent.h"
 #import "SDLTouchEventCapabilities.h"
 #import "SDLTurn.h"
-#import "SDLVRHelpItem.h"
+#import "SDLVrHelpItem.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
 
@@ -271,7 +266,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchType.h"
 #import "SDLTriggerSource.h"
 #import "SDLUpdateMode.h"
-#import "SDLVRCapabilities.h"
+#import "SDLVrCapabilities.h"
 #import "SDLVehicleDataActiveStatus.h"
 #import "SDLVehicleDataEventStatus.h"
 #import "SDLVehicleDataNotificationStatus.h"
@@ -318,3 +313,15 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 // Notifications
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
+
+// Logger
+#import "SDLLogConstants.h"
+#import "SDLLogConfiguration.h"
+#import "SDLLogFileModule.h"
+#import "SDLLogFilter.h"
+#import "SDLLogManager.h"
+#import "SDLLogMacros.h"
+#import "SDLLogTarget.h"
+#import "SDLLogTargetAppleSystemLog.h"
+#import "SDLLogTargetFile.h"
+#import "SDLLogTargetOSLog.h"

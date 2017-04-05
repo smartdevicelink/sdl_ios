@@ -20,13 +20,6 @@
 @protocol SDLSecurityType;
 
 
-typedef NS_OPTIONS(NSUInteger, SDLLogOutput) {
-    SDLLogOutputNone = 0,
-    SDLLogOutputConsole = 1 << 0,
-    SDLLogOutputFile = 1 << 1,
-};
-
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -134,11 +127,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
 
 /**
- *  Which logging capabilities are currently enabled. The default is Console logging only.
- */
-@property (assign, nonatomic) SDLLogOutput logFlags;
-
-/**
  *  What encryption level video/audio streaming should be. The default is SDLStreamingEncryptionFlagAuthenticateAndEncrypt.
  */
 @property (assign, nonatomic) SDLStreamingEncryptionFlag streamingEncryption;
@@ -147,12 +135,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  Properties to use for applications that utilitze the video encoder for streaming.
  */
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *videoEncoderSettings;
-
-/**
- *  What to display when a streaming app is backgrounded.
- *  @remark: If default, the string will be "Please re-open <App Name>"
- */
-@property (copy, nonatomic, null_resettable) NSString *backgroundTitleString;
 
 @end
 
