@@ -3,7 +3,7 @@
 //
 
 #import "SDLStreamDelegate.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -72,23 +72,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 SDLStreamOpenHandler defaultStreamOpenHandler = ^(NSStream *stream) {
-    [SDLDebugTool logInfo:@"Stream Event Open"];
+    SDLLogV(@"Transport stream event open");
 };
 
 SDLStreamHasBytesHandler defaultStreamHasBytesHandler = ^(NSInputStream *istream) {
-    [SDLDebugTool logInfo:@"Stream Event Has Bytes"];
+    SDLLogV(@"Transport stream event has bytes");
 };
 
 SDLStreamHasSpaceHandler defaultStreamHasSpaceHandler = ^(NSOutputStream *ostream) {
-
+    SDLLogV(@"Transport stream event has space");
 };
 
 SDLStreamErrorHandler defaultStreamErrorHandler = ^(NSStream *stream) {
-    [SDLDebugTool logInfo:@"Stream Event Error"];
+    SDLLogV(@"Transport stream event error");
 };
 
 SDLStreamEndHandler defaultStreamEndHandler = ^(NSStream *stream) {
-    [SDLDebugTool logInfo:@"Stream Event End"];
+    SDLLogV(@"Transport stream event end");
 };
 
 @end

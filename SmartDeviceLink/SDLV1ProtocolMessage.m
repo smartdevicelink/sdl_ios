@@ -2,7 +2,7 @@
 //
 
 #import "SDLV1ProtocolMessage.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSError *error = nil;
     NSDictionary<NSString *, id> * rpcMessageAsDictionary = [NSJSONSerialization JSONObjectWithData:self.payload options:kNilOptions error:&error];
     if (error != nil) {
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Error decoding JSON data: %@", error] withType:SDLDebugType_Protocol];
+        SDLLogE(@"Error decoding JSON data: %@", error);
         return nil;
     }
     

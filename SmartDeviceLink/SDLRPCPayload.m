@@ -4,7 +4,7 @@
 
 #import "SDLRPCPayload.h"
 
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 
 const NSUInteger RPC_HEADER_SIZE = 12;
 
@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
     unsigned long dataLength = data.length;
 
     if (data == nil || dataLength == 0) {
-        [SDLDebugTool logInfo:@"Error: data is nil."];
+        SDLLogW(@"RPC Payload data is nil");
         return nil;
     }
 
     if (dataLength < RPC_HEADER_SIZE) {
-        [SDLDebugTool logInfo:@"Error: insfficient data to form RPC header."];
+        SDLLogW(@"RPC Payload error: not enough data to form RPC header");
         return nil;
     }
 
@@ -63,8 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
             self.binaryData = binaryData;
 
         } @catch (NSException *e) {
-            // Print exception information
-            [SDLDebugTool logFormat:@"NSException caught in SDLRPCPayload::initWithData\nName: %@\nReason: %@\nData: %@", e.name, e.reason, data.debugDescription];
+            SDLLogW(@"SDLRPCPayload error: %@", e);
             return nil;
         }
     }

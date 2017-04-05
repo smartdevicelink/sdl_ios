@@ -81,7 +81,7 @@ xdescribe(@"a lifecycle manager", ^{
     });
     
     it(@"should initialize properties", ^{
-        expect(testManager.configuration).to(equal(testConfig));
+        expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
@@ -305,12 +305,6 @@ xdescribe(@"a lifecycle manager", ^{
                 [testManager sendRequest:testShow];
                 
                 OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
-            });
-            
-            it(@"cannot send a nil RPC", ^{
-                SDLShow *testShow = nil;
-
-                expectAction(^{ [testManager sendRequest:testShow]; }).to(raiseException().named(NSInternalInconsistencyException));
             });
             
             describe(@"stopping the manager", ^{
