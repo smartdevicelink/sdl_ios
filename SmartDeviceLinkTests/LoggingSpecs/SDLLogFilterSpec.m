@@ -20,39 +20,39 @@ describe(@"a filter by a string", ^{
 
     context(@"that disallows a string", ^{
         context(@"that is case sensitive", ^{
-            SDLLogFilterBlock testFilter = [SDLLogFilter filterByDisallowingString:testFilterString caseSensitive:YES];
+            SDLLogFilter *testFilter = [SDLLogFilter filterByDisallowingString:testFilterString caseSensitive:YES];
 
             it(@"should fail a matching string", ^{
-                BOOL pass = testFilter(testFilterModel);
+                BOOL pass = testFilter.filter(testFilterModel);
                 expect(@(pass)).to(equal(@NO));
             });
 
             it(@"should pass a non-matching string", ^{
-                BOOL pass = testFilter(testOtherModel);
+                BOOL pass = testFilter.filter(testOtherModel);
                 expect(@(pass)).to(equal(@YES));
             });
 
             it(@"should pass a differently cased string", ^{
-                BOOL pass = testFilter(testCaseFilterModel);
+                BOOL pass = testFilter.filter(testCaseFilterModel);
                 expect(@(pass)).to(equal(@YES));
             });
         });
 
         context(@"that is case insensitive", ^{
-            SDLLogFilterBlock testFilter = [SDLLogFilter filterByDisallowingString:testFilterString caseSensitive:NO];
+            SDLLogFilter *testFilter = [SDLLogFilter filterByDisallowingString:testFilterString caseSensitive:NO];
 
             it(@"should fail a matching string", ^{
-                BOOL pass = testFilter(testFilterModel);
+                BOOL pass = testFilter.filter(testFilterModel);
                 expect(@(pass)).to(equal(@NO));
             });
 
             it(@"should pass a non-matching string", ^{
-                BOOL pass = testFilter(testOtherModel);
+                BOOL pass = testFilter.filter(testOtherModel);
                 expect(@(pass)).to(equal(@YES));
             });
 
             it(@"should fail a differently cased string", ^{
-                BOOL pass = testFilter(testCaseFilterModel);
+                BOOL pass = testFilter.filter(testCaseFilterModel);
                 expect(@(pass)).to(equal(@NO));
             });
         });
@@ -60,39 +60,39 @@ describe(@"a filter by a string", ^{
 
     context(@"that allows a string", ^{
         context(@"that is case sensitive", ^{
-            SDLLogFilterBlock testFilter = [SDLLogFilter filterByAllowingString:testFilterString caseSensitive:YES];
+            SDLLogFilter *testFilter = [SDLLogFilter filterByAllowingString:testFilterString caseSensitive:YES];
 
             it(@"should pass a matching string", ^{
-                BOOL pass = testFilter(testFilterModel);
+                BOOL pass = testFilter.filter(testFilterModel);
                 expect(@(pass)).to(equal(@YES));
             });
 
             it(@"should fail a non-matching string", ^{
-                BOOL pass = testFilter(testOtherModel);
+                BOOL pass = testFilter.filter(testOtherModel);
                 expect(@(pass)).to(equal(@NO));
             });
 
             it(@"should fail a differently cased string", ^{
-                BOOL pass = testFilter(testCaseFilterModel);
+                BOOL pass = testFilter.filter(testCaseFilterModel);
                 expect(@(pass)).to(equal(@NO));
             });
         });
 
         context(@"that is case insensitive", ^{
-            SDLLogFilterBlock testFilter = [SDLLogFilter filterByAllowingString:testFilterString caseSensitive:NO];
+            SDLLogFilter *testFilter = [SDLLogFilter filterByAllowingString:testFilterString caseSensitive:NO];
 
             it(@"should pass a matching string", ^{
-                BOOL pass = testFilter(testFilterModel);
+                BOOL pass = testFilter.filter(testFilterModel);
                 expect(@(pass)).to(equal(@YES));
             });
 
             it(@"should fail a non-matching string", ^{
-                BOOL pass = testFilter(testOtherModel);
+                BOOL pass = testFilter.filter(testOtherModel);
                 expect(@(pass)).to(equal(@NO));
             });
 
             it(@"should pass a differently cased string", ^{
-                BOOL pass = testFilter(testCaseFilterModel);
+                BOOL pass = testFilter.filter(testCaseFilterModel);
                 expect(@(pass)).to(equal(@YES));
             });
         });
@@ -108,30 +108,30 @@ describe(@"a filter by regex", ^{
 
     context(@"that disallows a regex", ^{
         NSRegularExpression *expr = [NSRegularExpression regularExpressionWithPattern:@"[a-z]+" options:0 error:nil];
-        SDLLogFilterBlock testFilter = [SDLLogFilter filterByDisallowingRegex:expr];
+        SDLLogFilter *testFilter = [SDLLogFilter filterByDisallowingRegex:expr];
 
         it(@"should fail a matching string", ^{
-            BOOL pass = testFilter(testFilterModel);
+            BOOL pass = testFilter.filter(testFilterModel);
             expect(@(pass)).to(equal(@NO));
         });
 
         it(@"should pass a non-matching string", ^{
-            BOOL pass = testFilter(testOtherModel);
+            BOOL pass = testFilter.filter(testOtherModel);
             expect(@(pass)).to(equal(@YES));
         });
     });
 
     context(@"that allows a regex", ^{
         NSRegularExpression *expr = [NSRegularExpression regularExpressionWithPattern:@"[a-z]+" options:0 error:nil];
-        SDLLogFilterBlock testFilter = [SDLLogFilter filterByAllowingRegex:expr];
+        SDLLogFilter *testFilter = [SDLLogFilter filterByAllowingRegex:expr];
 
         it(@"should pass a matching string", ^{
-            BOOL pass = testFilter(testFilterModel);
+            BOOL pass = testFilter.filter(testFilterModel);
             expect(@(pass)).to(equal(@YES));
         });
 
         it(@"should fail a non-matching string", ^{
-            BOOL pass = testFilter(testOtherModel);
+            BOOL pass = testFilter.filter(testOtherModel);
             expect(@(pass)).to(equal(@NO));
         });
     });
@@ -146,29 +146,29 @@ describe(@"a filter by module", ^{
     __block SDLLogModel *testOtherModel = [[SDLLogModel alloc] initWithMessage:@"test" timestamp:[NSDate date] level:SDLLogLevelDebug fileName:@"test" moduleName:testOtherModuleName functionName:@"test" line:0 queueLabel:@"test"];
 
     context(@"that disallows modules", ^{
-        SDLLogFilterBlock testFilter = [SDLLogFilter filterByDisallowingModules:[NSSet setWithObject:testFilterModule]];
+        SDLLogFilter *testFilter = [SDLLogFilter filterByDisallowingModules:[NSSet setWithObject:testFilterModule.name]];
 
         it(@"should fail a matching module", ^{
-            BOOL pass = testFilter(testFilterModel);
+            BOOL pass = testFilter.filter(testFilterModel);
             expect(@(pass)).to(equal(@NO));
         });
 
         it(@"should pass a non-matching module", ^{
-            BOOL pass = testFilter(testOtherModel);
+            BOOL pass = testFilter.filter(testOtherModel);
             expect(@(pass)).to(equal(@YES));
         });
     });
 
     context(@"that allows modules", ^{
-        SDLLogFilterBlock testFilter = [SDLLogFilter filterByAllowingModules:[NSSet setWithObject:testFilterModule]];
+        SDLLogFilter *testFilter = [SDLLogFilter filterByAllowingModules:[NSSet setWithObject:testFilterModule.name]];
 
         it(@"should pass a matching string", ^{
-            BOOL pass = testFilter(testFilterModel);
+            BOOL pass = testFilter.filter(testFilterModel);
             expect(@(pass)).to(equal(@YES));
         });
 
         it(@"should fail a non-matching string", ^{
-            BOOL pass = testFilter(testOtherModel);
+            BOOL pass = testFilter.filter(testOtherModel);
             expect(@(pass)).to(equal(@NO));
         });
     });
@@ -182,29 +182,29 @@ describe(@"a filter by file name", ^{
     __block SDLLogModel *testOtherModel = [[SDLLogModel alloc] initWithMessage:@"test" timestamp:[NSDate date] level:SDLLogLevelDebug fileName:testOtherModuleName moduleName:@"test" functionName:@"test" line:0 queueLabel:@"test"];
 
     context(@"that disallows modules", ^{
-        SDLLogFilterBlock testFilter = [SDLLogFilter filterByDisallowingFileNames:[NSSet setWithObject:testFilterFilename]];
+        SDLLogFilter *testFilter = [SDLLogFilter filterByDisallowingFileNames:[NSSet setWithObject:testFilterFilename]];
 
         it(@"should fail a matching module", ^{
-            BOOL pass = testFilter(testFilterModel);
+            BOOL pass = testFilter.filter(testFilterModel);
             expect(@(pass)).to(equal(@NO));
         });
 
         it(@"should pass a non-matching module", ^{
-            BOOL pass = testFilter(testOtherModel);
+            BOOL pass = testFilter.filter(testOtherModel);
             expect(@(pass)).to(equal(@YES));
         });
     });
 
     context(@"that allows modules", ^{
-        SDLLogFilterBlock testFilter = [SDLLogFilter filterByAllowingFileNames:[NSSet setWithObject:testFilterFilename]];
+        SDLLogFilter *testFilter = [SDLLogFilter filterByAllowingFileNames:[NSSet setWithObject:testFilterFilename]];
 
         it(@"should pass a matching string", ^{
-            BOOL pass = testFilter(testFilterModel);
+            BOOL pass = testFilter.filter(testFilterModel);
             expect(@(pass)).to(equal(@YES));
         });
 
         it(@"should fail a non-matching string", ^{
-            BOOL pass = testFilter(testOtherModel);
+            BOOL pass = testFilter.filter(testOtherModel);
             expect(@(pass)).to(equal(@NO));
         });
     });
