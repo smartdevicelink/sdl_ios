@@ -1,7 +1,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLLogTargetASL.h"
+#import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetOSLog.h"
 #import "SDLLogConfiguration.h"
 
@@ -25,7 +25,7 @@ describe(@"a log configuration", ^{
             if ([NSProcessInfo processInfo].operatingSystemVersion.majorVersion >= 10) {
                 expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetOSLog class]));
             } else {
-                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetASL class]));
+                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetAppleSystemLog class]));
             }
         });
     });
@@ -45,7 +45,7 @@ describe(@"a log configuration", ^{
             if ([NSProcessInfo processInfo].operatingSystemVersion.majorVersion >= 10) {
                 expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetOSLog class]));
             } else {
-                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetASL class]));
+                expect([testConfiguration.targets anyObject].class).to(equal([SDLLogTargetAppleSystemLog class]));
             }
         });
     });
