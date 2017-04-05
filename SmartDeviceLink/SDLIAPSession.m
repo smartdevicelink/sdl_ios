@@ -4,11 +4,11 @@
 
 #import "SDLIAPSession.h"
 #import "SDLDebugTool.h"
+#import "SDLMutableDataQueue.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
-#import "SDLMutableDataQueue.h"
 
-NSString *const ioStreamThreadName  = @ "com.smartdevicelink.iostream";
+NSString *const IOStreamThreadName  = @"com.smartdevicelink.iostream";
 NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
@@ -16,9 +16,9 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 @property (assign) BOOL isInputStreamOpen;
 @property (assign) BOOL isOutputStreamOpen;
 @property (assign, nonatomic) BOOL isDataSession;
-@property (nonatomic, strong, nullable) NSThread *ioStreamThread;
-@property (nonatomic, strong, nullable) SDLMutableDataQueue *sendDataQueue;
-@property (nonatomic, strong, nullable) dispatch_semaphore_t canceledSemaphore;
+@property (nonatomic, strong) NSThread *ioStreamThread;
+@property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
+@property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
 
 @end
 
@@ -56,6 +56,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@", self.accessory.name, self.protocol];
     [SDLDebugTool logInfo:logMessage];
 
+    // TODO: This assignment should be broken out of the if and the if / else should be flipped.
     if ((self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol])) {
         __strong typeof(self) strongSelf = weakSelf;
 
@@ -63,17 +64,17 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
-        if (!self.isDataSession) {
-            [self startStream:self.easession.outputStream];
-            [self startStream:self.easession.inputStream];
-        } else {
+        if (self.isDataSession) {
             self.streamDelegate.streamHasSpaceHandler = [self streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
             self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
-            [self.ioStreamThread setName:ioStreamThreadName];
+            [self.ioStreamThread setName:IOStreamThreadName];
             [self.ioStreamThread start];
+        } else {
+            // Set up control session -- no need for its own thread
+            [self startStream:self.easession.outputStream];
+            [self startStream:self.easession.inputStream];
         }
-
         return YES;
 
     } else {
@@ -83,24 +84,26 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 }
 
 - (void)stop {
-
-    if (!self.isDataSession) {
-        [self stopStream:self.easession.outputStream];
-        [self stopStream:self.easession.inputStream];
-    } else {
+    if (self.isDataSession) {
         [self.ioStreamThread cancel];
         
         long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, streamThreadWaitSecs * NSEC_PER_SEC));
         if (lWait == 0) {
             [SDLDebugTool logInfo:@"Stream thread canceled"];
-        } else{
-           [SDLDebugTool logInfo:@"Error: failed to cancel stream thread"];
+        } else {
+            [SDLDebugTool logInfo:@"Error: failed to cancel stream thread"];
         }
         self.ioStreamThread = nil;
         self.isDataSession = NO;
+    } else {
+        // Stop control session
+        [self stopStream:self.easession.outputStream];
+        [self stopStream:self.easession.inputStream];
     }
     self.easession = nil;
 }
+
+# pragma mark - data send methods
 
 - (void)sendData:(NSData *)data {
     // Enqueue the data for transmission on the IO thread
@@ -118,13 +121,13 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         if (bytesWritten < 0) {
             *error = ostream.streamError;
         } else if (bytesWritten == bytesRemaining) {
-                // Remove the data from the queue
-                [self.sendDataQueue popBuffer];
-                allDataWritten = YES;
-            } else {
-                // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-                [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
-            }
+            // Remove the data from the queue
+            [self.sendDataQueue popBuffer];
+            allDataWritten = YES;
+        } else {
+            // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
+            [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+        }
     }
 
     return allDataWritten;
@@ -133,10 +136,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 - (void)sdl_handleOutputStreamWriteError:(NSError *)error {
     NSString *errString = [NSString stringWithFormat:@"Output stream error: %@", error];
     [SDLDebugTool logInfo:errString];
-    // REVIEW: We should look at the domain and the code as a tuple and decide
-    // how to handle the error based on both values. For now, if the stream
-    // is closed, we will flush the send queue and leave it as-is otherwise
-    // so that temporary error conditions can be dealt with by retrying
+    // TODO: We should look at the domain and the code as a tuple and decide how to handle the error based on both values. For now, if the stream is closed, we will flush the send queue and leave it as-is otherwise so that temporary error conditions can be dealt with by retrying
     if (self.easession == nil ||
         self.easession.outputStream == nil ||
         self.easession.outputStream.streamStatus != NSStreamStatusOpen) {
@@ -144,12 +144,15 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     }
 }
 
+# pragma mark - background I/O for data session
+
+// Data session I/O thread
 - (void)sdl_accessoryEventLoop {
     @autoreleasepool {
         NSAssert(self.easession, @"_session must be assigned before calling");
 
         if (!self.easession) {
-          return;
+            return;
         }
         
         [self startStream:self.easession.inputStream];
@@ -163,12 +166,11 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
                     [self sdl_handleOutputStreamWriteError:sendErr];
                 }
             }
-            
-            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                     beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
+            // The principle here is to give the event loop enough time to process stream events while also allowing it to handle new enqueued data buffers in a timely manner. We're capping the run loop CPU time at 0.25s maximum before it will return control to the rest of the loop.
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
         } while (![NSThread currentThread].cancelled);
 
-        NSLog(@"closing accessory session");
+        [SDLDebugTool logInfo:@"closing accessory session"];
 
         // Close I/O streams of the iAP session
         [self sdl_closeSession];
@@ -178,14 +180,16 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 // Must be called on accessoryEventLoop.
 - (void)sdl_closeSession {
-  if (self.easession) {
+    if (!self.easession) {
+        return;
+    }
+    
     NSLog(@"Close EASession: %tu", self.easession.accessory.connectionID);
     NSInputStream *inStream = [self.easession inputStream];
     NSOutputStream *outStream = [self.easession outputStream];
-    
+
     [self stopStream:inStream];
     [self stopStream:outStream];
-  }
 }
 
 
