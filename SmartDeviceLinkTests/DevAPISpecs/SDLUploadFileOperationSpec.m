@@ -119,6 +119,54 @@ describe(@"Streaming Upload File Operation", ^{
             });
         });
     });
+
+    context(@"sending a large file", ^{
+        beforeEach(^{
+            UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            testFileName = @"Test File";
+            testFileData = UIImageJPEGRepresentation(testImage, 0.80);
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = errorResult;
+            }];
+
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testUploadOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            [testUploadOperation start];
+            [NSThread sleepForTimeInterval:0.5];
+        });
+
+        it(@"send the correct number of putfiles", ^{
+            NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
+
+            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
+            expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
+
+            // Check each putfile's offset and length
+            for (NSUInteger index = 0; index < numberOfPutFiles; index++) {
+                SDLPutFile *putFile = putFiles[index];
+                expect(putFile.offset).to(equal(@(index * [SDLGlobals sharedGlobals].maxMTUSize)));
+                expect(putFile.persistentFile).to(equal(@NO));
+                expect(putFile.syncFileName).to(equal(testFileName));
+                NSUInteger putFileLength = putFile.length.unsignedIntegerValue;
+                NSUInteger maxPutFileLengthAllowed = [SDLGlobals sharedGlobals].maxMTUSize;
+                NSRange dataRange = NSMakeRange(index * maxPutFileLengthAllowed, MIN(putFileLength, maxPutFileLengthAllowed));
+                expect(putFile.bulkData).to(equal([testFileData subdataWithRange:dataRange]));
+
+                if (index == 0) {
+                    // The first putfile should have the entire length of the file (as expected by the sdl core)
+                    expect(putFile.length).to(equal(@(testFileData.length)));
+                } else if (index == numberOfPutFiles - 1) {
+                    // The last putfile may have a shorter length because it usually holds the remainder of the data
+                    expect(putFile.length).to(equal(@(testFileData.length - (index * [SDLGlobals sharedGlobals].maxMTUSize))));
+                } else {
+                    expect(putFile.length).to(equal(@([SDLGlobals sharedGlobals].maxMTUSize)));
+                }
+            }
+        });
+    });
 });
 
 describe(@"Upload File Operation", ^{
