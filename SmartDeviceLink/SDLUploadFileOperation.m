@@ -55,12 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
 }
 
-- (void)start:(void (^)(BOOL success))completion {
-    [super start];
-
-    [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
-}
-
 - (void)sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
 
     // iStream is NSInputStream instance variable
@@ -103,12 +97,14 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Get a chunk of data from the input stream
         NSError *error = nil;
-        NSData *dataChunk = [self getDataChunkWithSize:putFileLength inputStream:self.inputStream error:&error];
+        NSUInteger dataSize = [self getDataLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
+        NSData *dataChunk = [self getDataChunkWithSize:dataSize inputStream:self.inputStream error:&error];
         if (dataChunk == nil) {
+            // TODO: - ????? Add error message here!
             return completion(NO, bytesAvailable, streamError);
         }
         putFile.bulkData = dataChunk;
-        currentOffset += putFileLength;
+        currentOffset += dataSize;
 
         // Send the putfile
         NSLog(@"entering: %@", self);
@@ -148,6 +144,19 @@ NS_ASSUME_NONNULL_BEGIN
         putFileLength = mtuSize;
     }
     return putFileLength;
+}
+
+- (NSUInteger)getDataLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
+    NSInteger dataSize = 0;
+    NSUInteger fileSizeRemaining = (NSUInteger)(fileSize - currentOffset);
+    if (fileSizeRemaining < mtuSize) {
+        // The file length remaining is smaller than the max data chunk sized allowed. The putfile expects the length parameter to match the size of the last data chunk being sent.
+        dataSize = fileSizeRemaining;
+    } else {
+        // When the file length remaining is greater than the max data chunk sized allowed, and the offset is not zero, the putfile expects the length parameter to match the size of the data chunk being sent.
+        dataSize = mtuSize;
+    }
+    return dataSize;
 }
 
 - (nullable NSData *)getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream error:(NSError **)error {
