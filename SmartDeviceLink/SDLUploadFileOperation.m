@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-
+@property (strong, nonatomic) NSInputStream *inputStream;
 @end
 
 
@@ -55,12 +55,25 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
 }
 
+- (void)start:(void (^)(BOOL success))completion {
+    [super start];
+
+    [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
+}
+
 - (void)sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
-    NSInputStream *inputStream = [self openInputStreamWithFile:file];
+
+    // iStream is NSInputStream instance variable
+    self.inputStream = file.inputStream;
+    [self.inputStream setDelegate:self];
+    [self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
+                       forMode:NSDefaultRunLoopMode];
+    [self.inputStream open];
 
     // Wait for all data chunks be sent before executing the code in dispatch_group_notify
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
+    NSLog(@"entering: %@", self);
     __weak typeof(self) weakself = self;
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
@@ -90,50 +103,27 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Get a chunk of data from the input stream
         NSError *error = nil;
-        NSData *dataChunk = [self getDataChunkWithSize:putFileLength inputStream:inputStream error:&error];
+        NSData *dataChunk = [self getDataChunkWithSize:putFileLength inputStream:self.inputStream error:&error];
         if (dataChunk == nil) {
             return completion(NO, bytesAvailable, streamError);
         }
-        putFile.bulkData = [self getDataChunkWithSize:putFileLength inputStream:inputStream error:&error];
+        putFile.bulkData = dataChunk;
         currentOffset += putFileLength;
 
         // Send the putfile
+        NSLog(@"entering: %@", self);
         dispatch_group_enter(putFileGroup);
         __weak typeof(self) weakself = self;
-        [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            typeof(weakself) strongself = weakself;
+        NSLog(@"sending to connection manager: %@", self.connectionManager);
+        [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
 
-            // To free up memory, release the data sent in the putfile
-            @autoreleasepool {
-                putFile.bulkData = nil;
-            }
-
-            // If there is an error, cancel sending the rest of the data
-            if (strongself.isCancelled) {
-                stop = YES;
-            }
-            if (stop) {
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-            // If there is an error, abort in the future and call the completion handler
-            if (error != nil || response == nil || ![response.success boolValue]) {
-                stop = YES;
-                streamError = error;
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-
-            // If no error make sure bytes availabe is accurate
-            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
-                highestCorrelationIDReceived = [request.correlationID integerValue];
-                bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
-            }
+            NSLog(@"got something...");
+            NSLog(@"leaving: %@", self);
             dispatch_group_leave(putFileGroup);
-       }];
+        }];
     }
 
+    NSLog(@"leaving: %@", self);
     dispatch_group_leave(putFileGroup);
 }
 
@@ -191,24 +181,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
         case NSStreamEventErrorOccurred:
-            // Todo
-            NSLog(@"error occured");
+            NSLog(@"Input stream error occured");
         case NSStreamEventEndEncountered:
+            NSLog(@"Input stream end encountered. Closing...");
             [aStream close];
             [aStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             break;
         case NSStreamEventOpenCompleted:
             // Todo
-            NSLog(@"??");
+            NSLog(@"Input stream open completed");
         case NSStreamEventHasBytesAvailable:
             // Todo
-            NSLog(@"Still reading");
+            NSLog(@"Input stream still reading");
         case NSStreamEventHasSpaceAvailable:
             // Todo
-            NSLog(@"Space still available");
+            NSLog(@"Input stream space still available");
         case NSStreamEventNone:
             // Todo
-            NSLog(@"??");
+            NSLog(@"Input stream nothing happening");
         default:
             break;
     }

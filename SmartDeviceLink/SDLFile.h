@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The binary data of the SDLFile. If initialized with data, this will be a relatively quick call, but if initialized with a file URL, this is a rather expensive call the first time. The data will be cached in RAM after the first call.
  */
-@property (copy, nonatomic, readonly) NSData *data;
+@property (copy, nonatomic, readonly, nullable) NSData *data;
 
 /**
  *  The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.

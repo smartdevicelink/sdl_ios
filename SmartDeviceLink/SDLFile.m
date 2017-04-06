@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLFile ()
 
 @property (copy, nonatomic, readwrite, nullable) NSURL *fileURL;
-@property (copy, nonatomic, readwrite) NSData *data;
+@property (copy, nonatomic, readwrite, nullable) NSData *data;
 
 @property (strong, nonatomic, readwrite) SDLFileType fileType;
 @property (assign, nonatomic, readwrite) BOOL persistent;
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _fileURL = url;
-    _data = [NSData data];
+    _data = nil;
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
@@ -87,23 +87,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithData:data name:name fileExtension:extension persistent:NO];
 }
 
-
 #pragma mark - Getters
-
-- (NSData *)data {
-    if (_data == nil && _fileURL != nil) {
-        return [NSData dataWithContentsOfURL:_fileURL];
-    }
-
-    return _data;
-}
 
 - (NSInputStream *)inputStream {
     if (!_inputStream) {
-        if (_fileURL != nil) {
+        if (_fileURL) {
             // Data in file
             return [[NSInputStream alloc] initWithURL:_fileURL];
-        } else if (_data != nil) {
+        } else if (_data) {
             // Data in memory
             return [[NSInputStream alloc] initWithData:_data];
         }
@@ -113,11 +104,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (unsigned long long)fileSize {
-    if (_fileURL != nil) {
+    if (_fileURL) {
         // Data in file
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil] fileSize];
         return fileSize;
-    } else if (_data != nil) {
+    } else if (_data) {
         // Data in memory
         return _data.length;
     }
@@ -147,7 +138,6 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLFileTypeBinary;
     }
 }
-
 
 #pragma mark - NSCopying
 
