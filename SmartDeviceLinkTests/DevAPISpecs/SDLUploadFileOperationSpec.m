@@ -56,17 +56,6 @@ describe(@"Upload File Operation", ^{
         it(@"a successful response should return for each putfile", ^{
             NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
 
-            for (int i = 0; i < numberOfPutFiles; i += 1) {
-                responseSpaceAvailable = @(11212512);
-                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
-
-                goodResponse = [[SDLPutFileResponse alloc] init];
-                goodResponse.success = @YES;
-                goodResponse.spaceAvailable = responseSpaceAvailable;
-
-                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
-            }
-
             NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
 
@@ -89,6 +78,18 @@ describe(@"Upload File Operation", ^{
                 }
             }
 
+            for (int i = 0; i < numberOfPutFiles; i += 1) {
+                responseSpaceAvailable = @(11212512);
+                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
+
+                goodResponse = [[SDLPutFileResponse alloc] init];
+                goodResponse.success = @YES;
+                goodResponse.spaceAvailable = responseSpaceAvailable;
+
+                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
+            }
+
+
             expect(@(successResult)).toEventually(equal(@YES));
             expect(@(bytesAvailableResult)).toEventually(equal(responseSpaceAvailable));
             expect(errorResult).toEventually(beNil());
@@ -96,6 +97,10 @@ describe(@"Upload File Operation", ^{
             expect(@(testOperation.finished)).toEventually(equal(@YES));
             expect(@(testOperation.executing)).toEventually(equal(@NO));
         });
+
+//        it(@"value", ^{
+//            //expect(@(successResult)).to(equal(@YES));
+//        });
     });
 
     context(@"When putfiles are not uploaded successfully", ^{
@@ -159,17 +164,6 @@ describe(@"Upload File Operation", ^{
 
             NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
 
-            for (int i = 0; i < numberOfPutFiles; i += 1) {
-                responseSpaceAvailable = @(11212512);
-                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
-
-                goodResponse = [[SDLPutFileResponse alloc] init];
-                goodResponse.success = @YES;
-                goodResponse.spaceAvailable = responseSpaceAvailable;
-
-                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
-            }
-
             NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
 
@@ -190,6 +184,17 @@ describe(@"Upload File Operation", ^{
                 } else {
                     expect(putFile.length).to(equal(@([SDLGlobals sharedGlobals].maxMTUSize)));
                 }
+            }
+
+            for (int i = 0; i < numberOfPutFiles; i += 1) {
+                responseSpaceAvailable = @(11212512);
+                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
+
+                goodResponse = [[SDLPutFileResponse alloc] init];
+                goodResponse.success = @YES;
+                goodResponse.spaceAvailable = responseSpaceAvailable;
+
+                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
             }
 
             expect(@(successResult)).toEventually(equal(@YES));
@@ -244,17 +249,6 @@ describe(@"Upload File Operation", ^{
 
             NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
 
-            for (int i = 0; i < numberOfPutFiles; i += 1) {
-                responseSpaceAvailable = @(11212512);
-                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
-
-                goodResponse = [[SDLPutFileResponse alloc] init];
-                goodResponse.success = @YES;
-                goodResponse.spaceAvailable = responseSpaceAvailable;
-
-                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
-            }
-
             NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
 
@@ -275,6 +269,17 @@ describe(@"Upload File Operation", ^{
                 } else {
                     expect(putFile.length).to(equal(@([SDLGlobals sharedGlobals].maxMTUSize)));
                 }
+            }
+
+            for (int i = 0; i < numberOfPutFiles; i += 1) {
+                responseSpaceAvailable = @(11212512);
+                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
+
+                goodResponse = [[SDLPutFileResponse alloc] init];
+                goodResponse.success = @YES;
+                goodResponse.spaceAvailable = responseSpaceAvailable;
+
+                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
             }
 
             expect(@(successResult)).toEventually(equal(@YES));
