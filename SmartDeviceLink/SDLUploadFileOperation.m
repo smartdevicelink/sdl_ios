@@ -55,15 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
 }
 
-- (void)startWithCompletion:(SDLFileManagerUploadCompletionHandler)completion {
-    [super start];
-
-    [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-        self.fileWrapper.completionHandler(success, bytesAvailable, error);
-        return completion(success, bytesAvailable, error);
-    }];
-}
-
 - (void)sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
 
     // iStream is NSInputStream instance variable
@@ -88,6 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             completion(YES, bytesAvailable, nil);
         }
+
         [weakself finishOperation];
     });
 
@@ -97,9 +89,10 @@ NS_ASSUME_NONNULL_BEGIN
     unsigned long long numberOfFilesToSend = (((fileSize - 1) / mtuSize) + 1);
     for (int i = 0; i < numberOfFilesToSend; i++) {
         SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
-        putFile.offset = @(currentOffset);
+        dispatch_group_enter(putFileGroup);
 
         // The putfile's length parameter is based on the current offset
+        putFile.offset = @(currentOffset);
         NSInteger putFileLength = [self getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
         putFile.length = @(putFileLength);
 
@@ -109,25 +102,33 @@ NS_ASSUME_NONNULL_BEGIN
         NSData *dataChunk = [self getDataChunkWithSize:dataSize inputStream:self.inputStream error:&error];
         if (dataChunk == nil) {
             // TODO: - ????? Add error message here!
-            return completion(NO, bytesAvailable, streamError);
+            // return completion(NO, bytesAvailable, streamError);
+            [self cancel];
+            streamError = error;
+            dispatch_group_leave(putFileGroup);
+            BLOCK_RETURN;
         }
         putFile.bulkData = dataChunk;
         currentOffset += dataSize;
 
         // Send the putfile
-        dispatch_group_enter(putFileGroup);
         __weak typeof(self) weakself = self;
         [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             typeof(weakself) strongself = weakself;
+            // If we've already encountered an error, then just abort
             // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
             if (strongself.isCancelled) {
+                stop = YES;
+            }
+
+            if (stop) {
                 dispatch_group_leave(putFileGroup);
                 BLOCK_RETURN;
             }
 
             // If we encounted an error, abort in the future and call the completion handler
-            if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
-                [strongself cancel];
+            if (error != nil || response == nil || ![response.success boolValue]) {
+                stop = YES;
                 streamError = error;
                 dispatch_group_leave(putFileGroup);
                 BLOCK_RETURN;

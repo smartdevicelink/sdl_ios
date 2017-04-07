@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithFile:(SDLFileWrapper *)file connectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
-- (void)startWithCompletion:(SDLFileManagerUploadCompletionHandler)completion;
-
 @end
 
 NS_ASSUME_NONNULL_END
