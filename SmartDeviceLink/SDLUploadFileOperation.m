@@ -55,6 +55,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
 }
 
+- (void)startWithCompletion:(SDLFileManagerUploadCompletionHandler)completion {
+    [super start];
+
+    [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        self.fileWrapper.completionHandler(success, bytesAvailable, error);
+        return completion(success, bytesAvailable, error);
+    }];
+}
+
 - (void)sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
 
     // iStream is NSInputStream instance variable
@@ -67,7 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
     // Wait for all data chunks be sent before executing the code in dispatch_group_notify
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
-    NSLog(@"entering: %@", self);
     __weak typeof(self) weakself = self;
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
@@ -107,19 +115,36 @@ NS_ASSUME_NONNULL_BEGIN
         currentOffset += dataSize;
 
         // Send the putfile
-        NSLog(@"entering: %@", self);
         dispatch_group_enter(putFileGroup);
         __weak typeof(self) weakself = self;
-        NSLog(@"sending to connection manager: %@", self.connectionManager);
-        [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+            typeof(weakself) strongself = weakself;
+            // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
+            if (strongself.isCancelled) {
+                dispatch_group_leave(putFileGroup);
+                BLOCK_RETURN;
+            }
 
-            NSLog(@"got something...");
-            NSLog(@"leaving: %@", self);
+            // If we encounted an error, abort in the future and call the completion handler
+            if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+                [strongself cancel];
+                streamError = error;
+                dispatch_group_leave(putFileGroup);
+                BLOCK_RETURN;
+            }
+
+            // If we haven't encounted an error
+            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
+
+            // We need to do this to make sure our bytesAvailable is accurate
+            if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
+                highestCorrelationIDReceived = [request.correlationID integerValue];
+                bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
+            }
+
             dispatch_group_leave(putFileGroup);
         }];
     }
-
-    NSLog(@"leaving: %@", self);
     dispatch_group_leave(putFileGroup);
 }
 
