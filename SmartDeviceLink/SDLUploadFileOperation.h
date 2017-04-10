@@ -11,6 +11,7 @@
 #import "SDLAsynchronousOperation.h"
 #import "SDLFileManagerConstants.h"
 
+
 @protocol SDLConnectionManagerType;
 @class SDLFileWrapper;
 

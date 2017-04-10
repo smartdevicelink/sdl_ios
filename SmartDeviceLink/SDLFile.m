@@ -89,6 +89,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters
 
+/**
+ Initalizes a socket from which to read data.
+
+ @return A socket
+ */
 - (NSInputStream *)inputStream {
     if (!_inputStream) {
         if (_fileURL) {
@@ -99,20 +104,23 @@ NS_ASSUME_NONNULL_BEGIN
             return [[NSInputStream alloc] initWithData:_data];
         }
     }
-
     return _inputStream;
 }
 
+/**
+ Gets the size of the data. The data may be stored on disk or it may already be in the application's memory.
+
+ @return The size of the data.
+ */
 - (unsigned long long)fileSize {
     if (_fileURL) {
-        // Data in file
+        // Data on disk
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil] fileSize];
         return fileSize;
     } else if (_data) {
         // Data in memory
         return _data.length;
     }
-
     return 0;
 }
 

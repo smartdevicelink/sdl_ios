@@ -98,10 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
         // Get a chunk of data from the input stream
         NSUInteger dataSize = [self getDataSizeForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
         NSData *dataChunk = [self getDataChunkWithSize:dataSize inputStream:self.inputStream];
-        if (dataChunk == nil) {
-            stop = YES;
-            break;
-        }
         putFile.bulkData = dataChunk;
         currentOffset += dataSize;
 
@@ -115,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
                 putFile.bulkData = nil;
             }
 
-            // Check if the upload process has been cancelled by another packet. If it has, stop the upload process and return a completion handler with an unsuccessful result.
+            // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
             if (strongself.isCancelled) {
                 // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
                 stop = YES;
@@ -133,9 +129,9 @@ NS_ASSUME_NONNULL_BEGIN
                 BLOCK_RETURN;
             }
 
-            // If no errors, watch for the response containing the correct amount of storage left on the SDL Core
+            // If no errors, watch for a response containing the amount of storage left on the SDL Core
             SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            bytesAvailable = [self getBytesAvailableFromResponse:response request:request highestCorrelationIDReceived:highestCorrelationIDReceived currentBytesAvailable:bytesAvailable];
+            bytesAvailable = [self getBytesAvailableFromResponse:putFileResponse request:request highestCorrelationIDReceived:highestCorrelationIDReceived currentBytesAvailable:bytesAvailable];
 
             dispatch_group_leave(putFileGroup);
         }];
