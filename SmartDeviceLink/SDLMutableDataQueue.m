@@ -23,7 +23,7 @@
         return nil;
     }
     
-    self.elements = [[NSMutableArray alloc] init];
+    _elements = [NSMutableArray array];
     
     return self;
 }
@@ -35,7 +35,7 @@
     }
 }
 
-- (NSMutableData *)frontBuffer {
+- (NSMutableData  * _Nullable )frontBuffer {
     NSMutableData *dataAtFront = nil;
     
     @synchronized (self) {
@@ -55,7 +55,7 @@
     }
 }
 
-- (void)flush {
+- (void)removeAllObjects {
     @synchronized (self) {
         [self.elements removeAllObjects];
     }
@@ -68,7 +68,7 @@
 }
 
 - (void)dealloc {
-    [self flush];
+    [self removeAllObjects];
     self.elements = nil;
 }
 
