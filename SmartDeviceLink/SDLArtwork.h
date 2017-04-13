@@ -6,7 +6,7 @@
 //  Copyright © 2015 smartdevicelink. All rights reserved.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #import "SDLFile.h"
 

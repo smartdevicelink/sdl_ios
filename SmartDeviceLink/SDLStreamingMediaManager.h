@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@import VideoToolbox;
+#import <VideoToolbox/VideoToolbox.h>
 
 #import "SDLProtocolListener.h"
 
