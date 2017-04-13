@@ -51,6 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSMapTable<SDLSoftButtonId *, SDLRPCButtonNotificationHandler> *customButtonHandlerMap;
 
 /**
+ *  Holds an audio pass thru block.
+ */
+@property (strong, nonatomic, readonly, nullable) SDLAudioPassThruHandler audioPassThruHandler;
+    
+/**
  *  Create a new response dispatcher.
  *
  *  @param dispatcher A notification dispatcher to watch only its notifications.
