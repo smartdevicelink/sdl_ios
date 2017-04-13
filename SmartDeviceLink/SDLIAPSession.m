@@ -65,7 +65,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
         if (self.isDataSession) {
-            self.streamDelegate.streamHasSpaceHandler = [self streamHasSpaceHandler];
+            self.streamDelegate.streamHasSpaceHandler = [self sdl_streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
             self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
             [self.ioStreamThread setName:IOStreamThreadName];
@@ -101,6 +101,10 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         [self stopStream:self.easession.inputStream];
     }
     self.easession = nil;
+}
+
+- (BOOL)isStopped {
+    return !self.isOutputStreamOpen && !self.isInputStreamOpen;
 }
 
 # pragma mark - data send methods
@@ -140,7 +144,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     if (self.easession == nil ||
         self.easession.outputStream == nil ||
         self.easession.outputStream.streamStatus != NSStreamStatusOpen) {
-        [self.sendDataQueue flush];
+        [self.sendDataQueue removeAllObjects];
     }
 }
 
@@ -184,12 +188,11 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         return;
     }
     
-    NSLog(@"Close EASession: %tu", self.easession.accessory.connectionID);
-    NSInputStream *inStream = [self.easession inputStream];
-    NSOutputStream *outStream = [self.easession outputStream];
+    NSString *closeSessionString = [NSString stringWithFormat:@"Close EASession: %tu", self.easession.accessory.connectionID];
+    [SDLDebugTool logInfo:closeSessionString];
 
-    [self stopStream:inStream];
-    [self stopStream:outStream];
+    [self stopStream:[self.easession inputStream]];
+    [self stopStream:[self.easession outputStream]];
 }
 
 
@@ -221,8 +224,10 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     if (status2 == NSStreamStatusClosed) {
         if (stream == [self.easession inputStream]) {
             [SDLDebugTool logInfo:@"Input Stream Closed"];
+            self.isInputStreamOpen = NO;
         } else if (stream == [self.easession outputStream]) {
             [SDLDebugTool logInfo:@"Output Stream Closed"];
+            self.isOutputStreamOpen = NO;
         }
     }
 }
@@ -262,18 +267,20 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     };
 }
 
-- (SDLStreamHasSpaceHandler)streamHasSpaceHandler {
+- (SDLStreamHasSpaceHandler)sdl_streamHasSpaceHandler {
     __weak typeof(self) weakSelf = self;
     
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         
-        if (strongSelf.isDataSession) {
-            NSError *sendErr = nil;
-            
-            if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
-                [strongSelf sdl_handleOutputStreamWriteError:sendErr];
-            }
+        if (!strongSelf.isDataSession){
+            return;
+        }
+        
+        NSError *sendErr = nil;
+        
+        if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
+            [strongSelf sdl_handleOutputStreamWriteError:sendErr];
         }
     };
 }
