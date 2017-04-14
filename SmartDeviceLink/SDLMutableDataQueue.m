@@ -67,9 +67,4 @@
     }
 }
 
-- (void)dealloc {
-    [self removeAllObjects];
-    self.elements = nil;
-}
-
 @end
