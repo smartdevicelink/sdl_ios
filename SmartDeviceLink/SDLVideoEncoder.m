@@ -8,6 +8,7 @@
 
 #import "SDLVideoEncoder.h"
 
+#import "SDLH264ByteStreamPacketizer.h"
 #import "SDLLogMacros.h"
 
 
@@ -22,6 +23,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 @property (assign, nonatomic, nullable) CFDictionaryRef sdl_pixelBufferOptions;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
+@property (nonatomic) id<SDLH264Packetizer> packetizer;
+@property (assign, nonatomic) double timestampOffset;
 
 @end
 
@@ -106,7 +109,10 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
             return nil;
         }
     }
-    
+
+    _packetizer = [[SDLH264ByteStreamPacketizer alloc] init];
+    _timestampOffset = 0.0;
+
     return self;
 }
 
@@ -161,10 +167,24 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     }
     
     SDLVideoEncoder *encoder = (__bridge SDLVideoEncoder *)sourceFrameRefCon;
-    NSData *elementaryStreamData = [encoder.class sdl_encodeElementaryStreamWithSampleBuffer:sampleBuffer];
+    NSArray *nalUnits = [encoder.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
+
+    const CMTime ptsInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+    double pts = 0.0;
+    if (CMTIME_IS_VALID(ptsInCMTime)) {
+        pts = CMTimeGetSeconds(ptsInCMTime);
+    }
+    if (encoder.timestampOffset == 0.0) {
+        // remember this first PTS as the offset
+        encoder.timestampOffset = pts;
+    }
+
+    NSArray *packets = [encoder.packetizer createPackets:nalUnits pts:(pts - encoder.timestampOffset)];
     
     if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFrame:)]) {
-        [encoder.delegate videoEncoder:encoder hasEncodedFrame:elementaryStreamData];
+        for (NSData *packet in packets) {
+            [encoder.delegate videoEncoder:encoder hasEncodedFrame:packet];
+        }
     }
 }
 
@@ -190,9 +210,9 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
 }
 
 #pragma mark Helpers
-+ (NSData *)sdl_encodeElementaryStreamWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
++ (NSArray *)sdl_extractNalUnitsFromSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     // Creating an elementaryStream: http://stackoverflow.com/questions/28396622/extracting-h264-from-cmblockbuffer
-    NSMutableData *elementaryStream = [NSMutableData data];
+    NSMutableArray *nalUnits = [NSMutableArray array];
     BOOL isIFrame = NO;
     CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, 0);
     
@@ -204,10 +224,6 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         // Find out if the sample buffer contains an I-Frame (sync frame). If so we will write the SPS and PPS NAL units to the elementary stream.
         isIFrame = !keyExists || !CFBooleanGetValue(notSync);
     }
-    
-    // This is the start code that we will write to the elementary stream before every NAL unit
-    static const size_t startCodeLength = 4;
-    static const uint8_t startCode[] = {0x00, 0x00, 0x00, 0x01};
     
     // Write the SPS and PPS NAL units to the elementary stream before every I-Frame
     if (isIFrame) {
@@ -233,9 +249,9 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
                                                                NULL,
                                                                NULL);
             
-            // Write the parameter set to the elementary stream
-            [elementaryStream appendBytes:startCode length:startCodeLength];
-            [elementaryStream appendBytes:parameterSetPointer length:parameterSetLength];
+            // Output the parameter set
+            NSData *nalUnit = [NSData dataWithBytesNoCopy:(uint8_t *)parameterSetPointer length:parameterSetLength freeWhenDone:NO];
+            [nalUnits addObject:nalUnit];
         }
     }
     
@@ -256,17 +272,17 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         
         // Convert the length value from Big-endian to Little-endian
         NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
-        [elementaryStream appendBytes:startCode length:startCodeLength];
         
         // Write the NAL unit without the AVCC length header to the elementary stream
-        [elementaryStream appendBytes:bufferDataPointer + bufferOffset + AVCCHeaderLength length:NALUnitLength];
+        NSData *nalUnit = [NSData dataWithBytesNoCopy:bufferDataPointer + bufferOffset + AVCCHeaderLength length:NALUnitLength freeWhenDone:NO];
+        [nalUnits addObject:nalUnit];
         
         // Move to the next NAL unit in the block buffer
         bufferOffset += AVCCHeaderLength + NALUnitLength;
     }
     
     
-    return elementaryStream;
+    return nalUnits;
 }
 
 @end
