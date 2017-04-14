@@ -106,7 +106,7 @@ int const streamOpenTimeoutSeconds = 2;
     if (accessory.connectionID != self.session.accessory.connectionID) {
          [SDLDebugTool logInfo:@"Accessory connection ID mismatch!!!" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
-    if ([accessory.name isEqualToString:self.session.accessory.name]){
+    if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]){
         self.sessionSetupInProgress = NO;
         [self disconnect];
         [self.delegate onTransportDisconnected];
