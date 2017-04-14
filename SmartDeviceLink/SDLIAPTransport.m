@@ -98,12 +98,13 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (void)sdl_backgroundTaskEnd {
-    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
-        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
-        self.backgroundTaskId = UIBackgroundTaskInvalid;
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        return;
     }
+    
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
 }
-
 
 #pragma mark - EAAccessory Notifications
 
@@ -111,11 +112,7 @@ int const streamOpenTimeoutSeconds = 2;
     NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
     [self sdl_backgroundTaskStart];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
     self.retryCounter = 0;
-    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-        [self sdl_backgroundTaskStart];
-    }
     [self performSelector:@selector(connect) withObject:nil afterDelay:self.retryDelay];
 }
 
