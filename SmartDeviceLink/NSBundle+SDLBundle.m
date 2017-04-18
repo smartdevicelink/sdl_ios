@@ -22,7 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
         sdlBundle = [NSBundle bundleWithURL:sdlBundleURL];
     }
     if (sdlBundle == nil) {
-        sdlBundle = [NSBundle bundleForClass:[SDLManager class]];
+        NSBundle *frameworkBundle = [NSBundle bundleForClass:[SDLManager class]];
+
+        // HAX: Cocoapods will have the bundle as an inner bundle that we need to unpack...because reasons. Otherwise it's just the bundle we need
+        NSURL *innerBundleURL = [frameworkBundle URLForResource:@"SmartDeviceLink" withExtension:@"bundle"];
+        if (innerBundleURL) {
+            sdlBundle = [NSBundle bundleWithURL:innerBundleURL];
+        } else {
+            sdlBundle = frameworkBundle;
+        }
     }
     if (sdlBundle == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"SDL WARNING: The 'SmartDeviceLink.bundle' resources bundle was not found. If you are using cocoapods, try dragging the bundle from the SmartDeviceLink-iOS pod 'products' directory into your resources build phase. If this does not work, please go to the SDL slack at slack.smartdevicelink.com and explain your issue. You may disable the lockscreen in configuration to prevent this failure, for now." userInfo:nil];

@@ -2,7 +2,7 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
-@import SmartDeviceLink;
+#import "SmartDeviceLink.h"
 
 #import "ProxyManager.h"
 
