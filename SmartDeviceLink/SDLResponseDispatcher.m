@@ -108,6 +108,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)clear {
+    for (SDLRPCCorrelationId *key in self.rpcResponseHandlerMap) {
+            SDLResponseHandler f = self.rpcResponseHandlerMap[key];
+            f(self.rpcRequestDictionary[key], nil, [NSError sdl_lifecycle_notConnectedError]);
+        }
     [self.rpcRequestDictionary removeAllObjects];
     [self.rpcResponseHandlerMap removeAllObjects];
     [self.commandHandlerMap removeAllObjects];
