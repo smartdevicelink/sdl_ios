@@ -5,6 +5,7 @@
 
 #import "SDLAudioType.h"
 #import "SDLBitsPerSample.h"
+#import "SDLNotificationConstants.h"
 #import "SDLSamplingRate.h"
 
 @class SDLTTSChunk;
@@ -30,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio;
 
+- (instancetype)initWithSamplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration audioDataHandler:(nullable SDLAudioPassThruHandler)audioDataHandler;
+
+- (instancetype)initWithInitialPrompt:(nullable NSString *)initialPrompt audioPassThruDisplayText1:(nullable NSString *)audioPassThruDisplayText1 audioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 samplingRate:(SDLSamplingRate)samplingRate bitsPerSample:(SDLBitsPerSample)bitsPerSample audioType:(SDLAudioType)audioType maxDuration:(UInt32)maxDuration muteAudio:(BOOL)muteAudio audioDataHandler:(nullable SDLAudioPassThruHandler)audioDataHandler;
+    
 /**
  * @abstract initial prompt which will be spoken before opening the audio pass
  * thru session by SDL
@@ -97,6 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
  * muted during the APT session<br/>
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *muteAudio;
+    
+/**
+ *  A handler that will be called whenever an `onAudioPassThru` notification is received.
+ */
+@property (strong, nonatomic, nullable) SDLAudioPassThruHandler audioDataHandler;
+
 
 @end
 

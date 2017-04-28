@@ -152,7 +152,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @{
         SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
         SDLLifecycleStateStarted : @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
-        SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted],
+        SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
         SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
         SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
         SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStatePostManagerProcessing],
