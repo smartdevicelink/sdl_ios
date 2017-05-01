@@ -200,6 +200,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 - (void)startStream:(NSStream *)stream {
     stream.delegate = self.streamDelegate;
+    NSAssert((self.isDataSession && [[NSThread currentThread] isEqual:self.ioStreamThread]) || [NSThread isMainThread], @"startStream is being called on the wrong thread!!!");
     [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [stream open];
 }
@@ -210,6 +211,8 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
     // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
     // Still need to remove from run loop.
+    
+    NSAssert((self.isDataSession && [[NSThread currentThread] isEqual:self.ioStreamThread]) || [NSThread isMainThread], @"startStream is being called on the wrong thread!!!");
 
     NSUInteger status1 = stream.streamStatus;
     if (status1 != NSStreamStatusNotOpen &&
@@ -283,18 +286,6 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
             [strongSelf sdl_handleOutputStreamWriteError:sendErr];
         }
     };
-}
-
-#pragma mark - Lifecycle Destruction
-
-- (void)dealloc {
-    self.sendDataQueue = nil;
-    self.delegate = nil;
-    self.accessory = nil;
-    self.protocol = nil;
-    self.streamDelegate = nil;
-    self.easession = nil;
-    [SDLDebugTool logInfo:@"SDLIAPSession Dealloc"];
 }
 
 @end
