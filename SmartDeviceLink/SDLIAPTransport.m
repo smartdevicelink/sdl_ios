@@ -20,7 +20,7 @@
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
-NSString *const backgroundTaskName = @"com.sdl.transport.iap.connectloop";
+NSString *const backgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
 int const createSessionRetries = 1;
 int const protocolIndexTimeoutSeconds = 20;
@@ -33,7 +33,7 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 @property (assign) int retryCounter;
-@property (assign) BOOL sessionSetupInProgress;
+@property (nonatomic, assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 
@@ -41,6 +41,8 @@ int const streamOpenTimeoutSeconds = 2;
 
 
 @implementation SDLIAPTransport
+
+@synthesize sessionSetupInProgress = _sessionSetupInProgress;
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -106,6 +108,20 @@ int const streamOpenTimeoutSeconds = 2;
     self.backgroundTaskId = UIBackgroundTaskInvalid;
 }
 
+#pragma mark session setup getter/setter
+
+- (void)setSessionSetupInProgress:(BOOL)inProgress{
+    _sessionSetupInProgress = inProgress;
+    if (!inProgress){
+        // End the background task here to catch all cases
+        [self sdl_backgroundTaskEnd];
+    }
+}
+
+- (BOOL)sessionSetupInProgress{
+    return _sessionSetupInProgress;
+}
+
 #pragma mark - EAAccessory Notifications
 
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
@@ -123,7 +139,6 @@ int const streamOpenTimeoutSeconds = 2;
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID == self.session.accessory.connectionID) {
         self.sessionSetupInProgress = NO;
-        [self sdl_backgroundTaskEnd];
         [self disconnect];
         [self.delegate onTransportDisconnected];
     }
@@ -270,7 +285,6 @@ int const streamOpenTimeoutSeconds = 2;
     // Data Session Opened
     if (![controlProtocolString isEqualToString:session.protocol]) {
         self.sessionSetupInProgress = NO;
-        [self sdl_backgroundTaskEnd];
         [SDLDebugTool logInfo:@"Data Session Established"];
         [self.delegate onTransportConnected];
     }
@@ -486,7 +500,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
-        [self sdl_backgroundTaskEnd];
+        self.sessionSetupInProgress = NO;
     }
 }
 
