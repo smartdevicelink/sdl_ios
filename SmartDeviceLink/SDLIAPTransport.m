@@ -172,6 +172,9 @@ int const streamOpenTimeoutSeconds = 2;
         // We should be attempting to connect
         self.retryCounter++;
         EAAccessory *sdlAccessory = accessory;
+        // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification
+        // will contain the SDL accessory to connect to and we can connect without searching the
+        // accessory manager's connected accessory list. Otherwise, we fall through to a search.
         if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]){
             // Connection underway, exit
             return;
@@ -414,6 +417,8 @@ int const streamOpenTimeoutSeconds = 2;
 
         uint8_t buf[[SDLGlobals globals].maxMTUSize];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
+            // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
+            
             NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals globals].maxMTUSize];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
 
