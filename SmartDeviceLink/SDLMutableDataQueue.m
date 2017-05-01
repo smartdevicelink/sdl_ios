@@ -8,6 +8,8 @@
 
 #import "SDLMutableDataQueue.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLMutableDataQueue()
 
 @property(nonatomic, strong) NSMutableArray *elements;
@@ -66,5 +68,7 @@
         return self.elements.count;
     }
 }
+
+NS_ASSUME_NONNULL_END
 
 @end

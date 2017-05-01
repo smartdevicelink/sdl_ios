@@ -152,7 +152,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 #pragma mark - Creating Session Streams
 
-- (BOOL)sdl_tryConnectAccessory:(EAAccessory *)accessory {
+- (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
     
     if ([accessory supportsProtocol:controlProtocolString]) {
@@ -172,7 +172,7 @@ int const streamOpenTimeoutSeconds = 2;
         // We should be attempting to connect
         self.retryCounter++;
         EAAccessory *sdlAccessory = accessory;
-        if (sdlAccessory != nil && [self sdl_tryConnectAccessory:sdlAccessory]){
+        if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]){
             // Connection underway, exit
             return;
         }
