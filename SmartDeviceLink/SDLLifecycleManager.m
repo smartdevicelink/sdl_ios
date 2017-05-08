@@ -288,10 +288,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (self.hmiLevel == nil) {
         // If nil, return and wait until we get a notification
         return;
-    }else{
-        // We are sure to have a HMIStatus, set state to ready
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     }
+    // We are sure to have a HMIStatus, set state to ready
+    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    
 }
 
 - (void)didEnterStateReady {
