@@ -37,6 +37,8 @@ typedef NS_ENUM(UInt8, SDLFrameData) {
     SDLFrameData_ConsecutiveLastFrame = 0x00
 };
 
+UInt8 const invalidSDLProtocolVersion = 255;
+
 
 @interface SDLProtocolHeader : NSObject <NSCopying> {
     UInt8 _version;

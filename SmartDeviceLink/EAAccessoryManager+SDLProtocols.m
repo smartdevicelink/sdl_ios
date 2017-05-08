@@ -8,12 +8,15 @@
 @implementation EAAccessoryManager (SDLProtocols)
 
 + (EAAccessory *)findAccessoryForProtocol:(NSString *)protocol {
-    for (EAAccessory *accessory in [[EAAccessoryManager sharedAccessoryManager] connectedAccessories]) {
-        if ([accessory supportsProtocol:protocol]) {
-            return accessory;
+    EAAccessoryManager *mgr = [EAAccessoryManager sharedAccessoryManager];
+    if (mgr) {
+        for (EAAccessory *accessory in mgr.connectedAccessories) {
+            if ([accessory supportsProtocol:protocol]) {
+                return accessory;
+            }
         }
     }
-
+    
     return nil;
 }
 

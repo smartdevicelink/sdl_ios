@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSURLConnection *connection;
 @property (strong, nonatomic, nullable) NSURLResponse *response;
-@property (copy, nonatomic) SDLURLConnectionRequestCompletionHandler completionHandler;
+@property (copy, nonatomic, nullable) SDLURLConnectionRequestCompletionHandler completionHandler;
 @property (strong, nonatomic) NSMutableData *mutableData;
 
 @end
@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Cancel
 
 - (void)cancel {
+    self.completionHandler = nil;
     [self.connection cancel];
     [self connection:self.connection didFailWithError:[NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorCancelled userInfo:nil]];
 }

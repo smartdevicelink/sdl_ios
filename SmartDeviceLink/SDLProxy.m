@@ -2,7 +2,6 @@
 
 #import "SDLProxy.h"
 
-#import <ExternalAccessory/ExternalAccessory.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
@@ -88,7 +87,6 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self.transport connect];
 
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
-        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
     }
 
     return self;
@@ -99,7 +97,6 @@ const int POLICIES_CORRELATION_ID = 65535;
         _alreadyDestructed = YES;
 
         [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
 
         [[SDLURLSession defaultSession] cancelAllTasks];
 
@@ -127,8 +124,8 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)dealloc {
-    [self destructObjects];
     [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
+    [self destructObjects];
 }
 
 - (void)notifyProxyClosed {
@@ -416,17 +413,19 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
-    SDLRequestType *requestType = systemRequest.requestType;
-
-    // Handle the various OnSystemRequest types
-    if (requestType == [SDLRequestType PROPRIETARY]) {
-        [self handleSystemRequestProprietary:systemRequest];
-    } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
-        [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if (requestType == [SDLRequestType HTTP]) {
-        [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if (requestType == [SDLRequestType LAUNCH_APP]) {
-        [self sdl_handleSystemRequestLaunchApp:systemRequest];
+    if (systemRequest != nil) {
+        SDLRequestType *requestType = systemRequest.requestType;
+        
+        // Handle the various OnSystemRequest types
+        if (requestType == [SDLRequestType PROPRIETARY]) {
+            [self handleSystemRequestProprietary:systemRequest];
+        } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
+            [self handleSystemRequestLockScreenIconURL:systemRequest];
+        } else if (requestType == [SDLRequestType HTTP]) {
+            [self sdl_handleSystemRequestHTTP:systemRequest];
+        } else if (requestType == [SDLRequestType LAUNCH_APP]) {
+            [self sdl_handleSystemRequestLaunchApp:systemRequest];
+        }
     }
 }
 
@@ -694,9 +693,11 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
+    __weak SDLProxy *weakSelf = self;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        @autoreleasepool {
-            for (id<SDLProxyListener> listener in self.proxyListeners) {
+        if (!_alreadyDestructed){
+            for (id<SDLProxyListener> listener in weakSelf.proxyListeners) {
                 if ([listener respondsToSelector:aSelector]) {
                     // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
                     ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
