@@ -51,7 +51,8 @@ SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
 SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
 SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
-SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing = @"PostManagerProcessing";
+SDLLifecycleState *const SDLLifecycleStateSettingUpAppIcon = @"SettingUpAppIcon";
+SDLLifecycleState *const SDLLifecycleStateSettingUpHMI = @"SettingUpHMI";
 SDLLifecycleState *const SDLLifecycleStateUnregistering = @"Unregistering";
 SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
@@ -153,8 +154,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
         SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
         SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
-        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStatePostManagerProcessing],
-        SDLLifecycleStatePostManagerProcessing: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
+        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpAppIcon],
+        SDLLifecycleStateSettingUpAppIcon: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpHMI],
+        SDLLifecycleStateSettingUpHMI: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
         SDLLifecycleStateUnregistering: @[SDLLifecycleStateStopped],
         SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting]
     };
@@ -269,16 +271,27 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // When done, we want to transition, even if there were errors. They may be expected, e.g. on head units that do not support files.
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStatePostManagerProcessing];
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
     });
 }
 
-- (void)didEnterStatePostManagerProcessing {
-    // We only want to send the app icon when the file manager is complete, and when that's done, set the state to ready
+- (void)didEnterStateSettingUpAppIcon {
+    // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
            withCompletion:^{
-               [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+               [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
            }];
+}
+
+- (void)didEnterStateSettingUpHMI{
+    // We want to make sure we've gotten a SDLOnHMIStatus notification
+    if (self.hmiLevel == nil) {
+        // If nil, return and wait until we get a notification
+        return;
+    }else{
+        // We are sure to have a HMIStatus, set state to ready
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    }
 }
 
 - (void)didEnterStateReady {
@@ -439,10 +452,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
     
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    }
+    
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         return;
     }
-
+    
     if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
