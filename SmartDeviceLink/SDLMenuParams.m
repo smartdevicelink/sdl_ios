@@ -27,7 +27,7 @@
     }
 
     self.parentID = @(parentId);
-    self.position = @(parentId);
+    self.position = @(position);
 
     return self;
 }
