@@ -263,6 +263,21 @@ xdescribe(@"a lifecycle manager", ^{
                 });
             });
         });
+        
+        describe(@"transitioning to the Setting Up HMI state", ^{
+            context(@"before register response is a success", ^{
+                it(@"ready handler should not be called yet", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.resultCode = [SDLResult SUCCESS];
+                    testManager.registerResponse = response;
+                    
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
+                    
+                    expect(@(readyHandlerSuccess)).to(equal(@NO));
+                    expect(readyHandlerError).to(beNil());
+                });
+            });
+        });
 
         describe(@"transitioning to the ready state", ^{
             context(@"when the register response is a success", ^{
