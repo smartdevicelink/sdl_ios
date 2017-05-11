@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.parentID = @(parentId);
-    self.position = @(parentId);
+    self.position = @(position);
 
     return self;
 }
