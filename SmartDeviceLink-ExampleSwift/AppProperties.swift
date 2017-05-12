@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+
+struct AppConstants {
+    static let sdlAppName = "SDL Example Swift"
+    static let sdlShortAppName = "SDLSwift"
+    static let sdlAppID = "125"
+    static let ipAddress = "192.168.1.138"
+    static let port: UInt16 = 2776
+    static let unknown = "Unknown"
+    static let emptyString = ""
+    static let specialChar = "#"
+}

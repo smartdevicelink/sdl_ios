@@ -890,6 +890,8 @@
 		8BCFECAE1EC5F03500E3016B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAC1EC5F03500E3016B /* Main.storyboard */; };
 		8BCFECB01EC5F03500E3016B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAF1EC5F03500E3016B /* Assets.xcassets */; };
 		8BCFECBB1EC5F4AD00E3016B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */; };
+		8BCFECBF1EC5FEB600E3016B /* AppProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECBE1EC5FEB600E3016B /* AppProperties.swift */; };
+		8BCFECC11EC6050300E3016B /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECC01EC6050300E3016B /* ProxyManager.swift */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
 		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
@@ -1936,6 +1938,8 @@
 		8BCFECAF1EC5F03500E3016B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8BCFECB41EC5F03500E3016B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BCFECB91EC5F24000E3016B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		8BCFECBE1EC5FEB600E3016B /* AppProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppProperties.swift; sourceTree = "<group>"; };
+		8BCFECC01EC6050300E3016B /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
@@ -3793,6 +3797,8 @@
 		8BCFECBD1EC5FA5300E3016B /* SDL */ = {
 			isa = PBXGroup;
 			children = (
+				8BCFECBE1EC5FEB600E3016B /* AppProperties.swift */,
+				8BCFECC01EC6050300E3016B /* ProxyManager.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5096,7 +5102,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BCFECBF1EC5FEB600E3016B /* AppProperties.swift in Sources */,
 				8BCFECAB1EC5F03500E3016B /* ViewController.swift in Sources */,
+				8BCFECC11EC6050300E3016B /* ProxyManager.swift in Sources */,
 				8BCFECA91EC5F03500E3016B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
