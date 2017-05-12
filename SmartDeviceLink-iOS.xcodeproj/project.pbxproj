@@ -3770,15 +3770,31 @@
 		8BCFECA71EC5F03500E3016B /* ExampleSwift */ = {
 			isa = PBXGroup;
 			children = (
+				8BCFECBD1EC5FA5300E3016B /* SDL */,
 				8BCFECA81EC5F03500E3016B /* AppDelegate.swift */,
 				8BCFECAA1EC5F03500E3016B /* ViewController.swift */,
-				8BCFECAC1EC5F03500E3016B /* Main.storyboard */,
 				8BCFECAF1EC5F03500E3016B /* Assets.xcassets */,
+				8BCFECAC1EC5F03500E3016B /* Main.storyboard */,
 				8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */,
-				8BCFECB41EC5F03500E3016B /* Info.plist */,
+				8BCFECBC1EC5FA2900E3016B /* Supporting Files */,
 			);
 			name = ExampleSwift;
 			path = "SmartDeviceLink-ExampleSwift";
+			sourceTree = "<group>";
+		};
+		8BCFECBC1EC5FA2900E3016B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8BCFECB41EC5F03500E3016B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8BCFECBD1EC5FA5300E3016B /* SDL */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SDL;
 			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
@@ -4364,6 +4380,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = ACNGAAM3M7;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
