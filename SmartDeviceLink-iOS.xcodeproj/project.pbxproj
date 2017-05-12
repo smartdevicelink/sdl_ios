@@ -885,6 +885,11 @@
 		5DEE55C01B8509CB004F0D0F /* SDLURLRequestTaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		8BCFECA91EC5F03500E3016B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECA81EC5F03500E3016B /* AppDelegate.swift */; };
+		8BCFECAB1EC5F03500E3016B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECAA1EC5F03500E3016B /* ViewController.swift */; };
+		8BCFECAE1EC5F03500E3016B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAC1EC5F03500E3016B /* Main.storyboard */; };
+		8BCFECB01EC5F03500E3016B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAF1EC5F03500E3016B /* Assets.xcassets */; };
+		8BCFECBB1EC5F4AD00E3016B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
 		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
@@ -1924,6 +1929,13 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		8BCFECA61EC5F03500E3016B /* SmartDeviceLink-ExampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-ExampleSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BCFECA81EC5F03500E3016B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8BCFECAA1EC5F03500E3016B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8BCFECAD1EC5F03500E3016B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8BCFECAF1EC5F03500E3016B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8BCFECB41EC5F03500E3016B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8BCFECB91EC5F24000E3016B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
@@ -2039,6 +2051,13 @@
 				5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */,
 				5D5DBF081D48E39C00D4F914 /* FBSnapshotTestCase.framework in Frameworks */,
 				5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BCFECA31EC5F03500E3016B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2476,6 +2495,7 @@
 		5D4019A61A76EC350006B0C2 = {
 			isa = PBXGroup;
 			children = (
+				8BCFECA71EC5F03500E3016B /* ExampleSwift */,
 				5D4019B11A76EC350006B0C2 /* Example */,
 				5D61FA1D1A84237100846EE7 /* SmartDeviceLink */,
 				5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */,
@@ -2489,6 +2509,7 @@
 				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
+				8BCFECA61EC5F03500E3016B /* SmartDeviceLink-ExampleSwift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3746,6 +3767,20 @@
 			name = "HTTP Connection";
 			sourceTree = "<group>";
 		};
+		8BCFECA71EC5F03500E3016B /* ExampleSwift */ = {
+			isa = PBXGroup;
+			children = (
+				8BCFECA81EC5F03500E3016B /* AppDelegate.swift */,
+				8BCFECAA1EC5F03500E3016B /* ViewController.swift */,
+				8BCFECAC1EC5F03500E3016B /* Main.storyboard */,
+				8BCFECAF1EC5F03500E3016B /* Assets.xcassets */,
+				8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */,
+				8BCFECB41EC5F03500E3016B /* Info.plist */,
+			);
+			name = ExampleSwift;
+			path = "SmartDeviceLink-ExampleSwift";
+			sourceTree = "<group>";
+		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
 			isa = PBXGroup;
 			children = (
@@ -4280,13 +4315,30 @@
 			productReference = 5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8BCFECA51EC5F03500E3016B /* SmartDeviceLink-ExampleSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BCFECB71EC5F03500E3016B /* Build configuration list for PBXNativeTarget "SmartDeviceLink-ExampleSwift" */;
+			buildPhases = (
+				8BCFECA21EC5F03500E3016B /* Sources */,
+				8BCFECA31EC5F03500E3016B /* Frameworks */,
+				8BCFECA41EC5F03500E3016B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SmartDeviceLink-ExampleSwift";
+			productName = "SmartDeviceLink-ExampleSwift";
+			productReference = 8BCFECA61EC5F03500E3016B /* SmartDeviceLink-ExampleSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		5D4019A71A76EC350006B0C2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = smartdevicelink;
 				TargetAttributes = {
@@ -4308,6 +4360,11 @@
 						CreatedOnToolsVersion = 6.1.1;
 						LastSwiftMigration = 0820;
 					};
+					8BCFECA51EC5F03500E3016B = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = ACNGAAM3M7;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 5D4019AA1A76EC350006B0C2 /* Build configuration list for PBXProject "SmartDeviceLink-iOS" */;
@@ -4326,6 +4383,7 @@
 				5D4019AE1A76EC350006B0C2 /* SmartDeviceLink-Example */,
 				5D61FA1B1A84237100846EE7 /* SmartDeviceLink */,
 				5D61FA251A84237100846EE7 /* SmartDeviceLinkTests */,
+				8BCFECA51EC5F03500E3016B /* SmartDeviceLink-ExampleSwift */,
 			);
 		};
 /* End PBXProject section */
@@ -4383,6 +4441,16 @@
 				5D9F507B1BE7DD4C00FEF399 /* testImageJPG.jpg in Resources */,
 				5D9F507C1BE7DD4C00FEF399 /* testImagePNG.png in Resources */,
 				5D616B461D552F7A00553F6B /* SDLLockScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BCFECA41EC5F03500E3016B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BCFECB01EC5F03500E3016B /* Assets.xcassets in Resources */,
+				8BCFECBB1EC5F4AD00E3016B /* LaunchScreen.xib in Resources */,
+				8BCFECAE1EC5F03500E3016B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5003,6 +5071,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8BCFECA21EC5F03500E3016B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BCFECAB1EC5F03500E3016B /* ViewController.swift in Sources */,
+				8BCFECA91EC5F03500E3016B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -5069,6 +5146,22 @@
 			);
 			name = SDLLockScreen.storyboard;
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		8BCFECAC1EC5F03500E3016B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BCFECAD1EC5F03500E3016B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BCFECB91EC5F24000E3016B /* Base */,
+			);
+			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -5324,6 +5417,45 @@
 			};
 			name = Release;
 		};
+		8BCFECB51EC5F03500E3016B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
+				INFOPLIST_FILE = "SmartDeviceLink-ExampleSwift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.livio.SmartDeviceLink-ExampleSwift";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		8BCFECB61EC5F03500E3016B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
+				INFOPLIST_FILE = "SmartDeviceLink-ExampleSwift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.livio.SmartDeviceLink-ExampleSwift";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5362,6 +5494,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		8BCFECB71EC5F03500E3016B /* Build configuration list for PBXNativeTarget "SmartDeviceLink-ExampleSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BCFECB51EC5F03500E3016B /* Debug */,
+				8BCFECB61EC5F03500E3016B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
