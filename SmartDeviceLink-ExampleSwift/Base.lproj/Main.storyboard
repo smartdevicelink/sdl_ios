@@ -49,8 +49,14 @@
                                 <segment title="TCP Debug"/>
                                 <segment title="iAP"/>
                             </segments>
+                            <connections>
+                                <action selector="indexChanged:" destination="cXb-Co-0MA" eventType="valueChanged" id="qKF-Zy-JI9"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="RYa-fE-Qek" id="RJV-t1-Ruz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETn-uq-A6g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
