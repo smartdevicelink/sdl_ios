@@ -18,9 +18,10 @@ class ConnectionContainerViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.navigationBar.isTranslucent = false
-        // Setup the child VCs
+        // Create object of storyboards
         let tcpControllerStoryboard = UIStoryboard(name: "ConnectionTCPTableViewController", bundle: nil)
         let iapControllerStoryboard = UIStoryboard(name: "ConnectionIAPTableViewController", bundle: nil)
+        // Create object of viewController
         let tcpController = tcpControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionTCPTableViewController")
         let iapController = iapControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionIAPTableViewController")
         // Add view controllers to array
@@ -42,13 +43,11 @@ class ConnectionContainerViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex
         {
         case 0:
-            print("TCP Selected")
             // Remove other VC from view
             removeFromView()
             // Load up the VC we want
             loadChildViewController(index: 0)
         case 1:
-            print("iAP Selected")
             // Remove other VC from view
             removeFromView()
             // Load up the VC we want
