@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ConnectionContainerViewController.swift
 //  SmartDeviceLink-ExampleSwift
 //
 //  Created by Brett McIsaac on 5/12/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ConnectionContainerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
