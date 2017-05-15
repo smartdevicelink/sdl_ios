@@ -8,9 +8,10 @@
 
 import UIKit
 
-class ConnectionIAPTableViewController: UIViewController {
+class ConnectionIAPTableViewController: UITableViewController {
     
-    
+    @IBOutlet weak var connectTableViewCell: UITableViewCell!
+    @IBOutlet weak var connectButton: UIButton!
     
     
 }

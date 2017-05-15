@@ -13,7 +13,7 @@
         <!--ConnectionIAP Table View Controller-->
         <scene sceneID="kGx-OZ-JDF">
             <objects>
-                <tableViewController storyboardIdentifier="ConnectionIAPTableViewController" id="J12-ul-Tx1" customClass="ConnectionIAPTableViewController" customModule="SmartDeviceLink_ExampleSwift" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ConnectionIAPTableViewController" id="J12-ul-Tx1" customClass="ConnectionIAPTableViewController" customModule="SmartDeviceLink_ExampleSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="MzB-GZ-Ook">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -51,8 +51,8 @@
                             </tableViewSection>
                         </sections>
                         <connections>
-                            <outlet property="dataSource" destination="J12-ul-Tx1" id="l6L-3i-WxG"/>
-                            <outlet property="delegate" destination="J12-ul-Tx1" id="b7F-oB-vbR"/>
+                            <outlet property="dataSource" destination="J12-ul-Tx1" id="kTG-wP-6Fl"/>
+                            <outlet property="delegate" destination="J12-ul-Tx1" id="gKA-WB-R0A"/>
                         </connections>
                     </tableView>
                     <connections>

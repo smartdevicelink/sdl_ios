@@ -8,9 +8,12 @@
 
 import UIKit
 
-class ConnectionTCPTableViewController: UIViewController {
+class ConnectionTCPTableViewController: UITableViewController {
     
-    
+    @IBOutlet weak var ipAddressTextField: UITextField!
+    @IBOutlet weak var portTextField: UITextField!
+    @IBOutlet weak var connectTableViewCell: UITableViewCell!
+    @IBOutlet weak var connectButton: UIButton!
     
     
 }
