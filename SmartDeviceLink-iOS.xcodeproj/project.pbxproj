@@ -892,6 +892,8 @@
 		8BCFECBB1EC5F4AD00E3016B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */; };
 		8BCFECC11EC6050300E3016B /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECC01EC6050300E3016B /* ProxyManager.swift */; };
 		8BF86B031EC9ED670022A9FA /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF86B021EC9ED670022A9FA /* Preferences.swift */; };
+		8BF9BFD81EC9FD72004C4867 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BF9BFD41EC9FD72004C4867 /* ConnectionIAPTableViewController.storyboard */; };
+		8BF9BFD91EC9FD72004C4867 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BF9BFD61EC9FD72004C4867 /* ConnectionTCPTableViewController.storyboard */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
 		DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */; };
 		DA4353E91D2721680099B8C4 /* DispatchTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */; };
@@ -1941,6 +1943,8 @@
 		8BCFECC01EC6050300E3016B /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
 		8BF86B011EC9ED670022A9FA /* SmartDeviceLink-Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartDeviceLink-Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		8BF86B021EC9ED670022A9FA /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		8BF9BFD51EC9FD72004C4867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = "<group>"; };
+		8BF9BFD71EC9FD72004C4867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ConnectionTCPTableViewController.storyboard; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
 		DA4353E21D2720A30099B8C4 /* SDLPinchGestureSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPinchGestureSpec.m; path = UtilitiesSpecs/Touches/SDLPinchGestureSpec.m; sourceTree = "<group>"; };
 		DA4353E61D2721680099B8C4 /* DispatchTimerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DispatchTimerSpec.m; path = UtilitiesSpecs/Touches/DispatchTimerSpec.m; sourceTree = "<group>"; };
@@ -3816,9 +3820,19 @@
 		8BF9BFD21EC9FA7A004C4867 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				8BF9BFD31EC9FD3B004C4867 /* Storyboards */,
 				8BCFECAA1EC5F03500E3016B /* ConnectionContainerViewController.swift */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		8BF9BFD31EC9FD3B004C4867 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8BF9BFD41EC9FD72004C4867 /* ConnectionIAPTableViewController.storyboard */,
+				8BF9BFD61EC9FD72004C4867 /* ConnectionTCPTableViewController.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
@@ -4441,9 +4455,11 @@
 			files = (
 				5D0218F91A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */,
+				8BF9BFD91EC9FD72004C4867 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */,
 				5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */,
 				5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */,
+				8BF9BFD81EC9FD72004C4867 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5210,6 +5226,22 @@
 				8BCFECB91EC5F24000E3016B /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		8BF9BFD41EC9FD72004C4867 /* ConnectionIAPTableViewController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BF9BFD51EC9FD72004C4867 /* Base */,
+			);
+			name = ConnectionIAPTableViewController.storyboard;
+			sourceTree = "<group>";
+		};
+		8BF9BFD61EC9FD72004C4867 /* ConnectionTCPTableViewController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BF9BFD71EC9FD72004C4867 /* Base */,
+			);
+			name = ConnectionTCPTableViewController.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

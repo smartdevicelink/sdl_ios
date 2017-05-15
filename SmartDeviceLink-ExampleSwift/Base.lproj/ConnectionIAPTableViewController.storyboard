@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="J12-ul-Tx1">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--ConnectionIAP Table View Controller-->
+        <scene sceneID="kGx-OZ-JDF">
+            <objects>
+                <tableViewController id="J12-ul-Tx1" customClass="ConnectionIAPTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="MzB-GZ-Ook">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <sections>
+                            <tableViewSection id="Qz3-D9-j37">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2sd-U1-9xV">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2sd-U1-9xV" id="EhZ-2E-WQ5">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rjq-vZ-OjB">
+                                                    <rect key="frame" x="8" y="0.0" width="359" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                    <state key="normal" title="Connect">
+                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="connectButtonWasPressed:" destination="J12-ul-Tx1" eventType="touchUpInside" id="95T-fc-kXs"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="rjq-vZ-OjB" firstAttribute="top" secondItem="EhZ-2E-WQ5" secondAttribute="top" id="8GY-v0-41a"/>
+                                                <constraint firstAttribute="bottom" secondItem="rjq-vZ-OjB" secondAttribute="bottom" id="FKB-JG-o5G"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="rjq-vZ-OjB" secondAttribute="trailing" id="ISQ-6b-S34"/>
+                                                <constraint firstItem="rjq-vZ-OjB" firstAttribute="leading" secondItem="EhZ-2E-WQ5" secondAttribute="leadingMargin" id="PiJ-h3-NOR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="J12-ul-Tx1" id="l6L-3i-WxG"/>
+                            <outlet property="delegate" destination="J12-ul-Tx1" id="b7F-oB-vbR"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="connectButton" destination="rjq-vZ-OjB" id="Sz8-r7-ddN"/>
+                        <outlet property="connectTableViewCell" destination="2sd-U1-9xV" id="UME-sB-vsD"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N5a-E0-fOt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="898" y="630"/>
+        </scene>
+    </scenes>
+</document>
