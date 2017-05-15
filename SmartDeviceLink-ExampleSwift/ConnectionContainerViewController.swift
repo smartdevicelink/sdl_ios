@@ -23,12 +23,13 @@ class ConnectionContainerViewController: UIViewController {
         let iapControllerStoryboard = UIStoryboard(name: "ConnectionIAPTableViewController", bundle: nil)
         let tcpController = tcpControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionTCPTableViewController")
         let iapController = iapControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionIAPTableViewController")
-        
+        // Add view controllers to array
         viewControllers.add(tcpController)
         viewControllers.add(iapController)
+        // set segmentedControl to left value (TCP)
         segmentedControl.selectedSegmentIndex = 0
-        
-        loadInitialChildViewController()
+        // Call the to add initial VC as SubView
+        loadChildViewController(index: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,26 +37,39 @@ class ConnectionContainerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Listen for changes in segmentedControl
     @IBAction func indexChanged(_ sender: AnyObject) {
         switch segmentedControl.selectedSegmentIndex
         {
         case 0:
-            print("Case 0")
+            print("TCP Selected")
+            // Remove other VC from view
+            removeFromView()
+            // Load up the VC we want
+            loadChildViewController(index: 0)
         case 1:
-            print("Case 1")
+            print("iAP Selected")
+            // Remove other VC from view
+            removeFromView()
+            // Load up the VC we want
+            loadChildViewController(index: 1)
         default:
             break
         }
     }
     
-    func loadInitialChildViewController() {
-        // On the initial load, we just add the new child VC with no animation
-        let initialViewController: UIViewController = viewControllers[0] as! UIViewController
+    func removeFromView(){
+        let vc = self.childViewControllers.last
+        vc?.view.removeFromSuperview()
+        vc?.removeFromParentViewController()
+    }
+    
+    func loadChildViewController(index: Int?) {
+        let initialViewController: UIViewController = viewControllers[index!] as! UIViewController
         self.addChildViewController(initialViewController)
         view.addSubview(initialViewController.view)
         initialViewController.didMove(toParentViewController: self)
     }
-
 
 }
 
