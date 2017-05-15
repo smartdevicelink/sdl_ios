@@ -891,7 +891,6 @@
 		8BCFECB01EC5F03500E3016B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAF1EC5F03500E3016B /* Assets.xcassets */; };
 		8BCFECBB1EC5F4AD00E3016B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECB81EC5F24000E3016B /* LaunchScreen.xib */; };
 		8BCFECC11EC6050300E3016B /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECC01EC6050300E3016B /* ProxyManager.swift */; };
-		8BF86B031EC9ED670022A9FA /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF86B021EC9ED670022A9FA /* Preferences.swift */; };
 		8BF9BFDD1ECA0262004C4867 /* ConnectionTCPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9BFDC1ECA0262004C4867 /* ConnectionTCPTableViewController.swift */; };
 		8BF9BFDF1ECA027A004C4867 /* ConnectionIAPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF9BFDE1ECA027A004C4867 /* ConnectionIAPTableViewController.swift */; };
 		8BF9BFE01ECA0416004C4867 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BF9BFD41EC9FD72004C4867 /* ConnectionIAPTableViewController.storyboard */; };
@@ -1944,7 +1943,6 @@
 		8BCFECB91EC5F24000E3016B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8BCFECC01EC6050300E3016B /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
 		8BF86B011EC9ED670022A9FA /* SmartDeviceLink-Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartDeviceLink-Example-Bridging-Header.h"; sourceTree = "<group>"; };
-		8BF86B021EC9ED670022A9FA /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		8BF9BFD51EC9FD72004C4867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = "<group>"; };
 		8BF9BFD71EC9FD72004C4867 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ConnectionTCPTableViewController.storyboard; sourceTree = "<group>"; };
 		8BF9BFDC1ECA0262004C4867 /* ConnectionTCPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionTCPTableViewController.swift; sourceTree = "<group>"; };
@@ -3784,7 +3782,6 @@
 			isa = PBXGroup;
 			children = (
 				8BF9BFD21EC9FA7A004C4867 /* UI */,
-				8BF86B001EC9EC500022A9FA /* Utilities */,
 				8BCFECBD1EC5FA5300E3016B /* SDL */,
 				8BCFECA81EC5F03500E3016B /* AppDelegate.swift */,
 				8BCFECAF1EC5F03500E3016B /* Assets.xcassets */,
@@ -3811,14 +3808,6 @@
 				8BCFECC01EC6050300E3016B /* ProxyManager.swift */,
 			);
 			name = SDL;
-			sourceTree = "<group>";
-		};
-		8BF86B001EC9EC500022A9FA /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				8BF86B021EC9ED670022A9FA /* Preferences.swift */,
-			);
-			name = Utilities;
 			sourceTree = "<group>";
 		};
 		8BF9BFD21EC9FA7A004C4867 /* UI */ = {
@@ -4531,7 +4520,6 @@
 			files = (
 				5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */,
 				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
-				8BF86B031EC9ED670022A9FA /* Preferences.swift in Sources */,
 				5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */,
 				5D48329D1A8EA33D00252386 /* Preferences.m in Sources */,
 				5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */,
@@ -5450,7 +5438,6 @@
 		5D61FA391A84237100846EE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -5486,7 +5473,6 @@
 		5D61FA3A1A84237100846EE7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
