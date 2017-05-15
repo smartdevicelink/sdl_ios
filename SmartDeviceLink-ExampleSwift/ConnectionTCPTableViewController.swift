@@ -2,7 +2,7 @@
 //  ConnectionTCPTableViewController.swift
 //  SmartDeviceLink-ExampleSwift
 //
-//  Created by Brett McIsaac on 5/15/17.
+//  Created by Bretty White on 5/15/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
@@ -22,9 +22,31 @@ class ConnectionTCPTableViewController: UITableViewController, UIImagePickerCont
         tableView.keyboardDismissMode = .onDrag
         ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
         portTextField.text = UserDefaults.standard.string(forKey: "port")
-        // Connect Button setup
-        connectButton.tintColor = UIColor.white
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
+    // MARK: - IBActions
+    @IBAction func connectButtonWasPressed(_ sender: UIButton) {
+
+    }
+    
+    // MARK: - Table view delegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section != 0 {
+            return
+        }
+        switch indexPath.row {
+        case 0:
+            ipAddressTextField.becomeFirstResponder()
+        case 1:
+            portTextField.becomeFirstResponder()
+        default:
+            break
+        }
+        
+    }
 }
