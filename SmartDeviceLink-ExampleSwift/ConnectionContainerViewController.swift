@@ -57,6 +57,7 @@ class ConnectionContainerViewController: UIViewController {
         }
     }
     
+    // Mark: - View functions
     func removeFromView(){
         let vc = self.childViewControllers.last
         vc?.view.removeFromSuperview()

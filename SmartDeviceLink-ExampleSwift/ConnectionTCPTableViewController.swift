@@ -35,6 +35,12 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         // Dispose of any resources that can be recreated.
     }
     
+    func initButton(){
+        self.connectTableViewCell.backgroundColor = UIColor.red
+        self.connectButton.setTitle("Connect", for: .normal)
+        self.connectButton.setTitleColor(.white, for: .normal)
+    }
+    
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
         
@@ -49,7 +55,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             // Initialize (or reset) the SDL manager
             switch state {
             case ProxyState.ProxyStateStopped:
-                ProxyManager.sharedManager.connectTCP()
+                ProxyManager.sharedManager.startTCP()
             case ProxyState.ProxyStateSearchingForConnection:
                 ProxyManager.sharedManager.reset()
             case ProxyState.ProxyStateConnected:
@@ -62,11 +68,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             self.present(alertMessage, animated: true, completion: nil)
         }
     }
-    func initButton(){
-        self.connectTableViewCell.backgroundColor = UIColor.red
-        self.connectButton.setTitle("Connect", for: .normal)
-        self.connectButton.setTitleColor(.white, for: .normal)
-    }
+
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState){
         // Updates state from ProxyManager

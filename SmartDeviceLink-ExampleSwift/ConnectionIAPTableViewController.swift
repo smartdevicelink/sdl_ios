@@ -28,24 +28,26 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    func initButton(){
+        self.connectTableViewCell.backgroundColor = UIColor.red
+        self.connectButton.setTitle("Connect", for: .normal)
+        self.connectButton.setTitleColor(.white, for: .normal)
+    }
+    
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
         
         // Initialize (or reset) the SDL manager
         switch state {
         case ProxyState.ProxyStateStopped:
-            ProxyManager.sharedManager.connectIAP()
+            ProxyManager.sharedManager.startIAP()
         case ProxyState.ProxyStateSearchingForConnection:
             ProxyManager.sharedManager.reset()
         case ProxyState.ProxyStateConnected:
             ProxyManager.sharedManager.reset()
         }
     }
-    func initButton(){
-        self.connectTableViewCell.backgroundColor = UIColor.red
-        self.connectButton.setTitle("Connect", for: .normal)
-        self.connectButton.setTitleColor(.white, for: .normal)
-    }
+
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState){
         // Updates state from ProxyManager

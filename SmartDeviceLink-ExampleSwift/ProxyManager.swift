@@ -15,13 +15,6 @@ enum ProxyState : Int {
     case ProxyStateConnected
 }
 
-let appName = "SDL Example Swift"
-let shortAppName = "SDLSwift"
-let appId = "9998"
-var defaultIP = "192.168.1.59"
-var defaultPort: UInt16 = 12345
-let PointingSoftButtonArtworkName: String = "PointingSoftButtonIcon"
-let MainGraphicArtworkName: String = "MainArtwork"
 weak var delegate:ProxyManagerDelegate?
 
 protocol ProxyManagerDelegate: class {
@@ -31,7 +24,7 @@ protocol ProxyManagerDelegate: class {
 class ProxyManager: NSObject {
     
     // Proxy Manager
-    var sdlManager: SDLManager?
+    fileprivate var sdlManager: SDLManager!
     var state = ProxyState(rawValue: 0)!
 
     // Singleton
@@ -40,62 +33,65 @@ class ProxyManager: NSObject {
         super.init()
     }
     
-    func connectTCP() {
+    // MARK: - SDL Setup
+     func startIAP() {
         delegate?.didChangeProxyState(ProxyState.ProxyStateSearchingForConnection)
-        // Used for TCP/IP Connection
-        defaultIP = UserDefaults.standard.string(forKey: "ipAddress")!
-        defaultPort = UInt16(UserDefaults.standard.string(forKey: "port")!)!
-        
-        let lifecycleConfiguration = SDLLifecycleConfiguration.debugConfiguration(withAppName: appName, appId: appId, ipAddress: defaultIP, port: defaultPort)
-        
-        // App icon image
-        if let appImage = UIImage(named: MainGraphicArtworkName) {
-            let appIcon = SDLArtwork.persistentArtwork(with: appImage, name: MainGraphicArtworkName, as: .JPG /* or .PNG */)
-            lifecycleConfiguration.appIcon = appIcon
-        }
-        
-        lifecycleConfiguration.shortAppName = shortAppName
-        lifecycleConfiguration.appType = .media()
-        
-        let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled())
-        
-        sdlManager = SDLManager(configuration: configuration, delegate: nil)
-        sdlManager?.delegate = self
-        // Start watching for a connection with a SDL Core
-        sdlManager?.start { (success, error) in
-            if success {
-                // Your app has successfully connected with the SDL Core
-                delegate?.didChangeProxyState(ProxyState.ProxyStateConnected)
-            }
-        }
+        let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.defaultConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
+        startSDLManager(lifecycleConfiguration)
     }
     
-    func connectIAP() {
+     func startTCP() {
         delegate?.didChangeProxyState(ProxyState.ProxyStateSearchingForConnection)
-        // Used for USB Connection
-        let lifecycleConfiguration = SDLLifecycleConfiguration.defaultConfiguration(withAppName: appName, appId: appId)
-        // App icon image
-        if let appImage = UIImage(named: MainGraphicArtworkName) {
-            let appIcon = SDLArtwork.persistentArtwork(with: appImage, name: MainGraphicArtworkName, as: .JPG /* or .PNG */)
-            lifecycleConfiguration.appIcon = appIcon
-        }
-        
-        lifecycleConfiguration.shortAppName = shortAppName
-        lifecycleConfiguration.appType = .media()
-        
-        let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled())
-        
-        sdlManager = SDLManager(configuration: configuration, delegate: nil)
-        sdlManager?.delegate = self
-        // Start watching for a connection with a SDL Core
-        sdlManager?.start { (success, error) in
-            if success {
-                // Your app has successfully connected with the SDL Core
-                delegate?.didChangeProxyState(ProxyState.ProxyStateConnected)
-            }
-        }
+        let defaultIP = UserDefaults.standard.string(forKey: "ipAddress")!
+        let defaultPort = UInt16(UserDefaults.standard.string(forKey: "port")!)!
+        let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.debugConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID, ipAddress: defaultIP, port: defaultPort))
+        startSDLManager(lifecycleConfiguration)
     }
     
+    private func startSDLManager(_ lifecycleConfiguration: SDLLifecycleConfiguration) {
+        // Configure the proxy handling RPC calls between the SDL Core and the app
+        let appIcon = UIImage(named: "AppIcon60x60")
+        let configuration: SDLConfiguration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil))
+        self.sdlManager = SDLManager(configuration: configuration, delegate: self)
+        
+        // Start watching for a connection with a SDL Core
+        self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
+            if success {
+                // Get ready here
+                print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
+            }
+            
+            if let error = error {
+                print("Error starting SDL: \(error)")
+            }
+        })
+    }
+    
+    private func setLifecycleConfigurationPropertiesOnConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
+        configuration.shortAppName = AppConstants.sdlShortAppName
+        configuration.appType = SDLAppHMIType.media()
+        let appIcon = UIImage(named: "AppIcon60x60")
+        configuration.appIcon = SDLArtwork.persistentArtwork(with: appIcon!, name: "AppIcon", as: .PNG)
+        
+        return configuration
+    }
+    
+    func send(request: SDLRPCRequest, responseHandler: SDLResponseHandler? = nil) {
+        guard sdlManager.hmiLevel != .none() else {
+            return
+        }
+        
+        sdlManager.send(request, withResponseHandler: responseHandler)
+    }
+    
+    func forceSend(request: SDLRPCRequest, responseHandler: SDLResponseHandler? = nil) {
+        sdlManager.send(request, withResponseHandler: responseHandler)
+    }
+    
+    func hasUploadedFile(name: String) -> Bool {
+        return sdlManager.fileManager.remoteFileNames.contains(name)
+    }
+
     func reset() {
         delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
         sdlManager?.stop()

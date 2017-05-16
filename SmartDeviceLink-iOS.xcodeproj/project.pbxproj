@@ -887,6 +887,7 @@
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		8B5180BE1ECB77890003C3EB /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
 		8B5180BF1ECB77890003C3EB /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8B5180C41ECB80000003C3EB /* AppProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5180C31ECB80000003C3EB /* AppProperties.swift */; };
 		8BCFECA91EC5F03500E3016B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECA81EC5F03500E3016B /* AppDelegate.swift */; };
 		8BCFECAB1EC5F03500E3016B /* ConnectionContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECAA1EC5F03500E3016B /* ConnectionContainerViewController.swift */; };
 		8BCFECAE1EC5F03500E3016B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAC1EC5F03500E3016B /* Main.storyboard */; };
@@ -1954,6 +1955,7 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		8B5180C31ECB80000003C3EB /* AppProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppProperties.swift; sourceTree = "<group>"; };
 		8BCFECA61EC5F03500E3016B /* SmartDeviceLink-ExampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SmartDeviceLink-ExampleSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BCFECA81EC5F03500E3016B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8BCFECAA1EC5F03500E3016B /* ConnectionContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionContainerViewController.swift; sourceTree = "<group>"; };
@@ -3802,8 +3804,8 @@
 		8BCFECA71EC5F03500E3016B /* ExampleSwift */ = {
 			isa = PBXGroup;
 			children = (
-				8BF9BFD21EC9FA7A004C4867 /* UI */,
 				8BCFECBD1EC5FA5300E3016B /* SDL */,
+				8BF9BFD21EC9FA7A004C4867 /* UI */,
 				8BCFECA81EC5F03500E3016B /* AppDelegate.swift */,
 				8BCFECAF1EC5F03500E3016B /* Assets.xcassets */,
 				8BCFECAC1EC5F03500E3016B /* Main.storyboard */,
@@ -3827,6 +3829,7 @@
 			isa = PBXGroup;
 			children = (
 				8BCFECC01EC6050300E3016B /* ProxyManager.swift */,
+				8B5180C31ECB80000003C3EB /* AppProperties.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5157,6 +5160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B5180C41ECB80000003C3EB /* AppProperties.swift in Sources */,
 				8BCFECAB1EC5F03500E3016B /* ConnectionContainerViewController.swift in Sources */,
 				8BCFECC11EC6050300E3016B /* ProxyManager.swift in Sources */,
 				8BF9BFDF1ECA027A004C4867 /* ConnectionIAPTableViewController.swift in Sources */,
