@@ -212,7 +212,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
     // Still need to remove from run loop.
     
-    NSAssert((self.isDataSession && [[NSThread currentThread] isEqual:self.ioStreamThread]) || [NSThread isMainThread], @"startStream is being called on the wrong thread!!!");
+    NSAssert((self.isDataSession && [[NSThread currentThread] isEqual:self.ioStreamThread]) || [NSThread isMainThread], @"stopStream is being called on the wrong thread!!!");
 
     NSUInteger status1 = stream.streamStatus;
     if (status1 != NSStreamStatusNotOpen &&

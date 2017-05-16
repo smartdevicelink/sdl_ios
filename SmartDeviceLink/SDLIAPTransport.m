@@ -172,9 +172,7 @@ int const streamOpenTimeoutSeconds = 2;
         // We should be attempting to connect
         self.retryCounter++;
         EAAccessory *sdlAccessory = accessory;
-        // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification
-        // will contain the SDL accessory to connect to and we can connect without searching the
-        // accessory manager's connected accessory list. Otherwise, we fall through to a search.
+        // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
         if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]){
             // Connection underway, exit
             return;
