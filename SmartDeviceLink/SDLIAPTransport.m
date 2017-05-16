@@ -33,24 +33,22 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 @property (assign) int retryCounter;
-@property (nonatomic, assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (assign) BOOL sessionSetupInProgress;
 
 @end
 
 
 @implementation SDLIAPTransport
 
-@synthesize sessionSetupInProgress = _sessionSetupInProgress;
-
 - (instancetype)init {
     if (self = [super init]) {
         _alreadyDestructed = NO;
+        _sessionSetupInProgress = NO;
         _session = nil;
         _controlSession = nil;
         _retryCounter = 0;
-        _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
         _transmit_queue = dispatch_queue_create("com.sdl.transport.iap.transmit", DISPATCH_QUEUE_SERIAL);
         _backgroundTaskId = UIBackgroundTaskInvalid;
@@ -106,20 +104,6 @@ int const streamOpenTimeoutSeconds = 2;
     
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
     self.backgroundTaskId = UIBackgroundTaskInvalid;
-}
-
-#pragma mark session setup getter/setter
-
-- (void)setSessionSetupInProgress:(BOOL)inProgress{
-    _sessionSetupInProgress = inProgress;
-    if (!inProgress){
-        // End the background task here to catch all cases
-        [self sdl_backgroundTaskEnd];
-    }
-}
-
-- (BOOL)sessionSetupInProgress{
-    return _sessionSetupInProgress;
 }
 
 #pragma mark - EAAccessory Notifications
