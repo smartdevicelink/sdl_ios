@@ -26,8 +26,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         tableView.keyboardDismissMode = .onDrag
         ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
         portTextField.text = UserDefaults.standard.string(forKey: "port")
-        // Connect Button setup
-        connectButton.setTitleColor(.black, for: .normal)
+        // Button setup
+        initButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +61,11 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertMessage, animated: true, completion: nil)
         }
+    }
+    func initButton(){
+        self.connectTableViewCell.backgroundColor = UIColor.red
+        self.connectButton.setTitle("Connect", for: .normal)
+        self.connectButton.setTitleColor(.white, for: .normal)
     }
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState){

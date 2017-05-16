@@ -17,7 +17,10 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Set delegate to self
+        delegate = self
+        // Button setup
+        initButton()
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,7 +41,11 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
             ProxyManager.sharedManager.reset()
         }
     }
-    
+    func initButton(){
+        self.connectTableViewCell.backgroundColor = UIColor.red
+        self.connectButton.setTitle("Connect", for: .normal)
+        self.connectButton.setTitleColor(.white, for: .normal)
+    }
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState){
         // Updates state from ProxyManager
