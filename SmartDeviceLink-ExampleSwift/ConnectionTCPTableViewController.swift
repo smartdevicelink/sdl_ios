@@ -15,6 +15,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     @IBOutlet weak var portTextField: UITextField!
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var connectButton: UIButton!
+    
+    var state: ProxyState = ProxyState.ProxyStateStopped
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +26,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         tableView.keyboardDismissMode = .onDrag
         ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
         portTextField.text = UserDefaults.standard.string(forKey: "port")
+        // Connect Button setup
+        connectButton.setTitleColor(.black, for: .normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,10 +46,15 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             UserDefaults.standard.set(ipAddress, forKey: "ipAddress")
             UserDefaults.standard.set(port, forKey: "port")
             
-            // Initialize the SDL manager
-            _ = ProxyManager.sharedManager.connectTCP()
-            
-            
+            // Initialize (or reset) the SDL manager
+            switch state {
+            case ProxyState.ProxyStateStopped:
+                ProxyManager.sharedManager.connectTCP()
+            case ProxyState.ProxyStateSearchingForConnection:
+                ProxyManager.sharedManager.reset()
+            case ProxyState.ProxyStateConnected:
+                ProxyManager.sharedManager.reset()
+            }
         }else{
             // Alert the user to put something in
             let alertMessage = UIAlertController(title: "Missing Info!", message: "Make sure to set your IP Address and Port", preferredStyle: .alert)
@@ -55,7 +64,30 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     }
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState){
-        print("UPDATE PROXY STATE CALLED \(newState)")
+        // Updates state from ProxyManager
+        state = newState
+        var newColor: UIColor? = nil
+        var newTitle: String? = nil
+
+        switch newState {
+        case .ProxyStateStopped:
+            newColor = UIColor.red
+            newTitle = "Connect"
+        case .ProxyStateSearchingForConnection:
+            newColor = UIColor.blue
+            newTitle = "Stop Searching"
+        case .ProxyStateConnected:
+            newColor = UIColor.green
+            newTitle = "Disconnect"
+        }
+        
+        if (newColor != nil) || (newTitle != nil) {
+            DispatchQueue.main.async(execute: {() -> Void in
+                self.connectTableViewCell.backgroundColor = newColor
+                self.connectButton.setTitle(newTitle, for: .normal)
+                self.connectButton.setTitleColor(.white, for: .normal)
+            })
+        }
     }
     
 }

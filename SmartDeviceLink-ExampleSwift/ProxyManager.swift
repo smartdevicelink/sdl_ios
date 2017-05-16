@@ -96,14 +96,10 @@ class ProxyManager: NSObject {
         }
     }
     
-    func sdlex_updateProxyState(_ newState: ProxyState) {
-        if state != newState {
-            willChangeValue(forKey: "state")
-            state = newState
-            didChangeValue(forKey: "state")
-        }
+    func reset() {
+        delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
+        sdlManager?.stop()
     }
-
 }
 
 //MARK: SDLManagerDelegate
