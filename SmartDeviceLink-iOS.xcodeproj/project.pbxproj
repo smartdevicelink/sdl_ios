@@ -885,6 +885,8 @@
 		5DEE55C01B8509CB004F0D0F /* SDLURLRequestTaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		8B5180BE1ECB77890003C3EB /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; };
+		8B5180BF1ECB77890003C3EB /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8BCFECA91EC5F03500E3016B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECA81EC5F03500E3016B /* AppDelegate.swift */; };
 		8BCFECAB1EC5F03500E3016B /* ConnectionContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFECAA1EC5F03500E3016B /* ConnectionContainerViewController.swift */; };
 		8BCFECAE1EC5F03500E3016B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BCFECAC1EC5F03500E3016B /* Main.storyboard */; };
@@ -1006,6 +1008,13 @@
 			remoteGlobalIDString = 5D61FA1B1A84237100846EE7;
 			remoteInfo = SmartDeviceLink;
 		};
+		8B5180C01ECB77890003C3EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D4019A71A76EC350006B0C2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D61FA1B1A84237100846EE7;
+			remoteInfo = SmartDeviceLink;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1033,6 +1042,17 @@
 				5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */,
 				5D5DBF091D48E3AC00D4F914 /* FBSnapshotTestCase.framework in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B5180C21ECB77890003C3EB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8B5180BF1ECB77890003C3EB /* SmartDeviceLink.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -2069,6 +2089,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B5180BE1ECB77890003C3EB /* SmartDeviceLink.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4371,10 +4392,12 @@
 				8BCFECA21EC5F03500E3016B /* Sources */,
 				8BCFECA31EC5F03500E3016B /* Frameworks */,
 				8BCFECA41EC5F03500E3016B /* Resources */,
+				8B5180C21ECB77890003C3EB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8B5180C11ECB77890003C3EB /* PBXTargetDependency */,
 			);
 			name = "SmartDeviceLink-ExampleSwift";
 			productName = "SmartDeviceLink-ExampleSwift";
@@ -4393,6 +4416,7 @@
 				TargetAttributes = {
 					5D4019AE1A76EC350006B0C2 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = ACNGAAM3M7;
 						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -4405,6 +4429,7 @@
 					};
 					5D61FA1B1A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = ACNGAAM3M7;
 					};
 					5D61FA251A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -5158,6 +5183,11 @@
 			target = 5D61FA1B1A84237100846EE7 /* SmartDeviceLink */;
 			targetProxy = 5D61FA311A84237100846EE7 /* PBXContainerItemProxy */;
 		};
+		8B5180C11ECB77890003C3EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5D61FA1B1A84237100846EE7 /* SmartDeviceLink */;
+			targetProxy = 8B5180C01ECB77890003C3EB /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -5337,7 +5367,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				INFOPLIST_FILE = "$(SRCROOT)/SmartDeviceLink_Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -5355,7 +5385,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				INFOPLIST_FILE = "$(SRCROOT)/SmartDeviceLink_Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -5379,6 +5409,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -5416,6 +5447,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -5510,7 +5542,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				INFOPLIST_FILE = "SmartDeviceLink-ExampleSwift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.livio.SmartDeviceLink-ExampleSwift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5532,7 +5564,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = ACNGAAM3M7;
 				INFOPLIST_FILE = "SmartDeviceLink-ExampleSwift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.livio.SmartDeviceLink-ExampleSwift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
