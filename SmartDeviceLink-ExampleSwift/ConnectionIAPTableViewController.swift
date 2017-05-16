@@ -23,5 +23,11 @@ class ConnectionIAPTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - IBActions
+    @IBAction func connectButtonWasPressed(_ sender: UIButton) {
+        // Initialize the SDL manager
+        _ = ProxyManager.sharedManager.connectIAP()
+    }
+    
     
 }

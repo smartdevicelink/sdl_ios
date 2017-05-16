@@ -38,7 +38,7 @@ class ConnectionContainerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // Listen for changes in segmentedControl
+    // Grab changes in segmentedControl
     @IBAction func indexChanged(_ sender: AnyObject) {
         switch segmentedControl.selectedSegmentIndex
         {

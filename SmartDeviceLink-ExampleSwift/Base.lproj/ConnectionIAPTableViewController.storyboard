@@ -35,7 +35,7 @@
                                                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="connectButtonWasPressed:" destination="J12-ul-Tx1" eventType="touchUpInside" id="95T-fc-kXs"/>
+                                                        <action selector="connectButtonWasPressed:" destination="J12-ul-Tx1" eventType="touchUpInside" id="OEM-Ca-Pms"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
