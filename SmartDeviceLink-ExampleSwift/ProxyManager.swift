@@ -9,6 +9,18 @@
 import Foundation
 import SmartDeviceLink
 
+enum SDLHMIFirstState : Int {
+    case SDLHMIFirstStateNone
+    case SDLHMIFirstStateNonNone
+    case SDLHMIFirstStateFull
+}
+
+enum SDLHMIInitialShowState : Int {
+    case SDLHMIInitialShowStateNone
+    case SDLHMIInitialShowStateDataAvailable
+    case SDLHMIInitialShowStateShown
+}
+
 enum ProxyState : Int {
     case ProxyStateStopped
     case ProxyStateSearchingForConnection
@@ -16,6 +28,9 @@ enum ProxyState : Int {
 }
 
 weak var delegate:ProxyManagerDelegate?
+var firstTimeState = SDLHMIFirstState(rawValue: 0)
+var initialShowState = SDLHMIInitialShowState(rawValue: 0)
+fileprivate var firstHMIFull = true
 
 protocol ProxyManagerDelegate: class {
     func didChangeProxyState(_ newState: ProxyState)
@@ -26,6 +41,7 @@ class ProxyManager: NSObject {
     // Proxy Manager
     fileprivate var sdlManager: SDLManager!
     var state = ProxyState(rawValue: 0)!
+    let appIcon = UIImage(named: "AppIcon60x60")
 
     // Singleton
     static let sharedManager = ProxyManager()
@@ -50,7 +66,6 @@ class ProxyManager: NSObject {
     
     private func startSDLManager(_ lifecycleConfiguration: SDLLifecycleConfiguration) {
         // Configure the proxy handling RPC calls between the SDL Core and the app
-        let appIcon = UIImage(named: "AppIcon60x60")
         let configuration: SDLConfiguration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil))
         self.sdlManager = SDLManager(configuration: configuration, delegate: self)
         
@@ -70,7 +85,6 @@ class ProxyManager: NSObject {
     private func setLifecycleConfigurationPropertiesOnConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
         configuration.shortAppName = AppConstants.sdlShortAppName
         configuration.appType = SDLAppHMIType.media()
-        let appIcon = UIImage(named: "AppIcon60x60")
         configuration.appIcon = SDLArtwork.persistentArtwork(with: appIcon!, name: "AppIcon", as: .PNG)
         
         return configuration
@@ -93,9 +107,40 @@ class ProxyManager: NSObject {
     }
 
     func reset() {
-        delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
         sdlManager?.stop()
+        delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
     }
+}
+
+// MARK: Speak
+extension ProxyManager {
+    class func appNameSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Example App")
+        return speak!
+    }
+    
+    class func goodJobSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "Good Job")
+        return speak!
+    }
+    
+    class func youMissedItSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
+        return speak!
+    }
+}
+
+// MARK: Files / Artwork
+extension ProxyManager {
+
+}
+
+// MARK: RPC Builders
+extension ProxyManager {
+    
 }
 
 //MARK: SDLManagerDelegate
@@ -106,7 +151,21 @@ extension ProxyManager: SDLManagerDelegate {
     }
     
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
-        print("Went from HMI level \(oldLevel) to HMI level \(newLevel)")
+        // On our first HMI level that isn't none, do some setup
+        if newLevel != .none() && firstHMIFull == true {
+            firstHMIFull = false
+        }
+        
+        // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
+        if (oldLevel == .none() || oldLevel == .background())
+            && (newLevel == .full() || newLevel == .limited()) {
+
+        } else if (oldLevel == .full() || oldLevel == .limited())
+            && (newLevel == .none() || newLevel == .background()) {
+            // HMI state changing from FULL or LIMITED to NONE or BACKGROUND
+
+            
+        }
     }
 }
 
