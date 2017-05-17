@@ -12,4 +12,5 @@ struct AppConstants {
     static let sdlAppName = "Hello SDL Swift"
     static let sdlShortAppName = "SDL Swift"
     static let sdlAppID = "9998"
+    static let PointingSoftButtonArtworkName = "PointingSoftButtonIcon"
 }
