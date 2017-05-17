@@ -111,27 +111,6 @@ class ProxyManager: NSObject {
     }
 }
 
-// MARK: Speak
-extension ProxyManager {
-    class func appNameSpeak() -> SDLSpeak {
-        let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Example App")
-        return speak!
-    }
-    
-    class func goodJobSpeak() -> SDLSpeak {
-        let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "Good Job")
-        return speak!
-    }
-    
-    class func youMissedItSpeak() -> SDLSpeak {
-        let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
-        return speak!
-    }
-}
-
 // MARK: Files / Artwork
 extension ProxyManager {
     func prepareRemoteSystem() {
@@ -166,6 +145,54 @@ extension ProxyManager {
 
 // MARK: RPC Builders
 extension ProxyManager {
+    
+    class func speakNameCommand(with manager: SDLManager) {
+        let commandName: String = "Speak App Name"
+        let commandMenuParams = SDLMenuParams()
+        commandMenuParams?.menuName = commandName
+        let speakNameCommand = SDLAddCommand()
+        speakNameCommand?.vrCommands = [commandName]
+        speakNameCommand?.menuParams = commandMenuParams
+        speakNameCommand?.cmdID = 0
+        manager.send(speakNameCommand!) { (request, response, error) in
+            guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
+                return;
+            }
+        
+            // Wait for user's selection or for timeout
+            if performInteractionResponse.resultCode == .timed_OUT() {
+                // The custom menu timed out before the user could select an item
+            } else if performInteractionResponse.resultCode == .success() {
+                let choiceId = performInteractionResponse.choiceID
+                // The user selected an item in the custom menu
+            }
+        }
+
+    }
+    
+    class func interactionSetCommand(with manager: SDLManager) {
+        let commandName: String = "Perform Interaction"
+        let commandMenuParams = SDLMenuParams()
+        commandMenuParams?.menuName = commandName
+        let performInteractionCommand = SDLAddCommand()
+        performInteractionCommand?.vrCommands = [commandName]
+        performInteractionCommand?.menuParams = commandMenuParams
+        performInteractionCommand?.cmdID = 1
+        // NOTE: You may want to preload your interaction sets, because they can take a while for the remote system to process. We're going to ignore our own advice here.
+        manager.send(performInteractionCommand!) { (request, response, error) in
+            guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
+                return;
+            }
+        
+            // Wait for user's selection or for timeout
+            if performInteractionResponse.resultCode == .timed_OUT() {
+                // The custom menu timed out before the user could select an item
+            } else if performInteractionResponse.resultCode == .success() {
+                let choiceId = performInteractionResponse.choiceID
+                // The user selected an item in the custom menu
+            }
+        }
+    }
     
     // Soft Button
     class func pointingSoftButton(with manager: SDLManager) -> SDLSoftButton {
@@ -221,6 +248,24 @@ extension ProxyManager {
                 // The user selected an item in the custom menu
             }
         }
+    }
+    
+    class func appNameSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Example App")
+        return speak!
+    }
+    
+    class func goodJobSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "Good Job")
+        return speak!
+    }
+    
+    class func youMissedItSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
+        return speak!
     }
 
 }
