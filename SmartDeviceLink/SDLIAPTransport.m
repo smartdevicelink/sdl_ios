@@ -35,7 +35,7 @@ int const streamOpenTimeoutSeconds = 2;
 @property (assign) int retryCounter;
 @property (strong) SDLTimer *protocolIndexTimer;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
-@property (assign) BOOL sessionSetupInProgress;
+@property (nonatomic, assign, setter=setSessionSetupInProgress:) BOOL sessionSetupInProgress;
 
 @end
 
@@ -85,6 +85,14 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_stopEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Stopped Listening For Events"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)setSessionSetupInProgress:(BOOL)inProgress{
+    _sessionSetupInProgress = inProgress;
+    if (!inProgress){
+        // End the background task here to catch all cases
+        [self sdl_backgroundTaskEnd];
+    }
 }
 
 - (void)sdl_backgroundTaskStart {
