@@ -167,7 +167,6 @@ extension ProxyManager {
                 // The user selected an item in the custom menu
             }
         }
-
     }
     
     class func interactionSetCommand(with manager: SDLManager) {
