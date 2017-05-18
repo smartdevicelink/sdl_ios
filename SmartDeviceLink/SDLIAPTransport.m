@@ -35,7 +35,7 @@ int const streamOpenTimeoutSeconds = 2;
 @property (assign) int retryCounter;
 @property (strong) SDLTimer *protocolIndexTimer;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
-@property (nonatomic, assign, setter=setSessionSetupInProgress:) BOOL sessionSetupInProgress;
+@property (nonatomic, assign) BOOL sessionSetupInProgress;
 
 @end
 
