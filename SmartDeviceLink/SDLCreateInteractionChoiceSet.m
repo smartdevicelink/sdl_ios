@@ -54,7 +54,9 @@
 
 - (NSMutableArray *)choiceSet {
     NSMutableArray *array = [parameters objectForKey:NAMES_choiceSet];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLChoice.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLChoice.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

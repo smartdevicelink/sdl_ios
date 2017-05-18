@@ -14,7 +14,7 @@
 
 QuickSpecBegin(SDLAbstractProtocolSpec)
 
-describe(@"OnTransportConnected Tests", ^ {
+xdescribe(@"OnTransportConnected Tests", ^ {
     it(@"Should invoke the correct method", ^ {
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
         
@@ -34,7 +34,7 @@ describe(@"OnTransportConnected Tests", ^ {
     });
 });
 
-describe(@"OnTransportDisconnected Tests", ^ {
+xdescribe(@"OnTransportDisconnected Tests", ^ {
     it(@"Should invoke the correct method", ^ {
         id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
         

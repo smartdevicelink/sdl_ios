@@ -126,10 +126,6 @@ describe(@"A filter", ^{
         it(@"should copy the change type correctly", ^{
             expect(@(testCopiedFilter.groupType)).to(equal(@(testFilter.groupType)));
         });
-        
-        it(@"should copy the observer correctly", ^{
-            expect(testCopiedFilter.handler).to(equal(testFilter.handler));
-        });
     });
     
     describe(@"testing equality", ^{

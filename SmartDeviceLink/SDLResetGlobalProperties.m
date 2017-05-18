@@ -42,7 +42,9 @@
 
 - (NSMutableArray *)properties {
     NSMutableArray *array = [parameters objectForKey:NAMES_properties];
-    if ([array count] < 1 || [[array objectAtIndex:0] isKindOfClass:SDLGlobalProperty.class]) {
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLGlobalProperty.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];

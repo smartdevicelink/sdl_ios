@@ -2,15 +2,14 @@
 //  ConnectionTCPTableViewController.m
 //  SmartDeviceLink-iOS
 
-@import AVFoundation;
+#import <AVFoundation/AVFoundation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #import "ConnectionTCPTableViewController.h"
 
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "SDLStreamingMediaManager.h"
-
-#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface ConnectionTCPTableViewController ()
 
