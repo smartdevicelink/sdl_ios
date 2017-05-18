@@ -126,12 +126,13 @@ extension ProxyManager: SDLManagerDelegate {
         // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
         if (oldLevel == .none() || oldLevel == .background())
             && (newLevel == .full() || newLevel == .limited()) {
-            addSpeakMenuCommand()
-            setText()
-            setDisplayLayout()
             prepareRemoteSystem(overwrite: true) { [unowned self] in
                 self.showMainImage()
                 self.prepareButtons()
+                self.addSpeakMenuCommand()
+                self.addperformInteractionMenuCommand()
+                self.setText()
+                self.setDisplayLayout()
             }
         } else if (oldLevel == .full() || oldLevel == .limited())
             && (newLevel == .none() || newLevel == .background()) {
@@ -170,6 +171,15 @@ extension ProxyManager {
                     print("Error uploading default artwork \(buttonIconPoint) with error \(error)")
                 }
             })
+        }
+        
+        let choice = SDLChoice(id: 113, menuName: "Only Choice", vrCommands: ["Only Choice"])!
+        let createRequest = SDLCreateInteractionChoiceSet(id: 113, choiceSet: [choice])!
+        group.enter()
+        sdlManager.send(createRequest) { (request, response, error) in
+            group.leave()
+            if response?.resultCode == .success() {
+            }
         }
 
         group.leave()
@@ -248,6 +258,49 @@ extension ProxyManager {
         menuItem.menuParams = menuParameters
         
         send(request: menuItem)
+    }
+    
+    func addperformInteractionMenuCommand(){
+        let menuParameters = SDLMenuParams(menuName: "Perform Interaction", parentId: 0, position: 1)!
+        
+        // For menu items, be sure to use unique ids.
+        let menuItem = SDLAddCommand(id: 112, vrCommands: ["Perform Interaction"]) { (notification) in
+            guard let onCommand = notification as? SDLOnCommand else {
+                return
+            }
+            
+            if onCommand.triggerSource == .menu() {
+                // Menu Item Was Selected
+                self.createPerformInteraction()
+            }
+        }!
+        // Set the menu parameters
+        menuItem.menuParams = menuParameters
+        
+        send(request: menuItem)
+    }
+    
+    func createPerformInteraction(){
+        let performInteraction = SDLPerformInteraction(initialPrompt: nil, initialText: "Only Choice", interactionChoiceSetID: 113)!
+        performInteraction.interactionMode = .manual_ONLY()
+        performInteraction.interactionLayout = .list_ONLY()
+        performInteraction.initialPrompt = SDLTTSChunk.textChunks(from: "Choose One")
+        performInteraction.initialText = "Choose the only one! You have 5 seconds..."
+        performInteraction.helpPrompt = SDLTTSChunk.textChunks(from: "Do it")
+        performInteraction.timeoutPrompt = SDLTTSChunk.textChunks(from: "Too Late")
+        performInteraction.timeout = 5000 // 5 seconds
+        self.sdlManager.send(performInteraction) { (request, response, error) in
+            guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
+                return;
+            }
+            // Wait for user's selection or for timeout
+            if performInteractionResponse.resultCode == .timed_OUT() {
+                // The custom menu timed out before the user could select an item
+                self.send(request: self.youMissedItSpeak())
+            } else if performInteractionResponse.resultCode == .success() {
+                self.send(request: self.goodJobSpeak())
+            }
+        }
     }
     
     //MARK:  Speak Functions
