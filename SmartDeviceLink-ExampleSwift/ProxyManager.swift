@@ -126,6 +126,7 @@ extension ProxyManager: SDLManagerDelegate {
         // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
         if (oldLevel == .none() || oldLevel == .background())
             && (newLevel == .full() || newLevel == .limited()) {
+            addSpeakMenuCommand()
             setText()
             setDisplayLayout()
             prepareRemoteSystem(overwrite: true) { [unowned self] in
@@ -183,7 +184,7 @@ extension ProxyManager {
     
     // Set Display Layout
     func setDisplayLayout(){
-        let display = SDLSetDisplayLayout(predefinedLayout: .text_AND_SOFTBUTTONS_WITH_GRAPHIC())!
+        let display = SDLSetDisplayLayout(predefinedLayout: .non_MEDIA())!
         send(request: display)
     }
     // Show Main Image
@@ -222,6 +223,45 @@ extension ProxyManager {
         
         // Send the request
         send(request: show)
+    }
+
+    func addSpeakMenuCommand(){
+        let menuParameters = SDLMenuParams(menuName: "Speak App Name", parentId: 0, position: 0)!
+        
+        // For menu items, be sure to use unique ids.
+        let menuItem = SDLAddCommand(id: 111, vrCommands: ["Speak App Name"]) { (notification) in
+            guard let onCommand = notification as? SDLOnCommand else {
+                return
+            }
+            
+            if onCommand.triggerSource == .menu() {
+                // Menu Item Was Selected
+                self.send(request: self.appNameSpeak())
+            }
+        }!
+        // Set the menu parameters
+        menuItem.menuParams = menuParameters
+        
+        send(request: menuItem)
+    }
+    
+    // Speak Functions
+    func appNameSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Swift Example App")
+        return speak!
+    }
+    
+    func goodJobSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "Good Job")
+        return speak!
+    }
+    
+    func youMissedItSpeak() -> SDLSpeak {
+        let speak = SDLSpeak()
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
+        return speak!
     }
     
     
