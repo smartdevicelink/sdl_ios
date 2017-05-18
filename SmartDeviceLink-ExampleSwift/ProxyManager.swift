@@ -140,9 +140,10 @@ extension ProxyManager: SDLManagerDelegate {
     }
 }
 
-// MARK: - Uploads
+// MARK: - Prepare Remote System
 extension ProxyManager {
     func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
+        
         let group = DispatchGroup()
         group.enter()
         group.notify(queue: .main) {
@@ -170,12 +171,15 @@ extension ProxyManager {
                 }
             })
         }
+
         group.leave()
     }
 }
 
 // MARK: - RPCs
 extension ProxyManager {
+    
+    // MARK: Show Requests
     // Set Text
     func setText(){
         let show = SDLShow(mainField1: "SDL", mainField2: "Test App", alignment: .centered())
@@ -195,7 +199,7 @@ extension ProxyManager {
         send(request: show)
     }
     
-    // Create Soft Buttons
+    // MARK: Buttons
     func prepareButtons(){
         let softButton = SDLSoftButton()!
         // Button Id
@@ -225,6 +229,7 @@ extension ProxyManager {
         send(request: show)
     }
 
+    // MARK: Menu Items
     func addSpeakMenuCommand(){
         let menuParameters = SDLMenuParams(menuName: "Speak App Name", parentId: 0, position: 0)!
         
@@ -245,7 +250,7 @@ extension ProxyManager {
         send(request: menuItem)
     }
     
-    // Speak Functions
+    //MARK:  Speak Functions
     func appNameSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Swift Example App")
