@@ -2,7 +2,6 @@
 //  ConnectionContainerViewController.swift
 //  SmartDeviceLink-ExampleSwift
 //
-//  Created by Bretty White on 5/12/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  ConnectionIAPTableViewController.swift
 //  SmartDeviceLink-ExampleSwift
 //
-//  Created by Bretty White on 5/15/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
@@ -25,7 +24,6 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func initButton(){
@@ -50,7 +48,6 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
 
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState){
-        // Updates state from ProxyManager
         state = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil

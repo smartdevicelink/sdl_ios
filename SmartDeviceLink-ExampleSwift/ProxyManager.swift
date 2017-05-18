@@ -69,11 +69,9 @@ class ProxyManager: NSObject {
         // Start watching for a connection with a SDL Core
         self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
             if success {
-                // Get ready here
                 delegate?.didChangeProxyState(ProxyState.ProxyStateConnected)
                 print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
             }
-            
             if let error = error {
                 print("Error starting SDL: \(error)")
             }
@@ -83,7 +81,7 @@ class ProxyManager: NSObject {
     private func setLifecycleConfigurationPropertiesOnConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
         configuration.shortAppName = AppConstants.sdlShortAppName
         configuration.appType = SDLAppHMIType.media()
-        configuration.appIcon = SDLArtwork.persistentArtwork(with: appIcon!, name: "AppIcon", as: .PNG)
+        configuration.appIcon = SDLArtwork.persistentArtwork(with: appIcon!, name: AppConstants.appIconName, as: .PNG)
         
         return configuration
     }
@@ -112,7 +110,6 @@ class ProxyManager: NSObject {
 // MARK: SDLManagerDelegate
 extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
-        print("Manager disconnected!")
         delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
     }
     
@@ -171,7 +168,7 @@ extension ProxyManager {
             })
         }
         
-        let choice = SDLChoice(id: 113, menuName: "Only Choice", vrCommands: ["Only Choice"])!
+        let choice = SDLChoice(id: 113, menuName: AppConstants.menuNameOnlyChoice, vrCommands: [AppConstants.menuNameOnlyChoice])!
         let createRequest = SDLCreateInteractionChoiceSet(id: 113, choiceSet: [choice])!
         group.enter()
         sdlManager.send(createRequest) { (request, response, error) in
@@ -190,10 +187,9 @@ extension ProxyManager {
     // MARK: Show Requests
     // Set Text
     func setText(){
-        let show = SDLShow(mainField1: "SDL", mainField2: "Test App", alignment: .centered())
+        let show = SDLShow(mainField1: AppConstants.sdl, mainField2: AppConstants.testApp, alignment: .centered())
         send(request: show!)
     }
-    
     // Set Display Layout
     func setDisplayLayout(){
         let display = SDLSetDisplayLayout(predefinedLayout: .non_MEDIA())!
@@ -216,7 +212,7 @@ extension ProxyManager {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
                     // Short button press
                     let alert = SDLAlert()!
-                    alert.alertText1 = "You pushed the button!"
+                    alert.alertText1 = AppConstants.pushButtonText
                     self.send(request: alert)
                 }
             }
@@ -226,35 +222,31 @@ extension ProxyManager {
         softButton.image = SDLImage(name: AppConstants.PointingSoftButtonArtworkName, of: .dynamic())
         let show = SDLShow()!
         show.softButtons = [softButton]
-        
-        // Send the request
         send(request: show)
     }
 
     // MARK: Menu Items
     func addSpeakMenuCommand(){
-        let menuParameters = SDLMenuParams(menuName: "Speak App Name", parentId: 0, position: 0)!
+        let menuParameters = SDLMenuParams(menuName: AppConstants.speakAppNameText, parentId: 0, position: 0)!
         
-        let menuItem = SDLAddCommand(id: 111, vrCommands: ["Speak App Name"]) { (notification) in
+        let menuItem = SDLAddCommand(id: 111, vrCommands: [AppConstants.speakAppNameText]) { (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
             }
-            
             if onCommand.triggerSource == .menu() {
                 // Menu Item Was Selected
                 self.send(request: self.appNameSpeak())
             }
         }!
-
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
     
     // MARK: Perform Interaction Functions
     func addperformInteractionMenuCommand(){
-        let menuParameters = SDLMenuParams(menuName: "Perform Interaction", parentId: 0, position: 1)!
+        let menuParameters = SDLMenuParams(menuName: AppConstants.performInteractionText, parentId: 0, position: 1)!
         
-        let menuItem = SDLAddCommand(id: 112, vrCommands: ["Perform Interaction"]) { (notification) in
+        let menuItem = SDLAddCommand(id: 112, vrCommands: [AppConstants.performInteractionText]) { (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
             }
@@ -263,19 +255,18 @@ extension ProxyManager {
                 self.createPerformInteraction()
             }
         }!
-
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
     
     func createPerformInteraction(){
-        let performInteraction = SDLPerformInteraction(initialPrompt: nil, initialText: "Only Choice", interactionChoiceSetID: 113)!
+        let performInteraction = SDLPerformInteraction(initialPrompt: nil, initialText: AppConstants.menuNameOnlyChoice, interactionChoiceSetID: 113)!
         performInteraction.interactionMode = .manual_ONLY()
         performInteraction.interactionLayout = .list_ONLY()
-        performInteraction.initialPrompt = SDLTTSChunk.textChunks(from: "Choose One")
-        performInteraction.initialText = "Choose the only one! You have 5 seconds..."
-        performInteraction.helpPrompt = SDLTTSChunk.textChunks(from: "Do it")
-        performInteraction.timeoutPrompt = SDLTTSChunk.textChunks(from: "Too Late")
+        performInteraction.initialPrompt = SDLTTSChunk.textChunks(from: AppConstants.chooseOneTTS)
+        performInteraction.initialText = AppConstants.initialTextInteraction
+        performInteraction.helpPrompt = SDLTTSChunk.textChunks(from: AppConstants.doItText)
+        performInteraction.timeoutPrompt = SDLTTSChunk.textChunks(from: AppConstants.tooLateText)
         performInteraction.timeout = 5000 // 5 seconds
         self.sdlManager.send(performInteraction) { (request, response, error) in
             guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
@@ -294,19 +285,19 @@ extension ProxyManager {
     //MARK:  Speak Functions
     func appNameSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Swift Example App")
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.sdlTTS)
         return speak!
     }
     
     func goodJobSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "Good Job")
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.goodJobTTS)
         return speak!
     }
     
     func youMissedItSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
+        speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.missedItTTS)
         return speak!
     }
 
