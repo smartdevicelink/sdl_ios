@@ -72,6 +72,7 @@ class ProxyManager: NSObject {
         self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
             if success {
                 // Get ready here
+                delegate?.didChangeProxyState(ProxyState.ProxyStateConnected)
                 print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
             }
             
@@ -113,160 +114,71 @@ class ProxyManager: NSObject {
 
 // MARK: Files / Artwork
 extension ProxyManager {
-    func prepareRemoteSystem() {
+    func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
         let group = DispatchGroup()
+        group.enter()
+        group.notify(queue: .main) {
+            completionHandler()
+        }
         
         // Send images
-        let artwork = SDLArtwork(image: #imageLiteral(resourceName: "sdl_logo_green"), name: "sdl_logo_green", persistent: true, as: .PNG)
-        group.enter()
-        artwork.overwrite = true
-        sdlManager.fileManager.uploadFile(artwork, completionHandler: { (_, _, error) in
-            group.leave()
-            if let error = error {
-                print("Error uploading default artwork \(artwork) with error \(error)")
-            }
-        })
-        
-        let buttonIconPoint = SDLArtwork(image:  #imageLiteral(resourceName: "sdl_softbutton_icon"), name: AppConstants.PointingSoftButtonArtworkName, persistent: true, as: .PNG)
-        group.enter()
-        artwork.overwrite = true
-        sdlManager.fileManager.uploadFile(buttonIconPoint, completionHandler: { (_, _, error) in
-            group.leave()
-            if let error = error {
-                print("Error uploading default artwork \(artwork) with error \(error)")
-            }
-        })
-        
-        // Create Soft Buttons
-        
-        // Create Choice Interaction Set
+        if !sdlManager.fileManager.remoteFileNames.contains(AppConstants.mainArtwork) {
+            let artwork = SDLArtwork(image: #imageLiteral(resourceName: "sdl_logo_green"), name: AppConstants.mainArtwork, persistent: true, as: .PNG)
+            group.enter()
+            sdlManager.fileManager.uploadFile(artwork, completionHandler: { (_, _, error) in
+                group.leave()
+                if let error = error {
+                    print("Error uploading default artwork \(artwork) with error \(error)")
+                }
+            })
+        }
+        if !sdlManager.fileManager.remoteFileNames.contains(AppConstants.PointingSoftButtonArtworkName) {
+            let buttonIconPoint = SDLArtwork(image: #imageLiteral(resourceName: "sdl_softbutton_icon"), name: AppConstants.PointingSoftButtonArtworkName, persistent: true, as: .PNG)
+            group.enter()
+            sdlManager.fileManager.uploadFile(buttonIconPoint, completionHandler: { (_, _, error) in
+                group.leave()
+                if let error = error {
+                    print("Error uploading default artwork \(buttonIconPoint) with error \(error)")
+                }
+            })
+        }
+        group.leave()
     }
-}
-
-// MARK: RPC Builders
-extension ProxyManager {
-    
-    class func speakNameCommand(with manager: SDLManager) {
-        let commandName: String = "Speak App Name"
-        let commandMenuParams = SDLMenuParams()
-        commandMenuParams?.menuName = commandName
-        let speakNameCommand = SDLAddCommand()
-        speakNameCommand?.vrCommands = [commandName]
-        speakNameCommand?.menuParams = commandMenuParams
-        speakNameCommand?.cmdID = 0
-        manager.send(speakNameCommand!) { (request, response, error) in
-            guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
-                return;
-            }
-        
-            // Wait for user's selection or for timeout
-            if performInteractionResponse.resultCode == .timed_OUT() {
-                // The custom menu timed out before the user could select an item
-            } else if performInteractionResponse.resultCode == .success() {
-                let choiceId = performInteractionResponse.choiceID
-                // The user selected an item in the custom menu
+    // Create Soft Buttons
+    func prepareButtons(){
+        let softButton = SDLSoftButton()!
+        // Button Id
+        softButton.softButtonID = 1
+        // Button handler - This is called when user presses the button
+        softButton.handler = { (notification) in
+            if let onButtonPress = notification as? SDLOnButtonPress {
+                if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
+                    // Short button press
+                }
             }
         }
+        // Button type can be text, image, or both text and image
+        softButton.type = .both()
+        // Button text
+        softButton.text = AppConstants.buttonText
+        // Button image
+        softButton.image = SDLImage(name: AppConstants.PointingSoftButtonArtworkName, of: .dynamic())
+        let show = SDLShow()!
+        // The buttons are set as part of an array
+        show.softButtons = [softButton]
+        // Send the request
+        send(request: show)
     }
     
-    class func interactionSetCommand(with manager: SDLManager) {
-        let commandName: String = "Perform Interaction"
-        let commandMenuParams = SDLMenuParams()
-        commandMenuParams?.menuName = commandName
-        let performInteractionCommand = SDLAddCommand()
-        performInteractionCommand?.vrCommands = [commandName]
-        performInteractionCommand?.menuParams = commandMenuParams
-        performInteractionCommand?.cmdID = 1
-        // NOTE: You may want to preload your interaction sets, because they can take a while for the remote system to process. We're going to ignore our own advice here.
-        manager.send(performInteractionCommand!) { (request, response, error) in
-            guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
-                return;
-            }
-        
-            // Wait for user's selection or for timeout
-            if performInteractionResponse.resultCode == .timed_OUT() {
-                // The custom menu timed out before the user could select an item
-            } else if performInteractionResponse.resultCode == .success() {
-                let choiceId = performInteractionResponse.choiceID
-                // The user selected an item in the custom menu
-            }
-        }
-    }
+    // Create Choice Interaction Set
     
-    // Soft Button
-    class func pointingSoftButton(with manager: SDLManager) -> SDLSoftButton {
-        let softButton = SDLSoftButton(handler: {(_ notification: SDLRPCNotification) -> Void in
-            if (notification is SDLOnButtonPress) {
-                let alert = SDLAlert()
-                alert?.alertText1 = "You pushed the button!"
-                manager.send(alert!)
-            }
-        })
-        softButton?.text = "Press"
-        softButton?.softButtonID = 100
-        softButton?.type = SDLSoftButtonType.both()
-        let image = SDLImage()
-        image?.imageType = SDLImageType.dynamic()
-        image?.value = AppConstants.PointingSoftButtonArtworkName
-        softButton?.image = image
-        return softButton!
+    // Show Main Image
+    func showMainImage(){
+        let sdlImage = SDLImage(name: AppConstants.mainArtwork, of: .dynamic())
+        let show = SDLShow()!
+        show.graphic = sdlImage
+        send(request: show)
     }
-    
-    class func createOnlyChoiceInteractionSet() -> SDLCreateInteractionChoiceSet {
-        let createInteractionSet = SDLCreateInteractionChoiceSet()
-        createInteractionSet?.interactionChoiceSetID = 0
-        let theOnlyChoiceName: String = "The Only Choice"
-        let theOnlyChoice = SDLChoice()
-        theOnlyChoice?.choiceID = 0
-        theOnlyChoice?.menuName = theOnlyChoiceName
-        theOnlyChoice?.vrCommands = [theOnlyChoiceName]
-        createInteractionSet?.choiceSet = [Any](arrayLiteral: [theOnlyChoice]) as! NSMutableArray
-        return createInteractionSet!
-    }
-    
-    class func sendPerformOnlyChoiceInteraction(with manager: SDLManager) {
-        let performOnlyChoiceInteraction = SDLPerformInteraction()
-        performOnlyChoiceInteraction?.initialText = "Choose the only one! You have 5 seconds..."
-        performOnlyChoiceInteraction?.initialPrompt = SDLTTSChunk.textChunks(from: "Choose it")
-        performOnlyChoiceInteraction?.interactionMode = SDLInteractionMode.both()
-        performOnlyChoiceInteraction?.interactionChoiceSetIDList = [0]
-        performOnlyChoiceInteraction?.helpPrompt = SDLTTSChunk.textChunks(from: "Do it")
-        performOnlyChoiceInteraction?.timeoutPrompt = SDLTTSChunk.textChunks(from: "Too late")
-        performOnlyChoiceInteraction?.timeout = 5000
-        performOnlyChoiceInteraction?.interactionLayout = SDLLayoutMode.list_ONLY()
-        manager.send(performOnlyChoiceInteraction!) { (request, response, error) in
-            guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
-                return;
-            }
-            
-            // Wait for user's selection or for timeout
-            if performInteractionResponse.resultCode == .timed_OUT() {
-                // The custom menu timed out before the user could select an item
-            } else if performInteractionResponse.resultCode == .success() {
-                let choiceId = performInteractionResponse.choiceID
-                // The user selected an item in the custom menu
-            }
-        }
-    }
-    
-    class func appNameSpeak() -> SDLSpeak {
-        let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "S D L Example App")
-        return speak!
-    }
-    
-    class func goodJobSpeak() -> SDLSpeak {
-        let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "Good Job")
-        return speak!
-    }
-    
-    class func youMissedItSpeak() -> SDLSpeak {
-        let speak = SDLSpeak()
-        speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
-        return speak!
-    }
-
 }
 
 // MARK: SDLManagerDelegate
@@ -280,12 +192,18 @@ extension ProxyManager: SDLManagerDelegate {
         // On our first HMI level that isn't none, do some setup
         if newLevel != .none() && firstHMIFull == true {
             firstHMIFull = false
-            prepareRemoteSystem()
+
         }
         
         // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
         if (oldLevel == .none() || oldLevel == .background())
             && (newLevel == .full() || newLevel == .limited()) {
+            
+            prepareRemoteSystem(overwrite: true) { [unowned self] in
+                self.showMainImage()
+                self.prepareButtons()
+            }
+
 
         } else if (oldLevel == .full() || oldLevel == .limited())
             && (newLevel == .none() || newLevel == .background()) {
