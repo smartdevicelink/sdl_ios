@@ -2,10 +2,8 @@
 //  ProxyManager.swift
 //  SmartDeviceLink-ExampleSwift
 //
-//  Created by Bretty White on 5/12/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
-
 import UIKit
 import SmartDeviceLink
 
@@ -212,9 +210,7 @@ extension ProxyManager {
     // MARK: Buttons
     func prepareButtons(){
         let softButton = SDLSoftButton()!
-        // Button Id
         softButton.softButtonID = 100
-        // Button handler - This is called when user presses the button
         softButton.handler = { (notification) in
             if let onButtonPress = notification as? SDLOnButtonPress {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
@@ -225,14 +221,10 @@ extension ProxyManager {
                 }
             }
         }
-        // Button type can be text, image, or both text and image
         softButton.type = .both()
-        // Button text
         softButton.text = AppConstants.buttonText
-        // Button image
         softButton.image = SDLImage(name: AppConstants.PointingSoftButtonArtworkName, of: .dynamic())
         let show = SDLShow()!
-        // The buttons are set as part of an array
         show.softButtons = [softButton]
         
         // Send the request
@@ -243,7 +235,6 @@ extension ProxyManager {
     func addSpeakMenuCommand(){
         let menuParameters = SDLMenuParams(menuName: "Speak App Name", parentId: 0, position: 0)!
         
-        // For menu items, be sure to use unique ids.
         let menuItem = SDLAddCommand(id: 111, vrCommands: ["Speak App Name"]) { (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
@@ -254,29 +245,26 @@ extension ProxyManager {
                 self.send(request: self.appNameSpeak())
             }
         }!
-        // Set the menu parameters
+
         menuItem.menuParams = menuParameters
-        
         send(request: menuItem)
     }
     
+    // MARK: Perform Interaction Functions
     func addperformInteractionMenuCommand(){
         let menuParameters = SDLMenuParams(menuName: "Perform Interaction", parentId: 0, position: 1)!
         
-        // For menu items, be sure to use unique ids.
         let menuItem = SDLAddCommand(id: 112, vrCommands: ["Perform Interaction"]) { (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
             }
-            
             if onCommand.triggerSource == .menu() {
                 // Menu Item Was Selected
                 self.createPerformInteraction()
             }
         }!
-        // Set the menu parameters
+
         menuItem.menuParams = menuParameters
-        
         send(request: menuItem)
     }
     
@@ -321,7 +309,5 @@ extension ProxyManager {
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: "You missed it")
         return speak!
     }
-    
-    
-    // Create Choice Interaction Set
+
 }
