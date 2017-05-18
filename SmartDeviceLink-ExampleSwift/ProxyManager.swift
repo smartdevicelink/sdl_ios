@@ -94,7 +94,6 @@ class ProxyManager: NSObject {
         guard sdlManager.hmiLevel != .none() else {
             return
         }
-        
         sdlManager.send(request, withResponseHandler: responseHandler)
     }
     
@@ -112,7 +111,34 @@ class ProxyManager: NSObject {
     }
 }
 
-// MARK: Files / Artwork
+// MARK: SDLManagerDelegate
+extension ProxyManager: SDLManagerDelegate {
+    func managerDidDisconnect() {
+        print("Manager disconnected!")
+        delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
+    }
+    
+    func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
+        // On our first HMI level that isn't none, do some setup
+        if newLevel != .none() && firstHMIFull == true {
+            firstHMIFull = false
+        }
+        // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
+        if (oldLevel == .none() || oldLevel == .background())
+            && (newLevel == .full() || newLevel == .limited()) {
+            
+            prepareRemoteSystem(overwrite: true) { [unowned self] in
+                self.showMainImage()
+                self.prepareButtons()
+            }
+        } else if (oldLevel == .full() || oldLevel == .limited())
+            && (newLevel == .none() || newLevel == .background()) {
+            // HMI state changing from FULL or LIMITED to NONE or BACKGROUND
+        }
+    }
+}
+
+// MARK: - Uploads
 extension ProxyManager {
     func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
         let group = DispatchGroup()
@@ -144,6 +170,18 @@ extension ProxyManager {
         }
         group.leave()
     }
+}
+
+// MARK: - RPCs
+extension ProxyManager {
+    // Show Main Image
+    func showMainImage(){
+        let sdlImage = SDLImage(name: AppConstants.mainArtwork, of: .dynamic())
+        let show = SDLShow()!
+        show.graphic = sdlImage
+        send(request: show)
+    }
+    
     // Create Soft Buttons
     func prepareButtons(){
         let softButton = SDLSoftButton()!
@@ -171,47 +209,4 @@ extension ProxyManager {
     }
     
     // Create Choice Interaction Set
-    
-    // Show Main Image
-    func showMainImage(){
-        let sdlImage = SDLImage(name: AppConstants.mainArtwork, of: .dynamic())
-        let show = SDLShow()!
-        show.graphic = sdlImage
-        send(request: show)
-    }
 }
-
-// MARK: SDLManagerDelegate
-extension ProxyManager: SDLManagerDelegate {
-    func managerDidDisconnect() {
-        print("Manager disconnected!")
-                delegate?.didChangeProxyState(ProxyState.ProxyStateStopped)
-    }
-    
-    func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
-        // On our first HMI level that isn't none, do some setup
-        if newLevel != .none() && firstHMIFull == true {
-            firstHMIFull = false
-
-        }
-        
-        // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
-        if (oldLevel == .none() || oldLevel == .background())
-            && (newLevel == .full() || newLevel == .limited()) {
-            
-            prepareRemoteSystem(overwrite: true) { [unowned self] in
-                self.showMainImage()
-                self.prepareButtons()
-            }
-
-
-        } else if (oldLevel == .full() || oldLevel == .limited())
-            && (newLevel == .none() || newLevel == .background()) {
-            // HMI state changing from FULL or LIMITED to NONE or BACKGROUND
-
-            
-        }
-    }
-}
-
-
