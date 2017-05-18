@@ -27,8 +27,8 @@ struct AppConstants {
     
     // TTS Text Chunks
     static let chooseOneTTS = "Choose One"
-    static let goodJobTTS = "Choose One"
-    static let missedItTTS = "Choose One"
-    static let sdlTTS = "Choose One"
+    static let goodJobTTS = "Good Job"
+    static let missedItTTS = "You Missed It"
+    static let sdlTTS = "S D L Swift Example App"
     
 }
