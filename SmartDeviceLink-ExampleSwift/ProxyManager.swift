@@ -126,7 +126,8 @@ extension ProxyManager: SDLManagerDelegate {
         // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
         if (oldLevel == .none() || oldLevel == .background())
             && (newLevel == .full() || newLevel == .limited()) {
-            
+            setText()
+            setDisplayLayout()
             prepareRemoteSystem(overwrite: true) { [unowned self] in
                 self.showMainImage()
                 self.prepareButtons()
@@ -174,6 +175,17 @@ extension ProxyManager {
 
 // MARK: - RPCs
 extension ProxyManager {
+    // Set Text
+    func setText(){
+        let show = SDLShow(mainField1: "SDL", mainField2: "Test App", alignment: .centered())
+        send(request: show!)
+    }
+    
+    // Set Display Layout
+    func setDisplayLayout(){
+        let display = SDLSetDisplayLayout(predefinedLayout: .text_AND_SOFTBUTTONS_WITH_GRAPHIC())!
+        send(request: display)
+    }
     // Show Main Image
     func showMainImage(){
         let sdlImage = SDLImage(name: AppConstants.mainArtwork, of: .dynamic())
@@ -186,12 +198,15 @@ extension ProxyManager {
     func prepareButtons(){
         let softButton = SDLSoftButton()!
         // Button Id
-        softButton.softButtonID = 1
+        softButton.softButtonID = 100
         // Button handler - This is called when user presses the button
         softButton.handler = { (notification) in
             if let onButtonPress = notification as? SDLOnButtonPress {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
                     // Short button press
+                    let alert = SDLAlert()!
+                    alert.alertText1 = "You pushed the button!"
+                    self.send(request: alert)
                 }
             }
         }
@@ -204,9 +219,11 @@ extension ProxyManager {
         let show = SDLShow()!
         // The buttons are set as part of an array
         show.softButtons = [softButton]
+        
         // Send the request
         send(request: show)
     }
+    
     
     // Create Choice Interaction Set
 }
