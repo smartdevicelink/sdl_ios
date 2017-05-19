@@ -14,6 +14,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     @IBOutlet weak var portTextField: UITextField!
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var table: UITableView!
     
     var state: ProxyState = ProxyState.ProxyStateStopped
 
@@ -22,7 +23,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         // Set delegate to self
         delegate = self
         // Tableview setup
-        tableView.keyboardDismissMode = .onDrag
+        table.keyboardDismissMode = .onDrag
+        table.isScrollEnabled = false;
         ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
         portTextField.text = UserDefaults.standard.string(forKey: "port")
         // Button setup

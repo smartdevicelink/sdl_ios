@@ -10,6 +10,7 @@ import UIKit
 class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDelegate {
     
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
+    @IBOutlet weak var table: UITableView!
     @IBOutlet weak var connectButton: UIButton!
     
     var state: ProxyState = ProxyState.ProxyStateStopped
@@ -18,6 +19,9 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         super.viewDidLoad()
         // Set delegate to self
         delegate = self
+        // TableView Setup
+        table.keyboardDismissMode = .onDrag
+        table.isScrollEnabled = false;
         // Button setup
         initButton()
     }
