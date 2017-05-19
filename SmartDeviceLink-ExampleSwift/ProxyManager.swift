@@ -92,14 +92,6 @@ class ProxyManager: NSObject {
         }
         sdlManager.send(request, withResponseHandler: responseHandler)
     }
-    
-    func forceSend(request: SDLRPCRequest, responseHandler: SDLResponseHandler? = nil) {
-        sdlManager.send(request, withResponseHandler: responseHandler)
-    }
-    
-    func hasUploadedFile(name: String) -> Bool {
-        return sdlManager.fileManager.remoteFileNames.contains(name)
-    }
 
     func reset() {
         sdlManager?.stop()
@@ -176,7 +168,6 @@ extension ProxyManager {
             if response?.resultCode == .success() {
             }
         }
-
         group.leave()
     }
 }
