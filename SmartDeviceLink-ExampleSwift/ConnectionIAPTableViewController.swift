@@ -13,7 +13,7 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var connectButton: UIButton!
     
-    var state: ProxyState = ProxyState.Stopped
+    var state: ProxyState = ProxyState.stopped
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +41,11 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         
         // Initialize (or reset) the SDL manager
         switch state {
-        case ProxyState.Stopped:
+        case ProxyState.stopped:
             ProxyManager.sharedManager.startIAP()
-        case ProxyState.Searching:
+        case ProxyState.searching:
             ProxyManager.sharedManager.reset()
-        case ProxyState.Connected:
+        case ProxyState.connected:
             ProxyManager.sharedManager.reset()
         }
     }
@@ -57,13 +57,13 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         var newTitle: String? = nil
         
         switch newState {
-        case .Stopped:
+        case .stopped:
             newColor = UIColor.red
             newTitle = "Connect"
-        case .Searching:
+        case .searching:
             newColor = UIColor.blue
             newTitle = "Stop Searching"
-        case .Connected:
+        case .connected:
             newColor = UIColor.green
             newTitle = "Disconnect"
         }

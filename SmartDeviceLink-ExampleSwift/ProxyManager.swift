@@ -8,9 +8,9 @@ import UIKit
 import SmartDeviceLink
 
 enum ProxyState {
-    case Stopped
-    case Searching
-    case Connected
+    case stopped
+    case searching
+    case connected
 }
 
 weak var delegate:ProxyManagerDelegate?
@@ -33,13 +33,13 @@ class ProxyManager: NSObject {
     
     // MARK: - SDL Setup
      func startIAP() {
-        delegate?.didChangeProxyState(ProxyState.Searching)
+        delegate?.didChangeProxyState(ProxyState.searching)
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.defaultConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
         startSDLManager(lifecycleConfiguration)
     }
     
      func startTCP() {
-        delegate?.didChangeProxyState(ProxyState.Searching)
+        delegate?.didChangeProxyState(ProxyState.searching)
         let defaultIP = UserDefaults.standard.string(forKey: "ipAddress")!
         let defaultPort = UInt16(UserDefaults.standard.string(forKey: "port")!)!
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.debugConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID, ipAddress: defaultIP, port: defaultPort))
@@ -54,7 +54,7 @@ class ProxyManager: NSObject {
         // Start watching for a connection with a SDL Core
         self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
             if success {
-                delegate?.didChangeProxyState(ProxyState.Connected)
+                delegate?.didChangeProxyState(ProxyState.connected)
                 print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
             }
             if let error = error {
@@ -80,14 +80,14 @@ class ProxyManager: NSObject {
 
     func reset() {
         sdlManager?.stop()
-        delegate?.didChangeProxyState(ProxyState.Stopped)
+        delegate?.didChangeProxyState(ProxyState.stopped)
     }
 }
 
 // MARK: SDLManagerDelegate
 extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
-        delegate?.didChangeProxyState(ProxyState.Stopped)
+        delegate?.didChangeProxyState(ProxyState.stopped)
     }
     
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
