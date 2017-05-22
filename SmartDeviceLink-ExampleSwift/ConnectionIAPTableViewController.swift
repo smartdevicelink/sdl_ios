@@ -43,7 +43,7 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         switch state {
         case ProxyState.ProxyStateStopped:
             ProxyManager.sharedManager.startIAP()
-        case ProxyState.ProxyStateSearchingForConnection:
+        case ProxyState.ProxyStateSearching:
             ProxyManager.sharedManager.reset()
         case ProxyState.ProxyStateConnected:
             ProxyManager.sharedManager.reset()
@@ -60,7 +60,7 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         case .ProxyStateStopped:
             newColor = UIColor.red
             newTitle = "Connect"
-        case .ProxyStateSearchingForConnection:
+        case .ProxyStateSearching:
             newColor = UIColor.blue
             newTitle = "Stop Searching"
         case .ProxyStateConnected:

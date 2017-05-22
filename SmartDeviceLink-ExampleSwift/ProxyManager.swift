@@ -7,29 +7,14 @@
 import UIKit
 import SmartDeviceLink
 
-enum SDLHMIFirstState : Int {
-    case SDLHMIFirstStateNone
-    case SDLHMIFirstStateNonNone
-    case SDLHMIFirstStateFull
-}
-
-enum SDLHMIInitialShowState : Int {
-    case SDLHMIInitialShowStateNone
-    case SDLHMIInitialShowStateDataAvailable
-    case SDLHMIInitialShowStateShown
-}
-
-enum ProxyState : Int {
+enum ProxyState {
     case ProxyStateStopped
-    case ProxyStateSearchingForConnection
+    case ProxyStateSearching
     case ProxyStateConnected
 }
 
 weak var delegate:ProxyManagerDelegate?
-fileprivate var firstTimeState = SDLHMIFirstState(rawValue: 0)
-fileprivate var initialShowState = SDLHMIInitialShowState(rawValue: 0)
 fileprivate var firstHMIFull = true
-var state = ProxyState(rawValue: 0)!
 let appIcon = UIImage(named: "AppIcon60x60")
 
 protocol ProxyManagerDelegate: class {
@@ -48,13 +33,13 @@ class ProxyManager: NSObject {
     
     // MARK: - SDL Setup
      func startIAP() {
-        delegate?.didChangeProxyState(ProxyState.ProxyStateSearchingForConnection)
+        delegate?.didChangeProxyState(ProxyState.ProxyStateSearching)
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.defaultConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
         startSDLManager(lifecycleConfiguration)
     }
     
      func startTCP() {
-        delegate?.didChangeProxyState(ProxyState.ProxyStateSearchingForConnection)
+        delegate?.didChangeProxyState(ProxyState.ProxyStateSearching)
         let defaultIP = UserDefaults.standard.string(forKey: "ipAddress")!
         let defaultPort = UInt16(UserDefaults.standard.string(forKey: "port")!)!
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.debugConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID, ipAddress: defaultIP, port: defaultPort))
@@ -201,7 +186,6 @@ extension ProxyManager {
         softButton.handler = { (notification) in
             if let onButtonPress = notification as? SDLOnButtonPress {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
-                    // Short button press
                     let alert = SDLAlert()!
                     alert.alertText1 = AppConstants.pushButtonText
                     self.send(request: alert)
@@ -225,7 +209,6 @@ extension ProxyManager {
                 return
             }
             if onCommand.triggerSource == .menu() {
-                // Menu Item Was Selected
                 self.send(request: self.appNameSpeak())
             }
         }!
@@ -242,7 +225,6 @@ extension ProxyManager {
                 return
             }
             if onCommand.triggerSource == .menu() {
-                // Menu Item Was Selected
                 self.createPerformInteraction()
             }
         }!
@@ -265,7 +247,6 @@ extension ProxyManager {
             }
             // Wait for user's selection or for timeout
             if performInteractionResponse.resultCode == .timed_OUT() {
-                // The custom menu timed out before the user could select an item
                 self.send(request: self.youMissedItSpeak())
             } else if performInteractionResponse.resultCode == .success() {
                 self.send(request: self.goodJobSpeak())
