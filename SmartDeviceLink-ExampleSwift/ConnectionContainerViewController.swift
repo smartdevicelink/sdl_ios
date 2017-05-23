@@ -8,9 +8,9 @@
 import UIKit
 
 class ConnectionContainerViewController: UIViewController {
-    
+
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    var viewControllers:NSMutableArray = []
+    var viewControllers: NSMutableArray = []
     var currentViewController: UIViewController?
 
     override func viewDidLoad() {
@@ -41,29 +41,25 @@ class ConnectionContainerViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func  slideToLeftWithGestureRecognizer(gestureRecognizer:UISwipeGestureRecognizer)
-    {
+
+    @IBAction func slideToLeftWithGestureRecognizer(gestureRecognizer: UISwipeGestureRecognizer) {
         if segmentedControl.selectedSegmentIndex == 0 {
             segmentedControl.selectedSegmentIndex = 1
             removeFromView()
             loadChildViewController(index: 1)
         }
     }
-    @IBAction func slideToRightWithGestureRecognizer
-        (gestureRecognizer:UISwipeGestureRecognizer)
-    {
+    @IBAction func slideToRightWithGestureRecognizer(gestureRecognizer: UISwipeGestureRecognizer) {
         if segmentedControl.selectedSegmentIndex == 1 {
             segmentedControl.selectedSegmentIndex = 0
             removeFromView()
             loadChildViewController(index: 0)
         }
     }
-    
+
     // Grab changes in segmentedControl
     @IBAction func indexChanged(_ sender: AnyObject) {
-        switch segmentedControl.selectedSegmentIndex
-        {
+        switch segmentedControl.selectedSegmentIndex {
         case 0:
             removeFromView()
             loadChildViewController(index: 0)
@@ -74,14 +70,14 @@ class ConnectionContainerViewController: UIViewController {
             break
         }
     }
-    
+
     // Mark: - View functions
-    func removeFromView(){
+    func removeFromView() {
         let vc = self.childViewControllers.last
         vc?.view.removeFromSuperview()
         vc?.removeFromParentViewController()
     }
-    
+
     func loadChildViewController(index: Int?) {
         let initialViewController: UIViewController = viewControllers[index!] as! UIViewController
         self.addChildViewController(initialViewController)
@@ -90,4 +86,3 @@ class ConnectionContainerViewController: UIViewController {
     }
 
 }
-

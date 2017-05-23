@@ -24,11 +24,10 @@ struct AppConstants {
     static let initialTextInteraction = "Choose the only one! You have 5 seconds..."
     static let doItText = "Do It"
     static let tooLateText = "Too Late"
-    
+
     // TTS Text Chunks
     static let chooseOneTTS = "Choose One"
     static let goodJobTTS = "Good Job"
     static let missedItTTS = "You Missed It"
     static let sdlTTS = "S D L Swift Example App"
-    
 }

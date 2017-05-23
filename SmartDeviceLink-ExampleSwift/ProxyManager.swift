@@ -24,13 +24,13 @@ protocol ProxyManagerDelegate: class {
 class ProxyManager: NSObject {
 
     fileprivate var sdlManager: SDLManager!
-    
+
     // Singleton
     static let sharedManager = ProxyManager()
     private override init() {
         super.init()
     }
-    
+
     // MARK: - SDL Setup
      func startIAP() {
         delegate?.didChangeProxyState(ProxyState.searching)
@@ -67,7 +67,7 @@ class ProxyManager: NSObject {
         configuration.shortAppName = AppConstants.sdlShortAppName
         configuration.appType = SDLAppHMIType.media()
         configuration.appIcon = SDLArtwork.persistentArtwork(with: appIcon!, name: AppConstants.appIconName, as: .PNG)
-        
+
         return configuration
     }
 

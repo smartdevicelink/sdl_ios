@@ -2,4 +2,4 @@
 //  SwiftSpec.swift
 //  SmartDeviceLink-iOS
 
-import Quick;
+import Quick

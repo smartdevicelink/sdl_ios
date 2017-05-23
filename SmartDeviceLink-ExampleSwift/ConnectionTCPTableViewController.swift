@@ -9,13 +9,13 @@ import UIKit
 import SmartDeviceLink
 
 class ConnectionTCPTableViewController: UITableViewController, UINavigationControllerDelegate, ProxyManagerDelegate {
-    
+
     @IBOutlet weak var ipAddressTextField: UITextField!
     @IBOutlet weak var portTextField: UITextField!
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var table: UITableView!
-    
+
     var state: ProxyState = ProxyState.stopped
 
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         delegate = self
         // Tableview setup
         table.keyboardDismissMode = .onDrag
-        table.isScrollEnabled = false;
+        table.isScrollEnabled = false
         ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
         portTextField.text = UserDefaults.standard.string(forKey: "port")
         // Button setup
@@ -34,24 +34,24 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    func initButton(){
+
+    func initButton() {
         self.connectTableViewCell.backgroundColor = UIColor.red
         self.connectButton.setTitle("Connect", for: .normal)
         self.connectButton.setTitleColor(.white, for: .normal)
     }
-    
+
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
-        
+
         let ipAddress = ipAddressTextField.text
         let port = portTextField.text
-        
-        if (ipAddress != "" || port != ""){
+
+        if ipAddress != "" || port != "" {
             // Save to defaults
             UserDefaults.standard.set(ipAddress, forKey: "ipAddress")
             UserDefaults.standard.set(port, forKey: "port")
-            
+
             // Initialize (or reset) the SDL manager
             switch state {
             case ProxyState.stopped:
@@ -61,7 +61,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             case ProxyState.connected:
                 ProxyManager.sharedManager.reset()
             }
-        }else{
+        } else {
             // Alert the user to put something in
             let alertMessage = UIAlertController(title: "Missing Info!", message: "Make sure to set your IP Address and Port", preferredStyle: .alert)
             alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -70,7 +70,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     }
 
     // MARK: - Delegate Functions
-    func didChangeProxyState(_ newState: ProxyState){
+    func didChangeProxyState(_ newState: ProxyState) {
         state = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil
@@ -86,7 +86,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             newColor = UIColor.green
             newTitle = "Disconnect"
         }
-        
+
         if (newColor != nil) || (newTitle != nil) {
             DispatchQueue.main.async(execute: {() -> Void in
                 self.connectTableViewCell.backgroundColor = newColor
@@ -95,5 +95,4 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             })
         }
     }
-    
 }

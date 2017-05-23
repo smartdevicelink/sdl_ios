@@ -8,37 +8,37 @@
 import UIKit
 
 class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDelegate {
-    
+
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var connectButton: UIButton!
-    
+
     var state: ProxyState = ProxyState.stopped
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set delegate to self
         delegate = self
         // TableView Setup
         table.keyboardDismissMode = .onDrag
-        table.isScrollEnabled = false;
+        table.isScrollEnabled = false
         // Button setup
         initButton()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    func initButton(){
+
+    func initButton() {
         self.connectTableViewCell.backgroundColor = UIColor.red
         self.connectButton.setTitle("Connect", for: .normal)
         self.connectButton.setTitleColor(.white, for: .normal)
     }
-    
+
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
-        
+
         // Initialize (or reset) the SDL manager
         switch state {
         case .stopped:
@@ -51,11 +51,11 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     }
 
     // MARK: - Delegate Functions
-    func didChangeProxyState(_ newState: ProxyState){
+    func didChangeProxyState(_ newState: ProxyState) {
         state = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil
-        
+
         switch newState {
         case .stopped:
             newColor = UIColor.red
@@ -67,7 +67,7 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
             newColor = UIColor.green
             newTitle = "Disconnect"
         }
-        
+
         if (newColor != nil) || (newTitle != nil) {
             DispatchQueue.main.async(execute: {() -> Void in
                 self.connectTableViewCell.backgroundColor = newColor
