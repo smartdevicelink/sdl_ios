@@ -23,8 +23,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         delegate = self
         table.keyboardDismissMode = .onDrag
         table.isScrollEnabled = false
-        ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
-        portTextField.text = UserDefaults.standard.string(forKey: "port")
+        ipAddressTextField.text = ESUserDefaults.shared.ipAddress
+        portTextField.text = ESUserDefaults.shared.port
         initButton()
     }
 
@@ -45,8 +45,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         let port = portTextField.text
 
         if ipAddress != "" || port != "" {
-            UserDefaults.standard.set(ipAddress, forKey: "ipAddress")
-            UserDefaults.standard.set(port, forKey: "port")
+			ESUserDefaults.shared.ipAddress = ipAddress
+			ESUserDefaults.shared.port = port
 
             switch state {
             case .stopped:

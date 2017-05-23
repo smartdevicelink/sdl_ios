@@ -40,9 +40,9 @@ class ProxyManager: NSObject {
 
      func startTCP() {
         delegate?.didChangeProxyState(ProxyState.searching)
-        let defaultIP = UserDefaults.standard.string(forKey: "ipAddress")!
-        let defaultPort = UInt16(UserDefaults.standard.string(forKey: "port")!)!
-        let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.debugConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID, ipAddress: defaultIP, port: defaultPort))
+        let defaultIP = ESUserDefaults.shared.ipAddress
+        let defaultPort = UInt16(ESUserDefaults.shared.port!)
+        let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.debugConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID, ipAddress: defaultIP!, port: defaultPort!))
         startSDLManager(lifecycleConfiguration)
     }
 
