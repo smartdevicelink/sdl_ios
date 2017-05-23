@@ -13,7 +13,7 @@ enum ProxyState {
     case connected
 }
 
-weak var delegate:ProxyManagerDelegate?
+weak var delegate: ProxyManagerDelegate?
 fileprivate var firstHMIFull = true
 let appIcon = UIImage(named: "AppIcon60x60")
 
@@ -22,7 +22,7 @@ protocol ProxyManagerDelegate: class {
 }
 
 class ProxyManager: NSObject {
-    
+
     fileprivate var sdlManager: SDLManager!
     
     // Singleton
@@ -37,7 +37,7 @@ class ProxyManager: NSObject {
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.defaultConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
         startSDLManager(lifecycleConfiguration)
     }
-    
+
      func startTCP() {
         delegate?.didChangeProxyState(ProxyState.searching)
         let defaultIP = UserDefaults.standard.string(forKey: "ipAddress")!
@@ -45,12 +45,12 @@ class ProxyManager: NSObject {
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.debugConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID, ipAddress: defaultIP, port: defaultPort))
         startSDLManager(lifecycleConfiguration)
     }
-    
+
     private func startSDLManager(_ lifecycleConfiguration: SDLLifecycleConfiguration) {
         // Configure the proxy handling RPC calls between the SDL Core and the app
         let configuration: SDLConfiguration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil))
         self.sdlManager = SDLManager(configuration: configuration, delegate: self)
-        
+
         // Start watching for a connection with a SDL Core
         self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
             if success {
@@ -62,7 +62,7 @@ class ProxyManager: NSObject {
             }
         })
     }
-    
+
     private func setLifecycleConfigurationPropertiesOnConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
         configuration.shortAppName = AppConstants.sdlShortAppName
         configuration.appType = SDLAppHMIType.media()
@@ -70,7 +70,7 @@ class ProxyManager: NSObject {
         
         return configuration
     }
-    
+
     func send(request: SDLRPCRequest, responseHandler: SDLResponseHandler? = nil) {
         guard sdlManager.hmiLevel != .none() else {
             return
@@ -89,7 +89,7 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(ProxyState.stopped)
     }
-    
+
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
         // On our first HMI level that isn't none, do some setup
         if newLevel != .none() && firstHMIFull == true {
@@ -116,13 +116,13 @@ extension ProxyManager: SDLManagerDelegate {
 // MARK: - Prepare Remote System
 extension ProxyManager {
     func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
-        
+
         let group = DispatchGroup()
         group.enter()
         group.notify(queue: .main) {
             completionHandler()
         }
-        
+
         // Send images
         if !sdlManager.fileManager.remoteFileNames.contains(AppConstants.mainArtwork) {
             let artwork = SDLArtwork(image: #imageLiteral(resourceName: "sdl_logo_green"), name: AppConstants.mainArtwork, persistent: true, as: .PNG)
@@ -144,14 +144,12 @@ extension ProxyManager {
                 }
             })
         }
-        
+
         let choice = SDLChoice(id: 113, menuName: AppConstants.menuNameOnlyChoice, vrCommands: [AppConstants.menuNameOnlyChoice])!
         let createRequest = SDLCreateInteractionChoiceSet(id: 113, choiceSet: [choice])!
         group.enter()
-        sdlManager.send(createRequest) { (request, response, error) in
+        sdlManager.send(createRequest) { (_, _, _) in
             group.leave()
-            if response?.resultCode == .success() {
-            }
         }
         group.leave()
     }
@@ -159,28 +157,28 @@ extension ProxyManager {
 
 // MARK: - RPCs
 extension ProxyManager {
-    
+
     // MARK: Show Requests
     // Set Text
-    func setText(){
+    func setText() {
         let show = SDLShow(mainField1: AppConstants.sdl, mainField2: AppConstants.testApp, alignment: .centered())
         send(request: show!)
     }
     // Set Display Layout
-    func setDisplayLayout(){
+    func setDisplayLayout() {
         let display = SDLSetDisplayLayout(predefinedLayout: .non_MEDIA())!
         send(request: display)
     }
     // Show Main Image
-    func showMainImage(){
+    func showMainImage() {
         let sdlImage = SDLImage(name: AppConstants.mainArtwork, of: .dynamic())
         let show = SDLShow()!
         show.graphic = sdlImage
         send(request: show)
     }
-    
+
     // MARK: Buttons
-    func prepareButtons(){
+    func prepareButtons() {
         let softButton = SDLSoftButton()!
         softButton.softButtonID = 100
         softButton.handler = { (notification) in
@@ -201,9 +199,9 @@ extension ProxyManager {
     }
 
     // MARK: Menu Items
-    func addSpeakMenuCommand(){
+    func addSpeakMenuCommand() {
         let menuParameters = SDLMenuParams(menuName: AppConstants.speakAppNameText, parentId: 0, position: 0)!
-        
+
         let menuItem = SDLAddCommand(id: 111, vrCommands: [AppConstants.speakAppNameText]) { (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
@@ -215,12 +213,12 @@ extension ProxyManager {
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
-    
+
     // MARK: Perform Interaction Functions
-    func addperformInteractionMenuCommand(){
+    func addperformInteractionMenuCommand() {
         let menuParameters = SDLMenuParams(menuName: AppConstants.performInteractionText, parentId: 0, position: 1)!
-        
-        let menuItem = SDLAddCommand(id: 112, vrCommands: [AppConstants.performInteractionText]) { (notification) in
+
+        let menuItem = SDLAddCommand(id: 112, vrCommands: [AppConstants.performInteractionText]) {[unowned self] (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
             }
@@ -231,8 +229,8 @@ extension ProxyManager {
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
-    
-    func createPerformInteraction(){
+
+    func createPerformInteraction() {
         let performInteraction = SDLPerformInteraction(initialPrompt: nil, initialText: AppConstants.menuNameOnlyChoice, interactionChoiceSetID: 113)!
         performInteraction.interactionMode = .manual_ONLY()
         performInteraction.interactionLayout = .list_ONLY()
@@ -241,9 +239,9 @@ extension ProxyManager {
         performInteraction.helpPrompt = SDLTTSChunk.textChunks(from: AppConstants.doItText)
         performInteraction.timeoutPrompt = SDLTTSChunk.textChunks(from: AppConstants.tooLateText)
         performInteraction.timeout = 5000 // 5 seconds
-        self.sdlManager.send(performInteraction) { (request, response, error) in
+        self.sdlManager.send(performInteraction) { (request, response, _) in
             guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
-                return;
+                return
             }
             // Wait for user's selection or for timeout
             if performInteractionResponse.resultCode == .timed_OUT() {
@@ -253,20 +251,20 @@ extension ProxyManager {
             }
         }
     }
-    
-    //MARK:  Speak Functions
+
+    // MARK: Speak Functions
     func appNameSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.sdlTTS)
         return speak!
     }
-    
+
     func goodJobSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.goodJobTTS)
         return speak!
     }
-    
+
     func youMissedItSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.missedItTTS)

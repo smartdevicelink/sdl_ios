@@ -41,11 +41,11 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         
         // Initialize (or reset) the SDL manager
         switch state {
-        case ProxyState.stopped:
+        case .stopped:
             ProxyManager.sharedManager.startIAP()
-        case ProxyState.searching:
+        case .searching:
             ProxyManager.sharedManager.reset()
-        case ProxyState.connected:
+        case .connected:
             ProxyManager.sharedManager.reset()
         }
     }
