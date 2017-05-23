@@ -13,7 +13,7 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var connectButton: UIButton!
 
-    var state: ProxyState = ProxyState.stopped
+    var state: ProxyState = .stopped
 
     override func viewDidLoad() {
         super.viewDidLoad()
