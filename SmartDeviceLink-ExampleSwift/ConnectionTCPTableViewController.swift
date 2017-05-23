@@ -49,11 +49,11 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             UserDefaults.standard.set(port, forKey: "port")
 
             switch state {
-            case ProxyState.stopped:
+            case .stopped:
                 ProxyManager.sharedManager.startTCP()
-            case ProxyState.searching:
+            case .searching:
                 ProxyManager.sharedManager.reset()
-            case ProxyState.connected:
+            case .connected:
                 ProxyManager.sharedManager.reset()
             }
         } else {
