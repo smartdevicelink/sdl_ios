@@ -148,8 +148,11 @@ extension ProxyManager {
         let choice = SDLChoice(id: 113, menuName: AppConstants.menuNameOnlyChoice, vrCommands: [AppConstants.menuNameOnlyChoice])!
         let createRequest = SDLCreateInteractionChoiceSet(id: 113, choiceSet: [choice])!
         group.enter()
-        sdlManager.send(createRequest) { (_, _, _) in
+        sdlManager.send(createRequest) { (_, _, error) in
             group.leave()
+			if let error = error {
+				print("Send Failed with error: \(error)")
+			}
         }
         group.leave()
     }
@@ -181,7 +184,7 @@ extension ProxyManager {
     func prepareButtons() {
         let softButton = SDLSoftButton()!
         softButton.softButtonID = 100
-        softButton.handler = { (notification) in
+        softButton.handler = {[unowned self] (notification) in
             if let onButtonPress = notification as? SDLOnButtonPress {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
                     let alert = SDLAlert()!
@@ -202,7 +205,7 @@ extension ProxyManager {
     func addSpeakMenuCommand() {
         let menuParameters = SDLMenuParams(menuName: AppConstants.speakAppNameText, parentId: 0, position: 0)!
 
-        let menuItem = SDLAddCommand(id: 111, vrCommands: [AppConstants.speakAppNameText]) { (notification) in
+        let menuItem = SDLAddCommand(id: 111, vrCommands: [AppConstants.speakAppNameText]) {[unowned self] (notification) in
             guard let onCommand = notification as? SDLOnCommand else {
                 return
             }
@@ -239,7 +242,7 @@ extension ProxyManager {
         performInteraction.helpPrompt = SDLTTSChunk.textChunks(from: AppConstants.doItText)
         performInteraction.timeoutPrompt = SDLTTSChunk.textChunks(from: AppConstants.tooLateText)
         performInteraction.timeout = 5000 // 5 seconds
-        self.sdlManager.send(performInteraction) { (request, response, _) in
+        self.sdlManager.send(performInteraction) {[unowned self] (request, response, _) in
             guard let performInteractionResponse = response as? SDLPerformInteractionResponse else {
                 return
             }

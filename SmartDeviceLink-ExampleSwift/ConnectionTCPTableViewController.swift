@@ -88,10 +88,10 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         }
 
         if (newColor != nil) || (newTitle != nil) {
-            DispatchQueue.main.async(execute: {() -> Void in
-                self.connectTableViewCell.backgroundColor = newColor
-                self.connectButton.setTitle(newTitle, for: .normal)
-                self.connectButton.setTitleColor(.white, for: .normal)
+            DispatchQueue.main.async(execute: {[weak self]() -> Void in
+                self?.connectTableViewCell.backgroundColor = newColor
+                self?.connectButton.setTitle(newTitle, for: .normal)
+                self?.connectButton.setTitleColor(.white, for: .normal)
             })
         }
     }
