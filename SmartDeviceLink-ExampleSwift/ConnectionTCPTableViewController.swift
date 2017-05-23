@@ -20,14 +20,11 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set delegate to self
         delegate = self
-        // Tableview setup
         table.keyboardDismissMode = .onDrag
         table.isScrollEnabled = false
         ipAddressTextField.text = UserDefaults.standard.string(forKey: "ipAddress")
         portTextField.text = UserDefaults.standard.string(forKey: "port")
-        // Button setup
         initButton()
     }
 
@@ -48,11 +45,9 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         let port = portTextField.text
 
         if ipAddress != "" || port != "" {
-            // Save to defaults
             UserDefaults.standard.set(ipAddress, forKey: "ipAddress")
             UserDefaults.standard.set(port, forKey: "port")
 
-            // Initialize (or reset) the SDL manager
             switch state {
             case ProxyState.stopped:
                 ProxyManager.sharedManager.startTCP()
@@ -62,7 +57,6 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
                 ProxyManager.sharedManager.reset()
             }
         } else {
-            // Alert the user to put something in
             let alertMessage = UIAlertController(title: "Missing Info!", message: "Make sure to set your IP Address and Port", preferredStyle: .alert)
             alertMessage.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alertMessage, animated: true, completion: nil)

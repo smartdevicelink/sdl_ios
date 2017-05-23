@@ -17,12 +17,9 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set delegate to self
         delegate = self
-        // TableView Setup
         table.keyboardDismissMode = .onDrag
         table.isScrollEnabled = false
-        // Button setup
         initButton()
     }
 
@@ -39,7 +36,6 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
 
-        // Initialize (or reset) the SDL manager
         switch state {
         case .stopped:
             ProxyManager.sharedManager.startIAP()
