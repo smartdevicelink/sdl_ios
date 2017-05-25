@@ -292,7 +292,6 @@ extension ProxyManager {
 		}
 		let subscribe = SDLSubscribeVehicleData()!
 
-		// TODO: Add the vehicle data items you want to subscribe to
 		// Specify which items to subscribe to
 		subscribe.speed = true
 
@@ -309,8 +308,6 @@ extension ProxyManager {
 		guard let onVehicleData = notification.notification as? SDLOnVehicleData else {
 			return
 		}
-		print(AppConstants.vehicleDataNotification)
-		// TODO: Put your vehicle data code here!
 		print("Speed: \(onVehicleData.speed)")
 	}
 }
