@@ -4,8 +4,9 @@
 //
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
-import UIKit
+
 import SmartDeviceLink
+import UIKit
 
 enum ProxyState {
     case stopped
@@ -15,6 +16,7 @@ enum ProxyState {
 
 weak var delegate: ProxyManagerDelegate?
 fileprivate var firstHMIFull = true
+fileprivate var isVehicleDataSubscribed = false
 let appIcon = UIImage(named: "AppIcon60x60")
 
 protocol ProxyManagerDelegate: class {
@@ -55,6 +57,8 @@ class ProxyManager: NSObject {
         self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
             if success {
                 delegate?.didChangeProxyState(ProxyState.connected)
+				self.addRPCObservers()
+				self.addPermissionManagerObservers()
                 print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
             }
             if let error = error {
@@ -105,6 +109,7 @@ extension ProxyManager: SDLManagerDelegate {
                 self.addperformInteractionMenuCommand()
                 self.setText()
                 self.setDisplayLayout()
+				self.subscribeVehicleData()
             }
         } else if (oldLevel == .full() || oldLevel == .limited())
             && (newLevel == .none() || newLevel == .background()) {
@@ -115,7 +120,17 @@ extension ProxyManager: SDLManagerDelegate {
 
 // MARK: - Prepare Remote System
 extension ProxyManager {
-    func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
+	fileprivate func addRPCObservers() {
+		// Adding Notification Observers
+		NotificationCenter.default.addObserver(self, selector: #selector(didReceiveVehicleData(_:)), name: .SDLDidReceiveVehicleData, object: nil)
+	}
+
+	fileprivate func addPermissionManagerObservers() {
+		_ = sdlManager.permissionManager.addObserver(forRPCs: ["SubscribeVehicleData"], groupType: .allAllowed) { (_, _) in
+		}
+	}
+
+    fileprivate func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
 
         let group = DispatchGroup()
         group.enter()
@@ -144,7 +159,6 @@ extension ProxyManager {
                 }
             })
         }
-
         let choice = SDLChoice(id: 113, menuName: AppConstants.menuNameOnlyChoice, vrCommands: [AppConstants.menuNameOnlyChoice])!
         let createRequest = SDLCreateInteractionChoiceSet(id: 113, choiceSet: [choice])!
         group.enter()
@@ -163,25 +177,24 @@ extension ProxyManager {
 
     // MARK: Show Requests
     // Set Text
-    func setText() {
+    fileprivate func setText() {
         let show = SDLShow(mainField1: AppConstants.sdl, mainField2: AppConstants.testApp, alignment: .centered())
         send(request: show!)
     }
     // Set Display Layout
-    func setDisplayLayout() {
+    fileprivate func setDisplayLayout() {
         let display = SDLSetDisplayLayout(predefinedLayout: .non_MEDIA())!
         send(request: display)
     }
     // Show Main Image
-    func showMainImage() {
+    fileprivate func showMainImage() {
         let sdlImage = SDLImage(name: AppConstants.mainArtwork, of: .dynamic())
         let show = SDLShow()!
         show.graphic = sdlImage
         send(request: show)
     }
-
     // MARK: Buttons
-    func prepareButtons() {
+    fileprivate func prepareButtons() {
         let softButton = SDLSoftButton()!
         softButton.softButtonID = 100
         softButton.handler = {[unowned self] (notification) in
@@ -196,13 +209,13 @@ extension ProxyManager {
         softButton.type = .both()
         softButton.text = AppConstants.buttonText
         softButton.image = SDLImage(name: AppConstants.PointingSoftButtonArtworkName, of: .dynamic())
-        let show = SDLShow()!
+
+		let show = SDLShow()!
         show.softButtons = [softButton]
         send(request: show)
     }
-
     // MARK: Menu Items
-    func addSpeakMenuCommand() {
+    fileprivate func addSpeakMenuCommand() {
         let menuParameters = SDLMenuParams(menuName: AppConstants.speakAppNameText, parentId: 0, position: 0)!
 
         let menuItem = SDLAddCommand(id: 111, vrCommands: [AppConstants.speakAppNameText]) {[unowned self] (notification) in
@@ -216,9 +229,8 @@ extension ProxyManager {
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
-
     // MARK: Perform Interaction Functions
-    func addperformInteractionMenuCommand() {
+    fileprivate func addperformInteractionMenuCommand() {
         let menuParameters = SDLMenuParams(menuName: AppConstants.performInteractionText, parentId: 0, position: 1)!
 
         let menuItem = SDLAddCommand(id: 112, vrCommands: [AppConstants.performInteractionText]) {[unowned self] (notification) in
@@ -233,7 +245,7 @@ extension ProxyManager {
         send(request: menuItem)
     }
 
-    func createPerformInteraction() {
+    fileprivate func createPerformInteraction() {
         let performInteraction = SDLPerformInteraction(initialPrompt: nil, initialText: AppConstants.menuNameOnlyChoice, interactionChoiceSetID: 113)!
         performInteraction.interactionMode = .manual_ONLY()
         performInteraction.interactionLayout = .list_ONLY()
@@ -254,24 +266,51 @@ extension ProxyManager {
             }
         }
     }
-
     // MARK: Speak Functions
-    func appNameSpeak() -> SDLSpeak {
+    fileprivate func appNameSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.sdlTTS)
         return speak!
     }
 
-    func goodJobSpeak() -> SDLSpeak {
+    fileprivate func goodJobSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.goodJobTTS)
         return speak!
     }
 
-    func youMissedItSpeak() -> SDLSpeak {
+    fileprivate func youMissedItSpeak() -> SDLSpeak {
         let speak = SDLSpeak()
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.missedItTTS)
         return speak!
     }
+	// MARK: Vehicle Data
+	fileprivate func subscribeVehicleData() {
+		print("subscribeVehicleData")
+		if isVehicleDataSubscribed {
+			return
+		}
+		let subscribe = SDLSubscribeVehicleData()!
 
+		// TODO: Add the vehicle data items you want to subscribe to
+		// Specify which items to subscribe to
+		subscribe.speed = true
+
+		sdlManager.send(subscribe) { (_, response, _) in
+			print("SubscribeVehicleData response from SDL: \(String(describing: response?.resultCode)) with info: \(String(describing: response?.info))")
+			if response?.resultCode == SDLResult.success() {
+				print(AppConstants.vehicleDataSuccess)
+				isVehicleDataSubscribed = true
+			}
+		}
+	}
+
+	@objc fileprivate func didReceiveVehicleData(_ notification: SDLRPCNotificationNotification) {
+		guard let onVehicleData = notification.notification as? SDLOnVehicleData else {
+			return
+		}
+		print(AppConstants.vehicleDataNotification)
+		// TODO: Put your vehicle data code here!
+		print("Speed: \(onVehicleData.speed)")
+	}
 }

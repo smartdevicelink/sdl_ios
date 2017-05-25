@@ -2,7 +2,6 @@
 //  ESUserDefaults.swift
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 5/23/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 

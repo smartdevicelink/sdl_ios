@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SmartDeviceLink
 
 class ConnectionTCPTableViewController: UITableViewController, UINavigationControllerDelegate, ProxyManagerDelegate {
 
