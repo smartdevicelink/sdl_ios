@@ -71,7 +71,6 @@ class ProxyManager: NSObject {
         configuration.shortAppName = AppConstants.sdlShortAppName
         configuration.appType = SDLAppHMIType.media()
         configuration.appIcon = SDLArtwork.persistentArtwork(with: appIcon!, name: AppConstants.appIconName, as: .PNG)
-
         return configuration
     }
 
@@ -100,8 +99,7 @@ extension ProxyManager: SDLManagerDelegate {
             firstHMIFull = false
         }
         // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
-        if (oldLevel == .none() || oldLevel == .background())
-            && (newLevel == .full() || newLevel == .limited()) {
+        if (oldLevel == .none() || oldLevel == .background()) && (newLevel == .full() || newLevel == .limited()) {
             prepareRemoteSystem(overwrite: true) { [unowned self] in
                 self.showMainImage()
                 self.prepareButtons()
@@ -111,9 +109,6 @@ extension ProxyManager: SDLManagerDelegate {
                 self.setDisplayLayout()
 				self.subscribeVehicleData()
             }
-        } else if (oldLevel == .full() || oldLevel == .limited())
-            && (newLevel == .none() || newLevel == .background()) {
-            // HMI state changing from FULL or LIMITED to NONE or BACKGROUND
         }
     }
 }
@@ -121,7 +116,6 @@ extension ProxyManager: SDLManagerDelegate {
 // MARK: - Prepare Remote System
 extension ProxyManager {
 	fileprivate func addRPCObservers() {
-		// Adding Notification Observers
 		NotificationCenter.default.addObserver(self, selector: #selector(didReceiveVehicleData(_:)), name: .SDLDidReceiveVehicleData, object: nil)
 	}
 
@@ -137,7 +131,6 @@ extension ProxyManager {
         group.notify(queue: .main) {
             completionHandler()
         }
-
         // Send images
         if !sdlManager.fileManager.remoteFileNames.contains(AppConstants.mainArtwork) {
             let artwork = SDLArtwork(image: #imageLiteral(resourceName: "sdl_logo_green"), name: AppConstants.mainArtwork, persistent: true, as: .PNG)
@@ -171,7 +164,6 @@ extension ProxyManager {
         group.leave()
     }
 }
-
 // MARK: - RPCs
 extension ProxyManager {
 
@@ -200,9 +192,10 @@ extension ProxyManager {
         softButton.handler = {[unowned self] (notification) in
             if let onButtonPress = notification as? SDLOnButtonPress {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
-                    let alert = SDLAlert()!
-                    alert.alertText1 = AppConstants.pushButtonText
-                    self.send(request: alert)
+                    // Create Alert
+					let alert = SDLAlert()!
+					alert.alertText1 = AppConstants.pushButtonText
+					self.send(request: alert)
                 }
             }
         }
@@ -298,7 +291,6 @@ extension ProxyManager {
 		sdlManager.send(subscribe) { (_, response, _) in
 			print("SubscribeVehicleData response from SDL: \(String(describing: response?.resultCode)) with info: \(String(describing: response?.info))")
 			if response?.resultCode == SDLResult.success() {
-				print(AppConstants.vehicleDataSuccess)
 				isVehicleDataSubscribed = true
 			}
 		}
