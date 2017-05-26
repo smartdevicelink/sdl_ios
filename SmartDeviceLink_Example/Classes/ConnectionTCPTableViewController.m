@@ -23,7 +23,6 @@
     [[ProxyManager sharedManager] addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:(NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew) context:nil];
 
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-	self.tableView.scrollEnabled = NO;
     self.ipAddressTextField.text = [Preferences sharedPreferences].ipAddress;
     self.portTextField.text = [@([Preferences sharedPreferences].port) stringValue];
 

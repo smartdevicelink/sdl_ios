@@ -18,7 +18,6 @@
     [[ProxyManager sharedManager] addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:(NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew) context:nil];
 
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-	self.tableView.scrollEnabled = NO;
 
     self.connectButton.tintColor = [UIColor whiteColor];
 }
