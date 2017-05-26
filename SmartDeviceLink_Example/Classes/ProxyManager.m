@@ -2,44 +2,22 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
-#import "SmartDeviceLink.h"
-
 #import "ProxyManager.h"
-
 #import "Preferences.h"
-
+#import "SmartDeviceLink.h"
 
 NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
-
 NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
 NSString *const MainGraphicArtworkName = @"MainArtwork";
 
 BOOL const ShouldRestartOnDisconnect = NO;
 
-typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
-    SDLHMIFirstStateNone,
-    SDLHMIFirstStateNonNone,
-    SDLHMIFirstStateFull
-};
-
-typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
-    SDLHMIInitialShowStateNone,
-    SDLHMIInitialShowStateDataAvailable,
-    SDLHMIInitialShowStateShown
-};
-
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ProxyManager () <SDLManagerDelegate>
 
-// Describes the first time the HMI state goes non-none and full.
-@property (assign, nonatomic) SDLHMIFirstState firstTimeState;
-@property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
-
 @end
-
 
 @implementation ProxyManager
 
@@ -64,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
     _initialShowState = SDLHMIInitialShowStateNone;
+	_vehicleDataSubscribed = NO;
+	[self sdl_addRPCObservers];
     
     return self;
 }
@@ -100,7 +80,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
-
         [weakSelf setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:[SDLHMILevel FULL]]) {
@@ -135,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSLog(@"Show is allowed? %@", @(isAvailable));
 
     // This will set up a block that will tell you whether or not you can use none, all, or some of the RPCs specified, and notifies you when those permissions change
-    SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[@"Show", @"Alert"] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+    SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[@"Show", @"Alert", @"SubscribeVehicleData"] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
         NSLog(@"Show changed permission to status: %@, dict: %@", @(status), change);
     }];
     // The above block will be called immediately, this will then remove the block from being called any more
@@ -169,6 +148,12 @@ NS_ASSUME_NONNULL_BEGIN
         _state = newState;
         [self didChangeValueForKey:@"state"];
     }
+}
+
+#pragma mark - Observers
+- (void)sdl_addRPCObservers {
+	// Adding Notification Observers
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveVehicleData:) name:SDLDidReceiveVehicleDataNotification object:nil];
 }
 
 #pragma mark - RPC builders
@@ -299,8 +284,38 @@ NS_ASSUME_NONNULL_BEGIN
     return image;
 }
 
+#pragma mark Vehicle Data
+/**
+ Subscribe to (periodic) vehicle data updates from SDL.
+ */
+- (void)sdl_subscribeVehicleData {
+	NSLog(@"sdl_subscribeVehicleData");
+	if (self.isVehicleDataSubscribed) {
+		return;
+	}
 
-#pragma mark - Files / Artwork 
+	SDLSubscribeVehicleData *subscribe = [[SDLSubscribeVehicleData alloc] init];
+
+	subscribe.speed = @YES;
+
+	[self.sdlManager sendRequest:subscribe withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+		if ([response.resultCode isEqualToEnum:[SDLResult SUCCESS]]) {
+			NSLog(@"Vehicle Data Subscribed!");
+			_vehicleDataSubscribed = YES;
+		}
+	}];
+}
+
+- (void)didReceiveVehicleData:(SDLRPCNotificationNotification *)notification {
+	SDLOnVehicleData *onVehicleData = notification.notification;
+	if (!onVehicleData || ![onVehicleData isKindOfClass:SDLOnVehicleData.class]) {
+		return;
+	}
+
+	NSLog(@"Speed: %@", onVehicleData.speed);
+}
+
+#pragma mark - Files / Artwork
 
 + (SDLArtwork *)pointingSoftButtonArtwork {
     return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
@@ -313,6 +328,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)prepareRemoteSystem {
     [self.sdlManager sendRequest:[self.class speakNameCommandWithManager:self.sdlManager]];
     [self.sdlManager sendRequest:[self.class interactionSetCommandWithManager:self.sdlManager]];
+	[self sdl_subscribeVehicleData];
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);
