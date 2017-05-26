@@ -7,7 +7,6 @@
 @class SDLManager;
 @class SDLStreamingMediaManager;
 
-
 typedef NS_ENUM(NSUInteger, ProxyTransportType) {
     ProxyTransportTypeUnknown,
     ProxyTransportTypeTCP,
@@ -32,7 +31,6 @@ typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
 	SDLHMIInitialShowStateShown
 };
 
-
 @interface ProxyManager : NSObject
 
 @property (assign, nonatomic, readonly) ProxyState state;
@@ -40,6 +38,7 @@ typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
 @property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
 @property (nonatomic, assign, getter=isVehicleDataSubscribed) BOOL vehicleDataSubscribed;
+@property (assign, nonatomic) BOOL ShouldRestartOnDisconnect;
 
 + (instancetype)sharedManager;
 - (void)startIAP;

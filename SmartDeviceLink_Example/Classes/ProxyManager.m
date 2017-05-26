@@ -4,14 +4,15 @@
 
 #import "ProxyManager.h"
 #import "Preferences.h"
+
 #import "SmartDeviceLink.h"
 
 NSString *const SDLAppName = @"SDL Example App";
+NSString *const SDLShortAppName = @"SDL Example";
+NSString *const VRCommandName = @"S D L Example";
 NSString *const SDLAppId = @"9999";
 NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
 NSString *const MainGraphicArtworkName = @"MainArtwork";
-
-BOOL const ShouldRestartOnDisconnect = NO;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
     _firstTimeState = SDLHMIFirstStateNone;
     _initialShowState = SDLHMIInitialShowStateNone;
 	_vehicleDataSubscribed = NO;
+	_ShouldRestartOnDisconnect = NO;
 	[self sdl_addRPCObservers];
     
     return self;
@@ -135,9 +137,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (SDLLifecycleConfiguration *)setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
     SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
     
-    config.shortAppName = @"SDL Example";
+    config.shortAppName = SDLShortAppName;
     config.appIcon = appIconArt;
-    config.voiceRecognitionCommandNames = @[@"S D L Example"];
+    config.voiceRecognitionCommandNames = @[VRCommandName];
     config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
     return config;
 }
@@ -311,7 +313,6 @@ NS_ASSUME_NONNULL_BEGIN
 	if (!onVehicleData || ![onVehicleData isKindOfClass:SDLOnVehicleData.class]) {
 		return;
 	}
-
 	NSLog(@"Speed: %@", onVehicleData.speed);
 }
 
@@ -366,7 +367,6 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
@@ -374,7 +374,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.firstTimeState = SDLHMIFirstStateNone;
     self.initialShowState = SDLHMIInitialShowStateNone;
     [self sdlex_updateProxyState:ProxyStateStopped];
-    if (ShouldRestartOnDisconnect) {
+    if (_ShouldRestartOnDisconnect) {
         [self startManager];
     }
 }
