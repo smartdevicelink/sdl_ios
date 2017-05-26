@@ -13,30 +13,20 @@
 
 @interface ConnectionTCPTableViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextField *ipAddressTextField;
-@property (weak, nonatomic) IBOutlet UITextField *portTextField;
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
-@property (weak, nonatomic) IBOutlet UIButton *connectButton;
-
 @end
-
-
 
 @implementation ConnectionTCPTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Observe Proxy Manager state
+
     [[ProxyManager sharedManager] addObserver:self forKeyPath:NSStringFromSelector(@selector(state)) options:(NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew) context:nil];
-    
-    // Tableview setup
+
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+	self.tableView.scrollEnabled = NO;
     self.ipAddressTextField.text = [Preferences sharedPreferences].ipAddress;
     self.portTextField.text = [@([Preferences sharedPreferences].port) stringValue];
-    
-    // Connect Button setup
+
     self.connectButton.tintColor = [UIColor whiteColor];
 }
 
@@ -50,9 +40,7 @@
     NSLog(@"***** MEMORY WARNING *****");
 }
 
-
 #pragma mark - IBActions
-
 - (IBAction)connectButtonWasPressed:(UIButton *)sender {
     [Preferences sharedPreferences].ipAddress = self.ipAddressTextField.text;
     [Preferences sharedPreferences].port = self.portTextField.text.integerValue;
@@ -72,7 +60,6 @@
     }
 }
 
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -90,7 +77,6 @@
         default: break;
     }
 }
-
 
 #pragma mark - KVO
 

@@ -6,4 +6,7 @@
 
 @interface ConnectionIAPTableViewController : UITableViewController
 
+@property (weak, nonatomic) IBOutlet UITableViewCell *connectTableViewCell;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+
 @end

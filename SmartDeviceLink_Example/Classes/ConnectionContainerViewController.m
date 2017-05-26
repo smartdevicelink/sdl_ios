@@ -9,19 +9,9 @@
 #import "ConnectionTransitionContext.h"
 #import "ConnectionAnimatedTransition.h"
 
-
-
 @interface ConnectionContainerViewController ()
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *connectionTypeSegmentedControl;
-@property (strong, nonatomic) NSArray *viewControllers;
-@property (strong, nonatomic) UIViewController *currentViewController;
-
-@property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
-
 @end
-
-
 
 @implementation ConnectionContainerViewController
 
@@ -56,13 +46,11 @@
     self.currentViewController = initialViewController;
 }
 
-
 #pragma mark - IBActions
 
 - (IBAction)connectionTypeSegmentedControlSelectedIndexDidChange:(UISegmentedControl *)sender {
     [self transitionToViewControllerForSelectedIndex:sender.selectedSegmentIndex];
 }
-
 
 #pragma mark - Gestures
 
@@ -82,7 +70,6 @@
         [self transitionToViewControllerForSelectedIndex:nextIndex];
     }
 }
-
 
 #pragma mark - Private API
 
