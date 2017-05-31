@@ -201,7 +201,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 - (void)startStream:(NSStream *)stream {
     stream.delegate = self.streamDelegate;
     NSAssert((self.isDataSession && [[NSThread currentThread] isEqual:self.ioStreamThread]) || [NSThread isMainThread], @"startStream is being called on the wrong thread!!!");
-    [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     [stream open];
 }
 
@@ -220,7 +220,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         [stream close];
     }
 
-    [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     [stream setDelegate:nil];
 
     NSUInteger status2 = stream.streamStatus;
