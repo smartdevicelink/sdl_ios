@@ -88,6 +88,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self.transport connect];
 
         [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
+        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
     }
 
     return self;
@@ -98,6 +99,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         _alreadyDestructed = YES;
 
         [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
 
         [[SDLURLSession defaultSession] cancelAllTasks];
 
