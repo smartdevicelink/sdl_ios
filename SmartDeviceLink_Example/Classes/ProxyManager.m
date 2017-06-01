@@ -43,9 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
     _initialShowState = SDLHMIInitialShowStateNone;
-	_vehicleDataSubscribed = NO;
-	_ShouldRestartOnDisconnect = NO;
-	[self sdl_addRPCObservers];
+    _vehicleDataSubscribed = NO;
+    _ShouldRestartOnDisconnect = NO;
+    [self sdl_addRPCObservers];
     
     return self;
 }
@@ -329,7 +329,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)prepareRemoteSystem {
     [self.sdlManager sendRequest:[self.class speakNameCommandWithManager:self.sdlManager]];
     [self.sdlManager sendRequest:[self.class interactionSetCommandWithManager:self.sdlManager]];
-	[self sdl_subscribeVehicleData];
+    [self sdl_subscribeVehicleData];
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);

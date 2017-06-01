@@ -20,15 +20,15 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 };
 
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
-	SDLHMIFirstStateNone,
-	SDLHMIFirstStateNonNone,
-	SDLHMIFirstStateFull
+    SDLHMIFirstStateNone,
+    SDLHMIFirstStateNonNone,
+    SDLHMIFirstStateFull
 };
 
 typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
-	SDLHMIInitialShowStateNone,
-	SDLHMIInitialShowStateDataAvailable,
-	SDLHMIInitialShowStateShown
+    SDLHMIInitialShowStateNone,
+    SDLHMIInitialShowStateDataAvailable,
+    SDLHMIInitialShowStateShown
 };
 
 @interface ProxyManager : NSObject
