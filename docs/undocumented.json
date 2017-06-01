@@ -2410,49 +2410,49 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 21,
+      "line": 19,
       "symbol": "SDLLogOutput",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 21,
+      "line": 19,
       "symbol": "SDLLogOutput",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 22,
+      "line": 20,
       "symbol": "SDLLogOutput.SDLLogOutputNone",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 23,
+      "line": 21,
       "symbol": "SDLLogOutput.SDLLogOutputConsole",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 24,
+      "line": 22,
       "symbol": "SDLLogOutput.SDLLogOutputFile",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 25,
+      "line": 23,
       "symbol": "SDLLogOutput.SDLLogOutputSiphon",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLifecycleConfiguration.h",
-      "line": 36,
+      "line": 34,
       "symbol": "SDLLifecycleConfiguration.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -2501,14 +2501,14 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLockScreenConfiguration.h",
-      "line": 16,
+      "line": 14,
       "symbol": "SDLLockScreenConfiguration",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLLockScreenConfiguration.h",
-      "line": 43,
+      "line": 41,
       "symbol": "SDLLockScreenConfiguration.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -7883,62 +7883,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 9,
-      "symbol": "SDLVRHelpItem",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 12,
-      "symbol": "SDLVRHelpItem.-init",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 13,
-      "symbol": "SDLVRHelpItem.-initWithDictionary:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 15,
-      "symbol": "SDLVRHelpItem.-initWithText:image:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 17,
-      "symbol": "SDLVRHelpItem.-initWithText:image:position:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 19,
-      "symbol": "SDLVRHelpItem.text",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 20,
-      "symbol": "SDLVRHelpItem.image",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVRHelpItem.h",
-      "line": 21,
-      "symbol": "SDLVRHelpItem.position",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVehicleDataResult.h",
       "line": 10,
       "symbol": "SDLVehicleDataResult",
@@ -7970,6 +7914,62 @@
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVehicleDataResult.h",
       "line": 17,
       "symbol": "SDLVehicleDataResult.resultCode",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 9,
+      "symbol": "SDLVRHelpItem",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 12,
+      "symbol": "SDLVRHelpItem.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 13,
+      "symbol": "SDLVRHelpItem.-initWithDictionary:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 15,
+      "symbol": "SDLVRHelpItem.-initWithText:image:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 17,
+      "symbol": "SDLVRHelpItem.-initWithText:image:position:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 19,
+      "symbol": "SDLVRHelpItem.text",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 20,
+      "symbol": "SDLVRHelpItem.image",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLVrHelpItem.h",
+      "line": 21,
+      "symbol": "SDLVRHelpItem.position",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-s.name         = "SmartDeviceLink-iOS"
+s.name         = "SmartDeviceLink"
 s.version      = "4.6.0-rc.1"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"

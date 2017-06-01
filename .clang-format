@@ -1,5 +1,5 @@
 ---
-Language: Cpp
+Language: ObjC
 
 AccessModifierOffset: -2
 AlignTrailingComments: false
@@ -40,6 +40,5 @@ SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11
 TabWidth: 8
 UseTab: Never

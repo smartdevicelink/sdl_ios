@@ -23,15 +23,9 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLPolicyDataParser.h"
-#import "SDLPolicyDataParser.h"
-#import "SDLPolicyDataParser.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
-#import "SDLProtocolMessage.h"
-#import "SDLProtocolMessage.h"
 #import "SDLPutFile.h"
-#import "SDLRPCPayload.h"
-#import "SDLRPCPayload.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -49,7 +43,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.5.5";
+NSString *const SDLProxyVersion = @"4.6.0-rc.1";
 const float startSessionTime = 10.0;
 const float notifyProxyClosedDelay = 0.1;
 const int POLICIES_CORRELATION_ID = 65535;

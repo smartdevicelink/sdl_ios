@@ -117,7 +117,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [SDLDebugTool logFormat:@"Warning: SDL has already been started, this attempt will be ignored."];
         return;
     }
-    
+
     self.readyHandler = [readyHandler copy];
 
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
@@ -148,7 +148,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
         SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
-        SDLLifecycleStateStarted : @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
+        SDLLifecycleStateStarted: @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
         SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
         SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
         SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
@@ -161,7 +161,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateStarted {
-    // Start up the internal proxy object
+// Start up the internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
@@ -277,7 +277,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
            }];
 }
 
-- (void)didEnterStateSettingUpHMI{
+- (void)didEnterStateSettingUpHMI {
     // We want to make sure we've gotten a SDLOnHMIStatus notification
     if (self.hmiLevel == nil) {
         // If nil, return and wait until we get a notification
@@ -420,7 +420,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return @(++self.lastCorrelationId);
 }
 
-+ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class)class {
++ (BOOL)sdl_checkNotification:(NSNotification *)notification containsKindOfClass:(Class) class {
     NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class], @"A notification was sent with an unanticipated object");
     if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:class]) {
         return NO;
@@ -429,7 +429,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
-+ (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
+    + (void)sdl_updateLoggingWithFlags : (SDLLogOutput)logFlags {
     if (logFlags == SDLLogOutputNone) {
         [SDLDebugTool disable];
         return;
@@ -478,7 +478,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel *oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-    
+
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     }

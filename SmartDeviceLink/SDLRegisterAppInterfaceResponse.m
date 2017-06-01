@@ -16,8 +16,8 @@
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLSyncMsgVersion.h"
-#import "SDLVrCapabilities.h"
 #import "SDLVehicleType.h"
+#import "SDLVrCapabilities.h"
 
 
 @implementation SDLRegisterAppInterfaceResponse

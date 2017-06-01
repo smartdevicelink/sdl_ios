@@ -1,6 +1,6 @@
 //
 //  SDLMutableDataQueue.h
-//  
+//
 //
 //  Created by David Switzer on 3/2/17.
 //
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return NSMutableData containing the buffer at the head of the queue or nil if
  the queue is empty
  */
-- (NSMutableData  * _Nullable)frontBuffer;
+- (NSMutableData *_Nullable)frontBuffer;
 
 
 /**
@@ -47,12 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Gets the number of buffers currently enqueued
  */
-@property(nonatomic, assign, readonly) NSUInteger count;
+@property (nonatomic, assign, readonly) NSUInteger count;
 
 /**
  A flag indicating whether the buffer at the head of the queue has been dequeued at least once.
  */
-@property(nonatomic, assign, readonly, getter=isFrontBufferDequeued) BOOL frontDequeued;
+@property (nonatomic, assign, readonly, getter=isFrontBufferDequeued) BOOL frontDequeued;
 
 NS_ASSUME_NONNULL_END
 

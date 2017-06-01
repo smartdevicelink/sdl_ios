@@ -12,7 +12,6 @@
 #import "SDLAlertManeuver.h"
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
-#import "SDLAppInfo.h"
 #import "SDLChangeRegistration.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLDebugTool.h"

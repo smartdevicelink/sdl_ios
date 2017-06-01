@@ -60,7 +60,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">defaultConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">defaultConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span><span class="o">!</span></code></pre>
 
   
   
@@ -96,7 +96,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debugConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debugConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span><span class="o">!</span></code></pre>
 
   
   
@@ -134,7 +134,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugMode</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugMode</span><span class="p">:</span> <span class="kt">Int32</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -152,9 +152,6 @@
     <span class="n">NSString</span> <span class="o">*</span><span class="n">tcpDebugIPAddress</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugIPAddress</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -171,7 +168,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugPort</span><span class="p">:</span> <span class="kt">UInt16</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tcpDebugPort</span><span class="p">:</span> <span class="kt">Int32</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -188,9 +185,6 @@
   <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appName</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -206,9 +200,6 @@
   <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appId</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -224,9 +215,6 @@
   <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">resumeHash</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">resumeHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -243,7 +231,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isMedia</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isMedia</span><span class="p">:</span> <span class="kt">Int32</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -279,7 +267,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -297,9 +285,6 @@
     <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">languagesSupported</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">languagesSupported</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -333,9 +318,6 @@
   <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">shortAppName</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -351,9 +333,6 @@
   <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsName</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -370,9 +349,6 @@
     <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">voiceRecognitionCommandNames</span><span class="p">;</span></code></pre>
 
   
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
   
   
   
@@ -405,7 +381,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">logFlags</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">logFlags</span><span class="p">:</span> <span class="kt">Int32</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

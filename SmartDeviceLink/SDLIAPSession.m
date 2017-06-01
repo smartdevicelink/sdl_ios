@@ -8,7 +8,7 @@
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 
-NSString *const IOStreamThreadName  = @"com.smartdevicelink.iostream";
+NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
 NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
@@ -86,7 +86,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 - (void)stop {
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
-        
+
         long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, streamThreadWaitSecs * NSEC_PER_SEC));
         if (lWait == 0) {
             [SDLDebugTool logInfo:@"Stream thread canceled"];
@@ -107,7 +107,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     return !self.isOutputStreamOpen && !self.isInputStreamOpen;
 }
 
-# pragma mark - data send methods
+#pragma mark - data send methods
 
 - (void)sendData:(NSData *)data {
     // Enqueue the data for transmission on the IO thread
@@ -118,7 +118,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     NSOutputStream *ostream = self.easession.outputStream;
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
     BOOL allDataWritten = NO;
-    
+
     if (error != nil && remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
         NSInteger bytesRemaining = remainder.length;
         NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
@@ -148,7 +148,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     }
 }
 
-# pragma mark - background I/O for data session
+#pragma mark - background I/O for data session
 
 // Data session I/O thread
 - (void)sdl_accessoryEventLoop {
@@ -158,7 +158,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         if (!self.easession) {
             return;
         }
-        
+
         [self startStream:self.easession.inputStream];
         [self startStream:self.easession.outputStream];
 
@@ -187,7 +187,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     if (!self.easession) {
         return;
     }
-    
+
     NSString *closeSessionString = [NSString stringWithFormat:@"Close EASession: %tu", self.easession.accessory.connectionID];
     [SDLDebugTool logInfo:closeSessionString];
 
@@ -211,7 +211,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
     // When you disconect the cable you get a stream end event and come here but stream is already in closed state.
     // Still need to remove from run loop.
-    
+
     NSAssert((self.isDataSession && [[NSThread currentThread] isEqual:self.ioStreamThread]) || [NSThread isMainThread], @"stopStream is being called on the wrong thread!!!");
 
     NSUInteger status1 = stream.streamStatus;
@@ -272,16 +272,16 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 - (SDLStreamHasSpaceHandler)sdl_streamHasSpaceHandler {
     __weak typeof(self) weakSelf = self;
-    
+
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        
-        if (!strongSelf.isDataSession){
+
+        if (!strongSelf.isDataSession) {
             return;
         }
-        
+
         NSError *sendErr = nil;
-        
+
         if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
             [strongSelf sdl_handleOutputStreamWriteError:sendErr];
         }
