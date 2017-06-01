@@ -24,8 +24,8 @@ struct AppConstants {
     static let initialTextInteraction = "Choose the only one! You have 5 seconds..."
     static let doItText = "Do It"
     static let tooLateText = "Too Late"
-	static let vehicleDataSuccess = "Successfully subscribed to vehicle data"
-	static let vehicleDataNotification = "OnVehicleData notification from SDL"
+    static let vehicleDataSuccess = "Successfully subscribed to vehicle data"
+    static let vehicleDataNotification = "OnVehicleData notification from SDL"
 
     // TTS Text Chunks
     static let chooseOneTTS = "Choose One"

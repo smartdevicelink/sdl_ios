@@ -44,8 +44,8 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         let port = portTextField.text
 
         if ipAddress != "" || port != "" {
-			ESUserDefaults.shared.ipAddress = ipAddress
-			ESUserDefaults.shared.port = port
+            ESUserDefaults.shared.ipAddress = ipAddress
+            ESUserDefaults.shared.port = port
 
             switch state {
             case .stopped:

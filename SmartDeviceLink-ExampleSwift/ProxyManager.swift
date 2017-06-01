@@ -34,13 +34,13 @@ class ProxyManager: NSObject {
     }
 
     // MARK: - SDL Setup
-     func startIAP() {
+    func startIAP() {
         delegate?.didChangeProxyState(ProxyState.searching)
         let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration.defaultConfiguration(withAppName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
         startSDLManager(lifecycleConfiguration)
     }
 
-     func startTCP() {
+    func startTCP() {
         delegate?.didChangeProxyState(ProxyState.searching)
         let defaultIP = ESUserDefaults.shared.ipAddress
         let defaultPort = UInt16(ESUserDefaults.shared.port!)
@@ -57,8 +57,8 @@ class ProxyManager: NSObject {
         self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
             if success {
                 delegate?.didChangeProxyState(ProxyState.connected)
-				self.addRPCObservers()
-				self.addPermissionManagerObservers()
+                self.addRPCObservers()
+                self.addPermissionManagerObservers()
                 print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
             }
             if let error = error {
@@ -107,7 +107,7 @@ extension ProxyManager: SDLManagerDelegate {
                 self.addperformInteractionMenuCommand()
                 self.setText()
                 self.setDisplayLayout()
-				self.subscribeVehicleData()
+                self.subscribeVehicleData()
             }
         }
     }
@@ -115,14 +115,14 @@ extension ProxyManager: SDLManagerDelegate {
 
 // MARK: - Prepare Remote System
 extension ProxyManager {
-	fileprivate func addRPCObservers() {
-		NotificationCenter.default.addObserver(self, selector: #selector(didReceiveVehicleData(_:)), name: .SDLDidReceiveVehicleData, object: nil)
-	}
+    fileprivate func addRPCObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveVehicleData(_:)), name: .SDLDidReceiveVehicleData, object: nil)
+    }
 
-	fileprivate func addPermissionManagerObservers() {
-		_ = sdlManager.permissionManager.addObserver(forRPCs: ["SubscribeVehicleData"], groupType: .allAllowed) { (_, _) in
-		}
-	}
+    fileprivate func addPermissionManagerObservers() {
+        _ = sdlManager.permissionManager.addObserver(forRPCs: ["SubscribeVehicleData"], groupType: .allAllowed) { (_, _) in
+        }
+    }
 
     fileprivate func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
 
@@ -157,9 +157,9 @@ extension ProxyManager {
         group.enter()
         sdlManager.send(createRequest) { (_, _, error) in
             group.leave()
-			if let error = error {
-				print("Send Failed with error: \(error)")
-			}
+            if let error = error {
+                print("Send Failed with error: \(error)")
+            }
         }
         group.leave()
     }
@@ -193,9 +193,9 @@ extension ProxyManager {
             if let onButtonPress = notification as? SDLOnButtonPress {
                 if onButtonPress.buttonPressMode.isEqual(to: SDLButtonPressMode.short()) {
                     // Create Alert
-					let alert = SDLAlert()!
-					alert.alertText1 = AppConstants.pushButtonText
-					self.send(request: alert)
+                    let alert = SDLAlert()!
+                    alert.alertText1 = AppConstants.pushButtonText
+                    self.send(request: alert)
                 }
             }
         }
@@ -203,7 +203,7 @@ extension ProxyManager {
         softButton.text = AppConstants.buttonText
         softButton.image = SDLImage(name: AppConstants.PointingSoftButtonArtworkName, of: .dynamic())
 
-		let show = SDLShow()!
+        let show = SDLShow()!
         show.softButtons = [softButton]
         send(request: show)
     }
@@ -218,7 +218,7 @@ extension ProxyManager {
             if onCommand.triggerSource == .menu() {
                 self.send(request: self.appNameSpeak())
             }
-        }!
+            }!
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
@@ -233,7 +233,7 @@ extension ProxyManager {
             if onCommand.triggerSource == .menu() {
                 self.createPerformInteraction()
             }
-        }!
+            }!
         menuItem.menuParams = menuParameters
         send(request: menuItem)
     }
@@ -277,29 +277,29 @@ extension ProxyManager {
         speak?.ttsChunks = SDLTTSChunk.textChunks(from: AppConstants.missedItTTS)
         return speak!
     }
-	// MARK: Vehicle Data
-	fileprivate func subscribeVehicleData() {
-		print("subscribeVehicleData")
-		if isVehicleDataSubscribed {
-			return
-		}
-		let subscribe = SDLSubscribeVehicleData()!
+    // MARK: Vehicle Data
+    fileprivate func subscribeVehicleData() {
+        print("subscribeVehicleData")
+        if isVehicleDataSubscribed {
+            return
+        }
+        let subscribe = SDLSubscribeVehicleData()!
 
-		// Specify which items to subscribe to
-		subscribe.speed = true
+        // Specify which items to subscribe to
+        subscribe.speed = true
 
-		sdlManager.send(subscribe) { (_, response, _) in
-			print("SubscribeVehicleData response from SDL: \(String(describing: response?.resultCode)) with info: \(String(describing: response?.info))")
-			if response?.resultCode == SDLResult.success() {
-				isVehicleDataSubscribed = true
-			}
-		}
-	}
-
-	@objc fileprivate func didReceiveVehicleData(_ notification: SDLRPCNotificationNotification) {
-		guard let onVehicleData = notification.notification as? SDLOnVehicleData else {
-			return
-		}
-		print("Speed: \(onVehicleData.speed)")
-	}
+        sdlManager.send(subscribe) { (_, response, _) in
+            print("SubscribeVehicleData response from SDL: \(String(describing: response?.resultCode)) with info: \(String(describing: response?.info))")
+            if response?.resultCode == SDLResult.success() {
+                isVehicleDataSubscribed = true
+            }
+        }
+    }
+    
+    @objc fileprivate func didReceiveVehicleData(_ notification: SDLRPCNotificationNotification) {
+        guard let onVehicleData = notification.notification as? SDLOnVehicleData else {
+            return
+        }
+        print("Speed: \(onVehicleData.speed)")
+    }
 }
