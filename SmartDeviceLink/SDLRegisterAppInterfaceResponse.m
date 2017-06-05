@@ -13,8 +13,8 @@
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSyncMsgVersion.h"
-#import "SDLVrCapabilities.h"
 #import "SDLVehicleType.h"
+#import "SDLVrCapabilities.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

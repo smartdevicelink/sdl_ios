@@ -1,3 +1,19 @@
+# 4.6.0 Release Candidate 1 Release Notes
+### Bug Fixes
+* Fix setting lifecycle configuration `appType` to `nil`.
+* If an array would return `NSNull`, return an empty array instead.
+* Removed uses of `@import` for compatibility issues.
+* Added some Xcode 8.3 compatibility fixes.
+* Fixed reconnection attempts unable to be stopped, or it would crash.
+* Fix `SDLMenuParams initWithMenuParams:parentId:position:` improperly setting `position`.
+* IAP transport now does read/writes on a background thread.
+
+### Other
+* We now use a new podspec: "SmartDeviceLink", and deprecated the current one ("SmartDeviceLink-iOS"), please update your podfiles. This will be necessary for some features in v5.0.
+
+### Known Issues
+* When an app is connected over USB, the USB is disconnected, then reconnected, the app will crash.
+
 # 4.5.5 Release Notes
 ### Bug Fixes
 * Added a check for if `SDLManager` is already started and prevent starting it again.
