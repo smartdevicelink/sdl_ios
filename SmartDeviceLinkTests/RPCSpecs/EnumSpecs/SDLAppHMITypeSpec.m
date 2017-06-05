@@ -21,6 +21,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLAppHMITypeNavigation).to(equal(@"NAVIGATION"));
         expect(SDLAppHMITypeInformation).to(equal(@"INFORMATION"));
         expect(SDLAppHMITypeSocial).to(equal(@"SOCIAL"));
+        expect(SDLAppHMITypeProjection).to(equal(@"PROJECTION"));
         expect(SDLAppHMITypeBackgroundProcess).to(equal(@"BACKGROUND_PROCESS"));
         expect(SDLAppHMITypeTesting).to(equal(@"TESTING"));
         expect(SDLAppHMITypeSystem).to(equal(@"SYSTEM"));

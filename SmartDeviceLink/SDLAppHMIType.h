@@ -46,6 +46,11 @@ extern SDLAppHMIType const SDLAppHMITypeInformation;
  */
 extern SDLAppHMIType const SDLAppHMITypeSocial;
 
+/**
+ * @abstract Projection Streaming App
+ */
+extern SDLAppHMIType const SDLAppHMITypeProjection;
+
 extern SDLAppHMIType const SDLAppHMITypeBackgroundProcess;
 
 /**
