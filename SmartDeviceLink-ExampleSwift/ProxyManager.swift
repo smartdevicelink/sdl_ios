@@ -32,7 +32,6 @@ class ProxyManager: NSObject {
     private override init() {
         super.init()
     }
-
     // MARK: - SDL Setup
     func startIAP() {
         delegate?.didChangeProxyState(ProxyState.searching)
@@ -86,7 +85,6 @@ class ProxyManager: NSObject {
         delegate?.didChangeProxyState(ProxyState.stopped)
     }
 }
-
 // MARK: SDLManagerDelegate
 extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
@@ -112,7 +110,6 @@ extension ProxyManager: SDLManagerDelegate {
         }
     }
 }
-
 // MARK: - Prepare Remote System
 extension ProxyManager {
     fileprivate func addRPCObservers() {
@@ -125,7 +122,6 @@ extension ProxyManager {
     }
 
     fileprivate func prepareRemoteSystem(overwrite: Bool = false, completionHandler: @escaping (Void) -> (Void)) {
-
         let group = DispatchGroup()
         group.enter()
         group.notify(queue: .main) {
@@ -166,7 +162,6 @@ extension ProxyManager {
 }
 // MARK: - RPCs
 extension ProxyManager {
-
     // MARK: Show Requests
     // Set Text
     fileprivate func setText() {

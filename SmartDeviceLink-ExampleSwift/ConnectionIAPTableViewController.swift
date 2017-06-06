@@ -4,7 +4,6 @@
 //
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
-
 import UIKit
 
 class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDelegate {
@@ -32,7 +31,6 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
         self.connectButton.setTitle("Connect", for: .normal)
         self.connectButton.setTitleColor(.white, for: .normal)
     }
-
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
 
@@ -45,7 +43,6 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
             ProxyManager.sharedManager.reset()
         }
     }
-
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState) {
         state = newState

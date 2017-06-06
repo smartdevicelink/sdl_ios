@@ -4,7 +4,6 @@
 //
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
-
 import UIKit
 
 class ESUserDefaults {

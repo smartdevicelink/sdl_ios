@@ -4,20 +4,18 @@
 //
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
-
 import UIKit
 
 class ConnectionContainerViewController: UIViewController {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    var viewControllers: NSMutableArray = []
+    var viewControllers: [UIViewController]
     var currentViewController: UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationController?.navigationBar.isTranslucent = false
-
         let tcpControllerStoryboard = UIStoryboard(name: "ConnectionTCPTableViewController", bundle: nil)
         let iapControllerStoryboard = UIStoryboard(name: "ConnectionIAPTableViewController", bundle: nil)
         let tcpController = tcpControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionTCPTableViewController")
@@ -26,7 +24,6 @@ class ConnectionContainerViewController: UIViewController {
         viewControllers.add(iapController)
 
         segmentedControl.selectedSegmentIndex = 0
-
         loadChildViewController(index: 0)
 
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(slideToLeftWithGestureRecognizer(gestureRecognizer:)))
@@ -49,6 +46,7 @@ class ConnectionContainerViewController: UIViewController {
             loadChildViewController(index: 1)
         }
     }
+    
     @IBAction func slideToRightWithGestureRecognizer(gestureRecognizer: UISwipeGestureRecognizer) {
         if segmentedControl.selectedSegmentIndex == 1 {
             segmentedControl.selectedSegmentIndex = 0
@@ -56,7 +54,6 @@ class ConnectionContainerViewController: UIViewController {
             loadChildViewController(index: 0)
         }
     }
-
     // Grab changes in segmentedControl
     @IBAction func indexChanged(_ sender: AnyObject) {
         switch segmentedControl.selectedSegmentIndex {
@@ -70,7 +67,6 @@ class ConnectionContainerViewController: UIViewController {
             break
         }
     }
-
     // Mark: - View functions
     func removeFromView() {
         let vc = self.childViewControllers.last
@@ -84,5 +80,4 @@ class ConnectionContainerViewController: UIViewController {
         view.addSubview(initialViewController.view)
         initialViewController.didMove(toParentViewController: self)
     }
-    
 }
