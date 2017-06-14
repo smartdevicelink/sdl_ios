@@ -70,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startIAP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+    // Check for previous instance of sdlManager
+    if (!self.sdlManager){
     SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
     // Assume this is production and disable logging
@@ -79,15 +81,19 @@ NS_ASSUME_NONNULL_BEGIN
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
     [self startManager];
+    }
 }
 
 - (void)startTCP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+    // Check for previous instance of sdlManager
+    if (!self.sdlManager){
     SDLLifecycleConfiguration *lifecycleConfig = [self.class setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     
     [self startManager];
+    }
 }
 
 - (void)startManager {
@@ -112,6 +118,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset {
     [self sdlex_updateProxyState:ProxyStateStopped];
     [self.sdlManager stop];
+    // Remove reference
+    self.sdlManager = nil;
 }
 
 - (void)showInitialData {
