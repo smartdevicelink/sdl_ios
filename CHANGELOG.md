@@ -1,3 +1,10 @@
+# 4.6.0 Release Candidate 2 Release Notes (since RC 1)
+### Bug Fixes
+* Altered the connection timeframe from 0-10 seconds to 1.5-9.5 seconds to improve connection reliability. (SDL-0067)
+
+### Example App
+* Fixes a bug causing a crash upon unexpected IAP disconnection and reconnection.
+
 # 4.6.0 Release Candidate 1 Release Notes
 ### Bug Fixes
 * Fix setting lifecycle configuration `appType` to `nil`.
