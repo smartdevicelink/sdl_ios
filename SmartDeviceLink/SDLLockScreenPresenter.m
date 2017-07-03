@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
-    return (self.viewController.isViewLoaded && self.viewController.view.window);
+    return (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
 }
 
 + (UIViewController *)sdl_getCurrentViewController {
