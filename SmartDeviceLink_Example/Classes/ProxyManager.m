@@ -293,9 +293,9 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         if ([response.choiceID isEqualToNumber:@0]) {
-            [manager sendRequest:[self goodJobSpeak]];
+            [manager sendRequest:[self sdlex_goodJobSpeak]];
         } else {
-            [manager sendRequest:[self youMissedItSpeak]];
+            [manager sendRequest:[self sdlex_youMissedItSpeak]];
         }
     }];
 }
