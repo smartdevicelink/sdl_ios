@@ -460,8 +460,8 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (double)retryDelay {
-    const double min_value = 0.0;
-    const double max_value = 10.0;
+    const double min_value = 1.5;
+    const double max_value = 9.5;
     double range_length = max_value - min_value;
 
     static double delay = 0;

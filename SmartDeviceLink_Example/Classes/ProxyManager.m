@@ -70,9 +70,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startIAP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+    // Check for previous instance of sdlManager
+    if (self.sdlManager) { return; }
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -80,8 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startTCP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+    // Check for previous instance of sdlManager
+    if (self.sdlManager) { return; }
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[self.class sdlex_logConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -98,10 +102,10 @@ NS_ASSUME_NONNULL_BEGIN
         
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
 
-        [weakSelf setupPermissionsCallbacks];
+        [weakSelf sdlex_setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-            [weakSelf showInitialData];
+            [weakSelf sdlex_showInitialData];
         }
     }];
 }
@@ -109,24 +113,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset {
     [self sdlex_updateProxyState:ProxyStateStopped];
     [self.sdlManager stop];
+    // Remove reference
+    self.sdlManager = nil;
 }
 
-- (void)showInitialData {
+
+#pragma mark - Helpers
+
+- (void)sdlex_showInitialData {
     if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         return;
     }
+
+    SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
+    [self.sdlManager sendRequest:displayLayout];
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     
     SDLShow* show = [[SDLShow alloc] initWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCenter];
-    SDLSoftButton *pointingSoftButton = [self.class pointingSoftButtonWithManager:self.sdlManager];
+    SDLSoftButton *pointingSoftButton = [self.class sdlex_pointingSoftButtonWithManager:self.sdlManager];
     show.softButtons = [@[pointingSoftButton] mutableCopy];
-    show.graphic = [self.class mainGraphicImage];
+    show.graphic = [self.class sdlex_mainGraphicImage];
     
     [self.sdlManager sendRequest:show];
 }
 
-- (void)setupPermissionsCallbacks {
+- (void)sdlex_setupPermissionsCallbacks {
     // This will tell you whether or not you can use the Show RPC right at this moment
     BOOL isAvailable = [self.sdlManager.permissionManager isRPCAllowed:@"Show"];
     SDLLogD(@"Show is allowed? %@", @(isAvailable));
@@ -157,6 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
     config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
+
     return config;
 }
 
@@ -180,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC builders
 
-+ (SDLAddCommand *)speakNameCommandWithManager:(SDLManager *)manager {
++ (SDLAddCommand *)sdlex_speakNameCommandWithManager:(SDLManager *)manager {
     NSString *commandName = @"Speak App Name";
     
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
@@ -192,13 +205,13 @@ NS_ASSUME_NONNULL_BEGIN
     speakNameCommand.cmdID = @0;
     
     speakNameCommand.handler = ^void(SDLOnCommand *notification) {
-        [manager sendRequest:[self.class appNameSpeak]];
+        [manager sendRequest:[self.class sdlex_appNameSpeak]];
     };
     
     return speakNameCommand;
 }
 
-+ (SDLAddCommand *)interactionSetCommandWithManager:(SDLManager *)manager {
++ (SDLAddCommand *)sdlex_interactionSetCommandWithManager:(SDLManager *)manager {
     NSString *commandName = @"Perform Interaction";
     
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
@@ -212,34 +225,50 @@ NS_ASSUME_NONNULL_BEGIN
     // NOTE: You may want to preload your interaction sets, because they can take a while for the remote system to process. We're going to ignore our own advice here.
     __weak typeof(self) weakSelf = self;
     performInteractionCommand.handler = ^void(SDLOnCommand *notification) {
-        [weakSelf sendPerformOnlyChoiceInteractionWithManager:manager];
+        [weakSelf sdlex_sendPerformOnlyChoiceInteractionWithManager:manager];
     };
     
     return performInteractionCommand;
 }
 
-+ (SDLSpeak *)appNameSpeak {
++ (SDLAddCommand *)sdlex_vehicleDataCommandWithManager:(SDLManager *)manager {
+    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
+    commandMenuParams.menuName = @"Get Vehicle Data";
+
+    SDLAddCommand *getVehicleDataCommand = [[SDLAddCommand alloc] init];
+    getVehicleDataCommand.vrCommands = [NSMutableArray arrayWithObject:@"Get Vehicle Data"];
+    getVehicleDataCommand.menuParams = commandMenuParams;
+    getVehicleDataCommand.cmdID = @2;
+
+    getVehicleDataCommand.handler = ^void(SDLOnCommand *notification) {
+        [ProxyManager sdlex_sendGetVehicleDataWithManager:manager];
+    };
+
+    return getVehicleDataCommand;
+}
+
++ (SDLSpeak *)sdlex_appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
     speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"S D L Example App"];
 
     return speak;
 }
 
-+ (SDLSpeak *)goodJobSpeak {
++ (SDLSpeak *)sdlex_goodJobSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
     speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"Good Job"];
     
     return speak;
 }
 
-+ (SDLSpeak *)youMissedItSpeak {
++ (SDLSpeak *)sdlex_youMissedItSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
     speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"You missed it"];
 
     return speak;
 }
 
-+ (SDLCreateInteractionChoiceSet *)createOnlyChoiceInteractionSet {
++ (SDLCreateInteractionChoiceSet *)sdlex_createOnlyChoiceInteractionSet {
     SDLCreateInteractionChoiceSet *createInteractionSet = [[SDLCreateInteractionChoiceSet alloc] init];
     createInteractionSet.interactionChoiceSetID = @0;
     
@@ -254,7 +283,7 @@ NS_ASSUME_NONNULL_BEGIN
     return createInteractionSet;
 }
 
-+ (void)sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
++ (void)sdlex_sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
     SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] init];
     performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
     performOnlyChoiceInteraction.initialPrompt = [SDLTTSChunk textChunksFromString:@"Choose it"];
@@ -272,14 +301,14 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         if ([response.choiceID isEqualToNumber:@0]) {
-            [manager sendRequest:[self goodJobSpeak]];
+            [manager sendRequest:[self sdlex_goodJobSpeak]];
         } else {
-            [manager sendRequest:[self youMissedItSpeak]];
+            [manager sendRequest:[self sdlex_youMissedItSpeak]];
         }
     }];
 }
 
-+ (SDLSoftButton *)pointingSoftButtonWithManager:(SDLManager *)manager {
++ (SDLSoftButton *)sdlex_pointingSoftButtonWithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
@@ -302,7 +331,7 @@ NS_ASSUME_NONNULL_BEGIN
     return softButton;
 }
 
-+ (SDLImage *)mainGraphicImage {
++ (SDLImage *)sdlex_mainGraphicImage {
     SDLImage* image = [[SDLImage alloc] init];
     image.imageType = SDLImageTypeDynamic;
     image.value = MainGraphicArtworkName;
@@ -310,26 +339,35 @@ NS_ASSUME_NONNULL_BEGIN
     return image;
 }
 
++ (void)sdlex_sendGetVehicleDataWithManager:(SDLManager *)manager {
+    SDLGetVehicleData *getVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
 
-#pragma mark - Files / Artwork 
+    [manager sendRequest:getVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"vehicle data response: %@", response);
+    }];
+}
 
-+ (SDLArtwork *)pointingSoftButtonArtwork {
+
+#pragma mark - Files / Artwork
+
++ (SDLArtwork *)sdlex_pointingSoftButtonArtwork {
     return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
-+ (SDLArtwork *)mainGraphicArtwork {
++ (SDLArtwork *)sdlex_mainGraphicArtwork {
     return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:MainGraphicArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
-- (void)prepareRemoteSystem {
-    [self.sdlManager sendRequest:[self.class speakNameCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class interactionSetCommandWithManager:self.sdlManager]];
+- (void)sdlex_prepareRemoteSystem {
+    [self.sdlManager sendRequest:[self.class sdlex_speakNameCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequest:[self.class sdlex_interactionSetCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequest:[self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]];
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);
 
     dispatch_group_enter(dataDispatchGroup);
-    [self.sdlManager.fileManager uploadFile:[self.class mainGraphicArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+    [self.sdlManager.fileManager uploadFile:[self.class sdlex_mainGraphicArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
         dispatch_group_leave(dataDispatchGroup);
 
         if (success == NO) {
@@ -339,7 +377,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     
     dispatch_group_enter(dataDispatchGroup);
-    [self.sdlManager.fileManager uploadFile:[self.class pointingSoftButtonArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+    [self.sdlManager.fileManager uploadFile:[self.class sdlex_pointingSoftButtonArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
         dispatch_group_leave(dataDispatchGroup);
         
         if (success == NO) {
@@ -349,7 +387,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
     
     dispatch_group_enter(dataDispatchGroup);
-    [self.sdlManager sendRequest:[self.class createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         // Interaction choice set ready
         dispatch_group_leave(dataDispatchGroup);
     }];
@@ -357,7 +395,7 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_group_leave(dataDispatchGroup);
     dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
         self.initialShowState = SDLHMIInitialShowStateDataAvailable;
-        [self showInitialData];
+        [self sdlex_showInitialData];
     });
 }
 
@@ -380,7 +418,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.firstTimeState = SDLHMIFirstStateNonNone;
         
         // Send AddCommands
-        [self prepareRemoteSystem];
+        [self sdlex_prepareRemoteSystem];
     }
     
     if ([newLevel isEqualToEnum:SDLHMILevelFull] && (self.firstTimeState != SDLHMIFirstStateFull)) {
@@ -390,7 +428,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
         // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
-        [self showInitialData];
+        [self sdlex_showInitialData];
     }
 }
 
