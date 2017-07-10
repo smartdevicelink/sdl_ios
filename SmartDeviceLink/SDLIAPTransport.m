@@ -141,10 +141,16 @@ int const streamOpenTimeoutSeconds = 2;
     // Stop event listening here so that even if the transport is disconnected by the proxy
     // we unregister for accessory local notifications
     [self sdl_stopEventListening];
-    // Only disconnect the data session, the control session does not stay open and is handled separately
-    if (self.session != nil) {
-        [self.session stop];
-        self.session = nil;
+    if (self.controlSession) {
+        [self.controlSession.streamDelegate clearHandlers];
+        self.controlSession.streamDelegate = nil;
+        [self.controlSession stop];
+    } else {
+        if (self.session != nil) {
+            [self.session.streamDelegate clearHandlers];
+            self.session.streamDelegate = nil;
+            [self.session stop];
+        }
     }
 }
 
