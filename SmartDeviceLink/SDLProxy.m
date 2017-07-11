@@ -339,6 +339,11 @@ const int POLICIES_CORRELATION_ID = 65535;
         [self handleSystemRequestResponse:newMessage];
     }
 
+    // fixes #528
+    if ([functionName isEqualToString:@"OnTouchEvent"]) {
+        [self handleTouchEventResponkse:newMessage];
+        return;
+    }
     // Formulate the name of the method to call and invoke the method on the delegate(s)
     NSString *handlerName = [NSString stringWithFormat:@"on%@:", functionName];
     SEL handlerSelector = NSSelectorFromString(handlerName);
@@ -427,6 +432,14 @@ const int POLICIES_CORRELATION_ID = 65535;
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 }
 
+- (void)handleTouchEventResponkse:(SDLRPCMessage *)message {
+    SDLOnTouchEvent *event = (SDLOnTouchEvent *)message;
+    for (id<SDLProxyListener> listener in self.proxyListeners) {
+        if ([listener respondsToSelector:@selector(onOnTouchEvent:)]) {
+            [listener onOnTouchEvent:event];
+        }
+    }
+}
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
