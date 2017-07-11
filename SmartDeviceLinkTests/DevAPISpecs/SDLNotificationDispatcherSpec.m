@@ -37,6 +37,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onError:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGenericResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetDTCsResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetSystemCapabilityResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetVehicleDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetWayPointsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onReceivedLockScreenIcon:)])).to(beTruthy());

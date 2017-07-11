@@ -78,6 +78,7 @@ extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse;
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
+extern SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse;
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
 extern SDLNotificationName const SDLDidReceiveListFilesResponse;
