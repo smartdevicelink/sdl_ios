@@ -36,6 +36,7 @@ SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse = @"com.sdl.resp
 SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse = @"com.sdl.response.endAudioPassThru";
 SDLNotificationName const SDLDidReceiveGenericResponse = @"com.sdl.response.generic";
 SDLNotificationName const SDLDidReceiveGetDTCsResponse = @"com.sdl.response.getDTCs";
+SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse = @"com.sdl.response.getSystemCapabilities";
 SDLNotificationName const SDLDidReceiveGetVehicleDataResponse = @"com.sdl.response.getVehicleData";
 SDLNotificationName const SDLDidReceiveGetWaypointsResponse = @"com.sdl.response.getWaypoints";
 SDLNotificationName const SDLDidReceiveListFilesResponse = @"com.sdl.response.listFiles";

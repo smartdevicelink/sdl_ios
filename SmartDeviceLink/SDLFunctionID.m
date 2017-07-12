@@ -70,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 								 @45: SDLNameGetWaypoints,
 								 @46: SDLNameSubscribeWaypoints,
 								 @47: SDLNameUnsubscribeWaypoints,
+								 @48: SDLNameGetSystemCapability,
                                  @32768: SDLNameOnHMIStatus,
                                  @32769: SDLNameOnAppInterfaceUnregistered,
                                  @32770: SDLNameOnButtonEvent,
