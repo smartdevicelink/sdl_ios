@@ -395,14 +395,10 @@ int const streamOpenTimeoutSeconds = 2;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Event End"];
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-
-        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf sdl_retryEstablishSession];
-        }
-
-        strongSelf.session = nil;
+        // Per the Apple documentation, stream end is received when the accessory disconnects
+        // As we have observed, sometimes the EAAccessoryDidDisconnect notification is received before
+        // the stream end event and sometimes after. In all cases, we'll allow the notification handler
+        // to clean up the transport and proxy. The app will restart the proxy to retry connection.
     };
 }
 
@@ -435,9 +431,10 @@ int const streamOpenTimeoutSeconds = 2;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Error"];
-        [strongSelf.session stop];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [strongSelf.session stop];
+        });
         strongSelf.session.streamDelegate = nil;
-
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf sdl_retryEstablishSession];
         }
