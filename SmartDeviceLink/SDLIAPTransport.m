@@ -20,6 +20,7 @@
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
+NSString *const backgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
 int const createSessionRetries = 1;
 int const protocolIndexTimeoutSeconds = 20;
@@ -31,8 +32,9 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 @property (assign) int retryCounter;
-@property (assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (nonatomic, assign) BOOL sessionSetupInProgress;
 
 @end
 
@@ -42,10 +44,10 @@ int const streamOpenTimeoutSeconds = 2;
 - (instancetype)init {
     if (self = [super init]) {
         _alreadyDestructed = NO;
+        _sessionSetupInProgress = NO;
         _session = nil;
         _controlSession = nil;
         _retryCounter = 0;
-        _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
 
         [self sdl_startEventListening];
@@ -71,7 +73,7 @@ int const streamOpenTimeoutSeconds = 2;
                                              selector:@selector(sdl_accessoryDisconnected:)
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -85,13 +87,40 @@ int const streamOpenTimeoutSeconds = 2;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)setSessionSetupInProgress:(BOOL)inProgress{
+    _sessionSetupInProgress = inProgress;
+    if (!inProgress){
+        // End the background task here to catch all cases
+        [self sdl_backgroundTaskEnd];
+    }
+}
+
+- (void)sdl_backgroundTaskStart {
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        return;
+    }
+    
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:backgroundTaskName expirationHandler:^{
+        [self sdl_backgroundTaskEnd];
+    }];
+}
+
+- (void)sdl_backgroundTaskEnd {
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
+}
+
 #pragma mark - EAAccessory Notifications
 
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
     NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
+    [self sdl_backgroundTaskStart];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
     self.retryCounter = 0;
 
     [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:self.retryDelay];
@@ -114,6 +143,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    [self sdl_backgroundTaskEnd];
     self.retryCounter = 0;
     [self connect];
 }
@@ -493,6 +523,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
+        self.sessionSetupInProgress = NO;
     }
 }
 
