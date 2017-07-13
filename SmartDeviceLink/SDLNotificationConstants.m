@@ -106,6 +106,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveEndAudioPassThruResponse,
              SDLDidReceiveGenericResponse,
              SDLDidReceiveGetDTCsResponse,
+             SDLDidReceiveGetSystemCapabilitiesResponse,
              SDLDidReceiveGetVehicleDataResponse,
              SDLDidReceiveGetWaypointsResponse,
              SDLDidReceiveListFilesResponse,
