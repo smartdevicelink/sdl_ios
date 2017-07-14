@@ -268,7 +268,7 @@ xdescribe(@"a lifecycle manager", ^{
             context(@"before register response is a success", ^{
                 it(@"ready handler should not be called yet", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult SUCCESS];
+                    response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
@@ -281,16 +281,16 @@ xdescribe(@"a lifecycle manager", ^{
             context(@"assume hmi status is nil", ^{
                 it(@"mock notification and ensure state changes to ready", ^{
                     __block SDLOnHMIStatus *testHMIStatus = nil;
-                    __block SDLHMILevel *testHMILevel = nil;
+                    __block SDLHMILevel testHMILevel = nil;
                     testHMIStatus = [[SDLOnHMIStatus alloc] init];
                     
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult SUCCESS];
+                    response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
                     
-                    testHMILevel = [SDLHMILevel FULL];
+                    testHMILevel = SDLHMILevelFull;
                     testHMIStatus.hmiLevel = testHMILevel;
                     
                     [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
