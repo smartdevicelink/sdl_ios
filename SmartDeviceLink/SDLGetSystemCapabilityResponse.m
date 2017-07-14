@@ -18,8 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLGetSystemCapabilityResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetSystemCapability]) {
+    self = [super initWithName:SDLNameGetSystemCapability];
+    if (!self) {
+        return nil;
     }
+
     return self;
 }
 
