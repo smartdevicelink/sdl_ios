@@ -389,11 +389,8 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark Data Stream
 
 - (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
-    __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-
         [SDLDebugTool logInfo:@"Data Stream Event End"];
         // Per the Apple documentation, stream end is received when the accessory disconnects
         // As we have observed, sometimes the EAAccessoryDidDisconnect notification is received before
