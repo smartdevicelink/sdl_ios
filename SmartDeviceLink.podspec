@@ -253,7 +253,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLSoftButtonType.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLSystemAction.h',
-'SmartDeviceLink/SDLSystemCapabilityType.h'
+'SmartDeviceLink/SDLSystemCapabilityType.h',
 'SmartDeviceLink/SDLSystemContext.h',
 'SmartDeviceLink/SDLTBTState.h',
 'SmartDeviceLink/SDLTextAlignment.h',
