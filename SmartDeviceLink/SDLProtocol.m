@@ -348,7 +348,7 @@ typedef NSNumber SDLServiceTypeBox;
 
 - (void)processMessages {
     NSMutableString *logMessage = [[NSMutableString alloc] init];
-    UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.receiveBuffer];
+    UInt8 incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
 
     // If we have enough bytes, create the header.
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:incomingVersion];

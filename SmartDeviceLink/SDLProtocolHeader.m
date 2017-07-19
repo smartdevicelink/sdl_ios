@@ -55,14 +55,24 @@
         } break;
         case 2: // Fallthrough
         case 3: // Fallthrough
-        case 4: {
+        case 4: // Fallthrough
+        case 5: {
             return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
         } break;
         default: {
-            NSString *reason = [NSString stringWithFormat:@"The version of header that is being created is unknown: %@", @(version)];
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:@{ @"requestedVersion": @(version) }];
+            // Assume V2 header for unknown header versions and hope it doesn't break
+            return [[SDLV2ProtocolHeader alloc] initWithVersion:version];
         } break;
     }
+}
+
+// For use in decoding a stream of bytes.
+// Pass in bytes representing message (or beginning of message)
+// Looks at and parses first byte to determine version.
++ (UInt8)determineVersion:(NSData *)data {
+    UInt8 firstByte = ((UInt8 *)data.bytes)[0];
+    UInt8 version = firstByte >> 4;
+    return version;
 }
 
 @end
