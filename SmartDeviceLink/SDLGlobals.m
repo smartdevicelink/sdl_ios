@@ -9,10 +9,14 @@
 #import "SDLGlobals.h"
 
 static const NSUInteger maxProxyVersion = 4;
+NSUInteger const SDLDefaultMTUSize = UINT32_MAX;
+NSUInteger const SDLV1MTUSize = 1024;
+NSUInteger const SDLV3MTUSize = 131024;
 
 
 @interface SDLGlobals ()
 
+@property (assign, nonatomic) NSUInteger backingMaxMTUSize;
 @property (assign, nonatomic) NSUInteger protocolVersion;
 
 @end
@@ -38,6 +42,7 @@ static const NSUInteger maxProxyVersion = 4;
 
     _protocolVersion = 1;
     _maxHeadUnitVersion = 0;
+    _backingMaxMTUSize = SDLDefaultMTUSize;
 
     return self;
 }
@@ -52,26 +57,39 @@ static const NSUInteger maxProxyVersion = 4;
 }
 
 - (NSUInteger)maxMTUSize {
+    // VERSION DEPENDENT CODE
     switch (self.protocolVersion) {
         case 1: // fallthrough
         case 2: {
             // HAX: This was set to 1024 at some point, for an unknown reason. We can't change it because of backward compatibility & validation concerns. The actual MTU for v1/2 is 1500 bytes.
-            return 1024;
+            return SDLV1MTUSize;
         } break;
         case 3: // fallthrough
         case 4: {
             // If the head unit isn't running v3/4, but that's the connection scheme we're using, then we have to know that they could be running an MTU that's not 128k, so we default back to the v1/2 MTU for safety.
             if (self.maxHeadUnitVersion > maxProxyVersion) {
-                return 1024;
+                return SDLV1MTUSize;
             } else {
-                return 131084;
+                return SDLV3MTUSize;
             }
         } break;
+        case 5: {
+            // V5 has a negotiated MTU size from the head unit
+            if (self.backingMaxMTUSize == SDLDefaultMTUSize) {
+                return SDLV3MTUSize;
+            } else {
+                return self.backingMaxMTUSize;
+            }
+        }
         default: {
-            NSAssert(NO, @"Unknown version number: %@", @(self.protocolVersion));
+            NSAssert(NO, @"Unknown version number for MTU Size: %@", @(self.protocolVersion));
             return 0;
         }
     }
+}
+
+- (void)setMaxMTUSize:(NSUInteger)maxMTUSize {
+    _backingMaxMTUSize = maxMTUSize;
 }
 
 @end

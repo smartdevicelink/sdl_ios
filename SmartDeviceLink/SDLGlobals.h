@@ -11,10 +11,14 @@
 #define SDL_SYSTEM_VERSION_LESS_THAN(version) ([[[UIDevice currentDevice] systemVersion] compare:version options:NSNumericSearch] == NSOrderedAscending)
 #define BLOCK_RETURN return
 
+extern NSUInteger const SDLDefaultMTUSize;
+extern NSUInteger const SDLV1MTUSize;
+extern NSUInteger const SDLV3MTUSize;
+
 @interface SDLGlobals : NSObject
 
 @property (assign, nonatomic, readonly) NSUInteger protocolVersion;
-@property (assign, nonatomic, readonly) NSUInteger maxMTUSize;
+@property (assign, nonatomic) NSUInteger maxMTUSize;
 @property (assign, nonatomic) NSUInteger maxHeadUnitVersion;
 
 + (instancetype)globals;
