@@ -21,6 +21,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLAppHMIType NAVIGATION].value).to(equal(@"NAVIGATION"));
         expect([SDLAppHMIType INFORMATION].value).to(equal(@"INFORMATION"));
         expect([SDLAppHMIType SOCIAL].value).to(equal(@"SOCIAL"));
+        expect([SDLAppHMIType PROJECTION].value).to(equal(@"PROJECTION"));
         expect([SDLAppHMIType BACKGROUND_PROCESS].value).to(equal(@"BACKGROUND_PROCESS"));
         expect([SDLAppHMIType TESTING].value).to(equal(@"TESTING"));
         expect([SDLAppHMIType SYSTEM].value).to(equal(@"SYSTEM"));
@@ -35,6 +36,7 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLAppHMIType valueOf:@"NAVIGATION"]).to(equal([SDLAppHMIType NAVIGATION]));
         expect([SDLAppHMIType valueOf:@"INFORMATION"]).to(equal([SDLAppHMIType INFORMATION]));
         expect([SDLAppHMIType valueOf:@"SOCIAL"]).to(equal([SDLAppHMIType SOCIAL]));
+        expect([SDLAppHMIType valueOf:@"PROJECTION"]).to(equal([SDLAppHMIType PROJECTION]));
         expect([SDLAppHMIType valueOf:@"BACKGROUND_PROCESS"]).to(equal([SDLAppHMIType BACKGROUND_PROCESS]));
         expect([SDLAppHMIType valueOf:@"TESTING"]).to(equal([SDLAppHMIType TESTING]));
         expect([SDLAppHMIType valueOf:@"SYSTEM"]).to(equal([SDLAppHMIType SYSTEM]));
@@ -56,6 +58,7 @@ describe(@"Value List Tests", ^ {
                            [SDLAppHMIType NAVIGATION],
                            [SDLAppHMIType INFORMATION],
                            [SDLAppHMIType SOCIAL],
+                           [SDLAppHMIType PROJECTION],
                            [SDLAppHMIType BACKGROUND_PROCESS],
                            [SDLAppHMIType TESTING],
                            [SDLAppHMIType SYSTEM]] copy];
