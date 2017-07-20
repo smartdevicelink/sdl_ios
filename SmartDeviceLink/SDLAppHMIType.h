@@ -46,6 +46,11 @@ extern SDLAppHMIType const SDLAppHMITypeInformation;
  */
 extern SDLAppHMIType const SDLAppHMITypeSocial;
 
+/**
+ * @abstract App dealing with Mobile Projection applications
+ */
+extern SDLAppHMIType const SDLAppHMITypeProjection;
+
 extern SDLAppHMIType const SDLAppHMITypeBackgroundProcess;
 
 /**
