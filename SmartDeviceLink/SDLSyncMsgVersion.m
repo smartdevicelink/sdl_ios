@@ -23,6 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.majorVersion = @(majorVersion);
+    self.minorVersion = @(minorVersion);
+    self.patchVersion = @(patchVersion);
+
+    return self;
+}
+
 - (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
     [store sdl_setObject:majorVersion forName:SDLNameMajorVersion];
 }
@@ -39,8 +52,16 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameMinorVersion];
 }
 
+- (void)setPatchVersion:(NSNumber<SDLInt> *)patchVersion {
+    [store sdl_setObject:patchVersion forName:SDLNamePatchVersion];
+}
+
+- (NSNumber<SDLInt> *)patchVersion {
+    return [store sdl_objectForName:SDLNamePatchVersion];
+}
+
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@.%@", self.majorVersion, self.minorVersion];
+    return [NSString stringWithFormat:@"%@.%@.%@", self.majorVersion, self.minorVersion, self.patchVersion];
 }
 @end
 
