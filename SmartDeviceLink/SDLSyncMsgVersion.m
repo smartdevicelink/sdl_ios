@@ -20,7 +20,7 @@
     return self;
 }
 
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion {
     self = [self init];
     if (!self) {
         return nil;
@@ -28,6 +28,7 @@
 
     self.majorVersion = @(majorVersion);
     self.minorVersion = @(minorVersion);
+    self.patchVersion = @(patchVersion);
 
     return self;
 }
@@ -54,6 +55,18 @@
 
 - (NSNumber *)minorVersion {
     return [store objectForKey:NAMES_minorVersion];
+}
+
+- (void)setPatchVersion:(NSNumber *)patchVersion {
+    if (patchVersion != nil) {
+        [store setObject:patchVersion forKey:NAMES_patchVersion];
+    } else {
+        [store removeObjectForKey:NAMES_patchVersion];
+    }
+}
+
+- (NSNumber *)patchVersion {
+    return [store objectForKey:NAMES_patchVersion];
 }
 
 - (NSString *)description {
