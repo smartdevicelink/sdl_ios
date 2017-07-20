@@ -283,6 +283,7 @@ SDLName const SDLNamePassengerCurtainAirbagDeployed = @"passengerCurtainAirbagDe
 SDLName const SDLNamePassengerDoorAjar = @"passengerDoorAjar";
 SDLName const SDLNamePassengerKneeAirbagDeployed = @"passengerKneeAirbagDeployed";
 SDLName const SDLNamePassengerSideAirbagDeployed = @"passengerSideAirbagDeployed";
+SDLName const SDLNamePatchVersion = @"patchVersion";
 SDLName const SDLNamePDOP = @"pdop";
 SDLName const SDLNamePerformAudioPassThru = @"PerformAudioPassThru";
 SDLName const SDLNamePerformInteraction = @"PerformInteraction";
