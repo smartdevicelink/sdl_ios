@@ -14,10 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadRPCStartService : NSObject <SDLControlFramePayloadType>
 
-@property (copy, nonatomic, readonly) NSString *protocolVersion;
+@property (copy, nonatomic, readonly, nullable) NSString *protocolVersion;
 
 - (instancetype)initWithMajorVersion:(NSUInteger)majorVersion minorVersion:(NSUInteger)minorVersion patchVersion:(NSUInteger)patchVersion;
-- (instancetype)initWithData:(NSData *)data;
 
 @end
 

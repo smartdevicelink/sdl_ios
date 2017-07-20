@@ -8,6 +8,10 @@
 
 #import "SDLControlFramePayloadConstants.h"
 
-char *const protocolVersionKey = "protocolVersion";
-char *const hashIdKey = "hashId";
-char *const mtuKey = "mtu";
+int32_t const SDLControlFrameInt32NotFound = -1;
+int64_t const SDLControlFrameInt64NotFound = -1;
+
+char *const SDLControlFrameProtocolVersionKey = "protocolVersion";
+char *const SDLControlFrameHashIdKey = "hashId";
+char *const SDLControlFrameMTUKey = "mtu";
+char *const SDLControlFrameRejectedParams = "rejectedParams";

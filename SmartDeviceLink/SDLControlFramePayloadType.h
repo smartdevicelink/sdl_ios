@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLControlFramePayloadType <NSObject>
 
-- (NSData *)data;
-- (instancetype)initWithData:(NSData *)data;;
+- (nullable NSData *)data;
+- (instancetype)initWithData:(nullable NSData *)data;;
 
 @end
 

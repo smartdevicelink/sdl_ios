@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadRPCStartService ()
 
-@property (copy, nonatomic, readwrite) NSString *protocolVersion;
+@property (copy, nonatomic, readwrite, nullable) NSString *protocolVersion;
 
 @end
 
@@ -32,20 +32,28 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithData:(NSData *)data {
+- (instancetype)initWithData:(nullable NSData *)data {
     self = [super init];
     if (!self) return nil;
 
-    [self sdl_parse:data];
+    if (data) {
+        [self sdl_parse:data];
+    }
 
     return self;
 }
 
-- (NSData *)data {
+- (nullable NSData *)data {
+    if (self.protocolVersion == nil) {
+        return nil;
+    }
+
     BsonObject payloadObject;
     bson_object_initialize_default(&payloadObject);
 
-    bson_object_put_string(&payloadObject, protocolVersionKey, (char *)self.protocolVersion.UTF8String);
+    if (self.protocolVersion != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
+    }
 
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
     NSUInteger length = bson_object_size(&payloadObject);
@@ -58,7 +66,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
 
-    self.protocolVersion = [NSString stringWithUTF8String:bson_object_get_string(&payloadObject, protocolVersionKey)];
+    char *utf8String = bson_object_get_string(&payloadObject, SDLControlFrameProtocolVersionKey);
+    if (utf8String != NULL) {
+        self.protocolVersion = [NSString stringWithUTF8String:utf8String];
+    }
 
     bson_object_deinitialize(&payloadObject);
 }

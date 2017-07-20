@@ -15,7 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadRPCStartServiceNak : NSObject <SDLControlFramePayloadType>
 
-@property (copy, nonatomic, readonly) NSArray<NSString *> *rejectedParams;
+@property (copy, nonatomic, readonly, nullable) NSArray<NSString *> *rejectedParams;
+
+- (instancetype)initWithRejectedParams:(nullable NSArray<NSString *> *)rejectedParams;
 
 @end
 

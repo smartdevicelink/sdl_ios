@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-extern char *const protocolVersionKey;
-extern char *const hashIdKey;
-extern char *const mtuKey;
+extern int32_t const SDLControlFrameInt32NotFound;
+extern int64_t const SDLControlFrameInt64NotFound;
+
+extern char *const SDLControlFrameProtocolVersionKey;
+extern char *const SDLControlFrameHashIdKey;
+extern char *const SDLControlFrameMTUKey;
+extern char *const SDLControlFrameRejectedParams;

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readwrite) int32_t hashId;
 @property (assign, nonatomic, readwrite) int64_t mtu;
-@property (copy, nonatomic, readwrite) NSString *protocolVersion;
+@property (copy, nonatomic, readwrite, nullable) NSString *protocolVersion;
 
 @end
 
@@ -36,22 +36,41 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithData:(NSData *)data {
+- (instancetype)initWithData:(nullable NSData *)data {
     self = [super init];
     if (!self) return nil;
 
-    [self sdl_parse:data];
+    _hashId = SDLControlFrameInt32NotFound;
+    _mtu = SDLControlFrameInt64NotFound;
+
+    if (data) {
+        [self sdl_parse:data];
+    }
 
     return self;
 }
 
-- (NSData *)data {
+- (nullable NSData *)data {
+    if (self.hashId == SDLControlFrameInt32NotFound
+        && self.mtu == SDLControlFrameInt64NotFound
+        && self.protocolVersion == nil) {
+        return nil;
+    }
+
     BsonObject payloadObject;
     bson_object_initialize_default(&payloadObject);
 
-    bson_object_put_int32(&payloadObject, hashIdKey, self.hashId);
-    bson_object_put_int64(&payloadObject, mtuKey, self.mtu);
-    bson_object_put_string(&payloadObject, protocolVersionKey, (char *)self.protocolVersion.UTF8String);
+    if (self.hashId != SDLControlFrameInt32NotFound) {
+        bson_object_put_int32(&payloadObject, SDLControlFrameHashIdKey, self.hashId);
+    }
+
+    if (self.mtu != SDLControlFrameInt64NotFound) {
+        bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
+    }
+
+    if (self.protocolVersion == nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
+    }
 
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
     NSUInteger length = bson_object_size(&payloadObject);
@@ -64,9 +83,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
 
-    self.hashId = bson_object_get_int32(&payloadObject, hashIdKey);
-    self.mtu = bson_object_get_int64(&payloadObject, mtuKey);
-    self.protocolVersion = [NSString stringWithUTF8String:bson_object_get_string(&payloadObject, protocolVersionKey)];
+    self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
+    self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
+
+    char *utf8String = bson_object_get_string(&payloadObject, SDLControlFrameProtocolVersionKey);
+    if (utf8String != NULL) {
+        self.protocolVersion = [NSString stringWithUTF8String:utf8String];
+    }
 
     bson_object_deinitialize(&payloadObject);
 }
