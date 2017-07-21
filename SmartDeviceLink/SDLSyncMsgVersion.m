@@ -20,6 +20,19 @@
     return self;
 }
 
+- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.majorVersion = @(majorVersion);
+    self.minorVersion = @(minorVersion);
+    self.patchVersion = @(0);
+
+    return self;
+}
+
 - (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion {
     self = [self init];
     if (!self) {
@@ -70,6 +83,6 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@.%@", self.majorVersion, self.minorVersion];
+    return [NSString stringWithFormat:@"%@.%@.%@", self.majorVersion, self.minorVersion, self.patchVersion];
 }
 @end
