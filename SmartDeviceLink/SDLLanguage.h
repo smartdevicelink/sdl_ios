@@ -16,6 +16,16 @@ typedef SDLEnum SDLLanguage SDL_SWIFT_ENUM;
  */
 extern SDLLanguage const SDLLanguageEnUs;
 
+/*!
+ @abstract English - India
+ */
+extern SDLLanguage const SDLLanguageEnIn;
+
+/*!
+ @abstract Thai - Thailand
+ */
+extern SDLLanguage const SDLLanguageThTh;
+
 /**
  @abstract Spanish - Mexico
  */

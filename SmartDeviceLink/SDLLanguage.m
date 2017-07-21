@@ -5,6 +5,8 @@
 #import "SDLLanguage.h"
 
 SDLLanguage const SDLLanguageEnUs = @"EN-US";
+SDLLanguage const SDLLanguageEnIn = @"EN-IN";
+SDLLanguage const SDLLanguageThTh = @"TH-TH";
 SDLLanguage const SDLLanguageEsMx = @"ES-MX";
 SDLLanguage const SDLLanguageFrCa = @"FR-CA";
 SDLLanguage const SDLLanguageDeDe = @"DE-DE";
