@@ -32,6 +32,15 @@
  */
 + (SDLLanguage *)EN_US;
 
+/*!
+ @abstract English_IN
+ */
++ (SDLLanguage *)EN_IN;
+
+/*!
+ @abstract Thai_TH
+ */
++ (SDLLanguage *)TH_TH;
 /**
  @abstract Spanish - Mexico
  */
