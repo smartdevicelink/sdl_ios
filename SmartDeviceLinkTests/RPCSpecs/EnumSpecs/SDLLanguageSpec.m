@@ -15,6 +15,8 @@ QuickSpecBegin(SDLLanguageSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect([SDLLanguage EN_US].value).to(equal(@"EN-US"));
+        expect([SDLLanguage EN_IN].value).to(equal(@"EN-IN"));
+        expect([SDLLanguage TH_TH].value).to(equal(@"TH-TH"));
         expect([SDLLanguage ES_MX].value).to(equal(@"ES-MX"));
         expect([SDLLanguage FR_CA].value).to(equal(@"FR-CA"));
         expect([SDLLanguage DE_DE].value).to(equal(@"DE-DE"));
@@ -43,6 +45,8 @@ describe(@"Individual Enum Value Tests", ^ {
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
         expect([SDLLanguage valueOf:@"EN-US"]).to(equal([SDLLanguage EN_US]));
+        expect([SDLLanguage valueOf:@"EN-IN"]).to(equal([SDLLanguage EN_IN]));
+        expect([SDLLanguage valueOf:@"TH-TH"]).to(equal([SDLLanguage TH_TH]));
         expect([SDLLanguage valueOf:@"ES-MX"]).to(equal([SDLLanguage ES_MX]));
         expect([SDLLanguage valueOf:@"FR-CA"]).to(equal([SDLLanguage FR_CA]));
         expect([SDLLanguage valueOf:@"DE-DE"]).to(equal([SDLLanguage DE_DE]));
@@ -78,6 +82,8 @@ describe(@"Value List Tests", ^ {
     __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLLanguage EN_US],
+                        [SDLLanguage EN_IN],
+                        [SDLLanguage TH_TH],
                         [SDLLanguage ES_MX],
                         [SDLLanguage FR_CA],
                         [SDLLanguage DE_DE],

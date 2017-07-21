@@ -5,6 +5,8 @@
 #import "SDLLanguage.h"
 
 SDLLanguage *SDLLanguage_EN_US = nil;
+SDLLanguage *SDLLanguage_EN_IN = nil;
+SDLLanguage *SDLLanguage_TH_TH = nil;
 SDLLanguage *SDLLanguage_ES_MX = nil;
 SDLLanguage *SDLLanguage_FR_CA = nil;
 SDLLanguage *SDLLanguage_DE_DE = nil;
@@ -46,6 +48,8 @@ NSArray *SDLLanguage_values = nil;
     if (SDLLanguage_values == nil) {
         SDLLanguage_values = @[
             SDLLanguage.EN_US,
+            SDLLanguage.EN_IN,
+            SDLLanguage.TH_TH,
             SDLLanguage.ES_MX,
             SDLLanguage.FR_CA,
             SDLLanguage.DE_DE,
@@ -79,6 +83,20 @@ NSArray *SDLLanguage_values = nil;
         SDLLanguage_EN_US = [[SDLLanguage alloc] initWithValue:@"EN-US"];
     }
     return SDLLanguage_EN_US;
+}
+
++ (SDLLanguage *)EN_IN {
+    if (SDLLanguage_EN_IN == nil) {
+        SDLLanguage_EN_IN = [[SDLLanguage alloc] initWithValue:@"EN-IN"];
+    }
+    return SDLLanguage_EN_IN;
+}
+
++ (SDLLanguage *)TH_TH {
+    if (SDLLanguage_TH_TH == nil) {
+        SDLLanguage_TH_TH = [[SDLLanguage alloc] initWithValue:@"TH-TH"];
+    }
+    return SDLLanguage_TH_TH;
 }
 
 + (SDLLanguage *)ES_MX {
