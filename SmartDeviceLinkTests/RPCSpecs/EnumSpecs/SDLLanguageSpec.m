@@ -15,6 +15,8 @@ QuickSpecBegin(SDLLanguageSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLLanguageEnUs).to(equal(@"EN-US"));
+        expect(SDLLanguageEnIn).to(equal(@"EN-IN"));
+        expect(SDLLanguageThTh).to(equal(@"TH-TH"));
         expect(SDLLanguageEsMx).to(equal(@"ES-MX"));
         expect(SDLLanguageFrCa).to(equal(@"FR-CA"));
         expect(SDLLanguageDeDe).to(equal(@"DE-DE"));
