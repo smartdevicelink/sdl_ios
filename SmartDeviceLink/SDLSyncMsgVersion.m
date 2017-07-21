@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.majorVersion = @(majorVersion);
     self.minorVersion = @(minorVersion);
+    self.patchVersion = @(0);
 
     return self;
 }
@@ -52,11 +53,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameMinorVersion];
 }
 
-- (void)setPatchVersion:(NSNumber<SDLInt> *)patchVersion {
+- (void)setPatchVersion:(nullable NSNumber<SDLInt> *)patchVersion {
     [store sdl_setObject:patchVersion forName:SDLNamePatchVersion];
 }
 
-- (NSNumber<SDLInt> *)patchVersion {
+- (nullable NSNumber<SDLInt> *)patchVersion {
     return [store sdl_objectForName:SDLNamePatchVersion];
 }
 
