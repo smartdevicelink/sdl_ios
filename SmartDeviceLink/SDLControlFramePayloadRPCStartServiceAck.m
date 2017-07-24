@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _hashId = hashId;
     _mtu = mtu;
-    _protocolVersion = [NSString stringWithFormat:@"%lu.%lu.%lu", major, minor, patch];
+    _protocolVersion = [NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)patch];
 
     return self;
 }

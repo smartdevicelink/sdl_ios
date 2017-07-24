@@ -382,7 +382,7 @@ const int POLICIES_CORRELATION_ID = 65535;
         self.protocol.securityManager.appId = self.appId;
     }
 
-    if ([SDLGlobals globals].protocolVersion >= 4) {
+    if ([SDLGlobals globals].majorProtocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];

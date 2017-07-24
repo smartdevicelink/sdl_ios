@@ -2624,6 +2624,13 @@
 			name = "RPC Service";
 			sourceTree = "<group>";
 		};
+		5D4631161F223DEE0092EFDC /* End Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "End Service";
+			sourceTree = "<group>";
+		};
 		5D4832991A8EA27200252386 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -3735,6 +3742,7 @@
 				5D46310E1F2135850092EFDC /* SDLControlFramePayloadConstants.h */,
 				5D46310F1F2135850092EFDC /* SDLControlFramePayloadConstants.m */,
 				5D46310D1F2133940092EFDC /* RPC Service */,
+				5D4631161F223DEE0092EFDC /* End Service */,
 				5D4631051F2125F70092EFDC /* @protocols */,
 			);
 			name = "Control Frame Payloads";

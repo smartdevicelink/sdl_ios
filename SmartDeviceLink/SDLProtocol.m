@@ -103,7 +103,7 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].majorProtocolVersion];
     switch (serviceType) {
         case SDLServiceType_RPC: {
             // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
@@ -164,7 +164,7 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].majorProtocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_EndSession;
@@ -184,7 +184,7 @@ typedef NSNumber SDLServiceTypeBox;
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
 
-    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:[SDLGlobals globals].protocolVersion]];
+    NSData *jsonData = [[SDLJsonEncoder instance] encodeDictionary:[message serializeAsDictionary:[SDLGlobals globals].majorProtocolVersion]];
     NSData *messagePayload = nil;
 
     NSString *logMessage = [NSString stringWithFormat:@"%@", message];
@@ -192,7 +192,7 @@ typedef NSNumber SDLServiceTypeBox;
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
-    switch ([SDLGlobals globals].protocolVersion) {
+    switch ([SDLGlobals globals].majorProtocolVersion) {
         case 1: {
             // No binary header in version 1
             messagePayload = jsonData;
@@ -229,12 +229,12 @@ typedef NSNumber SDLServiceTypeBox;
             }
         } break;
         default: {
-            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals globals].protocolVersion), message);
+            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals globals].majorProtocolVersion), message);
         } break;
     }
 
     // Build the protocol level header & message
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].majorProtocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameType_Single;
     header.serviceType = (message.bulkData.length <= 0) ? SDLServiceType_RPC : SDLServiceType_BulkData;
@@ -243,7 +243,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
-    if ([SDLGlobals globals].protocolVersion >= 2) {
+    if ([SDLGlobals globals].majorProtocolVersion >= 2) {
         [((SDLV2ProtocolHeader *)header) setMessageID:++_messageID];
     }
 
@@ -297,7 +297,7 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)sdl_sendRawData:(NSData *)data onService:(SDLServiceType)service encryption:(BOOL)encryption {
-    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].protocolVersion];
+    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals globals].majorProtocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameType_Single;
     header.serviceType = service;
@@ -407,7 +407,7 @@ typedef NSNumber SDLServiceTypeBox;
 - (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
     switch (header.serviceType) {
         case SDLServiceType_RPC: {
-            [SDLGlobals globals].maxHeadUnitVersion = header.version;
+            [SDLGlobals globals].maxHeadUnitVersion = header.version; // TODO: This is a v4 packet (create new delegate methods)
         } break;
         default:
             break;
@@ -462,7 +462,7 @@ typedef NSNumber SDLServiceTypeBox;
 
 - (void)handleHeartbeatForSession:(Byte)session {
     // Respond with a heartbeat ACK
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].majorProtocolVersion];
     header.frameType = SDLFrameType_Control;
     header.serviceType = SDLServiceType_Control;
     header.frameData = SDLFrameData_HeartbeatACK;
