@@ -1,5 +1,5 @@
 //
-//  SDLControlFramePayloadRPCStartServiceNak.h
+//  SDLControlFramePayloadNak.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Joel Fischer on 7/20/17.
@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLControlFramePayloadRPCStartServiceNak : NSObject <SDLControlFramePayloadType>
+@interface SDLControlFramePayloadNak : NSObject <SDLControlFramePayloadType>
 
 @property (copy, nonatomic, readonly, nullable) NSArray<NSString *> *rejectedParams;
 

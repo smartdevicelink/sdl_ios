@@ -1,12 +1,12 @@
 //
-//  SDLControlFrameStartService.m
+//  SDLControlFramePayloadAudioStartServiceAck.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Joel Fischer on 7/18/17.
+//  Created by Joel Fischer on 7/24/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLControlFramePayloadRPCStartService.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
 
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -14,27 +14,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLControlFramePayloadRPCStartService ()
+@interface SDLControlFramePayloadAudioStartServiceAck ()
 
+@property (assign, nonatomic, readwrite) int32_t hashId;
+@property (assign, nonatomic, readwrite) int64_t mtu;
 @property (copy, nonatomic, readwrite, nullable) NSString *protocolVersion;
 
 @end
 
+@implementation SDLControlFramePayloadAudioStartServiceAck
 
-@implementation SDLControlFramePayloadRPCStartService
-
-- (instancetype)initWithMajorVersion:(NSUInteger)majorVersion minorVersion:(NSUInteger)minorVersion patchVersion:(NSUInteger)patchVersion {
-    self = [self initWithVersion:[NSString stringWithFormat:@"%lu.%lu.%lu", majorVersion, minorVersion, patchVersion]];
-    if (!self) return nil;
-
-    return self;
-}
-
-- (instancetype)initWithVersion:(NSString *)stringVersion {
+- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu {
     self = [super init];
     if (!self) return nil;
 
-    _protocolVersion = stringVersion;
+    _hashId = hashId;
+    _mtu = mtu;
 
     return self;
 }
@@ -42,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithData:(nullable NSData *)data {
     self = [super init];
     if (!self) return nil;
+
+    _hashId = SDLControlFrameInt32NotFound;
+    _mtu = SDLControlFrameInt64NotFound;
 
     if (data != nil) {
         [self sdl_parse:data];
@@ -51,15 +49,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSData *)data {
-    if (self.protocolVersion == nil) {
+    if (self.hashId == SDLControlFrameInt32NotFound
+        && self.mtu == SDLControlFrameInt64NotFound) {
         return nil;
     }
 
     BsonObject payloadObject;
     bson_object_initialize_default(&payloadObject);
 
-    if (self.protocolVersion != nil) {
-        bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
+    if (self.hashId != SDLControlFrameInt32NotFound) {
+        bson_object_put_int32(&payloadObject, SDLControlFrameHashIdKey, self.hashId);
+    }
+
+    if (self.mtu != SDLControlFrameInt64NotFound) {
+        bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
     }
 
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
@@ -73,10 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
 
-    char *utf8String = bson_object_get_string(&payloadObject, SDLControlFrameProtocolVersionKey);
-    if (utf8String != NULL) {
-        self.protocolVersion = [NSString stringWithUTF8String:utf8String];
-    }
+    self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
+    self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
 
     bson_object_deinitialize(&payloadObject);
 }

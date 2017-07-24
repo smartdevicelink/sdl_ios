@@ -7,9 +7,9 @@
 
 #import "SDLAbstractTransport.h"
 #import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
-#import "SDLControlFramePayloadRPCStartServiceNak.h"
 #import "SDLDebugTool.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -465,14 +465,7 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
-    if (startServiceNAK.header.version >= 5) {
-        SDLControlFramePayloadRPCStartServiceNak *startServiceNakPayload = [[SDLControlFramePayloadRPCStartServiceNak alloc] initWithData:startServiceNAK.data];
-        NSArray<NSString *> *rejectedParams = startServiceNakPayload.rejectedParams;
-        if (rejectedParams.count > 0) {
-            NSString *log = [NSString stringWithFormat:@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(startServiceNAK.header.serviceType), rejectedParams];
-            [SDLDebugTool logInfo:log];
-        }
-    }
+    [self sdl_logControlNAKPayload:startServiceNAK];
 
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
@@ -507,6 +500,8 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+    [self sdl_logControlNAKPayload:endServiceNAK];
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
             [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
@@ -580,6 +575,17 @@ typedef NSNumber SDLServiceTypeBox;
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onError:exception:)]) {
             [listener onError:info exception:e];
+        }
+    }
+}
+
+- (void)sdl_logControlNAKPayload:(SDLProtocolMessage *)nakMessage {
+    if (nakMessage.header.version >= 5) {
+        SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.data];
+        NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
+        if (rejectedParams.count > 0) {
+            NSString *log = [NSString stringWithFormat:@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams];
+            [SDLDebugTool logInfo:log];
         }
     }
 }

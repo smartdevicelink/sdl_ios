@@ -1,12 +1,12 @@
 //
-//  SDLControlFramePayloadRPCStartServiceNak.m
+//  SDLControlFramePayloadNak.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Joel Fischer on 7/20/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLControlFramePayloadRPCStartServiceNak.h"
+#import "SDLControlFramePayloadNak.h"
 
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -14,13 +14,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLControlFramePayloadRPCStartServiceNak ()
+@interface SDLControlFramePayloadNak ()
 
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *rejectedParams;
 
 @end
 
-@implementation SDLControlFramePayloadRPCStartServiceNak
+@implementation SDLControlFramePayloadNak
 
 - (instancetype)initWithRejectedParams:(nullable NSArray<NSString *> *)rejectedParams {
     self = [super init];
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) return nil;
 
-    if (data) {
+    if (data != nil) {
         [self sdl_parse:data];
     }
 

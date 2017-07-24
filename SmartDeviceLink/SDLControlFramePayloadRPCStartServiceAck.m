@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     _hashId = SDLControlFrameInt32NotFound;
     _mtu = SDLControlFrameInt64NotFound;
 
-    if (data) {
+    if (data != nil) {
         [self sdl_parse:data];
     }
 
