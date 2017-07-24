@@ -9,7 +9,7 @@
 #import "SDLGlobals.h"
 
 // VERSION DEPENDENT CODE
-NSString *const maxProxyProtocolVersion = @"5.0.0";
+NSString *const SDLMaxProxyProtocolVersion = @"5.0.0";
 
 NSUInteger const SDLDefaultMTUSize = UINT32_MAX;
 NSUInteger const SDLV1MTUSize = 1024;
@@ -53,7 +53,7 @@ NSUInteger const SDLV3MTUSize = 131024;
 #pragma mark - Custom Getters / Setters
 
 - (void)setMaxHeadUnitVersion:(NSString *)maxHeadUnitVersion {
-    self.protocolVersion = [self sdl_isVersion:maxHeadUnitVersion greaterThanVersion:maxProxyProtocolVersion] ? maxProxyProtocolVersion : maxHeadUnitVersion;
+    self.protocolVersion = [self sdl_isVersion:maxHeadUnitVersion greaterThanVersion:SDLMaxProxyProtocolVersion] ? SDLMaxProxyProtocolVersion : maxHeadUnitVersion;
 
     _maxHeadUnitVersion = maxHeadUnitVersion;
 }
@@ -69,7 +69,7 @@ NSUInteger const SDLV3MTUSize = 131024;
         case 3: // fallthrough
         case 4: {
             // If the head unit isn't running v3/4, but that's the connection scheme we're using, then we have to know that they could be running an MTU that's not 128k, so we default back to the v1/2 MTU for safety.
-            if ([self sdl_isVersion:self.maxHeadUnitVersion greaterThanVersion:maxProxyProtocolVersion]) {
+            if ([self sdl_isVersion:self.maxHeadUnitVersion greaterThanVersion:SDLMaxProxyProtocolVersion]) {
                 return SDLV1MTUSize;
             } else {
                 return SDLV3MTUSize;

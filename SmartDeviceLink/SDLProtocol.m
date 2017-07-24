@@ -108,6 +108,8 @@ typedef NSNumber SDLServiceTypeBox;
 
 - (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].majorProtocolVersion];
+    NSData *payload = nil;
+
     switch (serviceType) {
         case SDLServiceType_RPC: {
             // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
@@ -117,6 +119,9 @@ typedef NSNumber SDLServiceTypeBox;
             } else {
                 header.sessionID = 0;
             }
+
+            SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
+            payload = startServicePayload.data;
         } break;
         default: {
             header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
@@ -129,7 +134,7 @@ typedef NSNumber SDLServiceTypeBox;
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
     header.encrypted = encryption;
 
-    return [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    return [SDLProtocolMessage messageWithHeader:header andPayload:payload];
 }
 
 - (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *error))completionHandler {

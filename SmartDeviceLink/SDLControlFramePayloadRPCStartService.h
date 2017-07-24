@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly, nullable) NSString *protocolVersion;
 
 - (instancetype)initWithMajorVersion:(NSUInteger)majorVersion minorVersion:(NSUInteger)minorVersion patchVersion:(NSUInteger)patchVersion;
+- (instancetype)initWithVersion:(NSString *)stringVersion;
 
 @end
 

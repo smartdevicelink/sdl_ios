@@ -24,10 +24,17 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLControlFramePayloadRPCStartService
 
 - (instancetype)initWithMajorVersion:(NSUInteger)majorVersion minorVersion:(NSUInteger)minorVersion patchVersion:(NSUInteger)patchVersion {
+    self = [self initWithVersion:[NSString stringWithFormat:@"%lu.%lu.%lu", majorVersion, minorVersion, patchVersion]];
+    if (!self) return nil;
+
+    return self;
+}
+
+- (instancetype)initWithVersion:(NSString *)stringVersion {
     self = [super init];
     if (!self) return nil;
 
-    _protocolVersion = [NSString stringWithFormat:@"%lu.%lu.%lu", majorVersion, minorVersion, patchVersion];
+    _protocolVersion = stringVersion;
 
     return self;
 }

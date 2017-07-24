@@ -11,7 +11,7 @@
 #define SDL_SYSTEM_VERSION_LESS_THAN(version) ([[[UIDevice currentDevice] systemVersion] compare:version options:NSNumericSearch] == NSOrderedAscending)
 #define BLOCK_RETURN return
 
-extern NSString *const maxProxyProtocolVersion;
+extern NSString *const SDLMaxProxyProtocolVersion;
 
 extern NSUInteger const SDLDefaultMTUSize;
 extern NSUInteger const SDLV1MTUSize;
