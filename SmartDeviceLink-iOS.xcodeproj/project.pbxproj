@@ -871,7 +871,7 @@
 		5DA3F3601BC448590026F2D0 /* SDLNotificationConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */; };
 		5DA3F3701BC4489A0026F2D0 /* SDLManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DA3F3711BC4489A0026F2D0 /* SDLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */; };
-		5DA49CCD1F1E653800E65FC5 /* emhashmap_LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5DA49CCA1F1E653800E65FC5 /* emhashmap_LICENSE */; };
+		5DA49CCD1F1E653800E65FC5 /* emhashmap_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5DA49CCA1F1E653800E65FC5 /* emhashmap_LICENSE.txt */; };
 		5DA49CD41F1E890500E65FC5 /* bson_array.c in Sources */ = {isa = PBXBuildFile; fileRef = 5DA49CCE1F1E890500E65FC5 /* bson_array.c */; };
 		5DA49CD51F1E890500E65FC5 /* bson_array.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA49CCF1F1E890500E65FC5 /* bson_array.h */; };
 		5DA49CD61F1E890500E65FC5 /* bson_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 5DA49CD01F1E890500E65FC5 /* bson_object.c */; };
@@ -1949,7 +1949,7 @@
 		5DA3F35E1BC448590026F2D0 /* SDLNotificationConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNotificationConstants.m; sourceTree = "<group>"; };
 		5DA3F36E1BC4489A0026F2D0 /* SDLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManager.h; sourceTree = "<group>"; };
 		5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLManager.m; sourceTree = "<group>"; };
-		5DA49CCA1F1E653800E65FC5 /* emhashmap_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = emhashmap_LICENSE; sourceTree = "<group>"; };
+		5DA49CCA1F1E653800E65FC5 /* emhashmap_LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = emhashmap_LICENSE.txt; sourceTree = "<group>"; };
 		5DA49CCE1F1E890500E65FC5 /* bson_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson_array.c; sourceTree = "<group>"; };
 		5DA49CCF1F1E890500E65FC5 /* bson_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson_array.h; sourceTree = "<group>"; };
 		5DA49CD01F1E890500E65FC5 /* bson_object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson_object.c; sourceTree = "<group>"; };
@@ -3731,7 +3731,7 @@
 			children = (
 				5DA49CDB1F1E890D00E65FC5 /* emhashmap.h */,
 				5DA49CDA1F1E890D00E65FC5 /* emhashmap.c */,
-				5DA49CCA1F1E653800E65FC5 /* emhashmap_LICENSE */,
+				5DA49CCA1F1E653800E65FC5 /* emhashmap_LICENSE.txt */,
 			);
 			name = emhashmap;
 			sourceTree = "<group>";
@@ -4531,7 +4531,7 @@
 				DA7515B51D95FAA000F29323 /* lock_arrow_down_white@2x.png in Resources */,
 				DA7515BE1D95FAA000F29323 /* sdl_logo_black@2x.png in Resources */,
 				DA7515B91D95FAA000F29323 /* lock_arrow_up_black@3x.png in Resources */,
-				5DA49CCD1F1E653800E65FC5 /* emhashmap_LICENSE in Resources */,
+				5DA49CCD1F1E653800E65FC5 /* emhashmap_LICENSE.txt in Resources */,
 				DA7515B71D95FAA000F29323 /* lock_arrow_up_black.png in Resources */,
 				DA7515BC1D95FAA000F29323 /* lock_arrow_up_white@3x.png in Resources */,
 				DA7515B81D95FAA000F29323 /* lock_arrow_up_black@2x.png in Resources */,

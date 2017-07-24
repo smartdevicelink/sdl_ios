@@ -6,6 +6,10 @@
 #import "SDLJsonEncoder.h"
 
 #import "SDLAbstractTransport.h"
+#import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadRPCStartService.h"
+#import "SDLControlFramePayloadRPCStartServiceAck.h"
+#import "SDLControlFramePayloadRPCStartServiceNak.h"
 #import "SDLDebugTool.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -199,7 +203,8 @@ typedef NSNumber SDLServiceTypeBox;
         } break;
         case 2: // Fallthrough
         case 3: // Fallthrough
-        case 4: {
+        case 4: // Fallthrough
+        case 5: {
             // Build a binary header
             // Serialize the RPC data into an NSData
             SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
@@ -404,60 +409,111 @@ typedef NSNumber SDLServiceTypeBox;
     }
 }
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
-    switch (header.serviceType) {
-        case SDLServiceType_RPC: {
-            [SDLGlobals globals].maxHeadUnitVersion = header.version; // TODO: This is a v4 packet (create new delegate methods)
-        } break;
-        default:
-            break;
+// TODO: This is a v4 packet (create new delegate methods)
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    // V5 Packet
+    if (startServiceACK.header.version >= 5) {
+        switch (startServiceACK.header.serviceType) {
+            case SDLServiceType_RPC: {
+                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+
+                [SDLGlobals globals].maxMTUSize = (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) ? startServiceACKPayload.mtu : SDLDefaultMTUSize;
+                [SDLGlobals globals].maxHeadUnitVersion = (startServiceACKPayload.protocolVersion != nil) ? startServiceACKPayload.protocolVersion : [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
+                // TODO: Hash id?
+            } break;
+            default:
+                break;
+        }
+    } else {
+        // V4 and below packet
+        switch (startServiceACK.header.serviceType) {
+            case SDLServiceType_RPC: {
+                [SDLGlobals globals].maxHeadUnitVersion = [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
+            } break;
+            default:
+                break;
+        }
     }
 
     // Store the header of this service away for future use
-    self.serviceHeaders[@(header.serviceType)] = [header copy];
+    self.serviceHeaders[@(startServiceACK.header.serviceType)] = [startServiceACK.header copy];
 
     // Pass along to all the listeners
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
+            [listener handleProtocolStartServiceACKMessage:startServiceACK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
-            [listener handleProtocolStartSessionACK:header];
+            [listener handleProtocolStartSessionACK:startServiceACK.header];
         }
 
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [listener handleProtocolStartSessionACK:header.serviceType
-                                          sessionID:header.sessionID
-                                            version:header.version];
+            [listener handleProtocolStartSessionACK:startServiceACK.header.serviceType
+                                          sessionID:startServiceACK.header.sessionID
+                                            version:startServiceACK.header.version];
 #pragma clang diagnostic pop
         }
     }
 }
 
-- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+    if (startServiceNAK.header.version >= 5) {
+        SDLControlFramePayloadRPCStartServiceNak *startServiceNakPayload = [[SDLControlFramePayloadRPCStartServiceNak alloc] initWithData:startServiceNAK.data];
+        NSArray<NSString *> *rejectedParams = startServiceNakPayload.rejectedParams;
+        if (rejectedParams.count > 0) {
+            NSString *log = [NSString stringWithFormat:@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(startServiceNAK.header.serviceType), rejectedParams];
+            [SDLDebugTool logInfo:log];
+        }
+    }
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
+            [listener handleProtocolStartServiceNAKMessage:startServiceNAK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
-            [listener handleProtocolStartSessionNACK:serviceType];
+            [listener handleProtocolStartSessionNACK:startServiceNAK.header.serviceType];
         }
+#pragma clang diagnostic pop
     }
 }
 
-- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     // Remove the session id
-    [self.serviceHeaders removeObjectForKey:@(serviceType)];
+    [self.serviceHeaders removeObjectForKey:@(endServiceACK.header.serviceType)];
 
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
+            [listener handleProtocolEndServiceACKMessage:endServiceACK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
-            [listener handleProtocolEndSessionACK:serviceType];
+            [listener handleProtocolEndSessionACK:endServiceACK.header.serviceType];
         }
     }
+#pragma clang diagnostic pop
 }
 
-- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
+            [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
-            [listener handleProtocolEndSessionNACK:serviceType];
+            [listener handleProtocolEndSessionNACK:endServiceNAK.header.serviceType];
         }
     }
+#pragma clang diagnostic pop
 }
 
 - (void)handleHeartbeatForSession:(Byte)session {
