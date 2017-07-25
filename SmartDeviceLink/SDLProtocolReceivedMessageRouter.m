@@ -52,22 +52,6 @@
 }
 
 - (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message {
-    // VERSION DEPENDENT CODE
-    switch (message.header.version) {
-        case 1: // fallthrough
-        case 2: // fallthrough
-        case 3: // fallthrough
-        case 4: {
-            [self sdl_dispatchV1ControlMessage:message];
-        } break;
-        case 5: {
-            // TODO: New delegates
-            [self sdl_dispatchV5ControlMessage:message];
-        } break;
-    }
-}
-
-- (void)sdl_dispatchV1ControlMessage:(SDLProtocolMessage *)message {
     switch (message.header.frameData) {
         case SDLFrameData_StartSessionACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
@@ -101,10 +85,6 @@
         } break;
         default: break; // Other frame data is possible, but we don't care about them
     }
-}
-
-- (void)sdl_dispatchV5ControlMessage:(SDLProtocolMessage *)message {
-    // TODO
 }
 
 - (void)sdl_dispatchMultiPartMessage:(SDLProtocolMessage *)message {
