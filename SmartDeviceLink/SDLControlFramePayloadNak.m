@@ -90,6 +90,10 @@ NS_ASSUME_NONNULL_BEGIN
     bson_object_deinitialize(&payloadObject);
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@>: Rejected params: %@", NSStringFromClass(self.class), self.rejectedParams];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

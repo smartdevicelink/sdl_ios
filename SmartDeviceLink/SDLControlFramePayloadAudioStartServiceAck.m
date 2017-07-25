@@ -82,6 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
     bson_object_deinitialize(&payloadObject);
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@>: hash id: %d, mtu: %lld", NSStringFromClass(self.class), self.hashId, self.mtu];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
