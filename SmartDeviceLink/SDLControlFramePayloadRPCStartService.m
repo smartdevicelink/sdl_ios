@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     BsonObject payloadObject;
-    bson_object_initialize_default(&payloadObject);
+    bson_object_initialize(&payloadObject, 1, 1.0);
 
     if (self.protocolVersion != nil) {
         bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
@@ -79,6 +79,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     bson_object_deinitialize(&payloadObject);
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@>: Protocol Version: %@", NSStringFromClass(self.class), self.protocolVersion];
 }
 
 @end
