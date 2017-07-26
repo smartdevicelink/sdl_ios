@@ -110,6 +110,7 @@ Your application must support a set of smartdevicelink protocol strings in order
 <string>com.smartdevicelink.prot1</string>
 <string>com.smartdevicelink.prot0</string>
 <string>com.ford.sync.prot0</string>
+<string>com.smartdevicelink.multisession</string>
 </array>
 ```
 
