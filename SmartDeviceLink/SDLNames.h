@@ -275,6 +275,7 @@
 #define NAMES_passengerDoorAjar @"passengerDoorAjar"
 #define NAMES_passengerKneeAirbagDeployed @"passengerKneeAirbagDeployed"
 #define NAMES_passengerSideAirbagDeployed @"passengerSideAirbagDeployed"
+#define NAMES_patchVersion @"patchVersion"
 #define NAMES_pdop @"pdop"
 #define NAMES_PerformAudioPassThru @"PerformAudioPassThru"
 #define NAMES_PerformInteraction @"PerformInteraction"
