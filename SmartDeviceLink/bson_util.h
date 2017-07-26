@@ -58,6 +58,10 @@ enum bson_boolean {
 };
 typedef enum bson_boolean bson_boolean;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
   @brief Write a little endian 32-bit integer value to a given buffer
 
@@ -171,5 +175,9 @@ size_t array_key_size(size_t index);
   @return The number of decimal digits in value
 */
 size_t digits(size_t value);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

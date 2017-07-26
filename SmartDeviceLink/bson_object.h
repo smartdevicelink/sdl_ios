@@ -21,7 +21,7 @@ typedef struct BsonObject BsonObject;
 
 struct BsonElement {
   //The value of this element
-  void* value;
+  void *value;
   //The data type of this element
   element_type type;
   //Size of the element in bytes when converted to BSON 
@@ -29,6 +29,16 @@ struct BsonElement {
   size_t size;
 };
 typedef struct BsonElement BsonElement;
+
+struct BsonObjectEntry {
+  char key[255];
+  BsonElement *element;
+};
+typedef struct BsonObjectEntry BsonObjectEntry;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
   @brief Initalize BSON Object
@@ -104,7 +114,7 @@ char *bson_object_to_string(BsonObject *obj, char *out);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_object(BsonObject *obj, char *key, BsonObject *value);
+bool bson_object_put_object(BsonObject *obj, const char *key, BsonObject *value);
 /*
   @brief Put a new BSON array into a given object
 
@@ -116,7 +126,7 @@ bool bson_object_put_object(BsonObject *obj, char *key, BsonObject *value);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_array(BsonObject *obj, char *key, BsonArray *value);
+bool bson_object_put_array(BsonObject *obj, const char *key, BsonArray *value);
 /*
   @brief Put a new 32-bit integer value into a given object
 
@@ -128,7 +138,7 @@ bool bson_object_put_array(BsonObject *obj, char *key, BsonArray *value);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_int32(BsonObject *obj, char *key, int32_t value);
+bool bson_object_put_int32(BsonObject *obj, const char *key, int32_t value);
 /*
   @brief Put a new 64-bit integer value into a given object
 
@@ -140,7 +150,7 @@ bool bson_object_put_int32(BsonObject *obj, char *key, int32_t value);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_int64(BsonObject *obj, char *key, int64_t value);
+bool bson_object_put_int64(BsonObject *obj, const char *key, int64_t value);
 /*
   @brief Put a new string value into a given object
 
@@ -152,7 +162,7 @@ bool bson_object_put_int64(BsonObject *obj, char *key, int64_t value);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_string(BsonObject *obj, char *key, char *value);
+bool bson_object_put_string(BsonObject *obj, const char *key, char *value);
 /*
   @brief Put a new boolean value into a given object
 
@@ -164,7 +174,7 @@ bool bson_object_put_string(BsonObject *obj, char *key, char *value);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_bool(BsonObject *obj, char *key, bson_boolean value);
+bool bson_object_put_bool(BsonObject *obj, const char *key, bson_boolean value);
 /*
   @brief Put a new floating-point value into a given object
 
@@ -176,8 +186,21 @@ bool bson_object_put_bool(BsonObject *obj, char *key, bson_boolean value);
 
   @return - true if the value was set successfully, false if not
 */
-bool bson_object_put_double(BsonObject *obj, char *key, double value);
+bool bson_object_put_double(BsonObject *obj, const char *key, double value);
 
+/*
+  @brief Put a new element into a given object
+
+  @param obj - The object to be modified
+  @param key - The key used to reference the new element
+  @param type - The type of the element to be added
+  @param value - The value of the element to be added
+  @param allocSize - The size, in bytes, to be allocated for the element
+  @param elementSize - The size, in bytes, of the element when converted to BSON format 
+
+  @return - true if the addition was successful, false if not
+*/
+BsonElement *bson_object_get(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the BSON object to which the specified key is mapped in an object
 
@@ -186,7 +209,7 @@ bool bson_object_put_double(BsonObject *obj, char *key, double value);
 
   @return - The pointer to the BSON object mapped to the given key if it exists, NULL otherwise
 */
-BsonObject *bson_object_get_object(BsonObject *obj, char *key);
+BsonObject *bson_object_get_object(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the BSON array to which the specified key is mapped in an object
 
@@ -195,7 +218,7 @@ BsonObject *bson_object_get_object(BsonObject *obj, char *key);
 
   @return - The pointer to the BSON array mapped to the given key if it exists, NULL otherwise
 */
-BsonArray *bson_object_get_array(BsonObject *obj, char *key);
+BsonArray *bson_object_get_array(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the 32-bit integer value to which the specified key is mapped in an object
 
@@ -204,7 +227,7 @@ BsonArray *bson_object_get_array(BsonObject *obj, char *key);
 
   @return - The 32-bit integer value mapped to the given key if it exists, NULL otherwise
 */
-int32_t bson_object_get_int32(BsonObject *obj, char *key);
+int32_t bson_object_get_int32(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the 64-bit integer value to which the specified key is mapped in an object
 
@@ -213,7 +236,7 @@ int32_t bson_object_get_int32(BsonObject *obj, char *key);
 
   @return - The 64-bit integer value mapped to the given key if it exists, NULL otherwise
 */
-int64_t bson_object_get_int64(BsonObject *obj, char *key);
+int64_t bson_object_get_int64(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the string value to which the specified key is mapped in an object
 
@@ -222,7 +245,7 @@ int64_t bson_object_get_int64(BsonObject *obj, char *key);
 
   @return - The string value mapped to the given key if it exists, NULL otherwise
 */
-char *bson_object_get_string(BsonObject *obj, char *key);
+char *bson_object_get_string(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the boolean value to which the specified key is mapped in an object
 
@@ -231,7 +254,7 @@ char *bson_object_get_string(BsonObject *obj, char *key);
 
   @return - The boolean value mapped to the given key if it exists, NULL otherwise
 */
-bson_boolean bson_object_get_bool(BsonObject *obj, char *key);
+bson_boolean bson_object_get_bool(BsonObject *obj, const char *key);
 /*
   @brief Retrieve the floating-point value to which the specified key is mapped in an object
 
@@ -240,6 +263,28 @@ bson_boolean bson_object_get_bool(BsonObject *obj, char *key);
 
   @return - The floating-point value mapped to the given key if it exists, NULL otherwise
 */
-double bson_object_get_double(BsonObject *obj, char *key);
+double bson_object_get_double(BsonObject *obj, const char *key);
+
+/*
+  @brief Get an iterator for a given BSON object
+
+  @param obj - The object from which the iterator is created
+
+  @return - The iterator
+*/
+MapIterator bson_object_iterator(BsonObject *obj);
+/*
+  @brief Get the next value from an object iterator
+
+  @param iterator - The iterator to be advanced
+
+  @return - The next BSON object entry in the object if it exists, 
+            NULL if the iterator has moved past the end of the entry list
+*/
+BsonObjectEntry bson_object_iterator_next(MapIterator *iterator);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

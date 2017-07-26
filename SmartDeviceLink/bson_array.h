@@ -20,6 +20,10 @@ struct BsonArray {
 };
 typedef struct BsonArray BsonArray;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
   @brief Initalize BSON Array
   
@@ -139,6 +143,16 @@ bool bson_array_add_bool(BsonArray *array, bson_boolean value);
 bool bson_array_add_double(BsonArray *array, double value);
 
 /*
+  @brief Retrieve the object at a specified index
+
+  @param array - The array to be accessed
+  @param index - The index of the object within the array
+
+  @return - The BSON element at the given index if it exists, 
+  NULL if the index is out of bounds
+*/
+BsonElement *bson_array_get(BsonArray *array, size_t index);
+/*
   @brief Retrieve the BSON object at a specified index in an array
 
   @param array - The array to be accessed
@@ -208,5 +222,9 @@ bson_boolean bson_array_get_bool(BsonArray *array, size_t index);
   NULL if the index is out of bounds or the value is not a floating-point number
 */
 double bson_array_get_double(BsonArray *array, size_t index);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

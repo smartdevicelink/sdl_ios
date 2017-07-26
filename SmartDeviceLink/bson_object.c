@@ -1,7 +1,7 @@
 #include "bson_object.h"
 #define DEFAULT_MAP_SIZE 32
 
-size_t hash_function(char* key, size_t maxValue) {
+size_t hash_function(const char* key, size_t maxValue) {
   size_t keyLength = strlen(key);
   size_t hash = 0;
   int i;
@@ -283,7 +283,7 @@ char *bson_object_to_string(BsonObject *obj, char *out) {
   return out;
 }
 
-bool bson_object_put_element(BsonObject *obj, char *key, BsonElement *element, size_t allocSize) {
+bool bson_object_put_element(BsonObject *obj, const char *key, BsonElement *element, size_t allocSize) {
   BsonElement *allocElement = malloc(sizeof(BsonElement));
   allocElement->type = element->type;
   allocElement->size = element->size;
@@ -303,19 +303,7 @@ bool bson_object_put_element(BsonObject *obj, char *key, BsonElement *element, s
   return emhashmap_put(&obj->data, key, (void *)allocElement);
 }
 
-/*
-  @brief Put a new element into a given object
-
-  @param obj - The object to be modified
-  @param key - The key used to reference the new element
-  @param type - The type of the element to be added
-  @param value - The value of the element to be added
-  @param allocSize - The size, in bytes, to be allocated for the element
-  @param elementSize - The size, in bytes, of the element when converted to BSON format 
-
-  @return - true if the addition was successful, false if not
-*/
-bool bson_object_put(BsonObject *obj, char *key, element_type type, void *value, size_t allocSize, size_t elementSize) {
+bool bson_object_put(BsonObject *obj, const char *key, element_type type, void *value, size_t allocSize, size_t elementSize) {
   BsonElement element;
   element.type = type;
   element.value = value;
@@ -323,82 +311,94 @@ bool bson_object_put(BsonObject *obj, char *key, element_type type, void *value,
   return bson_object_put_element(obj, key, &element, allocSize);
 }
 
-bool bson_object_put_object(BsonObject *obj, char *key, BsonObject *value) {
+bool bson_object_put_object(BsonObject *obj, const char *key, BsonObject *value) {
   return bson_object_put(obj, key, TYPE_DOCUMENT, value, sizeof(BsonObject), 0);
 }
 
-bool bson_object_put_array(BsonObject *obj, char *key, BsonArray *value) {
+bool bson_object_put_array(BsonObject *obj, const char *key, BsonArray *value) {
   return bson_object_put(obj, key, TYPE_ARRAY, value, sizeof(BsonArray), 0);
 }
 
-bool bson_object_put_int32(BsonObject *obj, char *key, int32_t value) {
+bool bson_object_put_int32(BsonObject *obj, const char *key, int32_t value) {
   return bson_object_put(obj, key, TYPE_INT32, &value, sizeof(int32_t),
                          SIZE_INT32);
 }
 
-bool bson_object_put_int64(BsonObject *obj, char *key, int64_t value) {
+bool bson_object_put_int64(BsonObject *obj, const char *key, int64_t value) {
   return bson_object_put(obj, key, TYPE_INT64, &value, sizeof(int64_t),
                          SIZE_INT64);
 }
 
-bool bson_object_put_string(BsonObject *obj, char *key, char *value) {
+bool bson_object_put_string(BsonObject *obj, const char *key, char *value) {
   return bson_object_put(obj, key, TYPE_STRING, value, (strlen(value) + 1) * sizeof(char),
                          strlen(value) + STRING_OVERHEAD_BYTES);
 }
 
-bool bson_object_put_bool(BsonObject *obj, char *key, bson_boolean value) {
+bool bson_object_put_bool(BsonObject *obj, const char *key, bson_boolean value) {
   return bson_object_put(obj, key, TYPE_BOOLEAN, &value, sizeof(bson_boolean),
                          SIZE_BOOLEAN);
 }
 
-bool bson_object_put_double(BsonObject *obj, char *key, double value) {
+bool bson_object_put_double(BsonObject *obj, const char *key, double value) {
   return bson_object_put(obj, key, TYPE_DOUBLE, &value, sizeof(double),
                          SIZE_DOUBLE);
 }
 
-BsonElement *bson_object_get(BsonObject *obj, char *key) {
+BsonElement *bson_object_get(BsonObject *obj, const char *key) {
   MapEntry *entry = emhashmap_get(&obj->data, key);
   return (entry == NULL) ? NULL : entry->value;
 }
 
-BsonObject *bson_object_get_object(BsonObject *obj, char *key) {
+BsonObject *bson_object_get_object(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_DOCUMENT) ? 
           NULL : (BsonObject *)element->value;
 }
 
-BsonArray *bson_object_get_array(BsonObject *obj, char *key) {
+BsonArray *bson_object_get_array(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_ARRAY) ? 
           NULL : (BsonArray *)element->value;
 }
 
-int32_t bson_object_get_int32(BsonObject *obj, char *key) {
+int32_t bson_object_get_int32(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_INT32) ? 
           -1 : *(int32_t *)element->value;
 }
 
-int64_t bson_object_get_int64(BsonObject *obj, char *key) {
+int64_t bson_object_get_int64(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_INT64) ? 
           -1 : *(int64_t *)element->value;
 }
 
-char *bson_object_get_string(BsonObject *obj, char *key) {
+char *bson_object_get_string(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_STRING) ? 
           NULL : (char *)element->value;
 }
 
-bson_boolean bson_object_get_bool(BsonObject *obj, char *key) {
+bson_boolean bson_object_get_bool(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_BOOLEAN) ? 
           BOOLEAN_INVALID : *(bson_boolean *)element->value;
 }
 
-double bson_object_get_double(BsonObject *obj, char *key) {
+double bson_object_get_double(BsonObject *obj, const char *key) {
   BsonElement *element = bson_object_get(obj, key);
   return (element == NULL || element->type != TYPE_DOUBLE) ? 
           -1 : *(double *)element->value;
+}
+
+MapIterator bson_object_iterator(BsonObject *obj) {
+  return emhashmap_iterator(&obj->data);
+}
+
+BsonObjectEntry bson_object_iterator_next(MapIterator *iterator) {
+  MapEntry *entry = emhashmap_iterator_next(iterator);
+  BsonObjectEntry bsonEntry;
+  strncpy(bsonEntry.key, entry->key, 255);
+  bsonEntry.element = (BsonElement *)entry->value;
+  return bsonEntry;
 }

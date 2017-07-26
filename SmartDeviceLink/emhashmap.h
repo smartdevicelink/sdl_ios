@@ -41,7 +41,7 @@ struct HashMap {
    MapBucketList* buckets;
    MapEntry* entries;
    MapBucketList free_list;
-   size_t (*hash)(char*, size_t);
+   size_t (*hash)(const char*, size_t);
 };
 typedef struct HashMap HashMap;
 
@@ -66,7 +66,7 @@ typedef struct MapIterator MapIterator;
  * Returns true if the map was initialized, successfully, false if space could
  * not be allocated for the buckets or entries.
  */
-bool emhashmap_initialize(HashMap* map, int capacity, float load_factor, size_t (*hash_function)(char*, size_t));
+bool emhashmap_initialize(HashMap* map, int capacity, float load_factor, size_t (*hash_function)(const char*, size_t));
 
 /* Public: De-initialize a map, freeing memory for the buckets and entries.
  *
@@ -85,7 +85,7 @@ void emhashmap_deinitialize(HashMap* map);
  *
  * Returns the MapEntry if found, otherwise NULL.
  */
-MapEntry* emhashmap_get(HashMap* map, char* key);
+MapEntry* emhashmap_get(HashMap* map, const char* key);
 
 /* Public: Check if the given key is in the map.
  *
@@ -94,7 +94,7 @@ MapEntry* emhashmap_get(HashMap* map, char* key);
  *
  * Returns true if the key is in the map.
  */
-bool emhashmap_contains(HashMap* map, char* key);
+bool emhashmap_contains(HashMap* map, const char* key);
 
 /* Public: Put the value in the map with the given key.
  *
@@ -104,7 +104,7 @@ bool emhashmap_contains(HashMap* map, char* key);
  * Returns true if there was space in the map and the key-value pair was added
  * successfully. Returns false if the map is full.
  */
-bool emhashmap_put(HashMap* map, char* key, void* value);
+bool emhashmap_put(HashMap* map, const char* key, void* value);
 
 /* Public: Remove a value with the given key from the map.
  *
@@ -115,7 +115,7 @@ bool emhashmap_put(HashMap* map, char* key, void* value);
  * responsible for freeing any memory associated with that pointer.
  * Returns NULL if the key was not in the map.
  */
-void* emhashmap_remove(HashMap* map, char* key);
+void* emhashmap_remove(HashMap* map, const char* key);
 
 /* Public: Get the number of keys in the map.
  *

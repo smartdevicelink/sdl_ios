@@ -344,15 +344,6 @@ bool bson_array_add_double(BsonArray *array, double value) {
                         SIZE_DOUBLE);
 }
 
-/*
-  @brief Retrieve the object at a specified index
-
-  @param array - The array to be accessed
-  @param index - The index of the object within the array
-
-  @return - The BSON element at the given index if it exists, 
-  NULL if the index is out of bounds
-*/
 BsonElement *bson_array_get(BsonArray *array, size_t index) {
   return (index >= array->count) ? NULL : array->elements[index];
 }

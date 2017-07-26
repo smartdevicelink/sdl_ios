@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-static MapBucketList* find_bucket(HashMap* map, char* key) {
+static MapBucketList* find_bucket(HashMap* map, const char* key) {
     MapBucketList* bucket = NULL;
 
     if(map != NULL && map->buckets != NULL) {
@@ -27,7 +27,7 @@ void emhashmap_deinitialize(HashMap* map) {
     }
 }
 
-bool emhashmap_initialize(HashMap* map, int capacity, float load_factor, size_t (*hash_function)(char*, size_t)) {
+bool emhashmap_initialize(HashMap* map, int capacity, float load_factor, size_t (*hash_function)(const char*, size_t)) {
     map->bucket_count = ((int)(capacity / load_factor) + 1);
     map->capacity = capacity;
     map->entries = (MapEntry*) malloc(sizeof(MapEntry) * map->capacity);
@@ -48,7 +48,7 @@ bool emhashmap_initialize(HashMap* map, int capacity, float load_factor, size_t 
     return map->buckets != NULL;
 }
 
-MapEntry* emhashmap_get(HashMap* map, char* key) {
+MapEntry* emhashmap_get(HashMap* map, const char* key) {
     MapBucketList* bucket = find_bucket(map, key);
 
     MapEntry* entry;
@@ -60,11 +60,11 @@ MapEntry* emhashmap_get(HashMap* map, char* key) {
     return NULL;
 }
 
-bool emhashmap_contains(HashMap* map, char* key) {
+bool emhashmap_contains(HashMap* map, const char* key) {
     return emhashmap_get(map, key) != NULL;
 }
 
-bool emhashmap_put(HashMap* map, char* key, void* value) {
+bool emhashmap_put(HashMap* map, const char* key, void* value) {
     MapBucketList* bucket = find_bucket(map, key);
 
     MapEntry* entry, *matching_entry = NULL;
@@ -91,7 +91,7 @@ bool emhashmap_put(HashMap* map, char* key, void* value) {
     return result;
 }
 
-void* emhashmap_remove(HashMap* map, char* key) {
+void* emhashmap_remove(HashMap* map, const char* key) {
     MapBucketList* bucket = find_bucket(map, key);
 
     MapEntry* entry, *matching_entry = NULL;
@@ -144,10 +144,10 @@ MapEntry* emhashmap_iterator_next(MapIterator* iterator) {
         }
 
         if(iterator->current_entry == NULL) {
-            do {
+            while (iterator->current_entry == NULL &&
+                   iterator->current_bucket < iterator->map->bucket_count) {
                 iterator->current_entry = LIST_FIRST(&iterator->map->buckets[iterator->current_bucket++]);
-            } while(iterator->current_entry == NULL &&
-                    iterator->current_bucket < iterator->map->bucket_count - 1);
+            }
         }
         return iterator->current_entry;
     }
