@@ -905,6 +905,8 @@
 		5DB996581F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB996561F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.m */; };
 		5DB9965C1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DB9965A1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.h */; };
 		5DB9965D1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB9965B1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m */; };
+		5DB996601F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DB9965E1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h */; };
+		5DB996611F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB9965F1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m */; };
 		5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */; };
 		5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
@@ -1990,6 +1992,8 @@
 		5DB996561F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadAudioStartServiceAck.m; sourceTree = "<group>"; };
 		5DB9965A1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLControlFramePayloadVideoStartService.h; sourceTree = "<group>"; };
 		5DB9965B1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadVideoStartService.m; sourceTree = "<group>"; };
+		5DB9965E1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLControlFramePayloadVideoStartServiceAck.h; sourceTree = "<group>"; };
+		5DB9965F1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadVideoStartServiceAck.m; sourceTree = "<group>"; };
 		5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLNotificationDispatcherSpec.m; path = DevAPISpecs/SDLNotificationDispatcherSpec.m; sourceTree = "<group>"; };
 		5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLResponseDispatcherSpec.m; path = DevAPISpecs/SDLResponseDispatcherSpec.m; sourceTree = "<group>"; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
@@ -3858,6 +3862,8 @@
 			children = (
 				5DB9965A1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.h */,
 				5DB9965B1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m */,
+				5DB9965E1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h */,
+				5DB9965F1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m */,
 			);
 			name = "Video Service";
 			sourceTree = "<group>";
@@ -4235,6 +4241,7 @@
 				5D61FE091A84238C00846EE7 /* SDLVehicleDataType.h in Headers */,
 				5DCC19A01B8221F3004FFAD9 /* SDLURLSession.h in Headers */,
 				5D61FDB11A84238C00846EE7 /* SDLSubscribeVehicleData.h in Headers */,
+				5DB996601F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h in Headers */,
 				5DCF76F51ACDBAD300BB647B /* SDLSendLocation.h in Headers */,
 				5D61FC9E1A84238C00846EE7 /* SDLEncodedSyncPData.h in Headers */,
 				5D61FC291A84238C00846EE7 /* SDLAbstractProtocol.h in Headers */,
@@ -4781,6 +4788,7 @@
 				5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */,
 				5D61FC401A84238C00846EE7 /* SDLAmbientLightStatus.m in Sources */,
 				5D61FC951A84238C00846EE7 /* SDLDriverDistractionState.m in Sources */,
+				5DB996611F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m in Sources */,
 				5D61FD961A84238C00846EE7 /* SDLShowResponse.m in Sources */,
 				5D61FD981A84238C00846EE7 /* SDLSingleTireStatus.m in Sources */,
 				5D61FD511A84238C00846EE7 /* SDLProxy.m in Sources */,

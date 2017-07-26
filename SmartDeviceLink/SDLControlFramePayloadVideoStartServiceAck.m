@@ -1,21 +1,21 @@
 //
-//  SDLControlFramePayloadVideoStartService.m
+//  SDLControlFramePayloadVideoStartServiceAck.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Joel Fischer on 7/24/17.
+//  Created by Joel Fischer on 7/26/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLControlFramePayloadVideoStartService.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
 
 
-NS_ASSUME_NONNULL_BEGIN
+@interface SDLControlFramePayloadVideoStartServiceAck ()
 
-@interface SDLControlFramePayloadVideoStartService ()
-
+@property (assign, nonatomic, readwrite) int32_t hashId;
+@property (assign, nonatomic, readwrite) int64_t mtu;
 @property (assign, nonatomic, readwrite) int32_t height;
 @property (assign, nonatomic, readwrite) int32_t width;
 @property (copy, nonatomic, readwrite) NSString *videoProtocol;
@@ -23,12 +23,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation SDLControlFramePayloadVideoStartService
+@implementation SDLControlFramePayloadVideoStartServiceAck
 
-- (instancetype)initWithVideoHeight:(int32_t)height width:(int32_t)width protocol:(NSString *)protocol codec:(NSString *)codec {
+- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu videoHeight:(int32_t)height width:(int32_t)width protocol:(NSString *)protocol codec:(NSString *)codec {
     self = [super init];
     if (!self) return nil;
 
+    _hashId = hashId;
+    _mtu = mtu;
     _height = height;
     _width = width;
     _videoProtocol = protocol;
@@ -41,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) return nil;
 
+    _hashId = SDLControlFrameInt32NotFound;
+    _mtu = SDLControlFrameInt64NotFound;
     _height = SDLControlFrameInt32NotFound;
     _width = SDLControlFrameInt32NotFound;
 
@@ -52,7 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSData *)data {
-    if (self.height == SDLControlFrameInt32NotFound
+    if (self.hashId == SDLControlFrameInt32NotFound
+        && self.mtu == SDLControlFrameInt64NotFound
+        && self.height == SDLControlFrameInt32NotFound
         && self.width == SDLControlFrameInt32NotFound
         && self.videoProtocol == nil
         && self.videoCodec == nil) {
@@ -61,6 +67,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     BsonObject payloadObject;
     bson_object_initialize_default(&payloadObject);
+
+    if (self.hashId != SDLControlFrameInt32NotFound) {
+        bson_object_put_int32(&payloadObject, SDLControlFrameHashIdKey, self.hashId);
+    }
+
+    if (self.mtu != SDLControlFrameInt64NotFound) {
+        bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
+    }
 
     if (self.height != SDLControlFrameInt32NotFound) {
         bson_object_put_int32(&payloadObject, SDLControlFrameHeightKey, self.height);
@@ -89,6 +103,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
 
+    self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
+    self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
     self.height = bson_object_get_int32(&payloadObject, SDLControlFrameHeightKey);
     self.width = bson_object_get_int32(&payloadObject, SDLControlFrameWidthKey);
 
@@ -106,9 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@>: Width: %d, Height: %d, Protocol: %@, Codec: %@", NSStringFromClass(self.class), self.width, self.height, self.videoProtocol, self.videoCodec];
+    return [NSString stringWithFormat:@"<%@>: Hash Id: %d, MTU: %lld, Width: %d, Height: %d, Protocol: %@, Codec: %@", NSStringFromClass(self.class), self.hashId, self.mtu, self.width, self.height, self.videoProtocol, self.videoCodec];
 }
 
 @end
-
-NS_ASSUME_NONNULL_END

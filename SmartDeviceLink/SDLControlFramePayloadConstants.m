@@ -15,3 +15,7 @@ char *const SDLControlFrameProtocolVersionKey = "protocolVersion";
 char *const SDLControlFrameHashIdKey = "hashId";
 char *const SDLControlFrameMTUKey = "mtu";
 char *const SDLControlFrameRejectedParams = "rejectedParams";
+char *const SDLControlFrameVideoProtocolKey = "videoProtocol";
+char *const SDLControlFrameVideoCodecKey = "videoCodec";
+char *const SDLControlFrameHeightKey = "height";
+char *const SDLControlFrameWidthKey = "width";

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadRPCStartService : NSObject <SDLControlFramePayloadType>
 
+/// The max version of protocol version supported by client requesting service to start. Must be in the format "Major.Minor.Patch"
 @property (copy, nonatomic, readonly, nullable) NSString *protocolVersion;
 
 - (instancetype)initWithMajorVersion:(NSUInteger)majorVersion minorVersion:(NSUInteger)minorVersion patchVersion:(NSUInteger)patchVersion;

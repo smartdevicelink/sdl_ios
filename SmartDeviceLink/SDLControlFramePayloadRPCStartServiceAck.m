@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
         bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
     }
 
-    if (self.protocolVersion == nil) {
+    if (self.protocolVersion != nil) {
         bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
     }
 
