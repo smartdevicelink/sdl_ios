@@ -12,6 +12,71 @@
 typedef SDLEnum SDLLanguage SDL_SWIFT_ENUM;
 
 /*!
+ @abstract English_SA
+ */
+extern SDLLanguage const SDLLanguageEnSa;
+
+/*!
+ @abstract Hebrew_IL
+ */
+extern SDLLanguage const SDLLanguageHeIl;
+
+/*!
+ @abstract Romainian_RO
+ */
+extern SDLLanguage const SDLLanguageRoRo;
+
+/*!
+ @abstract Ukrainian_UA
+ */
+extern SDLLanguage const SDLLanguageUkUa;
+
+/*!
+ @abstract Indonesian_ID
+ */
+extern SDLLanguage const SDLLanguageIdId;
+
+/*!
+ @abstract Vietnamese_VN
+ */
+extern SDLLanguage const SDLLanguageViVn;
+
+/*!
+ @abstract Malay_MY
+ */
+extern SDLLanguage const SDLLanguageMsMy;
+
+/*!
+ @abstract Hindi_IN
+ */
+extern SDLLanguage const SDLLanguageHiIn;
+
+/*!
+ @abstract Dutch(Flemish)_BE
+ */
+extern SDLLanguage const SDLLanguageNlBe;
+
+/*!
+ @abstract Greek_GR
+ */
+extern SDLLanguage const SDLLanguageElGr;
+
+/*!
+ @abstract Hungarian_HU
+ */
+extern SDLLanguage const SDLLanguageHuHu;
+
+/*!
+ @abstract Finnish_FI
+ */
+extern SDLLanguage const SDLLanguageFiFi;
+
+/*!
+ @abstract Slovak_SK
+ */
+extern SDLLanguage const SDLLanguageSkSk;
+
+/*!
  @abstract English_US
  */
 extern SDLLanguage const SDLLanguageEnUs;
