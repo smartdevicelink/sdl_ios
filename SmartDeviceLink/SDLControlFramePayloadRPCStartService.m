@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     BsonObject payloadObject;
-    bson_object_initialize(&payloadObject, 1, 1.0);
+    bson_object_initialize_default(&payloadObject);
 
     if (self.protocolVersion != nil) {
         bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
