@@ -80,19 +80,27 @@ typedef NSNumber SDLServiceTypeBox;
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType];
+    [self startServiceWithType:serviceType payload:nil];
 }
 
 
 #pragma mark - Start Service
 
-- (void)startServiceWithType:(SDLServiceType)serviceType {
+- (void)startServiceWithtype:(SDLServiceType)serviceType {
+    [self startServiceWithType:serviceType payload:nil];
+}
+
+- (void)startServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload {
     // No encryption, just build and send the message synchronously
-    SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO];
+    SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO payload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+    [self startSecureServiceWithType:serviceType payload:nil completionHandler:completionHandler];
+}
+
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
@@ -101,14 +109,14 @@ typedef NSNumber SDLServiceTypeBox;
         }
 
         // TLS initialization succeeded. Build and send the message.
-        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES];
+        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
 }
 
-- (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption {
+- (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption payload:(NSData *)payload {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals globals].majorProtocolVersion];
-    NSData *payload = nil;
+    NSData *servicePayload = payload;
 
     switch (serviceType) {
         case SDLServiceType_RPC: {
@@ -121,7 +129,7 @@ typedef NSNumber SDLServiceTypeBox;
             }
 
             SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
-            payload = startServicePayload.data;
+            servicePayload = startServicePayload.data;
         } break;
         default: {
             header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceType_RPC];
@@ -130,12 +138,12 @@ typedef NSNumber SDLServiceTypeBox;
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-    header.bytesInPayload = payload.length;
+    header.bytesInPayload = (UInt32)payload.length;
 
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
     header.encrypted = encryption;
 
-    return [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+    return [SDLProtocolMessage messageWithHeader:header andPayload:servicePayload];
 }
 
 - (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
@@ -262,11 +270,11 @@ typedef NSNumber SDLServiceTypeBox;
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < [SDLGlobals globals].maxMTUSize) {
+    if (protocolMessage.size < [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_RPC]) {
         [self sdl_logRPCSend:protocolMessage];
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceType_RPC];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals globals].maxMTUSize];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_RPC]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self sdl_logRPCSend:smallerMessage];
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceType_RPC];
@@ -329,11 +337,11 @@ typedef NSNumber SDLServiceTypeBox;
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
-    if (message.size < [SDLGlobals globals].maxMTUSize) {
+    if (message.size < [[SDLGlobals globals] mtuSizeForServiceType:service]) {
         [self sdl_logRPCSend:message];
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
-        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals globals].maxMTUSize];
+        NSArray *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[[SDLGlobals globals] mtuSizeForServiceType:service]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             [self sdl_logRPCSend:smallerMessage];
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];
@@ -348,7 +356,7 @@ typedef NSNumber SDLServiceTypeBox;
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [SDLGlobals globals].maxMTUSize)];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_RPC])];
     }
 
     // Save the data
@@ -422,8 +430,11 @@ typedef NSNumber SDLServiceTypeBox;
         switch (startServiceACK.header.serviceType) {
             case SDLServiceType_RPC: {
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+//                NSLog(@"ServiceAckPayload: %@", startServiceACKPayload);
 
-                [SDLGlobals globals].maxMTUSize = (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) ? startServiceACKPayload.mtu : SDLDefaultMTUSize;
+                if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals globals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
+                }
                 [SDLGlobals globals].maxHeadUnitVersion = (startServiceACKPayload.protocolVersion != nil) ? startServiceACKPayload.protocolVersion : [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
                 // TODO: Hash id?
             } break;

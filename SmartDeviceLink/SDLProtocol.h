@@ -15,8 +15,12 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 
 // Sending
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use startServiceWithType: instead"));
-- (void)startServiceWithType:(SDLServiceType)serviceType;
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler;
+- (void)startServiceWithType:(SDLServiceType)serviceType __deprecated_msg(("Use startServiceWithType:payload: instead"));
+- (void)startServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload;
+
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler __deprecated_msg(("Use startSecureServiceWithType:payload:completionHandler instead"));
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler;
+
 - (void)sendEndSessionWithType:(SDLServiceType)serviceType __deprecated_msg(("Use endServiceWithType: instead"));
 - (void)endServiceWithType:(SDLServiceType)serviceType;
 - (void)sendRPC:(SDLRPCMessage *)message;

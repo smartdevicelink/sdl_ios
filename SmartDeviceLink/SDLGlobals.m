@@ -16,9 +16,13 @@ NSUInteger const SDLV1MTUSize = 1024;
 NSUInteger const SDLV3MTUSize = 131024;
 
 
+typedef NSNumber* ServiceTypeBox;
+typedef NSNumber* MTUBox;
+
+
 @interface SDLGlobals ()
 
-@property (assign, nonatomic) NSUInteger backingMaxMTUSize;
+@property (strong, nonatomic) NSMutableDictionary<ServiceTypeBox, MTUBox> *dynamicMTUDict;
 @property (strong, nonatomic, readwrite) NSString *protocolVersion;
 
 @end
@@ -44,7 +48,6 @@ NSUInteger const SDLV3MTUSize = 131024;
 
     _protocolVersion = @"1.0.0";
     _maxHeadUnitVersion = @"0.0.0";
-    _backingMaxMTUSize = SDLDefaultMTUSize;
 
     return self;
 }
@@ -58,7 +61,38 @@ NSUInteger const SDLV3MTUSize = 131024;
     _maxHeadUnitVersion = maxHeadUnitVersion;
 }
 
-- (NSUInteger)maxMTUSize {
+- (NSInteger)majorProtocolVersion {
+    return [self.protocolVersion substringWithRange:NSMakeRange(0, 1)].integerValue;
+}
+
+- (void)setProtocolVersion:(NSString *)protocolVersion {
+    _protocolVersion = protocolVersion;
+
+
+}
+
+- (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType {
+    self.dynamicMTUDict[@(serviceType)] = @(maxMTUSize);
+}
+
+- (NSUInteger)mtuSizeForServiceType:(SDLServiceType)serviceType {
+    if (self.dynamicMTUDict[@(serviceType)] != nil) {
+        return self.dynamicMTUDict[@(serviceType)].unsignedIntegerValue;
+    } else if (self.dynamicMTUDict[@(SDLServiceType_RPC)]) {
+        return self.dynamicMTUDict[@(SDLServiceType_RPC)].unsignedIntegerValue;
+    } else {
+        return [self sdl_defaultMaxMTUSize];
+    }
+}
+
+
+#pragma mark - Helpers
+
+- (BOOL)sdl_isVersion:(NSString *)version1 greaterThanVersion:(NSString *)version2 {
+    return ([version1 compare:version2 options:NSNumericSearch] == NSOrderedDescending);
+}
+
+- (NSUInteger)sdl_defaultMaxMTUSize {
     // VERSION DEPENDENT CODE
     switch (self.majorProtocolVersion) {
         case 1: // fallthrough
@@ -67,7 +101,8 @@ NSUInteger const SDLV3MTUSize = 131024;
             return SDLV1MTUSize;
         } break;
         case 3: // fallthrough
-        case 4: {
+        case 4: // fallthrough
+        case 5: {
             // If the head unit isn't running v3/4, but that's the connection scheme we're using, then we have to know that they could be running an MTU that's not 128k, so we default back to the v1/2 MTU for safety.
             if ([self sdl_isVersion:self.maxHeadUnitVersion greaterThanVersion:SDLMaxProxyProtocolVersion]) {
                 return SDLV1MTUSize;
@@ -75,34 +110,11 @@ NSUInteger const SDLV3MTUSize = 131024;
                 return SDLV3MTUSize;
             }
         } break;
-        case 5: {
-            // V5 has a negotiated MTU size from the head unit
-            if (self.backingMaxMTUSize == SDLDefaultMTUSize) {
-                return SDLV3MTUSize;
-            } else {
-                return self.backingMaxMTUSize;
-            }
-        }
         default: {
             NSAssert(NO, @"Unknown version number for MTU Size: %@", @(self.majorProtocolVersion));
             return 0;
         }
     }
-}
-
-- (void)setMaxMTUSize:(NSUInteger)maxMTUSize {
-    _backingMaxMTUSize = maxMTUSize;
-}
-
-- (NSInteger)majorProtocolVersion {
-    return [self.protocolVersion substringWithRange:NSMakeRange(0, 1)].integerValue;
-}
-
-
-#pragma mark - Helpers
-
-- (BOOL)sdl_isVersion:(NSString *)version1 greaterThanVersion:(NSString *)version2 {
-    return ([version1 compare:version2 options:NSNumericSearch] == NSOrderedDescending);
 }
 
 @end

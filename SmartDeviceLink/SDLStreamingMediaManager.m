@@ -11,10 +11,14 @@
 #import <UIKit/UIKit.h>
 
 #import "SDLAbstractProtocol.h"
+#import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDebugTool.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
 #import "SDLImageResolution.h"
+#import "SDLProtocolMessage.h"
 #import "SDLScreenParams.h"
 #import "SDLTouchManager.h"
 
@@ -280,49 +284,71 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLProtocolListener Methods
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
-    switch (header.serviceType) {
+#pragma mark Protocol Ack
+
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    switch (startServiceACK.header.serviceType) {
         case SDLServiceType_Audio: {
-            self.audioSessionConnected = YES;
-            self.audioSessionEncrypted = header.encrypted;
-
-            if (self.audioStartBlock == nil) {
-                return;
-            }
-
-            self.audioStartBlock(YES, header.encrypted, nil);
-            self.audioStartBlock = nil;
+            [self sdl_handleAudioStartServiceAck:startServiceACK];
         } break;
         case SDLServiceType_Video: {
-            NSError *error = nil;
-            BOOL success = [self sdl_configureVideoEncoderWithError:&error];
-
-            if (!success) {
-                [self sdl_teardownCompressionSession];
-                [self.protocol endServiceWithType:SDLServiceType_Video];
-
-                if (self.videoStartBlock == nil) {
-                    return;
-                }
-
-                self.videoStartBlock(NO, header.encrypted, error);
-                self.videoStartBlock = nil;
-
-                return;
-            }
-
-            self.videoSessionConnected = YES;
-            self.videoSessionEncrypted = header.encrypted;
-
-            if (self.videoStartBlock == nil) {
-                return;
-            }
-
-            self.videoStartBlock(YES, header.encrypted, nil);
-            self.videoStartBlock = nil;
+            [self sdl_handleVideoStartServiceAck:startServiceACK];
         } break;
         default: break;
     }
+}
+
+- (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartAck {
+    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:audioStartAck.payload];
+
+    if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
+        [[SDLGlobals globals] setDynamicMTUSize:audioAckPayload.mtu forServiceType:SDLServiceType_Audio];
+    }
+
+    self.audioSessionConnected = YES;
+    self.audioSessionEncrypted = audioStartAck.header.encrypted;
+
+    if (self.audioStartBlock == nil) {
+        return;
+    }
+
+    self.audioStartBlock(YES, audioStartAck.header.encrypted, nil);
+    self.audioStartBlock = nil;
+}
+
+- (void)sdl_handleVideoStartServiceAck:(SDLProtocolMessage *)videoStartAck {
+    SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:videoStartAck.payload];
+
+    if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
+        [[SDLGlobals globals] setDynamicMTUSize:videoAckPayload.mtu forServiceType:SDLServiceType_Video];
+    }
+
+    NSError *error = nil;
+    BOOL success = [self sdl_configureVideoEncoderWithError:&error];
+
+    if (!success) {
+        [self sdl_teardownCompressionSession];
+        [self.protocol endServiceWithType:SDLServiceType_Video];
+
+        if (self.videoStartBlock == nil) {
+            return;
+        }
+
+        self.videoStartBlock(NO, videoStartAck.header.encrypted, error);
+        self.videoStartBlock = nil;
+
+        return;
+    }
+
+    self.videoSessionConnected = YES;
+    self.videoSessionEncrypted = videoStartAck.header.encrypted;
+
+    if (self.videoStartBlock == nil) {
+        return;
+    }
+
+    self.videoStartBlock(YES, videoStartAck.header.encrypted, nil);
+    self.videoStartBlock = nil;
 }
 
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
