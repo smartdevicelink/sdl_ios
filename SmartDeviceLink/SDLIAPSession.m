@@ -80,6 +80,9 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 }
 
 - (void)stop {
+    // This method must be called on the main thread
+    NSAssert([NSThread isMainThread], @"stop must be called on the main thread");
+    
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
