@@ -423,16 +423,18 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
+        
         [SDLDebugTool logInfo:@"Data Stream Event End"];
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-
-        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf sdl_retryEstablishSession];
+        if (strongSelf.session != nil) {
+            // The handler will be called on the IO thread, but the session stop method must be called on the main thread and we need to wait for the session to stop before nil'ing it out. To do this, we use dispatch_sync() on the main thread.
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [strongSelf.session stop];
+            });
+            strongSelf.session.streamDelegate = nil;
+            strongSelf.session = nil;
         }
-
-        strongSelf.session = nil;
+        
+        // We don't call sdl_retryEstablishSession here because the stream end event usually fires when the accessory is disconnected
     };
 }
 
@@ -465,14 +467,14 @@ int const streamOpenTimeoutSeconds = 2;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Error"];
-        [strongSelf.session stop];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [strongSelf.session stop];
+        });
         strongSelf.session.streamDelegate = nil;
-
+        strongSelf.session = nil;
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf sdl_retryEstablishSession];
         }
-
-        strongSelf.session = nil;
     };
 }
 
