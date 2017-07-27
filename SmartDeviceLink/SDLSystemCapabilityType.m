@@ -10,6 +10,7 @@
 
 SDLSystemCapabilityType *SDLSystemCapabilityType_NAVIGATION = nil;
 SDLSystemCapabilityType *SDLSystemCapabilityType_PHONE_CALL = nil;
+SDLSystemCapabilityType *SDLSystemCapabilityType_VIDEO_STREAMING = nil;
 
 NSArray *SDLSystemCapabilityType_values = nil;
 
@@ -28,7 +29,8 @@ NSArray *SDLSystemCapabilityType_values = nil;
     if (SDLSystemCapabilityType_values == nil) {
         SDLSystemCapabilityType_values = @[
                                     SDLSystemCapabilityType.NAVIGATION,
-                                    SDLSystemCapabilityType.PHONE_CALL
+                                    SDLSystemCapabilityType.PHONE_CALL,
+                                    SDLSystemCapabilityType_VIDEO_STREAMING
                                     ];
     }
     return SDLSystemCapabilityType_values;
@@ -46,6 +48,13 @@ NSArray *SDLSystemCapabilityType_values = nil;
         SDLSystemCapabilityType_PHONE_CALL = [[SDLSystemCapabilityType alloc] initWithValue:@"PHONE_CALL"];
     }
     return SDLSystemCapabilityType_PHONE_CALL;
+}
+
++ (SDLSystemCapabilityType *)VIDEO_STREAMING {
+    if (SDLSystemCapabilityType_VIDEO_STREAMING == nil) {
+        SDLSystemCapabilityType_VIDEO_STREAMING = [[SDLSystemCapabilityType alloc] initWithValue:@"VIDEO_STREAMING"];
+    }
+    return SDLSystemCapabilityType_VIDEO_STREAMING;
 }
 
 @end

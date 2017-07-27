@@ -38,4 +38,9 @@
  */
 + (SDLSystemCapabilityType *)PHONE_CALL;
 
+/**
+ @abstract VIDEO_STREAMING
+ */
++ (SDLSystemCapabilityType *)VIDEO_STREAMING;
+
 @end

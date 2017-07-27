@@ -432,6 +432,7 @@
 #define NAMES_value @"value"
 #define NAMES_vdop @"vdop"
 #define NAMES_vehicleType @"vehicleType"
+#define NAMES_videoStreaming @"videoStreaming"
 #define NAMES_vin @"vin"
 #define NAMES_voiceRecOn @"voiceRecOn"
 #define NAMES_vrCapabilities @"vrCapabilities"

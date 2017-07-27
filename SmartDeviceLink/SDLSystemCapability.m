@@ -51,6 +51,18 @@
     return self;
 }
 
+- (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.systemCapabilityType = [SDLSystemCapabilityType VIDEO_STREAMING];
+    self.videoStreamingCapability = capability;
+
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType *)type {
     if (type != nil) {
         [store setObject:type forKey:NAMES_systemCapabilityType];
@@ -101,6 +113,23 @@
         return (SDLPhoneCapability *)obj;
     } else {
         return [[SDLPhoneCapability alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
+}
+
+- (void)setVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
+    if (videoStreamingCapability != nil) {
+        store[NAMES_videoStreaming] = videoStreamingCapability;
+    } else {
+        [store removeObjectForKey:NAMES_videoStreaming];
+    }
+}
+
+- (SDLVideoStreamingCapability *)videoStreamingCapability {
+    NSObject *obj = store[NAMES_videoStreaming];
+    if (obj == nil || [obj isKindOfClass:SDLPhoneCapability.class]) {
+        return (SDLVideoStreamingCapability *)obj;
+    } else {
+        return [[SDLVideoStreamingCapability alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 
