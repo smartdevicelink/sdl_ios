@@ -389,12 +389,10 @@ int const streamOpenTimeoutSeconds = 2;
 #pragma mark Data Stream
 
 - (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
-    
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        
         
         [SDLDebugTool logInfo:@"Data Stream Event End"];
         if (strongSelf.session != nil) {
