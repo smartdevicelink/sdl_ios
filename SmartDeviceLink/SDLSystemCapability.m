@@ -12,6 +12,7 @@
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
+#import "SDLVideoStreamingCapability.h"
 
 @implementation SDLSystemCapability
 
