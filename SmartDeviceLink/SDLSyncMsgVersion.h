@@ -38,6 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLInt> *patchVersion;
 
+/**
+ * @abstract Optional, allows backward-compatible fixes to the API without increasing the minor version of the interface
+ *
+ */
+@property (strong) NSNumber *patchVersion;
+
 @end
 
 NS_ASSUME_NONNULL_END
