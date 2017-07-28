@@ -5,9 +5,15 @@
 
 #import "SDLSystemCapability.h"
 
+#import "SDLImageResolution.h"
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
+#import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingProtocol.h"
+
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLSystemCapabilitySpec)
@@ -24,6 +30,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.navigationCapability.sendLocationEnabled).to(equal(YES));
         expect(testStruct.navigationCapability.getWayPointsEnabled).to(equal(NO));
         expect(testStruct.phoneCapability.dialNumberEnabled).to(equal(YES));
+
+        testStruct.systemCapabilityType = [SDLSystemCapabilityType VIDEO_STREAMING];
+
+        expect(testStruct.systemCapabilityType).to(equal([SDLSystemCapabilityType VIDEO_STREAMING]));
+
     });
 });
 
@@ -47,6 +58,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.systemCapabilityType).to(beNil());
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
+        expect(testStruct.videoStreamingCapability).to(beNil());
     });
 
     it(@"should initialize correctly with initWithPhoneCapability:", ^{
@@ -56,6 +68,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.systemCapabilityType).to(equal([SDLSystemCapabilityType PHONE_CALL]));
         expect(testStruct.phoneCapability.dialNumberEnabled).to(equal(YES));
         expect(testStruct.navigationCapability).to(beNil());
+        expect(testStruct.videoStreamingCapability).to(beNil());
     });
 
     it(@"should initialize correctly with initWithNavigationCapability:", ^{
@@ -66,6 +79,35 @@ describe(@"Initialization tests", ^{
         expect(testStruct.navigationCapability.sendLocationEnabled).to(equal(YES));
         expect(testStruct.navigationCapability.getWayPointsEnabled).to(equal(YES));
         expect(testStruct.phoneCapability).to(beNil());
+        expect(testStruct.videoStreamingCapability).to(beNil());
+    });
+
+    it(@"should initialize correctly with initWithVideoStreamingCapability:", ^{
+
+        SDLImageResolution* resolution = [[SDLImageResolution alloc] init];
+        resolution.resolutionWidth = @600;
+        resolution.resolutionHeight = @500;
+
+        NSNumber *maxBitrate = @100;
+
+        SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
+        format1.codec = [SDLVideoStreamingCodec H264];
+        format1.protocol = [SDLVideoStreamingProtocol RTP];
+
+        SDLVideoStreamingFormat *format2 = [[SDLVideoStreamingFormat alloc] init];
+        format2.codec = [SDLVideoStreamingCodec H265];
+        format2.protocol = [SDLVideoStreamingProtocol RTSP];
+
+        NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
+
+        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate suportedFormats:formatArray];
+        SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:testVidStruct];
+
+        expect(testStruct.systemCapabilityType).to(equal([SDLSystemCapabilityType VIDEO_STREAMING]));
+        expect(testStruct.navigationCapability.sendLocationEnabled).to(beNil());
+        expect(testStruct.navigationCapability.getWayPointsEnabled).to(beNil());
+        expect(testStruct.phoneCapability).to(beNil());
+
     });
 });
 

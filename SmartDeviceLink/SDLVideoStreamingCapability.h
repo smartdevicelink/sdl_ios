@@ -24,6 +24,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate suportedFormats:(NSArray<SDLVideoStreamingFormat *> *)suportedFormats;
 /**
  * @abstract The preferred resolution of a video stream for decoding and rendering on HMI, optional
  */
@@ -39,6 +40,6 @@
 /**
  * @abstract Detailed information on each format supported by this system, in its preferred order, optional
  */
-@property (strong, nonatomic) NSMutableArray *supportedFormats;
+@property (strong, nonatomic) NSMutableArray<SDLVideoStreamingFormat *> *supportedFormats;
 
 @end

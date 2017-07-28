@@ -24,6 +24,20 @@
     return self;
 }
 
+- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate suportedFormats:(NSArray<SDLVideoStreamingFormat *> *)suportedFormats {
+
+    self = [self init];
+    if (!self) {
+        return self;
+    }
+
+    self.maxBitrate = maxBitrate;
+    self.preferredResolution = preferredResolution;
+    self.supportedFormats = [suportedFormats mutableCopy];
+
+    return self;
+}
+
 - (void)setPreferredResolution:(SDLImageResolution *)preferredResolution {
     if (preferredResolution != nil) {
         [store setObject:preferredResolution forKey:NAMES_preferredResolution];
@@ -45,7 +59,7 @@
 }
 
 - (NSNumber *)maxBitrate {
-    return store[NAMES_maxBitrate];
+    return [store objectForKey:NAMES_maxBitrate];
 }
 
 - (void)setSupportedFormats:(NSMutableArray *)supportedFormats {
