@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
 NSString *const ControlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const IndexedProtocolStringPrefix = @"com.smartdevicelink.prot";
+NSString *const MultiSessionProtocolString = @"com.smartdevicelink.multisession";
 NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
 int const createSessionRetries = 1;
@@ -200,15 +201,18 @@ int const streamOpenTimeoutSeconds = 2;
  */
 - (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
-
-    if ([accessory supportsProtocol:ControlProtocolString]) {
+    
+    if ([accessory supportsProtocol:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString];
+        connecting = YES;
+    } else if ([accessory supportsProtocol:ControlProtocolString]) {
         [self sdl_createIAPControlSessionWithAccessory:accessory];
         connecting = YES;
     } else if ([accessory supportsProtocol:LegacyProtocolString]) {
         [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:LegacyProtocolString];
         connecting = YES;
     }
-
+    
     return connecting;
 }
 
@@ -230,7 +234,9 @@ int const streamOpenTimeoutSeconds = 2;
         }
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
-        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
+        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+            [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString];
+        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
             [self sdl_createIAPControlSessionWithAccessory:sdlAccessory];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:LegacyProtocolString])) {
             [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString];
