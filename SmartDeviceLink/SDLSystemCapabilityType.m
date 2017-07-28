@@ -30,7 +30,7 @@ NSArray *SDLSystemCapabilityType_values = nil;
         SDLSystemCapabilityType_values = @[
                                     SDLSystemCapabilityType.NAVIGATION,
                                     SDLSystemCapabilityType.PHONE_CALL,
-                                    SDLSystemCapabilityType_VIDEO_STREAMING
+                                    SDLSystemCapabilityType.VIDEO_STREAMING
                                     ];
     }
     return SDLSystemCapabilityType_values;

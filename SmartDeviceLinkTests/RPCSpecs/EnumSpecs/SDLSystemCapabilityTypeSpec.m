@@ -19,7 +19,7 @@ describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
         expect([SDLSystemCapabilityType valueOf:@"NAVIGATION"]).to(equal([SDLSystemCapabilityType NAVIGATION]));
         expect([SDLSystemCapabilityType valueOf:@"PHONE_CALL"]).to(equal([SDLSystemCapabilityType PHONE_CALL]));
-        //expect([SDLSystemCapabilityType valueOf:@"VIDEO_STREAMING"]).to(equal([SDLSystemCapabilityType VIDEO_STREAMING]));
+        expect([SDLSystemCapabilityType valueOf:@"VIDEO_STREAMING"]).to(equal([SDLSystemCapabilityType VIDEO_STREAMING]));
     });
 
     it(@"Should return nil when invalid", ^ {
@@ -32,7 +32,8 @@ describe(@"Value List Tests", ^ {
     __block NSArray* definedValues;
     beforeSuite(^ {
         definedValues = [@[[SDLSystemCapabilityType NAVIGATION],
-                           [SDLSystemCapabilityType PHONE_CALL]] copy];
+                           [SDLSystemCapabilityType PHONE_CALL],
+                           [SDLSystemCapabilityType VIDEO_STREAMING]] copy];
     });
 
     it(@"Should contain all defined enum values", ^ {
