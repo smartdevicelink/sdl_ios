@@ -24,7 +24,7 @@
     return self;
 }
 
-- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate suportedFormats:(NSArray<SDLVideoStreamingFormat *> *)suportedFormats {
+- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
 
     self = [self init];
     if (!self) {
@@ -33,7 +33,7 @@
 
     self.maxBitrate = maxBitrate;
     self.preferredResolution = preferredResolution;
-    self.supportedFormats = [suportedFormats mutableCopy];
+    self.supportedFormats = [supportedFormats mutableCopy];
 
     return self;
 }

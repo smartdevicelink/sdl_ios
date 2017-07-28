@@ -76,7 +76,7 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate suportedFormats:formatArray];
+        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate supportedFormats:formatArray];
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));
