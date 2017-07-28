@@ -86,7 +86,7 @@ typedef NSNumber SDLServiceTypeBox;
 
 #pragma mark - Start Service
 
-- (void)startServiceWithtype:(SDLServiceType)serviceType {
+- (void)startServiceWithType:(SDLServiceType)serviceType {
     [self startServiceWithType:serviceType payload:nil];
 }
 

@@ -48,6 +48,7 @@ typedef NSNumber* MTUBox;
 
     _protocolVersion = @"1.0.0";
     _maxHeadUnitVersion = @"0.0.0";
+    _dynamicMTUDict = [NSMutableDictionary dictionary];
 
     return self;
 }
@@ -63,12 +64,6 @@ typedef NSNumber* MTUBox;
 
 - (NSInteger)majorProtocolVersion {
     return [self.protocolVersion substringWithRange:NSMakeRange(0, 1)].integerValue;
-}
-
-- (void)setProtocolVersion:(NSString *)protocolVersion {
-    _protocolVersion = protocolVersion;
-
-
 }
 
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType {
