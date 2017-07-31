@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (strong, nonatomic) NSInputStream *inputStream;
 @end
 
 
@@ -80,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
         [weakself finishOperation];
     });
 
-    [self openInputStreamWithFile:file];
+    NSInputStream *inputStream = [self openInputStreamWithFile:file];
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
     unsigned long long fileSize = [file fileSize];
@@ -97,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Get a chunk of data from the input stream
         NSUInteger dataSize = [self getDataSizeForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
-        NSData *dataChunk = [self getDataChunkWithSize:dataSize inputStream:self.inputStream];
+        NSData *dataChunk = [self getDataChunkWithSize:dataSize inputStream:inputStream];
         putFile.bulkData = dataChunk;
         currentOffset += dataSize;
 
@@ -144,12 +143,13 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param file The file containing the data or the file url of the data
  */
-- (void)openInputStreamWithFile:(SDLFile *)file {
-    self.inputStream = file.inputStream;
-    [self.inputStream setDelegate:self];
-    [self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
+- (NSInputStream *)openInputStreamWithFile:(SDLFile *)file {
+    NSInputStream *inputStream = file.inputStream;
+    [inputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
                                 forMode:NSDefaultRunLoopMode];
-    [self.inputStream open];
+    [inputStream open];
+    return inputStream;
 }
 
 /**
