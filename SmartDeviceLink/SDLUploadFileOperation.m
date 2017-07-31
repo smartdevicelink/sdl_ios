@@ -61,15 +61,16 @@ NS_ASSUME_NONNULL_BEGIN
  @param completion Closure returning whether or not the upload was a success
  */
 - (void)sdl_sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
-    dispatch_group_t putFileGroup = dispatch_group_create();
-    dispatch_group_enter(putFileGroup);
-    __weak typeof(self) weakself = self;
     __block BOOL stop = NO;
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
 
+    dispatch_group_t putFileGroup = dispatch_group_create();
+    dispatch_group_enter(putFileGroup);
+
     // Waits for all packets be sent before returning whether or not the upload was a success
+    __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         if (streamError != nil || stop) {
             completion(NO, bytesAvailable, streamError);
