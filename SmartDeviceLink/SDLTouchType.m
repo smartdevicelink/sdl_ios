@@ -28,7 +28,7 @@ NSArray *SDLTouchType_values = nil;
             SDLTouchType.BEGIN,
             SDLTouchType.MOVE,
             SDLTouchType.END,
-            SDLTouchType_CANCEL,
+            SDLTouchType.CANCEL,
         ];
     }
     return SDLTouchType_values;
