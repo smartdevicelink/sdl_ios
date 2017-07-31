@@ -131,7 +131,11 @@ NS_ASSUME_NONNULL_BEGIN
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
             SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            bytesAvailable = [self sdl_getBytesAvailableFromResponse:putFileResponse request:request highestCorrelationIDReceived:highestCorrelationIDReceived currentBytesAvailable:bytesAvailable];
+            NSInteger highestCurrentCorrelationIDReceived = [self sdl_highestCurrentCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived];
+            if (highestCorrelationIDReceived != highestCurrentCorrelationIDReceived) {
+                highestCorrelationIDReceived = highestCurrentCorrelationIDReceived;
+                bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
+            }
 
             dispatch_group_leave(putFileGroup);
         }];
@@ -203,6 +207,10 @@ NS_ASSUME_NONNULL_BEGIN
  @return The data read from the socket
  */
 - (nullable NSData *)sdl_getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream {
+    if (size <= 0) {
+        return  nil;
+    }
+    
     uint8_t buffer[size];
     NSInteger bytesRead = [inputStream read:buffer maxLength:size];
     if (bytesRead) {
@@ -217,19 +225,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  One of the reponses returned by the SDL Core will contain the correct remaining free storage size on the SDL Core. Since communication with the SDL Core is asychronous, there is no way to predict which response contains the correct bytes available other than to watch for the largest correlation id, since that will be the last reponse sent by the SDL Core.
 
- @param putFileResponse The response sent by the SDL Core after a putfile is sent
- @param request The correlation id for the response
- @param highestCorrelationIDReceived The largest received correlation id
- @param currentBytesAvailable The current number bytes available
- @return The amount of storage space left on the SDL Core
+ @param request The newest response returned by the SDL Core for a putfile
+ @param highestCorrelationIDReceived The largest currently received correlation id
+ @return Whether or not the newest request contains the highest correlationId
  */
-- (NSInteger)sdl_getBytesAvailableFromResponse:(SDLPutFileResponse *)putFileResponse request:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived currentBytesAvailable:(NSInteger)currentBytesAvailable  {
-    // The number of bytes available is sent with the last response
-    if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
-        highestCorrelationIDReceived = [request.correlationID integerValue];
-        return [putFileResponse.spaceAvailable unsignedIntegerValue];
+- (NSInteger)sdl_highestCurrentCorrelationID:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived {
+    NSInteger newCorrelationID = [request.correlationID integerValue];
+    if (newCorrelationID > highestCorrelationIDReceived) {
+        return newCorrelationID;
     }
-    return currentBytesAvailable;
+
+    return highestCorrelationIDReceived;
 }
 
 #pragma mark - Property Overrides

@@ -251,6 +251,8 @@ describe(@"Streaming upload of data", ^{
             // Set the head unit size small so we have a low MTU size
             [SDLGlobals sharedGlobals].maxHeadUnitVersion = 2;
 
+            responseSpaceAvailable = @(11212512);
+
             UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             testFileName = @"testFileImage";
             testFileData = UIImageJPEGRepresentation(testImage, 0.80);
@@ -292,17 +294,20 @@ describe(@"Streaming upload of data", ^{
                     }
                 }
 
-                NSInteger spaceLeft = 1212345;
+                NSInteger spaceLeft = 11212512;
                 for (int i = 0; i < numberOfPutFiles; i += 1) {
-                    spaceLeft -= putFiles[i].length.integerValue;
-                    responseSpaceAvailable = [NSNumber numberWithInteger:spaceLeft];
+                    if (i != 0) {
+                        spaceLeft -= putFiles[i].length.integerValue;
+                    } else {
+                        spaceLeft -= putFiles[1].length.integerValue;
+                    }
                     responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
 
                     goodResponse = [[SDLPutFileResponse alloc] init];
                     goodResponse.success = @YES;
-                    goodResponse.spaceAvailable = responseSpaceAvailable;
+                    goodResponse.spaceAvailable = @(spaceLeft);
 
-                    [testConnectionManager respondToLastRequestWithResponse:goodResponse];
+                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
                 }
 
                 // Sent data should be deleted
@@ -310,7 +315,7 @@ describe(@"Streaming upload of data", ^{
                 expect(putFile.bulkData).toEventually(beNil());
 
                 expect(@(successResult)).toEventually(equal(@YES));
-                expect(@(bytesAvailableResult)).toEventually(equal([NSNumber numberWithInteger:spaceLeft]));
+                expect(@(bytesAvailableResult)).toEventually(equal(spaceLeft));
                 expect(errorResult).toEventually(beNil());
 
                 expect(@(testOperation.finished)).toEventually(equal(@YES));
