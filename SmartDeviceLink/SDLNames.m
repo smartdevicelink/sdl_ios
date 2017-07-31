@@ -446,6 +446,7 @@ SDLName const SDLNameVehicleType = @"vehicleType";
 SDLName const SDLNameVideoCodec = @"videoCodec";
 SDLName const SDLNameVideoProtocol = @"videoProtocol";
 SDLName const SDLNameVideoStreaming = @"videoStreaming";
+SDLName const SDLNameVideoStreamingCapability = @"videoStreamingCapability";
 SDLName const SDLNameVIN = @"vin";
 SDLName const SDLNameVoiceRecognitionOn = @"voiceRecOn";
 SDLName const SDLNameVRCapabilities = @"vrCapabilities";
