@@ -86,7 +86,7 @@ describe(@"SDLFile", ^{
                 });
 
                 it(@"should not store any data", ^{
-                    expect(testFile.data.length).to(equal(0));
+                    expect(testFile.data.length).to(beGreaterThan(0));
                 });
                 
                 it(@"should correctly store the file name", ^{
@@ -120,7 +120,7 @@ describe(@"SDLFile", ^{
                 });
 
                 it(@"should not store any data", ^{
-                    expect(testFile.data.length).to(equal(0));
+                    expect(testFile.data.length).to(beGreaterThan(0));
                 });
 
                 it(@"should correctly store name", ^{
