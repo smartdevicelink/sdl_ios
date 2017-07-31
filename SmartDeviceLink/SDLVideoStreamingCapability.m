@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-
     self = [self init];
     if (!self) {
         return self;
