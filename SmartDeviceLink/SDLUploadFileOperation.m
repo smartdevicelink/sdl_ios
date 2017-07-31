@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
-    [self sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
+    [self sdl_sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
 }
 
 /**
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mtuSize The maximum packet size allowed
  @param completion Closure returning whether or not the upload was a success
  */
-- (void)sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
+- (void)sdl_sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
     __weak typeof(self) weakself = self;
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
         [weakself finishOperation];
     });
 
-    NSInputStream *inputStream = [self openInputStreamWithFile:file];
+    NSInputStream *inputStream = [self sdl_openInputStreamWithFile:file];
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
     unsigned long long fileSize = [file fileSize];
@@ -91,12 +91,12 @@ NS_ASSUME_NONNULL_BEGIN
 
         // The putfile's length parameter is based on the current offset
         putFile.offset = @(currentOffset);
-        NSInteger putFileLength = [self getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
+        NSInteger putFileLength = [self sdl_getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
         putFile.length = @(putFileLength);
 
         // Get a chunk of data from the input stream
-        NSUInteger dataSize = [self getDataSizeForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
-        NSData *dataChunk = [self getDataChunkWithSize:dataSize inputStream:inputStream];
+        NSUInteger dataSize = [self sdl_getDataSizeForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
+        NSData *dataChunk = [self sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
         putFile.bulkData = dataChunk;
         currentOffset += dataSize;
 
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
             SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            bytesAvailable = [self getBytesAvailableFromResponse:putFileResponse request:request highestCorrelationIDReceived:highestCorrelationIDReceived currentBytesAvailable:bytesAvailable];
+            bytesAvailable = [self sdl_getBytesAvailableFromResponse:putFileResponse request:request highestCorrelationIDReceived:highestCorrelationIDReceived currentBytesAvailable:bytesAvailable];
 
             dispatch_group_leave(putFileGroup);
         }];
@@ -143,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param file The file containing the data or the file url of the data
  */
-- (NSInputStream *)openInputStreamWithFile:(SDLFile *)file {
+- (NSInputStream *)sdl_openInputStreamWithFile:(SDLFile *)file {
     NSInputStream *inputStream = file.inputStream;
     [inputStream setDelegate:self];
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mtuSize The maximum packet size allowed
  @return The new position in the file where to start reading data
  */
-- (NSUInteger)getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
+- (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
     NSInteger putFileLength = 0;
     if (currentOffset == 0) {
         // The first putfile sends the full file size
@@ -183,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mtuSize The maximum packet size allowed
  @return The size of the data to be sent in the packet.
  */
-- (NSUInteger)getDataSizeForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
+- (NSUInteger)sdl_getDataSizeForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
     NSInteger dataSize = 0;
     NSUInteger fileSizeRemaining = (NSUInteger)(fileSize - currentOffset);
     if (fileSizeRemaining < mtuSize) {
@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param inputStream The socket from which to read the data
  @return The data read from the socket
  */
-- (nullable NSData *)getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream {
+- (nullable NSData *)sdl_getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream {
     uint8_t buffer[size];
     NSInteger bytesRead = [inputStream read:buffer maxLength:size];
     if (bytesRead) {
@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param currentBytesAvailable The current number bytes available
  @return The amount of storage space left on the SDL Core
  */
-- (NSInteger)getBytesAvailableFromResponse:(SDLPutFileResponse *)putFileResponse request:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived currentBytesAvailable:(NSInteger)currentBytesAvailable  {
+- (NSInteger)sdl_getBytesAvailableFromResponse:(SDLPutFileResponse *)putFileResponse request:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived currentBytesAvailable:(NSInteger)currentBytesAvailable  {
     // The number of bytes available is sent with the last response
     if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
         highestCorrelationIDReceived = [request.correlationID integerValue];
