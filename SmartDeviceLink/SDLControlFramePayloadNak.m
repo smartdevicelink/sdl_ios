@@ -59,8 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         bson_object_put_array(&payloadObject, SDLControlFrameRejectedParams, &arrayObject);
-
-        bson_array_deinitialize(&arrayObject);
     }
 
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
@@ -78,15 +76,15 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<NSString *> *rejectedParams = [NSMutableArray array];
     char *paramString;
     size_t index = 0;
-    do {
-        paramString = bson_array_get_string(arrayObject, index);
+
+    paramString = bson_array_get_string(arrayObject, index);
+    while (paramString != NULL) {
         [rejectedParams addObject:[NSString stringWithUTF8String:paramString]];
         index++;
-    } while (paramString != NULL);
+        paramString = bson_array_get_string(arrayObject, index);
+    }
 
     self.rejectedParams = [rejectedParams copy];
-
-    bson_array_deinitialize(arrayObject);
     bson_object_deinitialize(&payloadObject);
 }
 

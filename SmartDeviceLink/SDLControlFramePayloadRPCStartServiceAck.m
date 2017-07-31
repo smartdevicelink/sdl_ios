@@ -25,13 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLControlFramePayloadRPCStartServiceAck
 
-- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu majorVersion:(NSUInteger)major minorVersion:(NSUInteger)minor patchVersion:(NSUInteger)patch {
+- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu protocolVersion:(nullable NSString *)protocolVersion {
     self = [super init];
     if (!self) return nil;
 
     _hashId = hashId;
     _mtu = mtu;
-    _protocolVersion = [NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)patch];
+    _protocolVersion = protocolVersion;
 
     return self;
 }

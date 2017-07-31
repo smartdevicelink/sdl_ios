@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The negotiated version of the protocol. Must be in the format "Major.Minor.Patch"
 @property (copy, nonatomic, readonly, nullable) NSString *protocolVersion;
 
-- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu majorVersion:(NSUInteger)major minorVersion:(NSUInteger)minor patchVersion:(NSUInteger)patch;
+- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu protocolVersion:(nullable NSString *)protocolVersion;
 
 @end
 
