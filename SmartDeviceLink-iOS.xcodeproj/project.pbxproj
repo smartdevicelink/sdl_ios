@@ -908,6 +908,10 @@
 		8B7B31A31F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A11F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m */; };
 		8B7B31A61F2F875200BDC38D /* SDLVideoStreamingCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31A41F2F875200BDC38D /* SDLVideoStreamingCapability.h */; };
 		8B7B31A71F2F875200BDC38D /* SDLVideoStreamingCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A51F2F875200BDC38D /* SDLVideoStreamingCapability.m */; };
+		8B7B31A91F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */; };
+		8B7B31AB1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */; };
+		8B7B31AF1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31AE1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m */; };
+		8B7B31B11F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31B01F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m */; };
 		97E26DEC1E807AD70074A3C7 /* SDLMutableDataQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */; };
 		97E26DED1E807AD70074A3C7 /* SDLMutableDataQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */; };
 		DA0C46AD1DCD35080001F2A8 /* SDLNames.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C46AC1DCD35080001F2A8 /* SDLNames.m */; };
@@ -1973,6 +1977,10 @@
 		8B7B31A11F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingFormat.m; sourceTree = "<group>"; };
 		8B7B31A41F2F875200BDC38D /* SDLVideoStreamingCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingCapability.h; sourceTree = "<group>"; };
 		8B7B31A51F2F875200BDC38D /* SDLVideoStreamingCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCapability.m; sourceTree = "<group>"; };
+		8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingProtocolSpec.m; sourceTree = "<group>"; };
+		8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodecSpec.m; sourceTree = "<group>"; };
+		8B7B31AE1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCapabilitySpec.m; sourceTree = "<group>"; };
+		8B7B31B01F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingFormatSpec.m; sourceTree = "<group>"; };
 		97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMutableDataQueue.h; sourceTree = "<group>"; };
 		97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMutableDataQueue.m; sourceTree = "<group>"; };
 		DA0C46AC1DCD35080001F2A8 /* SDLNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNames.m; sourceTree = "<group>"; };
@@ -2175,6 +2183,8 @@
 				162E82241A9BDE8A00906325 /* SDLWarningLightStatusSpec.m */,
 				DA9F7E9D1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m */,
 				162E82251A9BDE8A00906325 /* SDLWiperStatusSpec.m */,
+				8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */,
+				8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */,
 			);
 			path = EnumSpecs;
 			sourceTree = "<group>";
@@ -2370,6 +2380,8 @@
 				162E82B41A9BDE8A00906325 /* SDLVehicleDataResultSpec.m */,
 				162E82B51A9BDE8A00906325 /* SDLVehicleTypeSpec.m */,
 				162E82B61A9BDE8A00906325 /* SDLVrHelpItemSpec.m */,
+				8B7B31AE1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m */,
+				8B7B31B01F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m */,
 			);
 			path = StructSpecs;
 			sourceTree = "<group>";
@@ -4786,6 +4798,7 @@
 				5DCF76FE1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m in Sources */,
 				162E837D1A9BDE8B00906325 /* SDLEmergencyEventSpec.m in Sources */,
 				162E82D31A9BDE8A00906325 /* SDLCarModeStatusSpec.m in Sources */,
+				8B7B31A91F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m in Sources */,
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				5D76E3291D3D0A8800647CFA /* SDLFakeViewControllerPresenter.m in Sources */,
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
@@ -4895,6 +4908,7 @@
 				162E83071A9BDE8B00906325 /* SDLVehicleDataNotificationStatusSpec.m in Sources */,
 				5D9F50811BE7E6E300FEF399 /* SDLPermissionsManagerSpec.m in Sources */,
 				162E83361A9BDE8B00906325 /* SDLRegisterAppInterfaceSpec.m in Sources */,
+				8B7B31AB1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m in Sources */,
 				162E82DD1A9BDE8B00906325 /* SDLFileTypeSpec.m in Sources */,
 				162E836A1A9BDE8B00906325 /* SDLSubscribeVehicleDataResponseSpec.m in Sources */,
 				5D43465B1E6F154400B639C6 /* SDLLogConfigurationSpec.m in Sources */,
@@ -4987,8 +5001,10 @@
 				DA9F7EAC1DCC062400ACAE48 /* SDLUnsubscribeWaypointsResponseSpec.m in Sources */,
 				5D43466B1E6F3B4C00B639C6 /* SDLLogFilterSpec.m in Sources */,
 				162E836B1A9BDE8B00906325 /* SDLSyncPDataResponseSpec.m in Sources */,
+				8B7B31AF1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m in Sources */,
 				162E839B1A9BDE8B00906325 /* SDLRPCNotificationSpec.m in Sources */,
 				162E83581A9BDE8B00906325 /* SDLGetVehicleDataResponseSpec.m in Sources */,
+				8B7B31B11F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m in Sources */,
 				162E831D1A9BDE8B00906325 /* SDLOnSystemRequestSpec.m in Sources */,
 				162E835D1A9BDE8B00906325 /* SDLReadDIDResponseSpec.m in Sources */,
 				162E82D41A9BDE8A00906325 /* SDLCharacterSetSpec.m in Sources */,
