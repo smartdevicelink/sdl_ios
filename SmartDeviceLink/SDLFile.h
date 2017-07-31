@@ -46,9 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLFileType fileType;
 
 
-// FIXME: - add documentation for inputStream
 /**
- Reads the data.
+ * A stream to pull binary data from a SDLFile. The stream only pulls required data from the file on disk or in memory. This reduces memory usage while uploading a large file to the remote system as each chunk of data can be released immediately after it is uploaded.
  */
 @property (nonatomic, readonly) NSInputStream *inputStream;
 
