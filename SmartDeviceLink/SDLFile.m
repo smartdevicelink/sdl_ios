@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLFile ()
 
 @property (copy, nonatomic, readwrite, nullable) NSURL *fileURL;
-@property (copy, nonatomic, readwrite, nullable) NSData *data;
+@property (copy, nonatomic, readwrite) NSData *data;
 
 @property (strong, nonatomic, readwrite) SDLFileType fileType;
 @property (assign, nonatomic, readwrite) BOOL persistent;
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _fileURL = url;
-    _data = nil;
+    _data = [NSData data];
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
@@ -89,6 +89,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters
 
+- (NSData *)data {
+    if (_data.length == 0 && _fileURL != nil) {
+        _data = [NSData dataWithContentsOfURL:_fileURL];
+    }
+
+    return _data;
+}
+
 /**
  Initalizes a socket from which to read data.
 
@@ -114,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (unsigned long long)fileSize {
     if (_fileURL) {
-        // Data on disk
+        // Data in file
         unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil] fileSize];
         return fileSize;
     } else if (_data) {
