@@ -123,8 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (unsigned long long)fileSize {
     if (_fileURL) {
         // Data in file
-        unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil] fileSize];
-        return fileSize;
+        return [[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil].fileSize;
     } else if (_data) {
         // Data in memory
         return _data.length;
