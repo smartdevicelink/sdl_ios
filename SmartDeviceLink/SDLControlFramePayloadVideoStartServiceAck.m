@@ -14,7 +14,6 @@
 
 @interface SDLControlFramePayloadVideoStartServiceAck ()
 
-@property (assign, nonatomic, readwrite) int32_t hashId;
 @property (assign, nonatomic, readwrite) int64_t mtu;
 @property (assign, nonatomic, readwrite) int32_t height;
 @property (assign, nonatomic, readwrite) int32_t width;
@@ -25,11 +24,10 @@
 
 @implementation SDLControlFramePayloadVideoStartServiceAck
 
-- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu videoHeight:(int32_t)height width:(int32_t)width protocol:(NSString *)protocol codec:(NSString *)codec {
+- (instancetype)initWithMTU:(int64_t)mtu videoHeight:(int32_t)height width:(int32_t)width protocol:(NSString *)protocol codec:(NSString *)codec {
     self = [super init];
     if (!self) return nil;
 
-    _hashId = hashId;
     _mtu = mtu;
     _height = height;
     _width = width;
@@ -43,7 +41,6 @@
     self = [super init];
     if (!self) return nil;
 
-    _hashId = SDLControlFrameInt32NotFound;
     _mtu = SDLControlFrameInt64NotFound;
     _height = SDLControlFrameInt32NotFound;
     _width = SDLControlFrameInt32NotFound;
@@ -56,8 +53,7 @@
 }
 
 - (nullable NSData *)data {
-    if (self.hashId == SDLControlFrameInt32NotFound
-        && self.mtu == SDLControlFrameInt64NotFound
+    if (self.mtu == SDLControlFrameInt64NotFound
         && self.height == SDLControlFrameInt32NotFound
         && self.width == SDLControlFrameInt32NotFound
         && self.videoProtocol == nil
@@ -67,10 +63,6 @@
 
     BsonObject payloadObject;
     bson_object_initialize_default(&payloadObject);
-
-    if (self.hashId != SDLControlFrameInt32NotFound) {
-        bson_object_put_int32(&payloadObject, SDLControlFrameHashIdKey, self.hashId);
-    }
 
     if (self.mtu != SDLControlFrameInt64NotFound) {
         bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
@@ -103,7 +95,6 @@
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
 
-    self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
     self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
     self.height = bson_object_get_int32(&payloadObject, SDLControlFrameHeightKey);
     self.width = bson_object_get_int32(&payloadObject, SDLControlFrameWidthKey);
@@ -122,7 +113,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@>: Hash Id: %d, MTU: %lld, Width: %d, Height: %d, Protocol: %@, Codec: %@", NSStringFromClass(self.class), self.hashId, self.mtu, self.width, self.height, self.videoProtocol, self.videoCodec];
+    return [NSString stringWithFormat:@"<%@>: MTU: %lld, Width: %d, Height: %d, Protocol: %@, Codec: %@", NSStringFromClass(self.class), self.mtu, self.width, self.height, self.videoProtocol, self.videoCodec];
 }
 
 @end

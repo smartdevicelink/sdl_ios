@@ -13,9 +13,6 @@
 
 @interface SDLControlFramePayloadVideoStartServiceAck : NSObject <SDLControlFramePayloadType>
 
-/// Hash ID to identify this service and used when sending an EndService control frame
-@property (assign, nonatomic, readonly) int32_t hashId;
-
 /// Max transport unit to be used for this service
 @property (assign, nonatomic, readonly) int64_t mtu;
 
@@ -30,5 +27,7 @@
 
 /// Accepted video codec to be used. See VideoStreamingCodec RPC
 @property (copy, nonatomic, readonly) NSString *videoCodec;
+
+- (instancetype)initWithMTU:(int64_t)mtu videoHeight:(int32_t)height width:(int32_t)width protocol:(NSString *)protocol codec:(NSString *)codec;
 
 @end

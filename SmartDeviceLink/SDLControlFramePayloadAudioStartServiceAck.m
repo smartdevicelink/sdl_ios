@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadAudioStartServiceAck ()
 
-@property (assign, nonatomic, readwrite) int32_t hashId;
 @property (assign, nonatomic, readwrite) int64_t mtu;
 @property (copy, nonatomic, readwrite, nullable) NSString *protocolVersion;
 
@@ -24,11 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLControlFramePayloadAudioStartServiceAck
 
-- (instancetype)initWithHashId:(int32_t)hashId mtu:(int64_t)mtu {
+- (instancetype)initWithMTU:(int64_t)mtu {
     self = [super init];
     if (!self) return nil;
 
-    _hashId = hashId;
     _mtu = mtu;
 
     return self;
@@ -38,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) return nil;
 
-    _hashId = SDLControlFrameInt32NotFound;
     _mtu = SDLControlFrameInt64NotFound;
 
     if (data != nil) {
@@ -49,17 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSData *)data {
-    if (self.hashId == SDLControlFrameInt32NotFound
-        && self.mtu == SDLControlFrameInt64NotFound) {
+    if (self.mtu == SDLControlFrameInt64NotFound) {
         return nil;
     }
 
     BsonObject payloadObject;
     bson_object_initialize_default(&payloadObject);
-
-    if (self.hashId != SDLControlFrameInt32NotFound) {
-        bson_object_put_int32(&payloadObject, SDLControlFrameHashIdKey, self.hashId);
-    }
 
     if (self.mtu != SDLControlFrameInt64NotFound) {
         bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
@@ -76,14 +68,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
 
-    self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
     self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
 
     bson_object_deinitialize(&payloadObject);
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@>: hash id: %d, mtu: %lld", NSStringFromClass(self.class), self.hashId, self.mtu];
+    return [NSString stringWithFormat:@"<%@>: MTU: %lld", NSStringFromClass(self.class), self.mtu];
 }
 
 @end
