@@ -13,24 +13,24 @@ typedef SDLEnum SDLVideoStreamingProtocol SDL_SWIFT_ENUM;
 /**
  * @abstract SDLVideoStreamingProtocol : RAW
  */
-extern SDLVideoStreamingProtocol const RAW;
+extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRAW;
 
 /**
  * @abstract SDLVideoStreamingProtocol : RTP
  */
-extern SDLVideoStreamingProtocol const RTP;
+extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTP;
 
 /**
  * @abstract SDLVideoStreamingProtocol : RTSP
  */
-extern SDLVideoStreamingProtocol const RTSP;
+extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTSP;
 
 /**
  * @abstract SDLVideoStreamingProtocol : RTMP
  */
-extern SDLVideoStreamingProtocol const RTMP;
+extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTMP;
 
 /**
  * @abstract SDLVideoStreamingProtocol : WEBM
  */
-extern SDLVideoStreamingProtocol const WEBM;
+extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolWEBM;

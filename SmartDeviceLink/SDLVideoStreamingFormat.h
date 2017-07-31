@@ -12,11 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVideoStreamingFormat : SDLRPCStruct
 
 /**
- * @abstract Constructs a newly allocated SDLVideoStreamingFormat object
- */
-- (instancetype)init;
-
-/**
  * @abstract Constructs a newly allocated SDLVideoStreamingFormat object indicated by the dictionary parameter
  * @param dict The dictionary to use
  */
