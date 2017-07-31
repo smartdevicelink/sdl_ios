@@ -25,7 +25,6 @@
 }
 
 - (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-
     self = [self init];
     if (!self) {
         return self;

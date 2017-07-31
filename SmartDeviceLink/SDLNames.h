@@ -438,6 +438,7 @@
 #define NAMES_videoCodec @"videoCodec"
 #define NAMES_videoProtocol @"videoProtocol"
 #define NAMES_videoStreaming @"videoStreaming"
+#define NAMES_videoStreamingCapability @"videoStreamingCapability"
 #define NAMES_vin @"vin"
 #define NAMES_voiceRecOn @"voiceRecOn"
 #define NAMES_vrCapabilities @"vrCapabilities"

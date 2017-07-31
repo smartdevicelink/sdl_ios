@@ -119,15 +119,15 @@
 
 - (void)setVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
     if (videoStreamingCapability != nil) {
-        store[NAMES_videoStreaming] = videoStreamingCapability;
+        store[NAMES_videoStreamingCapability] = videoStreamingCapability;
     } else {
-        [store removeObjectForKey:NAMES_videoStreaming];
+        [store removeObjectForKey:NAMES_videoStreamingCapability];
     }
 }
 
 - (SDLVideoStreamingCapability *)videoStreamingCapability {
-    NSObject *obj = store[NAMES_videoStreaming];
-    if (obj == nil || [obj isKindOfClass:SDLPhoneCapability.class]) {
+    NSObject *obj = store[NAMES_videoStreamingCapability];
+    if (obj == nil || [obj isKindOfClass:SDLVideoStreamingCapability.class]) {
         return (SDLVideoStreamingCapability *)obj;
     } else {
         return [[SDLVideoStreamingCapability alloc] initWithDictionary:(NSMutableDictionary *)obj];
