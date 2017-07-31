@@ -13,5 +13,6 @@
 + (SDLTouchType *)BEGIN;
 + (SDLTouchType *)MOVE;
 + (SDLTouchType *)END;
++ (SDLTouchType *)CANCEL;
 
 @end
