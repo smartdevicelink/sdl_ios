@@ -7,9 +7,12 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnCommand.h"
+#import "SDLPerformAudioPassThru.h"
+#import "SDLPerformAudioPassThruResponse.h"
 #import "SDLReadDID.h"
 #import "SDLReadDIDResponse.h"
 #import "SDLResponseDispatcher.h"
@@ -41,7 +44,8 @@ describe(@"a response dispatcher", ^{
         expect(testDispatcher.commandHandlerMap).toNot(beNil());
         expect(testDispatcher.buttonHandlerMap).toNot(beNil());
         expect(testDispatcher.customButtonHandlerMap).toNot(beNil());
-        
+//        expect(testDispatcher.audioPassThruHandler).to(beNil());
+
         expect(testDispatcher.rpcResponseHandlerMap).to(haveCount(@0));
         expect(testDispatcher.rpcRequestDictionary).to(haveCount(@0));
         expect(testDispatcher.commandHandlerMap).to(haveCount(@0));
@@ -689,6 +693,93 @@ describe(@"a response dispatcher", ^{
                 
                 expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
+        });
+    });
+    
+    context(@"storing an audio pass thru handler", ^{
+        __block SDLPerformAudioPassThru* testPerformAudioPassThru = nil;
+        __block NSUInteger numTimesHandlerCalled = 0;
+        
+        context(@"with a handler", ^{
+            beforeEach(^{
+                testPerformAudioPassThru = [[SDLPerformAudioPassThru alloc] initWithSamplingRate:SDLSamplingRate8KHZ bitsPerSample:SDLBitsPerSample8Bit audioType:SDLAudioTypePCM maxDuration:1000 audioDataHandler:^(NSData * _Nullable audioData) {
+                    numTimesHandlerCalled++;
+                }];
+                
+                testPerformAudioPassThru.correlationID = @1;
+                [testDispatcher storeRequest:testPerformAudioPassThru handler:nil];
+            });
+            
+            it(@"should store the handler" ,^{
+//                expect(testDispatcher.audioPassThruHandler).toNot(beNil());
+//                expect(testDispatcher.audioPassThruHandler).to(equal(testPerformAudioPassThru.audioDataHandler));
+            });
+            
+            describe(@"when an on audio data notification arrives", ^{
+                beforeEach(^{
+                    SDLOnAudioPassThru *testOnAudioPassThru = [[SDLOnAudioPassThru alloc] init];
+
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAudioPassThruNotification object:nil rpcNotification:testOnAudioPassThru];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+                
+                it(@"should run the handler", ^{
+                    expect(@(numTimesHandlerCalled)).to(equal(@1));
+                });
+            });
+            
+            describe(@"when an on audio data response arrives", ^{
+                beforeEach(^{
+                    SDLPerformAudioPassThruResponse *performAudioPassThruResponse = [[SDLPerformAudioPassThruResponse alloc] init];
+                    performAudioPassThruResponse.success = @YES;
+                    
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceivePerformAudioPassThruResponse object:nil rpcResponse:performAudioPassThruResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+                
+                it(@"should clear the handler", ^{
+//                    expect(testDispatcher.audioPassThruHandler).to(beNil());
+                });
+            });
+        });
+        
+        context(@"without a handler", ^{
+            beforeEach(^{
+                numTimesHandlerCalled = 0;
+                
+                testPerformAudioPassThru = [[SDLPerformAudioPassThru alloc] initWithSamplingRate:SDLSamplingRate8KHZ bitsPerSample:SDLBitsPerSample8Bit audioType:SDLAudioTypePCM maxDuration:1000];
+                
+                testPerformAudioPassThru.correlationID = @1;
+                [testDispatcher storeRequest:testPerformAudioPassThru handler:nil];
+            });
+            
+            describe(@"when an on audio data notification arrives", ^{
+               beforeEach(^{
+                   SDLOnAudioPassThru *testOnAudioPassThru = [[SDLOnAudioPassThru alloc] init];
+                   
+                   SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAudioPassThruNotification object:nil rpcNotification:testOnAudioPassThru];
+                   [[NSNotificationCenter defaultCenter] postNotification:notification];
+               });
+               
+               it(@"should not run a handler", ^{
+                   expect(@(numTimesHandlerCalled)).to(equal(@0));
+               });
+            });
+        
+            describe(@"when an on audio data response arrives", ^{
+                beforeEach(^{
+                    SDLPerformAudioPassThruResponse *performAudioPassThruResponse = [[SDLPerformAudioPassThruResponse alloc] init];
+                    performAudioPassThruResponse.success = @YES;
+                    
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceivePerformAudioPassThruResponse object:nil rpcResponse:performAudioPassThruResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+                
+                it(@"should clear the handler", ^{
+//                    expect(testDispatcher.audioPassThruHandler).to(beNil());
+                });
+            });
+            
         });
     });
 });

@@ -222,6 +222,8 @@
   
   <p>Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don&rsquo;t need to call this method ever.</p>
 
+<p>If you do call this method, you must wait for SDLManagerDelegate&rsquo;s managerDidDisconnect callback to call startWithReadyHandler:.</p>
+
   
   
   <h4>Objective-C</h4>

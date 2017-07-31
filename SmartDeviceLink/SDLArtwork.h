@@ -6,7 +6,7 @@
 //  Copyright © 2015 smartdevicelink. All rights reserved.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #import "SDLFile.h"
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass a UIImage if the image is not stored on disk*.
  *
  *  @param image       The UIImage to be sent to the remote head unit
- *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system).
+ *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.
  *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
  *
  *  @return An instance of this class to be passed to the file manager.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass a UIImage if the image is not stored on disk*.
  *
  *  @param image       The UIImage to be sent to the remote head unit
- *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system).
+ *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.
  *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
  *
  *  @return An instance of this class to be passed to the file manager.
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Create a file for transmission to the remote system from a UIImage.
  *
  *  @param image       The UIImage to be sent to the remote head unit
- *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system).
+ *  @param name        The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.
  *  @param persistent  Whether or not the artwork should be persistent.
  *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
  *

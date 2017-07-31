@@ -6,7 +6,7 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 @class SDLTouchManager;
 

@@ -116,7 +116,7 @@ static dispatch_queue_t _logQueue = NULL;
     // This only works on Verbose logging
     if ([self sdl_logLevelForFile:file] < SDLLogLevelVerbose) { return; }
 
-    NSString *message = [NSString stringWithFormat:@"%@(%lu bytes): %@", [self sdl_logStringForDirection:direction], data.length, [SDLHexUtility getHexString:data]];
+    NSString *message = [NSString stringWithFormat:@"%@(%lu bytes): %@", [self sdl_logStringForDirection:direction], (unsigned long)data.length, [SDLHexUtility getHexString:data]];
     [self logWithLevel:SDLLogLevelVerbose timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:message];
 }
 

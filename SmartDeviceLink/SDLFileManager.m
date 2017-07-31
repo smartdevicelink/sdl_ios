@@ -136,7 +136,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 }
 
-- (void)willEnterStateShutdown {
+- (void)didEnterStateShutdown {
     [self.transactionQueue cancelAllOperations];
     [self.mutableRemoteFileNames removeAllObjects];
     [self.class sdl_clearTemporaryFileDirectory];

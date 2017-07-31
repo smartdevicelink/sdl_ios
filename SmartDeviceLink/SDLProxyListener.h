@@ -1,7 +1,7 @@
 //  SDLProxyListener.h
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 @class SDLAddCommandResponse;
 @class SDLAddSubMenuResponse;
@@ -19,6 +19,7 @@
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
 @class SDLGetDTCsResponse;
+@class SDLGetSystemCapabilityResponse;
 @class SDLGetVehicleDataResponse;
 @class SDLGetWaypointsResponse;
 @class SDLListFilesResponse;
@@ -96,6 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onError:(NSException *)e;
 - (void)onGenericResponse:(SDLGenericResponse *)response;
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
+- (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response;
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response;
 - (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response;
 - (void)onListFilesResponse:(SDLListFilesResponse *)response;

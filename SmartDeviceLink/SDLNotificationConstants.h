@@ -30,6 +30,14 @@ typedef NOTIFICATION_TYPEDEF SDLNotificationName;
 typedef NSString *SDLNotificationUserInfoKey;
 
 #pragma mark - Blocks
+
+/**
+ *  A handler used on SDLPerformAudioPassThru.
+ *
+ *  @param audioData The audio data contained in the notification.
+ */
+typedef void (^SDLAudioPassThruHandler)(NSData *__nullable audioData);
+
 /**
  *  A handler used on all RPC requests which fires when the response is received.
  *
@@ -95,6 +103,7 @@ extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse;
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
+extern SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse;
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
 extern SDLNotificationName const SDLDidReceiveListFilesResponse;

@@ -6,7 +6,7 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
 
 #import "SDLLockScreenConfiguration.h"

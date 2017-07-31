@@ -41,7 +41,7 @@ See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to se
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink-iOS', '~> 4.5'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink', '~> 4.6'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
 
 ###### Swift
 If you are building a Swift app, then add this instead `pod 'SmartDeviceLink-iOS/Swift', '~> 4.5'`. Then run `pod install` in your terminal.
@@ -59,11 +59,13 @@ Tagged to our releases is a dynamic framework file that can be drag-and-dropped 
 
 ### Reference Documentation
 
-You can find the latest reference documentation on [Cocoadocs](http://cocoadocs.org/docsets/SmartDeviceLink-iOS). Install this documentation to [Dash](http://kapeli.com/dash) or Xcode using [Docs for Xcode](https://documancer.com/xcode/). On the [docs page](http://cocoadocs.org/docsets/SmartDeviceLink-iOS), click the 'share' button in the upper right.
+You can find the latest reference documentation on [SmartDeviceLink.com Documentation](https://smartdevicelink.com/en/docs/iOS/master/), and view guides on [SmartDeviceLink.com Guides](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
 
 ### Getting Help
 
-If you see a bug, feel free to post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
+First, view our guides on [SmartDeviceLink.com](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
+
+If you see a bug, please post an issue on the appropriate repository. Please see the [contribution guidelines](https://github.com/smartdevicelink/sdl_ios/blob/master/CONTRIBUTING.md) before proceeding. If you need general assistance, or have other questions, you can [sign up](http://slack.smartdevicelink.org) for the [SDL Slack](https://smartdevicelink.slack.com) and chat with other developers and the maintainers of the project.
 
 ### SDL iOS Getting Started
 
@@ -114,6 +116,7 @@ Your application must support a set of smartdevicelink protocol strings in order
 <string>com.smartdevicelink.prot1</string>
 <string>com.smartdevicelink.prot0</string>
 <string>com.ford.sync.prot0</string>
+<string>com.smartdevicelink.multisession</string>
 </array>
 ```
 
