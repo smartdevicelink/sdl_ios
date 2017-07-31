@@ -27,6 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNamePhoneCall];
 }
 
+- (void)setVideoStreaming:(nullable NSNumber<SDLBool> *)videoStreaming {
+    [store sdl_setObject:videoStreaming forName:SDLNameVideoStreaming];
+}
+
+- (nullable NSNumber *)videoStreaming {
+    return [store sdl_objectForName:SDLNameVideoStreaming];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
