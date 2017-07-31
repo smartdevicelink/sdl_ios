@@ -87,10 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger currentOffset = 0;
     unsigned long long numberOfFilesToSend = (((fileSize - 1) / mtuSize) + 1);
     for (int i = 0; i < numberOfFilesToSend; i++) {
-        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         dispatch_group_enter(putFileGroup);
 
         // The putfile's length parameter is based on the current offset
+        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
         NSInteger putFileLength = [self sdl_getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
         putFile.length = @(putFileLength);
