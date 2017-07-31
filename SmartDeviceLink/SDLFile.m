@@ -106,10 +106,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (!_inputStream) {
         if (_fileURL) {
             // Data in file
-            return [[NSInputStream alloc] initWithURL:_fileURL];
+            _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
         } else if (_data) {
             // Data in memory
-            return [[NSInputStream alloc] initWithData:_data];
+            _inputStream = [[NSInputStream alloc] initWithData:_data];
         }
     }
     return _inputStream;
