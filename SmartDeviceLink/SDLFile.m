@@ -90,6 +90,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters
 
 - (NSData *)data {
+    if (_data.length == 0 && _fileURL != nil) {
+        return [NSData dataWithContentsOfURL:_fileURL];
+    }
+
     return _data;
 }
 
