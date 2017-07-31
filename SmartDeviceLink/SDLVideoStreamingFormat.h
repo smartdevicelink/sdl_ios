@@ -4,9 +4,8 @@
 //
 
 #import "SDLRPCMessage.h"
-
-@class SDLVideoStreamingCodec;
-@class SDLVideoStreamingProtocol;
+#import "SDLVideoStreamingProtocol.h"
+#import "SDLVideoStreamingCodec.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,12 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract Protocol type, see VideoStreamingProtocol, mandatory
  */
-@property (strong, nonatomic) SDLVideoStreamingProtocol *protocol;
+@property (strong, nonatomic) SDLVideoStreamingProtocol protocol;
 
 /**
  * @abstract Codec type, see VideoStreamingCodec, mandatory
  */
-@property (strong, nonatomic) SDLVideoStreamingCodec *codec;
+@property (strong, nonatomic) SDLVideoStreamingCodec codec;
 
 @end
 

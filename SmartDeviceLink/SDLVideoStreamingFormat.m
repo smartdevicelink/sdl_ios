@@ -30,19 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (SDLVideoStreamingProtocol *)protocol {
+- (SDLVideoStreamingProtocol)protocol {
     return [store sdl_objectForName:SDLNameVideoProtocol];
 }
 
-- (void)setVideoStreamingProtocol:(SDLVideoStreamingProtocol *)protocol {
+- (void)setVideoStreamingProtocol:(SDLVideoStreamingProtocol)protocol {
     [store sdl_setObject:protocol forName:SDLNameVideoProtocol];
 }
 
-- (SDLVideoStreamingCodec *)codec {
+- (SDLVideoStreamingCodec)codec {
     return [store sdl_objectForName:SDLNameVideoCodec];
 }
 
-- (void)setVideoStreamingCodec:(SDLVideoStreamingCodec *)codec {
+- (void)setVideoStreamingCodec:(SDLVideoStreamingCodec)codec {
     [store sdl_setObject:codec forName:SDLNameVideoCodec];
 }
 
