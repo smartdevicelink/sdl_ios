@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.maxBitrate = maxBitrate;
     self.preferredResolution = preferredResolution;
-    self.supportedFormats = [supportedFormats mutableCopy];
+    self.supportedFormats = supportedFormats;
 
     return self;
 }
@@ -47,23 +47,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImageResolution *)preferredResolution {
-    return [store sdl_objectForName:SDLNamePreferredResolution];
+    return [store sdl_objectForName:SDLNamePreferredResolution ofClass:SDLImageResolution.class];
 }
 
-- (void)setMaxBitrate:(nullable NSNumber *)maxBitrate {
+- (void)setMaxBitrate:(nullable NSNumber<SDLInt> *)maxBitrate {
     [store sdl_setObject:maxBitrate forName:SDLNameMaxBitrate];
 }
 
-- (nullable NSNumber *)maxBitrate {
+- (nullable NSNumber<SDLInt> *)maxBitrate {
     return [store sdl_objectForName:SDLNameMaxBitrate];
 }
 
-- (void)setSupportedFormats:(nullable NSMutableArray *)supportedFormats {
+- (void)setSupportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
     [store sdl_setObject:supportedFormats forName:SDLNameSupportedFormats];
 }
 
-- (nullable NSMutableArray *)supportedFormats {
-    return [store sdl_objectForName:SDLNameSupportedFormats];
+- (nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    return [store sdl_objectsForName:SDLNameSupportedFormats ofClass:SDLVideoStreamingFormat.class];
 }
 
 @end

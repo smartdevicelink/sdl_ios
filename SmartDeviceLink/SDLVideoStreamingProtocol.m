@@ -8,4 +8,4 @@ SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRAW = @"RAW";
 SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTP = @"RTP";
 SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTSP = @"RTSP";
 SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTMP = @"RTMP";
-SDLVideoStreamingProtocol const SDLVideoStreamingProtocolWEBM = @"WEBM";
+SDLVideoStreamingProtocol const SDLVideoStreamingProtocolWebm = @"WEBM";

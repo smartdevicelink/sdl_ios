@@ -31,6 +31,6 @@ extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTSP;
 extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTMP;
 
 /**
- * @abstract SDLVideoStreamingProtocol : WEBM
+ * @abstract SDLVideoStreamingProtocol : Webm
  */
-extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolWEBM;
+extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolWebm;

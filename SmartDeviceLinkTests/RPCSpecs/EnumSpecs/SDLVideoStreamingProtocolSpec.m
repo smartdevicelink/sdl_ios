@@ -21,7 +21,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVideoStreamingProtocolRAW).to(equal(@"RAW"));
         expect(SDLVideoStreamingProtocolRTMP).to(equal(@"RTMP"));
         expect(SDLVideoStreamingProtocolRTSP).to(equal(@"RTSP"));
-        expect(SDLVideoStreamingProtocolWEBM).to(equal(@"WEBM"));
+        expect(SDLVideoStreamingProtocolWebm).to(equal(@"WEBM"));
     });
 });
 

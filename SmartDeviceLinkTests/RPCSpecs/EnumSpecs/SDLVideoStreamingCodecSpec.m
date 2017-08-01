@@ -19,7 +19,7 @@ describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLVideoStreamingCodecH264).to(equal(@"H264"));
         expect(SDLVideoStreamingCodecH265).to(equal(@"H265"));
-        expect(SDLVideoStreamingCodecTHEORA).to(equal(@"THEORA"));
+        expect(SDLVideoStreamingCodecTheora).to(equal(@"THEORA"));
         expect(SDLVideoStreamingCodecVP8).to(equal(@"VP8"));
         expect(SDLVideoStreamingCodecVP9).to(equal(@"VP9"));
     });

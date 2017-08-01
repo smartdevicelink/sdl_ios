@@ -37,12 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
  * minvalue= 0
  * maxvalue= 2147483647
  */
-@property (nullable, strong, nonatomic) NSNumber *maxBitrate;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *maxBitrate;
 
 /**
  * @abstract Detailed information on each format supported by this system, in its preferred order, optional
  */
-@property (nullable, strong, nonatomic) NSMutableArray<SDLVideoStreamingFormat *> *supportedFormats;
+@property (nullable, strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *supportedFormats;
 
 
 @end

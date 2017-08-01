@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Boolean value. Optional.
  */
-@property (nullable, copy, nonatomic) NSNumber *videoStreaming;
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *videoStreaming;
 
 @end
 

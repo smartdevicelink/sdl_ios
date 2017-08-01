@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
     [store sdl_setObject:videoStreaming forName:SDLNameVideoStreaming];
 }
 
-- (nullable NSNumber *)videoStreaming {
+- (nullable NSNumber<SDLBool> *)videoStreaming {
     return [store sdl_objectForName:SDLNameVideoStreaming];
 }
 

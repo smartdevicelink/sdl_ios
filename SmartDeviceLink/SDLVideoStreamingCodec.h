@@ -21,9 +21,9 @@ extern SDLVideoStreamingCodec const SDLVideoStreamingCodecH264;
 extern SDLVideoStreamingCodec const SDLVideoStreamingCodecH265;
 
 /**
- * @abstract SDLVideoStreamingCodec : THEORA
+ * @abstract SDLVideoStreamingCodec : Theora
  */
-extern SDLVideoStreamingCodec const SDLVideoStreamingCodecTHEORA;
+extern SDLVideoStreamingCodec const SDLVideoStreamingCodecTheora;
 
 /**
  * @abstract SDLVideoStreamingCodec : VP8
