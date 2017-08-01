@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- Sends data asychronously to the SDL Core by breaking the data into smaller packets, each of which is sent via a putfile. To prevent large files from eating up memory, the data packet is deleted once it is sent via a putfile. If the SDL Core receives all the putfiles successfully, a success response with the amount of free storage space left on the SDL Core is returned. Otherwise the error returned by the SDL Core is passed along.
+ Sends data asynchronously to the SDL Core by breaking the data into smaller packets, each of which is sent via a putfile. To prevent large files from eating up memory, the data packet is deleted once it is sent via a putfile. If the SDL Core receives all the putfiles successfully, a success response with the amount of free storage space left on the SDL Core is returned. Otherwise the error returned by the SDL Core is passed along.
 
  @param file The file containing the data to be sent to the SDL Core
  @param mtuSize The maximum packet size allowed
@@ -85,23 +85,19 @@ NS_ASSUME_NONNULL_BEGIN
     // Break the data into small pieces, each of which will be sent in a separate putfile
     unsigned long long fileSize = [file fileSize];
     NSUInteger currentOffset = 0;
-    unsigned long long numberOfPacketsToSend = [[self class] sdl_numberOfDataPacketsToSendForFileSize:fileSize mtuSize:mtuSize];
-    for (int i = 0; i < numberOfPacketsToSend; i++) {
+    for (int i = 0; i < (((fileSize - 1) / mtuSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
 
         // The putfile's length parameter is based on the current offset
         SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
-        NSInteger putFileLength = [self sdl_getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
-        putFile.length = @(putFileLength);
+        putFile.length = @([self sdl_getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize]);
 
         // Get a chunk of data from the input stream
         NSUInteger dataSize = [self sdl_getDataSizeForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
-        NSData *dataChunk = [self sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
-        putFile.bulkData = dataChunk;
+        putFile.bulkData = [self sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
         currentOffset += dataSize;
 
-        // Send the putfile
         __weak typeof(self) weakself = self;
         [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             typeof(weakself) strongself = weakself;
@@ -110,10 +106,6 @@ NS_ASSUME_NONNULL_BEGIN
             if (strongself.isCancelled) {
                 // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
                 stop = YES;
-            }
-            if (stop) {
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
             }
 
             // If the SDL Core returned an error, cancel the upload the process in the future
@@ -124,12 +116,15 @@ NS_ASSUME_NONNULL_BEGIN
                 BLOCK_RETURN;
             }
 
+            if (stop) {
+                dispatch_group_leave(putFileGroup);
+                BLOCK_RETURN;
+            }
+
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
-            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
-            NSInteger highestCurrentCorrelationIDReceived = [self sdl_highestCurrentCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived];
-            if (highestCorrelationIDReceived != highestCurrentCorrelationIDReceived) {
-                highestCorrelationIDReceived = highestCurrentCorrelationIDReceived;
-                bytesAvailable = [putFileResponse.spaceAvailable unsignedIntegerValue];
+            if ([self sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
+                highestCorrelationIDReceived = [request.correlationID integerValue];
+                bytesAvailable = [(SDLPutFileResponse *)response spaceAvailable].unsignedIntegerValue;
             }
 
             dispatch_group_leave(putFileGroup);
@@ -206,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
         return  nil;
     }
     
-    uint8_t buffer[size];
+    Byte buffer[size];
     NSInteger bytesRead = [inputStream read:buffer maxLength:size];
     if (bytesRead) {
         NSData *dataChunk = [[NSData alloc] initWithBytes:(const void*)buffer length:size];
@@ -218,23 +213,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- One of the reponses returned by the SDL Core will contain the correct remaining free storage size on the SDL Core. Since communication with the SDL Core is asychronous, there is no way to predict which response contains the correct bytes available other than to watch for the largest correlation id, since that will be the last reponse sent by the SDL Core.
+ One of the responses returned by the SDL Core will contain the correct remaining free storage size on the SDL Core. Since communication with the SDL Core is asynchronous, there is no way to predict which response contains the correct bytes available other than to watch for the largest correlation id, since that will be the last response sent by the SDL Core.
 
  @param request The newest response returned by the SDL Core for a putfile
  @param highestCorrelationIDReceived The largest currently received correlation id
  @return Whether or not the newest request contains the highest correlationId
  */
-- (NSInteger)sdl_highestCurrentCorrelationID:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived {
-    NSInteger newCorrelationID = [request.correlationID integerValue];
-    if (newCorrelationID > highestCorrelationIDReceived) {
-        return newCorrelationID;
+- (Boolean)sdl_newHighestCorrelationID:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived {
+    if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
+        return true;
     }
 
-    return highestCorrelationIDReceived;
-}
-
-+ (unsigned long long)sdl_numberOfDataPacketsToSendForFileSize:(NSInteger)fileSize mtuSize:(NSInteger)mtuSize {
-    return (((fileSize - 1) / mtuSize) + 1);
+    return false;
 }
 
 #pragma mark - Property Overrides
