@@ -85,8 +85,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Break the data into small pieces, each of which will be sent in a separate putfile
     unsigned long long fileSize = [file fileSize];
     NSUInteger currentOffset = 0;
-    unsigned long long numberOfFilesToSend = (((fileSize - 1) / mtuSize) + 1);
-    for (int i = 0; i < numberOfFilesToSend; i++) {
+    unsigned long long numberOfPacketsToSend = [[self class] sdl_numberOfDataPacketsToSendForFileSize:fileSize mtuSize:mtuSize];
+    for (int i = 0; i < numberOfPacketsToSend; i++) {
         dispatch_group_enter(putFileGroup);
 
         // The putfile's length parameter is based on the current offset
@@ -105,11 +105,6 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakself = self;
         [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             typeof(weakself) strongself = weakself;
-
-            // Once putfile has been sent, delete the data to free up memory
-            @autoreleasepool {
-                putFile.bulkData = nil;
-            }
 
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
             if (strongself.isCancelled) {
@@ -236,6 +231,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return highestCorrelationIDReceived;
+}
+
++ (unsigned long long)sdl_numberOfDataPacketsToSendForFileSize:(NSInteger)fileSize mtuSize:(NSInteger)mtuSize {
+    return (((fileSize - 1) / mtuSize) + 1);
 }
 
 #pragma mark - Property Overrides

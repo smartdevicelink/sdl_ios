@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _fileURL = url;
-    _data = [NSData data];
+    _data = [[NSData alloc] init];
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (_fileURL) {
             // Data in file
             _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
-        } else if (_data) {
+        } else if (_data.length != 0) {
             // Data in memory
             _inputStream = [[NSInputStream alloc] initWithData:_data];
         }
@@ -123,7 +123,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (unsigned long long)fileSize {
     if (_fileURL) {
         // Data in file
-        return [[NSFileManager defaultManager] attributesOfItemAtPath:_fileURL.absoluteString error:nil].fileSize;
+        NSString *path = [_fileURL path];
+        return [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil].fileSize;
     } else if (_data) {
         // Data in memory
         return _data.length;
