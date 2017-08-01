@@ -17,18 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
     self = [self init];
     if (!self) {

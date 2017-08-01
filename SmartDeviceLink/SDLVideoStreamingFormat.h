@@ -12,12 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVideoStreamingFormat : SDLRPCStruct
 
 /**
- * @abstract Constructs a newly allocated SDLVideoStreamingFormat object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-/**
  * @abstract Protocol type, see VideoStreamingProtocol, mandatory
  */
 @property (strong, nonatomic) SDLVideoStreamingProtocol protocol;

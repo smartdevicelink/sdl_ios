@@ -14,14 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingFormat
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    self = [super initWithDictionary:dict];
-    if (!self) {
-        return nil;
-    }
-    return self;
-}
-
 - (SDLVideoStreamingProtocol)protocol {
     return [store sdl_objectForName:SDLNameVideoProtocol];
 }
