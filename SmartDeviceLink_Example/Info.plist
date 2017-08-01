@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.5.5</string>
+	<string>5.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -82,6 +82,7 @@
 		<string>com.smartdevicelink.prot1</string>
 		<string>com.smartdevicelink.prot0</string>
 		<string>com.ford.sync.prot0</string>
+		<string>com.smartdevicelink.multisession</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

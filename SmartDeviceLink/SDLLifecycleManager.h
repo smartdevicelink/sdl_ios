@@ -44,7 +44,8 @@ extern SDLLifecycleState *const SDLLifecycleStateReconnecting;
 extern SDLLifecycleState *const SDLLifecycleStateConnected;
 extern SDLLifecycleState *const SDLLifecycleStateRegistered;
 extern SDLLifecycleState *const SDLLifecycleStateSettingUpManagers;
-extern SDLLifecycleState *const SDLLifecycleStatePostManagerProcessing;
+extern SDLLifecycleState *const SDLLifecycleStateSettingUpAppIcon;
+extern SDLLifecycleState *const SDLLifecycleStateSettingUpHMI;
 extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
 extern SDLLifecycleState *const SDLLifecycleStateReady;
 

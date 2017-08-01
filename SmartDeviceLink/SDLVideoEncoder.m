@@ -152,7 +152,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, void * CM_NULLABLE sourceFrameRefCon, OSStatus status, VTEncodeInfoFlags infoFlags, CM_NULLABLE CMSampleBufferRef sampleBuffer) {
     // If there was an error in the encoding, drop the frame
     if (status != noErr) {
-        SDLLogW(@"Error encoding video frame: %d", status);
+        SDLLogW(@"Error encoding video frame: %d", (int)status);
         return;
     }
     

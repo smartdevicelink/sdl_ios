@@ -126,6 +126,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)clear {
+    // When we get disconnected we have to delete all existing responseHandlers as they are not valid anymore
+    for (SDLRPCCorrelationId *correlationID in self.rpcResponseHandlerMap.dictionaryRepresentation) {
+        SDLResponseHandler responseHandler = self.rpcResponseHandlerMap[correlationID];
+        responseHandler(self.rpcRequestDictionary[correlationID], nil, [NSError sdl_lifecycle_notConnectedError]);
+    }
     [self.rpcRequestDictionary removeAllObjects];
     [self.rpcResponseHandlerMap removeAllObjects];
     [self.commandHandlerMap removeAllObjects];

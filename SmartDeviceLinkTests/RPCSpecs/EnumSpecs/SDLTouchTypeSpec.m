@@ -17,6 +17,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLTouchTypeBegin).to(equal(@"BEGIN"));
         expect(SDLTouchTypeMove).to(equal(@"MOVE"));
         expect(SDLTouchTypeEnd).to(equal(@"END"));
+        expect(SDLTouchTypeCancel).to(equal(@"CANCEL"));
     });
 });
 

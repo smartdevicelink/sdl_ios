@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink-iOS"
-s.version      = "4.5.5"
+s.version      = "4.6.1"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -58,6 +58,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLEncodedSyncPData.h',
 'SmartDeviceLink/SDLEndAudioPassThru.h',
 'SmartDeviceLink/SDLGetDTCs.h',
+'SmartDeviceLink/SDLGetSystemCapability.h',
 'SmartDeviceLink/SDLGetVehicleData.h',
 'SmartDeviceLink/SDLGetWaypoints.h',
 'SmartDeviceLink/SDLListFiles.h',
@@ -104,6 +105,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLEndAudioPassThruResponse.h',
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetDTCsResponse.h',
+'SmartDeviceLink/SDLGetSystemCapabilityResponse.h',
 'SmartDeviceLink/SDLGetVehicleDataResponse.h',
 'SmartDeviceLink/SDLGetWaypointsResponse.h',
 'SmartDeviceLink/SDLListFilesResponse.h',
@@ -176,9 +178,11 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLKeyboardProperties.h',
 'SmartDeviceLink/SDLMenuParams.h',
 'SmartDeviceLink/SDLMyKey.h',
+'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/SDLParameterPermissions.h',
 'SmartDeviceLink/SDLPermissionItem.h',
+'SmartDeviceLink/SDLPhoneCapability.h',
 'SmartDeviceLink/SDLPinchGesture.h',
 'SmartDeviceLink/SDLPresetBankCapabilities.h',
 'SmartDeviceLink/SDLScreenParams.h',
@@ -187,6 +191,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSoftButtonCapabilities.h',
 'SmartDeviceLink/SDLStartTime.h',
 'SmartDeviceLink/SDLSyncMsgVersion.h',
+'SmartDeviceLink/SDLSystemCapability.h',
 'SmartDeviceLink/SDLTTSChunk.h',
 'SmartDeviceLink/SDLTextField.h',
 'SmartDeviceLink/SDLTireStatus.h',
@@ -252,6 +257,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSoftButtonType.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLSystemAction.h',
+'SmartDeviceLink/SDLSystemCapabilityType.h',
 'SmartDeviceLink/SDLSystemContext.h',
 'SmartDeviceLink/SDLTBTState.h',
 'SmartDeviceLink/SDLTextAlignment.h',
