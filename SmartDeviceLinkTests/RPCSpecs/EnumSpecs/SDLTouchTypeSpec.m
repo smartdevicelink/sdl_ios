@@ -17,8 +17,10 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLTouchType BEGIN].value).to(equal(@"BEGIN"));
         expect([SDLTouchType MOVE].value).to(equal(@"MOVE"));
         expect([SDLTouchType END].value).to(equal(@"END"));
+        expect([SDLTouchType CANCEL].value).to(equal(@"CANCEL"));
     });
 });
+
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
         expect([SDLTouchType valueOf:@"BEGIN"]).to(equal([SDLTouchType BEGIN]));
@@ -31,14 +33,13 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLTouchType valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
+
 describe(@"Value List Tests", ^ {
-    NSArray* storedValues = [SDLTouchType values];
-    __block NSArray* definedValues;
-    beforeSuite(^ {
-        definedValues = [@[[SDLTouchType BEGIN],
-                        [SDLTouchType MOVE],
-                        [SDLTouchType END]] copy];
-    });
+    __block NSArray* storedValues = [SDLTouchType values];
+    __block NSArray* definedValues = [@[[SDLTouchType BEGIN],
+                                        [SDLTouchType MOVE],
+                                        [SDLTouchType END],
+                                        [SDLTouchType CANCEL]] copy];
     
     it(@"Should contain all defined enum values", ^ {
         for (int i = 0; i < definedValues.count; i++) {
