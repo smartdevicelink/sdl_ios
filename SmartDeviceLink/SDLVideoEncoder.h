@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
+
 #import "SDLMacros.h"
+#import "SDLVideoEncoderDelegate.h"
+
+@class SDLVideoEncoder;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,28 +24,8 @@ typedef NS_ENUM(NSInteger, SDLVideoEncoderError) {
 
 extern NSString *const SDLErrorDomainVideoEncoder;
 
-@class SDLVideoEncoder;
-
-@protocol SDLVideoEncoderDelegate <NSObject>
-
-- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData*)encodedVideo;
-
-@end
 
 @interface SDLVideoEncoder : NSObject
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
-
-- (void)stop;
-
-- (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer;
-
-/**
- *  Creates a new pixel buffer using the pixelBufferPool property.
- */
-- (CVPixelBufferRef CV_NULLABLE)pixelBuffer;
 
 @property (nonatomic, weak, nullable) id<SDLVideoEncoderDelegate> delegate;
 
@@ -67,6 +51,19 @@ extern NSString *const SDLErrorDomainVideoEncoder;
  *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
  */
 @property (assign, nonatomic, readonly) CVPixelBufferPoolRef CV_NULLABLE pixelBufferPool;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+
+- (void)stop;
+
+- (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer;
+
+/**
+ *  Creates a new pixel buffer using the pixelBufferPool property.
+ */
+- (CVPixelBufferRef CV_NULLABLE)newPixelBuffer;
 
 @end
 

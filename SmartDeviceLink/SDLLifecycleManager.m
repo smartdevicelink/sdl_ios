@@ -269,13 +269,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }];
     
 
-    if (self.streamManager) {
+    if (self.streamManager != nil) {
         dispatch_group_enter(managerGroup);
     }
     
     [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
-            SDLLogE(@"Unable to start: %@", error);
+            SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
         }
         
         dispatch_group_leave(managerGroup);

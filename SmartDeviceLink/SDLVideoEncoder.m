@@ -57,15 +57,15 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     status = VTCompressionSessionCreate(NULL, dimensions.width, dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     
     if (status != noErr) {
-        // TODO: Log the error
         if (!*error) {
             *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure userInfo:@{ @"OSStatus": @(status) }];
+            SDLLogE(@"Error attempting to create video compression session: %@", *error);
         }
         
         return nil;
     }
     
-    CFRelease(self.sdl_pixelBufferOptions);
+    CFRelease(_sdl_pixelBufferOptions);
     _sdl_pixelBufferOptions = nil;
     
     // Validate that the video encoder properties are valid.
@@ -124,7 +124,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     return (status == noErr);
 }
 
-- (CVPixelBufferRef CV_NULLABLE)pixelBuffer {
+- (CVPixelBufferRef CV_NULLABLE)newPixelBuffer {
     if (self.pixelBufferPool == NULL) {
         return NULL;
     }
@@ -185,13 +185,13 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         
         _sdl_pixelBufferOptions = pixelBufferOptions;
     }
+
     return _sdl_pixelBufferOptions;
 }
 
 #pragma mark Helpers
 + (NSData *)sdl_encodeElementaryStreamWithSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     // Creating an elementaryStream: http://stackoverflow.com/questions/28396622/extracting-h264-from-cmblockbuffer
-    
     NSMutableData *elementaryStream = [NSMutableData data];
     BOOL isIFrame = NO;
     CFArrayRef attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, 0);
@@ -199,9 +199,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     if (CFArrayGetCount(attachmentsArray)) {
         CFBooleanRef notSync;
         CFDictionaryRef dict = CFArrayGetValueAtIndex(attachmentsArray, 0);
-        BOOL keyExists = CFDictionaryGetValueIfPresent(dict,
-                                                       kCMSampleAttachmentKey_NotSync,
-                                                       (const void **)&notSync);
+        BOOL keyExists = CFDictionaryGetValueIfPresent(dict, kCMSampleAttachmentKey_NotSync, (const void **)&notSync);
         
         // Find out if the sample buffer contains an I-Frame (sync frame). If so we will write the SPS and PPS NAL units to the elementary stream.
         isIFrame = !keyExists || !CFBooleanGetValue(notSync);

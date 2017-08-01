@@ -26,12 +26,13 @@
 
 #import "CVPixelBufferRef+SDLUtil.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 SDLAppState *const SDLAppStateBackground = @"Background";
-SDLAppState *const SDLAppStateIsResigningActive = @"IsResigningActive";
+SDLAppState *const SDLAppStateIsResigningActive = @"ResigningActive";
 SDLAppState *const SDLAppStateInactive = @"Inactive";
-SDLAppState *const SDLAppStateIsRegainingActive = @"IsRegainingActive";
+SDLAppState *const SDLAppStateIsRegainingActive = @"RegainingActive";
 SDLAppState *const SDLAppStateActive = @"Active";
 
 SDLVideoStreamState *const SDLVideoStreamStateStopped = @"VideoStreamStopped";
@@ -46,19 +47,18 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 
 static NSUInteger const SDLFramesToSendOnBackground = 30;
 
+
 @interface SDLStreamingMediaLifecycleManager () <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
-@property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
-
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
-
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
 @property (assign, nonatomic, readwrite) BOOL restartVideoStream;
 
+@property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
@@ -93,17 +93,16 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     
     SDLAppState *initialState = SDLAppStateBackground;
     switch ([[UIApplication sharedApplication] applicationState]) {
-        case UIApplicationStateActive:
+        case UIApplicationStateActive: {
             initialState = SDLAppStateActive;
-            break;
-        case UIApplicationStateInactive:
+        } break;
+        case UIApplicationStateInactive: {
             initialState = SDLAppStateInactive;
-            break;
-        case UIApplicationStateBackground:
+        } break;
+        case UIApplicationStateBackground: {
             initialState = SDLAppStateBackground;
-            break;
-        default:
-            break;
+        } break;
+        default: break;
     }
     
     _touchManager = [[SDLTouchManager alloc] init];
@@ -199,7 +198,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 #pragma mark - State Machines
-#pragma mark App
+#pragma mark App State
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_appStateTransitionDictionary {
     return @{
              SDLAppStateBackground : @[SDLAppStateIsRegainingActive],
@@ -236,16 +235,20 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateActive {
+    if (!self.protocol) { return; }
+
     [self sdl_startVideoSession];
     [self sdl_startAudioSession];
 }
 
 - (void)didEnterStateIsResigningActive {
+    if (!self.protocol) { return; }
+
     [self sdl_sendBackgroundFrames];
     [self.appStateMachine transitionToState:SDLAppStateInactive];
 }
 
-- (void)didEnterStateIsRegainingActive { }
+- (void)didEnterStateIsRegainingActive { /* Nothing */ }
 
 #pragma mark Video Streaming
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_videoStreamStateTransitionDictionary {
@@ -275,7 +278,8 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 - (void)didEnterStateVideoStreamStarting {
     self.restartVideoStream = NO;
-    
+
+    // Decide if we need to start a secure service or not
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail
@@ -290,9 +294,9 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateVideoStreamReady {
-    if (_videoEncoder == nil) {
+    if (self.videoEncoder == nil) {
         NSError* error = nil;
-        _videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
+        self.videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
         
         if (error) {
             SDLLogE(@"Could not create a video encoder: %@", error);
@@ -301,7 +305,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         }
         
         if (!self.backgroundingPixelBuffer) {
-            CVPixelBufferRef backgroundingPixelBuffer = _videoEncoder.pixelBuffer;
+            CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
             if (CVPixelBufferAddText(backgroundingPixelBuffer, @"") == NO) {
                 SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
@@ -400,7 +404,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     }
 }
 
-#pragma mark - Private
+#pragma mark - SDL RPC Notification callbacks
 - (void)sdl_didReceiveRegisterAppInterfaceResponse:(SDLRPCResponseNotification*)notification {
     NSAssert([notification.response isKindOfClass:[SDLRegisterAppInterfaceResponse class]], @"A notification was sent with an unanticipated object");
     if (![notification.response isKindOfClass:[SDLRegisterAppInterfaceResponse class]]) {
@@ -448,6 +452,9 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         [self sdl_stopAudioSession];
     }
 }
+
+
+#pragma mark - Streaming session helpers
 
 - (void)sdl_startVideoSession {
     if (!self.isVideoStreamingSupported) {

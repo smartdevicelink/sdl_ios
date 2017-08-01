@@ -36,7 +36,7 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
         NSLog(@"Text cannot fit inside frame");
         return nil;
     }
-    
+
     CGRect frame = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(frame.size, NO, 1.0);
     CGContextRef context = UIGraphicsGetCurrentContext();

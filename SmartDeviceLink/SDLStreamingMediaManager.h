@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
-#import "SDLTouchManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
 

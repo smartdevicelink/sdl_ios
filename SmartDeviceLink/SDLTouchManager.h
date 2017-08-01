@@ -6,15 +6,18 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import "SDLTouchManagerDelegate.h"
 #import <UIKit/UIKit.h>
-#import "SDLProxyListener.h"
-#import "SDLTouch.h"
+
+#import "SDLTouchManagerDelegate.h"
+
 #import "SDLTouchType.h"
+
+@class SDLTouch;
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
+
 
 @interface SDLTouchManager : NSObject
 

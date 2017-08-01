@@ -840,6 +840,7 @@
 		5DA22CBD1D075DE800245F5F /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB61D075CF200245F5F /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA22CBF1D075DEC00245F5F /* SmartDeviceLink.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5DA23FFD1F312DBA009C0313 /* SDLVideoEncoderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA23FFC1F312DBA009C0313 /* SDLVideoEncoderDelegate.h */; };
 		5DA3F3541BC448060026F2D0 /* NSMapTable+Subscripting.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */; };
 		5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */; };
 		5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA3F3581BC448480026F2D0 /* SDLError.h */; };
@@ -1905,6 +1906,7 @@
 		5DA22CB41D075CF200245F5F /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = sdl_ios/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
 		5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = sdl_ios/Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5DA22CB61D075CF200245F5F /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = sdl_ios/Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
+		5DA23FFC1F312DBA009C0313 /* SDLVideoEncoderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoEncoderDelegate.h; sourceTree = "<group>"; };
 		5DA3F3521BC448060026F2D0 /* NSMapTable+Subscripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMapTable+Subscripting.h"; sourceTree = "<group>"; };
 		5DA3F3531BC448060026F2D0 /* NSMapTable+Subscripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMapTable+Subscripting.m"; sourceTree = "<group>"; };
 		5DA3F3581BC448480026F2D0 /* SDLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLError.h; sourceTree = "<group>"; };
@@ -3184,7 +3186,6 @@
 			children = (
 				97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */,
 				97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */,
-				DAA41D521DF66B1100BC7337 /* Video Encoding */,
 				DAC5724C1D0FE3B60004288B /* Touches */,
 				E9C32B831AB20B2900F283AF /* @categories */,
 				5D5934F91A851A8000687FB9 /* Prioritized Objects */,
@@ -3849,6 +3850,7 @@
 			isa = PBXGroup;
 			children = (
 				DA8966F01E56970C00413EAB /* Utilities */,
+				DAA41D521DF66B1100BC7337 /* Video Encoding */,
 				DA8966E81E56938C00413EAB /* Lifecycle */,
 				5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */,
 				5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */,
@@ -3876,6 +3878,8 @@
 		DA8966F01E56970C00413EAB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				DA6223BB1E7B088200878689 /* CVPixelBufferRef+SDLUtil.h */,
+				DA6223BC1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m */,
 				DA8966F11E56973700413EAB /* SDLStreamingMediaManagerConstants.h */,
 				DA8966F31E56977C00413EAB /* SDLStreamingMediaManagerConstants.m */,
 			);
@@ -3887,6 +3891,7 @@
 			children = (
 				DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */,
 				DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */,
+				5DA23FFC1F312DBA009C0313 /* SDLVideoEncoderDelegate.h */,
 			);
 			name = "Video Encoding";
 			sourceTree = "<group>";
@@ -3926,8 +3931,6 @@
 				E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */,
 				DA318C1D1DD0F06C00C035AC /* NSMutableDictionary+Store.h */,
 				DA318C1E1DD0F06C00C035AC /* NSMutableDictionary+Store.m */,
-				DA6223BB1E7B088200878689 /* CVPixelBufferRef+SDLUtil.h */,
-				DA6223BC1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m */,
 			);
 			name = "@categories";
 			sourceTree = "<group>";
@@ -4034,6 +4037,7 @@
 				5D61FCCB1A84238C00846EE7 /* SDLIgnitionStatus.h in Headers */,
 				5D61FCB71A84238C00846EE7 /* SDLGetVehicleDataResponse.h in Headers */,
 				5D61FDA91A84238C00846EE7 /* SDLSpeechCapabilities.h in Headers */,
+				5DA23FFD1F312DBA009C0313 /* SDLVideoEncoderDelegate.h in Headers */,
 				5D61FCE01A84238C00846EE7 /* SDLKeyboardEvent.h in Headers */,
 				5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */,
 				DA9F7E631DCBFAC800ACAE48 /* SDLDateTime.h in Headers */,

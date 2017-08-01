@@ -15,11 +15,12 @@
 #import "SDLNotificationConstants.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
+#import "SDLProxyListener.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
-#import "SDLTouchType.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -89,7 +90,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
     
     return self;
 }
@@ -101,12 +102,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 #pragma mark - SDLDidReceiveTouchEventNotification
 
-- (void)onTouchEvent:(SDLRPCNotificationNotification *)notification {
-    if (!self.isTouchEnabled || (!self.touchEventHandler && !self.touchEventDelegate)) {
-        return;
-    }
-    
-    if (![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
+- (void)sdl_onTouchEvent:(SDLRPCNotificationNotification *)notification {
+    if (!self.isTouchEnabled
+        || (!self.touchEventHandler && !self.touchEventDelegate)
+        || ![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
         return;
     }
     
@@ -114,18 +113,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     
     SDLTouchType touchType = onTouchEvent.type;
     SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
-
     SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
 
     if (self.touchEventHandler) {
         self.touchEventHandler(touch, touchType);
     }
     
-    if (!self.touchEventDelegate) {
-        return;
-    }
-    
-    if (touch.identifier > MaximumNumberOfTouches) {
+    if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
         return;
     }
 

@@ -9,6 +9,8 @@
 #import "SDLStreamingMediaManager.h"
 
 #import "SDLStreamingMediaLifecycleManager.h"
+#import "SDLTouchManager.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLStreamingMediaLifecycleManager *lifecycleManager;
 
 @end
+
 
 @implementation SDLStreamingMediaManager
 
