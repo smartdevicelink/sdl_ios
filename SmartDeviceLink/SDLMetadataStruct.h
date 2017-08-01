@@ -26,6 +26,11 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
+/**
+ * @abstract Constructs a newly allocated SDLTextField object with NSArrays
+ *
+ * @param mainField1, mainField2, mainField3, mainField4
+ */
 - (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType *> *)mainField1 mainField2:(NSArray<SDLTextFieldType *> *)mainField2 mainField3:(NSArray<SDLTextFieldType *> *)mainField3 mainField4:(NSArray<SDLTextFieldType *> *)mainField4;
 
 /**
