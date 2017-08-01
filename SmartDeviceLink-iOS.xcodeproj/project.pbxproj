@@ -906,6 +906,9 @@
 		8B06061F1F30BCED005ADB2F /* SDLTextFieldType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B06061D1F30BCED005ADB2F /* SDLTextFieldType.h */; };
 		8B0606201F30BCED005ADB2F /* SDLTextFieldType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B06061E1F30BCED005ADB2F /* SDLTextFieldType.m */; };
 		8B0606221F30C108005ADB2F /* SDLTextFieldTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0606211F30C108005ADB2F /* SDLTextFieldTypeSpec.m */; };
+		8B0606291F3103CE005ADB2F /* SDLMetadataStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B0606271F3103CE005ADB2F /* SDLMetadataStruct.h */; };
+		8B06062A1F3103CE005ADB2F /* SDLMetadataStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0606281F3103CE005ADB2F /* SDLMetadataStruct.m */; };
+		8B06062C1F310ED2005ADB2F /* SDLMetadataStructSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B06062B1F310ED2005ADB2F /* SDLMetadataStructSpec.m */; };
 		97E26DEC1E807AD70074A3C7 /* SDLMutableDataQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */; };
 		97E26DED1E807AD70074A3C7 /* SDLMutableDataQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
@@ -1969,6 +1972,9 @@
 		8B06061D1F30BCED005ADB2F /* SDLTextFieldType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTextFieldType.h; sourceTree = "<group>"; };
 		8B06061E1F30BCED005ADB2F /* SDLTextFieldType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTextFieldType.m; sourceTree = "<group>"; };
 		8B0606211F30C108005ADB2F /* SDLTextFieldTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTextFieldTypeSpec.m; sourceTree = "<group>"; };
+		8B0606271F3103CE005ADB2F /* SDLMetadataStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMetadataStruct.h; sourceTree = "<group>"; };
+		8B0606281F3103CE005ADB2F /* SDLMetadataStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataStruct.m; sourceTree = "<group>"; };
+		8B06062B1F310ED2005ADB2F /* SDLMetadataStructSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataStructSpec.m; sourceTree = "<group>"; };
 		97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMutableDataQueue.h; sourceTree = "<group>"; };
 		97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMutableDataQueue.m; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
@@ -2384,6 +2390,7 @@
 				162E82B41A9BDE8A00906325 /* SDLVehicleDataResultSpec.m */,
 				162E82B51A9BDE8A00906325 /* SDLVehicleTypeSpec.m */,
 				162E82B61A9BDE8A00906325 /* SDLVrHelpItemSpec.m */,
+				8B06062B1F310ED2005ADB2F /* SDLMetadataStructSpec.m */,
 			);
 			path = StructSpecs;
 			sourceTree = "<group>";
@@ -2988,6 +2995,8 @@
 				5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */,
 				5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */,
 				5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */,
+				8B0606271F3103CE005ADB2F /* SDLMetadataStruct.h */,
+				8B0606281F3103CE005ADB2F /* SDLMetadataStruct.m */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -4096,6 +4105,7 @@
 				5D00AC6F1F1511B9004000D9 /* SDLGetSystemCapability.h in Headers */,
 				5D61FD891A84238C00846EE7 /* SDLSetGlobalPropertiesResponse.h in Headers */,
 				5D61FD8D1A84238C00846EE7 /* SDLSetMediaClockTimerResponse.h in Headers */,
+				8B0606291F3103CE005ADB2F /* SDLMetadataStruct.h in Headers */,
 				5D61FD3B1A84238C00846EE7 /* SDLPresetBankCapabilities.h in Headers */,
 				5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */,
 				5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */,
@@ -4735,6 +4745,7 @@
 				5D1665C51CF8CA2700CC4CA1 /* SDLListFilesOperation.m in Sources */,
 				5D61FE021A84238C00846EE7 /* SDLVehicleDataNotificationStatus.m in Sources */,
 				5D61FDD81A84238C00846EE7 /* SDLTouchType.m in Sources */,
+				8B06062A1F3103CE005ADB2F /* SDLMetadataStruct.m in Sources */,
 				5D61FDD61A84238C00846EE7 /* SDLTouchEventCapabilities.m in Sources */,
 				5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */,
 				5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */,
@@ -4838,6 +4849,7 @@
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
 				5D0A9F951F15585B00CC80DD /* SDLPhoneCapabilitySpec.m in Sources */,
 				1680B11A1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m in Sources */,
+				8B06062C1F310ED2005ADB2F /* SDLMetadataStructSpec.m in Sources */,
 				1680B1151A9CD7AD00DBD79E /* SDLV2ProtocolHeaderSpec.m in Sources */,
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
