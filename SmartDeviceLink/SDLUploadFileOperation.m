@@ -9,6 +9,7 @@
 #import "SDLUploadFileOperation.h"
 
 #import "SDLConnectionManagerType.h"
+#import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
@@ -65,6 +66,13 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
 
+    NSInputStream *inputStream = [self sdl_openInputStreamWithFile:file];
+
+    // If the file does not exist or the passed data is nil, return an error
+    if (inputStream == nil) {
+        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
+    }
+
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
 
@@ -79,8 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
         [weakself finishOperation];
     });
-
-    NSInputStream *inputStream = [self sdl_openInputStreamWithFile:file];
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
     NSUInteger currentOffset = 0;
@@ -117,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
-            if ([self sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
+            if ([[self class] sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
                 highestCorrelationIDReceived = [request.correlationID integerValue];
                 bytesAvailable = [(SDLPutFileResponse *)response spaceAvailable].unsignedIntegerValue;
             }
@@ -213,7 +219,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param highestCorrelationIDReceived The largest currently received correlation id
  @return Whether or not the newest request contains the highest correlationId
  */
-- (Boolean)sdl_newHighestCorrelationID:(nullable SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived {
++ (BOOL)sdl_newHighestCorrelationID:(SDLRPCRequest *)request highestCorrelationIDReceived:(NSInteger)highestCorrelationIDReceived {
     if ([request.correlationID integerValue] > highestCorrelationIDReceived) {
         return true;
     }

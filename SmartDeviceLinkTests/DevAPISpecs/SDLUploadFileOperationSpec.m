@@ -46,7 +46,7 @@ describe(@"Streaming upload of data", ^{
 
     context(@"When uploading data", ^{
         context(@"data should be split into smaller packets if too large to send all at once", ^{
-            context(@"both data in memory and on disk should be uploaded", ^{
+            context(@"both data in memory and on disk can be uploaded", ^{
                 it(@"should split the data from a short chunk of text in memory correctly", ^{
                     testFileName = @"TestSmallMemory";
                     testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
@@ -118,7 +118,7 @@ describe(@"Streaming upload of data", ^{
                         // The last pufile contains the remaining data size
                         expect(putFile.length).to(equal(@([testFile fileSize] - (index * [SDLGlobals sharedGlobals].maxMTUSize))));
                     } else {
-                        // All other putfiles contain the max data size
+                        // All other putfiles contain the max data size for a putfile packet
                         expect(putFile.length).to(equal(@([SDLGlobals sharedGlobals].maxMTUSize)));
                     }
                 }
@@ -128,7 +128,7 @@ describe(@"Streaming upload of data", ^{
         afterEach(^{
             __block SDLPutFileResponse *goodResponse = nil;
 
-            // We must send responses otherwise the test cases will crash
+            // We must do some cleanup here otherwise the unit test cases will crash
             NSInteger spaceLeft = 11212512;
             for (int i = 0; i < numberOfPutFiles; i++) {
                 spaceLeft -= 1024;
@@ -138,7 +138,6 @@ describe(@"Streaming upload of data", ^{
                 [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
             }
 
-            // We must wait here for the dispatch_group_notify to finish up, otherwise test cases will crash
             expect(@(successResult)).toEventually(equal(@YES));
             expect(@(bytesAvailableResult)).toEventually(equal(spaceLeft));
             expect(errorResult).toEventually(beNil());
@@ -269,6 +268,54 @@ describe(@"Streaming upload of data", ^{
                 expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
                 expect(@(successResult)).toEventually(equal(@NO));
             });
+        });
+    });
+
+    context(@"When an incorrect file url is passed", ^{
+        beforeEach(^{
+            NSString *fileName = @"testImagePNG";
+            testFileName = fileName;
+            NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"png"];
+            NSURL *imageFileURL = [[NSURL alloc] initWithString:imageFilePath]; // This will fail because local file paths need to be init with initFileURLWithPath
+            testFile = [SDLFile fileAtFileURL:imageFileURL name:fileName];
+
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = error;
+            }];
+
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            [testOperation start];
+        });
+
+        it(@"should have called the completion handler with an error", ^{
+            expect(errorResult).toEventually(equal([NSError sdl_fileManager_fileDoesNotExistError]));
+            expect(@(successResult)).toEventually(equal(@NO));
+        });
+    });
+
+    context(@"When empty data is passed", ^{
+        beforeEach(^{
+            testFileName = @"TestEmptyMemory";
+            testFileData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = error;
+            }];
+
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            [testOperation start];
+        });
+
+        it(@"should have called the completion handler with an error", ^{
+            expect(errorResult).toEventually(equal([NSError sdl_fileManager_fileDoesNotExistError]));
+            expect(@(successResult)).toEventually(equal(@NO));
         });
     });
 });

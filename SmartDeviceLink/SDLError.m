@@ -140,6 +140,17 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
 }
 
+#pragma mark SDLUploadFileOperation
+
++ (NSError *)sdl_fileManager_fileDoesNotExistError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to send the file", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file does not exist at the specified file path or that passed data is invalid", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the the correct file path is being set and that the passed data is valid", nil)
+                                                       };
+return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
+}
+
 @end
 
 
