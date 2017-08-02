@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLUploadFileOperation
 
-@interface SDLUploadFileOperation ()
+@interface SDLUploadFileOperation () <NSStreamDelegate>
 
 @property (strong, nonatomic) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;

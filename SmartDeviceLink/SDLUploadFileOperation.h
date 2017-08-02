@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface SDLUploadFileOperation : SDLAsynchronousOperation <NSStreamDelegate>
+@interface SDLUploadFileOperation : SDLAsynchronousOperation
 
 /**
  *  Create an instance of an upload files operation which will send a file to a remote system when added to an operation queue.
