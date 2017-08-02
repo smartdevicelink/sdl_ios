@@ -395,6 +395,7 @@
 #define NAMES_tertiaryText @"tertiaryText"
 #define NAMES_text @"text"
 #define NAMES_textFields @"textFields"
+#define NAMES_textFieldMetadata @"textFieldMetadata"
 #define NAMES_textMsgAvailable @"textMsgAvailable"
 #define NAMES_thoroughfare @"thoroughfare"
 #define NAMES_timeout @"timeout"
