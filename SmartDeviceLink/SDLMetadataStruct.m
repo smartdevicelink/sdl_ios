@@ -24,6 +24,18 @@
     return self;
 }
 
+- (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType *> *)mainField1 mainField2:(NSArray<SDLTextFieldType *> *)mainField2 {
+    self = [self init];
+    if (!self) {
+        return self;
+    }
+
+    self.mainField1 = [mainField1 mutableCopy];
+    self.mainField2 = [mainField2 mutableCopy];
+
+    return self;
+}
+
 - (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType *> *)mainField1 mainField2:(NSArray<SDLTextFieldType *> *)mainField2 mainField3:(NSArray<SDLTextFieldType *> *)mainField3 mainField4:(NSArray<SDLTextFieldType *> *)mainField4 {
     self = [self init];
     if (!self) {

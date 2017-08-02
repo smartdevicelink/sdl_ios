@@ -37,9 +37,7 @@
 
     NSArray<SDLTextFieldType *> *field1Array = @[mainField1Type];
     NSArray<SDLTextFieldType *> *field2Array = @[mainField2Type];
-    NSMutableDictionary* dict = [@{NAMES_mainField1Type: field1Array,
-                                   NAMES_mainField2Type: field2Array} mutableCopy];
-    SDLMetadataStruct* fieldsStruct = [[SDLMetadataStruct alloc] initWithDictionary:dict];
+    SDLMetadataStruct* fieldsStruct = [[SDLMetadataStruct alloc] initWithTextFieldTypes:field1Array mainField2:field2Array];
 
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
@@ -67,11 +65,7 @@
     NSArray<SDLTextFieldType *> *field2Array = @[mainField2Type];
     NSArray<SDLTextFieldType *> *field3Array = @[mainField3Type];
     NSArray<SDLTextFieldType *> *field4Array = @[mainField4Type];
-    NSMutableDictionary* dict = [@{NAMES_mainField1Type: field1Array,
-                                   NAMES_mainField2Type: field2Array,
-                                   NAMES_mainField3Type: field3Array,
-                                   NAMES_mainField4Type: field4Array} mutableCopy];
-    SDLMetadataStruct* fieldsStruct = [[SDLMetadataStruct alloc] initWithDictionary:dict];
+    SDLMetadataStruct* fieldsStruct = [[SDLMetadataStruct alloc] initWithTextFieldTypes:field1Array mainField2:field2Array mainField3:field3Array mainField4:field4Array];
 
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
