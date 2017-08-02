@@ -143,12 +143,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- Returns the position in the file where to start reading data.
+ Returns the length of the data being sent in the putfile. The first putfile's length is unique in that it sends the full size of the data. For the rest of the putfiles, the length parameter is equal to the size of the chunk of data being sent in the putfile.
 
  @param currentOffset The current position in the file
  @param fileSize The size of the file
  @param mtuSize The maximum packet size allowed
- @return The new position in the file where to start reading data
+ @return The the length of the data being sent in the putfile
  */
 - (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
     NSInteger putFileLength = 0;
