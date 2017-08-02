@@ -279,6 +279,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLConfiguration.h',
 'SmartDeviceLink/SDLLifecycleConfiguration.h',
 'SmartDeviceLink/SDLLockScreenConfiguration.h',
+'SmartDeviceLink/SDLStreamingMediaConfiguration.h',
 'SmartDeviceLink/SDLArtwork.h',
 'SmartDeviceLink/SDLFile.h',
 'SmartDeviceLink/SDLFileManager.h',

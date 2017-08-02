@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
-    _streamingEncryption = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
 
     return self;
 }
@@ -110,7 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_shortAppName = _shortAppName;
     newConfig->_ttsName = _ttsName;
     newConfig->_voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
-    newConfig->_videoEncoderSettings = _videoEncoderSettings;
 
     return newConfig;
 }

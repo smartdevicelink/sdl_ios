@@ -11,6 +11,7 @@
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLLogConfiguration;
+@class SDLStreamingMediaConfiguration;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,11 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, readonly) SDLLockScreenConfiguration *lockScreenConfig;
 
-
 /**
  The log configuration.
  */
 @property (copy, nonatomic, readonly) SDLLogConfiguration *loggingConfig;
+
+/**
+ The configuration 
+ */
+@property (copy, nonatomic, readonly) SDLStreamingMediaConfiguration *streamingMediaConfig;
 
 /**
  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
