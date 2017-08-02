@@ -83,18 +83,17 @@ NS_ASSUME_NONNULL_BEGIN
     NSInputStream *inputStream = [self sdl_openInputStreamWithFile:file];
 
     // Break the data into small pieces, each of which will be sent in a separate putfile
-    unsigned long long fileSize = [file fileSize];
     NSUInteger currentOffset = 0;
-    for (int i = 0; i < (((fileSize - 1) / mtuSize) + 1); i++) {
+    for (int i = 0; i < (((file.fileSize - 1) / mtuSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
 
         // The putfile's length parameter is based on the current offset
         SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
-        putFile.length = @([self sdl_getPutFileLengthForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize]);
+        putFile.length = @([self sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
 
         // Get a chunk of data from the input stream
-        NSUInteger dataSize = [self sdl_getDataSizeForOffset:currentOffset fileSize:fileSize mtuSize:mtuSize];
+        NSUInteger dataSize = [self sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
         putFile.bulkData = [self sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
         currentOffset += dataSize;
 
