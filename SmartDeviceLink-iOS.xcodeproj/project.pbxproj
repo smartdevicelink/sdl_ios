@@ -903,6 +903,8 @@
 		5DEE55C01B8509CB004F0D0F /* SDLURLRequestTaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		88E0719B1F3221F000C9CB2F /* SDLSpatialStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */; };
+		88E0719C1F3221F000C9CB2F /* SDLSpatialStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E0719A1F3221F000C9CB2F /* SDLSpatialStruct.m */; };
 		97E26DEC1E807AD70074A3C7 /* SDLMutableDataQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */; };
 		97E26DED1E807AD70074A3C7 /* SDLMutableDataQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */; };
 		DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */; };
@@ -1963,6 +1965,8 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSpatialStruct.h; sourceTree = "<group>"; };
+		88E0719A1F3221F000C9CB2F /* SDLSpatialStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSpatialStruct.m; sourceTree = "<group>"; };
 		97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMutableDataQueue.h; sourceTree = "<group>"; };
 		97E26DEB1E807AD70074A3C7 /* SDLMutableDataQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMutableDataQueue.m; sourceTree = "<group>"; };
 		DA4353DE1D271FD10099B8C4 /* CGPointUtilSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CGPointUtilSpec.m; path = UtilitiesSpecs/Touches/CGPointUtilSpec.m; sourceTree = "<group>"; };
@@ -2981,6 +2985,8 @@
 				5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */,
 				5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */,
 				5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */,
+				88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */,
+				88E0719A1F3221F000C9CB2F /* SDLSpatialStruct.m */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -4001,6 +4007,7 @@
 				5D61FCC71A84238C00846EE7 /* SDLIAPTransport.h in Headers */,
 				5D61FC6D1A84238C00846EE7 /* SDLCreateInteractionChoiceSetResponse.h in Headers */,
 				5D8204221BCEA89A00D0A41B /* SDLFileManager.h in Headers */,
+				88E0719B1F3221F000C9CB2F /* SDLSpatialStruct.h in Headers */,
 				5D4D67B41D30161600468B4A /* SDLLockScreenManager.h in Headers */,
 				5D00AC7B1F15287E004000D9 /* SDLPhoneCapability.h in Headers */,
 				5D61FE111A84238C00846EE7 /* SDLWarningLightStatus.h in Headers */,
@@ -4490,6 +4497,7 @@
 				5D61FD531A84238C00846EE7 /* SDLProxyFactory.m in Sources */,
 				5D61FDCA1A84238C00846EE7 /* SDLTextField.m in Sources */,
 				5D61FC9D1A84238C00846EE7 /* SDLEmergencyEventType.m in Sources */,
+				88E0719C1F3221F000C9CB2F /* SDLSpatialStruct.m in Sources */,
 				5D61FCAC1A84238C00846EE7 /* SDLFuelCutoffStatus.m in Sources */,
 				5D61FC871A84238C00846EE7 /* SDLDeviceStatus.m in Sources */,
 				5D61FD561A84238C00846EE7 /* SDLPutFile.m in Sources */,
