@@ -199,8 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
     Byte buffer[size];
     NSInteger bytesRead = [inputStream read:buffer maxLength:size];
     if (bytesRead) {
-        NSData *dataChunk = [[NSData alloc] initWithBytes:(const void*)buffer length:size];
-        return dataChunk;
+        return [[NSData alloc] initWithBytes:(const void*)buffer length:size];
     } else {
         // TODO: return a custom error?
         return nil;
