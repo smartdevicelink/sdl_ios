@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _fileURL = url;
-    _data = [[NSData alloc] init];
+    _data = [NSData data];
     _name = name;
     _persistent = persistent;
     _fileType = [self.class sdl_fileTypeFromFileExtension:url.pathExtension];
