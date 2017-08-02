@@ -61,7 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param completion Closure returning whether or not the upload was a success
  */
 - (void)sdl_sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
-    __block BOOL stop = NO;
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
@@ -72,7 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Waits for all packets be sent before returning whether or not the upload was a success
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
-        if (streamError != nil || stop) {
+        typeof(weakself) strongself = weakself;
+        if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
             completion(YES, bytesAvailable, nil);
@@ -103,20 +103,16 @@ NS_ASSUME_NONNULL_BEGIN
             typeof(weakself) strongself = weakself;
 
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
+            // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
             if (strongself.isCancelled) {
-                // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
-                stop = YES;
-            }
-
-            // If the SDL Core returned an error, cancel the upload the process in the future
-            if (error != nil || response == nil || ![response.success boolValue]) {
-                stop = YES;
-                streamError = error;
                 dispatch_group_leave(putFileGroup);
                 BLOCK_RETURN;
             }
 
-            if (stop) {
+            // If the SDL Core returned an error, cancel the upload the process in the future
+            if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+                [strongself cancel];
+                streamError = error;
                 dispatch_group_leave(putFileGroup);
                 BLOCK_RETURN;
             }
@@ -142,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSInputStream *inputStream = file.inputStream;
     [inputStream setDelegate:self];
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                                forMode:NSDefaultRunLoopMode];
+                           forMode:NSDefaultRunLoopMode];
     [inputStream open];
     return inputStream;
 }
