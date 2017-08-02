@@ -90,11 +90,11 @@ NS_ASSUME_NONNULL_BEGIN
         // The putfile's length parameter is based on the current offset
         SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
-        putFile.length = @([self sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
+        putFile.length = @([[self class] sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
 
         // Get a chunk of data from the input stream
-        NSUInteger dataSize = [self sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
-        putFile.bulkData = [self sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
+        NSUInteger dataSize = [[self class] sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
+        putFile.bulkData = [[self class] sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;
@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mtuSize The maximum packet size allowed
  @return The the length of the data being sent in the putfile
  */
-- (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
++ (NSUInteger)sdl_getPutFileLengthForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
     NSInteger putFileLength = 0;
     if (currentOffset == 0) {
         // The first putfile sends the full file size
@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mtuSize The maximum packet size allowed
  @return The size of the data to be sent in the packet.
  */
-- (NSUInteger)sdl_getDataSizeForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
++ (NSUInteger)sdl_getDataSizeForOffset:(NSUInteger)currentOffset fileSize:(unsigned long long)fileSize mtuSize:(NSUInteger)mtuSize {
     NSInteger dataSize = 0;
     NSUInteger fileSizeRemaining = (NSUInteger)(fileSize - currentOffset);
     if (fileSizeRemaining < mtuSize) {
@@ -191,7 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param inputStream The socket from which to read the data
  @return The data read from the socket
  */
-- (nullable NSData *)sdl_getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream {
++ (nullable NSData *)sdl_getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream {
     if (size <= 0) {
         return  nil;
     }
