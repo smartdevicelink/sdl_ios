@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable NSData *)sdl_getDataChunkWithSize:(NSInteger)size inputStream:(NSInputStream *)inputStream {
     if (size <= 0) {
-        return  nil;
+        return nil;
     }
     
     Byte buffer[size];
