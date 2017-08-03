@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     [store sdl_setObject:mainField2 forName:SDLNameMainField2Type];
 }
 
-- (nullable NSArray<SDLTextFieldType> *)mainField {
+- (nullable NSArray<SDLTextFieldType> *)mainField2 {
     return [store sdl_objectForName:SDLNameMainField2Type];
 }
 

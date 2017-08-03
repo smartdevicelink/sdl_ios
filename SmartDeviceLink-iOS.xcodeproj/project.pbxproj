@@ -902,6 +902,7 @@
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		8B9376D71F3349FC009605C4 /* SDLMetadataStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */; };
 		8B9376D81F3349FC009605C4 /* SDLMetadataStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */; };
+		8B9376DB1F33656C009605C4 /* SDLMetadataStructSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376DA1F33656C009605C4 /* SDLMetadataStructSpec.m */; };
 		8BBEA6061F324165003EEA26 /* SDLTextFieldType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLTextFieldType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8BBEA6071F324165003EEA26 /* SDLTextFieldType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6051F324165003EEA26 /* SDLTextFieldType.m */; };
 		8BBEA6091F324832003EEA26 /* SDLTextFieldTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6081F324832003EEA26 /* SDLTextFieldTypeSpec.m */; };
@@ -1964,6 +1965,7 @@
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
 		8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMetadataStruct.h; sourceTree = "<group>"; };
 		8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataStruct.m; sourceTree = "<group>"; };
+		8B9376DA1F33656C009605C4 /* SDLMetadataStructSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataStructSpec.m; sourceTree = "<group>"; };
 		8BBEA6041F324165003EEA26 /* SDLTextFieldType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTextFieldType.h; sourceTree = "<group>"; };
 		8BBEA6051F324165003EEA26 /* SDLTextFieldType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTextFieldType.m; sourceTree = "<group>"; };
 		8BBEA6081F324832003EEA26 /* SDLTextFieldTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTextFieldTypeSpec.m; sourceTree = "<group>"; };
@@ -2341,6 +2343,7 @@
 				DA9F7EAD1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m */,
 				DA9F7EAE1DCC063400ACAE48 /* SDLLocationDetailsSpec.m */,
 				162E82A21A9BDE8A00906325 /* SDLMenuParamsSpec.m */,
+				8B9376DA1F33656C009605C4 /* SDLMetadataStructSpec.m */,
 				162E82A31A9BDE8A00906325 /* SDLMyKeySpec.m */,
 				5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */,
 				DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */,
@@ -4787,6 +4790,7 @@
 				DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */,
 				162E82E41A9BDE8B00906325 /* SDLImageFieldNameSpec.m in Sources */,
 				162E82ED1A9BDE8B00906325 /* SDLMaintenanceModeStatusSpec.m in Sources */,
+				8B9376DB1F33656C009605C4 /* SDLMetadataStructSpec.m in Sources */,
 				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
 				5D43466D1E6F522000B639C6 /* SDLLogModelSpec.m in Sources */,
 				1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */,
