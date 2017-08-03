@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSpatialStruct : SDLRPCStruct
 
-- (instancetype)initWithId:(UInt32)id x:(NSN)
+- (instancetype)initWithId:(UInt32)id x:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height;
+
 /**
  *  A user control spatial identifier
  *  Required, Integer, 0 - 2,000,000,000

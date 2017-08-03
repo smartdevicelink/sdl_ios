@@ -143,6 +143,7 @@ extern SDLName const SDLNameHashId;
 extern SDLName const SDLNameHDOP;
 extern SDLName const SDLNameHeading;
 extern SDLName const SDLNameHeadLampStatus;
+extern SDLName const SDLNameHeight;
 extern SDLName const SDLNameHelpPrompt;
 extern SDLName const SDLNameHighBeamsOn;
 extern SDLName const SDLNameHMIDisplayLanguage;

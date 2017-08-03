@@ -6,81 +6,65 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLSpatialStruct.h"
 #import "SDLNames.h"
 
 @implementation SDLSpatialStruct
 
-- (instancetype)init {
-    if (self = [super init]) {
+- (instancetype)initWithId:(UInt32)id x:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height {
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+
+    self.id = @(id);
+    self.x = x;
+    self.y = y;
+    self.width = width;
+    self.height = height;
+
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setId:(NSNumber<SDLInt> *)id {
+    [store sdl_setObject:id forName:SDLNameId];
 }
 
-//- (void)setId:(NSNumber *)id {
-//    if (id != nil) {
-//        [store setObject:id forKey:NAMES_id];
-//    } else {
-//        [store removeObjectForKey:NAMES_id];
-//    }
-//}
-//
-//- (NSNumber *)id {
-//    return [store objectForKey:NAMES_id];
-//}
-//
-//- (void)setX:(NSNumber *)x {
-//    if (x != nil) {
-//        [store setObject:x forKey:NAMES_x];
-//    } else {
-//        [store removeObjectForKey:NAMES_x];
-//    }
-//}
-//
-//- (NSNumber *)x {
-//    return [store objectForKey:NAMES_x];
-//}
-//
-//- (void)setY:(NSNumber *)y {
-//    if (y != nil) {
-//        [store setObject:y forKey:NAMES_y];
-//    } else {
-//        [store removeObjectForKey:NAMES_y];
-//    }
-//}
-//
-//- (NSNumber *)y {
-//    return [store objectForKey:NAMES_y];
-//}
-//
-//- (void)setWidth:(NSNumber *)width {
-//    if (width != nil) {
-//        [store setObject:width forKey:NAMES_width];
-//    } else {
-//        [store removeObjectForKey:NAMES_width];
-//    }
-//}
-//
-//- (NSNumber *)width {
-//    return [store objectForKey:NAMES_width];
-//}
-//
-//- (void)setHeight:(NSNumber *)height {
-//    if (height != nil) {
-//        [store setObject:height forKey:NAMES_height];
-//    } else {
-//        [store removeObjectForKey:NAMES_height];
-//    }
-//}
-//
-//- (NSNumber *)height {
-//    return [store objectForKey:NAMES_height];
-//}
+- (NSNumber<SDLInt> *)id {
+    return [store sdl_objectForName:SDLNameId];
+}
+
+- (void)setX:(NSNumber<SDLFloat> *)x {
+    [store sdl_setObject:x forName:SDLNameX];
+}
+
+- (NSNumber<SDLFloat> *)x {
+    return [store sdl_objectForName:SDLNameX];
+}
+
+- (void)setY:(NSNumber<SDLFloat> *)y {
+    [store sdl_setObject:y forName:SDLNameY];
+}
+
+- (NSNumber<SDLFloat> *)y {
+    return [store sdl_objectForName:SDLNameY];
+}
+
+- (void)setWidth:(NSNumber<SDLFloat> *)width {
+    [store sdl_setObject:width forName:SDLNameWidth];
+}
+
+- (NSNumber<SDLFloat> *)width {
+    return [store sdl_objectForName:SDLNameWidth];
+}
+
+- (void)setHeight:(NSNumber<SDLFloat> *)height {
+    [store sdl_setObject:height forName:SDLNameHeight];
+}
+
+- (NSNumber<SDLFloat> *)height {
+    return [store sdl_objectForName:SDLNameHeight];
+}
 
 @end

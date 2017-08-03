@@ -140,6 +140,7 @@ SDLName const SDLNameHashId = @"hashID";
 SDLName const SDLNameHDOP = @"hdop";
 SDLName const SDLNameHeading = @"heading";
 SDLName const SDLNameHeadLampStatus = @"headLampStatus";
+SDLName const SDLNameHeight = @"height";
 SDLName const SDLNameHelpPrompt = @"helpPrompt";
 SDLName const SDLNameHighBeamsOn = @"highBeamsOn";
 SDLName const SDLNameHMIDisplayLanguage = @"hmiDisplayLanguage";
