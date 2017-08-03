@@ -9,10 +9,12 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImage.h"
+#import "SDLMetadataStruct.h"
 #import "SDLNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
 #import "SDLTextAlignment.h"
+#import "SDLTextFieldType.h"
 
 
 QuickSpecBegin(SDLShowSpec)
@@ -20,6 +22,9 @@ QuickSpecBegin(SDLShowSpec)
 SDLImage* image1 = [[SDLImage alloc] init];
 SDLImage* image2 = [[SDLImage alloc] init];
 SDLSoftButton* button = [[SDLSoftButton alloc] init];
+
+NSArray<SDLTextFieldType> *formatArray = @[SDLTextFieldTypeMediaArtist,SDLTextFieldTypeMediaTitle];
+SDLMetadataStruct* testMetadata = [[SDLMetadataStruct alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -37,6 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.secondaryGraphic = image2;
         testRequest.softButtons = [@[button] mutableCopy];
         testRequest.customPresets = [@[@"preset1", @"preset2"] mutableCopy];
+        testRequest.textFieldMetadata = testMetadata;
         
         expect(testRequest.mainField1).to(equal(@"field1"));
         expect(testRequest.mainField2).to(equal(@"field2"));
@@ -50,6 +56,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.secondaryGraphic).to(equal(image2));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
         expect(testRequest.customPresets).to(equal([@[@"preset1", @"preset2"] mutableCopy]));
+        expect(testRequest.textFieldMetadata).to(equal(testMetadata));
+
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -66,7 +74,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameGraphic:image1,
                                                    SDLNameSecondaryGraphic:image2,
                                                    SDLNameSoftButtons:[@[button] mutableCopy],
-                                                   SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy]},
+                                                   SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
+                                                   SDLNameTextFieldMetadata:testMetadata},
                                              SDLNameOperationName:SDLNameShow}} mutableCopy];
         SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
         
@@ -82,6 +91,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.secondaryGraphic).to(equal(image2));
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
         expect(testRequest.customPresets).to(equal([@[@"preset1", @"preset2"] mutableCopy]));
+        expect(testRequest.textFieldMetadata).to(equal(testMetadata));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -99,6 +109,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.secondaryGraphic).to(beNil());
         expect(testRequest.softButtons).to(beNil());
         expect(testRequest.customPresets).to(beNil());
+        expect(testRequest.textFieldMetadata).to(beNil());
     });
 });
 
