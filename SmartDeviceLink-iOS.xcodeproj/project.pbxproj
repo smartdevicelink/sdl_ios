@@ -902,7 +902,7 @@
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		8B9376D71F3349FC009605C4 /* SDLMetadataStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */; };
 		8B9376D81F3349FC009605C4 /* SDLMetadataStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */; };
-		8BBEA6061F324165003EEA26 /* SDLTextFieldType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLTextFieldType.h */; };
+		8BBEA6061F324165003EEA26 /* SDLTextFieldType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLTextFieldType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8BBEA6071F324165003EEA26 /* SDLTextFieldType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6051F324165003EEA26 /* SDLTextFieldType.m */; };
 		8BBEA6091F324832003EEA26 /* SDLTextFieldTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6081F324832003EEA26 /* SDLTextFieldTypeSpec.m */; };
 		97E26DEC1E807AD70074A3C7 /* SDLMutableDataQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 97E26DEA1E807AD70074A3C7 /* SDLMutableDataQueue.h */; };
@@ -2952,6 +2952,8 @@
 				DA9F7E981DCC052C00ACAE48 /* SDLLocationDetails.m */,
 				5D61FB0B1A84238A00846EE7 /* SDLMenuParams.h */,
 				5D61FB0C1A84238A00846EE7 /* SDLMenuParams.m */,
+				8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */,
+				8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */,
 				5D61FB0D1A84238A00846EE7 /* SDLMyKey.h */,
 				5D61FB0E1A84238A00846EE7 /* SDLMyKey.m */,
 				5D00AC751F15283E004000D9 /* SDLNavigationCapability.h */,
@@ -3000,8 +3002,6 @@
 				5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */,
 				5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */,
 				5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */,
-				8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */,
-				8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -3882,6 +3882,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BBEA6061F324165003EEA26 /* SDLTextFieldType.h in Headers */,
 				5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */,
 				5DA3F35F1BC448590026F2D0 /* SDLNotificationConstants.h in Headers */,
 				5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */,
@@ -3900,7 +3901,6 @@
 				5D61FD291A84238C00846EE7 /* SDLPerformInteraction.h in Headers */,
 				DAC572571D1067270004288B /* SDLTouchManager.h in Headers */,
 				5D61FD521A84238C00846EE7 /* SDLProxyFactory.h in Headers */,
-				8BBEA6061F324165003EEA26 /* SDLTextFieldType.h in Headers */,
 				5D61FE0D1A84238C00846EE7 /* SDLVrCapabilities.h in Headers */,
 				5DBF06271E64A91D00A5CF03 /* SDLLogFileModule.h in Headers */,
 				5D61FC531A84238C00846EE7 /* SDLButtonEventMode.h in Headers */,

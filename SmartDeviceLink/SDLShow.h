@@ -4,9 +4,12 @@
 #import "SDLRPCRequest.h"
 
 #import "SDLTextAlignment.h"
+#import "SDLTextFieldType.h"
 
 @class SDLImage;
 @class SDLSoftButton;
+@class SDLMetadataStruct;
+
 
 /**
  * Updates the application's display text area, regardless of whether or not
@@ -37,11 +40,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment;
 
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLTextFieldType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLTextFieldType)mainField2Type alignment:(nullable SDLTextAlignment)alignment;
+
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment;
+
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLTextFieldType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLTextFieldType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLTextFieldType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLTextFieldType)mainField4Type alignment:(nullable SDLTextAlignment)alignment;
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack;
 
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets __deprecated_msg(("Use initWithMainField1:(NSString *)mainField1 (NSString *)mainField2 (NSString *)mainField3 (NSString *)mainField4 (SDLTextAlignment *)alignment (NSString *)statusBar (NSString *)mediaClock (NSString *)mediaTrack (SDLImage *)graphic (NSArray<SDLSoftButton *> *)softButtons (NSArray<NSString *> *)customPresets (SDLMetadataStruct *)metadata instead"));
+
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(SDLMetadataStruct *)metadata;
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display
@@ -230,6 +239,19 @@ NS_ASSUME_NONNULL_BEGIN
  * @since SmartDeviceLink 2.0
  */
 @property (strong, nonatomic, nullable) NSArray<NSString *> *customPresets;
+
+/**
+ * @abstract Text Field Metadata
+ *
+ * @discussion A Vector value representing the Custom Presets defined by the
+ *            App
+ *            <p>
+ *            App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
+ *            If omitted on supported displays, the currently set metadata tags will not change.
+ *            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
+ * @since SmartDeviceLink 2.0
+ */
+@property (strong, nonatomic, nullable) SDLMetadataStruct *textFieldMetadata;
 
 @end
 
