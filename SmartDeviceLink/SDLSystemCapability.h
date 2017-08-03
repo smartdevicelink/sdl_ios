@@ -13,6 +13,7 @@
 @class SDLPhoneCapability;
 @class SDLNavigationCapability;
 @class SDLSystemCapabilityType;
+@class SDLVideoStreamingCapability;
 
 /**
  The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a "navigationCapability" should exist.
@@ -35,10 +36,14 @@
 
 - (instancetype)initWithPhoneCapability:(SDLPhoneCapability *)capability;
 
+- (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability;
+
 @property (strong, nonatomic) SDLSystemCapabilityType *systemCapabilityType;
 
 @property (strong, nonatomic) SDLNavigationCapability *navigationCapability;
 
 @property (strong, nonatomic) SDLPhoneCapability *phoneCapability;
+
+@property (strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
 
 @end
