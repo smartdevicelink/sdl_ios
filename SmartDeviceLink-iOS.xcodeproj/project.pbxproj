@@ -902,6 +902,7 @@
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		88EED8381F33AE1700E6C42E /* SDLSpatialStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EED8361F33AE1700E6C42E /* SDLSpatialStruct.h */; };
 		88EED8391F33AE1700E6C42E /* SDLSpatialStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED8371F33AE1700E6C42E /* SDLSpatialStruct.m */; };
+		88EED83B1F33BECB00E6C42E /* SDLSpatialStructSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED83A1F33BECB00E6C42E /* SDLSpatialStructSpec.m */; };
 		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; };
 		8B7B319B1F2F7B5700BDC38D /* SDLVideoStreamingCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */; };
 		8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */; };
@@ -1973,6 +1974,7 @@
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
 		88EED8361F33AE1700E6C42E /* SDLSpatialStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSpatialStruct.h; sourceTree = "<group>"; };
 		88EED8371F33AE1700E6C42E /* SDLSpatialStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSpatialStruct.m; sourceTree = "<group>"; };
+		88EED83A1F33BECB00E6C42E /* SDLSpatialStructSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSpatialStructSpec.m; sourceTree = "<group>"; };
 		8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingCodec.h; sourceTree = "<group>"; };
 		8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodec.m; sourceTree = "<group>"; };
 		8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingProtocol.h; sourceTree = "<group>"; };
@@ -2371,6 +2373,7 @@
 				162E82A81A9BDE8A00906325 /* SDLSingleTireStatusSpec.m */,
 				162E82A91A9BDE8A00906325 /* SDLSoftButtonCapabilitiesSpec.m */,
 				162E82AA1A9BDE8A00906325 /* SDLSoftButtonSpec.m */,
+				88EED83A1F33BECB00E6C42E /* SDLSpatialStructSpec.m */,
 				162E82AB1A9BDE8A00906325 /* SDLStartTimeSpec.m */,
 				162E82AC1A9BDE8A00906325 /* SDLSyncMsgVersionSpec.m */,
 				5D0A9F961F1559EC00CC80DD /* SDLSystemCapabilitySpec.m */,
@@ -4807,6 +4810,7 @@
 				162E837D1A9BDE8B00906325 /* SDLEmergencyEventSpec.m in Sources */,
 				162E82D31A9BDE8A00906325 /* SDLCarModeStatusSpec.m in Sources */,
 				8B7B31A91F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m in Sources */,
+				88EED83B1F33BECB00E6C42E /* SDLSpatialStructSpec.m in Sources */,
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				5D76E3291D3D0A8800647CFA /* SDLFakeViewControllerPresenter.m in Sources */,
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
