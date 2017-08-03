@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMetadataStruct
 
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType> *)mainField1 mainField2:(NSArray<SDLTextFieldType> *)mainField2 {
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLTextFieldType> *)mainField1 mainField2:(nullable NSArray<SDLTextFieldType> *)mainField2 {
     self = [self init];
     if (!self) {
         return self;
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType> *)mainField1 mainField2:(NSArray<SDLTextFieldType> *)mainField2 mainField3:(NSArray<SDLTextFieldType> *)mainField3 mainField4:(NSArray<SDLTextFieldType> *)mainField4 {
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLTextFieldType> *)mainField1 mainField2:(nullable NSArray<SDLTextFieldType> *)mainField2 mainField3:(nullable NSArray<SDLTextFieldType> *)mainField3 mainField4:(nullable NSArray<SDLTextFieldType> *)mainField4 {
     self = [self init];
     if (!self) {
         return self;
