@@ -46,7 +46,7 @@
 }
 
 - (SDLImageResolution *)preferredResolution {
-    return store[NAMES_preferredResolution];
+    return [store objectForKey:NAMES_preferredResolution];
 }
 
 - (void)setMaxBitrate:(NSNumber *)maxBitrate {

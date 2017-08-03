@@ -32,7 +32,7 @@
 }
 
 - (SDLVideoStreamingProtocol *)protocol {
-    return store[NAMES_videoProtocol];
+    return [store objectForKey:NAMES_videoProtocol];
 }
 
 - (void)setVideoStreamingCodec:(SDLVideoStreamingCodec *)codec {
@@ -44,7 +44,7 @@
 }
 
 - (SDLVideoStreamingCodec *)codec {
-    return store[NAMES_videoCodec];
+    return [store objectForKey:NAMES_videoCodec];
 }
 
 @end
