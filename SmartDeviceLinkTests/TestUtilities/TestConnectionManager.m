@@ -37,6 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
     [self respondToLastRequestWithResponse:response error:nil];
 }
 
+- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(NSError *_Nullable)error {
+    if (self.lastRequestBlock != nil) {
+        self.lastRequestBlock([[self receivedRequests] objectAtIndex:requestNumber], response, error);
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
+    }
+}
+
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *_Nullable)response error:(NSError *_Nullable)error {
     if (self.lastRequestBlock != nil) {
         self.lastRequestBlock(self.receivedRequests.lastObject, response, error);
