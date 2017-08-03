@@ -26,22 +26,22 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initEnabledConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings {
+- (instancetype)initSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings {
     SDLStreamingEncryptionFlag encryptionFlag = (securityManagers.count > 0) ? SDLStreamingEncryptionFlagAuthenticateAndEncrypt : SDLStreamingEncryptionFlagNone;
 
     return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:customVideoEncoderSettings];
 }
 
-+ (instancetype)enabledConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings {
-    return [[self alloc] initEnabledConfigurationWithSecurityManagers:securityManagers customVideoEncoderSettings:customVideoEncoderSettings];
++ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings {
+    return [[self alloc] initSecureConfigurationWithSecurityManagers:securityManagers customVideoEncoderSettings:customVideoEncoderSettings];
 }
 
-- (instancetype)initEnabledConfiguration {
+- (instancetype)initInsecureConfiguration {
     return [self initWithSecurityManagers:nil encryptionFlag:SDLStreamingEncryptionFlagNone videoSettings:nil];
 }
 
-+ (instancetype)enabledConfiguration {
-    return [[self alloc] initEnabledConfiguration];
++ (instancetype)insecureConfiguration {
+    return [[self alloc] initInsecureConfiguration];
 }
 
 #pragma mark NSCopying

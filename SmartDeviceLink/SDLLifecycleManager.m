@@ -41,6 +41,7 @@
 #import "SDLResult.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLUnregisterAppInterface.h"
 
@@ -79,7 +80,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
@@ -108,7 +109,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]) {
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.lifecycleConfig.streamingEncryption videoEncoderSettings:configuration.lifecycleConfig.videoEncoderSettings];
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.streamingMediaConfig.maximumDesiredEncryption videoEncoderSettings:configuration.streamingMediaConfig.customVideoEncoderSettings];
     }
 
     // Notifications
@@ -214,8 +215,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateConnected {
     // If we have security managers, add them to the proxy
-    if (self.configuration.lifecycleConfig.securityManagers != nil) {
-        [self.proxy addSecurityManagers:self.configuration.lifecycleConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+    if (self.configuration.streamingMediaConfig.securityManagers != nil) {
+        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
     // Build a register app interface request with the configuration data

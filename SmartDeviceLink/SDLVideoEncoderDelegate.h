@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SDLVideoEncoder;
+
 @protocol SDLVideoEncoderDelegate <NSObject>
 
 - (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData*)encodedVideo;
