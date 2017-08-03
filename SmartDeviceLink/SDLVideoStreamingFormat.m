@@ -7,7 +7,9 @@
 //
 
 #import "SDLNames.h"
+#import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingProtocol.h"
 
 @implementation SDLVideoStreamingFormat
 
@@ -32,7 +34,12 @@
 }
 
 - (SDLVideoStreamingProtocol *)protocol {
-    return [store objectForKey:NAMES_videoProtocol];
+    NSObject *obj = [store objectForKey:NAMES_videoProtocol];
+    if (obj == nil || [obj isKindOfClass:SDLVideoStreamingProtocol.class]) {
+        return (SDLVideoStreamingProtocol *)obj;
+    } else {
+        return [SDLVideoStreamingProtocol valueOf:(NSString *)obj];
+    }
 }
 
 - (void)setVideoStreamingCodec:(SDLVideoStreamingCodec *)codec {
@@ -44,7 +51,12 @@
 }
 
 - (SDLVideoStreamingCodec *)codec {
-    return [store objectForKey:NAMES_videoCodec];
+    NSObject *obj = [store objectForKey:NAMES_videoCodec];
+    if (obj == nil || [obj isKindOfClass:SDLVideoStreamingCodec.class]) {
+        return (SDLVideoStreamingCodec *)obj;
+    } else {
+        return [SDLVideoStreamingCodec valueOf:(NSString *)obj];
+    }
 }
 
 @end

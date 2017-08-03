@@ -6,6 +6,7 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import "SDLImageResolution.h"
 #import "SDLNames.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingCapability.h"
@@ -46,7 +47,12 @@
 }
 
 - (SDLImageResolution *)preferredResolution {
-    return [store objectForKey:NAMES_preferredResolution];
+    NSObject *obj = [store objectForKey:NAMES_preferredResolution];
+    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
+        return (SDLImageResolution *)obj;
+    } else {
+        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
 }
 
 - (void)setMaxBitrate:(NSNumber *)maxBitrate {
