@@ -11,3 +11,4 @@
 
 SDLSystemCapabilityType const SDLSystemCapabilityTypeNavigation = @"NAVIGATION";
 SDLSystemCapabilityType const SDLSystemCapabilityTypePhoneCall = @"PHONE_CALL";
+SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming = @"VIDEO_STREAMING";

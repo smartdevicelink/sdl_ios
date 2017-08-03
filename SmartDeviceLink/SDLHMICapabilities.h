@@ -22,6 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLBool> *phoneCall;
 
+/**
+ Availability of build in video streaming. True: Available, False: Not Available
+
+ Boolean value. Optional.
+ */
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *videoStreaming;
+
 @end
 
 NS_ASSUME_NONNULL_END
