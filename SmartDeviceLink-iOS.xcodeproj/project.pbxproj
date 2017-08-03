@@ -900,6 +900,8 @@
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		8B9376D71F3349FC009605C4 /* SDLMetadataStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */; };
+		8B9376D81F3349FC009605C4 /* SDLMetadataStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */; };
 		8BBEA6061F324165003EEA26 /* SDLTextFieldType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLTextFieldType.h */; };
 		8BBEA6071F324165003EEA26 /* SDLTextFieldType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6051F324165003EEA26 /* SDLTextFieldType.m */; };
 		8BBEA6091F324832003EEA26 /* SDLTextFieldTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBEA6081F324832003EEA26 /* SDLTextFieldTypeSpec.m */; };
@@ -1960,6 +1962,8 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMetadataStruct.h; sourceTree = "<group>"; };
+		8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMetadataStruct.m; sourceTree = "<group>"; };
 		8BBEA6041F324165003EEA26 /* SDLTextFieldType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTextFieldType.h; sourceTree = "<group>"; };
 		8BBEA6051F324165003EEA26 /* SDLTextFieldType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTextFieldType.m; sourceTree = "<group>"; };
 		8BBEA6081F324832003EEA26 /* SDLTextFieldTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTextFieldTypeSpec.m; sourceTree = "<group>"; };
@@ -2996,6 +3000,8 @@
 				5D61FC1F1A84238C00846EE7 /* SDLVehicleType.m */,
 				5D61FC221A84238C00846EE7 /* SDLVrHelpItem.h */,
 				5D61FC231A84238C00846EE7 /* SDLVrHelpItem.m */,
+				8B9376D51F3349FC009605C4 /* SDLMetadataStruct.h */,
+				8B9376D61F3349FC009605C4 /* SDLMetadataStruct.m */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -4162,6 +4168,7 @@
 				5D61FDDD1A84238C00846EE7 /* SDLTTSChunk.h in Headers */,
 				5D61FC371A84238C00846EE7 /* SDLAlert.h in Headers */,
 				5D61FCC11A84238C00846EE7 /* SDLHMILevel.h in Headers */,
+				8B9376D71F3349FC009605C4 /* SDLMetadataStruct.h in Headers */,
 				5D61FD471A84238C00846EE7 /* SDLProtocolListener.h in Headers */,
 				5D61FCA01A84238C00846EE7 /* SDLEncodedSyncPDataResponse.h in Headers */,
 				5D61FD271A84238C00846EE7 /* SDLPerformAudioPassThruResponse.h in Headers */,
@@ -4663,6 +4670,7 @@
 				5D61FCEB1A84238C00846EE7 /* SDLLayoutMode.m in Sources */,
 				5D61FC2E1A84238C00846EE7 /* SDLAddCommand.m in Sources */,
 				5D1665C51CF8CA2700CC4CA1 /* SDLListFilesOperation.m in Sources */,
+				8B9376D81F3349FC009605C4 /* SDLMetadataStruct.m in Sources */,
 				5D61FE021A84238C00846EE7 /* SDLVehicleDataNotificationStatus.m in Sources */,
 				5D61FDD81A84238C00846EE7 /* SDLTouchType.m in Sources */,
 				DA4F47961E771AA100FC809E /* SDLEnum.m in Sources */,
