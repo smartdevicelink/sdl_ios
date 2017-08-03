@@ -13,6 +13,7 @@
 
 @class SDLPhoneCapability;
 @class SDLNavigationCapability;
+@class SDLVideoStreamingCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,11 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithPhoneCapability:(SDLPhoneCapability *)capability;
 
+- (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability;
+
 @property (strong, nonatomic) SDLSystemCapabilityType systemCapabilityType;
 
 @property (nullable, strong, nonatomic) SDLNavigationCapability *navigationCapability;
 
 @property (nullable, strong, nonatomic) SDLPhoneCapability *phoneCapability;
+
+@property (nullable, strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
 
 @end
 
