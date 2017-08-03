@@ -451,9 +451,12 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     // Send the HTTP Request
+    __weak typeof(self) weakSelf = self;
     [self uploadForBodyDataDictionary:JSONDictionary
                             URLString:request.url
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                         __strong typeof(weakSelf) strongSelf = weakSelf;
+
                         if (error) {
                             SDLLogW(@"OnSystemRequest HTTP response error: %@", error);
                             return;
@@ -480,20 +483,22 @@ static float DefaultConnectionTimeout = 45.0;
                         }
 
                         // Send the RPC Request
-                        [self sendRPC:request];
+                        [strongSelf sendRPC:request];
                     }];
 }
 
 - (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
+	__weak typeof(self) weakSelf = self;
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+					__strong typeof(weakSelf) strongSelf = weakSelf;
                     if (error != nil) {
                         SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
                         return;
                     }
                     
                     UIImage *icon = [UIImage imageWithData:data];
-                    [self invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+                    [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
                 }];
 }
 
@@ -503,9 +508,11 @@ static float DefaultConnectionTimeout = 45.0;
         return;
     }
 
+    __weak typeof(self) weakSelf = self;
     [self sdl_uploadData:request.bulkData
               toURLString:request.url
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (error != nil) {
                 SDLLogW(@"OnSystemRequest (HTTP) error: %@", error.localizedDescription);
                 return;
@@ -527,7 +534,7 @@ static float DefaultConnectionTimeout = 45.0;
             putFile.bulkData = data;
 
             // Send RPC Request
-            [self sendRPC:putFile];
+            [strongSelf sendRPC:putFile];
         }];
 }
 
@@ -686,10 +693,11 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     // Send the HTTP Request
+    __weak typeof(self) weakSelf = self;
     [[self.urlSession uploadTaskWithRequest:request
                                    fromData:data
                           completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                                           [self syncPDataNetworkRequestCompleteWithData:data response:response error:error];
+                                           [weakSelf syncPDataNetworkRequestCompleteWithData:data response:response error:error];
                                        }] resume];
 
     SDLLogV(@"OnEncodedSyncPData (HTTP Request)");
