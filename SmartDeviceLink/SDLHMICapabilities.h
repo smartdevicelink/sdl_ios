@@ -23,4 +23,11 @@
  */
 @property (copy, nonatomic) NSNumber *phoneCall;
 
+/**
+ Availability of build in video streaming. True: Available, False: Not Available
+
+ Boolean value. Optional.
+ */
+@property (copy, nonatomic) NSNumber *videoStreaming;
+
 @end

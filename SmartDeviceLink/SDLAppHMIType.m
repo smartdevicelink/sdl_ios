@@ -11,6 +11,7 @@ SDLAppHMIType *SDLAppHMIType_MESSAGING = nil;
 SDLAppHMIType *SDLAppHMIType_NAVIGATION = nil;
 SDLAppHMIType *SDLAppHMIType_INFORMATION = nil;
 SDLAppHMIType *SDLAppHMIType_SOCIAL = nil;
+SDLAppHMIType *SDLAppHMIType_PROJECTION = nil;
 SDLAppHMIType *SDLAppHMIType_BACKGROUND_PROCESS = nil;
 SDLAppHMIType *SDLAppHMIType_TESTING = nil;
 SDLAppHMIType *SDLAppHMIType_SYSTEM = nil;
@@ -38,6 +39,7 @@ NSArray *SDLAppHMIType_values = nil;
             SDLAppHMIType.NAVIGATION,
             SDLAppHMIType.INFORMATION,
             SDLAppHMIType.SOCIAL,
+            SDLAppHMIType.PROJECTION,
             SDLAppHMIType.BACKGROUND_PROCESS,
             SDLAppHMIType.TESTING,
             SDLAppHMIType.SYSTEM,
@@ -93,6 +95,13 @@ NSArray *SDLAppHMIType_values = nil;
         SDLAppHMIType_SOCIAL = [[SDLAppHMIType alloc] initWithValue:@"SOCIAL"];
     }
     return SDLAppHMIType_SOCIAL;
+}
+
++ (SDLAppHMIType *)PROJECTION {
+    if (SDLAppHMIType_PROJECTION == nil) {
+        SDLAppHMIType_PROJECTION = [[SDLAppHMIType alloc] initWithValue:@"PROJECTION"];
+    }
+    return SDLAppHMIType_PROJECTION;
 }
 
 + (SDLAppHMIType *)BACKGROUND_PROCESS {

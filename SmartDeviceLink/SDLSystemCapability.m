@@ -12,6 +12,7 @@
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
+#import "SDLVideoStreamingCapability.h"
 
 @implementation SDLSystemCapability
 
@@ -47,6 +48,18 @@
 
     self.systemCapabilityType = [SDLSystemCapabilityType NAVIGATION];
     self.navigationCapability = capability;
+
+    return self;
+}
+
+- (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.systemCapabilityType = [SDLSystemCapabilityType VIDEO_STREAMING];
+    self.videoStreamingCapability = capability;
 
     return self;
 }
@@ -101,6 +114,23 @@
         return (SDLPhoneCapability *)obj;
     } else {
         return [[SDLPhoneCapability alloc] initWithDictionary:(NSMutableDictionary *)obj];
+    }
+}
+
+- (void)setVideoStreamingCapability:(SDLVideoStreamingCapability *)videoStreamingCapability {
+    if (videoStreamingCapability != nil) {
+        store[NAMES_videoStreamingCapability] = videoStreamingCapability;
+    } else {
+        [store removeObjectForKey:NAMES_videoStreamingCapability];
+    }
+}
+
+- (SDLVideoStreamingCapability *)videoStreamingCapability {
+    NSObject *obj = store[NAMES_videoStreamingCapability];
+    if (obj == nil || [obj isKindOfClass:SDLVideoStreamingCapability.class]) {
+        return (SDLVideoStreamingCapability *)obj;
+    } else {
+        return [[SDLVideoStreamingCapability alloc] initWithDictionary:(NSMutableDictionary *)obj];
     }
 }
 

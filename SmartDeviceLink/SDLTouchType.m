@@ -7,6 +7,7 @@
 SDLTouchType *SDLTouchType_BEGIN = nil;
 SDLTouchType *SDLTouchType_MOVE = nil;
 SDLTouchType *SDLTouchType_END = nil;
+SDLTouchType *SDLTouchType_CANCEL = nil;
 
 NSArray *SDLTouchType_values = nil;
 
@@ -27,6 +28,7 @@ NSArray *SDLTouchType_values = nil;
             SDLTouchType.BEGIN,
             SDLTouchType.MOVE,
             SDLTouchType.END,
+            SDLTouchType.CANCEL,
         ];
     }
     return SDLTouchType_values;
@@ -51,6 +53,13 @@ NSArray *SDLTouchType_values = nil;
         SDLTouchType_END = [[SDLTouchType alloc] initWithValue:@"END"];
     }
     return SDLTouchType_END;
+}
+
++ (SDLTouchType *)CANCEL {
+    if (SDLTouchType_CANCEL == nil) {
+        SDLTouchType_CANCEL = [[SDLTouchType alloc] initWithValue:@"CANCEL"];
+    }
+    return SDLTouchType_CANCEL;
 }
 
 @end

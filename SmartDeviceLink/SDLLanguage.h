@@ -28,10 +28,84 @@
  */
 + (NSArray *)values;
 /*!
+ @abstract English_SA
+ */
++ (SDLLanguage *)EN_SA;
+
+/*!
+ @abstract Hebrew_IL
+ */
++ (SDLLanguage *)HE_IL;
+
+/*!
+ @abstract Romanian_RO
+ */
++ (SDLLanguage *)RO_RO;
+
+/*!
+ @abstract Ukrainian_UA
+ */
++ (SDLLanguage *)UK_UA;
+
+/*!
+ @abstract Indonesian_ID
+ */
++ (SDLLanguage *)ID_ID;
+
+/*!
+ @abstract Vietnamese_VN
+ */
++ (SDLLanguage *)VI_VN;
+
+/*!
+ @abstract Malay_MY
+ */
++ (SDLLanguage *)MS_MY;
+
+/*!
+ @abstract Hindi_IN
+ */
++ (SDLLanguage *)HI_IN;
+
+/*!
+ @abstract Dutch_BE
+ */
++ (SDLLanguage *)NL_BE;
+
+/*!
+ @abstract Greek_GR
+ */
++ (SDLLanguage *)EL_GR;
+
+/*!
+ @abstract Hungarian_HU
+ */
++ (SDLLanguage *)HU_HU;
+
+/*!
+ @abstract Finnish_FI
+ */
++ (SDLLanguage *)FI_FI;
+
+/*!
+ @abstract Slovak_SK
+ */
++ (SDLLanguage *)SK_SK;
+
+/*!
  @abstract English_US
  */
 + (SDLLanguage *)EN_US;
 
+/*!
+ @abstract English_IN
+ */
++ (SDLLanguage *)EN_IN;
+
+/*!
+ @abstract Thai_TH
+ */
++ (SDLLanguage *)TH_TH;
 /**
  @abstract Spanish - Mexico
  */

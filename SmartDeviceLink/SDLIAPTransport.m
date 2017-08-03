@@ -20,6 +20,7 @@
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
+NSString *const multiSessionProtocolString = @"com.smartdevicelink.multisession";
 NSString *const backgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
 int const createSessionRetries = 1;
@@ -171,9 +172,13 @@ int const streamOpenTimeoutSeconds = 2;
     // Stop event listening here so that even if the transport is disconnected by the proxy
     // we unregister for accessory local notifications
     [self sdl_stopEventListening];
-    // Only disconnect the data session, the control session does not stay open and is handled separately
-    if (self.session != nil) {
+    if (self.controlSession != nil) {
+        [self.controlSession stop];
+        self.controlSession.streamDelegate = nil;
+        self.controlSession = nil;
+    } else if (self.session != nil) {
         [self.session stop];
+        self.session.streamDelegate = nil;
         self.session = nil;
     }
 }
@@ -183,15 +188,18 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
-
-    if ([accessory supportsProtocol:controlProtocolString]) {
+    
+    if ([accessory supportsProtocol:multiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:multiSessionProtocolString];
+        connecting = YES;
+    } else if ([accessory supportsProtocol:controlProtocolString]) {
         [self sdl_createIAPControlSessionWithAccessory:accessory];
         connecting = YES;
     } else if ([accessory supportsProtocol:legacyProtocolString]) {
         [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
         connecting = YES;
     }
-
+    
     return connecting;
 }
 
@@ -208,7 +216,9 @@ int const streamOpenTimeoutSeconds = 2;
         }
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
-        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
+        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:multiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+            [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:multiSessionProtocolString];
+        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
             [self sdl_createIAPControlSessionWithAccessory:sdlAccessory];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
             [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:legacyProtocolString];
@@ -423,16 +433,18 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
+        
         [SDLDebugTool logInfo:@"Data Stream Event End"];
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-
-        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf sdl_retryEstablishSession];
+        if (strongSelf.session != nil) {
+            // The handler will be called on the IO thread, but the session stop method must be called on the main thread and we need to wait for the session to stop before nil'ing it out. To do this, we use dispatch_sync() on the main thread.
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [strongSelf.session stop];
+            });
+            strongSelf.session.streamDelegate = nil;
+            strongSelf.session = nil;
         }
-
-        strongSelf.session = nil;
+        
+        // We don't call sdl_retryEstablishSession here because the stream end event usually fires when the accessory is disconnected
     };
 }
 
@@ -465,14 +477,14 @@ int const streamOpenTimeoutSeconds = 2;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Error"];
-        [strongSelf.session stop];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [strongSelf.session stop];
+        });
         strongSelf.session.streamDelegate = nil;
-
+        strongSelf.session = nil;
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf sdl_retryEstablishSession];
         }
-
-        strongSelf.session = nil;
     };
 }
 
