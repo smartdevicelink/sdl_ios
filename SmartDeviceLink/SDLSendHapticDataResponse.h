@@ -6,6 +6,7 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "SDLRPCResponse.h"
 
 @interface SDLSendHapticDataResponse : SDLRPCResponse

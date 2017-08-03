@@ -903,6 +903,7 @@
 		5DEE55C01B8509CB004F0D0F /* SDLURLRequestTaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		8872772F1F33542000368CCD /* SDLSendHapticDataResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8872772E1F33542000368CCD /* SDLSendHapticDataResponseSpec.m */; };
 		88E0719B1F3221F000C9CB2F /* SDLSpatialStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */; };
 		88E0719C1F3221F000C9CB2F /* SDLSpatialStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E0719A1F3221F000C9CB2F /* SDLSpatialStruct.m */; };
 		88E0719F1F322C3100C9CB2F /* SDLSendHapticData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E0719D1F322C3100C9CB2F /* SDLSendHapticData.h */; };
@@ -1971,6 +1972,7 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		8872772E1F33542000368CCD /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSpatialStruct.h; sourceTree = "<group>"; };
 		88E0719A1F3221F000C9CB2F /* SDLSpatialStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSpatialStruct.m; sourceTree = "<group>"; };
 		88E0719D1F322C3100C9CB2F /* SDLSendHapticData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticData.h; sourceTree = "<group>"; };
@@ -2319,6 +2321,7 @@
 				162E827B1A9BDE8A00906325 /* SDLRegisterAppInterfaceResponseSpec.m */,
 				162E827C1A9BDE8A00906325 /* SDLResetGlobalPropertiesResponseSpec.m */,
 				162E827D1A9BDE8A00906325 /* SDLScrollableMessageResponseSpec.m */,
+				8872772E1F33542000368CCD /* SDLSendHapticDataResponseSpec.m */,
 				5DCF76FD1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m */,
 				162E827E1A9BDE8A00906325 /* SDLSetAppIconResponseSpec.m */,
 				162E827F1A9BDE8A00906325 /* SDLSetDisplayLayoutResponseSpec.m */,
@@ -4831,6 +4834,7 @@
 			files = (
 				5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */,
 				162E83951A9BDE8B00906325 /* SDLTurnSpec.m in Sources */,
+				8872772F1F33542000368CCD /* SDLSendHapticDataResponseSpec.m in Sources */,
 				162E83481A9BDE8B00906325 /* SDLUpdateTurnListSpec.m in Sources */,
 				1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */,
 				162E82FD1A9BDE8B00906325 /* SDLSystemContextSpec.m in Sources */,
