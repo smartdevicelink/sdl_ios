@@ -904,11 +904,11 @@
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		8872772F1F33542000368CCD /* SDLSendHapticDataResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8872772E1F33542000368CCD /* SDLSendHapticDataResponseSpec.m */; };
-		88E0719B1F3221F000C9CB2F /* SDLSpatialStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */; };
+		88E0719B1F3221F000C9CB2F /* SDLSpatialStruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E071991F3221F000C9CB2F /* SDLSpatialStruct.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88E0719C1F3221F000C9CB2F /* SDLSpatialStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E0719A1F3221F000C9CB2F /* SDLSpatialStruct.m */; };
-		88E0719F1F322C3100C9CB2F /* SDLSendHapticData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E0719D1F322C3100C9CB2F /* SDLSendHapticData.h */; };
+		88E0719F1F322C3100C9CB2F /* SDLSendHapticData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E0719D1F322C3100C9CB2F /* SDLSendHapticData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88E071A01F322C3100C9CB2F /* SDLSendHapticData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E0719E1F322C3100C9CB2F /* SDLSendHapticData.m */; };
-		88E071A31F32454600C9CB2F /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E071A11F32454600C9CB2F /* SDLSendHapticDataResponse.h */; };
+		88E071A31F32454600C9CB2F /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E071A11F32454600C9CB2F /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88E071A41F32454600C9CB2F /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E071A21F32454600C9CB2F /* SDLSendHapticDataResponse.m */; };
 		88E071A61F327A8B00C9CB2F /* SDLSpatialStructSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E071A51F327A8B00C9CB2F /* SDLSpatialStructSpec.m */; };
 		88E071A81F327E3C00C9CB2F /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E071A71F327E3C00C9CB2F /* SDLSendHapticDataSpec.m */; };
