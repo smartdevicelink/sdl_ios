@@ -59,8 +59,20 @@
 }
 
 - (NSMutableArray<SDLTextFieldType *> *)mainField1 {
-    return [store objectForKey:NAMES_mainField1Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField1Type];
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+        return array;
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (SDLTextFieldType *type in array) {
+            [newList addObject:type];
+        }
+        return newList;
+    }
 }
+
 
 - (void)setMainField2:(NSMutableArray<SDLTextFieldType *> *)mainField2 {
     if (mainField2 != nil) {
@@ -71,7 +83,18 @@
 }
 
 - (NSMutableArray<SDLTextFieldType *> *)mainField2 {
-    return [store objectForKey:NAMES_mainField2Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField2Type];
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+        return array;
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (SDLTextFieldType *type in array) {
+            [newList addObject:type];
+        }
+        return newList;
+    }
 }
 
 - (void)setMainField3:(NSMutableArray<SDLTextFieldType *> *)mainField3 {
@@ -83,7 +106,18 @@
 }
 
 - (NSMutableArray<SDLTextFieldType *> *)mainField3 {
-    return [store objectForKey:NAMES_mainField3Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField3Type];
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+        return array;
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (SDLTextFieldType *type in array) {
+            [newList addObject:type];
+        }
+        return newList;
+    }
 }
 
 - (void)setMainField4:(NSMutableArray<SDLTextFieldType *> *)mainField4 {
@@ -95,7 +129,18 @@
 }
 
 - (NSMutableArray<SDLTextFieldType *> *)mainField4 {
-    return [store objectForKey:NAMES_mainField4Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField4Type];
+    if ([array isEqual:[NSNull null]]) {
+        return [NSMutableArray array];
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+        return array;
+    } else {
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        for (SDLTextFieldType *type in array) {
+            [newList addObject:type];
+        }
+        return newList;
+    }
 }
 
 @end
