@@ -352,6 +352,7 @@ extern SDLName const SDLNameSecondaryText;
 extern SDLName const SDLNameSecond;
 extern SDLName const SDLNameSeconds;
 extern SDLName const SDLNameSendHapticData;
+extern SDLName const SDLNameSendHapticDataResponse;
 extern SDLName const SDLNameSendLocation;
 extern SDLName const SDLNameSendLocationEnabled;
 extern SDLName const SDLNameSetAppIcon;

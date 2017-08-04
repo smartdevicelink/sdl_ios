@@ -10,9 +10,11 @@
 #import "SDLSpatialStruct.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSpatialStruct
 
-- (instancetype)initWithId:(UInt32)id x:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height {
+- (instancetype)initWithId:(UInt32)id x:(NSNumber<SDLFloat> *)x y:(NSNumber<SDLFloat> *)y width:(NSNumber<SDLFloat> *)width height:(NSNumber<SDLFloat> *)height {
     self = [self init];
     if (!self) {
         return nil;
@@ -68,3 +70,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

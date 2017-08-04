@@ -350,6 +350,7 @@ SDLName const SDLNameSecondaryText = @"secondaryText";
 SDLName const SDLNameSecond = @"second";
 SDLName const SDLNameSeconds = @"seconds";
 SDLName const SDLNameSendHapticData = @"sendHapticData";
+SDLName const SDLNameSendHapticDataResponse = @"sendHapticDataResponse";
 SDLName const SDLNameSendLocation = @"SendLocation";
 SDLName const SDLNameSendLocationEnabled = @"sendLocationEnabled";
 SDLName const SDLNameSetAppIcon = @"SetAppIcon";
