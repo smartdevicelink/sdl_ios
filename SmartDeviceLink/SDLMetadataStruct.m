@@ -73,7 +73,6 @@
     }
 }
 
-
 - (void)setMainField2:(NSMutableArray<SDLTextFieldType *> *)mainField2 {
     if (mainField2 != nil) {
         [store setObject:mainField2 forKey:NAMES_mainField2Type];
