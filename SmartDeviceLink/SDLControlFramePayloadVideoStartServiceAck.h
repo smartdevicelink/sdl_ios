@@ -10,6 +10,10 @@
 
 #import "SDLControlFramePayloadType.h"
 
+@class SDLVideoStreamingCodec;
+@class SDLVideoStreamingProtocol;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadVideoStartServiceAck : NSObject <SDLControlFramePayloadType>
 
@@ -23,11 +27,13 @@
 @property (assign, nonatomic, readonly) int32_t width;
 
 /// Accepted video protocol to be used. See VideoStreamingProtocol RPC
-@property (copy, nonatomic, readonly) NSString *videoProtocol;
+@property (copy, nonatomic, readonly, nullable) SDLVideoStreamingProtocol *videoProtocol;
 
 /// Accepted video codec to be used. See VideoStreamingCodec RPC
-@property (copy, nonatomic, readonly) NSString *videoCodec;
+@property (copy, nonatomic, readonly, nullable) SDLVideoStreamingCodec *videoCodec;
 
-- (instancetype)initWithMTU:(int64_t)mtu videoHeight:(int32_t)height width:(int32_t)width protocol:(NSString *)protocol codec:(NSString *)codec;
+- (instancetype)initWithMTU:(int64_t)mtu videoHeight:(int32_t)height width:(int32_t)width protocol:(SDLVideoStreamingProtocol *)protocol codec:(SDLVideoStreamingCodec *)codec;
 
 @end
+
+NS_ASSUME_NONNULL_END
