@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     utf8String = bson_object_get_string(&payloadObject, SDLControlFrameVideoCodecKey);
     if (utf8String != NULL) {
-        self.videoProtocol = [SDLVideoStreamingProtocol valueOf:[NSString stringWithUTF8String:utf8String]];
+        self.videoCodec = [SDLVideoStreamingCodec valueOf:[NSString stringWithUTF8String:utf8String]];
     }
 
     bson_object_deinitialize(&payloadObject);
