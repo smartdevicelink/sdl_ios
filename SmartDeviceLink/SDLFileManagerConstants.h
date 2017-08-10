@@ -6,7 +6,7 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+//#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,5 +15,10 @@ typedef void (^SDLFileManagerUploadCompletionHandler)(BOOL success, NSUInteger b
 typedef void (^SDLFileManagerDeleteCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 typedef void(^SDLFileManagerMultiTransactionCompletionHandler)(NSError *__nullable error);
 typedef void (^SDLFileManagerListFilesCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *fileNames, NSError *__nullable error);
+
+typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSError *__nullable error);
+
+typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSError *__nullable error);
+typedef void(^SDLFileManagerMultiUploadProgressHandler)(NSString *fileName, float uploadPercentage, Boolean cancel, NSError *__nullable error);
 
 NS_ASSUME_NONNULL_END

@@ -105,16 +105,13 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 + (NSURL *)temporaryFileDirectory;
 
 
-// TODO: - documentation for new methods
+// TODO: - Documentation for new methods
 
 // Upload multiple files
-typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSError *__nullable error);
-typedef void(^SDLFileManagerMultiUploadProgressHandler)(SDLFileName *fileName, float uploadPercentage, Boolean *cancel, NSError *__nullable error);
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 
 // Delete multiple files
-typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSError *__nullable error);
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler;
 
 @end

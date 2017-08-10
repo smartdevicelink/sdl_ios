@@ -219,6 +219,51 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark - Uploading
 
+- (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+
+    // NSMutableArray<NSString *> *failedUploads = [NSMutableArray alloc];
+    NSMutableDictionary *failedUploads = [NSMutableDictionary alloc];
+
+    for (SDLFile *file in files) {
+        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if (error != nil) {
+                failedUploads[file.name] = error;
+            }
+        }];
+    }
+
+    if (failedUploads.count > 0) {
+        // TODO: - add error to NSError.h file
+        return completionHandler([[NSError alloc] initWithDomain:SDLErrorDomainFileManager code: SDLFileManagerErrorUnableToUpload userInfo:failedUploads]);
+    }
+
+    return completionHandler(nil);
+}
+
+- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+    // Calculate the total filesize of all files being uploaded
+    NSInteger fileSizeTotal = 0; // In bytes
+    // NSInteger totalBytesUploaded = 0;
+
+    for (SDLFile *file in files) {
+        fileSizeTotal += file.fileSize;
+    }
+
+    // For each file, call [self uploadFile]
+    for (SDLFile *file in files) {
+        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if (progressHandler != nil) {
+                progressHandler(@"abcd", 0.3, true, error);
+            }
+        }];
+    }
+
+    // Wait for all of the file's completion handlers to be called
+    // -> fire off a completion handler when each file comes back
+    // NSError *newError = [[NSError alloc] initWithDomain:SDLErrorDomainFileManager code:sdl_fileManager_unableToUploadError userInfo:nil]; // userInfo is a list of files that could not be uploaded
+    return completionHandler(false);
+}
+
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil) {
         if (handler != nil) {
