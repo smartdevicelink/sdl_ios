@@ -50,6 +50,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly) SDLFileType fileType;
 
+
+/**
+ *  The number of bytes of data in file.
+ */
+@property (assign, nonatomic, readonly) NSUInteger numberOfBytes;
+
 /**
  * A stream to pull binary data from a SDLFile. The stream only pulls required data from the file on disk or in memory. This reduces memory usage while uploading a large file to the remote system as each chunk of data can be released immediately after it is uploaded.
  */
