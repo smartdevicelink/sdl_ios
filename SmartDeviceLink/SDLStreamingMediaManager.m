@@ -22,6 +22,8 @@
 #import "SDLProtocolMessage.h"
 #import "SDLScreenParams.h"
 #import "SDLTouchManager.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingProtocol.h"
 
 
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
@@ -132,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self startVideoSessionWithTLS:encryptionFlag height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil startBlock:startBlock];
 }
 
-- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol *)protocol codec:(nullable SDLVideoStreamingCodec *)codec startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
+- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
@@ -143,7 +145,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.videoStartBlock = [startBlock copy];
     self.videoSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
-    SDLControlFramePayloadVideoStartService *payload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:height width:width protocol:protocol codec:codec];
+    // H264 RAW is the only currently supported SMM format, so we will use hardcode that in to make sure that future Core's that may have different defaults still use our default.
+    SDLControlFramePayloadVideoStartService *payload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:height width:width protocol:[SDLVideoStreamingProtocol RAW] codec:[SDLVideoStreamingCodec H264]];
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
         [self.protocol startSecureServiceWithType:SDLServiceType_Video payload:payload.data completionHandler:^(BOOL success, NSError *error) {

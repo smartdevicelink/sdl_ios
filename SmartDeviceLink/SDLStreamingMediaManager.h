@@ -110,17 +110,15 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
 
 /**
- This method will attempt to start a streaming video session. It will set up iOS's video encoder, and call out to the head unit asking if it will start a video session. This will not use encryption. To get proper values for height, width, protocol, and codec, call GetSystemCapabilities. If the remote system does not support GetSystemCapabilities, then call `startVideoSessionWithStartBlock:` instead.
+ This method will attempt to start a streaming video session. It will set up iOS's video encoder, and call out to the head unit asking if it will start a video session. This will not use encryption. To get proper values for height and width. If the remote system does not support GetSystemCapabilities, then call `startVideoSessionWithStartBlock:` instead.
 
  @warning If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).
 
  @param height The height requested to be used
  @param width The width requested to be used
- @param protocol The protocol requested to be used
- @param codec The codec requested to be used
  @param startBlock A block that will be called with the result of attempting to start a video session
  */
-- (void)startVideoSessionWithHeight:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol *)protocol codec:(nullable SDLVideoStreamingCodec *)codec startBlock:(SDLStreamingStartBlock)startBlock;
+- (void)startVideoSessionWithHeight:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingStartBlock)startBlock;
 
 /**
  *  Start a video session either with with no encryption (the default), with authentication but no encryption (this will attempt a TLS authentication with the other side, but will not physically encrypt the data after that), or authentication and encryption, which will encrypt all video data being sent.
