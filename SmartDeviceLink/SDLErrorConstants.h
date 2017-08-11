@@ -66,4 +66,8 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      * The file manager could not find the local file
      */
     SDLFileManagerErrorFileDoesNotExist = -5,
+    /**
+     * The file manager was not passed a file
+     */
+    SDLFileManagerErrorNoFiles = -6,
 };

@@ -220,24 +220,66 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 #pragma mark - Uploading
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+    if (files.count == 0) {
+        return completionHandler([NSError sdl_fileManager_noFilesError]);
+    }
 
-    // NSMutableArray<NSString *> *failedUploads = [NSMutableArray alloc];
     NSMutableDictionary *failedUploads = [NSMutableDictionary alloc];
+    dispatch_group_t fileUploadGroup = dispatch_group_create();
 
+    dispatch_group_enter(fileUploadGroup);
     for (SDLFile *file in files) {
-        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if (error != nil) {
-                failedUploads[file.name] = error;
+        dispatch_group_enter(fileUploadGroup);
+        [self uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
+            if (!success) {
+                failedUploads[fileName] = error;
             }
+
+            dispatch_group_leave(fileUploadGroup);
         }];
     }
 
-    if (failedUploads.count > 0) {
-        // TODO: - add error to NSError.h file
-        return completionHandler([[NSError alloc] initWithDomain:SDLErrorDomainFileManager code: SDLFileManagerErrorUnableToUpload userInfo:failedUploads]);
-    }
+    dispatch_group_leave(fileUploadGroup);
 
-    return completionHandler(nil);
+    // FIXME: - constants for queues?
+    dispatch_queue_t waitingQueue = dispatch_queue_create("com.sdl.waiting.queue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(waitingQueue, ^{
+        dispatch_group_wait(fileUploadGroup, DISPATCH_TIME_FOREVER);
+
+        // Background work complete
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (failedUploads.count > 0) {
+                if (completionHandler == nil) { return; }
+                return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
+            }
+
+            if (completionHandler == nil) { return; }
+            return completionHandler(nil);
+        });
+    });
+}
+
+// https://stackoverflow.com/questions/16512898/ios-dont-return-from-function-until-multiple-background-threads-complete
+- (void)uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
+
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(backgroundQueue, ^{
+        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            Boolean uploadSuccess = true;
+            NSString *uploadFileName = file.name;
+            NSError *uploadError = nil;
+
+            if (error != nil) {
+                uploadSuccess = false;
+                uploadError = error;
+            }
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (handler == nil) { return; }
+                return handler(uploadSuccess, uploadFileName, uploadError);
+            });
+        }];
+    });
 }
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
