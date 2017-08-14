@@ -19,6 +19,7 @@ ss.source_files = 'SmartDeviceLink/*.{h,m}'
 ss.public_header_files = [
 'SmartDeviceLink/SmartDeviceLink.h',
 'SmartDeviceLink/SDLMacros.h',
+'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAbstractProtocol.h',
 'SmartDeviceLink/SDLAbstractTransport.h',

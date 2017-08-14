@@ -14,6 +14,7 @@ s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'Sma
 s.public_header_files = [
 'SmartDeviceLink/SmartDeviceLink.h',
 'SmartDeviceLink/SDLMacros.h',
+'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAbstractProtocol.h',
 'SmartDeviceLink/SDLAbstractTransport.h',
