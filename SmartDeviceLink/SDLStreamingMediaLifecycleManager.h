@@ -20,10 +20,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLAppState;
-extern SDLAppState *const SDLAppStateBackground;
-extern SDLAppState *const SDLAppStateIsResigningActive;
+extern SDLAppState *const SDLAppStateResigningActive;
 extern SDLAppState *const SDLAppStateInactive;
-extern SDLAppState *const SDLAppStateIsRegainingActive;
+extern SDLAppState *const SDLAppStateRegainingActive;
 extern SDLAppState *const SDLAppStateActive;
 
 typedef NSString SDLVideoStreamState;

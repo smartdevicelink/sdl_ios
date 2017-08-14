@@ -29,10 +29,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLAppState *const SDLAppStateBackground = @"Background";
-SDLAppState *const SDLAppStateIsResigningActive = @"ResigningActive";
+SDLAppState *const SDLAppStateResigningActive = @"ResigningActive";
 SDLAppState *const SDLAppStateInactive = @"Inactive";
-SDLAppState *const SDLAppStateIsRegainingActive = @"RegainingActive";
+SDLAppState *const SDLAppStateRegainingActive = @"RegainingActive";
 SDLAppState *const SDLAppStateActive = @"Active";
 
 SDLVideoStreamState *const SDLVideoStreamStateStopped = @"VideoStreamStopped";
@@ -201,30 +200,23 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 #pragma mark App State
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_appStateTransitionDictionary {
     return @{
-             SDLAppStateBackground : @[SDLAppStateIsRegainingActive],
              // Will go from Inactive to Active if coming from a Phone Call.
              // Will go from Inactive to IsRegainingActive if coming from Background.
-             SDLAppStateInactive : @[SDLAppStateBackground, SDLAppStateIsRegainingActive, SDLAppStateActive],
-             SDLAppStateActive : @[SDLAppStateIsResigningActive],
-             SDLAppStateIsRegainingActive : @[SDLAppStateActive],
-             SDLAppStateIsResigningActive : @[SDLAppStateInactive]
+             SDLAppStateInactive : @[SDLAppStateRegainingActive, SDLAppStateActive],
+             SDLAppStateActive : @[SDLAppStateResigningActive],
+             SDLAppStateRegainingActive : @[SDLAppStateActive],
+             SDLAppStateResigningActive : @[SDLAppStateInactive]
              };
 }
 
 - (void)sdl_appStateDidUpdate:(NSNotification*)notification {
     if (notification.name == UIApplicationWillEnterForegroundNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateIsRegainingActive];
+        [self.appStateMachine transitionToState:SDLAppStateRegainingActive];
     } else if (notification.name == UIApplicationWillResignActiveNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateIsResigningActive];
+        [self.appStateMachine transitionToState:SDLAppStateResigningActive];
     } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
         [self.appStateMachine transitionToState:SDLAppStateActive];
-    } else if (notification.name == UIApplicationDidEnterBackgroundNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateBackground];
     }
-}
-
-- (void)didEnterStateBackground {
-    self.restartVideoStream = YES;
 }
 
 - (void)didEnterStateInactive {
@@ -241,14 +233,14 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     [self sdl_startAudioSession];
 }
 
-- (void)didEnterStateIsResigningActive {
+- (void)didEnterStateResigningActive {
     if (!self.protocol) { return; }
 
     [self sdl_sendBackgroundFrames];
     [self.appStateMachine transitionToState:SDLAppStateInactive];
 }
 
-- (void)didEnterStateIsRegainingActive { /* Nothing */ }
+- (void)didEnterStateRegainingActive { /* Nothing */ }
 
 #pragma mark Video Streaming
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_videoStreamStateTransitionDictionary {
