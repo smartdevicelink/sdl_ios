@@ -12,9 +12,6 @@ s.source_files = "SmartDeviceLink/*.{h,m}"
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
 s.public_header_files = [
-'SmartDeviceLink/SmartDeviceLink.h',
-'SmartDeviceLink/SDLMacros.h',
-'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAbstractProtocol.h',
 'SmartDeviceLink/SDLAbstractTransport.h',
@@ -140,6 +137,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLogTargetAppleSystemLog.h',
 'SmartDeviceLink/SDLLogTargetFile.h',
 'SmartDeviceLink/SDLLogTargetOSLog.h',
+'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLManager.h',
 'SmartDeviceLink/SDLManagerDelegate.h',
@@ -148,6 +146,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLNotificationConstants.h',
+'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/SDLOnAppInterfaceUnregistered.h',
 'SmartDeviceLink/SDLOnAudioPassThru.h',
 'SmartDeviceLink/SDLOnButtonEvent.h',
@@ -297,6 +296,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWaypointType.h',
 'SmartDeviceLink/SDLWiperStatus.h',
+'SmartDeviceLink/SmartDeviceLink.h',
 ]
 
 end

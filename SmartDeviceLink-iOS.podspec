@@ -17,9 +17,6 @@ s.subspec 'Default' do |ss|
 ss.source_files = 'SmartDeviceLink/*.{h,m}'
 
 ss.public_header_files = [
-'SmartDeviceLink/SmartDeviceLink.h',
-'SmartDeviceLink/SDLMacros.h',
-'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAbstractProtocol.h',
 'SmartDeviceLink/SDLAbstractTransport.h',
@@ -145,6 +142,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLLogTargetAppleSystemLog.h',
 'SmartDeviceLink/SDLLogTargetFile.h',
 'SmartDeviceLink/SDLLogTargetOSLog.h',
+'SmartDeviceLink/SDLMacros.h',
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLManager.h',
 'SmartDeviceLink/SDLManagerDelegate.h',
@@ -153,6 +151,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLNotificationConstants.h',
+'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/SDLOnAppInterfaceUnregistered.h',
 'SmartDeviceLink/SDLOnAudioPassThru.h',
 'SmartDeviceLink/SDLOnButtonEvent.h',
@@ -302,6 +301,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWaypointType.h',
 'SmartDeviceLink/SDLWiperStatus.h',
+'SmartDeviceLink/SmartDeviceLink.h',
 ]
 end
 
