@@ -50,6 +50,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 @end
 
+#pragma mark Constants
+
+const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.uploads.waiting.queue";
 
 @implementation SDLFileManager
 
@@ -224,29 +227,25 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return completionHandler([NSError sdl_fileManager_noFilesError]);
     }
 
-    NSMutableDictionary *failedUploads = [NSMutableDictionary alloc];
-    dispatch_group_t fileUploadGroup = dispatch_group_create();
+    NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
+    dispatch_group_t uploadFilesTask = dispatch_group_create();
 
-    dispatch_group_enter(fileUploadGroup);
+    dispatch_group_enter(uploadFilesTask);
     for (SDLFile *file in files) {
-        dispatch_group_enter(fileUploadGroup);
+        dispatch_group_enter(uploadFilesTask);
         [self uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
             if (!success) {
                 failedUploads[fileName] = error;
             }
 
-            dispatch_group_leave(fileUploadGroup);
+            dispatch_group_leave(uploadFilesTask);
         }];
     }
+    dispatch_group_leave(uploadFilesTask);
 
-    dispatch_group_leave(fileUploadGroup);
-
-    // FIXME: - constants for queues?
-    dispatch_queue_t waitingQueue = dispatch_queue_create("com.sdl.waiting.queue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_queue_t waitingQueue = dispatch_queue_create(BackgroundUploadFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(waitingQueue, ^{
-        dispatch_group_wait(fileUploadGroup, DISPATCH_TIME_FOREVER);
-
-        // Background work complete
+        dispatch_group_wait(uploadFilesTask, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
             if (failedUploads.count > 0) {
                 if (completionHandler == nil) { return; }

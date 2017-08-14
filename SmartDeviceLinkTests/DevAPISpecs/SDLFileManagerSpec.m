@@ -413,4 +413,66 @@ describe(@"SDLFileManager", ^{
     });
 });
 
+describe(@"Uploading multiple files", ^{
+    __block TestConnectionManager *testConnectionManager = nil;
+    __block SDLFileManager *testFileManager = nil;
+    __block NSUInteger initialSpaceAvailable = 0;
+
+    __block NSMutableArray<NSString *> *testFileNames = nil;
+    __block NSMutableArray<SDLFile *> *testSDLFiles = nil;
+
+    __block BOOL completionSuccess = NO;
+    __block NSUInteger completionBytesAvailable = 0;
+    __block NSError *completionError = nil;
+
+    __block SDLPutFile *sentPutFile = nil;
+    __block NSMutableArray<NSData *> *testFileData = nil;
+
+    beforeEach(^{
+        testConnectionManager = [[TestConnectionManager alloc] init];
+        testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
+        testFileManager.suspended = YES;
+        initialSpaceAvailable = 9666;
+    });
+
+    context(@"It should upload multiple files successfully", ^{
+        beforeEach(^{
+            testFileNames = [[NSMutableArray alloc] init];
+            testSDLFiles = [[NSMutableArray alloc] init];
+            testFileData = [[NSMutableArray alloc] init];
+        });
+
+//        it(@"should do nothing if 0 files passed", ^{
+//
+//        });
+
+        it(@"should upload 1 file", ^{
+            for(int i = 0; i < 1; i += 1) {
+                NSString *fileName = [NSString stringWithFormat:@"Test File %d", i];
+                NSData *fileData = [@"some test file data" dataUsingEncoding:NSUTF8StringEncoding];
+                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                [testFileNames addObject: fileName];
+                [testFileData addObject:fileData];
+                [testSDLFiles addObject:file];
+            }
+        });
+
+//        it(@"should upload 100 files", ^{
+//
+//        });
+//
+//        it(@"should upload files from both memory and disk", ^{
+//
+//        });
+
+        afterEach(^{
+            [testConnectionManager respondToLastRequestWithResponse:<#(nonnull __kindof SDLRPCResponse *)#>];
+
+            [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                expect(error).toEventually(beNil());
+            }];
+        });
+    });
+});
+
 QuickSpecEnd
