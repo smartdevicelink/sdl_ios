@@ -90,16 +90,14 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     
-    SDLAppState *initialState = SDLAppStateBackground;
+    SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
         case UIApplicationStateActive: {
             initialState = SDLAppStateActive;
         } break;
-        case UIApplicationStateInactive: {
-            initialState = SDLAppStateInactive;
-        } break;
+        case UIApplicationStateInactive: // fallthrough
         case UIApplicationStateBackground: {
-            initialState = SDLAppStateBackground;
+            initialState = SDLAppStateInactive;
         } break;
         default: break;
     }
