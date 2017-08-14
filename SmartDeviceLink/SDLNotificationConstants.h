@@ -50,19 +50,19 @@ typedef void (^SDLResponseHandler)(__kindof SDLRPCRequest *__nullable request, _
 
 /**
  A handler that may optionally be run when an SDLSubscribeButton or SDLSoftButton has a corresponding notification occur.
-
+ 
  @warning This only works if you send the RPC using SDLManager.
  @warning Only one of the two parameters will be set for each block call.
-
+ 
  @param buttonPress An SDLOnButtonPress object that corresponds to this particular button.
  @param buttonEvent An SDLOnButtonEvent object that corresponds to this particular button.
  */
 typedef void (^SDLRPCButtonNotificationHandler)(SDLOnButtonPress *_Nullable buttonPress,  SDLOnButtonEvent *_Nullable buttonEvent);
 /**
  A handler that may optionally be run when an SDLAddCommand has a corresponding notification occur.
-
+ 
  @warning This only works if you send the RPC using SDLManager.
-
+ 
  @param command An SDLOnCommand object that corresponds to this particular SDLAddCommand.
  */
 typedef void (^SDLRPCCommandNotificationHandler)(SDLOnCommand *command);
@@ -91,6 +91,7 @@ extern SDLNotificationName const SDLDidReceiveAddCommandResponse;
 extern SDLNotificationName const SDLDidReceiveAddSubMenuResponse;
 extern SDLNotificationName const SDLDidReceiveAlertResponse;
 extern SDLNotificationName const SDLDidReceiveAlertManeuverResponse;
+extern SDLNotificationName const SDLDidReceiveButtonPressResponse;
 extern SDLNotificationName const SDLDidReceiveChangeRegistrationResponse;
 extern SDLNotificationName const SDLDidReceiveCreateInteractionChoiceSetResponse;
 extern SDLNotificationName const SDLDidReceiveDeleteCommandResponse;
@@ -103,6 +104,7 @@ extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse;
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
+extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse;
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
@@ -118,6 +120,7 @@ extern SDLNotificationName const SDLDidReceiveSendLocationResponse;
 extern SDLNotificationName const SDLDidReceiveSetAppIconResponse;
 extern SDLNotificationName const SDLDidReceiveSetDisplayLayoutResponse;
 extern SDLNotificationName const SDLDidReceiveSetGlobalPropertiesResponse;
+extern SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveSetMediaClockTimerResponse;
 extern SDLNotificationName const SDLDidReceiveShowConstantTBTResponse;
 extern SDLNotificationName const SDLDidReceiveShowResponse;
@@ -145,6 +148,7 @@ extern SDLNotificationName const SDLDidReceiveButtonEventNotification;
 extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
 extern SDLNotificationName const SDLDidReceiveEncodedDataNotification;
+extern SDLNotificationName const SDLDidReceiveInteriorVehicleDataNotification;
 extern SDLNotificationName const SDLDidReceiveKeyboardInputNotification;
 extern SDLNotificationName const SDLDidChangeLanguageNotification;
 extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification;

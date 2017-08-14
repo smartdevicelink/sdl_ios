@@ -31,6 +31,24 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLButtonNamePreset9).to(equal(@"PRESET_9"));
         expect(SDLButtonNameCustomButton).to(equal(@"CUSTOM_BUTTON"));
         expect(SDLButtonNameSearch).to(equal(@"SEARCH"));
+        expect(SDLButtonNameAcMax).to(equal(@"AC_MAX"));
+        expect(SDLButtonNameAc).to(equal(@"AC"));
+        expect(SDLButtonNameRecirculate).to(equal(@"RECIRCULATE"));
+        expect(SDLButtonNameFanUp).to(equal(@"FAN_UP"));
+        expect(SDLButtonNameFanDown).to(equal(@"FAN_DOWN"));
+        expect(SDLButtonNameTempUp).to(equal(@"TEMP_UP"));
+        expect(SDLButtonNameTempDown).to(equal(@"TEMP_DOWN"));
+        expect(SDLButtonNameDefrostMax).to(equal(@"DEFROST_MAX"));
+        expect(SDLButtonNameDefrostRear).to(equal(@"DEFROST_REAR"));
+        expect(SDLButtonNameDefrost).to(equal(@"DEFROST"));
+        expect(SDLButtonNameUpperVent).to(equal(@"UPPER_VENT"));
+        expect(SDLButtonNameLowerVent).to(equal(@"LOWER_VENT"));
+        expect(SDLButtonNameVolumeUp).to(equal(@"VOLUME_UP"));
+        expect(SDLButtonNameVolumeDown).to(equal(@"VOLUME_DOWN"));
+        expect(SDLButtonNameEject).to(equal(@"EJECT"));
+        expect(SDLButtonNameSource).to(equal(@"SOURCE"));
+        expect(SDLButtonNameShuffle).to(equal(@"SHUFFLE"));
+        expect(SDLButtonNameRepeat).to(equal(@"REPEAT"));
     });
 });
 

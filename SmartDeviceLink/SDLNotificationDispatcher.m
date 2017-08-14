@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (infoObject != nil) {
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });
@@ -94,6 +94,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveAlertResponse response:response];
 }
 
+- (void)onButtonPressResponse:(SDLButtonPressResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveButtonPressResponse response:response];
+}
+
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveChangeRegistrationResponse response:response];
 }
@@ -140,6 +144,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
+}
+
+
+- (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetInteriorVehicleDataResponse response:response];
 }
 
 - (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response {
@@ -200,6 +209,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSetGlobalPropertiesResponse response:response];
+}
+
+
+- (void)onSetInteriorVehicleDataResponse:(SDLSetInteriorVehicleDataResponse *)response{
+    [self postRPCResponseNotification:SDLDidReceiveSetInteriorVehicleDataResponse response:response];
 }
 
 - (void)onSetMediaClockTimerResponse:(SDLSetMediaClockTimerResponse *)response {
@@ -284,6 +298,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveNewHashNotification notification:notification];
+}
+
+- (void)onOnInteriorVehicleData:(SDLOnInteriorVehicleData *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveInteriorVehicleDataNotification notification:notification];
 }
 
 - (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification {

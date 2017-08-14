@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-
+    
     self.functionIds = @{
                          @0: SDLNameReserved,
                          @1: SDLNameRegisterAppInterface,
@@ -71,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
                          @38: SDLNameSystemRequest,
                          @39: SDLNameSendLocation,
                          @40: SDLNameDialNumber,
+                         @41: SDLNameButtonPress,
+                         @43: SDLNameGetInteriorVehicleData,
+                         @44: SDLNameSetInteriorVehicleData,
                          @45: SDLNameGetWaypoints,
                          @46: SDLNameSubscribeWaypoints,
                          @47: SDLNameUnsubscribeWaypoints,
@@ -90,13 +93,14 @@ NS_ASSUME_NONNULL_BEGIN
                          @32780: SDLNameOnTouchEvent,
                          @32781: SDLNameOnSystemRequest,
                          @32782: SDLNameOnHashChange,
+                         @32783: SDLNameOnInteriorVehicleData,
                          @32784: SDLNameOnWaypointChange,
                          @65536: SDLNameEncodedSyncPData,
                          @65537: SDLNameSyncPData,
                          @98304: SDLNameOnEncodedSyncPData,
                          @98305: SDLNameOnSyncPData
                          };
-
+    
     return self;
 }
 

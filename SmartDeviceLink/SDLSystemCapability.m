@@ -13,7 +13,7 @@
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
-#import "SDLVideoStreamingCapability.h"
+#import "SDLRemoteControlCapabilities.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,10 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-
+    
     self.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
     self.phoneCapability = capability;
-
+    
     return self;
 }
 
@@ -36,22 +36,22 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-
+    
     self.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
     self.navigationCapability = capability;
-
+    
     return self;
 }
 
-- (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability {
+- (instancetype)initWithRemoteControlCapability:(SDLRemoteControlCapabilities *)capability {
     self = [self init];
     if (!self) {
         return nil;
     }
-
-    self.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-    self.videoStreamingCapability = capability;
-
+    
+    self.systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
+    self.remoteControlCapability = capability;
+    
     return self;
 }
 
@@ -81,12 +81,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNamePhoneCapability ofClass:SDLPhoneCapability.class];
 }
 
-- (void)setVideoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    [store sdl_setObject:videoStreamingCapability forName:SDLNameVideoStreamingCapability];
+- (void)setRemoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability {
+    [store sdl_setObject:remoteControlCapability forName:SDLNameRemoteControlCapability];
 }
 
-- (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    return [store sdl_objectForName:SDLNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
+- (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
+    return [store sdl_objectForName:SDLNameRemoteControlCapability];
 }
 
 @end

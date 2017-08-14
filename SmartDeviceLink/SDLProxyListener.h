@@ -7,6 +7,7 @@
 @class SDLAddSubMenuResponse;
 @class SDLAlertManeuverResponse;
 @class SDLAlertResponse;
+@class SDLButtonPressResponse;
 @class SDLChangeRegistrationResponse;
 @class SDLCreateInteractionChoiceSetResponse;
 @class SDLDeleteCommandResponse;
@@ -19,6 +20,7 @@
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
 @class SDLGetDTCsResponse;
+@class SDLGetInteriorVehicleDataResponse;
 @class SDLGetSystemCapabilityResponse;
 @class SDLGetVehicleDataResponse;
 @class SDLGetWaypointsResponse;
@@ -32,6 +34,7 @@
 @class SDLOnEncodedSyncPData;
 @class SDLOnHashChange;
 @class SDLOnHMIStatus;
+@class SDLOnInteriorVehicleData;
 @class SDLOnKeyboardInput;
 @class SDLOnLanguageChange;
 @class SDLOnLockScreenStatus;
@@ -54,6 +57,7 @@
 @class SDLSetAppIconResponse;
 @class SDLSetDisplayLayoutResponse;
 @class SDLSetGlobalPropertiesResponse;
+@class SDLSetInteriorVehicleDataResponse;
 @class SDLSetMediaClockTimerResponse;
 @class SDLShowConstantTBTResponse;
 @class SDLShowResponse;
@@ -84,6 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onAddSubMenuResponse:(SDLAddSubMenuResponse *)response;
 - (void)onAlertManeuverResponse:(SDLAlertManeuverResponse *)response;
 - (void)onAlertResponse:(SDLAlertResponse *)response;
+- (void)onButtonPressResponse:(SDLButtonPressResponse *)response;
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response;
 - (void)onCreateInteractionChoiceSetResponse:(SDLCreateInteractionChoiceSetResponse *)response;
 - (void)onDeleteCommandResponse:(SDLDeleteCommandResponse *)response;
@@ -97,6 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onError:(NSException *)e;
 - (void)onGenericResponse:(SDLGenericResponse *)response;
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
+- (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response;
 - (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response;
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response;
 - (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response;
@@ -109,6 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onOnCommand:(SDLOnCommand *)notification;
 - (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
 - (void)onOnHashChange:(SDLOnHashChange *)notification;
+- (void)onOnInteriorVehicleData:(SDLOnInteriorVehicleData *)notification;
 - (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification;
 - (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
 - (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
@@ -130,6 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response;
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response;
+- (void)onSetInteriorVehicleDataResponse:(SDLSetInteriorVehicleDataResponse *)response;
 - (void)onSetMediaClockTimerResponse:(SDLSetMediaClockTimerResponse *)response;
 - (void)onShowConstantTBTResponse:(SDLShowConstantTBTResponse *)response;
 - (void)onShowResponse:(SDLShowResponse *)response;
