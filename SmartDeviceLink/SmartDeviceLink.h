@@ -188,6 +188,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLMenuParams.h"
 #import "SDLMyKey.h"
 #import "SDLNavigationCapability.h"
+#import "SDLOasisAddress.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLPhoneCapability.h"
@@ -332,3 +333,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetFile.h"
 #import "SDLLogTargetOSLog.h"
+
+// Macros
+#import "SDLMacros.h"

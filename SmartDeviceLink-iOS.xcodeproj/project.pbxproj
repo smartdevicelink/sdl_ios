@@ -1392,7 +1392,7 @@
 		5D616B5B1D5A23E400553F6B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/SDLLockScreen.strings; sourceTree = "<group>"; };
 		5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLink.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA1F1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; };
+		5D61FA201A84237100846EE7 /* SmartDeviceLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLink.h; sourceTree = "<group>"; wrapsLines = 0; };
 		5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartDeviceLinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D61FA2E1A84237100846EE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D61FA3C1A84238A00846EE7 /* SDLAbstractProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAbstractProtocol.h; sourceTree = "<group>"; };
