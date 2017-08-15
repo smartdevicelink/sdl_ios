@@ -352,7 +352,7 @@ static float DefaultConnectionTimeout = 45.0;
         self.protocol.securityManager.appId = self.appId;
     }
 
-    if ([SDLGlobals sharedGlobals].protocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -743,7 +743,7 @@ static float DefaultConnectionTimeout = 45.0;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
-            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals sharedGlobals].maxMTUSize];
+            NSMutableData *buffer = [NSMutableData dataWithLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];

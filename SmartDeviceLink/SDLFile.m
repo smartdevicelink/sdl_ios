@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
 
+@property (nonatomic, readwrite) NSInputStream *inputStream;
 @end
 
 
@@ -86,17 +87,50 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithData:data name:name fileExtension:extension persistent:NO];
 }
 
-
 #pragma mark - Getters
 
 - (NSData *)data {
     if (_data.length == 0 && _fileURL != nil) {
-        _data = [NSData dataWithContentsOfURL:_fileURL];
+        return [NSData dataWithContentsOfURL:_fileURL];
     }
 
     return _data;
 }
 
+/**
+ Initalizes a socket from which to read data.
+
+ @return A socket
+ */
+- (NSInputStream *)inputStream {
+    if (!_inputStream) {
+        if (_fileURL) {
+            // Data in file
+            _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
+        } else if (_data.length != 0) {
+            // Data in memory
+            _inputStream = [[NSInputStream alloc] initWithData:_data];
+        }
+    }
+    return _inputStream;
+}
+
+/**
+ Gets the size of the data. The data may be stored on disk or it may already be in the application's memory.
+
+ @return The size of the data.
+ */
+- (unsigned long long)fileSize {
+    if (_fileURL) {
+        // Data in file
+        NSString *path = [_fileURL path];
+        return [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil].fileSize;
+    } else if (_data) {
+        // Data in memory
+        return _data.length;
+    }
+    return 0;
+}
 
 #pragma mark - File Type
 
@@ -120,7 +154,6 @@ NS_ASSUME_NONNULL_BEGIN
         return SDLFileTypeBinary;
     }
 }
-
 
 #pragma mark - NSCopying
 

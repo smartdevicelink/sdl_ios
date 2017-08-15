@@ -62,4 +62,8 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      * The file manager was unable to send this file.
      */
     SDLFileManagerErrorUnableToUpload = -4,
+    /**
+     * The file manager could not find the local file
+     */
+    SDLFileManagerErrorFileDoesNotExist = -5,
 };

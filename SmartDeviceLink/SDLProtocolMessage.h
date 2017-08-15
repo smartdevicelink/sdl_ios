@@ -13,13 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSData *payload;
 @property (strong, nonatomic, readonly) NSData *data;
 
-+ (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload; // Returns a V1 or V2 object
++ (instancetype)messageWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload; // Returns a V1 or V2 object
 
 - (NSUInteger)size;
 - (NSString *)description;
 - (nullable NSDictionary<NSString *, id> *)rpcDictionary; // Use for RPC type messages to obtain the data in a dictionary
 
-+ (UInt8)determineVersion:(NSData *)data;
++ (UInt8)determineVersion:(NSData *)data __deprecated_msg(("Use SDLProtocolHeader determineVersion: instead"));
 
 @end
 

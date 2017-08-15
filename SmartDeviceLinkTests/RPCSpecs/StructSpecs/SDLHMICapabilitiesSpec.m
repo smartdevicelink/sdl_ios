@@ -16,12 +16,14 @@ describe(@"SDLHMICapabilities struct", ^{
     __block SDLHMICapabilities *testStruct = nil;
     __block NSNumber *somePhoneCallState = @NO;
     __block NSNumber *someNavigationState = @YES;
+    __block NSNumber *someVideoStreamState = @NO;
     
     context(@"When initialized with properties", ^{
         beforeEach(^{
             testStruct = [[SDLHMICapabilities alloc] init];
             testStruct.phoneCall = somePhoneCallState;
             testStruct.navigation = someNavigationState;
+            testStruct.videoStreaming = someVideoStreamState;
         });
         
         it(@"should properly set phone call", ^{
@@ -30,6 +32,10 @@ describe(@"SDLHMICapabilities struct", ^{
         
         it(@"should properly set navigation", ^{
             expect(testStruct.navigation).to(equal(someNavigationState));
+        });
+
+        it(@"should properly set video streaming", ^{
+            expect(testStruct.videoStreaming).to(equal(someVideoStreamState));
         });
     });
     
@@ -49,6 +55,10 @@ describe(@"SDLHMICapabilities struct", ^{
         it(@"should properly set navigation", ^{
             expect(testStruct.navigation).to(equal(someNavigationState));
         });
+
+        it(@"should properly set video streaming", ^{
+            expect(testStruct.videoStreaming).to(equal(someVideoStreamState));
+        });
     });
     
     context(@"When not initialized", ^{
@@ -62,6 +72,10 @@ describe(@"SDLHMICapabilities struct", ^{
         
         it(@"navigation should be nil", ^{
             expect(testStruct.navigation).to(beNil());
+        });
+
+        it(@"video streaming should be nil", ^{
+            expect(testStruct.videoStreaming).to(beNil());
         });
     });
 });
