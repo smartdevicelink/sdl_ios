@@ -13,6 +13,7 @@
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
+#import "SDLVideoStreamingCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,6 +43,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithVideoStreamingCapability:(SDLVideoStreamingCapability *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+    self.videoStreamingCapability = capability;
+
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [store sdl_setObject:type forName:SDLNameSystemCapabilityType];
 }
@@ -66,6 +79,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLPhoneCapability *)phoneCapability {
     return [store sdl_objectForName:SDLNamePhoneCapability ofClass:SDLPhoneCapability.class];
+}
+
+- (void)setVideoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability {
+    [store sdl_setObject:videoStreamingCapability forName:SDLNameVideoStreamingCapability];
+}
+
+- (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
+    return [store sdl_objectForName:SDLNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
 }
 
 @end
