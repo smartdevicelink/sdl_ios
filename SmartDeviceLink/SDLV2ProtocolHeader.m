@@ -107,7 +107,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     }
 
     NSMutableString *description = [[NSMutableString alloc] init];
-    [description appendFormat:@"Version:%i, compressed:%i, frameType:%@(%i), serviceType:%i, frameData:%@(%i), sessionID:%i, dataSize:%i, messageID:%i ",
+    [description appendFormat:@"Version:%i, encrypted:%i, frameType:%@(%i), serviceType:%i, frameData:%@(%i), sessionID:%i, dataSize:%i, messageID:%i ",
                               self.version,
                               self.encrypted,
                               frameTypeString,

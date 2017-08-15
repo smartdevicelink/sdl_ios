@@ -11,12 +11,19 @@
 #import <UIKit/UIKit.h>
 
 #import "SDLAbstractProtocol.h"
+#import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
+#import "SDLControlFramePayloadVideoStartService.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDebugTool.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
 #import "SDLImageResolution.h"
+#import "SDLProtocolMessage.h"
 #import "SDLScreenParams.h"
 #import "SDLTouchManager.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingProtocol.h"
 
 
 NSString *const SDLErrorDomainStreamingMediaVideo = @"com.sdl.streamingmediamanager.video";
@@ -101,15 +108,8 @@ NS_ASSUME_NONNULL_BEGIN
     _videoEncoderSettings = self.defaultVideoEncoderSettings;
     _touchManager = [[SDLTouchManager alloc] init];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationDidEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationDidResignActive:)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_applicationDidResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 
     return self;
 }
@@ -121,13 +121,20 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithTLS:SDLEncryptionFlagNone
-                        startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
-                            startBlock(success, error);
-                        }];
+    [self startVideoSessionWithHeight:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound startBlock:startBlock];
+}
+
+- (void)startVideoSessionWithHeight:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingStartBlock)startBlock {
+    [self startVideoSessionWithTLS:SDLEncryptionFlagNone height:height width:width startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
+        startBlock(success, error);
+    }];
 }
 
 - (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
+    [self startVideoSessionWithTLS:encryptionFlag height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound startBlock:startBlock];
+}
+
+- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
     if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
         NSAssert(NO, @"SDL Video Sessions can only be run on iOS 8+ devices");
         startBlock(NO, NO, [NSError errorWithDomain:SDLErrorDomainStreamingMediaVideo code:SDLStreamingVideoErrorInvalidOperatingSystemVersion userInfo:nil]);
@@ -138,23 +145,24 @@ NS_ASSUME_NONNULL_BEGIN
     self.videoStartBlock = [startBlock copy];
     self.videoSessionEncrypted = (encryptionFlag == SDLEncryptionFlagAuthenticateAndEncrypt ? YES : NO);
 
+    // H264 RAW is the only currently supported SMM format, so we will use hardcode that in to make sure that future Core's that may have different defaults still use our default.
+    SDLControlFramePayloadVideoStartService *payload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:height width:width protocol:[SDLVideoStreamingProtocol RAW] codec:[SDLVideoStreamingCodec H264]];
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startSecureServiceWithType:SDLServiceType_Video
-                                completionHandler:^(BOOL success, NSError *error) {
-                                    typeof(weakSelf) strongSelf = weakSelf;
-                                    // If success, we will get an ACK or NACK, so those methods will handle calling the video block
-                                    if (!success) {
-                                        if (strongSelf.videoStartBlock == nil) {
-                                            return;
-                                        }
+        [self.protocol startSecureServiceWithType:SDLServiceType_Video payload:payload.data completionHandler:^(BOOL success, NSError *error) {
+            typeof(weakSelf) strongSelf = weakSelf;
+            // If success, we will get an ACK or NACK, so those methods will handle calling the video block
+            if (!success) {
+                if (strongSelf.videoStartBlock == nil) {
+                    return;
+                }
 
-                                        strongSelf.videoStartBlock(NO, NO, error);
-                                        strongSelf.videoStartBlock = nil;
-                                    }
-                                }];
+                strongSelf.videoStartBlock(NO, NO, error);
+                strongSelf.videoStartBlock = nil;
+            }
+        }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceType_Video];
+        [self.protocol startServiceWithType:SDLServiceType_Video payload:payload.data];
     }
 }
 
@@ -179,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (encryptionFlag != SDLEncryptionFlagNone) {
         __weak typeof(self) weakSelf = self;
-        [self.protocol startSecureServiceWithType:SDLServiceType_Audio
+        [self.protocol startSecureServiceWithType:SDLServiceType_Audio payload:nil
                                 completionHandler:^(BOOL success, NSError *error) {
                                     typeof(weakSelf) strongSelf = weakSelf;
                                     // If this passes, we will get an ACK or NACK, so those methods will handle calling the audio block
@@ -193,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
                                     }
                                 }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceType_Audio];
+        [self.protocol startServiceWithType:SDLServiceType_Audio payload:nil];
     }
 }
 
@@ -280,49 +288,75 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLProtocolListener Methods
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
-    switch (header.serviceType) {
+#pragma mark Protocol Ack
+
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    switch (startServiceACK.header.serviceType) {
         case SDLServiceType_Audio: {
-            self.audioSessionConnected = YES;
-            self.audioSessionEncrypted = header.encrypted;
-
-            if (self.audioStartBlock == nil) {
-                return;
-            }
-
-            self.audioStartBlock(YES, header.encrypted, nil);
-            self.audioStartBlock = nil;
+            [self sdl_handleAudioStartServiceAck:startServiceACK];
         } break;
         case SDLServiceType_Video: {
-            NSError *error = nil;
-            BOOL success = [self sdl_configureVideoEncoderWithError:&error];
-
-            if (!success) {
-                [self sdl_teardownCompressionSession];
-                [self.protocol endServiceWithType:SDLServiceType_Video];
-
-                if (self.videoStartBlock == nil) {
-                    return;
-                }
-
-                self.videoStartBlock(NO, header.encrypted, error);
-                self.videoStartBlock = nil;
-
-                return;
-            }
-
-            self.videoSessionConnected = YES;
-            self.videoSessionEncrypted = header.encrypted;
-
-            if (self.videoStartBlock == nil) {
-                return;
-            }
-
-            self.videoStartBlock(YES, header.encrypted, nil);
-            self.videoStartBlock = nil;
+            [self sdl_handleVideoStartServiceAck:startServiceACK];
         } break;
         default: break;
     }
+}
+
+- (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartAck {
+    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:audioStartAck.payload];
+
+    if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
+        [[SDLGlobals globals] setDynamicMTUSize:audioAckPayload.mtu forServiceType:SDLServiceType_Audio];
+    }
+
+    self.audioSessionConnected = YES;
+    self.audioSessionEncrypted = audioStartAck.header.encrypted;
+
+    if (self.audioStartBlock == nil) {
+        return;
+    }
+
+    self.audioStartBlock(YES, audioStartAck.header.encrypted, nil);
+    self.audioStartBlock = nil;
+}
+
+- (void)sdl_handleVideoStartServiceAck:(SDLProtocolMessage *)videoStartAck {
+    SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:videoStartAck.payload];
+
+    if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
+        [[SDLGlobals globals] setDynamicMTUSize:videoAckPayload.mtu forServiceType:SDLServiceType_Video];
+    }
+
+    if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
+        _screenSize = CGSizeMake(videoAckPayload.height, videoAckPayload.width);
+    }
+
+    NSError *error = nil;
+    BOOL success = [self sdl_configureVideoEncoderWithError:&error];
+
+    if (!success) {
+        [self sdl_teardownCompressionSession];
+        [self.protocol endServiceWithType:SDLServiceType_Video];
+
+        if (self.videoStartBlock == nil) {
+            return;
+        }
+
+        self.videoStartBlock(NO, videoStartAck.header.encrypted, error);
+        self.videoStartBlock = nil;
+
+        return;
+    }
+
+    self.videoSessionConnected = YES;
+    self.videoSessionEncrypted = videoStartAck.header.encrypted;
+
+    if (self.videoStartBlock == nil) {
+        return;
+    }
+
+    self.videoStartBlock(YES, videoStartAck.header.encrypted, nil);
+    self.videoStartBlock = nil;
 }
 
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
@@ -582,6 +616,7 @@ void sdl_videoEncoderOutputCallback(void *CM_NULLABLE outputCallbackRefCon, void
 }
 
 #pragma mark - Private Functions
+
 - (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
     [self.touchManager cancelPendingTouches];
 }
