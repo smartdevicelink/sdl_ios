@@ -28,7 +28,7 @@ describe(@"Upload File Operation", ^{
     
     beforeEach(^{
         // Set the head unit size small so we have a low MTU size
-        [SDLGlobals globals].maxHeadUnitVersion = 2;
+        [SDLGlobals globals].maxHeadUnitVersion = @"2.0.0";
     });
     
     context(@"running a small file operation", ^{
@@ -143,25 +143,25 @@ describe(@"Upload File Operation", ^{
         it(@"should send correct putfiles", ^{
             NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
             
-            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [SDLGlobals globals].maxMTUSize) + 1);
+            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]) + 1);
             expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
 
             // Test all PutFiles pieces for offset & length.
             for (NSUInteger index = 0; index < numberOfPutFiles; index++) {
                 SDLPutFile *putFile = putFiles[index];
                 
-                expect(putFile.offset).to(equal(@(index * [SDLGlobals globals].maxMTUSize)));
+                expect(putFile.offset).to(equal(@(index * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData])));
                 expect(putFile.persistentFile).to(equal(@NO));
                 expect(putFile.syncFileName).to(equal(testFileName));
-                expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * [SDLGlobals globals].maxMTUSize), MIN(putFile.length.unsignedIntegerValue, [SDLGlobals globals].maxMTUSize))]));
+                expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]), MIN(putFile.length.unsignedIntegerValue, [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]))]));
 
                 // First Putfile has some differences due to informing core of the total incoming packet size.
                 if (index == 0) {
                     expect(putFile.length).to(equal(@(testFileData.length)));
                 } else if (index == numberOfPutFiles - 1) {
-                    expect(putFile.length).to(equal(@(testFileData.length - (index * [SDLGlobals globals].maxMTUSize))));
+                    expect(putFile.length).to(equal(@(testFileData.length - (index * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]))));
                 } else {
-                    expect(putFile.length).to(equal(@([SDLGlobals globals].maxMTUSize)));
+                    expect(putFile.length).to(equal(@([[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData])));
                 }
             }
             

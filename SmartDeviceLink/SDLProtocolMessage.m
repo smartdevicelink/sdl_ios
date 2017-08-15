@@ -17,19 +17,20 @@
 
 @implementation SDLProtocolMessage
 
-// For use in decoding a stream of bytes.
-// Pass in bytes representing message (or beginning of message)
-// Looks at and parses first byte to determine version.
-+ (UInt8)determineVersion:(NSData *)data {
-    UInt8 firstByte = ((UInt8 *)data.bytes)[0];
-    UInt8 version = firstByte >> 4;
-    return version;
-}
+// Returns a V1 or V2 object
++ (instancetype)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
+    SDLProtocolMessage *newMessage = nil;
 
-- (instancetype)init {
-    if (self = [super init]) {
+    UInt8 version = header.version;
+    if (version == 1) {
+        newMessage = [[SDLV1ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
+    } else if (version >= 2) {
+        newMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to create an SDLMessage, but the version of the header passed was 0" userInfo:nil];
     }
-    return self;
+
+    return newMessage;
 }
 
 - (NSDictionary *)rpcDictionary {
@@ -47,6 +48,10 @@
     [dataOut appendData:self.payload];
 
     return dataOut;
+}
+
++ (UInt8)determineVersion:(NSData *)data {
+    return [SDLProtocolHeader determineVersion:data];
 }
 
 - (NSString *)description {
@@ -80,22 +85,6 @@
     }
 
     return description;
-}
-
-// Returns a V1 or V2 object
-+ (id)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
-    SDLProtocolMessage *newMessage = nil;
-
-    UInt8 version = header.version;
-    if (version == 1) {
-        newMessage = [[SDLV1ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
-    } else if (version >= 2) {
-        newMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload];
-    } else {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to create an SDLMessage, but the version of the header passed was 0" userInfo:nil];
-    }
-
-    return newMessage;
 }
 
 @end
